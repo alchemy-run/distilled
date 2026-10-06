@@ -1,14 +1,14 @@
+import * as API from "@distilled.cloud/core/api";
+import * as S from "@distilled.cloud/core/schema";
 import * as HttpClient from "effect/http/HttpClient";
 import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
-import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "Backup Gateway",
   serviceShapeName: "BackupOnPremises_v20210101",
@@ -28,14 +28,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -62,9 +58,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://backup-gateway-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -72,13 +66,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://backup-gateway.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://backup-gateway.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://backup-gateway.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -88,28 +78,19 @@ const rules = T.EndpointResolver((p, _) => {
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
     "AccessDeniedException",
-    {
-      ErrorCode: S.String,
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
+    { ErrorCode: S.String, message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.HttpError(403),
   ).pipe(C.withAuthError) {}
 export class ConflictException
   extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
     "ConflictException",
-    {
-      ErrorCode: S.String,
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
+    { ErrorCode: S.String, message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.HttpError(409),
   ).pipe(C.withConflictError) {}
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",
-    {
-      ErrorCode: S.optional(S.String),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
+    { ErrorCode: S.optional(S.String), message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.HttpError(404),
   ).pipe(C.withBadRequestError) {}
 export type GatewayArn = string;
@@ -159,20 +140,14 @@ export const CreateGatewayInput = /*@__PURE__*/ S.suspend(() =>
     GatewayDisplayName: S.String,
     GatewayType: S.String,
     Tags: S.optional(Tags),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "CreateGatewayInput",
-}) as any as S.Schema<CreateGatewayInput>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "CreateGatewayInput" }) as any as S.Schema<CreateGatewayInput>;
 export interface CreateGatewayOutput {
   GatewayArn?: string;
 }
 export const CreateGatewayOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ GatewayArn: S.optional(S.String) }),
-).annotate({
-  identifier: "CreateGatewayOutput",
-}) as any as S.Schema<CreateGatewayOutput>;
+).annotate({ identifier: "CreateGatewayOutput" }) as any as S.Schema<CreateGatewayOutput>;
 export interface DeleteGatewayInput {
   GatewayArn: string;
 }
@@ -180,17 +155,13 @@ export const DeleteGatewayInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ GatewayArn: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteGatewayInput",
-}) as any as S.Schema<DeleteGatewayInput>;
+).annotate({ identifier: "DeleteGatewayInput" }) as any as S.Schema<DeleteGatewayInput>;
 export interface DeleteGatewayOutput {
   GatewayArn?: string;
 }
 export const DeleteGatewayOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ GatewayArn: S.optional(S.String) }),
-).annotate({
-  identifier: "DeleteGatewayOutput",
-}) as any as S.Schema<DeleteGatewayOutput>;
+).annotate({ identifier: "DeleteGatewayOutput" }) as any as S.Schema<DeleteGatewayOutput>;
 export interface DeleteHypervisorInput {
   HypervisorArn: string;
 }
@@ -198,17 +169,13 @@ export const DeleteHypervisorInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ HypervisorArn: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteHypervisorInput",
-}) as any as S.Schema<DeleteHypervisorInput>;
+).annotate({ identifier: "DeleteHypervisorInput" }) as any as S.Schema<DeleteHypervisorInput>;
 export interface DeleteHypervisorOutput {
   HypervisorArn?: string;
 }
 export const DeleteHypervisorOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ HypervisorArn: S.optional(S.String) }),
-).annotate({
-  identifier: "DeleteHypervisorOutput",
-}) as any as S.Schema<DeleteHypervisorOutput>;
+).annotate({ identifier: "DeleteHypervisorOutput" }) as any as S.Schema<DeleteHypervisorOutput>;
 export interface DisassociateGatewayFromServerInput {
   GatewayArn: string;
 }
@@ -264,9 +231,7 @@ export const BandwidthRateLimitInterval = /*@__PURE__*/ S.suspend(() =>
   identifier: "BandwidthRateLimitInterval",
 }) as any as S.Schema<BandwidthRateLimitInterval>;
 export type BandwidthRateLimitIntervals = BandwidthRateLimitInterval[];
-export const BandwidthRateLimitIntervals = /*@__PURE__*/ S.Array(
-  BandwidthRateLimitInterval,
-);
+export const BandwidthRateLimitIntervals = /*@__PURE__*/ S.Array(BandwidthRateLimitInterval);
 export interface GetBandwidthRateLimitScheduleOutput {
   GatewayArn?: string;
   BandwidthRateLimitIntervals?: BandwidthRateLimitInterval[];
@@ -286,9 +251,7 @@ export const GetGatewayInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ GatewayArn: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetGatewayInput",
-}) as any as S.Schema<GetGatewayInput>;
+).annotate({ identifier: "GetGatewayInput" }) as any as S.Schema<GetGatewayInput>;
 export type HypervisorId = string;
 export type DayOfMonth = number;
 export interface MaintenanceStartTime {
@@ -304,9 +267,7 @@ export const MaintenanceStartTime = /*@__PURE__*/ S.suspend(() =>
     HourOfDay: S.Number,
     MinuteOfHour: S.Number,
   }),
-).annotate({
-  identifier: "MaintenanceStartTime",
-}) as any as S.Schema<MaintenanceStartTime>;
+).annotate({ identifier: "MaintenanceStartTime" }) as any as S.Schema<MaintenanceStartTime>;
 export type VpcEndpoint = string;
 export interface GatewayDetails {
   GatewayArn?: string;
@@ -328,13 +289,9 @@ export const GatewayDetails = /*@__PURE__*/ S.suspend(() =>
     HypervisorId: S.optional(S.String),
     LastSeenTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     MaintenanceStartTime: S.optional(MaintenanceStartTime),
-    NextUpdateAvailabilityTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    NextUpdateAvailabilityTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     VpcEndpoint: S.optional(S.String),
-    DeprecationDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    DeprecationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     SoftwareVersion: S.optional(S.String),
   }),
 ).annotate({ identifier: "GatewayDetails" }) as any as S.Schema<GatewayDetails>;
@@ -343,9 +300,7 @@ export interface GetGatewayOutput {
 }
 export const GetGatewayOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Gateway: S.optional(GatewayDetails) }),
-).annotate({
-  identifier: "GetGatewayOutput",
-}) as any as S.Schema<GetGatewayOutput>;
+).annotate({ identifier: "GetGatewayOutput" }) as any as S.Schema<GetGatewayOutput>;
 export interface GetHypervisorInput {
   HypervisorArn: string;
 }
@@ -353,9 +308,7 @@ export const GetHypervisorInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ HypervisorArn: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetHypervisorInput",
-}) as any as S.Schema<GetHypervisorInput>;
+).annotate({ identifier: "GetHypervisorInput" }) as any as S.Schema<GetHypervisorInput>;
 export type Host = string;
 export type KmsKeyArn = string;
 export type LogGroupArn = string;
@@ -380,23 +333,17 @@ export const HypervisorDetails = /*@__PURE__*/ S.suspend(() =>
     Name: S.optional(S.String),
     LogGroupArn: S.optional(S.String),
     State: S.optional(S.String),
-    LastSuccessfulMetadataSyncTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LastSuccessfulMetadataSyncTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LatestMetadataSyncStatusMessage: S.optional(S.String),
     LatestMetadataSyncStatus: S.optional(S.String),
   }),
-).annotate({
-  identifier: "HypervisorDetails",
-}) as any as S.Schema<HypervisorDetails>;
+).annotate({ identifier: "HypervisorDetails" }) as any as S.Schema<HypervisorDetails>;
 export interface GetHypervisorOutput {
   Hypervisor?: HypervisorDetails;
 }
 export const GetHypervisorOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Hypervisor: S.optional(HypervisorDetails) }),
-).annotate({
-  identifier: "GetHypervisorOutput",
-}) as any as S.Schema<GetHypervisorOutput>;
+).annotate({ identifier: "GetHypervisorOutput" }) as any as S.Schema<GetHypervisorOutput>;
 export interface GetHypervisorPropertyMappingsInput {
   HypervisorArn: string;
 }
@@ -422,13 +369,9 @@ export const VmwareToAwsTagMapping = /*@__PURE__*/ S.suspend(() =>
     AwsTagKey: S.String,
     AwsTagValue: S.String,
   }),
-).annotate({
-  identifier: "VmwareToAwsTagMapping",
-}) as any as S.Schema<VmwareToAwsTagMapping>;
+).annotate({ identifier: "VmwareToAwsTagMapping" }) as any as S.Schema<VmwareToAwsTagMapping>;
 export type VmwareToAwsTagMappings = VmwareToAwsTagMapping[];
-export const VmwareToAwsTagMappings = /*@__PURE__*/ S.Array(
-  VmwareToAwsTagMapping,
-);
+export const VmwareToAwsTagMappings = /*@__PURE__*/ S.Array(VmwareToAwsTagMapping);
 export type IamRoleArn = string;
 export interface GetHypervisorPropertyMappingsOutput {
   HypervisorArn?: string;
@@ -452,9 +395,7 @@ export const GetVirtualMachineInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceArn: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetVirtualMachineInput",
-}) as any as S.Schema<GetVirtualMachineInput>;
+).annotate({ identifier: "GetVirtualMachineInput" }) as any as S.Schema<GetVirtualMachineInput>;
 export type Path = string;
 export interface VmwareTag {
   VmwareCategory?: string;
@@ -489,17 +430,13 @@ export const VirtualMachineDetails = /*@__PURE__*/ S.suspend(() =>
     LastBackupDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     VmwareTags: S.optional(VmwareTags),
   }),
-).annotate({
-  identifier: "VirtualMachineDetails",
-}) as any as S.Schema<VirtualMachineDetails>;
+).annotate({ identifier: "VirtualMachineDetails" }) as any as S.Schema<VirtualMachineDetails>;
 export interface GetVirtualMachineOutput {
   VirtualMachine?: VirtualMachineDetails;
 }
 export const GetVirtualMachineOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ VirtualMachine: S.optional(VirtualMachineDetails) }),
-).annotate({
-  identifier: "GetVirtualMachineOutput",
-}) as any as S.Schema<GetVirtualMachineOutput>;
+).annotate({ identifier: "GetVirtualMachineOutput" }) as any as S.Schema<GetVirtualMachineOutput>;
 export type Username = string | redacted.Redacted<string>;
 export type Password = string | redacted.Redacted<string>;
 export interface ImportHypervisorConfigurationInput {
@@ -518,9 +455,7 @@ export const ImportHypervisorConfigurationInput = /*@__PURE__*/ S.suspend(() =>
     Password: S.optional(SensitiveString),
     KmsKeyArn: S.optional(S.String),
     Tags: S.optional(Tags),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ImportHypervisorConfigurationInput",
 }) as any as S.Schema<ImportHypervisorConfigurationInput>;
@@ -539,15 +474,10 @@ export interface ListGatewaysInput {
   NextToken?: string;
 }
 export const ListGatewaysInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
+  S.Struct({ MaxResults: S.optional(S.Number), NextToken: S.optional(S.String) }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "ListGatewaysInput",
-}) as any as S.Schema<ListGatewaysInput>;
+).annotate({ identifier: "ListGatewaysInput" }) as any as S.Schema<ListGatewaysInput>;
 export interface Gateway {
   GatewayArn?: string;
   GatewayDisplayName?: string;
@@ -572,23 +502,16 @@ export interface ListGatewaysOutput {
 }
 export const ListGatewaysOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Gateways: S.optional(Gateways), NextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListGatewaysOutput",
-}) as any as S.Schema<ListGatewaysOutput>;
+).annotate({ identifier: "ListGatewaysOutput" }) as any as S.Schema<ListGatewaysOutput>;
 export interface ListHypervisorsInput {
   MaxResults?: number;
   NextToken?: string;
 }
 export const ListHypervisorsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
+  S.Struct({ MaxResults: S.optional(S.Number), NextToken: S.optional(S.String) }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "ListHypervisorsInput",
-}) as any as S.Schema<ListHypervisorsInput>;
+).annotate({ identifier: "ListHypervisorsInput" }) as any as S.Schema<ListHypervisorsInput>;
 export interface Hypervisor {
   Host?: string;
   HypervisorArn?: string;
@@ -612,13 +535,8 @@ export interface ListHypervisorsOutput {
   NextToken?: string;
 }
 export const ListHypervisorsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Hypervisors: S.optional(Hypervisors),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListHypervisorsOutput",
-}) as any as S.Schema<ListHypervisorsOutput>;
+  S.Struct({ Hypervisors: S.optional(Hypervisors), NextToken: S.optional(S.String) }),
+).annotate({ identifier: "ListHypervisorsOutput" }) as any as S.Schema<ListHypervisorsOutput>;
 export interface ListTagsForResourceInput {
   ResourceArn: string;
 }
@@ -626,9 +544,7 @@ export const ListTagsForResourceInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceArn: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "ListTagsForResourceInput",
-}) as any as S.Schema<ListTagsForResourceInput>;
+).annotate({ identifier: "ListTagsForResourceInput" }) as any as S.Schema<ListTagsForResourceInput>;
 export interface ListTagsForResourceOutput {
   ResourceArn?: string;
   Tags?: Tag[];
@@ -648,12 +564,8 @@ export const ListVirtualMachinesInput = /*@__PURE__*/ S.suspend(() =>
     HypervisorArn: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListVirtualMachinesInput",
-}) as any as S.Schema<ListVirtualMachinesInput>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "ListVirtualMachinesInput" }) as any as S.Schema<ListVirtualMachinesInput>;
 export interface VirtualMachine {
   HostName?: string;
   HypervisorId?: string;
@@ -679,10 +591,7 @@ export interface ListVirtualMachinesOutput {
   NextToken?: string;
 }
 export const ListVirtualMachinesOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    VirtualMachines: S.optional(VirtualMachines),
-    NextToken: S.optional(S.String),
-  }),
+  S.Struct({ VirtualMachines: S.optional(VirtualMachines), NextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListVirtualMachinesOutput",
 }) as any as S.Schema<ListVirtualMachinesOutput>;
@@ -691,10 +600,7 @@ export interface PutBandwidthRateLimitScheduleInput {
   BandwidthRateLimitIntervals: BandwidthRateLimitInterval[];
 }
 export const PutBandwidthRateLimitScheduleInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GatewayArn: S.String,
-    BandwidthRateLimitIntervals: BandwidthRateLimitIntervals,
-  }).pipe(
+  S.Struct({ GatewayArn: S.String, BandwidthRateLimitIntervals: BandwidthRateLimitIntervals }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
@@ -718,9 +624,7 @@ export const PutHypervisorPropertyMappingsInput = /*@__PURE__*/ S.suspend(() =>
     HypervisorArn: S.String,
     VmwareToAwsTagMappings: VmwareToAwsTagMappings,
     IamRoleArn: S.String,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "PutHypervisorPropertyMappingsInput",
 }) as any as S.Schema<PutHypervisorPropertyMappingsInput>;
@@ -746,9 +650,7 @@ export const PutMaintenanceStartTimeInput = /*@__PURE__*/ S.suspend(() =>
     MinuteOfHour: S.Number,
     DayOfWeek: S.optional(S.Number),
     DayOfMonth: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "PutMaintenanceStartTimeInput",
 }) as any as S.Schema<PutMaintenanceStartTimeInput>;
@@ -763,19 +665,18 @@ export const PutMaintenanceStartTimeOutput = /*@__PURE__*/ S.suspend(() =>
 export interface StartVirtualMachinesMetadataSyncInput {
   HypervisorArn: string;
 }
-export const StartVirtualMachinesMetadataSyncInput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ HypervisorArn: S.String }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
+export const StartVirtualMachinesMetadataSyncInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ HypervisorArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "StartVirtualMachinesMetadataSyncInput",
 }) as any as S.Schema<StartVirtualMachinesMetadataSyncInput>;
 export interface StartVirtualMachinesMetadataSyncOutput {
   HypervisorArn?: string;
 }
-export const StartVirtualMachinesMetadataSyncOutput = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ HypervisorArn: S.optional(S.String) }),
+export const StartVirtualMachinesMetadataSyncOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ HypervisorArn: S.optional(S.String) }),
 ).annotate({
   identifier: "StartVirtualMachinesMetadataSyncOutput",
 }) as any as S.Schema<StartVirtualMachinesMetadataSyncOutput>;
@@ -787,17 +688,13 @@ export const TagResourceInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceARN: S.String, Tags: Tags }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "TagResourceInput",
-}) as any as S.Schema<TagResourceInput>;
+).annotate({ identifier: "TagResourceInput" }) as any as S.Schema<TagResourceInput>;
 export interface TagResourceOutput {
   ResourceARN?: string;
 }
 export const TagResourceOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceARN: S.optional(S.String) }),
-).annotate({
-  identifier: "TagResourceOutput",
-}) as any as S.Schema<TagResourceOutput>;
+).annotate({ identifier: "TagResourceOutput" }) as any as S.Schema<TagResourceOutput>;
 export interface TestHypervisorConfigurationInput {
   GatewayArn: string;
   Host: string;
@@ -810,9 +707,7 @@ export const TestHypervisorConfigurationInput = /*@__PURE__*/ S.suspend(() =>
     Host: S.String,
     Username: S.optional(SensitiveString),
     Password: S.optional(SensitiveString),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "TestHypervisorConfigurationInput",
 }) as any as S.Schema<TestHypervisorConfigurationInput>;
@@ -832,26 +727,19 @@ export const UntagResourceInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceARN: S.String, TagKeys: TagKeys }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UntagResourceInput",
-}) as any as S.Schema<UntagResourceInput>;
+).annotate({ identifier: "UntagResourceInput" }) as any as S.Schema<UntagResourceInput>;
 export interface UntagResourceOutput {
   ResourceARN?: string;
 }
 export const UntagResourceOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceARN: S.optional(S.String) }),
-).annotate({
-  identifier: "UntagResourceOutput",
-}) as any as S.Schema<UntagResourceOutput>;
+).annotate({ identifier: "UntagResourceOutput" }) as any as S.Schema<UntagResourceOutput>;
 export interface UpdateGatewayInformationInput {
   GatewayArn: string;
   GatewayDisplayName?: string;
 }
 export const UpdateGatewayInformationInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GatewayArn: S.String,
-    GatewayDisplayName: S.optional(S.String),
-  }).pipe(
+  S.Struct({ GatewayArn: S.String, GatewayDisplayName: S.optional(S.String) }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
@@ -899,20 +787,14 @@ export const UpdateHypervisorInput = /*@__PURE__*/ S.suspend(() =>
     Password: S.optional(SensitiveString),
     Name: S.optional(S.String),
     LogGroupArn: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "UpdateHypervisorInput",
-}) as any as S.Schema<UpdateHypervisorInput>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "UpdateHypervisorInput" }) as any as S.Schema<UpdateHypervisorInput>;
 export interface UpdateHypervisorOutput {
   HypervisorArn?: string;
 }
 export const UpdateHypervisorOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ HypervisorArn: S.optional(S.String) }),
-).annotate({
-  identifier: "UpdateHypervisorOutput",
-}) as any as S.Schema<UpdateHypervisorOutput>;
+).annotate({ identifier: "UpdateHypervisorOutput" }) as any as S.Schema<UpdateHypervisorOutput>;
 export type AssociateGatewayToServerError = ConflictException | CommonErrors;
 /**
  * Associates a backup gateway with your server. After you complete the association process, you can back up and restore your VMs through the gateway.
@@ -1010,9 +892,7 @@ export const disassociateGatewayFromServer: API.OperationMethod<
   operationName: "DisassociateGatewayFromServer",
 }));
 
-export type GetBandwidthRateLimitScheduleError =
-  | ResourceNotFoundException
-  | CommonErrors;
+export type GetBandwidthRateLimitScheduleError = ResourceNotFoundException | CommonErrors;
 /**
  * Retrieves the bandwidth rate limit schedule for a specified gateway. By default, gateways do not have bandwidth rate limit schedules, which means no bandwidth rate limiting is in effect. Use this to get a gateway's bandwidth rate limit schedule.
  */
@@ -1066,9 +946,7 @@ export const getHypervisor: API.OperationMethod<
   operationName: "GetHypervisor",
 }));
 
-export type GetHypervisorPropertyMappingsError =
-  | ResourceNotFoundException
-  | CommonErrors;
+export type GetHypervisorPropertyMappingsError = ResourceNotFoundException | CommonErrors;
 /**
  * This action retrieves the property mappings for the specified hypervisor. A hypervisor property mapping displays the relationship of entity properties available from the hypervisor to the properties available in Amazon Web Services.
  */
@@ -1218,9 +1096,7 @@ export const listVirtualMachines: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type PutBandwidthRateLimitScheduleError =
-  | ResourceNotFoundException
-  | CommonErrors;
+export type PutBandwidthRateLimitScheduleError = ResourceNotFoundException | CommonErrors;
 /**
  * This action sets the bandwidth rate limit schedule for a specified gateway. By default, gateways do not have a bandwidth rate limit schedule, which means no bandwidth rate limiting is in effect. Use this to initiate a gateway's bandwidth rate limit schedule.
  */
@@ -1380,9 +1256,7 @@ export const updateGatewayInformation: API.OperationMethod<
   operationName: "UpdateGatewayInformation",
 }));
 
-export type UpdateGatewaySoftwareNowError =
-  | ResourceNotFoundException
-  | CommonErrors;
+export type UpdateGatewaySoftwareNowError = ResourceNotFoundException | CommonErrors;
 /**
  * Updates the gateway virtual machine (VM) software. The request immediately triggers the software update.
  *

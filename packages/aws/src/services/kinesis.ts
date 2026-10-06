@@ -1,18 +1,15 @@
-import * as HttpClient from "effect/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
-import * as stream from "effect/Stream";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as HttpClient from "effect/http/HttpClient";
+import * as stream from "effect/Stream";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
+import * as T from "../traits.ts";
 const ns = T.XmlNamespace("http://kinesis.amazonaws.com/doc/2013-12-02");
-const svc = T.AwsApiService({
-  sdkId: "Kinesis",
-  serviceShapeName: "Kinesis_20131202",
-});
+const svc = T.AwsApiService({ sdkId: "Kinesis", serviceShapeName: "Kinesis_20131202" });
 const auth = T.AwsAuthSigv4({ name: "kinesis" });
 const ver = T.ServiceVersion("2013-12-02");
 const proto = T.AwsProtocolsAwsJson1_1();
@@ -27,6 +24,7 @@ const rules = T.EndpointResolver((p, _) => {
     StreamARN,
     ConsumerARN,
     ResourceARN,
+    ChannelARN,
     AccountId,
     AccountIdEndpointMode,
   } = p;
@@ -65,24 +63,9 @@ const rules = T.EndpointResolver((p, _) => {
     ) {
       if (OperationType != null) {
         {
-          const HttpsCustomEndpointDelimiterValue = _.substring(
-            Endpoint,
-            15,
-            16,
-            false,
-          );
-          const HttpsEndpointDelimiterValue = _.substring(
-            Endpoint,
-            20,
-            21,
-            false,
-          );
-          const HttpsCustomEndpointSuffixValue = _.substring(
-            Endpoint,
-            15,
-            20,
-            false,
-          );
+          const HttpsCustomEndpointDelimiterValue = _.substring(Endpoint, 15, 16, false);
+          const HttpsEndpointDelimiterValue = _.substring(Endpoint, 20, 21, false);
+          const HttpsCustomEndpointSuffixValue = _.substring(Endpoint, 15, 20, false);
           if (
             Endpoint != null &&
             HttpsCustomEndpointDelimiterValue != null &&
@@ -101,13 +84,9 @@ const rules = T.EndpointResolver((p, _) => {
                     `https://${StreamIdPrefixValue}.${StreamIdSuffixValue}.${OperationType}-kinesis${HttpsCustomEndpointSuffixValue}-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
                   );
                 }
-                return err(
-                  "DualStack is enabled, but this partition does not support DualStack.",
-                );
+                return err("DualStack is enabled, but this partition does not support DualStack.");
               }
-              return err(
-                "FIPS is enabled, but this partition does not support FIPS.",
-              );
+              return err("FIPS is enabled, but this partition does not support FIPS.");
             }
             if (UseFIPS === true) {
               if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
@@ -115,9 +94,7 @@ const rules = T.EndpointResolver((p, _) => {
                   `https://${StreamIdPrefixValue}.${StreamIdSuffixValue}.${OperationType}-kinesis${HttpsCustomEndpointSuffixValue}-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
                 );
               }
-              return err(
-                "FIPS is enabled but this partition does not support FIPS",
-              );
+              return err("FIPS is enabled but this partition does not support FIPS");
             }
             if (UseDualStack === true) {
               if (_.getAttr(PartitionResult, "supportsDualStack") === true) {
@@ -125,9 +102,7 @@ const rules = T.EndpointResolver((p, _) => {
                   `https://${StreamIdPrefixValue}.${StreamIdSuffixValue}.${OperationType}-kinesis${HttpsCustomEndpointSuffixValue}.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
                 );
               }
-              return err(
-                "DualStack is enabled but this partition does not support DualStack",
-              );
+              return err("DualStack is enabled but this partition does not support DualStack");
             }
             return e(
               `https://${StreamIdPrefixValue}.${StreamIdSuffixValue}.${OperationType}-kinesis${HttpsCustomEndpointSuffixValue}.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
@@ -135,24 +110,9 @@ const rules = T.EndpointResolver((p, _) => {
           }
         }
         {
-          const PlainCustomEndpointDelimiterValue = _.substring(
-            Endpoint,
-            7,
-            8,
-            false,
-          );
-          const PlainEndpointDelimiterValue = _.substring(
-            Endpoint,
-            12,
-            13,
-            false,
-          );
-          const PlainCustomEndpointSuffixValue = _.substring(
-            Endpoint,
-            7,
-            12,
-            false,
-          );
+          const PlainCustomEndpointDelimiterValue = _.substring(Endpoint, 7, 8, false);
+          const PlainEndpointDelimiterValue = _.substring(Endpoint, 12, 13, false);
+          const PlainCustomEndpointSuffixValue = _.substring(Endpoint, 7, 12, false);
           if (
             Endpoint != null &&
             PlainCustomEndpointDelimiterValue != null &&
@@ -171,13 +131,9 @@ const rules = T.EndpointResolver((p, _) => {
                     `https://${StreamIdPrefixValue}.${StreamIdSuffixValue}.${OperationType}-kinesis${PlainCustomEndpointSuffixValue}-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
                   );
                 }
-                return err(
-                  "DualStack is enabled, but this partition does not support DualStack.",
-                );
+                return err("DualStack is enabled, but this partition does not support DualStack.");
               }
-              return err(
-                "FIPS is enabled, but this partition does not support FIPS.",
-              );
+              return err("FIPS is enabled, but this partition does not support FIPS.");
             }
             if (UseFIPS === true) {
               if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
@@ -185,9 +141,7 @@ const rules = T.EndpointResolver((p, _) => {
                   `https://${StreamIdPrefixValue}.${StreamIdSuffixValue}.${OperationType}-kinesis${PlainCustomEndpointSuffixValue}-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
                 );
               }
-              return err(
-                "FIPS is enabled but this partition does not support FIPS",
-              );
+              return err("FIPS is enabled but this partition does not support FIPS");
             }
             if (UseDualStack === true) {
               if (_.getAttr(PartitionResult, "supportsDualStack") === true) {
@@ -195,9 +149,7 @@ const rules = T.EndpointResolver((p, _) => {
                   `https://${StreamIdPrefixValue}.${StreamIdSuffixValue}.${OperationType}-kinesis${PlainCustomEndpointSuffixValue}.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
                 );
               }
-              return err(
-                "DualStack is enabled but this partition does not support DualStack",
-              );
+              return err("DualStack is enabled but this partition does not support DualStack");
             }
             return e(
               `https://${StreamIdPrefixValue}.${StreamIdSuffixValue}.${OperationType}-kinesis${PlainCustomEndpointSuffixValue}.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
@@ -211,13 +163,9 @@ const rules = T.EndpointResolver((p, _) => {
                 `https://${StreamIdPrefixValue}.${StreamIdSuffixValue}.${OperationType}-kinesis-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
               );
             }
-            return err(
-              "DualStack is enabled, but this partition does not support DualStack.",
-            );
+            return err("DualStack is enabled, but this partition does not support DualStack.");
           }
-          return err(
-            "FIPS is enabled, but this partition does not support FIPS.",
-          );
+          return err("FIPS is enabled, but this partition does not support FIPS.");
         }
         if (UseFIPS === true) {
           if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
@@ -225,9 +173,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://${StreamIdPrefixValue}.${StreamIdSuffixValue}.${OperationType}-kinesis-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (_.getAttr(PartitionResult, "supportsDualStack") === true) {
@@ -235,17 +181,13 @@ const rules = T.EndpointResolver((p, _) => {
               `https://${StreamIdPrefixValue}.${StreamIdSuffixValue}.${OperationType}-kinesis.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
         return e(
           `https://${StreamIdPrefixValue}.${StreamIdSuffixValue}.${OperationType}-kinesis.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
         );
       }
-      return err(
-        "Operation Type is not set. Please contact service team for resolution.",
-      );
+      return err("Operation Type is not set. Please contact service team for resolution.");
     }
   }
   {
@@ -267,28 +209,13 @@ const rules = T.EndpointResolver((p, _) => {
               if (_.getAttr(arn, "service") === "kinesis") {
                 {
                   const arnType = _.getAttr(arn, "resourceId[0]");
-                  if (
-                    arnType != null &&
-                    arnType !== false &&
-                    !(arnType === "")
-                  ) {
+                  if (arnType != null && arnType !== false && !(arnType === "")) {
                     if (arnType === "stream") {
-                      if (
-                        _.getAttr(PartitionResult, "name") ===
-                        `${_.getAttr(arn, "partition")}`
-                      ) {
+                      if (_.getAttr(PartitionResult, "name") === `${_.getAttr(arn, "partition")}`) {
                         if (OperationType != null) {
                           if (UseFIPS === true && UseDualStack === true) {
-                            if (
-                              _.getAttr(PartitionResult, "supportsFIPS") ===
-                              true
-                            ) {
-                              if (
-                                _.getAttr(
-                                  PartitionResult,
-                                  "supportsDualStack",
-                                ) === true
-                              ) {
+                            if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+                              if (_.getAttr(PartitionResult, "supportsDualStack") === true) {
                                 return e(
                                   `https://${_.getAttr(arn, "accountId")}.${OperationType}-kinesis-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
                                 );
@@ -302,25 +229,15 @@ const rules = T.EndpointResolver((p, _) => {
                             );
                           }
                           if (UseFIPS === true) {
-                            if (
-                              _.getAttr(PartitionResult, "supportsFIPS") ===
-                              true
-                            ) {
+                            if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
                               return e(
                                 `https://${_.getAttr(arn, "accountId")}.${OperationType}-kinesis-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
                               );
                             }
-                            return err(
-                              "FIPS is enabled but this partition does not support FIPS",
-                            );
+                            return err("FIPS is enabled but this partition does not support FIPS");
                           }
                           if (UseDualStack === true) {
-                            if (
-                              _.getAttr(
-                                PartitionResult,
-                                "supportsDualStack",
-                              ) === true
-                            ) {
+                            if (_.getAttr(PartitionResult, "supportsDualStack") === true) {
                               return e(
                                 `https://${_.getAttr(arn, "accountId")}.${OperationType}-kinesis.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
                               );
@@ -341,9 +258,7 @@ const rules = T.EndpointResolver((p, _) => {
                         `Partition: ${_.getAttr(arn, "partition")} from ARN doesn't match with partition name: ${_.getAttr(PartitionResult, "name")}.`,
                       );
                     }
-                    return err(
-                      `Invalid ARN: Kinesis ARNs don't support \`${arnType}\` arn types.`,
-                    );
+                    return err(`Invalid ARN: Kinesis ARNs don't support \`${arnType}\` arn types.`);
                   }
                 }
                 return err("Invalid ARN: No ARN type specified");
@@ -379,28 +294,13 @@ const rules = T.EndpointResolver((p, _) => {
               if (_.getAttr(arn, "service") === "kinesis") {
                 {
                   const arnType = _.getAttr(arn, "resourceId[0]");
-                  if (
-                    arnType != null &&
-                    arnType !== false &&
-                    !(arnType === "")
-                  ) {
+                  if (arnType != null && arnType !== false && !(arnType === "")) {
                     if (arnType === "stream") {
-                      if (
-                        _.getAttr(PartitionResult, "name") ===
-                        `${_.getAttr(arn, "partition")}`
-                      ) {
+                      if (_.getAttr(PartitionResult, "name") === `${_.getAttr(arn, "partition")}`) {
                         if (OperationType != null) {
                           if (UseFIPS === true && UseDualStack === true) {
-                            if (
-                              _.getAttr(PartitionResult, "supportsFIPS") ===
-                              true
-                            ) {
-                              if (
-                                _.getAttr(
-                                  PartitionResult,
-                                  "supportsDualStack",
-                                ) === true
-                              ) {
+                            if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+                              if (_.getAttr(PartitionResult, "supportsDualStack") === true) {
                                 return e(
                                   `https://${_.getAttr(arn, "accountId")}.${OperationType}-kinesis-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
                                 );
@@ -414,25 +314,15 @@ const rules = T.EndpointResolver((p, _) => {
                             );
                           }
                           if (UseFIPS === true) {
-                            if (
-                              _.getAttr(PartitionResult, "supportsFIPS") ===
-                              true
-                            ) {
+                            if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
                               return e(
                                 `https://${_.getAttr(arn, "accountId")}.${OperationType}-kinesis-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
                               );
                             }
-                            return err(
-                              "FIPS is enabled but this partition does not support FIPS",
-                            );
+                            return err("FIPS is enabled but this partition does not support FIPS");
                           }
                           if (UseDualStack === true) {
-                            if (
-                              _.getAttr(
-                                PartitionResult,
-                                "supportsDualStack",
-                              ) === true
-                            ) {
+                            if (_.getAttr(PartitionResult, "supportsDualStack") === true) {
                               return e(
                                 `https://${_.getAttr(arn, "accountId")}.${OperationType}-kinesis.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
                               );
@@ -453,9 +343,7 @@ const rules = T.EndpointResolver((p, _) => {
                         `Partition: ${_.getAttr(arn, "partition")} from ARN doesn't match with partition name: ${_.getAttr(PartitionResult, "name")}.`,
                       );
                     }
-                    return err(
-                      `Invalid ARN: Kinesis ARNs don't support \`${arnType}\` arn types.`,
-                    );
+                    return err(`Invalid ARN: Kinesis ARNs don't support \`${arnType}\` arn types.`);
                   }
                 }
                 return err("Invalid ARN: No ARN type specified");
@@ -491,28 +379,18 @@ const rules = T.EndpointResolver((p, _) => {
               if (_.getAttr(arn, "service") === "kinesis") {
                 {
                   const arnType = _.getAttr(arn, "resourceId[0]");
-                  if (
-                    arnType != null &&
-                    arnType !== false &&
-                    !(arnType === "")
-                  ) {
-                    if (arnType === "stream") {
-                      if (
-                        _.getAttr(PartitionResult, "name") ===
-                        `${_.getAttr(arn, "partition")}`
-                      ) {
-                        if (OperationType != null) {
+                  if (arnType != null && arnType !== false && !(arnType === "")) {
+                    if (!(arnType === "stream") && !(arnType === "channel")) {
+                      return err(
+                        `Invalid ARN: Unsupported resource type \`${arnType}\`. Expected: stream or channel`,
+                      );
+                    }
+                    if (_.getAttr(PartitionResult, "name") === `${_.getAttr(arn, "partition")}`) {
+                      if (OperationType != null) {
+                        if (arnType === "stream") {
                           if (UseFIPS === true && UseDualStack === true) {
-                            if (
-                              _.getAttr(PartitionResult, "supportsFIPS") ===
-                              true
-                            ) {
-                              if (
-                                _.getAttr(
-                                  PartitionResult,
-                                  "supportsDualStack",
-                                ) === true
-                              ) {
+                            if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+                              if (_.getAttr(PartitionResult, "supportsDualStack") === true) {
                                 return e(
                                   `https://${_.getAttr(arn, "accountId")}.${OperationType}-kinesis-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
                                 );
@@ -526,25 +404,15 @@ const rules = T.EndpointResolver((p, _) => {
                             );
                           }
                           if (UseFIPS === true) {
-                            if (
-                              _.getAttr(PartitionResult, "supportsFIPS") ===
-                              true
-                            ) {
+                            if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
                               return e(
                                 `https://${_.getAttr(arn, "accountId")}.${OperationType}-kinesis-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
                               );
                             }
-                            return err(
-                              "FIPS is enabled but this partition does not support FIPS",
-                            );
+                            return err("FIPS is enabled but this partition does not support FIPS");
                           }
                           if (UseDualStack === true) {
-                            if (
-                              _.getAttr(
-                                PartitionResult,
-                                "supportsDualStack",
-                              ) === true
-                            ) {
+                            if (_.getAttr(PartitionResult, "supportsDualStack") === true) {
                               return e(
                                 `https://${_.getAttr(arn, "accountId")}.${OperationType}-kinesis.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
                               );
@@ -557,6 +425,157 @@ const rules = T.EndpointResolver((p, _) => {
                             `https://${_.getAttr(arn, "accountId")}.${OperationType}-kinesis.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
                           );
                         }
+                        if (arnType === "channel") {
+                          {
+                            const resourceId = _.getAttr(arn, "resourceId[1]");
+                            if (resourceId != null && resourceId !== false) {
+                              if (_.isValidHostLabel(resourceId, false)) {
+                                if (UseFIPS === true && UseDualStack === true) {
+                                  if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+                                    if (_.getAttr(PartitionResult, "supportsDualStack") === true) {
+                                      return e(
+                                        `https://${resourceId}.${OperationType}-kinesis-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+                                      );
+                                    }
+                                    return err(
+                                      "DualStack is enabled, but this partition does not support DualStack.",
+                                    );
+                                  }
+                                  return err(
+                                    "FIPS is enabled, but this partition does not support FIPS.",
+                                  );
+                                }
+                                if (UseFIPS === true) {
+                                  if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+                                    return e(
+                                      `https://${resourceId}.${OperationType}-kinesis-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+                                    );
+                                  }
+                                  return err(
+                                    "FIPS is enabled but this partition does not support FIPS",
+                                  );
+                                }
+                                if (UseDualStack === true) {
+                                  if (_.getAttr(PartitionResult, "supportsDualStack") === true) {
+                                    return e(
+                                      `https://${resourceId}.${OperationType}-kinesis.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+                                    );
+                                  }
+                                  return err(
+                                    "DualStack is enabled but this partition does not support DualStack",
+                                  );
+                                }
+                                return e(
+                                  `https://${resourceId}.${OperationType}-kinesis.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+                                );
+                              }
+                              return err("Invalid ARN: Invalid channel id.");
+                            }
+                          }
+                          return err("Invalid ARN: Missing channel id.");
+                        }
+                      }
+                      return err(
+                        "Operation Type is not set. Please contact service team for resolution.",
+                      );
+                    }
+                    return err(
+                      `Partition: ${_.getAttr(arn, "partition")} from ARN doesn't match with partition name: ${_.getAttr(PartitionResult, "name")}.`,
+                    );
+                  }
+                }
+                return err("Invalid ARN: No ARN type specified");
+              }
+              return err(
+                `Invalid ARN: The ARN was not for the Kinesis service, found: ${_.getAttr(arn, "service")}.`,
+              );
+            }
+            return err("Invalid ARN: Invalid region.");
+          }
+          return err("Invalid ARN: Invalid account id.");
+        }
+      }
+      return err("Invalid ARN: Failed to parse ARN.");
+    }
+  }
+  {
+    const PartitionResult = _.partition(Region);
+    if (
+      ChannelARN != null &&
+      !(Endpoint != null) &&
+      Region != null &&
+      PartitionResult != null &&
+      PartitionResult !== false &&
+      !(_.getAttr(PartitionResult, "name") === "aws-iso") &&
+      !(_.getAttr(PartitionResult, "name") === "aws-iso-b")
+    ) {
+      {
+        const arn = _.parseArn(ChannelARN);
+        if (arn != null && arn !== false) {
+          if (_.isValidHostLabel(_.getAttr(arn, "accountId"), false)) {
+            if (_.isValidHostLabel(_.getAttr(arn, "region"), false)) {
+              if (_.getAttr(arn, "service") === "kinesis") {
+                {
+                  const arnType = _.getAttr(arn, "resourceId[0]");
+                  if (arnType != null && arnType !== false && !(arnType === "")) {
+                    if (arnType === "channel") {
+                      if (_.getAttr(PartitionResult, "name") === `${_.getAttr(arn, "partition")}`) {
+                        if (OperationType != null) {
+                          {
+                            const channelId = _.getAttr(arn, "resourceId[1]");
+                            if (channelId != null && channelId !== false) {
+                              if (_.isValidHostLabel(channelId, false)) {
+                                if (!(OperationType === "data")) {
+                                  if (UseFIPS === true && UseDualStack === true) {
+                                    if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+                                      if (
+                                        _.getAttr(PartitionResult, "supportsDualStack") === true
+                                      ) {
+                                        return e(
+                                          `https://${channelId}.${OperationType}-kinesis-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+                                        );
+                                      }
+                                      return err(
+                                        "DualStack is enabled, but this partition does not support DualStack.",
+                                      );
+                                    }
+                                    return err(
+                                      "FIPS is enabled, but this partition does not support FIPS.",
+                                    );
+                                  }
+                                  if (UseFIPS === true) {
+                                    if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+                                      return e(
+                                        `https://${channelId}.${OperationType}-kinesis-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+                                      );
+                                    }
+                                    return err(
+                                      "FIPS is enabled but this partition does not support FIPS",
+                                    );
+                                  }
+                                  if (UseDualStack === true) {
+                                    if (_.getAttr(PartitionResult, "supportsDualStack") === true) {
+                                      return e(
+                                        `https://${channelId}.${OperationType}-kinesis.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+                                      );
+                                    }
+                                    return err(
+                                      "DualStack is enabled but this partition does not support DualStack",
+                                    );
+                                  }
+                                  return e(
+                                    `https://${channelId}.${OperationType}-kinesis.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+                                  );
+                                }
+                                return err(
+                                  "ChannelARN does not support the `data` operation type.",
+                                );
+                              }
+                              return err("Invalid ARN: Invalid channel id.");
+                            }
+                          }
+                          return err("Invalid ARN: Missing channel id.");
+                        }
                         return err(
                           "Operation Type is not set. Please contact service team for resolution.",
                         );
@@ -566,7 +585,7 @@ const rules = T.EndpointResolver((p, _) => {
                       );
                     }
                     return err(
-                      `Invalid ARN: Kinesis ARNs don't support \`${arnType}\` arn types.`,
+                      `Invalid ARN: ChannelARN only supports \`channel\` arn types, found: \`${arnType}\`.`,
                     );
                   }
                 }
@@ -608,13 +627,9 @@ const rules = T.EndpointResolver((p, _) => {
                   {},
                 );
               }
-              return err(
-                "DualStack is enabled, but this partition does not support DualStack.",
-              );
+              return err("DualStack is enabled, but this partition does not support DualStack.");
             }
-            return err(
-              "FIPS is enabled, but this partition does not support FIPS.",
-            );
+            return err("FIPS is enabled, but this partition does not support FIPS.");
           }
           if (UseFIPS === true) {
             if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
@@ -624,9 +639,7 @@ const rules = T.EndpointResolver((p, _) => {
                 {},
               );
             }
-            return err(
-              "FIPS is enabled but this partition does not support FIPS",
-            );
+            return err("FIPS is enabled but this partition does not support FIPS");
           }
           if (UseDualStack === true) {
             if (_.getAttr(PartitionResult, "supportsDualStack") === true) {
@@ -636,9 +649,7 @@ const rules = T.EndpointResolver((p, _) => {
                 {},
               );
             }
-            return err(
-              "DualStack is enabled but this partition does not support DualStack",
-            );
+            return err("DualStack is enabled but this partition does not support DualStack");
           }
           return e(
             `https://${AccountId}.${OperationType}-kinesis.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
@@ -646,9 +657,7 @@ const rules = T.EndpointResolver((p, _) => {
             {},
           );
         }
-        return err(
-          "Operation Type is not set. Please contact service team for resolution.",
-        );
+        return err("Operation Type is not set. Please contact service team for resolution.");
       }
       return err("Invalid account id.");
     }
@@ -678,14 +687,10 @@ const rules = T.EndpointResolver((p, _) => {
   }
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -711,13 +716,9 @@ const rules = T.EndpointResolver((p, _) => {
             if (_.getAttr(PartitionResult, "name") === "aws-us-gov") {
               return e(`https://kinesis.${Region}.amazonaws.com`);
             }
-            return e(
-              `https://kinesis-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
+            return e(`https://kinesis-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -725,13 +726,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://kinesis.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://kinesis.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://kinesis.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -739,92 +736,79 @@ const rules = T.EndpointResolver((p, _) => {
 });
 
 export class AccessDeniedException
-  extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
-    "AccessDeniedException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ).pipe(C.withAuthError) {}
+  extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()("AccessDeniedException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }).pipe(C.withAuthError) {}
+export class DryRunOperationException
+  extends /*@__PURE__*/ S.TaggedError<DryRunOperationException>()("DryRunOperationException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class ExpiredIteratorException
-  extends /*@__PURE__*/ S.TaggedError<ExpiredIteratorException>()(
-    "ExpiredIteratorException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ).pipe(C.withBadRequestError) {}
+  extends /*@__PURE__*/ S.TaggedError<ExpiredIteratorException>()("ExpiredIteratorException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }).pipe(C.withBadRequestError) {}
 export class ExpiredNextTokenException
-  extends /*@__PURE__*/ S.TaggedError<ExpiredNextTokenException>()(
-    "ExpiredNextTokenException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ).pipe(C.withBadRequestError) {}
+  extends /*@__PURE__*/ S.TaggedError<ExpiredNextTokenException>()("ExpiredNextTokenException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }).pipe(C.withBadRequestError) {}
 export class InternalFailureException
-  extends /*@__PURE__*/ S.TaggedError<InternalFailureException>()(
-    "InternalFailureException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ).pipe(C.withServerError, C.withRetryableError) {}
+  extends /*@__PURE__*/ S.TaggedError<InternalFailureException>()("InternalFailureException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }).pipe(C.withServerError, C.withRetryableError) {}
 export class InvalidArgumentException
-  extends /*@__PURE__*/ S.TaggedError<InvalidArgumentException>()(
-    "InvalidArgumentException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ).pipe(C.withBadRequestError) {}
+  extends /*@__PURE__*/ S.TaggedError<InvalidArgumentException>()("InvalidArgumentException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }).pipe(C.withBadRequestError) {}
 export class KMSAccessDeniedException
-  extends /*@__PURE__*/ S.TaggedError<KMSAccessDeniedException>()(
-    "KMSAccessDeniedException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ).pipe(C.withAuthError) {}
+  extends /*@__PURE__*/ S.TaggedError<KMSAccessDeniedException>()("KMSAccessDeniedException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }).pipe(C.withAuthError) {}
 export class KMSDisabledException
-  extends /*@__PURE__*/ S.TaggedError<KMSDisabledException>()(
-    "KMSDisabledException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ).pipe(C.withBadRequestError) {}
+  extends /*@__PURE__*/ S.TaggedError<KMSDisabledException>()("KMSDisabledException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }).pipe(C.withBadRequestError) {}
 export class KMSInvalidStateException
-  extends /*@__PURE__*/ S.TaggedError<KMSInvalidStateException>()(
-    "KMSInvalidStateException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ).pipe(C.withBadRequestError) {}
+  extends /*@__PURE__*/ S.TaggedError<KMSInvalidStateException>()("KMSInvalidStateException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }).pipe(C.withBadRequestError) {}
 export class KMSNotFoundException
-  extends /*@__PURE__*/ S.TaggedError<KMSNotFoundException>()(
-    "KMSNotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ).pipe(C.withBadRequestError) {}
+  extends /*@__PURE__*/ S.TaggedError<KMSNotFoundException>()("KMSNotFoundException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }).pipe(C.withBadRequestError) {}
 export class KMSOptInRequired
   extends /*@__PURE__*/ S.TaggedError<KMSOptInRequired>()("KMSOptInRequired", {
     message: S.optional(S.String).pipe(T.ErrorMessage()),
   }).pipe(C.withBadRequestError) {}
 export class KMSThrottlingException
-  extends /*@__PURE__*/ S.TaggedError<KMSThrottlingException>()(
-    "KMSThrottlingException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ).pipe(C.withThrottlingError, C.withRetryableError) {}
+  extends /*@__PURE__*/ S.TaggedError<KMSThrottlingException>()("KMSThrottlingException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class LimitExceededException
-  extends /*@__PURE__*/ S.TaggedError<LimitExceededException>()(
-    "LimitExceededException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ).pipe(C.withQuotaError, C.withRetryableError) {}
+  extends /*@__PURE__*/ S.TaggedError<LimitExceededException>()("LimitExceededException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }).pipe(C.withQuotaError, C.withRetryableError) {}
 export class ProvisionedThroughputExceededException
   extends /*@__PURE__*/ S.TaggedError<ProvisionedThroughputExceededException>()(
     "ProvisionedThroughputExceededException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
   ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class ResourceInUseException
-  extends /*@__PURE__*/ S.TaggedError<ResourceInUseException>()(
-    "ResourceInUseException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ).pipe(C.withConflictError, C.withRetryableError) {}
+  extends /*@__PURE__*/ S.TaggedError<ResourceInUseException>()("ResourceInUseException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }).pipe(C.withConflictError, C.withRetryableError) {}
 export class ResourceNotFoundException
-  extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
-    "ResourceNotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ).pipe(C.withNotFoundError) {}
+  extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()("ResourceNotFoundException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }).pipe(C.withNotFoundError) {}
 export class ValidationException
-  extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
-    "ValidationException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ).pipe(C.withBadRequestError) {}
+  extends /*@__PURE__*/ S.TaggedError<ValidationException>()("ValidationException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }).pipe(C.withBadRequestError) {}
 export type StreamName = string;
 export type TagKey = string;
 export type TagValue = string;
 export type TagMap = { [key: string]: string | undefined };
-export const TagMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const TagMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export type StreamARN = string;
 export type StreamId = string;
 export interface AddTagsToStreamInput {
@@ -851,45 +835,202 @@ export const AddTagsToStreamInput = /*@__PURE__*/ S.suspend(() =>
       T.StaticContextParams({ OperationType: { value: "control" } }),
     ),
   ),
-).annotate({
-  identifier: "AddTagsToStreamInput",
-}) as any as S.Schema<AddTagsToStreamInput>;
+).annotate({ identifier: "AddTagsToStreamInput" }) as any as S.Schema<AddTagsToStreamInput>;
 export interface AddTagsToStreamResponse {}
 export const AddTagsToStreamResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "AddTagsToStreamResponse",
-}) as any as S.Schema<AddTagsToStreamResponse>;
-export type PositiveIntegerObject = number;
-export type StreamMode = "PROVISIONED" | "ON_DEMAND" | (string & {});
-export const StreamMode = S.String;
+).annotate({ identifier: "AddTagsToStreamResponse" }) as any as S.Schema<AddTagsToStreamResponse>;
+export type ChannelName = string;
+export type RoleARN = string;
+export type RecordFormatType = "GSR_JSON" | "JSON" | "STRING" | "BYTE_ARRAY" | (string & {});
+export const RecordFormatType = S.String;
 
-export interface StreamModeDetails {
-  StreamMode: StreamMode;
+export type GSRSchemaARN = string;
+export interface RecordConfiguration {
+  RecordFormatType: RecordFormatType;
+  GSRSchemaARN?: string;
 }
-export const StreamModeDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ StreamMode: StreamMode }),
+export const RecordConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ RecordFormatType: RecordFormatType, GSRSchemaARN: S.optional(S.String) }),
+).annotate({ identifier: "RecordConfiguration" }) as any as S.Schema<RecordConfiguration>;
+export interface ChannelStreamConfiguration {
+  StreamARN: string;
+  RecordConfiguration: RecordConfiguration;
+}
+export const ChannelStreamConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ StreamARN: S.String, RecordConfiguration: RecordConfiguration }),
 ).annotate({
-  identifier: "StreamModeDetails",
-}) as any as S.Schema<StreamModeDetails>;
-export type NaturalIntegerObject = number;
-export type MaxRecordSizeInKiB = number;
-export interface CreateStreamInput {
-  StreamName: string;
-  ShardCount?: number;
-  StreamModeDetails?: StreamModeDetails;
-  Tags?: { [key: string]: string | undefined };
-  WarmThroughputMiBps?: number;
-  MaxRecordSizeInKiB?: number;
+  identifier: "ChannelStreamConfiguration",
+}) as any as S.Schema<ChannelStreamConfiguration>;
+export type ChannelStreamConfigurationList = ChannelStreamConfiguration[];
+export const ChannelStreamConfigurationList = /*@__PURE__*/ S.Array(ChannelStreamConfiguration);
+export type DataFreshnessInSeconds = number;
+export type BucketARN = string;
+export type ExpectedBucketOwner = string;
+export type S3ErrorOutputPrefix = string;
+export interface DeadLetterQueueS3Configuration {
+  BucketARN: string;
+  ExpectedBucketOwner: string;
+  ErrorOutputPrefix?: string;
 }
-export const CreateStreamInput = /*@__PURE__*/ S.suspend(() =>
+export const DeadLetterQueueS3Configuration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    StreamName: S.String,
-    ShardCount: S.optional(S.Number),
-    StreamModeDetails: S.optional(StreamModeDetails),
+    BucketARN: S.String,
+    ExpectedBucketOwner: S.String,
+    ErrorOutputPrefix: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "DeadLetterQueueS3Configuration",
+}) as any as S.Schema<DeadLetterQueueS3Configuration>;
+export type S3OutputKeyTemplate = string;
+export type S3StorageClass = "STANDARD" | "INTELLIGENT_TIERING" | "GLACIER_IR" | (string & {});
+export const S3StorageClass = S.String;
+
+export type S3CompressionType = "NONE" | "GZIP" | "ZSTD" | (string & {});
+export const S3CompressionType = S.String;
+
+export interface S3StorageConfiguration {
+  BucketARN: string;
+  ExpectedBucketOwner: string;
+  OutputKeyTemplate?: string;
+  StorageClass?: S3StorageClass;
+  CompressionType: S3CompressionType;
+}
+export const S3StorageConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    BucketARN: S.String,
+    ExpectedBucketOwner: S.String,
+    OutputKeyTemplate: S.optional(S.String),
+    StorageClass: S.optional(S3StorageClass),
+    CompressionType: S3CompressionType,
+  }),
+).annotate({ identifier: "S3StorageConfiguration" }) as any as S.Schema<S3StorageConfiguration>;
+export interface S3DestinationConfiguration {
+  DataFreshnessInSeconds?: number;
+  DeadLetterQueueS3Configuration?: DeadLetterQueueS3Configuration;
+  StorageConfiguration: S3StorageConfiguration;
+}
+export const S3DestinationConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    DataFreshnessInSeconds: S.optional(S.Number),
+    DeadLetterQueueS3Configuration: S.optional(DeadLetterQueueS3Configuration),
+    StorageConfiguration: S3StorageConfiguration,
+  }),
+).annotate({
+  identifier: "S3DestinationConfiguration",
+}) as any as S.Schema<S3DestinationConfiguration>;
+export type TableBucketARN = string;
+export type S3TablesNamespace = string;
+export type S3TablesTableName = string;
+export type S3TablesCompressionType = "NONE" | "ZSTD" | "SNAPPY" | (string & {});
+export const S3TablesCompressionType = S.String;
+
+export type PartitionTransform = "TIME_HOUR" | (string & {});
+export const PartitionTransform = S.String;
+
+export type PartitionSourceName = string;
+export interface PartitionField {
+  Transform: PartitionTransform;
+  SourceName: string;
+}
+export const PartitionField = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ Transform: PartitionTransform, SourceName: S.String }),
+).annotate({ identifier: "PartitionField" }) as any as S.Schema<PartitionField>;
+export type PartitionFieldList = PartitionField[];
+export const PartitionFieldList = /*@__PURE__*/ S.Array(PartitionField);
+export interface PartitionSpec {
+  PartitionFields: PartitionField[];
+}
+export const PartitionSpec = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ PartitionFields: PartitionFieldList }),
+).annotate({ identifier: "PartitionSpec" }) as any as S.Schema<PartitionSpec>;
+export interface S3TablesConfiguration {
+  TableBucketARN: string;
+  Namespace: string;
+  TableName: string;
+  CompressionType: S3TablesCompressionType;
+  PartitionSpec?: PartitionSpec;
+}
+export const S3TablesConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    TableBucketARN: S.String,
+    Namespace: S.String,
+    TableName: S.String,
+    CompressionType: S3TablesCompressionType,
+    PartitionSpec: S.optional(PartitionSpec),
+  }),
+).annotate({ identifier: "S3TablesConfiguration" }) as any as S.Schema<S3TablesConfiguration>;
+export type S3TablesConfigurationList = S3TablesConfiguration[];
+export const S3TablesConfigurationList = /*@__PURE__*/ S.Array(S3TablesConfiguration);
+export interface S3TablesDestinationConfiguration {
+  DataFreshnessInSeconds?: number;
+  DeadLetterQueueS3Configuration: DeadLetterQueueS3Configuration;
+  S3TablesConfigurationList: S3TablesConfiguration[];
+}
+export const S3TablesDestinationConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    DataFreshnessInSeconds: S.optional(S.Number),
+    DeadLetterQueueS3Configuration: DeadLetterQueueS3Configuration,
+    S3TablesConfigurationList: S3TablesConfigurationList,
+  }),
+).annotate({
+  identifier: "S3TablesDestinationConfiguration",
+}) as any as S.Schema<S3TablesDestinationConfiguration>;
+export type ChannelEncryptionType = "KMS" | (string & {});
+export const ChannelEncryptionType = S.String;
+
+export type KeyId = string;
+export interface ChannelEncryptionConfiguration {
+  EncryptionType: ChannelEncryptionType;
+  KeyId: string;
+}
+export const ChannelEncryptionConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ EncryptionType: ChannelEncryptionType, KeyId: S.String }),
+).annotate({
+  identifier: "ChannelEncryptionConfiguration",
+}) as any as S.Schema<ChannelEncryptionConfiguration>;
+export type CloudWatchLogGroupName = string;
+export type CloudWatchLogStreamName = string;
+export interface CloudWatchLogs {
+  Enabled: boolean;
+  LogGroupName?: string;
+  LogStreamName?: string;
+}
+export const CloudWatchLogs = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Enabled: S.Boolean,
+    LogGroupName: S.optional(S.String),
+    LogStreamName: S.optional(S.String),
+  }),
+).annotate({ identifier: "CloudWatchLogs" }) as any as S.Schema<CloudWatchLogs>;
+export interface ChannelLoggingConfiguration {
+  CloudWatchLogs: CloudWatchLogs;
+}
+export const ChannelLoggingConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ CloudWatchLogs: CloudWatchLogs }),
+).annotate({
+  identifier: "ChannelLoggingConfiguration",
+}) as any as S.Schema<ChannelLoggingConfiguration>;
+export interface CreateChannelInput {
+  ChannelName: string;
+  ServiceExecutionRoleARN: string;
+  StreamConfigurationList: ChannelStreamConfiguration[];
+  S3DestinationConfiguration?: S3DestinationConfiguration;
+  S3TablesDestinationConfiguration?: S3TablesDestinationConfiguration;
+  EncryptionConfiguration?: ChannelEncryptionConfiguration;
+  Tags?: { [key: string]: string | undefined };
+  LoggingConfiguration?: ChannelLoggingConfiguration;
+}
+export const CreateChannelInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ChannelName: S.String,
+    ServiceExecutionRoleARN: S.String,
+    StreamConfigurationList: ChannelStreamConfigurationList,
+    S3DestinationConfiguration: S.optional(S3DestinationConfiguration),
+    S3TablesDestinationConfiguration: S.optional(S3TablesDestinationConfiguration),
+    EncryptionConfiguration: S.optional(ChannelEncryptionConfiguration),
     Tags: S.optional(TagMap),
-    WarmThroughputMiBps: S.optional(S.Number),
-    MaxRecordSizeInKiB: S.optional(S.Number),
+    LoggingConfiguration: S.optional(ChannelLoggingConfiguration),
   }).pipe(
     T.all(
       ns,
@@ -902,13 +1043,143 @@ export const CreateStreamInput = /*@__PURE__*/ S.suspend(() =>
       T.StaticContextParams({ OperationType: { value: "control" } }),
     ),
   ),
+).annotate({ identifier: "CreateChannelInput" }) as any as S.Schema<CreateChannelInput>;
+export type ChannelARN = string;
+export type ChannelId = string;
+export type ChannelStatus =
+  | "CREATING"
+  | "ACTIVE"
+  | "UPDATING"
+  | "DELETING"
+  | "FAILED"
+  | (string & {});
+export const ChannelStatus = S.String;
+
+export type ChannelStatusReason = string;
+export interface ChannelStreamDescription {
+  StreamARN: string;
+  StreamCreationTimestamp: Date;
+  RecordConfiguration: RecordConfiguration;
+}
+export const ChannelStreamDescription = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    StreamARN: S.String,
+    StreamCreationTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    RecordConfiguration: RecordConfiguration,
+  }),
+).annotate({ identifier: "ChannelStreamDescription" }) as any as S.Schema<ChannelStreamDescription>;
+export type ChannelStreamDescriptionList = ChannelStreamDescription[];
+export const ChannelStreamDescriptionList = /*@__PURE__*/ S.Array(ChannelStreamDescription);
+export interface S3DestinationDescription {
+  DataFreshnessInSeconds: number;
+  DeadLetterQueueS3Configuration: DeadLetterQueueS3Configuration;
+  StorageConfiguration: S3StorageConfiguration;
+}
+export const S3DestinationDescription = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    DataFreshnessInSeconds: S.Number,
+    DeadLetterQueueS3Configuration: DeadLetterQueueS3Configuration,
+    StorageConfiguration: S3StorageConfiguration,
+  }),
+).annotate({ identifier: "S3DestinationDescription" }) as any as S.Schema<S3DestinationDescription>;
+export interface S3TablesDestinationDescription {
+  DataFreshnessInSeconds: number;
+  DeadLetterQueueS3Configuration: DeadLetterQueueS3Configuration;
+  S3TablesConfigurationList: S3TablesConfiguration[];
+}
+export const S3TablesDestinationDescription = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    DataFreshnessInSeconds: S.Number,
+    DeadLetterQueueS3Configuration: DeadLetterQueueS3Configuration,
+    S3TablesConfigurationList: S3TablesConfigurationList,
+  }),
 ).annotate({
-  identifier: "CreateStreamInput",
-}) as any as S.Schema<CreateStreamInput>;
+  identifier: "S3TablesDestinationDescription",
+}) as any as S.Schema<S3TablesDestinationDescription>;
+export interface ChannelDescription {
+  ChannelName: string;
+  ChannelARN: string;
+  ChannelId: string;
+  ChannelStatus: ChannelStatus;
+  ChannelStatusReason?: string;
+  ChannelCreationTimestamp: Date;
+  ServiceExecutionRoleARN: string;
+  StreamConfigurationList: ChannelStreamDescription[];
+  S3DestinationConfiguration?: S3DestinationDescription;
+  S3TablesDestinationConfiguration?: S3TablesDestinationDescription;
+  EncryptionConfiguration?: ChannelEncryptionConfiguration;
+  LoggingConfiguration: ChannelLoggingConfiguration;
+}
+export const ChannelDescription = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ChannelName: S.String,
+    ChannelARN: S.String,
+    ChannelId: S.String,
+    ChannelStatus: ChannelStatus,
+    ChannelStatusReason: S.optional(S.String),
+    ChannelCreationTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ServiceExecutionRoleARN: S.String,
+    StreamConfigurationList: ChannelStreamDescriptionList,
+    S3DestinationConfiguration: S.optional(S3DestinationDescription),
+    S3TablesDestinationConfiguration: S.optional(S3TablesDestinationDescription),
+    EncryptionConfiguration: S.optional(ChannelEncryptionConfiguration),
+    LoggingConfiguration: ChannelLoggingConfiguration,
+  }),
+).annotate({ identifier: "ChannelDescription" }) as any as S.Schema<ChannelDescription>;
+export interface CreateChannelOutput {
+  ChannelDescription: ChannelDescription;
+}
+export const CreateChannelOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ ChannelDescription: ChannelDescription }).pipe(ns),
+).annotate({ identifier: "CreateChannelOutput" }) as any as S.Schema<CreateChannelOutput>;
+export type PositiveIntegerObject = number;
+export type StreamMode = "PROVISIONED" | "ON_DEMAND" | (string & {});
+export const StreamMode = S.String;
+
+export interface StreamModeDetails {
+  StreamMode: StreamMode;
+}
+export const StreamModeDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ StreamMode: StreamMode }),
+).annotate({ identifier: "StreamModeDetails" }) as any as S.Schema<StreamModeDetails>;
+export type NaturalIntegerObject = number;
+export type MaxRecordSizeInKiB = number;
+export type RecordDistributionStrategy = "AUTO" | "USER_PARTITION_KEY" | (string & {});
+export const RecordDistributionStrategy = S.String;
+
+export interface CreateStreamInput {
+  StreamName: string;
+  ShardCount?: number;
+  StreamModeDetails?: StreamModeDetails;
+  Tags?: { [key: string]: string | undefined };
+  WarmThroughputMiBps?: number;
+  MaxRecordSizeInKiB?: number;
+  RecordDistributionStrategy?: RecordDistributionStrategy;
+}
+export const CreateStreamInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    StreamName: S.String,
+    ShardCount: S.optional(S.Number),
+    StreamModeDetails: S.optional(StreamModeDetails),
+    Tags: S.optional(TagMap),
+    WarmThroughputMiBps: S.optional(S.Number),
+    MaxRecordSizeInKiB: S.optional(S.Number),
+    RecordDistributionStrategy: S.optional(RecordDistributionStrategy),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.StaticContextParams({ OperationType: { value: "control" } }),
+    ),
+  ),
+).annotate({ identifier: "CreateStreamInput" }) as any as S.Schema<CreateStreamInput>;
 export interface CreateStreamResponse {}
-export const CreateStreamResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
+export const CreateStreamResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "CreateStreamResponse",
 }) as any as S.Schema<CreateStreamResponse>;
 export type RetentionPeriodHours = number;
@@ -940,11 +1211,32 @@ export const DecreaseStreamRetentionPeriodInput = /*@__PURE__*/ S.suspend(() =>
   identifier: "DecreaseStreamRetentionPeriodInput",
 }) as any as S.Schema<DecreaseStreamRetentionPeriodInput>;
 export interface DecreaseStreamRetentionPeriodResponse {}
-export const DecreaseStreamRetentionPeriodResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}).pipe(ns),
+export const DecreaseStreamRetentionPeriodResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(ns),
 ).annotate({
   identifier: "DecreaseStreamRetentionPeriodResponse",
 }) as any as S.Schema<DecreaseStreamRetentionPeriodResponse>;
+export interface DeleteChannelInput {
+  ChannelARN: string;
+}
+export const DeleteChannelInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ ChannelARN: S.String.pipe(T.ContextParam("ChannelARN")) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.StaticContextParams({ OperationType: { value: "control" } }),
+    ),
+  ),
+).annotate({ identifier: "DeleteChannelInput" }) as any as S.Schema<DeleteChannelInput>;
+export interface DeleteChannelResponse {}
+export const DeleteChannelResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
+  identifier: "DeleteChannelResponse",
+}) as any as S.Schema<DeleteChannelResponse>;
 export type ResourceARN = string;
 export interface DeleteResourcePolicyInput {
   ResourceARN: string;
@@ -999,13 +1291,9 @@ export const DeleteStreamInput = /*@__PURE__*/ S.suspend(() =>
       T.StaticContextParams({ OperationType: { value: "control" } }),
     ),
   ),
-).annotate({
-  identifier: "DeleteStreamInput",
-}) as any as S.Schema<DeleteStreamInput>;
+).annotate({ identifier: "DeleteStreamInput" }) as any as S.Schema<DeleteStreamInput>;
 export interface DeleteStreamResponse {}
-export const DeleteStreamResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
+export const DeleteStreamResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "DeleteStreamResponse",
 }) as any as S.Schema<DeleteStreamResponse>;
 export type ConsumerName = string;
@@ -1073,16 +1361,13 @@ export interface MinimumThroughputBillingCommitmentOutput {
   EndedAt?: Date;
   EarliestAllowedEndAt?: Date;
 }
-export const MinimumThroughputBillingCommitmentOutput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Status: MinimumThroughputBillingCommitmentOutputStatus,
-      StartedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-      EndedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-      EarliestAllowedEndAt: S.optional(
-        S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-      ),
-    }),
+export const MinimumThroughputBillingCommitmentOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Status: MinimumThroughputBillingCommitmentOutputStatus,
+    StartedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    EndedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    EarliestAllowedEndAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
 ).annotate({
   identifier: "MinimumThroughputBillingCommitmentOutput",
 }) as any as S.Schema<MinimumThroughputBillingCommitmentOutput>;
@@ -1091,13 +1376,34 @@ export interface DescribeAccountSettingsOutput {
 }
 export const DescribeAccountSettingsOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    MinimumThroughputBillingCommitment: S.optional(
-      MinimumThroughputBillingCommitmentOutput,
-    ),
+    MinimumThroughputBillingCommitment: S.optional(MinimumThroughputBillingCommitmentOutput),
   }).pipe(ns),
 ).annotate({
   identifier: "DescribeAccountSettingsOutput",
 }) as any as S.Schema<DescribeAccountSettingsOutput>;
+export interface DescribeChannelInput {
+  ChannelARN: string;
+}
+export const DescribeChannelInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ ChannelARN: S.String.pipe(T.ContextParam("ChannelARN")) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.StaticContextParams({ OperationType: { value: "control" } }),
+    ),
+  ),
+).annotate({ identifier: "DescribeChannelInput" }) as any as S.Schema<DescribeChannelInput>;
+export interface DescribeChannelOutput {
+  ChannelDescription: ChannelDescription;
+}
+export const DescribeChannelOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ ChannelDescription: ChannelDescription }).pipe(ns),
+).annotate({ identifier: "DescribeChannelOutput" }) as any as S.Schema<DescribeChannelOutput>;
 export interface DescribeLimitsInput {}
 export const DescribeLimitsInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
@@ -1112,17 +1418,18 @@ export const DescribeLimitsInput = /*@__PURE__*/ S.suspend(() =>
       T.StaticContextParams({ OperationType: { value: "control" } }),
     ),
   ),
-).annotate({
-  identifier: "DescribeLimitsInput",
-}) as any as S.Schema<DescribeLimitsInput>;
+).annotate({ identifier: "DescribeLimitsInput" }) as any as S.Schema<DescribeLimitsInput>;
 export type ShardCountObject = number;
 export type OnDemandStreamCountObject = number;
 export type OnDemandStreamCountLimitObject = number;
+export type ChannelCountObject = number;
 export interface DescribeLimitsOutput {
   ShardLimit: number;
   OpenShardCount: number;
   OnDemandStreamCount: number;
   OnDemandStreamCountLimit: number;
+  ChannelCount?: number;
+  ChannelCountLimit?: number;
 }
 export const DescribeLimitsOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1130,10 +1437,10 @@ export const DescribeLimitsOutput = /*@__PURE__*/ S.suspend(() =>
     OpenShardCount: S.Number,
     OnDemandStreamCount: S.Number,
     OnDemandStreamCountLimit: S.Number,
+    ChannelCount: S.optional(S.Number),
+    ChannelCountLimit: S.optional(S.Number),
   }).pipe(ns),
-).annotate({
-  identifier: "DescribeLimitsOutput",
-}) as any as S.Schema<DescribeLimitsOutput>;
+).annotate({ identifier: "DescribeLimitsOutput" }) as any as S.Schema<DescribeLimitsOutput>;
 export type DescribeStreamInputLimit = number;
 export type ShardId = string;
 export interface DescribeStreamInput {
@@ -1162,15 +1469,8 @@ export const DescribeStreamInput = /*@__PURE__*/ S.suspend(() =>
       T.StaticContextParams({ OperationType: { value: "control" } }),
     ),
   ),
-).annotate({
-  identifier: "DescribeStreamInput",
-}) as any as S.Schema<DescribeStreamInput>;
-export type StreamStatus =
-  | "CREATING"
-  | "DELETING"
-  | "ACTIVE"
-  | "UPDATING"
-  | (string & {});
+).annotate({ identifier: "DescribeStreamInput" }) as any as S.Schema<DescribeStreamInput>;
+export type StreamStatus = "CREATING" | "DELETING" | "ACTIVE" | "UPDATING" | (string & {});
 export const StreamStatus = S.String;
 
 export type HashKey = string;
@@ -1187,13 +1487,8 @@ export interface SequenceNumberRange {
   EndingSequenceNumber?: string;
 }
 export const SequenceNumberRange = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    StartingSequenceNumber: S.String,
-    EndingSequenceNumber: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "SequenceNumberRange",
-}) as any as S.Schema<SequenceNumberRange>;
+  S.Struct({ StartingSequenceNumber: S.String, EndingSequenceNumber: S.optional(S.String) }),
+).annotate({ identifier: "SequenceNumberRange" }) as any as S.Schema<SequenceNumberRange>;
 export interface Shard {
   ShardId: string;
   ParentShardId?: string;
@@ -1231,15 +1526,12 @@ export interface EnhancedMetrics {
 }
 export const EnhancedMetrics = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ShardLevelMetrics: S.optional(MetricsNameList) }),
-).annotate({
-  identifier: "EnhancedMetrics",
-}) as any as S.Schema<EnhancedMetrics>;
+).annotate({ identifier: "EnhancedMetrics" }) as any as S.Schema<EnhancedMetrics>;
 export type EnhancedMonitoringList = EnhancedMetrics[];
 export const EnhancedMonitoringList = /*@__PURE__*/ S.Array(EnhancedMetrics);
 export type EncryptionType = "NONE" | "KMS" | (string & {});
 export const EncryptionType = S.String;
 
-export type KeyId = string;
 export interface StreamDescription {
   StreamName: string;
   StreamARN: string;
@@ -1267,17 +1559,13 @@ export const StreamDescription = /*@__PURE__*/ S.suspend(() =>
     EncryptionType: S.optional(EncryptionType),
     KeyId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "StreamDescription",
-}) as any as S.Schema<StreamDescription>;
+).annotate({ identifier: "StreamDescription" }) as any as S.Schema<StreamDescription>;
 export interface DescribeStreamOutput {
   StreamDescription: StreamDescription;
 }
 export const DescribeStreamOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ StreamDescription: StreamDescription }).pipe(ns),
-).annotate({
-  identifier: "DescribeStreamOutput",
-}) as any as S.Schema<DescribeStreamOutput>;
+).annotate({ identifier: "DescribeStreamOutput" }) as any as S.Schema<DescribeStreamOutput>;
 export interface DescribeStreamConsumerInput {
   StreamARN?: string;
   ConsumerName?: string;
@@ -1323,9 +1611,7 @@ export const ConsumerDescription = /*@__PURE__*/ S.suspend(() =>
     ConsumerCreationTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     StreamARN: S.String,
   }),
-).annotate({
-  identifier: "ConsumerDescription",
-}) as any as S.Schema<ConsumerDescription>;
+).annotate({ identifier: "ConsumerDescription" }) as any as S.Schema<ConsumerDescription>;
 export interface DescribeStreamConsumerOutput {
   ConsumerDescription: ConsumerDescription;
 }
@@ -1365,13 +1651,8 @@ export interface WarmThroughputObject {
   CurrentMiBps?: number;
 }
 export const WarmThroughputObject = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TargetMiBps: S.optional(S.Number),
-    CurrentMiBps: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "WarmThroughputObject",
-}) as any as S.Schema<WarmThroughputObject>;
+  S.Struct({ TargetMiBps: S.optional(S.Number), CurrentMiBps: S.optional(S.Number) }),
+).annotate({ identifier: "WarmThroughputObject" }) as any as S.Schema<WarmThroughputObject>;
 export interface StreamDescriptionSummary {
   StreamName: string;
   StreamARN: string;
@@ -1387,6 +1668,8 @@ export interface StreamDescriptionSummary {
   ConsumerCount?: number;
   WarmThroughput?: WarmThroughputObject;
   MaxRecordSizeInKiB?: number;
+  ChannelCount?: number;
+  RecordDistributionStrategy?: RecordDistributionStrategy;
 }
 export const StreamDescriptionSummary = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1404,10 +1687,10 @@ export const StreamDescriptionSummary = /*@__PURE__*/ S.suspend(() =>
     ConsumerCount: S.optional(S.Number),
     WarmThroughput: S.optional(WarmThroughputObject),
     MaxRecordSizeInKiB: S.optional(S.Number),
+    ChannelCount: S.optional(S.Number),
+    RecordDistributionStrategy: S.optional(RecordDistributionStrategy),
   }),
-).annotate({
-  identifier: "StreamDescriptionSummary",
-}) as any as S.Schema<StreamDescriptionSummary>;
+).annotate({ identifier: "StreamDescriptionSummary" }) as any as S.Schema<StreamDescriptionSummary>;
 export interface DescribeStreamSummaryOutput {
   StreamDescriptionSummary: StreamDescriptionSummary;
 }
@@ -1456,9 +1739,7 @@ export const EnhancedMonitoringOutput = /*@__PURE__*/ S.suspend(() =>
     DesiredShardLevelMetrics: S.optional(MetricsNameList),
     StreamARN: S.optional(S.String),
   }).pipe(ns),
-).annotate({
-  identifier: "EnhancedMonitoringOutput",
-}) as any as S.Schema<EnhancedMonitoringOutput>;
+).annotate({ identifier: "EnhancedMonitoringOutput" }) as any as S.Schema<EnhancedMonitoringOutput>;
 export interface EnableEnhancedMonitoringInput {
   StreamName?: string;
   ShardLevelMetrics: MetricsName[];
@@ -1493,6 +1774,7 @@ export interface GetRecordsInput {
   Limit?: number;
   StreamARN?: string;
   StreamId?: string;
+  DryRun?: boolean;
 }
 export const GetRecordsInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1500,6 +1782,7 @@ export const GetRecordsInput = /*@__PURE__*/ S.suspend(() =>
     Limit: S.optional(S.Number),
     StreamARN: S.optional(S.String).pipe(T.ContextParam("StreamARN")),
     StreamId: S.optional(S.String).pipe(T.ContextParam("StreamId")),
+    DryRun: S.optional(S.Boolean),
   }).pipe(
     T.all(
       ns,
@@ -1512,26 +1795,22 @@ export const GetRecordsInput = /*@__PURE__*/ S.suspend(() =>
       T.StaticContextParams({ OperationType: { value: "data" } }),
     ),
   ),
-).annotate({
-  identifier: "GetRecordsInput",
-}) as any as S.Schema<GetRecordsInput>;
+).annotate({ identifier: "GetRecordsInput" }) as any as S.Schema<GetRecordsInput>;
 export type Data = Uint8Array;
 export type PartitionKey = string;
 export interface Record {
   SequenceNumber: string;
   ApproximateArrivalTimestamp?: Date;
   Data: Uint8Array;
-  PartitionKey: string;
+  PartitionKey?: string;
   EncryptionType?: EncryptionType;
 }
 export const Record = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     SequenceNumber: S.String,
-    ApproximateArrivalTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    ApproximateArrivalTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     Data: T.Blob,
-    PartitionKey: S.String,
+    PartitionKey: S.optional(S.String),
     EncryptionType: S.optional(EncryptionType),
   }),
 ).annotate({ identifier: "Record" }) as any as S.Schema<Record>;
@@ -1546,11 +1825,7 @@ export interface ChildShard {
   HashKeyRange: HashKeyRange;
 }
 export const ChildShard = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ShardId: S.String,
-    ParentShards: ShardIdList,
-    HashKeyRange: HashKeyRange,
-  }),
+  S.Struct({ ShardId: S.String, ParentShards: ShardIdList, HashKeyRange: HashKeyRange }),
 ).annotate({ identifier: "ChildShard" }) as any as S.Schema<ChildShard>;
 export type ChildShardList = ChildShard[];
 export const ChildShardList = /*@__PURE__*/ S.Array(ChildShard);
@@ -1567,9 +1842,7 @@ export const GetRecordsOutput = /*@__PURE__*/ S.suspend(() =>
     MillisBehindLatest: S.optional(S.Number),
     ChildShards: S.optional(ChildShardList),
   }).pipe(ns),
-).annotate({
-  identifier: "GetRecordsOutput",
-}) as any as S.Schema<GetRecordsOutput>;
+).annotate({ identifier: "GetRecordsOutput" }) as any as S.Schema<GetRecordsOutput>;
 export interface GetResourcePolicyInput {
   ResourceARN: string;
   StreamId?: string;
@@ -1590,18 +1863,14 @@ export const GetResourcePolicyInput = /*@__PURE__*/ S.suspend(() =>
       T.StaticContextParams({ OperationType: { value: "control" } }),
     ),
   ),
-).annotate({
-  identifier: "GetResourcePolicyInput",
-}) as any as S.Schema<GetResourcePolicyInput>;
+).annotate({ identifier: "GetResourcePolicyInput" }) as any as S.Schema<GetResourcePolicyInput>;
 export type Policy = string;
 export interface GetResourcePolicyOutput {
   Policy: string;
 }
 export const GetResourcePolicyOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Policy: S.String }).pipe(ns),
-).annotate({
-  identifier: "GetResourcePolicyOutput",
-}) as any as S.Schema<GetResourcePolicyOutput>;
+).annotate({ identifier: "GetResourcePolicyOutput" }) as any as S.Schema<GetResourcePolicyOutput>;
 export type ShardIteratorType =
   | "AT_SEQUENCE_NUMBER"
   | "AFTER_SEQUENCE_NUMBER"
@@ -1619,6 +1888,7 @@ export interface GetShardIteratorInput {
   Timestamp?: Date;
   StreamARN?: string;
   StreamId?: string;
+  DryRun?: boolean;
 }
 export const GetShardIteratorInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1629,6 +1899,7 @@ export const GetShardIteratorInput = /*@__PURE__*/ S.suspend(() =>
     Timestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     StreamARN: S.optional(S.String).pipe(T.ContextParam("StreamARN")),
     StreamId: S.optional(S.String).pipe(T.ContextParam("StreamId")),
+    DryRun: S.optional(S.Boolean),
   }).pipe(
     T.all(
       ns,
@@ -1641,17 +1912,13 @@ export const GetShardIteratorInput = /*@__PURE__*/ S.suspend(() =>
       T.StaticContextParams({ OperationType: { value: "data" } }),
     ),
   ),
-).annotate({
-  identifier: "GetShardIteratorInput",
-}) as any as S.Schema<GetShardIteratorInput>;
+).annotate({ identifier: "GetShardIteratorInput" }) as any as S.Schema<GetShardIteratorInput>;
 export interface GetShardIteratorOutput {
   ShardIterator?: string;
 }
 export const GetShardIteratorOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ShardIterator: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "GetShardIteratorOutput",
-}) as any as S.Schema<GetShardIteratorOutput>;
+).annotate({ identifier: "GetShardIteratorOutput" }) as any as S.Schema<GetShardIteratorOutput>;
 export interface IncreaseStreamRetentionPeriodInput {
   StreamName?: string;
   RetentionPeriodHours: number;
@@ -1680,12 +1947,94 @@ export const IncreaseStreamRetentionPeriodInput = /*@__PURE__*/ S.suspend(() =>
   identifier: "IncreaseStreamRetentionPeriodInput",
 }) as any as S.Schema<IncreaseStreamRetentionPeriodInput>;
 export interface IncreaseStreamRetentionPeriodResponse {}
-export const IncreaseStreamRetentionPeriodResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}).pipe(ns),
+export const IncreaseStreamRetentionPeriodResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(ns),
 ).annotate({
   identifier: "IncreaseStreamRetentionPeriodResponse",
 }) as any as S.Schema<IncreaseStreamRetentionPeriodResponse>;
+export interface StreamFilter {
+  StreamARN: string;
+  StreamCreationTimestamp?: Date;
+}
+export const StreamFilter = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    StreamARN: S.String,
+    StreamCreationTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotate({ identifier: "StreamFilter" }) as any as S.Schema<StreamFilter>;
+export type StreamFilterList = StreamFilter[];
+export const StreamFilterList = /*@__PURE__*/ S.Array(StreamFilter);
+export type ListChannelsInputLimit = number;
 export type NextToken = string;
+export interface ListChannelsInput {
+  StreamFilter?: StreamFilter[];
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListChannelsInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    StreamFilter: S.optional(StreamFilterList),
+    MaxResults: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.StaticContextParams({ OperationType: { value: "control" } }),
+    ),
+  ),
+).annotate({ identifier: "ListChannelsInput" }) as any as S.Schema<ListChannelsInput>;
+export type ChannelDestinationType = "S3" | "S3_TABLES" | (string & {});
+export const ChannelDestinationType = S.String;
+
+export interface ChannelStreamIdentifier {
+  StreamARN: string;
+  StreamCreationTimestamp: Date;
+}
+export const ChannelStreamIdentifier = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    StreamARN: S.String,
+    StreamCreationTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  }),
+).annotate({ identifier: "ChannelStreamIdentifier" }) as any as S.Schema<ChannelStreamIdentifier>;
+export type ChannelStreamIdentifierList = ChannelStreamIdentifier[];
+export const ChannelStreamIdentifierList = /*@__PURE__*/ S.Array(ChannelStreamIdentifier);
+export interface ChannelSummary {
+  ChannelName: string;
+  ChannelARN: string;
+  ChannelId: string;
+  ChannelStatus: ChannelStatus;
+  ChannelStatusReason?: string;
+  ChannelCreationTimestamp: Date;
+  ChannelDestinationType: ChannelDestinationType;
+  Streams: ChannelStreamIdentifier[];
+}
+export const ChannelSummary = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ChannelName: S.String,
+    ChannelARN: S.String,
+    ChannelId: S.String,
+    ChannelStatus: ChannelStatus,
+    ChannelStatusReason: S.optional(S.String),
+    ChannelCreationTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ChannelDestinationType: ChannelDestinationType,
+    Streams: ChannelStreamIdentifierList,
+  }),
+).annotate({ identifier: "ChannelSummary" }) as any as S.Schema<ChannelSummary>;
+export type ChannelSummaryList = ChannelSummary[];
+export const ChannelSummaryList = /*@__PURE__*/ S.Array(ChannelSummary);
+export interface ListChannelsOutput {
+  ChannelSummaries: ChannelSummary[];
+  NextToken?: string;
+}
+export const ListChannelsOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ ChannelSummaries: ChannelSummaryList, NextToken: S.optional(S.String) }).pipe(ns),
+).annotate({ identifier: "ListChannelsOutput" }) as any as S.Schema<ListChannelsOutput>;
 export type ListShardsInputLimit = number;
 export type ShardFilterType =
   | "AFTER_SHARD_ID"
@@ -1725,9 +2074,7 @@ export const ListShardsInput = /*@__PURE__*/ S.suspend(() =>
     NextToken: S.optional(S.String),
     ExclusiveStartShardId: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-    StreamCreationTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    StreamCreationTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     ShardFilter: S.optional(ShardFilter),
     StreamARN: S.optional(S.String).pipe(T.ContextParam("StreamARN")),
     StreamId: S.optional(S.String).pipe(T.ContextParam("StreamId")),
@@ -1743,21 +2090,14 @@ export const ListShardsInput = /*@__PURE__*/ S.suspend(() =>
       T.StaticContextParams({ OperationType: { value: "control" } }),
     ),
   ),
-).annotate({
-  identifier: "ListShardsInput",
-}) as any as S.Schema<ListShardsInput>;
+).annotate({ identifier: "ListShardsInput" }) as any as S.Schema<ListShardsInput>;
 export interface ListShardsOutput {
   Shards?: Shard[];
   NextToken?: string;
 }
 export const ListShardsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Shards: S.optional(ShardList),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListShardsOutput",
-}) as any as S.Schema<ListShardsOutput>;
+  S.Struct({ Shards: S.optional(ShardList), NextToken: S.optional(S.String) }).pipe(ns),
+).annotate({ identifier: "ListShardsOutput" }) as any as S.Schema<ListShardsOutput>;
 export type ListStreamConsumersInputLimit = number;
 export interface ListStreamConsumersInput {
   StreamARN: string;
@@ -1771,9 +2111,7 @@ export const ListStreamConsumersInput = /*@__PURE__*/ S.suspend(() =>
     StreamARN: S.String.pipe(T.ContextParam("StreamARN")),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-    StreamCreationTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    StreamCreationTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     StreamId: S.optional(S.String).pipe(T.ContextParam("StreamId")),
   }).pipe(
     T.all(
@@ -1787,9 +2125,7 @@ export const ListStreamConsumersInput = /*@__PURE__*/ S.suspend(() =>
       T.StaticContextParams({ OperationType: { value: "control" } }),
     ),
   ),
-).annotate({
-  identifier: "ListStreamConsumersInput",
-}) as any as S.Schema<ListStreamConsumersInput>;
+).annotate({ identifier: "ListStreamConsumersInput" }) as any as S.Schema<ListStreamConsumersInput>;
 export interface Consumer {
   ConsumerName: string;
   ConsumerARN: string;
@@ -1811,10 +2147,7 @@ export interface ListStreamConsumersOutput {
   NextToken?: string;
 }
 export const ListStreamConsumersOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Consumers: S.optional(ConsumerList),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
+  S.Struct({ Consumers: S.optional(ConsumerList), NextToken: S.optional(S.String) }).pipe(ns),
 ).annotate({
   identifier: "ListStreamConsumersOutput",
 }) as any as S.Schema<ListStreamConsumersOutput>;
@@ -1841,9 +2174,7 @@ export const ListStreamsInput = /*@__PURE__*/ S.suspend(() =>
       T.StaticContextParams({ OperationType: { value: "control" } }),
     ),
   ),
-).annotate({
-  identifier: "ListStreamsInput",
-}) as any as S.Schema<ListStreamsInput>;
+).annotate({ identifier: "ListStreamsInput" }) as any as S.Schema<ListStreamsInput>;
 export type StreamNameList = string[];
 export const StreamNameList = /*@__PURE__*/ S.Array(S.String);
 export interface StreamSummary {
@@ -1859,9 +2190,7 @@ export const StreamSummary = /*@__PURE__*/ S.suspend(() =>
     StreamARN: S.String,
     StreamStatus: StreamStatus,
     StreamModeDetails: S.optional(StreamModeDetails),
-    StreamCreationTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    StreamCreationTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({ identifier: "StreamSummary" }) as any as S.Schema<StreamSummary>;
 export type StreamSummaryList = StreamSummary[];
@@ -1879,9 +2208,7 @@ export const ListStreamsOutput = /*@__PURE__*/ S.suspend(() =>
     NextToken: S.optional(S.String),
     StreamSummaries: S.optional(StreamSummaryList),
   }).pipe(ns),
-).annotate({
-  identifier: "ListStreamsOutput",
-}) as any as S.Schema<ListStreamsOutput>;
+).annotate({ identifier: "ListStreamsOutput" }) as any as S.Schema<ListStreamsOutput>;
 export interface ListTagsForResourceInput {
   ResourceARN: string;
   StreamId?: string;
@@ -1902,9 +2229,7 @@ export const ListTagsForResourceInput = /*@__PURE__*/ S.suspend(() =>
       T.StaticContextParams({ OperationType: { value: "control" } }),
     ),
   ),
-).annotate({
-  identifier: "ListTagsForResourceInput",
-}) as any as S.Schema<ListTagsForResourceInput>;
+).annotate({ identifier: "ListTagsForResourceInput" }) as any as S.Schema<ListTagsForResourceInput>;
 export interface Tag {
   Key: string;
   Value?: string;
@@ -1949,18 +2274,14 @@ export const ListTagsForStreamInput = /*@__PURE__*/ S.suspend(() =>
       T.StaticContextParams({ OperationType: { value: "control" } }),
     ),
   ),
-).annotate({
-  identifier: "ListTagsForStreamInput",
-}) as any as S.Schema<ListTagsForStreamInput>;
+).annotate({ identifier: "ListTagsForStreamInput" }) as any as S.Schema<ListTagsForStreamInput>;
 export interface ListTagsForStreamOutput {
   Tags: Tag[];
   HasMoreTags: boolean;
 }
 export const ListTagsForStreamOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Tags: TagList, HasMoreTags: S.Boolean }).pipe(ns),
-).annotate({
-  identifier: "ListTagsForStreamOutput",
-}) as any as S.Schema<ListTagsForStreamOutput>;
+).annotate({ identifier: "ListTagsForStreamOutput" }) as any as S.Schema<ListTagsForStreamOutput>;
 export interface MergeShardsInput {
   StreamName?: string;
   ShardToMerge: string;
@@ -1987,33 +2308,31 @@ export const MergeShardsInput = /*@__PURE__*/ S.suspend(() =>
       T.StaticContextParams({ OperationType: { value: "control" } }),
     ),
   ),
-).annotate({
-  identifier: "MergeShardsInput",
-}) as any as S.Schema<MergeShardsInput>;
+).annotate({ identifier: "MergeShardsInput" }) as any as S.Schema<MergeShardsInput>;
 export interface MergeShardsResponse {}
-export const MergeShardsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
+export const MergeShardsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "MergeShardsResponse",
 }) as any as S.Schema<MergeShardsResponse>;
 export interface PutRecordInput {
   StreamName?: string;
   Data: Uint8Array;
-  PartitionKey: string;
+  PartitionKey?: string;
   ExplicitHashKey?: string;
   SequenceNumberForOrdering?: string;
   StreamARN?: string;
   StreamId?: string;
+  DryRun?: boolean;
 }
 export const PutRecordInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     StreamName: S.optional(S.String),
     Data: T.Blob,
-    PartitionKey: S.String,
+    PartitionKey: S.optional(S.String),
     ExplicitHashKey: S.optional(S.String),
     SequenceNumberForOrdering: S.optional(S.String),
     StreamARN: S.optional(S.String).pipe(T.ContextParam("StreamARN")),
     StreamId: S.optional(S.String).pipe(T.ContextParam("StreamId")),
+    DryRun: S.optional(S.Boolean),
   }).pipe(
     T.all(
       ns,
@@ -2038,32 +2357,27 @@ export const PutRecordOutput = /*@__PURE__*/ S.suspend(() =>
     SequenceNumber: S.String,
     EncryptionType: S.optional(EncryptionType),
   }).pipe(ns),
-).annotate({
-  identifier: "PutRecordOutput",
-}) as any as S.Schema<PutRecordOutput>;
+).annotate({ identifier: "PutRecordOutput" }) as any as S.Schema<PutRecordOutput>;
 export interface PutRecordsRequestEntry {
   Data: Uint8Array;
   ExplicitHashKey?: string;
-  PartitionKey: string;
+  PartitionKey?: string;
 }
 export const PutRecordsRequestEntry = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     Data: T.Blob,
     ExplicitHashKey: S.optional(S.String),
-    PartitionKey: S.String,
+    PartitionKey: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PutRecordsRequestEntry",
-}) as any as S.Schema<PutRecordsRequestEntry>;
+).annotate({ identifier: "PutRecordsRequestEntry" }) as any as S.Schema<PutRecordsRequestEntry>;
 export type PutRecordsRequestEntryList = PutRecordsRequestEntry[];
-export const PutRecordsRequestEntryList = /*@__PURE__*/ S.Array(
-  PutRecordsRequestEntry,
-);
+export const PutRecordsRequestEntryList = /*@__PURE__*/ S.Array(PutRecordsRequestEntry);
 export interface PutRecordsInput {
   Records: PutRecordsRequestEntry[];
   StreamName?: string;
   StreamARN?: string;
   StreamId?: string;
+  DryRun?: boolean;
 }
 export const PutRecordsInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2071,6 +2385,7 @@ export const PutRecordsInput = /*@__PURE__*/ S.suspend(() =>
     StreamName: S.optional(S.String),
     StreamARN: S.optional(S.String).pipe(T.ContextParam("StreamARN")),
     StreamId: S.optional(S.String).pipe(T.ContextParam("StreamId")),
+    DryRun: S.optional(S.Boolean),
   }).pipe(
     T.all(
       ns,
@@ -2083,9 +2398,7 @@ export const PutRecordsInput = /*@__PURE__*/ S.suspend(() =>
       T.StaticContextParams({ OperationType: { value: "data" } }),
     ),
   ),
-).annotate({
-  identifier: "PutRecordsInput",
-}) as any as S.Schema<PutRecordsInput>;
+).annotate({ identifier: "PutRecordsInput" }) as any as S.Schema<PutRecordsInput>;
 export type ErrorCode = string;
 export type ErrorMessage = string;
 export interface PutRecordsResultEntry {
@@ -2101,13 +2414,9 @@ export const PutRecordsResultEntry = /*@__PURE__*/ S.suspend(() =>
     ErrorCode: S.optional(S.String),
     ErrorMessage: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PutRecordsResultEntry",
-}) as any as S.Schema<PutRecordsResultEntry>;
+).annotate({ identifier: "PutRecordsResultEntry" }) as any as S.Schema<PutRecordsResultEntry>;
 export type PutRecordsResultEntryList = PutRecordsResultEntry[];
-export const PutRecordsResultEntryList = /*@__PURE__*/ S.Array(
-  PutRecordsResultEntry,
-);
+export const PutRecordsResultEntryList = /*@__PURE__*/ S.Array(PutRecordsResultEntry);
 export interface PutRecordsOutput {
   FailedRecordCount?: number;
   Records: PutRecordsResultEntry[];
@@ -2119,9 +2428,7 @@ export const PutRecordsOutput = /*@__PURE__*/ S.suspend(() =>
     Records: PutRecordsResultEntryList,
     EncryptionType: S.optional(EncryptionType),
   }).pipe(ns),
-).annotate({
-  identifier: "PutRecordsOutput",
-}) as any as S.Schema<PutRecordsOutput>;
+).annotate({ identifier: "PutRecordsOutput" }) as any as S.Schema<PutRecordsOutput>;
 export interface PutResourcePolicyInput {
   ResourceARN: string;
   StreamId?: string;
@@ -2144,9 +2451,7 @@ export const PutResourcePolicyInput = /*@__PURE__*/ S.suspend(() =>
       T.StaticContextParams({ OperationType: { value: "control" } }),
     ),
   ),
-).annotate({
-  identifier: "PutResourcePolicyInput",
-}) as any as S.Schema<PutResourcePolicyInput>;
+).annotate({ identifier: "PutResourcePolicyInput" }) as any as S.Schema<PutResourcePolicyInput>;
 export interface PutResourcePolicyResponse {}
 export const PutResourcePolicyResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(ns),
@@ -2249,13 +2554,9 @@ export const SplitShardInput = /*@__PURE__*/ S.suspend(() =>
       T.StaticContextParams({ OperationType: { value: "control" } }),
     ),
   ),
-).annotate({
-  identifier: "SplitShardInput",
-}) as any as S.Schema<SplitShardInput>;
+).annotate({ identifier: "SplitShardInput" }) as any as S.Schema<SplitShardInput>;
 export interface SplitShardResponse {}
-export const SplitShardResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
+export const SplitShardResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "SplitShardResponse",
 }) as any as S.Schema<SplitShardResponse>;
 export interface StartStreamEncryptionInput {
@@ -2339,14 +2640,13 @@ export const StartingPosition = /*@__PURE__*/ S.suspend(() =>
     SequenceNumber: S.optional(S.String),
     Timestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
-).annotate({
-  identifier: "StartingPosition",
-}) as any as S.Schema<StartingPosition>;
+).annotate({ identifier: "StartingPosition" }) as any as S.Schema<StartingPosition>;
 export interface SubscribeToShardInput {
   ConsumerARN: string;
   StreamId?: string;
   ShardId: string;
   StartingPosition: StartingPosition;
+  DryRun?: boolean;
 }
 export const SubscribeToShardInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2354,6 +2654,7 @@ export const SubscribeToShardInput = /*@__PURE__*/ S.suspend(() =>
     StreamId: S.optional(S.String).pipe(T.ContextParam("StreamId")),
     ShardId: S.String,
     StartingPosition: StartingPosition,
+    DryRun: S.optional(S.Boolean),
   }).pipe(
     T.all(
       ns,
@@ -2366,9 +2667,7 @@ export const SubscribeToShardInput = /*@__PURE__*/ S.suspend(() =>
       T.StaticContextParams({ OperationType: { value: "data" } }),
     ),
   ),
-).annotate({
-  identifier: "SubscribeToShardInput",
-}) as any as S.Schema<SubscribeToShardInput>;
+).annotate({ identifier: "SubscribeToShardInput" }) as any as S.Schema<SubscribeToShardInput>;
 export interface SubscribeToShardEvent {
   Records: Record[];
   ContinuationSequenceNumber: string;
@@ -2382,9 +2681,7 @@ export const SubscribeToShardEvent = /*@__PURE__*/ S.suspend(() =>
     MillisBehindLatest: S.Number,
     ChildShards: S.optional(ChildShardList),
   }),
-).annotate({
-  identifier: "SubscribeToShardEvent",
-}) as any as S.Schema<SubscribeToShardEvent>;
+).annotate({ identifier: "SubscribeToShardEvent" }) as any as S.Schema<SubscribeToShardEvent>;
 export type SubscribeToShardEventStream =
   | {
       SubscribeToShardEvent: SubscribeToShardEvent;
@@ -2510,9 +2807,9 @@ export const SubscribeToShardEventStream = /*@__PURE__*/ T.EventStream(
   S.Union([
     S.Struct({ SubscribeToShardEvent: SubscribeToShardEvent }),
     S.Struct({
-      ResourceNotFoundException: S.suspend(
-        () => ResourceNotFoundException,
-      ).annotate({ identifier: "ResourceNotFoundException" }),
+      ResourceNotFoundException: S.suspend(() => ResourceNotFoundException).annotate({
+        identifier: "ResourceNotFoundException",
+      }),
     }),
     S.Struct({
       ResourceInUseException: S.suspend(() => ResourceInUseException).annotate({
@@ -2525,14 +2822,14 @@ export const SubscribeToShardEventStream = /*@__PURE__*/ T.EventStream(
       }),
     }),
     S.Struct({
-      KMSInvalidStateException: S.suspend(
-        () => KMSInvalidStateException,
-      ).annotate({ identifier: "KMSInvalidStateException" }),
+      KMSInvalidStateException: S.suspend(() => KMSInvalidStateException).annotate({
+        identifier: "KMSInvalidStateException",
+      }),
     }),
     S.Struct({
-      KMSAccessDeniedException: S.suspend(
-        () => KMSAccessDeniedException,
-      ).annotate({ identifier: "KMSAccessDeniedException" }),
+      KMSAccessDeniedException: S.suspend(() => KMSAccessDeniedException).annotate({
+        identifier: "KMSAccessDeniedException",
+      }),
     }),
     S.Struct({
       KMSNotFoundException: S.suspend(() => KMSNotFoundException).annotate({
@@ -2550,9 +2847,9 @@ export const SubscribeToShardEventStream = /*@__PURE__*/ T.EventStream(
       }),
     }),
     S.Struct({
-      InternalFailureException: S.suspend(
-        () => InternalFailureException,
-      ).annotate({ identifier: "InternalFailureException" }),
+      InternalFailureException: S.suspend(() => InternalFailureException).annotate({
+        identifier: "InternalFailureException",
+      }),
     }),
   ]),
 ) as any as S.Schema<stream.Stream<SubscribeToShardEventStream, Error, never>>;
@@ -2561,9 +2858,7 @@ export interface SubscribeToShardOutput {
 }
 export const SubscribeToShardOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ EventStream: SubscribeToShardEventStream }).pipe(ns),
-).annotate({
-  identifier: "SubscribeToShardOutput",
-}) as any as S.Schema<SubscribeToShardOutput>;
+).annotate({ identifier: "SubscribeToShardOutput" }) as any as S.Schema<SubscribeToShardOutput>;
 export interface TagResourceInput {
   Tags: { [key: string]: string | undefined };
   ResourceARN: string;
@@ -2586,13 +2881,9 @@ export const TagResourceInput = /*@__PURE__*/ S.suspend(() =>
       T.StaticContextParams({ OperationType: { value: "control" } }),
     ),
   ),
-).annotate({
-  identifier: "TagResourceInput",
-}) as any as S.Schema<TagResourceInput>;
+).annotate({ identifier: "TagResourceInput" }) as any as S.Schema<TagResourceInput>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
+export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceInput {
@@ -2617,26 +2908,19 @@ export const UntagResourceInput = /*@__PURE__*/ S.suspend(() =>
       T.StaticContextParams({ OperationType: { value: "control" } }),
     ),
   ),
-).annotate({
-  identifier: "UntagResourceInput",
-}) as any as S.Schema<UntagResourceInput>;
+).annotate({ identifier: "UntagResourceInput" }) as any as S.Schema<UntagResourceInput>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
-export type MinimumThroughputBillingCommitmentInputStatus =
-  | "ENABLED"
-  | "DISABLED"
-  | (string & {});
+export type MinimumThroughputBillingCommitmentInputStatus = "ENABLED" | "DISABLED" | (string & {});
 export const MinimumThroughputBillingCommitmentInputStatus = S.String;
 
 export interface MinimumThroughputBillingCommitmentInput {
   Status: MinimumThroughputBillingCommitmentInputStatus;
 }
-export const MinimumThroughputBillingCommitmentInput = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ Status: MinimumThroughputBillingCommitmentInputStatus }),
+export const MinimumThroughputBillingCommitmentInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ Status: MinimumThroughputBillingCommitmentInputStatus }),
 ).annotate({
   identifier: "MinimumThroughputBillingCommitmentInput",
 }) as any as S.Schema<MinimumThroughputBillingCommitmentInput>;
@@ -2644,9 +2928,7 @@ export interface UpdateAccountSettingsInput {
   MinimumThroughputBillingCommitment: MinimumThroughputBillingCommitmentInput;
 }
 export const UpdateAccountSettingsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MinimumThroughputBillingCommitment: MinimumThroughputBillingCommitmentInput,
-  }).pipe(
+  S.Struct({ MinimumThroughputBillingCommitment: MinimumThroughputBillingCommitmentInput }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/" }),
@@ -2666,13 +2948,78 @@ export interface UpdateAccountSettingsOutput {
 }
 export const UpdateAccountSettingsOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    MinimumThroughputBillingCommitment: S.optional(
-      MinimumThroughputBillingCommitmentOutput,
-    ),
+    MinimumThroughputBillingCommitment: S.optional(MinimumThroughputBillingCommitmentOutput),
   }).pipe(ns),
 ).annotate({
   identifier: "UpdateAccountSettingsOutput",
 }) as any as S.Schema<UpdateAccountSettingsOutput>;
+export interface S3DestinationUpdateInput {
+  DataFreshnessInSeconds: number;
+}
+export const S3DestinationUpdateInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ DataFreshnessInSeconds: S.Number }),
+).annotate({ identifier: "S3DestinationUpdateInput" }) as any as S.Schema<S3DestinationUpdateInput>;
+export interface S3TablesDestinationUpdateInput {
+  DataFreshnessInSeconds: number;
+}
+export const S3TablesDestinationUpdateInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ DataFreshnessInSeconds: S.Number }),
+).annotate({
+  identifier: "S3TablesDestinationUpdateInput",
+}) as any as S.Schema<S3TablesDestinationUpdateInput>;
+export interface CloudWatchLogsUpdateInput {
+  Enabled: boolean;
+  LogGroupName?: string;
+  LogStreamName?: string;
+}
+export const CloudWatchLogsUpdateInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Enabled: S.Boolean,
+    LogGroupName: S.optional(S.String),
+    LogStreamName: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "CloudWatchLogsUpdateInput",
+}) as any as S.Schema<CloudWatchLogsUpdateInput>;
+export interface ChannelLoggingUpdateInput {
+  CloudWatchLogs: CloudWatchLogsUpdateInput;
+}
+export const ChannelLoggingUpdateInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ CloudWatchLogs: CloudWatchLogsUpdateInput }),
+).annotate({
+  identifier: "ChannelLoggingUpdateInput",
+}) as any as S.Schema<ChannelLoggingUpdateInput>;
+export interface UpdateChannelInput {
+  ChannelARN: string;
+  S3DestinationConfiguration?: S3DestinationUpdateInput;
+  S3TablesDestinationConfiguration?: S3TablesDestinationUpdateInput;
+  LoggingConfiguration?: ChannelLoggingUpdateInput;
+}
+export const UpdateChannelInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ChannelARN: S.String.pipe(T.ContextParam("ChannelARN")),
+    S3DestinationConfiguration: S.optional(S3DestinationUpdateInput),
+    S3TablesDestinationConfiguration: S.optional(S3TablesDestinationUpdateInput),
+    LoggingConfiguration: S.optional(ChannelLoggingUpdateInput),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.StaticContextParams({ OperationType: { value: "control" } }),
+    ),
+  ),
+).annotate({ identifier: "UpdateChannelInput" }) as any as S.Schema<UpdateChannelInput>;
+export interface UpdateChannelOutput {
+  ChannelDescription: ChannelDescription;
+}
+export const UpdateChannelOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ ChannelDescription: ChannelDescription }).pipe(ns),
+).annotate({ identifier: "UpdateChannelOutput" }) as any as S.Schema<UpdateChannelOutput>;
 export interface UpdateMaxRecordSizeInput {
   StreamARN?: string;
   StreamId?: string;
@@ -2695,9 +3042,7 @@ export const UpdateMaxRecordSizeInput = /*@__PURE__*/ S.suspend(() =>
       T.StaticContextParams({ OperationType: { value: "control" } }),
     ),
   ),
-).annotate({
-  identifier: "UpdateMaxRecordSizeInput",
-}) as any as S.Schema<UpdateMaxRecordSizeInput>;
+).annotate({ identifier: "UpdateMaxRecordSizeInput" }) as any as S.Schema<UpdateMaxRecordSizeInput>;
 export interface UpdateMaxRecordSizeResponse {}
 export const UpdateMaxRecordSizeResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(ns),
@@ -2733,9 +3078,7 @@ export const UpdateShardCountInput = /*@__PURE__*/ S.suspend(() =>
       T.StaticContextParams({ OperationType: { value: "control" } }),
     ),
   ),
-).annotate({
-  identifier: "UpdateShardCountInput",
-}) as any as S.Schema<UpdateShardCountInput>;
+).annotate({ identifier: "UpdateShardCountInput" }) as any as S.Schema<UpdateShardCountInput>;
 export interface UpdateShardCountOutput {
   StreamName?: string;
   CurrentShardCount?: number;
@@ -2749,9 +3092,7 @@ export const UpdateShardCountOutput = /*@__PURE__*/ S.suspend(() =>
     TargetShardCount: S.optional(S.Number),
     StreamARN: S.optional(S.String),
   }).pipe(ns),
-).annotate({
-  identifier: "UpdateShardCountOutput",
-}) as any as S.Schema<UpdateShardCountOutput>;
+).annotate({ identifier: "UpdateShardCountOutput" }) as any as S.Schema<UpdateShardCountOutput>;
 export interface UpdateStreamModeInput {
   StreamARN: string;
   StreamId?: string;
@@ -2776,15 +3117,42 @@ export const UpdateStreamModeInput = /*@__PURE__*/ S.suspend(() =>
       T.StaticContextParams({ OperationType: { value: "control" } }),
     ),
   ),
-).annotate({
-  identifier: "UpdateStreamModeInput",
-}) as any as S.Schema<UpdateStreamModeInput>;
+).annotate({ identifier: "UpdateStreamModeInput" }) as any as S.Schema<UpdateStreamModeInput>;
 export interface UpdateStreamModeResponse {}
 export const UpdateStreamModeResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(ns),
+).annotate({ identifier: "UpdateStreamModeResponse" }) as any as S.Schema<UpdateStreamModeResponse>;
+export interface UpdateStreamRecordDistributionStrategyInput {
+  StreamARN: string;
+  StreamId?: string;
+  RecordDistributionStrategy: RecordDistributionStrategy;
+}
+export const UpdateStreamRecordDistributionStrategyInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    StreamARN: S.String.pipe(T.ContextParam("StreamARN")),
+    StreamId: S.optional(S.String).pipe(T.ContextParam("StreamId")),
+    RecordDistributionStrategy: RecordDistributionStrategy,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.StaticContextParams({ OperationType: { value: "control" } }),
+    ),
+  ),
 ).annotate({
-  identifier: "UpdateStreamModeResponse",
-}) as any as S.Schema<UpdateStreamModeResponse>;
+  identifier: "UpdateStreamRecordDistributionStrategyInput",
+}) as any as S.Schema<UpdateStreamRecordDistributionStrategyInput>;
+export interface UpdateStreamRecordDistributionStrategyResponse {}
+export const UpdateStreamRecordDistributionStrategyResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "UpdateStreamRecordDistributionStrategyResponse",
+}) as any as S.Schema<UpdateStreamRecordDistributionStrategyResponse>;
 export interface UpdateStreamWarmThroughputInput {
   StreamARN?: string;
   StreamName?: string;
@@ -2865,6 +3233,60 @@ export const addTagsToStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddTagsToStream",
+}));
+
+export type CreateChannelError =
+  | AccessDeniedException
+  | InvalidArgumentException
+  | KMSAccessDeniedException
+  | KMSDisabledException
+  | KMSInvalidStateException
+  | KMSNotFoundException
+  | KMSOptInRequired
+  | KMSThrottlingException
+  | LimitExceededException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Creates a channel that delivers records from a Kinesis data stream to a destination. A channel reads records from the specified stream and writes them to streaming tables on Apache Iceberg (Amazon S3 Tables) or to a general purpose Amazon S3 bucket.
+ *
+ * You must specify either `S3DestinationConfiguration` or `S3TablesDestinationConfiguration`, but not both.
+ *
+ * To use this operation, you must have permission to pass the specified service execution IAM role to Amazon Kinesis Data Streams (the `iam:PassRole` permission on that role).
+ *
+ * Creating a channel is an asynchronous operation. Upon receiving the request, Amazon Kinesis Data Streams returns immediately with the channel in the `CREATING` state. After provisioning is complete, Amazon Kinesis Data Streams sets the state to `ACTIVE`. You can use DescribeChannel to check the current state.
+ *
+ * This operation is only supported for data streams with the on-demand capacity mode.
+ *
+ * This operation has a call limit of 5 transactions per second (TPS) for each Amazon Web Services account. Exceeding 5 TPS results in a `LimitExceededException`.
+ */
+export const createChannel: API.OperationMethod<
+  CreateChannelInput,
+  CreateChannelOutput,
+  CreateChannelError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateChannelInput,
+  output: CreateChannelOutput,
+  errors: [
+    AccessDeniedException,
+    InvalidArgumentException,
+    KMSAccessDeniedException,
+    KMSDisabledException,
+    KMSInvalidStateException,
+    KMSNotFoundException,
+    KMSOptInRequired,
+    KMSThrottlingException,
+    LimitExceededException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "CreateChannel",
 }));
 
 export type CreateStreamError =
@@ -2971,6 +3393,40 @@ export const decreaseStreamRetentionPeriod: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DecreaseStreamRetentionPeriod",
+}));
+
+export type DeleteChannelError =
+  | AccessDeniedException
+  | InvalidArgumentException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Deletes the specified channel. Deleting a channel stops delivery from the source stream to the destination. Data already delivered to the destination is not deleted.
+ *
+ * A stream cannot be deleted while it has active channels. Use ListChannels with a stream filter to find the channels attached to a stream before deleting it.
+ *
+ * This operation has a call limit of 5 transactions per second (TPS) for each Amazon Web Services account. Exceeding 5 TPS results in a `LimitExceededException`.
+ */
+export const deleteChannel: API.OperationMethod<
+  DeleteChannelInput,
+  DeleteChannelResponse,
+  DeleteChannelError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteChannelInput,
+  output: DeleteChannelResponse,
+  errors: [
+    AccessDeniedException,
+    InvalidArgumentException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "DeleteChannel",
 }));
 
 export type DeleteResourcePolicyError =
@@ -3086,19 +3542,13 @@ export const deregisterStreamConsumer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeregisterStreamConsumerInput,
   output: DeregisterStreamConsumerResponse,
-  errors: [
-    InvalidArgumentException,
-    LimitExceededException,
-    ResourceNotFoundException,
-  ],
+  errors: [InvalidArgumentException, LimitExceededException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterStreamConsumer",
 }));
 
-export type DescribeAccountSettingsError =
-  | LimitExceededException
-  | CommonErrors;
+export type DescribeAccountSettingsError = LimitExceededException | CommonErrors;
 /**
  * Describes the account-level settings for Amazon Kinesis Data Streams. This operation returns information about the minimum throughput billing commitments and other account-level configurations.
  *
@@ -3116,6 +3566,40 @@ export const describeAccountSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAccountSettings",
+}));
+
+export type DescribeChannelError =
+  | AccessDeniedException
+  | InvalidArgumentException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Describes the specified channel, including its configuration and current status.
+ *
+ * Use this operation to verify that a channel reached the `ACTIVE` state after creation, or to diagnose a channel in the `FAILED` state by reading the `ChannelStatusReason`.
+ *
+ * This operation has a call limit of 5 transactions per second (TPS) for each Amazon Web Services account. Exceeding 5 TPS results in a `LimitExceededException`.
+ */
+export const describeChannel: API.OperationMethod<
+  DescribeChannelInput,
+  DescribeChannelOutput,
+  DescribeChannelError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: DescribeChannelInput,
+  output: DescribeChannelOutput,
+  errors: [
+    AccessDeniedException,
+    InvalidArgumentException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "DescribeChannel",
 }));
 
 export type DescribeLimitsError = LimitExceededException | CommonErrors;
@@ -3221,11 +3705,7 @@ export const describeStreamConsumer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DescribeStreamConsumerInput,
   output: DescribeStreamConsumerOutput,
-  errors: [
-    InvalidArgumentException,
-    LimitExceededException,
-    ResourceNotFoundException,
-  ],
+  errors: [InvalidArgumentException, LimitExceededException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeStreamConsumer",
@@ -3341,6 +3821,7 @@ export const enableEnhancedMonitoring: API.OperationMethod<
 
 export type GetRecordsError =
   | AccessDeniedException
+  | DryRunOperationException
   | ExpiredIteratorException
   | InternalFailureException
   | InvalidArgumentException
@@ -3427,6 +3908,7 @@ export const getRecords: API.OperationMethod<
   output: GetRecordsOutput,
   errors: [
     AccessDeniedException,
+    DryRunOperationException,
     ExpiredIteratorException,
     InternalFailureException,
     InvalidArgumentException,
@@ -3480,6 +3962,7 @@ export const getResourcePolicy: API.OperationMethod<
 
 export type GetShardIteratorError =
   | AccessDeniedException
+  | DryRunOperationException
   | InternalFailureException
   | InvalidArgumentException
   | ProvisionedThroughputExceededException
@@ -3540,6 +4023,7 @@ export const getShardIterator: API.OperationMethod<
   output: GetShardIteratorOutput,
   errors: [
     AccessDeniedException,
+    DryRunOperationException,
     InternalFailureException,
     InvalidArgumentException,
     ProvisionedThroughputExceededException,
@@ -3592,6 +4076,47 @@ export const increaseStreamRetentionPeriod: API.OperationMethod<
   retry: Retry,
   operationName: "IncreaseStreamRetentionPeriod",
 }));
+
+export type ListChannelsError =
+  | AccessDeniedException
+  | ExpiredNextTokenException
+  | InvalidArgumentException
+  | LimitExceededException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Lists the channels in your account. You can filter the results by source stream. The results are paginated. Use the `NextToken` value returned in the response to retrieve additional results.
+ *
+ * Use this operation to find channels before deleting a stream, or to audit the channels configured in an Amazon Web Services Region.
+ *
+ * This operation has a call limit of 5 transactions per second (TPS) for each Amazon Web Services account. Exceeding 5 TPS results in a `LimitExceededException`.
+ */
+export const listChannels: API.PaginatedOperationMethod<
+  ListChannelsInput,
+  ListChannelsOutput,
+  ListChannelsError,
+  Credentials | HttpClient.HttpClient,
+  ChannelSummary
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: ListChannelsInput,
+  output: ListChannelsOutput,
+  errors: [
+    AccessDeniedException,
+    ExpiredNextTokenException,
+    InvalidArgumentException,
+    LimitExceededException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ListChannels",
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ChannelSummaries",
+    pageSize: "MaxResults",
+  } as const,
+})) as any;
 
 export type ListShardsError =
   | AccessDeniedException
@@ -3712,19 +4237,11 @@ export const listStreams: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListStreamsInput,
   output: ListStreamsOutput,
-  errors: [
-    ExpiredNextTokenException,
-    InvalidArgumentException,
-    LimitExceededException,
-  ],
+  errors: [ExpiredNextTokenException, InvalidArgumentException, LimitExceededException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListStreams",
-  pagination: {
-    inputToken: "NextToken",
-    outputToken: "NextToken",
-    pageSize: "Limit",
-  } as const,
+  pagination: { inputToken: "NextToken", outputToken: "NextToken", pageSize: "Limit" } as const,
 })) as any;
 
 export type ListTagsForResourceError =
@@ -3870,6 +4387,7 @@ export const mergeShards: API.OperationMethod<
 
 export type PutRecordError =
   | AccessDeniedException
+  | DryRunOperationException
   | InternalFailureException
   | InvalidArgumentException
   | KMSAccessDeniedException
@@ -3939,6 +4457,7 @@ export const putRecord: API.OperationMethod<
   output: PutRecordOutput,
   errors: [
     AccessDeniedException,
+    DryRunOperationException,
     InternalFailureException,
     InvalidArgumentException,
     KMSAccessDeniedException,
@@ -3957,6 +4476,7 @@ export const putRecord: API.OperationMethod<
 
 export type PutRecordsError =
   | AccessDeniedException
+  | DryRunOperationException
   | InternalFailureException
   | InvalidArgumentException
   | KMSAccessDeniedException
@@ -4049,6 +4569,7 @@ export const putRecords: API.OperationMethod<
   output: PutRecordsOutput,
   errors: [
     AccessDeniedException,
+    DryRunOperationException,
     InternalFailureException,
     InvalidArgumentException,
     KMSAccessDeniedException,
@@ -4392,6 +4913,7 @@ export const stopStreamEncryption: API.OperationMethod<
 
 export type SubscribeToShardError =
   | AccessDeniedException
+  | DryRunOperationException
   | InvalidArgumentException
   | LimitExceededException
   | ResourceInUseException
@@ -4436,6 +4958,7 @@ export const subscribeToShard: API.OperationMethod<
   output: SubscribeToShardOutput,
   errors: [
     AccessDeniedException,
+    DryRunOperationException,
     InvalidArgumentException,
     LimitExceededException,
     ResourceInUseException,
@@ -4530,14 +5053,46 @@ export const updateAccountSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateAccountSettingsInput,
   output: UpdateAccountSettingsOutput,
+  errors: [InvalidArgumentException, LimitExceededException, ValidationException],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "UpdateAccountSettings",
+}));
+
+export type UpdateChannelError =
+  | AccessDeniedException
+  | InvalidArgumentException
+  | LimitExceededException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Updates the data freshness interval or the Amazon CloudWatch Logs configuration of an existing channel. You cannot change the destination, source stream, record format, schema, encryption configuration, or service execution role of an existing channel. To change any other setting, delete the channel and create a new one.
+ *
+ * Updating a channel is an asynchronous operation. Upon receiving the request, Amazon Kinesis Data Streams sets the channel to the `UPDATING` state and returns immediately. After the change is applied, Amazon Kinesis Data Streams sets the channel back to the `ACTIVE` state.
+ *
+ * This operation has a call limit of 5 transactions per second (TPS) for each Amazon Web Services account. Exceeding 5 TPS results in a `LimitExceededException`.
+ */
+export const updateChannel: API.OperationMethod<
+  UpdateChannelInput,
+  UpdateChannelOutput,
+  UpdateChannelError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateChannelInput,
+  output: UpdateChannelOutput,
   errors: [
+    AccessDeniedException,
     InvalidArgumentException,
     LimitExceededException,
+    ResourceInUseException,
+    ResourceNotFoundException,
     ValidationException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
-  operationName: "UpdateAccountSettings",
+  operationName: "UpdateChannel",
 }));
 
 export type UpdateMaxRecordSizeError =
@@ -4682,6 +5237,65 @@ export const updateStreamMode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateStreamMode",
+}));
+
+export type UpdateStreamRecordDistributionStrategyError =
+  | AccessDeniedException
+  | InvalidArgumentException
+  | LimitExceededException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Updates the record distribution strategy for the specified Amazon Kinesis Data Streams
+ * on-demand data stream. The record distribution strategy determines how Amazon Kinesis
+ * Data Streams distributes records across the shards in a stream.
+ *
+ * You must specify the stream using the `StreamARN` parameter.
+ *
+ * The record distribution strategy is a stream-level setting. You can switch between the
+ * following strategies at any time, and the change takes effect immediately without
+ * downtime, data loss, or disruption to producer or consumer applications:
+ *
+ * - `AUTO` – Amazon Kinesis Data Streams distributes records evenly
+ * across shards using service-managed algorithms, and ignores any partition key
+ * and `ExplicitHashKey` that a producer provides. Use this strategy for
+ * stateless workloads that do not require partition-key ordering.
+ *
+ * - `USER_PARTITION_KEY` – Producers must provide a partition key, and
+ * Amazon Kinesis Data Streams uses the partition key to determine shard placement.
+ * Records that share a partition key are sent to the same shard. This is the
+ * default strategy.
+ *
+ * This operation is only supported for data streams that use the on-demand capacity
+ * mode. Provisioned capacity mode streams do not support the record distribution strategy
+ * setting. Attempting to set `AUTO` on a provisioned stream results in an
+ * `InvalidArgumentException`.
+ *
+ * New records that arrive after the change are distributed according to the new
+ * strategy. Records already in the stream keep their original shard assignments and are
+ * not redistributed.
+ */
+export const updateStreamRecordDistributionStrategy: API.OperationMethod<
+  UpdateStreamRecordDistributionStrategyInput,
+  UpdateStreamRecordDistributionStrategyResponse,
+  UpdateStreamRecordDistributionStrategyError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateStreamRecordDistributionStrategyInput,
+  output: UpdateStreamRecordDistributionStrategyResponse,
+  errors: [
+    AccessDeniedException,
+    InvalidArgumentException,
+    LimitExceededException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "UpdateStreamRecordDistributionStrategy",
 }));
 
 export type UpdateStreamWarmThroughputError =

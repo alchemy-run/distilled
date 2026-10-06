@@ -1,16 +1,13 @@
-import * as HttpClient from "effect/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
-const svc = T.AwsApiService({
-  sdkId: "Pricing",
-  serviceShapeName: "AWSPriceListService",
-});
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
+import * as T from "../traits.ts";
+const svc = T.AwsApiService({ sdkId: "Pricing", serviceShapeName: "AWSPriceListService" });
 const auth = T.AwsAuthSigv4({ name: "pricing" });
 const ver = T.ServiceVersion("2017-10-15");
 const proto = T.AwsProtocolsAwsJson1_1();
@@ -26,14 +23,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -60,9 +53,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://api.pricing-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -70,16 +61,12 @@ const rules = T.EndpointResolver((p, _) => {
               `https://api.pricing.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
         if ("aws" === _.getAttr(PartitionResult, "name")) {
           return e(`https://api.pricing.${Region}.amazonaws.com`);
         }
-        return e(
-          `https://api.pricing.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://api.pricing.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -148,12 +135,8 @@ export const DescribeServicesRequest = /*@__PURE__*/ S.suspend(() =>
     FormatVersion: S.optional(S.String),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DescribeServicesRequest",
-}) as any as S.Schema<DescribeServicesRequest>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "DescribeServicesRequest" }) as any as S.Schema<DescribeServicesRequest>;
 export type AttributeNameList = string[];
 export const AttributeNameList = /*@__PURE__*/ S.Array(S.String);
 export interface Service {
@@ -161,10 +144,7 @@ export interface Service {
   AttributeNames?: string[];
 }
 export const Service = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ServiceCode: S.String,
-    AttributeNames: S.optional(AttributeNameList),
-  }),
+  S.Struct({ ServiceCode: S.String, AttributeNames: S.optional(AttributeNameList) }),
 ).annotate({ identifier: "Service" }) as any as S.Schema<Service>;
 export type ServiceList = Service[];
 export const ServiceList = /*@__PURE__*/ S.Array(Service);
@@ -179,9 +159,7 @@ export const DescribeServicesResponse = /*@__PURE__*/ S.suspend(() =>
     FormatVersion: S.optional(S.String),
     NextToken: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DescribeServicesResponse",
-}) as any as S.Schema<DescribeServicesResponse>;
+).annotate({ identifier: "DescribeServicesResponse" }) as any as S.Schema<DescribeServicesResponse>;
 export type GetAttributeValuesMaxResults = number;
 export interface GetAttributeValuesRequest {
   ServiceCode: string;
@@ -195,9 +173,7 @@ export const GetAttributeValuesRequest = /*@__PURE__*/ S.suspend(() =>
     AttributeName: S.String,
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "GetAttributeValuesRequest",
 }) as any as S.Schema<GetAttributeValuesRequest>;
@@ -214,10 +190,7 @@ export interface GetAttributeValuesResponse {
   NextToken?: string;
 }
 export const GetAttributeValuesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AttributeValues: S.optional(AttributeValueList),
-    NextToken: S.optional(S.String),
-  }),
+  S.Struct({ AttributeValues: S.optional(AttributeValueList), NextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "GetAttributeValuesResponse",
 }) as any as S.Schema<GetAttributeValuesResponse>;
@@ -278,12 +251,8 @@ export const GetProductsRequest = /*@__PURE__*/ S.suspend(() =>
     FormatVersion: S.optional(S.String),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "GetProductsRequest",
-}) as any as S.Schema<GetProductsRequest>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "GetProductsRequest" }) as any as S.Schema<GetProductsRequest>;
 export type SynthesizedJsonPriceListJsonItem = string;
 export type PriceListJsonItems = string[];
 export const PriceListJsonItems = /*@__PURE__*/ S.Array(S.String);
@@ -298,9 +267,7 @@ export const GetProductsResponse = /*@__PURE__*/ S.suspend(() =>
     PriceList: S.optional(PriceListJsonItems),
     NextToken: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetProductsResponse",
-}) as any as S.Schema<GetProductsResponse>;
+).annotate({ identifier: "GetProductsResponse" }) as any as S.Schema<GetProductsResponse>;
 export type ServiceCode = string;
 export type EffectiveDate = Date;
 export type RegionCode = string;
@@ -322,12 +289,8 @@ export const ListPriceListsRequest = /*@__PURE__*/ S.suspend(() =>
     CurrencyCode: S.String,
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListPriceListsRequest",
-}) as any as S.Schema<ListPriceListsRequest>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "ListPriceListsRequest" }) as any as S.Schema<ListPriceListsRequest>;
 export type FileFormats = string[];
 export const FileFormats = /*@__PURE__*/ S.Array(S.String);
 export interface PriceList {
@@ -351,13 +314,8 @@ export interface ListPriceListsResponse {
   NextToken?: string;
 }
 export const ListPriceListsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PriceLists: S.optional(PriceLists),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListPriceListsResponse",
-}) as any as S.Schema<ListPriceListsResponse>;
+  S.Struct({ PriceLists: S.optional(PriceLists), NextToken: S.optional(S.String) }),
+).annotate({ identifier: "ListPriceListsResponse" }) as any as S.Schema<ListPriceListsResponse>;
 export type ErrorMessage = string;
 export type DescribeServicesError =
   | AccessDeniedException

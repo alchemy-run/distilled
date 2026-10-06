@@ -1,21 +1,24 @@
-#!/usr/bin/env bun
+#!/usr/bin/env node
 /**
  * Renders the social cards with a local headless Chromium.
  *
- * - `bun scripts/og.ts` renders `assets/og.html` to `public/og.png`, the
- *   generic card. That file is committed, so the site build never needs a
- *   browser to have a card for `/`, `/bench` and `/shame`.
- * - `bun scripts/og.ts --all` additionally renders `assets/og-provider.html`
- *   once per provider to `public/og/<provider>.png`, and `assets/og-shame.html`
- *   to `public/og/shame.png`. Those carry patch counts and standings, which
+ * - `node scripts/og.ts` renders `assets/og.html` to
+ *   `public/og.png`, the generic card. That file is committed, so the site
+ *   build never needs a browser to have a card for `/`, `/bench` and
+ *   `/shame`.
+ * - `node scripts/og.ts --all` additionally renders
+ *   `assets/og-provider.html` once per provider to
+ *   `public/og/<provider>.png`, and `assets/og-shame.html` to
+ *   `public/og/shame.png`. Those carry patch counts and standings, which
  *   change with every patch, so they are build output rather than committed
  *   files — the site build runs this step. Without a browser it warns and
  *   skips, and `build/site-data.ts` falls back to the generic card.
  */
-import { existsSync } from "node:fs";
-import { mkdir, readdir, readFile, rm, writeFile } from "node:fs/promises";
+import { spawn } from "node:child_process";
+import { constants, existsSync } from "node:fs";
+import { access, mkdir, readdir, readFile, rm, writeFile } from "node:fs/promises";
 import { availableParallelism, homedir } from "node:os";
-import { join } from "node:path";
+import { delimiter, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import {
   collectSiteData,
@@ -46,18 +49,26 @@ const HEIGHT = 630;
 /** Width left for the provider name beside its mark, at the card's margins. */
 const NAME_SLOT = 878;
 
+/** First executable named `bin` on `PATH`, like `which`. */
+const which = async (bin: string): Promise<string | undefined> => {
+  for (const dir of (process.env.PATH ?? "").split(delimiter)) {
+    if (!dir) continue;
+    const candidate = join(dir, bin);
+    try {
+      await access(candidate, constants.X_OK);
+      return candidate;
+    } catch {}
+  }
+  return undefined;
+};
+
 const findChromium = async (): Promise<string> => {
   if (process.env.CHROMIUM) return process.env.CHROMIUM;
   const cache = join(homedir(), ".cache", "ms-playwright");
   if (existsSync(cache)) {
     for (const dir of (await readdir(cache)).sort().reverse()) {
       for (const candidate of [
-        join(
-          cache,
-          dir,
-          "chrome-headless-shell-linux64",
-          "chrome-headless-shell",
-        ),
+        join(cache, dir, "chrome-headless-shell-linux64", "chrome-headless-shell"),
         join(cache, dir, "chrome-linux64", "chrome"),
         join(cache, dir, "chrome-linux", "chrome"),
       ]) {
@@ -65,53 +76,49 @@ const findChromium = async (): Promise<string> => {
       }
     }
   }
-  for (const bin of [
-    "chromium",
-    "chromium-browser",
-    "google-chrome",
-    "google-chrome-stable",
-  ]) {
-    const found = Bun.which(bin);
+  for (const bin of ["chromium", "chromium-browser", "google-chrome", "google-chrome-stable"]) {
+    const found = await which(bin);
     if (found) return found;
   }
   throw new Error("no Chromium found; set CHROMIUM=/path/to/chrome");
 };
 
 const shoot = async (chromium: string, src: string, out: string) => {
-  const proc = Bun.spawn(
-    [
-      chromium,
-      "--headless=new",
-      "--no-sandbox",
-      "--disable-gpu",
-      "--hide-scrollbars",
-      `--force-device-scale-factor=${SCALE}`,
-      // Subpixel antialiasing would fringe the text with colour, which
-      // survives every rescale a scraper applies. Grayscale antialiasing and
-      // unhinted outlines also keep the render identical across machines.
-      "--disable-lcd-text",
-      "--font-render-hinting=none",
-      `--window-size=${WIDTH},${HEIGHT}`,
-      `--screenshot=${out}`,
-      "--virtual-time-budget=2000",
-      `file://${src}`,
-    ],
-    { stdout: "ignore", stderr: "pipe" },
-  );
-  if ((await proc.exited) !== 0) {
-    throw new Error(await new Response(proc.stderr).text());
-  }
+  const args = [
+    "--headless=new",
+    "--no-sandbox",
+    "--disable-gpu",
+    "--hide-scrollbars",
+    `--force-device-scale-factor=${SCALE}`,
+    // Subpixel antialiasing would fringe the text with colour, which
+    // survives every rescale a scraper applies. Grayscale antialiasing and
+    // unhinted outlines also keep the render identical across machines.
+    "--disable-lcd-text",
+    "--font-render-hinting=none",
+    `--window-size=${WIDTH},${HEIGHT}`,
+    `--screenshot=${out}`,
+    "--virtual-time-budget=2000",
+    `file://${src}`,
+  ];
+  await new Promise<void>((resolve, reject) => {
+    const proc = spawn(chromium, args, { stdio: ["ignore", "ignore", "pipe"] });
+    let stderr = "";
+    proc.stderr.setEncoding("utf8");
+    proc.stderr.on("data", (chunk: string) => (stderr += chunk));
+    proc.on("error", reject);
+    proc.on("close", (code) =>
+      code === 0 ? resolve() : reject(new Error(stderr || `${chromium} exited with ${code}`)),
+    );
+  });
   // Chromium reports success even when the window it screenshots is not the
   // size asked for, so read the dimensions back out of the PNG header (IHDR
   // width and height are big-endian uint32s at bytes 16 and 20).
-  const png = await Bun.file(out).bytes();
+  const png = await readFile(out);
   const header = new DataView(png.buffer, png.byteOffset);
   const rendered = [header.getUint32(16), header.getUint32(20)] as const;
   const expected = [WIDTH * SCALE, HEIGHT * SCALE] as const;
   if (rendered[0] !== expected[0] || rendered[1] !== expected[1]) {
-    throw new Error(
-      `${out}: rendered ${rendered.join("×")}, expected ${expected.join("×")}`,
-    );
+    throw new Error(`${out}: rendered ${rendered.join("×")}, expected ${expected.join("×")}`);
   }
   return { size: png.length, dimensions: rendered.join("×") };
 };
@@ -145,9 +152,7 @@ const standing = (stats: CatalogPackage["stats"]) => {
     return {
       tone: "ranked",
       badge: `RANK ${String(stats.rank).padStart(2, "0")} OF ${stats.ranked} · WALL OF SHAME`,
-      tags: `${ops} · ${fmt.format(stats.fixes)} PATCHES${
-        stats.used ? " · USED IN ALCHEMY" : ""
-      }`,
+      tags: `${ops} · ${fmt.format(stats.fixes)} PATCHES${stats.used ? " · USED IN ALCHEMY" : ""}`,
     };
   }
   return {
@@ -162,11 +167,7 @@ const markup = (icon: BrandIcon | undefined, short: string) =>
     ? `<svg viewBox="${escapeHtml(icon.viewBox)}" fill="currentColor">${icon.inner}</svg>`
     : `<span class="gram">${escapeHtml(monogram(short))}</span>`;
 
-const cardHtml = (
-  template: string,
-  pkg: CatalogPackage,
-  icon: BrandIcon | undefined,
-) => {
+const cardHtml = (template: string, pkg: CatalogPackage, icon: BrandIcon | undefined) => {
   const { tone, badge, tags } = standing(pkg.stats);
   const slots: Record<string, string> = {
     css: `file://${join(assets, "og.css")}`,
@@ -174,17 +175,12 @@ const cardHtml = (
     mark: markup(icon, pkg.short),
     name: escapeHtml(pkg.short),
     // Long names would otherwise run past the card's right margin.
-    nameSize: String(
-      Math.min(92, Math.floor(NAME_SLOT / (pkg.short.length * 0.52))),
-    ),
+    nameSize: String(Math.min(92, Math.floor(NAME_SLOT / (pkg.short.length * 0.52)))),
     install: escapeHtml(`pnpm add ${pkg.name} effect`),
     badge: escapeHtml(badge),
     tags: escapeHtml(tags),
   };
-  return template.replaceAll(
-    /\{\{(\w+)\}\}/g,
-    (whole, key: string) => slots[key] ?? whole,
-  );
+  return template.replaceAll(/\{\{(\w+)\}\}/g, (whole, key: string) => slots[key] ?? whole);
 };
 
 /** Run `task` over `items`, at most `limit` browsers at a time. */
@@ -221,11 +217,7 @@ const renderProviderCards = async (chromium: string) => {
     await pool(providers, Math.min(8, availableParallelism()), async (pkg) => {
       const src = join(scratch, `${pkg.dir}.html`);
       await writeFile(src, cardHtml(template, pkg, icons[pkg.dir]));
-      const { size } = await shoot(
-        chromium,
-        src,
-        join(cardsDir, `${pkg.dir}.png`),
-      );
+      const { size } = await shoot(chromium, src, join(cardsDir, `${pkg.dir}.png`));
       bytes += size;
     });
   } finally {
@@ -273,10 +265,7 @@ const renderShameCard = async (chromium: string) => {
   try {
     await writeFile(
       src,
-      template.replaceAll(
-        /\{\{(\w+)\}\}/g,
-        (whole, key: string) => slots[key] ?? whole,
-      ),
+      template.replaceAll(/\{\{(\w+)\}\}/g, (whole, key: string) => slots[key] ?? whole),
     );
     const out = join(cardsDir, "shame.png");
     const { size } = await shoot(chromium, src, out);
@@ -309,10 +298,6 @@ if (all) {
   await renderShameCard(chromium);
 } else {
   const out = join(publicDir, "og.png");
-  const { size, dimensions } = await shoot(
-    chromium,
-    join(assets, "og.html"),
-    out,
-  );
+  const { size, dimensions } = await shoot(chromium, join(assets, "og.html"), out);
   console.log(`wrote ${out} (${dimensions}, ${size} bytes)`);
 }

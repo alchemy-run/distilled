@@ -1,15 +1,15 @@
+import * as API from "@distilled.cloud/core/api";
+import * as S from "@distilled.cloud/core/schema";
 import * as HttpClient from "effect/http/HttpClient";
 import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
 import * as stream from "effect/Stream";
-import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveBlob } from "../sensitive.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "SageMaker Runtime HTTP2",
   serviceShapeName: "AmazonSageMakerRuntimeHttp2",
@@ -29,14 +29,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -315,9 +311,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://runtime.sagemaker-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseFIPS === false && UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -325,13 +319,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://runtime.sagemaker.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://runtime.sagemaker.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://runtime.sagemaker.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -341,26 +331,19 @@ const rules = T.EndpointResolver((p, _) => {
 export class InputValidationError
   extends /*@__PURE__*/ S.TaggedError<InputValidationError>()(
     "InputValidationError",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      ErrorCode: S.optional(S.String),
-    },
+    { message: S.optional(S.String).pipe(T.ErrorMessage()), ErrorCode: S.optional(S.String) },
     T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export class InternalServerError
   extends /*@__PURE__*/ S.TaggedError<InternalServerError>()(
     "InternalServerError",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      ErrorCode: S.optional(S.String),
-    },
+    { message: S.optional(S.String).pipe(T.ErrorMessage()), ErrorCode: S.optional(S.String) },
     T.HttpError(500),
   ).pipe(C.withServerError) {}
 export class InternalStreamFailure
-  extends /*@__PURE__*/ S.TaggedError<InternalStreamFailure>()(
-    "InternalStreamFailure",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<InternalStreamFailure>()("InternalStreamFailure", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class ModelError
   extends /*@__PURE__*/ S.TaggedError<ModelError>()(
     "ModelError",
@@ -381,10 +364,7 @@ export class ModelStreamError
 export class ServiceUnavailableError
   extends /*@__PURE__*/ S.TaggedError<ServiceUnavailableError>()(
     "ServiceUnavailableError",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      ErrorCode: S.optional(S.String),
-    },
+    { message: S.optional(S.String).pipe(T.ErrorMessage()), ErrorCode: S.optional(S.String) },
     T.HttpError(503),
   ).pipe(C.withServerError) {}
 export type SensitiveBlob = Uint8Array | redacted.Redacted<Uint8Array>;
@@ -401,9 +381,7 @@ export const RequestPayloadPart = /*@__PURE__*/ S.suspend(() =>
     CompletionState: S.optional(S.String).pipe(T.EventHeader()),
     P: S.optional(S.String).pipe(T.EventHeader()),
   }),
-).annotate({
-  identifier: "RequestPayloadPart",
-}) as any as S.Schema<RequestPayloadPart>;
+).annotate({ identifier: "RequestPayloadPart" }) as any as S.Schema<RequestPayloadPart>;
 export type RequestStreamEvent = { PayloadPart: RequestPayloadPart };
 export const RequestStreamEvent = /*@__PURE__*/ T.InputEventStream(
   S.Union([S.Struct({ PayloadPart: RequestPayloadPart })]),
@@ -415,36 +393,30 @@ export interface InvokeEndpointWithBidirectionalStreamInput {
   ModelInvocationPath?: string;
   ModelQueryString?: string;
 }
-export const InvokeEndpointWithBidirectionalStreamInput =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      EndpointName: S.String.pipe(T.HttpLabel("EndpointName")),
-      Body: RequestStreamEvent.pipe(T.HttpPayload()),
-      TargetVariant: S.optional(S.String).pipe(
-        T.HttpHeader("X-Amzn-SageMaker-Target-Variant"),
-      ),
-      ModelInvocationPath: S.optional(S.String).pipe(
-        T.HttpHeader("X-Amzn-SageMaker-Model-Invocation-Path"),
-      ),
-      ModelQueryString: S.optional(S.String).pipe(
-        T.HttpHeader("X-Amzn-SageMaker-Model-Query-String"),
-      ),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "POST",
-          uri: "/endpoints/{EndpointName}/invocations-bidirectional-stream",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const InvokeEndpointWithBidirectionalStreamInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    EndpointName: S.String.pipe(T.HttpLabel("EndpointName")),
+    Body: RequestStreamEvent.pipe(T.HttpPayload()),
+    TargetVariant: S.optional(S.String).pipe(T.HttpHeader("X-Amzn-SageMaker-Target-Variant")),
+    ModelInvocationPath: S.optional(S.String).pipe(
+      T.HttpHeader("X-Amzn-SageMaker-Model-Invocation-Path"),
     ),
-  ).annotate({
-    identifier: "InvokeEndpointWithBidirectionalStreamInput",
-  }) as any as S.Schema<InvokeEndpointWithBidirectionalStreamInput>;
+    ModelQueryString: S.optional(S.String).pipe(
+      T.HttpHeader("X-Amzn-SageMaker-Model-Query-String"),
+    ),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/endpoints/{EndpointName}/invocations-bidirectional-stream" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "InvokeEndpointWithBidirectionalStreamInput",
+}) as any as S.Schema<InvokeEndpointWithBidirectionalStreamInput>;
 export interface ResponsePayloadPart {
   Bytes?: Uint8Array | redacted.Redacted<Uint8Array>;
   DataType?: string;
@@ -458,25 +430,11 @@ export const ResponsePayloadPart = /*@__PURE__*/ S.suspend(() =>
     CompletionState: S.optional(S.String).pipe(T.EventHeader()),
     P: S.optional(S.String).pipe(T.EventHeader()),
   }),
-).annotate({
-  identifier: "ResponsePayloadPart",
-}) as any as S.Schema<ResponsePayloadPart>;
+).annotate({ identifier: "ResponsePayloadPart" }) as any as S.Schema<ResponsePayloadPart>;
 export type ResponseStreamEvent =
-  | {
-      PayloadPart: ResponsePayloadPart;
-      ModelStreamError?: never;
-      InternalStreamFailure?: never;
-    }
-  | {
-      PayloadPart?: never;
-      ModelStreamError: ModelStreamError;
-      InternalStreamFailure?: never;
-    }
-  | {
-      PayloadPart?: never;
-      ModelStreamError?: never;
-      InternalStreamFailure: InternalStreamFailure;
-    };
+  | { PayloadPart: ResponsePayloadPart; ModelStreamError?: never; InternalStreamFailure?: never }
+  | { PayloadPart?: never; ModelStreamError: ModelStreamError; InternalStreamFailure?: never }
+  | { PayloadPart?: never; ModelStreamError?: never; InternalStreamFailure: InternalStreamFailure };
 export const ResponseStreamEvent = /*@__PURE__*/ T.EventStream(
   S.Union([
     S.Struct({ PayloadPart: ResponsePayloadPart }),
@@ -496,17 +454,16 @@ export interface InvokeEndpointWithBidirectionalStreamOutput {
   Body: stream.Stream<ResponseStreamEvent, Error, never>;
   InvokedProductionVariant?: string;
 }
-export const InvokeEndpointWithBidirectionalStreamOutput =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      Body: ResponseStreamEvent.pipe(T.HttpPayload()),
-      InvokedProductionVariant: S.optional(S.String).pipe(
-        T.HttpHeader("X-Amzn-Invoked-Production-Variant"),
-      ),
-    }),
-  ).annotate({
-    identifier: "InvokeEndpointWithBidirectionalStreamOutput",
-  }) as any as S.Schema<InvokeEndpointWithBidirectionalStreamOutput>;
+export const InvokeEndpointWithBidirectionalStreamOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Body: ResponseStreamEvent.pipe(T.HttpPayload()),
+    InvokedProductionVariant: S.optional(S.String).pipe(
+      T.HttpHeader("X-Amzn-Invoked-Production-Variant"),
+    ),
+  }),
+).annotate({
+  identifier: "InvokeEndpointWithBidirectionalStreamOutput",
+}) as any as S.Schema<InvokeEndpointWithBidirectionalStreamOutput>;
 export type InvokeEndpointWithBidirectionalStreamError =
   | InputValidationError
   | InternalServerError

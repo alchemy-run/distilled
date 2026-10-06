@@ -21,6 +21,567 @@
     "com.posthog.customer_analytics#GetCustomerAnalyticsExternalAccountRequest": {
       "type": "structure",
       "members": {
+        "external_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "external_id",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "External account key: the group key the account is linked to."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.customer_analytics#ExternalAccount": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Account UUID.",
+            "smithy.api#required": {}
+          }
+        },
+        "external_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "External account key — the group key the account is linked to.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human-readable account name.",
+            "smithy.api#required": {}
+          }
+        },
+        "churned_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the account churned, or null if it has not churned.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "ignored_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When Track Rules ignored the account, or null if it is tracked.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "properties": {
+          "target": "com.posthog.customer_analytics#ExternalAccountPropertiesMap",
+          "traits": {
+            "smithy.api#documentation": "Typed account properties: external-system ids. Role assignments live under `relationships`.",
+            "smithy.api#required": {}
+          }
+        },
+        "ownership": {
+          "target": "com.posthog.customer_analytics#ExternalAccountOwnership",
+          "traits": {
+            "smithy.api#documentation": "Authority state of each relationship the project controls.",
+            "smithy.api#required": {}
+          }
+        },
+        "tags": {
+          "target": "com.posthog.customer_analytics#ExternalAccountTagsList",
+          "traits": {
+            "smithy.api#documentation": "Tag names on the account, sorted alphabetically.",
+            "smithy.api#required": {}
+          }
+        },
+        "relationships": {
+          "target": "com.posthog.customer_analytics#ExternalAccountRelationshipsMap",
+          "traits": {
+            "smithy.api#documentation": "Active relationship assignments keyed by definition name (e.g. 'CSM'). Definitions with no active assignment are omitted.",
+            "smithy.api#required": {}
+          }
+        },
+        "custom_properties": {
+          "target": "com.posthog.customer_analytics#ExternalAccountCustomPropertiesMap",
+          "traits": {
+            "smithy.api#documentation": "Every team custom property definition keyed by name, with the account's active value or null.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.customer_analytics#ExternalAccountPropertiesMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "Typed account properties: external-system ids. Role assignments live under `relationships`."
+      }
+    },
+    "com.posthog.customer_analytics#ExternalAccountOwnership": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Account UUID, the canonical identity within this project.",
+            "smithy.api#required": {}
+          }
+        },
+        "external_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "External account key: the group key the account is linked to.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Region of this PostHog instance (`us`, `eu`), or null when self-hosted.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "roles": {
+          "target": "com.posthog.customer_analytics#ExternalAccountOwnershipRolesList",
+          "traits": {
+            "smithy.api#documentation": "One entry per controlled relationship definition of the project, in name order, whether or not this account is managed under it. Empty when the project controls no relationship.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.customer_analytics#ExternalAccountRoleOwnership": {
+      "type": "structure",
+      "members": {
+        "definition_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The controlled relationship definition. Map it to the role you project; it does not change.",
+            "smithy.api#required": {}
+          }
+        },
+        "definition_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Current name of the relationship definition.",
+            "smithy.api#required": {}
+          }
+        },
+        "state": {
+          "target": "com.posthog.customer_analytics#OwnershipRoleStateEnum",
+          "traits": {
+            "smithy.api#documentation": "`unmanaged`: customer analytics does not hold authority over this relationship on this account; the holder, if any, is a legacy assignment. `assigned`: the holder is authoritative. `cleared`: the relationship is authoritatively empty. `blocked`: the relationship is managed but its holder cannot be projected; see `diagnostics` and keep the last applied value.\n\n* `unmanaged` - Unmanaged\n* `assigned` - Assigned\n* `cleared` - Cleared\n* `blocked` - Blocked",
+            "smithy.api#required": {}
+          }
+        },
+        "controlled_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When customer analytics last decided this relationship on this account; null while unmanaged.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "relationship_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The active relationship holding the role, or null when empty.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "holder": {
+          "target": "com.posthog.customer_analytics#ExternalAccountOwnershipHolder",
+          "traits": {
+            "smithy.api#documentation": "The current holder, or null.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "diagnostics": {
+          "target": "com.posthog.customer_analytics#ExternalAccountRoleOwnershipDiagnosticsList",
+          "traits": {
+            "smithy.api#documentation": "Why a managed relationship is blocked. Informational on an unmanaged one.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.customer_analytics#OwnershipRoleStateEnum": {
+      "type": "enum",
+      "members": {
+        "UNMANAGED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unmanaged"
+          }
+        },
+        "ASSIGNED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "assigned"
+          }
+        },
+        "CLEARED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cleared"
+          }
+        },
+        "BLOCKED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "blocked"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `unmanaged` - Unmanaged\n* `assigned` - Assigned\n* `cleared` - Cleared\n* `blocked` - Blocked"
+      }
+    },
+    "com.posthog.customer_analytics#ExternalAccountOwnershipHolder": {
+      "type": "structure",
+      "members": {
+        "user_id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "PostHog user id of the holder.",
+            "smithy.api#required": {}
+          }
+        },
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Current email address of the holder; null for a holder outside the organization.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Current display name of the holder; null when unset or outside the organization.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "is_organization_member": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the holder is currently a member of the project's organization.",
+            "smithy.api#required": {}
+          }
+        },
+        "is_active": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the holder's PostHog user account is active.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.customer_analytics#OwnershipRoleDiagnosticEnum": {
+      "type": "enum",
+      "members": {
+        "HOLDER_MISSING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "holder_missing"
+          }
+        },
+        "HOLDER_INACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "holder_inactive"
+          }
+        },
+        "HOLDER_NOT_IN_ORGANIZATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "holder_not_in_organization"
+          }
+        },
+        "MULTIPLE_ACTIVE_HOLDERS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "multiple_active_holders"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `holder_missing` - The active relationship has no user\n* `holder_inactive` - The holder's user account is deactivated\n* `holder_not_in_organization` - The holder is not a member of the organization\n* `multiple_active_holders` - More than one active relationship holds the role"
+      }
+    },
+    "com.posthog.customer_analytics#ExternalAccountRoleOwnershipDiagnosticsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.customer_analytics#OwnershipRoleDiagnosticEnum"
+      },
+      "traits": {
+        "smithy.api#documentation": "Why a managed relationship is blocked. Informational on an unmanaged one."
+      }
+    },
+    "com.posthog.customer_analytics#ExternalAccountOwnershipRolesList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.customer_analytics#ExternalAccountRoleOwnership"
+      },
+      "traits": {
+        "smithy.api#documentation": "One entry per controlled relationship definition of the project, in name order, whether or not this account is managed under it. Empty when the project controls no relationship."
+      }
+    },
+    "com.posthog.customer_analytics#ExternalAccountTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Tag names on the account, sorted alphabetically."
+      }
+    },
+    "com.posthog.customer_analytics#ExternalAccountAssignment": {
+      "type": "structure",
+      "members": {
+        "user_id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "PostHog user id of the assigned user.",
+            "smithy.api#required": {}
+          }
+        },
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Email address of the assigned user.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.customer_analytics#ExternalAccountRelationshipsValueList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.customer_analytics#ExternalAccountAssignment"
+      },
+      "traits": {}
+    },
+    "com.posthog.customer_analytics#ExternalAccountRelationshipsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.posthog.customer_analytics#ExternalAccountRelationshipsValueList"
+      },
+      "traits": {
+        "smithy.api#documentation": "Active relationship assignments keyed by definition name (e.g. 'CSM'). Definitions with no active assignment are omitted."
+      }
+    },
+    "com.posthog.customer_analytics#ExternalAccountCustomPropertiesMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "Every team custom property definition keyed by name, with the account's active value or null."
+      }
+    },
+    "com.posthog.customer_analytics#GetCustomerAnalyticsExternalAccount": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.customer_analytics#GetCustomerAnalyticsExternalAccountRequest"
+      },
+      "output": {
+        "target": "com.posthog.customer_analytics#ExternalAccount"
+      },
+      "errors": [
+        {
+          "target": "com.posthog.customer_analytics#BadRequest"
+        },
+        {
+          "target": "com.posthog.customer_analytics#Forbidden"
+        },
+        {
+          "target": "com.posthog.customer_analytics#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/customer_analytics/external/account",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get an external customer analytics account\n\nFetch one account by external ID with its properties, controlled relationship ownership, tags, active relationship assignments and custom property values. Accepts the team secret API token or a project secret API key with the `account:read` scope."
+      }
+    },
+    "com.posthog.customer_analytics#CreateCustomerAnalyticsExternalAccountRequestPropertiesEmailDomainsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Email domains owned by this account's company, used to match inbound touchpoints to the account."
+      }
+    },
+    "com.posthog.customer_analytics#CreateCustomerAnalyticsExternalAccountRequestPropertiesKnownEmailsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Individual email addresses pinned to this account, matched before the domain fallback."
+      }
+    },
+    "com.posthog.customer_analytics#CreateCustomerAnalyticsExternalAccountRequestProperties": {
+      "type": "structure",
+      "members": {
+        "website_domain": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Primary company website hostname used for account identity and logo lookup.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "email_domains": {
+          "target": "com.posthog.customer_analytics#CreateCustomerAnalyticsExternalAccountRequestPropertiesEmailDomainsList",
+          "traits": {
+            "smithy.api#documentation": "Email domains owned by this account's company, used to match inbound touchpoints to the account."
+          }
+        },
+        "known_emails": {
+          "target": "com.posthog.customer_analytics#CreateCustomerAnalyticsExternalAccountRequestPropertiesKnownEmailsList",
+          "traits": {
+            "smithy.api#documentation": "Individual email addresses pinned to this account, matched before the domain fallback."
+          }
+        },
+        "stripe_customer_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "hubspot_deal_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "billing_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "sfdc_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "zendesk_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "slack_channel_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "usage_dashboard_link": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "metabase_link": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Typed properties for a new account: website_domain, external system identifiers (stripe_customer_id, hubspot_deal_id, billing_id, sfdc_id, zendesk_id, slack_channel_id, usage_dashboard_link, metabase_link), email_domains and known_emails. Unknown keys are rejected. Ignored when the account already exists."
+      }
+    },
+    "com.posthog.customer_analytics#CreateCustomerAnalyticsExternalAccountRequest": {
+      "type": "structure",
+      "members": {
+        "external_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "External ID (group key) for the account. An account with this ID already existing is a no-op. Without a `name`, the account name is derived from the matching group's `name` property, falling back to this ID.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name for a new account. Ignored when the account already exists. Blank means no name.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "properties": {
+          "target": "com.posthog.customer_analytics#CreateCustomerAnalyticsExternalAccountRequestProperties",
+          "traits": {
+            "smithy.api#documentation": "Typed properties for a new account: website_domain, external system identifiers (stripe_customer_id, hubspot_deal_id, billing_id, sfdc_id, zendesk_id, slack_channel_id, usage_dashboard_link, metabase_link), email_domains and known_emails. Unknown keys are rejected. Ignored when the account already exists.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.customer_analytics#CreateCustomerAnalyticsExternalAccount": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.customer_analytics#CreateCustomerAnalyticsExternalAccountRequest"
+      },
+      "output": {
+        "target": "com.posthog.customer_analytics#ExternalAccount"
+      },
+      "errors": [
+        {
+          "target": "com.posthog.customer_analytics#BadRequest"
+        },
+        {
+          "target": "com.posthog.customer_analytics#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/customer_analytics/external/account",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create an external customer analytics account\n\nCreate an account by external ID. If the account already exists, return it unchanged with HTTP 200. Accepts the team secret API token or a project secret API key with the `account:write` scope."
+      }
+    },
+    "com.posthog.customer_analytics#GetCustomerAnalyticsExternalAccountRequest2": {
+      "type": "structure",
+      "members": {
         "assigned_only": {
           "target": "smithy.api#Boolean",
           "traits": {
@@ -47,6 +608,20 @@
           "traits": {
             "smithy.api#httpQuery": "limit",
             "smithy.api#documentation": "Maximum number of accounts to return. Values below 1 are clamped to 1; values above 100 are clamped to 100."
+          }
+        },
+        "managed_only": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "managed_only",
+            "smithy.api#documentation": "When true, return only accounts where customer analytics holds authority over at least one controlled relationship, including accounts whose managed relationships are cleared and accounts that are ignored. Authority does not end when an account is ignored, so `include_ignored` is implied."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "project_id",
+            "smithy.api#documentation": "Project ID. Required for personal API keys. Project secret API keys use their bound project."
           }
         }
       },
@@ -106,6 +681,13 @@
             "smithy.api#documentation": "When Track Rules ignored the account, or null if it is tracked.",
             "smithy.api#required": {},
             "com.distilled.openapi#nullable": {}
+          }
+        },
+        "ownership": {
+          "target": "com.posthog.customer_analytics#ExternalAccountOwnership",
+          "traits": {
+            "smithy.api#documentation": "Authority state of each relationship the project controls.",
+            "smithy.api#required": {}
           }
         },
         "relationships": {
@@ -174,10 +756,10 @@
         "smithy.api#documentation": "Accounts in this page, ordered by account id."
       }
     },
-    "com.posthog.customer_analytics#GetCustomerAnalyticsExternalAccount": {
+    "com.posthog.customer_analytics#GetCustomerAnalyticsExternalAccount2": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.customer_analytics#GetCustomerAnalyticsExternalAccountRequest"
+        "target": "com.posthog.customer_analytics#GetCustomerAnalyticsExternalAccountRequest2"
       },
       "output": {
         "target": "com.posthog.customer_analytics#ExternalAccountListPage"
@@ -188,6 +770,9 @@
         },
         {
           "target": "com.posthog.customer_analytics#Forbidden"
+        },
+        {
+          "target": "com.posthog.customer_analytics#NotFound"
         }
       ],
       "traits": {
@@ -196,7 +781,7 @@
           "uri": "/api/customer_analytics/external/accounts",
           "code": 200
         },
-        "smithy.api#documentation": "List external customer analytics accounts\n\nList tracked accounts with external IDs, lifecycle timestamps, and active relationship assignments. Set `include_ignored=true` to include ignored accounts. Requires a project secret API key with the `account:read` scope."
+        "smithy.api#documentation": "List external customer analytics accounts\n\nList tracked accounts with external IDs, lifecycle timestamps, controlled relationship ownership, and active relationship assignments. Set `include_ignored=true` to include ignored accounts and `managed_only=true` to read only the accounts customer analytics holds ownership authority for. Requires a project secret API key or personal API key with the `account:read` scope. Personal API keys also require `project_id` and return only accounts the key owner can access."
       }
     },
     "com.posthog.customer_analytics#ListAccountNotesRequestAssignedToList": {
@@ -668,7 +1253,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "Value to store, matching the definition's type: a number for number/currency/percent, a boolean for boolean, an ISO-8601 string for date/datetime, an HTTP or HTTPS URL for link properties, or text for text properties."
+        "smithy.api#documentation": "Value to store, matching the definition's type: a number for number/currency/percent, a boolean for boolean, an ISO-8601 string for date/datetime, an HTTP or HTTPS URL for link properties, or text for text properties. Null clears the current value while preserving its history."
       }
     },
     "com.posthog.customer_analytics#CreateAccountsCustomPropertyValueRequest": {
@@ -700,8 +1285,9 @@
         "value": {
           "target": "com.posthog.customer_analytics#CreateAccountsCustomPropertyValueRequestValue",
           "traits": {
-            "smithy.api#documentation": "Value to store, matching the definition's type: a number for number/currency/percent, a boolean for boolean, an ISO-8601 string for date/datetime, an HTTP or HTTPS URL for link properties, or text for text properties.",
-            "smithy.api#required": {}
+            "smithy.api#documentation": "Value to store, matching the definition's type: a number for number/currency/percent, a boolean for boolean, an ISO-8601 string for date/datetime, an HTTP or HTTPS URL for link properties, or text for text properties. Null clears the current value while preserving its history.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
           }
         }
       },
@@ -862,7 +1448,7 @@
         "content": {
           "target": "smithy.api#Document",
           "traits": {
-            "smithy.api#documentation": "Notebook content as a ProseMirror JSON document structure."
+            "smithy.api#documentation": "Notebook content as a ProseMirror JSON document. On create, the server stores it as a markdown notebook."
           }
         },
         "text_content": {
@@ -951,7 +1537,7 @@
         "content": {
           "target": "smithy.api#Document",
           "traits": {
-            "smithy.api#documentation": "Notebook content as a ProseMirror JSON document structure."
+            "smithy.api#documentation": "Notebook content as a ProseMirror JSON document. On create, the server stores it as a markdown notebook."
           }
         },
         "text_content": {
@@ -1146,6 +1732,14 @@
             "smithy.api#required": {},
             "com.distilled.openapi#nullable": {}
           }
+        },
+        "source": {
+          "target": "com.posthog.customer_analytics#AccountRelationshipSourceEnum",
+          "traits": {
+            "smithy.api#documentation": "Which kind of writer made this assignment; null on rows older than provenance tracking.\n\n* `human` - Human\n* `workflow` - Workflow\n* `ai` - AI\n* `salesforce_claim` - Salesforce claim\n* `migration` - Migration",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
         }
       },
       "traits": {
@@ -1181,6 +1775,13 @@
           "traits": {
             "smithy.api#documentation": "Whether only one user can hold this relationship per account at a time, e.g. a single CSM per account."
           }
+        },
+        "is_controlled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether customer analytics can take control of this relationship per account. Rows under a controlled relationship can't be deleted. On an account where control has started, only a person can change the relationship and an empty relationship is a deliberate decision. Set by project operators, not through this API.",
+            "smithy.api#required": {}
+          }
         }
       },
       "traits": {
@@ -1207,6 +1808,44 @@
       },
       "traits": {
         "smithy.api#documentation": "A user assigned to an account relationship (read shape)."
+      }
+    },
+    "com.posthog.customer_analytics#AccountRelationshipSourceEnum": {
+      "type": "enum",
+      "members": {
+        "HUMAN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "human"
+          }
+        },
+        "WORKFLOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "workflow"
+          }
+        },
+        "AI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ai"
+          }
+        },
+        "SALESFORCE_CLAIM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "salesforce_claim"
+          }
+        },
+        "MIGRATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "migration"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `human` - Human\n* `workflow` - Workflow\n* `ai` - AI\n* `salesforce_claim` - Salesforce claim\n* `migration` - Migration"
       }
     },
     "com.posthog.customer_analytics#ListAccountsRelationshipsResponseBodyList": {
@@ -1994,12 +2633,31 @@
         ]
       }
     },
+    "com.posthog.customer_analytics#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
     "com.posthog.customer_analytics#CustomerAnalytics": {
       "type": "service",
       "version": "1.0.0",
       "operations": [
         {
           "target": "com.posthog.customer_analytics#GetCustomerAnalyticsExternalAccount"
+        },
+        {
+          "target": "com.posthog.customer_analytics#CreateCustomerAnalyticsExternalAccount"
+        },
+        {
+          "target": "com.posthog.customer_analytics#GetCustomerAnalyticsExternalAccount2"
         },
         {
           "target": "com.posthog.customer_analytics#ListAccountNotes"

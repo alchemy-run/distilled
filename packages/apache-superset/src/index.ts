@@ -9,7 +9,7 @@
  * ```ts
  * import * as ApacheSuperset from "@distilled.cloud/apache-superset";
  *
- * const dashboards = yield* ApacheSuperset.Services.superset.getApiV1Dashboard({});
+ * const dashboards = yield* ApacheSuperset.Services.superset.listDashboard({});
  * ```
  */
 export * from "./credentials.ts";
@@ -26,6 +26,7 @@ export * as Services from "./services/index.ts";
 export * from "./services/superset.ts";
 export {
   BadRequest,
+  Conflict,
   Forbidden,
   NotFound,
   UnprocessableEntity,

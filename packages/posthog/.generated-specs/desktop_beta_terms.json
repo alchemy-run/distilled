@@ -1,0 +1,114 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.posthog.desktop_beta_terms#ListDesktopBetaTermsRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.desktop_beta_terms#DesktopBetaTermsAcceptanceDTO": {
+      "type": "structure",
+      "members": {
+        "is_desktop_beta_terms_accepted": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the organization has accepted the PostHog Desktop beta terms.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.desktop_beta_terms#ListDesktopBetaTerms": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.desktop_beta_terms#ListDesktopBetaTermsRequest"
+      },
+      "output": {
+        "target": "com.posthog.desktop_beta_terms#DesktopBetaTermsAcceptanceDTO"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/desktop_beta_terms/",
+          "code": 200
+        }
+      }
+    },
+    "com.posthog.desktop_beta_terms#CreateDesktopBetaTermRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.desktop_beta_terms#CreateDesktopBetaTerm": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.desktop_beta_terms#CreateDesktopBetaTermRequest"
+      },
+      "output": {
+        "target": "com.posthog.desktop_beta_terms#DesktopBetaTermsAcceptanceDTO"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/desktop_beta_terms/",
+          "code": 200
+        }
+      }
+    },
+    "com.posthog.desktop_beta_terms#DesktopBetaTerms": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.posthog.desktop_beta_terms#ListDesktopBetaTerms"
+        },
+        {
+          "target": "com.posthog.desktop_beta_terms#CreateDesktopBetaTerm"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "PostHog API"
+      }
+    }
+  }
+}

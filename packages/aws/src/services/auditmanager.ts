@@ -1,14 +1,14 @@
+import * as API from "@distilled.cloud/core/api";
+import * as S from "@distilled.cloud/core/schema";
 import * as HttpClient from "effect/http/HttpClient";
 import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
-import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "AuditManager",
   serviceShapeName: "BedrockAssessmentManagerLambda",
@@ -28,14 +28,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -62,9 +58,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://auditmanager-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -72,13 +66,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://auditmanager.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://auditmanager.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://auditmanager.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -107,10 +97,7 @@ export class AuditManagerMaintenanceMode
         }),
       ),
     },
-    T.SyntheticError({
-      from: "ValidationException",
-      message: { includes: "maintenance mode" },
-    }),
+    T.SyntheticError({ from: "ValidationException", message: { includes: "maintenance mode" } }),
   ).pipe(C.withBadRequestError) {}
 export class InternalServerException
   extends /*@__PURE__*/ S.TaggedError<InternalServerException>()(
@@ -121,11 +108,7 @@ export class InternalServerException
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",
-    {
-      message: S.String.pipe(T.ErrorMessage()),
-      resourceId: S.String,
-      resourceType: S.String,
-    },
+    { message: S.String.pipe(T.ErrorMessage()), resourceId: S.String, resourceType: S.String },
     T.HttpError(404),
   ).pipe(C.withBadRequestError) {}
 export class ServiceQuotaExceededException
@@ -163,32 +146,29 @@ export interface AssociateAssessmentReportEvidenceFolderRequest {
   assessmentId: string;
   evidenceFolderId: string;
 }
-export const AssociateAssessmentReportEvidenceFolderRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      assessmentId: S.String.pipe(T.HttpLabel("assessmentId")),
-      evidenceFolderId: S.String,
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "PUT",
-          uri: "/assessments/{assessmentId}/associateToAssessmentReport",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const AssociateAssessmentReportEvidenceFolderRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    assessmentId: S.String.pipe(T.HttpLabel("assessmentId")),
+    evidenceFolderId: S.String,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/assessments/{assessmentId}/associateToAssessmentReport" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
-  ).annotate({
-    identifier: "AssociateAssessmentReportEvidenceFolderRequest",
-  }) as any as S.Schema<AssociateAssessmentReportEvidenceFolderRequest>;
+  ),
+).annotate({
+  identifier: "AssociateAssessmentReportEvidenceFolderRequest",
+}) as any as S.Schema<AssociateAssessmentReportEvidenceFolderRequest>;
 export interface AssociateAssessmentReportEvidenceFolderResponse {}
-export const AssociateAssessmentReportEvidenceFolderResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-    identifier: "AssociateAssessmentReportEvidenceFolderResponse",
-  }) as any as S.Schema<AssociateAssessmentReportEvidenceFolderResponse>;
+export const AssociateAssessmentReportEvidenceFolderResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "AssociateAssessmentReportEvidenceFolderResponse",
+}) as any as S.Schema<AssociateAssessmentReportEvidenceFolderResponse>;
 export type EvidenceIds = string[];
 export const EvidenceIds = /*@__PURE__*/ S.Array(S.String);
 export interface BatchAssociateAssessmentReportEvidenceRequest {
@@ -196,28 +176,27 @@ export interface BatchAssociateAssessmentReportEvidenceRequest {
   evidenceFolderId: string;
   evidenceIds: string[];
 }
-export const BatchAssociateAssessmentReportEvidenceRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      assessmentId: S.String.pipe(T.HttpLabel("assessmentId")),
-      evidenceFolderId: S.String,
-      evidenceIds: EvidenceIds,
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "PUT",
-          uri: "/assessments/{assessmentId}/batchAssociateToAssessmentReport",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const BatchAssociateAssessmentReportEvidenceRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    assessmentId: S.String.pipe(T.HttpLabel("assessmentId")),
+    evidenceFolderId: S.String,
+    evidenceIds: EvidenceIds,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/assessments/{assessmentId}/batchAssociateToAssessmentReport",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
-  ).annotate({
-    identifier: "BatchAssociateAssessmentReportEvidenceRequest",
-  }) as any as S.Schema<BatchAssociateAssessmentReportEvidenceRequest>;
+  ),
+).annotate({
+  identifier: "BatchAssociateAssessmentReportEvidenceRequest",
+}) as any as S.Schema<BatchAssociateAssessmentReportEvidenceRequest>;
 export type ErrorCode = string;
 export type ErrorMessage = string;
 export interface AssessmentReportEvidenceError {
@@ -235,22 +214,19 @@ export const AssessmentReportEvidenceError = /*@__PURE__*/ S.suspend(() =>
   identifier: "AssessmentReportEvidenceError",
 }) as any as S.Schema<AssessmentReportEvidenceError>;
 export type AssessmentReportEvidenceErrors = AssessmentReportEvidenceError[];
-export const AssessmentReportEvidenceErrors = /*@__PURE__*/ S.Array(
-  AssessmentReportEvidenceError,
-);
+export const AssessmentReportEvidenceErrors = /*@__PURE__*/ S.Array(AssessmentReportEvidenceError);
 export interface BatchAssociateAssessmentReportEvidenceResponse {
   evidenceIds?: string[];
   errors?: AssessmentReportEvidenceError[];
 }
-export const BatchAssociateAssessmentReportEvidenceResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      evidenceIds: S.optional(EvidenceIds),
-      errors: S.optional(AssessmentReportEvidenceErrors),
-    }),
-  ).annotate({
-    identifier: "BatchAssociateAssessmentReportEvidenceResponse",
-  }) as any as S.Schema<BatchAssociateAssessmentReportEvidenceResponse>;
+export const BatchAssociateAssessmentReportEvidenceResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    evidenceIds: S.optional(EvidenceIds),
+    errors: S.optional(AssessmentReportEvidenceErrors),
+  }),
+).annotate({
+  identifier: "BatchAssociateAssessmentReportEvidenceResponse",
+}) as any as S.Schema<BatchAssociateAssessmentReportEvidenceResponse>;
 export type DelegationComment = string | redacted.Redacted<string>;
 export type ControlSetId = string;
 export type IamArn = string;
@@ -270,44 +246,32 @@ export const CreateDelegationRequest = /*@__PURE__*/ S.suspend(() =>
     roleArn: S.optional(S.String),
     roleType: S.optional(RoleType),
   }),
-).annotate({
-  identifier: "CreateDelegationRequest",
-}) as any as S.Schema<CreateDelegationRequest>;
+).annotate({ identifier: "CreateDelegationRequest" }) as any as S.Schema<CreateDelegationRequest>;
 export type CreateDelegationRequests = CreateDelegationRequest[];
-export const CreateDelegationRequests = /*@__PURE__*/ S.Array(
-  CreateDelegationRequest,
-);
+export const CreateDelegationRequests = /*@__PURE__*/ S.Array(CreateDelegationRequest);
 export interface BatchCreateDelegationByAssessmentRequest {
   createDelegationRequests: CreateDelegationRequest[];
   assessmentId: string;
 }
-export const BatchCreateDelegationByAssessmentRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      createDelegationRequests: CreateDelegationRequests,
-      assessmentId: S.String.pipe(T.HttpLabel("assessmentId")),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "POST",
-          uri: "/assessments/{assessmentId}/delegations",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const BatchCreateDelegationByAssessmentRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    createDelegationRequests: CreateDelegationRequests,
+    assessmentId: S.String.pipe(T.HttpLabel("assessmentId")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/assessments/{assessmentId}/delegations" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "BatchCreateDelegationByAssessmentRequest",
 }) as any as S.Schema<BatchCreateDelegationByAssessmentRequest>;
 export type AssessmentName = string | redacted.Redacted<string>;
-export type DelegationStatus =
-  | "IN_PROGRESS"
-  | "UNDER_REVIEW"
-  | "COMPLETE"
-  | (string & {});
+export type DelegationStatus = "IN_PROGRESS" | "UNDER_REVIEW" | "COMPLETE" | (string & {});
 export const DelegationStatus = S.String;
 
 export type CreatedBy = string | redacted.Redacted<string>;
@@ -346,18 +310,16 @@ export interface BatchCreateDelegationByAssessmentError_ {
   errorCode?: string;
   errorMessage?: string;
 }
-export const BatchCreateDelegationByAssessmentError_ = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      createDelegationRequest: S.optional(CreateDelegationRequest),
-      errorCode: S.optional(S.String),
-      errorMessage: S.optional(S.String),
-    }),
+export const BatchCreateDelegationByAssessmentError_ = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    createDelegationRequest: S.optional(CreateDelegationRequest),
+    errorCode: S.optional(S.String),
+    errorMessage: S.optional(S.String),
+  }),
 ).annotate({
   identifier: "BatchCreateDelegationByAssessmentError",
 }) as any as S.Schema<BatchCreateDelegationByAssessmentError_>;
-export type BatchCreateDelegationByAssessmentErrors =
-  BatchCreateDelegationByAssessmentError_[];
+export type BatchCreateDelegationByAssessmentErrors = BatchCreateDelegationByAssessmentError_[];
 export const BatchCreateDelegationByAssessmentErrors = /*@__PURE__*/ S.Array(
   BatchCreateDelegationByAssessmentError_,
 );
@@ -365,39 +327,34 @@ export interface BatchCreateDelegationByAssessmentResponse {
   delegations?: Delegation[];
   errors?: BatchCreateDelegationByAssessmentError_[];
 }
-export const BatchCreateDelegationByAssessmentResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      delegations: S.optional(Delegations),
-      errors: S.optional(BatchCreateDelegationByAssessmentErrors),
-    }),
-  ).annotate({
-    identifier: "BatchCreateDelegationByAssessmentResponse",
-  }) as any as S.Schema<BatchCreateDelegationByAssessmentResponse>;
+export const BatchCreateDelegationByAssessmentResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    delegations: S.optional(Delegations),
+    errors: S.optional(BatchCreateDelegationByAssessmentErrors),
+  }),
+).annotate({
+  identifier: "BatchCreateDelegationByAssessmentResponse",
+}) as any as S.Schema<BatchCreateDelegationByAssessmentResponse>;
 export type DelegationIds = string[];
 export const DelegationIds = /*@__PURE__*/ S.Array(S.String);
 export interface BatchDeleteDelegationByAssessmentRequest {
   delegationIds: string[];
   assessmentId: string;
 }
-export const BatchDeleteDelegationByAssessmentRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      delegationIds: DelegationIds,
-      assessmentId: S.String.pipe(T.HttpLabel("assessmentId")),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "PUT",
-          uri: "/assessments/{assessmentId}/delegations",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const BatchDeleteDelegationByAssessmentRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    delegationIds: DelegationIds,
+    assessmentId: S.String.pipe(T.HttpLabel("assessmentId")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/assessments/{assessmentId}/delegations" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "BatchDeleteDelegationByAssessmentRequest",
 }) as any as S.Schema<BatchDeleteDelegationByAssessmentRequest>;
@@ -406,70 +363,65 @@ export interface BatchDeleteDelegationByAssessmentError_ {
   errorCode?: string;
   errorMessage?: string;
 }
-export const BatchDeleteDelegationByAssessmentError_ = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      delegationId: S.optional(S.String),
-      errorCode: S.optional(S.String),
-      errorMessage: S.optional(S.String),
-    }),
+export const BatchDeleteDelegationByAssessmentError_ = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    delegationId: S.optional(S.String),
+    errorCode: S.optional(S.String),
+    errorMessage: S.optional(S.String),
+  }),
 ).annotate({
   identifier: "BatchDeleteDelegationByAssessmentError",
 }) as any as S.Schema<BatchDeleteDelegationByAssessmentError_>;
-export type BatchDeleteDelegationByAssessmentErrors =
-  BatchDeleteDelegationByAssessmentError_[];
+export type BatchDeleteDelegationByAssessmentErrors = BatchDeleteDelegationByAssessmentError_[];
 export const BatchDeleteDelegationByAssessmentErrors = /*@__PURE__*/ S.Array(
   BatchDeleteDelegationByAssessmentError_,
 );
 export interface BatchDeleteDelegationByAssessmentResponse {
   errors?: BatchDeleteDelegationByAssessmentError_[];
 }
-export const BatchDeleteDelegationByAssessmentResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ errors: S.optional(BatchDeleteDelegationByAssessmentErrors) }),
-  ).annotate({
-    identifier: "BatchDeleteDelegationByAssessmentResponse",
-  }) as any as S.Schema<BatchDeleteDelegationByAssessmentResponse>;
+export const BatchDeleteDelegationByAssessmentResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ errors: S.optional(BatchDeleteDelegationByAssessmentErrors) }),
+).annotate({
+  identifier: "BatchDeleteDelegationByAssessmentResponse",
+}) as any as S.Schema<BatchDeleteDelegationByAssessmentResponse>;
 export interface BatchDisassociateAssessmentReportEvidenceRequest {
   assessmentId: string;
   evidenceFolderId: string;
   evidenceIds: string[];
 }
-export const BatchDisassociateAssessmentReportEvidenceRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      assessmentId: S.String.pipe(T.HttpLabel("assessmentId")),
-      evidenceFolderId: S.String,
-      evidenceIds: EvidenceIds,
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "PUT",
-          uri: "/assessments/{assessmentId}/batchDisassociateFromAssessmentReport",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const BatchDisassociateAssessmentReportEvidenceRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    assessmentId: S.String.pipe(T.HttpLabel("assessmentId")),
+    evidenceFolderId: S.String,
+    evidenceIds: EvidenceIds,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/assessments/{assessmentId}/batchDisassociateFromAssessmentReport",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
-  ).annotate({
-    identifier: "BatchDisassociateAssessmentReportEvidenceRequest",
-  }) as any as S.Schema<BatchDisassociateAssessmentReportEvidenceRequest>;
+  ),
+).annotate({
+  identifier: "BatchDisassociateAssessmentReportEvidenceRequest",
+}) as any as S.Schema<BatchDisassociateAssessmentReportEvidenceRequest>;
 export interface BatchDisassociateAssessmentReportEvidenceResponse {
   evidenceIds?: string[];
   errors?: AssessmentReportEvidenceError[];
 }
-export const BatchDisassociateAssessmentReportEvidenceResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      evidenceIds: S.optional(EvidenceIds),
-      errors: S.optional(AssessmentReportEvidenceErrors),
-    }),
-  ).annotate({
-    identifier: "BatchDisassociateAssessmentReportEvidenceResponse",
-  }) as any as S.Schema<BatchDisassociateAssessmentReportEvidenceResponse>;
+export const BatchDisassociateAssessmentReportEvidenceResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    evidenceIds: S.optional(EvidenceIds),
+    errors: S.optional(AssessmentReportEvidenceErrors),
+  }),
+).annotate({
+  identifier: "BatchDisassociateAssessmentReportEvidenceResponse",
+}) as any as S.Schema<BatchDisassociateAssessmentReportEvidenceResponse>;
 export type S3Url = string;
 export type ManualEvidenceTextResponse = string | redacted.Redacted<string>;
 export type ManualEvidenceLocalFileName = string | redacted.Redacted<string>;
@@ -493,59 +445,55 @@ export interface BatchImportEvidenceToAssessmentControlRequest {
   controlId: string;
   manualEvidence: ManualEvidence[];
 }
-export const BatchImportEvidenceToAssessmentControlRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      assessmentId: S.String.pipe(T.HttpLabel("assessmentId")),
-      controlSetId: S.String.pipe(T.HttpLabel("controlSetId")),
-      controlId: S.String.pipe(T.HttpLabel("controlId")),
-      manualEvidence: ManualEvidenceList,
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "POST",
-          uri: "/assessments/{assessmentId}/controlSets/{controlSetId}/controls/{controlId}/evidence",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const BatchImportEvidenceToAssessmentControlRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    assessmentId: S.String.pipe(T.HttpLabel("assessmentId")),
+    controlSetId: S.String.pipe(T.HttpLabel("controlSetId")),
+    controlId: S.String.pipe(T.HttpLabel("controlId")),
+    manualEvidence: ManualEvidenceList,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/assessments/{assessmentId}/controlSets/{controlSetId}/controls/{controlId}/evidence",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
-  ).annotate({
-    identifier: "BatchImportEvidenceToAssessmentControlRequest",
-  }) as any as S.Schema<BatchImportEvidenceToAssessmentControlRequest>;
+  ),
+).annotate({
+  identifier: "BatchImportEvidenceToAssessmentControlRequest",
+}) as any as S.Schema<BatchImportEvidenceToAssessmentControlRequest>;
 export interface BatchImportEvidenceToAssessmentControlError_ {
   manualEvidence?: ManualEvidence;
   errorCode?: string;
   errorMessage?: string;
 }
-export const BatchImportEvidenceToAssessmentControlError_ =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      manualEvidence: S.optional(ManualEvidence),
-      errorCode: S.optional(S.String),
-      errorMessage: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "BatchImportEvidenceToAssessmentControlError",
-  }) as any as S.Schema<BatchImportEvidenceToAssessmentControlError_>;
+export const BatchImportEvidenceToAssessmentControlError_ = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    manualEvidence: S.optional(ManualEvidence),
+    errorCode: S.optional(S.String),
+    errorMessage: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "BatchImportEvidenceToAssessmentControlError",
+}) as any as S.Schema<BatchImportEvidenceToAssessmentControlError_>;
 export type BatchImportEvidenceToAssessmentControlErrors =
   BatchImportEvidenceToAssessmentControlError_[];
-export const BatchImportEvidenceToAssessmentControlErrors =
-  /*@__PURE__*/ S.Array(BatchImportEvidenceToAssessmentControlError_);
+export const BatchImportEvidenceToAssessmentControlErrors = /*@__PURE__*/ S.Array(
+  BatchImportEvidenceToAssessmentControlError_,
+);
 export interface BatchImportEvidenceToAssessmentControlResponse {
   errors?: BatchImportEvidenceToAssessmentControlError_[];
 }
-export const BatchImportEvidenceToAssessmentControlResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      errors: S.optional(BatchImportEvidenceToAssessmentControlErrors),
-    }),
-  ).annotate({
-    identifier: "BatchImportEvidenceToAssessmentControlResponse",
-  }) as any as S.Schema<BatchImportEvidenceToAssessmentControlResponse>;
+export const BatchImportEvidenceToAssessmentControlResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ errors: S.optional(BatchImportEvidenceToAssessmentControlErrors) }),
+).annotate({
+  identifier: "BatchImportEvidenceToAssessmentControlResponse",
+}) as any as S.Schema<BatchImportEvidenceToAssessmentControlResponse>;
 export type AssessmentDescription = string | redacted.Redacted<string>;
 export type AssessmentReportDestinationType = "S3" | (string & {});
 export const AssessmentReportDestinationType = S.String;
@@ -593,10 +541,7 @@ export interface Scope {
   awsServices?: AWSService[];
 }
 export const Scope = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    awsAccounts: S.optional(AWSAccounts),
-    awsServices: S.optional(AWSServices),
-  }),
+  S.Struct({ awsAccounts: S.optional(AWSAccounts), awsServices: S.optional(AWSServices) }),
 ).annotate({ identifier: "Scope" }) as any as S.Schema<Scope>;
 export interface Role {
   roleType: RoleType;
@@ -610,10 +555,7 @@ export const Roles = /*@__PURE__*/ S.Array(Role);
 export type TagKey = string;
 export type TagValue = string;
 export type TagMap = { [key: string]: string | undefined };
-export const TagMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const TagMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface CreateAssessmentRequest {
   name: string | redacted.Redacted<string>;
   description?: string | redacted.Redacted<string>;
@@ -632,19 +574,8 @@ export const CreateAssessmentRequest = /*@__PURE__*/ S.suspend(() =>
     roles: Roles,
     frameworkId: S.String,
     tags: S.optional(TagMap),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/assessments" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateAssessmentRequest",
-}) as any as S.Schema<CreateAssessmentRequest>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/assessments" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "CreateAssessmentRequest" }) as any as S.Schema<CreateAssessmentRequest>;
 export type AuditManagerArn = string;
 export type ComplianceType = string | redacted.Redacted<string>;
 export type AssessmentStatus = "ACTIVE" | "INACTIVE" | (string & {});
@@ -677,9 +608,7 @@ export const AssessmentMetadata = /*@__PURE__*/ S.suspend(() =>
     creationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     lastUpdated: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
-).annotate({
-  identifier: "AssessmentMetadata",
-}) as any as S.Schema<AssessmentMetadata>;
+).annotate({ identifier: "AssessmentMetadata" }) as any as S.Schema<AssessmentMetadata>;
 export type AssessmentFrameworkDescription = string;
 export type Filename = string;
 export interface FrameworkMetadata {
@@ -695,32 +624,17 @@ export const FrameworkMetadata = /*@__PURE__*/ S.suspend(() =>
     logo: S.optional(S.String),
     complianceType: S.optional(SensitiveString),
   }),
-).annotate({
-  identifier: "FrameworkMetadata",
-}) as any as S.Schema<FrameworkMetadata>;
+).annotate({ identifier: "FrameworkMetadata" }) as any as S.Schema<FrameworkMetadata>;
 export type NonEmptyString = string;
-export type ControlSetStatus =
-  | "ACTIVE"
-  | "UNDER_REVIEW"
-  | "REVIEWED"
-  | (string & {});
+export type ControlSetStatus = "ACTIVE" | "UNDER_REVIEW" | "REVIEWED" | (string & {});
 export const ControlSetStatus = S.String;
 
 export type ControlName = string;
 export type ControlDescription = string | redacted.Redacted<string>;
-export type ControlStatus =
-  | "UNDER_REVIEW"
-  | "REVIEWED"
-  | "INACTIVE"
-  | (string & {});
+export type ControlStatus = "UNDER_REVIEW" | "REVIEWED" | "INACTIVE" | (string & {});
 export const ControlStatus = S.String;
 
-export type ControlResponse =
-  | "MANUAL"
-  | "AUTOMATE"
-  | "DEFER"
-  | "IGNORE"
-  | (string & {});
+export type ControlResponse = "MANUAL" | "AUTOMATE" | "DEFER" | "IGNORE" | (string & {});
 export const ControlResponse = S.String;
 
 export type Username = string | redacted.Redacted<string>;
@@ -764,9 +678,7 @@ export const AssessmentControl = /*@__PURE__*/ S.suspend(() =>
     evidenceCount: S.optional(S.Number),
     assessmentReportEvidenceCount: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "AssessmentControl",
-}) as any as S.Schema<AssessmentControl>;
+).annotate({ identifier: "AssessmentControl" }) as any as S.Schema<AssessmentControl>;
 export type AssessmentControls = AssessmentControl[];
 export const AssessmentControls = /*@__PURE__*/ S.Array(AssessmentControl);
 export interface AssessmentControlSet {
@@ -790,12 +702,9 @@ export const AssessmentControlSet = /*@__PURE__*/ S.suspend(() =>
     systemEvidenceCount: S.optional(S.Number),
     manualEvidenceCount: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "AssessmentControlSet",
-}) as any as S.Schema<AssessmentControlSet>;
+).annotate({ identifier: "AssessmentControlSet" }) as any as S.Schema<AssessmentControlSet>;
 export type AssessmentControlSets = AssessmentControlSet[];
-export const AssessmentControlSets =
-  /*@__PURE__*/ S.Array(AssessmentControlSet);
+export const AssessmentControlSets = /*@__PURE__*/ S.Array(AssessmentControlSet);
 export interface AssessmentFramework {
   id?: string;
   arn?: string;
@@ -809,9 +718,7 @@ export const AssessmentFramework = /*@__PURE__*/ S.suspend(() =>
     metadata: S.optional(FrameworkMetadata),
     controlSets: S.optional(AssessmentControlSets),
   }),
-).annotate({
-  identifier: "AssessmentFramework",
-}) as any as S.Schema<AssessmentFramework>;
+).annotate({ identifier: "AssessmentFramework" }) as any as S.Schema<AssessmentFramework>;
 export interface Assessment {
   arn?: string;
   awsAccount?: AWSAccount;
@@ -833,9 +740,7 @@ export interface CreateAssessmentResponse {
 }
 export const CreateAssessmentResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ assessment: S.optional(Assessment) }),
-).annotate({
-  identifier: "CreateAssessmentResponse",
-}) as any as S.Schema<CreateAssessmentResponse>;
+).annotate({ identifier: "CreateAssessmentResponse" }) as any as S.Schema<CreateAssessmentResponse>;
 export type FrameworkName = string;
 export type FrameworkDescription = string;
 export type ControlSetName = string;
@@ -847,8 +752,7 @@ export const CreateAssessmentFrameworkControl = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "CreateAssessmentFrameworkControl",
 }) as any as S.Schema<CreateAssessmentFrameworkControl>;
-export type CreateAssessmentFrameworkControls =
-  CreateAssessmentFrameworkControl[];
+export type CreateAssessmentFrameworkControls = CreateAssessmentFrameworkControl[];
 export const CreateAssessmentFrameworkControls = /*@__PURE__*/ S.Array(
   CreateAssessmentFrameworkControl,
 );
@@ -857,15 +761,11 @@ export interface CreateAssessmentFrameworkControlSet {
   controls?: CreateAssessmentFrameworkControl[];
 }
 export const CreateAssessmentFrameworkControlSet = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.String,
-    controls: S.optional(CreateAssessmentFrameworkControls),
-  }),
+  S.Struct({ name: S.String, controls: S.optional(CreateAssessmentFrameworkControls) }),
 ).annotate({
   identifier: "CreateAssessmentFrameworkControlSet",
 }) as any as S.Schema<CreateAssessmentFrameworkControlSet>;
-export type CreateAssessmentFrameworkControlSets =
-  CreateAssessmentFrameworkControlSet[];
+export type CreateAssessmentFrameworkControlSets = CreateAssessmentFrameworkControlSet[];
 export const CreateAssessmentFrameworkControlSets = /*@__PURE__*/ S.Array(
   CreateAssessmentFrameworkControlSet,
 );
@@ -884,14 +784,7 @@ export const CreateAssessmentFrameworkRequest = /*@__PURE__*/ S.suspend(() =>
     controlSets: CreateAssessmentFrameworkControlSets,
     tags: S.optional(TagMap),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/assessmentFrameworks" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/assessmentFrameworks" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "CreateAssessmentFrameworkRequest",
@@ -925,11 +818,7 @@ export type SourceType =
   | (string & {});
 export const SourceType = S.String;
 
-export type KeywordInputType =
-  | "SELECT_FROM_LIST"
-  | "UPLOAD_FILE"
-  | "INPUT_TEXT"
-  | (string & {});
+export type KeywordInputType = "SELECT_FROM_LIST" | "UPLOAD_FILE" | "INPUT_TEXT" | (string & {});
 export const KeywordInputType = S.String;
 
 export type KeywordValue = string;
@@ -938,10 +827,7 @@ export interface SourceKeyword {
   keywordValue?: string;
 }
 export const SourceKeyword = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    keywordInputType: S.optional(KeywordInputType),
-    keywordValue: S.optional(S.String),
-  }),
+  S.Struct({ keywordInputType: S.optional(KeywordInputType), keywordValue: S.optional(S.String) }),
 ).annotate({ identifier: "SourceKeyword" }) as any as S.Schema<SourceKeyword>;
 export type SourceFrequency = "DAILY" | "WEEKLY" | "MONTHLY" | (string & {});
 export const SourceFrequency = S.String;
@@ -968,12 +854,9 @@ export const ControlMappingSource = /*@__PURE__*/ S.suspend(() =>
     sourceFrequency: S.optional(SourceFrequency),
     troubleshootingText: S.optional(SensitiveString),
   }),
-).annotate({
-  identifier: "ControlMappingSource",
-}) as any as S.Schema<ControlMappingSource>;
+).annotate({ identifier: "ControlMappingSource" }) as any as S.Schema<ControlMappingSource>;
 export type ControlMappingSources = ControlMappingSource[];
-export const ControlMappingSources =
-  /*@__PURE__*/ S.Array(ControlMappingSource);
+export const ControlMappingSources = /*@__PURE__*/ S.Array(ControlMappingSource);
 export type LastUpdatedBy = string | redacted.Redacted<string>;
 export type ControlState = "ACTIVE" | "END_OF_SUPPORT" | (string & {});
 export const ControlState = S.String;
@@ -1102,11 +985,7 @@ export const CreateAssessmentReportRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "CreateAssessmentReportRequest",
 }) as any as S.Schema<CreateAssessmentReportRequest>;
-export type AssessmentReportStatus =
-  | "COMPLETE"
-  | "IN_PROGRESS"
-  | "FAILED"
-  | (string & {});
+export type AssessmentReportStatus = "COMPLETE" | "IN_PROGRESS" | "FAILED" | (string & {});
 export const AssessmentReportStatus = S.String;
 
 export interface AssessmentReport {
@@ -1132,9 +1011,7 @@ export const AssessmentReport = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(AssessmentReportStatus),
     creationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
-).annotate({
-  identifier: "AssessmentReport",
-}) as any as S.Schema<AssessmentReport>;
+).annotate({ identifier: "AssessmentReport" }) as any as S.Schema<AssessmentReport>;
 export interface CreateAssessmentReportResponse {
   assessmentReport?: AssessmentReport;
 }
@@ -1166,9 +1043,7 @@ export const CreateControlMappingSource = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateControlMappingSource",
 }) as any as S.Schema<CreateControlMappingSource>;
 export type CreateControlMappingSources = CreateControlMappingSource[];
-export const CreateControlMappingSources = /*@__PURE__*/ S.Array(
-  CreateControlMappingSource,
-);
+export const CreateControlMappingSources = /*@__PURE__*/ S.Array(CreateControlMappingSource);
 export interface CreateControlRequest {
   name: string;
   description?: string | redacted.Redacted<string>;
@@ -1187,27 +1062,14 @@ export const CreateControlRequest = /*@__PURE__*/ S.suspend(() =>
     actionPlanInstructions: S.optional(SensitiveString),
     controlMappingSources: CreateControlMappingSources,
     tags: S.optional(TagMap),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/controls" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateControlRequest",
-}) as any as S.Schema<CreateControlRequest>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/controls" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "CreateControlRequest" }) as any as S.Schema<CreateControlRequest>;
 export interface CreateControlResponse {
   control?: Control;
 }
 export const CreateControlResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ control: S.optional(Control) }),
-).annotate({
-  identifier: "CreateControlResponse",
-}) as any as S.Schema<CreateControlResponse>;
+).annotate({ identifier: "CreateControlResponse" }) as any as S.Schema<CreateControlResponse>;
 export interface DeleteAssessmentRequest {
   assessmentId: string;
 }
@@ -1222,13 +1084,9 @@ export const DeleteAssessmentRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteAssessmentRequest",
-}) as any as S.Schema<DeleteAssessmentRequest>;
+).annotate({ identifier: "DeleteAssessmentRequest" }) as any as S.Schema<DeleteAssessmentRequest>;
 export interface DeleteAssessmentResponse {}
-export const DeleteAssessmentResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteAssessmentResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteAssessmentResponse",
 }) as any as S.Schema<DeleteAssessmentResponse>;
 export interface DeleteAssessmentFrameworkRequest {
@@ -1261,30 +1119,26 @@ export interface DeleteAssessmentFrameworkShareRequest {
   requestId: string;
   requestType: ShareRequestType;
 }
-export const DeleteAssessmentFrameworkShareRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      requestId: S.String.pipe(T.HttpLabel("requestId")),
-      requestType: ShareRequestType.pipe(T.HttpQuery("requestType")),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "DELETE",
-          uri: "/assessmentFrameworkShareRequests/{requestId}",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const DeleteAssessmentFrameworkShareRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    requestId: S.String.pipe(T.HttpLabel("requestId")),
+    requestType: ShareRequestType.pipe(T.HttpQuery("requestType")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/assessmentFrameworkShareRequests/{requestId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "DeleteAssessmentFrameworkShareRequest",
 }) as any as S.Schema<DeleteAssessmentFrameworkShareRequest>;
 export interface DeleteAssessmentFrameworkShareResponse {}
-export const DeleteAssessmentFrameworkShareResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+export const DeleteAssessmentFrameworkShareResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
 ).annotate({
   identifier: "DeleteAssessmentFrameworkShareResponse",
 }) as any as S.Schema<DeleteAssessmentFrameworkShareResponse>;
@@ -1298,10 +1152,7 @@ export const DeleteAssessmentReportRequest = /*@__PURE__*/ S.suspend(() =>
     assessmentReportId: S.String.pipe(T.HttpLabel("assessmentReportId")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/assessments/{assessmentId}/reports/{assessmentReportId}",
-      }),
+      T.Http({ method: "DELETE", uri: "/assessments/{assessmentId}/reports/{assessmentReportId}" }),
       svc,
       auth,
       proto,
@@ -1313,9 +1164,7 @@ export const DeleteAssessmentReportRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteAssessmentReportRequest",
 }) as any as S.Schema<DeleteAssessmentReportRequest>;
 export interface DeleteAssessmentReportResponse {}
-export const DeleteAssessmentReportResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteAssessmentReportResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteAssessmentReportResponse",
 }) as any as S.Schema<DeleteAssessmentReportResponse>;
 export interface DeleteControlRequest {
@@ -1323,22 +1172,11 @@ export interface DeleteControlRequest {
 }
 export const DeleteControlRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ controlId: S.String.pipe(T.HttpLabel("controlId")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/controls/{controlId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/controls/{controlId}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteControlRequest",
-}) as any as S.Schema<DeleteControlRequest>;
+).annotate({ identifier: "DeleteControlRequest" }) as any as S.Schema<DeleteControlRequest>;
 export interface DeleteControlResponse {}
-export const DeleteControlResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteControlResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteControlResponse",
 }) as any as S.Schema<DeleteControlResponse>;
 export interface DeregisterAccountRequest {}
@@ -1353,14 +1191,8 @@ export const DeregisterAccountRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeregisterAccountRequest",
-}) as any as S.Schema<DeregisterAccountRequest>;
-export type AccountStatus =
-  | "ACTIVE"
-  | "INACTIVE"
-  | "PENDING_ACTIVATION"
-  | (string & {});
+).annotate({ identifier: "DeregisterAccountRequest" }) as any as S.Schema<DeregisterAccountRequest>;
+export type AccountStatus = "ACTIVE" | "INACTIVE" | "PENDING_ACTIVATION" | (string & {});
 export const AccountStatus = S.String;
 
 export interface DeregisterAccountResponse {
@@ -1374,64 +1206,10 @@ export const DeregisterAccountResponse = /*@__PURE__*/ S.suspend(() =>
 export interface DeregisterOrganizationAdminAccountRequest {
   adminAccountId?: string;
 }
-export const DeregisterOrganizationAdminAccountRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ adminAccountId: S.optional(S.String) }).pipe(
-      T.all(
-        T.Http({
-          method: "POST",
-          uri: "/account/deregisterOrganizationAdminAccount",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "DeregisterOrganizationAdminAccountRequest",
-  }) as any as S.Schema<DeregisterOrganizationAdminAccountRequest>;
-export interface DeregisterOrganizationAdminAccountResponse {}
-export const DeregisterOrganizationAdminAccountResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-    identifier: "DeregisterOrganizationAdminAccountResponse",
-  }) as any as S.Schema<DeregisterOrganizationAdminAccountResponse>;
-export interface DisassociateAssessmentReportEvidenceFolderRequest {
-  assessmentId: string;
-  evidenceFolderId: string;
-}
-export const DisassociateAssessmentReportEvidenceFolderRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      assessmentId: S.String.pipe(T.HttpLabel("assessmentId")),
-      evidenceFolderId: S.String,
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "PUT",
-          uri: "/assessments/{assessmentId}/disassociateFromAssessmentReport",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "DisassociateAssessmentReportEvidenceFolderRequest",
-  }) as any as S.Schema<DisassociateAssessmentReportEvidenceFolderRequest>;
-export interface DisassociateAssessmentReportEvidenceFolderResponse {}
-export const DisassociateAssessmentReportEvidenceFolderResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-    identifier: "DisassociateAssessmentReportEvidenceFolderResponse",
-  }) as any as S.Schema<DisassociateAssessmentReportEvidenceFolderResponse>;
-export interface GetAccountStatusRequest {}
-export const GetAccountStatusRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
+export const DeregisterOrganizationAdminAccountRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ adminAccountId: S.optional(S.String) }).pipe(
     T.all(
-      T.Http({ method: "GET", uri: "/account/status" }),
+      T.Http({ method: "POST", uri: "/account/deregisterOrganizationAdminAccount" }),
       svc,
       auth,
       proto,
@@ -1440,16 +1218,56 @@ export const GetAccountStatusRequest = /*@__PURE__*/ S.suspend(() =>
     ),
   ),
 ).annotate({
-  identifier: "GetAccountStatusRequest",
-}) as any as S.Schema<GetAccountStatusRequest>;
+  identifier: "DeregisterOrganizationAdminAccountRequest",
+}) as any as S.Schema<DeregisterOrganizationAdminAccountRequest>;
+export interface DeregisterOrganizationAdminAccountResponse {}
+export const DeregisterOrganizationAdminAccountResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DeregisterOrganizationAdminAccountResponse",
+}) as any as S.Schema<DeregisterOrganizationAdminAccountResponse>;
+export interface DisassociateAssessmentReportEvidenceFolderRequest {
+  assessmentId: string;
+  evidenceFolderId: string;
+}
+export const DisassociateAssessmentReportEvidenceFolderRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    assessmentId: S.String.pipe(T.HttpLabel("assessmentId")),
+    evidenceFolderId: S.String,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/assessments/{assessmentId}/disassociateFromAssessmentReport",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DisassociateAssessmentReportEvidenceFolderRequest",
+}) as any as S.Schema<DisassociateAssessmentReportEvidenceFolderRequest>;
+export interface DisassociateAssessmentReportEvidenceFolderResponse {}
+export const DisassociateAssessmentReportEvidenceFolderResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DisassociateAssessmentReportEvidenceFolderResponse",
+}) as any as S.Schema<DisassociateAssessmentReportEvidenceFolderResponse>;
+export interface GetAccountStatusRequest {}
+export const GetAccountStatusRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(
+    T.all(T.Http({ method: "GET", uri: "/account/status" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({ identifier: "GetAccountStatusRequest" }) as any as S.Schema<GetAccountStatusRequest>;
 export interface GetAccountStatusResponse {
   status?: AccountStatus;
 }
 export const GetAccountStatusResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ status: S.optional(AccountStatus) }),
-).annotate({
-  identifier: "GetAccountStatusResponse",
-}) as any as S.Schema<GetAccountStatusResponse>;
+).annotate({ identifier: "GetAccountStatusResponse" }) as any as S.Schema<GetAccountStatusResponse>;
 export interface GetAssessmentRequest {
   assessmentId: string;
 }
@@ -1464,18 +1282,14 @@ export const GetAssessmentRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetAssessmentRequest",
-}) as any as S.Schema<GetAssessmentRequest>;
+).annotate({ identifier: "GetAssessmentRequest" }) as any as S.Schema<GetAssessmentRequest>;
 export interface GetAssessmentResponse {
   assessment?: Assessment;
   userRole?: Role;
 }
 export const GetAssessmentResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ assessment: S.optional(Assessment), userRole: S.optional(Role) }),
-).annotate({
-  identifier: "GetAssessmentResponse",
-}) as any as S.Schema<GetAssessmentResponse>;
+).annotate({ identifier: "GetAssessmentResponse" }) as any as S.Schema<GetAssessmentResponse>;
 export interface GetAssessmentFrameworkRequest {
   frameworkId: string;
 }
@@ -1568,9 +1382,7 @@ export const GetChangeLogsRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetChangeLogsRequest",
-}) as any as S.Schema<GetChangeLogsRequest>;
+).annotate({ identifier: "GetChangeLogsRequest" }) as any as S.Schema<GetChangeLogsRequest>;
 export type ObjectTypeEnum =
   | "ASSESSMENT"
   | "CONTROL_SET"
@@ -1615,38 +1427,22 @@ export interface GetChangeLogsResponse {
   nextToken?: string;
 }
 export const GetChangeLogsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    changeLogs: S.optional(ChangeLogs),
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GetChangeLogsResponse",
-}) as any as S.Schema<GetChangeLogsResponse>;
+  S.Struct({ changeLogs: S.optional(ChangeLogs), nextToken: S.optional(S.String) }),
+).annotate({ identifier: "GetChangeLogsResponse" }) as any as S.Schema<GetChangeLogsResponse>;
 export interface GetControlRequest {
   controlId: string;
 }
 export const GetControlRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ controlId: S.String.pipe(T.HttpLabel("controlId")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/controls/{controlId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/controls/{controlId}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetControlRequest",
-}) as any as S.Schema<GetControlRequest>;
+).annotate({ identifier: "GetControlRequest" }) as any as S.Schema<GetControlRequest>;
 export interface GetControlResponse {
   control?: Control;
 }
 export const GetControlResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ control: S.optional(Control) }),
-).annotate({
-  identifier: "GetControlResponse",
-}) as any as S.Schema<GetControlResponse>;
+).annotate({ identifier: "GetControlResponse" }) as any as S.Schema<GetControlResponse>;
 export interface GetDelegationsRequest {
   nextToken?: string;
   maxResults?: number;
@@ -1655,19 +1451,8 @@ export const GetDelegationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/delegations" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetDelegationsRequest",
-}) as any as S.Schema<GetDelegationsRequest>;
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/delegations" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "GetDelegationsRequest" }) as any as S.Schema<GetDelegationsRequest>;
 export interface DelegationMetadata {
   id?: string;
   assessmentName?: string | redacted.Redacted<string>;
@@ -1687,9 +1472,7 @@ export const DelegationMetadata = /*@__PURE__*/ S.suspend(() =>
     creationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     controlSetName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DelegationMetadata",
-}) as any as S.Schema<DelegationMetadata>;
+).annotate({ identifier: "DelegationMetadata" }) as any as S.Schema<DelegationMetadata>;
 export type DelegationMetadataList = DelegationMetadata[];
 export const DelegationMetadataList = /*@__PURE__*/ S.Array(DelegationMetadata);
 export interface GetDelegationsResponse {
@@ -1697,13 +1480,8 @@ export interface GetDelegationsResponse {
   nextToken?: string;
 }
 export const GetDelegationsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    delegations: S.optional(DelegationMetadataList),
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GetDelegationsResponse",
-}) as any as S.Schema<GetDelegationsResponse>;
+  S.Struct({ delegations: S.optional(DelegationMetadataList), nextToken: S.optional(S.String) }),
+).annotate({ identifier: "GetDelegationsResponse" }) as any as S.Schema<GetDelegationsResponse>;
 export interface GetEvidenceRequest {
   assessmentId: string;
   controlSetId: string;
@@ -1729,9 +1507,7 @@ export const GetEvidenceRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetEvidenceRequest",
-}) as any as S.Schema<GetEvidenceRequest>;
+).annotate({ identifier: "GetEvidenceRequest" }) as any as S.Schema<GetEvidenceRequest>;
 export type EventName = string;
 export type GenericArn = string;
 export interface Resource {
@@ -1751,10 +1527,7 @@ export const Resources = /*@__PURE__*/ S.Array(Resource);
 export type EvidenceAttributeKey = string;
 export type EvidenceAttributeValue = string;
 export type EvidenceAttributes = { [key: string]: string | undefined };
-export const EvidenceAttributes = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const EvidenceAttributes = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface Evidence {
   dataSource?: string;
   evidenceAwsAccountId?: string;
@@ -1796,9 +1569,7 @@ export interface GetEvidenceResponse {
 }
 export const GetEvidenceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ evidence: S.optional(Evidence) }),
-).annotate({
-  identifier: "GetEvidenceResponse",
-}) as any as S.Schema<GetEvidenceResponse>;
+).annotate({ identifier: "GetEvidenceResponse" }) as any as S.Schema<GetEvidenceResponse>;
 export interface GetEvidenceByEvidenceFolderRequest {
   assessmentId: string;
   controlSetId: string;
@@ -1836,10 +1607,7 @@ export interface GetEvidenceByEvidenceFolderResponse {
   nextToken?: string;
 }
 export const GetEvidenceByEvidenceFolderResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    evidence: S.optional(EvidenceList),
-    nextToken: S.optional(S.String),
-  }),
+  S.Struct({ evidence: S.optional(EvidenceList), nextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "GetEvidenceByEvidenceFolderResponse",
 }) as any as S.Schema<GetEvidenceByEvidenceFolderResponse>;
@@ -1848,14 +1616,7 @@ export interface GetEvidenceFileUploadUrlRequest {
 }
 export const GetEvidenceFileUploadUrlRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ fileName: SensitiveString.pipe(T.HttpQuery("fileName")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/evidenceFileUploadUrl" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/evidenceFileUploadUrl" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetEvidenceFileUploadUrlRequest",
@@ -1865,10 +1626,7 @@ export interface GetEvidenceFileUploadUrlResponse {
   uploadUrl?: string;
 }
 export const GetEvidenceFileUploadUrlResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    evidenceFileName: S.optional(S.String),
-    uploadUrl: S.optional(S.String),
-  }),
+  S.Struct({ evidenceFileName: S.optional(S.String), uploadUrl: S.optional(S.String) }),
 ).annotate({
   identifier: "GetEvidenceFileUploadUrlResponse",
 }) as any as S.Schema<GetEvidenceFileUploadUrlResponse>;
@@ -1895,9 +1653,7 @@ export const GetEvidenceFolderRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetEvidenceFolderRequest",
-}) as any as S.Schema<GetEvidenceFolderRequest>;
+).annotate({ identifier: "GetEvidenceFolderRequest" }) as any as S.Schema<GetEvidenceFolderRequest>;
 export type AssessmentEvidenceFolderName = string;
 export interface AssessmentEvidenceFolder {
   name?: string;
@@ -1940,9 +1696,7 @@ export const AssessmentEvidenceFolder = /*@__PURE__*/ S.suspend(() =>
     evidenceByTypeUserActivityCount: S.optional(S.Number),
     evidenceAwsServiceSourceCount: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "AssessmentEvidenceFolder",
-}) as any as S.Schema<AssessmentEvidenceFolder>;
+).annotate({ identifier: "AssessmentEvidenceFolder" }) as any as S.Schema<AssessmentEvidenceFolder>;
 export interface GetEvidenceFolderResponse {
   evidenceFolder?: AssessmentEvidenceFolder;
 }
@@ -1956,42 +1710,35 @@ export interface GetEvidenceFoldersByAssessmentRequest {
   nextToken?: string;
   maxResults?: number;
 }
-export const GetEvidenceFoldersByAssessmentRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      assessmentId: S.String.pipe(T.HttpLabel("assessmentId")),
-      nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-      maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "GET",
-          uri: "/assessments/{assessmentId}/evidenceFolders",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const GetEvidenceFoldersByAssessmentRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    assessmentId: S.String.pipe(T.HttpLabel("assessmentId")),
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/assessments/{assessmentId}/evidenceFolders" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "GetEvidenceFoldersByAssessmentRequest",
 }) as any as S.Schema<GetEvidenceFoldersByAssessmentRequest>;
 export type AssessmentEvidenceFolders = AssessmentEvidenceFolder[];
-export const AssessmentEvidenceFolders = /*@__PURE__*/ S.Array(
-  AssessmentEvidenceFolder,
-);
+export const AssessmentEvidenceFolders = /*@__PURE__*/ S.Array(AssessmentEvidenceFolder);
 export interface GetEvidenceFoldersByAssessmentResponse {
   evidenceFolders?: AssessmentEvidenceFolder[];
   nextToken?: string;
 }
-export const GetEvidenceFoldersByAssessmentResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      evidenceFolders: S.optional(AssessmentEvidenceFolders),
-      nextToken: S.optional(S.String),
-    }),
+export const GetEvidenceFoldersByAssessmentResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    evidenceFolders: S.optional(AssessmentEvidenceFolders),
+    nextToken: S.optional(S.String),
+  }),
 ).annotate({
   identifier: "GetEvidenceFoldersByAssessmentResponse",
 }) as any as S.Schema<GetEvidenceFoldersByAssessmentResponse>;
@@ -2002,48 +1749,19 @@ export interface GetEvidenceFoldersByAssessmentControlRequest {
   nextToken?: string;
   maxResults?: number;
 }
-export const GetEvidenceFoldersByAssessmentControlRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      assessmentId: S.String.pipe(T.HttpLabel("assessmentId")),
-      controlSetId: S.String.pipe(T.HttpLabel("controlSetId")),
-      controlId: S.String.pipe(T.HttpLabel("controlId")),
-      nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-      maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "GET",
-          uri: "/assessments/{assessmentId}/evidenceFolders-by-assessment-control/{controlSetId}/{controlId}",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "GetEvidenceFoldersByAssessmentControlRequest",
-  }) as any as S.Schema<GetEvidenceFoldersByAssessmentControlRequest>;
-export interface GetEvidenceFoldersByAssessmentControlResponse {
-  evidenceFolders?: AssessmentEvidenceFolder[];
-  nextToken?: string;
-}
-export const GetEvidenceFoldersByAssessmentControlResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      evidenceFolders: S.optional(AssessmentEvidenceFolders),
-      nextToken: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "GetEvidenceFoldersByAssessmentControlResponse",
-  }) as any as S.Schema<GetEvidenceFoldersByAssessmentControlResponse>;
-export interface GetInsightsRequest {}
-export const GetInsightsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
+export const GetEvidenceFoldersByAssessmentControlRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    assessmentId: S.String.pipe(T.HttpLabel("assessmentId")),
+    controlSetId: S.String.pipe(T.HttpLabel("controlSetId")),
+    controlId: S.String.pipe(T.HttpLabel("controlId")),
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+  }).pipe(
     T.all(
-      T.Http({ method: "GET", uri: "/insights" }),
+      T.Http({
+        method: "GET",
+        uri: "/assessments/{assessmentId}/evidenceFolders-by-assessment-control/{controlSetId}/{controlId}",
+      }),
       svc,
       auth,
       proto,
@@ -2052,8 +1770,26 @@ export const GetInsightsRequest = /*@__PURE__*/ S.suspend(() =>
     ),
   ),
 ).annotate({
-  identifier: "GetInsightsRequest",
-}) as any as S.Schema<GetInsightsRequest>;
+  identifier: "GetEvidenceFoldersByAssessmentControlRequest",
+}) as any as S.Schema<GetEvidenceFoldersByAssessmentControlRequest>;
+export interface GetEvidenceFoldersByAssessmentControlResponse {
+  evidenceFolders?: AssessmentEvidenceFolder[];
+  nextToken?: string;
+}
+export const GetEvidenceFoldersByAssessmentControlResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    evidenceFolders: S.optional(AssessmentEvidenceFolders),
+    nextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GetEvidenceFoldersByAssessmentControlResponse",
+}) as any as S.Schema<GetEvidenceFoldersByAssessmentControlResponse>;
+export interface GetInsightsRequest {}
+export const GetInsightsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(
+    T.all(T.Http({ method: "GET", uri: "/insights" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({ identifier: "GetInsightsRequest" }) as any as S.Schema<GetInsightsRequest>;
 export interface Insights {
   activeAssessmentsCount?: number;
   noncompliantEvidenceCount?: number;
@@ -2079,9 +1815,7 @@ export interface GetInsightsResponse {
 }
 export const GetInsightsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ insights: S.optional(Insights) }),
-).annotate({
-  identifier: "GetInsightsResponse",
-}) as any as S.Schema<GetInsightsResponse>;
+).annotate({ identifier: "GetInsightsResponse" }) as any as S.Schema<GetInsightsResponse>;
 export interface GetInsightsByAssessmentRequest {
   assessmentId: string;
 }
@@ -2116,9 +1850,7 @@ export const InsightsByAssessment = /*@__PURE__*/ S.suspend(() =>
     totalAssessmentControlsCount: S.optional(S.Number),
     lastUpdated: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
-).annotate({
-  identifier: "InsightsByAssessment",
-}) as any as S.Schema<InsightsByAssessment>;
+).annotate({ identifier: "InsightsByAssessment" }) as any as S.Schema<InsightsByAssessment>;
 export interface GetInsightsByAssessmentResponse {
   insights?: InsightsByAssessment;
 }
@@ -2148,24 +1880,14 @@ export interface GetOrganizationAdminAccountResponse {
   organizationId?: string;
 }
 export const GetOrganizationAdminAccountResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    adminAccountId: S.optional(S.String),
-    organizationId: S.optional(S.String),
-  }),
+  S.Struct({ adminAccountId: S.optional(S.String), organizationId: S.optional(S.String) }),
 ).annotate({
   identifier: "GetOrganizationAdminAccountResponse",
 }) as any as S.Schema<GetOrganizationAdminAccountResponse>;
 export interface GetServicesInScopeRequest {}
 export const GetServicesInScopeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/services" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/services" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetServicesInScopeRequest",
@@ -2183,9 +1905,7 @@ export const ServiceMetadata = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     category: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ServiceMetadata",
-}) as any as S.Schema<ServiceMetadata>;
+).annotate({ identifier: "ServiceMetadata" }) as any as S.Schema<ServiceMetadata>;
 export type ServiceMetadataList = ServiceMetadata[];
 export const ServiceMetadataList = /*@__PURE__*/ S.Array(ServiceMetadata);
 export interface GetServicesInScopeResponse {
@@ -2213,18 +1933,9 @@ export interface GetSettingsRequest {
 }
 export const GetSettingsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ attribute: SettingAttribute.pipe(T.HttpLabel("attribute")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/settings/{attribute}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/settings/{attribute}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetSettingsRequest",
-}) as any as S.Schema<GetSettingsRequest>;
+).annotate({ identifier: "GetSettingsRequest" }) as any as S.Schema<GetSettingsRequest>;
 export type SNSTopic = string | redacted.Redacted<string>;
 export type KmsKey = string;
 export type CloudTrailArn = string;
@@ -2256,9 +1967,7 @@ export const EvidenceFinderEnablement = /*@__PURE__*/ S.suspend(() =>
     backfillStatus: S.optional(EvidenceFinderBackfillStatus),
     error: S.optional(S.String),
   }),
-).annotate({
-  identifier: "EvidenceFinderEnablement",
-}) as any as S.Schema<EvidenceFinderEnablement>;
+).annotate({ identifier: "EvidenceFinderEnablement" }) as any as S.Schema<EvidenceFinderEnablement>;
 export type DeleteResources = "ALL" | "DEFAULT" | (string & {});
 export const DeleteResources = S.String;
 
@@ -2267,9 +1976,7 @@ export interface DeregistrationPolicy {
 }
 export const DeregistrationPolicy = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ deleteResources: S.optional(DeleteResources) }),
-).annotate({
-  identifier: "DeregistrationPolicy",
-}) as any as S.Schema<DeregistrationPolicy>;
+).annotate({ identifier: "DeregistrationPolicy" }) as any as S.Schema<DeregistrationPolicy>;
 export type ExportDestinationType = "S3" | (string & {});
 export const ExportDestinationType = S.String;
 
@@ -2282,9 +1989,7 @@ export const DefaultExportDestination = /*@__PURE__*/ S.suspend(() =>
     destinationType: S.optional(ExportDestinationType),
     destination: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DefaultExportDestination",
-}) as any as S.Schema<DefaultExportDestination>;
+).annotate({ identifier: "DefaultExportDestination" }) as any as S.Schema<DefaultExportDestination>;
 export interface Settings {
   isAwsOrgEnabled?: boolean;
   snsTopic?: string | redacted.Redacted<string>;
@@ -2299,9 +2004,7 @@ export const Settings = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     isAwsOrgEnabled: S.optional(S.Boolean),
     snsTopic: S.optional(SensitiveString),
-    defaultAssessmentReportsDestination: S.optional(
-      AssessmentReportsDestination,
-    ),
+    defaultAssessmentReportsDestination: S.optional(AssessmentReportsDestination),
     defaultProcessOwners: S.optional(Roles),
     kmsKey: S.optional(S.String),
     evidenceFinderEnablement: S.optional(EvidenceFinderEnablement),
@@ -2314,9 +2017,7 @@ export interface GetSettingsResponse {
 }
 export const GetSettingsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ settings: S.optional(Settings) }),
-).annotate({
-  identifier: "GetSettingsResponse",
-}) as any as S.Schema<GetSettingsResponse>;
+).annotate({ identifier: "GetSettingsResponse" }) as any as S.Schema<GetSettingsResponse>;
 export type ControlDomainId = string;
 export interface ListAssessmentControlInsightsByControlDomainRequest {
   controlDomainId: string;
@@ -2324,26 +2025,25 @@ export interface ListAssessmentControlInsightsByControlDomainRequest {
   nextToken?: string;
   maxResults?: number;
 }
-export const ListAssessmentControlInsightsByControlDomainRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      controlDomainId: S.String.pipe(T.HttpQuery("controlDomainId")),
-      assessmentId: S.String.pipe(T.HttpQuery("assessmentId")),
-      nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-      maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    }).pipe(
-      T.all(
-        T.Http({ method: "GET", uri: "/insights/controls-by-assessment" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const ListAssessmentControlInsightsByControlDomainRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    controlDomainId: S.String.pipe(T.HttpQuery("controlDomainId")),
+    assessmentId: S.String.pipe(T.HttpQuery("assessmentId")),
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/insights/controls-by-assessment" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
-  ).annotate({
-    identifier: "ListAssessmentControlInsightsByControlDomainRequest",
-  }) as any as S.Schema<ListAssessmentControlInsightsByControlDomainRequest>;
+  ),
+).annotate({
+  identifier: "ListAssessmentControlInsightsByControlDomainRequest",
+}) as any as S.Schema<ListAssessmentControlInsightsByControlDomainRequest>;
 export interface EvidenceInsights {
   noncompliantEvidenceCount?: number;
   compliantEvidenceCount?: number;
@@ -2355,9 +2055,7 @@ export const EvidenceInsights = /*@__PURE__*/ S.suspend(() =>
     compliantEvidenceCount: S.optional(S.Number),
     inconclusiveEvidenceCount: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "EvidenceInsights",
-}) as any as S.Schema<EvidenceInsights>;
+).annotate({ identifier: "EvidenceInsights" }) as any as S.Schema<EvidenceInsights>;
 export interface ControlInsightsMetadataByAssessmentItem {
   name?: string;
   id?: string;
@@ -2365,20 +2063,18 @@ export interface ControlInsightsMetadataByAssessmentItem {
   controlSetName?: string;
   lastUpdated?: Date;
 }
-export const ControlInsightsMetadataByAssessmentItem = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      name: S.optional(S.String),
-      id: S.optional(S.String),
-      evidenceInsights: S.optional(EvidenceInsights),
-      controlSetName: S.optional(S.String),
-      lastUpdated: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    }),
+export const ControlInsightsMetadataByAssessmentItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    id: S.optional(S.String),
+    evidenceInsights: S.optional(EvidenceInsights),
+    controlSetName: S.optional(S.String),
+    lastUpdated: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
 ).annotate({
   identifier: "ControlInsightsMetadataByAssessmentItem",
 }) as any as S.Schema<ControlInsightsMetadataByAssessmentItem>;
-export type ControlInsightsMetadataByAssessment =
-  ControlInsightsMetadataByAssessmentItem[];
+export type ControlInsightsMetadataByAssessment = ControlInsightsMetadataByAssessmentItem[];
 export const ControlInsightsMetadataByAssessment = /*@__PURE__*/ S.Array(
   ControlInsightsMetadataByAssessmentItem,
 );
@@ -2386,17 +2082,14 @@ export interface ListAssessmentControlInsightsByControlDomainResponse {
   controlInsightsByAssessment?: ControlInsightsMetadataByAssessmentItem[];
   nextToken?: string;
 }
-export const ListAssessmentControlInsightsByControlDomainResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      controlInsightsByAssessment: S.optional(
-        ControlInsightsMetadataByAssessment,
-      ),
-      nextToken: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "ListAssessmentControlInsightsByControlDomainResponse",
-  }) as any as S.Schema<ListAssessmentControlInsightsByControlDomainResponse>;
+export const ListAssessmentControlInsightsByControlDomainResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    controlInsightsByAssessment: S.optional(ControlInsightsMetadataByAssessment),
+    nextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListAssessmentControlInsightsByControlDomainResponse",
+}) as any as S.Schema<ListAssessmentControlInsightsByControlDomainResponse>;
 export interface ListAssessmentFrameworksRequest {
   frameworkType: FrameworkType;
   nextToken?: string;
@@ -2408,14 +2101,7 @@ export const ListAssessmentFrameworksRequest = /*@__PURE__*/ S.suspend(() =>
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/assessmentFrameworks" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/assessmentFrameworks" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListAssessmentFrameworksRequest",
@@ -2453,9 +2139,7 @@ export const AssessmentFrameworkMetadata = /*@__PURE__*/ S.suspend(() =>
   identifier: "AssessmentFrameworkMetadata",
 }) as any as S.Schema<AssessmentFrameworkMetadata>;
 export type FrameworkMetadataList = AssessmentFrameworkMetadata[];
-export const FrameworkMetadataList = /*@__PURE__*/ S.Array(
-  AssessmentFrameworkMetadata,
-);
+export const FrameworkMetadataList = /*@__PURE__*/ S.Array(AssessmentFrameworkMetadata);
 export interface ListAssessmentFrameworksResponse {
   frameworkMetadataList?: AssessmentFrameworkMetadata[];
   nextToken?: string;
@@ -2473,25 +2157,24 @@ export interface ListAssessmentFrameworkShareRequestsRequest {
   nextToken?: string;
   maxResults?: number;
 }
-export const ListAssessmentFrameworkShareRequestsRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      requestType: ShareRequestType.pipe(T.HttpQuery("requestType")),
-      nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-      maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    }).pipe(
-      T.all(
-        T.Http({ method: "GET", uri: "/assessmentFrameworkShareRequests" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const ListAssessmentFrameworkShareRequestsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    requestType: ShareRequestType.pipe(T.HttpQuery("requestType")),
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/assessmentFrameworkShareRequests" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
-  ).annotate({
-    identifier: "ListAssessmentFrameworkShareRequestsRequest",
-  }) as any as S.Schema<ListAssessmentFrameworkShareRequestsRequest>;
+  ),
+).annotate({
+  identifier: "ListAssessmentFrameworkShareRequestsRequest",
+}) as any as S.Schema<ListAssessmentFrameworkShareRequestsRequest>;
 export type ShareRequestStatus =
   | "ACTIVE"
   | "REPLICATING"
@@ -2544,8 +2227,7 @@ export const AssessmentFrameworkShareRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "AssessmentFrameworkShareRequest",
 }) as any as S.Schema<AssessmentFrameworkShareRequest>;
-export type AssessmentFrameworkShareRequestList =
-  AssessmentFrameworkShareRequest[];
+export type AssessmentFrameworkShareRequestList = AssessmentFrameworkShareRequest[];
 export const AssessmentFrameworkShareRequestList = /*@__PURE__*/ S.Array(
   AssessmentFrameworkShareRequest,
 );
@@ -2553,17 +2235,14 @@ export interface ListAssessmentFrameworkShareRequestsResponse {
   assessmentFrameworkShareRequests?: AssessmentFrameworkShareRequest[];
   nextToken?: string;
 }
-export const ListAssessmentFrameworkShareRequestsResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      assessmentFrameworkShareRequests: S.optional(
-        AssessmentFrameworkShareRequestList,
-      ),
-      nextToken: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "ListAssessmentFrameworkShareRequestsResponse",
-  }) as any as S.Schema<ListAssessmentFrameworkShareRequestsResponse>;
+export const ListAssessmentFrameworkShareRequestsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    assessmentFrameworkShareRequests: S.optional(AssessmentFrameworkShareRequestList),
+    nextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListAssessmentFrameworkShareRequestsResponse",
+}) as any as S.Schema<ListAssessmentFrameworkShareRequestsResponse>;
 export interface ListAssessmentReportsRequest {
   nextToken?: string;
   maxResults?: number;
@@ -2573,14 +2252,7 @@ export const ListAssessmentReportsRequest = /*@__PURE__*/ S.suspend(() =>
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/assessmentReports" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/assessmentReports" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListAssessmentReportsRequest",
@@ -2606,13 +2278,9 @@ export const AssessmentReportMetadata = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(AssessmentReportStatus),
     creationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
-).annotate({
-  identifier: "AssessmentReportMetadata",
-}) as any as S.Schema<AssessmentReportMetadata>;
+).annotate({ identifier: "AssessmentReportMetadata" }) as any as S.Schema<AssessmentReportMetadata>;
 export type AssessmentReportsMetadata = AssessmentReportMetadata[];
-export const AssessmentReportsMetadata = /*@__PURE__*/ S.Array(
-  AssessmentReportMetadata,
-);
+export const AssessmentReportsMetadata = /*@__PURE__*/ S.Array(AssessmentReportMetadata);
 export interface ListAssessmentReportsResponse {
   assessmentReports?: AssessmentReportMetadata[];
   nextToken?: string;
@@ -2635,19 +2303,8 @@ export const ListAssessmentsRequest = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(AssessmentStatus).pipe(T.HttpQuery("status")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/assessments" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListAssessmentsRequest",
-}) as any as S.Schema<ListAssessmentsRequest>;
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/assessments" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "ListAssessmentsRequest" }) as any as S.Schema<ListAssessmentsRequest>;
 export interface AssessmentMetadataItem {
   name?: string | redacted.Redacted<string>;
   id?: string;
@@ -2669,13 +2326,9 @@ export const AssessmentMetadataItem = /*@__PURE__*/ S.suspend(() =>
     creationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     lastUpdated: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
-).annotate({
-  identifier: "AssessmentMetadataItem",
-}) as any as S.Schema<AssessmentMetadataItem>;
+).annotate({ identifier: "AssessmentMetadataItem" }) as any as S.Schema<AssessmentMetadataItem>;
 export type ListAssessmentMetadata = AssessmentMetadataItem[];
-export const ListAssessmentMetadata = /*@__PURE__*/ S.Array(
-  AssessmentMetadataItem,
-);
+export const ListAssessmentMetadata = /*@__PURE__*/ S.Array(AssessmentMetadataItem);
 export interface ListAssessmentsResponse {
   assessmentMetadata?: AssessmentMetadataItem[];
   nextToken?: string;
@@ -2685,9 +2338,7 @@ export const ListAssessmentsResponse = /*@__PURE__*/ S.suspend(() =>
     assessmentMetadata: S.optional(ListAssessmentMetadata),
     nextToken: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListAssessmentsResponse",
-}) as any as S.Schema<ListAssessmentsResponse>;
+).annotate({ identifier: "ListAssessmentsResponse" }) as any as S.Schema<ListAssessmentsResponse>;
 export interface ListControlDomainInsightsRequest {
   nextToken?: string;
   maxResults?: number;
@@ -2726,13 +2377,9 @@ export const ControlDomainInsights = /*@__PURE__*/ S.suspend(() =>
     evidenceInsights: S.optional(EvidenceInsights),
     lastUpdated: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
-).annotate({
-  identifier: "ControlDomainInsights",
-}) as any as S.Schema<ControlDomainInsights>;
+).annotate({ identifier: "ControlDomainInsights" }) as any as S.Schema<ControlDomainInsights>;
 export type ControlDomainInsightsList = ControlDomainInsights[];
-export const ControlDomainInsightsList = /*@__PURE__*/ S.Array(
-  ControlDomainInsights,
-);
+export const ControlDomainInsightsList = /*@__PURE__*/ S.Array(ControlDomainInsights);
 export interface ListControlDomainInsightsResponse {
   controlDomainInsights?: ControlDomainInsights[];
   nextToken?: string;
@@ -2750,65 +2397,52 @@ export interface ListControlDomainInsightsByAssessmentRequest {
   nextToken?: string;
   maxResults?: number;
 }
-export const ListControlDomainInsightsByAssessmentRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      assessmentId: S.String.pipe(T.HttpQuery("assessmentId")),
-      nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-      maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "GET",
-          uri: "/insights/control-domains-by-assessment",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const ListControlDomainInsightsByAssessmentRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    assessmentId: S.String.pipe(T.HttpQuery("assessmentId")),
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/insights/control-domains-by-assessment" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
-  ).annotate({
-    identifier: "ListControlDomainInsightsByAssessmentRequest",
-  }) as any as S.Schema<ListControlDomainInsightsByAssessmentRequest>;
+  ),
+).annotate({
+  identifier: "ListControlDomainInsightsByAssessmentRequest",
+}) as any as S.Schema<ListControlDomainInsightsByAssessmentRequest>;
 export interface ListControlDomainInsightsByAssessmentResponse {
   controlDomainInsights?: ControlDomainInsights[];
   nextToken?: string;
 }
-export const ListControlDomainInsightsByAssessmentResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      controlDomainInsights: S.optional(ControlDomainInsightsList),
-      nextToken: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "ListControlDomainInsightsByAssessmentResponse",
-  }) as any as S.Schema<ListControlDomainInsightsByAssessmentResponse>;
+export const ListControlDomainInsightsByAssessmentResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    controlDomainInsights: S.optional(ControlDomainInsightsList),
+    nextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListControlDomainInsightsByAssessmentResponse",
+}) as any as S.Schema<ListControlDomainInsightsByAssessmentResponse>;
 export interface ListControlInsightsByControlDomainRequest {
   controlDomainId: string;
   nextToken?: string;
   maxResults?: number;
 }
-export const ListControlInsightsByControlDomainRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      controlDomainId: S.String.pipe(T.HttpQuery("controlDomainId")),
-      nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-      maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    }).pipe(
-      T.all(
-        T.Http({ method: "GET", uri: "/insights/controls" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "ListControlInsightsByControlDomainRequest",
-  }) as any as S.Schema<ListControlInsightsByControlDomainRequest>;
+export const ListControlInsightsByControlDomainRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    controlDomainId: S.String.pipe(T.HttpQuery("controlDomainId")),
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+  }).pipe(
+    T.all(T.Http({ method: "GET", uri: "/insights/controls" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "ListControlInsightsByControlDomainRequest",
+}) as any as S.Schema<ListControlInsightsByControlDomainRequest>;
 export interface ControlInsightsMetadataItem {
   name?: string;
   id?: string;
@@ -2826,22 +2460,19 @@ export const ControlInsightsMetadataItem = /*@__PURE__*/ S.suspend(() =>
   identifier: "ControlInsightsMetadataItem",
 }) as any as S.Schema<ControlInsightsMetadataItem>;
 export type ControlInsightsMetadata = ControlInsightsMetadataItem[];
-export const ControlInsightsMetadata = /*@__PURE__*/ S.Array(
-  ControlInsightsMetadataItem,
-);
+export const ControlInsightsMetadata = /*@__PURE__*/ S.Array(ControlInsightsMetadataItem);
 export interface ListControlInsightsByControlDomainResponse {
   controlInsightsMetadata?: ControlInsightsMetadataItem[];
   nextToken?: string;
 }
-export const ListControlInsightsByControlDomainResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      controlInsightsMetadata: S.optional(ControlInsightsMetadata),
-      nextToken: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "ListControlInsightsByControlDomainResponse",
-  }) as any as S.Schema<ListControlInsightsByControlDomainResponse>;
+export const ListControlInsightsByControlDomainResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    controlInsightsMetadata: S.optional(ControlInsightsMetadata),
+    nextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListControlInsightsByControlDomainResponse",
+}) as any as S.Schema<ListControlInsightsByControlDomainResponse>;
 export type ControlCatalogId = string;
 export interface ListControlsRequest {
   controlType: ControlType;
@@ -2854,22 +2485,9 @@ export const ListControlsRequest = /*@__PURE__*/ S.suspend(() =>
     controlType: ControlType.pipe(T.HttpQuery("controlType")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    controlCatalogId: S.optional(S.String).pipe(
-      T.HttpQuery("controlCatalogId"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/controls" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListControlsRequest",
-}) as any as S.Schema<ListControlsRequest>;
+    controlCatalogId: S.optional(S.String).pipe(T.HttpQuery("controlCatalogId")),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/controls" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "ListControlsRequest" }) as any as S.Schema<ListControlsRequest>;
 export interface ControlMetadata {
   arn?: string;
   id?: string;
@@ -2887,9 +2505,7 @@ export const ControlMetadata = /*@__PURE__*/ S.suspend(() =>
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
-).annotate({
-  identifier: "ControlMetadata",
-}) as any as S.Schema<ControlMetadata>;
+).annotate({ identifier: "ControlMetadata" }) as any as S.Schema<ControlMetadata>;
 export type ControlMetadataList = ControlMetadata[];
 export const ControlMetadataList = /*@__PURE__*/ S.Array(ControlMetadata);
 export interface ListControlsResponse {
@@ -2901,9 +2517,7 @@ export const ListControlsResponse = /*@__PURE__*/ S.suspend(() =>
     controlMetadataList: S.optional(ControlMetadataList),
     nextToken: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListControlsResponse",
-}) as any as S.Schema<ListControlsResponse>;
+).annotate({ identifier: "ListControlsResponse" }) as any as S.Schema<ListControlsResponse>;
 export type DataSourceType =
   | "AWS_Cloudtrail"
   | "AWS_Config"
@@ -2924,14 +2538,7 @@ export const ListKeywordsForDataSourceRequest = /*@__PURE__*/ S.suspend(() =>
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/dataSourceKeywords" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/dataSourceKeywords" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListKeywordsForDataSourceRequest",
@@ -2955,19 +2562,8 @@ export const ListNotificationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/notifications" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListNotificationsRequest",
-}) as any as S.Schema<ListNotificationsRequest>;
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/notifications" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "ListNotificationsRequest" }) as any as S.Schema<ListNotificationsRequest>;
 export type TimestampUUID = string;
 export interface Notification {
   id?: string;
@@ -2998,10 +2594,7 @@ export interface ListNotificationsResponse {
   nextToken?: string;
 }
 export const ListNotificationsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    notifications: S.optional(Notifications),
-    nextToken: S.optional(S.String),
-  }),
+  S.Struct({ notifications: S.optional(Notifications), nextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListNotificationsResponse",
 }) as any as S.Schema<ListNotificationsResponse>;
@@ -3010,14 +2603,7 @@ export interface ListTagsForResourceRequest {
 }
 export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListTagsForResourceRequest",
@@ -3035,10 +2621,7 @@ export interface RegisterAccountRequest {
   delegatedAdminAccount?: string;
 }
 export const RegisterAccountRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    kmsKey: S.optional(S.String),
-    delegatedAdminAccount: S.optional(S.String),
-  }).pipe(
+  S.Struct({ kmsKey: S.optional(S.String), delegatedAdminAccount: S.optional(S.String) }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/account/registerAccount" }),
       svc,
@@ -3048,35 +2631,27 @@ export const RegisterAccountRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "RegisterAccountRequest",
-}) as any as S.Schema<RegisterAccountRequest>;
+).annotate({ identifier: "RegisterAccountRequest" }) as any as S.Schema<RegisterAccountRequest>;
 export interface RegisterAccountResponse {
   status?: AccountStatus;
 }
 export const RegisterAccountResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ status: S.optional(AccountStatus) }),
-).annotate({
-  identifier: "RegisterAccountResponse",
-}) as any as S.Schema<RegisterAccountResponse>;
+).annotate({ identifier: "RegisterAccountResponse" }) as any as S.Schema<RegisterAccountResponse>;
 export interface RegisterOrganizationAdminAccountRequest {
   adminAccountId: string;
 }
-export const RegisterOrganizationAdminAccountRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ adminAccountId: S.String }).pipe(
-      T.all(
-        T.Http({
-          method: "POST",
-          uri: "/account/registerOrganizationAdminAccount",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const RegisterOrganizationAdminAccountRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ adminAccountId: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/account/registerOrganizationAdminAccount" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "RegisterOrganizationAdminAccountRequest",
 }) as any as S.Schema<RegisterOrganizationAdminAccountRequest>;
@@ -3084,12 +2659,8 @@ export interface RegisterOrganizationAdminAccountResponse {
   adminAccountId?: string;
   organizationId?: string;
 }
-export const RegisterOrganizationAdminAccountResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      adminAccountId: S.optional(S.String),
-      organizationId: S.optional(S.String),
-    }),
+export const RegisterOrganizationAdminAccountResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ adminAccountId: S.optional(S.String), organizationId: S.optional(S.String) }),
 ).annotate({
   identifier: "RegisterOrganizationAdminAccountResponse",
 }) as any as S.Schema<RegisterOrganizationAdminAccountResponse>;
@@ -3099,53 +2670,15 @@ export interface StartAssessmentFrameworkShareRequest {
   destinationRegion: string;
   comment?: string;
 }
-export const StartAssessmentFrameworkShareRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      frameworkId: S.String.pipe(T.HttpLabel("frameworkId")),
-      destinationAccount: S.String,
-      destinationRegion: S.String,
-      comment: S.optional(S.String),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "POST",
-          uri: "/assessmentFrameworks/{frameworkId}/shareRequests",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "StartAssessmentFrameworkShareRequest",
-}) as any as S.Schema<StartAssessmentFrameworkShareRequest>;
-export interface StartAssessmentFrameworkShareResponse {
-  assessmentFrameworkShareRequest?: AssessmentFrameworkShareRequest;
-}
-export const StartAssessmentFrameworkShareResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      assessmentFrameworkShareRequest: S.optional(
-        AssessmentFrameworkShareRequest,
-      ),
-    }),
-).annotate({
-  identifier: "StartAssessmentFrameworkShareResponse",
-}) as any as S.Schema<StartAssessmentFrameworkShareResponse>;
-export interface TagResourceRequest {
-  resourceArn: string;
-  tags: { [key: string]: string | undefined };
-}
-export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
+export const StartAssessmentFrameworkShareRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-    tags: TagMap,
+    frameworkId: S.String.pipe(T.HttpLabel("frameworkId")),
+    destinationAccount: S.String,
+    destinationRegion: S.String,
+    comment: S.optional(S.String),
   }).pipe(
     T.all(
-      T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
+      T.Http({ method: "POST", uri: "/assessmentFrameworks/{frameworkId}/shareRequests" }),
       svc,
       auth,
       proto,
@@ -3154,12 +2687,27 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
     ),
   ),
 ).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
-export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  identifier: "StartAssessmentFrameworkShareRequest",
+}) as any as S.Schema<StartAssessmentFrameworkShareRequest>;
+export interface StartAssessmentFrameworkShareResponse {
+  assessmentFrameworkShareRequest?: AssessmentFrameworkShareRequest;
+}
+export const StartAssessmentFrameworkShareResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ assessmentFrameworkShareRequest: S.optional(AssessmentFrameworkShareRequest) }),
 ).annotate({
+  identifier: "StartAssessmentFrameworkShareResponse",
+}) as any as S.Schema<StartAssessmentFrameworkShareResponse>;
+export interface TagResourceRequest {
+  resourceArn: string;
+  tags: { [key: string]: string | undefined };
+}
+export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tags: TagMap }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
+export interface TagResourceResponse {}
+export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = string[];
@@ -3173,22 +2721,11 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
   }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
+).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateAssessmentRequest {
@@ -3217,17 +2754,13 @@ export const UpdateAssessmentRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "UpdateAssessmentRequest",
-}) as any as S.Schema<UpdateAssessmentRequest>;
+).annotate({ identifier: "UpdateAssessmentRequest" }) as any as S.Schema<UpdateAssessmentRequest>;
 export interface UpdateAssessmentResponse {
   assessment?: Assessment;
 }
 export const UpdateAssessmentResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ assessment: S.optional(Assessment) }),
-).annotate({
-  identifier: "UpdateAssessmentResponse",
-}) as any as S.Schema<UpdateAssessmentResponse>;
+).annotate({ identifier: "UpdateAssessmentResponse" }) as any as S.Schema<UpdateAssessmentResponse>;
 export interface UpdateAssessmentControlRequest {
   assessmentId: string;
   controlSetId: string;
@@ -3272,34 +2805,33 @@ export interface UpdateAssessmentControlSetStatusRequest {
   status: ControlSetStatus;
   comment: string | redacted.Redacted<string>;
 }
-export const UpdateAssessmentControlSetStatusRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      assessmentId: S.String.pipe(T.HttpLabel("assessmentId")),
-      controlSetId: S.String.pipe(T.HttpLabel("controlSetId")),
-      status: ControlSetStatus,
-      comment: SensitiveString,
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "PUT",
-          uri: "/assessments/{assessmentId}/controlSets/{controlSetId}/status",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const UpdateAssessmentControlSetStatusRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    assessmentId: S.String.pipe(T.HttpLabel("assessmentId")),
+    controlSetId: S.String.pipe(T.HttpLabel("controlSetId")),
+    status: ControlSetStatus,
+    comment: SensitiveString,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/assessments/{assessmentId}/controlSets/{controlSetId}/status",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "UpdateAssessmentControlSetStatusRequest",
 }) as any as S.Schema<UpdateAssessmentControlSetStatusRequest>;
 export interface UpdateAssessmentControlSetStatusResponse {
   controlSet?: AssessmentControlSet;
 }
-export const UpdateAssessmentControlSetStatusResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ controlSet: S.optional(AssessmentControlSet) }),
+export const UpdateAssessmentControlSetStatusResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ controlSet: S.optional(AssessmentControlSet) }),
 ).annotate({
   identifier: "UpdateAssessmentControlSetStatusResponse",
 }) as any as S.Schema<UpdateAssessmentControlSetStatusResponse>;
@@ -3317,8 +2849,7 @@ export const UpdateAssessmentFrameworkControlSet = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "UpdateAssessmentFrameworkControlSet",
 }) as any as S.Schema<UpdateAssessmentFrameworkControlSet>;
-export type UpdateAssessmentFrameworkControlSets =
-  UpdateAssessmentFrameworkControlSet[];
+export type UpdateAssessmentFrameworkControlSets = UpdateAssessmentFrameworkControlSet[];
 export const UpdateAssessmentFrameworkControlSets = /*@__PURE__*/ S.Array(
   UpdateAssessmentFrameworkControlSet,
 );
@@ -3357,11 +2888,7 @@ export const UpdateAssessmentFrameworkResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "UpdateAssessmentFrameworkResponse",
 }) as any as S.Schema<UpdateAssessmentFrameworkResponse>;
-export type ShareRequestAction =
-  | "ACCEPT"
-  | "DECLINE"
-  | "REVOKE"
-  | (string & {});
+export type ShareRequestAction = "ACCEPT" | "DECLINE" | "REVOKE" | (string & {});
 export const ShareRequestAction = S.String;
 
 export interface UpdateAssessmentFrameworkShareRequest {
@@ -3369,38 +2896,29 @@ export interface UpdateAssessmentFrameworkShareRequest {
   requestType: ShareRequestType;
   action: ShareRequestAction;
 }
-export const UpdateAssessmentFrameworkShareRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      requestId: S.String.pipe(T.HttpLabel("requestId")),
-      requestType: ShareRequestType,
-      action: ShareRequestAction,
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "PUT",
-          uri: "/assessmentFrameworkShareRequests/{requestId}",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const UpdateAssessmentFrameworkShareRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    requestId: S.String.pipe(T.HttpLabel("requestId")),
+    requestType: ShareRequestType,
+    action: ShareRequestAction,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/assessmentFrameworkShareRequests/{requestId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "UpdateAssessmentFrameworkShareRequest",
 }) as any as S.Schema<UpdateAssessmentFrameworkShareRequest>;
 export interface UpdateAssessmentFrameworkShareResponse {
   assessmentFrameworkShareRequest?: AssessmentFrameworkShareRequest;
 }
-export const UpdateAssessmentFrameworkShareResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      assessmentFrameworkShareRequest: S.optional(
-        AssessmentFrameworkShareRequest,
-      ),
-    }),
+export const UpdateAssessmentFrameworkShareResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ assessmentFrameworkShareRequest: S.optional(AssessmentFrameworkShareRequest) }),
 ).annotate({
   identifier: "UpdateAssessmentFrameworkShareResponse",
 }) as any as S.Schema<UpdateAssessmentFrameworkShareResponse>;
@@ -3452,26 +2970,15 @@ export const UpdateControlRequest = /*@__PURE__*/ S.suspend(() =>
     actionPlanInstructions: S.optional(SensitiveString),
     controlMappingSources: ControlMappingSources,
   }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/controls/{controlId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "PUT", uri: "/controls/{controlId}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UpdateControlRequest",
-}) as any as S.Schema<UpdateControlRequest>;
+).annotate({ identifier: "UpdateControlRequest" }) as any as S.Schema<UpdateControlRequest>;
 export interface UpdateControlResponse {
   control?: Control;
 }
 export const UpdateControlResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ control: S.optional(Control) }),
-).annotate({
-  identifier: "UpdateControlResponse",
-}) as any as S.Schema<UpdateControlResponse>;
+).annotate({ identifier: "UpdateControlResponse" }) as any as S.Schema<UpdateControlResponse>;
 export type SnsArn = string;
 export interface UpdateSettingsRequest {
   snsTopic?: string;
@@ -3485,17 +2992,27 @@ export interface UpdateSettingsRequest {
 export const UpdateSettingsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     snsTopic: S.optional(S.String),
-    defaultAssessmentReportsDestination: S.optional(
-      AssessmentReportsDestination,
-    ),
+    defaultAssessmentReportsDestination: S.optional(AssessmentReportsDestination),
     defaultProcessOwners: S.optional(Roles),
     kmsKey: S.optional(S.String),
     evidenceFinderEnabled: S.optional(S.Boolean),
     deregistrationPolicy: S.optional(DeregistrationPolicy),
     defaultExportDestination: S.optional(DefaultExportDestination),
-  }).pipe(
+  }).pipe(T.all(T.Http({ method: "PUT", uri: "/settings" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "UpdateSettingsRequest" }) as any as S.Schema<UpdateSettingsRequest>;
+export interface UpdateSettingsResponse {
+  settings?: Settings;
+}
+export const UpdateSettingsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ settings: S.optional(Settings) }),
+).annotate({ identifier: "UpdateSettingsResponse" }) as any as S.Schema<UpdateSettingsResponse>;
+export interface ValidateAssessmentReportIntegrityRequest {
+  s3RelativePath: string;
+}
+export const ValidateAssessmentReportIntegrityRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ s3RelativePath: S.String }).pipe(
     T.all(
-      T.Http({ method: "PUT", uri: "/settings" }),
+      T.Http({ method: "POST", uri: "/assessmentReports/integrity" }),
       svc,
       auth,
       proto,
@@ -3503,32 +3020,6 @@ export const UpdateSettingsRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "UpdateSettingsRequest",
-}) as any as S.Schema<UpdateSettingsRequest>;
-export interface UpdateSettingsResponse {
-  settings?: Settings;
-}
-export const UpdateSettingsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ settings: S.optional(Settings) }),
-).annotate({
-  identifier: "UpdateSettingsResponse",
-}) as any as S.Schema<UpdateSettingsResponse>;
-export interface ValidateAssessmentReportIntegrityRequest {
-  s3RelativePath: string;
-}
-export const ValidateAssessmentReportIntegrityRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ s3RelativePath: S.String }).pipe(
-      T.all(
-        T.Http({ method: "POST", uri: "/assessmentReports/integrity" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
 ).annotate({
   identifier: "ValidateAssessmentReportIntegrityRequest",
 }) as any as S.Schema<ValidateAssessmentReportIntegrityRequest>;
@@ -3541,18 +3032,17 @@ export interface ValidateAssessmentReportIntegrityResponse {
   signatureKeyId?: string;
   validationErrors?: string[];
 }
-export const ValidateAssessmentReportIntegrityResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      signatureValid: S.optional(S.Boolean),
-      signatureAlgorithm: S.optional(S.String),
-      signatureDateTime: S.optional(S.String),
-      signatureKeyId: S.optional(S.String),
-      validationErrors: S.optional(ValidationErrors),
-    }),
-  ).annotate({
-    identifier: "ValidateAssessmentReportIntegrityResponse",
-  }) as any as S.Schema<ValidateAssessmentReportIntegrityResponse>;
+export const ValidateAssessmentReportIntegrityResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    signatureValid: S.optional(S.Boolean),
+    signatureAlgorithm: S.optional(S.String),
+    signatureDateTime: S.optional(S.String),
+    signatureKeyId: S.optional(S.String),
+    validationErrors: S.optional(ValidationErrors),
+  }),
+).annotate({
+  identifier: "ValidateAssessmentReportIntegrityResponse",
+}) as any as S.Schema<ValidateAssessmentReportIntegrityResponse>;
 export type ValidationExceptionReason =
   | "unknownOperation"
   | "cannotParse"
@@ -3567,13 +3057,9 @@ export interface ValidationExceptionField {
 }
 export const ValidationExceptionField = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ name: S.String, message: S.String }),
-).annotate({
-  identifier: "ValidationExceptionField",
-}) as any as S.Schema<ValidationExceptionField>;
+).annotate({ identifier: "ValidationExceptionField" }) as any as S.Schema<ValidationExceptionField>;
 export type ValidationExceptionFieldList = ValidationExceptionField[];
-export const ValidationExceptionFieldList = /*@__PURE__*/ S.Array(
-  ValidationExceptionField,
-);
+export const ValidationExceptionFieldList = /*@__PURE__*/ S.Array(ValidationExceptionField);
 export type AssociateAssessmentReportEvidenceFolderError =
   | AccessDeniedException
   | InternalServerException
@@ -4586,10 +4072,7 @@ export const getEvidenceFoldersByAssessmentControl: API.PaginatedOperationMethod
   } as const,
 })) as any;
 
-export type GetInsightsError =
-  | AccessDeniedException
-  | InternalServerException
-  | CommonErrors;
+export type GetInsightsError = AccessDeniedException | InternalServerException | CommonErrors;
 /**
  * Gets the latest analytics data for all your current active assessments.
  */
@@ -4697,10 +4180,7 @@ export const getServicesInScope: API.OperationMethod<
   operationName: "GetServicesInScope",
 }));
 
-export type GetSettingsError =
-  | AccessDeniedException
-  | InternalServerException
-  | CommonErrors;
+export type GetSettingsError = AccessDeniedException | InternalServerException | CommonErrors;
 /**
  * Gets the settings for a specified Amazon Web Services account.
  */
@@ -5105,11 +4585,7 @@ export const listTagsForResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
@@ -5256,11 +4732,7 @@ export const tagResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
@@ -5282,11 +4754,7 @@ export const untagResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",

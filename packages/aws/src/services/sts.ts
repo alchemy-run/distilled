@@ -1,30 +1,21 @@
+import * as API from "@distilled.cloud/core/api";
+import * as S from "@distilled.cloud/core/schema";
 import * as HttpClient from "effect/http/HttpClient";
 import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
-import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
 import * as C from "../category.ts";
 import type { Credentials as Creds } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
+import * as T from "../traits.ts";
 const ns = T.XmlNamespace("https://sts.amazonaws.com/doc/2011-06-15/");
-const svc = T.AwsApiService({
-  sdkId: "STS",
-  serviceShapeName: "AWSSecurityTokenServiceV20110615",
-});
+const svc = T.AwsApiService({ sdkId: "STS", serviceShapeName: "AWSSecurityTokenServiceV20110615" });
 const auth = T.AwsAuthSigv4({ name: "sts" });
 const ver = T.ServiceVersion("2011-06-15");
 const proto = T.AwsProtocolsAwsQuery();
 const rules = T.EndpointResolver((p, _) => {
-  const {
-    Region,
-    UseDualStack = false,
-    UseFIPS = false,
-    Endpoint,
-    UseGlobalEndpoint = false,
-  } = p;
+  const { Region, UseDualStack = false, UseFIPS = false, Endpoint, UseGlobalEndpoint = false } = p;
   const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
     type: "endpoint" as const,
     endpoint: { url: u as string, properties: p, headers: h },
@@ -34,9 +25,7 @@ const rules = T.EndpointResolver((p, _) => {
     message: m as string,
   });
   const _p0 = () => ({
-    authSchemes: [
-      { name: "sigv4", signingName: "sts", signingRegion: "us-east-1" },
-    ],
+    authSchemes: [{ name: "sigv4", signingName: "sts", signingRegion: "us-east-1" }],
   });
   {
     const PartitionResult = _.partition(Region);
@@ -99,25 +88,17 @@ const rules = T.EndpointResolver((p, _) => {
       }
       return e(
         `https://sts.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        {
-          authSchemes: [
-            { name: "sigv4", signingName: "sts", signingRegion: `${Region}` },
-          ],
-        },
+        { authSchemes: [{ name: "sigv4", signingName: "sts", signingRegion: `${Region}` }] },
         {},
       );
     }
   }
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -143,30 +124,20 @@ const rules = T.EndpointResolver((p, _) => {
             if (_.getAttr(PartitionResult, "name") === "aws-us-gov") {
               return e(`https://sts.${Region}.amazonaws.com`);
             }
-            return e(
-              `https://sts-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
+            return e(`https://sts-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
-            return e(
-              `https://sts.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
+            return e(`https://sts.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`);
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
         if (Region === "aws-global") {
           return e("https://sts.amazonaws.com", _p0(), {});
         }
-        return e(
-          `https://sts.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://sts.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -187,10 +158,7 @@ export class ExpiredTradeInTokenException
     "ExpiredTradeInTokenException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "ExpiredTradeInTokenException",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "ExpiredTradeInTokenException", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -207,20 +175,14 @@ export class IDPRejectedClaimException
   extends /*@__PURE__*/ S.TaggedError<IDPRejectedClaimException>()(
     "IDPRejectedClaimException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "IDPRejectedClaim", httpResponseCode: 403 }),
-      T.HttpError(403),
-    ),
+    T.all(T.AwsQueryError({ code: "IDPRejectedClaim", httpResponseCode: 403 }), T.HttpError(403)),
   ).pipe(C.withAuthError) {}
 export class InvalidAuthorizationMessageException
   extends /*@__PURE__*/ S.TaggedError<InvalidAuthorizationMessageException>()(
     "InvalidAuthorizationMessageException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "InvalidAuthorizationMessageException",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "InvalidAuthorizationMessageException", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -238,10 +200,7 @@ export class JWTPayloadSizeExceededException
     "JWTPayloadSizeExceededException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "JWTPayloadSizeExceededException",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "JWTPayloadSizeExceededException", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -250,10 +209,7 @@ export class MalformedPolicyDocumentException
     "MalformedPolicyDocumentException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "MalformedPolicyDocument",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "MalformedPolicyDocument", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -283,10 +239,7 @@ export class RegionDisabledException
     "RegionDisabledException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "RegionDisabledException",
-        httpResponseCode: 403,
-      }),
+      T.AwsQueryError({ code: "RegionDisabledException", httpResponseCode: 403 }),
       T.HttpError(403),
     ),
   ).pipe(C.withAuthError) {}
@@ -295,10 +248,7 @@ export class SessionDurationEscalationException
     "SessionDurationEscalationException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "SessionDurationEscalationException",
-        httpResponseCode: 403,
-      }),
+      T.AwsQueryError({ code: "SessionDurationEscalationException", httpResponseCode: 403 }),
       T.HttpError(403),
     ),
   ).pipe(C.withAuthError) {}
@@ -309,12 +259,9 @@ export interface PolicyDescriptorType {
 }
 export const PolicyDescriptorType = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ arn: S.optional(S.String) }),
-).annotate({
-  identifier: "PolicyDescriptorType",
-}) as any as S.Schema<PolicyDescriptorType>;
+).annotate({ identifier: "PolicyDescriptorType" }) as any as S.Schema<PolicyDescriptorType>;
 export type PolicyDescriptorListType = PolicyDescriptorType[];
-export const PolicyDescriptorListType =
-  /*@__PURE__*/ S.Array(PolicyDescriptorType);
+export const PolicyDescriptorListType = /*@__PURE__*/ S.Array(PolicyDescriptorType);
 export type UnrestrictedSessionPolicyDocumentType = string;
 export type RoleDurationSecondsType = number;
 export type TagKeyType = string;
@@ -340,15 +287,11 @@ export interface ProvidedContext {
   ContextAssertion?: string;
 }
 export const ProvidedContext = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ProviderArn: S.optional(S.String),
-    ContextAssertion: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ProvidedContext",
-}) as any as S.Schema<ProvidedContext>;
+  S.Struct({ ProviderArn: S.optional(S.String), ContextAssertion: S.optional(S.String) }),
+).annotate({ identifier: "ProvidedContext" }) as any as S.Schema<ProvidedContext>;
 export type ProvidedContextsListType = ProvidedContext[];
 export const ProvidedContextsListType = /*@__PURE__*/ S.Array(ProvidedContext);
+export type MinimumSessionTokenSizeType = number;
 export interface AssumeRoleRequest {
   RoleArn: string;
   RoleSessionName: string;
@@ -362,6 +305,7 @@ export interface AssumeRoleRequest {
   TokenCode?: string;
   SourceIdentity?: string;
   ProvidedContexts?: ProvidedContext[];
+  MinimumSessionTokenSize?: number;
 }
 export const AssumeRoleRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -377,20 +321,9 @@ export const AssumeRoleRequest = /*@__PURE__*/ S.suspend(() =>
     TokenCode: S.optional(S.String),
     SourceIdentity: S.optional(S.String),
     ProvidedContexts: S.optional(ProvidedContextsListType),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "AssumeRoleRequest",
-}) as any as S.Schema<AssumeRoleRequest>;
+    MinimumSessionTokenSize: S.optional(S.Number),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "AssumeRoleRequest" }) as any as S.Schema<AssumeRoleRequest>;
 export type AccessKeyIdType = string;
 export type AccessKeySecretType = string | redacted.Redacted<string>;
 export type TokenType = string;
@@ -415,15 +348,17 @@ export interface AssumedRoleUser {
 }
 export const AssumedRoleUser = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ AssumedRoleId: S.String, Arn: S.String }),
-).annotate({
-  identifier: "AssumedRoleUser",
-}) as any as S.Schema<AssumedRoleUser>;
+).annotate({ identifier: "AssumedRoleUser" }) as any as S.Schema<AssumedRoleUser>;
 export type NonNegativeIntegerType = number;
+export type SessionTokenUtilizationType = number;
+export type SessionTokenSizeType = number;
 export interface AssumeRoleResponse {
   Credentials?: Credentials;
   AssumedRoleUser?: AssumedRoleUser;
   PackedPolicySize?: number;
   SourceIdentity?: string;
+  SessionTokenUtilization?: number;
+  SessionTokenSize?: number;
 }
 export const AssumeRoleResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -431,10 +366,10 @@ export const AssumeRoleResponse = /*@__PURE__*/ S.suspend(() =>
     AssumedRoleUser: S.optional(AssumedRoleUser),
     PackedPolicySize: S.optional(S.Number),
     SourceIdentity: S.optional(S.String),
+    SessionTokenUtilization: S.optional(S.Number),
+    SessionTokenSize: S.optional(S.Number),
   }).pipe(ns),
-).annotate({
-  identifier: "AssumeRoleResponse",
-}) as any as S.Schema<AssumeRoleResponse>;
+).annotate({ identifier: "AssumeRoleResponse" }) as any as S.Schema<AssumeRoleResponse>;
 export type SAMLAssertionType = string | redacted.Redacted<string>;
 export type SessionPolicyDocumentType = string;
 export interface AssumeRoleWithSAMLRequest {
@@ -444,6 +379,7 @@ export interface AssumeRoleWithSAMLRequest {
   PolicyArns?: PolicyDescriptorType[];
   Policy?: string;
   DurationSeconds?: number;
+  MinimumSessionTokenSize?: number;
 }
 export const AssumeRoleWithSAMLRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -453,17 +389,8 @@ export const AssumeRoleWithSAMLRequest = /*@__PURE__*/ S.suspend(() =>
     PolicyArns: S.optional(PolicyDescriptorListType),
     Policy: S.optional(S.String),
     DurationSeconds: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+    MinimumSessionTokenSize: S.optional(S.Number),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "AssumeRoleWithSAMLRequest",
 }) as any as S.Schema<AssumeRoleWithSAMLRequest>;
@@ -482,6 +409,8 @@ export interface AssumeRoleWithSAMLResponse {
   Audience?: string;
   NameQualifier?: string;
   SourceIdentity?: string;
+  SessionTokenUtilization?: number;
+  SessionTokenSize?: number;
 }
 export const AssumeRoleWithSAMLResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -494,6 +423,8 @@ export const AssumeRoleWithSAMLResponse = /*@__PURE__*/ S.suspend(() =>
     Audience: S.optional(S.String),
     NameQualifier: S.optional(S.String),
     SourceIdentity: S.optional(S.String),
+    SessionTokenUtilization: S.optional(S.Number),
+    SessionTokenSize: S.optional(S.Number),
   }).pipe(ns),
 ).annotate({
   identifier: "AssumeRoleWithSAMLResponse",
@@ -508,6 +439,7 @@ export interface AssumeRoleWithWebIdentityRequest {
   PolicyArns?: PolicyDescriptorType[];
   Policy?: string;
   DurationSeconds?: number;
+  MinimumSessionTokenSize?: number;
 }
 export const AssumeRoleWithWebIdentityRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -518,17 +450,8 @@ export const AssumeRoleWithWebIdentityRequest = /*@__PURE__*/ S.suspend(() =>
     PolicyArns: S.optional(PolicyDescriptorListType),
     Policy: S.optional(S.String),
     DurationSeconds: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+    MinimumSessionTokenSize: S.optional(S.Number),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "AssumeRoleWithWebIdentityRequest",
 }) as any as S.Schema<AssumeRoleWithWebIdentityRequest>;
@@ -541,6 +464,8 @@ export interface AssumeRoleWithWebIdentityResponse {
   Provider?: string;
   Audience?: string;
   SourceIdentity?: string;
+  SessionTokenUtilization?: number;
+  SessionTokenSize?: number;
 }
 export const AssumeRoleWithWebIdentityResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -551,6 +476,8 @@ export const AssumeRoleWithWebIdentityResponse = /*@__PURE__*/ S.suspend(() =>
     Provider: S.optional(S.String),
     Audience: S.optional(S.String),
     SourceIdentity: S.optional(S.String),
+    SessionTokenUtilization: S.optional(S.Number),
+    SessionTokenSize: S.optional(S.Number),
   }).pipe(ns),
 ).annotate({
   identifier: "AssumeRoleWithWebIdentityResponse",
@@ -561,53 +488,37 @@ export interface AssumeRootRequest {
   TargetPrincipal: string;
   TaskPolicyArn: PolicyDescriptorType;
   DurationSeconds?: number;
+  MinimumSessionTokenSize?: number;
 }
 export const AssumeRootRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     TargetPrincipal: S.String,
     TaskPolicyArn: PolicyDescriptorType,
     DurationSeconds: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "AssumeRootRequest",
-}) as any as S.Schema<AssumeRootRequest>;
+    MinimumSessionTokenSize: S.optional(S.Number),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "AssumeRootRequest" }) as any as S.Schema<AssumeRootRequest>;
 export interface AssumeRootResponse {
   Credentials?: Credentials;
   SourceIdentity?: string;
+  SessionTokenUtilization?: number;
+  SessionTokenSize?: number;
 }
 export const AssumeRootResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     Credentials: S.optional(Credentials),
     SourceIdentity: S.optional(S.String),
+    SessionTokenUtilization: S.optional(S.Number),
+    SessionTokenSize: S.optional(S.Number),
   }).pipe(ns),
-).annotate({
-  identifier: "AssumeRootResponse",
-}) as any as S.Schema<AssumeRootResponse>;
+).annotate({ identifier: "AssumeRootResponse" }) as any as S.Schema<AssumeRootResponse>;
 export type EncodedMessageType = string;
 export interface DecodeAuthorizationMessageRequest {
   EncodedMessage: string;
 }
 export const DecodeAuthorizationMessageRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ EncodedMessage: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DecodeAuthorizationMessageRequest",
@@ -626,44 +537,20 @@ export interface GetAccessKeyInfoRequest {
 }
 export const GetAccessKeyInfoRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ AccessKeyId: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetAccessKeyInfoRequest",
-}) as any as S.Schema<GetAccessKeyInfoRequest>;
+).annotate({ identifier: "GetAccessKeyInfoRequest" }) as any as S.Schema<GetAccessKeyInfoRequest>;
 export type AccountType = string;
 export interface GetAccessKeyInfoResponse {
   Account?: string;
 }
 export const GetAccessKeyInfoResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Account: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "GetAccessKeyInfoResponse",
-}) as any as S.Schema<GetAccessKeyInfoResponse>;
+).annotate({ identifier: "GetAccessKeyInfoResponse" }) as any as S.Schema<GetAccessKeyInfoResponse>;
 export interface GetCallerIdentityRequest {}
 export const GetCallerIdentityRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetCallerIdentityRequest",
-}) as any as S.Schema<GetCallerIdentityRequest>;
+  S.Struct({}).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "GetCallerIdentityRequest" }) as any as S.Schema<GetCallerIdentityRequest>;
 export type UserIdType = string;
 export interface GetCallerIdentityResponse {
   UserId?: string;
@@ -685,15 +572,7 @@ export interface GetDelegatedAccessTokenRequest {
 }
 export const GetDelegatedAccessTokenRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ TradeInToken: SensitiveString }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetDelegatedAccessTokenRequest",
@@ -720,6 +599,7 @@ export interface GetFederationTokenRequest {
   PolicyArns?: PolicyDescriptorType[];
   DurationSeconds?: number;
   Tags?: Tag[];
+  MinimumSessionTokenSize?: number;
 }
 export const GetFederationTokenRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -728,17 +608,8 @@ export const GetFederationTokenRequest = /*@__PURE__*/ S.suspend(() =>
     PolicyArns: S.optional(PolicyDescriptorListType),
     DurationSeconds: S.optional(S.Number),
     Tags: S.optional(TagListType),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+    MinimumSessionTokenSize: S.optional(S.Number),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "GetFederationTokenRequest",
 }) as any as S.Schema<GetFederationTokenRequest>;
@@ -754,12 +625,16 @@ export interface GetFederationTokenResponse {
   Credentials?: Credentials;
   FederatedUser?: FederatedUser;
   PackedPolicySize?: number;
+  SessionTokenUtilization?: number;
+  SessionTokenSize?: number;
 }
 export const GetFederationTokenResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     Credentials: S.optional(Credentials),
     FederatedUser: S.optional(FederatedUser),
     PackedPolicySize: S.optional(S.Number),
+    SessionTokenUtilization: S.optional(S.Number),
+    SessionTokenSize: S.optional(S.Number),
   }).pipe(ns),
 ).annotate({
   identifier: "GetFederationTokenResponse",
@@ -768,34 +643,28 @@ export interface GetSessionTokenRequest {
   DurationSeconds?: number;
   SerialNumber?: string;
   TokenCode?: string;
+  MinimumSessionTokenSize?: number;
 }
 export const GetSessionTokenRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     DurationSeconds: S.optional(S.Number),
     SerialNumber: S.optional(S.String),
     TokenCode: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetSessionTokenRequest",
-}) as any as S.Schema<GetSessionTokenRequest>;
+    MinimumSessionTokenSize: S.optional(S.Number),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "GetSessionTokenRequest" }) as any as S.Schema<GetSessionTokenRequest>;
 export interface GetSessionTokenResponse {
   Credentials?: Credentials;
+  SessionTokenUtilization?: number;
+  SessionTokenSize?: number;
 }
 export const GetSessionTokenResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Credentials: S.optional(Credentials) }).pipe(ns),
-).annotate({
-  identifier: "GetSessionTokenResponse",
-}) as any as S.Schema<GetSessionTokenResponse>;
+  S.Struct({
+    Credentials: S.optional(Credentials),
+    SessionTokenUtilization: S.optional(S.Number),
+    SessionTokenSize: S.optional(S.Number),
+  }).pipe(ns),
+).annotate({ identifier: "GetSessionTokenResponse" }) as any as S.Schema<GetSessionTokenResponse>;
 export type WebIdentityTokenAudienceStringType = string;
 export type WebIdentityTokenAudienceListType = string[];
 export const WebIdentityTokenAudienceListType = /*@__PURE__*/ S.Array(S.String);
@@ -813,17 +682,7 @@ export const GetWebIdentityTokenRequest = /*@__PURE__*/ S.suspend(() =>
     DurationSeconds: S.optional(S.Number),
     SigningAlgorithm: S.String,
     Tags: S.optional(TagListType),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "GetWebIdentityTokenRequest",
 }) as any as S.Schema<GetWebIdentityTokenRequest>;
@@ -835,9 +694,7 @@ export interface GetWebIdentityTokenResponse {
 export const GetWebIdentityTokenResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     WebIdentityToken: S.optional(SensitiveString),
-    Expiration: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    Expiration: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }).pipe(ns),
 ).annotate({
   identifier: "GetWebIdentityTokenResponse",
@@ -1280,10 +1137,7 @@ export const assumeRoleWithWebIdentity: API.OperationMethod<
   operationName: "AssumeRoleWithWebIdentity",
 }));
 
-export type AssumeRootError =
-  | ExpiredTokenException
-  | RegionDisabledException
-  | CommonErrors;
+export type AssumeRootError = ExpiredTokenException | RegionDisabledException | CommonErrors;
 /**
  * Returns a set of short term credentials you can use to perform privileged tasks on a
  * member account in your organization. You must use credentials from an Organizations management
@@ -1321,9 +1175,7 @@ export const assumeRoot: API.OperationMethod<
   operationName: "AssumeRoot",
 }));
 
-export type DecodeAuthorizationMessageError =
-  | InvalidAuthorizationMessageException
-  | CommonErrors;
+export type DecodeAuthorizationMessageError = InvalidAuthorizationMessageException | CommonErrors;
 /**
  * Decodes additional information about the authorization status of a request from an
  * encoded message returned in response to an Amazon Web Services request.
@@ -1453,11 +1305,7 @@ export const getDelegatedAccessToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetDelegatedAccessTokenRequest,
   output: GetDelegatedAccessTokenResponse,
-  errors: [
-    ExpiredTradeInTokenException,
-    PackedPolicyTooLargeException,
-    RegionDisabledException,
-  ],
+  errors: [ExpiredTradeInTokenException, PackedPolicyTooLargeException, RegionDisabledException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDelegatedAccessToken",
@@ -1660,6 +1508,8 @@ export type GetWebIdentityTokenError =
  * Returns a signed JSON Web Token (JWT) that represents the calling Amazon Web Services identity.
  * The returned JWT can be used to authenticate with external services that support OIDC discovery.
  * The token is signed by Amazon Web Services STS and can be publicly verified using the verification keys published at the issuer's JWKS endpoint.
+ *
+ * The `GetWebIdentityToken` API is not available on the STS Global endpoint.
  */
 export const getWebIdentityToken: API.OperationMethod<
   GetWebIdentityTokenRequest,

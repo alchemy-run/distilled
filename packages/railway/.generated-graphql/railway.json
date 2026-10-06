@@ -300,20 +300,27 @@
         "ACTIVITY_FEED_HISTORY",
         "AGENT_BOOTSTRAPS",
         "AGENT_BYOK",
+        "AGENT_BYOK_ANTHROPIC",
+        "AGENT_BYOK_CHATGPT",
+        "AGENT_BYOK_FIREWORKS",
+        "AGENT_BYOK_OPENAI",
+        "AGENT_BYOK_OPENROUTER",
         "AGENT_CONNECTORS",
-        "BOT_CLOUD_AGENTS",
+        "AGENT_TASKS",
         "CHAT_SANDBOX",
+        "CLEARANCE",
         "CLOUD_AGENTS",
+        "CLOUD_AGENT_BUILDER",
         "CLOUD_AGENT_CHAT",
         "CS_MCP_EXPRESS",
-        "DEBUG_SMART_DIAGNOSIS",
         "EMAIL_FORWARDING",
+        "HA_FOR_MONGO",
         "IN_DASHBOARD_SUPPORT",
         "MAGIC_CONFIG",
         "MYSQL_PITR",
         "PRIORITY_BOARDING",
         "RAILWAY_AGENT_DASHBOARD",
-        "TEMPLATE_CHAT",
+        "RAILWAY_AGENT_FEED",
         "TRACING",
         "USAGE_INSIGHTS",
         "VM_STORAGE_TRACES"
@@ -324,6 +331,8 @@
       "enumValues": [
         "AGENT_USAGE_CH_INGEST",
         "ALERT_SUS_USERS_CRON_KILLSWITCH",
+        "BLOCK_TRIAL_RESTRICTION_APPEALS",
+        "BUILDER_V4_ROLLOUT",
         "BUILD_DEPLOY_QUEUE_V2",
         "CAC_T0_KILLSWITCH",
         "CANVAS_CROSS_ENV_GUARD_ENFORCE",
@@ -343,25 +352,33 @@
         "IN_DASHBOARD_SUPPORT",
         "KAFKA_EPHEMERAL_ENVIRONMENT_UPDATES",
         "LOGS_LONG_WINDOW_CHUNKING",
+        "MCP_OAUTH_AUDIENCE_ENFORCE",
+        "MCP_OAUTH_CIMD",
+        "MCP_OAUTH_SCOPE_CHALLENGES",
+        "MCP_OAUTH_TOKEN_ROUTE_FENCE",
         "NEW_PROJECT_PAGE",
         "NEW_STRIPE_WEBHOOK_VERSION_ROLLOUT",
         "NUDGES",
         "NUDGE_BACKUP_SCHEDULE_MISSING",
+        "NUDGE_FIRST_DEPLOY_FAILED",
         "NUDGE_PUBLIC_DB_URL_WITHIN_PROJECT",
         "NUDGE_RESUBSCRIBE_AFTER_DEAD_INVOICE",
         "NUDGE_UPGRADE_TO_PRO",
         "OAUTH_DCR_KILLSWITCH",
         "PRE_DEPLOY_TIMEOUT_KILLSWITCH",
         "PROJECT_HISTORY_DUAL_WRITE",
-        "PROJECT_HISTORY_READ_FROM_CH",
+        "RADAR_HTTP_PATTERN_DETECTION",
+        "RELAY_SPEND_RESERVATION_KILLSWITCH",
         "REMOVE_DEPLOYMENT_COMPACT",
         "SERVICEINSTANCE_DATALOADER_FOR_STATIC_URL",
         "SPLIT_USAGE_QUERIES",
         "SSH_ANON_PROVISIONING",
+        "SSH_TRIAL_GUEST_IDLE_SLEEP",
         "STRIPE_INTERACTIVE_SUBSCRIPTION_ON_SESSION",
         "STRIPE_METERS_NEW_ACCOUNTS",
         "STRIPE_METERS_SHADOW_ENABLED",
         "STRIPE_WEBHOOK_DISPUTE_CANCELLATION",
+        "TRIAL_RELAY_MODEL_ALLOWLIST_KILLSWITCH",
         "UPDATED_VM_QUERIES",
         "USAGE_CH_READS",
         "VM_COUPON_MIGRATION",
@@ -371,16 +388,16 @@
     },
     "ActiveProjectFeatureFlag": {
       "kind": "ENUM",
-      "enumValues": ["PLACEHOLDER"]
+      "enumValues": ["PLACEHOLDER", "RBS_VOLUMES"]
     },
     "ActiveServiceFeatureFlag": {
       "kind": "ENUM",
       "enumValues": [
+        "BUILDER_V4",
         "COPY_VOLUME_TO_ENVIRONMENT",
-        "ENABLE_DOCKER_EXTENSION",
         "PLACEHOLDER",
         "SKIPPED_BUILDS",
-        "USE_VM_RUNTIME"
+        "USE_DEPLOYMENT_VMS"
       ]
     },
     "AdoptionInfo": {
@@ -1250,6 +1267,111 @@
       },
       "interfaces": []
     },
+    "ClearanceToken": {
+      "kind": "OBJECT",
+      "description": "A Railway Authentication machine token: gets non-human callers past the sign-in on a project's protected services. The token itself is only returned when it's created.",
+      "fields": {
+        "createdAt": {
+          "type": "DateTime!",
+          "args": {},
+          "errors": []
+        },
+        "creator": {
+          "type": "ClearanceTokenCreator",
+          "args": {},
+          "errors": []
+        },
+        "environmentId": {
+          "type": "String",
+          "args": {},
+          "errors": [],
+          "description": "Null means every environment of the project."
+        },
+        "environmentName": {
+          "type": "String",
+          "args": {},
+          "errors": []
+        },
+        "expiresAt": {
+          "type": "DateTime!",
+          "args": {},
+          "errors": []
+        },
+        "id": {
+          "type": "String!",
+          "args": {},
+          "errors": []
+        },
+        "name": {
+          "type": "String!",
+          "args": {},
+          "errors": []
+        }
+      },
+      "interfaces": []
+    },
+    "ClearanceTokenCreateInput": {
+      "kind": "INPUT_OBJECT",
+      "inputFields": {
+        "environmentId": {
+          "type": "String",
+          "description": "Limit the token to one persistent environment. Omit for every environment, including PR environments made later."
+        },
+        "expiresInDays": {
+          "type": "Int",
+          "description": "Days until the token expires: 1 to 365, default 90."
+        },
+        "name": {
+          "type": "String!"
+        },
+        "projectId": {
+          "type": "String!"
+        }
+      }
+    },
+    "ClearanceTokenCreatePayload": {
+      "kind": "OBJECT",
+      "fields": {
+        "clearanceToken": {
+          "type": "ClearanceToken!",
+          "args": {},
+          "errors": []
+        },
+        "token": {
+          "type": "String!",
+          "args": {},
+          "errors": [],
+          "description": "The token. Shown this once; it isn't stored."
+        }
+      },
+      "interfaces": []
+    },
+    "ClearanceTokenCreator": {
+      "kind": "OBJECT",
+      "fields": {
+        "avatar": {
+          "type": "String",
+          "args": {},
+          "errors": []
+        },
+        "email": {
+          "type": "String!",
+          "args": {},
+          "errors": []
+        },
+        "id": {
+          "type": "String!",
+          "args": {},
+          "errors": []
+        },
+        "name": {
+          "type": "String",
+          "args": {},
+          "errors": []
+        }
+      },
+      "interfaces": []
+    },
     "CliAuthEventTrackInput": {
       "kind": "INPUT_OBJECT",
       "inputFields": {
@@ -1525,6 +1647,22 @@
         }
       }
     },
+    "CloudAgentDeployResult": {
+      "kind": "OBJECT",
+      "fields": {
+        "deploymentId": {
+          "type": "String!",
+          "args": {},
+          "errors": []
+        },
+        "serviceId": {
+          "type": "String!",
+          "args": {},
+          "errors": []
+        }
+      },
+      "interfaces": []
+    },
     "CloudAgentDomain": {
       "kind": "OBJECT",
       "description": "One public domain on an agent's machine.",
@@ -1602,6 +1740,22 @@
           "type": "String!"
         }
       }
+    },
+    "CloudAgentRepository": {
+      "kind": "OBJECT",
+      "fields": {
+        "path": {
+          "type": "String!",
+          "args": {},
+          "errors": []
+        },
+        "repo": {
+          "type": "String!",
+          "args": {},
+          "errors": []
+        }
+      },
+      "interfaces": []
     },
     "CloudAgentSnapshot": {
       "kind": "OBJECT",
@@ -1715,11 +1869,22 @@
           "errors": [],
           "description": "Requested ref; null = the repo's default branch."
         },
+        "dir": {
+          "type": "String",
+          "args": {},
+          "errors": [],
+          "description": "Selected checkout directory; null means /app."
+        },
         "repo": {
           "type": "String!",
           "args": {},
           "errors": [],
           "description": "owner/repo."
+        },
+        "repos": {
+          "type": "[CloudAgentRepository!]",
+          "args": {},
+          "errors": []
         },
         "serviceId": {
           "type": "String",
@@ -1776,14 +1941,432 @@
     "CloudAgentStatus": {
       "kind": "ENUM",
       "description": "The current lifecycle state of a cloud agent.",
-      "enumValues": [
-        "CRASHED",
-        "DELETING",
-        "FAILED",
-        "RUNNING",
-        "SLEEPING",
-        "STARTING"
-      ]
+      "enumValues": ["CRASHED", "DELETING", "FAILED", "RUNNING", "SLEEPING", "STARTING"]
+    },
+    "CloudAgentTask": {
+      "kind": "OBJECT",
+      "description": "Task lifecycle and correlation. Read cloudAgentTask for the latest session response.",
+      "fields": {
+        "cloudAgentId": {
+          "type": "ID",
+          "args": {},
+          "errors": []
+        },
+        "completedAt": {
+          "type": "DateTime",
+          "args": {},
+          "errors": []
+        },
+        "createdAt": {
+          "type": "DateTime!",
+          "args": {},
+          "errors": []
+        },
+        "createdVia": {
+          "type": "CloudAgentTaskVia!",
+          "args": {},
+          "errors": []
+        },
+        "error": {
+          "type": "String",
+          "args": {},
+          "errors": []
+        },
+        "externalRef": {
+          "type": "String",
+          "args": {},
+          "errors": []
+        },
+        "id": {
+          "type": "ID!",
+          "args": {},
+          "errors": []
+        },
+        "metadata": {
+          "type": "JSON",
+          "args": {},
+          "errors": []
+        },
+        "promptPreview": {
+          "type": "String",
+          "args": {},
+          "errors": []
+        },
+        "requestedByUserId": {
+          "type": "ID",
+          "args": {},
+          "errors": []
+        },
+        "sessionId": {
+          "type": "String",
+          "args": {},
+          "errors": []
+        },
+        "startedAt": {
+          "type": "DateTime",
+          "args": {},
+          "errors": []
+        },
+        "status": {
+          "type": "CloudAgentTaskStatus!",
+          "args": {},
+          "errors": []
+        },
+        "structuredOutput": {
+          "type": "JSON",
+          "args": {},
+          "errors": []
+        },
+        "text": {
+          "type": "String",
+          "args": {},
+          "errors": [],
+          "description": "The turn's closing text, once it has finished."
+        }
+      },
+      "interfaces": []
+    },
+    "CloudAgentTaskCancelResult": {
+      "kind": "OBJECT",
+      "fields": {
+        "status": {
+          "type": "CloudAgentTaskStatus!",
+          "args": {},
+          "errors": [],
+          "description": "The status when cancel was requested. Poll cloudAgentTask for the outcome."
+        },
+        "taskId": {
+          "type": "ID!",
+          "args": {},
+          "errors": []
+        }
+      },
+      "interfaces": []
+    },
+    "CloudAgentTaskDispatchInput": {
+      "kind": "INPUT_OBJECT",
+      "inputFields": {
+        "agentName": {
+          "type": "String"
+        },
+        "cloudAgentId": {
+          "type": "String",
+          "description": "Explicit agent reuse. Omit all targets to create a fresh agent."
+        },
+        "environmentId": {
+          "type": "String!"
+        },
+        "externalRef": {
+          "type": "String"
+        },
+        "idempotencyKey": {
+          "type": "String"
+        },
+        "metadata": {
+          "type": "JSON"
+        },
+        "mode": {
+          "type": "CloudAgentTaskMode"
+        },
+        "outputSchema": {
+          "type": "JSON",
+          "description": "JSON Schema object for structured output; requires PROMPT mode."
+        },
+        "projectId": {
+          "type": "String!"
+        },
+        "prompt": {
+          "type": "String!"
+        },
+        "replyToTaskId": {
+          "type": "String",
+          "description": "Continue this task's original agent/session. Mutually exclusive with cloudAgentId/sessionId."
+        },
+        "sessionId": {
+          "type": "String",
+          "description": "Existing session to continue; requires cloudAgentId."
+        },
+        "source": {
+          "type": "CloudAgentSourceInput"
+        },
+        "webhookProgress": {
+          "type": "Boolean",
+          "description": "Also send task.progress callbacks, at most one per task every 15 seconds."
+        },
+        "webhookSecret": {
+          "type": "String"
+        },
+        "webhookUrl": {
+          "type": "String"
+        }
+      }
+    },
+    "CloudAgentTaskHandle": {
+      "kind": "OBJECT",
+      "fields": {
+        "cloudAgentId": {
+          "type": "ID!",
+          "args": {},
+          "errors": []
+        },
+        "replayed": {
+          "type": "Boolean!",
+          "args": {},
+          "errors": []
+        },
+        "sessionId": {
+          "type": "String!",
+          "args": {},
+          "errors": []
+        },
+        "status": {
+          "type": "CloudAgentTaskStatus!",
+          "args": {},
+          "errors": []
+        },
+        "taskId": {
+          "type": "ID!",
+          "args": {},
+          "errors": []
+        }
+      },
+      "interfaces": []
+    },
+    "CloudAgentTaskInteraction": {
+      "kind": "OBJECT",
+      "description": "A question the task's run is waiting on: a tool approval or an MCP server's form.",
+      "fields": {
+        "actions": {
+          "type": "[CloudAgentTaskInteractionAction!]!",
+          "args": {},
+          "errors": []
+        },
+        "expiresAt": {
+          "type": "String",
+          "args": {},
+          "errors": []
+        },
+        "fields": {
+          "type": "JSON",
+          "args": {},
+          "errors": [],
+          "description": "Elicitation: the form fields to fill for ACCEPT."
+        },
+        "kind": {
+          "type": "String!",
+          "args": {},
+          "errors": []
+        },
+        "message": {
+          "type": "String",
+          "args": {},
+          "errors": []
+        },
+        "requestedAt": {
+          "type": "String",
+          "args": {},
+          "errors": []
+        },
+        "requestId": {
+          "type": "ID!",
+          "args": {},
+          "errors": []
+        },
+        "server": {
+          "type": "String",
+          "args": {},
+          "errors": [],
+          "description": "Elicitation: the MCP server asking."
+        },
+        "summary": {
+          "type": "JSON",
+          "args": {},
+          "errors": [],
+          "description": "Approval: a preview of the tool call's arguments."
+        },
+        "tool": {
+          "type": "String",
+          "args": {},
+          "errors": [],
+          "description": "Approval: the tool waiting to run."
+        }
+      },
+      "interfaces": []
+    },
+    "CloudAgentTaskInteractionAction": {
+      "kind": "ENUM",
+      "enumValues": ["ACCEPT", "ALLOW", "CANCEL", "DECLINE", "DENY"]
+    },
+    "CloudAgentTaskMode": {
+      "kind": "ENUM",
+      "enumValues": ["FOLLOW_UP", "PROMPT", "STEER"]
+    },
+    "CloudAgentTaskPage": {
+      "kind": "OBJECT",
+      "fields": {
+        "nextCursor": {
+          "type": "String",
+          "args": {},
+          "errors": []
+        },
+        "tasks": {
+          "type": "[CloudAgentTask!]!",
+          "args": {},
+          "errors": []
+        }
+      },
+      "interfaces": []
+    },
+    "CloudAgentTaskProgress": {
+      "kind": "OBJECT",
+      "fields": {
+        "attempt": {
+          "type": "Int",
+          "args": {},
+          "errors": []
+        },
+        "steps": {
+          "type": "Int!",
+          "args": {},
+          "errors": []
+        },
+        "todos": {
+          "type": "JSON",
+          "args": {},
+          "errors": []
+        },
+        "tools": {
+          "type": "[String!]!",
+          "args": {},
+          "errors": [],
+          "description": "Tools running now, by name."
+        },
+        "updatedAt": {
+          "type": "String!",
+          "args": {},
+          "errors": []
+        }
+      },
+      "interfaces": []
+    },
+    "CloudAgentTaskRespondInput": {
+      "kind": "INPUT_OBJECT",
+      "inputFields": {
+        "action": {
+          "type": "CloudAgentTaskInteractionAction!"
+        },
+        "answeredBy": {
+          "type": "String",
+          "description": "Who gave the answer, for the audit log (e.g. linear:<userId>). Not verified."
+        },
+        "content": {
+          "type": "JSON",
+          "description": "ACCEPT only: the form values, keyed by field name."
+        },
+        "requestId": {
+          "type": "String!",
+          "description": "pendingInteractions[].requestId"
+        },
+        "taskId": {
+          "type": "String!"
+        }
+      }
+    },
+    "CloudAgentTaskRespondResult": {
+      "kind": "OBJECT",
+      "fields": {
+        "outcome": {
+          "type": "String!",
+          "args": {},
+          "errors": []
+        },
+        "taskId": {
+          "type": "ID!",
+          "args": {},
+          "errors": []
+        }
+      },
+      "interfaces": []
+    },
+    "CloudAgentTaskResult": {
+      "kind": "OBJECT",
+      "fields": {
+        "cloudAgentId": {
+          "type": "ID!",
+          "args": {},
+          "errors": []
+        },
+        "completedAt": {
+          "type": "String",
+          "args": {},
+          "errors": []
+        },
+        "error": {
+          "type": "String",
+          "args": {},
+          "errors": []
+        },
+        "externalRef": {
+          "type": "String",
+          "args": {},
+          "errors": []
+        },
+        "metadata": {
+          "type": "JSON",
+          "args": {},
+          "errors": []
+        },
+        "pendingInteractions": {
+          "type": "[CloudAgentTaskInteraction!]!",
+          "args": {},
+          "errors": [],
+          "description": "Answer these with cloudAgentTaskRespond."
+        },
+        "progress": {
+          "type": "CloudAgentTaskProgress",
+          "args": {},
+          "errors": []
+        },
+        "sessionId": {
+          "type": "String!",
+          "args": {},
+          "errors": []
+        },
+        "sessionState": {
+          "type": "String",
+          "args": {},
+          "errors": []
+        },
+        "status": {
+          "type": "CloudAgentTaskStatus!",
+          "args": {},
+          "errors": []
+        },
+        "structuredOutput": {
+          "type": "JSON",
+          "args": {},
+          "errors": []
+        },
+        "taskId": {
+          "type": "ID!",
+          "args": {},
+          "errors": []
+        },
+        "text": {
+          "type": "String",
+          "args": {},
+          "errors": []
+        }
+      },
+      "interfaces": []
+    },
+    "CloudAgentTaskStatus": {
+      "kind": "ENUM",
+      "enumValues": ["AWAITING_INPUT", "COMPLETED", "FAILED", "PENDING", "RUNNING"]
+    },
+    "CloudAgentTaskVia": {
+      "kind": "ENUM",
+      "enumValues": ["API", "MCP"]
     },
     "CnameCheck": {
       "kind": "OBJECT",
@@ -1966,14 +2549,7 @@
     },
     "CreditType": {
       "kind": "ENUM",
-      "enumValues": [
-        "APPLIED",
-        "CREDIT",
-        "DEBIT",
-        "STRIPE",
-        "TRANSFER",
-        "WAIVED"
-      ]
+      "enumValues": ["APPLIED", "CREDIT", "DEBIT", "STRIPE", "TRANSFER", "WAIVED"]
     },
     "CustomDomain": {
       "kind": "OBJECT",
@@ -2144,14 +2720,7 @@
     },
     "CustomDomainSyncStatus": {
       "kind": "ENUM",
-      "enumValues": [
-        "ACTIVE",
-        "CREATING",
-        "DELETED",
-        "DELETING",
-        "UNSPECIFIED",
-        "UPDATING"
-      ]
+      "enumValues": ["ACTIVE", "CREATING", "DELETED", "DELETING", "UNSPECIFIED", "UPDATING"]
     },
     "Customer": {
       "kind": "OBJECT",
@@ -3724,6 +4293,40 @@
           "args": {},
           "errors": []
         },
+        "clearanceCachingTurnedOff": {
+          "type": "[String!]!",
+          "args": {},
+          "errors": [],
+          "description": "Services whose edge caching was turned off when the Railway Authentication default last turned on."
+        },
+        "clearanceDefault": {
+          "type": "Boolean!",
+          "args": {},
+          "errors": [],
+          "description": "Whether Railway Authentication protects this environment's services that have no setting of their own."
+        },
+        "clearanceDefaultUpdatedAt": {
+          "type": "DateTime",
+          "args": {},
+          "errors": []
+        },
+        "clearancePropagatedAt": {
+          "type": "DateTime",
+          "args": {},
+          "errors": [],
+          "description": "When the current Railway Authentication default last finished reaching every service that inherits it."
+        },
+        "clearancePropagationError": {
+          "type": "String",
+          "args": {},
+          "errors": []
+        },
+        "clearanceServiceCounts": {
+          "type": "EnvironmentClearanceServiceCounts!",
+          "args": {},
+          "errors": [],
+          "description": "How many of the environment's services follow its Railway Authentication default, and how many have their own on or off."
+        },
         "config": {
           "type": "EnvironmentConfig!",
           "args": {
@@ -3887,6 +4490,41 @@
         }
       },
       "interfaces": ["Node"]
+    },
+    "EnvironmentClearanceDefaultUpdateInput": {
+      "kind": "INPUT_OBJECT",
+      "inputFields": {
+        "enabled": {
+          "type": "Boolean!"
+        },
+        "environmentId": {
+          "type": "String!"
+        },
+        "projectId": {
+          "type": "String!"
+        }
+      }
+    },
+    "EnvironmentClearanceServiceCounts": {
+      "kind": "OBJECT",
+      "fields": {
+        "inheriting": {
+          "type": "Int!",
+          "args": {},
+          "errors": []
+        },
+        "off": {
+          "type": "Int!",
+          "args": {},
+          "errors": []
+        },
+        "on": {
+          "type": "Int!",
+          "args": {},
+          "errors": []
+        }
+      },
+      "interfaces": []
     },
     "EnvironmentConfig": {
       "kind": "SCALAR",
@@ -5151,6 +5789,24 @@
       },
       "interfaces": []
     },
+    "IacPartialOwnershipResult": {
+      "kind": "OBJECT",
+      "fields": {
+        "affectedResources": {
+          "type": "[String!]!",
+          "args": {},
+          "errors": [],
+          "description": "Resource addresses whose ownership changed."
+        },
+        "iacPartials": {
+          "type": "JSON!",
+          "args": {},
+          "errors": [],
+          "description": "The environment's complete ownership map after the change."
+        }
+      },
+      "interfaces": []
+    },
     "ID": {
       "kind": "SCALAR",
       "description": "The `ID` scalar type represents a unique identifier, often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `\"4\"`) or integer (such as `4`) input value will be accepted as an ID.",
@@ -5942,6 +6598,26 @@
           "errors": ["RailwayNotFound"],
           "description": "Merge a canvas layout from one environment into another. Re-computes the merge from current state and applies mutations."
         },
+        "clearanceTokenCreate": {
+          "type": "ClearanceTokenCreatePayload!",
+          "args": {
+            "input": {
+              "type": "ClearanceTokenCreateInput!"
+            }
+          },
+          "errors": [],
+          "description": "Creates a Railway Authentication token for a project's protected services and returns it once. Requires a workspace admin and the workspace's Railway Authentication entitlement."
+        },
+        "clearanceTokenRevoke": {
+          "type": "Boolean!",
+          "args": {
+            "id": {
+              "type": "String!"
+            }
+          },
+          "errors": [],
+          "description": "Revokes a Railway Authentication token. Requires a workspace admin; works without the entitlement. Revoking a revoked token succeeds."
+        },
         "clearPitrHaWorkflowProgress": {
           "type": "Boolean!",
           "args": {
@@ -6018,6 +6694,26 @@
           "errors": [],
           "description": "Delete a cloud agent."
         },
+        "cloudAgentDeploy": {
+          "type": "CloudAgentDeployResult!",
+          "args": {
+            "id": {
+              "type": "ID!"
+            },
+            "path": {
+              "type": "String"
+            },
+            "regions": {
+              "type": "JSON",
+              "description": "Replicas per region, e.g. { \"us-west2\": 3 }. Saved on the service; omit to keep its current regions."
+            },
+            "serviceName": {
+              "type": "String"
+            }
+          },
+          "errors": [],
+          "description": "Build the agent's code inside its own VM and deploy it. Creates the named service (default: the agent's name) or reuses it. Needs an agent booted with the builder."
+        },
         "cloudAgentFeedbackCreate": {
           "type": "String!",
           "args": {
@@ -6076,6 +6772,49 @@
           },
           "errors": [],
           "description": "Report the current coding-agent session state."
+        },
+        "cloudAgentTaskCancel": {
+          "type": "CloudAgentTaskCancelResult!",
+          "args": {
+            "taskId": {
+              "type": "String!"
+            }
+          },
+          "errors": [],
+          "description": "Stop a task. Before its prompt is sent it never starts; after, only its own run is aborted. The task ends failed with \"The task was cancelled\". A finished task is left as is."
+        },
+        "cloudAgentTaskDispatch": {
+          "type": "CloudAgentTaskHandle!",
+          "args": {
+            "input": {
+              "type": "CloudAgentTaskDispatchInput!"
+            }
+          },
+          "errors": [],
+          "description": "Start a task and return its handle. Creates a fresh agent by default; replyToTaskId continues the original conversation."
+        },
+        "cloudAgentTaskRecover": {
+          "type": "CloudAgentTaskResult!",
+          "args": {
+            "cloudAgentId": {
+              "type": "String!"
+            },
+            "sessionId": {
+              "type": "String!"
+            }
+          },
+          "errors": [],
+          "description": "Recover the latest task response from the agent. May wake the VM."
+        },
+        "cloudAgentTaskRespond": {
+          "type": "CloudAgentTaskRespondResult!",
+          "args": {
+            "input": {
+              "type": "CloudAgentTaskRespondInput!"
+            }
+          },
+          "errors": [],
+          "description": "Answer a question the task is waiting on. Never wakes the VM; poll cloudAgentTask for the outcome."
         },
         "cloudAgentWake": {
           "type": "CloudAgent!",
@@ -6441,6 +7180,16 @@
           "errors": [],
           "description": "Experimental: applies an intent-level RailwayChangeSet and returns operation results."
         },
+        "environmentClearanceDefaultUpdate": {
+          "type": "Boolean!",
+          "args": {
+            "input": {
+              "type": "EnvironmentClearanceDefaultUpdateInput!"
+            }
+          },
+          "errors": [],
+          "description": "Sets whether Railway Authentication protects an environment's services that have no setting of their own, and pushes it to them. Requires a workspace admin; turning it on also requires the workspace's Railway Authentication entitlement. Services with edge caching on that it protects have their caching turned off."
+        },
         "environmentConfigPlanCommentUpsert": {
           "type": "EnvironmentConfigPlanCommentUpsertResult!",
           "args": {
@@ -6471,6 +7220,51 @@
           "errors": ["RailwayNotFound"],
           "description": "Deletes an environment."
         },
+        "environmentIacPartialRelease": {
+          "type": "IacPartialOwnershipResult!",
+          "args": {
+            "baseConfigEtag": {
+              "type": "String",
+              "description": "Snapshot token from Environment.configEtag the ownership preview was computed against. When set, the release is rejected if the environment has changed since."
+            },
+            "environmentId": {
+              "type": "String!"
+            },
+            "partial": {
+              "type": "String!"
+            },
+            "resources": {
+              "type": "[String!]",
+              "description": "Resource addresses to release (for example service.api). Every address must belong to the named partial. Omit to release all of its resources; an empty list is rejected."
+            }
+          },
+          "errors": [],
+          "description": "Release resources from a named IaC partial without deleting, redeploying, or changing them. Omit resources to release the entire partial. Whole-project management is possible once no named partials remain. A later named-partial apply can claim released resources again."
+        },
+        "environmentIacPartialTransfer": {
+          "type": "IacPartialOwnershipResult!",
+          "args": {
+            "baseConfigEtag": {
+              "type": "String",
+              "description": "Snapshot token from Environment.configEtag the ownership preview was computed against. When set, the transfer is rejected if the environment has changed since."
+            },
+            "environmentId": {
+              "type": "String!"
+            },
+            "fromPartial": {
+              "type": "String!"
+            },
+            "resources": {
+              "type": "[String!]",
+              "description": "Resource addresses to transfer (for example service.api). Every address must belong to fromPartial. Omit to transfer all of its resources; an empty list is rejected."
+            },
+            "toPartial": {
+              "type": "String!"
+            }
+          },
+          "errors": [],
+          "description": "Transfer resources between named IaC partials without deleting, redeploying, or changing them. Omit resources to transfer the entire source partial. The destination may be a new or existing partial."
+        },
         "environmentPatchCommit": {
           "type": "String!",
           "args": {
@@ -6482,6 +7276,10 @@
             },
             "patch": {
               "type": "EnvironmentConfig"
+            },
+            "skipDeploys": {
+              "type": "Boolean",
+              "description": "Skip deploys for services affected by this patch."
             }
           },
           "errors": ["RailwayNotFound"],
@@ -7015,6 +7813,16 @@
           },
           "errors": [],
           "description": "Claims a project."
+        },
+        "projectClearanceDefaultUpdate": {
+          "type": "Boolean!",
+          "args": {
+            "input": {
+              "type": "ProjectClearanceDefaultUpdateInput!"
+            }
+          },
+          "errors": [],
+          "description": "Sets whether environments created from now on start with Railway Authentication protecting services that have no setting of their own. Existing environments are unchanged. Requires a workspace admin; turning it on also requires the workspace's Railway Authentication entitlement."
         },
         "projectCreate": {
           "type": "Project!",
@@ -7709,6 +8517,16 @@
           },
           "errors": [],
           "description": "Undo an active auto-update skip for a service instance, applied immediately (no config staging, no redeploy). The recurring maintenance window and update policy are untouched — the next scheduled occurrence fires normally again."
+        },
+        "serviceInstanceClearanceUpdate": {
+          "type": "Boolean!",
+          "args": {
+            "input": {
+              "type": "ServiceInstanceClearanceUpdateInput!"
+            }
+          },
+          "errors": [],
+          "description": "Sets a service instance's own Railway Authentication setting: on, off, or none (follow the environment's default). Requires a workspace admin; ending up on also requires the workspace's Railway Authentication entitlement and edge caching off."
         },
         "serviceInstanceDeploy": {
           "type": "Boolean!",
@@ -8480,6 +9298,12 @@
         "webhookTest": {
           "type": "Int!",
           "args": {
+            "headers": {
+              "type": "[WebhookHeaderInput!]"
+            },
+            "notificationRuleId": {
+              "type": "String"
+            },
             "payload": {
               "type": "String!"
             },
@@ -8488,7 +9312,7 @@
             }
           },
           "errors": [],
-          "description": "Test a webhook URL by sending a sample payload. Returns the HTTP status code."
+          "description": "Test a webhook URL by sending a sample payload. Returns the HTTP status code. Custom headers come from `headers`, plus the stored headers of `notificationRuleId` for names not passed."
         },
         "workspaceDelete": {
           "type": "Boolean!",
@@ -8846,13 +9670,7 @@
     "NetworkFlowPeerKind": {
       "kind": "ENUM",
       "description": "The type of peer in a network flow",
-      "enumValues": [
-        "edge_proxy",
-        "internet",
-        "local_dns",
-        "service",
-        "unknown"
-      ]
+      "enumValues": ["edge_proxy", "internet", "local_dns", "service", "unknown"]
     },
     "NetworkFlowState": {
       "kind": "ENUM",
@@ -8939,7 +9757,8 @@
         "config": {
           "type": "NotificationChannelConfig!",
           "args": {},
-          "errors": []
+          "errors": [],
+          "description": "Webhook header values are write-only: the read side carries header names with null values."
         },
         "createdAt": {
           "type": "DateTime!",
@@ -9079,10 +9898,7 @@
     },
     "NotificationDeliveryUpdate": {
       "kind": "UNION",
-      "possibleTypes": [
-        "NotificationDeliveryCreated",
-        "NotificationDeliveryResolved"
-      ]
+      "possibleTypes": ["NotificationDeliveryCreated", "NotificationDeliveryResolved"]
     },
     "NotificationInstance": {
       "kind": "OBJECT",
@@ -9954,6 +10770,8 @@
       "enumValues": [
         "AGENT_USAGE_CH_INGEST",
         "ALERT_SUS_USERS_CRON_KILLSWITCH",
+        "BLOCK_TRIAL_RESTRICTION_APPEALS",
+        "BUILDER_V4_ROLLOUT",
         "BUILD_DEPLOY_QUEUE_V2",
         "CAC_T0_KILLSWITCH",
         "CANVAS_CROSS_ENV_GUARD_ENFORCE",
@@ -9973,25 +10791,33 @@
         "IN_DASHBOARD_SUPPORT",
         "KAFKA_EPHEMERAL_ENVIRONMENT_UPDATES",
         "LOGS_LONG_WINDOW_CHUNKING",
+        "MCP_OAUTH_AUDIENCE_ENFORCE",
+        "MCP_OAUTH_CIMD",
+        "MCP_OAUTH_SCOPE_CHALLENGES",
+        "MCP_OAUTH_TOKEN_ROUTE_FENCE",
         "NEW_PROJECT_PAGE",
         "NEW_STRIPE_WEBHOOK_VERSION_ROLLOUT",
         "NUDGES",
         "NUDGE_BACKUP_SCHEDULE_MISSING",
+        "NUDGE_FIRST_DEPLOY_FAILED",
         "NUDGE_PUBLIC_DB_URL_WITHIN_PROJECT",
         "NUDGE_RESUBSCRIBE_AFTER_DEAD_INVOICE",
         "NUDGE_UPGRADE_TO_PRO",
         "OAUTH_DCR_KILLSWITCH",
         "PRE_DEPLOY_TIMEOUT_KILLSWITCH",
         "PROJECT_HISTORY_DUAL_WRITE",
-        "PROJECT_HISTORY_READ_FROM_CH",
+        "RADAR_HTTP_PATTERN_DETECTION",
+        "RELAY_SPEND_RESERVATION_KILLSWITCH",
         "REMOVE_DEPLOYMENT_COMPACT",
         "SERVICEINSTANCE_DATALOADER_FOR_STATIC_URL",
         "SPLIT_USAGE_QUERIES",
         "SSH_ANON_PROVISIONING",
+        "SSH_TRIAL_GUEST_IDLE_SLEEP",
         "STRIPE_INTERACTIVE_SUBSCRIPTION_ON_SESSION",
         "STRIPE_METERS_NEW_ACCOUNTS",
         "STRIPE_METERS_SHADOW_ENABLED",
         "STRIPE_WEBHOOK_DISPUTE_CANCELLATION",
+        "TRIAL_RELAY_MODEL_ALLOWLIST_KILLSWITCH",
         "UPDATED_VM_QUERIES",
         "USAGE_CH_READS",
         "VM_COUPON_MIGRATION",
@@ -10479,14 +11305,7 @@
     },
     "PrivateNetworkEndpointSyncStatus": {
       "kind": "ENUM",
-      "enumValues": [
-        "ACTIVE",
-        "CREATING",
-        "DELETED",
-        "DELETING",
-        "UNSPECIFIED",
-        "UPDATING"
-      ]
+      "enumValues": ["ACTIVE", "CREATING", "DELETED", "DELETING", "UNSPECIFIED", "UPDATING"]
     },
     "Project": {
       "kind": "OBJECT",
@@ -10523,6 +11342,18 @@
             }
           },
           "errors": []
+        },
+        "clearanceDefaultForNewEnvironments": {
+          "type": "Boolean!",
+          "args": {},
+          "errors": [],
+          "description": "Whether environments created from now on start with Railway Authentication protecting services that have no setting of their own. Existing environments keep their own default."
+        },
+        "clearanceTokens": {
+          "type": "[ClearanceToken!]!",
+          "args": {},
+          "errors": [],
+          "description": "The project's Railway Authentication tokens that still work (not revoked, not expired), newest first."
         },
         "createdAt": {
           "type": "DateTime!",
@@ -10751,13 +11582,13 @@
           "type": "Boolean!",
           "args": {},
           "errors": [],
-          "description": "Whether the project's services are traced by default. A service can override it with its own tracingEnabled."
+          "deprecated": "Tracing is set per service instance: read ServiceInstance.tracingEnabled. True when any instance in the project is traced."
         },
         "tracingSampleRate": {
           "type": "Float",
           "args": {},
           "errors": [],
-          "description": "Fraction of client-facing requests the edge traces, 0..1. Null uses Railway's default."
+          "deprecated": "The edge traces every client-facing request; there is no sample rate. Always null."
         },
         "updatedAt": {
           "type": "DateTime!",
@@ -10832,6 +11663,17 @@
         }
       },
       "interfaces": []
+    },
+    "ProjectClearanceDefaultUpdateInput": {
+      "kind": "INPUT_OBJECT",
+      "inputFields": {
+        "enabled": {
+          "type": "Boolean!"
+        },
+        "projectId": {
+          "type": "String!"
+        }
+      }
     },
     "ProjectComplianceInfo": {
       "kind": "OBJECT",
@@ -11788,14 +12630,6 @@
         },
         "prDeploys": {
           "type": "Boolean"
-        },
-        "tracingEnabled": {
-          "type": "Boolean",
-          "description": "Trace the project's services by default: the edge records a span for each sampled request to their domains, and the next deploy configures each app's OpenTelemetry SDK to export to Railway. A service's own tracingEnabled overrides this."
-        },
-        "tracingSampleRate": {
-          "type": "Float",
-          "description": "Fraction of client-facing requests the edge traces, 0..1, for every traced service in the project. Null resets to Railway's default."
         }
       }
     },
@@ -12279,6 +13113,49 @@
           },
           "errors": [],
           "description": "Cloud agents in an environment."
+        },
+        "cloudAgentTask": {
+          "type": "CloudAgentTaskResult!",
+          "args": {
+            "cloudAgentId": {
+              "type": "String!"
+            },
+            "sessionId": {
+              "type": "String!"
+            },
+            "taskId": {
+              "type": "String",
+              "description": "An earlier turn on this session; default the latest."
+            }
+          },
+          "errors": [],
+          "description": "Read a task turn without waking the VM: the latest on the agent/session, or taskId's."
+        },
+        "cloudAgentTasks": {
+          "type": "CloudAgentTaskPage!",
+          "args": {
+            "cloudAgentId": {
+              "type": "String"
+            },
+            "cursor": {
+              "type": "String"
+            },
+            "environmentId": {
+              "type": "String!"
+            },
+            "limit": {
+              "type": "Int"
+            },
+            "sessionId": {
+              "type": "String",
+              "description": "Requires cloudAgentId."
+            },
+            "status": {
+              "type": "CloudAgentTaskStatus"
+            }
+          },
+          "errors": [],
+          "description": "List task records in an environment, newest first. Filter to one agent, or with sessionId to one session's turns."
         },
         "complianceAgreements": {
           "type": "ComplianceAgreementsInfo!",
@@ -14187,6 +15064,64 @@
           "errors": [],
           "description": "Get the source template for a project."
         },
+        "trace": {
+          "type": "[TraceSpan!]!",
+          "args": {
+            "environmentId": {
+              "type": "String!"
+            },
+            "maxSpans": {
+              "type": "Int",
+              "description": "Spans returned (defaults 1000, max 2000)"
+            },
+            "traceId": {
+              "type": "String!",
+              "description": "W3C trace id, 32 hex characters"
+            }
+          },
+          "errors": [],
+          "description": "The spans of one trace, oldest first. Only spans belonging to the environment are returned"
+        },
+        "traces": {
+          "type": "[TraceSummary!]!",
+          "args": {
+            "endDate": {
+              "type": "String",
+              "description": "Latest span start to consider (ISO); defaults to now"
+            },
+            "environmentId": {
+              "type": "String!"
+            },
+            "filter": {
+              "type": "String",
+              "description": "Filter expression over spans, e.g. @status:error @component:edge @duration:>500 @http.route:/api/users. Built-in fields: trace, span, name, serviceName, service, deployment, replica, component, kind, status, duration (ms). Any other @key looks the key up in the span and resource attributes; free text matches the span name. Prefix a term with - to exclude it."
+            },
+            "limit": {
+              "type": "Int",
+              "description": "Traces returned (defaults 100, max 500)"
+            },
+            "serviceId": {
+              "type": "String",
+              "description": "Only traces with a span from this Railway service (optional)"
+            },
+            "startDate": {
+              "type": "String",
+              "description": "Oldest span start to consider (ISO). Clamped to the project's retention; defaults to one hour ago"
+            }
+          },
+          "errors": [],
+          "description": "Traces of an environment with at least one span matching the filter, newest first"
+        },
+        "tracingStatus": {
+          "type": "[ServiceTracingStatus!]!",
+          "args": {
+            "environmentId": {
+              "type": "String!"
+            }
+          },
+          "errors": [],
+          "description": "Span activity per service of an environment within retention; a service absent from the list has produced no spans at all"
+        },
         "trustedDomains": {
           "type": "QueryTrustedDomainsConnection!",
           "args": {
@@ -15997,24 +16932,12 @@
     },
     "ReplicateVolumeInstanceSnapshotStatus": {
       "kind": "ENUM",
-      "enumValues": [
-        "COMPLETED",
-        "FAILED",
-        "INITIATED",
-        "TRANSFERRING",
-        "UNRECOGNIZED"
-      ]
+      "enumValues": ["COMPLETED", "FAILED", "INITIATED", "TRANSFERRING", "UNRECOGNIZED"]
     },
     "ReplicateVolumeInstanceStatus": {
       "kind": "ENUM",
       "description": "The status of a volume instance replication",
-      "enumValues": [
-        "COMPLETED",
-        "ERROR",
-        "QUEUED",
-        "TRANSFERRING_OFFLINE",
-        "TRANSFERRING_ONLINE"
-      ]
+      "enumValues": ["COMPLETED", "ERROR", "QUEUED", "TRANSFERRING_OFFLINE", "TRANSFERRING_ONLINE"]
     },
     "ResetPluginCredentialsInput": {
       "kind": "INPUT_OBJECT",
@@ -16442,6 +17365,12 @@
     "Service": {
       "kind": "OBJECT",
       "fields": {
+        "autoInstrumentationEnabled": {
+          "type": "Boolean!",
+          "args": {},
+          "errors": [],
+          "deprecated": "Set per service instance: read ServiceInstance.autoInstrumentationEnabled. Reports the production environment's instance."
+        },
         "createdAt": {
           "type": "DateTime!",
           "args": {},
@@ -16574,7 +17503,7 @@
           "type": "Boolean",
           "args": {},
           "errors": [],
-          "description": "The service's tracing override: true or false pins it, null follows the project's tracingEnabled."
+          "deprecated": "Tracing is set per service instance: read ServiceInstance.tracingEnabled. Reports the production environment's instance."
         },
         "updatedAt": {
           "type": "DateTime!",
@@ -16791,14 +17720,7 @@
     },
     "ServiceDomainSyncStatus": {
       "kind": "ENUM",
-      "enumValues": [
-        "ACTIVE",
-        "CREATING",
-        "DELETED",
-        "DELETING",
-        "UNSPECIFIED",
-        "UPDATING"
-      ]
+      "enumValues": ["ACTIVE", "CREATING", "DELETED", "DELETING", "UNSPECIFIED", "UPDATING"]
     },
     "ServiceDomainUpdateInput": {
       "kind": "INPUT_OBJECT",
@@ -16840,6 +17762,12 @@
           "errors": [],
           "description": "All currently active (deployed and running) deployments for this service instance"
         },
+        "autoInstrumentationEnabled": {
+          "type": "Boolean!",
+          "args": {},
+          "errors": [],
+          "description": "Instrument the service's processes with eBPF (OBI) for supported runtimes, no code changes. Only active while tracingEnabled is true."
+        },
         "buildCommand": {
           "type": "String",
           "args": {},
@@ -16849,6 +17777,18 @@
           "type": "Builder!",
           "args": {},
           "errors": []
+        },
+        "clearance": {
+          "type": "Boolean",
+          "args": {},
+          "errors": [],
+          "description": "This service's own Railway Authentication setting. Null means no setting of its own: it follows the environment's default (see clearanceEffective)."
+        },
+        "clearanceEffective": {
+          "type": "Boolean!",
+          "args": {},
+          "errors": [],
+          "description": "Whether Railway Authentication protects this service's HTTP domains: its own setting, else its environment's default."
         },
         "createdAt": {
           "type": "DateTime!",
@@ -17023,6 +17963,12 @@
           "args": {},
           "errors": []
         },
+        "tracingEnabled": {
+          "type": "Boolean!",
+          "args": {},
+          "errors": [],
+          "description": "Trace requests to the service in this environment: the edge records a span per client-facing request to its domains and the next deploy provides the OpenTelemetry exporter variables."
+        },
         "updatedAt": {
           "type": "DateTime!",
           "args": {},
@@ -17090,6 +18036,24 @@
       },
       "interfaces": []
     },
+    "ServiceInstanceClearanceUpdateInput": {
+      "kind": "INPUT_OBJECT",
+      "inputFields": {
+        "enabled": {
+          "type": "Boolean",
+          "description": "On or off. Null (or omitted) removes the service's own setting so it follows the environment's default."
+        },
+        "environmentId": {
+          "type": "String!"
+        },
+        "projectId": {
+          "type": "String!"
+        },
+        "serviceId": {
+          "type": "String!"
+        }
+      }
+    },
     "ServiceInstanceLimit": {
       "kind": "SCALAR",
       "scalar": "unknown"
@@ -17116,6 +18080,10 @@
     "ServiceInstanceUpdateInput": {
       "kind": "INPUT_OBJECT",
       "inputFields": {
+        "autoInstrumentationEnabled": {
+          "type": "Boolean",
+          "description": "Instrument the service's processes with eBPF (OBI) while its tracing is on. Reaches running containers within about a minute, no redeploy needed."
+        },
         "buildCommand": {
           "type": "String"
         },
@@ -17184,6 +18152,10 @@
         },
         "startCommand": {
           "type": "String"
+        },
+        "tracingEnabled": {
+          "type": "Boolean",
+          "description": "Trace requests to the service in this environment. Takes effect at the edge within seconds and in the app on the next deploy."
         },
         "watchPatterns": {
           "type": "[String!]"
@@ -17281,6 +18253,30 @@
         }
       }
     },
+    "ServiceTracingStatus": {
+      "kind": "OBJECT",
+      "description": "Whether a service's requests are producing spans, per exporting hop. The edge tracing a request says nothing about the app behind it.",
+      "fields": {
+        "lastEdgeSpanAt": {
+          "type": "DateTime",
+          "args": {},
+          "errors": [],
+          "description": "When the edge last exported a span for a request to the service; null when it never has within retention"
+        },
+        "lastServiceSpanAt": {
+          "type": "DateTime",
+          "args": {},
+          "errors": [],
+          "description": "When the service's own app last exported a span; null when it never has within retention"
+        },
+        "serviceId": {
+          "type": "String!",
+          "args": {},
+          "errors": []
+        }
+      },
+      "interfaces": []
+    },
     "ServiceUpdateInput": {
       "kind": "INPUT_OBJECT",
       "inputFields": {
@@ -17289,10 +18285,6 @@
         },
         "name": {
           "type": "String"
-        },
-        "tracingEnabled": {
-          "type": "Boolean",
-          "description": "Tracing override for the service: true or false pins it, null follows the project default. Takes effect at the edge within seconds and in the app on the next deploy."
         }
       }
     },
@@ -18347,14 +19339,7 @@
     },
     "TCPProxySyncStatus": {
       "kind": "ENUM",
-      "enumValues": [
-        "ACTIVE",
-        "CREATING",
-        "DELETED",
-        "DELETING",
-        "UNSPECIFIED",
-        "UPDATING"
-      ]
+      "enumValues": ["ACTIVE", "CREATING", "DELETED", "DELETING", "UNSPECIFIED", "UPDATING"]
     },
     "Team": {
       "kind": "OBJECT",
@@ -18844,6 +19829,11 @@
     "TemplateDeployPayload": {
       "kind": "OBJECT",
       "fields": {
+        "operationId": {
+          "type": "String",
+          "args": {},
+          "errors": []
+        },
         "projectId": {
           "type": "String!",
           "args": {},
@@ -19227,6 +20217,235 @@
     "TemplateVolume": {
       "kind": "SCALAR",
       "scalar": "unknown"
+    },
+    "TraceSpan": {
+      "kind": "OBJECT",
+      "description": "One span of a trace",
+      "fields": {
+        "component": {
+          "type": "String!",
+          "args": {},
+          "errors": [],
+          "description": "Which hop exported the span: edge, proxy or service"
+        },
+        "deploymentId": {
+          "type": "String",
+          "args": {},
+          "errors": []
+        },
+        "deploymentInstanceId": {
+          "type": "String",
+          "args": {},
+          "errors": []
+        },
+        "durationMs": {
+          "type": "Float!",
+          "args": {},
+          "errors": []
+        },
+        "events": {
+          "type": "[TraceSpanEvent!]!",
+          "args": {},
+          "errors": []
+        },
+        "kind": {
+          "type": "String!",
+          "args": {},
+          "errors": [],
+          "description": "INTERNAL, SERVER, CLIENT, PRODUCER, CONSUMER or UNSPECIFIED"
+        },
+        "links": {
+          "type": "[TraceSpanLink!]!",
+          "args": {},
+          "errors": []
+        },
+        "name": {
+          "type": "String!",
+          "args": {},
+          "errors": []
+        },
+        "parentSpanId": {
+          "type": "String",
+          "args": {},
+          "errors": [],
+          "description": "Absent on a root span"
+        },
+        "resourceAttributes": {
+          "type": "JSON!",
+          "args": {},
+          "errors": [],
+          "description": "Resource attributes as exported, without the railway.* keys Railway promotes into typed fields"
+        },
+        "serviceId": {
+          "type": "String",
+          "args": {},
+          "errors": [],
+          "description": "Railway service the span belongs to, when known"
+        },
+        "serviceName": {
+          "type": "String!",
+          "args": {},
+          "errors": [],
+          "description": "The exporter's service.name resource attribute"
+        },
+        "spanAttributes": {
+          "type": "JSON!",
+          "args": {},
+          "errors": []
+        },
+        "spanId": {
+          "type": "String!",
+          "args": {},
+          "errors": [],
+          "description": "16 lower-case hex characters"
+        },
+        "startedAt": {
+          "type": "String!",
+          "args": {},
+          "errors": [],
+          "description": "ISO timestamp"
+        },
+        "statusCode": {
+          "type": "String!",
+          "args": {},
+          "errors": [],
+          "description": "UNSET, OK or ERROR"
+        },
+        "statusMessage": {
+          "type": "String!",
+          "args": {},
+          "errors": []
+        },
+        "traceId": {
+          "type": "String!",
+          "args": {},
+          "errors": []
+        }
+      },
+      "interfaces": []
+    },
+    "TraceSpanEvent": {
+      "kind": "OBJECT",
+      "description": "A timestamped event on a span",
+      "fields": {
+        "attributes": {
+          "type": "JSON!",
+          "args": {},
+          "errors": []
+        },
+        "name": {
+          "type": "String!",
+          "args": {},
+          "errors": []
+        },
+        "timestamp": {
+          "type": "String!",
+          "args": {},
+          "errors": []
+        }
+      },
+      "interfaces": []
+    },
+    "TraceSpanLink": {
+      "kind": "OBJECT",
+      "description": "A link from a span to a span in another trace",
+      "fields": {
+        "spanId": {
+          "type": "String!",
+          "args": {},
+          "errors": []
+        },
+        "traceId": {
+          "type": "String!",
+          "args": {},
+          "errors": []
+        }
+      },
+      "interfaces": []
+    },
+    "TraceSummary": {
+      "kind": "OBJECT",
+      "description": "One trace of an environment: the request as a whole, summarised from its spans",
+      "fields": {
+        "durationMs": {
+          "type": "Float!",
+          "args": {},
+          "errors": [],
+          "description": "From the earliest span start to the latest span end"
+        },
+        "errorCount": {
+          "type": "Int!",
+          "args": {},
+          "errors": [],
+          "description": "Spans with an error status"
+        },
+        "hasEdge": {
+          "type": "Boolean!",
+          "args": {},
+          "errors": [],
+          "description": "Whether the edge exported any span of the trace"
+        },
+        "rootComponent": {
+          "type": "String!",
+          "args": {},
+          "errors": [],
+          "description": "Which hop exported the root span: edge (hikari), proxy (tcp-proxy) or service"
+        },
+        "rootServerAddress": {
+          "type": "String",
+          "args": {},
+          "errors": [],
+          "description": "The root span's server.address, when it set one"
+        },
+        "rootServiceId": {
+          "type": "String!",
+          "args": {},
+          "errors": [],
+          "description": "Railway service the root span belongs to"
+        },
+        "rootServiceName": {
+          "type": "String!",
+          "args": {},
+          "errors": [],
+          "description": "The root span's service.name"
+        },
+        "rootSpanName": {
+          "type": "String!",
+          "args": {},
+          "errors": [],
+          "description": "Name of the root span, or of the earliest span when the root is missing"
+        },
+        "rootUrlPath": {
+          "type": "String",
+          "args": {},
+          "errors": [],
+          "description": "The root span's url.path, when it set one"
+        },
+        "serviceName": {
+          "type": "String",
+          "args": {},
+          "errors": [],
+          "description": "service.name of the earliest span a service exported; null when the request never reached one"
+        },
+        "spanCount": {
+          "type": "Int!",
+          "args": {},
+          "errors": []
+        },
+        "startedAt": {
+          "type": "String!",
+          "args": {},
+          "errors": [],
+          "description": "Start of the earliest span (ISO timestamp)"
+        },
+        "traceId": {
+          "type": "String!",
+          "args": {},
+          "errors": [],
+          "description": "W3C trace id, 32 lower-case hex characters"
+        }
+      },
+      "interfaces": []
     },
     "TrustedDomain": {
       "kind": "OBJECT",
@@ -20619,6 +21838,17 @@
         }
       },
       "interfaces": []
+    },
+    "WebhookHeaderInput": {
+      "kind": "INPUT_OBJECT",
+      "inputFields": {
+        "name": {
+          "type": "String!"
+        },
+        "value": {
+          "type": "String!"
+        }
+      }
     },
     "WithdrawalPlatformTypes": {
       "kind": "ENUM",

@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
 /**
  * convert — the Hub's OpenAPI description → Smithy JSON models in
  * .generated-specs.
@@ -26,20 +26,17 @@
  */
 import * as fs from "node:fs";
 import * as path from "node:path";
+import { convertOpenApiToSmithy } from "@distilled.cloud/core/codegen/openapi";
+import { finalizeConvert } from "@distilled.cloud/core/codegen/patches";
+import { resolveSpecPath } from "@distilled.cloud/core/codegen/spec-path";
 import {
   applyOperation,
   isStaleTargetError,
   type PatchFile,
 } from "@distilled.cloud/core/json-patch";
-import { convertOpenApiToSmithy } from "@distilled.cloud/core/codegen/openapi";
-import { finalizeConvert } from "@distilled.cloud/core/codegen/patches";
-import { resolveSpecPath } from "@distilled.cloud/core/codegen/spec-path";
 
-const rootDir = path.resolve(import.meta.dir, "..");
-const specPath = resolveSpecPath(
-  rootDir,
-  "specs/spec-mirror-huggingface/specs/openapi.json",
-);
+const rootDir = path.resolve(import.meta.dirname, "..");
+const specPath = resolveSpecPath(rootDir, "specs/spec-mirror-huggingface/specs/openapi.json");
 const patchDir = path.join(rootDir, "patches");
 const outDir = path.join(rootDir, ".generated-specs");
 
@@ -84,12 +81,9 @@ const OPERATION_NAMES: Readonly<Record<string, string>> = {
     "replaceScimProvisioningUser",
   "PATCH /api/organizations/{name}/scim-provisioning/v2/Users/{userId}":
     "updateScimProvisioningUser",
-  "GET /api/organizations/{name}/scim-provisioning/v2/Groups":
-    "listScimProvisioningGroups",
-  "POST /api/organizations/{name}/scim-provisioning/v2/Groups":
-    "createScimProvisioningGroup",
-  "GET /api/organizations/{name}/scim-provisioning/v2/Groups/{groupId}":
-    "getScimProvisioningGroup",
+  "GET /api/organizations/{name}/scim-provisioning/v2/Groups": "listScimProvisioningGroups",
+  "POST /api/organizations/{name}/scim-provisioning/v2/Groups": "createScimProvisioningGroup",
+  "GET /api/organizations/{name}/scim-provisioning/v2/Groups/{groupId}": "getScimProvisioningGroup",
   "PUT /api/organizations/{name}/scim-provisioning/v2/Groups/{groupId}":
     "replaceScimProvisioningGroup",
   "PATCH /api/organizations/{name}/scim-provisioning/v2/Groups/{groupId}":
@@ -105,35 +99,44 @@ const OPERATION_NAMES: Readonly<Record<string, string>> = {
   "POST /api/blog/{slug}/comment": "createBlogComment",
   "POST /api/blog/{slug}/comment/{commentId}/reply": "replyToBlogComment",
   "POST /api/blog/{namespace}/{slug}/comment": "createCommunityBlogComment",
-  "POST /api/blog/{namespace}/{slug}/comment/{commentId}/reply":
-    "replyToCommunityBlogComment",
-  "POST /api/{repoType}/{namespace}/{repo}/discussions/{num}/comment":
-    "createDiscussionComment",
+  "POST /api/blog/{namespace}/{slug}/comment/{commentId}/reply": "replyToCommunityBlogComment",
+  "POST /api/{repoType}/{namespace}/{repo}/discussions/{num}/comment": "createDiscussionComment",
   "POST /api/papers/{paperId}/comment": "createPaperComment",
   "POST /api/papers/{paperId}/comment/{commentId}/reply": "replyToPaperComment",
   "POST /api/posts/{username}/{postSlug}/comment": "createPostComment",
-  "POST /api/posts/{username}/{postSlug}/comment/{commentId}/reply":
-    "replyToPostComment",
-  "DELETE /api/{repoType}/{namespace}/{repo}/discussions/{num}":
-    "deleteDiscussion",
+  "POST /api/posts/{username}/{postSlug}/comment/{commentId}/reply": "replyToPostComment",
+  "POST /api/blog/{slug}/comment/{commentId}/edit": "updateBlogComment",
+  "POST /api/blog/{namespace}/{slug}/comment/{commentId}/edit": "updateCommunityBlogComment",
+  "POST /api/{repoType}/{namespace}/{repo}/discussions/{num}/comment/{commentId}/edit":
+    "updateDiscussionComment",
+  "POST /api/papers/{paperId}/comment/{commentId}/edit": "updatePaperComment",
+  "POST /api/posts/{username}/{postSlug}/comment/{commentId}/edit": "updatePostComment",
+  "POST /api/blog/{slug}/comment/{commentId}/hide": "hideBlogComment",
+  "POST /api/blog/{namespace}/{slug}/comment/{commentId}/hide": "hideCommunityBlogComment",
+  "POST /api/{repoType}/{namespace}/{repo}/discussions/{num}/comment/{commentId}/hide":
+    "hideDiscussionComment",
+  "POST /api/papers/{paperId}/comment/{commentId}/hide": "hidePaperComment",
+  "POST /api/posts/{username}/{postSlug}/comment/{commentId}/hide": "hidePostComment",
+  "POST /api/blog/{slug}/comment/{commentId}/reaction": "reactToBlogComment",
+  "POST /api/blog/{namespace}/{slug}/comment/{commentId}/reaction": "reactToCommunityBlogComment",
+  "POST /api/{repoType}/{namespace}/{repo}/discussions/{num}/comment/{commentId}/reaction":
+    "reactToDiscussionComment",
+  "POST /api/papers/{paperId}/comment/{commentId}/reaction": "reactToPaperComment",
+  "POST /api/posts/{username}/{postSlug}/comment/{commentId}/reaction": "reactToPostComment",
+  "DELETE /api/{repoType}/{namespace}/{repo}/discussions/{num}": "deleteDiscussion",
   "DELETE /api/posts/{username}/{postSlug}": "deletePost",
 
   // -- inference-endpoints / jobs: namespace-level vs resource-level
   //    auth probes ------------------------------------------------------------
-  "POST /api/inference-endpoints/{namespace}/auth-check/{perms}":
-    "checkNamespaceAccess",
-  "POST /api/inference-endpoints/{namespace}/{endpoint}/auth-check/{perms}":
-    "checkEndpointAccess",
+  "POST /api/inference-endpoints/{namespace}/auth-check/{perms}": "checkNamespaceAccess",
+  "POST /api/inference-endpoints/{namespace}/{endpoint}/auth-check/{perms}": "checkEndpointAccess",
   "POST /api/jobs/{namespace}/auth-check/{perms}": "checkNamespaceAccess",
   "POST /api/jobs/{namespace}/{jobId}/auth-check/{perms}": "checkJobAccess",
 
   // -- models/datasets/spaces: CDN-path resolve vs the resolve-cache probe ----
-  "GET /api/resolve-cache/models/{namespace}/{repo}/{rev}/{path}":
-    "resolveFileCached",
-  "GET /api/resolve-cache/datasets/{namespace}/{repo}/{rev}/{path}":
-    "resolveFileCached",
-  "GET /api/resolve-cache/spaces/{namespace}/{repo}/{rev}/{path}":
-    "resolveFileCached",
+  "GET /api/resolve-cache/models/{namespace}/{repo}/{rev}/{path}": "resolveFileCached",
+  "GET /api/resolve-cache/datasets/{namespace}/{repo}/{rev}/{path}": "resolveFileCached",
+  "GET /api/resolve-cache/spaces/{namespace}/{repo}/{rev}/{path}": "resolveFileCached",
 
   // -- kernels: HEAD-of-default-branch vs pinned revision ---------------------
   "GET /api/kernels/{namespace}/{repo}/revision/{rev}": "getKernelRevision",
@@ -147,14 +150,31 @@ const OPERATION_NAMES: Readonly<Record<string, string>> = {
   "PATCH /api/collections/{namespace}/{slug}": "updateCollectionBySlug",
   "DELETE /api/collections/{namespace}/{slug}": "deleteCollectionBySlug",
   "POST /api/collections/{namespace}/{slug}/items": "addItemBySlug",
-  "POST /api/collections/{namespace}/{slug}/items/batch":
-    "batchUpdateItemsBySlug",
+  "POST /api/collections/{namespace}/{slug}/items/batch": "batchUpdateItemsBySlug",
   "DELETE /api/collections/{namespace}/{slug}/items/{slug}": "deleteItemBySlug",
   "PATCH /api/collections/{namespace}/{slug}/items/{slug}": "updateItemBySlug",
-  "GET /api/collections/{namespace}/{slug}/resource-group":
-    "getCollectionResourceGroupBySlug",
-  "POST /api/collections/{namespace}/{slug}/resource-group":
-    "setCollectionResourceGroupBySlug",
+  "GET /api/collections/{namespace}/{slug}/resource-group": "getCollectionResourceGroupBySlug",
+  "POST /api/collections/{namespace}/{slug}/resource-group": "setCollectionResourceGroupBySlug",
+
+  // -- summaries upstream reworded without a verb ("Network security
+  //    settings"); keep the published operation names -------------------------
+  "GET /api/organizations/{name}/billing/usage-by-inference-session": "getSessionInferenceUsage",
+  "GET /api/settings/billing/usage-by-inference-session": "getSessionInferenceUsage",
+  "GET /api/organizations/{name}/billing/usage-by-resource-group": "getResourceGroupUsage",
+  "GET /api/organizations/{name}/settings/network-security": "getNetworkSecuritySettings",
+  "GET /api/organizations/{name}/settings/tokens": "listMemberAccessTokens",
+  "GET /api/organizations/{name}/scim-provisioning/v2/Users/{userId}": "getScimProvisioningUser",
+  "GET /api/organizations/{name}/scim/v2/ResourceTypes": "getScimResourceTypes",
+  "POST /api/datasets/{namespace}/{repo}/user-access-request/batch": "batchHandleAccessRequests",
+  "POST /api/models/{namespace}/{repo}/user-access-request/batch": "batchHandleAccessRequests",
+  "PUT /api/jobs/{namespace}/{jobId}/expose": "updateJobExposedPorts",
+  "PUT /api/scheduled-jobs/{namespace}/{jobId}/labels": "updateScheduledJobLabels",
+
+  // -- blogs / collections: GET and POST share the summary "<X> resource group"
+  "GET /api/blog/{namespace}/{slug}/resource-group": "getBlogResourceGroup",
+  "POST /api/blog/{namespace}/{slug}/resource-group": "setBlogResourceGroup",
+  "GET /api/collections/{namespace}/{slug}-{id}/resource-group": "getCollectionResourceGroup",
+  "POST /api/collections/{namespace}/{slug}-{id}/resource-group": "setCollectionResourceGroup",
 };
 
 /**
@@ -170,13 +190,9 @@ const nameFromSummary = (summary: string): string =>
     .trim()
     .split(/\s+/)
     .filter((w) => !ARTICLES.has(w.toLowerCase()))
-    .map((w) =>
-      /^[A-Z0-9]{2,}$/.test(w) ? w[0] + w.slice(1).toLowerCase() : w,
-    )
+    .map((w) => (/^[A-Z0-9]{2,}$/.test(w) ? w[0] + w.slice(1).toLowerCase() : w))
     .map((w, i) =>
-      i === 0
-        ? w.charAt(0).toLowerCase() + w.slice(1)
-        : w.charAt(0).toUpperCase() + w.slice(1),
+      i === 0 ? w.charAt(0).toLowerCase() + w.slice(1) : w.charAt(0).toUpperCase() + w.slice(1),
     )
     .join("");
 
@@ -198,7 +214,7 @@ const toPascal = (slug: string): string =>
 // ---- 1. Read the full spec -------------------------------------------------
 if (!fs.existsSync(specPath)) {
   throw new Error(
-    `${specPath} not found — run \`bun run spec:download\` to fetch the OpenAPI document`,
+    `${specPath} not found — run \`pnpm run spec:download\` to fetch the OpenAPI document`,
   );
 }
 const fullSpec = JSON.parse(fs.readFileSync(specPath, "utf-8"));
@@ -212,9 +228,7 @@ if (fs.existsSync(patchDir)) {
     .readdirSync(patchDir)
     .filter((f) => f.endsWith(".patch.json"))
     .sort((a, b) => a.localeCompare(b))) {
-    const parsed = JSON.parse(
-      fs.readFileSync(path.join(patchDir, pf), "utf-8"),
-    ) as PatchFile;
+    const parsed = JSON.parse(fs.readFileSync(path.join(patchDir, pf), "utf-8")) as PatchFile;
     for (const patchOp of parsed.patches ?? []) {
       try {
         applyOperation(fullSpec, patchOp);
@@ -233,13 +247,10 @@ if (fs.existsSync(patchDir)) {
 }
 if (badPatches.length) {
   for (const b of badPatches) console.error(`❌ bad patch: ${b}`);
-  throw new Error(
-    `${badPatches.length} malformed patch operation(s) — fix or remove them`,
-  );
+  throw new Error(`${badPatches.length} malformed patch operation(s) — fix or remove them`);
 }
 console.log(
-  `🩹 ${patchFiles} patch files applied` +
-    (staleOps ? ` (${staleOps} stale op(s) skipped)` : ""),
+  `🩹 ${patchFiles} patch files applied` + (staleOps ? ` (${staleOps} stale op(s) skipped)` : ""),
 );
 
 // ---- 3. Synthesize operation ids + bucket by primary tag -------------------
@@ -249,9 +260,7 @@ const nameClaims = new Map<string, Map<string, string[]>>();
 const consumedOverrides = new Set<string>();
 let named = 0;
 
-for (const [pathTemplate, pathItem] of Object.entries<Record<string, unknown>>(
-  fullSpec.paths,
-)) {
+for (const [pathTemplate, pathItem] of Object.entries<Record<string, unknown>>(fullSpec.paths)) {
   for (const method of HTTP_METHODS) {
     const op = (pathItem as Record<string, any>)[method];
     if (!op) continue;
@@ -259,9 +268,7 @@ for (const [pathTemplate, pathItem] of Object.entries<Record<string, unknown>>(
     const key = `${method.toUpperCase()} ${pathTemplate}`;
     const override = OPERATION_NAMES[key];
     if (override !== undefined) consumedOverrides.add(key);
-    op.operationId =
-      override ??
-      nameFromSummary(typeof op.summary === "string" ? op.summary : "");
+    op.operationId = override ?? nameFromSummary(typeof op.summary === "string" ? op.summary : "");
     if (!op.operationId) {
       throw new Error(`no summary and no OPERATION_NAMES entry for ${key}`);
     }
@@ -294,9 +301,7 @@ const collisions: string[] = [];
 for (const [slug, claims] of nameClaims) {
   for (const [name, keys] of claims) {
     if (keys.length > 1) {
-      collisions.push(
-        `${slug} :: ${name}\n` + keys.map((k) => `  "${k}": "…",`).join("\n"),
-      );
+      collisions.push(`${slug} :: ${name}\n` + keys.map((k) => `  "${k}": "…",`).join("\n"));
     }
   }
 }
@@ -305,15 +310,11 @@ if (collisions.length) {
     `operation-name collision(s) — add OPERATION_NAMES entries:\n${collisions.join("\n")}`,
   );
 }
-const staleNames = Object.keys(OPERATION_NAMES).filter(
-  (k) => !consumedOverrides.has(k),
-);
+const staleNames = Object.keys(OPERATION_NAMES).filter((k) => !consumedOverrides.has(k));
 for (const k of staleNames) {
   console.warn(`   ⚠️  stale OPERATION_NAMES entry (path gone): ${k}`);
 }
-console.log(
-  `🏷️  ${named} operations named (${consumedOverrides.size} overridden)`,
-);
+console.log(`🏷️  ${named} operations named (${consumedOverrides.size} overridden)`);
 
 // ---- 4. Convert each bucket ------------------------------------------------
 fs.rmSync(outDir, { recursive: true, force: true });
@@ -339,14 +340,9 @@ for (const slug of [...tagBuckets.keys()].sort()) {
     // defaults: the Hub types exactly 400/404/409/422 per operation, and
     // everything else rides the common HuggingFaceOpError channel.
   });
-  const opCount = Object.values(model.shapes).filter(
-    (s: any) => s.type === "operation",
-  ).length;
+  const opCount = Object.values(model.shapes).filter((s: any) => s.type === "operation").length;
   if (opCount === 0) continue; // all-deprecated bucket
-  fs.writeFileSync(
-    path.join(outDir, `${slug}.json`),
-    JSON.stringify(model, null, 2) + "\n",
-  );
+  fs.writeFileSync(path.join(outDir, `${slug}.json`), JSON.stringify(model, null, 2) + "\n");
   written++;
   totalOps += opCount;
 }

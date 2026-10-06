@@ -26,6 +26,7 @@ export {
   DEFAULT_ERRORS,
   API_ERRORS,
 } from "@distilled.cloud/core/errors";
+import * as Category from "@distilled.cloud/core/category";
 import type {
   BadRequest,
   Conflict,
@@ -35,31 +36,23 @@ import type {
   NotFound,
   UnprocessableEntity,
 } from "@distilled.cloud/core/errors";
-
 import * as Schema from "effect/Schema";
-import * as Category from "@distilled.cloud/core/category";
 
 /**
  * Catch-all for EAS GraphQL errors that don't match any other tagged class.
  * Carries the raw `errors[]` envelope and a best-effort `code` / `message`.
  */
-export class UnknownEasError extends Schema.TaggedError<UnknownEasError>()(
-  "UnknownEasError",
-  {
-    code: Schema.optional(Schema.String),
-    message: Schema.optional(Schema.String),
-    body: Schema.Unknown,
-  },
-).pipe(Category.withServerError) {}
+export class UnknownEasError extends Schema.TaggedError<UnknownEasError>()("UnknownEasError", {
+  code: Schema.optional(Schema.String),
+  message: Schema.optional(Schema.String),
+  body: Schema.Unknown,
+}).pipe(Category.withServerError) {}
 
 /** Schema parse error wrapper (response body did not match the operation schema). */
-export class EasParseError extends Schema.TaggedError<EasParseError>()(
-  "EasParseError",
-  {
-    body: Schema.Unknown,
-    cause: Schema.Unknown,
-  },
-).pipe(Category.withParseError) {}
+export class EasParseError extends Schema.TaggedError<EasParseError>()("EasParseError", {
+  body: Schema.Unknown,
+  cause: Schema.Unknown,
+}).pipe(Category.withParseError) {}
 
 /**
  * The installed eas-cli / API client is too old. Returned with errorCode
@@ -157,9 +150,7 @@ export class EasChannelAlreadyExists extends Schema.TaggedError<EasChannelAlread
   {
     message: Schema.String,
   },
-).pipe(
-  Category.withCategory(Category.ConflictError, Category.AlreadyExistsError),
-) {}
+).pipe(Category.withCategory(Category.ConflictError, Category.AlreadyExistsError)) {}
 
 /**
  * The authenticated actor does not have permission to perform this operation
@@ -205,9 +196,7 @@ export class EasDevDomainNameTaken extends Schema.TaggedError<EasDevDomainNameTa
   {
     message: Schema.String,
   },
-).pipe(
-  Category.withCategory(Category.ConflictError, Category.AlreadyExistsError),
-) {}
+).pipe(Category.withCategory(Category.ConflictError, Category.AlreadyExistsError)) {}
 
 /**
  * Map from EAS GraphQL `extensions.errorCode` → typed error class.
@@ -230,10 +219,8 @@ export const EAS_ERROR_CODE_MAP: Record<string, any> = {
   EAS_BUILD_FREE_TIER_IOS_LIMIT_EXCEEDED: EasBuildFreeTierLimitExceeded,
   EAS_BUILD_FREE_TIER_ANDROID_LIMIT_EXCEEDED: EasBuildFreeTierLimitExceeded,
   EAS_BUILD_TOO_MANY_PENDING_BUILDS: EasBuildTooManyPendingBuilds,
-  EAS_BUILD_RESOURCE_CLASS_NOT_AVAILABLE_IN_FREE_TIER:
-    EasBuildResourceClassNotAvailableInFreeTier,
-  EAS_BUILD_LEGACY_RESOURCE_CLASS_NOT_AVAILABLE:
-    EasBuildLegacyResourceClassNotAvailable,
+  EAS_BUILD_RESOURCE_CLASS_NOT_AVAILABLE_IN_FREE_TIER: EasBuildResourceClassNotAvailableInFreeTier,
+  EAS_BUILD_LEGACY_RESOURCE_CLASS_NOT_AVAILABLE: EasBuildLegacyResourceClassNotAvailable,
   CHANNEL_ALREADY_EXISTS: EasChannelAlreadyExists,
   UNAUTHORIZED_ERROR: EasUnauthorizedOperation,
   EXPERIENCE_NOT_FOUND: EasExperienceNotFound,

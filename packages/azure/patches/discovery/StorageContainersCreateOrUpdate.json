@@ -1,0 +1,35 @@
+{
+  "description": "StorageStore is a discriminated union on kind in ARM (AzureStorageBlobStore: storageAccountId; AzureNetAppFilesStore: netAppVolumeId; both: mountProtocol). The converted model only kept the base kind, so the store's identity was stripped from requests and responses; add the variant fields as optional members.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.discovery#StorageStore/members/storageAccountId",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "AzureStorageBlob: the associated Azure Storage account ID."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.discovery#StorageStore/members/netAppVolumeId",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "AzureNetAppFiles: the associated Azure NetApp Files volume ID."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.discovery#StorageStore/members/mountProtocol",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Protocol used to mount the store: `NFS` or `BlobfuseCaching` (blob only)."
+        }
+      }
+    }
+  ]
+}

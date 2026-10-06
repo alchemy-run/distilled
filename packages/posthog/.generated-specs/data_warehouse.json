@@ -138,6 +138,54 @@
         "smithy.api#documentation": "Check if a schema name is free within the organization's managed warehouse."
       }
     },
+    "com.posthog.data_warehouse#GetDataWarehouseCompletedActivityRequestKind": {
+      "type": "enum",
+      "members": {
+        "ALL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "all"
+          }
+        },
+        "IMPORT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "import"
+          }
+        },
+        "MODEL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "model"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.data_warehouse#GetDataWarehouseCompletedActivityRequestOutcome": {
+      "type": "enum",
+      "members": {
+        "COMPLETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "completed"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "failed"
+          }
+        },
+        "ALL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "all"
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.posthog.data_warehouse#GetDataWarehouseCompletedActivityRequest": {
       "type": "structure",
       "members": {
@@ -148,10 +196,172 @@
             "smithy.api#required": {},
             "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
           }
+        },
+        "cutoff_days": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "cutoff_days",
+            "smithy.api#documentation": "Only include runs created within this many days of now. Defaults to 30."
+          }
+        },
+        "kind": {
+          "target": "com.posthog.data_warehouse#GetDataWarehouseCompletedActivityRequestKind",
+          "traits": {
+            "smithy.api#httpQuery": "kind",
+            "smithy.api#documentation": "Which runs to return: 'import' for warehouse source syncs, 'model' for materialized view runs, 'all' for both. Defaults to 'all'.\n\n* `all` - all\n* `import` - import\n* `model` - model"
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "Max rows to return. Capped at 50 server-side. Defaults to 20."
+          }
+        },
+        "offset": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "offset",
+            "smithy.api#documentation": "Rows to skip, for pagination. Defaults to 0."
+          }
+        },
+        "outcome": {
+          "target": "com.posthog.data_warehouse#GetDataWarehouseCompletedActivityRequestOutcome",
+          "traits": {
+            "smithy.api#httpQuery": "outcome",
+            "smithy.api#documentation": "Which outcome to return: 'completed', 'failed', or 'all' for every run that finished either way. Defaults to 'completed'. Running jobs come from `running_activity` instead.\n\n* `completed` - completed\n* `failed` - failed\n* `all` - all"
+          }
         }
       },
       "traits": {
         "smithy.api#input": {}
+      }
+    },
+    "com.posthog.data_warehouse#PipelineActivityResponse": {
+      "type": "structure",
+      "members": {
+        "results": {
+          "target": "com.posthog.data_warehouse#PipelineActivityResponseResultsList",
+          "traits": {
+            "smithy.api#documentation": "Runs, newest first.",
+            "smithy.api#required": {}
+          }
+        },
+        "next": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Query string for the next page, or null on the last.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "previous": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Query string for the previous page, or null on the first.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.data_warehouse#PipelineActivityRow": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Run id.",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The source type for a sync, or 'Materialized view' for a model run.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Table or view the run wrote.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "status": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Run status. One of: Running, Completed, Failed, BillingLimitReached, BillingLimitTooLow.",
+            "smithy.api#required": {}
+          }
+        },
+        "rows": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Rows the run wrote. Zero while it is still going.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the run was created. There is no separate start time.",
+            "smithy.api#required": {}
+          }
+        },
+        "finished_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the run ended, or null while running.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "latest_error": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Error the run ended with, if any.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "workflow_run_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Temporal run id, for finding the run's logs.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "origin": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Where a materialized view came from. Null for syncs.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "source_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Id of the source the run belongs to, for linking to it. Null for model runs.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.data_warehouse#PipelineActivityResponseResultsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.data_warehouse#PipelineActivityRow"
+      },
+      "traits": {
+        "smithy.api#documentation": "Runs, newest first."
       }
     },
     "com.posthog.data_warehouse#GetDataWarehouseCompletedActivity": {
@@ -160,7 +370,7 @@
         "target": "com.posthog.data_warehouse#GetDataWarehouseCompletedActivityRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.posthog.data_warehouse#PipelineActivityResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -187,13 +397,114 @@
         "smithy.api#input": {}
       }
     },
+    "com.posthog.data_warehouse#DataHealthIssuesResponse": {
+      "type": "structure",
+      "members": {
+        "results": {
+          "target": "com.posthog.data_warehouse#DataHealthIssuesResponseResultsList",
+          "traits": {
+            "smithy.api#documentation": "Everything currently unhealthy.",
+            "smithy.api#required": {}
+          }
+        },
+        "count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "How many issues are in `results`.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.data_warehouse#DataHealthIssue": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Id of the thing that is unhealthy.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Table, view or export the issue is about.",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "What kind of thing is unhealthy. One of: materialized_view, external_data_sync, source, destination, transformation.",
+            "smithy.api#required": {}
+          }
+        },
+        "source_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Source type for a sync issue, for example 'Stripe'.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "sync_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "How a sync issue's table is kept up to date, for example 'incremental' or 'webhook'. A webhook table is pushed to rather than pulled on a schedule. Null for other types.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "status": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Why it is unhealthy. One of: failed, disabled, degraded, billing_limit.",
+            "smithy.api#required": {}
+          }
+        },
+        "error": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The error, where one was recorded.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "failed_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When a sync issue's table last synced successfully. Null if it never has.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Where to go to fix it.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.data_warehouse#DataHealthIssuesResponseResultsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.data_warehouse#DataHealthIssue"
+      },
+      "traits": {
+        "smithy.api#documentation": "Everything currently unhealthy."
+      }
+    },
     "com.posthog.data_warehouse#GetDataWarehouseDataHealthIssue": {
       "type": "operation",
       "input": {
         "target": "com.posthog.data_warehouse#GetDataWarehouseDataHealthIssueRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.posthog.data_warehouse#DataHealthIssuesResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -408,6 +719,30 @@
         "smithy.api#documentation": "Start deprovisioning the organization's managed warehouse. Restricted to organization admins."
       }
     },
+    "com.posthog.data_warehouse#GetDataWarehouseJobStatRequestDays": {
+      "type": "intEnum",
+      "members": {
+        "_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": 1
+          }
+        },
+        "_7": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": 7
+          }
+        },
+        "_30": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": 30
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.posthog.data_warehouse#GetDataWarehouseJobStatRequest": {
       "type": "structure",
       "members": {
@@ -418,10 +753,145 @@
             "smithy.api#required": {},
             "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
           }
+        },
+        "days": {
+          "target": "com.posthog.data_warehouse#GetDataWarehouseJobStatRequestDays",
+          "traits": {
+            "smithy.api#httpQuery": "days",
+            "smithy.api#documentation": "Window the counts should cover, in days. One of 1, 7 or 30. Defaults to 7.\n\n* `1` - 1\n* `7` - 7\n* `30` - 30"
+          }
         }
       },
       "traits": {
         "smithy.api#input": {}
+      }
+    },
+    "com.posthog.data_warehouse#PipelineJobStatsResponse": {
+      "type": "structure",
+      "members": {
+        "days": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Window the counts cover, in days. One of 1, 7 or 30.",
+            "smithy.api#required": {}
+          }
+        },
+        "cutoff_time": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Start of the window, in the project's timezone.",
+            "smithy.api#required": {}
+          }
+        },
+        "total_jobs": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Sync runs plus materialization runs in the window.",
+            "smithy.api#required": {}
+          }
+        },
+        "successful_jobs": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Sync and materialization runs that completed.",
+            "smithy.api#required": {}
+          }
+        },
+        "failed_jobs": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Sync and materialization runs that failed.",
+            "smithy.api#required": {}
+          }
+        },
+        "external_data_jobs": {
+          "target": "com.posthog.data_warehouse#JobCounts",
+          "traits": {
+            "smithy.api#documentation": "Counts for warehouse source syncs alone.",
+            "smithy.api#required": {}
+          }
+        },
+        "modeling_jobs": {
+          "target": "com.posthog.data_warehouse#JobCounts",
+          "traits": {
+            "smithy.api#documentation": "Counts for materialized view runs alone.",
+            "smithy.api#required": {}
+          }
+        },
+        "breakdown": {
+          "target": "com.posthog.data_warehouse#PipelineJobStatsResponseBreakdownMap",
+          "traits": {
+            "smithy.api#documentation": "Runs per time bucket, keyed by ISO hour when days=1 and by ISO date otherwise. Buckets with no runs are absent rather than zero.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.data_warehouse#JobCounts": {
+      "type": "structure",
+      "members": {
+        "total": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Runs that finished inside the window.",
+            "smithy.api#required": {}
+          }
+        },
+        "running": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Runs in flight right now, regardless of the window.",
+            "smithy.api#required": {}
+          }
+        },
+        "successful": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Runs that completed.",
+            "smithy.api#required": {}
+          }
+        },
+        "failed": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Runs that errored or that billing stopped.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.data_warehouse#JobStatsBucket": {
+      "type": "structure",
+      "members": {
+        "successful": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Runs that completed in this bucket.",
+            "smithy.api#required": {}
+          }
+        },
+        "failed": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Runs that failed in this bucket.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.data_warehouse#PipelineJobStatsResponseBreakdownMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.posthog.data_warehouse#JobStatsBucket"
+      },
+      "traits": {
+        "smithy.api#documentation": "Runs per time bucket, keyed by ISO hour when days=1 and by ISO date otherwise. Buckets with no runs are absent rather than zero."
       }
     },
     "com.posthog.data_warehouse#GetDataWarehouseJobStat": {
@@ -430,8 +900,13 @@
         "target": "com.posthog.data_warehouse#GetDataWarehouseJobStatRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.posthog.data_warehouse#PipelineJobStatsResponse"
       },
+      "errors": [
+        {
+          "target": "com.posthog.data_warehouse#BadRequest"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -1815,6 +2290,30 @@
         "smithy.api#documentation": "Reset the root password for the managed warehouse."
       }
     },
+    "com.posthog.data_warehouse#GetDataWarehouseRunningActivityRequestKind": {
+      "type": "enum",
+      "members": {
+        "ALL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "all"
+          }
+        },
+        "IMPORT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "import"
+          }
+        },
+        "MODEL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "model"
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.posthog.data_warehouse#GetDataWarehouseRunningActivityRequest": {
       "type": "structure",
       "members": {
@@ -1824,6 +2323,34 @@
             "smithy.api#httpLabel": {},
             "smithy.api#required": {},
             "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "cutoff_days": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "cutoff_days",
+            "smithy.api#documentation": "Only include runs created within this many days of now. Defaults to 30."
+          }
+        },
+        "kind": {
+          "target": "com.posthog.data_warehouse#GetDataWarehouseRunningActivityRequestKind",
+          "traits": {
+            "smithy.api#httpQuery": "kind",
+            "smithy.api#documentation": "Which runs to return: 'import' for warehouse source syncs, 'model' for materialized view runs, 'all' for both. Defaults to 'all'.\n\n* `all` - all\n* `import` - import\n* `model` - model"
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "Max rows to return. Capped at 50 server-side. Defaults to 20."
+          }
+        },
+        "offset": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "offset",
+            "smithy.api#documentation": "Rows to skip, for pagination. Defaults to 0."
           }
         }
       },
@@ -1837,7 +2364,7 @@
         "target": "com.posthog.data_warehouse#GetDataWarehouseRunningActivityRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.posthog.data_warehouse#PipelineActivityResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -1864,13 +2391,97 @@
         "smithy.api#input": {}
       }
     },
+    "com.posthog.data_warehouse#PipelineRowsStatsResponse": {
+      "type": "structure",
+      "members": {
+        "billing_available": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether billing answered. When false, only the counts derived from runs are meaningful.",
+            "smithy.api#required": {}
+          }
+        },
+        "billing_interval": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Length of the billing period, for example 'month'.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "billing_period_start": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Start of the current billing period.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "billing_period_end": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "End of the current billing period.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "total_rows": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Rows synced in the billing period, billed and not yet billed.",
+            "smithy.api#required": {}
+          }
+        },
+        "tracked_billing_rows": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Rows billing has already counted.",
+            "smithy.api#required": {}
+          }
+        },
+        "pending_billing_rows": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Rows synced since billing last counted.",
+            "smithy.api#required": {}
+          }
+        },
+        "materialized_rows_in_billing_period": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Rows written by materialized view runs in the billing period.",
+            "smithy.api#required": {}
+          }
+        },
+        "breakdown_of_rows_by_source": {
+          "target": "com.posthog.data_warehouse#PipelineRowsStatsResponseBreakdownOfRowsBySourceMap",
+          "traits": {
+            "smithy.api#documentation": "Rows synced in the billing period, keyed by source id.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.data_warehouse#PipelineRowsStatsResponseBreakdownOfRowsBySourceMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Integer"
+      },
+      "traits": {
+        "smithy.api#documentation": "Rows synced in the billing period, keyed by source id."
+      }
+    },
     "com.posthog.data_warehouse#GetDataWarehouseTotalRowsStat": {
       "type": "operation",
       "input": {
         "target": "com.posthog.data_warehouse#GetDataWarehouseTotalRowsStatRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.posthog.data_warehouse#PipelineRowsStatsResponse"
       },
       "traits": {
         "smithy.api#http": {

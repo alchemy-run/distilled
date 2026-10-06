@@ -847,6 +847,29 @@
           "traits": {
             "smithy.api#documentation": "Server-determined value that indicates the time from which the policy, or one with a greater retention, was effective. This value is in RFC 3339 format."
           }
+        },
+        "hardDeletePause": {
+          "target": "com.gcp.storage_v1#BucketSoftDeletePolicyHardDeletePause",
+          "traits": {
+            "smithy.api#documentation": "The bucket's hard delete pause configuration. If set, soft-deleted objects in the bucket will not be permanently deleted until the hard delete pause is disabled."
+          }
+        }
+      }
+    },
+    "com.gcp.storage_v1#BucketSoftDeletePolicyHardDeletePause": {
+      "type": "structure",
+      "members": {
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether hard deletions are paused."
+          }
+        },
+        "effectiveTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Server-determined value that indicates the time from which the hard delete pause became effective. This value is in RFC 3339 format."
+          }
         }
       }
     },
@@ -2573,6 +2596,12 @@
           "traits": {
             "smithy.api#documentation": "The time at which the object context was last updated in RFC 3339 format."
           }
+        },
+        "extendedDataTypeUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The type URL of the object context's extended data."
+          }
         }
       },
       "traits": {
@@ -2859,6 +2888,67 @@
       },
       "traits": {
         "smithy.api#documentation": "A bulk restore objects request."
+      }
+    },
+    "com.gcp.storage_v1#ObjectFullContext": {
+      "type": "structure",
+      "members": {
+        "kind": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The kind of item this is. For ObjectFullContext, this is always storage#objectFullContext."
+          }
+        },
+        "type": {
+          "target": "com.gcp.storage_v1#ObjectFullContextTypeEnum",
+          "traits": {
+            "smithy.api#documentation": "The type of the object context."
+          }
+        },
+        "key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The key of the object context."
+          }
+        },
+        "value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The value of the object context."
+          }
+        },
+        "createTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The time at which the object context was created. This value is in RFC 3339 format."
+          }
+        },
+        "updateTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The time at which the object context was last updated. This value is in RFC 3339 format."
+          }
+        },
+        "extendedData": {
+          "target": "com.gcp.storage_v1#DocumentMap",
+          "traits": {
+            "smithy.api#documentation": "The extended data of the object context."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A full representation of an object context."
+      }
+    },
+    "com.gcp.storage_v1#ObjectFullContextTypeEnum": {
+      "type": "enum",
+      "members": {
+        "CUSTOM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CUSTOM"
+          }
+        }
       }
     },
     "com.gcp.storage_v1#InsertAnywhereCachesRequest": {
@@ -9265,6 +9355,73 @@
         "smithy.api#documentation": "Initiates a long-running bulk restore operation on the specified bucket."
       }
     },
+    "com.gcp.storage_v1#ViewFullContextObjectsRequest": {
+      "type": "structure",
+      "members": {
+        "bucket": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the bucket in which the object resides.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "object": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the object. For information about how to URL encode object names to be path safe, see [Encoding URI Path Parts](https://cloud.google.com/storage/docs/request-endpoints#encoding).",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "generation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "If present, selects a specific revision of this object (as opposed to the latest version, the default).",
+            "smithy.api#httpQuery": "generation"
+          }
+        },
+        "contextKey": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Key identifying the object context to retrieve.",
+            "smithy.api#httpQuery": "contextKey",
+            "smithy.api#required": {}
+          }
+        },
+        "userProject": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The project to be billed for this request. Required for Requester Pays buckets.",
+            "smithy.api#httpQuery": "userProject"
+          }
+        }
+      }
+    },
+    "com.gcp.storage_v1#ViewFullContextObjects": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.storage_v1#ViewFullContextObjectsRequest"
+      },
+      "output": {
+        "target": "com.gcp.storage_v1#ObjectFullContext"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.storage_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.storage_v1#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "b/{bucket}/o/{object}/viewFullContext"
+        },
+        "smithy.api#documentation": "Retrieves a specific object context with its extended data for a given object."
+      }
+    },
     "com.gcp.storage_v1#CreateProjectsHmacKeysRequest": {
       "type": "structure",
       "members": {
@@ -9656,7 +9813,7 @@
       "traits": {
         "smithy.api#error": "client",
         "smithy.api#httpError": 412,
-        "smithy.api#documentation": "The policy's etag no longer matches the bucket's current IAM policy \u2014 another writer changed it concurrently (HTTP 412). Re-read the policy and retry.",
+        "smithy.api#documentation": "The policy's etag no longer matches the bucket's current IAM policy — another writer changed it concurrently (HTTP 412). Re-read the policy and retry.",
         "com.gcp.protocols#errorMatchers": [
           {
             "status": 412

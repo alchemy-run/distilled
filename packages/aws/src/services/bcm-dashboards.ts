@@ -1,12 +1,12 @@
-import * as HttpClient from "effect/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "BCM Dashboards",
   serviceShapeName: "AWSBCMDashboardsService",
@@ -25,18 +25,11 @@ const rules = T.EndpointResolver((p, _) => {
     message: m as string,
   });
   const _p0 = (_0: unknown) => ({
-    authSchemes: [
-      {
-        name: "sigv4",
-        signingRegion: `${_.getAttr(_0, "implicitGlobalRegion")}`,
-      },
-    ],
+    authSchemes: [{ name: "sigv4", signingRegion: `${_.getAttr(_0, "implicitGlobalRegion")}` }],
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -147,11 +140,7 @@ export const DateTimeRange = /*@__PURE__*/ S.suspend(() =>
 export type Granularity = "HOURLY" | "DAILY" | "MONTHLY" | (string & {});
 export const Granularity = S.String;
 
-export type GroupDefinitionType =
-  | "DIMENSION"
-  | "TAG"
-  | "COST_CATEGORY"
-  | (string & {});
+export type GroupDefinitionType = "DIMENSION" | "TAG" | "COST_CATEGORY" | (string & {});
 export const GroupDefinitionType = S.String;
 
 export interface GroupDefinition {
@@ -160,16 +149,12 @@ export interface GroupDefinition {
 }
 export const GroupDefinition = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ key: S.String, type: S.optional(GroupDefinitionType) }),
-).annotate({
-  identifier: "GroupDefinition",
-}) as any as S.Schema<GroupDefinition>;
+).annotate({ identifier: "GroupDefinition" }) as any as S.Schema<GroupDefinition>;
 export type GroupDefinitions = GroupDefinition[];
 export const GroupDefinitions = /*@__PURE__*/ S.Array(GroupDefinition);
 export type Expressions = Expression[];
 export const Expressions = /*@__PURE__*/ S.Array(
-  S.suspend((): S.Schema<Expression> => Expression).annotate({
-    identifier: "Expression",
-  }),
+  S.suspend((): S.Schema<Expression> => Expression).annotate({ identifier: "Expression" }),
 ) as any as S.Schema<Expressions>;
 export type Dimension =
   | "AZ"
@@ -223,14 +208,8 @@ export interface DimensionValues {
   matchOptions?: MatchOption[];
 }
 export const DimensionValues = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    key: Dimension,
-    values: StringList,
-    matchOptions: S.optional(MatchOptions),
-  }),
-).annotate({
-  identifier: "DimensionValues",
-}) as any as S.Schema<DimensionValues>;
+  S.Struct({ key: Dimension, values: StringList, matchOptions: S.optional(MatchOptions) }),
+).annotate({ identifier: "DimensionValues" }) as any as S.Schema<DimensionValues>;
 export interface TagValues {
   key?: string;
   values?: string[];
@@ -254,9 +233,7 @@ export const CostCategoryValues = /*@__PURE__*/ S.suspend(() =>
     values: S.optional(StringList),
     matchOptions: S.optional(MatchOptions),
   }),
-).annotate({
-  identifier: "CostCategoryValues",
-}) as any as S.Schema<CostCategoryValues>;
+).annotate({ identifier: "CostCategoryValues" }) as any as S.Schema<CostCategoryValues>;
 export interface Expression {
   or?: Expression[];
   and?: Expression[];
@@ -267,16 +244,10 @@ export interface Expression {
 }
 export const Expression = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    or: S.optional(
-      S.suspend(() => Expressions).annotate({ identifier: "Expressions" }),
-    ),
-    and: S.optional(
-      S.suspend(() => Expressions).annotate({ identifier: "Expressions" }),
-    ),
+    or: S.optional(S.suspend(() => Expressions).annotate({ identifier: "Expressions" })),
+    and: S.optional(S.suspend(() => Expressions).annotate({ identifier: "Expressions" })),
     not: S.optional(
-      S.suspend((): S.Schema<Expression> => Expression).annotate({
-        identifier: "Expression",
-      }),
+      S.suspend((): S.Schema<Expression> => Expression).annotate({ identifier: "Expression" }),
     ),
     dimensions: S.optional(DimensionValues),
     tags: S.optional(TagValues),
@@ -298,9 +269,7 @@ export const CostAndUsageQuery = /*@__PURE__*/ S.suspend(() =>
     groupBy: S.optional(GroupDefinitions),
     filter: S.optional(Expression),
   }),
-).annotate({
-  identifier: "CostAndUsageQuery",
-}) as any as S.Schema<CostAndUsageQuery>;
+).annotate({ identifier: "CostAndUsageQuery" }) as any as S.Schema<CostAndUsageQuery>;
 export interface SavingsPlansCoverageQuery {
   timeRange: DateTimeRange;
   metrics?: MetricName[];
@@ -348,9 +317,7 @@ export const ReservationCoverageQuery = /*@__PURE__*/ S.suspend(() =>
     filter: S.optional(Expression),
     metrics: S.optional(MetricNames),
   }),
-).annotate({
-  identifier: "ReservationCoverageQuery",
-}) as any as S.Schema<ReservationCoverageQuery>;
+).annotate({ identifier: "ReservationCoverageQuery" }) as any as S.Schema<ReservationCoverageQuery>;
 export interface ReservationUtilizationQuery {
   timeRange: DateTimeRange;
   groupBy?: GroupDefinition[];
@@ -418,20 +385,14 @@ export interface GraphDisplayConfig {
 }
 export const GraphDisplayConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ visualType: VisualType }),
-).annotate({
-  identifier: "GraphDisplayConfig",
-}) as any as S.Schema<GraphDisplayConfig>;
-export type GraphDisplayConfigMap = {
-  [key: string]: GraphDisplayConfig | undefined;
-};
+).annotate({ identifier: "GraphDisplayConfig" }) as any as S.Schema<GraphDisplayConfig>;
+export type GraphDisplayConfigMap = { [key: string]: GraphDisplayConfig | undefined };
 export const GraphDisplayConfigMap = /*@__PURE__*/ S.Record(
   S.String,
   GraphDisplayConfig.pipe(S.optional),
 );
 export interface TableDisplayConfigStruct {}
-export const TableDisplayConfigStruct = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const TableDisplayConfigStruct = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TableDisplayConfigStruct",
 }) as any as S.Schema<TableDisplayConfigStruct>;
 export type DisplayConfig =
@@ -495,21 +456,15 @@ export const CreateDashboardRequest = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     widgets: WidgetList,
     resourceTags: S.optional(ResourceTagList),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "CreateDashboardRequest",
-}) as any as S.Schema<CreateDashboardRequest>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "CreateDashboardRequest" }) as any as S.Schema<CreateDashboardRequest>;
 export type DashboardArn = string;
 export interface CreateDashboardResponse {
   arn: string;
 }
 export const CreateDashboardResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ arn: S.String }),
-).annotate({
-  identifier: "CreateDashboardResponse",
-}) as any as S.Schema<CreateDashboardResponse>;
+).annotate({ identifier: "CreateDashboardResponse" }) as any as S.Schema<CreateDashboardResponse>;
 export type ScheduledReportName = string;
 export type ServiceRoleArn = string;
 export interface SchedulePeriod {
@@ -560,9 +515,7 @@ export const ScheduledReportInput = /*@__PURE__*/ S.suspend(() =>
     widgetIds: S.optional(WidgetIdList),
     widgetDateRangeOverride: S.optional(DateTimeRange),
   }),
-).annotate({
-  identifier: "ScheduledReportInput",
-}) as any as S.Schema<ScheduledReportInput>;
+).annotate({ identifier: "ScheduledReportInput" }) as any as S.Schema<ScheduledReportInput>;
 export type ClientToken = string;
 export interface CreateScheduledReportRequest {
   scheduledReport: ScheduledReportInput;
@@ -577,9 +530,7 @@ export const CreateScheduledReportRequest = /*@__PURE__*/ S.suspend(() =>
       T.HttpHeader("X-Amzn-Client-Token"),
       T.IdempotencyToken(),
     ),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateScheduledReportRequest",
 }) as any as S.Schema<CreateScheduledReportRequest>;
@@ -599,17 +550,13 @@ export const DeleteDashboardRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ arn: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteDashboardRequest",
-}) as any as S.Schema<DeleteDashboardRequest>;
+).annotate({ identifier: "DeleteDashboardRequest" }) as any as S.Schema<DeleteDashboardRequest>;
 export interface DeleteDashboardResponse {
   arn: string;
 }
 export const DeleteDashboardResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ arn: S.String }),
-).annotate({
-  identifier: "DeleteDashboardResponse",
-}) as any as S.Schema<DeleteDashboardResponse>;
+).annotate({ identifier: "DeleteDashboardResponse" }) as any as S.Schema<DeleteDashboardResponse>;
 export interface DeleteScheduledReportRequest {
   arn: string;
 }
@@ -641,9 +588,7 @@ export const ExecuteScheduledReportRequest = /*@__PURE__*/ S.suspend(() =>
       T.IdempotencyToken(),
     ),
     dryRun: S.optional(S.Boolean),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ExecuteScheduledReportRequest",
 }) as any as S.Schema<ExecuteScheduledReportRequest>;
@@ -671,9 +616,7 @@ export interface HealthStatus {
 export const HealthStatus = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     statusCode: HealthStatusCode,
-    lastRefreshedAt: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    lastRefreshedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     statusReasons: S.optional(StatusReasonList),
   }),
 ).annotate({ identifier: "HealthStatus" }) as any as S.Schema<HealthStatus>;
@@ -682,10 +625,7 @@ export interface ExecuteScheduledReportResponse {
   executionTriggered?: boolean;
 }
 export const ExecuteScheduledReportResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    healthStatus: S.optional(HealthStatus),
-    executionTriggered: S.optional(S.Boolean),
-  }),
+  S.Struct({ healthStatus: S.optional(HealthStatus), executionTriggered: S.optional(S.Boolean) }),
 ).annotate({
   identifier: "ExecuteScheduledReportResponse",
 }) as any as S.Schema<ExecuteScheduledReportResponse>;
@@ -696,9 +636,7 @@ export const GetDashboardRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ arn: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetDashboardRequest",
-}) as any as S.Schema<GetDashboardRequest>;
+).annotate({ identifier: "GetDashboardRequest" }) as any as S.Schema<GetDashboardRequest>;
 export type DashboardType = "CUSTOM" | (string & {});
 export const DashboardType = S.String;
 
@@ -721,9 +659,7 @@ export const GetDashboardResponse = /*@__PURE__*/ S.suspend(() =>
     createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
   }),
-).annotate({
-  identifier: "GetDashboardResponse",
-}) as any as S.Schema<GetDashboardResponse>;
+).annotate({ identifier: "GetDashboardResponse" }) as any as S.Schema<GetDashboardResponse>;
 export interface GetResourcePolicyRequest {
   resourceArn: string;
 }
@@ -731,9 +667,7 @@ export const GetResourcePolicyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ resourceArn: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetResourcePolicyRequest",
-}) as any as S.Schema<GetResourcePolicyRequest>;
+).annotate({ identifier: "GetResourcePolicyRequest" }) as any as S.Schema<GetResourcePolicyRequest>;
 export interface GetResourcePolicyResponse {
   resourceArn: string;
   policyDocument: string;
@@ -779,14 +713,10 @@ export const ScheduledReport = /*@__PURE__*/ S.suspend(() =>
     widgetDateRangeOverride: S.optional(DateTimeRange),
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    lastExecutionAt: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    lastExecutionAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     healthStatus: S.optional(HealthStatus),
   }),
-).annotate({
-  identifier: "ScheduledReport",
-}) as any as S.Schema<ScheduledReport>;
+).annotate({ identifier: "ScheduledReport" }) as any as S.Schema<ScheduledReport>;
 export interface GetScheduledReportResponse {
   scheduledReport: ScheduledReport;
 }
@@ -802,15 +732,10 @@ export interface ListDashboardsRequest {
   nextToken?: string;
 }
 export const ListDashboardsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    maxResults: S.optional(S.Number),
-    nextToken: S.optional(S.String),
-  }).pipe(
+  S.Struct({ maxResults: S.optional(S.Number), nextToken: S.optional(S.String) }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "ListDashboardsRequest",
-}) as any as S.Schema<ListDashboardsRequest>;
+).annotate({ identifier: "ListDashboardsRequest" }) as any as S.Schema<ListDashboardsRequest>;
 export interface DashboardReference {
   arn: string;
   name: string;
@@ -828,9 +753,7 @@ export const DashboardReference = /*@__PURE__*/ S.suspend(() =>
     createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
   }),
-).annotate({
-  identifier: "DashboardReference",
-}) as any as S.Schema<DashboardReference>;
+).annotate({ identifier: "DashboardReference" }) as any as S.Schema<DashboardReference>;
 export type DashboardReferenceList = DashboardReference[];
 export const DashboardReferenceList = /*@__PURE__*/ S.Array(DashboardReference);
 export interface ListDashboardsResponse {
@@ -838,22 +761,14 @@ export interface ListDashboardsResponse {
   nextToken?: string;
 }
 export const ListDashboardsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    dashboards: DashboardReferenceList,
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListDashboardsResponse",
-}) as any as S.Schema<ListDashboardsResponse>;
+  S.Struct({ dashboards: DashboardReferenceList, nextToken: S.optional(S.String) }),
+).annotate({ identifier: "ListDashboardsResponse" }) as any as S.Schema<ListDashboardsResponse>;
 export interface ListScheduledReportsRequest {
   nextToken?: string;
   maxResults?: number;
 }
 export const ListScheduledReportsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    nextToken: S.optional(S.String),
-    maxResults: S.optional(S.Number),
-  }).pipe(
+  S.Struct({ nextToken: S.optional(S.String), maxResults: S.optional(S.Number) }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
@@ -880,22 +795,15 @@ export const ScheduledReportSummary = /*@__PURE__*/ S.suspend(() =>
     scheduleExpressionTimeZone: S.optional(S.String),
     widgetIds: S.optional(WidgetIdList),
   }),
-).annotate({
-  identifier: "ScheduledReportSummary",
-}) as any as S.Schema<ScheduledReportSummary>;
+).annotate({ identifier: "ScheduledReportSummary" }) as any as S.Schema<ScheduledReportSummary>;
 export type ScheduledReportSummaryList = ScheduledReportSummary[];
-export const ScheduledReportSummaryList = /*@__PURE__*/ S.Array(
-  ScheduledReportSummary,
-);
+export const ScheduledReportSummaryList = /*@__PURE__*/ S.Array(ScheduledReportSummary);
 export interface ListScheduledReportsResponse {
   scheduledReports: ScheduledReportSummary[];
   nextToken?: string;
 }
 export const ListScheduledReportsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    scheduledReports: ScheduledReportSummaryList,
-    nextToken: S.optional(S.String),
-  }),
+  S.Struct({ scheduledReports: ScheduledReportSummaryList, nextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListScheduledReportsResponse",
 }) as any as S.Schema<ListScheduledReportsResponse>;
@@ -926,13 +834,9 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ resourceArn: S.String, resourceTags: ResourceTagList }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
+).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export type ResourceTagKeyList = string[];
@@ -945,13 +849,9 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ resourceArn: S.String, resourceTagKeys: ResourceTagKeyList }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
+).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateDashboardRequest {
@@ -966,20 +866,14 @@ export const UpdateDashboardRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     description: S.optional(S.String),
     widgets: S.optional(WidgetList),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "UpdateDashboardRequest",
-}) as any as S.Schema<UpdateDashboardRequest>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "UpdateDashboardRequest" }) as any as S.Schema<UpdateDashboardRequest>;
 export interface UpdateDashboardResponse {
   arn: string;
 }
 export const UpdateDashboardResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ arn: S.String }),
-).annotate({
-  identifier: "UpdateDashboardResponse",
-}) as any as S.Schema<UpdateDashboardResponse>;
+).annotate({ identifier: "UpdateDashboardResponse" }) as any as S.Schema<UpdateDashboardResponse>;
 export interface UpdateScheduledReportRequest {
   arn: string;
   name?: string;
@@ -1004,9 +898,7 @@ export const UpdateScheduledReportRequest = /*@__PURE__*/ S.suspend(() =>
     widgetDateRangeOverride: S.optional(DateTimeRange),
     clearWidgetIds: S.optional(S.Boolean),
     clearWidgetDateRangeOverride: S.optional(S.Boolean),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "UpdateScheduledReportRequest",
 }) as any as S.Schema<UpdateScheduledReportRequest>;

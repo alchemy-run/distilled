@@ -45,6 +45,166 @@
         "smithy.api#input": {}
       }
     },
+    "com.vercel.storage#GetStorageStoreResponseStoreProjectFilterGitOwnersList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.vercel.storage#GetStorageStoreResponseStoreProjectFilterGitProvidersCase0Item": {
+      "type": "enum",
+      "members": {
+        "BITBUCKET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bitbucket"
+          }
+        },
+        "GITHUB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "github"
+          }
+        },
+        "GITLAB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gitlab"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.storage#GetStorageStoreResponseStoreProjectFilterGitProvidersCase0List": {
+      "type": "list",
+      "member": {
+        "target": "com.vercel.storage#GetStorageStoreResponseStoreProjectFilterGitProvidersCase0Item"
+      },
+      "traits": {}
+    },
+    "com.vercel.storage#GetStorageStoreResponseStoreProjectFilterGitProvidersCase1": {
+      "type": "enum",
+      "members": {
+        "VALUE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "*"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.storage#GetStorageStoreResponseStoreProjectFilterGitProviders": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.vercel.storage#GetStorageStoreResponseStoreProjectFilterGitProvidersCase0List"
+        },
+        "Case1": {
+          "target": "com.vercel.storage#GetStorageStoreResponseStoreProjectFilterGitProvidersCase1"
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.storage#GetStorageStoreResponseStoreProjectFilterGitReposList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.vercel.storage#GetStorageStoreResponseStoreProjectFilterGit": {
+      "type": "structure",
+      "members": {
+        "owners": {
+          "target": "com.vercel.storage#GetStorageStoreResponseStoreProjectFilterGitOwnersList"
+        },
+        "providers": {
+          "target": "com.vercel.storage#GetStorageStoreResponseStoreProjectFilterGitProviders",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "repos": {
+          "target": "com.vercel.storage#GetStorageStoreResponseStoreProjectFilterGitReposList"
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.storage#GetStorageStoreResponseStoreProjectFilter": {
+      "type": "structure",
+      "members": {
+        "git": {
+          "target": "com.vercel.storage#GetStorageStoreResponseStoreProjectFilterGit"
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.storage#GetStorageStoreResponseStoreProjectsMetadataItemDeploymentsActionsItemEnvironmentsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.vercel.storage#GetStorageStoreResponseStoreProjectsMetadataItemDeploymentsActionsItem": {
+      "type": "structure",
+      "members": {
+        "environments": {
+          "target": "com.vercel.storage#GetStorageStoreResponseStoreProjectsMetadataItemDeploymentsActionsItemEnvironmentsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "slug": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.storage#GetStorageStoreResponseStoreProjectsMetadataItemDeploymentsActionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.vercel.storage#GetStorageStoreResponseStoreProjectsMetadataItemDeploymentsActionsItem"
+      },
+      "traits": {}
+    },
+    "com.vercel.storage#GetStorageStoreResponseStoreProjectsMetadataItemDeployments": {
+      "type": "structure",
+      "members": {
+        "actions": {
+          "target": "com.vercel.storage#GetStorageStoreResponseStoreProjectsMetadataItemDeploymentsActionsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "required": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.storage#GetStorageStoreResponseStoreProjectsMetadataItemEnvironmentsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.vercel.storage#GetStorageStoreResponseStoreProjectsMetadataItemEnvironmentVariablesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
     "com.vercel.storage#GetStorageStoreResponseStoreProjectsMetadataItemFramework": {
       "type": "enum",
       "members": {
@@ -495,126 +655,20 @@
       },
       "traits": {}
     },
-    "com.vercel.storage#GetStorageStoreResponseStoreProjectsMetadataItemEnvironmentsList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      },
-      "traits": {}
-    },
-    "com.vercel.storage#GetStorageStoreResponseStoreProjectsMetadataItemEnvironmentVariablesList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      },
-      "traits": {}
-    },
-    "com.vercel.storage#GetStorageStoreResponseStoreProjectsMetadataItemDeploymentsActionsItemEnvironmentsItem": {
-      "type": "enum",
-      "members": {
-        "DEVELOPMENT": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "development"
-          }
-        },
-        "PREVIEW": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "preview"
-          }
-        },
-        "PRODUCTION": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "production"
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.vercel.storage#GetStorageStoreResponseStoreProjectsMetadataItemDeploymentsActionsItemEnvironmentsList": {
-      "type": "list",
-      "member": {
-        "target": "com.vercel.storage#GetStorageStoreResponseStoreProjectsMetadataItemDeploymentsActionsItemEnvironmentsItem"
-      },
-      "traits": {}
-    },
-    "com.vercel.storage#GetStorageStoreResponseStoreProjectsMetadataItemDeploymentsActionsItem": {
-      "type": "structure",
-      "members": {
-        "slug": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "environments": {
-          "target": "com.vercel.storage#GetStorageStoreResponseStoreProjectsMetadataItemDeploymentsActionsItemEnvironmentsList",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.vercel.storage#GetStorageStoreResponseStoreProjectsMetadataItemDeploymentsActionsList": {
-      "type": "list",
-      "member": {
-        "target": "com.vercel.storage#GetStorageStoreResponseStoreProjectsMetadataItemDeploymentsActionsItem"
-      },
-      "traits": {}
-    },
-    "com.vercel.storage#GetStorageStoreResponseStoreProjectsMetadataItemDeployments": {
-      "type": "structure",
-      "members": {
-        "required": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "actions": {
-          "target": "com.vercel.storage#GetStorageStoreResponseStoreProjectsMetadataItemDeploymentsActionsList",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        }
-      },
-      "traits": {}
-    },
     "com.vercel.storage#GetStorageStoreResponseStoreProjectsMetadataItem": {
       "type": "structure",
       "members": {
-        "id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "projectId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "framework": {
-          "target": "com.vercel.storage#GetStorageStoreResponseStoreProjectsMetadataItemFramework",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "latestDeployment": {
-          "target": "smithy.api#String"
+        "deployments": {
+          "target": "com.vercel.storage#GetStorageStoreResponseStoreProjectsMetadataItemDeployments"
         },
         "environments": {
           "target": "com.vercel.storage#GetStorageStoreResponseStoreProjectsMetadataItemEnvironmentsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "environmentVariables": {
+          "target": "com.vercel.storage#GetStorageStoreResponseStoreProjectsMetadataItemEnvironmentVariablesList",
           "traits": {
             "smithy.api#required": {}
           }
@@ -626,17 +680,35 @@
             "com.distilled.openapi#nullable": {}
           }
         },
-        "environmentVariables": {
-          "target": "com.vercel.storage#GetStorageStoreResponseStoreProjectsMetadataItemEnvironmentVariablesList",
+        "framework": {
+          "target": "com.vercel.storage#GetStorageStoreResponseStoreProjectsMetadataItemFramework",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
         },
-        "deployments": {
-          "target": "com.vercel.storage#GetStorageStoreResponseStoreProjectsMetadataItemDeployments"
+        "latestDeployment": {
+          "target": "smithy.api#String"
         },
         "makeEnvVarsSensitive": {
           "target": "smithy.api#Boolean"
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
         }
       },
       "traits": {}
@@ -645,102 +717,6 @@
       "type": "list",
       "member": {
         "target": "com.vercel.storage#GetStorageStoreResponseStoreProjectsMetadataItem"
-      },
-      "traits": {}
-    },
-    "com.vercel.storage#GetStorageStoreResponseStoreProjectFilterGitProvidersCase0Item": {
-      "type": "enum",
-      "members": {
-        "BITBUCKET": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "bitbucket"
-          }
-        },
-        "GITHUB": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "github"
-          }
-        },
-        "GITLAB": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "gitlab"
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.vercel.storage#GetStorageStoreResponseStoreProjectFilterGitProvidersCase0List": {
-      "type": "list",
-      "member": {
-        "target": "com.vercel.storage#GetStorageStoreResponseStoreProjectFilterGitProvidersCase0Item"
-      },
-      "traits": {}
-    },
-    "com.vercel.storage#GetStorageStoreResponseStoreProjectFilterGitProvidersCase1": {
-      "type": "enum",
-      "members": {
-        "VALUE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "*"
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.vercel.storage#GetStorageStoreResponseStoreProjectFilterGitProviders": {
-      "type": "union",
-      "members": {
-        "Case0": {
-          "target": "com.vercel.storage#GetStorageStoreResponseStoreProjectFilterGitProvidersCase0List"
-        },
-        "Case1": {
-          "target": "com.vercel.storage#GetStorageStoreResponseStoreProjectFilterGitProvidersCase1"
-        }
-      },
-      "traits": {}
-    },
-    "com.vercel.storage#GetStorageStoreResponseStoreProjectFilterGitOwnersList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      },
-      "traits": {}
-    },
-    "com.vercel.storage#GetStorageStoreResponseStoreProjectFilterGitReposList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      },
-      "traits": {}
-    },
-    "com.vercel.storage#GetStorageStoreResponseStoreProjectFilterGit": {
-      "type": "structure",
-      "members": {
-        "providers": {
-          "target": "com.vercel.storage#GetStorageStoreResponseStoreProjectFilterGitProviders",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "owners": {
-          "target": "com.vercel.storage#GetStorageStoreResponseStoreProjectFilterGitOwnersList"
-        },
-        "repos": {
-          "target": "com.vercel.storage#GetStorageStoreResponseStoreProjectFilterGitReposList"
-        }
-      },
-      "traits": {}
-    },
-    "com.vercel.storage#GetStorageStoreResponseStoreProjectFilter": {
-      "type": "structure",
-      "members": {
-        "git": {
-          "target": "com.vercel.storage#GetStorageStoreResponseStoreProjectFilterGit"
-        }
       },
       "traits": {}
     },
@@ -801,20 +777,11 @@
     "com.vercel.storage#GetStorageStoreResponseStore": {
       "type": "structure",
       "members": {
-        "projectsMetadata": {
-          "target": "com.vercel.storage#GetStorageStoreResponseStoreProjectsMetadataList",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
         "projectFilter": {
           "target": "com.vercel.storage#GetStorageStoreResponseStoreProjectFilter"
         },
-        "totalConnectedProjects": {
-          "target": "smithy.api#Double"
-        },
-        "usageQuotaExceeded": {
-          "target": "smithy.api#Boolean",
+        "projectsMetadata": {
+          "target": "com.vercel.storage#GetStorageStoreResponseStoreProjectsMetadataList",
           "traits": {
             "smithy.api#required": {}
           }
@@ -824,6 +791,15 @@
           "traits": {
             "smithy.api#required": {},
             "com.distilled.openapi#nullable": {}
+          }
+        },
+        "totalConnectedProjects": {
+          "target": "smithy.api#Double"
+        },
+        "usageQuotaExceeded": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
           }
         }
       },
@@ -1037,6 +1013,166 @@
       "traits": {
         "smithy.api#input": {}
       }
+    },
+    "com.vercel.storage#CreateStorageStoresBlobResponseStoreProjectFilterGitOwnersList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.vercel.storage#CreateStorageStoresBlobResponseStoreProjectFilterGitProvidersCase0Item": {
+      "type": "enum",
+      "members": {
+        "BITBUCKET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bitbucket"
+          }
+        },
+        "GITHUB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "github"
+          }
+        },
+        "GITLAB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gitlab"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.storage#CreateStorageStoresBlobResponseStoreProjectFilterGitProvidersCase0List": {
+      "type": "list",
+      "member": {
+        "target": "com.vercel.storage#CreateStorageStoresBlobResponseStoreProjectFilterGitProvidersCase0Item"
+      },
+      "traits": {}
+    },
+    "com.vercel.storage#CreateStorageStoresBlobResponseStoreProjectFilterGitProvidersCase1": {
+      "type": "enum",
+      "members": {
+        "VALUE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "*"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.storage#CreateStorageStoresBlobResponseStoreProjectFilterGitProviders": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.vercel.storage#CreateStorageStoresBlobResponseStoreProjectFilterGitProvidersCase0List"
+        },
+        "Case1": {
+          "target": "com.vercel.storage#CreateStorageStoresBlobResponseStoreProjectFilterGitProvidersCase1"
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.storage#CreateStorageStoresBlobResponseStoreProjectFilterGitReposList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.vercel.storage#CreateStorageStoresBlobResponseStoreProjectFilterGit": {
+      "type": "structure",
+      "members": {
+        "owners": {
+          "target": "com.vercel.storage#CreateStorageStoresBlobResponseStoreProjectFilterGitOwnersList"
+        },
+        "providers": {
+          "target": "com.vercel.storage#CreateStorageStoresBlobResponseStoreProjectFilterGitProviders",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "repos": {
+          "target": "com.vercel.storage#CreateStorageStoresBlobResponseStoreProjectFilterGitReposList"
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.storage#CreateStorageStoresBlobResponseStoreProjectFilter": {
+      "type": "structure",
+      "members": {
+        "git": {
+          "target": "com.vercel.storage#CreateStorageStoresBlobResponseStoreProjectFilterGit"
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.storage#CreateStorageStoresBlobResponseStoreProjectsMetadataItemDeploymentsActionsItemEnvironmentsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.vercel.storage#CreateStorageStoresBlobResponseStoreProjectsMetadataItemDeploymentsActionsItem": {
+      "type": "structure",
+      "members": {
+        "environments": {
+          "target": "com.vercel.storage#CreateStorageStoresBlobResponseStoreProjectsMetadataItemDeploymentsActionsItemEnvironmentsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "slug": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.storage#CreateStorageStoresBlobResponseStoreProjectsMetadataItemDeploymentsActionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.vercel.storage#CreateStorageStoresBlobResponseStoreProjectsMetadataItemDeploymentsActionsItem"
+      },
+      "traits": {}
+    },
+    "com.vercel.storage#CreateStorageStoresBlobResponseStoreProjectsMetadataItemDeployments": {
+      "type": "structure",
+      "members": {
+        "actions": {
+          "target": "com.vercel.storage#CreateStorageStoresBlobResponseStoreProjectsMetadataItemDeploymentsActionsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "required": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.storage#CreateStorageStoresBlobResponseStoreProjectsMetadataItemEnvironmentsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.vercel.storage#CreateStorageStoresBlobResponseStoreProjectsMetadataItemEnvironmentVariablesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
     },
     "com.vercel.storage#CreateStorageStoresBlobResponseStoreProjectsMetadataItemFramework": {
       "type": "enum",
@@ -1488,126 +1624,20 @@
       },
       "traits": {}
     },
-    "com.vercel.storage#CreateStorageStoresBlobResponseStoreProjectsMetadataItemEnvironmentsList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      },
-      "traits": {}
-    },
-    "com.vercel.storage#CreateStorageStoresBlobResponseStoreProjectsMetadataItemEnvironmentVariablesList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      },
-      "traits": {}
-    },
-    "com.vercel.storage#CreateStorageStoresBlobResponseStoreProjectsMetadataItemDeploymentsActionsItemEnvironmentsItem": {
-      "type": "enum",
-      "members": {
-        "DEVELOPMENT": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "development"
-          }
-        },
-        "PREVIEW": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "preview"
-          }
-        },
-        "PRODUCTION": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "production"
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.vercel.storage#CreateStorageStoresBlobResponseStoreProjectsMetadataItemDeploymentsActionsItemEnvironmentsList": {
-      "type": "list",
-      "member": {
-        "target": "com.vercel.storage#CreateStorageStoresBlobResponseStoreProjectsMetadataItemDeploymentsActionsItemEnvironmentsItem"
-      },
-      "traits": {}
-    },
-    "com.vercel.storage#CreateStorageStoresBlobResponseStoreProjectsMetadataItemDeploymentsActionsItem": {
-      "type": "structure",
-      "members": {
-        "slug": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "environments": {
-          "target": "com.vercel.storage#CreateStorageStoresBlobResponseStoreProjectsMetadataItemDeploymentsActionsItemEnvironmentsList",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.vercel.storage#CreateStorageStoresBlobResponseStoreProjectsMetadataItemDeploymentsActionsList": {
-      "type": "list",
-      "member": {
-        "target": "com.vercel.storage#CreateStorageStoresBlobResponseStoreProjectsMetadataItemDeploymentsActionsItem"
-      },
-      "traits": {}
-    },
-    "com.vercel.storage#CreateStorageStoresBlobResponseStoreProjectsMetadataItemDeployments": {
-      "type": "structure",
-      "members": {
-        "required": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "actions": {
-          "target": "com.vercel.storage#CreateStorageStoresBlobResponseStoreProjectsMetadataItemDeploymentsActionsList",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        }
-      },
-      "traits": {}
-    },
     "com.vercel.storage#CreateStorageStoresBlobResponseStoreProjectsMetadataItem": {
       "type": "structure",
       "members": {
-        "id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "projectId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "framework": {
-          "target": "com.vercel.storage#CreateStorageStoresBlobResponseStoreProjectsMetadataItemFramework",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "latestDeployment": {
-          "target": "smithy.api#String"
+        "deployments": {
+          "target": "com.vercel.storage#CreateStorageStoresBlobResponseStoreProjectsMetadataItemDeployments"
         },
         "environments": {
           "target": "com.vercel.storage#CreateStorageStoresBlobResponseStoreProjectsMetadataItemEnvironmentsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "environmentVariables": {
+          "target": "com.vercel.storage#CreateStorageStoresBlobResponseStoreProjectsMetadataItemEnvironmentVariablesList",
           "traits": {
             "smithy.api#required": {}
           }
@@ -1619,17 +1649,35 @@
             "com.distilled.openapi#nullable": {}
           }
         },
-        "environmentVariables": {
-          "target": "com.vercel.storage#CreateStorageStoresBlobResponseStoreProjectsMetadataItemEnvironmentVariablesList",
+        "framework": {
+          "target": "com.vercel.storage#CreateStorageStoresBlobResponseStoreProjectsMetadataItemFramework",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
         },
-        "deployments": {
-          "target": "com.vercel.storage#CreateStorageStoresBlobResponseStoreProjectsMetadataItemDeployments"
+        "latestDeployment": {
+          "target": "smithy.api#String"
         },
         "makeEnvVarsSensitive": {
           "target": "smithy.api#Boolean"
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
         }
       },
       "traits": {}
@@ -1638,102 +1686,6 @@
       "type": "list",
       "member": {
         "target": "com.vercel.storage#CreateStorageStoresBlobResponseStoreProjectsMetadataItem"
-      },
-      "traits": {}
-    },
-    "com.vercel.storage#CreateStorageStoresBlobResponseStoreProjectFilterGitProvidersCase0Item": {
-      "type": "enum",
-      "members": {
-        "BITBUCKET": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "bitbucket"
-          }
-        },
-        "GITHUB": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "github"
-          }
-        },
-        "GITLAB": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "gitlab"
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.vercel.storage#CreateStorageStoresBlobResponseStoreProjectFilterGitProvidersCase0List": {
-      "type": "list",
-      "member": {
-        "target": "com.vercel.storage#CreateStorageStoresBlobResponseStoreProjectFilterGitProvidersCase0Item"
-      },
-      "traits": {}
-    },
-    "com.vercel.storage#CreateStorageStoresBlobResponseStoreProjectFilterGitProvidersCase1": {
-      "type": "enum",
-      "members": {
-        "VALUE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "*"
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.vercel.storage#CreateStorageStoresBlobResponseStoreProjectFilterGitProviders": {
-      "type": "union",
-      "members": {
-        "Case0": {
-          "target": "com.vercel.storage#CreateStorageStoresBlobResponseStoreProjectFilterGitProvidersCase0List"
-        },
-        "Case1": {
-          "target": "com.vercel.storage#CreateStorageStoresBlobResponseStoreProjectFilterGitProvidersCase1"
-        }
-      },
-      "traits": {}
-    },
-    "com.vercel.storage#CreateStorageStoresBlobResponseStoreProjectFilterGitOwnersList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      },
-      "traits": {}
-    },
-    "com.vercel.storage#CreateStorageStoresBlobResponseStoreProjectFilterGitReposList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      },
-      "traits": {}
-    },
-    "com.vercel.storage#CreateStorageStoresBlobResponseStoreProjectFilterGit": {
-      "type": "structure",
-      "members": {
-        "providers": {
-          "target": "com.vercel.storage#CreateStorageStoresBlobResponseStoreProjectFilterGitProviders",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "owners": {
-          "target": "com.vercel.storage#CreateStorageStoresBlobResponseStoreProjectFilterGitOwnersList"
-        },
-        "repos": {
-          "target": "com.vercel.storage#CreateStorageStoresBlobResponseStoreProjectFilterGitReposList"
-        }
-      },
-      "traits": {}
-    },
-    "com.vercel.storage#CreateStorageStoresBlobResponseStoreProjectFilter": {
-      "type": "structure",
-      "members": {
-        "git": {
-          "target": "com.vercel.storage#CreateStorageStoresBlobResponseStoreProjectFilterGit"
-        }
       },
       "traits": {}
     },
@@ -1958,20 +1910,11 @@
     "com.vercel.storage#CreateStorageStoresBlobResponseStore": {
       "type": "structure",
       "members": {
-        "projectsMetadata": {
-          "target": "com.vercel.storage#CreateStorageStoresBlobResponseStoreProjectsMetadataList",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
         "projectFilter": {
           "target": "com.vercel.storage#CreateStorageStoresBlobResponseStoreProjectFilter"
         },
-        "totalConnectedProjects": {
-          "target": "smithy.api#Double"
-        },
-        "usageQuotaExceeded": {
-          "target": "smithy.api#Boolean",
+        "projectsMetadata": {
+          "target": "com.vercel.storage#CreateStorageStoresBlobResponseStoreProjectsMetadataList",
           "traits": {
             "smithy.api#required": {}
           }
@@ -1981,6 +1924,15 @@
           "traits": {
             "smithy.api#required": {},
             "com.distilled.openapi#nullable": {}
+          }
+        },
+        "totalConnectedProjects": {
+          "target": "smithy.api#Double"
+        },
+        "usageQuotaExceeded": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
           }
         },
         "access": {
@@ -1998,14 +1950,14 @@
             "smithy.api#documentation": "The project this store is scoped to. Set for project-default stores and user-created stores with enforced project association."
           }
         },
-        "size": {
+        "count": {
           "target": "smithy.api#Double",
           "traits": {
             "smithy.api#required": {}
           }
         },
-        "count": {
-          "target": "smithy.api#Double",
+        "isTokenExpired": {
+          "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#required": {}
           }
@@ -2016,8 +1968,8 @@
             "smithy.api#required": {}
           }
         },
-        "isTokenExpired": {
-          "target": "smithy.api#Boolean",
+        "size": {
+          "target": "smithy.api#Double",
           "traits": {
             "smithy.api#required": {}
           }

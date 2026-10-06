@@ -221,6 +221,26 @@
         "smithy.api#retryable": {}
       }
     },
+    "com.amazonaws.elementalinference#ContextualMetadataConfig": {
+      "type": "structure",
+      "members": {
+        "summaryGeneration": {
+          "target": "com.amazonaws.elementalinference#SummaryGenerationMode",
+          "traits": {
+            "smithy.api#documentation": "<p>Specifies whether Elemental Inference generates a descriptive summary of the media content for this output, along with the objects and actions that it detects. This setting is independent of <code>extendedAnalysis</code>. </p> <p>Valid values:</p> <ul> <li> <p>ENABLED (default) – Elemental Inference populates the summary, objects, and actions fields, along with the IAB taxonomy and GARM suitability classifications. </p> </li> <li> <p>DISABLED – Elemental Inference doesn't populate the summary, objects, and actions fields. </p> </li> </ul>"
+          }
+        },
+        "extendedAnalysis": {
+          "target": "com.amazonaws.elementalinference#ExtendedAnalysisMode",
+          "traits": {
+            "smithy.api#documentation": "<p>Specifies whether Elemental Inference generates extended analysis of the media content for this output. Extended analysis identifies the people, environments, brands, and on-screen text in the media content. This setting is independent of <code>summaryGeneration</code>. </p> <p>Valid values:</p> <ul> <li> <p>ENABLED (default) – Elemental Inference populates the people, environments, brands, and on-screen text fields. </p> </li> <li> <p>DISABLED – Elemental Inference doesn't populate the people, environments, brands, and on-screen text fields. </p> </li> </ul>"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>The output configuration settings for the contextual metadata feature. Use this structure when the feed output generates metadata that describes the media content. </p>"
+      }
+    },
     "com.amazonaws.elementalinference#CreateDictionary": {
       "type": "operation",
       "input": {
@@ -338,9 +358,7 @@
             "aws.cloudformation#cfnExcludeProperty": {},
             "smithy.api#documentation": "<p>The current status of the dictionary. After creation succeeds, the status will be AVAILABLE. </p>",
             "smithy.api#required": {},
-            "smithy.api#suppress": [
-              "UnstableTrait.aws.cloudformation#cfnExcludeProperty"
-            ]
+            "smithy.api#suppress": ["UnstableTrait.aws.cloudformation#cfnExcludeProperty"]
           }
         },
         "references": {
@@ -348,9 +366,7 @@
           "traits": {
             "aws.cloudformation#cfnExcludeProperty": {},
             "smithy.api#documentation": "<p>A list of feed IDs that reference this dictionary.</p>",
-            "smithy.api#suppress": [
-              "UnstableTrait.aws.cloudformation#cfnExcludeProperty"
-            ]
+            "smithy.api#suppress": ["UnstableTrait.aws.cloudformation#cfnExcludeProperty"]
           }
         },
         "tags": {
@@ -432,9 +448,7 @@
             "aws.cloudformation#cfnExcludeProperty": {},
             "smithy.api#documentation": "<p>An array of outputs for this feed. Each output represents a specific Elemental Inference feature. For example, there is one output type for the smart crop feature. You must specify at least one output, but you can later add outputs using AssociateFeed, or add, modify, and delete outputs using UpdateFeed. </p>",
             "smithy.api#required": {},
-            "smithy.api#suppress": [
-              "UnstableTrait.aws.cloudformation#cfnExcludeProperty"
-            ]
+            "smithy.api#suppress": ["UnstableTrait.aws.cloudformation#cfnExcludeProperty"]
           }
         },
         "tags": {
@@ -498,9 +512,7 @@
             "aws.cloudformation#cfnExcludeProperty": {},
             "smithy.api#documentation": "<p>The current status of the feed. After creation of the feed has succeeded, the status will be AVAILABLE. </p>",
             "smithy.api#required": {},
-            "smithy.api#suppress": [
-              "UnstableTrait.aws.cloudformation#cfnExcludeProperty"
-            ]
+            "smithy.api#suppress": ["UnstableTrait.aws.cloudformation#cfnExcludeProperty"]
           }
         },
         "association": {
@@ -508,9 +520,7 @@
           "traits": {
             "aws.cloudformation#cfnExcludeProperty": {},
             "smithy.api#documentation": "<p>The association for this feed. When you create the feed, this property is empty. You must associate a resource with the feed using AssociateFeed or UpdateFeed. </p>",
-            "smithy.api#suppress": [
-              "UnstableTrait.aws.cloudformation#cfnExcludeProperty"
-            ]
+            "smithy.api#suppress": ["UnstableTrait.aws.cloudformation#cfnExcludeProperty"]
           }
         },
         "tags": {
@@ -736,6 +746,65 @@
           "code": 202
         },
         "smithy.api#idempotent": {}
+      }
+    },
+    "com.amazonaws.elementalinference#DeleteFeedPolicy": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.elementalinference#DeleteFeedPolicyRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.amazonaws.elementalinference#AccessDeniedException"
+        },
+        {
+          "target": "com.amazonaws.elementalinference#InternalServerErrorException"
+        },
+        {
+          "target": "com.amazonaws.elementalinference#ResourceNotFoundException"
+        },
+        {
+          "target": "com.amazonaws.elementalinference#TooManyRequestException"
+        },
+        {
+          "target": "com.amazonaws.elementalinference#ValidationException"
+        }
+      ],
+      "traits": {
+        "aws.iam#iamAction": {
+          "documentation": "Grants permission to delete the resource-based policy of a feed",
+          "resources": {
+            "required": {
+              "feed": {}
+            }
+          }
+        },
+        "smithy.api#documentation": "<p>Deletes the resource-based policy attached to the specified feed. After you delete the policy, the operation revokes the cross-account access that the policy granted. </p>",
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v1/feed/{id}/policy",
+          "code": 204
+        },
+        "smithy.api#idempotent": {}
+      }
+    },
+    "com.amazonaws.elementalinference#DeleteFeedPolicyRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "com.amazonaws.elementalinference#FeedId",
+          "traits": {
+            "smithy.api#documentation": "<p>The ID of the feed whose policy you want to delete.</p>",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
       }
     },
     "com.amazonaws.elementalinference#DeleteFeedRequest": {
@@ -1136,12 +1205,7 @@
           }
         },
         "aws.iam#disableConditionKeyInference": {},
-        "aws.iam#supportedPrincipalTypes": [
-          "Root",
-          "IAMUser",
-          "IAMRole",
-          "FederatedUser"
-        ],
+        "aws.iam#supportedPrincipalTypes": ["Root", "IAMUser", "IAMRole", "FederatedUser"],
         "aws.protocols#restJson1": {},
         "smithy.api#cors": {
           "maxAge": 86400
@@ -2027,6 +2091,23 @@
         "smithy.api#output": {}
       }
     },
+    "com.amazonaws.elementalinference#ExtendedAnalysisMode": {
+      "type": "enum",
+      "members": {
+        "ENABLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ENABLED"
+          }
+        },
+        "DISABLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DISABLED"
+          }
+        }
+      }
+    },
     "com.amazonaws.elementalinference#FeedArn": {
       "type": "string",
       "traits": {
@@ -2091,7 +2172,16 @@
           "target": "com.amazonaws.elementalinference#AssociateFeed"
         },
         {
+          "target": "com.amazonaws.elementalinference#DeleteFeedPolicy"
+        },
+        {
           "target": "com.amazonaws.elementalinference#DisassociateFeed"
+        },
+        {
+          "target": "com.amazonaws.elementalinference#GetFeedPolicy"
+        },
+        {
+          "target": "com.amazonaws.elementalinference#PutFeedPolicy"
         }
       ],
       "traits": {
@@ -2420,9 +2510,7 @@
             "aws.cloudformation#cfnExcludeProperty": {},
             "smithy.api#documentation": "<p>The current status of the dictionary.</p>",
             "smithy.api#required": {},
-            "smithy.api#suppress": [
-              "UnstableTrait.aws.cloudformation#cfnExcludeProperty"
-            ]
+            "smithy.api#suppress": ["UnstableTrait.aws.cloudformation#cfnExcludeProperty"]
           }
         },
         "references": {
@@ -2430,9 +2518,7 @@
           "traits": {
             "aws.cloudformation#cfnExcludeProperty": {},
             "smithy.api#documentation": "<p>A list of feed IDs that reference this dictionary.</p>",
-            "smithy.api#suppress": [
-              "UnstableTrait.aws.cloudformation#cfnExcludeProperty"
-            ]
+            "smithy.api#suppress": ["UnstableTrait.aws.cloudformation#cfnExcludeProperty"]
           }
         },
         "tags": {
@@ -2527,6 +2613,80 @@
         }
       }
     },
+    "com.amazonaws.elementalinference#GetFeedPolicy": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.elementalinference#GetFeedPolicyRequest"
+      },
+      "output": {
+        "target": "com.amazonaws.elementalinference#GetFeedPolicyResponse"
+      },
+      "errors": [
+        {
+          "target": "com.amazonaws.elementalinference#AccessDeniedException"
+        },
+        {
+          "target": "com.amazonaws.elementalinference#InternalServerErrorException"
+        },
+        {
+          "target": "com.amazonaws.elementalinference#ResourceNotFoundException"
+        },
+        {
+          "target": "com.amazonaws.elementalinference#TooManyRequestException"
+        },
+        {
+          "target": "com.amazonaws.elementalinference#ValidationException"
+        }
+      ],
+      "traits": {
+        "aws.iam#iamAction": {
+          "documentation": "Grants permission to get the resource-based policy of a feed",
+          "resources": {
+            "required": {
+              "feed": {}
+            }
+          }
+        },
+        "smithy.api#documentation": "<p>Retrieves the resource-based policy attached to the specified feed.</p>",
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/feed/{id}/policy",
+          "code": 200
+        },
+        "smithy.api#readonly": {}
+      }
+    },
+    "com.amazonaws.elementalinference#GetFeedPolicyRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "com.amazonaws.elementalinference#FeedId",
+          "traits": {
+            "smithy.api#documentation": "<p>The ID of the feed whose policy you want to retrieve.</p>",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.amazonaws.elementalinference#GetFeedPolicyResponse": {
+      "type": "structure",
+      "members": {
+        "policy": {
+          "target": "com.amazonaws.elementalinference#PolicyDocument",
+          "traits": {
+            "smithy.api#documentation": "<p>The resource-based policy document attached to the feed.</p>",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
     "com.amazonaws.elementalinference#GetFeedRequest": {
       "type": "structure",
       "members": {
@@ -2593,9 +2753,7 @@
             "aws.cloudformation#cfnExcludeProperty": {},
             "smithy.api#documentation": "<p>The status of the feed.</p>",
             "smithy.api#required": {},
-            "smithy.api#suppress": [
-              "UnstableTrait.aws.cloudformation#cfnExcludeProperty"
-            ]
+            "smithy.api#suppress": ["UnstableTrait.aws.cloudformation#cfnExcludeProperty"]
           }
         },
         "association": {
@@ -2603,9 +2761,7 @@
           "traits": {
             "aws.cloudformation#cfnExcludeProperty": {},
             "smithy.api#documentation": "<p>Information about the resource that is associated with the feed. It's possible that there is no associated resource. This is not an error. </p>",
-            "smithy.api#suppress": [
-              "UnstableTrait.aws.cloudformation#cfnExcludeProperty"
-            ]
+            "smithy.api#suppress": ["UnstableTrait.aws.cloudformation#cfnExcludeProperty"]
           }
         },
         "tags": {
@@ -2763,9 +2919,7 @@
           "traits": {
             "aws.cloudformation#cfnExcludeProperty": {},
             "smithy.api#documentation": "<p>True means that the output was originally created in the feed using AssociateFeed. False means it was created using CreateFeed or UpdateFeed. </p> <p>You will need this value if you use UpdateFeed to modify the list of outputs in the feed.</p>",
-            "smithy.api#suppress": [
-              "UnstableTrait.aws.cloudformation#cfnExcludeProperty"
-            ]
+            "smithy.api#suppress": ["UnstableTrait.aws.cloudformation#cfnExcludeProperty"]
           }
         }
       },
@@ -3088,6 +3242,12 @@
           "traits": {
             "smithy.api#documentation": "<p>The output config type that applies to the smart subtitling feature.</p>"
           }
+        },
+        "contextualMetadata": {
+          "target": "com.amazonaws.elementalinference#ContextualMetadataConfig",
+          "traits": {
+            "smithy.api#documentation": "<p>The output config type that applies to the contextual metadata feature.</p>"
+          }
         }
       },
       "traits": {
@@ -3108,6 +3268,15 @@
           "traits": {
             "smithy.api#enumValue": "DISABLED"
           }
+        }
+      }
+    },
+    "com.amazonaws.elementalinference#PolicyDocument": {
+      "type": "string",
+      "traits": {
+        "smithy.api#length": {
+          "min": 1,
+          "max": 2048
         }
       }
     },
@@ -3132,6 +3301,82 @@
             "smithy.api#enumValue": "DROP"
           }
         }
+      }
+    },
+    "com.amazonaws.elementalinference#PutFeedPolicy": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.elementalinference#PutFeedPolicyRequest"
+      },
+      "output": {
+        "target": "com.amazonaws.elementalinference#PutFeedPolicyResponse"
+      },
+      "errors": [
+        {
+          "target": "com.amazonaws.elementalinference#AccessDeniedException"
+        },
+        {
+          "target": "com.amazonaws.elementalinference#ConflictException"
+        },
+        {
+          "target": "com.amazonaws.elementalinference#InternalServerErrorException"
+        },
+        {
+          "target": "com.amazonaws.elementalinference#ResourceNotFoundException"
+        },
+        {
+          "target": "com.amazonaws.elementalinference#TooManyRequestException"
+        },
+        {
+          "target": "com.amazonaws.elementalinference#ValidationException"
+        }
+      ],
+      "traits": {
+        "aws.iam#iamAction": {
+          "documentation": "Grants permission to put a resource-based policy on a feed",
+          "resources": {
+            "required": {
+              "feed": {}
+            }
+          }
+        },
+        "smithy.api#documentation": "<p>Attaches or replaces a resource-based policy on the specified feed. A resource-based policy grants cross-account access to the feed. </p>",
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/v1/feed/{id}/policy",
+          "code": 200
+        },
+        "smithy.api#idempotent": {}
+      }
+    },
+    "com.amazonaws.elementalinference#PutFeedPolicyRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "com.amazonaws.elementalinference#FeedId",
+          "traits": {
+            "smithy.api#documentation": "<p>The ID of the feed to attach the policy to.</p>",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "policy": {
+          "target": "com.amazonaws.elementalinference#PolicyDocument",
+          "traits": {
+            "smithy.api#documentation": "<p>The resource-based policy document to attach to the feed.</p>",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.amazonaws.elementalinference#PutFeedPolicyResponse": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.amazonaws.elementalinference#ResourceArn": {
@@ -3404,7 +3649,24 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "<p>A type of OutputConfig, used when the output in a feed is for the smart subtitling feature. smart subtitling uses automatic speech recognition (ASR) to generate live TTML subtitles from the audio in your source media. </p>"
+        "smithy.api#documentation": "<p>A type of OutputConfig, used when the output in a feed is for the smart subtitling feature. Smart subtitling uses automatic speech recognition (ASR) to generate live TTML subtitles from the audio in your source media. </p>"
+      }
+    },
+    "com.amazonaws.elementalinference#SummaryGenerationMode": {
+      "type": "enum",
+      "members": {
+        "ENABLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ENABLED"
+          }
+        },
+        "DISABLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DISABLED"
+          }
+        }
       }
     },
     "com.amazonaws.elementalinference#TagKey": {
@@ -3815,9 +4077,7 @@
             "aws.cloudformation#cfnExcludeProperty": {},
             "smithy.api#documentation": "<p>The current status of the dictionary.</p>",
             "smithy.api#required": {},
-            "smithy.api#suppress": [
-              "UnstableTrait.aws.cloudformation#cfnExcludeProperty"
-            ]
+            "smithy.api#suppress": ["UnstableTrait.aws.cloudformation#cfnExcludeProperty"]
           }
         },
         "references": {
@@ -3825,9 +4085,7 @@
           "traits": {
             "aws.cloudformation#cfnExcludeProperty": {},
             "smithy.api#documentation": "<p>A list of feed IDs that reference this dictionary.</p>",
-            "smithy.api#suppress": [
-              "UnstableTrait.aws.cloudformation#cfnExcludeProperty"
-            ]
+            "smithy.api#suppress": ["UnstableTrait.aws.cloudformation#cfnExcludeProperty"]
           }
         },
         "tags": {
@@ -3915,9 +4173,7 @@
             "aws.cloudformation#cfnExcludeProperty": {},
             "smithy.api#documentation": "<p>Required. You can specify the existing array of outputs (to leave outputs unchanged) or you can specify a new array. </p>",
             "smithy.api#required": {},
-            "smithy.api#suppress": [
-              "UnstableTrait.aws.cloudformation#cfnExcludeProperty"
-            ]
+            "smithy.api#suppress": ["UnstableTrait.aws.cloudformation#cfnExcludeProperty"]
           }
         }
       },
@@ -3975,9 +4231,7 @@
             "aws.cloudformation#cfnExcludeProperty": {},
             "smithy.api#documentation": "<p>The status of the feed.</p>",
             "smithy.api#required": {},
-            "smithy.api#suppress": [
-              "UnstableTrait.aws.cloudformation#cfnExcludeProperty"
-            ]
+            "smithy.api#suppress": ["UnstableTrait.aws.cloudformation#cfnExcludeProperty"]
           }
         },
         "association": {
@@ -3985,9 +4239,7 @@
           "traits": {
             "aws.cloudformation#cfnExcludeProperty": {},
             "smithy.api#documentation": "<p>Information about the resource that is associated with the feed, if any.</p>",
-            "smithy.api#suppress": [
-              "UnstableTrait.aws.cloudformation#cfnExcludeProperty"
-            ]
+            "smithy.api#suppress": ["UnstableTrait.aws.cloudformation#cfnExcludeProperty"]
           }
         },
         "tags": {
@@ -4036,9 +4288,7 @@
           "traits": {
             "aws.cloudformation#cfnExcludeProperty": {},
             "smithy.api#documentation": "<p>Elemental Inference originally sets this parameter to True if this output was created by AssociateFeed or to False if this output was created by CreateFeed or UpdateFeed. </p> <p>You must not change this value. Therefore, use GetFeed to determine the current value. Then in the UpdateFeed request, if the current value is True, include this parameter with a value of True. If it's False, omit the parameter. </p>",
-            "smithy.api#suppress": [
-              "UnstableTrait.aws.cloudformation#cfnExcludeProperty"
-            ]
+            "smithy.api#suppress": ["UnstableTrait.aws.cloudformation#cfnExcludeProperty"]
           }
         }
       },

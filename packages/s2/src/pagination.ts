@@ -1,3 +1,4 @@
+import { getItems, getPath, type PaginationStrategy } from "@distilled.cloud/core/pagination";
 /**
  * S2 (s2.dev) pagination — hand-written.
  *
@@ -12,26 +13,14 @@
  */
 import * as Effect from "effect/Effect";
 import * as Stream from "effect/Stream";
-import {
-  getItems,
-  getPath,
-  type PaginationStrategy,
-} from "@distilled.cloud/core/pagination";
 
-export type {
-  PaginatedTrait,
-  PaginationStrategy,
-} from "@distilled.cloud/core/pagination";
+export type { PaginatedTrait, PaginationStrategy } from "@distilled.cloud/core/pagination";
 
 /**
  * Stream of pages using S2's start-after pagination: feed the last item's
  * cursor field back as `start_after` for as long as `has_more` is true.
  */
-export const paginateStartAfter: PaginationStrategy = (
-  operation,
-  input,
-  pagination,
-) => {
+export const paginateStartAfter: PaginationStrategy = (operation, input, pagination) => {
   const inputToken = pagination.inputToken;
   const itemsPath = pagination.items;
   // The paginated trait has no "item cursor field" slot; S2 stamps it in
@@ -48,9 +37,7 @@ export const paginateStartAfter: PaginationStrategy = (
 
   type State = { cursor: string | undefined; done: boolean };
   const startCursor =
-    typeof input[inputToken] === "string"
-      ? (input[inputToken] as string)
-      : undefined;
+    typeof input[inputToken] === "string" ? (input[inputToken] as string) : undefined;
 
   return Stream.unfold({ cursor: startCursor, done: false } as State, (state) =>
     Effect.gen(function* () {
@@ -67,9 +54,7 @@ export const paginateStartAfter: PaginationStrategy = (
       const last = items[items.length - 1];
       const nextCursor =
         last !== null && typeof last === "object"
-          ? ((last as Record<string, unknown>)[cursorField] as
-              | string
-              | undefined)
+          ? ((last as Record<string, unknown>)[cursorField] as string | undefined)
           : undefined;
       const hasMore = getPath(response, hasMorePath) === true;
 
@@ -78,10 +63,7 @@ export const paginateStartAfter: PaginationStrategy = (
         // A page that reports more but yields no new cursor would loop
         // forever re-requesting the same window — stop instead.
         done:
-          !hasMore ||
-          items.length === 0 ||
-          nextCursor === undefined ||
-          nextCursor === state.cursor,
+          !hasMore || items.length === 0 || nextCursor === undefined || nextCursor === state.cursor,
       };
 
       return [response, nextState] as const;

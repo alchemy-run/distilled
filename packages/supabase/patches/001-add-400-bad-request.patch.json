@@ -1083,67 +1083,7 @@
     },
     {
       "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1vanity-subdomain/get/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
       "path": "/paths/~1v1~1projects~1{ref}~1vanity-subdomain/delete/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1vanity-subdomain~1check-availability/post/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1vanity-subdomain~1activate/post/responses/400",
       "value": {
         "description": "Bad request - invalid parameters or request body",
         "content": {
@@ -1823,26 +1763,6 @@
     },
     {
       "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1analytics~1endpoints~1logs.all/get/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
       "path": "/paths/~1v1~1projects~1{ref}~1analytics~1endpoints~1usage.api-counts/get/responses/400",
       "value": {
         "description": "Bad request - invalid parameters or request body",
@@ -2264,26 +2184,6 @@
     {
       "op": "add",
       "path": "/paths/~1v1~1projects~1{ref}~1functions/get/responses/400",
-      "value": {
-        "description": "Bad request - invalid parameters or request body",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1projects~1{ref}~1functions/post/responses/400",
       "value": {
         "description": "Bad request - invalid parameters or request body",
         "content": {

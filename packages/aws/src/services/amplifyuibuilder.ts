@@ -1,18 +1,15 @@
+import * as API from "@distilled.cloud/core/api";
+import * as S from "@distilled.cloud/core/schema";
 import * as HttpClient from "effect/http/HttpClient";
 import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
-import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
-const svc = T.AwsApiService({
-  sdkId: "AmplifyUIBuilder",
-  serviceShapeName: "AmplifyUIBuilder",
-});
+import * as T from "../traits.ts";
+const svc = T.AwsApiService({ sdkId: "AmplifyUIBuilder", serviceShapeName: "AmplifyUIBuilder" });
 const auth = T.AwsAuthSigv4({ name: "amplifyuibuilder" });
 const ver = T.ServiceVersion("2021-08-11");
 const proto = T.AwsProtocolsRestJson1();
@@ -28,14 +25,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -62,9 +55,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://amplifyuibuilder-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -72,13 +63,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://amplifyuibuilder.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://amplifyuibuilder.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://amplifyuibuilder.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -144,14 +131,9 @@ export interface FormBindingElement {
 }
 export const FormBindingElement = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ element: S.String, property: S.String }),
-).annotate({
-  identifier: "FormBindingElement",
-}) as any as S.Schema<FormBindingElement>;
+).annotate({ identifier: "FormBindingElement" }) as any as S.Schema<FormBindingElement>;
 export type FormBindings = { [key: string]: FormBindingElement | undefined };
-export const FormBindings = /*@__PURE__*/ S.Record(
-  S.String,
-  FormBindingElement.pipe(S.optional),
-);
+export const FormBindings = /*@__PURE__*/ S.Record(S.String, FormBindingElement.pipe(S.optional));
 export type ComponentPropertyList = ComponentProperty[];
 export const ComponentPropertyList = /*@__PURE__*/ S.Array(
   S.suspend((): S.Schema<ComponentProperty> => ComponentProperty).annotate({
@@ -216,14 +198,12 @@ export const ComponentProperty = /*@__PURE__*/ S.suspend(() =>
     event: S.optional(S.String),
     userAttribute: S.optional(S.String),
     concat: S.optional(
-      S.suspend(() => ComponentPropertyList).annotate({
-        identifier: "ComponentPropertyList",
-      }),
+      S.suspend(() => ComponentPropertyList).annotate({ identifier: "ComponentPropertyList" }),
     ),
     condition: S.optional(
-      S.suspend(
-        (): S.Schema<ComponentConditionProperty> => ComponentConditionProperty,
-      ).annotate({ identifier: "ComponentConditionProperty" }),
+      S.suspend((): S.Schema<ComponentConditionProperty> => ComponentConditionProperty).annotate({
+        identifier: "ComponentConditionProperty",
+      }),
     ),
     configured: S.optional(S.Boolean),
     type: S.optional(S.String),
@@ -231,12 +211,8 @@ export const ComponentProperty = /*@__PURE__*/ S.suspend(() =>
     componentName: S.optional(S.String),
     property: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ComponentProperty",
-}) as any as S.Schema<ComponentProperty>;
-export type ComponentProperties = {
-  [key: string]: ComponentProperty | undefined;
-};
+).annotate({ identifier: "ComponentProperty" }) as any as S.Schema<ComponentProperty>;
+export type ComponentProperties = { [key: string]: ComponentProperty | undefined };
 export const ComponentProperties = /*@__PURE__*/ S.Record(
   S.String,
   S.suspend((): S.Schema<ComponentProperty> => ComponentProperty)
@@ -249,11 +225,7 @@ export interface MutationActionSetStateParameter {
   set: ComponentProperty;
 }
 export const MutationActionSetStateParameter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    componentName: S.String,
-    property: S.String,
-    set: ComponentProperty,
-  }),
+  S.Struct({ componentName: S.String, property: S.String, set: ComponentProperty }),
 ).annotate({
   identifier: "MutationActionSetStateParameter",
 }) as any as S.Schema<MutationActionSetStateParameter>;
@@ -280,9 +252,7 @@ export const ActionParameters = /*@__PURE__*/ S.suspend(() =>
     fields: S.optional(ComponentProperties),
     state: S.optional(MutationActionSetStateParameter),
   }),
-).annotate({
-  identifier: "ActionParameters",
-}) as any as S.Schema<ActionParameters>;
+).annotate({ identifier: "ActionParameters" }) as any as S.Schema<ActionParameters>;
 export interface ComponentEvent {
   action?: string;
   parameters?: ActionParameters;
@@ -296,10 +266,7 @@ export const ComponentEvent = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "ComponentEvent" }) as any as S.Schema<ComponentEvent>;
 export type ComponentEvents = { [key: string]: ComponentEvent | undefined };
-export const ComponentEvents = /*@__PURE__*/ S.Record(
-  S.String,
-  ComponentEvent.pipe(S.optional),
-);
+export const ComponentEvents = /*@__PURE__*/ S.Record(S.String, ComponentEvent.pipe(S.optional));
 export interface ComponentChild {
   componentType: string;
   name: string;
@@ -314,9 +281,7 @@ export const ComponentChild = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     properties: ComponentProperties,
     children: S.optional(
-      S.suspend(() => ComponentChildList).annotate({
-        identifier: "ComponentChildList",
-      }),
+      S.suspend(() => ComponentChildList).annotate({ identifier: "ComponentChildList" }),
     ),
     events: S.optional(ComponentEvents),
     sourceId: S.optional(S.String),
@@ -329,15 +294,9 @@ export const ComponentChildList = /*@__PURE__*/ S.Array(
   }),
 ) as any as S.Schema<ComponentChildList>;
 export type ComponentVariantValues = { [key: string]: string | undefined };
-export const ComponentVariantValues = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const ComponentVariantValues = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export type ComponentOverridesValue = { [key: string]: string | undefined };
-export const ComponentOverridesValue = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const ComponentOverridesValue = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export type ComponentOverrides = {
   [key: string]: { [key: string]: string | undefined } | undefined;
 };
@@ -347,18 +306,14 @@ export const ComponentOverrides = /*@__PURE__*/ S.Record(
 );
 export interface ComponentVariant {
   variantValues?: { [key: string]: string | undefined };
-  overrides?: {
-    [key: string]: { [key: string]: string | undefined } | undefined;
-  };
+  overrides?: { [key: string]: { [key: string]: string | undefined } | undefined };
 }
 export const ComponentVariant = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     variantValues: S.optional(ComponentVariantValues),
     overrides: S.optional(ComponentOverrides),
   }),
-).annotate({
-  identifier: "ComponentVariant",
-}) as any as S.Schema<ComponentVariant>;
+).annotate({ identifier: "ComponentVariant" }) as any as S.Schema<ComponentVariant>;
 export type ComponentVariants = ComponentVariant[];
 export const ComponentVariants = /*@__PURE__*/ S.Array(ComponentVariant);
 export type OperandType = string;
@@ -372,12 +327,8 @@ export interface Predicate {
 }
 export const Predicate = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    or: S.optional(
-      S.suspend(() => PredicateList).annotate({ identifier: "PredicateList" }),
-    ),
-    and: S.optional(
-      S.suspend(() => PredicateList).annotate({ identifier: "PredicateList" }),
-    ),
+    or: S.optional(S.suspend(() => PredicateList).annotate({ identifier: "PredicateList" })),
+    and: S.optional(S.suspend(() => PredicateList).annotate({ identifier: "PredicateList" })),
     field: S.optional(S.String),
     operator: S.optional(S.String),
     operand: S.optional(S.String),
@@ -386,9 +337,7 @@ export const Predicate = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "Predicate" }) as any as S.Schema<Predicate>;
 export type PredicateList = Predicate[];
 export const PredicateList = /*@__PURE__*/ S.Array(
-  S.suspend((): S.Schema<Predicate> => Predicate).annotate({
-    identifier: "Predicate",
-  }),
+  S.suspend((): S.Schema<Predicate> => Predicate).annotate({ identifier: "Predicate" }),
 ) as any as S.Schema<PredicateList>;
 export interface ComponentBindingPropertiesValueProperties {
   model?: string;
@@ -400,21 +349,20 @@ export interface ComponentBindingPropertiesValueProperties {
   defaultValue?: string;
   slotName?: string;
 }
-export const ComponentBindingPropertiesValueProperties =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      model: S.optional(S.String),
-      field: S.optional(S.String),
-      predicates: S.optional(PredicateList),
-      userAttribute: S.optional(S.String),
-      bucket: S.optional(S.String),
-      key: S.optional(S.String),
-      defaultValue: S.optional(S.String),
-      slotName: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "ComponentBindingPropertiesValueProperties",
-  }) as any as S.Schema<ComponentBindingPropertiesValueProperties>;
+export const ComponentBindingPropertiesValueProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    model: S.optional(S.String),
+    field: S.optional(S.String),
+    predicates: S.optional(PredicateList),
+    userAttribute: S.optional(S.String),
+    bucket: S.optional(S.String),
+    key: S.optional(S.String),
+    defaultValue: S.optional(S.String),
+    slotName: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ComponentBindingPropertiesValueProperties",
+}) as any as S.Schema<ComponentBindingPropertiesValueProperties>;
 export interface ComponentBindingPropertiesValue {
   type?: string;
   bindingProperties?: ComponentBindingPropertiesValueProperties;
@@ -484,15 +432,9 @@ export interface CreateComponentData {
   properties: { [key: string]: ComponentProperty | undefined };
   children?: ComponentChild[];
   variants: ComponentVariant[];
-  overrides: {
-    [key: string]: { [key: string]: string | undefined } | undefined;
-  };
-  bindingProperties: {
-    [key: string]: ComponentBindingPropertiesValue | undefined;
-  };
-  collectionProperties?: {
-    [key: string]: ComponentDataConfiguration | undefined;
-  };
+  overrides: { [key: string]: { [key: string]: string | undefined } | undefined };
+  bindingProperties: { [key: string]: ComponentBindingPropertiesValue | undefined };
+  collectionProperties?: { [key: string]: ComponentDataConfiguration | undefined };
   tags?: { [key: string]: string | undefined };
   events?: { [key: string]: ComponentEvent | undefined };
   schemaVersion?: string;
@@ -512,9 +454,7 @@ export const CreateComponentData = /*@__PURE__*/ S.suspend(() =>
     events: S.optional(ComponentEvents),
     schemaVersion: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CreateComponentData",
-}) as any as S.Schema<CreateComponentData>;
+).annotate({ identifier: "CreateComponentData" }) as any as S.Schema<CreateComponentData>;
 export interface CreateComponentRequest {
   appId: string;
   environmentName: string;
@@ -525,19 +465,13 @@ export const CreateComponentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     appId: S.String.pipe(T.HttpLabel("appId")),
     environmentName: S.String.pipe(T.HttpLabel("environmentName")),
-    clientToken: S.optional(S.String).pipe(
-      T.HttpQuery("clientToken"),
-      T.IdempotencyToken(),
-    ),
+    clientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken"), T.IdempotencyToken()),
     componentToCreate: CreateComponentData.pipe(T.HttpPayload()).annotate({
       identifier: "CreateComponentData",
     }),
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/app/{appId}/environment/{environmentName}/components",
-      }),
+      T.Http({ method: "POST", uri: "/app/{appId}/environment/{environmentName}/components" }),
       svc,
       auth,
       proto,
@@ -545,9 +479,7 @@ export const CreateComponentRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "CreateComponentRequest",
-}) as any as S.Schema<CreateComponentRequest>;
+).annotate({ identifier: "CreateComponentRequest" }) as any as S.Schema<CreateComponentRequest>;
 export type Uuid = string;
 export interface Component {
   appId: string;
@@ -559,15 +491,9 @@ export interface Component {
   properties: { [key: string]: ComponentProperty | undefined };
   children?: ComponentChild[];
   variants: ComponentVariant[];
-  overrides: {
-    [key: string]: { [key: string]: string | undefined } | undefined;
-  };
-  bindingProperties: {
-    [key: string]: ComponentBindingPropertiesValue | undefined;
-  };
-  collectionProperties?: {
-    [key: string]: ComponentDataConfiguration | undefined;
-  };
+  overrides: { [key: string]: { [key: string]: string | undefined } | undefined };
+  bindingProperties: { [key: string]: ComponentBindingPropertiesValue | undefined };
+  collectionProperties?: { [key: string]: ComponentDataConfiguration | undefined };
   createdAt: Date;
   modifiedAt?: Date;
   tags?: { [key: string]: string | undefined };
@@ -589,9 +515,7 @@ export const Component = /*@__PURE__*/ S.suspend(() =>
     bindingProperties: ComponentBindingProperties,
     collectionProperties: S.optional(ComponentCollectionProperties),
     createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    modifiedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    modifiedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     tags: S.optional(Tags),
     events: S.optional(ComponentEvents),
     schemaVersion: S.optional(S.String),
@@ -602,13 +526,9 @@ export interface CreateComponentResponse {
 }
 export const CreateComponentResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    entity: S.optional(Component)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "Component" }),
+    entity: S.optional(Component).pipe(T.HttpPayload()).annotate({ identifier: "Component" }),
   }),
-).annotate({
-  identifier: "CreateComponentResponse",
-}) as any as S.Schema<CreateComponentResponse>;
+).annotate({ identifier: "CreateComponentResponse" }) as any as S.Schema<CreateComponentResponse>;
 export type FormName = string;
 export type FormDataSourceType = string;
 export interface FormDataTypeConfig {
@@ -617,9 +537,7 @@ export interface FormDataTypeConfig {
 }
 export const FormDataTypeConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ dataSourceType: S.String, dataTypeName: S.String }),
-).annotate({
-  identifier: "FormDataTypeConfig",
-}) as any as S.Schema<FormDataTypeConfig>;
+).annotate({ identifier: "FormDataTypeConfig" }) as any as S.Schema<FormDataTypeConfig>;
 export type FormActionType = "create" | "update" | (string & {});
 export const FormActionType = S.String;
 
@@ -639,16 +557,16 @@ export interface FormInputValuePropertyBindingProperties {
   property: string;
   field?: string;
 }
-export const FormInputValuePropertyBindingProperties = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ property: S.String, field: S.optional(S.String) }),
+export const FormInputValuePropertyBindingProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ property: S.String, field: S.optional(S.String) }),
 ).annotate({
   identifier: "FormInputValuePropertyBindingProperties",
 }) as any as S.Schema<FormInputValuePropertyBindingProperties>;
 export type FormInputValuePropertyList = FormInputValueProperty[];
 export const FormInputValuePropertyList = /*@__PURE__*/ S.Array(
-  S.suspend(
-    (): S.Schema<FormInputValueProperty> => FormInputValueProperty,
-  ).annotate({ identifier: "FormInputValueProperty" }),
+  S.suspend((): S.Schema<FormInputValueProperty> => FormInputValueProperty).annotate({
+    identifier: "FormInputValueProperty",
+  }),
 ) as any as S.Schema<FormInputValuePropertyList>;
 export interface FormInputValueProperty {
   value?: string;
@@ -665,30 +583,24 @@ export const FormInputValueProperty = /*@__PURE__*/ S.suspend(() =>
       }),
     ),
   }),
-).annotate({
-  identifier: "FormInputValueProperty",
-}) as any as S.Schema<FormInputValueProperty>;
+).annotate({ identifier: "FormInputValueProperty" }) as any as S.Schema<FormInputValueProperty>;
 export interface ValueMapping {
   displayValue?: FormInputValueProperty;
   value: FormInputValueProperty;
 }
 export const ValueMapping = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    displayValue: S.optional(FormInputValueProperty),
-    value: FormInputValueProperty,
-  }),
+  S.Struct({ displayValue: S.optional(FormInputValueProperty), value: FormInputValueProperty }),
 ).annotate({ identifier: "ValueMapping" }) as any as S.Schema<ValueMapping>;
 export type ValueMappingList = ValueMapping[];
 export const ValueMappingList = /*@__PURE__*/ S.Array(ValueMapping);
 export interface FormInputBindingPropertiesValueProperties {
   model?: string;
 }
-export const FormInputBindingPropertiesValueProperties =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ model: S.optional(S.String) }),
-  ).annotate({
-    identifier: "FormInputBindingPropertiesValueProperties",
-  }) as any as S.Schema<FormInputBindingPropertiesValueProperties>;
+export const FormInputBindingPropertiesValueProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ model: S.optional(S.String) }),
+).annotate({
+  identifier: "FormInputBindingPropertiesValueProperties",
+}) as any as S.Schema<FormInputBindingPropertiesValueProperties>;
 export interface FormInputBindingPropertiesValue {
   type?: string;
   bindingProperties?: FormInputBindingPropertiesValueProperties;
@@ -710,21 +622,12 @@ export const FormInputBindingProperties = /*@__PURE__*/ S.Record(
 );
 export interface ValueMappings {
   values: ValueMapping[];
-  bindingProperties?: {
-    [key: string]: FormInputBindingPropertiesValue | undefined;
-  };
+  bindingProperties?: { [key: string]: FormInputBindingPropertiesValue | undefined };
 }
 export const ValueMappings = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    values: ValueMappingList,
-    bindingProperties: S.optional(FormInputBindingProperties),
-  }),
+  S.Struct({ values: ValueMappingList, bindingProperties: S.optional(FormInputBindingProperties) }),
 ).annotate({ identifier: "ValueMappings" }) as any as S.Schema<ValueMappings>;
-export type StorageAccessLevel =
-  | "public"
-  | "protected"
-  | "private"
-  | (string & {});
+export type StorageAccessLevel = "public" | "protected" | "private" | (string & {});
 export const StorageAccessLevel = S.String;
 
 export type StrValues = string[];
@@ -746,9 +649,7 @@ export const FileUploaderFieldConfig = /*@__PURE__*/ S.suspend(() =>
     maxFileCount: S.optional(S.Number),
     maxSize: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "FileUploaderFieldConfig",
-}) as any as S.Schema<FileUploaderFieldConfig>;
+).annotate({ identifier: "FileUploaderFieldConfig" }) as any as S.Schema<FileUploaderFieldConfig>;
 export interface FieldInputConfig {
   type: string;
   required?: boolean;
@@ -786,9 +687,7 @@ export const FieldInputConfig = /*@__PURE__*/ S.suspend(() =>
     isArray: S.optional(S.Boolean),
     fileUploaderConfig: S.optional(FileUploaderFieldConfig),
   }),
-).annotate({
-  identifier: "FieldInputConfig",
-}) as any as S.Schema<FieldInputConfig>;
+).annotate({ identifier: "FieldInputConfig" }) as any as S.Schema<FieldInputConfig>;
 export type NumValues = number[];
 export const NumValues = /*@__PURE__*/ S.Array(S.Number);
 export interface FieldValidationConfiguration {
@@ -808,9 +707,7 @@ export const FieldValidationConfiguration = /*@__PURE__*/ S.suspend(() =>
   identifier: "FieldValidationConfiguration",
 }) as any as S.Schema<FieldValidationConfiguration>;
 export type ValidationsList = FieldValidationConfiguration[];
-export const ValidationsList = /*@__PURE__*/ S.Array(
-  FieldValidationConfiguration,
-);
+export const ValidationsList = /*@__PURE__*/ S.Array(FieldValidationConfiguration);
 export interface FieldConfig {
   label?: string;
   position?: FieldPosition;
@@ -828,10 +725,7 @@ export const FieldConfig = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "FieldConfig" }) as any as S.Schema<FieldConfig>;
 export type FieldsMap = { [key: string]: FieldConfig | undefined };
-export const FieldsMap = /*@__PURE__*/ S.Record(
-  S.String,
-  FieldConfig.pipe(S.optional),
-);
+export const FieldsMap = /*@__PURE__*/ S.Record(S.String, FieldConfig.pipe(S.optional));
 export type FormStyleConfig =
   | { tokenReference: string; value?: never }
   | { tokenReference?: never; value: string };
@@ -868,21 +762,13 @@ export const SectionalElement = /*@__PURE__*/ S.suspend(() =>
     orientation: S.optional(S.String),
     excluded: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "SectionalElement",
-}) as any as S.Schema<SectionalElement>;
-export type SectionalElementMap = {
-  [key: string]: SectionalElement | undefined;
-};
+).annotate({ identifier: "SectionalElement" }) as any as S.Schema<SectionalElement>;
+export type SectionalElementMap = { [key: string]: SectionalElement | undefined };
 export const SectionalElementMap = /*@__PURE__*/ S.Record(
   S.String,
   SectionalElement.pipe(S.optional),
 );
-export type FormButtonsPosition =
-  | "top"
-  | "bottom"
-  | "top_and_bottom"
-  | (string & {});
+export type FormButtonsPosition = "top" | "bottom" | "top_and_bottom" | (string & {});
 export const FormButtonsPosition = S.String;
 
 export interface FormButton {
@@ -948,19 +834,11 @@ export const CreateFormRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     appId: S.String.pipe(T.HttpLabel("appId")),
     environmentName: S.String.pipe(T.HttpLabel("environmentName")),
-    clientToken: S.optional(S.String).pipe(
-      T.HttpQuery("clientToken"),
-      T.IdempotencyToken(),
-    ),
-    formToCreate: CreateFormData.pipe(T.HttpPayload()).annotate({
-      identifier: "CreateFormData",
-    }),
+    clientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken"), T.IdempotencyToken()),
+    formToCreate: CreateFormData.pipe(T.HttpPayload()).annotate({ identifier: "CreateFormData" }),
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/app/{appId}/environment/{environmentName}/forms",
-      }),
+      T.Http({ method: "POST", uri: "/app/{appId}/environment/{environmentName}/forms" }),
       svc,
       auth,
       proto,
@@ -968,9 +846,7 @@ export const CreateFormRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "CreateFormRequest",
-}) as any as S.Schema<CreateFormRequest>;
+).annotate({ identifier: "CreateFormRequest" }) as any as S.Schema<CreateFormRequest>;
 export interface Form {
   appId: string;
   environmentName: string;
@@ -1007,14 +883,8 @@ export interface CreateFormResponse {
   entity?: Form;
 }
 export const CreateFormResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    entity: S.optional(Form)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "Form" }),
-  }),
-).annotate({
-  identifier: "CreateFormResponse",
-}) as any as S.Schema<CreateFormResponse>;
+  S.Struct({ entity: S.optional(Form).pipe(T.HttpPayload()).annotate({ identifier: "Form" }) }),
+).annotate({ identifier: "CreateFormResponse" }) as any as S.Schema<CreateFormResponse>;
 export type ThemeName = string;
 export interface ThemeValue {
   value?: string;
@@ -1024,9 +894,7 @@ export const ThemeValue = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     value: S.optional(S.String),
     children: S.optional(
-      S.suspend(() => ThemeValuesList).annotate({
-        identifier: "ThemeValuesList",
-      }),
+      S.suspend(() => ThemeValuesList).annotate({ identifier: "ThemeValuesList" }),
     ),
   }),
 ).annotate({ identifier: "ThemeValue" }) as any as S.Schema<ThemeValue>;
@@ -1038,17 +906,13 @@ export const ThemeValues = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     key: S.optional(S.String),
     value: S.optional(
-      S.suspend((): S.Schema<ThemeValue> => ThemeValue).annotate({
-        identifier: "ThemeValue",
-      }),
+      S.suspend((): S.Schema<ThemeValue> => ThemeValue).annotate({ identifier: "ThemeValue" }),
     ),
   }),
 ).annotate({ identifier: "ThemeValues" }) as any as S.Schema<ThemeValues>;
 export type ThemeValuesList = ThemeValues[];
 export const ThemeValuesList = /*@__PURE__*/ S.Array(
-  S.suspend((): S.Schema<ThemeValues> => ThemeValues).annotate({
-    identifier: "ThemeValues",
-  }),
+  S.suspend((): S.Schema<ThemeValues> => ThemeValues).annotate({ identifier: "ThemeValues" }),
 ) as any as S.Schema<ThemeValuesList>;
 export interface CreateThemeData {
   name: string;
@@ -1063,9 +927,7 @@ export const CreateThemeData = /*@__PURE__*/ S.suspend(() =>
     overrides: S.optional(ThemeValuesList),
     tags: S.optional(Tags),
   }),
-).annotate({
-  identifier: "CreateThemeData",
-}) as any as S.Schema<CreateThemeData>;
+).annotate({ identifier: "CreateThemeData" }) as any as S.Schema<CreateThemeData>;
 export interface CreateThemeRequest {
   appId: string;
   environmentName: string;
@@ -1076,19 +938,13 @@ export const CreateThemeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     appId: S.String.pipe(T.HttpLabel("appId")),
     environmentName: S.String.pipe(T.HttpLabel("environmentName")),
-    clientToken: S.optional(S.String).pipe(
-      T.HttpQuery("clientToken"),
-      T.IdempotencyToken(),
-    ),
+    clientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken"), T.IdempotencyToken()),
     themeToCreate: CreateThemeData.pipe(T.HttpPayload()).annotate({
       identifier: "CreateThemeData",
     }),
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/app/{appId}/environment/{environmentName}/themes",
-      }),
+      T.Http({ method: "POST", uri: "/app/{appId}/environment/{environmentName}/themes" }),
       svc,
       auth,
       proto,
@@ -1096,9 +952,7 @@ export const CreateThemeRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "CreateThemeRequest",
-}) as any as S.Schema<CreateThemeRequest>;
+).annotate({ identifier: "CreateThemeRequest" }) as any as S.Schema<CreateThemeRequest>;
 export interface Theme {
   appId: string;
   environmentName: string;
@@ -1117,9 +971,7 @@ export const Theme = /*@__PURE__*/ S.suspend(() =>
     id: S.String,
     name: S.String,
     createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    modifiedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    modifiedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     values: ThemeValuesList,
     overrides: S.optional(ThemeValuesList),
     tags: S.optional(Tags),
@@ -1129,14 +981,8 @@ export interface CreateThemeResponse {
   entity?: Theme;
 }
 export const CreateThemeResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    entity: S.optional(Theme)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "Theme" }),
-  }),
-).annotate({
-  identifier: "CreateThemeResponse",
-}) as any as S.Schema<CreateThemeResponse>;
+  S.Struct({ entity: S.optional(Theme).pipe(T.HttpPayload()).annotate({ identifier: "Theme" }) }),
+).annotate({ identifier: "CreateThemeResponse" }) as any as S.Schema<CreateThemeResponse>;
 export interface DeleteComponentRequest {
   appId: string;
   environmentName: string;
@@ -1160,13 +1006,9 @@ export const DeleteComponentRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteComponentRequest",
-}) as any as S.Schema<DeleteComponentRequest>;
+).annotate({ identifier: "DeleteComponentRequest" }) as any as S.Schema<DeleteComponentRequest>;
 export interface DeleteComponentResponse {}
-export const DeleteComponentResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteComponentResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteComponentResponse",
 }) as any as S.Schema<DeleteComponentResponse>;
 export interface DeleteFormRequest {
@@ -1181,10 +1023,7 @@ export const DeleteFormRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String.pipe(T.HttpLabel("id")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/app/{appId}/environment/{environmentName}/forms/{id}",
-      }),
+      T.Http({ method: "DELETE", uri: "/app/{appId}/environment/{environmentName}/forms/{id}" }),
       svc,
       auth,
       proto,
@@ -1192,13 +1031,9 @@ export const DeleteFormRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteFormRequest",
-}) as any as S.Schema<DeleteFormRequest>;
+).annotate({ identifier: "DeleteFormRequest" }) as any as S.Schema<DeleteFormRequest>;
 export interface DeleteFormResponse {}
-export const DeleteFormResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteFormResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteFormResponse",
 }) as any as S.Schema<DeleteFormResponse>;
 export interface DeleteThemeRequest {
@@ -1213,10 +1048,7 @@ export const DeleteThemeRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String.pipe(T.HttpLabel("id")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/app/{appId}/environment/{environmentName}/themes/{id}",
-      }),
+      T.Http({ method: "DELETE", uri: "/app/{appId}/environment/{environmentName}/themes/{id}" }),
       svc,
       auth,
       proto,
@@ -1224,13 +1056,9 @@ export const DeleteThemeRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteThemeRequest",
-}) as any as S.Schema<DeleteThemeRequest>;
+).annotate({ identifier: "DeleteThemeRequest" }) as any as S.Schema<DeleteThemeRequest>;
 export interface DeleteThemeResponse {}
-export const DeleteThemeResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteThemeResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteThemeResponse",
 }) as any as S.Schema<DeleteThemeResponse>;
 export type TokenProviders = string;
@@ -1241,11 +1069,7 @@ export interface ExchangeCodeForTokenRequestBody {
   clientId?: string | redacted.Redacted<string>;
 }
 export const ExchangeCodeForTokenRequestBody = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    code: SensitiveString,
-    redirectUri: S.String,
-    clientId: S.optional(SensitiveString),
-  }),
+  S.Struct({ code: SensitiveString, redirectUri: S.String, clientId: S.optional(SensitiveString) }),
 ).annotate({
   identifier: "ExchangeCodeForTokenRequestBody",
 }) as any as S.Schema<ExchangeCodeForTokenRequestBody>;
@@ -1260,14 +1084,7 @@ export const ExchangeCodeForTokenRequest = /*@__PURE__*/ S.suspend(() =>
       identifier: "ExchangeCodeForTokenRequestBody",
     }),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/tokens/{provider}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/tokens/{provider}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ExchangeCodeForTokenRequest",
@@ -1278,11 +1095,7 @@ export interface ExchangeCodeForTokenResponse {
   refreshToken: string | redacted.Redacted<string>;
 }
 export const ExchangeCodeForTokenResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    accessToken: SensitiveString,
-    expiresIn: S.Number,
-    refreshToken: SensitiveString,
-  }),
+  S.Struct({ accessToken: SensitiveString, expiresIn: S.Number, refreshToken: SensitiveString }),
 ).annotate({
   identifier: "ExchangeCodeForTokenResponse",
 }) as any as S.Schema<ExchangeCodeForTokenResponse>;
@@ -1309,9 +1122,7 @@ export const ExportComponentsRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "ExportComponentsRequest",
-}) as any as S.Schema<ExportComponentsRequest>;
+).annotate({ identifier: "ExportComponentsRequest" }) as any as S.Schema<ExportComponentsRequest>;
 export type ComponentList = Component[];
 export const ComponentList = /*@__PURE__*/ S.Array(Component);
 export interface ExportComponentsResponse {
@@ -1320,9 +1131,7 @@ export interface ExportComponentsResponse {
 }
 export const ExportComponentsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ entities: ComponentList, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ExportComponentsResponse",
-}) as any as S.Schema<ExportComponentsResponse>;
+).annotate({ identifier: "ExportComponentsResponse" }) as any as S.Schema<ExportComponentsResponse>;
 export interface ExportFormsRequest {
   appId: string;
   environmentName: string;
@@ -1335,10 +1144,7 @@ export const ExportFormsRequest = /*@__PURE__*/ S.suspend(() =>
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/export/app/{appId}/environment/{environmentName}/forms",
-      }),
+      T.Http({ method: "GET", uri: "/export/app/{appId}/environment/{environmentName}/forms" }),
       svc,
       auth,
       proto,
@@ -1346,9 +1152,7 @@ export const ExportFormsRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "ExportFormsRequest",
-}) as any as S.Schema<ExportFormsRequest>;
+).annotate({ identifier: "ExportFormsRequest" }) as any as S.Schema<ExportFormsRequest>;
 export type FormList = Form[];
 export const FormList = /*@__PURE__*/ S.Array(Form);
 export interface ExportFormsResponse {
@@ -1357,9 +1161,7 @@ export interface ExportFormsResponse {
 }
 export const ExportFormsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ entities: FormList, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ExportFormsResponse",
-}) as any as S.Schema<ExportFormsResponse>;
+).annotate({ identifier: "ExportFormsResponse" }) as any as S.Schema<ExportFormsResponse>;
 export interface ExportThemesRequest {
   appId: string;
   environmentName: string;
@@ -1372,10 +1174,7 @@ export const ExportThemesRequest = /*@__PURE__*/ S.suspend(() =>
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/export/app/{appId}/environment/{environmentName}/themes",
-      }),
+      T.Http({ method: "GET", uri: "/export/app/{appId}/environment/{environmentName}/themes" }),
       svc,
       auth,
       proto,
@@ -1383,9 +1182,7 @@ export const ExportThemesRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "ExportThemesRequest",
-}) as any as S.Schema<ExportThemesRequest>;
+).annotate({ identifier: "ExportThemesRequest" }) as any as S.Schema<ExportThemesRequest>;
 export type ThemeList = Theme[];
 export const ThemeList = /*@__PURE__*/ S.Array(Theme);
 export interface ExportThemesResponse {
@@ -1394,9 +1191,7 @@ export interface ExportThemesResponse {
 }
 export const ExportThemesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ entities: ThemeList, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ExportThemesResponse",
-}) as any as S.Schema<ExportThemesResponse>;
+).annotate({ identifier: "ExportThemesResponse" }) as any as S.Schema<ExportThemesResponse>;
 export type AppId = string;
 export interface GetCodegenJobRequest {
   appId: string;
@@ -1421,9 +1216,7 @@ export const GetCodegenJobRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetCodegenJobRequest",
-}) as any as S.Schema<GetCodegenJobRequest>;
+).annotate({ identifier: "GetCodegenJobRequest" }) as any as S.Schema<GetCodegenJobRequest>;
 export type JSModule = "es2020" | "esnext" | (string & {});
 export const JSModule = S.String;
 
@@ -1448,47 +1241,26 @@ export const GraphQLRenderConfig = /*@__PURE__*/ S.suspend(() =>
     subscriptionsFilePath: S.String,
     fragmentsFilePath: S.String,
   }),
-).annotate({
-  identifier: "GraphQLRenderConfig",
-}) as any as S.Schema<GraphQLRenderConfig>;
+).annotate({ identifier: "GraphQLRenderConfig" }) as any as S.Schema<GraphQLRenderConfig>;
 export interface DataStoreRenderConfig {}
-export const DataStoreRenderConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DataStoreRenderConfig = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DataStoreRenderConfig",
 }) as any as S.Schema<DataStoreRenderConfig>;
 export interface NoApiRenderConfig {}
-export const NoApiRenderConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const NoApiRenderConfig = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "NoApiRenderConfig",
 }) as any as S.Schema<NoApiRenderConfig>;
 export type ApiConfiguration =
-  | {
-      graphQLConfig: GraphQLRenderConfig;
-      dataStoreConfig?: never;
-      noApiConfig?: never;
-    }
-  | {
-      graphQLConfig?: never;
-      dataStoreConfig: DataStoreRenderConfig;
-      noApiConfig?: never;
-    }
-  | {
-      graphQLConfig?: never;
-      dataStoreConfig?: never;
-      noApiConfig: NoApiRenderConfig;
-    };
+  | { graphQLConfig: GraphQLRenderConfig; dataStoreConfig?: never; noApiConfig?: never }
+  | { graphQLConfig?: never; dataStoreConfig: DataStoreRenderConfig; noApiConfig?: never }
+  | { graphQLConfig?: never; dataStoreConfig?: never; noApiConfig: NoApiRenderConfig };
 export const ApiConfiguration = /*@__PURE__*/ S.Union([
   S.Struct({ graphQLConfig: GraphQLRenderConfig }),
   S.Struct({ dataStoreConfig: DataStoreRenderConfig }),
   S.Struct({ noApiConfig: NoApiRenderConfig }),
 ]);
 export type ReactCodegenDependencies = { [key: string]: string | undefined };
-export const ReactCodegenDependencies = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const ReactCodegenDependencies = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface ReactStartCodegenJobData {
   module?: JSModule;
   target?: JSTarget;
@@ -1508,9 +1280,7 @@ export const ReactStartCodegenJobData = /*@__PURE__*/ S.suspend(() =>
     apiConfiguration: S.optional(ApiConfiguration),
     dependencies: S.optional(ReactCodegenDependencies),
   }),
-).annotate({
-  identifier: "ReactStartCodegenJobData",
-}) as any as S.Schema<ReactStartCodegenJobData>;
+).annotate({ identifier: "ReactStartCodegenJobData" }) as any as S.Schema<ReactStartCodegenJobData>;
 export type CodegenJobRenderConfig = { react: ReactStartCodegenJobData };
 export const CodegenJobRenderConfig = /*@__PURE__*/ S.Union([
   S.Struct({ react: ReactStartCodegenJobData }),
@@ -1539,11 +1309,7 @@ export type CodegenGenericDataFieldDataType =
   | (string & {});
 export const CodegenGenericDataFieldDataType = S.String;
 
-export type GenericDataRelationshipType =
-  | "HAS_MANY"
-  | "HAS_ONE"
-  | "BELONGS_TO"
-  | (string & {});
+export type GenericDataRelationshipType = "HAS_MANY" | "HAS_ONE" | "BELONGS_TO" | (string & {});
 export const GenericDataRelationshipType = S.String;
 
 export type RelatedModelFieldsList = string[];
@@ -1593,12 +1359,8 @@ export const CodegenGenericDataField = /*@__PURE__*/ S.suspend(() =>
     isArray: S.Boolean,
     relationship: S.optional(CodegenGenericDataRelationshipType),
   }),
-).annotate({
-  identifier: "CodegenGenericDataField",
-}) as any as S.Schema<CodegenGenericDataField>;
-export type CodegenGenericDataFields = {
-  [key: string]: CodegenGenericDataField | undefined;
-};
+).annotate({ identifier: "CodegenGenericDataField" }) as any as S.Schema<CodegenGenericDataField>;
+export type CodegenGenericDataFields = { [key: string]: CodegenGenericDataField | undefined };
 export const CodegenGenericDataFields = /*@__PURE__*/ S.Record(
   S.String,
   CodegenGenericDataField.pipe(S.optional),
@@ -1616,12 +1378,8 @@ export const CodegenGenericDataModel = /*@__PURE__*/ S.suspend(() =>
     isJoinTable: S.optional(S.Boolean),
     primaryKeys: CodegenPrimaryKeysList,
   }),
-).annotate({
-  identifier: "CodegenGenericDataModel",
-}) as any as S.Schema<CodegenGenericDataModel>;
-export type CodegenGenericDataModels = {
-  [key: string]: CodegenGenericDataModel | undefined;
-};
+).annotate({ identifier: "CodegenGenericDataModel" }) as any as S.Schema<CodegenGenericDataModel>;
+export type CodegenGenericDataModels = { [key: string]: CodegenGenericDataModel | undefined };
 export const CodegenGenericDataModels = /*@__PURE__*/ S.Record(
   S.String,
   CodegenGenericDataModel.pipe(S.optional),
@@ -1633,12 +1391,8 @@ export interface CodegenGenericDataEnum {
 }
 export const CodegenGenericDataEnum = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ values: CodegenGenericDataEnumValuesList }),
-).annotate({
-  identifier: "CodegenGenericDataEnum",
-}) as any as S.Schema<CodegenGenericDataEnum>;
-export type CodegenGenericDataEnums = {
-  [key: string]: CodegenGenericDataEnum | undefined;
-};
+).annotate({ identifier: "CodegenGenericDataEnum" }) as any as S.Schema<CodegenGenericDataEnum>;
+export type CodegenGenericDataEnums = { [key: string]: CodegenGenericDataEnum | undefined };
 export const CodegenGenericDataEnums = /*@__PURE__*/ S.Record(
   S.String,
   CodegenGenericDataEnum.pipe(S.optional),
@@ -1658,9 +1412,7 @@ export const CodegenGenericDataNonModel = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "CodegenGenericDataNonModel",
 }) as any as S.Schema<CodegenGenericDataNonModel>;
-export type CodegenGenericDataNonModels = {
-  [key: string]: CodegenGenericDataNonModel | undefined;
-};
+export type CodegenGenericDataNonModels = { [key: string]: CodegenGenericDataNonModel | undefined };
 export const CodegenGenericDataNonModels = /*@__PURE__*/ S.Record(
   S.String,
   CodegenGenericDataNonModel.pipe(S.optional),
@@ -1690,14 +1442,8 @@ export const CodegenFeatureFlags = /*@__PURE__*/ S.suspend(() =>
     isRelationshipSupported: S.optional(S.Boolean),
     isNonModelSupported: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "CodegenFeatureFlags",
-}) as any as S.Schema<CodegenFeatureFlags>;
-export type CodegenJobStatus =
-  | "in_progress"
-  | "failed"
-  | "succeeded"
-  | (string & {});
+).annotate({ identifier: "CodegenFeatureFlags" }) as any as S.Schema<CodegenFeatureFlags>;
+export type CodegenJobStatus = "in_progress" | "failed" | "succeeded" | (string & {});
 export const CodegenJobStatus = S.String;
 
 export interface CodegenJobAsset {
@@ -1705,9 +1451,7 @@ export interface CodegenJobAsset {
 }
 export const CodegenJobAsset = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ downloadUrl: S.optional(S.String) }),
-).annotate({
-  identifier: "CodegenJobAsset",
-}) as any as S.Schema<CodegenJobAsset>;
+).annotate({ identifier: "CodegenJobAsset" }) as any as S.Schema<CodegenJobAsset>;
 export interface CodegenDependency {
   name?: string;
   supportedVersion?: string;
@@ -1721,9 +1465,7 @@ export const CodegenDependency = /*@__PURE__*/ S.suspend(() =>
     isSemVer: S.optional(S.Boolean),
     reason: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CodegenDependency",
-}) as any as S.Schema<CodegenDependency>;
+).annotate({ identifier: "CodegenDependency" }) as any as S.Schema<CodegenDependency>;
 export type CodegenDependencies = CodegenDependency[];
 export const CodegenDependencies = /*@__PURE__*/ S.Array(CodegenDependency);
 export interface CodegenJob {
@@ -1755,12 +1497,8 @@ export const CodegenJob = /*@__PURE__*/ S.suspend(() =>
     statusMessage: S.optional(S.String),
     asset: S.optional(CodegenJobAsset),
     tags: S.optional(Tags),
-    createdAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    modifiedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    createdAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    modifiedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     dependencies: S.optional(CodegenDependencies),
   }),
 ).annotate({ identifier: "CodegenJob" }) as any as S.Schema<CodegenJob>;
@@ -1769,13 +1507,9 @@ export interface GetCodegenJobResponse {
 }
 export const GetCodegenJobResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    job: S.optional(CodegenJob)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "CodegenJob" }),
+    job: S.optional(CodegenJob).pipe(T.HttpPayload()).annotate({ identifier: "CodegenJob" }),
   }),
-).annotate({
-  identifier: "GetCodegenJobResponse",
-}) as any as S.Schema<GetCodegenJobResponse>;
+).annotate({ identifier: "GetCodegenJobResponse" }) as any as S.Schema<GetCodegenJobResponse>;
 export interface GetComponentRequest {
   appId: string;
   environmentName: string;
@@ -1788,10 +1522,7 @@ export const GetComponentRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String.pipe(T.HttpLabel("id")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/app/{appId}/environment/{environmentName}/components/{id}",
-      }),
+      T.Http({ method: "GET", uri: "/app/{appId}/environment/{environmentName}/components/{id}" }),
       svc,
       auth,
       proto,
@@ -1799,21 +1530,15 @@ export const GetComponentRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetComponentRequest",
-}) as any as S.Schema<GetComponentRequest>;
+).annotate({ identifier: "GetComponentRequest" }) as any as S.Schema<GetComponentRequest>;
 export interface GetComponentResponse {
   component?: Component;
 }
 export const GetComponentResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    component: S.optional(Component)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "Component" }),
+    component: S.optional(Component).pipe(T.HttpPayload()).annotate({ identifier: "Component" }),
   }),
-).annotate({
-  identifier: "GetComponentResponse",
-}) as any as S.Schema<GetComponentResponse>;
+).annotate({ identifier: "GetComponentResponse" }) as any as S.Schema<GetComponentResponse>;
 export interface GetFormRequest {
   appId: string;
   environmentName: string;
@@ -1826,10 +1551,7 @@ export const GetFormRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String.pipe(T.HttpLabel("id")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/app/{appId}/environment/{environmentName}/forms/{id}",
-      }),
+      T.Http({ method: "GET", uri: "/app/{appId}/environment/{environmentName}/forms/{id}" }),
       svc,
       auth,
       proto,
@@ -1842,14 +1564,8 @@ export interface GetFormResponse {
   form?: Form;
 }
 export const GetFormResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    form: S.optional(Form)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "Form" }),
-  }),
-).annotate({
-  identifier: "GetFormResponse",
-}) as any as S.Schema<GetFormResponse>;
+  S.Struct({ form: S.optional(Form).pipe(T.HttpPayload()).annotate({ identifier: "Form" }) }),
+).annotate({ identifier: "GetFormResponse" }) as any as S.Schema<GetFormResponse>;
 export interface GetMetadataRequest {
   appId: string;
   environmentName: string;
@@ -1860,10 +1576,7 @@ export const GetMetadataRequest = /*@__PURE__*/ S.suspend(() =>
     environmentName: S.String.pipe(T.HttpLabel("environmentName")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/app/{appId}/environment/{environmentName}/metadata",
-      }),
+      T.Http({ method: "GET", uri: "/app/{appId}/environment/{environmentName}/metadata" }),
       svc,
       auth,
       proto,
@@ -1871,22 +1584,15 @@ export const GetMetadataRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetMetadataRequest",
-}) as any as S.Schema<GetMetadataRequest>;
+).annotate({ identifier: "GetMetadataRequest" }) as any as S.Schema<GetMetadataRequest>;
 export type FeaturesMap = { [key: string]: string | undefined };
-export const FeaturesMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const FeaturesMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface GetMetadataResponse {
   features: { [key: string]: string | undefined };
 }
 export const GetMetadataResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ features: FeaturesMap }),
-).annotate({
-  identifier: "GetMetadataResponse",
-}) as any as S.Schema<GetMetadataResponse>;
+).annotate({ identifier: "GetMetadataResponse" }) as any as S.Schema<GetMetadataResponse>;
 export interface GetThemeRequest {
   appId: string;
   environmentName: string;
@@ -1899,10 +1605,7 @@ export const GetThemeRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String.pipe(T.HttpLabel("id")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/app/{appId}/environment/{environmentName}/themes/{id}",
-      }),
+      T.Http({ method: "GET", uri: "/app/{appId}/environment/{environmentName}/themes/{id}" }),
       svc,
       auth,
       proto,
@@ -1910,21 +1613,13 @@ export const GetThemeRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetThemeRequest",
-}) as any as S.Schema<GetThemeRequest>;
+).annotate({ identifier: "GetThemeRequest" }) as any as S.Schema<GetThemeRequest>;
 export interface GetThemeResponse {
   theme?: Theme;
 }
 export const GetThemeResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    theme: S.optional(Theme)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "Theme" }),
-  }),
-).annotate({
-  identifier: "GetThemeResponse",
-}) as any as S.Schema<GetThemeResponse>;
+  S.Struct({ theme: S.optional(Theme).pipe(T.HttpPayload()).annotate({ identifier: "Theme" }) }),
+).annotate({ identifier: "GetThemeResponse" }) as any as S.Schema<GetThemeResponse>;
 export type ListCodegenJobsLimit = number;
 export interface ListCodegenJobsRequest {
   appId: string;
@@ -1940,10 +1635,7 @@ export const ListCodegenJobsRequest = /*@__PURE__*/ S.suspend(() =>
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/app/{appId}/environment/{environmentName}/codegen-jobs",
-      }),
+      T.Http({ method: "GET", uri: "/app/{appId}/environment/{environmentName}/codegen-jobs" }),
       svc,
       auth,
       proto,
@@ -1951,9 +1643,7 @@ export const ListCodegenJobsRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "ListCodegenJobsRequest",
-}) as any as S.Schema<ListCodegenJobsRequest>;
+).annotate({ identifier: "ListCodegenJobsRequest" }) as any as S.Schema<ListCodegenJobsRequest>;
 export interface CodegenJobSummary {
   appId: string;
   environmentName: string;
@@ -1966,16 +1656,10 @@ export const CodegenJobSummary = /*@__PURE__*/ S.suspend(() =>
     appId: S.String,
     environmentName: S.String,
     id: S.String,
-    createdAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    modifiedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    createdAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    modifiedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
-).annotate({
-  identifier: "CodegenJobSummary",
-}) as any as S.Schema<CodegenJobSummary>;
+).annotate({ identifier: "CodegenJobSummary" }) as any as S.Schema<CodegenJobSummary>;
 export type CodegenJobSummaryList = CodegenJobSummary[];
 export const CodegenJobSummaryList = /*@__PURE__*/ S.Array(CodegenJobSummary);
 export interface ListCodegenJobsResponse {
@@ -1983,13 +1667,8 @@ export interface ListCodegenJobsResponse {
   nextToken?: string;
 }
 export const ListCodegenJobsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    entities: CodegenJobSummaryList,
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListCodegenJobsResponse",
-}) as any as S.Schema<ListCodegenJobsResponse>;
+  S.Struct({ entities: CodegenJobSummaryList, nextToken: S.optional(S.String) }),
+).annotate({ identifier: "ListCodegenJobsResponse" }) as any as S.Schema<ListCodegenJobsResponse>;
 export type ListEntityLimit = number;
 export interface ListComponentsRequest {
   appId: string;
@@ -2005,10 +1684,7 @@ export const ListComponentsRequest = /*@__PURE__*/ S.suspend(() =>
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/app/{appId}/environment/{environmentName}/components",
-      }),
+      T.Http({ method: "GET", uri: "/app/{appId}/environment/{environmentName}/components" }),
       svc,
       auth,
       proto,
@@ -2016,9 +1692,7 @@ export const ListComponentsRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "ListComponentsRequest",
-}) as any as S.Schema<ListComponentsRequest>;
+).annotate({ identifier: "ListComponentsRequest" }) as any as S.Schema<ListComponentsRequest>;
 export interface ComponentSummary {
   appId: string;
   environmentName: string;
@@ -2034,9 +1708,7 @@ export const ComponentSummary = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     componentType: S.String,
   }),
-).annotate({
-  identifier: "ComponentSummary",
-}) as any as S.Schema<ComponentSummary>;
+).annotate({ identifier: "ComponentSummary" }) as any as S.Schema<ComponentSummary>;
 export type ComponentSummaryList = ComponentSummary[];
 export const ComponentSummaryList = /*@__PURE__*/ S.Array(ComponentSummary);
 export interface ListComponentsResponse {
@@ -2045,9 +1717,7 @@ export interface ListComponentsResponse {
 }
 export const ListComponentsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ entities: ComponentSummaryList, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListComponentsResponse",
-}) as any as S.Schema<ListComponentsResponse>;
+).annotate({ identifier: "ListComponentsResponse" }) as any as S.Schema<ListComponentsResponse>;
 export interface ListFormsRequest {
   appId: string;
   environmentName: string;
@@ -2062,10 +1732,7 @@ export const ListFormsRequest = /*@__PURE__*/ S.suspend(() =>
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/app/{appId}/environment/{environmentName}/forms",
-      }),
+      T.Http({ method: "GET", uri: "/app/{appId}/environment/{environmentName}/forms" }),
       svc,
       auth,
       proto,
@@ -2073,9 +1740,7 @@ export const ListFormsRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "ListFormsRequest",
-}) as any as S.Schema<ListFormsRequest>;
+).annotate({ identifier: "ListFormsRequest" }) as any as S.Schema<ListFormsRequest>;
 export interface FormSummary {
   appId: string;
   dataType: FormDataTypeConfig;
@@ -2102,22 +1767,13 @@ export interface ListFormsResponse {
 }
 export const ListFormsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ entities: FormSummaryList, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListFormsResponse",
-}) as any as S.Schema<ListFormsResponse>;
+).annotate({ identifier: "ListFormsResponse" }) as any as S.Schema<ListFormsResponse>;
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
 export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListTagsForResourceRequest",
@@ -2144,10 +1800,7 @@ export const ListThemesRequest = /*@__PURE__*/ S.suspend(() =>
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/app/{appId}/environment/{environmentName}/themes",
-      }),
+      T.Http({ method: "GET", uri: "/app/{appId}/environment/{environmentName}/themes" }),
       svc,
       auth,
       proto,
@@ -2155,9 +1808,7 @@ export const ListThemesRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "ListThemesRequest",
-}) as any as S.Schema<ListThemesRequest>;
+).annotate({ identifier: "ListThemesRequest" }) as any as S.Schema<ListThemesRequest>;
 export interface ThemeSummary {
   appId: string;
   environmentName: string;
@@ -2165,12 +1816,7 @@ export interface ThemeSummary {
   name: string;
 }
 export const ThemeSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    appId: S.String,
-    environmentName: S.String,
-    id: S.String,
-    name: S.String,
-  }),
+  S.Struct({ appId: S.String, environmentName: S.String, id: S.String, name: S.String }),
 ).annotate({ identifier: "ThemeSummary" }) as any as S.Schema<ThemeSummary>;
 export type ThemeSummaryList = ThemeSummary[];
 export const ThemeSummaryList = /*@__PURE__*/ S.Array(ThemeSummary);
@@ -2180,17 +1826,13 @@ export interface ListThemesResponse {
 }
 export const ListThemesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ entities: ThemeSummaryList, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListThemesResponse",
-}) as any as S.Schema<ListThemesResponse>;
+).annotate({ identifier: "ListThemesResponse" }) as any as S.Schema<ListThemesResponse>;
 export interface PutMetadataFlagBody {
   newValue: string;
 }
 export const PutMetadataFlagBody = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ newValue: S.String }),
-).annotate({
-  identifier: "PutMetadataFlagBody",
-}) as any as S.Schema<PutMetadataFlagBody>;
+).annotate({ identifier: "PutMetadataFlagBody" }) as any as S.Schema<PutMetadataFlagBody>;
 export interface PutMetadataFlagRequest {
   appId: string;
   environmentName: string;
@@ -2202,9 +1844,7 @@ export const PutMetadataFlagRequest = /*@__PURE__*/ S.suspend(() =>
     appId: S.String.pipe(T.HttpLabel("appId")),
     environmentName: S.String.pipe(T.HttpLabel("environmentName")),
     featureName: S.String.pipe(T.HttpLabel("featureName")),
-    body: PutMetadataFlagBody.pipe(T.HttpPayload()).annotate({
-      identifier: "PutMetadataFlagBody",
-    }),
+    body: PutMetadataFlagBody.pipe(T.HttpPayload()).annotate({ identifier: "PutMetadataFlagBody" }),
   }).pipe(
     T.all(
       T.Http({
@@ -2218,13 +1858,9 @@ export const PutMetadataFlagRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "PutMetadataFlagRequest",
-}) as any as S.Schema<PutMetadataFlagRequest>;
+).annotate({ identifier: "PutMetadataFlagRequest" }) as any as S.Schema<PutMetadataFlagRequest>;
 export interface PutMetadataFlagResponse {}
-export const PutMetadataFlagResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const PutMetadataFlagResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "PutMetadataFlagResponse",
 }) as any as S.Schema<PutMetadataFlagResponse>;
 export interface RefreshTokenRequestBody {
@@ -2233,9 +1869,7 @@ export interface RefreshTokenRequestBody {
 }
 export const RefreshTokenRequestBody = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ token: SensitiveString, clientId: S.optional(SensitiveString) }),
-).annotate({
-  identifier: "RefreshTokenRequestBody",
-}) as any as S.Schema<RefreshTokenRequestBody>;
+).annotate({ identifier: "RefreshTokenRequestBody" }) as any as S.Schema<RefreshTokenRequestBody>;
 export interface RefreshTokenRequest {
   provider: string;
   refreshTokenBody: RefreshTokenRequestBody;
@@ -2256,18 +1890,14 @@ export const RefreshTokenRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "RefreshTokenRequest",
-}) as any as S.Schema<RefreshTokenRequest>;
+).annotate({ identifier: "RefreshTokenRequest" }) as any as S.Schema<RefreshTokenRequest>;
 export interface RefreshTokenResponse {
   accessToken: string | redacted.Redacted<string>;
   expiresIn: number;
 }
 export const RefreshTokenResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ accessToken: SensitiveString, expiresIn: S.Number }),
-).annotate({
-  identifier: "RefreshTokenResponse",
-}) as any as S.Schema<RefreshTokenResponse>;
+).annotate({ identifier: "RefreshTokenResponse" }) as any as S.Schema<RefreshTokenResponse>;
 export interface StartCodegenJobData {
   renderConfig: CodegenJobRenderConfig;
   genericDataSchema?: CodegenJobGenericDataSchema;
@@ -2283,9 +1913,7 @@ export const StartCodegenJobData = /*@__PURE__*/ S.suspend(() =>
     features: S.optional(CodegenFeatureFlags),
     tags: S.optional(Tags),
   }),
-).annotate({
-  identifier: "StartCodegenJobData",
-}) as any as S.Schema<StartCodegenJobData>;
+).annotate({ identifier: "StartCodegenJobData" }) as any as S.Schema<StartCodegenJobData>;
 export interface StartCodegenJobRequest {
   appId: string;
   environmentName: string;
@@ -2296,19 +1924,13 @@ export const StartCodegenJobRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     appId: S.String.pipe(T.HttpLabel("appId")),
     environmentName: S.String.pipe(T.HttpLabel("environmentName")),
-    clientToken: S.optional(S.String).pipe(
-      T.HttpQuery("clientToken"),
-      T.IdempotencyToken(),
-    ),
+    clientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken"), T.IdempotencyToken()),
     codegenJobToCreate: StartCodegenJobData.pipe(T.HttpPayload()).annotate({
       identifier: "StartCodegenJobData",
     }),
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/app/{appId}/environment/{environmentName}/codegen-jobs",
-      }),
+      T.Http({ method: "POST", uri: "/app/{appId}/environment/{environmentName}/codegen-jobs" }),
       svc,
       auth,
       proto,
@@ -2316,46 +1938,26 @@ export const StartCodegenJobRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "StartCodegenJobRequest",
-}) as any as S.Schema<StartCodegenJobRequest>;
+).annotate({ identifier: "StartCodegenJobRequest" }) as any as S.Schema<StartCodegenJobRequest>;
 export interface StartCodegenJobResponse {
   entity?: CodegenJob;
 }
 export const StartCodegenJobResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    entity: S.optional(CodegenJob)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "CodegenJob" }),
+    entity: S.optional(CodegenJob).pipe(T.HttpPayload()).annotate({ identifier: "CodegenJob" }),
   }),
-).annotate({
-  identifier: "StartCodegenJobResponse",
-}) as any as S.Schema<StartCodegenJobResponse>;
+).annotate({ identifier: "StartCodegenJobResponse" }) as any as S.Schema<StartCodegenJobResponse>;
 export interface TagResourceRequest {
   resourceArn: string;
   tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-    tags: Tags,
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tags: Tags }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
+).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = string[];
@@ -2369,22 +1971,11 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
   }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
+).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateComponentData {
@@ -2395,15 +1986,9 @@ export interface UpdateComponentData {
   properties?: { [key: string]: ComponentProperty | undefined };
   children?: ComponentChild[];
   variants?: ComponentVariant[];
-  overrides?: {
-    [key: string]: { [key: string]: string | undefined } | undefined;
-  };
-  bindingProperties?: {
-    [key: string]: ComponentBindingPropertiesValue | undefined;
-  };
-  collectionProperties?: {
-    [key: string]: ComponentDataConfiguration | undefined;
-  };
+  overrides?: { [key: string]: { [key: string]: string | undefined } | undefined };
+  bindingProperties?: { [key: string]: ComponentBindingPropertiesValue | undefined };
+  collectionProperties?: { [key: string]: ComponentDataConfiguration | undefined };
   events?: { [key: string]: ComponentEvent | undefined };
   schemaVersion?: string;
 }
@@ -2422,9 +2007,7 @@ export const UpdateComponentData = /*@__PURE__*/ S.suspend(() =>
     events: S.optional(ComponentEvents),
     schemaVersion: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UpdateComponentData",
-}) as any as S.Schema<UpdateComponentData>;
+).annotate({ identifier: "UpdateComponentData" }) as any as S.Schema<UpdateComponentData>;
 export interface UpdateComponentRequest {
   appId: string;
   environmentName: string;
@@ -2437,10 +2020,7 @@ export const UpdateComponentRequest = /*@__PURE__*/ S.suspend(() =>
     appId: S.String.pipe(T.HttpLabel("appId")),
     environmentName: S.String.pipe(T.HttpLabel("environmentName")),
     id: S.String.pipe(T.HttpLabel("id")),
-    clientToken: S.optional(S.String).pipe(
-      T.HttpQuery("clientToken"),
-      T.IdempotencyToken(),
-    ),
+    clientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken"), T.IdempotencyToken()),
     updatedComponent: UpdateComponentData.pipe(T.HttpPayload()).annotate({
       identifier: "UpdateComponentData",
     }),
@@ -2457,21 +2037,15 @@ export const UpdateComponentRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "UpdateComponentRequest",
-}) as any as S.Schema<UpdateComponentRequest>;
+).annotate({ identifier: "UpdateComponentRequest" }) as any as S.Schema<UpdateComponentRequest>;
 export interface UpdateComponentResponse {
   entity?: Component;
 }
 export const UpdateComponentResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    entity: S.optional(Component)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "Component" }),
+    entity: S.optional(Component).pipe(T.HttpPayload()).annotate({ identifier: "Component" }),
   }),
-).annotate({
-  identifier: "UpdateComponentResponse",
-}) as any as S.Schema<UpdateComponentResponse>;
+).annotate({ identifier: "UpdateComponentResponse" }) as any as S.Schema<UpdateComponentResponse>;
 export interface UpdateFormData {
   name?: string;
   dataType?: FormDataTypeConfig;
@@ -2508,19 +2082,11 @@ export const UpdateFormRequest = /*@__PURE__*/ S.suspend(() =>
     appId: S.String.pipe(T.HttpLabel("appId")),
     environmentName: S.String.pipe(T.HttpLabel("environmentName")),
     id: S.String.pipe(T.HttpLabel("id")),
-    clientToken: S.optional(S.String).pipe(
-      T.HttpQuery("clientToken"),
-      T.IdempotencyToken(),
-    ),
-    updatedForm: UpdateFormData.pipe(T.HttpPayload()).annotate({
-      identifier: "UpdateFormData",
-    }),
+    clientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken"), T.IdempotencyToken()),
+    updatedForm: UpdateFormData.pipe(T.HttpPayload()).annotate({ identifier: "UpdateFormData" }),
   }).pipe(
     T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/app/{appId}/environment/{environmentName}/forms/{id}",
-      }),
+      T.Http({ method: "PATCH", uri: "/app/{appId}/environment/{environmentName}/forms/{id}" }),
       svc,
       auth,
       proto,
@@ -2528,21 +2094,13 @@ export const UpdateFormRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "UpdateFormRequest",
-}) as any as S.Schema<UpdateFormRequest>;
+).annotate({ identifier: "UpdateFormRequest" }) as any as S.Schema<UpdateFormRequest>;
 export interface UpdateFormResponse {
   entity?: Form;
 }
 export const UpdateFormResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    entity: S.optional(Form)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "Form" }),
-  }),
-).annotate({
-  identifier: "UpdateFormResponse",
-}) as any as S.Schema<UpdateFormResponse>;
+  S.Struct({ entity: S.optional(Form).pipe(T.HttpPayload()).annotate({ identifier: "Form" }) }),
+).annotate({ identifier: "UpdateFormResponse" }) as any as S.Schema<UpdateFormResponse>;
 export interface UpdateThemeData {
   id?: string;
   name?: string;
@@ -2556,9 +2114,7 @@ export const UpdateThemeData = /*@__PURE__*/ S.suspend(() =>
     values: ThemeValuesList,
     overrides: S.optional(ThemeValuesList),
   }),
-).annotate({
-  identifier: "UpdateThemeData",
-}) as any as S.Schema<UpdateThemeData>;
+).annotate({ identifier: "UpdateThemeData" }) as any as S.Schema<UpdateThemeData>;
 export interface UpdateThemeRequest {
   appId: string;
   environmentName: string;
@@ -2571,19 +2127,11 @@ export const UpdateThemeRequest = /*@__PURE__*/ S.suspend(() =>
     appId: S.String.pipe(T.HttpLabel("appId")),
     environmentName: S.String.pipe(T.HttpLabel("environmentName")),
     id: S.String.pipe(T.HttpLabel("id")),
-    clientToken: S.optional(S.String).pipe(
-      T.HttpQuery("clientToken"),
-      T.IdempotencyToken(),
-    ),
-    updatedTheme: UpdateThemeData.pipe(T.HttpPayload()).annotate({
-      identifier: "UpdateThemeData",
-    }),
+    clientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken"), T.IdempotencyToken()),
+    updatedTheme: UpdateThemeData.pipe(T.HttpPayload()).annotate({ identifier: "UpdateThemeData" }),
   }).pipe(
     T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/app/{appId}/environment/{environmentName}/themes/{id}",
-      }),
+      T.Http({ method: "PATCH", uri: "/app/{appId}/environment/{environmentName}/themes/{id}" }),
       svc,
       auth,
       proto,
@@ -2591,21 +2139,13 @@ export const UpdateThemeRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "UpdateThemeRequest",
-}) as any as S.Schema<UpdateThemeRequest>;
+).annotate({ identifier: "UpdateThemeRequest" }) as any as S.Schema<UpdateThemeRequest>;
 export interface UpdateThemeResponse {
   entity?: Theme;
 }
 export const UpdateThemeResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    entity: S.optional(Theme)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "Theme" }),
-  }),
-).annotate({
-  identifier: "UpdateThemeResponse",
-}) as any as S.Schema<UpdateThemeResponse>;
+  S.Struct({ entity: S.optional(Theme).pipe(T.HttpPayload()).annotate({ identifier: "Theme" }) }),
+).annotate({ identifier: "UpdateThemeResponse" }) as any as S.Schema<UpdateThemeResponse>;
 export type CreateComponentError =
   | InternalServerException
   | InvalidParameterException
@@ -2706,11 +2246,7 @@ export const deleteComponent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteComponentRequest,
   output: DeleteComponentResponse,
-  errors: [
-    InternalServerException,
-    InvalidParameterException,
-    ResourceNotFoundException,
-  ],
+  errors: [InternalServerException, InvalidParameterException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteComponent",
@@ -2732,11 +2268,7 @@ export const deleteForm: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteFormRequest,
   output: DeleteFormResponse,
-  errors: [
-    InternalServerException,
-    InvalidParameterException,
-    ResourceNotFoundException,
-  ],
+  errors: [InternalServerException, InvalidParameterException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteForm",
@@ -2758,19 +2290,13 @@ export const deleteTheme: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteThemeRequest,
   output: DeleteThemeResponse,
-  errors: [
-    InternalServerException,
-    InvalidParameterException,
-    ResourceNotFoundException,
-  ],
+  errors: [InternalServerException, InvalidParameterException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTheme",
 }));
 
-export type ExchangeCodeForTokenError =
-  | InvalidParameterException
-  | CommonErrors;
+export type ExchangeCodeForTokenError = InvalidParameterException | CommonErrors;
 /**
  * This is for internal use.
  *
@@ -2810,17 +2336,10 @@ export const exportComponents: API.PaginatedOperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExportComponents",
-  pagination: {
-    inputToken: "nextToken",
-    outputToken: "nextToken",
-    items: "entities",
-  } as const,
+  pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "entities" } as const,
 })) as any;
 
-export type ExportFormsError =
-  | InternalServerException
-  | InvalidParameterException
-  | CommonErrors;
+export type ExportFormsError = InternalServerException | InvalidParameterException | CommonErrors;
 /**
  * Exports form configurations to code that is ready to integrate into an Amplify app.
  */
@@ -2837,17 +2356,10 @@ export const exportForms: API.PaginatedOperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExportForms",
-  pagination: {
-    inputToken: "nextToken",
-    outputToken: "nextToken",
-    items: "entities",
-  } as const,
+  pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "entities" } as const,
 })) as any;
 
-export type ExportThemesError =
-  | InternalServerException
-  | InvalidParameterException
-  | CommonErrors;
+export type ExportThemesError = InternalServerException | InvalidParameterException | CommonErrors;
 /**
  * Exports theme configurations to code that is ready to integrate into an Amplify app.
  */
@@ -2864,11 +2376,7 @@ export const exportThemes: API.PaginatedOperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExportThemes",
-  pagination: {
-    inputToken: "nextToken",
-    outputToken: "nextToken",
-    items: "entities",
-  } as const,
+  pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "entities" } as const,
 })) as any;
 
 export type GetCodegenJobError =
@@ -2915,11 +2423,7 @@ export const getComponent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetComponentRequest,
   output: GetComponentResponse,
-  errors: [
-    InternalServerException,
-    InvalidParameterException,
-    ResourceNotFoundException,
-  ],
+  errors: [InternalServerException, InvalidParameterException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetComponent",
@@ -2941,20 +2445,13 @@ export const getForm: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetFormRequest,
   output: GetFormResponse,
-  errors: [
-    InternalServerException,
-    InvalidParameterException,
-    ResourceNotFoundException,
-  ],
+  errors: [InternalServerException, InvalidParameterException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetForm",
 }));
 
-export type GetMetadataError =
-  | InvalidParameterException
-  | UnauthorizedException
-  | CommonErrors;
+export type GetMetadataError = InvalidParameterException | UnauthorizedException | CommonErrors;
 /**
  * Returns existing metadata for an Amplify app.
  */
@@ -2988,11 +2485,7 @@ export const getTheme: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetThemeRequest,
   output: GetThemeResponse,
-  errors: [
-    InternalServerException,
-    InvalidParameterException,
-    ResourceNotFoundException,
-  ],
+  errors: [InternalServerException, InvalidParameterException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTheme",
@@ -3015,11 +2508,7 @@ export const listCodegenJobs: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListCodegenJobsRequest,
   output: ListCodegenJobsResponse,
-  errors: [
-    InternalServerException,
-    InvalidParameterException,
-    ThrottlingException,
-  ],
+  errors: [InternalServerException, InvalidParameterException, ThrottlingException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListCodegenJobs",
@@ -3060,10 +2549,7 @@ export const listComponents: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListFormsError =
-  | InternalServerException
-  | InvalidParameterException
-  | CommonErrors;
+export type ListFormsError = InternalServerException | InvalidParameterException | CommonErrors;
 /**
  * Retrieves a list of forms for a specified Amplify app and backend environment.
  */
@@ -3118,10 +2604,7 @@ export const listTagsForResource: API.OperationMethod<
   operationName: "ListTagsForResource",
 }));
 
-export type ListThemesError =
-  | InternalServerException
-  | InvalidParameterException
-  | CommonErrors;
+export type ListThemesError = InternalServerException | InvalidParameterException | CommonErrors;
 /**
  * Retrieves a list of themes for a specified Amplify app and backend
  * environment.
@@ -3147,10 +2630,7 @@ export const listThemes: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type PutMetadataFlagError =
-  | InvalidParameterException
-  | UnauthorizedException
-  | CommonErrors;
+export type PutMetadataFlagError = InvalidParameterException | UnauthorizedException | CommonErrors;
 /**
  * Stores the metadata information about a feature on a form.
  */
@@ -3204,11 +2684,7 @@ export const startCodegenJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: StartCodegenJobRequest,
   output: StartCodegenJobResponse,
-  errors: [
-    InternalServerException,
-    InvalidParameterException,
-    ThrottlingException,
-  ],
+  errors: [InternalServerException, InvalidParameterException, ThrottlingException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartCodegenJob",
@@ -3290,11 +2766,7 @@ export const updateComponent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateComponentRequest,
   output: UpdateComponentResponse,
-  errors: [
-    InternalServerException,
-    InvalidParameterException,
-    ResourceConflictException,
-  ],
+  errors: [InternalServerException, InvalidParameterException, ResourceConflictException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateComponent",
@@ -3316,11 +2788,7 @@ export const updateForm: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateFormRequest,
   output: UpdateFormResponse,
-  errors: [
-    InternalServerException,
-    InvalidParameterException,
-    ResourceConflictException,
-  ],
+  errors: [InternalServerException, InvalidParameterException, ResourceConflictException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateForm",
@@ -3342,11 +2810,7 @@ export const updateTheme: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateThemeRequest,
   output: UpdateThemeResponse,
-  errors: [
-    InternalServerException,
-    InvalidParameterException,
-    ResourceConflictException,
-  ],
+  errors: [InternalServerException, InvalidParameterException, ResourceConflictException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTheme",

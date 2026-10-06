@@ -18,7 +18,7 @@
     "distilled.finalized": true
   },
   "shapes": {
-    "com.posthog.wizard#ListWizardSessionsRequest": {
+    "com.posthog.wizard#ListWizardRegistryRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -42,19 +42,1470 @@
             "smithy.api#httpQuery": "offset",
             "smithy.api#documentation": "The initial index from which to return the results."
           }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.wizard#PaginatedWizardProgramList": {
+      "type": "structure",
+      "members": {
+        "count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "next": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "previous": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "results": {
+          "target": "com.posthog.wizard#PaginatedWizardProgramListResultsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.wizard#WizardProgram": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Stable identifier used to select the program.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Display name of the program.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "What the program does.",
+            "smithy.api#required": {}
+          }
+        },
+        "wizard_version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Exact Wizard package version used by the program.",
+            "smithy.api#required": {}
+          }
+        },
+        "command": {
+          "target": "com.posthog.wizard#WizardProgramCommandList",
+          "traits": {
+            "smithy.api#documentation": "Wizard CLI arguments used to start the program.",
+            "smithy.api#required": {}
+          }
+        },
+        "tags": {
+          "target": "com.posthog.wizard#WizardProgramTagsList",
+          "traits": {
+            "smithy.api#documentation": "Labels that categorize the program.",
+            "smithy.api#required": {}
+          }
+        },
+        "required_programs": {
+          "target": "com.posthog.wizard#WizardProgramRequiredProgramsList",
+          "traits": {
+            "smithy.api#documentation": "Programs that should run before this program.",
+            "smithy.api#required": {}
+          }
+        },
+        "supported_environments": {
+          "target": "com.posthog.wizard#WizardProgramSupportedEnvironmentsList",
+          "traits": {
+            "smithy.api#documentation": "Environments where the program can run.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.wizard#WizardProgramCommandList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Wizard CLI arguments used to start the program."
+      }
+    },
+    "com.posthog.wizard#WizardProgramTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Labels that categorize the program."
+      }
+    },
+    "com.posthog.wizard#WizardProgramRequiredProgramsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Programs that should run before this program."
+      }
+    },
+    "com.posthog.wizard#RunEnvironmentEnum": {
+      "type": "enum",
+      "members": {
+        "LOCAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "local"
+          }
+        },
+        "CLOUD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cloud"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `local` - local\n* `cloud` - cloud"
+      }
+    },
+    "com.posthog.wizard#WizardProgramSupportedEnvironmentsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.wizard#RunEnvironmentEnum"
+      },
+      "traits": {
+        "smithy.api#documentation": "Environments where the program can run."
+      }
+    },
+    "com.posthog.wizard#PaginatedWizardProgramListResultsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.wizard#WizardProgram"
+      },
+      "traits": {}
+    },
+    "com.posthog.wizard#ListWizardRegistry": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.wizard#ListWizardRegistryRequest"
+      },
+      "output": {
+        "target": "com.posthog.wizard#PaginatedWizardProgramList"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/wizard/registry/",
+          "code": 200
+        },
+        "smithy.api#documentation": "List Wizard programs available for this project."
+      }
+    },
+    "com.posthog.wizard#ListWizardRunsRequestStatusItem": {
+      "type": "enum",
+      "members": {
+        "CANCELLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cancelled"
+          }
+        },
+        "COMPLETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "completed"
+          }
+        },
+        "CREATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "failed"
+          }
+        },
+        "RUNNING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "running"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.wizard#ListWizardRunsRequestStatusList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.wizard#ListWizardRunsRequestStatusItem"
+      },
+      "traits": {}
+    },
+    "com.posthog.wizard#ListWizardRunsRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "created_after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "created_after",
+            "smithy.api#documentation": "Only return runs created after this timestamp."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "Number of results to return per page."
+          }
+        },
+        "offset": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "offset",
+            "smithy.api#documentation": "The initial index from which to return the results."
+          }
+        },
+        "status": {
+          "target": "com.posthog.wizard#ListWizardRunsRequestStatusList",
+          "traits": {
+            "smithy.api#httpQuery": "status",
+            "smithy.api#documentation": "Filter by one or more comma-separated run statuses."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.wizard#PaginatedWizardRunList": {
+      "type": "structure",
+      "members": {
+        "count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "next": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "previous": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "results": {
+          "target": "com.posthog.wizard#PaginatedWizardRunListResultsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.wizard#WizardRun": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique ID of the Wizard run.",
+            "smithy.api#required": {}
+          }
+        },
+        "team_id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Project that owns the Wizard run.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_by_id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "User who created the Wizard run, or null if that user no longer exists.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_by": {
+          "target": "com.posthog.wizard#WizardRunCreator",
+          "traits": {
+            "smithy.api#documentation": "User who created the Wizard run, or null if that user no longer exists.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "environment": {
+          "target": "com.posthog.wizard#RunEnvironmentEnum",
+          "traits": {
+            "smithy.api#documentation": "Where the setup agent runs.\n\n* `local` - local\n* `cloud` - cloud",
+            "smithy.api#required": {}
+          }
+        },
+        "workspace": {
+          "target": "com.posthog.wizard#WizardWorkspace",
+          "traits": {
+            "smithy.api#documentation": "Project that the setup agent works on.",
+            "smithy.api#required": {}
+          }
+        },
+        "program": {
+          "target": "com.posthog.wizard#WizardProgram",
+          "traits": {
+            "smithy.api#documentation": "Registry program selected for this run.",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.posthog.wizard#WizardRunStatusEnum",
+          "traits": {
+            "smithy.api#documentation": "Current lifecycle status of the Wizard run.\n\n* `created` - created\n* `running` - running\n* `completed` - completed\n* `failed` - failed\n* `cancelled` - cancelled",
+            "smithy.api#required": {}
+          }
+        },
+        "error_code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Machine-readable failure reason, or null if the run has not failed.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "error_message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Safe failure explanation, or null if the run has not failed.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "stage": {
+          "target": "com.posthog.wizard#WizardRunStageEnum",
+          "traits": {
+            "smithy.api#documentation": "Current cloud worker stage, or null outside active cloud execution.\n\n* `dispatching` - dispatching\n* `provisioning` - provisioning\n* `preparing_workspace` - preparing_workspace\n* `executing_wizard` - executing_wizard\n* `creating_artifacts` - creating_artifacts",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the Wizard run was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the run last changed.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "started_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When execution started, or null while queued.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "finished_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When execution reached a terminal status, or null while active.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "deadline_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Cloud execution deadline, or null for local runs.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.wizard#WizardRunCreator": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Unique ID of the user who created the Wizard run.",
+            "smithy.api#required": {}
+          }
+        },
+        "first_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "First name of the user who created the Wizard run.",
+            "smithy.api#required": {}
+          }
+        },
+        "last_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Last name of the user who created the Wizard run.",
+            "smithy.api#required": {}
+          }
+        },
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Email address of the user who created the Wizard run.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.wizard#WizardWorkspace": {
+      "type": "union",
+      "members": {
+        "LocalFolderWorkspace": {
+          "target": "com.posthog.wizard#LocalFolderWorkspace"
+        },
+        "GitRepositoryWorkspace": {
+          "target": "com.posthog.wizard#GitRepositoryWorkspace"
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.wizard#LocalFolderWorkspace": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Selects a folder on the user's machine as the workspace.",
+            "smithy.api#required": {}
+          }
+        },
+        "project_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the project in the local folder.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.wizard#GitRepositoryWorkspace": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Selects a GitHub repository as the workspace.",
+            "smithy.api#required": {}
+          }
+        },
+        "repository": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "GitHub repository in owner/name format.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.wizard#WizardRunStatusEnum": {
+      "type": "enum",
+      "members": {
+        "CREATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created"
+          }
+        },
+        "RUNNING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "running"
+          }
+        },
+        "COMPLETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "completed"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "failed"
+          }
+        },
+        "CANCELLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cancelled"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `created` - created\n* `running` - running\n* `completed` - completed\n* `failed` - failed\n* `cancelled` - cancelled"
+      }
+    },
+    "com.posthog.wizard#WizardRunStageEnum": {
+      "type": "enum",
+      "members": {
+        "DISPATCHING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dispatching"
+          }
+        },
+        "PROVISIONING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "provisioning"
+          }
+        },
+        "PREPARING_WORKSPACE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "preparing_workspace"
+          }
+        },
+        "EXECUTING_WIZARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "executing_wizard"
+          }
+        },
+        "CREATING_ARTIFACTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "creating_artifacts"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `dispatching` - dispatching\n* `provisioning` - provisioning\n* `preparing_workspace` - preparing_workspace\n* `executing_wizard` - executing_wizard\n* `creating_artifacts` - creating_artifacts"
+      }
+    },
+    "com.posthog.wizard#PaginatedWizardRunListResultsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.wizard#WizardRun"
+      },
+      "traits": {}
+    },
+    "com.posthog.wizard#ListWizardRuns": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.wizard#ListWizardRunsRequest"
+      },
+      "output": {
+        "target": "com.posthog.wizard#PaginatedWizardRunList"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/wizard/runs/",
+          "code": 200
+        },
+        "smithy.api#documentation": "List Wizard runs for this project, ordered from newest to oldest."
+      }
+    },
+    "com.posthog.wizard#CreateWizardRunRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "program_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Registry program to run.",
+            "smithy.api#required": {}
+          }
+        },
+        "environment": {
+          "target": "com.posthog.wizard#RunEnvironmentEnum",
+          "traits": {
+            "smithy.api#documentation": "Where the setup agent runs.\n\n* `local` - local\n* `cloud` - cloud",
+            "smithy.api#required": {}
+          }
+        },
+        "workspace": {
+          "target": "com.posthog.wizard#WizardWorkspace",
+          "traits": {
+            "smithy.api#documentation": "Project that the setup agent works on.",
+            "smithy.api#required": {}
+          }
+        },
+        "idempotency_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique key that makes cloud run creation safe to retry."
+          }
+        },
+        "wizard_version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Wizard package version to run. Defaults to the backend pin and accepts latest explicitly."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.wizard#CreateWizardRun": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.wizard#CreateWizardRunRequest"
+      },
+      "output": {
+        "target": "com.posthog.wizard#WizardRun"
+      },
+      "errors": [
+        {
+          "target": "com.posthog.wizard#BadRequest"
+        },
+        {
+          "target": "com.posthog.wizard#Forbidden"
+        },
+        {
+          "target": "com.posthog.wizard#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/wizard/runs/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create a local or cloud Wizard run for a project workspace."
+      }
+    },
+    "com.posthog.wizard#GetWizardRunRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "run_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.wizard#GetWizardRun": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.wizard#GetWizardRunRequest"
+      },
+      "output": {
+        "target": "com.posthog.wizard#WizardRun"
+      },
+      "errors": [
+        {
+          "target": "com.posthog.wizard#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/wizard/runs/{run_id}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve a Wizard run in this project."
+      }
+    },
+    "com.posthog.wizard#WizardRunStatusUpdateRequestStatusEnum": {
+      "type": "enum",
+      "members": {
+        "COMPLETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "completed"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "failed"
+          }
+        },
+        "CANCELLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cancelled"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `completed` - completed\n* `failed` - failed\n* `cancelled` - cancelled"
+      }
+    },
+    "com.posthog.wizard#UpdateWizardRunsPartialRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "run_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.posthog.wizard#WizardRunStatusUpdateRequestStatusEnum",
+          "traits": {
+            "smithy.api#documentation": "New terminal status for the Wizard run.\n\n* `completed` - completed\n* `failed` - failed\n* `cancelled` - cancelled"
+          }
+        },
+        "error_code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Machine-readable reason the Wizard run failed.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.wizard#UpdateWizardRunsPartial": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.wizard#UpdateWizardRunsPartialRequest"
+      },
+      "output": {
+        "target": "com.posthog.wizard#WizardRun"
+      },
+      "errors": [
+        {
+          "target": "com.posthog.wizard#BadRequest"
+        },
+        {
+          "target": "com.posthog.wizard#Forbidden"
+        },
+        {
+          "target": "com.posthog.wizard#NotFound"
+        },
+        {
+          "target": "com.posthog.wizard#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/projects/{project_id}/wizard/runs/{run_id}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Change the terminal status of a local Wizard run."
+      }
+    },
+    "com.posthog.wizard#ListWizardRunsArtifactsRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "run_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "Number of results to return per page."
+          }
+        },
+        "offset": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "offset",
+            "smithy.api#documentation": "The initial index from which to return the results."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.wizard#PaginatedWizardRunArtifactList": {
+      "type": "structure",
+      "members": {
+        "count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "next": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "previous": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "results": {
+          "target": "com.posthog.wizard#PaginatedWizardRunArtifactListResultsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.wizard#WizardRunArtifact": {
+      "type": "union",
+      "members": {
+        "WizardRunGitDiffArtifact": {
+          "target": "com.posthog.wizard#WizardRunGitDiffArtifact"
+        },
+        "WizardRunPullRequestArtifact": {
+          "target": "com.posthog.wizard#WizardRunPullRequestArtifact"
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.wizard#WizardRunGitDiffArtifact": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique ID of the run artifact.",
+            "smithy.api#required": {}
+          }
+        },
+        "team_id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Project that owns the run artifact.",
+            "smithy.api#required": {}
+          }
+        },
+        "run_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Wizard run that produced the artifact.",
+            "smithy.api#required": {}
+          }
+        },
+        "artifact_type": {
+          "target": "com.posthog.wizard#WizardRunGitDiffArtifactArtifactTypeEnum",
+          "traits": {
+            "smithy.api#documentation": "Format of the changes produced by the run.\n\n* `git_diff` - git_diff",
+            "smithy.api#required": {}
+          }
+        },
+        "size_bytes": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Stored artifact size in bytes.",
+            "smithy.api#required": {}
+          }
+        },
+        "content_hash": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "SHA-256 hash of the stored artifact content.",
+            "smithy.api#required": {}
+          }
+        },
+        "additions": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of added lines in the diff.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "removals": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of removed lines in the diff.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Time when the artifact was stored.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.wizard#WizardRunGitDiffArtifactArtifactTypeEnum": {
+      "type": "enum",
+      "members": {
+        "GIT_DIFF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "git_diff"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `git_diff` - git_diff"
+      }
+    },
+    "com.posthog.wizard#WizardRunPullRequestArtifact": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique ID of the run artifact.",
+            "smithy.api#required": {}
+          }
+        },
+        "team_id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Project that owns the run artifact.",
+            "smithy.api#required": {}
+          }
+        },
+        "run_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Wizard run that produced the artifact.",
+            "smithy.api#required": {}
+          }
+        },
+        "artifact_type": {
+          "target": "com.posthog.wizard#WizardRunPullRequestArtifactArtifactTypeEnum",
+          "traits": {
+            "smithy.api#documentation": "Format of the changes produced by the run.\n\n* `pull_request` - pull_request",
+            "smithy.api#required": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "GitHub URL of the pull request.",
+            "smithy.api#required": {}
+          }
+        },
+        "number": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Repository-local pull request number.",
+            "smithy.api#required": {}
+          }
+        },
+        "repository": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "GitHub repository in owner/name format.",
+            "smithy.api#required": {}
+          }
+        },
+        "head_branch": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Branch containing the setup agent's changes.",
+            "smithy.api#required": {}
+          }
+        },
+        "base_branch": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Branch that the pull request targets.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Time when the artifact was stored.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.wizard#WizardRunPullRequestArtifactArtifactTypeEnum": {
+      "type": "enum",
+      "members": {
+        "PULL_REQUEST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pull_request"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `pull_request` - pull_request"
+      }
+    },
+    "com.posthog.wizard#PaginatedWizardRunArtifactListResultsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.wizard#WizardRunArtifact"
+      },
+      "traits": {}
+    },
+    "com.posthog.wizard#ListWizardRunsArtifacts": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.wizard#ListWizardRunsArtifactsRequest"
+      },
+      "output": {
+        "target": "com.posthog.wizard#PaginatedWizardRunArtifactList"
+      },
+      "errors": [
+        {
+          "target": "com.posthog.wizard#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/wizard/runs/{run_id}/artifacts/",
+          "code": 200
+        },
+        "smithy.api#documentation": "List metadata for artifacts produced by a Wizard run."
+      }
+    },
+    "com.posthog.wizard#GetWizardRunsArtifactsContentRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "run_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.wizard#GetWizardRunsArtifactsContent": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.wizard#GetWizardRunsArtifactsContentRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.posthog.wizard#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/wizard/runs/{run_id}/artifacts/{id}/content/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get the unified git diff stored for a Wizard run artifact."
+      }
+    },
+    "com.posthog.wizard#GetWizardRunsStreamRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "run_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.wizard#GetWizardRunsStream": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.wizard#GetWizardRunsStreamRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/wizard/runs/{run_id}/stream/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Stream the current run state and subsequent updates. Use EventSource to consume this endpoint."
+      }
+    },
+    "com.posthog.wizard#GetWizardRunsTaskRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "run_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.wizard#WizardRunTaskList": {
+      "type": "structure",
+      "members": {
+        "tasks": {
+          "target": "com.posthog.wizard#WizardRunTaskListTasksList",
+          "traits": {
+            "smithy.api#documentation": "Complete task list in snapshot order.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.wizard#WizardRunTask": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Task name, unique within this run.",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.posthog.wizard#WizardTaskStatusEnum",
+          "traits": {
+            "smithy.api#documentation": "Current task status reported by the setup agent.\n\n* `created` - created\n* `running` - running\n* `completed` - completed\n* `failed` - failed",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the server first received this task.",
+            "smithy.api#required": {}
+          }
+        },
+        "started_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the server first observed this task running.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "completed_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the server first observed this task completed.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "failed_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the server first observed this task failed.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "error_message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Task failure explanation, or null when none is available.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.wizard#WizardTaskStatusEnum": {
+      "type": "enum",
+      "members": {
+        "CREATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created"
+          }
+        },
+        "RUNNING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "running"
+          }
+        },
+        "COMPLETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "completed"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "failed"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `created` - created\n* `running` - running\n* `completed` - completed\n* `failed` - failed"
+      }
+    },
+    "com.posthog.wizard#WizardRunTaskListTasksList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.wizard#WizardRunTask"
+      },
+      "traits": {
+        "smithy.api#documentation": "Complete task list in snapshot order."
+      }
+    },
+    "com.posthog.wizard#GetWizardRunsTask": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.wizard#GetWizardRunsTaskRequest"
+      },
+      "output": {
+        "target": "com.posthog.wizard#WizardRunTaskList"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/wizard/runs/{run_id}/tasks/",
+          "code": 200
+        },
+        "smithy.api#documentation": "API endpoints for managing Wizard run tasks. Access is scoped to the Wizard only.\n\nThe Wizard should be the only client that can update the tasks of a run."
+      }
+    },
+    "com.posthog.wizard#UpdateWizardRunTask": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Task name, unique within this run and stable across snapshots.",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.posthog.wizard#WizardTaskStatusEnum",
+          "traits": {
+            "smithy.api#documentation": "Current task status reported by the setup agent.\n\n* `created` - created\n* `running` - running\n* `completed` - completed\n* `failed` - failed",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.wizard#UpdateWizardRunsTaskRequestTasksList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.wizard#UpdateWizardRunTask"
+      },
+      "traits": {
+        "smithy.api#documentation": "Complete task snapshot. An empty list clears the run's tasks."
+      }
+    },
+    "com.posthog.wizard#UpdateWizardRunsTaskRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "run_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "tasks": {
+          "target": "com.posthog.wizard#UpdateWizardRunsTaskRequestTasksList",
+          "traits": {
+            "smithy.api#documentation": "Complete task snapshot. An empty list clears the run's tasks.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.wizard#UpdateWizardRunsTask": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.wizard#UpdateWizardRunsTaskRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/api/projects/{project_id}/wizard/runs/{run_id}/tasks/",
+          "code": 200
+        },
+        "smithy.api#documentation": "API endpoints for managing Wizard run tasks. Access is scoped to the Wizard only.\n\nThe Wizard should be the only client that can update the tasks of a run."
+      }
+    },
+    "com.posthog.wizard#ListWizardSessionsRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "Maximum number of sessions to return."
+          }
+        },
+        "offset": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "offset",
+            "smithy.api#documentation": "Number of sessions to skip."
+          }
         },
         "skill_id": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "skill_id",
-            "smithy.api#documentation": "Filter to a single skill within the workflow (e.g. 'nextjs')."
+            "smithy.api#documentation": "Return sessions for this skill only."
           }
         },
         "workflow_id": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "workflow_id",
-            "smithy.api#documentation": "Filter to a single workflow (e.g. 'onboarding')."
+            "smithy.api#documentation": "Return sessions for this workflow only."
           }
         }
       },
@@ -162,7 +1613,7 @@
         "handoff_text": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Markdown handoff doc the wizard produced for this run (its setup report), or null while the run hasn't written one. Sticky once set.",
+            "smithy.api#documentation": "Markdown handoff doc the wizard produced for this run (its setup report), or null while the run hasn't written one.",
             "smithy.api#required": {},
             "com.distilled.openapi#nullable": {}
           }
@@ -170,7 +1621,7 @@
         "created_by": {
           "target": "com.posthog.wizard#WizardSessionUserDTO",
           "traits": {
-            "smithy.api#documentation": "The user who initiated this wizard run (null for runs created before attribution existed). Lets the UI name whose run it is.",
+            "smithy.api#documentation": "The user who initiated this wizard run (null for runs created before attribution existed).",
             "smithy.api#required": {},
             "com.distilled.openapi#nullable": {}
           }
@@ -613,7 +2064,7 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "skill_id",
-            "smithy.api#documentation": "Filter to a single skill within the workflow (e.g. 'nextjs')."
+            "smithy.api#documentation": "Optional skill within the workflow."
           }
         },
         "workflow_id": {
@@ -621,7 +2072,7 @@
           "traits": {
             "smithy.api#httpQuery": "workflow_id",
             "smithy.api#required": {},
-            "smithy.api#documentation": "Filter to a single workflow (e.g. 'posthog-integration')."
+            "smithy.api#documentation": "Workflow to inspect."
           }
         }
       },
@@ -660,14 +2111,16 @@
         "skill_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#httpQuery": "skill_id"
+            "smithy.api#httpQuery": "skill_id",
+            "smithy.api#documentation": "Optional skill within the workflow."
           }
         },
         "workflow_id": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "workflow_id",
-            "smithy.api#required": {}
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Workflow to inspect."
           }
         }
       },
@@ -690,6 +2143,19 @@
           "code": 200
         },
         "smithy.api#documentation": "Server-Sent Events stream of wizard session updates for a (workflow_id, skill_id) pair. On connect, the current latest session (if any) is emitted as the first event; subsequent upserts are streamed in real time. The server closes the connection after 900 seconds with an `event: end` line so the client (EventSource) can reconnect.\n\n**SDK consumers**: do not call the generated fetch wrapper for this path — it will buffer the entire infinite stream. Use the URL builder (`getWizardSessionsStreamRetrieveUrl`) with the browser's `EventSource` API instead."
+      }
+    },
+    "com.posthog.wizard#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
       }
     },
     "com.posthog.wizard#Forbidden": {
@@ -718,10 +2184,53 @@
         ]
       }
     },
+    "com.posthog.wizard#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
     "com.posthog.wizard#Wizard": {
       "type": "service",
       "version": "1.0.0",
       "operations": [
+        {
+          "target": "com.posthog.wizard#ListWizardRegistry"
+        },
+        {
+          "target": "com.posthog.wizard#ListWizardRuns"
+        },
+        {
+          "target": "com.posthog.wizard#CreateWizardRun"
+        },
+        {
+          "target": "com.posthog.wizard#GetWizardRun"
+        },
+        {
+          "target": "com.posthog.wizard#UpdateWizardRunsPartial"
+        },
+        {
+          "target": "com.posthog.wizard#ListWizardRunsArtifacts"
+        },
+        {
+          "target": "com.posthog.wizard#GetWizardRunsArtifactsContent"
+        },
+        {
+          "target": "com.posthog.wizard#GetWizardRunsStream"
+        },
+        {
+          "target": "com.posthog.wizard#GetWizardRunsTask"
+        },
+        {
+          "target": "com.posthog.wizard#UpdateWizardRunsTask"
+        },
         {
           "target": "com.posthog.wizard#ListWizardSessions"
         },

@@ -3866,7 +3866,7 @@
         "region": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Name of the AWS availability zone."
+            "smithy.api#documentation": "AWS region containing the source S3 bucket."
           }
         },
         "secretAccessKey": {
@@ -5968,7 +5968,7 @@
           "uri": "/accounts/{account_id}/r2/buckets",
           "code": 200
         },
-        "smithy.api#documentation": "Creates a new R2 bucket."
+        "smithy.api#documentation": "Creates an R2 bucket in the account and selected jurisdiction, with an optional location hint and default storage class."
       },
       "errors": [
         {
@@ -5988,7 +5988,7 @@
         "account_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Account ID.",
+            "smithy.api#documentation": "Cloudflare account ID that owns the R2 resource.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -6015,7 +6015,6 @@
         "jurisdiction": {
           "target": "com.cloudflare.r2#BucketsCreateRequestCfR2Jurisdiction",
           "traits": {
-            "smithy.api#documentation": "Jurisdiction where objects in this bucket are guaranteed to be stored.",
             "smithy.api#httpHeader": "cf-r2-jurisdiction"
           }
         }
@@ -6097,7 +6096,7 @@
         "account_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Account ID.",
+            "smithy.api#documentation": "Cloudflare account ID that owns the R2 resource.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -6146,7 +6145,6 @@
         "jurisdiction": {
           "target": "com.cloudflare.r2#BucketsDomainsCustomCreateRequestCfR2Jurisdiction",
           "traits": {
-            "smithy.api#documentation": "Jurisdiction where objects in this bucket are guaranteed to be stored.",
             "smithy.api#httpHeader": "cf-r2-jurisdiction"
           }
         }
@@ -6278,7 +6276,7 @@
         "account_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Account ID.",
+            "smithy.api#documentation": "Cloudflare account ID that owns the R2 resource.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -6293,7 +6291,7 @@
         "parentAccessKeyId": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The parent access key id to use for signing.",
+            "smithy.api#documentation": "Access key ID of the parent R2 API token. The temporary credentials cannot exceed this token's permissions.",
             "smithy.api#required": {}
           }
         },
@@ -6307,7 +6305,7 @@
         "ttlSeconds": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "How long the credentials will live for in seconds.",
+            "smithy.api#documentation": "Lifetime of the temporary credentials in seconds, up to 604800 seconds (7 days).",
             "smithy.api#required": {}
           }
         },
@@ -6369,7 +6367,7 @@
           "uri": "/accounts/{account_id}/r2/buckets/{bucket_name}",
           "code": 200
         },
-        "smithy.api#documentation": "Deletes an existing R2 bucket.",
+        "smithy.api#documentation": "Deletes an empty R2 bucket and its configuration. The bucket must have no objects, no in-progress multipart uploads, and no event notification rules; otherwise the request fails.",
         "smithy.api#idempotent": {}
       },
       "errors": [
@@ -6393,7 +6391,7 @@
         "account_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Account ID.",
+            "smithy.api#documentation": "Cloudflare account ID that owns the R2 resource.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -6409,7 +6407,6 @@
         "jurisdiction": {
           "target": "com.cloudflare.r2#BucketsDeleteRequestCfR2Jurisdiction",
           "traits": {
-            "smithy.api#documentation": "Jurisdiction where objects in this bucket are guaranteed to be stored.",
             "smithy.api#httpHeader": "cf-r2-jurisdiction"
           }
         }
@@ -6465,7 +6462,7 @@
         "account_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Account ID.",
+            "smithy.api#documentation": "Cloudflare account ID that owns the R2 resource.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -6481,7 +6478,6 @@
         "jurisdiction": {
           "target": "com.cloudflare.r2#BucketsCorsDeleteRequestCfR2Jurisdiction",
           "traits": {
-            "smithy.api#documentation": "Jurisdiction where objects in this bucket are guaranteed to be stored.",
             "smithy.api#httpHeader": "cf-r2-jurisdiction"
           }
         }
@@ -6519,7 +6515,7 @@
           "uri": "/accounts/{account_id}/r2/buckets/{bucket_name}/domains/custom/{domain}",
           "code": 200
         },
-        "smithy.api#documentation": "Remove custom domain registration from an existing R2 bucket.",
+        "smithy.api#documentation": "Disconnects a custom domain from an R2 bucket and removes its configuration. Access through other enabled custom domains or the bucket's r2.dev domain is unaffected.",
         "smithy.api#idempotent": {}
       },
       "errors": [
@@ -6537,7 +6533,7 @@
         "account_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Account ID.",
+            "smithy.api#documentation": "Cloudflare account ID that owns the R2 resource.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -6561,7 +6557,6 @@
         "jurisdiction": {
           "target": "com.cloudflare.r2#BucketsDomainsCustomDeleteRequestCfR2Jurisdiction",
           "traits": {
-            "smithy.api#documentation": "Jurisdiction where objects in this bucket are guaranteed to be stored.",
             "smithy.api#httpHeader": "cf-r2-jurisdiction"
           }
         }
@@ -6600,7 +6595,7 @@
           "uri": "/accounts/{account_id}/event_notifications/r2/{bucket_name}/configuration/queues/{queue_id}",
           "code": 200
         },
-        "smithy.api#documentation": "Delete an event notification rule. **If no body is provided, all rules for specified queue will be deleted**.",
+        "smithy.api#documentation": "Deletes the specified event notification rules for an R2 bucket and Cloudflare Queue. Provide ruleIds in the request body to select rules. If no body is provided, all rules for that bucket and queue are deleted.",
         "smithy.api#idempotent": {}
       },
       "errors": [
@@ -6624,7 +6619,7 @@
         "account_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Account ID.",
+            "smithy.api#documentation": "Cloudflare account ID that owns the R2 resource.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -6640,7 +6635,7 @@
         "queue_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Queue ID.",
+            "smithy.api#documentation": "ID of the Cloudflare Queue that receives notifications for matching R2 object events.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -6648,7 +6643,6 @@
         "jurisdiction": {
           "target": "com.cloudflare.r2#BucketsEventNotificationsDeleteRequestCfR2Jurisdiction",
           "traits": {
-            "smithy.api#documentation": "Jurisdiction where objects in this bucket are guaranteed to be stored.",
             "smithy.api#httpHeader": "cf-r2-jurisdiction"
           }
         }
@@ -6704,7 +6698,7 @@
         "account_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Account ID.",
+            "smithy.api#documentation": "Cloudflare account ID that owns the R2 resource.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -6720,7 +6714,6 @@
         "cf_r2_jurisdiction": {
           "target": "com.cloudflare.r2#BucketsObjectsDeleteRequestCfR2Jurisdiction",
           "traits": {
-            "smithy.api#documentation": "Jurisdiction where objects in this bucket are guaranteed to be stored.",
             "smithy.api#httpHeader": "cf-r2-jurisdiction"
           }
         },
@@ -6766,7 +6759,7 @@
           "uri": "/accounts/{account_id}/r2/buckets/{bucket_name}/sippy",
           "code": 200
         },
-        "smithy.api#documentation": "Disables Sippy on this bucket.",
+        "smithy.api#documentation": "Disables Sippy on-demand migration for an R2 bucket. Requests no longer fetch missing objects from the source storage provider. Objects already copied to R2 remain in the bucket.",
         "smithy.api#idempotent": {}
       },
       "errors": [
@@ -6784,7 +6777,7 @@
         "account_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Account ID.",
+            "smithy.api#documentation": "Cloudflare account ID that owns the R2 resource.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -6800,7 +6793,6 @@
         "jurisdiction": {
           "target": "com.cloudflare.r2#BucketsSippyDeleteRequestCfR2Jurisdiction",
           "traits": {
-            "smithy.api#documentation": "Jurisdiction where objects in this bucket are guaranteed to be stored.",
             "smithy.api#httpHeader": "cf-r2-jurisdiction"
           }
         }
@@ -6853,7 +6845,7 @@
         "account_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Account ID.",
+            "smithy.api#documentation": "Cloudflare account ID that owns the R2 resource.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -6869,7 +6861,6 @@
         "jurisdiction": {
           "target": "com.cloudflare.r2#BucketsGetRequestCfR2Jurisdiction",
           "traits": {
-            "smithy.api#documentation": "Jurisdiction where objects in this bucket are guaranteed to be stored.",
             "smithy.api#httpHeader": "cf-r2-jurisdiction"
           }
         }
@@ -6952,7 +6943,7 @@
         "account_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Account ID.",
+            "smithy.api#documentation": "Cloudflare account ID that owns the R2 resource.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -6968,7 +6959,6 @@
         "jurisdiction": {
           "target": "com.cloudflare.r2#BucketsCorsGetRequestCfR2Jurisdiction",
           "traits": {
-            "smithy.api#documentation": "Jurisdiction where objects in this bucket are guaranteed to be stored.",
             "smithy.api#httpHeader": "cf-r2-jurisdiction"
           }
         }
@@ -7024,7 +7014,7 @@
         "account_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Account ID.",
+            "smithy.api#documentation": "Cloudflare account ID that owns the R2 resource.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -7048,7 +7038,6 @@
         "jurisdiction": {
           "target": "com.cloudflare.r2#BucketsDomainsCustomGetRequestCfR2Jurisdiction",
           "traits": {
-            "smithy.api#documentation": "Jurisdiction where objects in this bucket are guaranteed to be stored.",
             "smithy.api#httpHeader": "cf-r2-jurisdiction"
           }
         }
@@ -7124,7 +7113,7 @@
           "uri": "/accounts/{account_id}/event_notifications/r2/{bucket_name}/configuration/queues/{queue_id}",
           "code": 200
         },
-        "smithy.api#documentation": "Get a single event notification rule.",
+        "smithy.api#documentation": "Gets the event notification rules for the specified R2 bucket and Cloudflare Queue. The response includes the queue's configuration and its array of rules.",
         "smithy.api#readonly": {}
       },
       "errors": [
@@ -7154,7 +7143,7 @@
         "account_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Account ID.",
+            "smithy.api#documentation": "Cloudflare account ID that owns the R2 resource.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -7170,7 +7159,7 @@
         "queue_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Queue ID.",
+            "smithy.api#documentation": "ID of the Cloudflare Queue that receives notifications for matching R2 object events.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -7178,7 +7167,6 @@
         "jurisdiction": {
           "target": "com.cloudflare.r2#BucketsEventNotificationsGetRequestCfR2Jurisdiction",
           "traits": {
-            "smithy.api#documentation": "Jurisdiction where objects in this bucket are guaranteed to be stored.",
             "smithy.api#httpHeader": "cf-r2-jurisdiction"
           }
         }
@@ -7243,7 +7231,7 @@
         "account_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Account ID.",
+            "smithy.api#documentation": "Cloudflare account ID that owns the R2 resource.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -7259,7 +7247,6 @@
         "jurisdiction": {
           "target": "com.cloudflare.r2#BucketsLifecycleGetRequestCfR2Jurisdiction",
           "traits": {
-            "smithy.api#documentation": "Jurisdiction where objects in this bucket are guaranteed to be stored.",
             "smithy.api#httpHeader": "cf-r2-jurisdiction"
           }
         }
@@ -7312,7 +7299,7 @@
         "account_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Account ID.",
+            "smithy.api#documentation": "Cloudflare account ID that owns the R2 resource.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -7328,7 +7315,6 @@
         "jurisdiction": {
           "target": "com.cloudflare.r2#BucketsLocksGetRequestCfR2Jurisdiction",
           "traits": {
-            "smithy.api#documentation": "Jurisdiction where objects in this bucket are guaranteed to be stored.",
             "smithy.api#httpHeader": "cf-r2-jurisdiction"
           }
         }
@@ -7384,7 +7370,7 @@
         "account_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Account ID.",
+            "smithy.api#documentation": "Cloudflare account ID that owns the R2 resource.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -7400,7 +7386,6 @@
         "cf_r2_jurisdiction": {
           "target": "com.cloudflare.r2#BucketsObjectsGetRequestCfR2Jurisdiction",
           "traits": {
-            "smithy.api#documentation": "Jurisdiction where objects in this bucket are guaranteed to be stored.",
             "smithy.api#httpHeader": "cf-r2-jurisdiction"
           }
         },
@@ -7466,7 +7451,7 @@
         "account_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Account ID.",
+            "smithy.api#documentation": "Cloudflare account ID that owns the R2 resource.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -7482,7 +7467,6 @@
         "jurisdiction": {
           "target": "com.cloudflare.r2#BucketsSippyGetRequestCfR2Jurisdiction",
           "traits": {
-            "smithy.api#documentation": "Jurisdiction where objects in this bucket are guaranteed to be stored.",
             "smithy.api#httpHeader": "cf-r2-jurisdiction"
           }
         }
@@ -7625,7 +7609,7 @@
         "account_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Account ID.",
+            "smithy.api#documentation": "Cloudflare account ID that owns the R2 resource.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -7641,7 +7625,6 @@
         "jurisdiction": {
           "target": "com.cloudflare.r2#BucketsDomainsCustomListRequestCfR2Jurisdiction",
           "traits": {
-            "smithy.api#documentation": "Jurisdiction where objects in this bucket are guaranteed to be stored.",
             "smithy.api#httpHeader": "cf-r2-jurisdiction"
           }
         }
@@ -7679,7 +7662,7 @@
           "uri": "/accounts/{account_id}/r2/buckets/{bucket_name}/domains/managed",
           "code": 200
         },
-        "smithy.api#documentation": "Gets state of public access over the bucket's R2-managed (r2.dev) domain.",
+        "smithy.api#documentation": "Gets the R2 bucket's managed r2.dev domain and whether public access is enabled. The r2.dev domain is rate-limited and intended for development use.",
         "smithy.api#readonly": {}
       },
       "errors": [
@@ -7697,7 +7680,7 @@
         "account_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Account ID.",
+            "smithy.api#documentation": "Cloudflare account ID that owns the R2 resource.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -7713,7 +7696,6 @@
         "jurisdiction": {
           "target": "com.cloudflare.r2#BucketsDomainsManagedListRequestCfR2Jurisdiction",
           "traits": {
-            "smithy.api#documentation": "Jurisdiction where objects in this bucket are guaranteed to be stored.",
             "smithy.api#httpHeader": "cf-r2-jurisdiction"
           }
         }
@@ -7766,7 +7748,7 @@
           "uri": "/accounts/{account_id}/event_notifications/r2/{bucket_name}/configuration",
           "code": 200
         },
-        "smithy.api#documentation": "List all event notification rules for a bucket.",
+        "smithy.api#documentation": "Lists event notification rules for an R2 bucket, grouped by the Cloudflare Queue that receives matching object events.",
         "smithy.api#readonly": {}
       },
       "errors": [
@@ -7790,7 +7772,7 @@
         "account_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Account ID.",
+            "smithy.api#documentation": "Cloudflare account ID that owns the R2 resource.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -7806,7 +7788,6 @@
         "jurisdiction": {
           "target": "com.cloudflare.r2#BucketsEventNotificationsListRequestCfR2Jurisdiction",
           "traits": {
-            "smithy.api#documentation": "Jurisdiction where objects in this bucket are guaranteed to be stored.",
             "smithy.api#httpHeader": "cf-r2-jurisdiction"
           }
         }
@@ -7865,7 +7846,7 @@
         "account_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Account ID.",
+            "smithy.api#documentation": "Cloudflare account ID that owns the R2 resource.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -7932,7 +7913,7 @@
         "account_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Account ID.",
+            "smithy.api#documentation": "Cloudflare account ID that owns the R2 resource.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -7983,7 +7964,6 @@
         "cf_r2_jurisdiction": {
           "target": "com.cloudflare.r2#BucketsObjectsListRequestCfR2Jurisdiction",
           "traits": {
-            "smithy.api#documentation": "Jurisdiction where objects in this bucket are guaranteed to be stored.",
             "smithy.api#httpHeader": "cf-r2-jurisdiction"
           }
         }
@@ -8021,7 +8001,7 @@
           "uri": "/accounts/{account_id}/r2/buckets",
           "code": 200
         },
-        "smithy.api#documentation": "Lists all R2 buckets on your account.",
+        "smithy.api#documentation": "Lists a page of R2 buckets in the account and selected jurisdiction. Use the returned cursor to retrieve the next page.",
         "smithy.api#readonly": {}
       },
       "errors": [
@@ -8036,7 +8016,7 @@
         "account_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Account ID.",
+            "smithy.api#documentation": "Cloudflare account ID that owns the R2 resource.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -8086,7 +8066,6 @@
         "jurisdiction": {
           "target": "com.cloudflare.r2#BucketsListRequestCfR2Jurisdiction",
           "traits": {
-            "smithy.api#documentation": "Jurisdiction where objects in this bucket are guaranteed to be stored.",
             "smithy.api#httpHeader": "cf-r2-jurisdiction"
           }
         }
@@ -8256,7 +8235,7 @@
           "uri": "/accounts/{account_id}/r2/buckets/{bucket_name}",
           "code": 200
         },
-        "smithy.api#documentation": "Updates properties of an existing R2 bucket."
+        "smithy.api#documentation": "Changes the default storage class for newly uploaded objects in an existing R2 bucket. Existing objects retain their storage class, and individual uploads can override the bucket default."
       },
       "errors": [
         {
@@ -8273,7 +8252,7 @@
         "account_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Account ID.",
+            "smithy.api#documentation": "Cloudflare account ID that owns the R2 resource.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -8297,7 +8276,6 @@
         "jurisdiction": {
           "target": "com.cloudflare.r2#BucketsEditRequestCfR2Jurisdiction",
           "traits": {
-            "smithy.api#documentation": "Jurisdiction where objects in this bucket are guaranteed to be stored.",
             "smithy.api#httpHeader": "cf-r2-jurisdiction"
           }
         }
@@ -8489,7 +8467,7 @@
           "uri": "/accounts/{account_id}/r2/buckets/{bucket_name}/cors",
           "code": 200
         },
-        "smithy.api#documentation": "Set the CORS policy for a bucket.",
+        "smithy.api#documentation": "Replaces the Cross-Origin Resource Sharing (CORS) rules for an R2 bucket. Rules specify which origins, methods, and headers are allowed for browser requests to objects in the bucket.",
         "smithy.api#idempotent": {}
       },
       "errors": [
@@ -8507,7 +8485,7 @@
         "account_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Account ID.",
+            "smithy.api#documentation": "Cloudflare account ID that owns the R2 resource.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -8526,7 +8504,6 @@
         "jurisdiction": {
           "target": "com.cloudflare.r2#BucketsCorsUpdateRequestCfR2Jurisdiction",
           "traits": {
-            "smithy.api#documentation": "Jurisdiction where objects in this bucket are guaranteed to be stored.",
             "smithy.api#httpHeader": "cf-r2-jurisdiction"
           }
         }
@@ -8564,7 +8541,7 @@
           "uri": "/accounts/{account_id}/r2/buckets/{bucket_name}/domains/managed",
           "code": 200
         },
-        "smithy.api#documentation": "Updates state of public access over the bucket's R2-managed (r2.dev) domain.",
+        "smithy.api#documentation": "Enables or disables public access to the R2 bucket through its managed r2.dev domain. Custom domain access is unaffected. The r2.dev domain is rate-limited and intended for development use.",
         "smithy.api#idempotent": {}
       },
       "errors": [
@@ -8582,7 +8559,7 @@
         "account_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Account ID.",
+            "smithy.api#documentation": "Cloudflare account ID that owns the R2 resource.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -8605,7 +8582,6 @@
         "jurisdiction": {
           "target": "com.cloudflare.r2#BucketsDomainsManagedUpdateRequestCfR2Jurisdiction",
           "traits": {
-            "smithy.api#documentation": "Jurisdiction where objects in this bucket are guaranteed to be stored.",
             "smithy.api#httpHeader": "cf-r2-jurisdiction"
           }
         }
@@ -8658,7 +8634,7 @@
           "uri": "/accounts/{account_id}/event_notifications/r2/{bucket_name}/configuration/queues/{queue_id}",
           "code": 200
         },
-        "smithy.api#documentation": "Create event notification rule.",
+        "smithy.api#documentation": "Creates rules that send notifications for matching R2 object events to the specified Cloudflare Queue. Rules can filter objects by key prefix and suffix. New rules are added to any existing rules for the queue; a rule that overlaps an existing rule is rejected.",
         "smithy.api#idempotent": {}
       },
       "errors": [
@@ -8685,7 +8661,7 @@
         "account_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Account ID.",
+            "smithy.api#documentation": "Cloudflare account ID that owns the R2 resource.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -8701,7 +8677,7 @@
         "queue_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Queue ID.",
+            "smithy.api#documentation": "ID of the Cloudflare Queue that receives notifications for matching R2 object events.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -8716,7 +8692,6 @@
         "jurisdiction": {
           "target": "com.cloudflare.r2#BucketsEventNotificationsUpdateRequestCfR2Jurisdiction",
           "traits": {
-            "smithy.api#documentation": "Jurisdiction where objects in this bucket are guaranteed to be stored.",
             "smithy.api#httpHeader": "cf-r2-jurisdiction"
           }
         }
@@ -8754,7 +8729,7 @@
           "uri": "/accounts/{account_id}/r2/buckets/{bucket_name}/lifecycle",
           "code": 200
         },
-        "smithy.api#documentation": "Set the object lifecycle rules for a bucket.",
+        "smithy.api#documentation": "Replaces the object lifecycle rules for an R2 bucket. Rules match object-key prefixes and can expire objects, abort incomplete multipart uploads, or transition objects to Infrequent Access storage.",
         "smithy.api#idempotent": {}
       },
       "errors": [
@@ -8772,7 +8747,7 @@
         "account_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Account ID.",
+            "smithy.api#documentation": "Cloudflare account ID that owns the R2 resource.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -8791,7 +8766,6 @@
         "jurisdiction": {
           "target": "com.cloudflare.r2#BucketsLifecycleUpdateRequestCfR2Jurisdiction",
           "traits": {
-            "smithy.api#documentation": "Jurisdiction where objects in this bucket are guaranteed to be stored.",
             "smithy.api#httpHeader": "cf-r2-jurisdiction"
           }
         }
@@ -8829,7 +8803,7 @@
           "uri": "/accounts/{account_id}/r2/buckets/{bucket_name}/lock",
           "code": 200
         },
-        "smithy.api#documentation": "Set lock rules for a bucket.",
+        "smithy.api#documentation": "Replaces the lock rules for an R2 bucket. Enabled rules prevent matching objects from being overwritten or deleted for a duration, until a date, or indefinitely. Rules apply to existing and newly uploaded objects.",
         "smithy.api#idempotent": {}
       },
       "errors": [
@@ -8847,7 +8821,7 @@
         "account_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Account ID.",
+            "smithy.api#documentation": "Cloudflare account ID that owns the R2 resource.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -8866,7 +8840,6 @@
         "jurisdiction": {
           "target": "com.cloudflare.r2#BucketsLocksUpdateRequestCfR2Jurisdiction",
           "traits": {
-            "smithy.api#documentation": "Jurisdiction where objects in this bucket are guaranteed to be stored.",
             "smithy.api#httpHeader": "cf-r2-jurisdiction"
           }
         }
@@ -8904,7 +8877,7 @@
           "uri": "/accounts/{account_id}/r2/buckets/{bucket_name}/sippy",
           "code": 200
         },
-        "smithy.api#documentation": "Sets configuration for Sippy for an existing R2 bucket.",
+        "smithy.api#documentation": "Configures and enables Sippy on-demand migration for an R2 bucket. When a requested object is missing from R2, Sippy serves it from the configured source storage provider and copies it to R2.",
         "smithy.api#idempotent": {}
       },
       "errors": [
@@ -8922,7 +8895,7 @@
         "account_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Account ID.",
+            "smithy.api#documentation": "Cloudflare account ID that owns the R2 resource.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -8950,7 +8923,6 @@
         "jurisdiction": {
           "target": "com.cloudflare.r2#BucketsSippyUpdateRequestCfR2Jurisdiction",
           "traits": {
-            "smithy.api#documentation": "Jurisdiction where objects in this bucket are guaranteed to be stored.",
             "smithy.api#httpHeader": "cf-r2-jurisdiction"
           }
         }
@@ -9222,7 +9194,7 @@
         "account_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Account ID.",
+            "smithy.api#documentation": "Cloudflare account ID that owns the R2 resource.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -9264,7 +9236,6 @@
         "jurisdiction": {
           "target": "com.cloudflare.r2#BucketsDomainsCustomUpdateRequestCfR2Jurisdiction",
           "traits": {
-            "smithy.api#documentation": "Jurisdiction where objects in this bucket are guaranteed to be stored.",
             "smithy.api#httpHeader": "cf-r2-jurisdiction"
           }
         }
@@ -9337,7 +9308,7 @@
         "account_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Account ID.",
+            "smithy.api#documentation": "Cloudflare account ID that owns the R2 resource.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -9353,7 +9324,6 @@
         "cf_r2_jurisdiction": {
           "target": "com.cloudflare.r2#BucketsObjectsUploadRequestCfR2Jurisdiction",
           "traits": {
-            "smithy.api#documentation": "Jurisdiction where objects in this bucket are guaranteed to be stored.",
             "smithy.api#httpHeader": "cf-r2-jurisdiction"
           }
         },

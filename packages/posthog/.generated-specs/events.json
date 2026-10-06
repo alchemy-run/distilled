@@ -903,6 +903,13 @@
         }
       }
     },
+    "com.posthog.events#GetEventsValueRequestEventNameList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
     "com.posthog.events#GetEventsValueRequestFormat": {
       "type": "enum",
       "members": {
@@ -932,15 +939,92 @@
             "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
           }
         },
+        "event_name": {
+          "target": "com.posthog.events#GetEventsValueRequestEventNameList",
+          "traits": {
+            "smithy.api#httpQuery": "event_name",
+            "smithy.api#documentation": "Only read values from events with these names. Repeat to pass several. Required with a personal API key. Projects that read values from the precomputed property values table ignore this filter."
+          }
+        },
         "format": {
           "target": "com.posthog.events#GetEventsValueRequestFormat",
           "traits": {
             "smithy.api#httpQuery": "format"
           }
+        },
+        "is_column": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "is_column",
+            "smithy.api#documentation": "Read 'key' as an events table column, not a property."
+          }
+        },
+        "key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "key",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The property to list values for."
+          }
+        },
+        "value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "value",
+            "smithy.api#documentation": "Only return values that contain this text, ignoring case."
+          }
         }
       },
       "traits": {
         "smithy.api#input": {}
+      }
+    },
+    "com.posthog.events#EventPropertyValuesResponse": {
+      "type": "structure",
+      "members": {
+        "results": {
+          "target": "com.posthog.events#EventPropertyValuesResponseResultsList",
+          "traits": {
+            "smithy.api#documentation": "Values of the property that match the request.",
+            "smithy.api#required": {}
+          }
+        },
+        "refreshing": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "True when these results come from a stale cache and a refresh runs in the background.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.events#EventPropertyValue": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A value of the property, always as a string. Booleans come back as 'true' or 'false', and objects and lists as JSON.",
+            "smithy.api#required": {}
+          }
+        },
+        "count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "How many times the value occurs, when the lookup counts values."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.events#EventPropertyValuesResponseResultsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.events#EventPropertyValue"
+      },
+      "traits": {
+        "smithy.api#documentation": "Values of the property that match the request."
       }
     },
     "com.posthog.events#GetEventsValue": {
@@ -949,7 +1033,7 @@
         "target": "com.posthog.events#GetEventsValueRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.posthog.events#EventPropertyValuesResponse"
       },
       "errors": [
         {
@@ -967,7 +1051,8 @@
           "method": "GET",
           "uri": "/api/projects/{project_id}/events/values/",
           "code": 200
-        }
+        },
+        "smithy.api#documentation": "List values of an event property from recent events."
       }
     },
     "com.posthog.events#BadRequest": {

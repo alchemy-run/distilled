@@ -107,6 +107,13 @@
           "traits": {
             "smithy.api#documentation": "Whether only one user can hold this relationship per account at a time, e.g. a single CSM per account."
           }
+        },
+        "is_controlled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether customer analytics can take control of this relationship per account. Rows under a controlled relationship can't be deleted. On an account where control has started, only a person can change the relationship and an empty relationship is a deliberate decision. Set by project operators, not through this API.",
+            "smithy.api#required": {}
+          }
         }
       },
       "traits": {

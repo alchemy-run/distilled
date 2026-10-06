@@ -32,10 +32,9 @@ export {
   DEFAULT_ERRORS,
   API_ERRORS,
 } from "@distilled.cloud/core/errors";
-import type { DefaultErrors as CoreDefaultErrors } from "@distilled.cloud/core/errors";
-
-import * as Schema from "effect/Schema";
 import * as Category from "@distilled.cloud/core/category";
+import type { DefaultErrors as CoreDefaultErrors } from "@distilled.cloud/core/errors";
+import * as Schema from "effect/Schema";
 
 /**
  * HTTP 402 — the call is well-formed but the money isn't there: an ad
@@ -47,12 +46,9 @@ import * as Category from "@distilled.cloud/core/category";
  * class in their service module (from the spec's per-operation error list);
  * this is the one the protocol's status map falls back to everywhere else.
  */
-export class PaymentRequired extends Schema.TaggedError<PaymentRequired>()(
-  "PaymentRequired",
-  {
-    message: Schema.String,
-  },
-).pipe(Category.withBadRequestError) {}
+export class PaymentRequired extends Schema.TaggedError<PaymentRequired>()("PaymentRequired", {
+  message: Schema.String,
+}).pipe(Category.withBadRequestError) {}
 
 /**
  * Unknown Whop error — returned when a failed response's HTTP status has no
@@ -60,23 +56,17 @@ export class PaymentRequired extends Schema.TaggedError<PaymentRequired>()(
  * machine-parsable half of Whop's error object) and `body` the raw payload,
  * so an unmapped status is still actionable.
  */
-export class UnknownWhopError extends Schema.TaggedError<UnknownWhopError>()(
-  "UnknownWhopError",
-  {
-    code: Schema.optional(Schema.String),
-    message: Schema.optional(Schema.String),
-    body: Schema.Unknown,
-  },
-).pipe(Category.withServerError) {}
+export class UnknownWhopError extends Schema.TaggedError<UnknownWhopError>()("UnknownWhopError", {
+  code: Schema.optional(Schema.String),
+  message: Schema.optional(Schema.String),
+  body: Schema.Unknown,
+}).pipe(Category.withServerError) {}
 
 /** Schema parse error wrapper. */
-export class WhopParseError extends Schema.TaggedError<WhopParseError>()(
-  "WhopParseError",
-  {
-    body: Schema.Unknown,
-    cause: Schema.Unknown,
-  },
-).pipe(Category.withParseError) {}
+export class WhopParseError extends Schema.TaggedError<WhopParseError>()("WhopParseError", {
+  body: Schema.Unknown,
+  cause: Schema.Unknown,
+}).pipe(Category.withParseError) {}
 
 /**
  * Errors any Whop operation may surface in addition to the per-operation

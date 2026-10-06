@@ -49,6 +49,7 @@ DISTILLED_SPECS_LOCAL=1 pnpm generate forgejo
 ## Usage
 
 ```ts
+import * as Redacted from "effect/Redacted";
 import * as Forgejo from "@distilled.cloud/forgejo";
 
 const program = Effect.gen(function* () {
@@ -61,7 +62,7 @@ const program = Effect.gen(function* () {
   Effect.provide(
     Forgejo.credentials({
       baseUrl: "https://git.example.com",
-      token: process.env.FORGEJO_TOKEN!,
+      token: Redacted.make(process.env.FORGEJO_TOKEN!),
     }),
   ),
 );

@@ -46,7 +46,7 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "filters",
-            "smithy.api#documentation": "Filters to process on the container list, encoded as JSON (a\n`map[string][]string`). For example, `{\"status\": [\"paused\"]}` will\nonly return paused containers.\n\nAvailable filters:\n\n- `ancestor`=(`<image-name>[:<tag>]`, `<image id>`, or `<image@digest>`)\n- `before`=(`<container id>` or `<container name>`)\n- `expose`=(`<port>[/<proto>]`|`<startport-endport>/[<proto>]`)\n- `exited=<int>` containers with exit code of `<int>`\n- `health`=(`starting`|`healthy`|`unhealthy`|`none`)\n- `id=<ID>` a container's ID\n- `isolation=`(`default`|`process`|`hyperv`) (Windows daemon only)\n- `is-task=`(`true`|`false`)\n- `label=key` or `label=\"key=value\"` of a container label\n- `name=<name>` a container's name\n- `network`=(`<network id>` or `<network name>`)\n- `publish`=(`<port>[/<proto>]`|`<startport-endport>/[<proto>]`)\n- `since`=(`<container id>` or `<container name>`)\n- `status=`(`created`|`restarting`|`running`|`removing`|`paused`|`exited`|`dead`)\n- `volume`=(`<volume name>` or `<mount point destination>`)\n"
+            "smithy.api#documentation": "Filters to process on the container list, encoded as JSON (a\n`map[string][]string`). For example, `{\"status\": [\"paused\"]}` will\nonly return paused containers.\n\nAvailable filters:\n\n- `ancestor`=(`<image-name>[:<tag>]`, `<image id>`, or `<image@digest>`)\n- `annotation=key` or `annotation=\"key=value\"` of a container annotation\n- `before`=(`<container id>` or `<container name>`)\n- `expose`=(`<port>[/<proto>]`|`<startport-endport>/[<proto>]`)\n- `exited=<int>` containers with exit code of `<int>`\n- `health`=(`starting`|`healthy`|`unhealthy`|`none`)\n- `id=<ID>` a container's ID\n- `isolation=`(`default`|`process`|`hyperv`) (Windows daemon only)\n- `is-task=`(`true`|`false`)\n- `label=key` or `label=\"key=value\"` of a container label\n- `name=<name>` a container's name\n- `network`=(`<network id>` or `<network name>`)\n- `publish`=(`<port>[/<proto>]`|`<startport-endport>/[<proto>]`)\n- `since`=(`<container id>` or `<container name>`)\n- `status=`(`created`|`restarting`|`running`|`removing`|`paused`|`exited`|`dead`)\n- `volume`=(`<volume name>` or `<mount point destination>`)\n"
           }
         }
       },
@@ -1380,6 +1380,13 @@
             "com.distilled.openapi#nullable": {}
           }
         },
+        "Umask": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Set the initial umask for a Unix container.\n\nIf omitted, the daemon does not set a umask in the OCI process\nspecification, and the runtime's default behavior applies.\n\nJSON integers are decimal. For example, use `18` for the octal\numask `0022`, and `511` for the octal umask `0777`.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
         "Isolation": {
           "target": "com.docker.engine#HostConfigIsolation",
           "traits": {
@@ -1737,7 +1744,10 @@
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "com.docker.engine#PortMapValueList"
+        "target": "com.docker.engine#PortMapValueList",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "PortMap describes the mapping of container ports to host ports, using the\ncontainer's port-number and protocol as key in the format `<port>/<protocol>`,\nfor example, `80/udp`.\n\nIf a container's port is mapped for multiple protocols, separate entries\nare added to the mapping table.\n"
@@ -3002,7 +3012,10 @@
     "com.docker.engine#HealthLogList": {
       "type": "list",
       "member": {
-        "target": "com.docker.engine#HealthcheckResult"
+        "target": "com.docker.engine#HealthcheckResult",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "Log contains the last few results (oldest first)\n"
@@ -4029,7 +4042,10 @@
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "smithy.api#Integer"
+        "target": "smithy.api#Integer",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "All the stats exported via memory.stat.\n\nThe fields in this object differ between cgroups v1 and v2.\nOn cgroups v1, fields such as `cache`, `rss`, `mapped_file` are available.\nOn cgroups v2, fields such as `file`, `anon`, `inactive_file` are available.\n\nThis field is Linux-specific and omitted for Windows containers.\n"
@@ -4111,7 +4127,10 @@
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "com.docker.engine#ContainerNetworkStats"
+        "target": "com.docker.engine#ContainerNetworkStats",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "Network statistics for the container per interface.\n\nThis field is omitted if the container has no networking enabled.\n"
@@ -4222,14 +4241,20 @@
     "com.docker.engine#ContainerBlkioStatsIoServiceBytesRecursiveList": {
       "type": "list",
       "member": {
-        "target": "com.docker.engine#ContainerBlkioStatEntry"
+        "target": "com.docker.engine#ContainerBlkioStatEntry",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
     "com.docker.engine#ContainerBlkioStatsIoServicedRecursiveList": {
       "type": "list",
       "member": {
-        "target": "com.docker.engine#ContainerBlkioStatEntry"
+        "target": "com.docker.engine#ContainerBlkioStatEntry",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "This field is only available when using Linux containers with\ncgroups v1. It is omitted or `null` when using cgroups v2.\n"
@@ -4238,7 +4263,10 @@
     "com.docker.engine#ContainerBlkioStatsIoQueueRecursiveList": {
       "type": "list",
       "member": {
-        "target": "com.docker.engine#ContainerBlkioStatEntry"
+        "target": "com.docker.engine#ContainerBlkioStatEntry",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "This field is only available when using Linux containers with\ncgroups v1. It is omitted or `null` when using cgroups v2.\n"
@@ -4247,7 +4275,10 @@
     "com.docker.engine#ContainerBlkioStatsIoServiceTimeRecursiveList": {
       "type": "list",
       "member": {
-        "target": "com.docker.engine#ContainerBlkioStatEntry"
+        "target": "com.docker.engine#ContainerBlkioStatEntry",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "This field is only available when using Linux containers with\ncgroups v1. It is omitted or `null` when using cgroups v2.\n"
@@ -4256,7 +4287,10 @@
     "com.docker.engine#ContainerBlkioStatsIoWaitTimeRecursiveList": {
       "type": "list",
       "member": {
-        "target": "com.docker.engine#ContainerBlkioStatEntry"
+        "target": "com.docker.engine#ContainerBlkioStatEntry",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "This field is only available when using Linux containers with\ncgroups v1. It is omitted or `null` when using cgroups v2.\n"
@@ -4265,7 +4299,10 @@
     "com.docker.engine#ContainerBlkioStatsIoMergedRecursiveList": {
       "type": "list",
       "member": {
-        "target": "com.docker.engine#ContainerBlkioStatEntry"
+        "target": "com.docker.engine#ContainerBlkioStatEntry",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "This field is only available when using Linux containers with\ncgroups v1. It is omitted or `null` when using cgroups v2.\n"
@@ -4274,7 +4311,10 @@
     "com.docker.engine#ContainerBlkioStatsIoTimeRecursiveList": {
       "type": "list",
       "member": {
-        "target": "com.docker.engine#ContainerBlkioStatEntry"
+        "target": "com.docker.engine#ContainerBlkioStatEntry",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "This field is only available when using Linux containers with\ncgroups v1. It is omitted or `null` when using cgroups v2.\n"
@@ -4283,7 +4323,10 @@
     "com.docker.engine#ContainerBlkioStatsSectorsRecursiveList": {
       "type": "list",
       "member": {
-        "target": "com.docker.engine#ContainerBlkioStatEntry"
+        "target": "com.docker.engine#ContainerBlkioStatEntry",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "This field is only available when using Linux containers with\ncgroups v1. It is omitted or `null` when using cgroups v2.\n"
@@ -6716,7 +6759,7 @@
           "target": "com.docker.engine#CreateImageRequestChangesList",
           "traits": {
             "smithy.api#httpQuery": "changes",
-            "smithy.api#documentation": "Apply `Dockerfile` instructions to the image that is created,\nfor example: `changes=ENV DEBUG=true`.\nNote that `ENV DEBUG=true` should be URI component encoded.\n\nSupported `Dockerfile` instructions:\n`CMD`|`ENTRYPOINT`|`ENV`|`EXPOSE`|`ONBUILD`|`USER`|`VOLUME`|`WORKDIR`\n"
+            "smithy.api#documentation": "Apply `Dockerfile` instructions to the image that is created,\nfor example: `changes=ENV DEBUG=true`.\nNote that `ENV DEBUG=true` should be URI component encoded.\nRepeat the parameter to apply multiple instructions.\n\nSupported `Dockerfile` instructions:\n`CMD`|`ENTRYPOINT`|`ENV`|`EXPOSE`|`ONBUILD`|`USER`|`VOLUME`|`WORKDIR`\n"
           }
         },
         "platform": {
@@ -7572,7 +7615,7 @@
           "target": "com.docker.engine#DeleteImageRequestPlatformsList",
           "traits": {
             "smithy.api#httpQuery": "platforms",
-            "smithy.api#documentation": "Select platform-specific content to delete.\nMultiple values are accepted.\nEach platform is a OCI platform encoded as a JSON string.\n"
+            "smithy.api#documentation": "Select platform-specific content to delete.\nRepeat the parameter to select multiple platforms.\nEach platform is a OCI platform encoded as a JSON string.\n"
           }
         }
       },
@@ -8426,7 +8469,10 @@
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "com.docker.engine#IndexInfo"
+        "target": "com.docker.engine#IndexInfo",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -10422,7 +10468,7 @@
           "target": "com.docker.engine#ImageGetAllRequestNamesList",
           "traits": {
             "smithy.api#httpQuery": "names",
-            "smithy.api#documentation": "Image names to filter by"
+            "smithy.api#documentation": "Image names to filter by. Repeat the parameter for multiple images."
           }
         },
         "platform": {
@@ -16038,7 +16084,7 @@
             "smithy.api#documentation": "Amount of time to wait for the container to terminate before\nforcefully killing it.\n"
           }
         },
-        "HealthCheck": {
+        "Healthcheck": {
           "target": "com.docker.engine#HealthConfig"
         },
         "Hosts": {
@@ -18356,7 +18402,7 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "filters",
-            "smithy.api#documentation": "A JSON encoded value of the filters (a `map[string][]string`) to\nprocess on the secrets list.\n\nAvailable filters:\n\n- `id=<secret id>`\n- `label=<key> or label=<key>=value`\n- `name=<secret name>`\n- `names=<secret name>`\n"
+            "smithy.api#documentation": "A JSON encoded value of the filters (a `map[string][]string`) to\nprocess on the secrets list.\n\nAvailable filters:\n\n- `id=<secret id>`\n- `label=<key> or label=<key>=value`\n- `name=<secret name>` matches all or part of a secret name (prefix match)\n- `names=<secret name>` matches a secret name (exact match)\n"
           }
         }
       },
@@ -18751,7 +18797,7 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "filters",
-            "smithy.api#documentation": "A JSON encoded value of the filters (a `map[string][]string`) to\nprocess on the configs list.\n\nAvailable filters:\n\n- `id=<config id>`\n- `label=<key> or label=<key>=value`\n- `name=<config name>`\n- `names=<config name>`\n"
+            "smithy.api#documentation": "A JSON encoded value of the filters (a `map[string][]string`) to\nprocess on the configs list.\n\nAvailable filters:\n\n- `id=<config id>`\n- `label=<key> or label=<key>=value`\n- `name=<config name>` matches all or part of a config name (prefix match)\n"
           }
         }
       },
@@ -19128,7 +19174,10 @@
     "com.docker.engine#DistributionInspectPlatformsList": {
       "type": "list",
       "member": {
-        "target": "com.docker.engine#OCIPlatform"
+        "target": "com.docker.engine#OCIPlatform",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "An array containing all platforms supported by the image.\n"

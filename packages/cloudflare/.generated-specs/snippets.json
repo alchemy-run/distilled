@@ -70,6 +70,159 @@
         }
       }
     },
+    "com.cloudflare.snippets#RulesDeleteResultItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Specify the unique ID of the rule.",
+            "smithy.api#required": {}
+          }
+        },
+        "expression": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Define the expression that determines which traffic matches the rule.",
+            "smithy.api#required": {}
+          }
+        },
+        "last_updated": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Specify the timestamp of when the rule was last modified.",
+            "smithy.api#required": {}
+          }
+        },
+        "snippet_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identify the snippet.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Provide an informative description of the rule."
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Indicate whether to execute the rule."
+          }
+        }
+      }
+    },
+    "com.cloudflare.snippets#RulesDeleteResultList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.snippets#RulesDeleteResultItem"
+      }
+    },
+    "com.cloudflare.snippets#RulesGetResultItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Specify the unique ID of the rule.",
+            "smithy.api#required": {}
+          }
+        },
+        "expression": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Define the expression that determines which traffic matches the rule.",
+            "smithy.api#required": {}
+          }
+        },
+        "last_updated": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Specify the timestamp of when the rule was last modified.",
+            "smithy.api#required": {}
+          }
+        },
+        "snippet_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identify the snippet.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Provide an informative description of the rule."
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Indicate whether to execute the rule."
+          }
+        }
+      }
+    },
+    "com.cloudflare.snippets#RulesGetResultList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.snippets#RulesGetResultItem"
+      }
+    },
+    "com.cloudflare.snippets#RulesListResultItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Specify the unique ID of the rule.",
+            "smithy.api#required": {}
+          }
+        },
+        "expression": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Define the expression that determines which traffic matches the rule.",
+            "smithy.api#required": {}
+          }
+        },
+        "last_updated": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Specify the timestamp of when the rule was last modified.",
+            "smithy.api#required": {}
+          }
+        },
+        "snippet_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identify the snippet.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Provide an informative description of the rule."
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Indicate whether to execute the rule."
+          }
+        }
+      }
+    },
+    "com.cloudflare.snippets#RulesListResultList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.snippets#RulesListResultItem"
+      }
+    },
     "com.cloudflare.snippets#RulesUpdateRequestRulesItem": {
       "type": "structure",
       "members": {
@@ -105,6 +258,57 @@
       "type": "list",
       "member": {
         "target": "com.cloudflare.snippets#RulesUpdateRequestRulesItem"
+      }
+    },
+    "com.cloudflare.snippets#RulesUpdateResultItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Specify the unique ID of the rule.",
+            "smithy.api#required": {}
+          }
+        },
+        "expression": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Define the expression that determines which traffic matches the rule.",
+            "smithy.api#required": {}
+          }
+        },
+        "last_updated": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Specify the timestamp of when the rule was last modified.",
+            "smithy.api#required": {}
+          }
+        },
+        "snippet_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identify the snippet.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Provide an informative description of the rule."
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Indicate whether to execute the rule."
+          }
+        }
+      }
+    },
+    "com.cloudflare.snippets#RulesUpdateResultList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.snippets#RulesUpdateResultItem"
       }
     },
     "com.cloudflare.snippets#Snippets": {
@@ -282,7 +486,7 @@
       "type": "structure",
       "members": {
         "result": {
-          "target": "smithy.api#Document",
+          "target": "com.cloudflare.snippets#RulesDeleteResultList",
           "traits": {
             "com.cloudflare.protocols#envelopePayload": {},
             "smithy.api#documentation": "The unwrapped `result` payload of the v4 response envelope."
@@ -522,7 +726,7 @@
       "type": "structure",
       "members": {
         "result": {
-          "target": "smithy.api#Document",
+          "target": "com.cloudflare.snippets#RulesGetResultList",
           "traits": {
             "com.cloudflare.protocols#envelopePayload": {},
             "smithy.api#documentation": "The unwrapped `result` payload of the v4 response envelope."
@@ -653,7 +857,7 @@
       "type": "structure",
       "members": {
         "result": {
-          "target": "smithy.api#Document",
+          "target": "com.cloudflare.snippets#RulesUpdateResultList",
           "traits": {
             "com.cloudflare.protocols#envelopePayload": {},
             "smithy.api#documentation": "The unwrapped `result` payload of the v4 response envelope."

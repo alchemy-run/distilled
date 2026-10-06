@@ -1,3 +1,4 @@
+import { ConfigError } from "@distilled.cloud/core/errors";
 /**
  * Plaid credentials — hand-written.
  *
@@ -10,7 +11,6 @@ import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { ConfigError } from "@distilled.cloud/core/errors";
 
 export const DEFAULT_API_BASE_URL = "https://sandbox.plaid.com";
 export const DEFAULT_PLAID_VERSION = "2020-09-14";
@@ -28,10 +28,9 @@ export interface Config {
   readonly apiBaseUrl: string;
 }
 
-export class Credentials extends Context.Service<
-  Credentials,
-  Effect.Effect<Config>
->()("PlaidCredentials") {}
+export class Credentials extends Context.Service<Credentials, Effect.Effect<Config>>()(
+  "PlaidCredentials",
+) {}
 
 const resolveBaseUrl = (config: {
   readonly apiBaseUrl?: string;
@@ -47,7 +46,7 @@ const resolveBaseUrl = (config: {
 /** Layer from a client id + secret + optional version/base URL/env. */
 export const fromApiKey = (config: {
   readonly clientId: string;
-  readonly secret: string;
+  readonly secret: Redacted.Redacted<string>;
   readonly plaidVersion?: string;
   readonly apiBaseUrl?: string;
   readonly env?: string;
@@ -56,7 +55,7 @@ export const fromApiKey = (config: {
     Credentials,
     Effect.succeed({
       clientId: config.clientId,
-      secret: Redacted.make(config.secret),
+      secret: config.secret,
       plaidVersion: config.plaidVersion ?? DEFAULT_PLAID_VERSION,
       apiBaseUrl: resolveBaseUrl(config),
     }),
@@ -71,8 +70,7 @@ export const CredentialsFromEnv: Layer.Layer<Credentials> = Layer.succeed(
 
     if (!clientId || !secret) {
       return yield* new ConfigError({
-        message:
-          "PLAID_CLIENT_ID and PLAID_SECRET environment variables are required",
+        message: "PLAID_CLIENT_ID and PLAID_SECRET environment variables are required",
       });
     }
 

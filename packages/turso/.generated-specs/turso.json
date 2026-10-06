@@ -2500,6 +2500,12 @@
           "traits": {
             "smithy.api#documentation": "The external platform this organization is managed by. Will be empty for Turso managed organizations."
           }
+        },
+        "restore_enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether deleted database and group recovery is enabled for the organization. Returned when retrieving a single organization."
+          }
         }
       },
       "traits": {}
@@ -2633,6 +2639,12 @@
           "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#documentation": "Require all members of the organization to have multi-factor authentication enabled. The requesting user must have MFA enabled on their own account before enabling this requirement."
+          }
+        },
+        "restore_enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Enable or disable deleted database and group recovery for the organization. Must be updated separately from other organization settings. Requires an admin or owner."
           }
         }
       },
@@ -4816,6 +4828,473 @@
         "smithy.api#documentation": "Get Current User\n\nReturns information about the currently authenticated user."
       }
     },
+    "com.turso.api#ListDeletedDatabasesRequest": {
+      "type": "structure",
+      "members": {
+        "organizationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The UUID of the organization. Retrieve it with the Retrieve Organization endpoint (the `id` field)."
+          }
+        },
+        "deleted": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "deleted",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Must be `true` to list deleted databases."
+          }
+        },
+        "search": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "search",
+            "smithy.api#documentation": "Filter deleted databases by name."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "Page size, from 1 to 1000."
+          }
+        },
+        "cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "cursor",
+            "smithy.api#documentation": "Opaque pagination cursor from the previous page's `pagination.next`."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.turso.api#DeletedDatabase": {
+      "type": "structure",
+      "members": {
+        "Name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The database name."
+          }
+        },
+        "DbId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The database UUID. Use it to restore the database."
+          }
+        },
+        "Hostname": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The DNS hostname the database had, used for client and HTTP connections."
+          }
+        },
+        "group": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the group the database belonged to."
+          }
+        },
+        "group_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The UUID of the group the database belonged to."
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The UUID of the organization."
+          }
+        },
+        "regions": {
+          "target": "com.turso.api#DeletedDatabaseRegionsList",
+          "traits": {
+            "smithy.api#documentation": "The regions the database was located in."
+          }
+        },
+        "primaryRegion": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The primary region of the database."
+          }
+        },
+        "delete_protection": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether delete protection was enabled for the database."
+          }
+        },
+        "deleted_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the database was deleted."
+          }
+        },
+        "group_deleted_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Set when the database's group was deleted with it. Restoring the database also restores the group."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.turso.api#DeletedDatabaseRegionsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The regions the database was located in."
+      }
+    },
+    "com.turso.api#ListDeletedDatabasesResponseDatabasesList": {
+      "type": "list",
+      "member": {
+        "target": "com.turso.api#DeletedDatabase"
+      },
+      "traits": {}
+    },
+    "com.turso.api#Pagination": {
+      "type": "structure",
+      "members": {
+        "next": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Opaque cursor for the next page. Pass it back as the `cursor` query parameter. Absent on the last page."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.turso.api#ListDeletedDatabasesResponse": {
+      "type": "structure",
+      "members": {
+        "databases": {
+          "target": "com.turso.api#ListDeletedDatabasesResponseDatabasesList"
+        },
+        "pagination": {
+          "target": "com.turso.api#Pagination"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.turso.api#ListDeletedDatabases": {
+      "type": "operation",
+      "input": {
+        "target": "com.turso.api#ListDeletedDatabasesRequest"
+      },
+      "output": {
+        "target": "com.turso.api#ListDeletedDatabasesResponse"
+      },
+      "errors": [
+        {
+          "target": "com.turso.api#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v3/organizations/{organizationId}/databases",
+          "code": 200
+        },
+        "smithy.api#documentation": "List Deleted Databases\n\nReturns databases deleted within the last five days, which can still be restored. Requires a paid plan. Available even while recovery is disabled for the organization.",
+        "smithy.api#paginated": {
+          "mode": "cursor",
+          "inputToken": "cursor",
+          "outputToken": "pagination.next",
+          "items": "databases"
+        }
+      }
+    },
+    "com.turso.api#RestoreDatabaseRequest": {
+      "type": "structure",
+      "members": {
+        "organizationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The UUID of the organization. Retrieve it with the Retrieve Organization endpoint (the `id` field)."
+          }
+        },
+        "databaseId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The UUID of the database, as returned when listing deleted databases (the `DbId` field)."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional new name for the restored database. If omitted, the original name is reused. The hostname is re-derived from the name."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.turso.api#RestoreDatabaseResponse": {
+      "type": "structure",
+      "members": {
+        "database": {
+          "target": "com.turso.api#DeletedDatabase",
+          "traits": {
+            "smithy.api#documentation": "The restored database."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.turso.api#RestoreDatabase": {
+      "type": "operation",
+      "input": {
+        "target": "com.turso.api#RestoreDatabaseRequest"
+      },
+      "output": {
+        "target": "com.turso.api#RestoreDatabaseResponse"
+      },
+      "errors": [
+        {
+          "target": "com.turso.api#BadRequest"
+        },
+        {
+          "target": "com.turso.api#Forbidden"
+        },
+        {
+          "target": "com.turso.api#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v3/organizations/{organizationId}/databases/{databaseId}/restore",
+          "code": 200
+        },
+        "smithy.api#documentation": "Restore Database\n\nRestore a database deleted within the last five days, exactly as it was at the moment it was deleted. Requires a paid plan, an admin or owner of the organization, and recovery enabled for the organization."
+      }
+    },
+    "com.turso.api#ListDeletedGroupsRequest": {
+      "type": "structure",
+      "members": {
+        "organizationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The UUID of the organization. Retrieve it with the Retrieve Organization endpoint (the `id` field)."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "Page size, from 1 to 1000."
+          }
+        },
+        "cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "cursor",
+            "smithy.api#documentation": "Opaque pagination cursor from the previous page's `pagination.next`."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.turso.api#DeletedGroup": {
+      "type": "structure",
+      "members": {
+        "uuid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The group UUID. Use it to restore the group."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The group name."
+          }
+        },
+        "deleted_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the group was deleted."
+          }
+        },
+        "cascade_databases": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The number of member databases that restoring the group would bring back with it."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.turso.api#ListDeletedGroupsResponseGroupsList": {
+      "type": "list",
+      "member": {
+        "target": "com.turso.api#DeletedGroup"
+      },
+      "traits": {}
+    },
+    "com.turso.api#ListDeletedGroupsResponse": {
+      "type": "structure",
+      "members": {
+        "groups": {
+          "target": "com.turso.api#ListDeletedGroupsResponseGroupsList"
+        },
+        "pagination": {
+          "target": "com.turso.api#Pagination"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.turso.api#ListDeletedGroups": {
+      "type": "operation",
+      "input": {
+        "target": "com.turso.api#ListDeletedGroupsRequest"
+      },
+      "output": {
+        "target": "com.turso.api#ListDeletedGroupsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.turso.api#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v3/organizations/{organizationId}/deleted-groups",
+          "code": 200
+        },
+        "smithy.api#documentation": "List Deleted Groups\n\nReturns groups deleted within the last five days, including empty groups, which can still be restored. Requires a paid plan and an organization-level token. Available even while recovery is disabled for the organization.",
+        "smithy.api#paginated": {
+          "mode": "cursor",
+          "inputToken": "cursor",
+          "outputToken": "pagination.next",
+          "items": "groups"
+        }
+      }
+    },
+    "com.turso.api#RestoreGroupRequest": {
+      "type": "structure",
+      "members": {
+        "organizationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The UUID of the organization. Retrieve it with the Retrieve Organization endpoint (the `id` field)."
+          }
+        },
+        "groupId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The UUID of the group, as returned when listing deleted groups (the `uuid` field)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.turso.api#RestoreGroupResponseDatabasesList": {
+      "type": "list",
+      "member": {
+        "target": "com.turso.api#DeletedDatabase"
+      },
+      "traits": {
+        "smithy.api#documentation": "The member databases restored with the group, in restore order."
+      }
+    },
+    "com.turso.api#RestoreGroupResponseFailuresMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Maps database UUID to error message for members whose restore failed. Retry them individually with Restore Database."
+      }
+    },
+    "com.turso.api#RestoreGroupResponse": {
+      "type": "structure",
+      "members": {
+        "group": {
+          "target": "com.turso.api#Group",
+          "traits": {
+            "smithy.api#documentation": "The restored group."
+          }
+        },
+        "databases": {
+          "target": "com.turso.api#RestoreGroupResponseDatabasesList",
+          "traits": {
+            "smithy.api#documentation": "The member databases restored with the group, in restore order."
+          }
+        },
+        "failures": {
+          "target": "com.turso.api#RestoreGroupResponseFailuresMap",
+          "traits": {
+            "smithy.api#documentation": "Maps database UUID to error message for members whose restore failed. Retry them individually with Restore Database."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.turso.api#RestoreGroup": {
+      "type": "operation",
+      "input": {
+        "target": "com.turso.api#RestoreGroupRequest"
+      },
+      "output": {
+        "target": "com.turso.api#RestoreGroupResponse"
+      },
+      "errors": [
+        {
+          "target": "com.turso.api#BadRequest"
+        },
+        {
+          "target": "com.turso.api#Forbidden"
+        },
+        {
+          "target": "com.turso.api#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v3/organizations/{organizationId}/groups/{groupId}/restore",
+          "code": 200
+        },
+        "smithy.api#documentation": "Restore Group\n\nRestore a group deleted within the last five days, along with the member databases that were deleted with it. Requires a paid plan, an admin or owner of the organization, and recovery enabled for the organization. If some databases fail to restore, the group still becomes active: retry the failed database UUIDs individually with Restore Database."
+      }
+    },
     "com.turso.api#BadRequest": {
       "type": "structure",
       "members": {},
@@ -5018,6 +5497,18 @@
         },
         {
           "target": "com.turso.api#GetCurrentUser"
+        },
+        {
+          "target": "com.turso.api#ListDeletedDatabases"
+        },
+        {
+          "target": "com.turso.api#RestoreDatabase"
+        },
+        {
+          "target": "com.turso.api#ListDeletedGroups"
+        },
+        {
+          "target": "com.turso.api#RestoreGroup"
         }
       ],
       "traits": {

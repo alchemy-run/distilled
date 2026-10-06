@@ -1,12 +1,12 @@
-import * as HttpClient from "effect/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "Pinpoint SMS Voice V2",
   serviceShapeName: "PinpointSMSVoiceV2",
@@ -26,14 +26,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -56,13 +52,9 @@ const rules = T.EndpointResolver((p, _) => {
         }
         if (UseFIPS === true) {
           if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            return e(
-              `https://sms-voice-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
+            return e(`https://sms-voice-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -70,13 +62,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://sms-voice.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://sms-voice.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://sms-voice.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -84,48 +72,33 @@ const rules = T.EndpointResolver((p, _) => {
 });
 
 export class AccessDeniedException
-  extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
-    "AccessDeniedException",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      Reason: S.optional(S.String),
-    },
-  ).pipe(C.withAuthError) {}
+  extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()("AccessDeniedException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+    Reason: S.optional(S.String),
+  }).pipe(C.withAuthError) {}
 export class ConflictException
-  extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
-    "ConflictException",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      Reason: S.optional(S.String),
-      ResourceType: S.optional(S.String),
-      ResourceId: S.optional(S.String),
-    },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<ConflictException>()("ConflictException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+    Reason: S.optional(S.String),
+    ResourceType: S.optional(S.String),
+    ResourceId: S.optional(S.String),
+  }) {}
 export class InternalServerException
   extends /*@__PURE__*/ S.TaggedError<InternalServerException>()(
     "InternalServerException",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      RequestId: S.optional(S.String),
-    },
+    { message: S.optional(S.String).pipe(T.ErrorMessage()), RequestId: S.optional(S.String) },
     T.Retryable(),
   ).pipe(C.withRetryableError) {}
 export class ResourceNotFoundException
-  extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
-    "ResourceNotFoundException",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      ResourceType: S.optional(S.String),
-      ResourceId: S.optional(S.String),
-    },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()("ResourceNotFoundException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+    ResourceType: S.optional(S.String),
+    ResourceId: S.optional(S.String),
+  }) {}
 export class ServiceQuotaExceededException
   extends /*@__PURE__*/ S.TaggedError<ServiceQuotaExceededException>()(
     "ServiceQuotaExceededException",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      Reason: S.optional(S.String),
-    },
+    { message: S.optional(S.String).pipe(T.ErrorMessage()), Reason: S.optional(S.String) },
   ) {}
 export class ThrottlingException
   extends /*@__PURE__*/ S.TaggedError<ThrottlingException>()(
@@ -134,18 +107,15 @@ export class ThrottlingException
     T.Retryable({ throttling: true }),
   ).pipe(C.withRetryableError, C.withThrottlingError) {}
 export class ValidationException
-  extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
-    "ValidationException",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      Reason: S.optional(S.String),
-      Fields: S.optional(
-        S.suspend(() => ValidationExceptionFieldList).annotate({
-          identifier: "ValidationExceptionFieldList",
-        }),
-      ),
-    },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<ValidationException>()("ValidationException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+    Reason: S.optional(S.String),
+    Fields: S.optional(
+      S.suspend(() => ValidationExceptionFieldList).annotate({
+        identifier: "ValidationExceptionFieldList",
+      }),
+    ),
+  }) {}
 export type PoolIdOrArn = string;
 export type PhoneOrSenderIdOrArn = string;
 export type IsoCountryCode = string;
@@ -162,9 +132,7 @@ export const AssociateOriginationIdentityRequest = /*@__PURE__*/ S.suspend(() =>
     OriginationIdentity: S.String,
     IsoCountryCode: S.optional(S.String),
     ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "AssociateOriginationIdentityRequest",
 }) as any as S.Schema<AssociateOriginationIdentityRequest>;
@@ -192,14 +160,10 @@ export interface AssociateProtectConfigurationRequest {
   ProtectConfigurationId: string;
   ConfigurationSetName: string;
 }
-export const AssociateProtectConfigurationRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ProtectConfigurationId: S.String,
-      ConfigurationSetName: S.String,
-    }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
+export const AssociateProtectConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ ProtectConfigurationId: S.String, ConfigurationSetName: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "AssociateProtectConfigurationRequest",
 }) as any as S.Schema<AssociateProtectConfigurationRequest>;
@@ -225,14 +189,13 @@ export const AssociateProtectConfigurationResult = /*@__PURE__*/ S.suspend(() =>
 export type CarrierLookupInputPhoneNumberType = string;
 export interface CarrierLookupRequest {
   PhoneNumber: string;
+  EnableCleansing?: boolean;
 }
 export const CarrierLookupRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ PhoneNumber: S.String }).pipe(
+  S.Struct({ PhoneNumber: S.String, EnableCleansing: S.optional(S.Boolean) }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "CarrierLookupRequest",
-}) as any as S.Schema<CarrierLookupRequest>;
+).annotate({ identifier: "CarrierLookupRequest" }) as any as S.Schema<CarrierLookupRequest>;
 export type E164PhoneNumberType = string;
 export type DialingCountryCodeType = string;
 export type MCCType = string;
@@ -247,6 +210,7 @@ export interface CarrierLookupResult {
   MNC?: string;
   Carrier?: string;
   PhoneNumberType: string;
+  OriginalPhoneNumber?: string;
 }
 export const CarrierLookupResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -258,10 +222,9 @@ export const CarrierLookupResult = /*@__PURE__*/ S.suspend(() =>
     MNC: S.optional(S.String),
     Carrier: S.optional(S.String),
     PhoneNumberType: S.String,
+    OriginalPhoneNumber: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CarrierLookupResult",
-}) as any as S.Schema<CarrierLookupResult>;
+).annotate({ identifier: "CarrierLookupResult" }) as any as S.Schema<CarrierLookupResult>;
 export type TagKey = string;
 export type TagValue = string;
 export interface Tag {
@@ -283,9 +246,7 @@ export const CreateConfigurationSetRequest = /*@__PURE__*/ S.suspend(() =>
     ConfigurationSetName: S.String,
     Tags: S.optional(TagList),
     ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateConfigurationSetRequest",
 }) as any as S.Schema<CreateConfigurationSetRequest>;
@@ -300,9 +261,7 @@ export const CreateConfigurationSetResult = /*@__PURE__*/ S.suspend(() =>
     ConfigurationSetArn: S.optional(S.String),
     ConfigurationSetName: S.optional(S.String),
     Tags: S.optional(TagList),
-    CreatedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    CreatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({
   identifier: "CreateConfigurationSetResult",
@@ -357,9 +316,7 @@ export const CreateEventDestinationRequest = /*@__PURE__*/ S.suspend(() =>
     KinesisFirehoseDestination: S.optional(KinesisFirehoseDestination),
     SnsDestination: S.optional(SnsDestination),
     ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateEventDestinationRequest",
 }) as any as S.Schema<CreateEventDestinationRequest>;
@@ -380,9 +337,7 @@ export const EventDestination = /*@__PURE__*/ S.suspend(() =>
     KinesisFirehoseDestination: S.optional(KinesisFirehoseDestination),
     SnsDestination: S.optional(SnsDestination),
   }),
-).annotate({
-  identifier: "EventDestination",
-}) as any as S.Schema<EventDestination>;
+).annotate({ identifier: "EventDestination" }) as any as S.Schema<EventDestination>;
 export interface CreateEventDestinationResult {
   ConfigurationSetArn?: string;
   ConfigurationSetName?: string;
@@ -427,9 +382,7 @@ export const CreateNotifyConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
     DeletionProtectionEnabled: S.optional(S.Boolean),
     ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
     Tags: S.optional(TagList),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateNotifyConfigurationRequest",
 }) as any as S.Schema<CreateNotifyConfigurationRequest>;
@@ -487,12 +440,8 @@ export const CreateOptOutListRequest = /*@__PURE__*/ S.suspend(() =>
     OptOutListName: S.String,
     Tags: S.optional(TagList),
     ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "CreateOptOutListRequest",
-}) as any as S.Schema<CreateOptOutListRequest>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "CreateOptOutListRequest" }) as any as S.Schema<CreateOptOutListRequest>;
 export interface CreateOptOutListResult {
   OptOutListArn?: string;
   OptOutListName?: string;
@@ -504,13 +453,9 @@ export const CreateOptOutListResult = /*@__PURE__*/ S.suspend(() =>
     OptOutListArn: S.optional(S.String),
     OptOutListName: S.optional(S.String),
     Tags: S.optional(TagList),
-    CreatedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    CreatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
-).annotate({
-  identifier: "CreateOptOutListResult",
-}) as any as S.Schema<CreateOptOutListResult>;
+).annotate({ identifier: "CreateOptOutListResult" }) as any as S.Schema<CreateOptOutListResult>;
 export type MessageType = string;
 export interface CreatePoolRequest {
   OriginationIdentity: string;
@@ -528,12 +473,8 @@ export const CreatePoolRequest = /*@__PURE__*/ S.suspend(() =>
     DeletionProtectionEnabled: S.optional(S.Boolean),
     Tags: S.optional(TagList),
     ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "CreatePoolRequest",
-}) as any as S.Schema<CreatePoolRequest>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "CreatePoolRequest" }) as any as S.Schema<CreatePoolRequest>;
 export type PoolStatus = string;
 export type TwoWayChannelArn = string;
 export interface CreatePoolResult {
@@ -565,13 +506,9 @@ export const CreatePoolResult = /*@__PURE__*/ S.suspend(() =>
     SharedRoutesEnabled: S.optional(S.Boolean),
     DeletionProtectionEnabled: S.optional(S.Boolean),
     Tags: S.optional(TagList),
-    CreatedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    CreatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
-).annotate({
-  identifier: "CreatePoolResult",
-}) as any as S.Schema<CreatePoolResult>;
+).annotate({ identifier: "CreatePoolResult" }) as any as S.Schema<CreatePoolResult>;
 export interface CreateProtectConfigurationRequest {
   ClientToken?: string;
   DeletionProtectionEnabled?: boolean;
@@ -582,9 +519,7 @@ export const CreateProtectConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
     ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
     DeletionProtectionEnabled: S.optional(S.Boolean),
     Tags: S.optional(TagList),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateProtectConfigurationRequest",
 }) as any as S.Schema<CreateProtectConfigurationRequest>;
@@ -621,12 +556,8 @@ export const CreateRcsAgentRequest = /*@__PURE__*/ S.suspend(() =>
     OptOutListName: S.optional(S.String),
     Tags: S.optional(TagList),
     ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "CreateRcsAgentRequest",
-}) as any as S.Schema<CreateRcsAgentRequest>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "CreateRcsAgentRequest" }) as any as S.Schema<CreateRcsAgentRequest>;
 export type RcsAgentStatus = string;
 export type TwoWayMediaS3BucketName = string;
 export type TwoWayMediaS3KeyPrefix = string;
@@ -668,9 +599,7 @@ export const CreateRcsAgentResult = /*@__PURE__*/ S.suspend(() =>
     TwoWayRcsEventsEnabled: S.optional(RcsEventTypeList),
     Tags: S.optional(TagList),
   }),
-).annotate({
-  identifier: "CreateRcsAgentResult",
-}) as any as S.Schema<CreateRcsAgentResult>;
+).annotate({ identifier: "CreateRcsAgentResult" }) as any as S.Schema<CreateRcsAgentResult>;
 export type RegistrationType = string;
 export interface CreateRegistrationRequest {
   RegistrationType: string;
@@ -682,19 +611,14 @@ export const CreateRegistrationRequest = /*@__PURE__*/ S.suspend(() =>
     RegistrationType: S.String,
     Tags: S.optional(TagList),
     ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateRegistrationRequest",
 }) as any as S.Schema<CreateRegistrationRequest>;
 export type RegistrationStatus = string;
 export type RegistrationVersionNumber = number;
 export type StringMap = { [key: string]: string | undefined };
-export const StringMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const StringMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface CreateRegistrationResult {
   RegistrationArn: string;
   RegistrationId: string;
@@ -716,20 +640,17 @@ export const CreateRegistrationResult = /*@__PURE__*/ S.suspend(() =>
     Tags: S.optional(TagList),
     CreatedTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
   }),
-).annotate({
-  identifier: "CreateRegistrationResult",
-}) as any as S.Schema<CreateRegistrationResult>;
+).annotate({ identifier: "CreateRegistrationResult" }) as any as S.Schema<CreateRegistrationResult>;
 export type RegistrationIdOrArn = string;
 export type ResourceIdOrArn = string;
 export interface CreateRegistrationAssociationRequest {
   RegistrationId: string;
   ResourceId: string;
 }
-export const CreateRegistrationAssociationRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ RegistrationId: S.String, ResourceId: S.String }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
+export const CreateRegistrationAssociationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ RegistrationId: S.String, ResourceId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "CreateRegistrationAssociationRequest",
 }) as any as S.Schema<CreateRegistrationAssociationRequest>;
@@ -772,9 +693,7 @@ export const CreateRegistrationAttachmentRequest = /*@__PURE__*/ S.suspend(() =>
     AttachmentUrl: S.optional(S.String),
     Tags: S.optional(TagList),
     ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateRegistrationAttachmentRequest",
 }) as any as S.Schema<CreateRegistrationAttachmentRequest>;
@@ -823,33 +742,15 @@ export interface RegistrationVersionStatusHistory {
 export const RegistrationVersionStatusHistory = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     DraftTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    SubmittedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    AwsReviewingTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    ReviewingTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    RequiresAuthenticationTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    ApprovedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    DiscardedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    DeniedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    RevokedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    ArchivedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    SubmittedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    AwsReviewingTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    ReviewingTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    RequiresAuthenticationTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    ApprovedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    DiscardedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    DeniedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    RevokedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    ArchivedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({
   identifier: "RegistrationVersionStatusHistory",
@@ -879,16 +780,13 @@ export interface CreateVerifiedDestinationNumberRequest {
   Tags?: Tag[];
   ClientToken?: string;
 }
-export const CreateVerifiedDestinationNumberRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      DestinationPhoneNumber: S.String,
-      RcsAgentId: S.optional(S.String),
-      Tags: S.optional(TagList),
-      ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
+export const CreateVerifiedDestinationNumberRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    DestinationPhoneNumber: S.String,
+    RcsAgentId: S.optional(S.String),
+    Tags: S.optional(TagList),
+    ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateVerifiedDestinationNumberRequest",
 }) as any as S.Schema<CreateVerifiedDestinationNumberRequest>;
@@ -902,42 +800,34 @@ export interface CreateVerifiedDestinationNumberResult {
   Tags?: Tag[];
   CreatedTimestamp: Date;
 }
-export const CreateVerifiedDestinationNumberResult = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      VerifiedDestinationNumberArn: S.String,
-      VerifiedDestinationNumberId: S.String,
-      DestinationPhoneNumber: S.String,
-      Status: S.String,
-      RcsAgentId: S.optional(S.String),
-      Tags: S.optional(TagList),
-      CreatedTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    }),
+export const CreateVerifiedDestinationNumberResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    VerifiedDestinationNumberArn: S.String,
+    VerifiedDestinationNumberId: S.String,
+    DestinationPhoneNumber: S.String,
+    Status: S.String,
+    RcsAgentId: S.optional(S.String),
+    Tags: S.optional(TagList),
+    CreatedTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  }),
 ).annotate({
   identifier: "CreateVerifiedDestinationNumberResult",
 }) as any as S.Schema<CreateVerifiedDestinationNumberResult>;
 export interface DeleteAccountDefaultProtectConfigurationRequest {}
-export const DeleteAccountDefaultProtectConfigurationRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({}).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
-  ).annotate({
-    identifier: "DeleteAccountDefaultProtectConfigurationRequest",
-  }) as any as S.Schema<DeleteAccountDefaultProtectConfigurationRequest>;
+export const DeleteAccountDefaultProtectConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({
+  identifier: "DeleteAccountDefaultProtectConfigurationRequest",
+}) as any as S.Schema<DeleteAccountDefaultProtectConfigurationRequest>;
 export interface DeleteAccountDefaultProtectConfigurationResult {
   DefaultProtectConfigurationArn: string;
   DefaultProtectConfigurationId: string;
 }
-export const DeleteAccountDefaultProtectConfigurationResult =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      DefaultProtectConfigurationArn: S.String,
-      DefaultProtectConfigurationId: S.String,
-    }),
-  ).annotate({
-    identifier: "DeleteAccountDefaultProtectConfigurationResult",
-  }) as any as S.Schema<DeleteAccountDefaultProtectConfigurationResult>;
+export const DeleteAccountDefaultProtectConfigurationResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ DefaultProtectConfigurationArn: S.String, DefaultProtectConfigurationId: S.String }),
+).annotate({
+  identifier: "DeleteAccountDefaultProtectConfigurationResult",
+}) as any as S.Schema<DeleteAccountDefaultProtectConfigurationResult>;
 export interface DeleteConfigurationSetRequest {
   ConfigurationSetName: string;
 }
@@ -968,9 +858,7 @@ export const DeleteConfigurationSetResult = /*@__PURE__*/ S.suspend(() =>
     DefaultMessageType: S.optional(S.String),
     DefaultSenderId: S.optional(S.String),
     DefaultMessageFeedbackEnabled: S.optional(S.Boolean),
-    CreatedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    CreatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({
   identifier: "DeleteConfigurationSetResult",
@@ -1028,10 +916,7 @@ export interface DeleteEventDestinationRequest {
   EventDestinationName: string;
 }
 export const DeleteEventDestinationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ConfigurationSetName: S.String,
-    EventDestinationName: S.String,
-  }).pipe(
+  S.Struct({ ConfigurationSetName: S.String, EventDestinationName: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
@@ -1061,9 +946,7 @@ export const DeleteKeywordRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ OriginationIdentity: S.String, Keyword: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteKeywordRequest",
-}) as any as S.Schema<DeleteKeywordRequest>;
+).annotate({ identifier: "DeleteKeywordRequest" }) as any as S.Schema<DeleteKeywordRequest>;
 export type KeywordMessage = string;
 export type KeywordAction = string;
 export interface DeleteKeywordResult {
@@ -1081,28 +964,22 @@ export const DeleteKeywordResult = /*@__PURE__*/ S.suspend(() =>
     KeywordMessage: S.optional(S.String),
     KeywordAction: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DeleteKeywordResult",
-}) as any as S.Schema<DeleteKeywordResult>;
+).annotate({ identifier: "DeleteKeywordResult" }) as any as S.Schema<DeleteKeywordResult>;
 export interface DeleteMediaMessageSpendLimitOverrideRequest {}
-export const DeleteMediaMessageSpendLimitOverrideRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({}).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
-  ).annotate({
-    identifier: "DeleteMediaMessageSpendLimitOverrideRequest",
-  }) as any as S.Schema<DeleteMediaMessageSpendLimitOverrideRequest>;
+export const DeleteMediaMessageSpendLimitOverrideRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({
+  identifier: "DeleteMediaMessageSpendLimitOverrideRequest",
+}) as any as S.Schema<DeleteMediaMessageSpendLimitOverrideRequest>;
 export type MonthlyLimit = number;
 export interface DeleteMediaMessageSpendLimitOverrideResult {
   MonthlyLimit?: number;
 }
-export const DeleteMediaMessageSpendLimitOverrideResult =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ MonthlyLimit: S.optional(S.Number) }),
-  ).annotate({
-    identifier: "DeleteMediaMessageSpendLimitOverrideResult",
-  }) as any as S.Schema<DeleteMediaMessageSpendLimitOverrideResult>;
+export const DeleteMediaMessageSpendLimitOverrideResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ MonthlyLimit: S.optional(S.Number) }),
+).annotate({
+  identifier: "DeleteMediaMessageSpendLimitOverrideResult",
+}) as any as S.Schema<DeleteMediaMessageSpendLimitOverrideResult>;
 export type NotifyConfigurationIdOrArn = string;
 export interface DeleteNotifyConfigurationRequest {
   NotifyConfigurationId: string;
@@ -1151,23 +1028,19 @@ export const DeleteNotifyConfigurationResult = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteNotifyConfigurationResult",
 }) as any as S.Schema<DeleteNotifyConfigurationResult>;
 export interface DeleteNotifyMessageSpendLimitOverrideRequest {}
-export const DeleteNotifyMessageSpendLimitOverrideRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({}).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
-  ).annotate({
-    identifier: "DeleteNotifyMessageSpendLimitOverrideRequest",
-  }) as any as S.Schema<DeleteNotifyMessageSpendLimitOverrideRequest>;
+export const DeleteNotifyMessageSpendLimitOverrideRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({
+  identifier: "DeleteNotifyMessageSpendLimitOverrideRequest",
+}) as any as S.Schema<DeleteNotifyMessageSpendLimitOverrideRequest>;
 export interface DeleteNotifyMessageSpendLimitOverrideResult {
   MonthlyLimit?: number;
 }
-export const DeleteNotifyMessageSpendLimitOverrideResult =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ MonthlyLimit: S.optional(S.Number) }),
-  ).annotate({
-    identifier: "DeleteNotifyMessageSpendLimitOverrideResult",
-  }) as any as S.Schema<DeleteNotifyMessageSpendLimitOverrideResult>;
+export const DeleteNotifyMessageSpendLimitOverrideResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ MonthlyLimit: S.optional(S.Number) }),
+).annotate({
+  identifier: "DeleteNotifyMessageSpendLimitOverrideResult",
+}) as any as S.Schema<DeleteNotifyMessageSpendLimitOverrideResult>;
 export interface DeleteOptedOutNumberRequest {
   OptOutListName: string;
   OptedOutNumber: string;
@@ -1191,9 +1064,7 @@ export const DeleteOptedOutNumberResult = /*@__PURE__*/ S.suspend(() =>
     OptOutListArn: S.optional(S.String),
     OptOutListName: S.optional(S.String),
     OptedOutNumber: S.optional(S.String),
-    OptedOutTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    OptedOutTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     EndUserOptedOut: S.optional(S.Boolean),
   }),
 ).annotate({
@@ -1206,9 +1077,7 @@ export const DeleteOptOutListRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ OptOutListName: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteOptOutListRequest",
-}) as any as S.Schema<DeleteOptOutListRequest>;
+).annotate({ identifier: "DeleteOptOutListRequest" }) as any as S.Schema<DeleteOptOutListRequest>;
 export interface DeleteOptOutListResult {
   OptOutListArn?: string;
   OptOutListName?: string;
@@ -1218,13 +1087,9 @@ export const DeleteOptOutListResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     OptOutListArn: S.optional(S.String),
     OptOutListName: S.optional(S.String),
-    CreatedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    CreatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
-).annotate({
-  identifier: "DeleteOptOutListResult",
-}) as any as S.Schema<DeleteOptOutListResult>;
+).annotate({ identifier: "DeleteOptOutListResult" }) as any as S.Schema<DeleteOptOutListResult>;
 export interface DeletePoolRequest {
   PoolId: string;
 }
@@ -1232,9 +1097,7 @@ export const DeletePoolRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ PoolId: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeletePoolRequest",
-}) as any as S.Schema<DeletePoolRequest>;
+).annotate({ identifier: "DeletePoolRequest" }) as any as S.Schema<DeletePoolRequest>;
 export interface DeletePoolResult {
   PoolArn?: string;
   PoolId?: string;
@@ -1260,13 +1123,9 @@ export const DeletePoolResult = /*@__PURE__*/ S.suspend(() =>
     SelfManagedOptOutsEnabled: S.optional(S.Boolean),
     OptOutListName: S.optional(S.String),
     SharedRoutesEnabled: S.optional(S.Boolean),
-    CreatedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    CreatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
-).annotate({
-  identifier: "DeletePoolResult",
-}) as any as S.Schema<DeletePoolResult>;
+).annotate({ identifier: "DeletePoolResult" }) as any as S.Schema<DeletePoolResult>;
 export interface DeleteProtectConfigurationRequest {
   ProtectConfigurationId: string;
 }
@@ -1299,17 +1158,13 @@ export interface DeleteProtectConfigurationRuleSetNumberOverrideRequest {
   ProtectConfigurationId: string;
   DestinationPhoneNumber: string;
 }
-export const DeleteProtectConfigurationRuleSetNumberOverrideRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ProtectConfigurationId: S.String,
-      DestinationPhoneNumber: S.String,
-    }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
-  ).annotate({
-    identifier: "DeleteProtectConfigurationRuleSetNumberOverrideRequest",
-  }) as any as S.Schema<DeleteProtectConfigurationRuleSetNumberOverrideRequest>;
+export const DeleteProtectConfigurationRuleSetNumberOverrideRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ ProtectConfigurationId: S.String, DestinationPhoneNumber: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "DeleteProtectConfigurationRuleSetNumberOverrideRequest",
+}) as any as S.Schema<DeleteProtectConfigurationRuleSetNumberOverrideRequest>;
 export type ProtectConfigurationRuleOverrideAction = string;
 export interface DeleteProtectConfigurationRuleSetNumberOverrideResult {
   ProtectConfigurationArn: string;
@@ -1320,22 +1175,19 @@ export interface DeleteProtectConfigurationRuleSetNumberOverrideResult {
   IsoCountryCode?: string;
   ExpirationTimestamp?: Date;
 }
-export const DeleteProtectConfigurationRuleSetNumberOverrideResult =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ProtectConfigurationArn: S.String,
-      ProtectConfigurationId: S.String,
-      DestinationPhoneNumber: S.String,
-      CreatedTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-      Action: S.String,
-      IsoCountryCode: S.optional(S.String),
-      ExpirationTimestamp: S.optional(
-        S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-      ),
-    }),
-  ).annotate({
-    identifier: "DeleteProtectConfigurationRuleSetNumberOverrideResult",
-  }) as any as S.Schema<DeleteProtectConfigurationRuleSetNumberOverrideResult>;
+export const DeleteProtectConfigurationRuleSetNumberOverrideResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ProtectConfigurationArn: S.String,
+    ProtectConfigurationId: S.String,
+    DestinationPhoneNumber: S.String,
+    CreatedTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    Action: S.String,
+    IsoCountryCode: S.optional(S.String),
+    ExpirationTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotate({
+  identifier: "DeleteProtectConfigurationRuleSetNumberOverrideResult",
+}) as any as S.Schema<DeleteProtectConfigurationRuleSetNumberOverrideResult>;
 export interface DeleteRcsAgentRequest {
   RcsAgentId: string;
 }
@@ -1343,9 +1195,7 @@ export const DeleteRcsAgentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ RcsAgentId: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteRcsAgentRequest",
-}) as any as S.Schema<DeleteRcsAgentRequest>;
+).annotate({ identifier: "DeleteRcsAgentRequest" }) as any as S.Schema<DeleteRcsAgentRequest>;
 export interface DeleteRcsAgentResult {
   RcsAgentArn: string;
   RcsAgentId: string;
@@ -1373,23 +1223,18 @@ export const DeleteRcsAgentResult = /*@__PURE__*/ S.suspend(() =>
     TwoWayEnabled: S.Boolean,
     TwoWayRcsEventsEnabled: S.optional(RcsEventTypeList),
   }),
-).annotate({
-  identifier: "DeleteRcsAgentResult",
-}) as any as S.Schema<DeleteRcsAgentResult>;
+).annotate({ identifier: "DeleteRcsAgentResult" }) as any as S.Schema<DeleteRcsAgentResult>;
 export interface DeleteRcsMessageSpendLimitOverrideRequest {}
-export const DeleteRcsMessageSpendLimitOverrideRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({}).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
-  ).annotate({
-    identifier: "DeleteRcsMessageSpendLimitOverrideRequest",
-  }) as any as S.Schema<DeleteRcsMessageSpendLimitOverrideRequest>;
+export const DeleteRcsMessageSpendLimitOverrideRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({
+  identifier: "DeleteRcsMessageSpendLimitOverrideRequest",
+}) as any as S.Schema<DeleteRcsMessageSpendLimitOverrideRequest>;
 export interface DeleteRcsMessageSpendLimitOverrideResult {
   MonthlyLimit?: number;
 }
-export const DeleteRcsMessageSpendLimitOverrideResult = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ MonthlyLimit: S.optional(S.Number) }),
+export const DeleteRcsMessageSpendLimitOverrideResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ MonthlyLimit: S.optional(S.Number) }),
 ).annotate({
   identifier: "DeleteRcsMessageSpendLimitOverrideResult",
 }) as any as S.Schema<DeleteRcsMessageSpendLimitOverrideResult>;
@@ -1426,9 +1271,7 @@ export const DeleteRegistrationResult = /*@__PURE__*/ S.suspend(() =>
     AdditionalAttributes: S.optional(StringMap),
     CreatedTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
   }),
-).annotate({
-  identifier: "DeleteRegistrationResult",
-}) as any as S.Schema<DeleteRegistrationResult>;
+).annotate({ identifier: "DeleteRegistrationResult" }) as any as S.Schema<DeleteRegistrationResult>;
 export type RegistrationAttachmentIdOrArn = string;
 export interface DeleteRegistrationAttachmentRequest {
   RegistrationAttachmentId: string;
@@ -1518,40 +1361,33 @@ export const DeleteResourcePolicyResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ResourceArn: S.optional(S.String),
     Policy: S.optional(S.String),
-    CreatedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    CreatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({
   identifier: "DeleteResourcePolicyResult",
 }) as any as S.Schema<DeleteResourcePolicyResult>;
 export interface DeleteTextMessageSpendLimitOverrideRequest {}
-export const DeleteTextMessageSpendLimitOverrideRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({}).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
-  ).annotate({
-    identifier: "DeleteTextMessageSpendLimitOverrideRequest",
-  }) as any as S.Schema<DeleteTextMessageSpendLimitOverrideRequest>;
+export const DeleteTextMessageSpendLimitOverrideRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({
+  identifier: "DeleteTextMessageSpendLimitOverrideRequest",
+}) as any as S.Schema<DeleteTextMessageSpendLimitOverrideRequest>;
 export interface DeleteTextMessageSpendLimitOverrideResult {
   MonthlyLimit?: number;
 }
-export const DeleteTextMessageSpendLimitOverrideResult =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ MonthlyLimit: S.optional(S.Number) }),
-  ).annotate({
-    identifier: "DeleteTextMessageSpendLimitOverrideResult",
-  }) as any as S.Schema<DeleteTextMessageSpendLimitOverrideResult>;
+export const DeleteTextMessageSpendLimitOverrideResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ MonthlyLimit: S.optional(S.Number) }),
+).annotate({
+  identifier: "DeleteTextMessageSpendLimitOverrideResult",
+}) as any as S.Schema<DeleteTextMessageSpendLimitOverrideResult>;
 export type VerifiedDestinationNumberIdOrArn = string;
 export interface DeleteVerifiedDestinationNumberRequest {
   VerifiedDestinationNumberId: string;
 }
-export const DeleteVerifiedDestinationNumberRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ VerifiedDestinationNumberId: S.String }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
+export const DeleteVerifiedDestinationNumberRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ VerifiedDestinationNumberId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "DeleteVerifiedDestinationNumberRequest",
 }) as any as S.Schema<DeleteVerifiedDestinationNumberRequest>;
@@ -1561,35 +1397,30 @@ export interface DeleteVerifiedDestinationNumberResult {
   DestinationPhoneNumber: string;
   CreatedTimestamp: Date;
 }
-export const DeleteVerifiedDestinationNumberResult = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      VerifiedDestinationNumberArn: S.String,
-      VerifiedDestinationNumberId: S.String,
-      DestinationPhoneNumber: S.String,
-      CreatedTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    }),
+export const DeleteVerifiedDestinationNumberResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    VerifiedDestinationNumberArn: S.String,
+    VerifiedDestinationNumberId: S.String,
+    DestinationPhoneNumber: S.String,
+    CreatedTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  }),
 ).annotate({
   identifier: "DeleteVerifiedDestinationNumberResult",
 }) as any as S.Schema<DeleteVerifiedDestinationNumberResult>;
 export interface DeleteVoiceMessageSpendLimitOverrideRequest {}
-export const DeleteVoiceMessageSpendLimitOverrideRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({}).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
-  ).annotate({
-    identifier: "DeleteVoiceMessageSpendLimitOverrideRequest",
-  }) as any as S.Schema<DeleteVoiceMessageSpendLimitOverrideRequest>;
+export const DeleteVoiceMessageSpendLimitOverrideRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({
+  identifier: "DeleteVoiceMessageSpendLimitOverrideRequest",
+}) as any as S.Schema<DeleteVoiceMessageSpendLimitOverrideRequest>;
 export interface DeleteVoiceMessageSpendLimitOverrideResult {
   MonthlyLimit?: number;
 }
-export const DeleteVoiceMessageSpendLimitOverrideResult =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ MonthlyLimit: S.optional(S.Number) }),
-  ).annotate({
-    identifier: "DeleteVoiceMessageSpendLimitOverrideResult",
-  }) as any as S.Schema<DeleteVoiceMessageSpendLimitOverrideResult>;
+export const DeleteVoiceMessageSpendLimitOverrideResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ MonthlyLimit: S.optional(S.Number) }),
+).annotate({
+  identifier: "DeleteVoiceMessageSpendLimitOverrideResult",
+}) as any as S.Schema<DeleteVoiceMessageSpendLimitOverrideResult>;
 export type NextToken = string;
 export type MaxResults = number;
 export interface DescribeAccountAttributesRequest {
@@ -1597,10 +1428,7 @@ export interface DescribeAccountAttributesRequest {
   MaxResults?: number;
 }
 export const DescribeAccountAttributesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-  }).pipe(
+  S.Struct({ NextToken: S.optional(S.String), MaxResults: S.optional(S.Number) }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
@@ -1613,9 +1441,7 @@ export interface AccountAttribute {
 }
 export const AccountAttribute = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Name: S.String, Value: S.String }),
-).annotate({
-  identifier: "AccountAttribute",
-}) as any as S.Schema<AccountAttribute>;
+).annotate({ identifier: "AccountAttribute" }) as any as S.Schema<AccountAttribute>;
 export type AccountAttributeList = AccountAttribute[];
 export const AccountAttributeList = /*@__PURE__*/ S.Array(AccountAttribute);
 export interface DescribeAccountAttributesResult {
@@ -1635,10 +1461,7 @@ export interface DescribeAccountLimitsRequest {
   MaxResults?: number;
 }
 export const DescribeAccountLimitsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-  }).pipe(
+  S.Struct({ NextToken: S.optional(S.String), MaxResults: S.optional(S.Number) }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
@@ -1660,10 +1483,7 @@ export interface DescribeAccountLimitsResult {
   NextToken?: string;
 }
 export const DescribeAccountLimitsResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AccountLimits: S.optional(AccountLimitList),
-    NextToken: S.optional(S.String),
-  }),
+  S.Struct({ AccountLimits: S.optional(AccountLimitList), NextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "DescribeAccountLimitsResult",
 }) as any as S.Schema<DescribeAccountLimitsResult>;
@@ -1679,13 +1499,9 @@ export interface ConfigurationSetFilter {
 }
 export const ConfigurationSetFilter = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Name: S.String, Values: FilterValueList }),
-).annotate({
-  identifier: "ConfigurationSetFilter",
-}) as any as S.Schema<ConfigurationSetFilter>;
+).annotate({ identifier: "ConfigurationSetFilter" }) as any as S.Schema<ConfigurationSetFilter>;
 export type ConfigurationSetFilterList = ConfigurationSetFilter[];
-export const ConfigurationSetFilterList = /*@__PURE__*/ S.Array(
-  ConfigurationSetFilter,
-);
+export const ConfigurationSetFilterList = /*@__PURE__*/ S.Array(ConfigurationSetFilter);
 export interface DescribeConfigurationSetsRequest {
   ConfigurationSetNames?: string[];
   Filters?: ConfigurationSetFilter[];
@@ -1698,9 +1514,7 @@ export const DescribeConfigurationSetsRequest = /*@__PURE__*/ S.suspend(() =>
     Filters: S.optional(ConfigurationSetFilterList),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeConfigurationSetsRequest",
 }) as any as S.Schema<DescribeConfigurationSetsRequest>;
@@ -1729,9 +1543,7 @@ export const ConfigurationSetInformation = /*@__PURE__*/ S.suspend(() =>
   identifier: "ConfigurationSetInformation",
 }) as any as S.Schema<ConfigurationSetInformation>;
 export type ConfigurationSetInformationList = ConfigurationSetInformation[];
-export const ConfigurationSetInformationList = /*@__PURE__*/ S.Array(
-  ConfigurationSetInformation,
-);
+export const ConfigurationSetInformationList = /*@__PURE__*/ S.Array(ConfigurationSetInformation);
 export interface DescribeConfigurationSetsResult {
   ConfigurationSets?: ConfigurationSetInformation[];
   NextToken?: string;
@@ -1770,26 +1582,16 @@ export const DescribeKeywordsRequest = /*@__PURE__*/ S.suspend(() =>
     Filters: S.optional(KeywordFilterList),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DescribeKeywordsRequest",
-}) as any as S.Schema<DescribeKeywordsRequest>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "DescribeKeywordsRequest" }) as any as S.Schema<DescribeKeywordsRequest>;
 export interface KeywordInformation {
   Keyword: string;
   KeywordMessage: string;
   KeywordAction: string;
 }
 export const KeywordInformation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Keyword: S.String,
-    KeywordMessage: S.String,
-    KeywordAction: S.String,
-  }),
-).annotate({
-  identifier: "KeywordInformation",
-}) as any as S.Schema<KeywordInformation>;
+  S.Struct({ Keyword: S.String, KeywordMessage: S.String, KeywordAction: S.String }),
+).annotate({ identifier: "KeywordInformation" }) as any as S.Schema<KeywordInformation>;
 export type KeywordInformationList = KeywordInformation[];
 export const KeywordInformationList = /*@__PURE__*/ S.Array(KeywordInformation);
 export interface DescribeKeywordsResult {
@@ -1805,9 +1607,7 @@ export const DescribeKeywordsResult = /*@__PURE__*/ S.suspend(() =>
     Keywords: S.optional(KeywordInformationList),
     NextToken: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DescribeKeywordsResult",
-}) as any as S.Schema<DescribeKeywordsResult>;
+).annotate({ identifier: "DescribeKeywordsResult" }) as any as S.Schema<DescribeKeywordsResult>;
 export type NotifyConfigurationIdList = string[];
 export const NotifyConfigurationIdList = /*@__PURE__*/ S.Array(S.String);
 export type NotifyConfigurationFilterName = string;
@@ -1821,9 +1621,7 @@ export const NotifyConfigurationFilter = /*@__PURE__*/ S.suspend(() =>
   identifier: "NotifyConfigurationFilter",
 }) as any as S.Schema<NotifyConfigurationFilter>;
 export type NotifyConfigurationFilterList = NotifyConfigurationFilter[];
-export const NotifyConfigurationFilterList = /*@__PURE__*/ S.Array(
-  NotifyConfigurationFilter,
-);
+export const NotifyConfigurationFilterList = /*@__PURE__*/ S.Array(NotifyConfigurationFilter);
 export interface DescribeNotifyConfigurationsRequest {
   NotifyConfigurationIds?: string[];
   Filters?: NotifyConfigurationFilter[];
@@ -1836,9 +1634,7 @@ export const DescribeNotifyConfigurationsRequest = /*@__PURE__*/ S.suspend(() =>
     Filters: S.optional(NotifyConfigurationFilterList),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeNotifyConfigurationsRequest",
 }) as any as S.Schema<DescribeNotifyConfigurationsRequest>;
@@ -1878,8 +1674,7 @@ export const NotifyConfigurationInformation = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "NotifyConfigurationInformation",
 }) as any as S.Schema<NotifyConfigurationInformation>;
-export type NotifyConfigurationInformationList =
-  NotifyConfigurationInformation[];
+export type NotifyConfigurationInformationList = NotifyConfigurationInformation[];
 export const NotifyConfigurationInformationList = /*@__PURE__*/ S.Array(
   NotifyConfigurationInformation,
 );
@@ -1904,12 +1699,9 @@ export interface NotifyTemplateFilter {
 }
 export const NotifyTemplateFilter = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Name: S.String, Values: FilterValueList }),
-).annotate({
-  identifier: "NotifyTemplateFilter",
-}) as any as S.Schema<NotifyTemplateFilter>;
+).annotate({ identifier: "NotifyTemplateFilter" }) as any as S.Schema<NotifyTemplateFilter>;
 export type NotifyTemplateFilterList = NotifyTemplateFilter[];
-export const NotifyTemplateFilterList =
-  /*@__PURE__*/ S.Array(NotifyTemplateFilter);
+export const NotifyTemplateFilterList = /*@__PURE__*/ S.Array(NotifyTemplateFilter);
 export interface DescribeNotifyTemplatesRequest {
   TemplateIds?: string[];
   Filters?: NotifyTemplateFilter[];
@@ -1922,9 +1714,7 @@ export const DescribeNotifyTemplatesRequest = /*@__PURE__*/ S.suspend(() =>
     Filters: S.optional(NotifyTemplateFilterList),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeNotifyTemplatesRequest",
 }) as any as S.Schema<DescribeNotifyTemplatesRequest>;
@@ -1964,12 +1754,8 @@ export const TemplateVariableMetadata = /*@__PURE__*/ S.suspend(() =>
     Sample: S.optional(S.String),
     Source: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TemplateVariableMetadata",
-}) as any as S.Schema<TemplateVariableMetadata>;
-export type TemplateVariablesMap = {
-  [key: string]: TemplateVariableMetadata | undefined;
-};
+).annotate({ identifier: "TemplateVariableMetadata" }) as any as S.Schema<TemplateVariableMetadata>;
+export type TemplateVariablesMap = { [key: string]: TemplateVariableMetadata | undefined };
 export const TemplateVariablesMap = /*@__PURE__*/ S.Record(
   S.String,
   TemplateVariableMetadata.pipe(S.optional),
@@ -2010,9 +1796,7 @@ export const NotifyTemplateInformation = /*@__PURE__*/ S.suspend(() =>
   identifier: "NotifyTemplateInformation",
 }) as any as S.Schema<NotifyTemplateInformation>;
 export type NotifyTemplateInformationList = NotifyTemplateInformation[];
-export const NotifyTemplateInformationList = /*@__PURE__*/ S.Array(
-  NotifyTemplateInformation,
-);
+export const NotifyTemplateInformationList = /*@__PURE__*/ S.Array(NotifyTemplateInformation);
 export interface DescribeNotifyTemplatesResult {
   NotifyTemplates?: NotifyTemplateInformation[];
   NextToken?: string;
@@ -2051,9 +1835,7 @@ export const DescribeOptedOutNumbersRequest = /*@__PURE__*/ S.suspend(() =>
     Filters: S.optional(OptedOutFilterList),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeOptedOutNumbersRequest",
 }) as any as S.Schema<DescribeOptedOutNumbersRequest>;
@@ -2072,9 +1854,7 @@ export const OptedOutNumberInformation = /*@__PURE__*/ S.suspend(() =>
   identifier: "OptedOutNumberInformation",
 }) as any as S.Schema<OptedOutNumberInformation>;
 export type OptedOutNumberInformationList = OptedOutNumberInformation[];
-export const OptedOutNumberInformationList = /*@__PURE__*/ S.Array(
-  OptedOutNumberInformation,
-);
+export const OptedOutNumberInformationList = /*@__PURE__*/ S.Array(OptedOutNumberInformation);
 export interface DescribeOptedOutNumbersResult {
   OptOutListArn?: string;
   OptOutListName?: string;
@@ -2106,9 +1886,7 @@ export const DescribeOptOutListsRequest = /*@__PURE__*/ S.suspend(() =>
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     Owner: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeOptOutListsRequest",
 }) as any as S.Schema<DescribeOptOutListsRequest>;
@@ -2123,22 +1901,15 @@ export const OptOutListInformation = /*@__PURE__*/ S.suspend(() =>
     OptOutListName: S.String,
     CreatedTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
   }),
-).annotate({
-  identifier: "OptOutListInformation",
-}) as any as S.Schema<OptOutListInformation>;
+).annotate({ identifier: "OptOutListInformation" }) as any as S.Schema<OptOutListInformation>;
 export type OptOutListInformationList = OptOutListInformation[];
-export const OptOutListInformationList = /*@__PURE__*/ S.Array(
-  OptOutListInformation,
-);
+export const OptOutListInformationList = /*@__PURE__*/ S.Array(OptOutListInformation);
 export interface DescribeOptOutListsResult {
   OptOutLists?: OptOutListInformation[];
   NextToken?: string;
 }
 export const DescribeOptOutListsResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    OptOutLists: S.optional(OptOutListInformationList),
-    NextToken: S.optional(S.String),
-  }),
+  S.Struct({ OptOutLists: S.optional(OptOutListInformationList), NextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "DescribeOptOutListsResult",
 }) as any as S.Schema<DescribeOptOutListsResult>;
@@ -2152,9 +1923,7 @@ export interface PhoneNumberFilter {
 }
 export const PhoneNumberFilter = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Name: S.String, Values: FilterValueList }),
-).annotate({
-  identifier: "PhoneNumberFilter",
-}) as any as S.Schema<PhoneNumberFilter>;
+).annotate({ identifier: "PhoneNumberFilter" }) as any as S.Schema<PhoneNumberFilter>;
 export type PhoneNumberFilterList = PhoneNumberFilter[];
 export const PhoneNumberFilterList = /*@__PURE__*/ S.Array(PhoneNumberFilter);
 export interface DescribePhoneNumbersRequest {
@@ -2171,14 +1940,21 @@ export const DescribePhoneNumbersRequest = /*@__PURE__*/ S.suspend(() =>
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     Owner: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribePhoneNumbersRequest",
 }) as any as S.Schema<DescribePhoneNumbersRequest>;
 export type NumberStatus = string;
 export type NumberType = string;
+export type LongMap = { [key: string]: number | undefined };
+export const LongMap = /*@__PURE__*/ S.Record(S.String, S.Number.pipe(S.optional));
+export interface MessagingLimits {
+  RateLimits?: { [key: string]: number | undefined };
+  DailyMessageCaps?: { [key: string]: number | undefined };
+}
+export const MessagingLimits = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ RateLimits: S.optional(LongMap), DailyMessageCaps: S.optional(LongMap) }),
+).annotate({ identifier: "MessagingLimits" }) as any as S.Schema<MessagingLimits>;
 export interface PhoneNumberInformation {
   PhoneNumberArn: string;
   PhoneNumberId?: string;
@@ -2198,6 +1974,7 @@ export interface PhoneNumberInformation {
   DeletionProtectionEnabled: boolean;
   PoolId?: string;
   RegistrationId?: string;
+  MessagingLimits?: MessagingLimits;
   CreatedTimestamp: Date;
 }
 export const PhoneNumberInformation = /*@__PURE__*/ S.suspend(() =>
@@ -2220,15 +1997,12 @@ export const PhoneNumberInformation = /*@__PURE__*/ S.suspend(() =>
     DeletionProtectionEnabled: S.Boolean,
     PoolId: S.optional(S.String),
     RegistrationId: S.optional(S.String),
+    MessagingLimits: S.optional(MessagingLimits),
     CreatedTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
   }),
-).annotate({
-  identifier: "PhoneNumberInformation",
-}) as any as S.Schema<PhoneNumberInformation>;
+).annotate({ identifier: "PhoneNumberInformation" }) as any as S.Schema<PhoneNumberInformation>;
 export type PhoneNumberInformationList = PhoneNumberInformation[];
-export const PhoneNumberInformationList = /*@__PURE__*/ S.Array(
-  PhoneNumberInformation,
-);
+export const PhoneNumberInformationList = /*@__PURE__*/ S.Array(PhoneNumberInformation);
 export interface DescribePhoneNumbersResult {
   PhoneNumbers?: PhoneNumberInformation[];
   NextToken?: string;
@@ -2267,12 +2041,8 @@ export const DescribePoolsRequest = /*@__PURE__*/ S.suspend(() =>
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     Owner: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DescribePoolsRequest",
-}) as any as S.Schema<DescribePoolsRequest>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "DescribePoolsRequest" }) as any as S.Schema<DescribePoolsRequest>;
 export interface PoolInformation {
   PoolArn: string;
   PoolId: string;
@@ -2302,9 +2072,7 @@ export const PoolInformation = /*@__PURE__*/ S.suspend(() =>
     DeletionProtectionEnabled: S.Boolean,
     CreatedTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
   }),
-).annotate({
-  identifier: "PoolInformation",
-}) as any as S.Schema<PoolInformation>;
+).annotate({ identifier: "PoolInformation" }) as any as S.Schema<PoolInformation>;
 export type PoolInformationList = PoolInformation[];
 export const PoolInformationList = /*@__PURE__*/ S.Array(PoolInformation);
 export interface DescribePoolsResult {
@@ -2312,13 +2080,8 @@ export interface DescribePoolsResult {
   NextToken?: string;
 }
 export const DescribePoolsResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Pools: S.optional(PoolInformationList),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DescribePoolsResult",
-}) as any as S.Schema<DescribePoolsResult>;
+  S.Struct({ Pools: S.optional(PoolInformationList), NextToken: S.optional(S.String) }),
+).annotate({ identifier: "DescribePoolsResult" }) as any as S.Schema<DescribePoolsResult>;
 export type ProtectConfigurationIdList = string[];
 export const ProtectConfigurationIdList = /*@__PURE__*/ S.Array(S.String);
 export type ProtectConfigurationFilterName = string;
@@ -2332,25 +2095,20 @@ export const ProtectConfigurationFilter = /*@__PURE__*/ S.suspend(() =>
   identifier: "ProtectConfigurationFilter",
 }) as any as S.Schema<ProtectConfigurationFilter>;
 export type ProtectConfigurationFilterList = ProtectConfigurationFilter[];
-export const ProtectConfigurationFilterList = /*@__PURE__*/ S.Array(
-  ProtectConfigurationFilter,
-);
+export const ProtectConfigurationFilterList = /*@__PURE__*/ S.Array(ProtectConfigurationFilter);
 export interface DescribeProtectConfigurationsRequest {
   ProtectConfigurationIds?: string[];
   Filters?: ProtectConfigurationFilter[];
   NextToken?: string;
   MaxResults?: number;
 }
-export const DescribeProtectConfigurationsRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ProtectConfigurationIds: S.optional(ProtectConfigurationIdList),
-      Filters: S.optional(ProtectConfigurationFilterList),
-      NextToken: S.optional(S.String),
-      MaxResults: S.optional(S.Number),
-    }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
+export const DescribeProtectConfigurationsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ProtectConfigurationIds: S.optional(ProtectConfigurationIdList),
+    Filters: S.optional(ProtectConfigurationFilterList),
+    NextToken: S.optional(S.String),
+    MaxResults: S.optional(S.Number),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeProtectConfigurationsRequest",
 }) as any as S.Schema<DescribeProtectConfigurationsRequest>;
@@ -2372,8 +2130,7 @@ export const ProtectConfigurationInformation = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ProtectConfigurationInformation",
 }) as any as S.Schema<ProtectConfigurationInformation>;
-export type ProtectConfigurationInformationList =
-  ProtectConfigurationInformation[];
+export type ProtectConfigurationInformationList = ProtectConfigurationInformation[];
 export const ProtectConfigurationInformationList = /*@__PURE__*/ S.Array(
   ProtectConfigurationInformation,
 );
@@ -2400,9 +2157,7 @@ export const CountryLaunchStatusFilter = /*@__PURE__*/ S.suspend(() =>
   identifier: "CountryLaunchStatusFilter",
 }) as any as S.Schema<CountryLaunchStatusFilter>;
 export type CountryLaunchStatusFilterList = CountryLaunchStatusFilter[];
-export const CountryLaunchStatusFilterList = /*@__PURE__*/ S.Array(
-  CountryLaunchStatusFilter,
-);
+export const CountryLaunchStatusFilterList = /*@__PURE__*/ S.Array(CountryLaunchStatusFilter);
 export interface DescribeRcsAgentCountryLaunchStatusRequest {
   RcsAgentId: string;
   IsoCountryCodes?: string[];
@@ -2410,20 +2165,17 @@ export interface DescribeRcsAgentCountryLaunchStatusRequest {
   MaxResults?: number;
   NextToken?: string;
 }
-export const DescribeRcsAgentCountryLaunchStatusRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      RcsAgentId: S.String,
-      IsoCountryCodes: S.optional(IsoCountryCodeList),
-      Filters: S.optional(CountryLaunchStatusFilterList),
-      MaxResults: S.optional(S.Number),
-      NextToken: S.optional(S.String),
-    }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
-  ).annotate({
-    identifier: "DescribeRcsAgentCountryLaunchStatusRequest",
-  }) as any as S.Schema<DescribeRcsAgentCountryLaunchStatusRequest>;
+export const DescribeRcsAgentCountryLaunchStatusRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    RcsAgentId: S.String,
+    IsoCountryCodes: S.optional(IsoCountryCodeList),
+    Filters: S.optional(CountryLaunchStatusFilterList),
+    MaxResults: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({
+  identifier: "DescribeRcsAgentCountryLaunchStatusRequest",
+}) as any as S.Schema<DescribeRcsAgentCountryLaunchStatusRequest>;
 export type CountryLaunchStatus = string;
 export type CarrierStatus = string;
 export interface CarrierStatusInformation {
@@ -2432,13 +2184,9 @@ export interface CarrierStatusInformation {
 }
 export const CarrierStatusInformation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ CarrierName: S.String, Status: S.String }),
-).annotate({
-  identifier: "CarrierStatusInformation",
-}) as any as S.Schema<CarrierStatusInformation>;
+).annotate({ identifier: "CarrierStatusInformation" }) as any as S.Schema<CarrierStatusInformation>;
 export type CarrierStatusInformationList = CarrierStatusInformation[];
-export const CarrierStatusInformationList = /*@__PURE__*/ S.Array(
-  CarrierStatusInformation,
-);
+export const CarrierStatusInformationList = /*@__PURE__*/ S.Array(CarrierStatusInformation);
 export interface CountryLaunchStatusInformation {
   IsoCountryCode: string;
   Status: string;
@@ -2457,8 +2205,7 @@ export const CountryLaunchStatusInformation = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "CountryLaunchStatusInformation",
 }) as any as S.Schema<CountryLaunchStatusInformation>;
-export type CountryLaunchStatusInformationList =
-  CountryLaunchStatusInformation[];
+export type CountryLaunchStatusInformationList = CountryLaunchStatusInformation[];
 export const CountryLaunchStatusInformationList = /*@__PURE__*/ S.Array(
   CountryLaunchStatusInformation,
 );
@@ -2468,17 +2215,16 @@ export interface DescribeRcsAgentCountryLaunchStatusResult {
   CountryLaunchStatus?: CountryLaunchStatusInformation[];
   NextToken?: string;
 }
-export const DescribeRcsAgentCountryLaunchStatusResult =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      RcsAgentId: S.String,
-      RcsAgentArn: S.String,
-      CountryLaunchStatus: S.optional(CountryLaunchStatusInformationList),
-      NextToken: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "DescribeRcsAgentCountryLaunchStatusResult",
-  }) as any as S.Schema<DescribeRcsAgentCountryLaunchStatusResult>;
+export const DescribeRcsAgentCountryLaunchStatusResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    RcsAgentId: S.String,
+    RcsAgentArn: S.String,
+    CountryLaunchStatus: S.optional(CountryLaunchStatusInformationList),
+    NextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "DescribeRcsAgentCountryLaunchStatusResult",
+}) as any as S.Schema<DescribeRcsAgentCountryLaunchStatusResult>;
 export type RcsAgentIdList = string[];
 export const RcsAgentIdList = /*@__PURE__*/ S.Array(S.String);
 export type RcsAgentFilterName = string;
@@ -2505,12 +2251,8 @@ export const DescribeRcsAgentsRequest = /*@__PURE__*/ S.suspend(() =>
     Filters: S.optional(RcsAgentFilterList),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DescribeRcsAgentsRequest",
-}) as any as S.Schema<DescribeRcsAgentsRequest>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "DescribeRcsAgentsRequest" }) as any as S.Schema<DescribeRcsAgentsRequest>;
 export type TestingAgentStatus = string;
 export interface TestingAgentInformation {
   Status: string;
@@ -2518,14 +2260,8 @@ export interface TestingAgentInformation {
   RegistrationId: string;
 }
 export const TestingAgentInformation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Status: S.String,
-    TestingAgentId: S.optional(S.String),
-    RegistrationId: S.String,
-  }),
-).annotate({
-  identifier: "TestingAgentInformation",
-}) as any as S.Schema<TestingAgentInformation>;
+  S.Struct({ Status: S.String, TestingAgentId: S.optional(S.String), RegistrationId: S.String }),
+).annotate({ identifier: "TestingAgentInformation" }) as any as S.Schema<TestingAgentInformation>;
 export interface RcsAgentInformation {
   RcsAgentArn: string;
   RcsAgentId: string;
@@ -2543,6 +2279,7 @@ export interface RcsAgentInformation {
   TwoWayMediaS3Role?: string;
   TwoWayRcsEventsEnabled?: string[];
   TestingAgent?: TestingAgentInformation;
+  MessagingLimits?: MessagingLimits;
 }
 export const RcsAgentInformation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2562,25 +2299,18 @@ export const RcsAgentInformation = /*@__PURE__*/ S.suspend(() =>
     TwoWayMediaS3Role: S.optional(S.String),
     TwoWayRcsEventsEnabled: S.optional(RcsEventTypeList),
     TestingAgent: S.optional(TestingAgentInformation),
+    MessagingLimits: S.optional(MessagingLimits),
   }),
-).annotate({
-  identifier: "RcsAgentInformation",
-}) as any as S.Schema<RcsAgentInformation>;
+).annotate({ identifier: "RcsAgentInformation" }) as any as S.Schema<RcsAgentInformation>;
 export type RcsAgentInformationList = RcsAgentInformation[];
-export const RcsAgentInformationList =
-  /*@__PURE__*/ S.Array(RcsAgentInformation);
+export const RcsAgentInformationList = /*@__PURE__*/ S.Array(RcsAgentInformation);
 export interface DescribeRcsAgentsResult {
   RcsAgents?: RcsAgentInformation[];
   NextToken?: string;
 }
 export const DescribeRcsAgentsResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RcsAgents: S.optional(RcsAgentInformationList),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DescribeRcsAgentsResult",
-}) as any as S.Schema<DescribeRcsAgentsResult>;
+  S.Struct({ RcsAgents: S.optional(RcsAgentInformationList), NextToken: S.optional(S.String) }),
+).annotate({ identifier: "DescribeRcsAgentsResult" }) as any as S.Schema<DescribeRcsAgentsResult>;
 export type RegistrationAttachmentIdList = string[];
 export const RegistrationAttachmentIdList = /*@__PURE__*/ S.Array(S.String);
 export type RegistrationAttachmentFilterName = string;
@@ -2594,25 +2324,20 @@ export const RegistrationAttachmentFilter = /*@__PURE__*/ S.suspend(() =>
   identifier: "RegistrationAttachmentFilter",
 }) as any as S.Schema<RegistrationAttachmentFilter>;
 export type RegistrationAttachmentFilterList = RegistrationAttachmentFilter[];
-export const RegistrationAttachmentFilterList = /*@__PURE__*/ S.Array(
-  RegistrationAttachmentFilter,
-);
+export const RegistrationAttachmentFilterList = /*@__PURE__*/ S.Array(RegistrationAttachmentFilter);
 export interface DescribeRegistrationAttachmentsRequest {
   RegistrationAttachmentIds?: string[];
   Filters?: RegistrationAttachmentFilter[];
   NextToken?: string;
   MaxResults?: number;
 }
-export const DescribeRegistrationAttachmentsRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      RegistrationAttachmentIds: S.optional(RegistrationAttachmentIdList),
-      Filters: S.optional(RegistrationAttachmentFilterList),
-      NextToken: S.optional(S.String),
-      MaxResults: S.optional(S.Number),
-    }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
+export const DescribeRegistrationAttachmentsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    RegistrationAttachmentIds: S.optional(RegistrationAttachmentIdList),
+    Filters: S.optional(RegistrationAttachmentFilterList),
+    NextToken: S.optional(S.String),
+    MaxResults: S.optional(S.Number),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeRegistrationAttachmentsRequest",
 }) as any as S.Schema<DescribeRegistrationAttachmentsRequest>;
@@ -2636,8 +2361,7 @@ export const RegistrationAttachmentsInformation = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "RegistrationAttachmentsInformation",
 }) as any as S.Schema<RegistrationAttachmentsInformation>;
-export type RegistrationAttachmentsInformationList =
-  RegistrationAttachmentsInformation[];
+export type RegistrationAttachmentsInformationList = RegistrationAttachmentsInformation[];
 export const RegistrationAttachmentsInformationList = /*@__PURE__*/ S.Array(
   RegistrationAttachmentsInformation,
 );
@@ -2645,12 +2369,11 @@ export interface DescribeRegistrationAttachmentsResult {
   RegistrationAttachments: RegistrationAttachmentsInformation[];
   NextToken?: string;
 }
-export const DescribeRegistrationAttachmentsResult = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      RegistrationAttachments: RegistrationAttachmentsInformationList,
-      NextToken: S.optional(S.String),
-    }),
+export const DescribeRegistrationAttachmentsResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    RegistrationAttachments: RegistrationAttachmentsInformationList,
+    NextToken: S.optional(S.String),
+  }),
 ).annotate({
   identifier: "DescribeRegistrationAttachmentsResult",
 }) as any as S.Schema<DescribeRegistrationAttachmentsResult>;
@@ -2664,20 +2387,17 @@ export interface DescribeRegistrationFieldDefinitionsRequest {
   NextToken?: string;
   MaxResults?: number;
 }
-export const DescribeRegistrationFieldDefinitionsRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      RegistrationType: S.String,
-      SectionPath: S.optional(S.String),
-      FieldPaths: S.optional(FieldPathList),
-      NextToken: S.optional(S.String),
-      MaxResults: S.optional(S.Number),
-    }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
-  ).annotate({
-    identifier: "DescribeRegistrationFieldDefinitionsRequest",
-  }) as any as S.Schema<DescribeRegistrationFieldDefinitionsRequest>;
+export const DescribeRegistrationFieldDefinitionsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    RegistrationType: S.String,
+    SectionPath: S.optional(S.String),
+    FieldPaths: S.optional(FieldPathList),
+    NextToken: S.optional(S.String),
+    MaxResults: S.optional(S.Number),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({
+  identifier: "DescribeRegistrationFieldDefinitionsRequest",
+}) as any as S.Schema<DescribeRegistrationFieldDefinitionsRequest>;
 export type FieldType = string;
 export type FieldRequirement = string;
 export type StringList = string[];
@@ -2689,9 +2409,7 @@ export interface SelectValidation {
 }
 export const SelectValidation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ MinChoices: S.Number, MaxChoices: S.Number, Options: StringList }),
-).annotate({
-  identifier: "SelectValidation",
-}) as any as S.Schema<SelectValidation>;
+).annotate({ identifier: "SelectValidation" }) as any as S.Schema<SelectValidation>;
 export interface TextValidation {
   MinLength: number;
   MaxLength: number;
@@ -2706,18 +2424,10 @@ export interface SelectOptionDescription {
   Description?: string;
 }
 export const SelectOptionDescription = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Option: S.String,
-    Title: S.optional(S.String),
-    Description: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "SelectOptionDescription",
-}) as any as S.Schema<SelectOptionDescription>;
+  S.Struct({ Option: S.String, Title: S.optional(S.String), Description: S.optional(S.String) }),
+).annotate({ identifier: "SelectOptionDescription" }) as any as S.Schema<SelectOptionDescription>;
 export type SelectOptionDescriptionsList = SelectOptionDescription[];
-export const SelectOptionDescriptionsList = /*@__PURE__*/ S.Array(
-  SelectOptionDescription,
-);
+export const SelectOptionDescriptionsList = /*@__PURE__*/ S.Array(SelectOptionDescription);
 export interface RegistrationFieldDisplayHints {
   Title: string;
   ShortDescription: string;
@@ -2742,6 +2452,60 @@ export const RegistrationFieldDisplayHints = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "RegistrationFieldDisplayHints",
 }) as any as S.Schema<RegistrationFieldDisplayHints>;
+export type ConditionOperator = string;
+export type ConditionValue = string;
+export type ConditionValueList = string[];
+export const ConditionValueList = /*@__PURE__*/ S.Array(S.String);
+export interface FieldCondition {
+  DependsOnFieldPath: string;
+  Operator: string;
+  Values?: string[];
+}
+export const FieldCondition = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    DependsOnFieldPath: S.String,
+    Operator: S.String,
+    Values: S.optional(ConditionValueList),
+  }),
+).annotate({ identifier: "FieldCondition" }) as any as S.Schema<FieldCondition>;
+export type FieldConditionList = FieldCondition[];
+export const FieldConditionList = /*@__PURE__*/ S.Array(FieldCondition);
+export type ConditionalFieldBehavior = string;
+export interface ConditionalValidation {
+  MinLength?: number;
+  MaxLength?: number;
+  Pattern?: string;
+  AllowedValues?: string[];
+}
+export const ConditionalValidation = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    MinLength: S.optional(S.Number),
+    MaxLength: S.optional(S.Number),
+    Pattern: S.optional(S.String),
+    AllowedValues: S.optional(SelectChoiceList),
+  }),
+).annotate({ identifier: "ConditionalValidation" }) as any as S.Schema<ConditionalValidation>;
+export interface ConditionalRule {
+  Conditions: FieldCondition[];
+  RuleBehavior: string;
+  ConditionalValidation?: ConditionalValidation;
+}
+export const ConditionalRule = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Conditions: FieldConditionList,
+    RuleBehavior: S.String,
+    ConditionalValidation: S.optional(ConditionalValidation),
+  }),
+).annotate({ identifier: "ConditionalRule" }) as any as S.Schema<ConditionalRule>;
+export type ConditionalRuleList = ConditionalRule[];
+export const ConditionalRuleList = /*@__PURE__*/ S.Array(ConditionalRule);
+export interface ConditionalBehavior {
+  Rules: ConditionalRule[];
+  DefaultBehavior: string;
+}
+export const ConditionalBehavior = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ Rules: ConditionalRuleList, DefaultBehavior: S.String }),
+).annotate({ identifier: "ConditionalBehavior" }) as any as S.Schema<ConditionalBehavior>;
 export interface RegistrationFieldDefinition {
   SectionPath: string;
   FieldPath: string;
@@ -2750,6 +2514,7 @@ export interface RegistrationFieldDefinition {
   SelectValidation?: SelectValidation;
   TextValidation?: TextValidation;
   DisplayHints: RegistrationFieldDisplayHints;
+  ConditionalBehavior?: ConditionalBehavior;
 }
 export const RegistrationFieldDefinition = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2760,29 +2525,27 @@ export const RegistrationFieldDefinition = /*@__PURE__*/ S.suspend(() =>
     SelectValidation: S.optional(SelectValidation),
     TextValidation: S.optional(TextValidation),
     DisplayHints: RegistrationFieldDisplayHints,
+    ConditionalBehavior: S.optional(ConditionalBehavior),
   }),
 ).annotate({
   identifier: "RegistrationFieldDefinition",
 }) as any as S.Schema<RegistrationFieldDefinition>;
 export type RegistrationFieldDefinitionList = RegistrationFieldDefinition[];
-export const RegistrationFieldDefinitionList = /*@__PURE__*/ S.Array(
-  RegistrationFieldDefinition,
-);
+export const RegistrationFieldDefinitionList = /*@__PURE__*/ S.Array(RegistrationFieldDefinition);
 export interface DescribeRegistrationFieldDefinitionsResult {
   RegistrationType: string;
   RegistrationFieldDefinitions: RegistrationFieldDefinition[];
   NextToken?: string;
 }
-export const DescribeRegistrationFieldDefinitionsResult =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      RegistrationType: S.String,
-      RegistrationFieldDefinitions: RegistrationFieldDefinitionList,
-      NextToken: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "DescribeRegistrationFieldDefinitionsResult",
-  }) as any as S.Schema<DescribeRegistrationFieldDefinitionsResult>;
+export const DescribeRegistrationFieldDefinitionsResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    RegistrationType: S.String,
+    RegistrationFieldDefinitions: RegistrationFieldDefinitionList,
+    NextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "DescribeRegistrationFieldDefinitionsResult",
+}) as any as S.Schema<DescribeRegistrationFieldDefinitionsResult>;
 export interface DescribeRegistrationFieldValuesRequest {
   RegistrationId: string;
   VersionNumber?: number;
@@ -2791,18 +2554,15 @@ export interface DescribeRegistrationFieldValuesRequest {
   NextToken?: string;
   MaxResults?: number;
 }
-export const DescribeRegistrationFieldValuesRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      RegistrationId: S.String,
-      VersionNumber: S.optional(S.Number),
-      SectionPath: S.optional(S.String),
-      FieldPaths: S.optional(FieldPathList),
-      NextToken: S.optional(S.String),
-      MaxResults: S.optional(S.Number),
-    }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
+export const DescribeRegistrationFieldValuesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    RegistrationId: S.String,
+    VersionNumber: S.optional(S.Number),
+    SectionPath: S.optional(S.String),
+    FieldPaths: S.optional(FieldPathList),
+    NextToken: S.optional(S.String),
+    MaxResults: S.optional(S.Number),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeRegistrationFieldValuesRequest",
 }) as any as S.Schema<DescribeRegistrationFieldValuesRequest>;
@@ -2826,8 +2586,7 @@ export const RegistrationFieldValueInformation = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "RegistrationFieldValueInformation",
 }) as any as S.Schema<RegistrationFieldValueInformation>;
-export type RegistrationFieldValueInformationList =
-  RegistrationFieldValueInformation[];
+export type RegistrationFieldValueInformationList = RegistrationFieldValueInformation[];
 export const RegistrationFieldValueInformationList = /*@__PURE__*/ S.Array(
   RegistrationFieldValueInformation,
 );
@@ -2838,15 +2597,14 @@ export interface DescribeRegistrationFieldValuesResult {
   RegistrationFieldValues: RegistrationFieldValueInformation[];
   NextToken?: string;
 }
-export const DescribeRegistrationFieldValuesResult = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      RegistrationArn: S.String,
-      RegistrationId: S.String,
-      VersionNumber: S.Number,
-      RegistrationFieldValues: RegistrationFieldValueInformationList,
-      NextToken: S.optional(S.String),
-    }),
+export const DescribeRegistrationFieldValuesResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    RegistrationArn: S.String,
+    RegistrationId: S.String,
+    VersionNumber: S.Number,
+    RegistrationFieldValues: RegistrationFieldValueInformationList,
+    NextToken: S.optional(S.String),
+  }),
 ).annotate({
   identifier: "DescribeRegistrationFieldValuesResult",
 }) as any as S.Schema<DescribeRegistrationFieldValuesResult>;
@@ -2859,9 +2617,7 @@ export interface RegistrationFilter {
 }
 export const RegistrationFilter = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Name: S.String, Values: FilterValueList }),
-).annotate({
-  identifier: "RegistrationFilter",
-}) as any as S.Schema<RegistrationFilter>;
+).annotate({ identifier: "RegistrationFilter" }) as any as S.Schema<RegistrationFilter>;
 export type RegistrationFilterList = RegistrationFilter[];
 export const RegistrationFilterList = /*@__PURE__*/ S.Array(RegistrationFilter);
 export interface DescribeRegistrationsRequest {
@@ -2876,9 +2632,7 @@ export const DescribeRegistrationsRequest = /*@__PURE__*/ S.suspend(() =>
     Filters: S.optional(RegistrationFilterList),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeRegistrationsRequest",
 }) as any as S.Schema<DescribeRegistrationsRequest>;
@@ -2905,22 +2659,15 @@ export const RegistrationInformation = /*@__PURE__*/ S.suspend(() =>
     AdditionalAttributes: S.optional(StringMap),
     CreatedTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
   }),
-).annotate({
-  identifier: "RegistrationInformation",
-}) as any as S.Schema<RegistrationInformation>;
+).annotate({ identifier: "RegistrationInformation" }) as any as S.Schema<RegistrationInformation>;
 export type RegistrationInformationList = RegistrationInformation[];
-export const RegistrationInformationList = /*@__PURE__*/ S.Array(
-  RegistrationInformation,
-);
+export const RegistrationInformationList = /*@__PURE__*/ S.Array(RegistrationInformation);
 export interface DescribeRegistrationsResult {
   Registrations: RegistrationInformation[];
   NextToken?: string;
 }
 export const DescribeRegistrationsResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Registrations: RegistrationInformationList,
-    NextToken: S.optional(S.String),
-  }),
+  S.Struct({ Registrations: RegistrationInformationList, NextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "DescribeRegistrationsResult",
 }) as any as S.Schema<DescribeRegistrationsResult>;
@@ -2932,19 +2679,16 @@ export interface DescribeRegistrationSectionDefinitionsRequest {
   NextToken?: string;
   MaxResults?: number;
 }
-export const DescribeRegistrationSectionDefinitionsRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      RegistrationType: S.String,
-      SectionPaths: S.optional(SectionPathList),
-      NextToken: S.optional(S.String),
-      MaxResults: S.optional(S.Number),
-    }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
-  ).annotate({
-    identifier: "DescribeRegistrationSectionDefinitionsRequest",
-  }) as any as S.Schema<DescribeRegistrationSectionDefinitionsRequest>;
+export const DescribeRegistrationSectionDefinitionsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    RegistrationType: S.String,
+    SectionPaths: S.optional(SectionPathList),
+    NextToken: S.optional(S.String),
+    MaxResults: S.optional(S.Number),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({
+  identifier: "DescribeRegistrationSectionDefinitionsRequest",
+}) as any as S.Schema<DescribeRegistrationSectionDefinitionsRequest>;
 export interface RegistrationSectionDisplayHints {
   Title: string;
   ShortDescription: string;
@@ -2968,10 +2712,7 @@ export interface RegistrationSectionDefinition {
   DisplayHints: RegistrationSectionDisplayHints;
 }
 export const RegistrationSectionDefinition = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SectionPath: S.String,
-    DisplayHints: RegistrationSectionDisplayHints,
-  }),
+  S.Struct({ SectionPath: S.String, DisplayHints: RegistrationSectionDisplayHints }),
 ).annotate({
   identifier: "RegistrationSectionDefinition",
 }) as any as S.Schema<RegistrationSectionDefinition>;
@@ -2984,16 +2725,15 @@ export interface DescribeRegistrationSectionDefinitionsResult {
   RegistrationSectionDefinitions: RegistrationSectionDefinition[];
   NextToken?: string;
 }
-export const DescribeRegistrationSectionDefinitionsResult =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      RegistrationType: S.String,
-      RegistrationSectionDefinitions: RegistrationSectionDefinitionList,
-      NextToken: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "DescribeRegistrationSectionDefinitionsResult",
-  }) as any as S.Schema<DescribeRegistrationSectionDefinitionsResult>;
+export const DescribeRegistrationSectionDefinitionsResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    RegistrationType: S.String,
+    RegistrationSectionDefinitions: RegistrationSectionDefinitionList,
+    NextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "DescribeRegistrationSectionDefinitionsResult",
+}) as any as S.Schema<DescribeRegistrationSectionDefinitionsResult>;
 export type RegistrationTypeList = string[];
 export const RegistrationTypeList = /*@__PURE__*/ S.Array(S.String);
 export type RegistrationTypeFilterName = string;
@@ -3003,32 +2743,25 @@ export interface RegistrationTypeFilter {
 }
 export const RegistrationTypeFilter = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Name: S.String, Values: FilterValueList }),
-).annotate({
-  identifier: "RegistrationTypeFilter",
-}) as any as S.Schema<RegistrationTypeFilter>;
+).annotate({ identifier: "RegistrationTypeFilter" }) as any as S.Schema<RegistrationTypeFilter>;
 export type RegistrationTypeFilterList = RegistrationTypeFilter[];
-export const RegistrationTypeFilterList = /*@__PURE__*/ S.Array(
-  RegistrationTypeFilter,
-);
+export const RegistrationTypeFilterList = /*@__PURE__*/ S.Array(RegistrationTypeFilter);
 export interface DescribeRegistrationTypeDefinitionsRequest {
   RegistrationTypes?: string[];
   Filters?: RegistrationTypeFilter[];
   NextToken?: string;
   MaxResults?: number;
 }
-export const DescribeRegistrationTypeDefinitionsRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      RegistrationTypes: S.optional(RegistrationTypeList),
-      Filters: S.optional(RegistrationTypeFilterList),
-      NextToken: S.optional(S.String),
-      MaxResults: S.optional(S.Number),
-    }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
-  ).annotate({
-    identifier: "DescribeRegistrationTypeDefinitionsRequest",
-  }) as any as S.Schema<DescribeRegistrationTypeDefinitionsRequest>;
+export const DescribeRegistrationTypeDefinitionsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    RegistrationTypes: S.optional(RegistrationTypeList),
+    Filters: S.optional(RegistrationTypeFilterList),
+    NextToken: S.optional(S.String),
+    MaxResults: S.optional(S.Number),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({
+  identifier: "DescribeRegistrationTypeDefinitionsRequest",
+}) as any as S.Schema<DescribeRegistrationTypeDefinitionsRequest>;
 export type RegistrationAssociationBehavior = string;
 export type RegistrationDisassociationBehavior = string;
 export interface SupportedAssociation {
@@ -3044,12 +2777,9 @@ export const SupportedAssociation = /*@__PURE__*/ S.suspend(() =>
     AssociationBehavior: S.String,
     DisassociationBehavior: S.String,
   }),
-).annotate({
-  identifier: "SupportedAssociation",
-}) as any as S.Schema<SupportedAssociation>;
+).annotate({ identifier: "SupportedAssociation" }) as any as S.Schema<SupportedAssociation>;
 export type SupportedAssociationList = SupportedAssociation[];
-export const SupportedAssociationList =
-  /*@__PURE__*/ S.Array(SupportedAssociation);
+export const SupportedAssociationList = /*@__PURE__*/ S.Array(SupportedAssociation);
 export interface RegistrationTypeDisplayHints {
   Title: string;
   ShortDescription?: string;
@@ -3083,22 +2813,19 @@ export const RegistrationTypeDefinition = /*@__PURE__*/ S.suspend(() =>
   identifier: "RegistrationTypeDefinition",
 }) as any as S.Schema<RegistrationTypeDefinition>;
 export type RegistrationTypeDefinitionList = RegistrationTypeDefinition[];
-export const RegistrationTypeDefinitionList = /*@__PURE__*/ S.Array(
-  RegistrationTypeDefinition,
-);
+export const RegistrationTypeDefinitionList = /*@__PURE__*/ S.Array(RegistrationTypeDefinition);
 export interface DescribeRegistrationTypeDefinitionsResult {
   RegistrationTypeDefinitions: RegistrationTypeDefinition[];
   NextToken?: string;
 }
-export const DescribeRegistrationTypeDefinitionsResult =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      RegistrationTypeDefinitions: RegistrationTypeDefinitionList,
-      NextToken: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "DescribeRegistrationTypeDefinitionsResult",
-  }) as any as S.Schema<DescribeRegistrationTypeDefinitionsResult>;
+export const DescribeRegistrationTypeDefinitionsResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    RegistrationTypeDefinitions: RegistrationTypeDefinitionList,
+    NextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "DescribeRegistrationTypeDefinitionsResult",
+}) as any as S.Schema<DescribeRegistrationTypeDefinitionsResult>;
 export type RegistrationVersionNumberList = number[];
 export const RegistrationVersionNumberList = /*@__PURE__*/ S.Array(S.Number);
 export type RegistrationVersionFilterName = string;
@@ -3112,9 +2839,7 @@ export const RegistrationVersionFilter = /*@__PURE__*/ S.suspend(() =>
   identifier: "RegistrationVersionFilter",
 }) as any as S.Schema<RegistrationVersionFilter>;
 export type RegistrationVersionFilterList = RegistrationVersionFilter[];
-export const RegistrationVersionFilterList = /*@__PURE__*/ S.Array(
-  RegistrationVersionFilter,
-);
+export const RegistrationVersionFilterList = /*@__PURE__*/ S.Array(RegistrationVersionFilter);
 export interface DescribeRegistrationVersionsRequest {
   RegistrationId: string;
   VersionNumbers?: number[];
@@ -3129,9 +2854,7 @@ export const DescribeRegistrationVersionsRequest = /*@__PURE__*/ S.suspend(() =>
     Filters: S.optional(RegistrationVersionFilterList),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeRegistrationVersionsRequest",
 }) as any as S.Schema<DescribeRegistrationVersionsRequest>;
@@ -3153,8 +2876,7 @@ export const RegistrationDeniedReasonInformation = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "RegistrationDeniedReasonInformation",
 }) as any as S.Schema<RegistrationDeniedReasonInformation>;
-export type RegistrationDeniedReasonInformationList =
-  RegistrationDeniedReasonInformation[];
+export type RegistrationDeniedReasonInformationList = RegistrationDeniedReasonInformation[];
 export const RegistrationDeniedReasonInformationList = /*@__PURE__*/ S.Array(
   RegistrationDeniedReasonInformation,
 );
@@ -3176,8 +2898,7 @@ export const RegistrationVersionInformation = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "RegistrationVersionInformation",
 }) as any as S.Schema<RegistrationVersionInformation>;
-export type RegistrationVersionInformationList =
-  RegistrationVersionInformation[];
+export type RegistrationVersionInformationList = RegistrationVersionInformation[];
 export const RegistrationVersionInformationList = /*@__PURE__*/ S.Array(
   RegistrationVersionInformation,
 );
@@ -3204,9 +2925,7 @@ export interface SenderIdAndCountry {
 }
 export const SenderIdAndCountry = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ SenderId: S.String, IsoCountryCode: S.String }),
-).annotate({
-  identifier: "SenderIdAndCountry",
-}) as any as S.Schema<SenderIdAndCountry>;
+).annotate({ identifier: "SenderIdAndCountry" }) as any as S.Schema<SenderIdAndCountry>;
 export type SenderIdList = SenderIdAndCountry[];
 export const SenderIdList = /*@__PURE__*/ S.Array(SenderIdAndCountry);
 export type SenderIdFilterName = string;
@@ -3233,12 +2952,8 @@ export const DescribeSenderIdsRequest = /*@__PURE__*/ S.suspend(() =>
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     Owner: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DescribeSenderIdsRequest",
-}) as any as S.Schema<DescribeSenderIdsRequest>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "DescribeSenderIdsRequest" }) as any as S.Schema<DescribeSenderIdsRequest>;
 export type MessageTypeList = string[];
 export const MessageTypeList = /*@__PURE__*/ S.Array(S.String);
 export interface SenderIdInformation {
@@ -3250,6 +2965,7 @@ export interface SenderIdInformation {
   DeletionProtectionEnabled: boolean;
   Registered: boolean;
   RegistrationId?: string;
+  MessagingLimits?: MessagingLimits;
 }
 export const SenderIdInformation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -3261,34 +2977,24 @@ export const SenderIdInformation = /*@__PURE__*/ S.suspend(() =>
     DeletionProtectionEnabled: S.Boolean,
     Registered: S.Boolean,
     RegistrationId: S.optional(S.String),
+    MessagingLimits: S.optional(MessagingLimits),
   }),
-).annotate({
-  identifier: "SenderIdInformation",
-}) as any as S.Schema<SenderIdInformation>;
+).annotate({ identifier: "SenderIdInformation" }) as any as S.Schema<SenderIdInformation>;
 export type SenderIdInformationList = SenderIdInformation[];
-export const SenderIdInformationList =
-  /*@__PURE__*/ S.Array(SenderIdInformation);
+export const SenderIdInformationList = /*@__PURE__*/ S.Array(SenderIdInformation);
 export interface DescribeSenderIdsResult {
   SenderIds?: SenderIdInformation[];
   NextToken?: string;
 }
 export const DescribeSenderIdsResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SenderIds: S.optional(SenderIdInformationList),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DescribeSenderIdsResult",
-}) as any as S.Schema<DescribeSenderIdsResult>;
+  S.Struct({ SenderIds: S.optional(SenderIdInformationList), NextToken: S.optional(S.String) }),
+).annotate({ identifier: "DescribeSenderIdsResult" }) as any as S.Schema<DescribeSenderIdsResult>;
 export interface DescribeSpendLimitsRequest {
   NextToken?: string;
   MaxResults?: number;
 }
 export const DescribeSpendLimitsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-  }).pipe(
+  S.Struct({ NextToken: S.optional(S.String), MaxResults: S.optional(S.Number) }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
@@ -3302,12 +3008,7 @@ export interface SpendLimit {
   Overridden: boolean;
 }
 export const SpendLimit = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.String,
-    EnforcedLimit: S.Number,
-    MaxLimit: S.Number,
-    Overridden: S.Boolean,
-  }),
+  S.Struct({ Name: S.String, EnforcedLimit: S.Number, MaxLimit: S.Number, Overridden: S.Boolean }),
 ).annotate({ identifier: "SpendLimit" }) as any as S.Schema<SpendLimit>;
 export type SpendLimitList = SpendLimit[];
 export const SpendLimitList = /*@__PURE__*/ S.Array(SpendLimit);
@@ -3316,10 +3017,7 @@ export interface DescribeSpendLimitsResult {
   NextToken?: string;
 }
 export const DescribeSpendLimitsResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SpendLimits: S.optional(SpendLimitList),
-    NextToken: S.optional(S.String),
-  }),
+  S.Struct({ SpendLimits: S.optional(SpendLimitList), NextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "DescribeSpendLimitsResult",
 }) as any as S.Schema<DescribeSpendLimitsResult>;
@@ -3337,8 +3035,7 @@ export const VerifiedDestinationNumberFilter = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "VerifiedDestinationNumberFilter",
 }) as any as S.Schema<VerifiedDestinationNumberFilter>;
-export type VerifiedDestinationNumberFilterList =
-  VerifiedDestinationNumberFilter[];
+export type VerifiedDestinationNumberFilterList = VerifiedDestinationNumberFilter[];
 export const VerifiedDestinationNumberFilterList = /*@__PURE__*/ S.Array(
   VerifiedDestinationNumberFilter,
 );
@@ -3349,20 +3046,17 @@ export interface DescribeVerifiedDestinationNumbersRequest {
   NextToken?: string;
   MaxResults?: number;
 }
-export const DescribeVerifiedDestinationNumbersRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      VerifiedDestinationNumberIds: S.optional(VerifiedDestinationNumberIdList),
-      DestinationPhoneNumbers: S.optional(DestinationPhoneNumberList),
-      Filters: S.optional(VerifiedDestinationNumberFilterList),
-      NextToken: S.optional(S.String),
-      MaxResults: S.optional(S.Number),
-    }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
-  ).annotate({
-    identifier: "DescribeVerifiedDestinationNumbersRequest",
-  }) as any as S.Schema<DescribeVerifiedDestinationNumbersRequest>;
+export const DescribeVerifiedDestinationNumbersRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    VerifiedDestinationNumberIds: S.optional(VerifiedDestinationNumberIdList),
+    DestinationPhoneNumbers: S.optional(DestinationPhoneNumberList),
+    Filters: S.optional(VerifiedDestinationNumberFilterList),
+    NextToken: S.optional(S.String),
+    MaxResults: S.optional(S.Number),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({
+  identifier: "DescribeVerifiedDestinationNumbersRequest",
+}) as any as S.Schema<DescribeVerifiedDestinationNumbersRequest>;
 export interface VerifiedDestinationNumberInformation {
   VerifiedDestinationNumberArn: string;
   VerifiedDestinationNumberId: string;
@@ -3371,21 +3065,19 @@ export interface VerifiedDestinationNumberInformation {
   RcsAgentId?: string;
   CreatedTimestamp: Date;
 }
-export const VerifiedDestinationNumberInformation = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      VerifiedDestinationNumberArn: S.String,
-      VerifiedDestinationNumberId: S.String,
-      DestinationPhoneNumber: S.String,
-      Status: S.String,
-      RcsAgentId: S.optional(S.String),
-      CreatedTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    }),
+export const VerifiedDestinationNumberInformation = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    VerifiedDestinationNumberArn: S.String,
+    VerifiedDestinationNumberId: S.String,
+    DestinationPhoneNumber: S.String,
+    Status: S.String,
+    RcsAgentId: S.optional(S.String),
+    CreatedTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  }),
 ).annotate({
   identifier: "VerifiedDestinationNumberInformation",
 }) as any as S.Schema<VerifiedDestinationNumberInformation>;
-export type VerifiedDestinationNumberInformationList =
-  VerifiedDestinationNumberInformation[];
+export type VerifiedDestinationNumberInformationList = VerifiedDestinationNumberInformation[];
 export const VerifiedDestinationNumberInformationList = /*@__PURE__*/ S.Array(
   VerifiedDestinationNumberInformation,
 );
@@ -3393,12 +3085,11 @@ export interface DescribeVerifiedDestinationNumbersResult {
   VerifiedDestinationNumbers: VerifiedDestinationNumberInformation[];
   NextToken?: string;
 }
-export const DescribeVerifiedDestinationNumbersResult = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      VerifiedDestinationNumbers: VerifiedDestinationNumberInformationList,
-      NextToken: S.optional(S.String),
-    }),
+export const DescribeVerifiedDestinationNumbersResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    VerifiedDestinationNumbers: VerifiedDestinationNumberInformationList,
+    NextToken: S.optional(S.String),
+  }),
 ).annotate({
   identifier: "DescribeVerifiedDestinationNumbersResult",
 }) as any as S.Schema<DescribeVerifiedDestinationNumbersResult>;
@@ -3408,16 +3099,13 @@ export interface DisassociateOriginationIdentityRequest {
   IsoCountryCode?: string;
   ClientToken?: string;
 }
-export const DisassociateOriginationIdentityRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      PoolId: S.String,
-      OriginationIdentity: S.String,
-      IsoCountryCode: S.optional(S.String),
-      ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
+export const DisassociateOriginationIdentityRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    PoolId: S.String,
+    OriginationIdentity: S.String,
+    IsoCountryCode: S.optional(S.String),
+    ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DisassociateOriginationIdentityRequest",
 }) as any as S.Schema<DisassociateOriginationIdentityRequest>;
@@ -3428,15 +3116,14 @@ export interface DisassociateOriginationIdentityResult {
   OriginationIdentity?: string;
   IsoCountryCode?: string;
 }
-export const DisassociateOriginationIdentityResult = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      PoolArn: S.optional(S.String),
-      PoolId: S.optional(S.String),
-      OriginationIdentityArn: S.optional(S.String),
-      OriginationIdentity: S.optional(S.String),
-      IsoCountryCode: S.optional(S.String),
-    }),
+export const DisassociateOriginationIdentityResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    PoolArn: S.optional(S.String),
+    PoolId: S.optional(S.String),
+    OriginationIdentityArn: S.optional(S.String),
+    OriginationIdentity: S.optional(S.String),
+    IsoCountryCode: S.optional(S.String),
+  }),
 ).annotate({
   identifier: "DisassociateOriginationIdentityResult",
 }) as any as S.Schema<DisassociateOriginationIdentityResult>;
@@ -3444,14 +3131,10 @@ export interface DisassociateProtectConfigurationRequest {
   ProtectConfigurationId: string;
   ConfigurationSetName: string;
 }
-export const DisassociateProtectConfigurationRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ProtectConfigurationId: S.String,
-      ConfigurationSetName: S.String,
-    }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
+export const DisassociateProtectConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ ProtectConfigurationId: S.String, ConfigurationSetName: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "DisassociateProtectConfigurationRequest",
 }) as any as S.Schema<DisassociateProtectConfigurationRequest>;
@@ -3461,14 +3144,13 @@ export interface DisassociateProtectConfigurationResult {
   ProtectConfigurationArn: string;
   ProtectConfigurationId: string;
 }
-export const DisassociateProtectConfigurationResult = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ConfigurationSetArn: S.String,
-      ConfigurationSetName: S.String,
-      ProtectConfigurationArn: S.String,
-      ProtectConfigurationId: S.String,
-    }),
+export const DisassociateProtectConfigurationResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ConfigurationSetArn: S.String,
+    ConfigurationSetName: S.String,
+    ProtectConfigurationArn: S.String,
+    ProtectConfigurationId: S.String,
+  }),
 ).annotate({
   identifier: "DisassociateProtectConfigurationResult",
 }) as any as S.Schema<DisassociateProtectConfigurationResult>;
@@ -3504,25 +3186,22 @@ export interface GetProtectConfigurationCountryRuleSetRequest {
   ProtectConfigurationId: string;
   NumberCapability: string;
 }
-export const GetProtectConfigurationCountryRuleSetRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ProtectConfigurationId: S.String,
-      NumberCapability: S.String,
-    }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
-  ).annotate({
-    identifier: "GetProtectConfigurationCountryRuleSetRequest",
-  }) as any as S.Schema<GetProtectConfigurationCountryRuleSetRequest>;
+export const GetProtectConfigurationCountryRuleSetRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ ProtectConfigurationId: S.String, NumberCapability: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "GetProtectConfigurationCountryRuleSetRequest",
+}) as any as S.Schema<GetProtectConfigurationCountryRuleSetRequest>;
 export type ProtectStatus = string;
 export interface ProtectConfigurationCountryRuleSetInformation {
   ProtectStatus: string;
 }
-export const ProtectConfigurationCountryRuleSetInformation =
-  /*@__PURE__*/ S.suspend(() => S.Struct({ ProtectStatus: S.String })).annotate(
-    { identifier: "ProtectConfigurationCountryRuleSetInformation" },
-  ) as any as S.Schema<ProtectConfigurationCountryRuleSetInformation>;
+export const ProtectConfigurationCountryRuleSetInformation = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ ProtectStatus: S.String }),
+).annotate({
+  identifier: "ProtectConfigurationCountryRuleSetInformation",
+}) as any as S.Schema<ProtectConfigurationCountryRuleSetInformation>;
 export type ProtectConfigurationCountryRuleSet = {
   [key: string]: ProtectConfigurationCountryRuleSetInformation | undefined;
 };
@@ -3534,21 +3213,18 @@ export interface GetProtectConfigurationCountryRuleSetResult {
   ProtectConfigurationArn: string;
   ProtectConfigurationId: string;
   NumberCapability: string;
-  CountryRuleSet: {
-    [key: string]: ProtectConfigurationCountryRuleSetInformation | undefined;
-  };
+  CountryRuleSet: { [key: string]: ProtectConfigurationCountryRuleSetInformation | undefined };
 }
-export const GetProtectConfigurationCountryRuleSetResult =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ProtectConfigurationArn: S.String,
-      ProtectConfigurationId: S.String,
-      NumberCapability: S.String,
-      CountryRuleSet: ProtectConfigurationCountryRuleSet,
-    }),
-  ).annotate({
-    identifier: "GetProtectConfigurationCountryRuleSetResult",
-  }) as any as S.Schema<GetProtectConfigurationCountryRuleSetResult>;
+export const GetProtectConfigurationCountryRuleSetResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ProtectConfigurationArn: S.String,
+    ProtectConfigurationId: S.String,
+    NumberCapability: S.String,
+    CountryRuleSet: ProtectConfigurationCountryRuleSet,
+  }),
+).annotate({
+  identifier: "GetProtectConfigurationCountryRuleSetResult",
+}) as any as S.Schema<GetProtectConfigurationCountryRuleSetResult>;
 export interface GetResourcePolicyRequest {
   ResourceArn: string;
 }
@@ -3556,9 +3232,7 @@ export const GetResourcePolicyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceArn: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetResourcePolicyRequest",
-}) as any as S.Schema<GetResourcePolicyRequest>;
+).annotate({ identifier: "GetResourcePolicyRequest" }) as any as S.Schema<GetResourcePolicyRequest>;
 export interface GetResourcePolicyResult {
   ResourceArn?: string;
   Policy?: string;
@@ -3568,13 +3242,59 @@ export const GetResourcePolicyResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ResourceArn: S.optional(S.String),
     Policy: S.optional(S.String),
-    CreatedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    CreatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
+).annotate({ identifier: "GetResourcePolicyResult" }) as any as S.Schema<GetResourcePolicyResult>;
+export type SearchableNumberType = string;
+export type PreferenceType = string;
+export type PreferenceTypeList = string[];
+export const PreferenceTypeList = /*@__PURE__*/ S.Array(S.String);
+export type NumberFilterValue = string;
+export type NumberFilterList = string[];
+export const NumberFilterList = /*@__PURE__*/ S.Array(S.String);
+export interface NumberPreferenceItem {
+  PreferenceType: string[];
+  Filter: string[];
+}
+export const NumberPreferenceItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ PreferenceType: PreferenceTypeList, Filter: NumberFilterList }),
+).annotate({ identifier: "NumberPreferenceItem" }) as any as S.Schema<NumberPreferenceItem>;
+export type NumberPreferenceList = NumberPreferenceItem[];
+export const NumberPreferenceList = /*@__PURE__*/ S.Array(NumberPreferenceItem);
+export type ListAvailablePhoneNumbersMaxResults = number;
+export interface ListAvailablePhoneNumbersRequest {
+  IsoCountryCode: string;
+  NumberCapabilities: string[];
+  NumberType: string;
+  RegistrationId?: string;
+  NumberPreference?: NumberPreferenceItem[];
+  NextToken?: string;
+  MaxResults?: number;
+}
+export const ListAvailablePhoneNumbersRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    IsoCountryCode: S.String,
+    NumberCapabilities: NumberCapabilityList,
+    NumberType: S.String,
+    RegistrationId: S.optional(S.String),
+    NumberPreference: S.optional(NumberPreferenceList),
+    NextToken: S.optional(S.String),
+    MaxResults: S.optional(S.Number),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
-  identifier: "GetResourcePolicyResult",
-}) as any as S.Schema<GetResourcePolicyResult>;
+  identifier: "ListAvailablePhoneNumbersRequest",
+}) as any as S.Schema<ListAvailablePhoneNumbersRequest>;
+export type AvailablePhoneNumberList = string[];
+export const AvailablePhoneNumberList = /*@__PURE__*/ S.Array(S.String);
+export interface ListAvailablePhoneNumbersResult {
+  AvailablePhoneNumbers: string[];
+  NextToken?: string;
+}
+export const ListAvailablePhoneNumbersResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ AvailablePhoneNumbers: AvailablePhoneNumberList, NextToken: S.optional(S.String) }),
+).annotate({
+  identifier: "ListAvailablePhoneNumbersResult",
+}) as any as S.Schema<ListAvailablePhoneNumbersResult>;
 export type NotifyUseCaseList = string[];
 export const NotifyUseCaseList = /*@__PURE__*/ S.Array(S.String);
 export interface ListNotifyCountriesRequest {
@@ -3591,9 +3311,7 @@ export const ListNotifyCountriesRequest = /*@__PURE__*/ S.suspend(() =>
     Tier: S.optional(S.String),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListNotifyCountriesRequest",
 }) as any as S.Schema<ListNotifyCountriesRequest>;
@@ -3616,13 +3334,9 @@ export const NotifyCountryInformation = /*@__PURE__*/ S.suspend(() =>
     SupportedTiers: NotifyTierList,
     CustomerOwnedIdentityRequired: S.Boolean,
   }),
-).annotate({
-  identifier: "NotifyCountryInformation",
-}) as any as S.Schema<NotifyCountryInformation>;
+).annotate({ identifier: "NotifyCountryInformation" }) as any as S.Schema<NotifyCountryInformation>;
 export type NotifyCountryInformationList = NotifyCountryInformation[];
-export const NotifyCountryInformationList = /*@__PURE__*/ S.Array(
-  NotifyCountryInformation,
-);
+export const NotifyCountryInformationList = /*@__PURE__*/ S.Array(NotifyCountryInformation);
 export interface ListNotifyCountriesResult {
   NotifyCountries?: NotifyCountryInformation[];
   NextToken?: string;
@@ -3645,8 +3359,7 @@ export const PoolOriginationIdentitiesFilter = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "PoolOriginationIdentitiesFilter",
 }) as any as S.Schema<PoolOriginationIdentitiesFilter>;
-export type PoolOriginationIdentitiesFilterList =
-  PoolOriginationIdentitiesFilter[];
+export type PoolOriginationIdentitiesFilterList = PoolOriginationIdentitiesFilter[];
 export const PoolOriginationIdentitiesFilterList = /*@__PURE__*/ S.Array(
   PoolOriginationIdentitiesFilter,
 );
@@ -3656,16 +3369,13 @@ export interface ListPoolOriginationIdentitiesRequest {
   NextToken?: string;
   MaxResults?: number;
 }
-export const ListPoolOriginationIdentitiesRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      PoolId: S.String,
-      Filters: S.optional(PoolOriginationIdentitiesFilterList),
-      NextToken: S.optional(S.String),
-      MaxResults: S.optional(S.Number),
-    }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
+export const ListPoolOriginationIdentitiesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    PoolId: S.String,
+    Filters: S.optional(PoolOriginationIdentitiesFilterList),
+    NextToken: S.optional(S.String),
+    MaxResults: S.optional(S.Number),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListPoolOriginationIdentitiesRequest",
 }) as any as S.Schema<ListPoolOriginationIdentitiesRequest>;
@@ -3688,9 +3398,7 @@ export const OriginationIdentityMetadata = /*@__PURE__*/ S.suspend(() =>
   identifier: "OriginationIdentityMetadata",
 }) as any as S.Schema<OriginationIdentityMetadata>;
 export type OriginationIdentityMetadataList = OriginationIdentityMetadata[];
-export const OriginationIdentityMetadataList = /*@__PURE__*/ S.Array(
-  OriginationIdentityMetadata,
-);
+export const OriginationIdentityMetadataList = /*@__PURE__*/ S.Array(OriginationIdentityMetadata);
 export interface ListPoolOriginationIdentitiesResult {
   PoolArn?: string;
   PoolId?: string;
@@ -3712,35 +3420,32 @@ export interface ProtectConfigurationRuleSetNumberOverrideFilterItem {
   Name: string;
   Values: string[];
 }
-export const ProtectConfigurationRuleSetNumberOverrideFilterItem =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ Name: S.String, Values: FilterValueList }),
-  ).annotate({
-    identifier: "ProtectConfigurationRuleSetNumberOverrideFilterItem",
-  }) as any as S.Schema<ProtectConfigurationRuleSetNumberOverrideFilterItem>;
+export const ProtectConfigurationRuleSetNumberOverrideFilterItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ Name: S.String, Values: FilterValueList }),
+).annotate({
+  identifier: "ProtectConfigurationRuleSetNumberOverrideFilterItem",
+}) as any as S.Schema<ProtectConfigurationRuleSetNumberOverrideFilterItem>;
 export type ListProtectConfigurationRuleSetNumberOverrideFilter =
   ProtectConfigurationRuleSetNumberOverrideFilterItem[];
-export const ListProtectConfigurationRuleSetNumberOverrideFilter =
-  /*@__PURE__*/ S.Array(ProtectConfigurationRuleSetNumberOverrideFilterItem);
+export const ListProtectConfigurationRuleSetNumberOverrideFilter = /*@__PURE__*/ S.Array(
+  ProtectConfigurationRuleSetNumberOverrideFilterItem,
+);
 export interface ListProtectConfigurationRuleSetNumberOverridesRequest {
   ProtectConfigurationId: string;
   Filters?: ProtectConfigurationRuleSetNumberOverrideFilterItem[];
   NextToken?: string;
   MaxResults?: number;
 }
-export const ListProtectConfigurationRuleSetNumberOverridesRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ProtectConfigurationId: S.String,
-      Filters: S.optional(ListProtectConfigurationRuleSetNumberOverrideFilter),
-      NextToken: S.optional(S.String),
-      MaxResults: S.optional(S.Number),
-    }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
-  ).annotate({
-    identifier: "ListProtectConfigurationRuleSetNumberOverridesRequest",
-  }) as any as S.Schema<ListProtectConfigurationRuleSetNumberOverridesRequest>;
+export const ListProtectConfigurationRuleSetNumberOverridesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ProtectConfigurationId: S.String,
+    Filters: S.optional(ListProtectConfigurationRuleSetNumberOverrideFilter),
+    NextToken: S.optional(S.String),
+    MaxResults: S.optional(S.Number),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({
+  identifier: "ListProtectConfigurationRuleSetNumberOverridesRequest",
+}) as any as S.Schema<ListProtectConfigurationRuleSetNumberOverridesRequest>;
 export interface ProtectConfigurationRuleSetNumberOverride {
   DestinationPhoneNumber: string;
   CreatedTimestamp: Date;
@@ -3748,43 +3453,38 @@ export interface ProtectConfigurationRuleSetNumberOverride {
   IsoCountryCode?: string;
   ExpirationTimestamp?: Date;
 }
-export const ProtectConfigurationRuleSetNumberOverride =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      DestinationPhoneNumber: S.String,
-      CreatedTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-      Action: S.String,
-      IsoCountryCode: S.optional(S.String),
-      ExpirationTimestamp: S.optional(
-        S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-      ),
-    }),
-  ).annotate({
-    identifier: "ProtectConfigurationRuleSetNumberOverride",
-  }) as any as S.Schema<ProtectConfigurationRuleSetNumberOverride>;
+export const ProtectConfigurationRuleSetNumberOverride = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    DestinationPhoneNumber: S.String,
+    CreatedTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    Action: S.String,
+    IsoCountryCode: S.optional(S.String),
+    ExpirationTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotate({
+  identifier: "ProtectConfigurationRuleSetNumberOverride",
+}) as any as S.Schema<ProtectConfigurationRuleSetNumberOverride>;
 export type ProtectConfigurationRuleSetNumberOverrideList =
   ProtectConfigurationRuleSetNumberOverride[];
-export const ProtectConfigurationRuleSetNumberOverrideList =
-  /*@__PURE__*/ S.Array(ProtectConfigurationRuleSetNumberOverride);
+export const ProtectConfigurationRuleSetNumberOverrideList = /*@__PURE__*/ S.Array(
+  ProtectConfigurationRuleSetNumberOverride,
+);
 export interface ListProtectConfigurationRuleSetNumberOverridesResult {
   ProtectConfigurationArn: string;
   ProtectConfigurationId: string;
   RuleSetNumberOverrides?: ProtectConfigurationRuleSetNumberOverride[];
   NextToken?: string;
 }
-export const ListProtectConfigurationRuleSetNumberOverridesResult =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ProtectConfigurationArn: S.String,
-      ProtectConfigurationId: S.String,
-      RuleSetNumberOverrides: S.optional(
-        ProtectConfigurationRuleSetNumberOverrideList,
-      ),
-      NextToken: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "ListProtectConfigurationRuleSetNumberOverridesResult",
-  }) as any as S.Schema<ListProtectConfigurationRuleSetNumberOverridesResult>;
+export const ListProtectConfigurationRuleSetNumberOverridesResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ProtectConfigurationArn: S.String,
+    ProtectConfigurationId: S.String,
+    RuleSetNumberOverrides: S.optional(ProtectConfigurationRuleSetNumberOverrideList),
+    NextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListProtectConfigurationRuleSetNumberOverridesResult",
+}) as any as S.Schema<ListProtectConfigurationRuleSetNumberOverridesResult>;
 export type RegistrationAssociationFilterName = string;
 export interface RegistrationAssociationFilter {
   Name: string;
@@ -3811,9 +3511,7 @@ export const ListRegistrationAssociationsRequest = /*@__PURE__*/ S.suspend(() =>
     Filters: S.optional(RegistrationAssociationFilterList),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListRegistrationAssociationsRequest",
 }) as any as S.Schema<ListRegistrationAssociationsRequest>;
@@ -3835,8 +3533,7 @@ export const RegistrationAssociationMetadata = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "RegistrationAssociationMetadata",
 }) as any as S.Schema<RegistrationAssociationMetadata>;
-export type RegistrationAssociationMetadataList =
-  RegistrationAssociationMetadata[];
+export type RegistrationAssociationMetadataList = RegistrationAssociationMetadata[];
 export const RegistrationAssociationMetadataList = /*@__PURE__*/ S.Array(
   RegistrationAssociationMetadata,
 );
@@ -3889,12 +3586,8 @@ export const PutKeywordRequest = /*@__PURE__*/ S.suspend(() =>
     Keyword: S.String,
     KeywordMessage: S.String,
     KeywordAction: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "PutKeywordRequest",
-}) as any as S.Schema<PutKeywordRequest>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "PutKeywordRequest" }) as any as S.Schema<PutKeywordRequest>;
 export interface PutKeywordResult {
   OriginationIdentityArn?: string;
   OriginationIdentity?: string;
@@ -3910,9 +3603,7 @@ export const PutKeywordResult = /*@__PURE__*/ S.suspend(() =>
     KeywordMessage: S.optional(S.String),
     KeywordAction: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PutKeywordResult",
-}) as any as S.Schema<PutKeywordResult>;
+).annotate({ identifier: "PutKeywordResult" }) as any as S.Schema<PutKeywordResult>;
 export type MessageId = string;
 export type MessageFeedbackStatus = string;
 export interface PutMessageFeedbackRequest {
@@ -3932,9 +3623,7 @@ export interface PutMessageFeedbackResult {
 }
 export const PutMessageFeedbackResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ MessageId: S.String, MessageFeedbackStatus: S.String }),
-).annotate({
-  identifier: "PutMessageFeedbackResult",
-}) as any as S.Schema<PutMessageFeedbackResult>;
+).annotate({ identifier: "PutMessageFeedbackResult" }) as any as S.Schema<PutMessageFeedbackResult>;
 export interface PutOptedOutNumberRequest {
   OptOutListName: string;
   OptedOutNumber: string;
@@ -3943,9 +3632,7 @@ export const PutOptedOutNumberRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ OptOutListName: S.String, OptedOutNumber: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "PutOptedOutNumberRequest",
-}) as any as S.Schema<PutOptedOutNumberRequest>;
+).annotate({ identifier: "PutOptedOutNumberRequest" }) as any as S.Schema<PutOptedOutNumberRequest>;
 export interface PutOptedOutNumberResult {
   OptOutListArn?: string;
   OptOutListName?: string;
@@ -3958,14 +3645,10 @@ export const PutOptedOutNumberResult = /*@__PURE__*/ S.suspend(() =>
     OptOutListArn: S.optional(S.String),
     OptOutListName: S.optional(S.String),
     OptedOutNumber: S.optional(S.String),
-    OptedOutTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    OptedOutTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     EndUserOptedOut: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "PutOptedOutNumberResult",
-}) as any as S.Schema<PutOptedOutNumberResult>;
+).annotate({ identifier: "PutOptedOutNumberResult" }) as any as S.Schema<PutOptedOutNumberResult>;
 export interface PutProtectConfigurationRuleSetNumberOverrideRequest {
   ClientToken?: string;
   ProtectConfigurationId: string;
@@ -3973,22 +3656,17 @@ export interface PutProtectConfigurationRuleSetNumberOverrideRequest {
   Action: string;
   ExpirationTimestamp?: Date;
 }
-export const PutProtectConfigurationRuleSetNumberOverrideRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-      ProtectConfigurationId: S.String,
-      DestinationPhoneNumber: S.String,
-      Action: S.String,
-      ExpirationTimestamp: S.optional(
-        S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-      ),
-    }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
-  ).annotate({
-    identifier: "PutProtectConfigurationRuleSetNumberOverrideRequest",
-  }) as any as S.Schema<PutProtectConfigurationRuleSetNumberOverrideRequest>;
+export const PutProtectConfigurationRuleSetNumberOverrideRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+    ProtectConfigurationId: S.String,
+    DestinationPhoneNumber: S.String,
+    Action: S.String,
+    ExpirationTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({
+  identifier: "PutProtectConfigurationRuleSetNumberOverrideRequest",
+}) as any as S.Schema<PutProtectConfigurationRuleSetNumberOverrideRequest>;
 export interface PutProtectConfigurationRuleSetNumberOverrideResult {
   ProtectConfigurationArn: string;
   ProtectConfigurationId: string;
@@ -3998,22 +3676,19 @@ export interface PutProtectConfigurationRuleSetNumberOverrideResult {
   IsoCountryCode?: string;
   ExpirationTimestamp?: Date;
 }
-export const PutProtectConfigurationRuleSetNumberOverrideResult =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ProtectConfigurationArn: S.String,
-      ProtectConfigurationId: S.String,
-      DestinationPhoneNumber: S.String,
-      CreatedTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-      Action: S.String,
-      IsoCountryCode: S.optional(S.String),
-      ExpirationTimestamp: S.optional(
-        S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-      ),
-    }),
-  ).annotate({
-    identifier: "PutProtectConfigurationRuleSetNumberOverrideResult",
-  }) as any as S.Schema<PutProtectConfigurationRuleSetNumberOverrideResult>;
+export const PutProtectConfigurationRuleSetNumberOverrideResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ProtectConfigurationArn: S.String,
+    ProtectConfigurationId: S.String,
+    DestinationPhoneNumber: S.String,
+    CreatedTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    Action: S.String,
+    IsoCountryCode: S.optional(S.String),
+    ExpirationTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotate({
+  identifier: "PutProtectConfigurationRuleSetNumberOverrideResult",
+}) as any as S.Schema<PutProtectConfigurationRuleSetNumberOverrideResult>;
 export interface PutRegistrationFieldValueRequest {
   RegistrationId: string;
   FieldPath: string;
@@ -4028,9 +3703,7 @@ export const PutRegistrationFieldValueRequest = /*@__PURE__*/ S.suspend(() =>
     SelectChoices: S.optional(SelectChoiceList),
     TextValue: S.optional(S.String),
     RegistrationAttachmentId: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "PutRegistrationFieldValueRequest",
 }) as any as S.Schema<PutRegistrationFieldValueRequest>;
@@ -4064,9 +3737,7 @@ export const PutResourcePolicyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceArn: S.String, Policy: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "PutResourcePolicyRequest",
-}) as any as S.Schema<PutResourcePolicyRequest>;
+).annotate({ identifier: "PutResourcePolicyRequest" }) as any as S.Schema<PutResourcePolicyRequest>;
 export interface PutResourcePolicyResult {
   ResourceArn?: string;
   Policy?: string;
@@ -4076,13 +3747,9 @@ export const PutResourcePolicyResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ResourceArn: S.optional(S.String),
     Policy: S.optional(S.String),
-    CreatedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    CreatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
-).annotate({
-  identifier: "PutResourcePolicyResult",
-}) as any as S.Schema<PutResourcePolicyResult>;
+).annotate({ identifier: "PutResourcePolicyResult" }) as any as S.Schema<PutResourcePolicyResult>;
 export interface ReleasePhoneNumberRequest {
   PhoneNumberId: string;
 }
@@ -4128,13 +3795,9 @@ export const ReleasePhoneNumberResult = /*@__PURE__*/ S.suspend(() =>
     SelfManagedOptOutsEnabled: S.optional(S.Boolean),
     OptOutListName: S.optional(S.String),
     RegistrationId: S.optional(S.String),
-    CreatedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    CreatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
-).annotate({
-  identifier: "ReleasePhoneNumberResult",
-}) as any as S.Schema<ReleasePhoneNumberResult>;
+).annotate({ identifier: "ReleasePhoneNumberResult" }) as any as S.Schema<ReleasePhoneNumberResult>;
 export interface ReleaseSenderIdRequest {
   SenderId: string;
   IsoCountryCode: string;
@@ -4143,9 +3806,7 @@ export const ReleaseSenderIdRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ SenderId: S.String, IsoCountryCode: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "ReleaseSenderIdRequest",
-}) as any as S.Schema<ReleaseSenderIdRequest>;
+).annotate({ identifier: "ReleaseSenderIdRequest" }) as any as S.Schema<ReleaseSenderIdRequest>;
 export interface ReleaseSenderIdResult {
   SenderIdArn: string;
   SenderId: string;
@@ -4165,9 +3826,7 @@ export const ReleaseSenderIdResult = /*@__PURE__*/ S.suspend(() =>
     Registered: S.Boolean,
     RegistrationId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ReleaseSenderIdResult",
-}) as any as S.Schema<ReleaseSenderIdResult>;
+).annotate({ identifier: "ReleaseSenderIdResult" }) as any as S.Schema<ReleaseSenderIdResult>;
 export type RequestableNumberType = string;
 export interface RequestPhoneNumberRequest {
   IsoCountryCode: string;
@@ -4177,6 +3836,7 @@ export interface RequestPhoneNumberRequest {
   OptOutListName?: string;
   PoolId?: string;
   RegistrationId?: string;
+  NumberPreference?: NumberPreferenceItem[];
   InternationalSendingEnabled?: boolean;
   DeletionProtectionEnabled?: boolean;
   Tags?: Tag[];
@@ -4191,13 +3851,12 @@ export const RequestPhoneNumberRequest = /*@__PURE__*/ S.suspend(() =>
     OptOutListName: S.optional(S.String),
     PoolId: S.optional(S.String),
     RegistrationId: S.optional(S.String),
+    NumberPreference: S.optional(NumberPreferenceList),
     InternationalSendingEnabled: S.optional(S.Boolean),
     DeletionProtectionEnabled: S.optional(S.Boolean),
     Tags: S.optional(TagList),
     ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "RequestPhoneNumberRequest",
 }) as any as S.Schema<RequestPhoneNumberRequest>;
@@ -4244,13 +3903,9 @@ export const RequestPhoneNumberResult = /*@__PURE__*/ S.suspend(() =>
     PoolId: S.optional(S.String),
     RegistrationId: S.optional(S.String),
     Tags: S.optional(TagList),
-    CreatedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    CreatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
-).annotate({
-  identifier: "RequestPhoneNumberResult",
-}) as any as S.Schema<RequestPhoneNumberResult>;
+).annotate({ identifier: "RequestPhoneNumberResult" }) as any as S.Schema<RequestPhoneNumberResult>;
 export interface RequestSenderIdRequest {
   SenderId: string;
   IsoCountryCode: string;
@@ -4267,12 +3922,8 @@ export const RequestSenderIdRequest = /*@__PURE__*/ S.suspend(() =>
     DeletionProtectionEnabled: S.optional(S.Boolean),
     Tags: S.optional(TagList),
     ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "RequestSenderIdRequest",
-}) as any as S.Schema<RequestSenderIdRequest>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "RequestSenderIdRequest" }) as any as S.Schema<RequestSenderIdRequest>;
 export interface RequestSenderIdResult {
   SenderIdArn: string;
   SenderId: string;
@@ -4294,24 +3945,17 @@ export const RequestSenderIdResult = /*@__PURE__*/ S.suspend(() =>
     Registered: S.Boolean,
     Tags: S.optional(TagList),
   }),
-).annotate({
-  identifier: "RequestSenderIdResult",
-}) as any as S.Schema<RequestSenderIdResult>;
+).annotate({ identifier: "RequestSenderIdResult" }) as any as S.Schema<RequestSenderIdResult>;
 export type VerificationChannel = string;
 export type LanguageCode = string;
 export type VerificationMessageOriginationIdentity = string;
 export type ContextKey = string;
 export type ContextValue = string;
 export type ContextMap = { [key: string]: string | undefined };
-export const ContextMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const ContextMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export type DestinationCountryParameterKey = string;
 export type DestinationCountryParameterValue = string;
-export type DestinationCountryParameters = {
-  [key: string]: string | undefined;
-};
+export type DestinationCountryParameters = { [key: string]: string | undefined };
 export const DestinationCountryParameters = /*@__PURE__*/ S.Record(
   S.String,
   S.String.pipe(S.optional),
@@ -4325,29 +3969,27 @@ export interface SendDestinationNumberVerificationCodeRequest {
   Context?: { [key: string]: string | undefined };
   DestinationCountryParameters?: { [key: string]: string | undefined };
 }
-export const SendDestinationNumberVerificationCodeRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      VerifiedDestinationNumberId: S.String,
-      VerificationChannel: S.String,
-      LanguageCode: S.optional(S.String),
-      OriginationIdentity: S.optional(S.String),
-      ConfigurationSetName: S.optional(S.String),
-      Context: S.optional(ContextMap),
-      DestinationCountryParameters: S.optional(DestinationCountryParameters),
-    }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
-  ).annotate({
-    identifier: "SendDestinationNumberVerificationCodeRequest",
-  }) as any as S.Schema<SendDestinationNumberVerificationCodeRequest>;
+export const SendDestinationNumberVerificationCodeRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    VerifiedDestinationNumberId: S.String,
+    VerificationChannel: S.String,
+    LanguageCode: S.optional(S.String),
+    OriginationIdentity: S.optional(S.String),
+    ConfigurationSetName: S.optional(S.String),
+    Context: S.optional(ContextMap),
+    DestinationCountryParameters: S.optional(DestinationCountryParameters),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({
+  identifier: "SendDestinationNumberVerificationCodeRequest",
+}) as any as S.Schema<SendDestinationNumberVerificationCodeRequest>;
 export interface SendDestinationNumberVerificationCodeResult {
   MessageId: string;
 }
-export const SendDestinationNumberVerificationCodeResult =
-  /*@__PURE__*/ S.suspend(() => S.Struct({ MessageId: S.String })).annotate({
-    identifier: "SendDestinationNumberVerificationCodeResult",
-  }) as any as S.Schema<SendDestinationNumberVerificationCodeResult>;
+export const SendDestinationNumberVerificationCodeResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ MessageId: S.String }),
+).annotate({
+  identifier: "SendDestinationNumberVerificationCodeResult",
+}) as any as S.Schema<SendDestinationNumberVerificationCodeResult>;
 export type MediaMessageOriginationIdentity = string;
 export type TextMessageBody = string;
 export type MediaUrlValue = string;
@@ -4381,25 +4023,17 @@ export const SendMediaMessageRequest = /*@__PURE__*/ S.suspend(() =>
     DryRun: S.optional(S.Boolean),
     ProtectConfigurationId: S.optional(S.String),
     MessageFeedbackEnabled: S.optional(S.Boolean),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "SendMediaMessageRequest",
-}) as any as S.Schema<SendMediaMessageRequest>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "SendMediaMessageRequest" }) as any as S.Schema<SendMediaMessageRequest>;
 export interface SendMediaMessageResult {
   MessageId?: string;
 }
 export const SendMediaMessageResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ MessageId: S.optional(S.String) }),
-).annotate({
-  identifier: "SendMediaMessageResult",
-}) as any as S.Schema<SendMediaMessageResult>;
+).annotate({ identifier: "SendMediaMessageResult" }) as any as S.Schema<SendMediaMessageResult>;
 export type TemplateVariableName = string;
 export type TemplateVariableValue = string;
-export type TemplateVariableSubstitutionMap = {
-  [key: string]: string | undefined;
-};
+export type TemplateVariableSubstitutionMap = { [key: string]: string | undefined };
 export const TemplateVariableSubstitutionMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String.pipe(S.optional),
@@ -4426,9 +4060,7 @@ export const SendNotifyTextMessageRequest = /*@__PURE__*/ S.suspend(() =>
     ConfigurationSetName: S.optional(S.String),
     DryRun: S.optional(S.Boolean),
     MessageFeedbackEnabled: S.optional(S.Boolean),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "SendNotifyTextMessageRequest",
 }) as any as S.Schema<SendNotifyTextMessageRequest>;
@@ -4470,9 +4102,7 @@ export const SendNotifyVoiceMessageRequest = /*@__PURE__*/ S.suspend(() =>
     ConfigurationSetName: S.optional(S.String),
     DryRun: S.optional(S.Boolean),
     MessageFeedbackEnabled: S.optional(S.Boolean),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "SendNotifyVoiceMessageRequest",
 }) as any as S.Schema<SendNotifyVoiceMessageRequest>;
@@ -4495,9 +4125,9 @@ export type RcsTextBody = string;
 export interface RcsTextMessage {
   Body: string;
 }
-export const RcsTextMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Body: S.String }),
-).annotate({ identifier: "RcsTextMessage" }) as any as S.Schema<RcsTextMessage>;
+export const RcsTextMessage = /*@__PURE__*/ S.suspend(() => S.Struct({ Body: S.String })).annotate({
+  identifier: "RcsTextMessage",
+}) as any as S.Schema<RcsTextMessage>;
 export type RcsMediaUrl = string;
 export interface RcsFileMessage {
   FileUrl: string;
@@ -4514,11 +4144,7 @@ export interface RcsCardMedia {
   Height?: string;
 }
 export const RcsCardMedia = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FileUrl: S.String,
-    ThumbnailUrl: S.optional(S.String),
-    Height: S.optional(S.String),
-  }),
+  S.Struct({ FileUrl: S.String, ThumbnailUrl: S.optional(S.String), Height: S.optional(S.String) }),
 ).annotate({ identifier: "RcsCardMedia" }) as any as S.Schema<RcsCardMedia>;
 export type RcsSuggestedActionText = string;
 export type RcsPostbackData = string;
@@ -4545,9 +4171,7 @@ export const RcsOpenUrlAction = /*@__PURE__*/ S.suspend(() =>
     Application: S.optional(S.String),
     WebviewViewMode: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RcsOpenUrlAction",
-}) as any as S.Schema<RcsOpenUrlAction>;
+).annotate({ identifier: "RcsOpenUrlAction" }) as any as S.Schema<RcsOpenUrlAction>;
 export interface RcsDialPhoneAction {
   Text: string;
   PostbackData: string;
@@ -4555,9 +4179,7 @@ export interface RcsDialPhoneAction {
 }
 export const RcsDialPhoneAction = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Text: S.String, PostbackData: S.String, PhoneNumber: S.String }),
-).annotate({
-  identifier: "RcsDialPhoneAction",
-}) as any as S.Schema<RcsDialPhoneAction>;
+).annotate({ identifier: "RcsDialPhoneAction" }) as any as S.Schema<RcsDialPhoneAction>;
 export type RcsLocationLabel = string;
 export interface RcsShowLocationAction {
   Text: string;
@@ -4574,18 +4196,14 @@ export const RcsShowLocationAction = /*@__PURE__*/ S.suspend(() =>
     Longitude: S.Number,
     Label: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RcsShowLocationAction",
-}) as any as S.Schema<RcsShowLocationAction>;
+).annotate({ identifier: "RcsShowLocationAction" }) as any as S.Schema<RcsShowLocationAction>;
 export interface RcsRequestLocationAction {
   Text: string;
   PostbackData: string;
 }
 export const RcsRequestLocationAction = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Text: S.String, PostbackData: S.String }),
-).annotate({
-  identifier: "RcsRequestLocationAction",
-}) as any as S.Schema<RcsRequestLocationAction>;
+).annotate({ identifier: "RcsRequestLocationAction" }) as any as S.Schema<RcsRequestLocationAction>;
 export type RcsCalendarEventTitle = string;
 export type RcsCalendarEventDescription = string;
 export interface RcsCreateCalendarEventAction {
@@ -4666,8 +4284,7 @@ export const RcsSuggestedAction = /*@__PURE__*/ S.Union([
   S.Struct({ CreateCalendarEvent: RcsCreateCalendarEventAction }),
 ]);
 export type RcsCardSuggestedActionList = RcsSuggestedAction[];
-export const RcsCardSuggestedActionList =
-  /*@__PURE__*/ S.Array(RcsSuggestedAction);
+export const RcsCardSuggestedActionList = /*@__PURE__*/ S.Array(RcsSuggestedAction);
 export interface RcsCardContent {
   Title?: string;
   Description?: string;
@@ -4693,23 +4310,15 @@ export const RcsStandaloneCard = /*@__PURE__*/ S.suspend(() =>
     ThumbnailImageAlignment: S.optional(S.String),
     CardContent: RcsCardContent,
   }),
-).annotate({
-  identifier: "RcsStandaloneCard",
-}) as any as S.Schema<RcsStandaloneCard>;
+).annotate({ identifier: "RcsStandaloneCard" }) as any as S.Schema<RcsStandaloneCard>;
 export interface RcsCarouselCardMedia {
   FileUrl: string;
   ThumbnailUrl?: string;
   Height?: string;
 }
 export const RcsCarouselCardMedia = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FileUrl: S.String,
-    ThumbnailUrl: S.optional(S.String),
-    Height: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "RcsCarouselCardMedia",
-}) as any as S.Schema<RcsCarouselCardMedia>;
+  S.Struct({ FileUrl: S.String, ThumbnailUrl: S.optional(S.String), Height: S.optional(S.String) }),
+).annotate({ identifier: "RcsCarouselCardMedia" }) as any as S.Schema<RcsCarouselCardMedia>;
 export interface RcsCarouselCardContent {
   Title?: string;
   Description?: string;
@@ -4723,13 +4332,9 @@ export const RcsCarouselCardContent = /*@__PURE__*/ S.suspend(() =>
     Media: S.optional(RcsCarouselCardMedia),
     Suggestions: S.optional(RcsCardSuggestedActionList),
   }),
-).annotate({
-  identifier: "RcsCarouselCardContent",
-}) as any as S.Schema<RcsCarouselCardContent>;
+).annotate({ identifier: "RcsCarouselCardContent" }) as any as S.Schema<RcsCarouselCardContent>;
 export type RcsCarouselCardContentList = RcsCarouselCardContent[];
-export const RcsCarouselCardContentList = /*@__PURE__*/ S.Array(
-  RcsCarouselCardContent,
-);
+export const RcsCarouselCardContentList = /*@__PURE__*/ S.Array(RcsCarouselCardContent);
 export interface RcsCarousel {
   CardWidth: string;
   CardContents: RcsCarouselCardContent[];
@@ -4738,30 +4343,10 @@ export const RcsCarousel = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ CardWidth: S.String, CardContents: RcsCarouselCardContentList }),
 ).annotate({ identifier: "RcsCarousel" }) as any as S.Schema<RcsCarousel>;
 export type RcsContent =
-  | {
-      TextMessage: RcsTextMessage;
-      FileMessage?: never;
-      RichCard?: never;
-      Carousel?: never;
-    }
-  | {
-      TextMessage?: never;
-      FileMessage: RcsFileMessage;
-      RichCard?: never;
-      Carousel?: never;
-    }
-  | {
-      TextMessage?: never;
-      FileMessage?: never;
-      RichCard: RcsStandaloneCard;
-      Carousel?: never;
-    }
-  | {
-      TextMessage?: never;
-      FileMessage?: never;
-      RichCard?: never;
-      Carousel: RcsCarousel;
-    };
+  | { TextMessage: RcsTextMessage; FileMessage?: never; RichCard?: never; Carousel?: never }
+  | { TextMessage?: never; FileMessage: RcsFileMessage; RichCard?: never; Carousel?: never }
+  | { TextMessage?: never; FileMessage?: never; RichCard: RcsStandaloneCard; Carousel?: never }
+  | { TextMessage?: never; FileMessage?: never; RichCard?: never; Carousel: RcsCarousel };
 export const RcsContent = /*@__PURE__*/ S.Union([
   S.Struct({ TextMessage: RcsTextMessage }),
   S.Struct({ FileMessage: RcsFileMessage }),
@@ -4775,13 +4360,8 @@ export interface RcsMessageContent {
   Suggestions?: RcsSuggestedAction[];
 }
 export const RcsMessageContent = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Content: RcsContent,
-    Suggestions: S.optional(RcsSuggestedActionList),
-  }),
-).annotate({
-  identifier: "RcsMessageContent",
-}) as any as S.Schema<RcsMessageContent>;
+  S.Struct({ Content: RcsContent, Suggestions: S.optional(RcsSuggestedActionList) }),
+).annotate({ identifier: "RcsMessageContent" }) as any as S.Schema<RcsMessageContent>;
 export type RcsTimeToLive = number;
 export type RcsMessageTrafficType = string;
 export type RcsFallbackChannel = string;
@@ -4800,9 +4380,7 @@ export const RcsFallbackConfiguration = /*@__PURE__*/ S.suspend(() =>
     MediaUrls: S.optional(MediaUrlList),
     OriginationIdentity: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RcsFallbackConfiguration",
-}) as any as S.Schema<RcsFallbackConfiguration>;
+).annotate({ identifier: "RcsFallbackConfiguration" }) as any as S.Schema<RcsFallbackConfiguration>;
 export interface SendRcsMessageRequest {
   DestinationPhoneNumber: string;
   OriginationIdentity: string;
@@ -4831,20 +4409,14 @@ export const SendRcsMessageRequest = /*@__PURE__*/ S.suspend(() =>
     DryRun: S.optional(S.Boolean),
     Context: S.optional(ContextMap),
     MessageFeedbackEnabled: S.optional(S.Boolean),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "SendRcsMessageRequest",
-}) as any as S.Schema<SendRcsMessageRequest>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "SendRcsMessageRequest" }) as any as S.Schema<SendRcsMessageRequest>;
 export interface SendRcsMessageResult {
   MessageId?: string;
 }
 export const SendRcsMessageResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ MessageId: S.optional(S.String) }),
-).annotate({
-  identifier: "SendRcsMessageResult",
-}) as any as S.Schema<SendRcsMessageResult>;
+).annotate({ identifier: "SendRcsMessageResult" }) as any as S.Schema<SendRcsMessageResult>;
 export type TextMessageOriginationIdentity = string;
 export interface SendTextMessageRequest {
   DestinationPhoneNumber: string;
@@ -4876,20 +4448,14 @@ export const SendTextMessageRequest = /*@__PURE__*/ S.suspend(() =>
     DryRun: S.optional(S.Boolean),
     ProtectConfigurationId: S.optional(S.String),
     MessageFeedbackEnabled: S.optional(S.Boolean),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "SendTextMessageRequest",
-}) as any as S.Schema<SendTextMessageRequest>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "SendTextMessageRequest" }) as any as S.Schema<SendTextMessageRequest>;
 export interface SendTextMessageResult {
   MessageId?: string;
 }
 export const SendTextMessageResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ MessageId: S.optional(S.String) }),
-).annotate({
-  identifier: "SendTextMessageResult",
-}) as any as S.Schema<SendTextMessageResult>;
+).annotate({ identifier: "SendTextMessageResult" }) as any as S.Schema<SendTextMessageResult>;
 export type VoiceMessageOriginationIdentity = string;
 export type VoiceMessageBody = string;
 export type VoiceMessageBodyTextType = string;
@@ -4921,56 +4487,41 @@ export const SendVoiceMessageRequest = /*@__PURE__*/ S.suspend(() =>
     DryRun: S.optional(S.Boolean),
     ProtectConfigurationId: S.optional(S.String),
     MessageFeedbackEnabled: S.optional(S.Boolean),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "SendVoiceMessageRequest",
-}) as any as S.Schema<SendVoiceMessageRequest>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "SendVoiceMessageRequest" }) as any as S.Schema<SendVoiceMessageRequest>;
 export interface SendVoiceMessageResult {
   MessageId?: string;
 }
 export const SendVoiceMessageResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ MessageId: S.optional(S.String) }),
-).annotate({
-  identifier: "SendVoiceMessageResult",
-}) as any as S.Schema<SendVoiceMessageResult>;
+).annotate({ identifier: "SendVoiceMessageResult" }) as any as S.Schema<SendVoiceMessageResult>;
 export interface SetAccountDefaultProtectConfigurationRequest {
   ProtectConfigurationId: string;
 }
-export const SetAccountDefaultProtectConfigurationRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ ProtectConfigurationId: S.String }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
-  ).annotate({
-    identifier: "SetAccountDefaultProtectConfigurationRequest",
-  }) as any as S.Schema<SetAccountDefaultProtectConfigurationRequest>;
+export const SetAccountDefaultProtectConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ ProtectConfigurationId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "SetAccountDefaultProtectConfigurationRequest",
+}) as any as S.Schema<SetAccountDefaultProtectConfigurationRequest>;
 export interface SetAccountDefaultProtectConfigurationResult {
   DefaultProtectConfigurationArn: string;
   DefaultProtectConfigurationId: string;
 }
-export const SetAccountDefaultProtectConfigurationResult =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      DefaultProtectConfigurationArn: S.String,
-      DefaultProtectConfigurationId: S.String,
-    }),
-  ).annotate({
-    identifier: "SetAccountDefaultProtectConfigurationResult",
-  }) as any as S.Schema<SetAccountDefaultProtectConfigurationResult>;
+export const SetAccountDefaultProtectConfigurationResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ DefaultProtectConfigurationArn: S.String, DefaultProtectConfigurationId: S.String }),
+).annotate({
+  identifier: "SetAccountDefaultProtectConfigurationResult",
+}) as any as S.Schema<SetAccountDefaultProtectConfigurationResult>;
 export interface SetDefaultMessageFeedbackEnabledRequest {
   ConfigurationSetName: string;
   MessageFeedbackEnabled: boolean;
 }
-export const SetDefaultMessageFeedbackEnabledRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ConfigurationSetName: S.String,
-      MessageFeedbackEnabled: S.Boolean,
-    }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
+export const SetDefaultMessageFeedbackEnabledRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ ConfigurationSetName: S.String, MessageFeedbackEnabled: S.Boolean }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "SetDefaultMessageFeedbackEnabledRequest",
 }) as any as S.Schema<SetDefaultMessageFeedbackEnabledRequest>;
@@ -4979,13 +4530,12 @@ export interface SetDefaultMessageFeedbackEnabledResult {
   ConfigurationSetName?: string;
   MessageFeedbackEnabled?: boolean;
 }
-export const SetDefaultMessageFeedbackEnabledResult = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ConfigurationSetArn: S.optional(S.String),
-      ConfigurationSetName: S.optional(S.String),
-      MessageFeedbackEnabled: S.optional(S.Boolean),
-    }),
+export const SetDefaultMessageFeedbackEnabledResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ConfigurationSetArn: S.optional(S.String),
+    ConfigurationSetName: S.optional(S.String),
+    MessageFeedbackEnabled: S.optional(S.Boolean),
+  }),
 ).annotate({
   identifier: "SetDefaultMessageFeedbackEnabledResult",
 }) as any as S.Schema<SetDefaultMessageFeedbackEnabledResult>;
@@ -5036,101 +4586,94 @@ export const SetDefaultSenderIdResult = /*@__PURE__*/ S.suspend(() =>
     ConfigurationSetName: S.optional(S.String),
     SenderId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SetDefaultSenderIdResult",
-}) as any as S.Schema<SetDefaultSenderIdResult>;
+).annotate({ identifier: "SetDefaultSenderIdResult" }) as any as S.Schema<SetDefaultSenderIdResult>;
 export interface SetMediaMessageSpendLimitOverrideRequest {
   MonthlyLimit: number;
 }
-export const SetMediaMessageSpendLimitOverrideRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ MonthlyLimit: S.Number }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
+export const SetMediaMessageSpendLimitOverrideRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ MonthlyLimit: S.Number }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "SetMediaMessageSpendLimitOverrideRequest",
 }) as any as S.Schema<SetMediaMessageSpendLimitOverrideRequest>;
 export interface SetMediaMessageSpendLimitOverrideResult {
   MonthlyLimit?: number;
 }
-export const SetMediaMessageSpendLimitOverrideResult = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ MonthlyLimit: S.optional(S.Number) }),
+export const SetMediaMessageSpendLimitOverrideResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ MonthlyLimit: S.optional(S.Number) }),
 ).annotate({
   identifier: "SetMediaMessageSpendLimitOverrideResult",
 }) as any as S.Schema<SetMediaMessageSpendLimitOverrideResult>;
 export interface SetNotifyMessageSpendLimitOverrideRequest {
   MonthlyLimit: number;
 }
-export const SetNotifyMessageSpendLimitOverrideRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ MonthlyLimit: S.Number }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
-  ).annotate({
-    identifier: "SetNotifyMessageSpendLimitOverrideRequest",
-  }) as any as S.Schema<SetNotifyMessageSpendLimitOverrideRequest>;
+export const SetNotifyMessageSpendLimitOverrideRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ MonthlyLimit: S.Number }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "SetNotifyMessageSpendLimitOverrideRequest",
+}) as any as S.Schema<SetNotifyMessageSpendLimitOverrideRequest>;
 export interface SetNotifyMessageSpendLimitOverrideResult {
   MonthlyLimit?: number;
 }
-export const SetNotifyMessageSpendLimitOverrideResult = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ MonthlyLimit: S.optional(S.Number) }),
+export const SetNotifyMessageSpendLimitOverrideResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ MonthlyLimit: S.optional(S.Number) }),
 ).annotate({
   identifier: "SetNotifyMessageSpendLimitOverrideResult",
 }) as any as S.Schema<SetNotifyMessageSpendLimitOverrideResult>;
 export interface SetRcsMessageSpendLimitOverrideRequest {
   MonthlyLimit: number;
 }
-export const SetRcsMessageSpendLimitOverrideRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ MonthlyLimit: S.Number }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
+export const SetRcsMessageSpendLimitOverrideRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ MonthlyLimit: S.Number }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "SetRcsMessageSpendLimitOverrideRequest",
 }) as any as S.Schema<SetRcsMessageSpendLimitOverrideRequest>;
 export interface SetRcsMessageSpendLimitOverrideResult {
   MonthlyLimit?: number;
 }
-export const SetRcsMessageSpendLimitOverrideResult = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ MonthlyLimit: S.optional(S.Number) }),
+export const SetRcsMessageSpendLimitOverrideResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ MonthlyLimit: S.optional(S.Number) }),
 ).annotate({
   identifier: "SetRcsMessageSpendLimitOverrideResult",
 }) as any as S.Schema<SetRcsMessageSpendLimitOverrideResult>;
 export interface SetTextMessageSpendLimitOverrideRequest {
   MonthlyLimit: number;
 }
-export const SetTextMessageSpendLimitOverrideRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ MonthlyLimit: S.Number }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
+export const SetTextMessageSpendLimitOverrideRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ MonthlyLimit: S.Number }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "SetTextMessageSpendLimitOverrideRequest",
 }) as any as S.Schema<SetTextMessageSpendLimitOverrideRequest>;
 export interface SetTextMessageSpendLimitOverrideResult {
   MonthlyLimit?: number;
 }
-export const SetTextMessageSpendLimitOverrideResult = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ MonthlyLimit: S.optional(S.Number) }),
+export const SetTextMessageSpendLimitOverrideResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ MonthlyLimit: S.optional(S.Number) }),
 ).annotate({
   identifier: "SetTextMessageSpendLimitOverrideResult",
 }) as any as S.Schema<SetTextMessageSpendLimitOverrideResult>;
 export interface SetVoiceMessageSpendLimitOverrideRequest {
   MonthlyLimit: number;
 }
-export const SetVoiceMessageSpendLimitOverrideRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ MonthlyLimit: S.Number }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
+export const SetVoiceMessageSpendLimitOverrideRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ MonthlyLimit: S.Number }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "SetVoiceMessageSpendLimitOverrideRequest",
 }) as any as S.Schema<SetVoiceMessageSpendLimitOverrideRequest>;
 export interface SetVoiceMessageSpendLimitOverrideResult {
   MonthlyLimit?: number;
 }
-export const SetVoiceMessageSpendLimitOverrideResult = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ MonthlyLimit: S.optional(S.Number) }),
+export const SetVoiceMessageSpendLimitOverrideResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ MonthlyLimit: S.optional(S.Number) }),
 ).annotate({
   identifier: "SetVoiceMessageSpendLimitOverrideResult",
 }) as any as S.Schema<SetVoiceMessageSpendLimitOverrideResult>;
@@ -5175,13 +4718,9 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceArn: S.String, Tags: NonEmptyTagList }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
+).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResult {}
-export const TagResourceResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const TagResourceResult = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResult",
 }) as any as S.Schema<TagResourceResult>;
 export type TagKeyList = string[];
@@ -5194,13 +4733,9 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceArn: S.String, TagKeys: TagKeyList }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
+).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResult {}
-export const UntagResourceResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UntagResourceResult = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResult",
 }) as any as S.Schema<UntagResourceResult>;
 export interface UpdateEventDestinationRequest {
@@ -5221,9 +4756,7 @@ export const UpdateEventDestinationRequest = /*@__PURE__*/ S.suspend(() =>
     CloudWatchLogsDestination: S.optional(CloudWatchLogsDestination),
     KinesisFirehoseDestination: S.optional(KinesisFirehoseDestination),
     SnsDestination: S.optional(SnsDestination),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "UpdateEventDestinationRequest",
 }) as any as S.Schema<UpdateEventDestinationRequest>;
@@ -5258,9 +4791,7 @@ export const UpdateNotifyConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
     EnabledCountries: S.optional(IsoCountryCodeList),
     EnabledChannels: S.optional(NotifyEnabledChannelsList),
     DeletionProtectionEnabled: S.optional(S.Boolean),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "UpdateNotifyConfigurationRequest",
 }) as any as S.Schema<UpdateNotifyConfigurationRequest>;
@@ -5320,12 +4851,8 @@ export const UpdatePhoneNumberRequest = /*@__PURE__*/ S.suspend(() =>
     OptOutListName: S.optional(S.String),
     InternationalSendingEnabled: S.optional(S.Boolean),
     DeletionProtectionEnabled: S.optional(S.Boolean),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "UpdatePhoneNumberRequest",
-}) as any as S.Schema<UpdatePhoneNumberRequest>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "UpdatePhoneNumberRequest" }) as any as S.Schema<UpdatePhoneNumberRequest>;
 export interface UpdatePhoneNumberResult {
   PhoneNumberArn?: string;
   PhoneNumberId?: string;
@@ -5365,13 +4892,9 @@ export const UpdatePhoneNumberResult = /*@__PURE__*/ S.suspend(() =>
     InternationalSendingEnabled: S.optional(S.Boolean),
     DeletionProtectionEnabled: S.optional(S.Boolean),
     RegistrationId: S.optional(S.String),
-    CreatedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    CreatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
-).annotate({
-  identifier: "UpdatePhoneNumberResult",
-}) as any as S.Schema<UpdatePhoneNumberResult>;
+).annotate({ identifier: "UpdatePhoneNumberResult" }) as any as S.Schema<UpdatePhoneNumberResult>;
 export interface UpdatePoolRequest {
   PoolId: string;
   TwoWayEnabled?: boolean;
@@ -5392,12 +4915,8 @@ export const UpdatePoolRequest = /*@__PURE__*/ S.suspend(() =>
     OptOutListName: S.optional(S.String),
     SharedRoutesEnabled: S.optional(S.Boolean),
     DeletionProtectionEnabled: S.optional(S.Boolean),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "UpdatePoolRequest",
-}) as any as S.Schema<UpdatePoolRequest>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "UpdatePoolRequest" }) as any as S.Schema<UpdatePoolRequest>;
 export interface UpdatePoolResult {
   PoolArn?: string;
   PoolId?: string;
@@ -5425,13 +4944,9 @@ export const UpdatePoolResult = /*@__PURE__*/ S.suspend(() =>
     OptOutListName: S.optional(S.String),
     SharedRoutesEnabled: S.optional(S.Boolean),
     DeletionProtectionEnabled: S.optional(S.Boolean),
-    CreatedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    CreatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
-).annotate({
-  identifier: "UpdatePoolResult",
-}) as any as S.Schema<UpdatePoolResult>;
+).annotate({ identifier: "UpdatePoolResult" }) as any as S.Schema<UpdatePoolResult>;
 export interface UpdateProtectConfigurationRequest {
   ProtectConfigurationId: string;
   DeletionProtectionEnabled?: boolean;
@@ -5440,9 +4955,7 @@ export const UpdateProtectConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ProtectConfigurationId: S.String,
     DeletionProtectionEnabled: S.optional(S.Boolean),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "UpdateProtectConfigurationRequest",
 }) as any as S.Schema<UpdateProtectConfigurationRequest>;
@@ -5471,37 +4984,31 @@ export interface UpdateProtectConfigurationCountryRuleSetRequest {
     [key: string]: ProtectConfigurationCountryRuleSetInformation | undefined;
   };
 }
-export const UpdateProtectConfigurationCountryRuleSetRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ProtectConfigurationId: S.String,
-      NumberCapability: S.String,
-      CountryRuleSetUpdates: ProtectConfigurationCountryRuleSet,
-    }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
-  ).annotate({
-    identifier: "UpdateProtectConfigurationCountryRuleSetRequest",
-  }) as any as S.Schema<UpdateProtectConfigurationCountryRuleSetRequest>;
+export const UpdateProtectConfigurationCountryRuleSetRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ProtectConfigurationId: S.String,
+    NumberCapability: S.String,
+    CountryRuleSetUpdates: ProtectConfigurationCountryRuleSet,
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({
+  identifier: "UpdateProtectConfigurationCountryRuleSetRequest",
+}) as any as S.Schema<UpdateProtectConfigurationCountryRuleSetRequest>;
 export interface UpdateProtectConfigurationCountryRuleSetResult {
   ProtectConfigurationArn: string;
   ProtectConfigurationId: string;
   NumberCapability: string;
-  CountryRuleSet: {
-    [key: string]: ProtectConfigurationCountryRuleSetInformation | undefined;
-  };
+  CountryRuleSet: { [key: string]: ProtectConfigurationCountryRuleSetInformation | undefined };
 }
-export const UpdateProtectConfigurationCountryRuleSetResult =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ProtectConfigurationArn: S.String,
-      ProtectConfigurationId: S.String,
-      NumberCapability: S.String,
-      CountryRuleSet: ProtectConfigurationCountryRuleSet,
-    }),
-  ).annotate({
-    identifier: "UpdateProtectConfigurationCountryRuleSetResult",
-  }) as any as S.Schema<UpdateProtectConfigurationCountryRuleSetResult>;
+export const UpdateProtectConfigurationCountryRuleSetResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ProtectConfigurationArn: S.String,
+    ProtectConfigurationId: S.String,
+    NumberCapability: S.String,
+    CountryRuleSet: ProtectConfigurationCountryRuleSet,
+  }),
+).annotate({
+  identifier: "UpdateProtectConfigurationCountryRuleSetResult",
+}) as any as S.Schema<UpdateProtectConfigurationCountryRuleSetResult>;
 export type TwoWayMediaS3BucketNameOrUnset = string;
 export type IamRoleArnOrUnset = string;
 export interface UpdateRcsAgentRequest {
@@ -5530,12 +5037,8 @@ export const UpdateRcsAgentRequest = /*@__PURE__*/ S.suspend(() =>
     TwoWayMediaS3KeyPrefix: S.optional(S.String),
     TwoWayMediaS3Role: S.optional(S.String),
     TwoWayRcsEventsEnabled: S.optional(RcsEventTypeList),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "UpdateRcsAgentRequest",
-}) as any as S.Schema<UpdateRcsAgentRequest>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "UpdateRcsAgentRequest" }) as any as S.Schema<UpdateRcsAgentRequest>;
 export interface UpdateRcsAgentResult {
   RcsAgentArn: string;
   RcsAgentId: string;
@@ -5569,9 +5072,7 @@ export const UpdateRcsAgentResult = /*@__PURE__*/ S.suspend(() =>
     TwoWayMediaS3Role: S.optional(S.String),
     TwoWayRcsEventsEnabled: S.optional(RcsEventTypeList),
   }),
-).annotate({
-  identifier: "UpdateRcsAgentResult",
-}) as any as S.Schema<UpdateRcsAgentResult>;
+).annotate({ identifier: "UpdateRcsAgentResult" }) as any as S.Schema<UpdateRcsAgentResult>;
 export interface UpdateSenderIdRequest {
   SenderId: string;
   IsoCountryCode: string;
@@ -5582,12 +5083,8 @@ export const UpdateSenderIdRequest = /*@__PURE__*/ S.suspend(() =>
     SenderId: S.String,
     IsoCountryCode: S.String,
     DeletionProtectionEnabled: S.optional(S.Boolean),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "UpdateSenderIdRequest",
-}) as any as S.Schema<UpdateSenderIdRequest>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "UpdateSenderIdRequest" }) as any as S.Schema<UpdateSenderIdRequest>;
 export interface UpdateSenderIdResult {
   SenderIdArn: string;
   SenderId: string;
@@ -5609,19 +5106,14 @@ export const UpdateSenderIdResult = /*@__PURE__*/ S.suspend(() =>
     Registered: S.Boolean,
     RegistrationId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UpdateSenderIdResult",
-}) as any as S.Schema<UpdateSenderIdResult>;
+).annotate({ identifier: "UpdateSenderIdResult" }) as any as S.Schema<UpdateSenderIdResult>;
 export type VerificationCode = string;
 export interface VerifyDestinationNumberRequest {
   VerifiedDestinationNumberId: string;
   VerificationCode: string;
 }
 export const VerifyDestinationNumberRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    VerifiedDestinationNumberId: S.String,
-    VerificationCode: S.String,
-  }).pipe(
+  S.Struct({ VerifiedDestinationNumberId: S.String, VerificationCode: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
@@ -5656,13 +5148,9 @@ export interface ValidationExceptionField {
 }
 export const ValidationExceptionField = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Name: S.String, Message: S.String }),
-).annotate({
-  identifier: "ValidationExceptionField",
-}) as any as S.Schema<ValidationExceptionField>;
+).annotate({ identifier: "ValidationExceptionField" }) as any as S.Schema<ValidationExceptionField>;
 export type ValidationExceptionFieldList = ValidationExceptionField[];
-export const ValidationExceptionFieldList = /*@__PURE__*/ S.Array(
-  ValidationExceptionField,
-);
+export const ValidationExceptionFieldList = /*@__PURE__*/ S.Array(ValidationExceptionField);
 export type AssociateOriginationIdentityError =
   | AccessDeniedException
   | ConflictException
@@ -6088,7 +5576,7 @@ export type CreateRegistrationAttachmentError =
   | ValidationException
   | CommonErrors;
 /**
- * Create a new registration attachment to use for uploading a file or a URL to a file. The maximum file size is 500KB and valid file extensions are PDF, JPEG and PNG. For example, many sender ID registrations require a signed “letter of authorization” (LOA) to be submitted.
+ * Create a new registration attachment to use for uploading a file or a URL to a file. The maximum file size is 5MB and valid file extensions are PDF, JPEG and PNG. For example, many sender ID registrations require a signed “letter of authorization” (LOA) to be submitted.
  *
  * Use either `AttachmentUrl` or `AttachmentBody` to upload your attachment. If both are specified then an exception is returned.
  */
@@ -7949,6 +7437,47 @@ export const getResourcePolicy: API.OperationMethod<
   retry: Retry,
   operationName: "GetResourcePolicy",
 }));
+
+export type ListAvailablePhoneNumbersError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Retrieves a list of phone numbers that are available to request, based on the country, capabilities, and number type that you specify. You can optionally provide a number preference to return only numbers that match a specific digit pattern.
+ *
+ * If no numbers match your search, this operation returns an empty list rather than an error. This operation currently supports only `TEN_DLC` number types in the `US`.
+ */
+export const listAvailablePhoneNumbers: API.PaginatedOperationMethod<
+  ListAvailablePhoneNumbersRequest,
+  ListAvailablePhoneNumbersResult,
+  ListAvailablePhoneNumbersError,
+  Credentials | HttpClient.HttpClient,
+  PhoneNumber
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: ListAvailablePhoneNumbersRequest,
+  output: ListAvailablePhoneNumbersResult,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ListAvailablePhoneNumbers",
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "AvailablePhoneNumbers",
+    pageSize: "MaxResults",
+  } as const,
+})) as any;
 
 export type ListNotifyCountriesError =
   | AccessDeniedException

@@ -1,14 +1,14 @@
+import * as API from "@distilled.cloud/core/api";
+import * as S from "@distilled.cloud/core/schema";
 import * as HttpClient from "effect/http/HttpClient";
 import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
-import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "CloudFront KeyValueStore",
   serviceShapeName: "CloudFrontKeyValueStore",
@@ -28,11 +28,7 @@ const rules = T.EndpointResolver((p, _) => {
   });
   const _p0 = () => ({
     authSchemes: [
-      {
-        name: "sigv4a",
-        signingName: "cloudfront-keyvaluestore",
-        signingRegionSet: ["*"],
-      },
+      { name: "sigv4a", signingName: "cloudfront-keyvaluestore", signingRegionSet: ["*"] },
     ],
   });
   if (UseFIPS === false) {
@@ -51,10 +47,7 @@ const rules = T.EndpointResolver((p, _) => {
                         if (Region != null) {
                           {
                             const partitionResult = _.partition(Region);
-                            if (
-                              partitionResult != null &&
-                              partitionResult !== false
-                            ) {
+                            if (partitionResult != null && partitionResult !== false) {
                               if (
                                 _.getAttr(partitionResult, "name") ===
                                 `${_.getAttr(parsedArn, "partition")}`
@@ -70,9 +63,7 @@ const rules = T.EndpointResolver((p, _) => {
                                       );
                                     }
                                   }
-                                  return err(
-                                    "Provided endpoint is not a valid URL",
-                                  );
+                                  return err("Provided endpoint is not a valid URL");
                                 }
                                 return e(
                                   `https://${_.getAttr(parsedArn, "accountId")}.cloudfront-kvs.global.api.aws`,
@@ -135,9 +126,7 @@ const rules = T.EndpointResolver((p, _) => {
     }
     return err("KVS ARN must be provided to use this service");
   }
-  return err(
-    "Invalid Configuration: FIPS is not supported with CloudFront-KeyValueStore.",
-  );
+  return err("Invalid Configuration: FIPS is not supported with CloudFront-KeyValueStore.");
 });
 
 export class AccessDeniedException
@@ -191,10 +180,7 @@ export const DeleteKeyRequest = /*@__PURE__*/ S.suspend(() =>
     IfMatch: S.String.pipe(T.HttpHeader("If-Match")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/key-value-stores/{KvsARN}/keys/{Key}",
-      }),
+      T.Http({ method: "DELETE", uri: "/key-value-stores/{KvsARN}/keys/{Key}" }),
       svc,
       auth,
       proto,
@@ -202,9 +188,7 @@ export const DeleteKeyRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteKeyRequest",
-}) as any as S.Schema<DeleteKeyRequest>;
+).annotate({ identifier: "DeleteKeyRequest" }) as any as S.Schema<DeleteKeyRequest>;
 export interface DeleteKeyResponse {
   ItemCount: number;
   TotalSizeInBytes: number;
@@ -216,16 +200,12 @@ export const DeleteKeyResponse = /*@__PURE__*/ S.suspend(() =>
     TotalSizeInBytes: S.Number,
     ETag: S.String.pipe(T.HttpHeader("ETag")),
   }),
-).annotate({
-  identifier: "DeleteKeyResponse",
-}) as any as S.Schema<DeleteKeyResponse>;
+).annotate({ identifier: "DeleteKeyResponse" }) as any as S.Schema<DeleteKeyResponse>;
 export interface DescribeKeyValueStoreRequest {
   KvsARN: string;
 }
 export const DescribeKeyValueStoreRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    KvsARN: S.String.pipe(T.HttpLabel("KvsARN"), T.ContextParam("KvsARN")),
-  }).pipe(
+  S.Struct({ KvsARN: S.String.pipe(T.HttpLabel("KvsARN"), T.ContextParam("KvsARN")) }).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/key-value-stores/{KvsARN}" }),
       svc,
@@ -316,34 +296,23 @@ export const ListKeysRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "ListKeysRequest",
-}) as any as S.Schema<ListKeysRequest>;
+).annotate({ identifier: "ListKeysRequest" }) as any as S.Schema<ListKeysRequest>;
 export interface ListKeysResponseListItem {
   Key: string;
   Value: string | redacted.Redacted<string>;
 }
 export const ListKeysResponseListItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Key: S.String, Value: SensitiveString }),
-).annotate({
-  identifier: "ListKeysResponseListItem",
-}) as any as S.Schema<ListKeysResponseListItem>;
+).annotate({ identifier: "ListKeysResponseListItem" }) as any as S.Schema<ListKeysResponseListItem>;
 export type ListKeysResponseList = ListKeysResponseListItem[];
-export const ListKeysResponseList = /*@__PURE__*/ S.Array(
-  ListKeysResponseListItem,
-);
+export const ListKeysResponseList = /*@__PURE__*/ S.Array(ListKeysResponseListItem);
 export interface ListKeysResponse {
   NextToken?: string;
   Items?: ListKeysResponseListItem[];
 }
 export const ListKeysResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    Items: S.optional(ListKeysResponseList),
-  }),
-).annotate({
-  identifier: "ListKeysResponse",
-}) as any as S.Schema<ListKeysResponse>;
+  S.Struct({ NextToken: S.optional(S.String), Items: S.optional(ListKeysResponseList) }),
+).annotate({ identifier: "ListKeysResponse" }) as any as S.Schema<ListKeysResponse>;
 export interface PutKeyRequest {
   Key: string;
   Value: string | redacted.Redacted<string>;
@@ -385,9 +354,7 @@ export interface PutKeyRequestListItem {
 }
 export const PutKeyRequestListItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Key: S.String, Value: SensitiveString }),
-).annotate({
-  identifier: "PutKeyRequestListItem",
-}) as any as S.Schema<PutKeyRequestListItem>;
+).annotate({ identifier: "PutKeyRequestListItem" }) as any as S.Schema<PutKeyRequestListItem>;
 export type PutKeyRequestsList = PutKeyRequestListItem[];
 export const PutKeyRequestsList = /*@__PURE__*/ S.Array(PutKeyRequestListItem);
 export interface DeleteKeyRequestListItem {
@@ -395,13 +362,9 @@ export interface DeleteKeyRequestListItem {
 }
 export const DeleteKeyRequestListItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Key: S.String }),
-).annotate({
-  identifier: "DeleteKeyRequestListItem",
-}) as any as S.Schema<DeleteKeyRequestListItem>;
+).annotate({ identifier: "DeleteKeyRequestListItem" }) as any as S.Schema<DeleteKeyRequestListItem>;
 export type DeleteKeyRequestsList = DeleteKeyRequestListItem[];
-export const DeleteKeyRequestsList = /*@__PURE__*/ S.Array(
-  DeleteKeyRequestListItem,
-);
+export const DeleteKeyRequestsList = /*@__PURE__*/ S.Array(DeleteKeyRequestListItem);
 export interface UpdateKeysRequest {
   KvsARN: string;
   IfMatch: string;
@@ -424,9 +387,7 @@ export const UpdateKeysRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "UpdateKeysRequest",
-}) as any as S.Schema<UpdateKeysRequest>;
+).annotate({ identifier: "UpdateKeysRequest" }) as any as S.Schema<UpdateKeysRequest>;
 export interface UpdateKeysResponse {
   ItemCount: number;
   TotalSizeInBytes: number;
@@ -438,9 +399,7 @@ export const UpdateKeysResponse = /*@__PURE__*/ S.suspend(() =>
     TotalSizeInBytes: S.Number,
     ETag: S.String.pipe(T.HttpHeader("ETag")),
   }),
-).annotate({
-  identifier: "UpdateKeysResponse",
-}) as any as S.Schema<UpdateKeysResponse>;
+).annotate({ identifier: "UpdateKeysResponse" }) as any as S.Schema<UpdateKeysResponse>;
 export type DeleteKeyError =
   | AccessDeniedException
   | ConflictException

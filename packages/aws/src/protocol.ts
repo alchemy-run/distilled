@@ -1,3 +1,4 @@
+import * as API from "@distilled.cloud/core/api";
 /**
  * AwsProtocol — AWS's implementation of `@distilled.cloud/core`'s Protocol
  * seam.
@@ -27,16 +28,14 @@
 import * as Duration from "effect/Duration";
 import * as Effect from "effect/Effect";
 import { pipe } from "effect/Function";
-import * as Layer from "effect/Layer";
-import * as Option from "effect/Option";
-import * as Redacted from "effect/Redacted";
-import * as Stream from "effect/Stream";
 import * as HttpBody from "effect/http/HttpBody";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as HttpClientRequest from "effect/http/HttpClientRequest";
 import type * as HttpClientResponse from "effect/http/HttpClientResponse";
-import * as API from "@distilled.cloud/core/api";
-
+import * as Layer from "effect/Layer";
+import * as Option from "effect/Option";
+import * as Redacted from "effect/Redacted";
+import * as Stream from "effect/Stream";
 import type { Operation } from "./client/operation.ts";
 import { makeRequestBuilder } from "./client/request-builder.ts";
 import type { Request } from "./client/request.ts";
@@ -46,11 +45,7 @@ import * as Endpoint from "./endpoint.ts";
 import * as Region from "./region.ts";
 import { makeEndpointResolver } from "./rules-engine/endpoint-resolver.ts";
 import * as SigV4 from "./sigv4.ts";
-import {
-  getAwsApiService,
-  getAwsAuthSigv2,
-  getAwsAuthSigv4,
-} from "./traits.ts";
+import { getAwsApiService, getAwsAuthSigv2, getAwsAuthSigv4 } from "./traits.ts";
 import { getIdentifier } from "./util/ast.ts";
 
 /**
@@ -98,8 +93,7 @@ const prepare = (config: API.ProtocolOperationConfig): Prepared => {
   const inputAst = op.input.ast;
   const serviceSdkId = getAwsApiService(inputAst)?.sdkId;
   const operationName =
-    config.operationName ??
-    getIdentifier(inputAst)?.replace(/(?:Request|Input|Message)$/, "");
+    config.operationName ?? getIdentifier(inputAst)?.replace(/(?:Request|Input|Message)$/, "");
 
   const prepared: Prepared = {
     buildRequest: makeRequestBuilder(op),
@@ -154,9 +148,7 @@ const encode = ({
     // provides a `Region` override. `Region` is optional — it isn't in any
     // operation's requirements — so it's read with `serviceOption`.
     const regionOverride = yield* Effect.serviceOption(Region.Region);
-    const region = Option.isSome(regionOverride)
-      ? yield* regionOverride.value
-      : credentials.region;
+    const region = Option.isSome(regionOverride) ? yield* regionOverride.value : credentials.region;
     const serviceName = sigv4?.name ?? "s3";
 
     // Resolve endpoint and adjust request path if needed
@@ -164,9 +156,9 @@ const encode = ({
     let resolvedRequest = request;
     let signingRegion = region; // Default to context region
     let signingServiceName = serviceName; // Default to service name from sigv4 trait
-    const customEndpoint = yield* yield* Effect.serviceOption(
-      Endpoint.Endpoint,
-    ).pipe(Effect.map(Option.getOrElse(() => Effect.undefined)));
+    const customEndpoint = yield* yield* Effect.serviceOption(Endpoint.Endpoint).pipe(
+      Effect.map(Option.getOrElse(() => Effect.undefined)),
+    );
 
     if (customEndpoint) {
       // User provided a custom endpoint - use it directly
@@ -206,10 +198,8 @@ const encode = ({
     // custom endpoints, matching official AWS SDK behavior. Labels of the
     // form {memberName} are substituted from the operation input.
     if (config.endpointHostPrefix !== undefined && !customEndpoint) {
-      const resolvedPrefix = config.endpointHostPrefix.replace(
-        /\{(\w+)\}/g,
-        (_, member: string) =>
-          String((input as Record<string, unknown>)?.[member] ?? ""),
+      const resolvedPrefix = config.endpointHostPrefix.replace(/\{(\w+)\}/g, (_, member: string) =>
+        String((input as Record<string, unknown>)?.[member] ?? ""),
       );
       // The endpoint rules engine may already have baked the same label into
       // the host (e.g. S3 Control resolves `{AccountId}.s3-control.{region}`
@@ -225,25 +215,19 @@ const encode = ({
 
     // Build full URL with query string
     const queryString = Object.entries(resolvedRequest.query)
-      .filter(([_, v]) => v !== undefined)
+      .filter(([, v]) => v !== undefined)
       .flatMap(([k, v]) => {
         // Handle arrays as repeated query parameters (e.g., tagKeys=A&tagKeys=B)
         if (Array.isArray(v)) {
           return v.map((item) =>
-            item
-              ? `${encodeURIComponent(k)}=${encodeURIComponent(item)}`
-              : encodeURIComponent(k),
+            item ? `${encodeURIComponent(k)}=${encodeURIComponent(item)}` : encodeURIComponent(k),
           );
         }
-        return v
-          ? `${encodeURIComponent(k)}=${encodeURIComponent(v)}`
-          : encodeURIComponent(k);
+        return v ? `${encodeURIComponent(k)}=${encodeURIComponent(v)}` : encodeURIComponent(k);
       })
       .join("&");
 
-    const fullPath = queryString
-      ? `${resolvedRequest.path}?${queryString}`
-      : resolvedRequest.path;
+    const fullPath = queryString ? `${resolvedRequest.path}?${queryString}` : resolvedRequest.path;
 
     // Legacy Signature Version 2 (SimpleDB is the sole remaining SigV2-only
     // service). The signature is an HMAC-SHA256 over the sorted,
@@ -257,8 +241,7 @@ const encode = ({
           (c) => "%" + c.charCodeAt(0).toString(16).toUpperCase(),
         );
       const pairs: Array<[string, string]> = [];
-      const bodyStr =
-        typeof resolvedRequest.body === "string" ? resolvedRequest.body : "";
+      const bodyStr = typeof resolvedRequest.body === "string" ? resolvedRequest.body : "";
       for (const part of bodyStr.split("&")) {
         if (!part) continue;
         const eq = part.indexOf("=");
@@ -278,9 +261,7 @@ const encode = ({
       }
       const canonical = pairs
         .map(([k, v]) => [rfc3986(k), rfc3986(v)] as const)
-        .sort(([a, av], [b, bv]) =>
-          a < b ? -1 : a > b ? 1 : av < bv ? -1 : av > bv ? 1 : 0,
-        )
+        .sort(([a, av], [b, bv]) => (a < b ? -1 : a > b ? 1 : av < bv ? -1 : av > bv ? 1 : 0))
         .map(([k, v]) => `${k}=${v}`)
         .join("&");
       const requestUrl = new URL(`${endpoint}${fullPath}`);
@@ -298,11 +279,7 @@ const encode = ({
           false,
           ["sign"],
         );
-        return crypto.subtle.sign(
-          "HMAC",
-          key,
-          new TextEncoder().encode(stringToSign),
-        );
+        return crypto.subtle.sign("HMAC", key, new TextEncoder().encode(stringToSign));
       });
       const signature = Buffer.from(signatureBytes).toString("base64");
       const signedBody = `${canonical}&Signature=${rfc3986(signature)}`;
@@ -312,9 +289,9 @@ const encode = ({
         "application/x-www-form-urlencoded";
 
       return pipe(
-        HttpClientRequest.make(
-          resolvedRequest.method as "GET" | "POST" | "PUT" | "DELETE",
-        )(requestUrl.toString()),
+        HttpClientRequest.make(resolvedRequest.method as "GET" | "POST" | "PUT" | "DELETE")(
+          requestUrl.toString(),
+        ),
         HttpClientRequest.setHeaders(resolvedRequest.headers),
         HttpClientRequest.setBody(HttpBody.text(signedBody, contentTypeV2)),
       );
@@ -353,9 +330,7 @@ const encode = ({
     // Use unsigned payload for streaming bodies OR streaming-input
     // operations OR when service provides checksum with body
     const useUnsignedPayload =
-      (isStreamingBody ||
-        hasStreamingInput ||
-        (hasServiceChecksum && hasBody)) &&
+      (isStreamingBody || hasStreamingInput || (hasServiceChecksum && hasBody)) &&
       !hasContentSha256;
     let signingHeaders = useUnsignedPayload
       ? {
@@ -449,14 +424,7 @@ const encode = ({
     // from the HttpBody, which should match our signed headers
     return pipe(
       HttpClientRequest.make(
-        resolvedRequest.method as
-          | "GET"
-          | "POST"
-          | "PUT"
-          | "DELETE"
-          | "PATCH"
-          | "HEAD"
-          | "OPTIONS",
+        resolvedRequest.method as "GET" | "POST" | "PUT" | "DELETE" | "PATCH" | "HEAD" | "OPTIONS",
       )(signedRequest.url),
       HttpClientRequest.setHeaders(signedHeaders),
       HttpClientRequest.setBody(httpBody),
@@ -502,9 +470,7 @@ const decode = ({
     // raises on empty bodies, so detect those up front.
     const contentLength = responseHeaders["content-length"];
     const isEmptyBody =
-      response.request.method === "HEAD" ||
-      contentLength === "0" ||
-      response.status === 204;
+      response.request.method === "HEAD" || contentLength === "0" || response.status === 204;
     const responseBody = isEmptyBody
       ? new ReadableStream<Uint8Array>({ start: (c) => c.close() })
       : yield* Stream.toReadableStreamEffect(response.stream);
@@ -536,8 +502,7 @@ const decode = ({
 export const AwsProtocol: Layer.Layer<API.Protocol> = Layer.succeed(
   API.Protocol,
   API.Protocol.of({
-    encode: (args) =>
-      encode(args) as Effect.Effect<HttpClientRequest.HttpClientRequest>,
+    encode: (args) => encode(args) as Effect.Effect<HttpClientRequest.HttpClientRequest>,
     decode: (args) => decode(args) as Effect.Effect<unknown>,
   }),
 );

@@ -1,11 +1,11 @@
-import * as HttpClient from "effect/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
+import * as S from "@distilled.cloud/core/schema";
+import * as HttpClient from "effect/http/HttpClient";
+import type { Credentials } from "../credentials.ts";
+import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
-import type { Credentials } from "../credentials.ts";
-import type { CommonErrors } from "../errors.ts";
 const ns = T.XmlNamespace("http://cloudsearch.amazonaws.com/doc/2013-01-01/");
 const svc = T.AwsApiService({
   sdkId: "CloudSearch Domain",
@@ -26,14 +26,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -60,9 +56,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://cloudsearchdomain-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -70,13 +64,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://cloudsearchdomain.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://cloudsearchdomain.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://cloudsearchdomain.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -84,13 +74,10 @@ const rules = T.EndpointResolver((p, _) => {
 });
 
 export class DocumentServiceException
-  extends /*@__PURE__*/ S.TaggedError<DocumentServiceException>()(
-    "DocumentServiceException",
-    {
-      status: S.optional(S.String),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<DocumentServiceException>()("DocumentServiceException", {
+    status: S.optional(S.String),
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class SearchException
   extends /*@__PURE__*/ S.TaggedError<SearchException>()("SearchException", {
     message: S.optional(S.String).pipe(T.ErrorMessage()),
@@ -103,12 +90,7 @@ export type Highlight = string;
 export type Partial = boolean;
 export type Query = string;
 export type QueryOptions = string;
-export type QueryParser =
-  | "simple"
-  | "structured"
-  | "lucene"
-  | "dismax"
-  | (string & {});
+export type QueryParser = "simple" | "structured" | "lucene" | "dismax" | (string & {});
 export const QueryParser = S.String;
 
 export type Return = string;
@@ -151,10 +133,7 @@ export const SearchRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(
       ns,
-      T.Http({
-        method: "GET",
-        uri: "/2013-01-01/search?format=sdk&pretty=true",
-      }),
+      T.Http({ method: "GET", uri: "/2013-01-01/search?format=sdk&pretty=true" }),
       svc,
       auth,
       proto,
@@ -173,20 +152,11 @@ export const SearchStatus = /*@__PURE__*/ S.suspend(() =>
 export type FieldValue = string[];
 export const FieldValue = /*@__PURE__*/ S.Array(S.String);
 export type Fields = { [key: string]: string[] | undefined };
-export const Fields = /*@__PURE__*/ S.Record(
-  S.String,
-  FieldValue.pipe(S.optional),
-);
+export const Fields = /*@__PURE__*/ S.Record(S.String, FieldValue.pipe(S.optional));
 export type Exprs = { [key: string]: string | undefined };
-export const Exprs = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const Exprs = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export type Highlights = { [key: string]: string | undefined };
-export const Highlights = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const Highlights = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface Hit {
   id?: string;
   fields?: { [key: string]: string[] | undefined };
@@ -233,10 +203,7 @@ export const BucketInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ buckets: S.optional(BucketList) }),
 ).annotate({ identifier: "BucketInfo" }) as any as S.Schema<BucketInfo>;
 export type Facets = { [key: string]: BucketInfo | undefined };
-export const Facets = /*@__PURE__*/ S.Record(
-  S.String,
-  BucketInfo.pipe(S.optional),
-);
+export const Facets = /*@__PURE__*/ S.Record(S.String, BucketInfo.pipe(S.optional));
 export interface FieldStats {
   min?: string;
   max?: string;
@@ -260,10 +227,7 @@ export const FieldStats = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "FieldStats" }) as any as S.Schema<FieldStats>;
 export type Stats = { [key: string]: FieldStats | undefined };
-export const Stats = /*@__PURE__*/ S.Record(
-  S.String,
-  FieldStats.pipe(S.optional),
-);
+export const Stats = /*@__PURE__*/ S.Record(S.String, FieldStats.pipe(S.optional));
 export interface SearchResponse {
   status?: SearchStatus;
   hits?: Hits;
@@ -293,10 +257,7 @@ export const SuggestRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(
       ns,
-      T.Http({
-        method: "GET",
-        uri: "/2013-01-01/suggest?format=sdk&pretty=true",
-      }),
+      T.Http({ method: "GET", uri: "/2013-01-01/suggest?format=sdk&pretty=true" }),
       svc,
       auth,
       proto,
@@ -323,9 +284,7 @@ export const SuggestionMatch = /*@__PURE__*/ S.suspend(() =>
     score: S.optional(S.Number),
     id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SuggestionMatch",
-}) as any as S.Schema<SuggestionMatch>;
+).annotate({ identifier: "SuggestionMatch" }) as any as S.Schema<SuggestionMatch>;
 export type Suggestions = SuggestionMatch[];
 export const Suggestions = /*@__PURE__*/ S.Array(SuggestionMatch);
 export interface SuggestModel {
@@ -345,17 +304,9 @@ export interface SuggestResponse {
   suggest?: SuggestModel;
 }
 export const SuggestResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    status: S.optional(SuggestStatus),
-    suggest: S.optional(SuggestModel),
-  }).pipe(ns),
-).annotate({
-  identifier: "SuggestResponse",
-}) as any as S.Schema<SuggestResponse>;
-export type ContentType =
-  | "application/json"
-  | "application/xml"
-  | (string & {});
+  S.Struct({ status: S.optional(SuggestStatus), suggest: S.optional(SuggestModel) }).pipe(ns),
+).annotate({ identifier: "SuggestResponse" }) as any as S.Schema<SuggestResponse>;
+export type ContentType = "application/json" | "application/xml" | (string & {});
 export const ContentType = S.String;
 
 export interface UploadDocumentsRequest {
@@ -377,9 +328,7 @@ export const UploadDocumentsRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "UploadDocumentsRequest",
-}) as any as S.Schema<UploadDocumentsRequest>;
+).annotate({ identifier: "UploadDocumentsRequest" }) as any as S.Schema<UploadDocumentsRequest>;
 export type Adds = number;
 export type Deletes = number;
 export interface DocumentServiceWarning {
@@ -387,13 +336,9 @@ export interface DocumentServiceWarning {
 }
 export const DocumentServiceWarning = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ message: S.optional(S.String) }),
-).annotate({
-  identifier: "DocumentServiceWarning",
-}) as any as S.Schema<DocumentServiceWarning>;
+).annotate({ identifier: "DocumentServiceWarning" }) as any as S.Schema<DocumentServiceWarning>;
 export type DocumentServiceWarnings = DocumentServiceWarning[];
-export const DocumentServiceWarnings = /*@__PURE__*/ S.Array(
-  DocumentServiceWarning,
-);
+export const DocumentServiceWarnings = /*@__PURE__*/ S.Array(DocumentServiceWarning);
 export interface UploadDocumentsResponse {
   status?: string;
   adds?: number;
@@ -407,9 +352,7 @@ export const UploadDocumentsResponse = /*@__PURE__*/ S.suspend(() =>
     deletes: S.optional(S.Number),
     warnings: S.optional(DocumentServiceWarnings),
   }).pipe(ns),
-).annotate({
-  identifier: "UploadDocumentsResponse",
-}) as any as S.Schema<UploadDocumentsResponse>;
+).annotate({ identifier: "UploadDocumentsResponse" }) as any as S.Schema<UploadDocumentsResponse>;
 export type SearchError = SearchException | CommonErrors;
 /**
  * Retrieves a list of documents that match the specified search criteria. How you specify the search criteria depends on which query parser you use. Amazon CloudSearch supports four query parsers:

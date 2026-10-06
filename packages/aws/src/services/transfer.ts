@@ -1,18 +1,15 @@
+import * as API from "@distilled.cloud/core/api";
+import * as S from "@distilled.cloud/core/schema";
 import * as HttpClient from "effect/http/HttpClient";
 import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
-import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
-const svc = T.AwsApiService({
-  sdkId: "Transfer",
-  serviceShapeName: "TransferService",
-});
+import * as T from "../traits.ts";
+const svc = T.AwsApiService({ sdkId: "Transfer", serviceShapeName: "TransferService" });
 const auth = T.AwsAuthSigv4({ name: "transfer" });
 const ver = T.ServiceVersion("2018-11-05");
 const proto = T.AwsProtocolsAwsJson1_1();
@@ -28,14 +25,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -58,13 +51,9 @@ const rules = T.EndpointResolver((p, _) => {
         }
         if (UseFIPS === true) {
           if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            return e(
-              `https://transfer-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
+            return e(`https://transfer-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -72,13 +61,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://transfer.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://transfer.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://transfer.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -89,10 +74,7 @@ export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
     "AccessDeniedException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "AccessDenied", httpResponseCode: 403 }),
-      T.HttpError(403),
-    ),
+    T.all(T.AwsQueryError({ code: "AccessDenied", httpResponseCode: 403 }), T.HttpError(403)),
   ).pipe(C.withAuthError) {}
 export class ConflictException
   extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
@@ -121,31 +103,20 @@ export class InvalidRequestException
 export class ResourceExistsException
   extends /*@__PURE__*/ S.TaggedError<ResourceExistsException>()(
     "ResourceExistsException",
-    {
-      message: S.String.pipe(T.ErrorMessage()),
-      Resource: S.String,
-      ResourceType: S.String,
-    },
+    { message: S.String.pipe(T.ErrorMessage()), Resource: S.String, ResourceType: S.String },
     T.HttpError(409),
   ).pipe(C.withConflictError) {}
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",
-    {
-      message: S.String.pipe(T.ErrorMessage()),
-      Resource: S.String,
-      ResourceType: S.String,
-    },
+    { message: S.String.pipe(T.ErrorMessage()), Resource: S.String, ResourceType: S.String },
     T.HttpError(404),
   ).pipe(C.withBadRequestError) {}
 export class ServiceUnavailableException
   extends /*@__PURE__*/ S.TaggedError<ServiceUnavailableException>()(
     "ServiceUnavailableException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "ServiceUnavailable", httpResponseCode: 503 }),
-      T.HttpError(503),
-    ),
+    T.all(T.AwsQueryError({ code: "ServiceUnavailable", httpResponseCode: 503 }), T.HttpError(503)),
   ).pipe(C.withServerError) {}
 export class ThrottlingException
   extends /*@__PURE__*/ S.TaggedError<ThrottlingException>()(
@@ -172,13 +143,9 @@ export interface HomeDirectoryMapEntry {
 }
 export const HomeDirectoryMapEntry = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Entry: S.String, Target: S.String, Type: S.optional(MapType) }),
-).annotate({
-  identifier: "HomeDirectoryMapEntry",
-}) as any as S.Schema<HomeDirectoryMapEntry>;
+).annotate({ identifier: "HomeDirectoryMapEntry" }) as any as S.Schema<HomeDirectoryMapEntry>;
 export type HomeDirectoryMappings = HomeDirectoryMapEntry[];
-export const HomeDirectoryMappings = /*@__PURE__*/ S.Array(
-  HomeDirectoryMapEntry,
-);
+export const HomeDirectoryMappings = /*@__PURE__*/ S.Array(HomeDirectoryMapEntry);
 export type Policy = string;
 export type PosixId = number;
 export type SecondaryGids = number[];
@@ -189,11 +156,7 @@ export interface PosixProfile {
   SecondaryGids?: number[];
 }
 export const PosixProfile = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Uid: S.Number,
-    Gid: S.Number,
-    SecondaryGids: S.optional(SecondaryGids),
-  }),
+  S.Struct({ Uid: S.Number, Gid: S.Number, SecondaryGids: S.optional(SecondaryGids) }),
 ).annotate({ identifier: "PosixProfile" }) as any as S.Schema<PosixProfile>;
 export type Role = string;
 export type ServerId = string;
@@ -218,21 +181,15 @@ export const CreateAccessRequest = /*@__PURE__*/ S.suspend(() =>
     Role: S.String,
     ServerId: S.String,
     ExternalId: S.String,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "CreateAccessRequest",
-}) as any as S.Schema<CreateAccessRequest>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "CreateAccessRequest" }) as any as S.Schema<CreateAccessRequest>;
 export interface CreateAccessResponse {
   ServerId: string;
   ExternalId: string;
 }
 export const CreateAccessResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ServerId: S.String, ExternalId: S.String }),
-).annotate({
-  identifier: "CreateAccessResponse",
-}) as any as S.Schema<CreateAccessResponse>;
+).annotate({ identifier: "CreateAccessResponse" }) as any as S.Schema<CreateAccessResponse>;
 export type Description = string;
 export type ProfileId = string;
 export type AgreementStatusType = "ACTIVE" | "INACTIVE" | (string & {});
@@ -270,9 +227,7 @@ export const CustomDirectoriesType = /*@__PURE__*/ S.suspend(() =>
     StatusFilesDirectory: S.String,
     TemporaryFilesDirectory: S.String,
   }),
-).annotate({
-  identifier: "CustomDirectoriesType",
-}) as any as S.Schema<CustomDirectoriesType>;
+).annotate({ identifier: "CustomDirectoriesType" }) as any as S.Schema<CustomDirectoriesType>;
 export interface CreateAgreementRequest {
   Description?: string;
   ServerId: string;
@@ -299,21 +254,15 @@ export const CreateAgreementRequest = /*@__PURE__*/ S.suspend(() =>
     PreserveFilename: S.optional(PreserveFilenameType),
     EnforceMessageSigning: S.optional(EnforceMessageSigningType),
     CustomDirectories: S.optional(CustomDirectoriesType),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "CreateAgreementRequest",
-}) as any as S.Schema<CreateAgreementRequest>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "CreateAgreementRequest" }) as any as S.Schema<CreateAgreementRequest>;
 export type AgreementId = string;
 export interface CreateAgreementResponse {
   AgreementId: string;
 }
 export const CreateAgreementResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ AgreementId: S.String }),
-).annotate({
-  identifier: "CreateAgreementResponse",
-}) as any as S.Schema<CreateAgreementResponse>;
+).annotate({ identifier: "CreateAgreementResponse" }) as any as S.Schema<CreateAgreementResponse>;
 export type Url = string;
 export type MessageSubject = string | redacted.Redacted<string>;
 export type CompressionEnum = "ZLIB" | "DISABLED" | (string & {});
@@ -328,13 +277,7 @@ export type EncryptionAlg =
   | (string & {});
 export const EncryptionAlg = S.String;
 
-export type SigningAlg =
-  | "SHA256"
-  | "SHA384"
-  | "SHA512"
-  | "SHA1"
-  | "NONE"
-  | (string & {});
+export type SigningAlg = "SHA256" | "SHA384" | "SHA512" | "SHA1" | "NONE" | (string & {});
 export const SigningAlg = S.String;
 
 export type MdnSigningAlg =
@@ -361,10 +304,7 @@ export interface As2AsyncMdnConnectorConfig {
   ServerIds?: string[];
 }
 export const As2AsyncMdnConnectorConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Url: S.optional(S.String),
-    ServerIds: S.optional(As2AsyncMdnServerIds),
-  }),
+  S.Struct({ Url: S.optional(S.String), ServerIds: S.optional(As2AsyncMdnServerIds) }),
 ).annotate({
   identifier: "As2AsyncMdnConnectorConfig",
 }) as any as S.Schema<As2AsyncMdnConnectorConfig>;
@@ -395,28 +335,29 @@ export const As2ConnectorConfig = /*@__PURE__*/ S.suspend(() =>
     PreserveContentType: S.optional(PreserveContentType),
     AsyncMdnConfig: S.optional(As2AsyncMdnConnectorConfig),
   }),
-).annotate({
-  identifier: "As2ConnectorConfig",
-}) as any as S.Schema<As2ConnectorConfig>;
+).annotate({ identifier: "As2ConnectorConfig" }) as any as S.Schema<As2ConnectorConfig>;
 export type SecretId = string;
 export type SftpConnectorTrustedHostKey = string;
 export type SftpConnectorTrustedHostKeyList = string[];
 export const SftpConnectorTrustedHostKeyList = /*@__PURE__*/ S.Array(S.String);
 export type MaxConcurrentConnections = number;
+export type SecretVersionStage = string;
+export type SecretVersionStageList = string[];
+export const SecretVersionStageList = /*@__PURE__*/ S.Array(S.String);
 export interface SftpConnectorConfig {
   UserSecretId?: string;
   TrustedHostKeys?: string[];
   MaxConcurrentConnections?: number;
+  OrderedUserSecretVersionStages?: string[];
 }
 export const SftpConnectorConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     UserSecretId: S.optional(S.String),
     TrustedHostKeys: S.optional(SftpConnectorTrustedHostKeyList),
     MaxConcurrentConnections: S.optional(S.Number),
+    OrderedUserSecretVersionStages: S.optional(SecretVersionStageList),
   }),
-).annotate({
-  identifier: "SftpConnectorConfig",
-}) as any as S.Schema<SftpConnectorConfig>;
+).annotate({ identifier: "SftpConnectorConfig" }) as any as S.Schema<SftpConnectorConfig>;
 export type ConnectorSecurityPolicyName = string;
 export type VpcLatticeResourceConfigurationArn = string;
 export type SftpPort = number;
@@ -425,16 +366,11 @@ export interface ConnectorVpcLatticeEgressConfig {
   PortNumber?: number;
 }
 export const ConnectorVpcLatticeEgressConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceConfigurationArn: S.String,
-    PortNumber: S.optional(S.Number),
-  }),
+  S.Struct({ ResourceConfigurationArn: S.String, PortNumber: S.optional(S.Number) }),
 ).annotate({
   identifier: "ConnectorVpcLatticeEgressConfig",
 }) as any as S.Schema<ConnectorVpcLatticeEgressConfig>;
-export type ConnectorEgressConfig = {
-  VpcLattice: ConnectorVpcLatticeEgressConfig;
-};
+export type ConnectorEgressConfig = { VpcLattice: ConnectorVpcLatticeEgressConfig };
 export const ConnectorEgressConfig = /*@__PURE__*/ S.Union([
   S.Struct({ VpcLattice: ConnectorVpcLatticeEgressConfig }),
 ]);
@@ -463,21 +399,15 @@ export const CreateConnectorRequest = /*@__PURE__*/ S.suspend(() =>
     SecurityPolicyName: S.optional(S.String),
     EgressConfig: S.optional(ConnectorEgressConfig),
     IpAddressType: S.optional(ConnectorsIpAddressType),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "CreateConnectorRequest",
-}) as any as S.Schema<CreateConnectorRequest>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "CreateConnectorRequest" }) as any as S.Schema<CreateConnectorRequest>;
 export type ConnectorId = string;
 export interface CreateConnectorResponse {
   ConnectorId: string;
 }
 export const CreateConnectorResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ConnectorId: S.String }),
-).annotate({
-  identifier: "CreateConnectorResponse",
-}) as any as S.Schema<CreateConnectorResponse>;
+).annotate({ identifier: "CreateConnectorResponse" }) as any as S.Schema<CreateConnectorResponse>;
 export type As2Id = string;
 export type ProfileType = "LOCAL" | "PARTNER" | (string & {});
 export const ProfileType = S.String;
@@ -497,20 +427,14 @@ export const CreateProfileRequest = /*@__PURE__*/ S.suspend(() =>
     ProfileType: ProfileType,
     CertificateIds: S.optional(CertificateIds),
     Tags: S.optional(Tags),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "CreateProfileRequest",
-}) as any as S.Schema<CreateProfileRequest>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "CreateProfileRequest" }) as any as S.Schema<CreateProfileRequest>;
 export interface CreateProfileResponse {
   ProfileId: string;
 }
 export const CreateProfileResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ProfileId: S.String }),
-).annotate({
-  identifier: "CreateProfileResponse",
-}) as any as S.Schema<CreateProfileResponse>;
+).annotate({ identifier: "CreateProfileResponse" }) as any as S.Schema<CreateProfileResponse>;
 export type Certificate = string;
 export type Domain = "S3" | "EFS" | (string & {});
 export const Domain = S.String;
@@ -541,9 +465,7 @@ export const EndpointDetails = /*@__PURE__*/ S.suspend(() =>
     VpcId: S.optional(S.String),
     SecurityGroupIds: S.optional(SecurityGroupIds),
   }),
-).annotate({
-  identifier: "EndpointDetails",
-}) as any as S.Schema<EndpointDetails>;
+).annotate({ identifier: "EndpointDetails" }) as any as S.Schema<EndpointDetails>;
 export type EndpointType = "PUBLIC" | "VPC" | "VPC_ENDPOINT" | (string & {});
 export const EndpointType = S.String;
 
@@ -572,9 +494,7 @@ export const IdentityProviderDetails = /*@__PURE__*/ S.suspend(() =>
     Function: S.optional(S.String),
     SftpAuthenticationMethods: S.optional(SftpAuthenticationMethods),
   }),
-).annotate({
-  identifier: "IdentityProviderDetails",
-}) as any as S.Schema<IdentityProviderDetails>;
+).annotate({ identifier: "IdentityProviderDetails" }) as any as S.Schema<IdentityProviderDetails>;
 export type IdentityProviderType =
   | "SERVICE_MANAGED"
   | "API_GATEWAY"
@@ -592,37 +512,56 @@ export const Protocol = S.String;
 export type Protocols = Protocol[];
 export const Protocols = /*@__PURE__*/ S.Array(Protocol);
 export type PassiveIp = string;
-export type TlsSessionResumptionMode =
-  | "DISABLED"
-  | "ENABLED"
-  | "ENFORCED"
-  | (string & {});
+export type TlsSessionResumptionMode = "DISABLED" | "ENABLED" | "ENFORCED" | (string & {});
 export const TlsSessionResumptionMode = S.String;
 
 export type SetStatOption = "DEFAULT" | "ENABLE_NO_OP" | (string & {});
 export const SetStatOption = S.String;
 
+export type CommunicationMode = "CLIENT_TALK_FIRST" | "SERVER_TALK_FIRST" | (string & {});
+export const CommunicationMode = S.String;
+
+export interface SftpPortWithOptions {
+  SftpPort: number;
+  CommunicationMode?: CommunicationMode;
+}
+export const SftpPortWithOptions = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ SftpPort: S.Number, CommunicationMode: S.optional(CommunicationMode) }),
+).annotate({ identifier: "SftpPortWithOptions" }) as any as S.Schema<SftpPortWithOptions>;
+export type SftpPorts = SftpPortWithOptions[];
+export const SftpPorts = /*@__PURE__*/ S.Array(SftpPortWithOptions);
 export type As2Transport = "HTTP" | (string & {});
 export const As2Transport = S.String;
 
 export type As2Transports = As2Transport[];
 export const As2Transports = /*@__PURE__*/ S.Array(As2Transport);
+export type ProxyMode = "NONE" | "PROXY_PROTOCOL_V2_ENFORCED" | (string & {});
+export const ProxyMode = S.String;
+
+export interface ProxyConfig {
+  SftpMode?: ProxyMode;
+}
+export const ProxyConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ SftpMode: S.optional(ProxyMode) }),
+).annotate({ identifier: "ProxyConfig" }) as any as S.Schema<ProxyConfig>;
 export interface ProtocolDetails {
   PassiveIp?: string;
   TlsSessionResumptionMode?: TlsSessionResumptionMode;
   SetStatOption?: SetStatOption;
+  SftpPorts?: SftpPortWithOptions[];
   As2Transports?: As2Transport[];
+  ProxyConfig?: ProxyConfig;
 }
 export const ProtocolDetails = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     PassiveIp: S.optional(S.String),
     TlsSessionResumptionMode: S.optional(TlsSessionResumptionMode),
     SetStatOption: S.optional(SetStatOption),
+    SftpPorts: S.optional(SftpPorts),
     As2Transports: S.optional(As2Transports),
+    ProxyConfig: S.optional(ProxyConfig),
   }),
-).annotate({
-  identifier: "ProtocolDetails",
-}) as any as S.Schema<ProtocolDetails>;
+).annotate({ identifier: "ProtocolDetails" }) as any as S.Schema<ProtocolDetails>;
 export type SecurityPolicyName = string;
 export type WorkflowId = string;
 export interface WorkflowDetail {
@@ -635,8 +574,7 @@ export const WorkflowDetail = /*@__PURE__*/ S.suspend(() =>
 export type OnUploadWorkflowDetails = WorkflowDetail[];
 export const OnUploadWorkflowDetails = /*@__PURE__*/ S.Array(WorkflowDetail);
 export type OnPartialUploadWorkflowDetails = WorkflowDetail[];
-export const OnPartialUploadWorkflowDetails =
-  /*@__PURE__*/ S.Array(WorkflowDetail);
+export const OnPartialUploadWorkflowDetails = /*@__PURE__*/ S.Array(WorkflowDetail);
 export interface WorkflowDetails {
   OnUpload?: WorkflowDetail[];
   OnPartialUpload?: WorkflowDetail[];
@@ -646,28 +584,19 @@ export const WorkflowDetails = /*@__PURE__*/ S.suspend(() =>
     OnUpload: S.optional(OnUploadWorkflowDetails),
     OnPartialUpload: S.optional(OnPartialUploadWorkflowDetails),
   }),
-).annotate({
-  identifier: "WorkflowDetails",
-}) as any as S.Schema<WorkflowDetails>;
+).annotate({ identifier: "WorkflowDetails" }) as any as S.Schema<WorkflowDetails>;
 export type Arn = string;
 export type StructuredLogDestinations = string[];
 export const StructuredLogDestinations = /*@__PURE__*/ S.Array(S.String);
-export type DirectoryListingOptimization =
-  | "ENABLED"
-  | "DISABLED"
-  | (string & {});
+export type DirectoryListingOptimization = "ENABLED" | "DISABLED" | (string & {});
 export const DirectoryListingOptimization = S.String;
 
 export interface S3StorageOptions {
   DirectoryListingOptimization?: DirectoryListingOptimization;
 }
 export const S3StorageOptions = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DirectoryListingOptimization: S.optional(DirectoryListingOptimization),
-  }),
-).annotate({
-  identifier: "S3StorageOptions",
-}) as any as S.Schema<S3StorageOptions>;
+  S.Struct({ DirectoryListingOptimization: S.optional(DirectoryListingOptimization) }),
+).annotate({ identifier: "S3StorageOptions" }) as any as S.Schema<S3StorageOptions>;
 export type IpAddressType = "IPV4" | "DUALSTACK" | (string & {});
 export const IpAddressType = S.String;
 
@@ -711,20 +640,14 @@ export const CreateServerRequest = /*@__PURE__*/ S.suspend(() =>
     StructuredLogDestinations: S.optional(StructuredLogDestinations),
     S3StorageOptions: S.optional(S3StorageOptions),
     IpAddressType: S.optional(IpAddressType),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "CreateServerRequest",
-}) as any as S.Schema<CreateServerRequest>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "CreateServerRequest" }) as any as S.Schema<CreateServerRequest>;
 export interface CreateServerResponse {
   ServerId: string;
 }
 export const CreateServerResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ServerId: S.String }),
-).annotate({
-  identifier: "CreateServerResponse",
-}) as any as S.Schema<CreateServerResponse>;
+).annotate({ identifier: "CreateServerResponse" }) as any as S.Schema<CreateServerResponse>;
 export type SshPublicKeyBody = string;
 export type UserName = string;
 export interface CreateUserRequest {
@@ -751,21 +674,15 @@ export const CreateUserRequest = /*@__PURE__*/ S.suspend(() =>
     SshPublicKeyBody: S.optional(S.String),
     Tags: S.optional(Tags),
     UserName: S.String,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "CreateUserRequest",
-}) as any as S.Schema<CreateUserRequest>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "CreateUserRequest" }) as any as S.Schema<CreateUserRequest>;
 export interface CreateUserResponse {
   ServerId: string;
   UserName: string;
 }
 export const CreateUserResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ServerId: S.String, UserName: S.String }),
-).annotate({
-  identifier: "CreateUserResponse",
-}) as any as S.Schema<CreateUserResponse>;
+).annotate({ identifier: "CreateUserResponse" }) as any as S.Schema<CreateUserResponse>;
 export type IdentityCenterInstanceArn = string;
 export interface IdentityCenterConfig {
   InstanceArn?: string;
@@ -773,28 +690,19 @@ export interface IdentityCenterConfig {
 }
 export const IdentityCenterConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ InstanceArn: S.optional(S.String), Role: S.optional(S.String) }),
-).annotate({
-  identifier: "IdentityCenterConfig",
-}) as any as S.Schema<IdentityCenterConfig>;
-export type WebAppIdentityProviderDetails = {
-  IdentityCenterConfig: IdentityCenterConfig;
-};
+).annotate({ identifier: "IdentityCenterConfig" }) as any as S.Schema<IdentityCenterConfig>;
+export type WebAppIdentityProviderDetails = { IdentityCenterConfig: IdentityCenterConfig };
 export const WebAppIdentityProviderDetails = /*@__PURE__*/ S.Union([
   S.Struct({ IdentityCenterConfig: IdentityCenterConfig }),
 ]);
 export type WebAppAccessEndpoint = string;
 export type WebAppUnitCount = number;
 export type WebAppUnits = { Provisioned: number };
-export const WebAppUnits = /*@__PURE__*/ S.Union([
-  S.Struct({ Provisioned: S.Number }),
-]);
+export const WebAppUnits = /*@__PURE__*/ S.Union([S.Struct({ Provisioned: S.Number })]);
 export type WebAppEndpointPolicy = "FIPS" | "STANDARD" | (string & {});
 export const WebAppEndpointPolicy = S.String;
 
-export type WebAppVpcEndpointIpAddressType =
-  | "IPV4"
-  | "DUALSTACK"
-  | (string & {});
+export type WebAppVpcEndpointIpAddressType = "IPV4" | "DUALSTACK" | (string & {});
 export const WebAppVpcEndpointIpAddressType = S.String;
 
 export interface WebAppVpcConfig {
@@ -810,13 +718,9 @@ export const WebAppVpcConfig = /*@__PURE__*/ S.suspend(() =>
     SecurityGroupIds: S.optional(SecurityGroupIds),
     IpAddressType: S.optional(WebAppVpcEndpointIpAddressType),
   }),
-).annotate({
-  identifier: "WebAppVpcConfig",
-}) as any as S.Schema<WebAppVpcConfig>;
+).annotate({ identifier: "WebAppVpcConfig" }) as any as S.Schema<WebAppVpcConfig>;
 export type WebAppEndpointDetails = { Vpc: WebAppVpcConfig };
-export const WebAppEndpointDetails = /*@__PURE__*/ S.Union([
-  S.Struct({ Vpc: WebAppVpcConfig }),
-]);
+export const WebAppEndpointDetails = /*@__PURE__*/ S.Union([S.Struct({ Vpc: WebAppVpcConfig })]);
 export interface CreateWebAppRequest {
   IdentityProviderDetails: WebAppIdentityProviderDetails;
   AccessEndpoint?: string;
@@ -833,36 +737,17 @@ export const CreateWebAppRequest = /*@__PURE__*/ S.suspend(() =>
     Tags: S.optional(Tags),
     WebAppEndpointPolicy: S.optional(WebAppEndpointPolicy),
     EndpointDetails: S.optional(WebAppEndpointDetails),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/createWebApp" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateWebAppRequest",
-}) as any as S.Schema<CreateWebAppRequest>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/createWebApp" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "CreateWebAppRequest" }) as any as S.Schema<CreateWebAppRequest>;
 export type WebAppId = string;
 export interface CreateWebAppResponse {
   WebAppId: string;
 }
 export const CreateWebAppResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ WebAppId: S.String }),
-).annotate({
-  identifier: "CreateWebAppResponse",
-}) as any as S.Schema<CreateWebAppResponse>;
+).annotate({ identifier: "CreateWebAppResponse" }) as any as S.Schema<CreateWebAppResponse>;
 export type WorkflowDescription = string;
-export type WorkflowStepType =
-  | "COPY"
-  | "CUSTOM"
-  | "TAG"
-  | "DELETE"
-  | "DECRYPT"
-  | (string & {});
+export type WorkflowStepType = "COPY" | "CUSTOM" | "TAG" | "DELETE" | "DECRYPT" | (string & {});
 export const WorkflowStepType = S.String;
 
 export type WorkflowStepName = string;
@@ -874,9 +759,7 @@ export interface S3InputFileLocation {
 }
 export const S3InputFileLocation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Bucket: S.optional(S.String), Key: S.optional(S.String) }),
-).annotate({
-  identifier: "S3InputFileLocation",
-}) as any as S.Schema<S3InputFileLocation>;
+).annotate({ identifier: "S3InputFileLocation" }) as any as S.Schema<S3InputFileLocation>;
 export type EfsFileSystemId = string;
 export type EfsPath = string;
 export interface EfsFileLocation {
@@ -885,9 +768,7 @@ export interface EfsFileLocation {
 }
 export const EfsFileLocation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ FileSystemId: S.optional(S.String), Path: S.optional(S.String) }),
-).annotate({
-  identifier: "EfsFileLocation",
-}) as any as S.Schema<EfsFileLocation>;
+).annotate({ identifier: "EfsFileLocation" }) as any as S.Schema<EfsFileLocation>;
 export interface InputFileLocation {
   S3FileLocation?: S3InputFileLocation;
   EfsFileLocation?: EfsFileLocation;
@@ -897,9 +778,7 @@ export const InputFileLocation = /*@__PURE__*/ S.suspend(() =>
     S3FileLocation: S.optional(S3InputFileLocation),
     EfsFileLocation: S.optional(EfsFileLocation),
   }),
-).annotate({
-  identifier: "InputFileLocation",
-}) as any as S.Schema<InputFileLocation>;
+).annotate({ identifier: "InputFileLocation" }) as any as S.Schema<InputFileLocation>;
 export type OverwriteExisting = "TRUE" | "FALSE" | (string & {});
 export const OverwriteExisting = S.String;
 
@@ -917,9 +796,7 @@ export const CopyStepDetails = /*@__PURE__*/ S.suspend(() =>
     OverwriteExisting: S.optional(OverwriteExisting),
     SourceFileLocation: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CopyStepDetails",
-}) as any as S.Schema<CopyStepDetails>;
+).annotate({ identifier: "CopyStepDetails" }) as any as S.Schema<CopyStepDetails>;
 export type CustomStepTarget = string;
 export type CustomStepTimeoutSeconds = number;
 export interface CustomStepDetails {
@@ -935,21 +812,14 @@ export const CustomStepDetails = /*@__PURE__*/ S.suspend(() =>
     TimeoutSeconds: S.optional(S.Number),
     SourceFileLocation: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CustomStepDetails",
-}) as any as S.Schema<CustomStepDetails>;
+).annotate({ identifier: "CustomStepDetails" }) as any as S.Schema<CustomStepDetails>;
 export interface DeleteStepDetails {
   Name?: string;
   SourceFileLocation?: string;
 }
 export const DeleteStepDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String),
-    SourceFileLocation: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DeleteStepDetails",
-}) as any as S.Schema<DeleteStepDetails>;
+  S.Struct({ Name: S.optional(S.String), SourceFileLocation: S.optional(S.String) }),
+).annotate({ identifier: "DeleteStepDetails" }) as any as S.Schema<DeleteStepDetails>;
 export type S3TagKey = string;
 export type S3TagValue = string;
 export interface S3Tag {
@@ -991,9 +861,7 @@ export const DecryptStepDetails = /*@__PURE__*/ S.suspend(() =>
     OverwriteExisting: S.optional(OverwriteExisting),
     DestinationFileLocation: InputFileLocation,
   }),
-).annotate({
-  identifier: "DecryptStepDetails",
-}) as any as S.Schema<DecryptStepDetails>;
+).annotate({ identifier: "DecryptStepDetails" }) as any as S.Schema<DecryptStepDetails>;
 export interface WorkflowStep {
   Type?: WorkflowStepType;
   CopyStepDetails?: CopyStepDetails;
@@ -1019,6 +887,7 @@ export interface CreateWorkflowRequest {
   Steps: WorkflowStep[];
   OnExceptionSteps?: WorkflowStep[];
   Tags?: Tag[];
+  StructuredLogDestinations?: string[];
 }
 export const CreateWorkflowRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1026,20 +895,15 @@ export const CreateWorkflowRequest = /*@__PURE__*/ S.suspend(() =>
     Steps: WorkflowSteps,
     OnExceptionSteps: S.optional(WorkflowSteps),
     Tags: S.optional(Tags),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "CreateWorkflowRequest",
-}) as any as S.Schema<CreateWorkflowRequest>;
+    StructuredLogDestinations: S.optional(StructuredLogDestinations),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "CreateWorkflowRequest" }) as any as S.Schema<CreateWorkflowRequest>;
 export interface CreateWorkflowResponse {
   WorkflowId: string;
 }
 export const CreateWorkflowResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ WorkflowId: S.String }),
-).annotate({
-  identifier: "CreateWorkflowResponse",
-}) as any as S.Schema<CreateWorkflowResponse>;
+).annotate({ identifier: "CreateWorkflowResponse" }) as any as S.Schema<CreateWorkflowResponse>;
 export interface DeleteAccessRequest {
   ServerId: string;
   ExternalId: string;
@@ -1048,13 +912,9 @@ export const DeleteAccessRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ServerId: S.String, ExternalId: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteAccessRequest",
-}) as any as S.Schema<DeleteAccessRequest>;
+).annotate({ identifier: "DeleteAccessRequest" }) as any as S.Schema<DeleteAccessRequest>;
 export interface DeleteAccessResponse {}
-export const DeleteAccessResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteAccessResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteAccessResponse",
 }) as any as S.Schema<DeleteAccessResponse>;
 export interface DeleteAgreementRequest {
@@ -1065,13 +925,9 @@ export const DeleteAgreementRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ AgreementId: S.String, ServerId: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteAgreementRequest",
-}) as any as S.Schema<DeleteAgreementRequest>;
+).annotate({ identifier: "DeleteAgreementRequest" }) as any as S.Schema<DeleteAgreementRequest>;
 export interface DeleteAgreementResponse {}
-export const DeleteAgreementResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteAgreementResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteAgreementResponse",
 }) as any as S.Schema<DeleteAgreementResponse>;
 export interface DeleteCertificateRequest {
@@ -1081,13 +937,9 @@ export const DeleteCertificateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ CertificateId: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteCertificateRequest",
-}) as any as S.Schema<DeleteCertificateRequest>;
+).annotate({ identifier: "DeleteCertificateRequest" }) as any as S.Schema<DeleteCertificateRequest>;
 export interface DeleteCertificateResponse {}
-export const DeleteCertificateResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteCertificateResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteCertificateResponse",
 }) as any as S.Schema<DeleteCertificateResponse>;
 export interface DeleteConnectorRequest {
@@ -1097,13 +949,9 @@ export const DeleteConnectorRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ConnectorId: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteConnectorRequest",
-}) as any as S.Schema<DeleteConnectorRequest>;
+).annotate({ identifier: "DeleteConnectorRequest" }) as any as S.Schema<DeleteConnectorRequest>;
 export interface DeleteConnectorResponse {}
-export const DeleteConnectorResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteConnectorResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteConnectorResponse",
 }) as any as S.Schema<DeleteConnectorResponse>;
 export type HostKeyId = string;
@@ -1115,13 +963,9 @@ export const DeleteHostKeyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ServerId: S.String, HostKeyId: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteHostKeyRequest",
-}) as any as S.Schema<DeleteHostKeyRequest>;
+).annotate({ identifier: "DeleteHostKeyRequest" }) as any as S.Schema<DeleteHostKeyRequest>;
 export interface DeleteHostKeyResponse {}
-export const DeleteHostKeyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteHostKeyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteHostKeyResponse",
 }) as any as S.Schema<DeleteHostKeyResponse>;
 export interface DeleteProfileRequest {
@@ -1131,13 +975,9 @@ export const DeleteProfileRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ProfileId: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteProfileRequest",
-}) as any as S.Schema<DeleteProfileRequest>;
+).annotate({ identifier: "DeleteProfileRequest" }) as any as S.Schema<DeleteProfileRequest>;
 export interface DeleteProfileResponse {}
-export const DeleteProfileResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteProfileResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteProfileResponse",
 }) as any as S.Schema<DeleteProfileResponse>;
 export interface DeleteServerRequest {
@@ -1147,13 +987,9 @@ export const DeleteServerRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ServerId: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteServerRequest",
-}) as any as S.Schema<DeleteServerRequest>;
+).annotate({ identifier: "DeleteServerRequest" }) as any as S.Schema<DeleteServerRequest>;
 export interface DeleteServerResponse {}
-export const DeleteServerResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteServerResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteServerResponse",
 }) as any as S.Schema<DeleteServerResponse>;
 export type SshPublicKeyId = string;
@@ -1163,20 +999,14 @@ export interface DeleteSshPublicKeyRequest {
   UserName: string;
 }
 export const DeleteSshPublicKeyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ServerId: S.String,
-    SshPublicKeyId: S.String,
-    UserName: S.String,
-  }).pipe(
+  S.Struct({ ServerId: S.String, SshPublicKeyId: S.String, UserName: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DeleteSshPublicKeyRequest",
 }) as any as S.Schema<DeleteSshPublicKeyRequest>;
 export interface DeleteSshPublicKeyResponse {}
-export const DeleteSshPublicKeyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteSshPublicKeyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteSshPublicKeyResponse",
 }) as any as S.Schema<DeleteSshPublicKeyResponse>;
 export interface DeleteUserRequest {
@@ -1187,13 +1017,9 @@ export const DeleteUserRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ServerId: S.String, UserName: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteUserRequest",
-}) as any as S.Schema<DeleteUserRequest>;
+).annotate({ identifier: "DeleteUserRequest" }) as any as S.Schema<DeleteUserRequest>;
 export interface DeleteUserResponse {}
-export const DeleteUserResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteUserResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteUserResponse",
 }) as any as S.Schema<DeleteUserResponse>;
 export interface DeleteWebAppRequest {
@@ -1201,22 +1027,11 @@ export interface DeleteWebAppRequest {
 }
 export const DeleteWebAppRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ WebAppId: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/deleteWebApp" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/deleteWebApp" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteWebAppRequest",
-}) as any as S.Schema<DeleteWebAppRequest>;
+).annotate({ identifier: "DeleteWebAppRequest" }) as any as S.Schema<DeleteWebAppRequest>;
 export interface DeleteWebAppResponse {}
-export const DeleteWebAppResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteWebAppResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteWebAppResponse",
 }) as any as S.Schema<DeleteWebAppResponse>;
 export interface DeleteWebAppCustomizationRequest {
@@ -1249,13 +1064,9 @@ export const DeleteWorkflowRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ WorkflowId: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteWorkflowRequest",
-}) as any as S.Schema<DeleteWorkflowRequest>;
+).annotate({ identifier: "DeleteWorkflowRequest" }) as any as S.Schema<DeleteWorkflowRequest>;
 export interface DeleteWorkflowResponse {}
-export const DeleteWorkflowResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteWorkflowResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteWorkflowResponse",
 }) as any as S.Schema<DeleteWorkflowResponse>;
 export interface DescribeAccessRequest {
@@ -1266,9 +1077,7 @@ export const DescribeAccessRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ServerId: S.String, ExternalId: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DescribeAccessRequest",
-}) as any as S.Schema<DescribeAccessRequest>;
+).annotate({ identifier: "DescribeAccessRequest" }) as any as S.Schema<DescribeAccessRequest>;
 export interface DescribedAccess {
   HomeDirectory?: string;
   HomeDirectoryMappings?: HomeDirectoryMapEntry[];
@@ -1288,18 +1097,14 @@ export const DescribedAccess = /*@__PURE__*/ S.suspend(() =>
     Role: S.optional(S.String),
     ExternalId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DescribedAccess",
-}) as any as S.Schema<DescribedAccess>;
+).annotate({ identifier: "DescribedAccess" }) as any as S.Schema<DescribedAccess>;
 export interface DescribeAccessResponse {
   ServerId: string;
   Access: DescribedAccess;
 }
 export const DescribeAccessResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ServerId: S.String, Access: DescribedAccess }),
-).annotate({
-  identifier: "DescribeAccessResponse",
-}) as any as S.Schema<DescribeAccessResponse>;
+).annotate({ identifier: "DescribeAccessResponse" }) as any as S.Schema<DescribeAccessResponse>;
 export interface DescribeAgreementRequest {
   AgreementId: string;
   ServerId: string;
@@ -1308,9 +1113,7 @@ export const DescribeAgreementRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ AgreementId: S.String, ServerId: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DescribeAgreementRequest",
-}) as any as S.Schema<DescribeAgreementRequest>;
+).annotate({ identifier: "DescribeAgreementRequest" }) as any as S.Schema<DescribeAgreementRequest>;
 export interface DescribedAgreement {
   Arn: string;
   AgreementId?: string;
@@ -1342,9 +1145,7 @@ export const DescribedAgreement = /*@__PURE__*/ S.suspend(() =>
     EnforceMessageSigning: S.optional(EnforceMessageSigningType),
     CustomDirectories: S.optional(CustomDirectoriesType),
   }),
-).annotate({
-  identifier: "DescribedAgreement",
-}) as any as S.Schema<DescribedAgreement>;
+).annotate({ identifier: "DescribedAgreement" }) as any as S.Schema<DescribedAgreement>;
 export interface DescribeAgreementResponse {
   Agreement: DescribedAgreement;
 }
@@ -1363,28 +1164,17 @@ export const DescribeCertificateRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "DescribeCertificateRequest",
 }) as any as S.Schema<DescribeCertificateRequest>;
-export type CertificateUsageType =
-  | "SIGNING"
-  | "ENCRYPTION"
-  | "TLS"
-  | (string & {});
+export type CertificateUsageType = "SIGNING" | "ENCRYPTION" | "TLS" | (string & {});
 export const CertificateUsageType = S.String;
 
-export type CertificateStatusType =
-  | "ACTIVE"
-  | "PENDING_ROTATION"
-  | "INACTIVE"
-  | (string & {});
+export type CertificateStatusType = "ACTIVE" | "PENDING_ROTATION" | "INACTIVE" | (string & {});
 export const CertificateStatusType = S.String;
 
 export type CertificateBodyType = string | redacted.Redacted<string>;
 export type CertificateChainType = string | redacted.Redacted<string>;
 export type CertDate = Date;
 export type CertSerial = string;
-export type CertificateType =
-  | "CERTIFICATE"
-  | "CERTIFICATE_WITH_PRIVATE_KEY"
-  | (string & {});
+export type CertificateType = "CERTIFICATE" | "CERTIFICATE_WITH_PRIVATE_KEY" | (string & {});
 export const CertificateType = S.String;
 
 export interface DescribedCertificate {
@@ -1420,9 +1210,7 @@ export const DescribedCertificate = /*@__PURE__*/ S.suspend(() =>
     Description: S.optional(S.String),
     Tags: S.optional(Tags),
   }),
-).annotate({
-  identifier: "DescribedCertificate",
-}) as any as S.Schema<DescribedCertificate>;
+).annotate({ identifier: "DescribedCertificate" }) as any as S.Schema<DescribedCertificate>;
 export interface DescribeCertificateResponse {
   Certificate: DescribedCertificate;
 }
@@ -1438,9 +1226,7 @@ export const DescribeConnectorRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ConnectorId: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DescribeConnectorRequest",
-}) as any as S.Schema<DescribeConnectorRequest>;
+).annotate({ identifier: "DescribeConnectorRequest" }) as any as S.Schema<DescribeConnectorRequest>;
 export type ServiceManagedEgressIpAddress = string;
 export type ServiceManagedEgressIpAddresses = string[];
 export const ServiceManagedEgressIpAddresses = /*@__PURE__*/ S.Array(S.String);
@@ -1448,12 +1234,8 @@ export interface DescribedConnectorVpcLatticeEgressConfig {
   ResourceConfigurationArn: string;
   PortNumber?: number;
 }
-export const DescribedConnectorVpcLatticeEgressConfig = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ResourceConfigurationArn: S.String,
-      PortNumber: S.optional(S.Number),
-    }),
+export const DescribedConnectorVpcLatticeEgressConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ ResourceConfigurationArn: S.String, PortNumber: S.optional(S.Number) }),
 ).annotate({
   identifier: "DescribedConnectorVpcLatticeEgressConfig",
 }) as any as S.Schema<DescribedConnectorVpcLatticeEgressConfig>;
@@ -1463,10 +1245,7 @@ export type DescribedConnectorEgressConfig = {
 export const DescribedConnectorEgressConfig = /*@__PURE__*/ S.Union([
   S.Struct({ VpcLattice: DescribedConnectorVpcLatticeEgressConfig }),
 ]);
-export type ConnectorEgressType =
-  | "SERVICE_MANAGED"
-  | "VPC_LATTICE"
-  | (string & {});
+export type ConnectorEgressType = "SERVICE_MANAGED" | "VPC_LATTICE" | (string & {});
 export const ConnectorEgressType = S.String;
 
 export type ConnectorErrorMessage = string;
@@ -1500,9 +1279,7 @@ export const DescribedConnector = /*@__PURE__*/ S.suspend(() =>
     LoggingRole: S.optional(S.String),
     Tags: S.optional(Tags),
     SftpConfig: S.optional(SftpConnectorConfig),
-    ServiceManagedEgressIpAddresses: S.optional(
-      ServiceManagedEgressIpAddresses,
-    ),
+    ServiceManagedEgressIpAddresses: S.optional(ServiceManagedEgressIpAddresses),
     SecurityPolicyName: S.optional(S.String),
     EgressConfig: S.optional(DescribedConnectorEgressConfig),
     EgressType: ConnectorEgressType,
@@ -1510,9 +1287,7 @@ export const DescribedConnector = /*@__PURE__*/ S.suspend(() =>
     Status: ConnectorStatus,
     IpAddressType: S.optional(ConnectorsIpAddressType),
   }),
-).annotate({
-  identifier: "DescribedConnector",
-}) as any as S.Schema<DescribedConnector>;
+).annotate({ identifier: "DescribedConnector" }) as any as S.Schema<DescribedConnector>;
 export interface DescribeConnectorResponse {
   Connector: DescribedConnector;
 }
@@ -1530,9 +1305,7 @@ export const DescribeExecutionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ExecutionId: S.String, WorkflowId: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DescribeExecutionRequest",
-}) as any as S.Schema<DescribeExecutionRequest>;
+).annotate({ identifier: "DescribeExecutionRequest" }) as any as S.Schema<DescribeExecutionRequest>;
 export type S3VersionId = string;
 export type S3Etag = string;
 export interface S3FileLocation {
@@ -1566,33 +1339,22 @@ export interface UserDetails {
   SessionId?: string;
 }
 export const UserDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    UserName: S.String,
-    ServerId: S.String,
-    SessionId: S.optional(S.String),
-  }),
+  S.Struct({ UserName: S.String, ServerId: S.String, SessionId: S.optional(S.String) }),
 ).annotate({ identifier: "UserDetails" }) as any as S.Schema<UserDetails>;
 export interface ServiceMetadata {
   UserDetails: UserDetails;
 }
 export const ServiceMetadata = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ UserDetails: UserDetails }),
-).annotate({
-  identifier: "ServiceMetadata",
-}) as any as S.Schema<ServiceMetadata>;
+).annotate({ identifier: "ServiceMetadata" }) as any as S.Schema<ServiceMetadata>;
 export type LogGroupName = string;
 export interface LoggingConfiguration {
   LoggingRole?: string;
   LogGroupName?: string;
 }
 export const LoggingConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    LoggingRole: S.optional(S.String),
-    LogGroupName: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "LoggingConfiguration",
-}) as any as S.Schema<LoggingConfiguration>;
+  S.Struct({ LoggingRole: S.optional(S.String), LogGroupName: S.optional(S.String) }),
+).annotate({ identifier: "LoggingConfiguration" }) as any as S.Schema<LoggingConfiguration>;
 export type ExecutionStatus =
   | "IN_PROGRESS"
   | "COMPLETED"
@@ -1633,9 +1395,7 @@ export const ExecutionStepResult = /*@__PURE__*/ S.suspend(() =>
     Outputs: S.optional(S.String),
     Error: S.optional(ExecutionError),
   }),
-).annotate({
-  identifier: "ExecutionStepResult",
-}) as any as S.Schema<ExecutionStepResult>;
+).annotate({ identifier: "ExecutionStepResult" }) as any as S.Schema<ExecutionStepResult>;
 export type ExecutionStepResults = ExecutionStepResult[];
 export const ExecutionStepResults = /*@__PURE__*/ S.Array(ExecutionStepResult);
 export interface ExecutionResults {
@@ -1647,9 +1407,7 @@ export const ExecutionResults = /*@__PURE__*/ S.suspend(() =>
     Steps: S.optional(ExecutionStepResults),
     OnExceptionSteps: S.optional(ExecutionStepResults),
   }),
-).annotate({
-  identifier: "ExecutionResults",
-}) as any as S.Schema<ExecutionResults>;
+).annotate({ identifier: "ExecutionResults" }) as any as S.Schema<ExecutionResults>;
 export interface DescribedExecution {
   ExecutionId?: string;
   InitialFileLocation?: FileLocation;
@@ -1671,9 +1429,7 @@ export const DescribedExecution = /*@__PURE__*/ S.suspend(() =>
     Status: S.optional(ExecutionStatus),
     Results: S.optional(ExecutionResults),
   }),
-).annotate({
-  identifier: "DescribedExecution",
-}) as any as S.Schema<DescribedExecution>;
+).annotate({ identifier: "DescribedExecution" }) as any as S.Schema<DescribedExecution>;
 export interface DescribeExecutionResponse {
   WorkflowId: string;
   Execution: DescribedExecution;
@@ -1691,9 +1447,7 @@ export const DescribeHostKeyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ServerId: S.String, HostKeyId: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DescribeHostKeyRequest",
-}) as any as S.Schema<DescribeHostKeyRequest>;
+).annotate({ identifier: "DescribeHostKeyRequest" }) as any as S.Schema<DescribeHostKeyRequest>;
 export type HostKeyFingerprint = string;
 export type HostKeyDescription = string;
 export type HostKeyType = string;
@@ -1717,17 +1471,13 @@ export const DescribedHostKey = /*@__PURE__*/ S.suspend(() =>
     DateImported: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     Tags: S.optional(Tags),
   }),
-).annotate({
-  identifier: "DescribedHostKey",
-}) as any as S.Schema<DescribedHostKey>;
+).annotate({ identifier: "DescribedHostKey" }) as any as S.Schema<DescribedHostKey>;
 export interface DescribeHostKeyResponse {
   HostKey: DescribedHostKey;
 }
 export const DescribeHostKeyResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ HostKey: DescribedHostKey }),
-).annotate({
-  identifier: "DescribeHostKeyResponse",
-}) as any as S.Schema<DescribeHostKeyResponse>;
+).annotate({ identifier: "DescribeHostKeyResponse" }) as any as S.Schema<DescribeHostKeyResponse>;
 export interface DescribeProfileRequest {
   ProfileId: string;
 }
@@ -1735,9 +1485,7 @@ export const DescribeProfileRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ProfileId: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DescribeProfileRequest",
-}) as any as S.Schema<DescribeProfileRequest>;
+).annotate({ identifier: "DescribeProfileRequest" }) as any as S.Schema<DescribeProfileRequest>;
 export interface DescribedProfile {
   Arn: string;
   ProfileId?: string;
@@ -1755,17 +1503,13 @@ export const DescribedProfile = /*@__PURE__*/ S.suspend(() =>
     CertificateIds: S.optional(CertificateIds),
     Tags: S.optional(Tags),
   }),
-).annotate({
-  identifier: "DescribedProfile",
-}) as any as S.Schema<DescribedProfile>;
+).annotate({ identifier: "DescribedProfile" }) as any as S.Schema<DescribedProfile>;
 export interface DescribeProfileResponse {
   Profile: DescribedProfile;
 }
 export const DescribeProfileResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Profile: DescribedProfile }),
-).annotate({
-  identifier: "DescribeProfileResponse",
-}) as any as S.Schema<DescribeProfileResponse>;
+).annotate({ identifier: "DescribeProfileResponse" }) as any as S.Schema<DescribeProfileResponse>;
 export interface DescribeSecurityPolicyRequest {
   SecurityPolicyName: string;
 }
@@ -1787,9 +1531,7 @@ export type SecurityPolicyProtocol = "SFTP" | "FTPS" | (string & {});
 export const SecurityPolicyProtocol = S.String;
 
 export type SecurityPolicyProtocols = SecurityPolicyProtocol[];
-export const SecurityPolicyProtocols = /*@__PURE__*/ S.Array(
-  SecurityPolicyProtocol,
-);
+export const SecurityPolicyProtocols = /*@__PURE__*/ S.Array(SecurityPolicyProtocol);
 export interface DescribedSecurityPolicy {
   Fips?: boolean;
   SecurityPolicyName: string;
@@ -1813,9 +1555,7 @@ export const DescribedSecurityPolicy = /*@__PURE__*/ S.suspend(() =>
     Type: S.optional(SecurityPolicyResourceType),
     Protocols: S.optional(SecurityPolicyProtocols),
   }),
-).annotate({
-  identifier: "DescribedSecurityPolicy",
-}) as any as S.Schema<DescribedSecurityPolicy>;
+).annotate({ identifier: "DescribedSecurityPolicy" }) as any as S.Schema<DescribedSecurityPolicy>;
 export interface DescribeSecurityPolicyResponse {
   SecurityPolicy: DescribedSecurityPolicy;
 }
@@ -1831,9 +1571,7 @@ export const DescribeServerRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ServerId: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DescribeServerRequest",
-}) as any as S.Schema<DescribeServerRequest>;
+).annotate({ identifier: "DescribeServerRequest" }) as any as S.Schema<DescribeServerRequest>;
 export type State =
   | "OFFLINE"
   | "ONLINE"
@@ -1893,22 +1631,16 @@ export const DescribedServer = /*@__PURE__*/ S.suspend(() =>
     WorkflowDetails: S.optional(WorkflowDetails),
     StructuredLogDestinations: S.optional(StructuredLogDestinations),
     S3StorageOptions: S.optional(S3StorageOptions),
-    As2ServiceManagedEgressIpAddresses: S.optional(
-      ServiceManagedEgressIpAddresses,
-    ),
+    As2ServiceManagedEgressIpAddresses: S.optional(ServiceManagedEgressIpAddresses),
     IpAddressType: S.optional(IpAddressType),
   }),
-).annotate({
-  identifier: "DescribedServer",
-}) as any as S.Schema<DescribedServer>;
+).annotate({ identifier: "DescribedServer" }) as any as S.Schema<DescribedServer>;
 export interface DescribeServerResponse {
   Server: DescribedServer;
 }
 export const DescribeServerResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Server: DescribedServer }),
-).annotate({
-  identifier: "DescribeServerResponse",
-}) as any as S.Schema<DescribeServerResponse>;
+).annotate({ identifier: "DescribeServerResponse" }) as any as S.Schema<DescribeServerResponse>;
 export interface DescribeUserRequest {
   ServerId: string;
   UserName: string;
@@ -1917,9 +1649,7 @@ export const DescribeUserRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ServerId: S.String, UserName: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DescribeUserRequest",
-}) as any as S.Schema<DescribeUserRequest>;
+).annotate({ identifier: "DescribeUserRequest" }) as any as S.Schema<DescribeUserRequest>;
 export interface SshPublicKey {
   DateImported: Date;
   SshPublicKeyBody: string;
@@ -1966,26 +1696,15 @@ export interface DescribeUserResponse {
 }
 export const DescribeUserResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ServerId: S.String, User: DescribedUser }),
-).annotate({
-  identifier: "DescribeUserResponse",
-}) as any as S.Schema<DescribeUserResponse>;
+).annotate({ identifier: "DescribeUserResponse" }) as any as S.Schema<DescribeUserResponse>;
 export interface DescribeWebAppRequest {
   WebAppId: string;
 }
 export const DescribeWebAppRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ WebAppId: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/describeWebApp" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/describeWebApp" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DescribeWebAppRequest",
-}) as any as S.Schema<DescribeWebAppRequest>;
+).annotate({ identifier: "DescribeWebAppRequest" }) as any as S.Schema<DescribeWebAppRequest>;
 export type IdentityCenterApplicationArn = string;
 export interface DescribedIdentityCenterConfig {
   ApplicationArn?: string;
@@ -2022,9 +1741,7 @@ export const DescribedWebAppVpcConfig = /*@__PURE__*/ S.suspend(() =>
     VpcId: S.optional(S.String),
     VpcEndpointId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DescribedWebAppVpcConfig",
-}) as any as S.Schema<DescribedWebAppVpcConfig>;
+).annotate({ identifier: "DescribedWebAppVpcConfig" }) as any as S.Schema<DescribedWebAppVpcConfig>;
 export type DescribedWebAppEndpointDetails = { Vpc: DescribedWebAppVpcConfig };
 export const DescribedWebAppEndpointDetails = /*@__PURE__*/ S.Union([
   S.Struct({ Vpc: DescribedWebAppVpcConfig }),
@@ -2045,9 +1762,7 @@ export const DescribedWebApp = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     Arn: S.String,
     WebAppId: S.String,
-    DescribedIdentityProviderDetails: S.optional(
-      DescribedWebAppIdentityProviderDetails,
-    ),
+    DescribedIdentityProviderDetails: S.optional(DescribedWebAppIdentityProviderDetails),
     AccessEndpoint: S.optional(S.String),
     WebAppEndpoint: S.optional(S.String),
     WebAppUnits: S.optional(WebAppUnits),
@@ -2056,17 +1771,13 @@ export const DescribedWebApp = /*@__PURE__*/ S.suspend(() =>
     EndpointType: S.optional(WebAppEndpointType),
     DescribedEndpointDetails: S.optional(DescribedWebAppEndpointDetails),
   }),
-).annotate({
-  identifier: "DescribedWebApp",
-}) as any as S.Schema<DescribedWebApp>;
+).annotate({ identifier: "DescribedWebApp" }) as any as S.Schema<DescribedWebApp>;
 export interface DescribeWebAppResponse {
   WebApp: DescribedWebApp;
 }
 export const DescribeWebAppResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ WebApp: DescribedWebApp }),
-).annotate({
-  identifier: "DescribeWebAppResponse",
-}) as any as S.Schema<DescribeWebAppResponse>;
+).annotate({ identifier: "DescribeWebAppResponse" }) as any as S.Schema<DescribeWebAppResponse>;
 export interface DescribeWebAppCustomizationRequest {
   WebAppId: string;
 }
@@ -2120,9 +1831,7 @@ export const DescribeWorkflowRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ WorkflowId: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DescribeWorkflowRequest",
-}) as any as S.Schema<DescribeWorkflowRequest>;
+).annotate({ identifier: "DescribeWorkflowRequest" }) as any as S.Schema<DescribeWorkflowRequest>;
 export interface DescribedWorkflow {
   Arn: string;
   Description?: string;
@@ -2130,6 +1839,7 @@ export interface DescribedWorkflow {
   OnExceptionSteps?: WorkflowStep[];
   WorkflowId?: string;
   Tags?: Tag[];
+  StructuredLogDestinations?: string[];
 }
 export const DescribedWorkflow = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2139,18 +1849,15 @@ export const DescribedWorkflow = /*@__PURE__*/ S.suspend(() =>
     OnExceptionSteps: S.optional(WorkflowSteps),
     WorkflowId: S.optional(S.String),
     Tags: S.optional(Tags),
+    StructuredLogDestinations: S.optional(StructuredLogDestinations),
   }),
-).annotate({
-  identifier: "DescribedWorkflow",
-}) as any as S.Schema<DescribedWorkflow>;
+).annotate({ identifier: "DescribedWorkflow" }) as any as S.Schema<DescribedWorkflow>;
 export interface DescribeWorkflowResponse {
   Workflow: DescribedWorkflow;
 }
 export const DescribeWorkflowResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Workflow: DescribedWorkflow }),
-).annotate({
-  identifier: "DescribeWorkflowResponse",
-}) as any as S.Schema<DescribeWorkflowResponse>;
+).annotate({ identifier: "DescribeWorkflowResponse" }) as any as S.Schema<DescribeWorkflowResponse>;
 export type PrivateKeyType = string | redacted.Redacted<string>;
 export interface ImportCertificateRequest {
   Usage: CertificateUsageType;
@@ -2172,12 +1879,8 @@ export const ImportCertificateRequest = /*@__PURE__*/ S.suspend(() =>
     InactiveDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     Description: S.optional(S.String),
     Tags: S.optional(Tags),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ImportCertificateRequest",
-}) as any as S.Schema<ImportCertificateRequest>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "ImportCertificateRequest" }) as any as S.Schema<ImportCertificateRequest>;
 export interface ImportCertificateResponse {
   CertificateId: string;
 }
@@ -2198,32 +1901,22 @@ export const ImportHostKeyRequest = /*@__PURE__*/ S.suspend(() =>
     HostKeyBody: SensitiveString,
     Description: S.optional(S.String),
     Tags: S.optional(Tags),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ImportHostKeyRequest",
-}) as any as S.Schema<ImportHostKeyRequest>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "ImportHostKeyRequest" }) as any as S.Schema<ImportHostKeyRequest>;
 export interface ImportHostKeyResponse {
   ServerId: string;
   HostKeyId: string;
 }
 export const ImportHostKeyResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ServerId: S.String, HostKeyId: S.String }),
-).annotate({
-  identifier: "ImportHostKeyResponse",
-}) as any as S.Schema<ImportHostKeyResponse>;
+).annotate({ identifier: "ImportHostKeyResponse" }) as any as S.Schema<ImportHostKeyResponse>;
 export interface ImportSshPublicKeyRequest {
   ServerId: string;
   SshPublicKeyBody: string;
   UserName: string;
 }
 export const ImportSshPublicKeyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ServerId: S.String,
-    SshPublicKeyBody: S.String,
-    UserName: S.String,
-  }).pipe(
+  S.Struct({ ServerId: S.String, SshPublicKeyBody: S.String, UserName: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
@@ -2235,11 +1928,7 @@ export interface ImportSshPublicKeyResponse {
   UserName: string;
 }
 export const ImportSshPublicKeyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ServerId: S.String,
-    SshPublicKeyId: S.String,
-    UserName: S.String,
-  }),
+  S.Struct({ ServerId: S.String, SshPublicKeyId: S.String, UserName: S.String }),
 ).annotate({
   identifier: "ImportSshPublicKeyResponse",
 }) as any as S.Schema<ImportSshPublicKeyResponse>;
@@ -2255,12 +1944,8 @@ export const ListAccessesRequest = /*@__PURE__*/ S.suspend(() =>
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
     ServerId: S.String,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListAccessesRequest",
-}) as any as S.Schema<ListAccessesRequest>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "ListAccessesRequest" }) as any as S.Schema<ListAccessesRequest>;
 export interface ListedAccess {
   HomeDirectory?: string;
   HomeDirectoryType?: HomeDirectoryType;
@@ -2283,14 +1968,8 @@ export interface ListAccessesResponse {
   Accesses: ListedAccess[];
 }
 export const ListAccessesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    ServerId: S.String,
-    Accesses: ListedAccesses,
-  }),
-).annotate({
-  identifier: "ListAccessesResponse",
-}) as any as S.Schema<ListAccessesResponse>;
+  S.Struct({ NextToken: S.optional(S.String), ServerId: S.String, Accesses: ListedAccesses }),
+).annotate({ identifier: "ListAccessesResponse" }) as any as S.Schema<ListAccessesResponse>;
 export interface ListAgreementsRequest {
   MaxResults?: number;
   NextToken?: string;
@@ -2301,12 +1980,8 @@ export const ListAgreementsRequest = /*@__PURE__*/ S.suspend(() =>
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
     ServerId: S.String,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListAgreementsRequest",
-}) as any as S.Schema<ListAgreementsRequest>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "ListAgreementsRequest" }) as any as S.Schema<ListAgreementsRequest>;
 export interface ListedAgreement {
   Arn?: string;
   AgreementId?: string;
@@ -2326,9 +2001,7 @@ export const ListedAgreement = /*@__PURE__*/ S.suspend(() =>
     LocalProfileId: S.optional(S.String),
     PartnerProfileId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListedAgreement",
-}) as any as S.Schema<ListedAgreement>;
+).annotate({ identifier: "ListedAgreement" }) as any as S.Schema<ListedAgreement>;
 export type ListedAgreements = ListedAgreement[];
 export const ListedAgreements = /*@__PURE__*/ S.Array(ListedAgreement);
 export interface ListAgreementsResponse {
@@ -2337,23 +2010,16 @@ export interface ListAgreementsResponse {
 }
 export const ListAgreementsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ NextToken: S.optional(S.String), Agreements: ListedAgreements }),
-).annotate({
-  identifier: "ListAgreementsResponse",
-}) as any as S.Schema<ListAgreementsResponse>;
+).annotate({ identifier: "ListAgreementsResponse" }) as any as S.Schema<ListAgreementsResponse>;
 export interface ListCertificatesRequest {
   MaxResults?: number;
   NextToken?: string;
 }
 export const ListCertificatesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
+  S.Struct({ MaxResults: S.optional(S.Number), NextToken: S.optional(S.String) }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "ListCertificatesRequest",
-}) as any as S.Schema<ListCertificatesRequest>;
+).annotate({ identifier: "ListCertificatesRequest" }) as any as S.Schema<ListCertificatesRequest>;
 export interface ListedCertificate {
   Arn?: string;
   CertificateId?: string;
@@ -2375,9 +2041,7 @@ export const ListedCertificate = /*@__PURE__*/ S.suspend(() =>
     Type: S.optional(CertificateType),
     Description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListedCertificate",
-}) as any as S.Schema<ListedCertificate>;
+).annotate({ identifier: "ListedCertificate" }) as any as S.Schema<ListedCertificate>;
 export type ListedCertificates = ListedCertificate[];
 export const ListedCertificates = /*@__PURE__*/ S.Array(ListedCertificate);
 export interface ListCertificatesResponse {
@@ -2385,27 +2049,17 @@ export interface ListCertificatesResponse {
   Certificates: ListedCertificate[];
 }
 export const ListCertificatesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    Certificates: ListedCertificates,
-  }),
-).annotate({
-  identifier: "ListCertificatesResponse",
-}) as any as S.Schema<ListCertificatesResponse>;
+  S.Struct({ NextToken: S.optional(S.String), Certificates: ListedCertificates }),
+).annotate({ identifier: "ListCertificatesResponse" }) as any as S.Schema<ListCertificatesResponse>;
 export interface ListConnectorsRequest {
   MaxResults?: number;
   NextToken?: string;
 }
 export const ListConnectorsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
+  S.Struct({ MaxResults: S.optional(S.Number), NextToken: S.optional(S.String) }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "ListConnectorsRequest",
-}) as any as S.Schema<ListConnectorsRequest>;
+).annotate({ identifier: "ListConnectorsRequest" }) as any as S.Schema<ListConnectorsRequest>;
 export interface ListedConnector {
   Arn?: string;
   ConnectorId?: string;
@@ -2417,9 +2071,7 @@ export const ListedConnector = /*@__PURE__*/ S.suspend(() =>
     ConnectorId: S.optional(S.String),
     Url: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListedConnector",
-}) as any as S.Schema<ListedConnector>;
+).annotate({ identifier: "ListedConnector" }) as any as S.Schema<ListedConnector>;
 export type ListedConnectors = ListedConnector[];
 export const ListedConnectors = /*@__PURE__*/ S.Array(ListedConnector);
 export interface ListConnectorsResponse {
@@ -2428,9 +2080,7 @@ export interface ListConnectorsResponse {
 }
 export const ListConnectorsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ NextToken: S.optional(S.String), Connectors: ListedConnectors }),
-).annotate({
-  identifier: "ListConnectorsResponse",
-}) as any as S.Schema<ListConnectorsResponse>;
+).annotate({ identifier: "ListConnectorsResponse" }) as any as S.Schema<ListConnectorsResponse>;
 export interface ListExecutionsRequest {
   MaxResults?: number;
   NextToken?: string;
@@ -2441,12 +2091,8 @@ export const ListExecutionsRequest = /*@__PURE__*/ S.suspend(() =>
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
     WorkflowId: S.String,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListExecutionsRequest",
-}) as any as S.Schema<ListExecutionsRequest>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "ListExecutionsRequest" }) as any as S.Schema<ListExecutionsRequest>;
 export interface ListedExecution {
   ExecutionId?: string;
   InitialFileLocation?: FileLocation;
@@ -2460,9 +2106,7 @@ export const ListedExecution = /*@__PURE__*/ S.suspend(() =>
     ServiceMetadata: S.optional(ServiceMetadata),
     Status: S.optional(ExecutionStatus),
   }),
-).annotate({
-  identifier: "ListedExecution",
-}) as any as S.Schema<ListedExecution>;
+).annotate({ identifier: "ListedExecution" }) as any as S.Schema<ListedExecution>;
 export type ListedExecutions = ListedExecution[];
 export const ListedExecutions = /*@__PURE__*/ S.Array(ListedExecution);
 export interface ListExecutionsResponse {
@@ -2471,14 +2115,8 @@ export interface ListExecutionsResponse {
   Executions: ListedExecution[];
 }
 export const ListExecutionsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    WorkflowId: S.String,
-    Executions: ListedExecutions,
-  }),
-).annotate({
-  identifier: "ListExecutionsResponse",
-}) as any as S.Schema<ListExecutionsResponse>;
+  S.Struct({ NextToken: S.optional(S.String), WorkflowId: S.String, Executions: ListedExecutions }),
+).annotate({ identifier: "ListExecutionsResponse" }) as any as S.Schema<ListExecutionsResponse>;
 export type TransferId = string;
 export interface ListFileTransferResultsRequest {
   ConnectorId: string;
@@ -2506,12 +2144,7 @@ export const ListFileTransferResultsRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListFileTransferResultsRequest",
 }) as any as S.Schema<ListFileTransferResultsRequest>;
 export type FilePath = string;
-export type TransferTableStatus =
-  | "QUEUED"
-  | "IN_PROGRESS"
-  | "COMPLETED"
-  | "FAILED"
-  | (string & {});
+export type TransferTableStatus = "QUEUED" | "IN_PROGRESS" | "COMPLETED" | "FAILED" | (string & {});
 export const TransferTableStatus = S.String;
 
 export type FailureCode = string;
@@ -2533,18 +2166,13 @@ export const ConnectorFileTransferResult = /*@__PURE__*/ S.suspend(() =>
   identifier: "ConnectorFileTransferResult",
 }) as any as S.Schema<ConnectorFileTransferResult>;
 export type ConnectorFileTransferResults = ConnectorFileTransferResult[];
-export const ConnectorFileTransferResults = /*@__PURE__*/ S.Array(
-  ConnectorFileTransferResult,
-);
+export const ConnectorFileTransferResults = /*@__PURE__*/ S.Array(ConnectorFileTransferResult);
 export interface ListFileTransferResultsResponse {
   FileTransferResults: ConnectorFileTransferResult[];
   NextToken?: string;
 }
 export const ListFileTransferResultsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FileTransferResults: ConnectorFileTransferResults,
-    NextToken: S.optional(S.String),
-  }),
+  S.Struct({ FileTransferResults: ConnectorFileTransferResults, NextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListFileTransferResultsResponse",
 }) as any as S.Schema<ListFileTransferResultsResponse>;
@@ -2558,12 +2186,8 @@ export const ListHostKeysRequest = /*@__PURE__*/ S.suspend(() =>
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
     ServerId: S.String,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListHostKeysRequest",
-}) as any as S.Schema<ListHostKeysRequest>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "ListHostKeysRequest" }) as any as S.Schema<ListHostKeysRequest>;
 export interface ListedHostKey {
   Arn: string;
   HostKeyId?: string;
@@ -2590,14 +2214,8 @@ export interface ListHostKeysResponse {
   HostKeys: ListedHostKey[];
 }
 export const ListHostKeysResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    ServerId: S.String,
-    HostKeys: ListedHostKeys,
-  }),
-).annotate({
-  identifier: "ListHostKeysResponse",
-}) as any as S.Schema<ListHostKeysResponse>;
+  S.Struct({ NextToken: S.optional(S.String), ServerId: S.String, HostKeys: ListedHostKeys }),
+).annotate({ identifier: "ListHostKeysResponse" }) as any as S.Schema<ListHostKeysResponse>;
 export interface ListProfilesRequest {
   MaxResults?: number;
   NextToken?: string;
@@ -2608,12 +2226,8 @@ export const ListProfilesRequest = /*@__PURE__*/ S.suspend(() =>
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
     ProfileType: S.optional(ProfileType),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListProfilesRequest",
-}) as any as S.Schema<ListProfilesRequest>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "ListProfilesRequest" }) as any as S.Schema<ListProfilesRequest>;
 export interface ListedProfile {
   Arn?: string;
   ProfileId?: string;
@@ -2636,18 +2250,13 @@ export interface ListProfilesResponse {
 }
 export const ListProfilesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ NextToken: S.optional(S.String), Profiles: ListedProfiles }),
-).annotate({
-  identifier: "ListProfilesResponse",
-}) as any as S.Schema<ListProfilesResponse>;
+).annotate({ identifier: "ListProfilesResponse" }) as any as S.Schema<ListProfilesResponse>;
 export interface ListSecurityPoliciesRequest {
   MaxResults?: number;
   NextToken?: string;
 }
 export const ListSecurityPoliciesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
+  S.Struct({ MaxResults: S.optional(S.Number), NextToken: S.optional(S.String) }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
@@ -2660,10 +2269,7 @@ export interface ListSecurityPoliciesResponse {
   SecurityPolicyNames: string[];
 }
 export const ListSecurityPoliciesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    SecurityPolicyNames: SecurityPolicyNames,
-  }),
+  S.Struct({ NextToken: S.optional(S.String), SecurityPolicyNames: SecurityPolicyNames }),
 ).annotate({
   identifier: "ListSecurityPoliciesResponse",
 }) as any as S.Schema<ListSecurityPoliciesResponse>;
@@ -2672,15 +2278,10 @@ export interface ListServersRequest {
   NextToken?: string;
 }
 export const ListServersRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
+  S.Struct({ MaxResults: S.optional(S.Number), NextToken: S.optional(S.String) }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "ListServersRequest",
-}) as any as S.Schema<ListServersRequest>;
+).annotate({ identifier: "ListServersRequest" }) as any as S.Schema<ListServersRequest>;
 export interface ListedServer {
   Arn: string;
   Domain?: Domain;
@@ -2711,9 +2312,7 @@ export interface ListServersResponse {
 }
 export const ListServersResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ NextToken: S.optional(S.String), Servers: ListedServers }),
-).annotate({
-  identifier: "ListServersResponse",
-}) as any as S.Schema<ListServersResponse>;
+).annotate({ identifier: "ListServersResponse" }) as any as S.Schema<ListServersResponse>;
 export interface ListTagsForResourceRequest {
   Arn: string;
   MaxResults?: number;
@@ -2724,9 +2323,7 @@ export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
     Arn: S.String,
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListTagsForResourceRequest",
 }) as any as S.Schema<ListTagsForResourceRequest>;
@@ -2736,11 +2333,7 @@ export interface ListTagsForResourceResponse {
   Tags?: Tag[];
 }
 export const ListTagsForResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Arn: S.optional(S.String),
-    NextToken: S.optional(S.String),
-    Tags: S.optional(Tags),
-  }),
+  S.Struct({ Arn: S.optional(S.String), NextToken: S.optional(S.String), Tags: S.optional(Tags) }),
 ).annotate({
   identifier: "ListTagsForResourceResponse",
 }) as any as S.Schema<ListTagsForResourceResponse>;
@@ -2754,12 +2347,8 @@ export const ListUsersRequest = /*@__PURE__*/ S.suspend(() =>
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
     ServerId: S.String,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListUsersRequest",
-}) as any as S.Schema<ListUsersRequest>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "ListUsersRequest" }) as any as S.Schema<ListUsersRequest>;
 export type SshPublicKeyCount = number;
 export interface ListedUser {
   Arn: string;
@@ -2787,35 +2376,17 @@ export interface ListUsersResponse {
   Users: ListedUser[];
 }
 export const ListUsersResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    ServerId: S.String,
-    Users: ListedUsers,
-  }),
-).annotate({
-  identifier: "ListUsersResponse",
-}) as any as S.Schema<ListUsersResponse>;
+  S.Struct({ NextToken: S.optional(S.String), ServerId: S.String, Users: ListedUsers }),
+).annotate({ identifier: "ListUsersResponse" }) as any as S.Schema<ListUsersResponse>;
 export interface ListWebAppsRequest {
   MaxResults?: number;
   NextToken?: string;
 }
 export const ListWebAppsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/listWebApps" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+  S.Struct({ MaxResults: S.optional(S.Number), NextToken: S.optional(S.String) }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/listWebApps" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "ListWebAppsRequest",
-}) as any as S.Schema<ListWebAppsRequest>;
+).annotate({ identifier: "ListWebAppsRequest" }) as any as S.Schema<ListWebAppsRequest>;
 export interface ListedWebApp {
   Arn: string;
   WebAppId: string;
@@ -2840,23 +2411,16 @@ export interface ListWebAppsResponse {
 }
 export const ListWebAppsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ NextToken: S.optional(S.String), WebApps: ListedWebApps }),
-).annotate({
-  identifier: "ListWebAppsResponse",
-}) as any as S.Schema<ListWebAppsResponse>;
+).annotate({ identifier: "ListWebAppsResponse" }) as any as S.Schema<ListWebAppsResponse>;
 export interface ListWorkflowsRequest {
   MaxResults?: number;
   NextToken?: string;
 }
 export const ListWorkflowsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
+  S.Struct({ MaxResults: S.optional(S.Number), NextToken: S.optional(S.String) }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "ListWorkflowsRequest",
-}) as any as S.Schema<ListWorkflowsRequest>;
+).annotate({ identifier: "ListWorkflowsRequest" }) as any as S.Schema<ListWorkflowsRequest>;
 export interface ListedWorkflow {
   WorkflowId?: string;
   Description?: string;
@@ -2877,9 +2441,7 @@ export interface ListWorkflowsResponse {
 }
 export const ListWorkflowsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ NextToken: S.optional(S.String), Workflows: ListedWorkflows }),
-).annotate({
-  identifier: "ListWorkflowsResponse",
-}) as any as S.Schema<ListWorkflowsResponse>;
+).annotate({ identifier: "ListWorkflowsResponse" }) as any as S.Schema<ListWorkflowsResponse>;
 export type CallbackToken = string;
 export type CustomStepStatus = "SUCCESS" | "FAILURE" | (string & {});
 export const CustomStepStatus = S.String;
@@ -2896,16 +2458,12 @@ export const SendWorkflowStepStateRequest = /*@__PURE__*/ S.suspend(() =>
     ExecutionId: S.String,
     Token: S.String,
     Status: CustomStepStatus,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "SendWorkflowStepStateRequest",
 }) as any as S.Schema<SendWorkflowStepStateRequest>;
 export interface SendWorkflowStepStateResponse {}
-export const SendWorkflowStepStateResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const SendWorkflowStepStateResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "SendWorkflowStepStateResponse",
 }) as any as S.Schema<SendWorkflowStepStateResponse>;
 export type MaxItems = number;
@@ -2921,9 +2479,7 @@ export const StartDirectoryListingRequest = /*@__PURE__*/ S.suspend(() =>
     RemoteDirectoryPath: S.String,
     MaxItems: S.optional(S.Number),
     OutputDirectoryPath: S.String,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "StartDirectoryListingRequest",
 }) as any as S.Schema<StartDirectoryListingRequest>;
@@ -2947,13 +2503,8 @@ export interface CustomHttpHeader {
   Value?: string | redacted.Redacted<string>;
 }
 export const CustomHttpHeader = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Key: S.optional(SensitiveString),
-    Value: S.optional(SensitiveString),
-  }),
-).annotate({
-  identifier: "CustomHttpHeader",
-}) as any as S.Schema<CustomHttpHeader>;
+  S.Struct({ Key: S.optional(SensitiveString), Value: S.optional(SensitiveString) }),
+).annotate({ identifier: "CustomHttpHeader" }) as any as S.Schema<CustomHttpHeader>;
 export type CustomHttpHeaders = CustomHttpHeader[];
 export const CustomHttpHeaders = /*@__PURE__*/ S.Array(CustomHttpHeader);
 export interface StartFileTransferRequest {
@@ -2972,12 +2523,8 @@ export const StartFileTransferRequest = /*@__PURE__*/ S.suspend(() =>
     LocalDirectoryPath: S.optional(S.String),
     RemoteDirectoryPath: S.optional(S.String),
     CustomHttpHeaders: S.optional(CustomHttpHeaders),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "StartFileTransferRequest",
-}) as any as S.Schema<StartFileTransferRequest>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "StartFileTransferRequest" }) as any as S.Schema<StartFileTransferRequest>;
 export interface StartFileTransferResponse {
   TransferId: string;
 }
@@ -2992,18 +2539,9 @@ export interface StartRemoteDeleteRequest {
 }
 export const StartRemoteDeleteRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ConnectorId: S.String, DeletePath: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/startRemoteDelete" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/startRemoteDelete" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "StartRemoteDeleteRequest",
-}) as any as S.Schema<StartRemoteDeleteRequest>;
+).annotate({ identifier: "StartRemoteDeleteRequest" }) as any as S.Schema<StartRemoteDeleteRequest>;
 export type DeleteId = string;
 export interface StartRemoteDeleteResponse {
   DeleteId: string;
@@ -3019,32 +2557,17 @@ export interface StartRemoteMoveRequest {
   TargetPath: string;
 }
 export const StartRemoteMoveRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ConnectorId: S.String,
-    SourcePath: S.String,
-    TargetPath: S.String,
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/startRemoteMove" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+  S.Struct({ ConnectorId: S.String, SourcePath: S.String, TargetPath: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/startRemoteMove" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "StartRemoteMoveRequest",
-}) as any as S.Schema<StartRemoteMoveRequest>;
+).annotate({ identifier: "StartRemoteMoveRequest" }) as any as S.Schema<StartRemoteMoveRequest>;
 export type MoveId = string;
 export interface StartRemoteMoveResponse {
   MoveId: string;
 }
 export const StartRemoteMoveResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ MoveId: S.String }),
-).annotate({
-  identifier: "StartRemoteMoveResponse",
-}) as any as S.Schema<StartRemoteMoveResponse>;
+).annotate({ identifier: "StartRemoteMoveResponse" }) as any as S.Schema<StartRemoteMoveResponse>;
 export interface StartServerRequest {
   ServerId: string;
 }
@@ -3052,13 +2575,9 @@ export const StartServerRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ServerId: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "StartServerRequest",
-}) as any as S.Schema<StartServerRequest>;
+).annotate({ identifier: "StartServerRequest" }) as any as S.Schema<StartServerRequest>;
 export interface StartServerResponse {}
-export const StartServerResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const StartServerResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "StartServerResponse",
 }) as any as S.Schema<StartServerResponse>;
 export interface StopServerRequest {
@@ -3068,13 +2587,9 @@ export const StopServerRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ServerId: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "StopServerRequest",
-}) as any as S.Schema<StopServerRequest>;
+).annotate({ identifier: "StopServerRequest" }) as any as S.Schema<StopServerRequest>;
 export interface StopServerResponse {}
-export const StopServerResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const StopServerResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "StopServerResponse",
 }) as any as S.Schema<StopServerResponse>;
 export interface TagResourceRequest {
@@ -3085,13 +2600,9 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Arn: S.String, Tags: Tags }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
+).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export interface TestConnectionRequest {
@@ -3101,9 +2612,7 @@ export const TestConnectionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ConnectorId: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "TestConnectionRequest",
-}) as any as S.Schema<TestConnectionRequest>;
+).annotate({ identifier: "TestConnectionRequest" }) as any as S.Schema<TestConnectionRequest>;
 export type Status = string;
 export type SftpConnectorHostKey = string;
 export interface SftpConnectorConnectionDetails {
@@ -3127,9 +2636,7 @@ export const TestConnectionResponse = /*@__PURE__*/ S.suspend(() =>
     StatusMessage: S.optional(S.String),
     SftpConnectionDetails: S.optional(SftpConnectorConnectionDetails),
   }),
-).annotate({
-  identifier: "TestConnectionResponse",
-}) as any as S.Schema<TestConnectionResponse>;
+).annotate({ identifier: "TestConnectionResponse" }) as any as S.Schema<TestConnectionResponse>;
 export type SourceIp = string;
 export type UserPassword = string | redacted.Redacted<string>;
 export interface TestIdentityProviderRequest {
@@ -3146,9 +2653,7 @@ export const TestIdentityProviderRequest = /*@__PURE__*/ S.suspend(() =>
     SourceIp: S.optional(S.String),
     UserName: S.String,
     UserPassword: S.optional(SensitiveString),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "TestIdentityProviderRequest",
 }) as any as S.Schema<TestIdentityProviderRequest>;
@@ -3180,13 +2685,9 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Arn: S.String, TagKeys: TagKeys }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
+).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateAccessRequest {
@@ -3209,21 +2710,15 @@ export const UpdateAccessRequest = /*@__PURE__*/ S.suspend(() =>
     Role: S.optional(S.String),
     ServerId: S.String,
     ExternalId: S.String,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "UpdateAccessRequest",
-}) as any as S.Schema<UpdateAccessRequest>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "UpdateAccessRequest" }) as any as S.Schema<UpdateAccessRequest>;
 export interface UpdateAccessResponse {
   ServerId: string;
   ExternalId: string;
 }
 export const UpdateAccessResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ServerId: S.String, ExternalId: S.String }),
-).annotate({
-  identifier: "UpdateAccessResponse",
-}) as any as S.Schema<UpdateAccessResponse>;
+).annotate({ identifier: "UpdateAccessResponse" }) as any as S.Schema<UpdateAccessResponse>;
 export interface UpdateAgreementRequest {
   AgreementId: string;
   ServerId: string;
@@ -3250,20 +2745,14 @@ export const UpdateAgreementRequest = /*@__PURE__*/ S.suspend(() =>
     PreserveFilename: S.optional(PreserveFilenameType),
     EnforceMessageSigning: S.optional(EnforceMessageSigningType),
     CustomDirectories: S.optional(CustomDirectoriesType),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "UpdateAgreementRequest",
-}) as any as S.Schema<UpdateAgreementRequest>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "UpdateAgreementRequest" }) as any as S.Schema<UpdateAgreementRequest>;
 export interface UpdateAgreementResponse {
   AgreementId: string;
 }
 export const UpdateAgreementResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ AgreementId: S.String }),
-).annotate({
-  identifier: "UpdateAgreementResponse",
-}) as any as S.Schema<UpdateAgreementResponse>;
+).annotate({ identifier: "UpdateAgreementResponse" }) as any as S.Schema<UpdateAgreementResponse>;
 export interface UpdateCertificateRequest {
   CertificateId: string;
   ActiveDate?: Date;
@@ -3276,12 +2765,8 @@ export const UpdateCertificateRequest = /*@__PURE__*/ S.suspend(() =>
     ActiveDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     InactiveDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     Description: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "UpdateCertificateRequest",
-}) as any as S.Schema<UpdateCertificateRequest>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "UpdateCertificateRequest" }) as any as S.Schema<UpdateCertificateRequest>;
 export interface UpdateCertificateResponse {
   CertificateId: string;
 }
@@ -3294,18 +2779,12 @@ export interface UpdateConnectorVpcLatticeEgressConfig {
   ResourceConfigurationArn?: string;
   PortNumber?: number;
 }
-export const UpdateConnectorVpcLatticeEgressConfig = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ResourceConfigurationArn: S.optional(S.String),
-      PortNumber: S.optional(S.Number),
-    }),
+export const UpdateConnectorVpcLatticeEgressConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ ResourceConfigurationArn: S.optional(S.String), PortNumber: S.optional(S.Number) }),
 ).annotate({
   identifier: "UpdateConnectorVpcLatticeEgressConfig",
 }) as any as S.Schema<UpdateConnectorVpcLatticeEgressConfig>;
-export type UpdateConnectorEgressConfig = {
-  VpcLattice: UpdateConnectorVpcLatticeEgressConfig;
-};
+export type UpdateConnectorEgressConfig = { VpcLattice: UpdateConnectorVpcLatticeEgressConfig };
 export const UpdateConnectorEgressConfig = /*@__PURE__*/ S.Union([
   S.Struct({ VpcLattice: UpdateConnectorVpcLatticeEgressConfig }),
 ]);
@@ -3331,67 +2810,46 @@ export const UpdateConnectorRequest = /*@__PURE__*/ S.suspend(() =>
     SecurityPolicyName: S.optional(S.String),
     EgressConfig: S.optional(UpdateConnectorEgressConfig),
     IpAddressType: S.optional(ConnectorsIpAddressType),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "UpdateConnectorRequest",
-}) as any as S.Schema<UpdateConnectorRequest>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "UpdateConnectorRequest" }) as any as S.Schema<UpdateConnectorRequest>;
 export interface UpdateConnectorResponse {
   ConnectorId: string;
 }
 export const UpdateConnectorResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ConnectorId: S.String }),
-).annotate({
-  identifier: "UpdateConnectorResponse",
-}) as any as S.Schema<UpdateConnectorResponse>;
+).annotate({ identifier: "UpdateConnectorResponse" }) as any as S.Schema<UpdateConnectorResponse>;
 export interface UpdateHostKeyRequest {
   ServerId: string;
   HostKeyId: string;
   Description: string;
 }
 export const UpdateHostKeyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ServerId: S.String,
-    HostKeyId: S.String,
-    Description: S.String,
-  }).pipe(
+  S.Struct({ ServerId: S.String, HostKeyId: S.String, Description: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UpdateHostKeyRequest",
-}) as any as S.Schema<UpdateHostKeyRequest>;
+).annotate({ identifier: "UpdateHostKeyRequest" }) as any as S.Schema<UpdateHostKeyRequest>;
 export interface UpdateHostKeyResponse {
   ServerId: string;
   HostKeyId: string;
 }
 export const UpdateHostKeyResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ServerId: S.String, HostKeyId: S.String }),
-).annotate({
-  identifier: "UpdateHostKeyResponse",
-}) as any as S.Schema<UpdateHostKeyResponse>;
+).annotate({ identifier: "UpdateHostKeyResponse" }) as any as S.Schema<UpdateHostKeyResponse>;
 export interface UpdateProfileRequest {
   ProfileId: string;
   CertificateIds?: string[];
 }
 export const UpdateProfileRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ProfileId: S.String,
-    CertificateIds: S.optional(CertificateIds),
-  }).pipe(
+  S.Struct({ ProfileId: S.String, CertificateIds: S.optional(CertificateIds) }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UpdateProfileRequest",
-}) as any as S.Schema<UpdateProfileRequest>;
+).annotate({ identifier: "UpdateProfileRequest" }) as any as S.Schema<UpdateProfileRequest>;
 export interface UpdateProfileResponse {
   ProfileId: string;
 }
 export const UpdateProfileResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ProfileId: S.String }),
-).annotate({
-  identifier: "UpdateProfileResponse",
-}) as any as S.Schema<UpdateProfileResponse>;
+).annotate({ identifier: "UpdateProfileResponse" }) as any as S.Schema<UpdateProfileResponse>;
 export interface UpdateServerRequest {
   Certificate?: string;
   ProtocolDetails?: ProtocolDetails;
@@ -3430,20 +2888,14 @@ export const UpdateServerRequest = /*@__PURE__*/ S.suspend(() =>
     S3StorageOptions: S.optional(S3StorageOptions),
     IpAddressType: S.optional(IpAddressType),
     IdentityProviderType: S.optional(IdentityProviderType),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "UpdateServerRequest",
-}) as any as S.Schema<UpdateServerRequest>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "UpdateServerRequest" }) as any as S.Schema<UpdateServerRequest>;
 export interface UpdateServerResponse {
   ServerId: string;
 }
 export const UpdateServerResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ServerId: S.String }),
-).annotate({
-  identifier: "UpdateServerResponse",
-}) as any as S.Schema<UpdateServerResponse>;
+).annotate({ identifier: "UpdateServerResponse" }) as any as S.Schema<UpdateServerResponse>;
 export interface UpdateUserRequest {
   HomeDirectory?: string;
   HomeDirectoryType?: HomeDirectoryType;
@@ -3464,21 +2916,15 @@ export const UpdateUserRequest = /*@__PURE__*/ S.suspend(() =>
     Role: S.optional(S.String),
     ServerId: S.String,
     UserName: S.String,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "UpdateUserRequest",
-}) as any as S.Schema<UpdateUserRequest>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "UpdateUserRequest" }) as any as S.Schema<UpdateUserRequest>;
 export interface UpdateUserResponse {
   ServerId: string;
   UserName: string;
 }
 export const UpdateUserResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ServerId: S.String, UserName: S.String }),
-).annotate({
-  identifier: "UpdateUserResponse",
-}) as any as S.Schema<UpdateUserResponse>;
+).annotate({ identifier: "UpdateUserResponse" }) as any as S.Schema<UpdateUserResponse>;
 export interface UpdateWebAppIdentityCenterConfig {
   Role?: string;
 }
@@ -3502,9 +2948,7 @@ export const UpdateWebAppVpcConfig = /*@__PURE__*/ S.suspend(() =>
     SubnetIds: S.optional(SubnetIds),
     IpAddressType: S.optional(WebAppVpcEndpointIpAddressType),
   }),
-).annotate({
-  identifier: "UpdateWebAppVpcConfig",
-}) as any as S.Schema<UpdateWebAppVpcConfig>;
+).annotate({ identifier: "UpdateWebAppVpcConfig" }) as any as S.Schema<UpdateWebAppVpcConfig>;
 export type UpdateWebAppEndpointDetails = { Vpc: UpdateWebAppVpcConfig };
 export const UpdateWebAppEndpointDetails = /*@__PURE__*/ S.Union([
   S.Struct({ Vpc: UpdateWebAppVpcConfig }),
@@ -3523,27 +2967,14 @@ export const UpdateWebAppRequest = /*@__PURE__*/ S.suspend(() =>
     AccessEndpoint: S.optional(S.String),
     WebAppUnits: S.optional(WebAppUnits),
     EndpointDetails: S.optional(UpdateWebAppEndpointDetails),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/updateWebApp" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateWebAppRequest",
-}) as any as S.Schema<UpdateWebAppRequest>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/updateWebApp" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "UpdateWebAppRequest" }) as any as S.Schema<UpdateWebAppRequest>;
 export interface UpdateWebAppResponse {
   WebAppId: string;
 }
 export const UpdateWebAppResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ WebAppId: S.String }),
-).annotate({
-  identifier: "UpdateWebAppResponse",
-}) as any as S.Schema<UpdateWebAppResponse>;
+).annotate({ identifier: "UpdateWebAppResponse" }) as any as S.Schema<UpdateWebAppResponse>;
 export interface UpdateWebAppCustomizationRequest {
   WebAppId: string;
   Title?: string;

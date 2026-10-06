@@ -494,6 +494,124 @@
         }
       }
     },
+    "com.posthog.file_system_shortcut#FileSystemShortcutBulkItem": {
+      "type": "structure",
+      "members": {
+        "path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Display path of the shortcut in the sidebar.",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Type of the linked item (e.g. 'folder', 'insight'), or blank."
+          }
+        },
+        "ref": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Reference to the linked item, scoped to its type. Null for href-only shortcuts.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "href": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Destination URL the shortcut opens. Null when the shortcut points at an item by ref.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.file_system_shortcut#FileSystemShortcutBulkUpdateCreateRequestAddList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.file_system_shortcut#FileSystemShortcutBulkItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Shortcuts to create, appended to the end of the current order in the given sequence. An item identical to a shortcut the user already has is skipped."
+      }
+    },
+    "com.posthog.file_system_shortcut#FileSystemShortcutBulkUpdateCreateRequestRemoveIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "IDs of the current user's shortcuts to delete."
+      }
+    },
+    "com.posthog.file_system_shortcut#FileSystemShortcutBulkUpdateCreateRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "add": {
+          "target": "com.posthog.file_system_shortcut#FileSystemShortcutBulkUpdateCreateRequestAddList",
+          "traits": {
+            "smithy.api#documentation": "Shortcuts to create, appended to the end of the current order in the given sequence. An item identical to a shortcut the user already has is skipped."
+          }
+        },
+        "remove_ids": {
+          "target": "com.posthog.file_system_shortcut#FileSystemShortcutBulkUpdateCreateRequestRemoveIdsList",
+          "traits": {
+            "smithy.api#documentation": "IDs of the current user's shortcuts to delete."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.file_system_shortcut#FileSystemShortcutBulkUpdateCreateResponseBodyList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.file_system_shortcut#FileSystemShortcut2"
+      },
+      "traits": {}
+    },
+    "com.posthog.file_system_shortcut#FileSystemShortcutBulkUpdateCreateResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.posthog.file_system_shortcut#FileSystemShortcutBulkUpdateCreateResponseBodyList",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.posthog.file_system_shortcut#FileSystemShortcutBulkUpdateCreate": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.file_system_shortcut#FileSystemShortcutBulkUpdateCreateRequest"
+      },
+      "output": {
+        "target": "com.posthog.file_system_shortcut#FileSystemShortcutBulkUpdateCreateResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/file_system_shortcut/bulk_update/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create and delete several of the current user's shortcuts in one transaction, then return the full shortcut list in display order. Any unknown ID in `remove_ids` rejects the whole request."
+      }
+    },
     "com.posthog.file_system_shortcut#CreateFileSystemShortcutReorderRequestOrderedIdsList": {
       "type": "list",
       "member": {
@@ -603,6 +721,9 @@
         },
         {
           "target": "com.posthog.file_system_shortcut#FileSystemShortcutDestroy"
+        },
+        {
+          "target": "com.posthog.file_system_shortcut#FileSystemShortcutBulkUpdateCreate"
         },
         {
           "target": "com.posthog.file_system_shortcut#CreateFileSystemShortcutReorder"

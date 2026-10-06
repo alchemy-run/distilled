@@ -585,12 +585,7 @@
           }
         },
         "aws.iam#disableConditionKeyInference": {},
-        "aws.iam#supportedPrincipalTypes": [
-          "Root",
-          "IAMUser",
-          "IAMRole",
-          "FederatedUser"
-        ],
+        "aws.iam#supportedPrincipalTypes": ["Root", "IAMUser", "IAMRole", "FederatedUser"],
         "aws.protocols#awsJson1_1": {},
         "smithy.api#documentation": "<fullname>Amazon Elastic Container Service</fullname> <p>Amazon Elastic Container Service (Amazon ECS) is a highly scalable, fast, container management service. It makes it easy to run, stop, and manage Docker containers. You can host your cluster on a serverless infrastructure that's managed by Amazon ECS by launching your services or tasks on Fargate. For more control, you can host your tasks on a cluster of Amazon Elastic Compute Cloud (Amazon EC2) or External (on-premises) instances that you manage.</p> <p>Amazon ECS makes it easy to launch and stop container-based applications with simple API calls. This makes it easy to get the state of your cluster from a centralized service, and gives you access to many familiar Amazon EC2 features.</p> <p>You can use Amazon ECS to schedule the placement of containers across your cluster based on your resource needs, isolation policies, and availability requirements. With Amazon ECS, you don't need to operate your own cluster management and configuration management systems. You also don't need to worry about scaling your management infrastructure. </p>",
         "smithy.api#title": "Amazon EC2 Container Service",
@@ -2304,10 +2299,7 @@
           "template": "capacity-provider/{CapacityProviderName}"
         },
         "aws.api#taggable": {},
-        "aws.iam#conditionKeys": [
-          "ecs:ResourceTag/${TagKey}",
-          "aws:ResourceTag/${TagKey}"
-        ],
+        "aws.iam#conditionKeys": ["ecs:ResourceTag/${TagKey}", "aws:ResourceTag/${TagKey}"],
         "aws.iam#iamResource": {
           "name": "capacity-provider",
           "relativeDocumentation": "create-capacity-provider-console-v2.html",
@@ -2854,10 +2846,7 @@
           "template": "cluster/{ClusterName}"
         },
         "aws.api#taggable": {},
-        "aws.iam#conditionKeys": [
-          "ecs:ResourceTag/${TagKey}",
-          "aws:ResourceTag/${TagKey}"
-        ],
+        "aws.iam#conditionKeys": ["ecs:ResourceTag/${TagKey}", "aws:ResourceTag/${TagKey}"],
         "aws.iam#iamResource": {
           "name": "cluster",
           "relativeDocumentation": "clusters.html",
@@ -3684,10 +3673,7 @@
           "template": "container-instance/{ClusterName}/{ContainerInstanceId}"
         },
         "aws.api#taggable": {},
-        "aws.iam#conditionKeys": [
-          "ecs:ResourceTag/${TagKey}",
-          "aws:ResourceTag/${TagKey}"
-        ],
+        "aws.iam#conditionKeys": ["ecs:ResourceTag/${TagKey}", "aws:ResourceTag/${TagKey}"],
         "aws.iam#iamResource": {
           "name": "container-instance",
           "relativeDocumentation": "create-capacity.html",
@@ -3923,11 +3909,7 @@
           "resources": {
             "required": {
               "service-deployment": {
-                "conditionKeys": [
-                  "ecs:service",
-                  "ecs:cluster",
-                  "aws:ResourceTag/${TagKey}"
-                ]
+                "conditionKeys": ["ecs:service", "ecs:cluster", "aws:ResourceTag/${TagKey}"]
               },
               "service": {
                 "conditionKeys": ["ecs:cluster", "aws:ResourceTag/${TagKey}"]
@@ -4468,6 +4450,12 @@
           "traits": {
             "smithy.api#documentation": "<p>An identifier that you provide to ensure the idempotency of the request. It must be unique and is case sensitive. Up to 36 ASCII characters in the range of 33-126 (inclusive) are allowed.</p>"
           }
+        },
+        "critical": {
+          "target": "com.amazonaws.ecs#BoxedBoolean",
+          "traits": {
+            "smithy.api#documentation": "<p>If the <code>critical</code> parameter of a daemon is <code>true</code>, and the daemon task fails, stops, or becomes unhealthy, Amazon ECS drains the container instance and stops the other tasks running on it. If the <code>critical</code> parameter is <code>false</code>, the daemon task failure doesn't affect the other tasks on the instance. The default value is <code>true</code>.</p> <p>A non-critical daemon doesn't block instance registration. The container instance becomes active and continues to run your other tasks, whether the daemon task fails during scale-out or during a deployment.</p> <p>Amazon ECS emits an EventBridge event when a daemon task fails to start, for both critical and non-critical daemons.</p> <p>Daemon task launch failures during a deployment are still counted by the deployment circuit breaker. The circuit breaker can roll back an unstable target revision.</p>"
+          }
         }
       },
       "traits": {
@@ -4635,6 +4623,12 @@
             "smithy.api#documentation": "<p>The amount of memory (in MiB) used by the task. This parameter determines the memory allocation for each task in the Express service. The default value for an express service is 512 MiB.</p>"
           }
         },
+        "cpuArchitecture": {
+          "target": "com.amazonaws.ecs#ExpressCpuArchitecture",
+          "traits": {
+            "smithy.api#documentation": "<p>The CPU architecture that the task runs on. If you don't specify a value, the default is <code>X86_64</code>.</p> <p>Valid values:</p> <ul> <li> <p> <code>X86_64</code> - The x86 64-bit architecture.</p> </li> <li> <p> <code>ARM64</code> - The 64-bit ARM architecture.</p> </li> </ul> <p>Ensure that the container image you specify supports the architecture you choose. The operating system family for an Express service is always <code>LINUX</code>.</p> <p>You can't specify <code>cpuArchitecture</code> together with <code>taskDefinitionArn</code>.</p>"
+          }
+        },
         "scalingTarget": {
           "target": "com.amazonaws.ecs#ExpressGatewayScalingTarget",
           "traits": {
@@ -4650,7 +4644,7 @@
         "taskDefinitionArn": {
           "target": "com.amazonaws.ecs#String",
           "traits": {
-            "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of a task definition to use to create the Express Gateway service. This allows you to manage your own task definition, giving you more control over the service configuration such as adding sidecar containers.</p> <p>The task definition must have a container named <code>Main</code> with a single TCP port mapping that includes a container port and port name. The task definition must also have <code>FARGATE</code> compatibility.</p> <p>If you provide a task definition ARN, you cannot also specify <code>primaryContainer</code>, <code>executionRoleArn</code>, <code>taskRoleArn</code>, <code>cpu</code>, or <code>memory</code>.</p>"
+            "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of a task definition to use to create the Express Gateway service. This allows you to manage your own task definition, giving you more control over the service configuration such as adding sidecar containers.</p> <p>The task definition must have a container named <code>Main</code> with a single TCP port mapping that includes a container port and port name. The task definition must also have <code>FARGATE</code> compatibility.</p> <p>If you provide a task definition ARN, you cannot also specify <code>primaryContainer</code>, <code>executionRoleArn</code>, <code>taskRoleArn</code>, <code>cpu</code>, <code>memory</code>, or <code>cpuArchitecture</code>.</p>"
           }
         }
       },
@@ -5451,6 +5445,13 @@
             "smithy.api#default": 0,
             "smithy.api#documentation": "<p>The number of daemon tasks running on this capacity provider.</p>"
           }
+        },
+        "withoutDaemonCount": {
+          "target": "com.amazonaws.ecs#Integer",
+          "traits": {
+            "smithy.api#default": 0,
+            "smithy.api#documentation": "<p>The number of instances on this capacity provider that are running without the daemon task. This applies to daemons that aren't critical, where the instance remains available for your other tasks even if the daemon task can't start or stops. These instances aren't included in <code>runningCount</code>.</p>"
+          }
         }
       },
       "traits": {
@@ -5846,6 +5847,12 @@
             "smithy.api#documentation": "<p>The number of instances running daemon tasks on this capacity provider.</p>"
           }
         },
+        "withoutDaemonInstanceCount": {
+          "target": "com.amazonaws.ecs#BoxedInteger",
+          "traits": {
+            "smithy.api#documentation": "<p>The number of instances on this capacity provider that are running without the daemon task. This applies to daemons that aren't critical, where the instance remains available for your other tasks even if the daemon task can't start or stops. These instances aren't included in <code>runningInstanceCount</code>.</p>"
+          }
+        },
         "drainingInstanceCount": {
           "target": "com.amazonaws.ecs#BoxedInteger",
           "traits": {
@@ -5919,11 +5926,7 @@
           "template": "daemon-deployment/{ClusterName}/{DaemonName}/{DaemonDeploymentId}"
         },
         "aws.api#taggable": {},
-        "aws.iam#conditionKeys": [
-          "ecs:cluster",
-          "ecs:daemon",
-          "aws:ResourceTag/${TagKey}"
-        ],
+        "aws.iam#conditionKeys": ["ecs:cluster", "ecs:daemon", "aws:ResourceTag/${TagKey}"],
         "aws.iam#iamResource": {
           "name": "daemon-deployment",
           "relativeDocumentation": "daemon-deployment.html",
@@ -5951,6 +5954,12 @@
           "target": "com.amazonaws.ecs#BoxedInteger",
           "traits": {
             "smithy.api#documentation": "<p>The total number of instances running daemon tasks for this revision.</p>"
+          }
+        },
+        "totalWithoutDaemonInstanceCount": {
+          "target": "com.amazonaws.ecs#BoxedInteger",
+          "traits": {
+            "smithy.api#documentation": "<p>The total number of instances running without the daemon task for this revision, across all capacity providers. These instances aren't included in <code>totalRunningInstanceCount</code>.</p>"
           }
         },
         "totalDrainingInstanceCount": {
@@ -6408,6 +6417,12 @@
           "traits": {
             "smithy.api#documentation": "<p>Specifies whether the execute command functionality is turned on for the daemon tasks.</p>"
           }
+        },
+        "critical": {
+          "target": "com.amazonaws.ecs#BoxedBoolean",
+          "traits": {
+            "smithy.api#documentation": "<p>If the <code>critical</code> parameter of this daemon revision is <code>true</code>, and the daemon task fails, stops, or becomes unhealthy, Amazon ECS drains the container instance and stops the other tasks running on it. If the parameter is <code>false</code>, the daemon task failure doesn't affect the other tasks on the instance, and doesn't block instance registration. The default value is <code>true</code>.</p>"
+          }
         }
       },
       "traits": {
@@ -6434,6 +6449,13 @@
           "traits": {
             "smithy.api#default": 0,
             "smithy.api#documentation": "<p>The total number of daemon tasks running for this revision.</p>"
+          }
+        },
+        "totalWithoutDaemonCount": {
+          "target": "com.amazonaws.ecs#Integer",
+          "traits": {
+            "smithy.api#default": 0,
+            "smithy.api#documentation": "<p>The total number of instances running without the daemon task for this revision, across all capacity providers. These instances aren't included in <code>totalRunningCount</code>.</p>"
           }
         }
       },
@@ -6470,11 +6492,7 @@
           "template": "daemon-revision/{ClusterName}/{DaemonName}/{DaemonRevisionId}"
         },
         "aws.api#taggable": {},
-        "aws.iam#conditionKeys": [
-          "ecs:cluster",
-          "ecs:daemon",
-          "aws:ResourceTag/${TagKey}"
-        ],
+        "aws.iam#conditionKeys": ["ecs:cluster", "ecs:daemon", "aws:ResourceTag/${TagKey}"],
         "aws.iam#iamResource": {
           "name": "daemon-revision",
           "relativeDocumentation": "daemon-revision.html",
@@ -7789,11 +7807,7 @@
         }
       ],
       "traits": {
-        "aws.iam#conditionKeys": [
-          "aws:ResourceTag/${TagKey}",
-          "ecs:cluster",
-          "ecs:service"
-        ],
+        "aws.iam#conditionKeys": ["aws:ResourceTag/${TagKey}", "ecs:cluster", "ecs:service"],
         "aws.iam#iamAction": {
           "documentation": "Grants permission to delete the specified task set",
           "relativeDocumentation": "API_DeleteTaskSet.html",
@@ -9341,11 +9355,7 @@
           "resources": {
             "required": {
               "daemon-deployment": {
-                "conditionKeys": [
-                  "ecs:cluster",
-                  "ecs:daemon",
-                  "aws:ResourceTag/${TagKey}"
-                ]
+                "conditionKeys": ["ecs:cluster", "ecs:daemon", "aws:ResourceTag/${TagKey}"]
               },
               "daemon": {
                 "conditionKeys": ["ecs:cluster", "aws:ResourceTag/${TagKey}"]
@@ -9596,11 +9606,7 @@
           "resources": {
             "required": {
               "daemon-revision": {
-                "conditionKeys": [
-                  "ecs:cluster",
-                  "ecs:daemon",
-                  "aws:ResourceTag/${TagKey}"
-                ]
+                "conditionKeys": ["ecs:cluster", "ecs:daemon", "aws:ResourceTag/${TagKey}"]
               },
               "daemon": {
                 "conditionKeys": ["ecs:cluster", "aws:ResourceTag/${TagKey}"]
@@ -9971,11 +9977,7 @@
           "resources": {
             "required": {
               "service-deployment": {
-                "conditionKeys": [
-                  "ecs:service",
-                  "ecs:cluster",
-                  "aws:ResourceTag/${TagKey}"
-                ]
+                "conditionKeys": ["ecs:service", "ecs:cluster", "aws:ResourceTag/${TagKey}"]
               },
               "service": {
                 "conditionKeys": ["ecs:cluster", "aws:ResourceTag/${TagKey}"]
@@ -10168,11 +10170,7 @@
                 "conditionKeys": ["ecs:cluster", "aws:ResourceTag/${TagKey}"]
               },
               "service-revision": {
-                "conditionKeys": [
-                  "ecs:service",
-                  "ecs:cluster",
-                  "aws:ResourceTag/${TagKey}"
-                ]
+                "conditionKeys": ["ecs:service", "ecs:cluster", "aws:ResourceTag/${TagKey}"]
               }
             }
           }
@@ -10710,11 +10708,7 @@
         }
       ],
       "traits": {
-        "aws.iam#conditionKeys": [
-          "aws:ResourceTag/${TagKey}",
-          "ecs:cluster",
-          "ecs:service"
-        ],
+        "aws.iam#conditionKeys": ["aws:ResourceTag/${TagKey}", "ecs:cluster", "ecs:service"],
         "aws.iam#iamAction": {
           "documentation": "Grants permission to describe Amazon ECS task sets",
           "relativeDocumentation": "API_DescribeTaskSets.html",
@@ -11843,6 +11837,23 @@
         "smithy.api#output": {}
       }
     },
+    "com.amazonaws.ecs#ExpressCpuArchitecture": {
+      "type": "enum",
+      "members": {
+        "X86_64": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "X86_64"
+          }
+        },
+        "ARM64": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ARM64"
+          }
+        }
+      }
+    },
     "com.amazonaws.ecs#ExpressGatewayContainer": {
       "type": "structure",
       "members": {
@@ -11999,6 +12010,12 @@
           "target": "com.amazonaws.ecs#String",
           "traits": {
             "smithy.api#documentation": "<p>The memory allocation for tasks in this service revision.</p>"
+          }
+        },
+        "cpuArchitecture": {
+          "target": "com.amazonaws.ecs#ExpressCpuArchitecture",
+          "traits": {
+            "smithy.api#documentation": "<p>The CPU architecture that the task runs on.</p> <p>Valid values:</p> <ul> <li> <p> <code>X86_64</code> - The x86 64-bit architecture.</p> </li> <li> <p> <code>ARM64</code> - The 64-bit ARM architecture.</p> </li> </ul> <p>Different service revisions can report different architectures. This value isn't returned when the service uses a customer-provided task definition that doesn't specify a CPU architecture.</p>"
           }
         },
         "networkConfiguration": {
@@ -14322,9 +14339,7 @@
             "title": "To list the services in a cluster",
             "documentation": "This example lists the services running in the default cluster for an account.",
             "output": {
-              "serviceArns": [
-                "arn:aws:ecs:us-east-1:012345678910:service/default/my-http-service"
-              ]
+              "serviceArns": ["arn:aws:ecs:us-east-1:012345678910:service/default/my-http-service"]
             }
           }
         ],
@@ -14618,12 +14633,7 @@
             "title": "To list your registered task definition families",
             "documentation": "This example lists all of your registered task definition families.",
             "output": {
-              "families": [
-                "node-js-app",
-                "web-timer",
-                "hpcc",
-                "hpcc-c4-8xlarge"
-              ]
+              "families": ["node-js-app", "web-timer", "hpcc", "hpcc-c4-8xlarge"]
             }
           },
           {
@@ -17241,10 +17251,7 @@
             "documentation": "This example adds an existing capacity provider \"MyCapacityProvider2\" to a cluster that already has the capacity provider \"MyCapacityProvider1\" associated with it. Both \"MyCapacityProvider2\" and \"MyCapacityProvider1\" need to be specified. ",
             "input": {
               "cluster": "MyCluster",
-              "capacityProviders": [
-                "MyCapacityProvider1",
-                "MyCapacityProvider2"
-              ],
+              "capacityProviders": ["MyCapacityProvider1", "MyCapacityProvider2"],
               "defaultCapacityProviderStrategy": [
                 {
                   "capacityProvider": "MyCapacityProvider1",
@@ -17273,10 +17280,7 @@
                     "value": "enabled"
                   }
                 ],
-                "capacityProviders": [
-                  "MyCapacityProvider1",
-                  "MyCapacityProvider2"
-                ],
+                "capacityProviders": ["MyCapacityProvider1", "MyCapacityProvider2"],
                 "defaultCapacityProviderStrategy": [
                   {
                     "capacityProvider": "MyCapacityProvider1",
@@ -18070,6 +18074,12 @@
           "target": "com.amazonaws.ecs#ServiceRevisionLoadBalancers",
           "traits": {
             "smithy.api#documentation": "<p>The resolved load balancer configuration for the service revision. This includes information about which target groups serve traffic and which listener rules direct traffic to them.</p>"
+          }
+        },
+        "vpcLatticeConfigurations": {
+          "target": "com.amazonaws.ecs#ServiceRevisionVpcLatticeConfigurations",
+          "traits": {
+            "smithy.api#documentation": "<p>The resolved VPC Lattice configuration for the service revision. This includes information about which target groups serve traffic and which listener rules direct traffic to them.</p>"
           }
         }
       },
@@ -19588,11 +19598,7 @@
           "template": "service-deployment/{ClusterName}/{ServiceName}/{ServiceDeploymentId}"
         },
         "aws.api#taggable": {},
-        "aws.iam#conditionKeys": [
-          "ecs:service",
-          "ecs:cluster",
-          "aws:ResourceTag/${TagKey}"
-        ],
+        "aws.iam#conditionKeys": ["ecs:service", "ecs:cluster", "aws:ResourceTag/${TagKey}"],
         "aws.iam#iamResource": {
           "name": "service-deployment",
           "relativeDocumentation": "service-deployment.html",
@@ -19954,10 +19960,7 @@
           "template": "service/{ClusterName}/{ServiceName}"
         },
         "aws.api#taggable": {},
-        "aws.iam#conditionKeys": [
-          "ecs:ResourceTag/${TagKey}",
-          "aws:ResourceTag/${TagKey}"
-        ],
+        "aws.iam#conditionKeys": ["ecs:ResourceTag/${TagKey}", "aws:ResourceTag/${TagKey}"],
         "aws.iam#iamResource": {
           "name": "service",
           "relativeDocumentation": "ecs_services.html",
@@ -20181,11 +20184,7 @@
           "template": "service-revision/{ClusterName}/{ServiceName}/{ServiceRevisionId}"
         },
         "aws.api#taggable": {},
-        "aws.iam#conditionKeys": [
-          "ecs:service",
-          "ecs:cluster",
-          "aws:ResourceTag/${TagKey}"
-        ],
+        "aws.iam#conditionKeys": ["ecs:service", "ecs:cluster", "aws:ResourceTag/${TagKey}"],
         "aws.iam#iamResource": {
           "name": "service-revision",
           "relativeDocumentation": "service-revision.html",
@@ -20241,6 +20240,32 @@
       },
       "traits": {
         "smithy.api#documentation": "<p>The information about the number of requested, pending, and running tasks for a service revision.</p>"
+      }
+    },
+    "com.amazonaws.ecs#ServiceRevisionVpcLatticeConfiguration": {
+      "type": "structure",
+      "members": {
+        "targetGroupArn": {
+          "target": "com.amazonaws.ecs#String",
+          "traits": {
+            "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the target group associated with the service revision.</p>"
+          }
+        },
+        "productionListenerRule": {
+          "target": "com.amazonaws.ecs#String",
+          "traits": {
+            "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the production listener rule or listener that directs traffic to the target group associated with the service revision.</p>"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>The resolved VPC Lattice configuration for a service revision. This includes information about which target groups serve traffic and which listener rules direct traffic to them.</p>"
+      }
+    },
+    "com.amazonaws.ecs#ServiceRevisionVpcLatticeConfigurations": {
+      "type": "list",
+      "member": {
+        "target": "com.amazonaws.ecs#ServiceRevisionVpcLatticeConfiguration"
       }
     },
     "com.amazonaws.ecs#ServiceRevisions": {
@@ -20737,11 +20762,7 @@
           "resources": {
             "required": {
               "service-deployment": {
-                "conditionKeys": [
-                  "ecs:service",
-                  "ecs:cluster",
-                  "aws:ResourceTag/${TagKey}"
-                ]
+                "conditionKeys": ["ecs:service", "ecs:cluster", "aws:ResourceTag/${TagKey}"]
               },
               "service": {
                 "conditionKeys": ["ecs:cluster", "aws:ResourceTag/${TagKey}"]
@@ -22026,10 +22047,7 @@
           "template": "task-definition/{TaskDefinitionFamilyName}:{TaskDefinitionRevisionNumber}"
         },
         "aws.api#taggable": {},
-        "aws.iam#conditionKeys": [
-          "ecs:ResourceTag/${TagKey}",
-          "aws:ResourceTag/${TagKey}"
-        ],
+        "aws.iam#conditionKeys": ["ecs:ResourceTag/${TagKey}", "aws:ResourceTag/${TagKey}"],
         "aws.iam#iamResource": {
           "name": "task-definition",
           "relativeDocumentation": "task_definitions.html",
@@ -22309,10 +22327,7 @@
           "template": "task/{ClusterName}/{TaskId}"
         },
         "aws.api#taggable": {},
-        "aws.iam#conditionKeys": [
-          "ecs:ResourceTag/${TagKey}",
-          "aws:ResourceTag/${TagKey}"
-        ],
+        "aws.iam#conditionKeys": ["ecs:ResourceTag/${TagKey}", "aws:ResourceTag/${TagKey}"],
         "aws.iam#iamResource": {
           "name": "task",
           "relativeDocumentation": "scheduling_tasks.html",
@@ -22546,10 +22561,7 @@
           "template": "task-set/{ClusterName}/{ServiceName}/{TaskSetId}"
         },
         "aws.api#taggable": {},
-        "aws.iam#conditionKeys": [
-          "ecs:ResourceTag/${TagKey}",
-          "aws:ResourceTag/${TagKey}"
-        ],
+        "aws.iam#conditionKeys": ["ecs:ResourceTag/${TagKey}", "aws:ResourceTag/${TagKey}"],
         "aws.iam#iamResource": {
           "name": "task-set",
           "relativeDocumentation": "deployment-type-external.html",
@@ -23794,13 +23806,7 @@
                       "integerValue": 0,
                       "longValue": 0,
                       "name": "PORTS",
-                      "stringSetValue": [
-                        "22",
-                        "2376",
-                        "2375",
-                        "51678",
-                        "51679"
-                      ],
+                      "stringSetValue": ["22", "2376", "2375", "51678", "51679"],
                       "type": "STRINGSET"
                     },
                     {
@@ -23832,13 +23838,7 @@
                       "integerValue": 0,
                       "longValue": 0,
                       "name": "PORTS",
-                      "stringSetValue": [
-                        "22",
-                        "2376",
-                        "2375",
-                        "51678",
-                        "51679"
-                      ],
+                      "stringSetValue": ["22", "2376", "2375", "51678", "51679"],
                       "type": "STRINGSET"
                     },
                     {
@@ -24051,6 +24051,12 @@
             "smithy.api#default": false,
             "smithy.api#documentation": "<p>If <code>true</code>, the execute command functionality is turned on for all tasks in the daemon. If <code>false</code>, the execute command functionality is turned off.</p>"
           }
+        },
+        "critical": {
+          "target": "com.amazonaws.ecs#BoxedBoolean",
+          "traits": {
+            "smithy.api#documentation": "<p>If the <code>critical</code> parameter of a daemon is <code>true</code>, and the daemon task fails, stops, or becomes unhealthy, Amazon ECS drains the container instance and stops the other tasks running on it. If the <code>critical</code> parameter is <code>false</code>, the daemon task failure doesn't affect the other tasks on the instance. The default value is <code>true</code>.</p> <p>A non-critical daemon doesn't block instance registration. The container instance becomes active and continues to run your other tasks, whether the daemon task fails during scale-out or during a deployment.</p> <p>Amazon ECS emits an EventBridge event when a daemon task fails to start, for both critical and non-critical daemons.</p> <p>Daemon task launch failures during a deployment are still counted by the deployment circuit breaker. The circuit breaker can roll back an unstable target revision.</p>"
+          }
         }
       },
       "traits": {
@@ -24209,6 +24215,12 @@
             "smithy.api#documentation": "<p>The amount of memory (in MiB) used by the task.</p>"
           }
         },
+        "cpuArchitecture": {
+          "target": "com.amazonaws.ecs#ExpressCpuArchitecture",
+          "traits": {
+            "smithy.api#documentation": "<p>The CPU architecture that the task runs on. If you don't specify a value, the service keeps its current architecture.</p> <p>Valid values:</p> <ul> <li> <p> <code>X86_64</code> - The x86 64-bit architecture.</p> </li> <li> <p> <code>ARM64</code> - The 64-bit ARM architecture.</p> </li> </ul> <p>Changing the architecture starts a new deployment that replaces the running tasks. Ensure that the container image you specify supports the architecture you choose. The operating system family for an Express service is always <code>LINUX</code>.</p> <p>You can't specify <code>cpuArchitecture</code> together with <code>taskDefinitionArn</code>.</p>"
+          }
+        },
         "scalingTarget": {
           "target": "com.amazonaws.ecs#ExpressGatewayScalingTarget",
           "traits": {
@@ -24218,7 +24230,7 @@
         "taskDefinitionArn": {
           "target": "com.amazonaws.ecs#String",
           "traits": {
-            "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of a task definition to use to update the Express Gateway service. This allows you to manage your own task definition, giving you more control over the service configuration such as adding sidecar containers.</p> <p>The task definition must have a container named <code>Main</code> with a single TCP port mapping that includes a container port and port name. The task definition must also have <code>FARGATE</code> compatibility.</p> <p>If you provide a task definition ARN, you cannot also specify <code>primaryContainer</code>, <code>executionRoleArn</code>, <code>taskRoleArn</code>, <code>cpu</code>, or <code>memory</code>.</p>"
+            "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of a task definition to use to update the Express Gateway service. This allows you to manage your own task definition, giving you more control over the service configuration such as adding sidecar containers.</p> <p>The task definition must have a container named <code>Main</code> with a single TCP port mapping that includes a container port and port name. The task definition must also have <code>FARGATE</code> compatibility.</p> <p>If you provide a task definition ARN, you cannot also specify <code>primaryContainer</code>, <code>executionRoleArn</code>, <code>taskRoleArn</code>, <code>cpu</code>, <code>memory</code>, or <code>cpuArchitecture</code>.</p>"
           }
         }
       },
@@ -24928,11 +24940,7 @@
         }
       ],
       "traits": {
-        "aws.iam#conditionKeys": [
-          "aws:ResourceTag/${TagKey}",
-          "ecs:cluster",
-          "ecs:service"
-        ],
+        "aws.iam#conditionKeys": ["aws:ResourceTag/${TagKey}", "ecs:cluster", "ecs:service"],
         "aws.iam#iamAction": {
           "documentation": "Grants permission to update the specified task set",
           "relativeDocumentation": "API_UpdateTaskSet.html",
@@ -25239,6 +25247,32 @@
         "target": "com.amazonaws.ecs#Volume"
       }
     },
+    "com.amazonaws.ecs#VpcLatticeAdvancedConfiguration": {
+      "type": "structure",
+      "members": {
+        "alternateTargetGroupArn": {
+          "target": "com.amazonaws.ecs#String",
+          "traits": {
+            "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the alternate target group associated with the VPC Lattice Configuration for Amazon ECS blue/green deployments.</p>"
+          }
+        },
+        "productionListenerRule": {
+          "target": "com.amazonaws.ecs#String",
+          "traits": {
+            "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) that identifies the production listener rule or listener for routing production traffic.</p>"
+          }
+        },
+        "testListenerRule": {
+          "target": "com.amazonaws.ecs#String",
+          "traits": {
+            "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) that identifies the test listener rule or listener for routing test traffic.</p>"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>The advanced settings for VPC Lattice used in blue/green deployments. Specify the alternate target group and listener rules required for traffic shifting during blue/green deployments. For more information, see <a href=\"https://docs.aws.amazon.com/AmazonECS/latest/developerguide/blue-green-deployment-implementation.html\">Required resources for Amazon ECS blue/green deployments</a> in the <i>Amazon Elastic Container Service Developer Guide</i>.</p>"
+      }
+    },
     "com.amazonaws.ecs#VpcLatticeConfiguration": {
       "type": "structure",
       "members": {
@@ -25262,6 +25296,9 @@
             "smithy.api#documentation": "<p>The name of the port mapping to register in the VPC Lattice target group. This is the name of the <code>portMapping</code> you defined in your task definition.</p>",
             "smithy.api#required": {}
           }
+        },
+        "advancedConfiguration": {
+          "target": "com.amazonaws.ecs#VpcLatticeAdvancedConfiguration"
         }
       },
       "traits": {

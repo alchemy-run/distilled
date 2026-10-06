@@ -1,12 +1,12 @@
-import * as HttpClient from "effect/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "ManagedBlockchain Query",
   serviceShapeName: "TietonChainQueryService",
@@ -26,14 +26,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -60,9 +56,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://managedblockchain-query-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -70,9 +64,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://managedblockchain-query.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
         return e(
           `https://managedblockchain-query.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
@@ -101,11 +93,7 @@ export class InternalServerException
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",
-    {
-      message: S.String.pipe(T.ErrorMessage()),
-      resourceId: S.String,
-      resourceType: S.String,
-    },
+    { message: S.String.pipe(T.ErrorMessage()), resourceId: S.String, resourceType: S.String },
     T.HttpError(404),
   ).pipe(C.withBadRequestError) {}
 export class ServiceQuotaExceededException
@@ -159,27 +147,19 @@ export const TokenIdentifier = /*@__PURE__*/ S.suspend(() =>
     contractAddress: S.optional(S.String),
     tokenId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TokenIdentifier",
-}) as any as S.Schema<TokenIdentifier>;
+).annotate({ identifier: "TokenIdentifier" }) as any as S.Schema<TokenIdentifier>;
 export interface OwnerIdentifier {
   address: string;
 }
 export const OwnerIdentifier = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ address: S.String }),
-).annotate({
-  identifier: "OwnerIdentifier",
-}) as any as S.Schema<OwnerIdentifier>;
+).annotate({ identifier: "OwnerIdentifier" }) as any as S.Schema<OwnerIdentifier>;
 export interface BlockchainInstant {
   time?: Date;
 }
 export const BlockchainInstant = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    time: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotate({
-  identifier: "BlockchainInstant",
-}) as any as S.Schema<BlockchainInstant>;
+  S.Struct({ time: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))) }),
+).annotate({ identifier: "BlockchainInstant" }) as any as S.Schema<BlockchainInstant>;
 export interface BatchGetTokenBalanceInputItem {
   tokenIdentifier: TokenIdentifier;
   ownerIdentifier: OwnerIdentifier;
@@ -195,16 +175,12 @@ export const BatchGetTokenBalanceInputItem = /*@__PURE__*/ S.suspend(() =>
   identifier: "BatchGetTokenBalanceInputItem",
 }) as any as S.Schema<BatchGetTokenBalanceInputItem>;
 export type GetTokenBalanceInputList = BatchGetTokenBalanceInputItem[];
-export const GetTokenBalanceInputList = /*@__PURE__*/ S.Array(
-  BatchGetTokenBalanceInputItem,
-);
+export const GetTokenBalanceInputList = /*@__PURE__*/ S.Array(BatchGetTokenBalanceInputItem);
 export interface BatchGetTokenBalanceInput {
   getTokenBalanceInputs?: BatchGetTokenBalanceInputItem[];
 }
 export const BatchGetTokenBalanceInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    getTokenBalanceInputs: S.optional(GetTokenBalanceInputList),
-  }).pipe(
+  S.Struct({ getTokenBalanceInputs: S.optional(GetTokenBalanceInputList) }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/batch-get-token-balance" }),
       svc,
@@ -236,9 +212,7 @@ export const BatchGetTokenBalanceOutputItem = /*@__PURE__*/ S.suspend(() =>
   identifier: "BatchGetTokenBalanceOutputItem",
 }) as any as S.Schema<BatchGetTokenBalanceOutputItem>;
 export type BatchGetTokenBalanceOutputList = BatchGetTokenBalanceOutputItem[];
-export const BatchGetTokenBalanceOutputList = /*@__PURE__*/ S.Array(
-  BatchGetTokenBalanceOutputItem,
-);
+export const BatchGetTokenBalanceOutputList = /*@__PURE__*/ S.Array(BatchGetTokenBalanceOutputItem);
 export type ErrorType = string;
 export interface BatchGetTokenBalanceErrorItem {
   tokenIdentifier?: TokenIdentifier;
@@ -261,18 +235,13 @@ export const BatchGetTokenBalanceErrorItem = /*@__PURE__*/ S.suspend(() =>
   identifier: "BatchGetTokenBalanceErrorItem",
 }) as any as S.Schema<BatchGetTokenBalanceErrorItem>;
 export type BatchGetTokenBalanceErrors = BatchGetTokenBalanceErrorItem[];
-export const BatchGetTokenBalanceErrors = /*@__PURE__*/ S.Array(
-  BatchGetTokenBalanceErrorItem,
-);
+export const BatchGetTokenBalanceErrors = /*@__PURE__*/ S.Array(BatchGetTokenBalanceErrorItem);
 export interface BatchGetTokenBalanceOutput {
   tokenBalances: BatchGetTokenBalanceOutputItem[];
   errors: BatchGetTokenBalanceErrorItem[];
 }
 export const BatchGetTokenBalanceOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    tokenBalances: BatchGetTokenBalanceOutputList,
-    errors: BatchGetTokenBalanceErrors,
-  }),
+  S.Struct({ tokenBalances: BatchGetTokenBalanceOutputList, errors: BatchGetTokenBalanceErrors }),
 ).annotate({
   identifier: "BatchGetTokenBalanceOutput",
 }) as any as S.Schema<BatchGetTokenBalanceOutput>;
@@ -282,26 +251,15 @@ export interface ContractIdentifier {
 }
 export const ContractIdentifier = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ network: S.String, contractAddress: S.String }),
-).annotate({
-  identifier: "ContractIdentifier",
-}) as any as S.Schema<ContractIdentifier>;
+).annotate({ identifier: "ContractIdentifier" }) as any as S.Schema<ContractIdentifier>;
 export interface GetAssetContractInput {
   contractIdentifier: ContractIdentifier;
 }
 export const GetAssetContractInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ contractIdentifier: ContractIdentifier }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/get-asset-contract" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/get-asset-contract" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetAssetContractInput",
-}) as any as S.Schema<GetAssetContractInput>;
+).annotate({ identifier: "GetAssetContractInput" }) as any as S.Schema<GetAssetContractInput>;
 export type QueryTokenStandard = string;
 export interface ContractMetadata {
   name?: string;
@@ -314,9 +272,7 @@ export const ContractMetadata = /*@__PURE__*/ S.suspend(() =>
     symbol: S.optional(S.String),
     decimals: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ContractMetadata",
-}) as any as S.Schema<ContractMetadata>;
+).annotate({ identifier: "ContractMetadata" }) as any as S.Schema<ContractMetadata>;
 export interface GetAssetContractOutput {
   contractIdentifier: ContractIdentifier;
   tokenStandard: string;
@@ -330,9 +286,7 @@ export const GetAssetContractOutput = /*@__PURE__*/ S.suspend(() =>
     deployerAddress: S.String,
     metadata: S.optional(ContractMetadata),
   }),
-).annotate({
-  identifier: "GetAssetContractOutput",
-}) as any as S.Schema<GetAssetContractOutput>;
+).annotate({ identifier: "GetAssetContractOutput" }) as any as S.Schema<GetAssetContractOutput>;
 export interface GetTokenBalanceInput {
   tokenIdentifier: TokenIdentifier;
   ownerIdentifier: OwnerIdentifier;
@@ -344,18 +298,9 @@ export const GetTokenBalanceInput = /*@__PURE__*/ S.suspend(() =>
     ownerIdentifier: OwnerIdentifier,
     atBlockchainInstant: S.optional(BlockchainInstant),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/get-token-balance" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/get-token-balance" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetTokenBalanceInput",
-}) as any as S.Schema<GetTokenBalanceInput>;
+).annotate({ identifier: "GetTokenBalanceInput" }) as any as S.Schema<GetTokenBalanceInput>;
 export interface GetTokenBalanceOutput {
   ownerIdentifier?: OwnerIdentifier;
   tokenIdentifier?: TokenIdentifier;
@@ -371,9 +316,7 @@ export const GetTokenBalanceOutput = /*@__PURE__*/ S.suspend(() =>
     atBlockchainInstant: BlockchainInstant,
     lastUpdatedTime: S.optional(BlockchainInstant),
   }),
-).annotate({
-  identifier: "GetTokenBalanceOutput",
-}) as any as S.Schema<GetTokenBalanceOutput>;
+).annotate({ identifier: "GetTokenBalanceOutput" }) as any as S.Schema<GetTokenBalanceOutput>;
 export type QueryTransactionHash = string;
 export type QueryTransactionId = string;
 export interface GetTransactionInput {
@@ -386,19 +329,8 @@ export const GetTransactionInput = /*@__PURE__*/ S.suspend(() =>
     transactionHash: S.optional(S.String),
     transactionId: S.optional(S.String),
     network: S.String,
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/get-transaction" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetTransactionInput",
-}) as any as S.Schema<GetTransactionInput>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/get-transaction" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "GetTransactionInput" }) as any as S.Schema<GetTransactionInput>;
 export type BlockHash = string;
 export type ConfirmationStatus = string;
 export type ExecutionStatus = string;
@@ -453,20 +385,14 @@ export interface GetTransactionOutput {
 }
 export const GetTransactionOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ transaction: Transaction }),
-).annotate({
-  identifier: "GetTransactionOutput",
-}) as any as S.Schema<GetTransactionOutput>;
+).annotate({ identifier: "GetTransactionOutput" }) as any as S.Schema<GetTransactionOutput>;
 export interface ContractFilter {
   network: string;
   tokenStandard: string;
   deployerAddress: string;
 }
 export const ContractFilter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    network: S.String,
-    tokenStandard: S.String,
-    deployerAddress: S.String,
-  }),
+  S.Struct({ network: S.String, tokenStandard: S.String, deployerAddress: S.String }),
 ).annotate({ identifier: "ContractFilter" }) as any as S.Schema<ContractFilter>;
 export type NextToken = string;
 export interface ListAssetContractsInput {
@@ -480,18 +406,9 @@ export const ListAssetContractsInput = /*@__PURE__*/ S.suspend(() =>
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/list-asset-contracts" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/list-asset-contracts" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "ListAssetContractsInput",
-}) as any as S.Schema<ListAssetContractsInput>;
+).annotate({ identifier: "ListAssetContractsInput" }) as any as S.Schema<ListAssetContractsInput>;
 export interface AssetContract {
   contractIdentifier: ContractIdentifier;
   tokenStandard: string;
@@ -512,9 +429,7 @@ export interface ListAssetContractsOutput {
 }
 export const ListAssetContractsOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ contracts: AssetContractList, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListAssetContractsOutput",
-}) as any as S.Schema<ListAssetContractsOutput>;
+).annotate({ identifier: "ListAssetContractsOutput" }) as any as S.Schema<ListAssetContractsOutput>;
 export type ChainAddresses = string[];
 export const ChainAddresses = /*@__PURE__*/ S.Array(S.String);
 export interface AddressIdentifierFilter {
@@ -522,18 +437,13 @@ export interface AddressIdentifierFilter {
 }
 export const AddressIdentifierFilter = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ transactionEventToAddress: ChainAddresses }),
-).annotate({
-  identifier: "AddressIdentifierFilter",
-}) as any as S.Schema<AddressIdentifierFilter>;
+).annotate({ identifier: "AddressIdentifierFilter" }) as any as S.Schema<AddressIdentifierFilter>;
 export interface TimeFilter {
   from?: BlockchainInstant;
   to?: BlockchainInstant;
 }
 export const TimeFilter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    from: S.optional(BlockchainInstant),
-    to: S.optional(BlockchainInstant),
-  }),
+  S.Struct({ from: S.optional(BlockchainInstant), to: S.optional(BlockchainInstant) }),
 ).annotate({ identifier: "TimeFilter" }) as any as S.Schema<TimeFilter>;
 export interface VoutFilter {
   voutSpent: boolean;
@@ -548,9 +458,7 @@ export interface ConfirmationStatusFilter {
 }
 export const ConfirmationStatusFilter = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ include: ConfirmationStatusIncludeList }),
-).annotate({
-  identifier: "ConfirmationStatusFilter",
-}) as any as S.Schema<ConfirmationStatusFilter>;
+).annotate({ identifier: "ConfirmationStatusFilter" }) as any as S.Schema<ConfirmationStatusFilter>;
 export type ListFilteredTransactionEventsSortBy = string;
 export type SortOrder = string;
 export interface ListFilteredTransactionEventsSort {
@@ -633,9 +541,7 @@ export const TransactionEvent = /*@__PURE__*/ S.suspend(() =>
     blockchainInstant: S.optional(BlockchainInstant),
     confirmationStatus: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TransactionEvent",
-}) as any as S.Schema<TransactionEvent>;
+).annotate({ identifier: "TransactionEvent" }) as any as S.Schema<TransactionEvent>;
 export type TransactionEventList = TransactionEvent[];
 export const TransactionEventList = /*@__PURE__*/ S.Array(TransactionEvent);
 export interface ListFilteredTransactionEventsOutput {
@@ -650,9 +556,9 @@ export const ListFilteredTransactionEventsOutput = /*@__PURE__*/ S.suspend(() =>
 export interface OwnerFilter {
   address: string;
 }
-export const OwnerFilter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ address: S.String }),
-).annotate({ identifier: "OwnerFilter" }) as any as S.Schema<OwnerFilter>;
+export const OwnerFilter = /*@__PURE__*/ S.suspend(() => S.Struct({ address: S.String })).annotate({
+  identifier: "OwnerFilter",
+}) as any as S.Schema<OwnerFilter>;
 export interface TokenFilter {
   network: string;
   contractAddress?: string;
@@ -678,18 +584,9 @@ export const ListTokenBalancesInput = /*@__PURE__*/ S.suspend(() =>
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/list-token-balances" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/list-token-balances" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "ListTokenBalancesInput",
-}) as any as S.Schema<ListTokenBalancesInput>;
+).annotate({ identifier: "ListTokenBalancesInput" }) as any as S.Schema<ListTokenBalancesInput>;
 export interface TokenBalance {
   ownerIdentifier?: OwnerIdentifier;
   tokenIdentifier?: TokenIdentifier;
@@ -713,13 +610,8 @@ export interface ListTokenBalancesOutput {
   nextToken?: string;
 }
 export const ListTokenBalancesOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    tokenBalances: TokenBalanceList,
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListTokenBalancesOutput",
-}) as any as S.Schema<ListTokenBalancesOutput>;
+  S.Struct({ tokenBalances: TokenBalanceList, nextToken: S.optional(S.String) }),
+).annotate({ identifier: "ListTokenBalancesOutput" }) as any as S.Schema<ListTokenBalancesOutput>;
 export interface ListTransactionEventsInput {
   transactionHash?: string;
   transactionId?: string;
@@ -763,9 +655,7 @@ export interface ListTransactionsSort {
 }
 export const ListTransactionsSort = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ sortBy: S.optional(S.String), sortOrder: S.optional(S.String) }),
-).annotate({
-  identifier: "ListTransactionsSort",
-}) as any as S.Schema<ListTransactionsSort>;
+).annotate({ identifier: "ListTransactionsSort" }) as any as S.Schema<ListTransactionsSort>;
 export interface ListTransactionsInput {
   address: string;
   network: string;
@@ -787,18 +677,9 @@ export const ListTransactionsInput = /*@__PURE__*/ S.suspend(() =>
     maxResults: S.optional(S.Number),
     confirmationStatusFilter: S.optional(ConfirmationStatusFilter),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/list-transactions" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/list-transactions" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "ListTransactionsInput",
-}) as any as S.Schema<ListTransactionsInput>;
+).annotate({ identifier: "ListTransactionsInput" }) as any as S.Schema<ListTransactionsInput>;
 export interface TransactionOutputItem {
   transactionHash: string;
   transactionId?: string;
@@ -814,25 +695,16 @@ export const TransactionOutputItem = /*@__PURE__*/ S.suspend(() =>
     transactionTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     confirmationStatus: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TransactionOutputItem",
-}) as any as S.Schema<TransactionOutputItem>;
+).annotate({ identifier: "TransactionOutputItem" }) as any as S.Schema<TransactionOutputItem>;
 export type TransactionOutputList = TransactionOutputItem[];
-export const TransactionOutputList = /*@__PURE__*/ S.Array(
-  TransactionOutputItem,
-);
+export const TransactionOutputList = /*@__PURE__*/ S.Array(TransactionOutputItem);
 export interface ListTransactionsOutput {
   transactions: TransactionOutputItem[];
   nextToken?: string;
 }
 export const ListTransactionsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    transactions: TransactionOutputList,
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListTransactionsOutput",
-}) as any as S.Schema<ListTransactionsOutput>;
+  S.Struct({ transactions: TransactionOutputList, nextToken: S.optional(S.String) }),
+).annotate({ identifier: "ListTransactionsOutput" }) as any as S.Schema<ListTransactionsOutput>;
 export type ExceptionMessage = string;
 export type ResourceId = string;
 export type ResourceType = string;
@@ -845,13 +717,9 @@ export interface ValidationExceptionField {
 }
 export const ValidationExceptionField = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ name: S.String, message: S.String }),
-).annotate({
-  identifier: "ValidationExceptionField",
-}) as any as S.Schema<ValidationExceptionField>;
+).annotate({ identifier: "ValidationExceptionField" }) as any as S.Schema<ValidationExceptionField>;
 export type ValidationExceptionFieldList = ValidationExceptionField[];
-export const ValidationExceptionFieldList = /*@__PURE__*/ S.Array(
-  ValidationExceptionField,
-);
+export const ValidationExceptionFieldList = /*@__PURE__*/ S.Array(ValidationExceptionField);
 export type BatchGetTokenBalanceError =
   | AccessDeniedException
   | InternalServerException

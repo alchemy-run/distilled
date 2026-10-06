@@ -44,8 +44,7 @@ export const LOCAL_DIR = path.join("specs", ".local");
 export const mirrorRepositoryName = (pkg: string) => `spec-mirror-${pkg}`;
 
 /** Whether this process reads specs from `specs/.local`. */
-export const isLocalSpecs = (): boolean =>
-  (process.env[LOCAL_ENV] ?? "").trim() !== "";
+export const isLocalSpecs = (): boolean => (process.env[LOCAL_ENV] ?? "").trim() !== "";
 
 let announced = false;
 
@@ -73,7 +72,7 @@ const tailWithinSpecs = (specPath: string): string | undefined => {
 /**
  * Resolve a package-relative spec path to an absolute one.
  *
- * @param root      absolute package root (`path.resolve(import.meta.dir, "..")`)
+ * @param root      absolute package root (`path.resolve(import.meta.dirname, "..")`)
  * @param specPath  the production path, relative to `root` (or absolute)
  */
 export const resolveSpecPath = (root: string, specPath: string): string => {
@@ -94,9 +93,7 @@ export const resolveSpecPath = (root: string, specPath: string): string => {
     // stderr, not stdout: generate-all captures stdout per package and only
     // prints it on failure, and this is exactly the line you need to see on
     // a run that succeeded against the wrong specs.
-    console.error(
-      `⚠  ${LOCAL_ENV} — reading specs from ${LOCAL_DIR}, not the mirror submodule.`,
-    );
+    console.error(`⚠  ${LOCAL_ENV} — reading specs from ${LOCAL_DIR}, not the mirror submodule.`);
   }
 
   const local = path.join(root, LOCAL_DIR, "specs", tail);

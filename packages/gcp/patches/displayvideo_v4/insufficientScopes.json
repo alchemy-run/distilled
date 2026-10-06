@@ -745,28 +745,28 @@
     },
     {
       "op": "add",
-      "path": "/shapes/com.gcp.displayvideo_v4#GetPlannableLocationsAdvertisersReachForecast/errors/-",
+      "path": "/shapes/com.gcp.displayvideo_v4#RetrievePlannableLocationsAdvertisersReachForecast/errors/-",
       "value": {
         "target": "com.gcp.displayvideo_v4#InsufficientScopes"
       }
     },
     {
       "op": "add",
-      "path": "/shapes/com.gcp.displayvideo_v4#GetPlannableProductsAdvertisersReachForecast/errors/-",
+      "path": "/shapes/com.gcp.displayvideo_v4#RetrievePlannableProductsAdvertisersReachForecast/errors/-",
       "value": {
         "target": "com.gcp.displayvideo_v4#InsufficientScopes"
       }
     },
     {
       "op": "add",
-      "path": "/shapes/com.gcp.displayvideo_v4#GetPlannableUserInterestsAdvertisersReachForecast/errors/-",
+      "path": "/shapes/com.gcp.displayvideo_v4#RetrievePlannableUserInterestsAdvertisersReachForecast/errors/-",
       "value": {
         "target": "com.gcp.displayvideo_v4#InsufficientScopes"
       }
     },
     {
       "op": "add",
-      "path": "/shapes/com.gcp.displayvideo_v4#GetPlannableUserListsAdvertisersReachForecast/errors/-",
+      "path": "/shapes/com.gcp.displayvideo_v4#RetrievePlannableUserListsAdvertisersReachForecast/errors/-",
       "value": {
         "target": "com.gcp.displayvideo_v4#InsufficientScopes"
       }

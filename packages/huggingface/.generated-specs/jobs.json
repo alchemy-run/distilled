@@ -913,6 +913,37 @@
         "smithy.api#documentation": "Ports exposed through the jobs proxy (see `status.exposeUrls` for the reachable URLs)."
       }
     },
+    "com.huggingface.jobs#ListJobsResponseBodyItemNetworkAliasesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Roles this job answers to. An alias names a role, not a job: several members may claim the same alias, which then resolves to all of them, and a member may claim several. Peers get the hostname by appending the alias to the `HF_NETWORK_GROUP_PREFIX` environment variable, which already ends with a separator."
+      }
+    },
+    "com.huggingface.jobs#ListJobsResponseBodyItemNetwork": {
+      "type": "structure",
+      "members": {
+        "group": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Group name, scoped to the job's owner and resource group.",
+            "smithy.api#required": {}
+          }
+        },
+        "aliases": {
+          "target": "com.huggingface.jobs#ListJobsResponseBodyItemNetworkAliasesList",
+          "traits": {
+            "smithy.api#documentation": "Roles this job answers to. An alias names a role, not a job: several members may claim the same alias, which then resolves to all of them, and a member may claim several. Peers get the hostname by appending the alias to the `HF_NETWORK_GROUP_PREFIX` environment variable, which already ends with a separator.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Network group the job belongs to."
+      }
+    },
     "com.huggingface.jobs#ListJobsResponseBodyItemOwnerType": {
       "type": "enum",
       "members": {
@@ -937,6 +968,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -967,6 +999,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -1006,6 +1039,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -1034,7 +1068,7 @@
       "type": "structure",
       "members": {
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -1052,7 +1086,7 @@
       "type": "structure",
       "members": {
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -1070,7 +1104,7 @@
       "type": "structure",
       "members": {
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -1163,6 +1197,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "RESOURCE_GROUP_LIMIT"
+          }
+        },
+        "SPEND_LIMIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SPEND_LIMIT"
           }
         }
       },
@@ -1283,7 +1323,10 @@
           "target": "com.huggingface.jobs#ListJobsResponseBodyItemHfTokenTokenRole"
         },
         "tokenId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId."
+          }
         },
         "settingsUrl": {
           "target": "smithy.api#String"
@@ -1366,8 +1409,14 @@
             "smithy.api#documentation": "Ports exposed through the jobs proxy (see `status.exposeUrls` for the reachable URLs)."
           }
         },
+        "network": {
+          "target": "com.huggingface.jobs#ListJobsResponseBodyItemNetwork",
+          "traits": {
+            "smithy.api#documentation": "Network group the job belongs to."
+          }
+        },
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -1441,21 +1490,21 @@
         "smithy.api#documentation": "List jobs\n\nList of jobs for an entity"
       }
     },
-    "com.huggingface.jobs#StartJobRequestArgumentsList": {
+    "com.huggingface.jobs#StartJobRequestBodyCase0ArgumentsList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       },
       "traits": {}
     },
-    "com.huggingface.jobs#StartJobRequestCommandList": {
+    "com.huggingface.jobs#StartJobRequestBodyCase0CommandList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       },
       "traits": {}
     },
-    "com.huggingface.jobs#StartJobRequestEnvironmentMap": {
+    "com.huggingface.jobs#StartJobRequestBodyCase0EnvironmentMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
@@ -1465,7 +1514,7 @@
       },
       "traits": {}
     },
-    "com.huggingface.jobs#StartJobRequestSecretsMap": {
+    "com.huggingface.jobs#StartJobRequestBodyCase0SecretsMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
@@ -1475,7 +1524,7 @@
       },
       "traits": {}
     },
-    "com.huggingface.jobs#StartJobRequestFlavor": {
+    "com.huggingface.jobs#StartJobRequestBodyCase0Flavor": {
       "type": "enum",
       "members": {
         "CPU_BASIC": {
@@ -1655,7 +1704,7 @@
       },
       "traits": {}
     },
-    "com.huggingface.jobs#StartJobRequestArch": {
+    "com.huggingface.jobs#StartJobRequestBodyCase0Arch": {
       "type": "enum",
       "members": {
         "AMD64": {
@@ -1673,7 +1722,7 @@
       },
       "traits": {}
     },
-    "com.huggingface.jobs#StartJobRequestLabelsMap": {
+    "com.huggingface.jobs#StartJobRequestBodyCase0LabelsMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
@@ -1682,10 +1731,10 @@
         "target": "smithy.api#String"
       },
       "traits": {
-        "smithy.api#documentation": "Labels for the job as key-value pairs. Both keys and values must be max 100 characters and contain only alphanumeric characters, dots, dashes, and underscores."
+        "smithy.api#documentation": "Labels for the job as key-value pairs. Both keys and values must be max 100 characters and contain only alphanumeric characters, dashes, and underscores."
       }
     },
-    "com.huggingface.jobs#StartJobRequestVolumesItemType": {
+    "com.huggingface.jobs#StartJobRequestBodyCase0VolumesItemType": {
       "type": "enum",
       "members": {
         "BUCKET": {
@@ -1715,11 +1764,11 @@
       },
       "traits": {}
     },
-    "com.huggingface.jobs#StartJobRequestVolumesItem": {
+    "com.huggingface.jobs#StartJobRequestBodyCase0VolumesItem": {
       "type": "structure",
       "members": {
         "type": {
-          "target": "com.huggingface.jobs#StartJobRequestVolumesItemType",
+          "target": "com.huggingface.jobs#StartJobRequestBodyCase0VolumesItemType",
           "traits": {
             "smithy.api#required": {}
           }
@@ -1759,23 +1808,23 @@
       },
       "traits": {}
     },
-    "com.huggingface.jobs#StartJobRequestVolumesList": {
+    "com.huggingface.jobs#StartJobRequestBodyCase0VolumesList": {
       "type": "list",
       "member": {
-        "target": "com.huggingface.jobs#StartJobRequestVolumesItem"
+        "target": "com.huggingface.jobs#StartJobRequestBodyCase0VolumesItem"
       },
       "traits": {
         "smithy.api#documentation": "HuggingFace Buckets or Repos to mount as volumes in the job container."
       }
     },
-    "com.huggingface.jobs#StartJobRequestExposePortsList": {
+    "com.huggingface.jobs#StartJobRequestBodyCase0ExposePortsList": {
       "type": "list",
       "member": {
         "target": "smithy.api#Integer"
       },
       "traits": {}
     },
-    "com.huggingface.jobs#StartJobRequestExposePortsPublicList": {
+    "com.huggingface.jobs#StartJobRequestBodyCase0ExposePortsPublicList": {
       "type": "list",
       "member": {
         "target": "smithy.api#Integer"
@@ -1784,17 +1833,17 @@
         "smithy.api#documentation": "Subset of `ports` reachable without any authentication."
       }
     },
-    "com.huggingface.jobs#StartJobRequestExpose": {
+    "com.huggingface.jobs#StartJobRequestBodyCase0Expose": {
       "type": "structure",
       "members": {
         "ports": {
-          "target": "com.huggingface.jobs#StartJobRequestExposePortsList",
+          "target": "com.huggingface.jobs#StartJobRequestBodyCase0ExposePortsList",
           "traits": {
             "smithy.api#required": {}
           }
         },
         "portsPublic": {
-          "target": "com.huggingface.jobs#StartJobRequestExposePortsPublicList",
+          "target": "com.huggingface.jobs#StartJobRequestBodyCase0ExposePortsPublicList",
           "traits": {
             "smithy.api#documentation": "Subset of `ports` reachable without any authentication."
           }
@@ -1804,7 +1853,7 @@
         "smithy.api#documentation": "Ports to expose publicly through the jobs proxy. Each port is reachable at `https://<job_id>--<port>.<jobs-public-domain>`. Access requires a HF token with read access to the job's namespace, except for ports also listed in `portsPublic`."
       }
     },
-    "com.huggingface.jobs#StartJobRequestSsh": {
+    "com.huggingface.jobs#StartJobRequestBodyCase0Ssh": {
       "type": "structure",
       "members": {
         "enabled": {
@@ -1815,42 +1864,68 @@
         "smithy.api#documentation": "When `enabled`, the job's container is reachable over SSH at `ssh <job_id>@ssh.hf.jobs`. Only the job's owner is allowed in, authenticated by an SSH public key registered on the Hub."
       }
     },
-    "com.huggingface.jobs#StartJobRequest": {
+    "com.huggingface.jobs#StartJobRequestBodyCase0NetworkAliasesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Roles this job answers to. An alias names a role, not a job: several members may claim the same alias, which then resolves to all of them, and a member may claim several. Peers get the hostname by appending the alias to the `HF_NETWORK_GROUP_PREFIX` environment variable, which already ends with a separator."
+      }
+    },
+    "com.huggingface.jobs#StartJobRequestBodyCase0Network": {
       "type": "structure",
       "members": {
-        "namespace": {
+        "group": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "Group name, scoped to the job's owner and resource group.",
             "smithy.api#required": {}
           }
         },
+        "aliases": {
+          "target": "com.huggingface.jobs#StartJobRequestBodyCase0NetworkAliasesList",
+          "traits": {
+            "smithy.api#documentation": "Roles this job answers to. An alias names a role, not a job: several members may claim the same alias, which then resolves to all of them, and a member may claim several. Peers get the hostname by appending the alias to the `HF_NETWORK_GROUP_PREFIX` environment variable, which already ends with a separator."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Opt-in network group. Jobs of the same owner and resource group sharing a group are placed together and reach each other on every port. Two environment variables are set in the container: `HF_NETWORK_GROUP_HOSTNAME`, a hostname resolving to every member of the group, and `HF_NETWORK_GROUP_PREFIX`, to which an alias is appended to get that alias' hostname."
+      }
+    },
+    "com.huggingface.jobs#StartJobRequestBodyCase0": {
+      "type": "structure",
+      "members": {
         "spaceId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#required": {}
+          }
         },
         "dockerImage": {
           "target": "smithy.api#String"
         },
         "arguments": {
-          "target": "com.huggingface.jobs#StartJobRequestArgumentsList"
+          "target": "com.huggingface.jobs#StartJobRequestBodyCase0ArgumentsList"
         },
         "command": {
-          "target": "com.huggingface.jobs#StartJobRequestCommandList"
+          "target": "com.huggingface.jobs#StartJobRequestBodyCase0CommandList"
         },
         "environment": {
-          "target": "com.huggingface.jobs#StartJobRequestEnvironmentMap"
+          "target": "com.huggingface.jobs#StartJobRequestBodyCase0EnvironmentMap"
         },
         "secrets": {
-          "target": "com.huggingface.jobs#StartJobRequestSecretsMap"
+          "target": "com.huggingface.jobs#StartJobRequestBodyCase0SecretsMap"
         },
         "flavor": {
-          "target": "com.huggingface.jobs#StartJobRequestFlavor",
+          "target": "com.huggingface.jobs#StartJobRequestBodyCase0Flavor",
           "traits": {
             "smithy.api#required": {}
           }
         },
         "arch": {
-          "target": "com.huggingface.jobs#StartJobRequestArch"
+          "target": "com.huggingface.jobs#StartJobRequestBodyCase0Arch"
         },
         "timeoutSeconds": {
           "target": "smithy.api#Integer",
@@ -1865,31 +1940,553 @@
           }
         },
         "labels": {
-          "target": "com.huggingface.jobs#StartJobRequestLabelsMap",
+          "target": "com.huggingface.jobs#StartJobRequestBodyCase0LabelsMap",
           "traits": {
-            "smithy.api#documentation": "Labels for the job as key-value pairs. Both keys and values must be max 100 characters and contain only alphanumeric characters, dots, dashes, and underscores."
+            "smithy.api#documentation": "Labels for the job as key-value pairs. Both keys and values must be max 100 characters and contain only alphanumeric characters, dashes, and underscores."
           }
         },
         "volumes": {
-          "target": "com.huggingface.jobs#StartJobRequestVolumesList",
+          "target": "com.huggingface.jobs#StartJobRequestBodyCase0VolumesList",
           "traits": {
             "smithy.api#documentation": "HuggingFace Buckets or Repos to mount as volumes in the job container."
           }
         },
         "expose": {
-          "target": "com.huggingface.jobs#StartJobRequestExpose",
+          "target": "com.huggingface.jobs#StartJobRequestBodyCase0Expose",
           "traits": {
             "smithy.api#documentation": "Ports to expose publicly through the jobs proxy. Each port is reachable at `https://<job_id>--<port>.<jobs-public-domain>`. Access requires a HF token with read access to the job's namespace, except for ports also listed in `portsPublic`."
           }
         },
         "ssh": {
-          "target": "com.huggingface.jobs#StartJobRequestSsh",
+          "target": "com.huggingface.jobs#StartJobRequestBodyCase0Ssh",
           "traits": {
             "smithy.api#documentation": "When `enabled`, the job's container is reachable over SSH at `ssh <job_id>@ssh.hf.jobs`. Only the job's owner is allowed in, authenticated by an SSH public key registered on the Hub."
           }
         },
+        "network": {
+          "target": "com.huggingface.jobs#StartJobRequestBodyCase0Network",
+          "traits": {
+            "smithy.api#documentation": "Opt-in network group. Jobs of the same owner and resource group sharing a group are placed together and reach each other on every port. Two environment variables are set in the container: `HF_NETWORK_GROUP_HOSTNAME`, a hostname resolving to every member of the group, and `HF_NETWORK_GROUP_PREFIX`, to which an alias is appended to get that alias' hostname."
+          }
+        },
         "resourceGroupId": {
           "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.huggingface.jobs#StartJobRequestBodyCase1ArgumentsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.huggingface.jobs#StartJobRequestBodyCase1CommandList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.huggingface.jobs#StartJobRequestBodyCase1EnvironmentMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.huggingface.jobs#StartJobRequestBodyCase1SecretsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.huggingface.jobs#StartJobRequestBodyCase1Flavor": {
+      "type": "enum",
+      "members": {
+        "CPU_BASIC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cpu-basic"
+          }
+        },
+        "CPU_UPGRADE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cpu-upgrade"
+          }
+        },
+        "CPU_PERFORMANCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cpu-performance"
+          }
+        },
+        "CPU_XL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cpu-xl"
+          }
+        },
+        "SPRX8": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sprx8"
+          }
+        },
+        "ZERO_A10G": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "zero-a10g"
+          }
+        },
+        "T4_SMALL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "t4-small"
+          }
+        },
+        "T4_MEDIUM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "t4-medium"
+          }
+        },
+        "L4X1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "l4x1"
+          }
+        },
+        "L4X4": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "l4x4"
+          }
+        },
+        "L40SX1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "l40sx1"
+          }
+        },
+        "L40SX4": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "l40sx4"
+          }
+        },
+        "L40SX8": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "l40sx8"
+          }
+        },
+        "A10G_SMALL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "a10g-small"
+          }
+        },
+        "A10G_LARGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "a10g-large"
+          }
+        },
+        "A10G_LARGEX2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "a10g-largex2"
+          }
+        },
+        "A10G_LARGEX4": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "a10g-largex4"
+          }
+        },
+        "A100_LARGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "a100-large"
+          }
+        },
+        "A100X4": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "a100x4"
+          }
+        },
+        "A100X8": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "a100x8"
+          }
+        },
+        "H200": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "h200"
+          }
+        },
+        "H200X2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "h200x2"
+          }
+        },
+        "H200X4": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "h200x4"
+          }
+        },
+        "H200X8": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "h200x8"
+          }
+        },
+        "RTX_PRO_6000": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rtx-pro-6000"
+          }
+        },
+        "RTX_PRO_6000X2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rtx-pro-6000x2"
+          }
+        },
+        "RTX_PRO_6000X4": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rtx-pro-6000x4"
+          }
+        },
+        "RTX_PRO_6000X8": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rtx-pro-6000x8"
+          }
+        },
+        "INF2X6": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "inf2x6"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.huggingface.jobs#StartJobRequestBodyCase1Arch": {
+      "type": "enum",
+      "members": {
+        "AMD64": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "amd64"
+          }
+        },
+        "ARM64": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "arm64"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.huggingface.jobs#StartJobRequestBodyCase1LabelsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Labels for the job as key-value pairs. Both keys and values must be max 100 characters and contain only alphanumeric characters, dashes, and underscores."
+      }
+    },
+    "com.huggingface.jobs#StartJobRequestBodyCase1VolumesItemType": {
+      "type": "enum",
+      "members": {
+        "BUCKET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bucket"
+          }
+        },
+        "MODEL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "model"
+          }
+        },
+        "DATASET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dataset"
+          }
+        },
+        "SPACE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "space"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.huggingface.jobs#StartJobRequestBodyCase1VolumesItem": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.huggingface.jobs#StartJobRequestBodyCase1VolumesItemType",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "source": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Source identifier, e.g. 'username/my-bucket' or 'username/my-model'",
+            "smithy.api#required": {}
+          }
+        },
+        "mountPath": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Mount path inside the container, e.g. '/data'",
+            "smithy.api#required": {}
+          }
+        },
+        "revision": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Git revision (only for repos, defaults to 'main')"
+          }
+        },
+        "readOnly": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Read-only mount (true for repos, false default for buckets)"
+          }
+        },
+        "path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Subfolder prefix inside the bucket/repo to mount, e.g. 'path/to/dir'"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.huggingface.jobs#StartJobRequestBodyCase1VolumesList": {
+      "type": "list",
+      "member": {
+        "target": "com.huggingface.jobs#StartJobRequestBodyCase1VolumesItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "HuggingFace Buckets or Repos to mount as volumes in the job container."
+      }
+    },
+    "com.huggingface.jobs#StartJobRequestBodyCase1ExposePortsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Integer"
+      },
+      "traits": {}
+    },
+    "com.huggingface.jobs#StartJobRequestBodyCase1ExposePortsPublicList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Integer"
+      },
+      "traits": {
+        "smithy.api#documentation": "Subset of `ports` reachable without any authentication."
+      }
+    },
+    "com.huggingface.jobs#StartJobRequestBodyCase1Expose": {
+      "type": "structure",
+      "members": {
+        "ports": {
+          "target": "com.huggingface.jobs#StartJobRequestBodyCase1ExposePortsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "portsPublic": {
+          "target": "com.huggingface.jobs#StartJobRequestBodyCase1ExposePortsPublicList",
+          "traits": {
+            "smithy.api#documentation": "Subset of `ports` reachable without any authentication."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Ports to expose publicly through the jobs proxy. Each port is reachable at `https://<job_id>--<port>.<jobs-public-domain>`. Access requires a HF token with read access to the job's namespace, except for ports also listed in `portsPublic`."
+      }
+    },
+    "com.huggingface.jobs#StartJobRequestBodyCase1Ssh": {
+      "type": "structure",
+      "members": {
+        "enabled": {
+          "target": "smithy.api#Boolean"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "When `enabled`, the job's container is reachable over SSH at `ssh <job_id>@ssh.hf.jobs`. Only the job's owner is allowed in, authenticated by an SSH public key registered on the Hub."
+      }
+    },
+    "com.huggingface.jobs#StartJobRequestBodyCase1NetworkAliasesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Roles this job answers to. An alias names a role, not a job: several members may claim the same alias, which then resolves to all of them, and a member may claim several. Peers get the hostname by appending the alias to the `HF_NETWORK_GROUP_PREFIX` environment variable, which already ends with a separator."
+      }
+    },
+    "com.huggingface.jobs#StartJobRequestBodyCase1Network": {
+      "type": "structure",
+      "members": {
+        "group": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Group name, scoped to the job's owner and resource group.",
+            "smithy.api#required": {}
+          }
+        },
+        "aliases": {
+          "target": "com.huggingface.jobs#StartJobRequestBodyCase1NetworkAliasesList",
+          "traits": {
+            "smithy.api#documentation": "Roles this job answers to. An alias names a role, not a job: several members may claim the same alias, which then resolves to all of them, and a member may claim several. Peers get the hostname by appending the alias to the `HF_NETWORK_GROUP_PREFIX` environment variable, which already ends with a separator."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Opt-in network group. Jobs of the same owner and resource group sharing a group are placed together and reach each other on every port. Two environment variables are set in the container: `HF_NETWORK_GROUP_HOSTNAME`, a hostname resolving to every member of the group, and `HF_NETWORK_GROUP_PREFIX`, to which an alias is appended to get that alias' hostname."
+      }
+    },
+    "com.huggingface.jobs#StartJobRequestBodyCase1": {
+      "type": "structure",
+      "members": {
+        "spaceId": {
+          "target": "smithy.api#String"
+        },
+        "dockerImage": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "arguments": {
+          "target": "com.huggingface.jobs#StartJobRequestBodyCase1ArgumentsList"
+        },
+        "command": {
+          "target": "com.huggingface.jobs#StartJobRequestBodyCase1CommandList"
+        },
+        "environment": {
+          "target": "com.huggingface.jobs#StartJobRequestBodyCase1EnvironmentMap"
+        },
+        "secrets": {
+          "target": "com.huggingface.jobs#StartJobRequestBodyCase1SecretsMap"
+        },
+        "flavor": {
+          "target": "com.huggingface.jobs#StartJobRequestBodyCase1Flavor",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "arch": {
+          "target": "com.huggingface.jobs#StartJobRequestBodyCase1Arch"
+        },
+        "timeoutSeconds": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "attempts": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Max number of attempts to make. For example, if you set this to 3, the job will be retried up to 2 times if it fails."
+          }
+        },
+        "labels": {
+          "target": "com.huggingface.jobs#StartJobRequestBodyCase1LabelsMap",
+          "traits": {
+            "smithy.api#documentation": "Labels for the job as key-value pairs. Both keys and values must be max 100 characters and contain only alphanumeric characters, dashes, and underscores."
+          }
+        },
+        "volumes": {
+          "target": "com.huggingface.jobs#StartJobRequestBodyCase1VolumesList",
+          "traits": {
+            "smithy.api#documentation": "HuggingFace Buckets or Repos to mount as volumes in the job container."
+          }
+        },
+        "expose": {
+          "target": "com.huggingface.jobs#StartJobRequestBodyCase1Expose",
+          "traits": {
+            "smithy.api#documentation": "Ports to expose publicly through the jobs proxy. Each port is reachable at `https://<job_id>--<port>.<jobs-public-domain>`. Access requires a HF token with read access to the job's namespace, except for ports also listed in `portsPublic`."
+          }
+        },
+        "ssh": {
+          "target": "com.huggingface.jobs#StartJobRequestBodyCase1Ssh",
+          "traits": {
+            "smithy.api#documentation": "When `enabled`, the job's container is reachable over SSH at `ssh <job_id>@ssh.hf.jobs`. Only the job's owner is allowed in, authenticated by an SSH public key registered on the Hub."
+          }
+        },
+        "network": {
+          "target": "com.huggingface.jobs#StartJobRequestBodyCase1Network",
+          "traits": {
+            "smithy.api#documentation": "Opt-in network group. Jobs of the same owner and resource group sharing a group are placed together and reach each other on every port. Two environment variables are set in the container: `HF_NETWORK_GROUP_HOSTNAME`, a hostname resolving to every member of the group, and `HF_NETWORK_GROUP_PREFIX`, to which an alias is appended to get that alias' hostname."
+          }
+        },
+        "resourceGroupId": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.huggingface.jobs#StartJobRequestBody": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.huggingface.jobs#StartJobRequestBodyCase0"
+        },
+        "Case1": {
+          "target": "com.huggingface.jobs#StartJobRequestBodyCase1"
+        }
+      },
+      "traits": {}
+    },
+    "com.huggingface.jobs#StartJobRequest": {
+      "type": "structure",
+      "members": {
+        "namespace": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "body": {
+          "target": "com.huggingface.jobs#StartJobRequestBody",
+          "traits": {
+            "smithy.api#httpPayload": {}
+          }
         }
       },
       "traits": {
@@ -2227,6 +2824,37 @@
         "smithy.api#documentation": "Ports exposed through the jobs proxy (see `status.exposeUrls` for the reachable URLs)."
       }
     },
+    "com.huggingface.jobs#StartJobResponseNetworkAliasesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Roles this job answers to. An alias names a role, not a job: several members may claim the same alias, which then resolves to all of them, and a member may claim several. Peers get the hostname by appending the alias to the `HF_NETWORK_GROUP_PREFIX` environment variable, which already ends with a separator."
+      }
+    },
+    "com.huggingface.jobs#StartJobResponseNetwork": {
+      "type": "structure",
+      "members": {
+        "group": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Group name, scoped to the job's owner and resource group.",
+            "smithy.api#required": {}
+          }
+        },
+        "aliases": {
+          "target": "com.huggingface.jobs#StartJobResponseNetworkAliasesList",
+          "traits": {
+            "smithy.api#documentation": "Roles this job answers to. An alias names a role, not a job: several members may claim the same alias, which then resolves to all of them, and a member may claim several. Peers get the hostname by appending the alias to the `HF_NETWORK_GROUP_PREFIX` environment variable, which already ends with a separator.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Network group the job belongs to."
+      }
+    },
     "com.huggingface.jobs#StartJobResponseOwnerType": {
       "type": "enum",
       "members": {
@@ -2251,6 +2879,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -2281,6 +2910,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -2320,6 +2950,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -2348,7 +2979,7 @@
       "type": "structure",
       "members": {
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -2366,7 +2997,7 @@
       "type": "structure",
       "members": {
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -2384,7 +3015,7 @@
       "type": "structure",
       "members": {
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -2477,6 +3108,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "RESOURCE_GROUP_LIMIT"
+          }
+        },
+        "SPEND_LIMIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SPEND_LIMIT"
           }
         }
       },
@@ -2597,7 +3234,10 @@
           "target": "com.huggingface.jobs#StartJobResponseHfTokenTokenRole"
         },
         "tokenId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId."
+          }
         },
         "settingsUrl": {
           "target": "smithy.api#String"
@@ -2680,8 +3320,14 @@
             "smithy.api#documentation": "Ports exposed through the jobs proxy (see `status.exposeUrls` for the reachable URLs)."
           }
         },
+        "network": {
+          "target": "com.huggingface.jobs#StartJobResponseNetwork",
+          "traits": {
+            "smithy.api#documentation": "Network group the job belongs to."
+          }
+        },
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -3243,6 +3889,37 @@
         "smithy.api#documentation": "Ports exposed through the jobs proxy (see `status.exposeUrls` for the reachable URLs)."
       }
     },
+    "com.huggingface.jobs#GetJobResponseNetworkAliasesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Roles this job answers to. An alias names a role, not a job: several members may claim the same alias, which then resolves to all of them, and a member may claim several. Peers get the hostname by appending the alias to the `HF_NETWORK_GROUP_PREFIX` environment variable, which already ends with a separator."
+      }
+    },
+    "com.huggingface.jobs#GetJobResponseNetwork": {
+      "type": "structure",
+      "members": {
+        "group": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Group name, scoped to the job's owner and resource group.",
+            "smithy.api#required": {}
+          }
+        },
+        "aliases": {
+          "target": "com.huggingface.jobs#GetJobResponseNetworkAliasesList",
+          "traits": {
+            "smithy.api#documentation": "Roles this job answers to. An alias names a role, not a job: several members may claim the same alias, which then resolves to all of them, and a member may claim several. Peers get the hostname by appending the alias to the `HF_NETWORK_GROUP_PREFIX` environment variable, which already ends with a separator.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Network group the job belongs to."
+      }
+    },
     "com.huggingface.jobs#GetJobResponseOwnerType": {
       "type": "enum",
       "members": {
@@ -3267,6 +3944,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -3297,6 +3975,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -3336,6 +4015,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -3364,7 +4044,7 @@
       "type": "structure",
       "members": {
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -3382,7 +4062,7 @@
       "type": "structure",
       "members": {
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -3400,7 +4080,7 @@
       "type": "structure",
       "members": {
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -3493,6 +4173,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "RESOURCE_GROUP_LIMIT"
+          }
+        },
+        "SPEND_LIMIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SPEND_LIMIT"
           }
         }
       },
@@ -3613,7 +4299,10 @@
           "target": "com.huggingface.jobs#GetJobResponseHfTokenTokenRole"
         },
         "tokenId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId."
+          }
         },
         "settingsUrl": {
           "target": "smithy.api#String"
@@ -3696,8 +4385,14 @@
             "smithy.api#documentation": "Ports exposed through the jobs proxy (see `status.exposeUrls` for the reachable URLs)."
           }
         },
+        "network": {
+          "target": "com.huggingface.jobs#GetJobResponseNetwork",
+          "traits": {
+            "smithy.api#documentation": "Network group the job belongs to."
+          }
+        },
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -4227,6 +4922,37 @@
         "smithy.api#documentation": "Ports exposed through the jobs proxy (see `status.exposeUrls` for the reachable URLs)."
       }
     },
+    "com.huggingface.jobs#CancelJobResponseNetworkAliasesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Roles this job answers to. An alias names a role, not a job: several members may claim the same alias, which then resolves to all of them, and a member may claim several. Peers get the hostname by appending the alias to the `HF_NETWORK_GROUP_PREFIX` environment variable, which already ends with a separator."
+      }
+    },
+    "com.huggingface.jobs#CancelJobResponseNetwork": {
+      "type": "structure",
+      "members": {
+        "group": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Group name, scoped to the job's owner and resource group.",
+            "smithy.api#required": {}
+          }
+        },
+        "aliases": {
+          "target": "com.huggingface.jobs#CancelJobResponseNetworkAliasesList",
+          "traits": {
+            "smithy.api#documentation": "Roles this job answers to. An alias names a role, not a job: several members may claim the same alias, which then resolves to all of them, and a member may claim several. Peers get the hostname by appending the alias to the `HF_NETWORK_GROUP_PREFIX` environment variable, which already ends with a separator.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Network group the job belongs to."
+      }
+    },
     "com.huggingface.jobs#CancelJobResponseOwnerType": {
       "type": "enum",
       "members": {
@@ -4251,6 +4977,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -4281,6 +5008,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -4320,6 +5048,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -4348,7 +5077,7 @@
       "type": "structure",
       "members": {
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -4366,7 +5095,7 @@
       "type": "structure",
       "members": {
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -4384,7 +5113,7 @@
       "type": "structure",
       "members": {
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -4477,6 +5206,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "RESOURCE_GROUP_LIMIT"
+          }
+        },
+        "SPEND_LIMIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SPEND_LIMIT"
           }
         }
       },
@@ -4597,7 +5332,10 @@
           "target": "com.huggingface.jobs#CancelJobResponseHfTokenTokenRole"
         },
         "tokenId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId."
+          }
         },
         "settingsUrl": {
           "target": "smithy.api#String"
@@ -4680,8 +5418,14 @@
             "smithy.api#documentation": "Ports exposed through the jobs proxy (see `status.exposeUrls` for the reachable URLs)."
           }
         },
+        "network": {
+          "target": "com.huggingface.jobs#CancelJobResponseNetwork",
+          "traits": {
+            "smithy.api#documentation": "Network group the job belongs to."
+          }
+        },
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -5088,6 +5832,37 @@
         "smithy.api#documentation": "Ports exposed through the jobs proxy (see `status.exposeUrls` for the reachable URLs)."
       }
     },
+    "com.huggingface.jobs#DuplicateJobResponseNetworkAliasesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Roles this job answers to. An alias names a role, not a job: several members may claim the same alias, which then resolves to all of them, and a member may claim several. Peers get the hostname by appending the alias to the `HF_NETWORK_GROUP_PREFIX` environment variable, which already ends with a separator."
+      }
+    },
+    "com.huggingface.jobs#DuplicateJobResponseNetwork": {
+      "type": "structure",
+      "members": {
+        "group": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Group name, scoped to the job's owner and resource group.",
+            "smithy.api#required": {}
+          }
+        },
+        "aliases": {
+          "target": "com.huggingface.jobs#DuplicateJobResponseNetworkAliasesList",
+          "traits": {
+            "smithy.api#documentation": "Roles this job answers to. An alias names a role, not a job: several members may claim the same alias, which then resolves to all of them, and a member may claim several. Peers get the hostname by appending the alias to the `HF_NETWORK_GROUP_PREFIX` environment variable, which already ends with a separator.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Network group the job belongs to."
+      }
+    },
     "com.huggingface.jobs#DuplicateJobResponseOwnerType": {
       "type": "enum",
       "members": {
@@ -5112,6 +5887,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -5142,6 +5918,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -5181,6 +5958,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -5209,7 +5987,7 @@
       "type": "structure",
       "members": {
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -5227,7 +6005,7 @@
       "type": "structure",
       "members": {
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -5245,7 +6023,7 @@
       "type": "structure",
       "members": {
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -5338,6 +6116,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "RESOURCE_GROUP_LIMIT"
+          }
+        },
+        "SPEND_LIMIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SPEND_LIMIT"
           }
         }
       },
@@ -5458,7 +6242,10 @@
           "target": "com.huggingface.jobs#DuplicateJobResponseHfTokenTokenRole"
         },
         "tokenId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId."
+          }
         },
         "settingsUrl": {
           "target": "smithy.api#String"
@@ -5541,8 +6328,14 @@
             "smithy.api#documentation": "Ports exposed through the jobs proxy (see `status.exposeUrls` for the reachable URLs)."
           }
         },
+        "network": {
+          "target": "com.huggingface.jobs#DuplicateJobResponseNetwork",
+          "traits": {
+            "smithy.api#documentation": "Network group the job belongs to."
+          }
+        },
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -5968,6 +6761,37 @@
         "smithy.api#documentation": "Ports exposed through the jobs proxy (see `status.exposeUrls` for the reachable URLs)."
       }
     },
+    "com.huggingface.jobs#UpdateJobLabelsResponseNetworkAliasesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Roles this job answers to. An alias names a role, not a job: several members may claim the same alias, which then resolves to all of them, and a member may claim several. Peers get the hostname by appending the alias to the `HF_NETWORK_GROUP_PREFIX` environment variable, which already ends with a separator."
+      }
+    },
+    "com.huggingface.jobs#UpdateJobLabelsResponseNetwork": {
+      "type": "structure",
+      "members": {
+        "group": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Group name, scoped to the job's owner and resource group.",
+            "smithy.api#required": {}
+          }
+        },
+        "aliases": {
+          "target": "com.huggingface.jobs#UpdateJobLabelsResponseNetworkAliasesList",
+          "traits": {
+            "smithy.api#documentation": "Roles this job answers to. An alias names a role, not a job: several members may claim the same alias, which then resolves to all of them, and a member may claim several. Peers get the hostname by appending the alias to the `HF_NETWORK_GROUP_PREFIX` environment variable, which already ends with a separator.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Network group the job belongs to."
+      }
+    },
     "com.huggingface.jobs#UpdateJobLabelsResponseOwnerType": {
       "type": "enum",
       "members": {
@@ -5992,6 +6816,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -6022,6 +6847,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -6061,6 +6887,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -6089,7 +6916,7 @@
       "type": "structure",
       "members": {
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -6107,7 +6934,7 @@
       "type": "structure",
       "members": {
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -6125,7 +6952,7 @@
       "type": "structure",
       "members": {
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -6218,6 +7045,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "RESOURCE_GROUP_LIMIT"
+          }
+        },
+        "SPEND_LIMIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SPEND_LIMIT"
           }
         }
       },
@@ -6338,7 +7171,10 @@
           "target": "com.huggingface.jobs#UpdateJobLabelsResponseHfTokenTokenRole"
         },
         "tokenId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId."
+          }
         },
         "settingsUrl": {
           "target": "smithy.api#String"
@@ -6421,8 +7257,14 @@
             "smithy.api#documentation": "Ports exposed through the jobs proxy (see `status.exposeUrls` for the reachable URLs)."
           }
         },
+        "network": {
+          "target": "com.huggingface.jobs#UpdateJobLabelsResponseNetwork",
+          "traits": {
+            "smithy.api#documentation": "Network group the job belongs to."
+          }
+        },
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -6857,6 +7699,37 @@
         "smithy.api#documentation": "Ports exposed through the jobs proxy (see `status.exposeUrls` for the reachable URLs)."
       }
     },
+    "com.huggingface.jobs#UpdateJobExposedPortsResponseNetworkAliasesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Roles this job answers to. An alias names a role, not a job: several members may claim the same alias, which then resolves to all of them, and a member may claim several. Peers get the hostname by appending the alias to the `HF_NETWORK_GROUP_PREFIX` environment variable, which already ends with a separator."
+      }
+    },
+    "com.huggingface.jobs#UpdateJobExposedPortsResponseNetwork": {
+      "type": "structure",
+      "members": {
+        "group": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Group name, scoped to the job's owner and resource group.",
+            "smithy.api#required": {}
+          }
+        },
+        "aliases": {
+          "target": "com.huggingface.jobs#UpdateJobExposedPortsResponseNetworkAliasesList",
+          "traits": {
+            "smithy.api#documentation": "Roles this job answers to. An alias names a role, not a job: several members may claim the same alias, which then resolves to all of them, and a member may claim several. Peers get the hostname by appending the alias to the `HF_NETWORK_GROUP_PREFIX` environment variable, which already ends with a separator.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Network group the job belongs to."
+      }
+    },
     "com.huggingface.jobs#UpdateJobExposedPortsResponseOwnerType": {
       "type": "enum",
       "members": {
@@ -6881,6 +7754,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -6911,6 +7785,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -6950,6 +7825,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -6978,7 +7854,7 @@
       "type": "structure",
       "members": {
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -6996,7 +7872,7 @@
       "type": "structure",
       "members": {
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -7014,7 +7890,7 @@
       "type": "structure",
       "members": {
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -7107,6 +7983,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "RESOURCE_GROUP_LIMIT"
+          }
+        },
+        "SPEND_LIMIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SPEND_LIMIT"
           }
         }
       },
@@ -7227,7 +8109,10 @@
           "target": "com.huggingface.jobs#UpdateJobExposedPortsResponseHfTokenTokenRole"
         },
         "tokenId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId."
+          }
         },
         "settingsUrl": {
           "target": "smithy.api#String"
@@ -7310,8 +8195,14 @@
             "smithy.api#documentation": "Ports exposed through the jobs proxy (see `status.exposeUrls` for the reachable URLs)."
           }
         },
+        "network": {
+          "target": "com.huggingface.jobs#UpdateJobExposedPortsResponseNetwork",
+          "traits": {
+            "smithy.api#documentation": "Network group the job belongs to."
+          }
+        },
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -7362,7 +8253,7 @@
           "uri": "/api/jobs/{namespace}/{jobId}/expose",
           "code": 200
         },
-        "smithy.api#documentation": "Update job exposed ports\n\nReplace the exposed ports of a running job, applied live (no re-run). Ports listed in `portsPublic` are reachable without any authentication."
+        "smithy.api#documentation": "Job exposed ports\n\nReplace the exposed ports of a running job, applied live (no re-run). Ports listed in `portsPublic` are reachable without any authentication."
       }
     },
     "com.huggingface.jobs#ListScheduledJobsRequest": {
@@ -7447,6 +8338,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -7495,6 +8387,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -7832,12 +8725,44 @@
         "smithy.api#documentation": "Ports exposed through the jobs proxy (see `status.exposeUrls` for the reachable URLs)."
       }
     },
+    "com.huggingface.jobs#ListScheduledJobsResponseBodyItemJobSpecNetworkAliasesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Roles this job answers to. An alias names a role, not a job: several members may claim the same alias, which then resolves to all of them, and a member may claim several. Peers get the hostname by appending the alias to the `HF_NETWORK_GROUP_PREFIX` environment variable, which already ends with a separator."
+      }
+    },
+    "com.huggingface.jobs#ListScheduledJobsResponseBodyItemJobSpecNetwork": {
+      "type": "structure",
+      "members": {
+        "group": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Group name, scoped to the job's owner and resource group.",
+            "smithy.api#required": {}
+          }
+        },
+        "aliases": {
+          "target": "com.huggingface.jobs#ListScheduledJobsResponseBodyItemJobSpecNetworkAliasesList",
+          "traits": {
+            "smithy.api#documentation": "Roles this job answers to. An alias names a role, not a job: several members may claim the same alias, which then resolves to all of them, and a member may claim several. Peers get the hostname by appending the alias to the `HF_NETWORK_GROUP_PREFIX` environment variable, which already ends with a separator.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Network group the job belongs to."
+      }
+    },
     "com.huggingface.jobs#ListScheduledJobsResponseBodyItemJobSpecResourceGroup": {
       "type": "structure",
       "members": {
         "id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -7910,7 +8835,10 @@
           "target": "com.huggingface.jobs#ListScheduledJobsResponseBodyItemJobSpecHfTokenTokenRole"
         },
         "tokenId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId."
+          }
         },
         "settingsUrl": {
           "target": "smithy.api#String"
@@ -7975,6 +8903,12 @@
             "smithy.api#documentation": "Ports exposed through the jobs proxy (see `status.exposeUrls` for the reachable URLs)."
           }
         },
+        "network": {
+          "target": "com.huggingface.jobs#ListScheduledJobsResponseBodyItemJobSpecNetwork",
+          "traits": {
+            "smithy.api#documentation": "Network group the job belongs to."
+          }
+        },
         "resourceGroup": {
           "target": "com.huggingface.jobs#ListScheduledJobsResponseBodyItemJobSpecResourceGroup"
         },
@@ -8033,7 +8967,7 @@
           }
         },
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -8095,21 +9029,21 @@
         "smithy.api#documentation": "List scheduled jobs\n\nList scheduled jobs for an entity"
       }
     },
-    "com.huggingface.jobs#CreateScheduledJobRequestJobSpecArgumentsList": {
+    "com.huggingface.jobs#CreateScheduledJobRequestJobSpecCase0ArgumentsList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       },
       "traits": {}
     },
-    "com.huggingface.jobs#CreateScheduledJobRequestJobSpecCommandList": {
+    "com.huggingface.jobs#CreateScheduledJobRequestJobSpecCase0CommandList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       },
       "traits": {}
     },
-    "com.huggingface.jobs#CreateScheduledJobRequestJobSpecEnvironmentMap": {
+    "com.huggingface.jobs#CreateScheduledJobRequestJobSpecCase0EnvironmentMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
@@ -8119,7 +9053,7 @@
       },
       "traits": {}
     },
-    "com.huggingface.jobs#CreateScheduledJobRequestJobSpecSecretsMap": {
+    "com.huggingface.jobs#CreateScheduledJobRequestJobSpecCase0SecretsMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
@@ -8129,7 +9063,7 @@
       },
       "traits": {}
     },
-    "com.huggingface.jobs#CreateScheduledJobRequestJobSpecFlavor": {
+    "com.huggingface.jobs#CreateScheduledJobRequestJobSpecCase0Flavor": {
       "type": "enum",
       "members": {
         "CPU_BASIC": {
@@ -8309,7 +9243,7 @@
       },
       "traits": {}
     },
-    "com.huggingface.jobs#CreateScheduledJobRequestJobSpecArch": {
+    "com.huggingface.jobs#CreateScheduledJobRequestJobSpecCase0Arch": {
       "type": "enum",
       "members": {
         "AMD64": {
@@ -8327,7 +9261,7 @@
       },
       "traits": {}
     },
-    "com.huggingface.jobs#CreateScheduledJobRequestJobSpecLabelsMap": {
+    "com.huggingface.jobs#CreateScheduledJobRequestJobSpecCase0LabelsMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
@@ -8336,10 +9270,10 @@
         "target": "smithy.api#String"
       },
       "traits": {
-        "smithy.api#documentation": "Labels for the job as key-value pairs. Both keys and values must be max 100 characters and contain only alphanumeric characters, dots, dashes, and underscores."
+        "smithy.api#documentation": "Labels for the job as key-value pairs. Both keys and values must be max 100 characters and contain only alphanumeric characters, dashes, and underscores."
       }
     },
-    "com.huggingface.jobs#CreateScheduledJobRequestJobSpecVolumesItemType": {
+    "com.huggingface.jobs#CreateScheduledJobRequestJobSpecCase0VolumesItemType": {
       "type": "enum",
       "members": {
         "BUCKET": {
@@ -8369,11 +9303,11 @@
       },
       "traits": {}
     },
-    "com.huggingface.jobs#CreateScheduledJobRequestJobSpecVolumesItem": {
+    "com.huggingface.jobs#CreateScheduledJobRequestJobSpecCase0VolumesItem": {
       "type": "structure",
       "members": {
         "type": {
-          "target": "com.huggingface.jobs#CreateScheduledJobRequestJobSpecVolumesItemType",
+          "target": "com.huggingface.jobs#CreateScheduledJobRequestJobSpecCase0VolumesItemType",
           "traits": {
             "smithy.api#required": {}
           }
@@ -8413,23 +9347,23 @@
       },
       "traits": {}
     },
-    "com.huggingface.jobs#CreateScheduledJobRequestJobSpecVolumesList": {
+    "com.huggingface.jobs#CreateScheduledJobRequestJobSpecCase0VolumesList": {
       "type": "list",
       "member": {
-        "target": "com.huggingface.jobs#CreateScheduledJobRequestJobSpecVolumesItem"
+        "target": "com.huggingface.jobs#CreateScheduledJobRequestJobSpecCase0VolumesItem"
       },
       "traits": {
         "smithy.api#documentation": "HuggingFace Buckets or Repos to mount as volumes in the job container."
       }
     },
-    "com.huggingface.jobs#CreateScheduledJobRequestJobSpecExposePortsList": {
+    "com.huggingface.jobs#CreateScheduledJobRequestJobSpecCase0ExposePortsList": {
       "type": "list",
       "member": {
         "target": "smithy.api#Integer"
       },
       "traits": {}
     },
-    "com.huggingface.jobs#CreateScheduledJobRequestJobSpecExposePortsPublicList": {
+    "com.huggingface.jobs#CreateScheduledJobRequestJobSpecCase0ExposePortsPublicList": {
       "type": "list",
       "member": {
         "target": "smithy.api#Integer"
@@ -8438,17 +9372,17 @@
         "smithy.api#documentation": "Subset of `ports` reachable without any authentication."
       }
     },
-    "com.huggingface.jobs#CreateScheduledJobRequestJobSpecExpose": {
+    "com.huggingface.jobs#CreateScheduledJobRequestJobSpecCase0Expose": {
       "type": "structure",
       "members": {
         "ports": {
-          "target": "com.huggingface.jobs#CreateScheduledJobRequestJobSpecExposePortsList",
+          "target": "com.huggingface.jobs#CreateScheduledJobRequestJobSpecCase0ExposePortsList",
           "traits": {
             "smithy.api#required": {}
           }
         },
         "portsPublic": {
-          "target": "com.huggingface.jobs#CreateScheduledJobRequestJobSpecExposePortsPublicList",
+          "target": "com.huggingface.jobs#CreateScheduledJobRequestJobSpecCase0ExposePortsPublicList",
           "traits": {
             "smithy.api#documentation": "Subset of `ports` reachable without any authentication."
           }
@@ -8458,7 +9392,7 @@
         "smithy.api#documentation": "Ports to expose publicly through the jobs proxy. Each port is reachable at `https://<job_id>--<port>.<jobs-public-domain>`. Access requires a HF token with read access to the job's namespace, except for ports also listed in `portsPublic`."
       }
     },
-    "com.huggingface.jobs#CreateScheduledJobRequestJobSpecSsh": {
+    "com.huggingface.jobs#CreateScheduledJobRequestJobSpecCase0Ssh": {
       "type": "structure",
       "members": {
         "enabled": {
@@ -8469,35 +9403,68 @@
         "smithy.api#documentation": "When `enabled`, the job's container is reachable over SSH at `ssh <job_id>@ssh.hf.jobs`. Only the job's owner is allowed in, authenticated by an SSH public key registered on the Hub."
       }
     },
-    "com.huggingface.jobs#CreateScheduledJobRequestJobSpec": {
+    "com.huggingface.jobs#CreateScheduledJobRequestJobSpecCase0NetworkAliasesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Roles this job answers to. An alias names a role, not a job: several members may claim the same alias, which then resolves to all of them, and a member may claim several. Peers get the hostname by appending the alias to the `HF_NETWORK_GROUP_PREFIX` environment variable, which already ends with a separator."
+      }
+    },
+    "com.huggingface.jobs#CreateScheduledJobRequestJobSpecCase0Network": {
+      "type": "structure",
+      "members": {
+        "group": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Group name, scoped to the job's owner and resource group.",
+            "smithy.api#required": {}
+          }
+        },
+        "aliases": {
+          "target": "com.huggingface.jobs#CreateScheduledJobRequestJobSpecCase0NetworkAliasesList",
+          "traits": {
+            "smithy.api#documentation": "Roles this job answers to. An alias names a role, not a job: several members may claim the same alias, which then resolves to all of them, and a member may claim several. Peers get the hostname by appending the alias to the `HF_NETWORK_GROUP_PREFIX` environment variable, which already ends with a separator."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Opt-in network group. Jobs of the same owner and resource group sharing a group are placed together and reach each other on every port. Two environment variables are set in the container: `HF_NETWORK_GROUP_HOSTNAME`, a hostname resolving to every member of the group, and `HF_NETWORK_GROUP_PREFIX`, to which an alias is appended to get that alias' hostname."
+      }
+    },
+    "com.huggingface.jobs#CreateScheduledJobRequestJobSpecCase0": {
       "type": "structure",
       "members": {
         "spaceId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#required": {}
+          }
         },
         "dockerImage": {
           "target": "smithy.api#String"
         },
         "arguments": {
-          "target": "com.huggingface.jobs#CreateScheduledJobRequestJobSpecArgumentsList"
+          "target": "com.huggingface.jobs#CreateScheduledJobRequestJobSpecCase0ArgumentsList"
         },
         "command": {
-          "target": "com.huggingface.jobs#CreateScheduledJobRequestJobSpecCommandList"
+          "target": "com.huggingface.jobs#CreateScheduledJobRequestJobSpecCase0CommandList"
         },
         "environment": {
-          "target": "com.huggingface.jobs#CreateScheduledJobRequestJobSpecEnvironmentMap"
+          "target": "com.huggingface.jobs#CreateScheduledJobRequestJobSpecCase0EnvironmentMap"
         },
         "secrets": {
-          "target": "com.huggingface.jobs#CreateScheduledJobRequestJobSpecSecretsMap"
+          "target": "com.huggingface.jobs#CreateScheduledJobRequestJobSpecCase0SecretsMap"
         },
         "flavor": {
-          "target": "com.huggingface.jobs#CreateScheduledJobRequestJobSpecFlavor",
+          "target": "com.huggingface.jobs#CreateScheduledJobRequestJobSpecCase0Flavor",
           "traits": {
             "smithy.api#required": {}
           }
         },
         "arch": {
-          "target": "com.huggingface.jobs#CreateScheduledJobRequestJobSpecArch"
+          "target": "com.huggingface.jobs#CreateScheduledJobRequestJobSpecCase0Arch"
         },
         "timeoutSeconds": {
           "target": "smithy.api#Integer",
@@ -8512,31 +9479,534 @@
           }
         },
         "labels": {
-          "target": "com.huggingface.jobs#CreateScheduledJobRequestJobSpecLabelsMap",
+          "target": "com.huggingface.jobs#CreateScheduledJobRequestJobSpecCase0LabelsMap",
           "traits": {
-            "smithy.api#documentation": "Labels for the job as key-value pairs. Both keys and values must be max 100 characters and contain only alphanumeric characters, dots, dashes, and underscores."
+            "smithy.api#documentation": "Labels for the job as key-value pairs. Both keys and values must be max 100 characters and contain only alphanumeric characters, dashes, and underscores."
           }
         },
         "volumes": {
-          "target": "com.huggingface.jobs#CreateScheduledJobRequestJobSpecVolumesList",
+          "target": "com.huggingface.jobs#CreateScheduledJobRequestJobSpecCase0VolumesList",
           "traits": {
             "smithy.api#documentation": "HuggingFace Buckets or Repos to mount as volumes in the job container."
           }
         },
         "expose": {
-          "target": "com.huggingface.jobs#CreateScheduledJobRequestJobSpecExpose",
+          "target": "com.huggingface.jobs#CreateScheduledJobRequestJobSpecCase0Expose",
           "traits": {
             "smithy.api#documentation": "Ports to expose publicly through the jobs proxy. Each port is reachable at `https://<job_id>--<port>.<jobs-public-domain>`. Access requires a HF token with read access to the job's namespace, except for ports also listed in `portsPublic`."
           }
         },
         "ssh": {
-          "target": "com.huggingface.jobs#CreateScheduledJobRequestJobSpecSsh",
+          "target": "com.huggingface.jobs#CreateScheduledJobRequestJobSpecCase0Ssh",
           "traits": {
             "smithy.api#documentation": "When `enabled`, the job's container is reachable over SSH at `ssh <job_id>@ssh.hf.jobs`. Only the job's owner is allowed in, authenticated by an SSH public key registered on the Hub."
           }
         },
+        "network": {
+          "target": "com.huggingface.jobs#CreateScheduledJobRequestJobSpecCase0Network",
+          "traits": {
+            "smithy.api#documentation": "Opt-in network group. Jobs of the same owner and resource group sharing a group are placed together and reach each other on every port. Two environment variables are set in the container: `HF_NETWORK_GROUP_HOSTNAME`, a hostname resolving to every member of the group, and `HF_NETWORK_GROUP_PREFIX`, to which an alias is appended to get that alias' hostname."
+          }
+        },
         "resourceGroupId": {
           "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.huggingface.jobs#CreateScheduledJobRequestJobSpecCase1ArgumentsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.huggingface.jobs#CreateScheduledJobRequestJobSpecCase1CommandList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.huggingface.jobs#CreateScheduledJobRequestJobSpecCase1EnvironmentMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.huggingface.jobs#CreateScheduledJobRequestJobSpecCase1SecretsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.huggingface.jobs#CreateScheduledJobRequestJobSpecCase1Flavor": {
+      "type": "enum",
+      "members": {
+        "CPU_BASIC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cpu-basic"
+          }
+        },
+        "CPU_UPGRADE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cpu-upgrade"
+          }
+        },
+        "CPU_PERFORMANCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cpu-performance"
+          }
+        },
+        "CPU_XL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cpu-xl"
+          }
+        },
+        "SPRX8": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sprx8"
+          }
+        },
+        "ZERO_A10G": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "zero-a10g"
+          }
+        },
+        "T4_SMALL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "t4-small"
+          }
+        },
+        "T4_MEDIUM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "t4-medium"
+          }
+        },
+        "L4X1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "l4x1"
+          }
+        },
+        "L4X4": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "l4x4"
+          }
+        },
+        "L40SX1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "l40sx1"
+          }
+        },
+        "L40SX4": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "l40sx4"
+          }
+        },
+        "L40SX8": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "l40sx8"
+          }
+        },
+        "A10G_SMALL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "a10g-small"
+          }
+        },
+        "A10G_LARGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "a10g-large"
+          }
+        },
+        "A10G_LARGEX2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "a10g-largex2"
+          }
+        },
+        "A10G_LARGEX4": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "a10g-largex4"
+          }
+        },
+        "A100_LARGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "a100-large"
+          }
+        },
+        "A100X4": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "a100x4"
+          }
+        },
+        "A100X8": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "a100x8"
+          }
+        },
+        "H200": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "h200"
+          }
+        },
+        "H200X2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "h200x2"
+          }
+        },
+        "H200X4": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "h200x4"
+          }
+        },
+        "H200X8": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "h200x8"
+          }
+        },
+        "RTX_PRO_6000": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rtx-pro-6000"
+          }
+        },
+        "RTX_PRO_6000X2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rtx-pro-6000x2"
+          }
+        },
+        "RTX_PRO_6000X4": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rtx-pro-6000x4"
+          }
+        },
+        "RTX_PRO_6000X8": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rtx-pro-6000x8"
+          }
+        },
+        "INF2X6": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "inf2x6"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.huggingface.jobs#CreateScheduledJobRequestJobSpecCase1Arch": {
+      "type": "enum",
+      "members": {
+        "AMD64": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "amd64"
+          }
+        },
+        "ARM64": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "arm64"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.huggingface.jobs#CreateScheduledJobRequestJobSpecCase1LabelsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Labels for the job as key-value pairs. Both keys and values must be max 100 characters and contain only alphanumeric characters, dashes, and underscores."
+      }
+    },
+    "com.huggingface.jobs#CreateScheduledJobRequestJobSpecCase1VolumesItemType": {
+      "type": "enum",
+      "members": {
+        "BUCKET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bucket"
+          }
+        },
+        "MODEL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "model"
+          }
+        },
+        "DATASET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dataset"
+          }
+        },
+        "SPACE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "space"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.huggingface.jobs#CreateScheduledJobRequestJobSpecCase1VolumesItem": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.huggingface.jobs#CreateScheduledJobRequestJobSpecCase1VolumesItemType",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "source": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Source identifier, e.g. 'username/my-bucket' or 'username/my-model'",
+            "smithy.api#required": {}
+          }
+        },
+        "mountPath": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Mount path inside the container, e.g. '/data'",
+            "smithy.api#required": {}
+          }
+        },
+        "revision": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Git revision (only for repos, defaults to 'main')"
+          }
+        },
+        "readOnly": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Read-only mount (true for repos, false default for buckets)"
+          }
+        },
+        "path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Subfolder prefix inside the bucket/repo to mount, e.g. 'path/to/dir'"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.huggingface.jobs#CreateScheduledJobRequestJobSpecCase1VolumesList": {
+      "type": "list",
+      "member": {
+        "target": "com.huggingface.jobs#CreateScheduledJobRequestJobSpecCase1VolumesItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "HuggingFace Buckets or Repos to mount as volumes in the job container."
+      }
+    },
+    "com.huggingface.jobs#CreateScheduledJobRequestJobSpecCase1ExposePortsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Integer"
+      },
+      "traits": {}
+    },
+    "com.huggingface.jobs#CreateScheduledJobRequestJobSpecCase1ExposePortsPublicList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Integer"
+      },
+      "traits": {
+        "smithy.api#documentation": "Subset of `ports` reachable without any authentication."
+      }
+    },
+    "com.huggingface.jobs#CreateScheduledJobRequestJobSpecCase1Expose": {
+      "type": "structure",
+      "members": {
+        "ports": {
+          "target": "com.huggingface.jobs#CreateScheduledJobRequestJobSpecCase1ExposePortsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "portsPublic": {
+          "target": "com.huggingface.jobs#CreateScheduledJobRequestJobSpecCase1ExposePortsPublicList",
+          "traits": {
+            "smithy.api#documentation": "Subset of `ports` reachable without any authentication."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Ports to expose publicly through the jobs proxy. Each port is reachable at `https://<job_id>--<port>.<jobs-public-domain>`. Access requires a HF token with read access to the job's namespace, except for ports also listed in `portsPublic`."
+      }
+    },
+    "com.huggingface.jobs#CreateScheduledJobRequestJobSpecCase1Ssh": {
+      "type": "structure",
+      "members": {
+        "enabled": {
+          "target": "smithy.api#Boolean"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "When `enabled`, the job's container is reachable over SSH at `ssh <job_id>@ssh.hf.jobs`. Only the job's owner is allowed in, authenticated by an SSH public key registered on the Hub."
+      }
+    },
+    "com.huggingface.jobs#CreateScheduledJobRequestJobSpecCase1NetworkAliasesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Roles this job answers to. An alias names a role, not a job: several members may claim the same alias, which then resolves to all of them, and a member may claim several. Peers get the hostname by appending the alias to the `HF_NETWORK_GROUP_PREFIX` environment variable, which already ends with a separator."
+      }
+    },
+    "com.huggingface.jobs#CreateScheduledJobRequestJobSpecCase1Network": {
+      "type": "structure",
+      "members": {
+        "group": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Group name, scoped to the job's owner and resource group.",
+            "smithy.api#required": {}
+          }
+        },
+        "aliases": {
+          "target": "com.huggingface.jobs#CreateScheduledJobRequestJobSpecCase1NetworkAliasesList",
+          "traits": {
+            "smithy.api#documentation": "Roles this job answers to. An alias names a role, not a job: several members may claim the same alias, which then resolves to all of them, and a member may claim several. Peers get the hostname by appending the alias to the `HF_NETWORK_GROUP_PREFIX` environment variable, which already ends with a separator."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Opt-in network group. Jobs of the same owner and resource group sharing a group are placed together and reach each other on every port. Two environment variables are set in the container: `HF_NETWORK_GROUP_HOSTNAME`, a hostname resolving to every member of the group, and `HF_NETWORK_GROUP_PREFIX`, to which an alias is appended to get that alias' hostname."
+      }
+    },
+    "com.huggingface.jobs#CreateScheduledJobRequestJobSpecCase1": {
+      "type": "structure",
+      "members": {
+        "spaceId": {
+          "target": "smithy.api#String"
+        },
+        "dockerImage": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "arguments": {
+          "target": "com.huggingface.jobs#CreateScheduledJobRequestJobSpecCase1ArgumentsList"
+        },
+        "command": {
+          "target": "com.huggingface.jobs#CreateScheduledJobRequestJobSpecCase1CommandList"
+        },
+        "environment": {
+          "target": "com.huggingface.jobs#CreateScheduledJobRequestJobSpecCase1EnvironmentMap"
+        },
+        "secrets": {
+          "target": "com.huggingface.jobs#CreateScheduledJobRequestJobSpecCase1SecretsMap"
+        },
+        "flavor": {
+          "target": "com.huggingface.jobs#CreateScheduledJobRequestJobSpecCase1Flavor",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "arch": {
+          "target": "com.huggingface.jobs#CreateScheduledJobRequestJobSpecCase1Arch"
+        },
+        "timeoutSeconds": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "attempts": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Max number of attempts to make. For example, if you set this to 3, the job will be retried up to 2 times if it fails."
+          }
+        },
+        "labels": {
+          "target": "com.huggingface.jobs#CreateScheduledJobRequestJobSpecCase1LabelsMap",
+          "traits": {
+            "smithy.api#documentation": "Labels for the job as key-value pairs. Both keys and values must be max 100 characters and contain only alphanumeric characters, dashes, and underscores."
+          }
+        },
+        "volumes": {
+          "target": "com.huggingface.jobs#CreateScheduledJobRequestJobSpecCase1VolumesList",
+          "traits": {
+            "smithy.api#documentation": "HuggingFace Buckets or Repos to mount as volumes in the job container."
+          }
+        },
+        "expose": {
+          "target": "com.huggingface.jobs#CreateScheduledJobRequestJobSpecCase1Expose",
+          "traits": {
+            "smithy.api#documentation": "Ports to expose publicly through the jobs proxy. Each port is reachable at `https://<job_id>--<port>.<jobs-public-domain>`. Access requires a HF token with read access to the job's namespace, except for ports also listed in `portsPublic`."
+          }
+        },
+        "ssh": {
+          "target": "com.huggingface.jobs#CreateScheduledJobRequestJobSpecCase1Ssh",
+          "traits": {
+            "smithy.api#documentation": "When `enabled`, the job's container is reachable over SSH at `ssh <job_id>@ssh.hf.jobs`. Only the job's owner is allowed in, authenticated by an SSH public key registered on the Hub."
+          }
+        },
+        "network": {
+          "target": "com.huggingface.jobs#CreateScheduledJobRequestJobSpecCase1Network",
+          "traits": {
+            "smithy.api#documentation": "Opt-in network group. Jobs of the same owner and resource group sharing a group are placed together and reach each other on every port. Two environment variables are set in the container: `HF_NETWORK_GROUP_HOSTNAME`, a hostname resolving to every member of the group, and `HF_NETWORK_GROUP_PREFIX`, to which an alias is appended to get that alias' hostname."
+          }
+        },
+        "resourceGroupId": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.huggingface.jobs#CreateScheduledJobRequestJobSpec": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.huggingface.jobs#CreateScheduledJobRequestJobSpecCase0"
+        },
+        "Case1": {
+          "target": "com.huggingface.jobs#CreateScheduledJobRequestJobSpecCase1"
         }
       },
       "traits": {}
@@ -8642,6 +10112,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -8690,6 +10161,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -9027,12 +10499,44 @@
         "smithy.api#documentation": "Ports exposed through the jobs proxy (see `status.exposeUrls` for the reachable URLs)."
       }
     },
+    "com.huggingface.jobs#CreateScheduledJobResponseJobSpecNetworkAliasesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Roles this job answers to. An alias names a role, not a job: several members may claim the same alias, which then resolves to all of them, and a member may claim several. Peers get the hostname by appending the alias to the `HF_NETWORK_GROUP_PREFIX` environment variable, which already ends with a separator."
+      }
+    },
+    "com.huggingface.jobs#CreateScheduledJobResponseJobSpecNetwork": {
+      "type": "structure",
+      "members": {
+        "group": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Group name, scoped to the job's owner and resource group.",
+            "smithy.api#required": {}
+          }
+        },
+        "aliases": {
+          "target": "com.huggingface.jobs#CreateScheduledJobResponseJobSpecNetworkAliasesList",
+          "traits": {
+            "smithy.api#documentation": "Roles this job answers to. An alias names a role, not a job: several members may claim the same alias, which then resolves to all of them, and a member may claim several. Peers get the hostname by appending the alias to the `HF_NETWORK_GROUP_PREFIX` environment variable, which already ends with a separator.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Network group the job belongs to."
+      }
+    },
     "com.huggingface.jobs#CreateScheduledJobResponseJobSpecResourceGroup": {
       "type": "structure",
       "members": {
         "id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -9105,7 +10609,10 @@
           "target": "com.huggingface.jobs#CreateScheduledJobResponseJobSpecHfTokenTokenRole"
         },
         "tokenId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId."
+          }
         },
         "settingsUrl": {
           "target": "smithy.api#String"
@@ -9170,6 +10677,12 @@
             "smithy.api#documentation": "Ports exposed through the jobs proxy (see `status.exposeUrls` for the reachable URLs)."
           }
         },
+        "network": {
+          "target": "com.huggingface.jobs#CreateScheduledJobResponseJobSpecNetwork",
+          "traits": {
+            "smithy.api#documentation": "Network group the job belongs to."
+          }
+        },
         "resourceGroup": {
           "target": "com.huggingface.jobs#CreateScheduledJobResponseJobSpecResourceGroup"
         },
@@ -9228,7 +10741,7 @@
           }
         },
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -9267,7 +10780,7 @@
           "uri": "/api/scheduled-jobs/{namespace}",
           "code": 200
         },
-        "smithy.api#documentation": "Create a scheduled job"
+        "smithy.api#documentation": "Create scheduled job"
       }
     },
     "com.huggingface.jobs#GetScheduledJobRequest": {
@@ -9353,6 +10866,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -9401,6 +10915,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -9738,12 +11253,44 @@
         "smithy.api#documentation": "Ports exposed through the jobs proxy (see `status.exposeUrls` for the reachable URLs)."
       }
     },
+    "com.huggingface.jobs#GetScheduledJobResponseJobSpecNetworkAliasesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Roles this job answers to. An alias names a role, not a job: several members may claim the same alias, which then resolves to all of them, and a member may claim several. Peers get the hostname by appending the alias to the `HF_NETWORK_GROUP_PREFIX` environment variable, which already ends with a separator."
+      }
+    },
+    "com.huggingface.jobs#GetScheduledJobResponseJobSpecNetwork": {
+      "type": "structure",
+      "members": {
+        "group": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Group name, scoped to the job's owner and resource group.",
+            "smithy.api#required": {}
+          }
+        },
+        "aliases": {
+          "target": "com.huggingface.jobs#GetScheduledJobResponseJobSpecNetworkAliasesList",
+          "traits": {
+            "smithy.api#documentation": "Roles this job answers to. An alias names a role, not a job: several members may claim the same alias, which then resolves to all of them, and a member may claim several. Peers get the hostname by appending the alias to the `HF_NETWORK_GROUP_PREFIX` environment variable, which already ends with a separator.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Network group the job belongs to."
+      }
+    },
     "com.huggingface.jobs#GetScheduledJobResponseJobSpecResourceGroup": {
       "type": "structure",
       "members": {
         "id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -9816,7 +11363,10 @@
           "target": "com.huggingface.jobs#GetScheduledJobResponseJobSpecHfTokenTokenRole"
         },
         "tokenId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId."
+          }
         },
         "settingsUrl": {
           "target": "smithy.api#String"
@@ -9881,6 +11431,12 @@
             "smithy.api#documentation": "Ports exposed through the jobs proxy (see `status.exposeUrls` for the reachable URLs)."
           }
         },
+        "network": {
+          "target": "com.huggingface.jobs#GetScheduledJobResponseJobSpecNetwork",
+          "traits": {
+            "smithy.api#documentation": "Network group the job belongs to."
+          }
+        },
         "resourceGroup": {
           "target": "com.huggingface.jobs#GetScheduledJobResponseJobSpecResourceGroup"
         },
@@ -9939,7 +11495,7 @@
           }
         },
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -9978,7 +11534,7 @@
           "uri": "/api/scheduled-jobs/{namespace}/{jobId}",
           "code": 200
         },
-        "smithy.api#documentation": "Get a scheduled job"
+        "smithy.api#documentation": "Get scheduled job"
       }
     },
     "com.huggingface.jobs#DeleteScheduledJobRequest": {
@@ -10017,7 +11573,7 @@
           "uri": "/api/scheduled-jobs/{namespace}/{jobId}",
           "code": 200
         },
-        "smithy.api#documentation": "Delete a scheduled job"
+        "smithy.api#documentation": "Delete scheduled job"
       }
     },
     "com.huggingface.jobs#SuspendScheduledJobRequest": {
@@ -10056,7 +11612,7 @@
           "uri": "/api/scheduled-jobs/{namespace}/{jobId}/suspend",
           "code": 200
         },
-        "smithy.api#documentation": "Suspend a scheduled job"
+        "smithy.api#documentation": "Suspend scheduled job"
       }
     },
     "com.huggingface.jobs#ResumeScheduledJobRequest": {
@@ -10095,7 +11651,7 @@
           "uri": "/api/scheduled-jobs/{namespace}/{jobId}/resume",
           "code": 200
         },
-        "smithy.api#documentation": "Resume a scheduled job"
+        "smithy.api#documentation": "Resume scheduled job"
       }
     },
     "com.huggingface.jobs#RunJobRequest": {
@@ -10451,6 +12007,37 @@
         "smithy.api#documentation": "Ports exposed through the jobs proxy (see `status.exposeUrls` for the reachable URLs)."
       }
     },
+    "com.huggingface.jobs#RunJobResponseNetworkAliasesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Roles this job answers to. An alias names a role, not a job: several members may claim the same alias, which then resolves to all of them, and a member may claim several. Peers get the hostname by appending the alias to the `HF_NETWORK_GROUP_PREFIX` environment variable, which already ends with a separator."
+      }
+    },
+    "com.huggingface.jobs#RunJobResponseNetwork": {
+      "type": "structure",
+      "members": {
+        "group": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Group name, scoped to the job's owner and resource group.",
+            "smithy.api#required": {}
+          }
+        },
+        "aliases": {
+          "target": "com.huggingface.jobs#RunJobResponseNetworkAliasesList",
+          "traits": {
+            "smithy.api#documentation": "Roles this job answers to. An alias names a role, not a job: several members may claim the same alias, which then resolves to all of them, and a member may claim several. Peers get the hostname by appending the alias to the `HF_NETWORK_GROUP_PREFIX` environment variable, which already ends with a separator.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Network group the job belongs to."
+      }
+    },
     "com.huggingface.jobs#RunJobResponseOwnerType": {
       "type": "enum",
       "members": {
@@ -10475,6 +12062,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -10505,6 +12093,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -10544,6 +12133,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -10572,7 +12162,7 @@
       "type": "structure",
       "members": {
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -10590,7 +12180,7 @@
       "type": "structure",
       "members": {
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -10608,7 +12198,7 @@
       "type": "structure",
       "members": {
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -10701,6 +12291,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "RESOURCE_GROUP_LIMIT"
+          }
+        },
+        "SPEND_LIMIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SPEND_LIMIT"
           }
         }
       },
@@ -10821,7 +12417,10 @@
           "target": "com.huggingface.jobs#RunJobResponseHfTokenTokenRole"
         },
         "tokenId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId."
+          }
         },
         "settingsUrl": {
           "target": "smithy.api#String"
@@ -10904,8 +12503,14 @@
             "smithy.api#documentation": "Ports exposed through the jobs proxy (see `status.exposeUrls` for the reachable URLs)."
           }
         },
+        "network": {
+          "target": "com.huggingface.jobs#RunJobResponseNetwork",
+          "traits": {
+            "smithy.api#documentation": "Network group the job belongs to."
+          }
+        },
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -11054,6 +12659,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -11102,6 +12708,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -11439,12 +13046,44 @@
         "smithy.api#documentation": "Ports exposed through the jobs proxy (see `status.exposeUrls` for the reachable URLs)."
       }
     },
+    "com.huggingface.jobs#UpdateJobScheduleResponseJobSpecNetworkAliasesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Roles this job answers to. An alias names a role, not a job: several members may claim the same alias, which then resolves to all of them, and a member may claim several. Peers get the hostname by appending the alias to the `HF_NETWORK_GROUP_PREFIX` environment variable, which already ends with a separator."
+      }
+    },
+    "com.huggingface.jobs#UpdateJobScheduleResponseJobSpecNetwork": {
+      "type": "structure",
+      "members": {
+        "group": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Group name, scoped to the job's owner and resource group.",
+            "smithy.api#required": {}
+          }
+        },
+        "aliases": {
+          "target": "com.huggingface.jobs#UpdateJobScheduleResponseJobSpecNetworkAliasesList",
+          "traits": {
+            "smithy.api#documentation": "Roles this job answers to. An alias names a role, not a job: several members may claim the same alias, which then resolves to all of them, and a member may claim several. Peers get the hostname by appending the alias to the `HF_NETWORK_GROUP_PREFIX` environment variable, which already ends with a separator.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Network group the job belongs to."
+      }
+    },
     "com.huggingface.jobs#UpdateJobScheduleResponseJobSpecResourceGroup": {
       "type": "structure",
       "members": {
         "id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -11517,7 +13156,10 @@
           "target": "com.huggingface.jobs#UpdateJobScheduleResponseJobSpecHfTokenTokenRole"
         },
         "tokenId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId."
+          }
         },
         "settingsUrl": {
           "target": "smithy.api#String"
@@ -11582,6 +13224,12 @@
             "smithy.api#documentation": "Ports exposed through the jobs proxy (see `status.exposeUrls` for the reachable URLs)."
           }
         },
+        "network": {
+          "target": "com.huggingface.jobs#UpdateJobScheduleResponseJobSpecNetwork",
+          "traits": {
+            "smithy.api#documentation": "Network group the job belongs to."
+          }
+        },
         "resourceGroup": {
           "target": "com.huggingface.jobs#UpdateJobScheduleResponseJobSpecResourceGroup"
         },
@@ -11640,7 +13288,7 @@
           }
         },
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -11784,6 +13432,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -11832,6 +13481,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -12169,12 +13819,44 @@
         "smithy.api#documentation": "Ports exposed through the jobs proxy (see `status.exposeUrls` for the reachable URLs)."
       }
     },
+    "com.huggingface.jobs#UpdateScheduledJobLabelsResponseJobSpecNetworkAliasesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Roles this job answers to. An alias names a role, not a job: several members may claim the same alias, which then resolves to all of them, and a member may claim several. Peers get the hostname by appending the alias to the `HF_NETWORK_GROUP_PREFIX` environment variable, which already ends with a separator."
+      }
+    },
+    "com.huggingface.jobs#UpdateScheduledJobLabelsResponseJobSpecNetwork": {
+      "type": "structure",
+      "members": {
+        "group": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Group name, scoped to the job's owner and resource group.",
+            "smithy.api#required": {}
+          }
+        },
+        "aliases": {
+          "target": "com.huggingface.jobs#UpdateScheduledJobLabelsResponseJobSpecNetworkAliasesList",
+          "traits": {
+            "smithy.api#documentation": "Roles this job answers to. An alias names a role, not a job: several members may claim the same alias, which then resolves to all of them, and a member may claim several. Peers get the hostname by appending the alias to the `HF_NETWORK_GROUP_PREFIX` environment variable, which already ends with a separator.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Network group the job belongs to."
+      }
+    },
     "com.huggingface.jobs#UpdateScheduledJobLabelsResponseJobSpecResourceGroup": {
       "type": "structure",
       "members": {
         "id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -12247,7 +13929,10 @@
           "target": "com.huggingface.jobs#UpdateScheduledJobLabelsResponseJobSpecHfTokenTokenRole"
         },
         "tokenId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId."
+          }
         },
         "settingsUrl": {
           "target": "smithy.api#String"
@@ -12312,6 +13997,12 @@
             "smithy.api#documentation": "Ports exposed through the jobs proxy (see `status.exposeUrls` for the reachable URLs)."
           }
         },
+        "network": {
+          "target": "com.huggingface.jobs#UpdateScheduledJobLabelsResponseJobSpecNetwork",
+          "traits": {
+            "smithy.api#documentation": "Network group the job belongs to."
+          }
+        },
         "resourceGroup": {
           "target": "com.huggingface.jobs#UpdateScheduledJobLabelsResponseJobSpecResourceGroup"
         },
@@ -12370,7 +14061,7 @@
           }
         },
         "type": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -12409,7 +14100,7 @@
           "uri": "/api/scheduled-jobs/{namespace}/{jobId}/labels",
           "code": 200
         },
-        "smithy.api#documentation": "Update scheduled job labels\n\nReplace user-provided labels on a scheduled job"
+        "smithy.api#documentation": "Scheduled job labels\n\nReplace user-provided labels on a scheduled job"
       }
     },
     "com.huggingface.jobs#Conflict": {

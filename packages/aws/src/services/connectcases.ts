@@ -1,18 +1,15 @@
+import * as API from "@distilled.cloud/core/api";
+import * as S from "@distilled.cloud/core/schema";
 import * as HttpClient from "effect/http/HttpClient";
 import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
-import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
-const svc = T.AwsApiService({
-  sdkId: "ConnectCases",
-  serviceShapeName: "AmazonConnectCases",
-});
+import * as T from "../traits.ts";
+const svc = T.AwsApiService({ sdkId: "ConnectCases", serviceShapeName: "AmazonConnectCases" });
 const auth = T.AwsAuthSigv4({ name: "cases" });
 const ver = T.ServiceVersion("2022-10-03");
 const proto = T.AwsProtocolsRestJson1();
@@ -28,14 +25,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -58,27 +51,17 @@ const rules = T.EndpointResolver((p, _) => {
         }
         if (UseFIPS === true) {
           if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            return e(
-              `https://cases-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
+            return e(`https://cases-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
-            return e(
-              `https://cases.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
+            return e(`https://cases.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`);
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://cases.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://cases.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -109,11 +92,7 @@ export class InternalServerException
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",
-    {
-      message: S.String.pipe(T.ErrorMessage()),
-      resourceId: S.String,
-      resourceType: S.String,
-    },
+    { message: S.String.pipe(T.ErrorMessage()), resourceId: S.String, resourceType: S.String },
     T.HttpError(404),
   ).pipe(C.withBadRequestError) {}
 export class ServiceQuotaExceededException
@@ -141,9 +120,7 @@ export interface CaseRuleIdentifier {
 }
 export const CaseRuleIdentifier = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ id: S.String }),
-).annotate({
-  identifier: "CaseRuleIdentifier",
-}) as any as S.Schema<CaseRuleIdentifier>;
+).annotate({ identifier: "CaseRuleIdentifier" }) as any as S.Schema<CaseRuleIdentifier>;
 export type CaseRuleIdentifierList = CaseRuleIdentifier[];
 export const CaseRuleIdentifierList = /*@__PURE__*/ S.Array(CaseRuleIdentifier);
 export interface BatchGetCaseRuleRequest {
@@ -164,41 +141,20 @@ export const BatchGetCaseRuleRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "BatchGetCaseRuleRequest",
-}) as any as S.Schema<BatchGetCaseRuleRequest>;
+).annotate({ identifier: "BatchGetCaseRuleRequest" }) as any as S.Schema<BatchGetCaseRuleRequest>;
 export type CaseRuleName = string;
 export type CaseRuleArn = string;
 export type FieldId = string;
 export type OperandOne = { fieldId: string };
-export const OperandOne = /*@__PURE__*/ S.Union([
-  S.Struct({ fieldId: S.String }),
-]);
+export const OperandOne = /*@__PURE__*/ S.Union([S.Struct({ fieldId: S.String })]);
 export interface EmptyOperandValue {}
-export const EmptyOperandValue = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const EmptyOperandValue = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "EmptyOperandValue",
 }) as any as S.Schema<EmptyOperandValue>;
 export type OperandTwo =
-  | {
-      stringValue: string;
-      booleanValue?: never;
-      doubleValue?: never;
-      emptyValue?: never;
-    }
-  | {
-      stringValue?: never;
-      booleanValue: boolean;
-      doubleValue?: never;
-      emptyValue?: never;
-    }
-  | {
-      stringValue?: never;
-      booleanValue?: never;
-      doubleValue: number;
-      emptyValue?: never;
-    }
+  | { stringValue: string; booleanValue?: never; doubleValue?: never; emptyValue?: never }
+  | { stringValue?: never; booleanValue: boolean; doubleValue?: never; emptyValue?: never }
+  | { stringValue?: never; booleanValue?: never; doubleValue: number; emptyValue?: never }
   | {
       stringValue?: never;
       booleanValue?: never;
@@ -217,14 +173,8 @@ export interface BooleanOperands {
   result: boolean;
 }
 export const BooleanOperands = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    operandOne: OperandOne,
-    operandTwo: OperandTwo,
-    result: S.Boolean,
-  }),
-).annotate({
-  identifier: "BooleanOperands",
-}) as any as S.Schema<BooleanOperands>;
+  S.Struct({ operandOne: OperandOne, operandTwo: OperandTwo, result: S.Boolean }),
+).annotate({ identifier: "BooleanOperands" }) as any as S.Schema<BooleanOperands>;
 export interface CompoundCondition {
   conditions: BooleanCondition[];
 }
@@ -234,53 +184,29 @@ export const CompoundCondition = /*@__PURE__*/ S.suspend(() =>
       identifier: "BooleanConditionList",
     }),
   }),
-).annotate({
-  identifier: "CompoundCondition",
-}) as any as S.Schema<CompoundCondition>;
+).annotate({ identifier: "CompoundCondition" }) as any as S.Schema<CompoundCondition>;
 export type BooleanCondition =
-  | {
-      equalTo: BooleanOperands;
-      notEqualTo?: never;
-      andAll?: never;
-      orAll?: never;
-    }
-  | {
-      equalTo?: never;
-      notEqualTo: BooleanOperands;
-      andAll?: never;
-      orAll?: never;
-    }
-  | {
-      equalTo?: never;
-      notEqualTo?: never;
-      andAll: CompoundCondition;
-      orAll?: never;
-    }
-  | {
-      equalTo?: never;
-      notEqualTo?: never;
-      andAll?: never;
-      orAll: CompoundCondition;
-    };
+  | { equalTo: BooleanOperands; notEqualTo?: never; andAll?: never; orAll?: never }
+  | { equalTo?: never; notEqualTo: BooleanOperands; andAll?: never; orAll?: never }
+  | { equalTo?: never; notEqualTo?: never; andAll: CompoundCondition; orAll?: never }
+  | { equalTo?: never; notEqualTo?: never; andAll?: never; orAll: CompoundCondition };
 export const BooleanCondition = /*@__PURE__*/ S.Union([
   S.Struct({ equalTo: BooleanOperands }),
   S.Struct({ notEqualTo: BooleanOperands }),
   S.Struct({
-    andAll: S.suspend(
-      (): S.Schema<CompoundCondition> => CompoundCondition,
-    ).annotate({ identifier: "CompoundCondition" }),
+    andAll: S.suspend((): S.Schema<CompoundCondition> => CompoundCondition).annotate({
+      identifier: "CompoundCondition",
+    }),
   }),
   S.Struct({
-    orAll: S.suspend(
-      (): S.Schema<CompoundCondition> => CompoundCondition,
-    ).annotate({ identifier: "CompoundCondition" }),
+    orAll: S.suspend((): S.Schema<CompoundCondition> => CompoundCondition).annotate({
+      identifier: "CompoundCondition",
+    }),
   }),
 ]) as any as S.Schema<BooleanCondition>;
 export type BooleanConditionList = BooleanCondition[];
 export const BooleanConditionList = /*@__PURE__*/ S.Array(
-  S.suspend(() => BooleanCondition).annotate({
-    identifier: "BooleanCondition",
-  }),
+  S.suspend(() => BooleanCondition).annotate({ identifier: "BooleanCondition" }),
 ) as any as S.Schema<BooleanConditionList>;
 export interface RequiredCaseRule {
   defaultValue: boolean;
@@ -288,9 +214,7 @@ export interface RequiredCaseRule {
 }
 export const RequiredCaseRule = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ defaultValue: S.Boolean, conditions: BooleanConditionList }),
-).annotate({
-  identifier: "RequiredCaseRule",
-}) as any as S.Schema<RequiredCaseRule>;
+).annotate({ identifier: "RequiredCaseRule" }) as any as S.Schema<RequiredCaseRule>;
 export type ParentChildFieldOptionValue = string;
 export type ParentChildFieldOptionValueList = string[];
 export const ParentChildFieldOptionValueList = /*@__PURE__*/ S.Array(S.String);
@@ -306,8 +230,7 @@ export const ParentChildFieldOptionsMapping = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ParentChildFieldOptionsMapping",
 }) as any as S.Schema<ParentChildFieldOptionsMapping>;
-export type ParentChildFieldOptionsMappingList =
-  ParentChildFieldOptionsMapping[];
+export type ParentChildFieldOptionsMappingList = ParentChildFieldOptionsMapping[];
 export const ParentChildFieldOptionsMappingList = /*@__PURE__*/ S.Array(
   ParentChildFieldOptionsMapping,
 );
@@ -322,9 +245,7 @@ export const FieldOptionsCaseRule = /*@__PURE__*/ S.suspend(() =>
     childFieldId: S.optional(S.String),
     parentChildFieldOptionsMappings: ParentChildFieldOptionsMappingList,
   }),
-).annotate({
-  identifier: "FieldOptionsCaseRule",
-}) as any as S.Schema<FieldOptionsCaseRule>;
+).annotate({ identifier: "FieldOptionsCaseRule" }) as any as S.Schema<FieldOptionsCaseRule>;
 export interface HiddenCaseRule {
   defaultValue: boolean;
   conditions: BooleanCondition[];
@@ -346,10 +267,7 @@ export type Deleted = boolean;
 export type CreatedTime = Date;
 export type LastModifiedTime = Date;
 export type Tags = { [key: string]: string | undefined };
-export const Tags = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-).pipe(T.Sparse());
+export const Tags = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional)).pipe(T.Sparse());
 export interface GetCaseRuleResponse {
   caseRuleId: string;
   name: string;
@@ -369,17 +287,11 @@ export const GetCaseRuleResponse = /*@__PURE__*/ S.suspend(() =>
     rule: CaseRuleDetails,
     description: S.optional(S.String),
     deleted: S.optional(S.Boolean),
-    createdTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    lastModifiedTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    createdTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    lastModifiedTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     tags: S.optional(Tags),
   }),
-).annotate({
-  identifier: "GetCaseRuleResponse",
-}) as any as S.Schema<GetCaseRuleResponse>;
+).annotate({ identifier: "GetCaseRuleResponse" }) as any as S.Schema<GetCaseRuleResponse>;
 export type BatchGetCaseRuleList = GetCaseRuleResponse[];
 export const BatchGetCaseRuleList = /*@__PURE__*/ S.Array(GetCaseRuleResponse);
 export interface CaseRuleError {
@@ -388,11 +300,7 @@ export interface CaseRuleError {
   message?: string;
 }
 export const CaseRuleError = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    errorCode: S.String,
-    message: S.optional(S.String),
-  }),
+  S.Struct({ id: S.String, errorCode: S.String, message: S.optional(S.String) }),
 ).annotate({ identifier: "CaseRuleError" }) as any as S.Schema<CaseRuleError>;
 export type BatchGetCaseRuleErrorList = CaseRuleError[];
 export const BatchGetCaseRuleErrorList = /*@__PURE__*/ S.Array(CaseRuleError);
@@ -409,20 +317,15 @@ export const BatchGetCaseRuleResponse = /*@__PURE__*/ S.suspend(() =>
     errors: BatchGetCaseRuleErrorList,
     unprocessedCaseRules: S.optional(BatchGetCaseRuleUnprocessedList),
   }),
-).annotate({
-  identifier: "BatchGetCaseRuleResponse",
-}) as any as S.Schema<BatchGetCaseRuleResponse>;
+).annotate({ identifier: "BatchGetCaseRuleResponse" }) as any as S.Schema<BatchGetCaseRuleResponse>;
 export interface FieldIdentifier {
   id: string;
 }
-export const FieldIdentifier = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ id: S.String }),
-).annotate({
+export const FieldIdentifier = /*@__PURE__*/ S.suspend(() => S.Struct({ id: S.String })).annotate({
   identifier: "FieldIdentifier",
 }) as any as S.Schema<FieldIdentifier>;
 export type BatchGetFieldIdentifierList = FieldIdentifier[];
-export const BatchGetFieldIdentifierList =
-  /*@__PURE__*/ S.Array(FieldIdentifier);
+export const BatchGetFieldIdentifierList = /*@__PURE__*/ S.Array(FieldIdentifier);
 export interface BatchGetFieldRequest {
   domainId: string;
   fields: FieldIdentifier[];
@@ -441,9 +344,7 @@ export const BatchGetFieldRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "BatchGetFieldRequest",
-}) as any as S.Schema<BatchGetFieldRequest>;
+).annotate({ identifier: "BatchGetFieldRequest" }) as any as S.Schema<BatchGetFieldRequest>;
 export type FieldName = string;
 export type FieldArn = string;
 export type FieldDescription = string;
@@ -456,9 +357,7 @@ export const TextAttributes = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ isMultiline: S.Boolean }),
 ).annotate({ identifier: "TextAttributes" }) as any as S.Schema<TextAttributes>;
 export type FieldAttributes = { text: TextAttributes };
-export const FieldAttributes = /*@__PURE__*/ S.Union([
-  S.Struct({ text: TextAttributes }),
-]);
+export const FieldAttributes = /*@__PURE__*/ S.Union([S.Struct({ text: TextAttributes })]);
 export interface GetFieldResponse {
   fieldId: string;
   name: string;
@@ -482,17 +381,11 @@ export const GetFieldResponse = /*@__PURE__*/ S.suspend(() =>
     namespace: S.String,
     tags: S.optional(Tags),
     deleted: S.optional(S.Boolean),
-    createdTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    lastModifiedTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    createdTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    lastModifiedTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     attributes: S.optional(FieldAttributes),
   }),
-).annotate({
-  identifier: "GetFieldResponse",
-}) as any as S.Schema<GetFieldResponse>;
+).annotate({ identifier: "GetFieldResponse" }) as any as S.Schema<GetFieldResponse>;
 export type BatchGetFieldList = GetFieldResponse[];
 export const BatchGetFieldList = /*@__PURE__*/ S.Array(GetFieldResponse);
 export interface FieldError {
@@ -501,11 +394,7 @@ export interface FieldError {
   message?: string;
 }
 export const FieldError = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    errorCode: S.String,
-    message: S.optional(S.String),
-  }),
+  S.Struct({ id: S.String, errorCode: S.String, message: S.optional(S.String) }),
 ).annotate({ identifier: "FieldError" }) as any as S.Schema<FieldError>;
 export type BatchGetFieldErrorList = FieldError[];
 export const BatchGetFieldErrorList = /*@__PURE__*/ S.Array(FieldError);
@@ -515,9 +404,7 @@ export interface BatchGetFieldResponse {
 }
 export const BatchGetFieldResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ fields: BatchGetFieldList, errors: BatchGetFieldErrorList }),
-).annotate({
-  identifier: "BatchGetFieldResponse",
-}) as any as S.Schema<BatchGetFieldResponse>;
+).annotate({ identifier: "BatchGetFieldResponse" }) as any as S.Schema<BatchGetFieldResponse>;
 export type FieldOptionName = string;
 export type FieldOptionValue = string;
 export interface FieldOption {
@@ -542,10 +429,7 @@ export const BatchPutFieldOptionsRequest = /*@__PURE__*/ S.suspend(() =>
     options: FieldOptionsList,
   }).pipe(
     T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/domains/{domainId}/fields/{fieldId}/options",
-      }),
+      T.Http({ method: "PUT", uri: "/domains/{domainId}/fields/{fieldId}/options" }),
       svc,
       auth,
       proto,
@@ -563,9 +447,7 @@ export interface FieldOptionError {
 }
 export const FieldOptionError = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ message: S.String, errorCode: S.String, value: S.String }),
-).annotate({
-  identifier: "FieldOptionError",
-}) as any as S.Schema<FieldOptionError>;
+).annotate({ identifier: "FieldOptionError" }) as any as S.Schema<FieldOptionError>;
 export type FieldOptionErrorList = FieldOptionError[];
 export const FieldOptionErrorList = /*@__PURE__*/ S.Array(FieldOptionError);
 export interface BatchPutFieldOptionsResponse {
@@ -578,9 +460,7 @@ export const BatchPutFieldOptionsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<BatchPutFieldOptionsResponse>;
 export type TemplateId = string;
 export interface EmptyFieldValue {}
-export const EmptyFieldValue = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const EmptyFieldValue = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "EmptyFieldValue",
 }) as any as S.Schema<EmptyFieldValue>;
 export type FieldValueUnion =
@@ -647,10 +527,7 @@ export const UserUnion = /*@__PURE__*/ S.Union([
 export type MutableTagKey = string;
 export type TagValueString = string;
 export type MutableTags = { [key: string]: string | undefined };
-export const MutableTags = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const MutableTags = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface CreateCaseRequest {
   domainId: string;
   templateId: string;
@@ -677,9 +554,7 @@ export const CreateCaseRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "CreateCaseRequest",
-}) as any as S.Schema<CreateCaseRequest>;
+).annotate({ identifier: "CreateCaseRequest" }) as any as S.Schema<CreateCaseRequest>;
 export type CaseId = string;
 export type CaseArn = string;
 export interface CreateCaseResponse {
@@ -688,9 +563,7 @@ export interface CreateCaseResponse {
 }
 export const CreateCaseResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ caseId: S.String, caseArn: S.String }),
-).annotate({
-  identifier: "CreateCaseResponse",
-}) as any as S.Schema<CreateCaseResponse>;
+).annotate({ identifier: "CreateCaseResponse" }) as any as S.Schema<CreateCaseResponse>;
 export interface CreateCaseRuleRequest {
   domainId: string;
   name: string;
@@ -713,36 +586,23 @@ export const CreateCaseRuleRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "CreateCaseRuleRequest",
-}) as any as S.Schema<CreateCaseRuleRequest>;
+).annotate({ identifier: "CreateCaseRuleRequest" }) as any as S.Schema<CreateCaseRuleRequest>;
 export interface CreateCaseRuleResponse {
   caseRuleId: string;
   caseRuleArn: string;
 }
 export const CreateCaseRuleResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ caseRuleId: S.String, caseRuleArn: S.String }),
-).annotate({
-  identifier: "CreateCaseRuleResponse",
-}) as any as S.Schema<CreateCaseRuleResponse>;
+).annotate({ identifier: "CreateCaseRuleResponse" }) as any as S.Schema<CreateCaseRuleResponse>;
 export type DomainName = string;
 export interface CreateDomainRequest {
   name: string;
 }
 export const CreateDomainRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ name: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/domains" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/domains" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "CreateDomainRequest",
-}) as any as S.Schema<CreateDomainRequest>;
+).annotate({ identifier: "CreateDomainRequest" }) as any as S.Schema<CreateDomainRequest>;
 export type DomainArn = string;
 export type DomainStatus = string;
 export interface CreateDomainResponse {
@@ -752,9 +612,7 @@ export interface CreateDomainResponse {
 }
 export const CreateDomainResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ domainId: S.String, domainArn: S.String, domainStatus: S.String }),
-).annotate({
-  identifier: "CreateDomainResponse",
-}) as any as S.Schema<CreateDomainResponse>;
+).annotate({ identifier: "CreateDomainResponse" }) as any as S.Schema<CreateDomainResponse>;
 export interface CreateFieldRequest {
   domainId: string;
   name: string;
@@ -779,25 +637,21 @@ export const CreateFieldRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "CreateFieldRequest",
-}) as any as S.Schema<CreateFieldRequest>;
+).annotate({ identifier: "CreateFieldRequest" }) as any as S.Schema<CreateFieldRequest>;
 export interface CreateFieldResponse {
   fieldId: string;
   fieldArn: string;
 }
 export const CreateFieldResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ fieldId: S.String, fieldArn: S.String }),
-).annotate({
-  identifier: "CreateFieldResponse",
-}) as any as S.Schema<CreateFieldResponse>;
+).annotate({ identifier: "CreateFieldResponse" }) as any as S.Schema<CreateFieldResponse>;
 export type LayoutName = string;
 export interface FieldItem {
   id: string;
 }
-export const FieldItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ id: S.String }),
-).annotate({ identifier: "FieldItem" }) as any as S.Schema<FieldItem>;
+export const FieldItem = /*@__PURE__*/ S.suspend(() => S.Struct({ id: S.String })).annotate({
+  identifier: "FieldItem",
+}) as any as S.Schema<FieldItem>;
 export type FieldList = FieldItem[];
 export const FieldList = /*@__PURE__*/ S.Array(FieldItem);
 export interface FieldGroup {
@@ -808,9 +662,7 @@ export const FieldGroup = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ name: S.optional(S.String), fields: FieldList }),
 ).annotate({ identifier: "FieldGroup" }) as any as S.Schema<FieldGroup>;
 export type Section = { fieldGroup: FieldGroup };
-export const Section = /*@__PURE__*/ S.Union([
-  S.Struct({ fieldGroup: FieldGroup }),
-]);
+export const Section = /*@__PURE__*/ S.Union([S.Struct({ fieldGroup: FieldGroup })]);
 export type SectionsList = Section[];
 export const SectionsList = /*@__PURE__*/ S.Array(Section);
 export interface LayoutSections {
@@ -824,15 +676,10 @@ export interface BasicLayout {
   moreInfo?: LayoutSections;
 }
 export const BasicLayout = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    topPanel: S.optional(LayoutSections),
-    moreInfo: S.optional(LayoutSections),
-  }),
+  S.Struct({ topPanel: S.optional(LayoutSections), moreInfo: S.optional(LayoutSections) }),
 ).annotate({ identifier: "BasicLayout" }) as any as S.Schema<BasicLayout>;
 export type LayoutContent = { basic: BasicLayout };
-export const LayoutContent = /*@__PURE__*/ S.Union([
-  S.Struct({ basic: BasicLayout }),
-]);
+export const LayoutContent = /*@__PURE__*/ S.Union([S.Struct({ basic: BasicLayout })]);
 export interface CreateLayoutRequest {
   domainId: string;
   name: string;
@@ -853,9 +700,7 @@ export const CreateLayoutRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "CreateLayoutRequest",
-}) as any as S.Schema<CreateLayoutRequest>;
+).annotate({ identifier: "CreateLayoutRequest" }) as any as S.Schema<CreateLayoutRequest>;
 export type LayoutId = string;
 export type LayoutArn = string;
 export interface CreateLayoutResponse {
@@ -864,17 +709,15 @@ export interface CreateLayoutResponse {
 }
 export const CreateLayoutResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ layoutId: S.String, layoutArn: S.String }),
-).annotate({
-  identifier: "CreateLayoutResponse",
-}) as any as S.Schema<CreateLayoutResponse>;
+).annotate({ identifier: "CreateLayoutResponse" }) as any as S.Schema<CreateLayoutResponse>;
 export type RelatedItemType = string;
 export type ContactArn = string;
 export interface Contact {
   contactArn: string;
 }
-export const Contact = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ contactArn: S.String }),
-).annotate({ identifier: "Contact" }) as any as S.Schema<Contact>;
+export const Contact = /*@__PURE__*/ S.suspend(() => S.Struct({ contactArn: S.String })).annotate({
+  identifier: "Contact",
+}) as any as S.Schema<Contact>;
 export type CommentBody = string;
 export type CommentBodyTextType = string;
 export interface CommentContent {
@@ -888,9 +731,9 @@ export type FileArn = string;
 export interface FileContent {
   fileArn: string;
 }
-export const FileContent = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ fileArn: S.String }),
-).annotate({ identifier: "FileContent" }) as any as S.Schema<FileContent>;
+export const FileContent = /*@__PURE__*/ S.suspend(() => S.Struct({ fileArn: S.String })).annotate({
+  identifier: "FileContent",
+}) as any as S.Schema<FileContent>;
 export type SlaName = string | redacted.Redacted<string>;
 export type SlaType = string;
 export type SlaFieldValueUnionList = FieldValueUnion[];
@@ -911,9 +754,7 @@ export const SlaInputConfiguration = /*@__PURE__*/ S.suspend(() =>
     targetFieldValues: S.optional(SlaFieldValueUnionList),
     targetSlaMinutes: S.Number,
   }),
-).annotate({
-  identifier: "SlaInputConfiguration",
-}) as any as S.Schema<SlaInputConfiguration>;
+).annotate({ identifier: "SlaInputConfiguration" }) as any as S.Schema<SlaInputConfiguration>;
 export type SlaInputContent = { slaInputConfiguration: SlaInputConfiguration };
 export const SlaInputContent = /*@__PURE__*/ S.Union([
   S.Struct({ slaInputConfiguration: SlaInputConfiguration }),
@@ -923,17 +764,13 @@ export interface ConnectCaseInputContent {
 }
 export const ConnectCaseInputContent = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ caseId: S.String }),
-).annotate({
-  identifier: "ConnectCaseInputContent",
-}) as any as S.Schema<ConnectCaseInputContent>;
+).annotate({ identifier: "ConnectCaseInputContent" }) as any as S.Schema<ConnectCaseInputContent>;
 export interface CustomInputContent {
   fields: FieldValue[];
 }
 export const CustomInputContent = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ fields: FieldValueList }),
-).annotate({
-  identifier: "CustomInputContent",
-}) as any as S.Schema<CustomInputContent>;
+).annotate({ identifier: "CustomInputContent" }) as any as S.Schema<CustomInputContent>;
 export type RelatedItemInputContent =
   | {
       contact: Contact;
@@ -1007,10 +844,7 @@ export const CreateRelatedItemRequest = /*@__PURE__*/ S.suspend(() =>
     performedBy: S.optional(UserUnion),
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/domains/{domainId}/cases/{caseId}/related-items/",
-      }),
+      T.Http({ method: "POST", uri: "/domains/{domainId}/cases/{caseId}/related-items/" }),
       svc,
       auth,
       proto,
@@ -1018,9 +852,7 @@ export const CreateRelatedItemRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "CreateRelatedItemRequest",
-}) as any as S.Schema<CreateRelatedItemRequest>;
+).annotate({ identifier: "CreateRelatedItemRequest" }) as any as S.Schema<CreateRelatedItemRequest>;
 export type RelatedItemId = string;
 export type RelatedItemArn = string;
 export interface CreateRelatedItemResponse {
@@ -1039,9 +871,7 @@ export interface LayoutConfiguration {
 }
 export const LayoutConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ defaultLayout: S.optional(S.String) }),
-).annotate({
-  identifier: "LayoutConfiguration",
-}) as any as S.Schema<LayoutConfiguration>;
+).annotate({ identifier: "LayoutConfiguration" }) as any as S.Schema<LayoutConfiguration>;
 export interface RequiredField {
   fieldId: string;
 }
@@ -1071,9 +901,7 @@ export const TagPropagationConfiguration = /*@__PURE__*/ S.suspend(() =>
   identifier: "TagPropagationConfiguration",
 }) as any as S.Schema<TagPropagationConfiguration>;
 export type TagPropagationConfigurationList = TagPropagationConfiguration[];
-export const TagPropagationConfigurationList = /*@__PURE__*/ S.Array(
-  TagPropagationConfiguration,
-);
+export const TagPropagationConfigurationList = /*@__PURE__*/ S.Array(TagPropagationConfiguration);
 export interface CreateTemplateRequest {
   domainId: string;
   name: string;
@@ -1104,9 +932,7 @@ export const CreateTemplateRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "CreateTemplateRequest",
-}) as any as S.Schema<CreateTemplateRequest>;
+).annotate({ identifier: "CreateTemplateRequest" }) as any as S.Schema<CreateTemplateRequest>;
 export type TemplateArn = string;
 export interface CreateTemplateResponse {
   templateId: string;
@@ -1114,9 +940,7 @@ export interface CreateTemplateResponse {
 }
 export const CreateTemplateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ templateId: S.String, templateArn: S.String }),
-).annotate({
-  identifier: "CreateTemplateResponse",
-}) as any as S.Schema<CreateTemplateResponse>;
+).annotate({ identifier: "CreateTemplateResponse" }) as any as S.Schema<CreateTemplateResponse>;
 export interface DeleteCaseRequest {
   domainId: string;
   caseId: string;
@@ -1135,13 +959,9 @@ export const DeleteCaseRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteCaseRequest",
-}) as any as S.Schema<DeleteCaseRequest>;
+).annotate({ identifier: "DeleteCaseRequest" }) as any as S.Schema<DeleteCaseRequest>;
 export interface DeleteCaseResponse {}
-export const DeleteCaseResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteCaseResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteCaseResponse",
 }) as any as S.Schema<DeleteCaseResponse>;
 export interface DeleteCaseRuleRequest {
@@ -1154,10 +974,7 @@ export const DeleteCaseRuleRequest = /*@__PURE__*/ S.suspend(() =>
     caseRuleId: S.String.pipe(T.HttpLabel("caseRuleId")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/domains/{domainId}/case-rules/{caseRuleId}",
-      }),
+      T.Http({ method: "DELETE", uri: "/domains/{domainId}/case-rules/{caseRuleId}" }),
       svc,
       auth,
       proto,
@@ -1165,13 +982,9 @@ export const DeleteCaseRuleRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteCaseRuleRequest",
-}) as any as S.Schema<DeleteCaseRuleRequest>;
+).annotate({ identifier: "DeleteCaseRuleRequest" }) as any as S.Schema<DeleteCaseRuleRequest>;
 export interface DeleteCaseRuleResponse {}
-export const DeleteCaseRuleResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteCaseRuleResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteCaseRuleResponse",
 }) as any as S.Schema<DeleteCaseRuleResponse>;
 export interface DeleteDomainRequest {
@@ -1179,22 +992,11 @@ export interface DeleteDomainRequest {
 }
 export const DeleteDomainRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ domainId: S.String.pipe(T.HttpLabel("domainId")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/domains/{domainId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/domains/{domainId}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteDomainRequest",
-}) as any as S.Schema<DeleteDomainRequest>;
+).annotate({ identifier: "DeleteDomainRequest" }) as any as S.Schema<DeleteDomainRequest>;
 export interface DeleteDomainResponse {}
-export const DeleteDomainResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteDomainResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteDomainResponse",
 }) as any as S.Schema<DeleteDomainResponse>;
 export interface DeleteFieldRequest {
@@ -1215,13 +1017,9 @@ export const DeleteFieldRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteFieldRequest",
-}) as any as S.Schema<DeleteFieldRequest>;
+).annotate({ identifier: "DeleteFieldRequest" }) as any as S.Schema<DeleteFieldRequest>;
 export interface DeleteFieldResponse {}
-export const DeleteFieldResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteFieldResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteFieldResponse",
 }) as any as S.Schema<DeleteFieldResponse>;
 export interface DeleteLayoutRequest {
@@ -1234,10 +1032,7 @@ export const DeleteLayoutRequest = /*@__PURE__*/ S.suspend(() =>
     layoutId: S.String.pipe(T.HttpLabel("layoutId")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/domains/{domainId}/layouts/{layoutId}",
-      }),
+      T.Http({ method: "DELETE", uri: "/domains/{domainId}/layouts/{layoutId}" }),
       svc,
       auth,
       proto,
@@ -1245,13 +1040,9 @@ export const DeleteLayoutRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteLayoutRequest",
-}) as any as S.Schema<DeleteLayoutRequest>;
+).annotate({ identifier: "DeleteLayoutRequest" }) as any as S.Schema<DeleteLayoutRequest>;
 export interface DeleteLayoutResponse {}
-export const DeleteLayoutResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteLayoutResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteLayoutResponse",
 }) as any as S.Schema<DeleteLayoutResponse>;
 export interface DeleteRelatedItemRequest {
@@ -1277,13 +1068,9 @@ export const DeleteRelatedItemRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteRelatedItemRequest",
-}) as any as S.Schema<DeleteRelatedItemRequest>;
+).annotate({ identifier: "DeleteRelatedItemRequest" }) as any as S.Schema<DeleteRelatedItemRequest>;
 export interface DeleteRelatedItemResponse {}
-export const DeleteRelatedItemResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteRelatedItemResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteRelatedItemResponse",
 }) as any as S.Schema<DeleteRelatedItemResponse>;
 export interface DeleteTemplateRequest {
@@ -1296,10 +1083,7 @@ export const DeleteTemplateRequest = /*@__PURE__*/ S.suspend(() =>
     templateId: S.String.pipe(T.HttpLabel("templateId")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/domains/{domainId}/templates/{templateId}",
-      }),
+      T.Http({ method: "DELETE", uri: "/domains/{domainId}/templates/{templateId}" }),
       svc,
       auth,
       proto,
@@ -1307,13 +1091,9 @@ export const DeleteTemplateRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteTemplateRequest",
-}) as any as S.Schema<DeleteTemplateRequest>;
+).annotate({ identifier: "DeleteTemplateRequest" }) as any as S.Schema<DeleteTemplateRequest>;
 export interface DeleteTemplateResponse {}
-export const DeleteTemplateResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteTemplateResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteTemplateResponse",
 }) as any as S.Schema<DeleteTemplateResponse>;
 export type FieldIdentifierList = FieldIdentifier[];
@@ -1355,9 +1135,7 @@ export const GetCaseResponse = /*@__PURE__*/ S.suspend(() =>
     nextToken: S.optional(S.String),
     tags: S.optional(Tags),
   }),
-).annotate({
-  identifier: "GetCaseResponse",
-}) as any as S.Schema<GetCaseResponse>;
+).annotate({ identifier: "GetCaseResponse" }) as any as S.Schema<GetCaseResponse>;
 export interface GetCaseAuditEventsRequest {
   caseId: string;
   domainId: string;
@@ -1372,10 +1150,7 @@ export const GetCaseAuditEventsRequest = /*@__PURE__*/ S.suspend(() =>
     nextToken: S.optional(S.String),
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/domains/{domainId}/cases/{caseId}/audit-history",
-      }),
+      T.Http({ method: "POST", uri: "/domains/{domainId}/cases/{caseId}/audit-history" }),
       svc,
       auth,
       proto,
@@ -1444,13 +1219,9 @@ export const AuditEventField = /*@__PURE__*/ S.suspend(() =>
     oldValue: S.optional(AuditEventFieldValueUnion),
     newValue: AuditEventFieldValueUnion,
   }),
-).annotate({
-  identifier: "AuditEventField",
-}) as any as S.Schema<AuditEventField>;
+).annotate({ identifier: "AuditEventField" }) as any as S.Schema<AuditEventField>;
 export type AuditEventFieldList = AuditEventField[];
-export const AuditEventFieldList = /*@__PURE__*/ S.Array(AuditEventField).pipe(
-  T.Sparse(),
-);
+export const AuditEventFieldList = /*@__PURE__*/ S.Array(AuditEventField).pipe(T.Sparse());
 export type IamPrincipalArn = string;
 export interface AuditEventPerformedBy {
   user?: UserUnion;
@@ -1458,9 +1229,7 @@ export interface AuditEventPerformedBy {
 }
 export const AuditEventPerformedBy = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ user: S.optional(UserUnion), iamPrincipalArn: S.String }),
-).annotate({
-  identifier: "AuditEventPerformedBy",
-}) as any as S.Schema<AuditEventPerformedBy>;
+).annotate({ identifier: "AuditEventPerformedBy" }) as any as S.Schema<AuditEventPerformedBy>;
 export interface AuditEvent {
   eventId: string;
   type: string;
@@ -1480,9 +1249,7 @@ export const AuditEvent = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "AuditEvent" }) as any as S.Schema<AuditEvent>;
 export type AuditEventsList = AuditEvent[];
-export const AuditEventsList = /*@__PURE__*/ S.Array(AuditEvent).pipe(
-  T.Sparse(),
-);
+export const AuditEventsList = /*@__PURE__*/ S.Array(AuditEvent).pipe(T.Sparse());
 export interface GetCaseAuditEventsResponse {
   nextToken?: string;
   auditEvents: AuditEvent[];
@@ -1498,10 +1265,7 @@ export interface GetCaseEventConfigurationRequest {
 export const GetCaseEventConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ domainId: S.String.pipe(T.HttpLabel("domainId")) }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/domains/{domainId}/case-event-configuration",
-      }),
+      T.Http({ method: "POST", uri: "/domains/{domainId}/case-event-configuration" }),
       svc,
       auth,
       proto,
@@ -1517,9 +1281,7 @@ export interface CaseEventIncludedData {
 }
 export const CaseEventIncludedData = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ fields: FieldIdentifierList }),
-).annotate({
-  identifier: "CaseEventIncludedData",
-}) as any as S.Schema<CaseEventIncludedData>;
+).annotate({ identifier: "CaseEventIncludedData" }) as any as S.Schema<CaseEventIncludedData>;
 export interface RelatedItemEventIncludedData {
   includeContent: boolean;
 }
@@ -1537,18 +1299,14 @@ export const EventIncludedData = /*@__PURE__*/ S.suspend(() =>
     caseData: S.optional(CaseEventIncludedData),
     relatedItemData: S.optional(RelatedItemEventIncludedData),
   }),
-).annotate({
-  identifier: "EventIncludedData",
-}) as any as S.Schema<EventIncludedData>;
+).annotate({ identifier: "EventIncludedData" }) as any as S.Schema<EventIncludedData>;
 export interface EventBridgeConfiguration {
   enabled: boolean;
   includedData?: EventIncludedData;
 }
 export const EventBridgeConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ enabled: S.Boolean, includedData: S.optional(EventIncludedData) }),
-).annotate({
-  identifier: "EventBridgeConfiguration",
-}) as any as S.Schema<EventBridgeConfiguration>;
+).annotate({ identifier: "EventBridgeConfiguration" }) as any as S.Schema<EventBridgeConfiguration>;
 export interface GetCaseEventConfigurationResponse {
   eventBridge: EventBridgeConfiguration;
 }
@@ -1562,18 +1320,9 @@ export interface GetDomainRequest {
 }
 export const GetDomainRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ domainId: S.String.pipe(T.HttpLabel("domainId")) }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/domains/{domainId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/domains/{domainId}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetDomainRequest",
-}) as any as S.Schema<GetDomainRequest>;
+).annotate({ identifier: "GetDomainRequest" }) as any as S.Schema<GetDomainRequest>;
 export interface GetDomainResponse {
   domainId: string;
   domainArn: string;
@@ -1591,9 +1340,7 @@ export const GetDomainResponse = /*@__PURE__*/ S.suspend(() =>
     domainStatus: S.String,
     tags: S.optional(Tags),
   }),
-).annotate({
-  identifier: "GetDomainResponse",
-}) as any as S.Schema<GetDomainResponse>;
+).annotate({ identifier: "GetDomainResponse" }) as any as S.Schema<GetDomainResponse>;
 export interface GetLayoutRequest {
   domainId: string;
   layoutId: string;
@@ -1612,9 +1359,7 @@ export const GetLayoutRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetLayoutRequest",
-}) as any as S.Schema<GetLayoutRequest>;
+).annotate({ identifier: "GetLayoutRequest" }) as any as S.Schema<GetLayoutRequest>;
 export interface GetLayoutResponse {
   layoutId: string;
   layoutArn: string;
@@ -1633,16 +1378,10 @@ export const GetLayoutResponse = /*@__PURE__*/ S.suspend(() =>
     content: LayoutContent,
     tags: S.optional(Tags),
     deleted: S.optional(S.Boolean),
-    createdTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    lastModifiedTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    createdTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    lastModifiedTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
-).annotate({
-  identifier: "GetLayoutResponse",
-}) as any as S.Schema<GetLayoutResponse>;
+).annotate({ identifier: "GetLayoutResponse" }) as any as S.Schema<GetLayoutResponse>;
 export interface GetTemplateRequest {
   domainId: string;
   templateId: string;
@@ -1653,10 +1392,7 @@ export const GetTemplateRequest = /*@__PURE__*/ S.suspend(() =>
     templateId: S.String.pipe(T.HttpLabel("templateId")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/domains/{domainId}/templates/{templateId}",
-      }),
+      T.Http({ method: "POST", uri: "/domains/{domainId}/templates/{templateId}" }),
       svc,
       auth,
       proto,
@@ -1664,9 +1400,7 @@ export const GetTemplateRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetTemplateRequest",
-}) as any as S.Schema<GetTemplateRequest>;
+).annotate({ identifier: "GetTemplateRequest" }) as any as S.Schema<GetTemplateRequest>;
 export interface GetTemplateResponse {
   templateId: string;
   templateArn: string;
@@ -1693,18 +1427,12 @@ export const GetTemplateResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(Tags),
     status: S.String,
     deleted: S.optional(S.Boolean),
-    createdTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    lastModifiedTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    createdTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    lastModifiedTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     rules: S.optional(TemplateCaseRuleList),
     tagPropagationConfigurations: S.optional(TagPropagationConfigurationList),
   }),
-).annotate({
-  identifier: "GetTemplateResponse",
-}) as any as S.Schema<GetTemplateResponse>;
+).annotate({ identifier: "GetTemplateResponse" }) as any as S.Schema<GetTemplateResponse>;
 export type MaxResults = number;
 export interface ListCaseRulesRequest {
   domainId: string;
@@ -1726,9 +1454,7 @@ export const ListCaseRulesRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "ListCaseRulesRequest",
-}) as any as S.Schema<ListCaseRulesRequest>;
+).annotate({ identifier: "ListCaseRulesRequest" }) as any as S.Schema<ListCaseRulesRequest>;
 export type RuleType = string;
 export interface CaseRuleSummary {
   caseRuleId: string;
@@ -1745,9 +1471,7 @@ export const CaseRuleSummary = /*@__PURE__*/ S.suspend(() =>
     ruleType: S.String,
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CaseRuleSummary",
-}) as any as S.Schema<CaseRuleSummary>;
+).annotate({ identifier: "CaseRuleSummary" }) as any as S.Schema<CaseRuleSummary>;
 export type CaseRuleSummaryList = CaseRuleSummary[];
 export const CaseRuleSummaryList = /*@__PURE__*/ S.Array(CaseRuleSummary);
 export interface ListCaseRulesResponse {
@@ -1756,9 +1480,7 @@ export interface ListCaseRulesResponse {
 }
 export const ListCaseRulesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ caseRules: CaseRuleSummaryList, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListCaseRulesResponse",
-}) as any as S.Schema<ListCaseRulesResponse>;
+).annotate({ identifier: "ListCaseRulesResponse" }) as any as S.Schema<ListCaseRulesResponse>;
 export interface ListCasesForContactRequest {
   domainId: string;
   contactArn: string;
@@ -1773,10 +1495,7 @@ export const ListCasesForContactRequest = /*@__PURE__*/ S.suspend(() =>
     nextToken: S.optional(S.String),
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/domains/{domainId}/list-cases-for-contact",
-      }),
+      T.Http({ method: "POST", uri: "/domains/{domainId}/list-cases-for-contact" }),
       svc,
       auth,
       proto,
@@ -1813,19 +1532,8 @@ export const ListDomainsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/domains-list" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListDomainsRequest",
-}) as any as S.Schema<ListDomainsRequest>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/domains-list" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "ListDomainsRequest" }) as any as S.Schema<ListDomainsRequest>;
 export interface DomainSummary {
   domainId: string;
   domainArn: string;
@@ -1842,9 +1550,7 @@ export interface ListDomainsResponse {
 }
 export const ListDomainsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ domains: DomainSummaryList, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListDomainsResponse",
-}) as any as S.Schema<ListDomainsResponse>;
+).annotate({ identifier: "ListDomainsResponse" }) as any as S.Schema<ListDomainsResponse>;
 export type Value = string;
 export type ValuesList = string[];
 export const ValuesList = /*@__PURE__*/ S.Array(S.String);
@@ -1864,10 +1570,7 @@ export const ListFieldOptionsRequest = /*@__PURE__*/ S.suspend(() =>
     values: S.optional(ValuesList).pipe(T.HttpQuery("values")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/domains/{domainId}/fields/{fieldId}/options-list",
-      }),
+      T.Http({ method: "POST", uri: "/domains/{domainId}/fields/{fieldId}/options-list" }),
       svc,
       auth,
       proto,
@@ -1875,18 +1578,14 @@ export const ListFieldOptionsRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "ListFieldOptionsRequest",
-}) as any as S.Schema<ListFieldOptionsRequest>;
+).annotate({ identifier: "ListFieldOptionsRequest" }) as any as S.Schema<ListFieldOptionsRequest>;
 export interface ListFieldOptionsResponse {
   options: FieldOption[];
   nextToken?: string;
 }
 export const ListFieldOptionsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ options: FieldOptionsList, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListFieldOptionsResponse",
-}) as any as S.Schema<ListFieldOptionsResponse>;
+).annotate({ identifier: "ListFieldOptionsResponse" }) as any as S.Schema<ListFieldOptionsResponse>;
 export interface ListFieldsRequest {
   domainId: string;
   maxResults?: number;
@@ -1907,9 +1606,7 @@ export const ListFieldsRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "ListFieldsRequest",
-}) as any as S.Schema<ListFieldsRequest>;
+).annotate({ identifier: "ListFieldsRequest" }) as any as S.Schema<ListFieldsRequest>;
 export interface FieldSummary {
   fieldId: string;
   fieldArn: string;
@@ -1936,9 +1633,7 @@ export interface ListFieldsResponse {
 }
 export const ListFieldsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ fields: FieldSummaryList, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListFieldsResponse",
-}) as any as S.Schema<ListFieldsResponse>;
+).annotate({ identifier: "ListFieldsResponse" }) as any as S.Schema<ListFieldsResponse>;
 export interface ListLayoutsRequest {
   domainId: string;
   maxResults?: number;
@@ -1959,9 +1654,7 @@ export const ListLayoutsRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "ListLayoutsRequest",
-}) as any as S.Schema<ListLayoutsRequest>;
+).annotate({ identifier: "ListLayoutsRequest" }) as any as S.Schema<ListLayoutsRequest>;
 export interface LayoutSummary {
   layoutId: string;
   layoutArn: string;
@@ -1978,23 +1671,14 @@ export interface ListLayoutsResponse {
 }
 export const ListLayoutsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ layouts: LayoutSummaryList, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListLayoutsResponse",
-}) as any as S.Schema<ListLayoutsResponse>;
+).annotate({ identifier: "ListLayoutsResponse" }) as any as S.Schema<ListLayoutsResponse>;
 export type Arn = string;
 export interface ListTagsForResourceRequest {
   arn: string;
 }
 export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ arn: S.String.pipe(T.HttpLabel("arn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags/{arn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/tags/{arn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListTagsForResourceRequest",
@@ -2031,9 +1715,7 @@ export const ListTemplatesRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "ListTemplatesRequest",
-}) as any as S.Schema<ListTemplatesRequest>;
+).annotate({ identifier: "ListTemplatesRequest" }) as any as S.Schema<ListTemplatesRequest>;
 export interface TemplateSummary {
   templateId: string;
   templateArn: string;
@@ -2049,9 +1731,7 @@ export const TemplateSummary = /*@__PURE__*/ S.suspend(() =>
     status: S.String,
     tagPropagationConfigurations: S.optional(TagPropagationConfigurationList),
   }),
-).annotate({
-  identifier: "TemplateSummary",
-}) as any as S.Schema<TemplateSummary>;
+).annotate({ identifier: "TemplateSummary" }) as any as S.Schema<TemplateSummary>;
 export type TemplateSummaryList = TemplateSummary[];
 export const TemplateSummaryList = /*@__PURE__*/ S.Array(TemplateSummary);
 export interface ListTemplatesResponse {
@@ -2060,9 +1740,7 @@ export interface ListTemplatesResponse {
 }
 export const ListTemplatesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ templates: TemplateSummaryList, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListTemplatesResponse",
-}) as any as S.Schema<ListTemplatesResponse>;
+).annotate({ identifier: "ListTemplatesResponse" }) as any as S.Schema<ListTemplatesResponse>;
 export interface PutCaseEventConfigurationRequest {
   domainId: string;
   eventBridge: EventBridgeConfiguration;
@@ -2073,10 +1751,7 @@ export const PutCaseEventConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
     eventBridge: EventBridgeConfiguration,
   }).pipe(
     T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/domains/{domainId}/case-event-configuration",
-      }),
+      T.Http({ method: "PUT", uri: "/domains/{domainId}/case-event-configuration" }),
       svc,
       auth,
       proto,
@@ -2101,15 +1776,12 @@ export interface ContactFilter {
   contactArn?: string;
 }
 export const ContactFilter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    channel: S.optional(ChannelList),
-    contactArn: S.optional(S.String),
-  }),
+  S.Struct({ channel: S.optional(ChannelList), contactArn: S.optional(S.String) }),
 ).annotate({ identifier: "ContactFilter" }) as any as S.Schema<ContactFilter>;
 export interface CommentFilter {}
-export const CommentFilter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({ identifier: "CommentFilter" }) as any as S.Schema<CommentFilter>;
+export const CommentFilter = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  identifier: "CommentFilter",
+}) as any as S.Schema<CommentFilter>;
 export interface FileFilter {
   fileArn?: string;
 }
@@ -2129,9 +1801,7 @@ export interface ConnectCaseFilter {
 }
 export const ConnectCaseFilter = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ caseId: S.optional(S.String) }),
-).annotate({
-  identifier: "ConnectCaseFilter",
-}) as any as S.Schema<ConnectCaseFilter>;
+).annotate({ identifier: "ConnectCaseFilter" }) as any as S.Schema<ConnectCaseFilter>;
 export type FieldFilter =
   | {
       equalTo: FieldValue;
@@ -2191,9 +1861,7 @@ export const FieldFilter = /*@__PURE__*/ S.Union([
 ]);
 export type CustomFieldsFilterList = CustomFieldsFilter[];
 export const CustomFieldsFilterList = /*@__PURE__*/ S.Array(
-  S.suspend(() => CustomFieldsFilter).annotate({
-    identifier: "CustomFieldsFilter",
-  }),
+  S.suspend(() => CustomFieldsFilter).annotate({ identifier: "CustomFieldsFilter" }),
 ) as any as S.Schema<CustomFieldsFilterList>;
 export type CustomFieldsFilter =
   | { field: FieldFilter; not?: never; andAll?: never; orAll?: never }
@@ -2203,9 +1871,7 @@ export type CustomFieldsFilter =
 export const CustomFieldsFilter = /*@__PURE__*/ S.Union([
   S.Struct({ field: FieldFilter }),
   S.Struct({
-    not: S.suspend(() => CustomFieldsFilter).annotate({
-      identifier: "CustomFieldsFilter",
-    }),
+    not: S.suspend(() => CustomFieldsFilter).annotate({ identifier: "CustomFieldsFilter" }),
   }),
   S.Struct({
     andAll: S.suspend(() => CustomFieldsFilterList).annotate({
@@ -2282,9 +1948,7 @@ export const RelatedItemTypeFilter = /*@__PURE__*/ S.Union([
   S.Struct({ custom: CustomFilter }),
 ]);
 export type RelatedItemFilterList = RelatedItemTypeFilter[];
-export const RelatedItemFilterList = /*@__PURE__*/ S.Array(
-  RelatedItemTypeFilter,
-);
+export const RelatedItemFilterList = /*@__PURE__*/ S.Array(RelatedItemTypeFilter);
 export type SearchAllRelatedItemsSortProperty = string;
 export type Order = string;
 export interface SearchAllRelatedItemsSort {
@@ -2297,9 +1961,7 @@ export const SearchAllRelatedItemsSort = /*@__PURE__*/ S.suspend(() =>
   identifier: "SearchAllRelatedItemsSort",
 }) as any as S.Schema<SearchAllRelatedItemsSort>;
 export type SearchAllRelatedItemsSortList = SearchAllRelatedItemsSort[];
-export const SearchAllRelatedItemsSortList = /*@__PURE__*/ S.Array(
-  SearchAllRelatedItemsSort,
-);
+export const SearchAllRelatedItemsSortList = /*@__PURE__*/ S.Array(SearchAllRelatedItemsSort);
 export interface SearchAllRelatedItemsRequest {
   domainId: string;
   maxResults?: number;
@@ -2316,10 +1978,7 @@ export const SearchAllRelatedItemsRequest = /*@__PURE__*/ S.suspend(() =>
     sorts: S.optional(SearchAllRelatedItemsSortList),
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/domains/{domainId}/related-items-search",
-      }),
+      T.Http({ method: "POST", uri: "/domains/{domainId}/related-items-search" }),
       svc,
       auth,
       proto,
@@ -2341,9 +2000,7 @@ export const ContactContent = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     contactArn: S.String,
     channel: S.String,
-    connectedToSystemTime: T.DateFromString.pipe(
-      T.TimestampFormat("date-time"),
-    ),
+    connectedToSystemTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({ identifier: "ContactContent" }) as any as S.Schema<ContactContent>;
 export type SlaTargetTime = Date;
@@ -2365,13 +2022,9 @@ export const SlaConfiguration = /*@__PURE__*/ S.suspend(() =>
     fieldId: S.optional(S.String),
     targetFieldValues: S.optional(SlaFieldValueUnionList),
     targetTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    completionTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    completionTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
-).annotate({
-  identifier: "SlaConfiguration",
-}) as any as S.Schema<SlaConfiguration>;
+).annotate({ identifier: "SlaConfiguration" }) as any as S.Schema<SlaConfiguration>;
 export interface SlaContent {
   slaConfiguration: SlaConfiguration;
 }
@@ -2383,9 +2036,7 @@ export interface ConnectCaseContent {
 }
 export const ConnectCaseContent = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ caseId: S.String }),
-).annotate({
-  identifier: "ConnectCaseContent",
-}) as any as S.Schema<ConnectCaseContent>;
+).annotate({ identifier: "ConnectCaseContent" }) as any as S.Schema<ConnectCaseContent>;
 export interface CustomContent {
   fields: FieldValue[];
 }
@@ -2471,8 +2122,7 @@ export const SearchAllRelatedItemsResponseItem = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "SearchAllRelatedItemsResponseItem",
 }) as any as S.Schema<SearchAllRelatedItemsResponseItem>;
-export type SearchAllRelatedItemsResponseItemList =
-  SearchAllRelatedItemsResponseItem[];
+export type SearchAllRelatedItemsResponseItemList = SearchAllRelatedItemsResponseItem[];
 export const SearchAllRelatedItemsResponseItemList = /*@__PURE__*/ S.Array(
   SearchAllRelatedItemsResponseItem,
 ).pipe(T.Sparse());
@@ -2497,65 +2147,23 @@ export const TagValue = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ key: S.optional(S.String), value: S.optional(S.String) }),
 ).annotate({ identifier: "TagValue" }) as any as S.Schema<TagValue>;
 export type TagFilter = { equalTo: TagValue };
-export const TagFilter = /*@__PURE__*/ S.Union([
-  S.Struct({ equalTo: TagValue }),
-]);
+export const TagFilter = /*@__PURE__*/ S.Union([S.Struct({ equalTo: TagValue })]);
 export type CaseFilterList = CaseFilter[];
 export const CaseFilterList = /*@__PURE__*/ S.Array(
   S.suspend(() => CaseFilter).annotate({ identifier: "CaseFilter" }),
 ) as any as S.Schema<CaseFilterList>;
 export type CaseFilter =
-  | {
-      field: FieldFilter;
-      not?: never;
-      tag?: never;
-      andAll?: never;
-      orAll?: never;
-    }
-  | {
-      field?: never;
-      not: CaseFilter;
-      tag?: never;
-      andAll?: never;
-      orAll?: never;
-    }
-  | {
-      field?: never;
-      not?: never;
-      tag: TagFilter;
-      andAll?: never;
-      orAll?: never;
-    }
-  | {
-      field?: never;
-      not?: never;
-      tag?: never;
-      andAll: CaseFilter[];
-      orAll?: never;
-    }
-  | {
-      field?: never;
-      not?: never;
-      tag?: never;
-      andAll?: never;
-      orAll: CaseFilter[];
-    };
+  | { field: FieldFilter; not?: never; tag?: never; andAll?: never; orAll?: never }
+  | { field?: never; not: CaseFilter; tag?: never; andAll?: never; orAll?: never }
+  | { field?: never; not?: never; tag: TagFilter; andAll?: never; orAll?: never }
+  | { field?: never; not?: never; tag?: never; andAll: CaseFilter[]; orAll?: never }
+  | { field?: never; not?: never; tag?: never; andAll?: never; orAll: CaseFilter[] };
 export const CaseFilter = /*@__PURE__*/ S.Union([
   S.Struct({ field: FieldFilter }),
-  S.Struct({
-    not: S.suspend(() => CaseFilter).annotate({ identifier: "CaseFilter" }),
-  }),
+  S.Struct({ not: S.suspend(() => CaseFilter).annotate({ identifier: "CaseFilter" }) }),
   S.Struct({ tag: TagFilter }),
-  S.Struct({
-    andAll: S.suspend(() => CaseFilterList).annotate({
-      identifier: "CaseFilterList",
-    }),
-  }),
-  S.Struct({
-    orAll: S.suspend(() => CaseFilterList).annotate({
-      identifier: "CaseFilterList",
-    }),
-  }),
+  S.Struct({ andAll: S.suspend(() => CaseFilterList).annotate({ identifier: "CaseFilterList" }) }),
+  S.Struct({ orAll: S.suspend(() => CaseFilterList).annotate({ identifier: "CaseFilterList" }) }),
 ]) as any as S.Schema<CaseFilter>;
 export interface Sort {
   fieldId: string;
@@ -2594,9 +2202,7 @@ export const SearchCasesRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "SearchCasesRequest",
-}) as any as S.Schema<SearchCasesRequest>;
+).annotate({ identifier: "SearchCasesRequest" }) as any as S.Schema<SearchCasesRequest>;
 export interface SearchCasesResponseItem {
   caseId: string;
   templateId: string;
@@ -2610,13 +2216,11 @@ export const SearchCasesResponseItem = /*@__PURE__*/ S.suspend(() =>
     fields: FieldValueList,
     tags: S.optional(Tags),
   }),
-).annotate({
-  identifier: "SearchCasesResponseItem",
-}) as any as S.Schema<SearchCasesResponseItem>;
+).annotate({ identifier: "SearchCasesResponseItem" }) as any as S.Schema<SearchCasesResponseItem>;
 export type SearchCasesResponseItemList = SearchCasesResponseItem[];
-export const SearchCasesResponseItemList = /*@__PURE__*/ S.Array(
-  SearchCasesResponseItem,
-).pipe(T.Sparse());
+export const SearchCasesResponseItemList = /*@__PURE__*/ S.Array(SearchCasesResponseItem).pipe(
+  T.Sparse(),
+);
 export type TotalCount = number;
 export interface SearchCasesResponse {
   nextToken?: string;
@@ -2629,9 +2233,7 @@ export const SearchCasesResponse = /*@__PURE__*/ S.suspend(() =>
     cases: SearchCasesResponseItemList,
     totalCount: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "SearchCasesResponse",
-}) as any as S.Schema<SearchCasesResponse>;
+).annotate({ identifier: "SearchCasesResponse" }) as any as S.Schema<SearchCasesResponse>;
 export interface SearchRelatedItemsRequest {
   domainId: string;
   caseId: string;
@@ -2648,10 +2250,7 @@ export const SearchRelatedItemsRequest = /*@__PURE__*/ S.suspend(() =>
     filters: S.optional(RelatedItemFilterList),
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/domains/{domainId}/cases/{caseId}/related-items-search",
-      }),
+      T.Http({ method: "POST", uri: "/domains/{domainId}/cases/{caseId}/related-items-search" }),
       svc,
       auth,
       proto,
@@ -2682,8 +2281,7 @@ export const SearchRelatedItemsResponseItem = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "SearchRelatedItemsResponseItem",
 }) as any as S.Schema<SearchRelatedItemsResponseItem>;
-export type SearchRelatedItemsResponseItemList =
-  SearchRelatedItemsResponseItem[];
+export type SearchRelatedItemsResponseItemList = SearchRelatedItemsResponseItem[];
 export const SearchRelatedItemsResponseItemList = /*@__PURE__*/ S.Array(
   SearchRelatedItemsResponseItem,
 ).pipe(T.Sparse());
@@ -2692,10 +2290,7 @@ export interface SearchRelatedItemsResponse {
   relatedItems: SearchRelatedItemsResponseItem[];
 }
 export const SearchRelatedItemsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    nextToken: S.optional(S.String),
-    relatedItems: SearchRelatedItemsResponseItemList,
-  }),
+  S.Struct({ nextToken: S.optional(S.String), relatedItems: SearchRelatedItemsResponseItemList }),
 ).annotate({
   identifier: "SearchRelatedItemsResponse",
 }) as any as S.Schema<SearchRelatedItemsResponse>;
@@ -2705,22 +2300,11 @@ export interface TagResourceRequest {
 }
 export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ arn: S.String.pipe(T.HttpLabel("arn")), tags: Tags }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/tags/{arn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/tags/{arn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
+).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export type TagKey = string;
@@ -2734,23 +2318,10 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     arn: S.String.pipe(T.HttpLabel("arn")),
     tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/tags/{arn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
+  }).pipe(T.all(T.Http({ method: "DELETE", uri: "/tags/{arn}" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateCaseRequest {
@@ -2775,13 +2346,9 @@ export const UpdateCaseRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "UpdateCaseRequest",
-}) as any as S.Schema<UpdateCaseRequest>;
+).annotate({ identifier: "UpdateCaseRequest" }) as any as S.Schema<UpdateCaseRequest>;
 export interface UpdateCaseResponse {}
-export const UpdateCaseResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UpdateCaseResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UpdateCaseResponse",
 }) as any as S.Schema<UpdateCaseResponse>;
 export interface UpdateCaseRuleRequest {
@@ -2800,10 +2367,7 @@ export const UpdateCaseRuleRequest = /*@__PURE__*/ S.suspend(() =>
     rule: S.optional(CaseRuleDetails),
   }).pipe(
     T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/domains/{domainId}/case-rules/{caseRuleId}",
-      }),
+      T.Http({ method: "PUT", uri: "/domains/{domainId}/case-rules/{caseRuleId}" }),
       svc,
       auth,
       proto,
@@ -2811,13 +2375,9 @@ export const UpdateCaseRuleRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "UpdateCaseRuleRequest",
-}) as any as S.Schema<UpdateCaseRuleRequest>;
+).annotate({ identifier: "UpdateCaseRuleRequest" }) as any as S.Schema<UpdateCaseRuleRequest>;
 export interface UpdateCaseRuleResponse {}
-export const UpdateCaseRuleResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UpdateCaseRuleResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UpdateCaseRuleResponse",
 }) as any as S.Schema<UpdateCaseRuleResponse>;
 export interface UpdateFieldRequest {
@@ -2844,13 +2404,9 @@ export const UpdateFieldRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "UpdateFieldRequest",
-}) as any as S.Schema<UpdateFieldRequest>;
+).annotate({ identifier: "UpdateFieldRequest" }) as any as S.Schema<UpdateFieldRequest>;
 export interface UpdateFieldResponse {}
-export const UpdateFieldResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UpdateFieldResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UpdateFieldResponse",
 }) as any as S.Schema<UpdateFieldResponse>;
 export interface UpdateLayoutRequest {
@@ -2875,13 +2431,9 @@ export const UpdateLayoutRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "UpdateLayoutRequest",
-}) as any as S.Schema<UpdateLayoutRequest>;
+).annotate({ identifier: "UpdateLayoutRequest" }) as any as S.Schema<UpdateLayoutRequest>;
 export interface UpdateLayoutResponse {}
-export const UpdateLayoutResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UpdateLayoutResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UpdateLayoutResponse",
 }) as any as S.Schema<UpdateLayoutResponse>;
 export interface CommentUpdateContent {
@@ -2890,17 +2442,13 @@ export interface CommentUpdateContent {
 }
 export const CommentUpdateContent = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ body: S.String, contentType: S.String }),
-).annotate({
-  identifier: "CommentUpdateContent",
-}) as any as S.Schema<CommentUpdateContent>;
+).annotate({ identifier: "CommentUpdateContent" }) as any as S.Schema<CommentUpdateContent>;
 export interface CustomUpdateContent {
   fields: FieldValue[];
 }
 export const CustomUpdateContent = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ fields: FieldValueList }),
-).annotate({
-  identifier: "CustomUpdateContent",
-}) as any as S.Schema<CustomUpdateContent>;
+).annotate({ identifier: "CustomUpdateContent" }) as any as S.Schema<CustomUpdateContent>;
 export type RelatedItemUpdateContent =
   | { comment: CommentUpdateContent; custom?: never }
   | { comment?: never; custom: CustomUpdateContent };
@@ -2935,9 +2483,7 @@ export const UpdateRelatedItemRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "UpdateRelatedItemRequest",
-}) as any as S.Schema<UpdateRelatedItemRequest>;
+).annotate({ identifier: "UpdateRelatedItemRequest" }) as any as S.Schema<UpdateRelatedItemRequest>;
 export interface UpdateRelatedItemResponse {
   relatedItemId: string;
   relatedItemArn: string;
@@ -2986,10 +2532,7 @@ export const UpdateTemplateRequest = /*@__PURE__*/ S.suspend(() =>
     tagPropagationConfigurations: S.optional(TagPropagationConfigurationList),
   }).pipe(
     T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/domains/{domainId}/templates/{templateId}",
-      }),
+      T.Http({ method: "PUT", uri: "/domains/{domainId}/templates/{templateId}" }),
       svc,
       auth,
       proto,
@@ -2997,13 +2540,9 @@ export const UpdateTemplateRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "UpdateTemplateRequest",
-}) as any as S.Schema<UpdateTemplateRequest>;
+).annotate({ identifier: "UpdateTemplateRequest" }) as any as S.Schema<UpdateTemplateRequest>;
 export interface UpdateTemplateResponse {}
-export const UpdateTemplateResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UpdateTemplateResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UpdateTemplateResponse",
 }) as any as S.Schema<UpdateTemplateResponse>;
 export type BatchGetCaseRuleError =

@@ -1,12 +1,12 @@
-import * as HttpClient from "effect/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "Route53 Recovery Cluster",
   serviceShapeName: "ToggleCustomerAPI",
@@ -26,14 +26,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -60,9 +56,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://route53-recovery-cluster-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -70,9 +64,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://route53-recovery-cluster.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
         return e(
           `https://route53-recovery-cluster.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
@@ -92,11 +84,7 @@ export class AccessDeniedException
 export class ConflictException
   extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
     "ConflictException",
-    {
-      message: S.String.pipe(T.ErrorMessage()),
-      resourceId: S.String,
-      resourceType: S.String,
-    },
+    { message: S.String.pipe(T.ErrorMessage()), resourceId: S.String, resourceType: S.String },
     T.HttpError(409),
   ).pipe(C.withConflictError) {}
 export class EndpointTemporarilyUnavailableException
@@ -117,11 +105,7 @@ export class InternalServerException
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",
-    {
-      message: S.String.pipe(T.ErrorMessage()),
-      resourceId: S.String,
-      resourceType: S.String,
-    },
+    { message: S.String.pipe(T.ErrorMessage()), resourceId: S.String, resourceType: S.String },
     T.HttpError(404),
   ).pipe(C.withBadRequestError) {}
 export class ServiceLimitExceededException
@@ -204,9 +188,7 @@ export const ListRoutingControlsRequest = /*@__PURE__*/ S.suspend(() =>
     ControlPanelArn: S.optional(S.String),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListRoutingControlsRequest",
 }) as any as S.Schema<ListRoutingControlsRequest>;
@@ -237,10 +219,7 @@ export interface ListRoutingControlsResponse {
   NextToken?: string;
 }
 export const ListRoutingControlsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RoutingControls: RoutingControls,
-    NextToken: S.optional(S.String),
-  }),
+  S.Struct({ RoutingControls: RoutingControls, NextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListRoutingControlsResponse",
 }) as any as S.Schema<ListRoutingControlsResponse>;
@@ -256,9 +235,7 @@ export const UpdateRoutingControlStateRequest = /*@__PURE__*/ S.suspend(() =>
     RoutingControlArn: S.String,
     RoutingControlState: RoutingControlState,
     SafetyRulesToOverride: S.optional(Arns),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "UpdateRoutingControlStateRequest",
 }) as any as S.Schema<UpdateRoutingControlStateRequest>;
@@ -273,10 +250,7 @@ export interface UpdateRoutingControlStateEntry {
   RoutingControlState: RoutingControlState;
 }
 export const UpdateRoutingControlStateEntry = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RoutingControlArn: S.String,
-    RoutingControlState: RoutingControlState,
-  }),
+  S.Struct({ RoutingControlArn: S.String, RoutingControlState: RoutingControlState }),
 ).annotate({
   identifier: "UpdateRoutingControlStateEntry",
 }) as any as S.Schema<UpdateRoutingControlStateEntry>;
@@ -292,9 +266,7 @@ export const UpdateRoutingControlStatesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     UpdateRoutingControlStateEntries: UpdateRoutingControlStateEntries,
     SafetyRulesToOverride: S.optional(Arns),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "UpdateRoutingControlStatesRequest",
 }) as any as S.Schema<UpdateRoutingControlStatesRequest>;
@@ -319,13 +291,9 @@ export interface ValidationExceptionField {
 }
 export const ValidationExceptionField = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ name: S.String, message: S.String }),
-).annotate({
-  identifier: "ValidationExceptionField",
-}) as any as S.Schema<ValidationExceptionField>;
+).annotate({ identifier: "ValidationExceptionField" }) as any as S.Schema<ValidationExceptionField>;
 export type ValidationExceptionFieldList = ValidationExceptionField[];
-export const ValidationExceptionFieldList = /*@__PURE__*/ S.Array(
-  ValidationExceptionField,
-);
+export const ValidationExceptionFieldList = /*@__PURE__*/ S.Array(ValidationExceptionField);
 export type GetRoutingControlStateError =
   | AccessDeniedException
   | EndpointTemporarilyUnavailableException

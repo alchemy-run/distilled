@@ -1,18 +1,15 @@
+import * as API from "@distilled.cloud/core/api";
+import * as S from "@distilled.cloud/core/schema";
 import * as HttpClient from "effect/http/HttpClient";
 import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
-import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
-const svc = T.AwsApiService({
-  sdkId: "Outposts",
-  serviceShapeName: "OutpostsOlafService",
-});
+import * as T from "../traits.ts";
+const svc = T.AwsApiService({ sdkId: "Outposts", serviceShapeName: "OutpostsOlafService" });
 const auth = T.AwsAuthSigv4({ name: "outposts" });
 const ver = T.ServiceVersion("2019-12-03");
 const proto = T.AwsProtocolsRestJson1();
@@ -28,14 +25,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -61,13 +54,9 @@ const rules = T.EndpointResolver((p, _) => {
             if (_.getAttr(PartitionResult, "name") === "aws-us-gov") {
               return e(`https://outposts.${Region}.amazonaws.com`);
             }
-            return e(
-              `https://outposts-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
+            return e(`https://outposts-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -75,13 +64,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://outposts.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://outposts.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://outposts.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -142,10 +127,7 @@ export const CancelCapacityTaskInput = /*@__PURE__*/ S.suspend(() =>
     OutpostIdentifier: S.String.pipe(T.HttpLabel("OutpostIdentifier")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/outposts/{OutpostIdentifier}/capacity/{CapacityTaskId}",
-      }),
+      T.Http({ method: "POST", uri: "/outposts/{OutpostIdentifier}/capacity/{CapacityTaskId}" }),
       svc,
       auth,
       proto,
@@ -153,13 +135,9 @@ export const CancelCapacityTaskInput = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "CancelCapacityTaskInput",
-}) as any as S.Schema<CancelCapacityTaskInput>;
+).annotate({ identifier: "CancelCapacityTaskInput" }) as any as S.Schema<CancelCapacityTaskInput>;
 export interface CancelCapacityTaskOutput {}
-export const CancelCapacityTaskOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const CancelCapacityTaskOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "CancelCapacityTaskOutput",
 }) as any as S.Schema<CancelCapacityTaskOutput>;
 export type OrderId = string;
@@ -177,13 +155,9 @@ export const CancelOrderInput = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "CancelOrderInput",
-}) as any as S.Schema<CancelOrderInput>;
+).annotate({ identifier: "CancelOrderInput" }) as any as S.Schema<CancelOrderInput>;
 export interface CancelOrderOutput {}
-export const CancelOrderOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const CancelOrderOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "CancelOrderOutput",
 }) as any as S.Schema<CancelOrderOutput>;
 export type QuoteIdentifier = string;
@@ -195,28 +169,14 @@ export interface LineItemRequest {
   Quantity?: number;
 }
 export const LineItemRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CatalogItemId: S.optional(S.String),
-    Quantity: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "LineItemRequest",
-}) as any as S.Schema<LineItemRequest>;
+  S.Struct({ CatalogItemId: S.optional(S.String), Quantity: S.optional(S.Number) }),
+).annotate({ identifier: "LineItemRequest" }) as any as S.Schema<LineItemRequest>;
 export type LineItemRequestListDefinition = LineItemRequest[];
-export const LineItemRequestListDefinition =
-  /*@__PURE__*/ S.Array(LineItemRequest);
-export type PaymentOption =
-  | "ALL_UPFRONT"
-  | "NO_UPFRONT"
-  | "PARTIAL_UPFRONT"
-  | (string & {});
+export const LineItemRequestListDefinition = /*@__PURE__*/ S.Array(LineItemRequest);
+export type PaymentOption = "ALL_UPFRONT" | "NO_UPFRONT" | "PARTIAL_UPFRONT" | (string & {});
 export const PaymentOption = S.String;
 
-export type PaymentTerm =
-  | "THREE_YEARS"
-  | "ONE_YEAR"
-  | "FIVE_YEARS"
-  | (string & {});
+export type PaymentTerm = "THREE_YEARS" | "ONE_YEAR" | "FIVE_YEARS" | (string & {});
 export const PaymentTerm = S.String;
 
 export interface CreateOrderInput {
@@ -235,19 +195,8 @@ export const CreateOrderInput = /*@__PURE__*/ S.suspend(() =>
     LineItems: S.optional(LineItemRequestListDefinition),
     PaymentOption: PaymentOption,
     PaymentTerm: S.optional(PaymentTerm),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/orders" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateOrderInput",
-}) as any as S.Schema<CreateOrderInput>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/orders" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "CreateOrderInput" }) as any as S.Schema<CreateOrderInput>;
 export type OutpostIdOnly = string;
 export type OrderStatus =
   | "RECEIVED"
@@ -279,13 +228,7 @@ export type LineItemStatus =
 export const LineItemStatus = S.String;
 
 export type TrackingId = string;
-export type ShipmentCarrier =
-  | "DHL"
-  | "DBS"
-  | "FEDEX"
-  | "UPS"
-  | "EXPEDITORS"
-  | (string & {});
+export type ShipmentCarrier = "DHL" | "DBS" | "FEDEX" | "UPS" | "EXPEDITORS" | (string & {});
 export const ShipmentCarrier = S.String;
 
 export interface ShipmentInformation {
@@ -297,9 +240,7 @@ export const ShipmentInformation = /*@__PURE__*/ S.suspend(() =>
     ShipmentTrackingNumber: S.optional(S.String),
     ShipmentCarrier: S.optional(ShipmentCarrier),
   }),
-).annotate({
-  identifier: "ShipmentInformation",
-}) as any as S.Schema<ShipmentInformation>;
+).annotate({ identifier: "ShipmentInformation" }) as any as S.Schema<ShipmentInformation>;
 export type AssetId = string;
 export type MacAddress = string;
 export type MacAddressList = string[];
@@ -309,17 +250,10 @@ export interface LineItemAssetInformation {
   MacAddressList?: string[];
 }
 export const LineItemAssetInformation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AssetId: S.optional(S.String),
-    MacAddressList: S.optional(MacAddressList),
-  }),
-).annotate({
-  identifier: "LineItemAssetInformation",
-}) as any as S.Schema<LineItemAssetInformation>;
+  S.Struct({ AssetId: S.optional(S.String), MacAddressList: S.optional(MacAddressList) }),
+).annotate({ identifier: "LineItemAssetInformation" }) as any as S.Schema<LineItemAssetInformation>;
 export type LineItemAssetInformationList = LineItemAssetInformation[];
-export const LineItemAssetInformationList = /*@__PURE__*/ S.Array(
-  LineItemAssetInformation,
-);
+export const LineItemAssetInformationList = /*@__PURE__*/ S.Array(LineItemAssetInformation);
 export interface LineItem {
   CatalogItemId?: string;
   LineItemId?: string;
@@ -370,12 +304,8 @@ export const Order = /*@__PURE__*/ S.suspend(() =>
     Status: S.optional(OrderStatus),
     LineItems: S.optional(LineItemListDefinition),
     PaymentOption: S.optional(PaymentOption),
-    OrderSubmissionDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    OrderFulfilledDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    OrderSubmissionDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    OrderFulfilledDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     PaymentTerm: S.optional(PaymentTerm),
     OrderType: S.optional(OrderType),
   }),
@@ -385,9 +315,7 @@ export interface CreateOrderOutput {
 }
 export const CreateOrderOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Order: S.optional(Order) }),
-).annotate({
-  identifier: "CreateOrderOutput",
-}) as any as S.Schema<CreateOrderOutput>;
+).annotate({ identifier: "CreateOrderOutput" }) as any as S.Schema<CreateOrderOutput>;
 export type OutpostName = string;
 export type OutpostDescription = string;
 export type SiteId = string;
@@ -396,10 +324,7 @@ export type AvailabilityZoneId = string;
 export type TagKey = string;
 export type TagValue = string;
 export type TagMap = { [key: string]: string | undefined };
-export const TagMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const TagMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export type SupportedHardwareType = "RACK" | "SERVER" | (string & {});
 export const SupportedHardwareType = S.String;
 
@@ -421,24 +346,19 @@ export const CreateOutpostInput = /*@__PURE__*/ S.suspend(() =>
     AvailabilityZoneId: S.optional(S.String),
     Tags: S.optional(TagMap),
     SupportedHardwareType: S.optional(SupportedHardwareType),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/outposts" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateOutpostInput",
-}) as any as S.Schema<CreateOutpostInput>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/outposts" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "CreateOutpostInput" }) as any as S.Schema<CreateOutpostInput>;
 export type OutpostId = string;
 export type OwnerId = string;
 export type OutpostArn = string;
 export type LifeCycleStatus = string;
 export type SiteArn = string;
+export type OutpostGeneration = "GENERATION_2" | "GENERATION_1" | (string & {});
+export const OutpostGeneration = S.String;
+
+export type RackScalingType = "SINGLE_RACK" | "MULTI_RACK" | (string & {});
+export const RackScalingType = S.String;
+
 export interface Outpost {
   OutpostId?: string;
   OwnerId?: string;
@@ -452,6 +372,8 @@ export interface Outpost {
   Tags?: { [key: string]: string | undefined };
   SiteArn?: string;
   SupportedHardwareType?: SupportedHardwareType;
+  Generation?: OutpostGeneration;
+  RackScalingType?: RackScalingType;
 }
 export const Outpost = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -467,6 +389,8 @@ export const Outpost = /*@__PURE__*/ S.suspend(() =>
     Tags: S.optional(TagMap),
     SiteArn: S.optional(S.String),
     SupportedHardwareType: S.optional(SupportedHardwareType),
+    Generation: S.optional(OutpostGeneration),
+    RackScalingType: S.optional(RackScalingType),
   }),
 ).annotate({ identifier: "Outpost" }) as any as S.Schema<Outpost>;
 export interface CreateOutpostOutput {
@@ -474,9 +398,7 @@ export interface CreateOutpostOutput {
 }
 export const CreateOutpostOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Outpost: S.optional(Outpost) }),
-).annotate({
-  identifier: "CreateOutpostOutput",
-}) as any as S.Schema<CreateOutpostOutput>;
+).annotate({ identifier: "CreateOutpostOutput" }) as any as S.Schema<CreateOutpostOutput>;
 export type VpcId = string;
 export type SubnetId = string;
 export type SubnetIds = string[];
@@ -500,24 +422,20 @@ export interface CreatePrivateConnectivityConfigInput {
   OutpostId: string;
   VpcInformationList: VpcInformation[];
 }
-export const CreatePrivateConnectivityConfigInput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      OutpostId: S.String.pipe(T.HttpLabel("OutpostId")),
-      VpcInformationList: VpcInformationList,
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "POST",
-          uri: "/outposts/{OutpostId}/privateConnectivity",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const CreatePrivateConnectivityConfigInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    OutpostId: S.String.pipe(T.HttpLabel("OutpostId")),
+    VpcInformationList: VpcInformationList,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/outposts/{OutpostId}/privateConnectivity" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "CreatePrivateConnectivityConfigInput",
 }) as any as S.Schema<CreatePrivateConnectivityConfigInput>;
@@ -545,12 +463,11 @@ export interface CreatePrivateConnectivityConfigOutput {
   PrivateConnectivityConfig?: PrivateConnectivityConfig;
   OutpostId?: string;
 }
-export const CreatePrivateConnectivityConfigOutput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      PrivateConnectivityConfig: S.optional(PrivateConnectivityConfig),
-      OutpostId: S.optional(S.String),
-    }),
+export const CreatePrivateConnectivityConfigOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    PrivateConnectivityConfig: S.optional(PrivateConnectivityConfig),
+    OutpostId: S.optional(S.String),
+  }),
 ).annotate({
   identifier: "CreatePrivateConnectivityConfigOutput",
 }) as any as S.Schema<CreatePrivateConnectivityConfigOutput>;
@@ -576,6 +493,7 @@ export type QuoteConstraintType =
   | "RACK_MAXIMUM"
   | "RACK_MAX_POWER_KVA"
   | "RACK_MAX_WEIGHT_LBS"
+  | "RACK_SPACE_CONSTRAINED"
   | (string & {});
 export const QuoteConstraintType = S.String;
 
@@ -585,13 +503,8 @@ export interface QuoteConstraint {
   Value?: string;
 }
 export const QuoteConstraint = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    QuoteConstraintType: S.optional(QuoteConstraintType),
-    Value: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "QuoteConstraint",
-}) as any as S.Schema<QuoteConstraint>;
+  S.Struct({ QuoteConstraintType: S.optional(QuoteConstraintType), Value: S.optional(S.String) }),
+).annotate({ identifier: "QuoteConstraint" }) as any as S.Schema<QuoteConstraint>;
 export type QuoteConstraintList = QuoteConstraint[];
 export const QuoteConstraintList = /*@__PURE__*/ S.Array(QuoteConstraint);
 export type PaymentOptionList = PaymentOption[];
@@ -617,26 +530,11 @@ export const CreateQuoteInput = /*@__PURE__*/ S.suspend(() =>
     RequestedPaymentOptions: S.optional(PaymentOptionList),
     RequestedPaymentTerms: S.optional(PaymentTermList),
     Description: S.optional(SensitiveString),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/quotes" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateQuoteInput",
-}) as any as S.Schema<CreateQuoteInput>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/quotes" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "CreateQuoteInput" }) as any as S.Schema<CreateQuoteInput>;
 export type QuoteId = string;
 export type AccountId = string;
-export type QuoteStatus =
-  | "CREATED"
-  | "ORDER_SUBMITTED"
-  | "EXPIRED"
-  | (string & {});
+export type QuoteStatus = "CREATED" | "ORDER_SUBMITTED" | "EXPIRED" | (string & {});
 export const QuoteStatus = S.String;
 
 export type StatusMessage = string;
@@ -651,9 +549,7 @@ export const CapacitySummary = /*@__PURE__*/ S.suspend(() =>
     FinalCapacities: S.optional(QuoteCapacityList),
     CapacityChange: S.optional(QuoteCapacityList),
   }),
-).annotate({
-  identifier: "CapacitySummary",
-}) as any as S.Schema<CapacitySummary>;
+).annotate({ identifier: "CapacitySummary" }) as any as S.Schema<CapacitySummary>;
 export type QuoteSpecificationType =
   | "UPDATED_RACK"
   | "NEW_RACK"
@@ -666,11 +562,7 @@ export type RackId = string;
 export type QuoteRackUseType = "NETWORKING" | "COMPUTE" | (string & {});
 export const QuoteRackUseType = S.String;
 
-export type RackUnitHeight =
-  | "HEIGHT_42U"
-  | "HEIGHT_2U"
-  | "HEIGHT_1U"
-  | (string & {});
+export type RackUnitHeight = "HEIGHT_42U" | "HEIGHT_2U" | "HEIGHT_1U" | (string & {});
 export const RackUnitHeight = S.String;
 
 export type Family = string;
@@ -713,9 +605,7 @@ export const RackSpecificationDetails = /*@__PURE__*/ S.suspend(() =>
     RackUnitHeight: S.optional(RackUnitHeight),
     EC2Capacities: S.optional(EC2CapacityListDefinition),
   }),
-).annotate({
-  identifier: "RackSpecificationDetails",
-}) as any as S.Schema<RackSpecificationDetails>;
+).annotate({ identifier: "RackSpecificationDetails" }) as any as S.Schema<RackSpecificationDetails>;
 export interface ServerSpecificationDetails {
   ServerPowerDrawKva?: number;
   ServerWeightLbs?: number;
@@ -751,9 +641,7 @@ export const QuoteSpecification = /*@__PURE__*/ S.suspend(() =>
     FinalRackSpecificationDetails: S.optional(RackSpecificationDetails),
     ServerSpecificationDetails: S.optional(ServerSpecificationDetails),
   }),
-).annotate({
-  identifier: "QuoteSpecification",
-}) as any as S.Schema<QuoteSpecification>;
+).annotate({ identifier: "QuoteSpecification" }) as any as S.Schema<QuoteSpecification>;
 export type QuoteSpecificationList = QuoteSpecification[];
 export const QuoteSpecificationList = /*@__PURE__*/ S.Array(QuoteSpecification);
 export type QuotePricingType = "SUBSCRIPTION" | (string & {});
@@ -831,11 +719,7 @@ export type OrderingRequirementType =
   | (string & {});
 export const OrderingRequirementType = S.String;
 
-export type OrderingRequirementStatus =
-  | "PASS"
-  | "FAIL"
-  | "EXEMPT"
-  | (string & {});
+export type OrderingRequirementStatus = "PASS" | "FAIL" | "EXEMPT" | (string & {});
 export const OrderingRequirementStatus = S.String;
 
 export interface OrderingRequirement {
@@ -849,12 +733,9 @@ export const OrderingRequirement = /*@__PURE__*/ S.suspend(() =>
     OrderingRequirementType: S.optional(OrderingRequirementType),
     Status: S.optional(OrderingRequirementStatus),
   }),
-).annotate({
-  identifier: "OrderingRequirement",
-}) as any as S.Schema<OrderingRequirement>;
+).annotate({ identifier: "OrderingRequirement" }) as any as S.Schema<OrderingRequirement>;
 export type OrderingRequirementList = OrderingRequirement[];
-export const OrderingRequirementList =
-  /*@__PURE__*/ S.Array(OrderingRequirement);
+export const OrderingRequirementList = /*@__PURE__*/ S.Array(OrderingRequirement);
 export type OrderIdentifier = string;
 export interface Quote {
   QuoteId?: string;
@@ -899,9 +780,7 @@ export interface CreateQuoteOutput {
 }
 export const CreateQuoteOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Quote: S.optional(Quote) }),
-).annotate({
-  identifier: "CreateQuoteOutput",
-}) as any as S.Schema<CreateQuoteOutput>;
+).annotate({ identifier: "CreateQuoteOutput" }) as any as S.Schema<CreateQuoteOutput>;
 export type AutoFillIdempotencyToken = string;
 export interface CreateRenewalInput {
   PaymentOption: PaymentOption;
@@ -915,19 +794,8 @@ export const CreateRenewalInput = /*@__PURE__*/ S.suspend(() =>
     PaymentTerm: PaymentTerm,
     OutpostIdentifier: S.String,
     ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/renewals" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateRenewalInput",
-}) as any as S.Schema<CreateRenewalInput>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/renewals" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "CreateRenewalInput" }) as any as S.Schema<CreateRenewalInput>;
 export interface CreateRenewalOutput {
   PaymentOption?: PaymentOption;
   PaymentTerm?: PaymentTerm;
@@ -945,9 +813,7 @@ export const CreateRenewalOutput = /*@__PURE__*/ S.suspend(() =>
     MonthlyRecurringPrice: S.optional(S.Number),
     Currency: S.optional(CurrencyCode),
   }),
-).annotate({
-  identifier: "CreateRenewalOutput",
-}) as any as S.Schema<CreateRenewalOutput>;
+).annotate({ identifier: "CreateRenewalOutput" }) as any as S.Schema<CreateRenewalOutput>;
 export type SiteName = string;
 export type SiteDescription = string;
 export type SiteNotes = string;
@@ -1012,12 +878,7 @@ export const PowerConnector = S.String;
 export type PowerFeedDrop = "ABOVE_RACK" | "BELOW_RACK" | (string & {});
 export const PowerFeedDrop = S.String;
 
-export type UplinkGbps =
-  | "UPLINK_1G"
-  | "UPLINK_10G"
-  | "UPLINK_40G"
-  | "UPLINK_100G"
-  | (string & {});
+export type UplinkGbps = "UPLINK_1G" | "UPLINK_10G" | "UPLINK_40G" | "UPLINK_100G" | (string & {});
 export const UplinkGbps = S.String;
 
 export type UplinkCount =
@@ -1086,9 +947,7 @@ export const RackPhysicalProperties = /*@__PURE__*/ S.suspend(() =>
     OpticalStandard: S.optional(OpticalStandard),
     MaximumSupportedWeightLbs: S.optional(MaximumSupportedWeightLbs),
   }),
-).annotate({
-  identifier: "RackPhysicalProperties",
-}) as any as S.Schema<RackPhysicalProperties>;
+).annotate({ identifier: "RackPhysicalProperties" }) as any as S.Schema<RackPhysicalProperties>;
 export interface CreateSiteInput {
   Name: string;
   Description?: string;
@@ -1107,19 +966,8 @@ export const CreateSiteInput = /*@__PURE__*/ S.suspend(() =>
     OperatingAddress: S.optional(Address),
     ShippingAddress: S.optional(Address),
     RackPhysicalProperties: S.optional(RackPhysicalProperties),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/sites" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateSiteInput",
-}) as any as S.Schema<CreateSiteInput>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/sites" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "CreateSiteInput" }) as any as S.Schema<CreateSiteInput>;
 export interface Site {
   SiteId?: string;
   AccountId?: string;
@@ -1153,39 +1001,24 @@ export interface CreateSiteOutput {
 }
 export const CreateSiteOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Site: S.optional(Site) }),
-).annotate({
-  identifier: "CreateSiteOutput",
-}) as any as S.Schema<CreateSiteOutput>;
+).annotate({ identifier: "CreateSiteOutput" }) as any as S.Schema<CreateSiteOutput>;
 export interface DeleteOutpostInput {
   OutpostId: string;
 }
 export const DeleteOutpostInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ OutpostId: S.String.pipe(T.HttpLabel("OutpostId")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/outposts/{OutpostId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/outposts/{OutpostId}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteOutpostInput",
-}) as any as S.Schema<DeleteOutpostInput>;
+).annotate({ identifier: "DeleteOutpostInput" }) as any as S.Schema<DeleteOutpostInput>;
 export interface DeleteOutpostOutput {}
-export const DeleteOutpostOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteOutpostOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteOutpostOutput",
 }) as any as S.Schema<DeleteOutpostOutput>;
 export interface DeleteQuoteInput {
   QuoteIdentifier: string;
 }
 export const DeleteQuoteInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    QuoteIdentifier: S.String.pipe(T.HttpLabel("QuoteIdentifier")),
-  }).pipe(
+  S.Struct({ QuoteIdentifier: S.String.pipe(T.HttpLabel("QuoteIdentifier")) }).pipe(
     T.all(
       T.Http({ method: "DELETE", uri: "/quotes/{QuoteIdentifier}" }),
       svc,
@@ -1195,13 +1028,9 @@ export const DeleteQuoteInput = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteQuoteInput",
-}) as any as S.Schema<DeleteQuoteInput>;
+).annotate({ identifier: "DeleteQuoteInput" }) as any as S.Schema<DeleteQuoteInput>;
 export interface DeleteQuoteOutput {}
-export const DeleteQuoteOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteQuoteOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteQuoteOutput",
 }) as any as S.Schema<DeleteQuoteOutput>;
 export interface DeleteSiteInput {
@@ -1209,22 +1038,11 @@ export interface DeleteSiteInput {
 }
 export const DeleteSiteInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ SiteId: S.String.pipe(T.HttpLabel("SiteId")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/sites/{SiteId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/sites/{SiteId}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteSiteInput",
-}) as any as S.Schema<DeleteSiteInput>;
+).annotate({ identifier: "DeleteSiteInput" }) as any as S.Schema<DeleteSiteInput>;
 export interface DeleteSiteOutput {}
-export const DeleteSiteOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteSiteOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteSiteOutput",
 }) as any as S.Schema<DeleteSiteOutput>;
 export interface GetCapacityTaskInput {
@@ -1237,10 +1055,7 @@ export const GetCapacityTaskInput = /*@__PURE__*/ S.suspend(() =>
     OutpostIdentifier: S.String.pipe(T.HttpLabel("OutpostIdentifier")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/outposts/{OutpostIdentifier}/capacity/{CapacityTaskId}",
-      }),
+      T.Http({ method: "GET", uri: "/outposts/{OutpostIdentifier}/capacity/{CapacityTaskId}" }),
       svc,
       auth,
       proto,
@@ -1248,9 +1063,7 @@ export const GetCapacityTaskInput = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetCapacityTaskInput",
-}) as any as S.Schema<GetCapacityTaskInput>;
+).annotate({ identifier: "GetCapacityTaskInput" }) as any as S.Schema<GetCapacityTaskInput>;
 export type InstanceTypeName = string;
 export type InstanceTypeCount = number;
 export interface InstanceTypeCapacity {
@@ -1259,12 +1072,9 @@ export interface InstanceTypeCapacity {
 }
 export const InstanceTypeCapacity = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ InstanceType: S.String, Count: S.Number }),
-).annotate({
-  identifier: "InstanceTypeCapacity",
-}) as any as S.Schema<InstanceTypeCapacity>;
+).annotate({ identifier: "InstanceTypeCapacity" }) as any as S.Schema<InstanceTypeCapacity>;
 export type RequestedInstancePools = InstanceTypeCapacity[];
-export const RequestedInstancePools =
-  /*@__PURE__*/ S.Array(InstanceTypeCapacity);
+export const RequestedInstancePools = /*@__PURE__*/ S.Array(InstanceTypeCapacity);
 export type InstanceId = string;
 export type InstanceIdList = string[];
 export const InstanceIdList = /*@__PURE__*/ S.Array(S.String);
@@ -1294,9 +1104,7 @@ export const InstancesToExclude = /*@__PURE__*/ S.suspend(() =>
     AccountIds: S.optional(AccountIdList),
     Services: S.optional(AWSServiceNameList),
   }),
-).annotate({
-  identifier: "InstancesToExclude",
-}) as any as S.Schema<InstancesToExclude>;
+).annotate({ identifier: "InstancesToExclude" }) as any as S.Schema<InstancesToExclude>;
 export type DryRun = boolean;
 export type CapacityTaskStatus =
   | "REQUESTED"
@@ -1325,13 +1133,8 @@ export interface CapacityTaskFailure {
 }
 export const CapacityTaskFailure = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Reason: S.String, Type: S.optional(CapacityTaskFailureType) }),
-).annotate({
-  identifier: "CapacityTaskFailure",
-}) as any as S.Schema<CapacityTaskFailure>;
-export type TaskActionOnBlockingInstances =
-  | "WAIT_FOR_EVACUATION"
-  | "FAIL_TASK"
-  | (string & {});
+).annotate({ identifier: "CapacityTaskFailure" }) as any as S.Schema<CapacityTaskFailure>;
+export type TaskActionOnBlockingInstances = "WAIT_FOR_EVACUATION" | "FAIL_TASK" | (string & {});
 export const TaskActionOnBlockingInstances = S.String;
 
 export interface GetCapacityTaskOutput {
@@ -1362,14 +1165,10 @@ export const GetCapacityTaskOutput = /*@__PURE__*/ S.suspend(() =>
     Failed: S.optional(CapacityTaskFailure),
     CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     CompletionDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    LastModifiedDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LastModifiedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     TaskActionOnBlockingInstances: S.optional(TaskActionOnBlockingInstances),
   }),
-).annotate({
-  identifier: "GetCapacityTaskOutput",
-}) as any as S.Schema<GetCapacityTaskOutput>;
+).annotate({ identifier: "GetCapacityTaskOutput" }) as any as S.Schema<GetCapacityTaskOutput>;
 export interface GetCatalogItemInput {
   CatalogItemId: string;
 }
@@ -1384,9 +1183,7 @@ export const GetCatalogItemInput = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetCatalogItemInput",
-}) as any as S.Schema<GetCatalogItemInput>;
+).annotate({ identifier: "GetCatalogItemInput" }) as any as S.Schema<GetCatalogItemInput>;
 export type CatalogItemStatus = "AVAILABLE" | "DISCONTINUED" | (string & {});
 export const CatalogItemStatus = S.String;
 
@@ -1394,9 +1191,7 @@ export type CatalogItemPowerKva = number;
 export type CatalogItemWeightLbs = number;
 export type SupportedUplinkGbps = number;
 export type SupportedUplinkGbpsListDefinition = number[];
-export const SupportedUplinkGbpsListDefinition = /*@__PURE__*/ S.Array(
-  S.Number,
-);
+export const SupportedUplinkGbpsListDefinition = /*@__PURE__*/ S.Array(S.Number);
 export type SupportedStorageEnum = "EBS" | "S3" | (string & {});
 export const SupportedStorageEnum = S.String;
 
@@ -1410,6 +1205,7 @@ export interface CatalogItem {
   WeightLbs?: number;
   SupportedUplinkGbps?: number[];
   SupportedStorage?: SupportedStorageEnum[];
+  RackScalingType?: RackScalingType;
 }
 export const CatalogItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1420,6 +1216,7 @@ export const CatalogItem = /*@__PURE__*/ S.suspend(() =>
     WeightLbs: S.optional(S.Number),
     SupportedUplinkGbps: S.optional(SupportedUplinkGbpsListDefinition),
     SupportedStorage: S.optional(SupportedStorageList),
+    RackScalingType: S.optional(RackScalingType),
   }),
 ).annotate({ identifier: "CatalogItem" }) as any as S.Schema<CatalogItem>;
 export interface GetCatalogItemOutput {
@@ -1427,9 +1224,7 @@ export interface GetCatalogItemOutput {
 }
 export const GetCatalogItemOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ CatalogItem: S.optional(CatalogItem) }),
-).annotate({
-  identifier: "GetCatalogItemOutput",
-}) as any as S.Schema<GetCatalogItemOutput>;
+).annotate({ identifier: "GetCatalogItemOutput" }) as any as S.Schema<GetCatalogItemOutput>;
 export type ConnectionId = string;
 export interface GetConnectionRequest {
   ConnectionId: string;
@@ -1445,9 +1240,7 @@ export const GetConnectionRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetConnectionRequest",
-}) as any as S.Schema<GetConnectionRequest>;
+).annotate({ identifier: "GetConnectionRequest" }) as any as S.Schema<GetConnectionRequest>;
 export type WireGuardPublicKey = string;
 export type ServerEndpoint = string;
 export type CIDR = string;
@@ -1470,9 +1263,7 @@ export const ConnectionDetails = /*@__PURE__*/ S.suspend(() =>
     ServerTunnelAddress: S.optional(S.String),
     AllowedIps: S.optional(CIDRList),
   }),
-).annotate({
-  identifier: "ConnectionDetails",
-}) as any as S.Schema<ConnectionDetails>;
+).annotate({ identifier: "ConnectionDetails" }) as any as S.Schema<ConnectionDetails>;
 export interface GetConnectionResponse {
   ConnectionId?: string;
   ConnectionDetails?: ConnectionDetails;
@@ -1482,22 +1273,13 @@ export const GetConnectionResponse = /*@__PURE__*/ S.suspend(() =>
     ConnectionId: S.optional(S.String),
     ConnectionDetails: S.optional(ConnectionDetails),
   }),
-).annotate({
-  identifier: "GetConnectionResponse",
-}) as any as S.Schema<GetConnectionResponse>;
+).annotate({ identifier: "GetConnectionResponse" }) as any as S.Schema<GetConnectionResponse>;
 export interface GetOrderInput {
   OrderId: string;
 }
 export const GetOrderInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ OrderId: S.String.pipe(T.HttpLabel("OrderId")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/orders/{OrderId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/orders/{OrderId}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({ identifier: "GetOrderInput" }) as any as S.Schema<GetOrderInput>;
 export interface GetOrderOutput {
@@ -1511,26 +1293,15 @@ export interface GetOutpostInput {
 }
 export const GetOutpostInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ OutpostId: S.String.pipe(T.HttpLabel("OutpostId")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/outposts/{OutpostId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/outposts/{OutpostId}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetOutpostInput",
-}) as any as S.Schema<GetOutpostInput>;
+).annotate({ identifier: "GetOutpostInput" }) as any as S.Schema<GetOutpostInput>;
 export interface GetOutpostOutput {
   Outpost?: Outpost;
 }
 export const GetOutpostOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Outpost: S.optional(Outpost) }),
-).annotate({
-  identifier: "GetOutpostOutput",
-}) as any as S.Schema<GetOutpostOutput>;
+).annotate({ identifier: "GetOutpostOutput" }) as any as S.Schema<GetOutpostOutput>;
 export type Token = string;
 export type MaxResults1000 = number;
 export interface GetOutpostBillingInformationInput {
@@ -1545,10 +1316,7 @@ export const GetOutpostBillingInformationInput = /*@__PURE__*/ S.suspend(() =>
     OutpostIdentifier: S.String.pipe(T.HttpLabel("OutpostIdentifier")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/outpost/{OutpostIdentifier}/billing-information",
-      }),
+      T.Http({ method: "GET", uri: "/outpost/{OutpostIdentifier}/billing-information" }),
       svc,
       auth,
       proto,
@@ -1559,19 +1327,10 @@ export const GetOutpostBillingInformationInput = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "GetOutpostBillingInformationInput",
 }) as any as S.Schema<GetOutpostBillingInformationInput>;
-export type SubscriptionType =
-  | "ORIGINAL"
-  | "RENEWAL"
-  | "CAPACITY_INCREASE"
-  | (string & {});
+export type SubscriptionType = "ORIGINAL" | "RENEWAL" | "CAPACITY_INCREASE" | (string & {});
 export const SubscriptionType = S.String;
 
-export type SubscriptionStatus =
-  | "ACTIVE"
-  | "PENDING"
-  | "INACTIVE"
-  | "CANCELLED"
-  | (string & {});
+export type SubscriptionStatus = "ACTIVE" | "PENDING" | "INACTIVE" | "CANCELLED" | (string & {});
 export const SubscriptionStatus = S.String;
 
 export type OrderIdList = string[];
@@ -1651,12 +1410,9 @@ export interface InstanceTypeItem {
 }
 export const InstanceTypeItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ InstanceType: S.optional(S.String), VCPUs: S.optional(S.Number) }),
-).annotate({
-  identifier: "InstanceTypeItem",
-}) as any as S.Schema<InstanceTypeItem>;
+).annotate({ identifier: "InstanceTypeItem" }) as any as S.Schema<InstanceTypeItem>;
 export type InstanceTypeListDefinition = InstanceTypeItem[];
-export const InstanceTypeListDefinition =
-  /*@__PURE__*/ S.Array(InstanceTypeItem);
+export const InstanceTypeListDefinition = /*@__PURE__*/ S.Array(InstanceTypeItem);
 export interface GetOutpostInstanceTypesOutput {
   InstanceTypes?: InstanceTypeItem[];
   NextToken?: string;
@@ -1681,27 +1437,23 @@ export interface GetOutpostSupportedInstanceTypesInput {
   MaxResults?: number;
   NextToken?: string;
 }
-export const GetOutpostSupportedInstanceTypesInput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      OutpostIdentifier: S.String.pipe(T.HttpLabel("OutpostIdentifier")),
-      OrderId: S.optional(S.String).pipe(T.HttpQuery("OrderId")),
-      AssetId: S.optional(S.String).pipe(T.HttpQuery("AssetId")),
-      MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
-      NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "GET",
-          uri: "/outposts/{OutpostIdentifier}/supportedInstanceTypes",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const GetOutpostSupportedInstanceTypesInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    OutpostIdentifier: S.String.pipe(T.HttpLabel("OutpostIdentifier")),
+    OrderId: S.optional(S.String).pipe(T.HttpQuery("OrderId")),
+    AssetId: S.optional(S.String).pipe(T.HttpQuery("AssetId")),
+    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
+    NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/outposts/{OutpostIdentifier}/supportedInstanceTypes" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "GetOutpostSupportedInstanceTypesInput",
 }) as any as S.Schema<GetOutpostSupportedInstanceTypesInput>;
@@ -1709,12 +1461,11 @@ export interface GetOutpostSupportedInstanceTypesOutput {
   InstanceTypes?: InstanceTypeItem[];
   NextToken?: string;
 }
-export const GetOutpostSupportedInstanceTypesOutput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      InstanceTypes: S.optional(InstanceTypeListDefinition),
-      NextToken: S.optional(S.String),
-    }),
+export const GetOutpostSupportedInstanceTypesOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    InstanceTypes: S.optional(InstanceTypeListDefinition),
+    NextToken: S.optional(S.String),
+  }),
 ).annotate({
   identifier: "GetOutpostSupportedInstanceTypesOutput",
 }) as any as S.Schema<GetOutpostSupportedInstanceTypesOutput>;
@@ -1724,10 +1475,7 @@ export interface GetPrivateConnectivityConfigInput {
 export const GetPrivateConnectivityConfigInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ OutpostId: S.String.pipe(T.HttpLabel("OutpostId")) }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/outposts/{OutpostId}/privateConnectivity",
-      }),
+      T.Http({ method: "GET", uri: "/outposts/{OutpostId}/privateConnectivity" }),
       svc,
       auth,
       proto,
@@ -1742,9 +1490,7 @@ export interface GetPrivateConnectivityConfigOutput {
   PrivateConnectivityConfig?: PrivateConnectivityConfig;
 }
 export const GetPrivateConnectivityConfigOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PrivateConnectivityConfig: S.optional(PrivateConnectivityConfig),
-  }),
+  S.Struct({ PrivateConnectivityConfig: S.optional(PrivateConnectivityConfig) }),
 ).annotate({
   identifier: "GetPrivateConnectivityConfigOutput",
 }) as any as S.Schema<GetPrivateConnectivityConfigOutput>;
@@ -1752,9 +1498,7 @@ export interface GetQuoteInput {
   QuoteIdentifier: string;
 }
 export const GetQuoteInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    QuoteIdentifier: S.String.pipe(T.HttpLabel("QuoteIdentifier")),
-  }).pipe(
+  S.Struct({ QuoteIdentifier: S.String.pipe(T.HttpLabel("QuoteIdentifier")) }).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/quotes/{QuoteIdentifier}" }),
       svc,
@@ -1775,14 +1519,9 @@ export interface GetRenewalPricingInput {
   OutpostIdentifier: string;
 }
 export const GetRenewalPricingInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    OutpostIdentifier: S.String.pipe(T.HttpLabel("OutpostIdentifier")),
-  }).pipe(
+  S.Struct({ OutpostIdentifier: S.String.pipe(T.HttpLabel("OutpostIdentifier")) }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/outpost/{OutpostIdentifier}/renewal-pricing",
-      }),
+      T.Http({ method: "GET", uri: "/outpost/{OutpostIdentifier}/renewal-pricing" }),
       svc,
       auth,
       proto,
@@ -1790,9 +1529,7 @@ export const GetRenewalPricingInput = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetRenewalPricingInput",
-}) as any as S.Schema<GetRenewalPricingInput>;
+).annotate({ identifier: "GetRenewalPricingInput" }) as any as S.Schema<GetRenewalPricingInput>;
 export type PricingResult = "PRICED" | "UNABLE_TO_PRICE" | (string & {});
 export const PricingResult = S.String;
 
@@ -1805,22 +1542,13 @@ export const GetRenewalPricingOutput = /*@__PURE__*/ S.suspend(() =>
     PricingResult: S.optional(PricingResult),
     PricingOptions: S.optional(PricingOptionList),
   }),
-).annotate({
-  identifier: "GetRenewalPricingOutput",
-}) as any as S.Schema<GetRenewalPricingOutput>;
+).annotate({ identifier: "GetRenewalPricingOutput" }) as any as S.Schema<GetRenewalPricingOutput>;
 export interface GetSiteInput {
   SiteId: string;
 }
 export const GetSiteInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ SiteId: S.String.pipe(T.HttpLabel("SiteId")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/sites/{SiteId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/sites/{SiteId}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({ identifier: "GetSiteInput" }) as any as S.Schema<GetSiteInput>;
 export interface GetSiteOutput {
@@ -1829,10 +1557,7 @@ export interface GetSiteOutput {
 export const GetSiteOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Site: S.optional(Site) }),
 ).annotate({ identifier: "GetSiteOutput" }) as any as S.Schema<GetSiteOutput>;
-export type AddressType =
-  | "SHIPPING_ADDRESS"
-  | "OPERATING_ADDRESS"
-  | (string & {});
+export type AddressType = "SHIPPING_ADDRESS" | "OPERATING_ADDRESS" | (string & {});
 export const AddressType = S.String;
 
 export interface GetSiteAddressInput {
@@ -1844,18 +1569,9 @@ export const GetSiteAddressInput = /*@__PURE__*/ S.suspend(() =>
     SiteId: S.String.pipe(T.HttpLabel("SiteId")),
     AddressType: AddressType.pipe(T.HttpQuery("AddressType")),
   }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/sites/{SiteId}/address" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/sites/{SiteId}/address" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetSiteAddressInput",
-}) as any as S.Schema<GetSiteAddressInput>;
+).annotate({ identifier: "GetSiteAddressInput" }) as any as S.Schema<GetSiteAddressInput>;
 export interface GetSiteAddressOutput {
   SiteId?: string;
   AddressType?: AddressType;
@@ -1867,9 +1583,7 @@ export const GetSiteAddressOutput = /*@__PURE__*/ S.suspend(() =>
     AddressType: S.optional(AddressType),
     Address: S.optional(Address),
   }),
-).annotate({
-  identifier: "GetSiteAddressOutput",
-}) as any as S.Schema<GetSiteAddressOutput>;
+).annotate({ identifier: "GetSiteAddressOutput" }) as any as S.Schema<GetSiteAddressOutput>;
 export type AssetIdList = string[];
 export const AssetIdList = /*@__PURE__*/ S.Array(S.String);
 export type OutpostInstanceType = string;
@@ -1888,23 +1602,14 @@ export const ListAssetInstancesInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     OutpostIdentifier: S.String.pipe(T.HttpLabel("OutpostIdentifier")),
     AssetIdFilter: S.optional(AssetIdList).pipe(T.HttpQuery("AssetIdFilter")),
-    InstanceTypeFilter: S.optional(OutpostInstanceTypeList).pipe(
-      T.HttpQuery("InstanceTypeFilter"),
-    ),
-    AccountIdFilter: S.optional(AccountIdList).pipe(
-      T.HttpQuery("AccountIdFilter"),
-    ),
-    AwsServiceFilter: S.optional(AWSServiceNameList).pipe(
-      T.HttpQuery("AwsServiceFilter"),
-    ),
+    InstanceTypeFilter: S.optional(OutpostInstanceTypeList).pipe(T.HttpQuery("InstanceTypeFilter")),
+    AccountIdFilter: S.optional(AccountIdList).pipe(T.HttpQuery("AccountIdFilter")),
+    AwsServiceFilter: S.optional(AWSServiceNameList).pipe(T.HttpQuery("AwsServiceFilter")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/outposts/{OutpostIdentifier}/assetInstances",
-      }),
+      T.Http({ method: "GET", uri: "/outposts/{OutpostIdentifier}/assetInstances" }),
       svc,
       auth,
       proto,
@@ -1912,9 +1617,7 @@ export const ListAssetInstancesInput = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "ListAssetInstancesInput",
-}) as any as S.Schema<ListAssetInstancesInput>;
+).annotate({ identifier: "ListAssetInstancesInput" }) as any as S.Schema<ListAssetInstancesInput>;
 export interface AssetInstance {
   InstanceId?: string;
   InstanceType?: string;
@@ -1938,22 +1641,12 @@ export interface ListAssetInstancesOutput {
   NextToken?: string;
 }
 export const ListAssetInstancesOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AssetInstances: S.optional(AssetInstanceList),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListAssetInstancesOutput",
-}) as any as S.Schema<ListAssetInstancesOutput>;
+  S.Struct({ AssetInstances: S.optional(AssetInstanceList), NextToken: S.optional(S.String) }),
+).annotate({ identifier: "ListAssetInstancesOutput" }) as any as S.Schema<ListAssetInstancesOutput>;
 export type HostId = string;
 export type HostIdList = string[];
 export const HostIdList = /*@__PURE__*/ S.Array(S.String);
-export type AssetState =
-  | "ACTIVE"
-  | "RETIRING"
-  | "ISOLATED"
-  | "INSTALLING"
-  | (string & {});
+export type AssetState = "ACTIVE" | "RETIRING" | "ISOLATED" | "INSTALLING" | (string & {});
 export const AssetState = S.String;
 
 export type StatusList = AssetState[];
@@ -1984,9 +1677,7 @@ export const ListAssetsInput = /*@__PURE__*/ S.suspend(() =>
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
     StatusFilter: S.optional(StatusList).pipe(T.HttpQuery("StatusFilter")),
-    AssetTypeFilter: S.optional(AssetTypeList).pipe(
-      T.HttpQuery("AssetTypeFilter"),
-    ),
+    AssetTypeFilter: S.optional(AssetTypeList).pipe(T.HttpQuery("AssetTypeFilter")),
   }).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/outposts/{OutpostIdentifier}/assets" }),
@@ -1997,15 +1688,8 @@ export const ListAssetsInput = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "ListAssetsInput",
-}) as any as S.Schema<ListAssetsInput>;
-export type ComputeAssetState =
-  | "ACTIVE"
-  | "ISOLATED"
-  | "RETIRING"
-  | "INSTALLING"
-  | (string & {});
+).annotate({ identifier: "ListAssetsInput" }) as any as S.Schema<ListAssetsInput>;
+export type ComputeAssetState = "ACTIVE" | "ISOLATED" | "RETIRING" | "INSTALLING" | (string & {});
 export const ComputeAssetState = S.String;
 
 export type InstanceFamilyName = string;
@@ -2021,9 +1705,7 @@ export const AssetInstanceTypeCapacity = /*@__PURE__*/ S.suspend(() =>
   identifier: "AssetInstanceTypeCapacity",
 }) as any as S.Schema<AssetInstanceTypeCapacity>;
 export type AssetInstanceCapacityList = AssetInstanceTypeCapacity[];
-export const AssetInstanceCapacityList = /*@__PURE__*/ S.Array(
-  AssetInstanceTypeCapacity,
-);
+export const AssetInstanceCapacityList = /*@__PURE__*/ S.Array(AssetInstanceTypeCapacity);
 export interface ComputeAttributes {
   HostId?: string;
   State?: ComputeAssetState;
@@ -2039,9 +1721,7 @@ export const ComputeAttributes = /*@__PURE__*/ S.suspend(() =>
     InstanceTypeCapacities: S.optional(AssetInstanceCapacityList),
     MaxVcpus: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ComputeAttributes",
-}) as any as S.Schema<ComputeAttributes>;
+).annotate({ identifier: "ComputeAttributes" }) as any as S.Schema<ComputeAttributes>;
 export type RackElevation = number;
 export interface AssetLocation {
   RackElevation?: number;
@@ -2072,42 +1752,36 @@ export interface ListAssetsOutput {
   NextToken?: string;
 }
 export const ListAssetsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Assets: S.optional(AssetListDefinition),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListAssetsOutput",
-}) as any as S.Schema<ListAssetsOutput>;
+  S.Struct({ Assets: S.optional(AssetListDefinition), NextToken: S.optional(S.String) }),
+).annotate({ identifier: "ListAssetsOutput" }) as any as S.Schema<ListAssetsOutput>;
 export interface ListBlockingInstancesForCapacityTaskInput {
   OutpostIdentifier: string;
   CapacityTaskId: string;
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListBlockingInstancesForCapacityTaskInput =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      OutpostIdentifier: S.String.pipe(T.HttpLabel("OutpostIdentifier")),
-      CapacityTaskId: S.String.pipe(T.HttpLabel("CapacityTaskId")),
-      MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
-      NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "GET",
-          uri: "/outposts/{OutpostIdentifier}/capacity/{CapacityTaskId}/blockingInstances",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const ListBlockingInstancesForCapacityTaskInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    OutpostIdentifier: S.String.pipe(T.HttpLabel("OutpostIdentifier")),
+    CapacityTaskId: S.String.pipe(T.HttpLabel("CapacityTaskId")),
+    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
+    NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/outposts/{OutpostIdentifier}/capacity/{CapacityTaskId}/blockingInstances",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
-  ).annotate({
-    identifier: "ListBlockingInstancesForCapacityTaskInput",
-  }) as any as S.Schema<ListBlockingInstancesForCapacityTaskInput>;
+  ),
+).annotate({
+  identifier: "ListBlockingInstancesForCapacityTaskInput",
+}) as any as S.Schema<ListBlockingInstancesForCapacityTaskInput>;
 export interface BlockingInstance {
   InstanceId?: string;
   AccountId?: string;
@@ -2119,24 +1793,21 @@ export const BlockingInstance = /*@__PURE__*/ S.suspend(() =>
     AccountId: S.optional(S.String),
     AwsServiceName: S.optional(AWSServiceName),
   }),
-).annotate({
-  identifier: "BlockingInstance",
-}) as any as S.Schema<BlockingInstance>;
+).annotate({ identifier: "BlockingInstance" }) as any as S.Schema<BlockingInstance>;
 export type BlockingInstancesList = BlockingInstance[];
 export const BlockingInstancesList = /*@__PURE__*/ S.Array(BlockingInstance);
 export interface ListBlockingInstancesForCapacityTaskOutput {
   BlockingInstances?: BlockingInstance[];
   NextToken?: string;
 }
-export const ListBlockingInstancesForCapacityTaskOutput =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      BlockingInstances: S.optional(BlockingInstancesList),
-      NextToken: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "ListBlockingInstancesForCapacityTaskOutput",
-  }) as any as S.Schema<ListBlockingInstancesForCapacityTaskOutput>;
+export const ListBlockingInstancesForCapacityTaskOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    BlockingInstances: S.optional(BlockingInstancesList),
+    NextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListBlockingInstancesForCapacityTaskOutput",
+}) as any as S.Schema<ListBlockingInstancesForCapacityTaskOutput>;
 export type CapacityTaskStatusList = CapacityTaskStatus[];
 export const CapacityTaskStatusList = /*@__PURE__*/ S.Array(CapacityTaskStatus);
 export interface ListCapacityTasksInput {
@@ -2147,27 +1818,14 @@ export interface ListCapacityTasksInput {
 }
 export const ListCapacityTasksInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    OutpostIdentifierFilter: S.optional(S.String).pipe(
-      T.HttpQuery("OutpostIdentifierFilter"),
-    ),
+    OutpostIdentifierFilter: S.optional(S.String).pipe(T.HttpQuery("OutpostIdentifierFilter")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
     CapacityTaskStatusFilter: S.optional(CapacityTaskStatusList).pipe(
       T.HttpQuery("CapacityTaskStatusFilter"),
     ),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/capacity/tasks" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListCapacityTasksInput",
-}) as any as S.Schema<ListCapacityTasksInput>;
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/capacity/tasks" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "ListCapacityTasksInput" }) as any as S.Schema<ListCapacityTasksInput>;
 export interface CapacityTaskSummary {
   CapacityTaskId?: string;
   OutpostId?: string;
@@ -2187,13 +1845,9 @@ export const CapacityTaskSummary = /*@__PURE__*/ S.suspend(() =>
     CapacityTaskStatus: S.optional(CapacityTaskStatus),
     CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     CompletionDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    LastModifiedDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LastModifiedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
-).annotate({
-  identifier: "CapacityTaskSummary",
-}) as any as S.Schema<CapacityTaskSummary>;
+).annotate({ identifier: "CapacityTaskSummary" }) as any as S.Schema<CapacityTaskSummary>;
 export type CapacityTaskList = CapacityTaskSummary[];
 export const CapacityTaskList = /*@__PURE__*/ S.Array(CapacityTaskSummary);
 export interface ListCapacityTasksOutput {
@@ -2201,13 +1855,8 @@ export interface ListCapacityTasksOutput {
   NextToken?: string;
 }
 export const ListCapacityTasksOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CapacityTasks: S.optional(CapacityTaskList),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListCapacityTasksOutput",
-}) as any as S.Schema<ListCapacityTasksOutput>;
+  S.Struct({ CapacityTasks: S.optional(CapacityTaskList), NextToken: S.optional(S.String) }),
+).annotate({ identifier: "ListCapacityTasksOutput" }) as any as S.Schema<ListCapacityTasksOutput>;
 export type CatalogItemClass = "RACK" | "SERVER" | (string & {});
 export const CatalogItemClass = S.String;
 
@@ -2226,28 +1875,13 @@ export const ListCatalogItemsInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
-    ItemClassFilter: S.optional(CatalogItemClassList).pipe(
-      T.HttpQuery("ItemClassFilter"),
-    ),
+    ItemClassFilter: S.optional(CatalogItemClassList).pipe(T.HttpQuery("ItemClassFilter")),
     SupportedStorageFilter: S.optional(SupportedStorageList).pipe(
       T.HttpQuery("SupportedStorageFilter"),
     ),
-    EC2FamilyFilter: S.optional(EC2FamilyList).pipe(
-      T.HttpQuery("EC2FamilyFilter"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/catalog/items" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListCatalogItemsInput",
-}) as any as S.Schema<ListCatalogItemsInput>;
+    EC2FamilyFilter: S.optional(EC2FamilyList).pipe(T.HttpQuery("EC2FamilyFilter")),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/catalog/items" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "ListCatalogItemsInput" }) as any as S.Schema<ListCatalogItemsInput>;
 export type CatalogItemListDefinition = CatalogItem[];
 export const CatalogItemListDefinition = /*@__PURE__*/ S.Array(CatalogItem);
 export interface ListCatalogItemsOutput {
@@ -2259,12 +1893,7 @@ export const ListCatalogItemsOutput = /*@__PURE__*/ S.suspend(() =>
     CatalogItems: S.optional(CatalogItemListDefinition),
     NextToken: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListCatalogItemsOutput",
-}) as any as S.Schema<ListCatalogItemsOutput>;
-export type OutpostGeneration = "GENERATION_2" | "GENERATION_1" | (string & {});
-export const OutpostGeneration = S.String;
-
+).annotate({ identifier: "ListCatalogItemsOutput" }) as any as S.Schema<ListCatalogItemsOutput>;
 export interface ListOrderableInstanceTypesInput {
   OutpostGenerationFilter?: OutpostGeneration;
   MaxResults?: number;
@@ -2277,16 +1906,7 @@ export const ListOrderableInstanceTypesInput = /*@__PURE__*/ S.suspend(() =>
     ),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/instanceTypes" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/instanceTypes" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListOrderableInstanceTypesInput",
 }) as any as S.Schema<ListOrderableInstanceTypesInput>;
@@ -2304,9 +1924,7 @@ export const FormFactorConfig = /*@__PURE__*/ S.suspend(() =>
     FormFactor: S.optional(FormFactor),
     OutpostGeneration: S.optional(OutpostGeneration),
   }),
-).annotate({
-  identifier: "FormFactorConfig",
-}) as any as S.Schema<FormFactorConfig>;
+).annotate({ identifier: "FormFactorConfig" }) as any as S.Schema<FormFactorConfig>;
 export type FormFactorConfigList = FormFactorConfig[];
 export const FormFactorConfigList = /*@__PURE__*/ S.Array(FormFactorConfig);
 export interface DetailedInstanceTypeItem {
@@ -2324,13 +1942,9 @@ export const DetailedInstanceTypeItem = /*@__PURE__*/ S.suspend(() =>
     NetworkPerformance: S.optional(S.String),
     FormFactorConfigs: S.optional(FormFactorConfigList),
   }),
-).annotate({
-  identifier: "DetailedInstanceTypeItem",
-}) as any as S.Schema<DetailedInstanceTypeItem>;
+).annotate({ identifier: "DetailedInstanceTypeItem" }) as any as S.Schema<DetailedInstanceTypeItem>;
 export type DetailedInstanceTypeListDefinition = DetailedInstanceTypeItem[];
-export const DetailedInstanceTypeListDefinition = /*@__PURE__*/ S.Array(
-  DetailedInstanceTypeItem,
-);
+export const DetailedInstanceTypeListDefinition = /*@__PURE__*/ S.Array(DetailedInstanceTypeItem);
 export interface ListOrderableInstanceTypesOutput {
   InstanceTypes?: DetailedInstanceTypeItem[];
   NextToken?: string;
@@ -2350,24 +1964,11 @@ export interface ListOrdersInput {
 }
 export const ListOrdersInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    OutpostIdentifierFilter: S.optional(S.String).pipe(
-      T.HttpQuery("OutpostIdentifierFilter"),
-    ),
+    OutpostIdentifierFilter: S.optional(S.String).pipe(T.HttpQuery("OutpostIdentifierFilter")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/list-orders" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListOrdersInput",
-}) as any as S.Schema<ListOrdersInput>;
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/list-orders" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "ListOrdersInput" }) as any as S.Schema<ListOrdersInput>;
 export type LineItemStatusCounts = { [key in LineItemStatus]?: number };
 export const LineItemStatusCounts = /*@__PURE__*/ S.Record(
   LineItemStatus,
@@ -2389,12 +1990,8 @@ export const OrderSummary = /*@__PURE__*/ S.suspend(() =>
     OrderType: S.optional(OrderType),
     Status: S.optional(OrderStatus),
     LineItemCountsByStatus: S.optional(LineItemStatusCounts),
-    OrderSubmissionDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    OrderFulfilledDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    OrderSubmissionDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    OrderFulfilledDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({ identifier: "OrderSummary" }) as any as S.Schema<OrderSummary>;
 export type OrderSummaryListDefinition = OrderSummary[];
@@ -2404,13 +2001,8 @@ export interface ListOrdersOutput {
   NextToken?: string;
 }
 export const ListOrdersOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Orders: S.optional(OrderSummaryListDefinition),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListOrdersOutput",
-}) as any as S.Schema<ListOrdersOutput>;
+  S.Struct({ Orders: S.optional(OrderSummaryListDefinition), NextToken: S.optional(S.String) }),
+).annotate({ identifier: "ListOrdersOutput" }) as any as S.Schema<ListOrdersOutput>;
 export type LifeCycleStatusList = string[];
 export const LifeCycleStatusList = /*@__PURE__*/ S.Array(S.String);
 export type AvailabilityZoneList = string[];
@@ -2437,19 +2029,8 @@ export const ListOutpostsInput = /*@__PURE__*/ S.suspend(() =>
     AvailabilityZoneIdFilter: S.optional(AvailabilityZoneIdList).pipe(
       T.HttpQuery("AvailabilityZoneIdFilter"),
     ),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/outposts" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListOutpostsInput",
-}) as any as S.Schema<ListOutpostsInput>;
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/outposts" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "ListOutpostsInput" }) as any as S.Schema<ListOutpostsInput>;
 export type OutpostListDefinition = Outpost[];
 export const OutpostListDefinition = /*@__PURE__*/ S.Array(Outpost);
 export interface ListOutpostsOutput {
@@ -2457,13 +2038,8 @@ export interface ListOutpostsOutput {
   NextToken?: string;
 }
 export const ListOutpostsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Outposts: S.optional(OutpostListDefinition),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListOutpostsOutput",
-}) as any as S.Schema<ListOutpostsOutput>;
+  S.Struct({ Outposts: S.optional(OutpostListDefinition), NextToken: S.optional(S.String) }),
+).annotate({ identifier: "ListOutpostsOutput" }) as any as S.Schema<ListOutpostsOutput>;
 export interface ListQuotesInput {
   NextToken?: string;
   MaxResults?: number;
@@ -2472,19 +2048,8 @@ export const ListQuotesInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/quotes" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListQuotesInput",
-}) as any as S.Schema<ListQuotesInput>;
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/quotes" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "ListQuotesInput" }) as any as S.Schema<ListQuotesInput>;
 export interface QuoteSummary {
   QuoteId?: string;
   AccountId?: string;
@@ -2528,13 +2093,8 @@ export interface ListQuotesOutput {
   NextToken?: string;
 }
 export const ListQuotesOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Quotes: S.optional(QuoteSummaryListDefinition),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListQuotesOutput",
-}) as any as S.Schema<ListQuotesOutput>;
+  S.Struct({ Quotes: S.optional(QuoteSummaryListDefinition), NextToken: S.optional(S.String) }),
+).annotate({ identifier: "ListQuotesOutput" }) as any as S.Schema<ListQuotesOutput>;
 export type CountryCodeList = string[];
 export const CountryCodeList = /*@__PURE__*/ S.Array(S.String);
 export type StateOrRegionList = string[];
@@ -2561,16 +2121,7 @@ export const ListSitesInput = /*@__PURE__*/ S.suspend(() =>
     OperatingAddressCityFilter: S.optional(CityList).pipe(
       T.HttpQuery("OperatingAddressCityFilter"),
     ),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/sites" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/sites" }), svc, auth, proto, ver, rules)),
 ).annotate({ identifier: "ListSitesInput" }) as any as S.Schema<ListSitesInput>;
 export type SiteListDefinition = Site[];
 export const SiteListDefinition = /*@__PURE__*/ S.Array(Site);
@@ -2579,27 +2130,15 @@ export interface ListSitesOutput {
   NextToken?: string;
 }
 export const ListSitesOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Sites: S.optional(SiteListDefinition),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListSitesOutput",
-}) as any as S.Schema<ListSitesOutput>;
+  S.Struct({ Sites: S.optional(SiteListDefinition), NextToken: S.optional(S.String) }),
+).annotate({ identifier: "ListSitesOutput" }) as any as S.Schema<ListSitesOutput>;
 export type Arn = string;
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
 }
 export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListTagsForResourceRequest",
@@ -2640,9 +2179,7 @@ export const StartCapacityTaskInput = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "StartCapacityTaskInput",
-}) as any as S.Schema<StartCapacityTaskInput>;
+).annotate({ identifier: "StartCapacityTaskInput" }) as any as S.Schema<StartCapacityTaskInput>;
 export interface StartCapacityTaskOutput {
   CapacityTaskId?: string;
   OutpostId?: string;
@@ -2671,14 +2208,10 @@ export const StartCapacityTaskOutput = /*@__PURE__*/ S.suspend(() =>
     Failed: S.optional(CapacityTaskFailure),
     CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     CompletionDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    LastModifiedDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LastModifiedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     TaskActionOnBlockingInstances: S.optional(TaskActionOnBlockingInstances),
   }),
-).annotate({
-  identifier: "StartCapacityTaskOutput",
-}) as any as S.Schema<StartCapacityTaskOutput>;
+).annotate({ identifier: "StartCapacityTaskOutput" }) as any as S.Schema<StartCapacityTaskOutput>;
 export type DeviceSerialNumber = string;
 export type NetworkInterfaceDeviceIndex = number;
 export interface StartConnectionRequest {
@@ -2693,32 +2226,16 @@ export const StartConnectionRequest = /*@__PURE__*/ S.suspend(() =>
     AssetId: S.String,
     ClientPublicKey: S.String,
     NetworkInterfaceDeviceIndex: S.Number,
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/connections" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "StartConnectionRequest",
-}) as any as S.Schema<StartConnectionRequest>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/connections" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "StartConnectionRequest" }) as any as S.Schema<StartConnectionRequest>;
 export type UnderlayIpAddress = string;
 export interface StartConnectionResponse {
   ConnectionId?: string;
   UnderlayIpAddress?: string;
 }
 export const StartConnectionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ConnectionId: S.optional(S.String),
-    UnderlayIpAddress: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "StartConnectionResponse",
-}) as any as S.Schema<StartConnectionResponse>;
+  S.Struct({ ConnectionId: S.optional(S.String), UnderlayIpAddress: S.optional(S.String) }),
+).annotate({ identifier: "StartConnectionResponse" }) as any as S.Schema<StartConnectionResponse>;
 export type ValidateOnly = boolean;
 export interface StartOutpostDecommissionInput {
   OutpostIdentifier: string;
@@ -2730,10 +2247,7 @@ export const StartOutpostDecommissionInput = /*@__PURE__*/ S.suspend(() =>
     ValidateOnly: S.optional(S.Boolean),
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/outposts/{OutpostIdentifier}/decommission",
-      }),
+      T.Http({ method: "POST", uri: "/outposts/{OutpostIdentifier}/decommission" }),
       svc,
       auth,
       proto,
@@ -2744,11 +2258,7 @@ export const StartOutpostDecommissionInput = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "StartOutpostDecommissionInput",
 }) as any as S.Schema<StartOutpostDecommissionInput>;
-export type DecommissionRequestStatus =
-  | "SKIPPED"
-  | "BLOCKED"
-  | "REQUESTED"
-  | (string & {});
+export type DecommissionRequestStatus = "SKIPPED" | "BLOCKED" | "REQUESTED" | (string & {});
 export const DecommissionRequestStatus = S.String;
 
 export type BlockingResourceType =
@@ -2763,8 +2273,7 @@ export type BlockingResourceType =
 export const BlockingResourceType = S.String;
 
 export type BlockingResourceTypeList = BlockingResourceType[];
-export const BlockingResourceTypeList =
-  /*@__PURE__*/ S.Array(BlockingResourceType);
+export const BlockingResourceTypeList = /*@__PURE__*/ S.Array(BlockingResourceType);
 export interface StartOutpostDecommissionOutput {
   Status?: DecommissionRequestStatus;
   BlockingResourceTypes?: BlockingResourceType[];
@@ -2782,26 +2291,12 @@ export interface TagResourceRequest {
   Tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
-    Tags: TagMap,
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+  S.Struct({ ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")), Tags: TagMap }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
+).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = string[];
@@ -2815,22 +2310,11 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
     ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     TagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
   }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
+).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateOutpostInput {
@@ -2846,26 +2330,15 @@ export const UpdateOutpostInput = /*@__PURE__*/ S.suspend(() =>
     Description: S.optional(S.String),
     SupportedHardwareType: S.optional(SupportedHardwareType),
   }).pipe(
-    T.all(
-      T.Http({ method: "PATCH", uri: "/outposts/{OutpostId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "PATCH", uri: "/outposts/{OutpostId}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UpdateOutpostInput",
-}) as any as S.Schema<UpdateOutpostInput>;
+).annotate({ identifier: "UpdateOutpostInput" }) as any as S.Schema<UpdateOutpostInput>;
 export interface UpdateOutpostOutput {
   Outpost?: Outpost;
 }
 export const UpdateOutpostOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Outpost: S.optional(Outpost) }),
-).annotate({
-  identifier: "UpdateOutpostOutput",
-}) as any as S.Schema<UpdateOutpostOutput>;
+).annotate({ identifier: "UpdateOutpostOutput" }) as any as S.Schema<UpdateOutpostOutput>;
 export type OutpostIdentifierOrEmpty = string;
 export interface UpdateQuoteInput {
   QuoteIdentifier: string;
@@ -2897,17 +2370,13 @@ export const UpdateQuoteInput = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "UpdateQuoteInput",
-}) as any as S.Schema<UpdateQuoteInput>;
+).annotate({ identifier: "UpdateQuoteInput" }) as any as S.Schema<UpdateQuoteInput>;
 export interface UpdateQuoteOutput {
   Quote?: Quote;
 }
 export const UpdateQuoteOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Quote: S.optional(Quote) }),
-).annotate({
-  identifier: "UpdateQuoteOutput",
-}) as any as S.Schema<UpdateQuoteOutput>;
+).annotate({ identifier: "UpdateQuoteOutput" }) as any as S.Schema<UpdateQuoteOutput>;
 export interface UpdateSiteInput {
   SiteId: string;
   Name?: string;
@@ -2920,27 +2389,14 @@ export const UpdateSiteInput = /*@__PURE__*/ S.suspend(() =>
     Name: S.optional(S.String),
     Description: S.optional(S.String),
     Notes: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PATCH", uri: "/sites/{SiteId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateSiteInput",
-}) as any as S.Schema<UpdateSiteInput>;
+  }).pipe(T.all(T.Http({ method: "PATCH", uri: "/sites/{SiteId}" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "UpdateSiteInput" }) as any as S.Schema<UpdateSiteInput>;
 export interface UpdateSiteOutput {
   Site?: Site;
 }
 export const UpdateSiteOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Site: S.optional(Site) }),
-).annotate({
-  identifier: "UpdateSiteOutput",
-}) as any as S.Schema<UpdateSiteOutput>;
+).annotate({ identifier: "UpdateSiteOutput" }) as any as S.Schema<UpdateSiteOutput>;
 export interface UpdateSiteAddressInput {
   SiteId: string;
   AddressType: AddressType;
@@ -2952,30 +2408,16 @@ export const UpdateSiteAddressInput = /*@__PURE__*/ S.suspend(() =>
     AddressType: AddressType,
     Address: Address,
   }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/sites/{SiteId}/address" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "PUT", uri: "/sites/{SiteId}/address" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UpdateSiteAddressInput",
-}) as any as S.Schema<UpdateSiteAddressInput>;
+).annotate({ identifier: "UpdateSiteAddressInput" }) as any as S.Schema<UpdateSiteAddressInput>;
 export interface UpdateSiteAddressOutput {
   AddressType?: AddressType;
   Address?: Address;
 }
 export const UpdateSiteAddressOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AddressType: S.optional(AddressType),
-    Address: S.optional(Address),
-  }),
-).annotate({
-  identifier: "UpdateSiteAddressOutput",
-}) as any as S.Schema<UpdateSiteAddressOutput>;
+  S.Struct({ AddressType: S.optional(AddressType), Address: S.optional(Address) }),
+).annotate({ identifier: "UpdateSiteAddressOutput" }) as any as S.Schema<UpdateSiteAddressOutput>;
 export interface UpdateSiteRackPhysicalPropertiesInput {
   SiteId: string;
   PowerDrawKva?: PowerDrawKva;
@@ -2988,40 +2430,36 @@ export interface UpdateSiteRackPhysicalPropertiesInput {
   OpticalStandard?: OpticalStandard;
   MaximumSupportedWeightLbs?: MaximumSupportedWeightLbs;
 }
-export const UpdateSiteRackPhysicalPropertiesInput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      SiteId: S.String.pipe(T.HttpLabel("SiteId")),
-      PowerDrawKva: S.optional(PowerDrawKva),
-      PowerPhase: S.optional(PowerPhase),
-      PowerConnector: S.optional(PowerConnector),
-      PowerFeedDrop: S.optional(PowerFeedDrop),
-      UplinkGbps: S.optional(UplinkGbps),
-      UplinkCount: S.optional(UplinkCount),
-      FiberOpticCableType: S.optional(FiberOpticCableType),
-      OpticalStandard: S.optional(OpticalStandard),
-      MaximumSupportedWeightLbs: S.optional(MaximumSupportedWeightLbs),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "PATCH",
-          uri: "/sites/{SiteId}/rackPhysicalProperties",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const UpdateSiteRackPhysicalPropertiesInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    SiteId: S.String.pipe(T.HttpLabel("SiteId")),
+    PowerDrawKva: S.optional(PowerDrawKva),
+    PowerPhase: S.optional(PowerPhase),
+    PowerConnector: S.optional(PowerConnector),
+    PowerFeedDrop: S.optional(PowerFeedDrop),
+    UplinkGbps: S.optional(UplinkGbps),
+    UplinkCount: S.optional(UplinkCount),
+    FiberOpticCableType: S.optional(FiberOpticCableType),
+    OpticalStandard: S.optional(OpticalStandard),
+    MaximumSupportedWeightLbs: S.optional(MaximumSupportedWeightLbs),
+  }).pipe(
+    T.all(
+      T.Http({ method: "PATCH", uri: "/sites/{SiteId}/rackPhysicalProperties" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "UpdateSiteRackPhysicalPropertiesInput",
 }) as any as S.Schema<UpdateSiteRackPhysicalPropertiesInput>;
 export interface UpdateSiteRackPhysicalPropertiesOutput {
   Site?: Site;
 }
-export const UpdateSiteRackPhysicalPropertiesOutput = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ Site: S.optional(Site) }),
+export const UpdateSiteRackPhysicalPropertiesOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ Site: S.optional(Site) }),
 ).annotate({
   identifier: "UpdateSiteRackPhysicalPropertiesOutput",
 }) as any as S.Schema<UpdateSiteRackPhysicalPropertiesOutput>;
@@ -3207,12 +2645,7 @@ export const createQuote: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateQuoteInput,
   output: CreateQuoteOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    NotFoundException,
-    ValidationException,
-  ],
+  errors: [AccessDeniedException, InternalServerException, NotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateQuote",
@@ -3235,12 +2668,7 @@ export const createRenewal: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateRenewalInput,
   output: CreateRenewalOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    NotFoundException,
-    ValidationException,
-  ],
+  errors: [AccessDeniedException, InternalServerException, NotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRenewal",
@@ -3323,12 +2751,7 @@ export const deleteQuote: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteQuoteInput,
   output: DeleteQuoteOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    NotFoundException,
-    ValidationException,
-  ],
+  errors: [AccessDeniedException, InternalServerException, NotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteQuote",
@@ -3381,12 +2804,7 @@ export const getCapacityTask: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetCapacityTaskInput,
   output: GetCapacityTaskOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    NotFoundException,
-    ValidationException,
-  ],
+  errors: [AccessDeniedException, InternalServerException, NotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCapacityTask",
@@ -3409,12 +2827,7 @@ export const getCatalogItem: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetCatalogItemInput,
   output: GetCatalogItemOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    NotFoundException,
-    ValidationException,
-  ],
+  errors: [AccessDeniedException, InternalServerException, NotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCatalogItem",
@@ -3444,12 +2857,7 @@ export const getConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetConnectionRequest,
   output: GetConnectionResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    NotFoundException,
-    ValidationException,
-  ],
+  errors: [AccessDeniedException, InternalServerException, NotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConnection",
@@ -3494,12 +2902,7 @@ export const getOutpost: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetOutpostInput,
   output: GetOutpostOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    NotFoundException,
-    ValidationException,
-  ],
+  errors: [AccessDeniedException, InternalServerException, NotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOutpost",
@@ -3552,12 +2955,7 @@ export const getOutpostInstanceTypes: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: GetOutpostInstanceTypesInput,
   output: GetOutpostInstanceTypesOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    NotFoundException,
-    ValidationException,
-  ],
+  errors: [AccessDeniedException, InternalServerException, NotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOutpostInstanceTypes",
@@ -3589,12 +2987,7 @@ export const getOutpostSupportedInstanceTypes: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: GetOutpostSupportedInstanceTypesInput,
   output: GetOutpostSupportedInstanceTypesOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    NotFoundException,
-    ValidationException,
-  ],
+  errors: [AccessDeniedException, InternalServerException, NotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOutpostSupportedInstanceTypes",
@@ -3623,12 +3016,7 @@ export const getPrivateConnectivityConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetPrivateConnectivityConfigInput,
   output: GetPrivateConnectivityConfigOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    NotFoundException,
-    ValidationException,
-  ],
+  errors: [AccessDeniedException, InternalServerException, NotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPrivateConnectivityConfig",
@@ -3651,12 +3039,7 @@ export const getQuote: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetQuoteInput,
   output: GetQuoteOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    NotFoundException,
-    ValidationException,
-  ],
+  errors: [AccessDeniedException, InternalServerException, NotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetQuote",
@@ -3679,12 +3062,7 @@ export const getRenewalPricing: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetRenewalPricingInput,
   output: GetRenewalPricingOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    NotFoundException,
-    ValidationException,
-  ],
+  errors: [AccessDeniedException, InternalServerException, NotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRenewalPricing",
@@ -3707,12 +3085,7 @@ export const getSite: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetSiteInput,
   output: GetSiteOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    NotFoundException,
-    ValidationException,
-  ],
+  errors: [AccessDeniedException, InternalServerException, NotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSite",
@@ -3735,12 +3108,7 @@ export const getSiteAddress: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetSiteAddressInput,
   output: GetSiteAddressOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    NotFoundException,
-    ValidationException,
-  ],
+  errors: [AccessDeniedException, InternalServerException, NotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSiteAddress",
@@ -3765,12 +3133,7 @@ export const listAssetInstances: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListAssetInstancesInput,
   output: ListAssetInstancesOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    NotFoundException,
-    ValidationException,
-  ],
+  errors: [AccessDeniedException, InternalServerException, NotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAssetInstances",
@@ -3804,12 +3167,7 @@ export const listAssets: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListAssetsInput,
   output: ListAssetsOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    NotFoundException,
-    ValidationException,
-  ],
+  errors: [AccessDeniedException, InternalServerException, NotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAssets",
@@ -3841,12 +3199,7 @@ export const listBlockingInstancesForCapacityTask: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListBlockingInstancesForCapacityTaskInput,
   output: ListBlockingInstancesForCapacityTaskOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    NotFoundException,
-    ValidationException,
-  ],
+  errors: [AccessDeniedException, InternalServerException, NotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListBlockingInstancesForCapacityTask",
@@ -3880,12 +3233,7 @@ export const listCapacityTasks: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListCapacityTasksInput,
   output: ListCapacityTasksOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    NotFoundException,
-    ValidationException,
-  ],
+  errors: [AccessDeniedException, InternalServerException, NotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListCapacityTasks",
@@ -3919,12 +3267,7 @@ export const listCatalogItems: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListCatalogItemsInput,
   output: ListCatalogItemsOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    NotFoundException,
-    ValidationException,
-  ],
+  errors: [AccessDeniedException, InternalServerException, NotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListCatalogItems",
@@ -3955,12 +3298,7 @@ export const listOrderableInstanceTypes: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListOrderableInstanceTypesInput,
   output: ListOrderableInstanceTypesOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    NotFoundException,
-    ValidationException,
-  ],
+  errors: [AccessDeniedException, InternalServerException, NotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListOrderableInstanceTypes",
@@ -3990,12 +3328,7 @@ export const listOrders: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListOrdersInput,
   output: ListOrdersOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    NotFoundException,
-    ValidationException,
-  ],
+  errors: [AccessDeniedException, InternalServerException, NotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListOrders",
@@ -4040,10 +3373,7 @@ export const listOutposts: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListQuotesError =
-  | AccessDeniedException
-  | InternalServerException
-  | CommonErrors;
+export type ListQuotesError = AccessDeniedException | InternalServerException | CommonErrors;
 /**
  * Lists the quotes for your Amazon Web Services account.
  */
@@ -4179,12 +3509,7 @@ export const startConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: StartConnectionRequest,
   output: StartConnectionResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    NotFoundException,
-    ValidationException,
-  ],
+  errors: [AccessDeniedException, InternalServerException, NotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartConnection",
@@ -4312,12 +3637,7 @@ export const updateQuote: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateQuoteInput,
   output: UpdateQuoteOutput,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    NotFoundException,
-    ValidationException,
-  ],
+  errors: [AccessDeniedException, InternalServerException, NotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateQuote",

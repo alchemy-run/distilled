@@ -1,18 +1,15 @@
+import * as API from "@distilled.cloud/core/api";
+import * as S from "@distilled.cloud/core/schema";
 import * as HttpClient from "effect/http/HttpClient";
 import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
-import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
-const svc = T.AwsApiService({
-  sdkId: "Pca Connector Scep",
-  serviceShapeName: "PcaConnectorScep",
-});
+import * as T from "../traits.ts";
+const svc = T.AwsApiService({ sdkId: "Pca Connector Scep", serviceShapeName: "PcaConnectorScep" });
 const auth = T.AwsAuthSigv4({ name: "pca-connector-scep" });
 const ver = T.ServiceVersion("2018-05-10");
 const proto = T.AwsProtocolsRestJson1();
@@ -28,14 +25,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -62,9 +55,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://pca-connector-scep-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -72,13 +63,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://pca-connector-scep.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://pca-connector-scep.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://pca-connector-scep.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -100,11 +87,7 @@ export class BadRequestException
 export class ConflictException
   extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
     "ConflictException",
-    {
-      message: S.String.pipe(T.ErrorMessage()),
-      ResourceId: S.String,
-      ResourceType: S.String,
-    },
+    { message: S.String.pipe(T.ErrorMessage()), ResourceId: S.String, ResourceType: S.String },
     T.HttpError(409),
   ).pipe(C.withConflictError) {}
 export class InternalServerException
@@ -116,11 +99,7 @@ export class InternalServerException
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",
-    {
-      message: S.String.pipe(T.ErrorMessage()),
-      ResourceId: S.String,
-      ResourceType: S.String,
-    },
+    { message: S.String.pipe(T.ErrorMessage()), ResourceId: S.String, ResourceType: S.String },
     T.HttpError(404),
   ).pipe(C.withBadRequestError) {}
 export class ServiceQuotaExceededException
@@ -167,19 +146,8 @@ export const CreateChallengeRequest = /*@__PURE__*/ S.suspend(() =>
     ConnectorArn: S.String,
     ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
     Tags: S.optional(Tags),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/challenges" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateChallengeRequest",
-}) as any as S.Schema<CreateChallengeRequest>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/challenges" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "CreateChallengeRequest" }) as any as S.Schema<CreateChallengeRequest>;
 export type ChallengeArn = string;
 export type SensitiveString = string | redacted.Redacted<string>;
 export interface Challenge {
@@ -203,9 +171,7 @@ export interface CreateChallengeResponse {
 }
 export const CreateChallengeResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Challenge: S.optional(Challenge) }),
-).annotate({
-  identifier: "CreateChallengeResponse",
-}) as any as S.Schema<CreateChallengeResponse>;
+).annotate({ identifier: "CreateChallengeResponse" }) as any as S.Schema<CreateChallengeResponse>;
 export type CertificateAuthorityArn = string;
 export type AzureApplicationId = string;
 export type AzureDomain = string;
@@ -215,9 +181,7 @@ export interface IntuneConfiguration {
 }
 export const IntuneConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ AzureApplicationId: S.String, Domain: S.String }),
-).annotate({
-  identifier: "IntuneConfiguration",
-}) as any as S.Schema<IntuneConfiguration>;
+).annotate({ identifier: "IntuneConfiguration" }) as any as S.Schema<IntuneConfiguration>;
 export type MobileDeviceManagement = { Intune: IntuneConfiguration };
 export const MobileDeviceManagement = /*@__PURE__*/ S.Union([
   S.Struct({ Intune: IntuneConfiguration }),
@@ -237,27 +201,14 @@ export const CreateConnectorRequest = /*@__PURE__*/ S.suspend(() =>
     VpcEndpointId: S.optional(S.String),
     ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
     Tags: S.optional(Tags),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/connectors" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateConnectorRequest",
-}) as any as S.Schema<CreateConnectorRequest>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/connectors" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "CreateConnectorRequest" }) as any as S.Schema<CreateConnectorRequest>;
 export interface CreateConnectorResponse {
   ConnectorArn?: string;
 }
 export const CreateConnectorResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ConnectorArn: S.optional(S.String) }),
-).annotate({
-  identifier: "CreateConnectorResponse",
-}) as any as S.Schema<CreateConnectorResponse>;
+).annotate({ identifier: "CreateConnectorResponse" }) as any as S.Schema<CreateConnectorResponse>;
 export interface DeleteChallengeRequest {
   ChallengeArn: string;
 }
@@ -272,13 +223,9 @@ export const DeleteChallengeRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteChallengeRequest",
-}) as any as S.Schema<DeleteChallengeRequest>;
+).annotate({ identifier: "DeleteChallengeRequest" }) as any as S.Schema<DeleteChallengeRequest>;
 export interface DeleteChallengeResponse {}
-export const DeleteChallengeResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteChallengeResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteChallengeResponse",
 }) as any as S.Schema<DeleteChallengeResponse>;
 export interface DeleteConnectorRequest {
@@ -295,13 +242,9 @@ export const DeleteConnectorRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteConnectorRequest",
-}) as any as S.Schema<DeleteConnectorRequest>;
+).annotate({ identifier: "DeleteConnectorRequest" }) as any as S.Schema<DeleteConnectorRequest>;
 export interface DeleteConnectorResponse {}
-export const DeleteConnectorResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteConnectorResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteConnectorResponse",
 }) as any as S.Schema<DeleteConnectorResponse>;
 export interface GetChallengeMetadataRequest {
@@ -334,9 +277,7 @@ export const ChallengeMetadata = /*@__PURE__*/ S.suspend(() =>
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
-).annotate({
-  identifier: "ChallengeMetadata",
-}) as any as S.Schema<ChallengeMetadata>;
+).annotate({ identifier: "ChallengeMetadata" }) as any as S.Schema<ChallengeMetadata>;
 export interface GetChallengeMetadataResponse {
   ChallengeMetadata?: ChallengeMetadata;
 }
@@ -384,9 +325,7 @@ export const GetConnectorRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetConnectorRequest",
-}) as any as S.Schema<GetConnectorRequest>;
+).annotate({ identifier: "GetConnectorRequest" }) as any as S.Schema<GetConnectorRequest>;
 export type ConnectorType = "GENERAL_PURPOSE" | "INTUNE" | (string & {});
 export const ConnectorType = S.String;
 
@@ -401,15 +340,8 @@ export const OpenIdConfiguration = /*@__PURE__*/ S.suspend(() =>
     Subject: S.optional(S.String),
     Audience: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OpenIdConfiguration",
-}) as any as S.Schema<OpenIdConfiguration>;
-export type ConnectorStatus =
-  | "CREATING"
-  | "ACTIVE"
-  | "DELETING"
-  | "FAILED"
-  | (string & {});
+).annotate({ identifier: "OpenIdConfiguration" }) as any as S.Schema<OpenIdConfiguration>;
+export type ConnectorStatus = "CREATING" | "ACTIVE" | "DELETING" | "FAILED" | (string & {});
 export const ConnectorStatus = S.String;
 
 export type ConnectorStatusReason =
@@ -453,9 +385,7 @@ export interface GetConnectorResponse {
 }
 export const GetConnectorResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Connector: S.optional(Connector) }),
-).annotate({
-  identifier: "GetConnectorResponse",
-}) as any as S.Schema<GetConnectorResponse>;
+).annotate({ identifier: "GetConnectorResponse" }) as any as S.Schema<GetConnectorResponse>;
 export type MaxResults = number;
 export type NextToken = string;
 export interface ListChallengeMetadataRequest {
@@ -469,14 +399,7 @@ export const ListChallengeMetadataRequest = /*@__PURE__*/ S.suspend(() =>
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
     ConnectorArn: S.String.pipe(T.HttpQuery("ConnectorArn")),
   }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/challengeMetadata" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/challengeMetadata" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListChallengeMetadataRequest",
@@ -494,22 +417,15 @@ export const ChallengeMetadataSummary = /*@__PURE__*/ S.suspend(() =>
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
-).annotate({
-  identifier: "ChallengeMetadataSummary",
-}) as any as S.Schema<ChallengeMetadataSummary>;
+).annotate({ identifier: "ChallengeMetadataSummary" }) as any as S.Schema<ChallengeMetadataSummary>;
 export type ChallengeMetadataList = ChallengeMetadataSummary[];
-export const ChallengeMetadataList = /*@__PURE__*/ S.Array(
-  ChallengeMetadataSummary,
-);
+export const ChallengeMetadataList = /*@__PURE__*/ S.Array(ChallengeMetadataSummary);
 export interface ListChallengeMetadataResponse {
   Challenges?: ChallengeMetadataSummary[];
   NextToken?: string;
 }
 export const ListChallengeMetadataResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Challenges: S.optional(ChallengeMetadataList),
-    NextToken: S.optional(S.String),
-  }),
+  S.Struct({ Challenges: S.optional(ChallengeMetadataList), NextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListChallengeMetadataResponse",
 }) as any as S.Schema<ListChallengeMetadataResponse>;
@@ -521,19 +437,8 @@ export const ListConnectorsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/connectors" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListConnectorsRequest",
-}) as any as S.Schema<ListConnectorsRequest>;
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/connectors" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "ListConnectorsRequest" }) as any as S.Schema<ListConnectorsRequest>;
 export interface ConnectorSummary {
   Arn?: string;
   CertificateAuthorityArn?: string;
@@ -559,9 +464,7 @@ export const ConnectorSummary = /*@__PURE__*/ S.suspend(() =>
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
-).annotate({
-  identifier: "ConnectorSummary",
-}) as any as S.Schema<ConnectorSummary>;
+).annotate({ identifier: "ConnectorSummary" }) as any as S.Schema<ConnectorSummary>;
 export type ConnectorList = ConnectorSummary[];
 export const ConnectorList = /*@__PURE__*/ S.Array(ConnectorSummary);
 export interface ListConnectorsResponse {
@@ -569,26 +472,14 @@ export interface ListConnectorsResponse {
   NextToken?: string;
 }
 export const ListConnectorsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Connectors: S.optional(ConnectorList),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListConnectorsResponse",
-}) as any as S.Schema<ListConnectorsResponse>;
+  S.Struct({ Connectors: S.optional(ConnectorList), NextToken: S.optional(S.String) }),
+).annotate({ identifier: "ListConnectorsResponse" }) as any as S.Schema<ListConnectorsResponse>;
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
 }
 export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListTagsForResourceRequest",
@@ -606,26 +497,12 @@ export interface TagResourceRequest {
   Tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
-    Tags: Tags,
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+  S.Struct({ ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")), Tags: Tags }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
+).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = string[];
@@ -639,22 +516,11 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
     ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     TagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
   }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
+).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export type ValidationExceptionReason =

@@ -1,14 +1,14 @@
+import * as API from "@distilled.cloud/core/api";
+import * as S from "@distilled.cloud/core/schema";
 import * as HttpClient from "effect/http/HttpClient";
 import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
-import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({ sdkId: "MWAA", serviceShapeName: "AmazonMWAA" });
 const auth = T.AwsAuthSigv4({ name: "airflow" });
 const ver = T.ServiceVersion("2020-07-01");
@@ -25,14 +25,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -55,13 +51,9 @@ const rules = T.EndpointResolver((p, _) => {
         }
         if (UseFIPS === true) {
           if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            return e(
-              `https://airflow-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
+            return e(`https://airflow-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -69,13 +61,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://airflow.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://airflow.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://airflow.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -138,18 +126,9 @@ export interface CreateCliTokenRequest {
 }
 export const CreateCliTokenRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Name: S.String.pipe(T.HttpLabel("Name")) }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/clitoken/{Name}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/clitoken/{Name}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "CreateCliTokenRequest",
-}) as any as S.Schema<CreateCliTokenRequest>;
+).annotate({ identifier: "CreateCliTokenRequest" }) as any as S.Schema<CreateCliTokenRequest>;
 export type Token = string | redacted.Redacted<string>;
 export type Hostname = string;
 export interface CreateCliTokenResponse {
@@ -157,13 +136,8 @@ export interface CreateCliTokenResponse {
   WebServerHostname?: string;
 }
 export const CreateCliTokenResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CliToken: S.optional(SensitiveString),
-    WebServerHostname: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CreateCliTokenResponse",
-}) as any as S.Schema<CreateCliTokenResponse>;
+  S.Struct({ CliToken: S.optional(SensitiveString), WebServerHostname: S.optional(S.String) }),
+).annotate({ identifier: "CreateCliTokenResponse" }) as any as S.Schema<CreateCliTokenResponse>;
 export type IamRoleArn = string;
 export type S3BucketArn = string;
 export type RelativePath = string;
@@ -178,13 +152,8 @@ export interface NetworkConfiguration {
   SecurityGroupIds?: string[];
 }
 export const NetworkConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SubnetIds: S.optional(SubnetList),
-    SecurityGroupIds: S.optional(SecurityGroupList),
-  }),
-).annotate({
-  identifier: "NetworkConfiguration",
-}) as any as S.Schema<NetworkConfiguration>;
+  S.Struct({ SubnetIds: S.optional(SubnetList), SecurityGroupIds: S.optional(SecurityGroupList) }),
+).annotate({ identifier: "NetworkConfiguration" }) as any as S.Schema<NetworkConfiguration>;
 export type S3ObjectVersion = string;
 export type ConfigKey = string;
 export type ConfigValue = string | redacted.Redacted<string>;
@@ -232,10 +201,7 @@ export type WeeklyMaintenanceWindowStart = string;
 export type TagKey = string;
 export type TagValue = string;
 export type TagMap = { [key: string]: string | undefined };
-export const TagMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const TagMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export type WebserverAccessMode = string;
 export type MinWorkers = number;
 export type Schedulers = number;
@@ -254,9 +220,7 @@ export interface CreateEnvironmentInput {
   RequirementsS3ObjectVersion?: string;
   StartupScriptS3Path?: string;
   StartupScriptS3ObjectVersion?: string;
-  AirflowConfigurationOptions?: {
-    [key: string]: string | redacted.Redacted<string> | undefined;
-  };
+  AirflowConfigurationOptions?: { [key: string]: string | redacted.Redacted<string> | undefined };
   EnvironmentClass?: string;
   MaxWorkers?: number;
   KmsKey?: string;
@@ -299,40 +263,22 @@ export const CreateEnvironmentInput = /*@__PURE__*/ S.suspend(() =>
     MinWebservers: S.optional(S.Number),
     MaxWebservers: S.optional(S.Number),
   }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/environments/{Name}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "PUT", uri: "/environments/{Name}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "CreateEnvironmentInput",
-}) as any as S.Schema<CreateEnvironmentInput>;
+).annotate({ identifier: "CreateEnvironmentInput" }) as any as S.Schema<CreateEnvironmentInput>;
 export type EnvironmentArn = string;
 export interface CreateEnvironmentOutput {
   Arn?: string;
 }
 export const CreateEnvironmentOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Arn: S.optional(S.String) }),
-).annotate({
-  identifier: "CreateEnvironmentOutput",
-}) as any as S.Schema<CreateEnvironmentOutput>;
+).annotate({ identifier: "CreateEnvironmentOutput" }) as any as S.Schema<CreateEnvironmentOutput>;
 export interface CreateWebLoginTokenRequest {
   Name: string;
 }
 export const CreateWebLoginTokenRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Name: S.String.pipe(T.HttpLabel("Name")) }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/webtoken/{Name}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/webtoken/{Name}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "CreateWebLoginTokenRequest",
@@ -360,22 +306,11 @@ export interface DeleteEnvironmentInput {
 }
 export const DeleteEnvironmentInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Name: S.String.pipe(T.HttpLabel("Name")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/environments/{Name}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/environments/{Name}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteEnvironmentInput",
-}) as any as S.Schema<DeleteEnvironmentInput>;
+).annotate({ identifier: "DeleteEnvironmentInput" }) as any as S.Schema<DeleteEnvironmentInput>;
 export interface DeleteEnvironmentOutput {}
-export const DeleteEnvironmentOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteEnvironmentOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteEnvironmentOutput",
 }) as any as S.Schema<DeleteEnvironmentOutput>;
 export interface GetEnvironmentInput {
@@ -383,18 +318,9 @@ export interface GetEnvironmentInput {
 }
 export const GetEnvironmentInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Name: S.String.pipe(T.HttpLabel("Name")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/environments/{Name}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/environments/{Name}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetEnvironmentInput",
-}) as any as S.Schema<GetEnvironmentInput>;
+).annotate({ identifier: "GetEnvironmentInput" }) as any as S.Schema<GetEnvironmentInput>;
 export type EnvironmentStatus = string;
 export type CreatedAt = Date;
 export type WebserverUrl = string;
@@ -428,9 +354,7 @@ export const LoggingConfiguration = /*@__PURE__*/ S.suspend(() =>
     WorkerLogs: S.optional(ModuleLoggingConfiguration),
     TaskLogs: S.optional(ModuleLoggingConfiguration),
   }),
-).annotate({
-  identifier: "LoggingConfiguration",
-}) as any as S.Schema<LoggingConfiguration>;
+).annotate({ identifier: "LoggingConfiguration" }) as any as S.Schema<LoggingConfiguration>;
 export type UpdateStatus = string;
 export type UpdateCreatedAt = Date;
 export type ErrorCode = string;
@@ -440,10 +364,7 @@ export interface UpdateError {
   ErrorMessage?: string;
 }
 export const UpdateError = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ErrorCode: S.optional(S.String),
-    ErrorMessage: S.optional(S.String),
-  }),
+  S.Struct({ ErrorCode: S.optional(S.String), ErrorMessage: S.optional(S.String) }),
 ).annotate({ identifier: "UpdateError" }) as any as S.Schema<UpdateError>;
 export type UpdateSource = string;
 export type WorkerReplacementStrategy = string;
@@ -483,9 +404,7 @@ export interface Environment {
   RequirementsS3ObjectVersion?: string;
   StartupScriptS3Path?: string;
   StartupScriptS3ObjectVersion?: string;
-  AirflowConfigurationOptions?: {
-    [key: string]: string | redacted.Redacted<string> | undefined;
-  };
+  AirflowConfigurationOptions?: { [key: string]: string | redacted.Redacted<string> | undefined };
   EnvironmentClass?: string;
   MaxWorkers?: number;
   NetworkConfiguration?: NetworkConfiguration;
@@ -546,9 +465,7 @@ export interface GetEnvironmentOutput {
 }
 export const GetEnvironmentOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Environment: S.optional(Environment) }),
-).annotate({
-  identifier: "GetEnvironmentOutput",
-}) as any as S.Schema<GetEnvironmentOutput>;
+).annotate({ identifier: "GetEnvironmentOutput" }) as any as S.Schema<GetEnvironmentOutput>;
 export type RestApiPath = string;
 export type RestApiMethod = string;
 export type RestApiRequestBody = unknown;
@@ -566,32 +483,16 @@ export const InvokeRestApiRequest = /*@__PURE__*/ S.suspend(() =>
     Method: S.String,
     QueryParameters: S.optional(S.Any),
     Body: S.optional(S.Any),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/restapi/{Name}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "InvokeRestApiRequest",
-}) as any as S.Schema<InvokeRestApiRequest>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/restapi/{Name}" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "InvokeRestApiRequest" }) as any as S.Schema<InvokeRestApiRequest>;
 export type RestApiResponse = unknown;
 export interface InvokeRestApiResponse {
   RestApiStatusCode?: number;
   RestApiResponse?: any;
 }
 export const InvokeRestApiResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RestApiStatusCode: S.optional(S.Number),
-    RestApiResponse: S.optional(S.Any),
-  }),
-).annotate({
-  identifier: "InvokeRestApiResponse",
-}) as any as S.Schema<InvokeRestApiResponse>;
+  S.Struct({ RestApiStatusCode: S.optional(S.Number), RestApiResponse: S.optional(S.Any) }),
+).annotate({ identifier: "InvokeRestApiResponse" }) as any as S.Schema<InvokeRestApiResponse>;
 export type NextToken = string;
 export interface ListEnvironmentsInput {
   NextToken?: string;
@@ -601,19 +502,8 @@ export const ListEnvironmentsInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/environments" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListEnvironmentsInput",
-}) as any as S.Schema<ListEnvironmentsInput>;
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/environments" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "ListEnvironmentsInput" }) as any as S.Schema<ListEnvironmentsInput>;
 export type EnvironmentList = string[];
 export const EnvironmentList = /*@__PURE__*/ S.Array(S.String);
 export interface ListEnvironmentsOutput {
@@ -622,26 +512,15 @@ export interface ListEnvironmentsOutput {
 }
 export const ListEnvironmentsOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Environments: EnvironmentList, NextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListEnvironmentsOutput",
-}) as any as S.Schema<ListEnvironmentsOutput>;
+).annotate({ identifier: "ListEnvironmentsOutput" }) as any as S.Schema<ListEnvironmentsOutput>;
 export interface ListTagsForResourceInput {
   ResourceArn: string;
 }
 export const ListTagsForResourceInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "ListTagsForResourceInput",
-}) as any as S.Schema<ListTagsForResourceInput>;
+).annotate({ identifier: "ListTagsForResourceInput" }) as any as S.Schema<ListTagsForResourceInput>;
 export interface ListTagsForResourceOutput {
   Tags?: { [key: string]: string | undefined };
 }
@@ -704,10 +583,7 @@ export const PublishMetricsInput = /*@__PURE__*/ S.suspend(() =>
     MetricData: MetricData,
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/metrics/environments/{EnvironmentName}",
-      }),
+      T.Http({ method: "POST", uri: "/metrics/environments/{EnvironmentName}" }),
       svc,
       auth,
       proto,
@@ -715,13 +591,9 @@ export const PublishMetricsInput = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "PublishMetricsInput",
-}) as any as S.Schema<PublishMetricsInput>;
+).annotate({ identifier: "PublishMetricsInput" }) as any as S.Schema<PublishMetricsInput>;
 export interface PublishMetricsOutput {}
-export const PublishMetricsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const PublishMetricsOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "PublishMetricsOutput",
 }) as any as S.Schema<PublishMetricsOutput>;
 export interface TagResourceInput {
@@ -729,26 +601,12 @@ export interface TagResourceInput {
   Tags: { [key: string]: string | undefined };
 }
 export const TagResourceInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
-    Tags: TagMap,
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+  S.Struct({ ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")), Tags: TagMap }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "TagResourceInput",
-}) as any as S.Schema<TagResourceInput>;
+).annotate({ identifier: "TagResourceInput" }) as any as S.Schema<TagResourceInput>;
 export interface TagResourceOutput {}
-export const TagResourceOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const TagResourceOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceOutput",
 }) as any as S.Schema<TagResourceOutput>;
 export type TagKeyList = string[];
@@ -762,22 +620,11 @@ export const UntagResourceInput = /*@__PURE__*/ S.suspend(() =>
     ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
   }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UntagResourceInput",
-}) as any as S.Schema<UntagResourceInput>;
+).annotate({ identifier: "UntagResourceInput" }) as any as S.Schema<UntagResourceInput>;
 export interface UntagResourceOutput {}
-export const UntagResourceOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UntagResourceOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceOutput",
 }) as any as S.Schema<UntagResourceOutput>;
 export interface UpdateNetworkConfigurationInput {
@@ -791,9 +638,7 @@ export const UpdateNetworkConfigurationInput = /*@__PURE__*/ S.suspend(() =>
 export interface UpdateEnvironmentInput {
   Name: string;
   ExecutionRoleArn?: string;
-  AirflowConfigurationOptions?: {
-    [key: string]: string | redacted.Redacted<string> | undefined;
-  };
+  AirflowConfigurationOptions?: { [key: string]: string | redacted.Redacted<string> | undefined };
   AirflowVersion?: string;
   DagS3Path?: string;
   EnvironmentClass?: string;
@@ -841,26 +686,15 @@ export const UpdateEnvironmentInput = /*@__PURE__*/ S.suspend(() =>
     WebserverAccessMode: S.optional(S.String),
     WeeklyMaintenanceWindowStart: S.optional(S.String),
   }).pipe(
-    T.all(
-      T.Http({ method: "PATCH", uri: "/environments/{Name}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "PATCH", uri: "/environments/{Name}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UpdateEnvironmentInput",
-}) as any as S.Schema<UpdateEnvironmentInput>;
+).annotate({ identifier: "UpdateEnvironmentInput" }) as any as S.Schema<UpdateEnvironmentInput>;
 export interface UpdateEnvironmentOutput {
   Arn?: string;
 }
 export const UpdateEnvironmentOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Arn: S.optional(S.String) }),
-).annotate({
-  identifier: "UpdateEnvironmentOutput",
-}) as any as S.Schema<UpdateEnvironmentOutput>;
+).annotate({ identifier: "UpdateEnvironmentOutput" }) as any as S.Schema<UpdateEnvironmentOutput>;
 export type CreateCliTokenError = ResourceNotFoundException | CommonErrors;
 /**
  * Creates a CLI token for the Airflow CLI. To learn more, see Creating an Apache Airflow CLI token.
@@ -896,11 +730,7 @@ export const createEnvironment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateEnvironmentInput,
   output: CreateEnvironmentOutput,
-  errors: [
-    InternalServerException,
-    ServiceUnavailableException,
-    ValidationException,
-  ],
+  errors: [InternalServerException, ServiceUnavailableException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEnvironment",
@@ -981,11 +811,7 @@ export const getEnvironment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetEnvironmentInput,
   output: GetEnvironmentOutput,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEnvironment",
@@ -1025,10 +851,7 @@ export const invokeRestApi: API.OperationMethod<
   endpointHostPrefix: "env.",
 }));
 
-export type ListEnvironmentsError =
-  | InternalServerException
-  | ValidationException
-  | CommonErrors;
+export type ListEnvironmentsError = InternalServerException | ValidationException | CommonErrors;
 /**
  * Lists the Amazon Managed Workflows for Apache Airflow (MWAA) environments.
  */
@@ -1070,21 +893,14 @@ export const listTagsForResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListTagsForResourceInput,
   output: ListTagsForResourceOutput,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
   endpointHostPrefix: "api.",
 }));
 
-export type PublishMetricsError =
-  | InternalServerException
-  | ValidationException
-  | CommonErrors;
+export type PublishMetricsError = InternalServerException | ValidationException | CommonErrors;
 /**
  * **Internal only**. Publishes environment health metrics to Amazon CloudWatch.
  */
@@ -1119,11 +935,7 @@ export const tagResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: TagResourceInput,
   output: TagResourceOutput,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
@@ -1146,11 +958,7 @@ export const untagResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UntagResourceInput,
   output: UntagResourceOutput,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",

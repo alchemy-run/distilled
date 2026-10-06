@@ -8,25 +8,328 @@
     "distilled.finalized": true
   },
   "shapes": {
-    "com.gcp.keep_v1#Permission": {
+    "com.gcp.keep_v1#User": {
       "type": "structure",
       "members": {
         "email": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The email associated with the member. If set on create, the `email` field in the `User` or `Group` message must either be empty or match this field. On read, may be unset if the member does not have an associated email."
+            "smithy.api#documentation": "The user's email."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Describes a single user."
+      }
+    },
+    "com.gcp.keep_v1#CreatePermissionRequest": {
+      "type": "structure",
+      "members": {
+        "permission": {
+          "target": "com.gcp.keep_v1#Permission",
+          "traits": {
+            "smithy.api#documentation": "Required. The permission to create. One of Permission.email, User.email or Group.email must be supplied."
           }
         },
-        "deleted": {
+        "parent": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. The parent note where this permission will be created. Format: `notes/{note}`"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The request to add a single permission on the note."
+      }
+    },
+    "com.gcp.keep_v1#Section": {
+      "type": "structure",
+      "members": {
+        "text": {
+          "target": "com.gcp.keep_v1#TextContent",
+          "traits": {
+            "smithy.api#documentation": "Used if this section's content is a block of text. The length of the text content must be less than 20,000 characters."
+          }
+        },
+        "list": {
+          "target": "com.gcp.keep_v1#ListContent",
+          "traits": {
+            "smithy.api#documentation": "Used if this section's content is a list."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The content of the note."
+      }
+    },
+    "com.gcp.keep_v1#ListItem": {
+      "type": "structure",
+      "members": {
+        "checked": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Output only. Whether this member has been deleted. If the member is recovered, this value is set to false and the recovered member retains the role on the note."
+            "smithy.api#documentation": "Whether this item has been checked off or not."
+          }
+        },
+        "childListItems": {
+          "target": "com.gcp.keep_v1#ListItemList",
+          "traits": {
+            "smithy.api#documentation": "If set, list of list items nested under this list item. Only one level of nesting is allowed."
+          }
+        },
+        "text": {
+          "target": "com.gcp.keep_v1#TextContent",
+          "traits": {
+            "smithy.api#documentation": "The text of this item. Length must be less than 1,000 characters."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A single list item in a note's list."
+      }
+    },
+    "com.gcp.keep_v1#ListItemList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.keep_v1#ListItem"
+      }
+    },
+    "com.gcp.keep_v1#Attachment": {
+      "type": "structure",
+      "members": {
+        "mimeType": {
+          "target": "com.gcp.keep_v1#StringList",
+          "traits": {
+            "smithy.api#documentation": "The MIME types (IANA media types) in which the attachment is available."
           }
         },
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Output only. The resource name."
+            "smithy.api#documentation": "The resource name;"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "An attachment to a note."
+      }
+    },
+    "com.gcp.keep_v1#StringList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.gcp.keep_v1#Empty": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#documentation": "A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); }"
+      }
+    },
+    "com.gcp.keep_v1#BatchDeletePermissionsRequest": {
+      "type": "structure",
+      "members": {
+        "names": {
+          "target": "com.gcp.keep_v1#StringList",
+          "traits": {
+            "smithy.api#documentation": "Required. The names of the permissions to delete. Format: `notes/{note}/permissions/{permission}`"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The request to remove one or more permissions from a note. A permission with the `OWNER` role can't be removed. If removing a permission fails, then the entire request fails and no changes are made. Returns a 400 bad request error if a specified permission does not exist on the note."
+      }
+    },
+    "com.gcp.keep_v1#Group": {
+      "type": "structure",
+      "members": {
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The group email."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Describes a single Group."
+      }
+    },
+    "com.gcp.keep_v1#BatchCreatePermissionsRequest": {
+      "type": "structure",
+      "members": {
+        "requests": {
+          "target": "com.gcp.keep_v1#CreatePermissionRequestList",
+          "traits": {
+            "smithy.api#documentation": "The request message specifying the resources to create."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The request to add one or more permissions on the note. Currently, only the `WRITER` role may be specified. If adding a permission fails, then the entire request fails and no changes are made."
+      }
+    },
+    "com.gcp.keep_v1#CreatePermissionRequestList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.keep_v1#CreatePermissionRequest"
+      }
+    },
+    "com.gcp.keep_v1#BatchCreatePermissionsResponse": {
+      "type": "structure",
+      "members": {
+        "permissions": {
+          "target": "com.gcp.keep_v1#PermissionList",
+          "traits": {
+            "smithy.api#documentation": "Permissions created."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The response for creating permissions on a note."
+      }
+    },
+    "com.gcp.keep_v1#PermissionList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.keep_v1#Permission"
+      }
+    },
+    "com.gcp.keep_v1#Note": {
+      "type": "structure",
+      "members": {
+        "trashTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Output only. When this note was trashed. If `trashed`, the note is eventually deleted. If the note is not trashed, this field is not set (and the trashed field is `false`)."
+          }
+        },
+        "body": {
+          "target": "com.gcp.keep_v1#Section",
+          "traits": {
+            "smithy.api#documentation": "The body of the note."
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The title of the note. Length must be less than 1,000 characters."
+          }
+        },
+        "attachments": {
+          "target": "com.gcp.keep_v1#AttachmentList",
+          "traits": {
+            "smithy.api#documentation": "Output only. The attachments attached to this note."
+          }
+        },
+        "permissions": {
+          "target": "com.gcp.keep_v1#PermissionList",
+          "traits": {
+            "smithy.api#documentation": "Output only. The list of permissions set on the note. Contains at least one entry for the note owner."
+          }
+        },
+        "trashed": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Output only. `true` if this note has been trashed. If trashed, the note is eventually deleted."
+          }
+        },
+        "createTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Output only. When this note was created."
+          }
+        },
+        "updateTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Output only. When this note was last modified."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Output only. The resource name of this note. See general note on identifiers in KeepService."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A single note."
+      }
+    },
+    "com.gcp.keep_v1#AttachmentList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.keep_v1#Attachment"
+      }
+    },
+    "com.gcp.keep_v1#ListNotesResponse": {
+      "type": "structure",
+      "members": {
+        "notes": {
+          "target": "com.gcp.keep_v1#NoteList",
+          "traits": {
+            "smithy.api#documentation": "A page of notes."
+          }
+        },
+        "nextPageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Next page's `page_token` field."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The response when listing a page of notes."
+      }
+    },
+    "com.gcp.keep_v1#NoteList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.keep_v1#Note"
+      }
+    },
+    "com.gcp.keep_v1#TextContent": {
+      "type": "structure",
+      "members": {
+        "text": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The text of the note. The limits on this vary with the specific field using this type."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The block of text for a single text section or list item."
+      }
+    },
+    "com.gcp.keep_v1#ListContent": {
+      "type": "structure",
+      "members": {
+        "listItems": {
+          "target": "com.gcp.keep_v1#ListItemList",
+          "traits": {
+            "smithy.api#documentation": "The items in the list. The number of items must be less than 1,000."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The list of items for a single list note."
+      }
+    },
+    "com.gcp.keep_v1#Permission": {
+      "type": "structure",
+      "members": {
+        "family": {
+          "target": "com.gcp.keep_v1#Family",
+          "traits": {
+            "smithy.api#documentation": "Output only. The Google Family to which this role applies."
+          }
+        },
+        "group": {
+          "target": "com.gcp.keep_v1#Group",
+          "traits": {
+            "smithy.api#documentation": "Output only. The group to which this role applies."
           }
         },
         "role": {
@@ -41,16 +344,22 @@
             "smithy.api#documentation": "Output only. The user to whom this role applies."
           }
         },
-        "family": {
-          "target": "com.gcp.keep_v1#Family",
+        "email": {
+          "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Output only. The Google Family to which this role applies."
+            "smithy.api#documentation": "The email associated with the member. If set on create, the `email` field in the `User` or `Group` message must either be empty or match this field. On read, may be unset if the member does not have an associated email."
           }
         },
-        "group": {
-          "target": "com.gcp.keep_v1#Group",
+        "name": {
+          "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Output only. The group to which this role applies."
+            "smithy.api#documentation": "Output only. The resource name."
+          }
+        },
+        "deleted": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Output only. Whether this member has been deleted. If the member is recovered, this value is set to false and the recovered member retains the role on the note."
           }
         }
       },
@@ -81,233 +390,6 @@
         }
       }
     },
-    "com.gcp.keep_v1#ListNotesResponse": {
-      "type": "structure",
-      "members": {
-        "notes": {
-          "target": "com.gcp.keep_v1#NoteList",
-          "traits": {
-            "smithy.api#documentation": "A page of notes."
-          }
-        },
-        "nextPageToken": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Next page's `page_token` field."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "The response when listing a page of notes."
-      }
-    },
-    "com.gcp.keep_v1#NoteList": {
-      "type": "list",
-      "member": {
-        "target": "com.gcp.keep_v1#Note"
-      }
-    },
-    "com.gcp.keep_v1#Section": {
-      "type": "structure",
-      "members": {
-        "text": {
-          "target": "com.gcp.keep_v1#TextContent",
-          "traits": {
-            "smithy.api#documentation": "Used if this section's content is a block of text. The length of the text content must be less than 20,000 characters."
-          }
-        },
-        "list": {
-          "target": "com.gcp.keep_v1#ListContent",
-          "traits": {
-            "smithy.api#documentation": "Used if this section's content is a list."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "The content of the note."
-      }
-    },
-    "com.gcp.keep_v1#Empty": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#documentation": "A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); }"
-      }
-    },
-    "com.gcp.keep_v1#ListItem": {
-      "type": "structure",
-      "members": {
-        "childListItems": {
-          "target": "com.gcp.keep_v1#ListItemList",
-          "traits": {
-            "smithy.api#documentation": "If set, list of list items nested under this list item. Only one level of nesting is allowed."
-          }
-        },
-        "checked": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "Whether this item has been checked off or not."
-          }
-        },
-        "text": {
-          "target": "com.gcp.keep_v1#TextContent",
-          "traits": {
-            "smithy.api#documentation": "The text of this item. Length must be less than 1,000 characters."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "A single list item in a note's list."
-      }
-    },
-    "com.gcp.keep_v1#ListItemList": {
-      "type": "list",
-      "member": {
-        "target": "com.gcp.keep_v1#ListItem"
-      }
-    },
-    "com.gcp.keep_v1#Attachment": {
-      "type": "structure",
-      "members": {
-        "name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The resource name;"
-          }
-        },
-        "mimeType": {
-          "target": "com.gcp.keep_v1#StringList",
-          "traits": {
-            "smithy.api#documentation": "The MIME types (IANA media types) in which the attachment is available."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "An attachment to a note."
-      }
-    },
-    "com.gcp.keep_v1#StringList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      }
-    },
-    "com.gcp.keep_v1#Note": {
-      "type": "structure",
-      "members": {
-        "name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Output only. The resource name of this note. See general note on identifiers in KeepService."
-          }
-        },
-        "updateTime": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Output only. When this note was last modified."
-          }
-        },
-        "createTime": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Output only. When this note was created."
-          }
-        },
-        "title": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The title of the note. Length must be less than 1,000 characters."
-          }
-        },
-        "attachments": {
-          "target": "com.gcp.keep_v1#AttachmentList",
-          "traits": {
-            "smithy.api#documentation": "Output only. The attachments attached to this note."
-          }
-        },
-        "trashTime": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Output only. When this note was trashed. If `trashed`, the note is eventually deleted. If the note is not trashed, this field is not set (and the trashed field is `false`)."
-          }
-        },
-        "permissions": {
-          "target": "com.gcp.keep_v1#PermissionList",
-          "traits": {
-            "smithy.api#documentation": "Output only. The list of permissions set on the note. Contains at least one entry for the note owner."
-          }
-        },
-        "trashed": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "Output only. `true` if this note has been trashed. If trashed, the note is eventually deleted."
-          }
-        },
-        "body": {
-          "target": "com.gcp.keep_v1#Section",
-          "traits": {
-            "smithy.api#documentation": "The body of the note."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "A single note."
-      }
-    },
-    "com.gcp.keep_v1#AttachmentList": {
-      "type": "list",
-      "member": {
-        "target": "com.gcp.keep_v1#Attachment"
-      }
-    },
-    "com.gcp.keep_v1#PermissionList": {
-      "type": "list",
-      "member": {
-        "target": "com.gcp.keep_v1#Permission"
-      }
-    },
-    "com.gcp.keep_v1#ListContent": {
-      "type": "structure",
-      "members": {
-        "listItems": {
-          "target": "com.gcp.keep_v1#ListItemList",
-          "traits": {
-            "smithy.api#documentation": "The items in the list. The number of items must be less than 1,000."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "The list of items for a single list note."
-      }
-    },
-    "com.gcp.keep_v1#TextContent": {
-      "type": "structure",
-      "members": {
-        "text": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The text of the note. The limits on this vary with the specific field using this type."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "The block of text for a single text section or list item."
-      }
-    },
-    "com.gcp.keep_v1#BatchCreatePermissionsResponse": {
-      "type": "structure",
-      "members": {
-        "permissions": {
-          "target": "com.gcp.keep_v1#PermissionList",
-          "traits": {
-            "smithy.api#documentation": "Permissions created."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "The response for creating permissions on a note."
-      }
-    },
     "com.gcp.keep_v1#Family": {
       "type": "structure",
       "members": {},
@@ -315,96 +397,15 @@
         "smithy.api#documentation": "Describes a single Google Family."
       }
     },
-    "com.gcp.keep_v1#CreatePermissionRequest": {
+    "com.gcp.keep_v1#GetNotesRequest": {
       "type": "structure",
       "members": {
-        "permission": {
-          "target": "com.gcp.keep_v1#Permission",
-          "traits": {
-            "smithy.api#documentation": "Required. The permission to create. One of Permission.email, User.email or Group.email must be supplied."
-          }
-        },
-        "parent": {
+        "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Required. The parent note where this permission will be created. Format: `notes/{note}`"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "The request to add a single permission on the note."
-      }
-    },
-    "com.gcp.keep_v1#Group": {
-      "type": "structure",
-      "members": {
-        "email": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The group email."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Describes a single Group."
-      }
-    },
-    "com.gcp.keep_v1#User": {
-      "type": "structure",
-      "members": {
-        "email": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The user's email."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Describes a single user."
-      }
-    },
-    "com.gcp.keep_v1#BatchDeletePermissionsRequest": {
-      "type": "structure",
-      "members": {
-        "names": {
-          "target": "com.gcp.keep_v1#StringList",
-          "traits": {
-            "smithy.api#documentation": "Required. The names of the permissions to delete. Format: `notes/{note}/permissions/{permission}`"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "The request to remove one or more permissions from a note. A permission with the `OWNER` role can't be removed. If removing a permission fails, then the entire request fails and no changes are made. Returns a 400 bad request error if a specified permission does not exist on the note."
-      }
-    },
-    "com.gcp.keep_v1#BatchCreatePermissionsRequest": {
-      "type": "structure",
-      "members": {
-        "requests": {
-          "target": "com.gcp.keep_v1#CreatePermissionRequestList",
-          "traits": {
-            "smithy.api#documentation": "The request message specifying the resources to create."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "The request to add one or more permissions on the note. Currently, only the `WRITER` role may be specified. If adding a permission fails, then the entire request fails and no changes are made."
-      }
-    },
-    "com.gcp.keep_v1#CreatePermissionRequestList": {
-      "type": "list",
-      "member": {
-        "target": "com.gcp.keep_v1#CreatePermissionRequest"
-      }
-    },
-    "com.gcp.keep_v1#CreateNotesRequest": {
-      "type": "structure",
-      "members": {
-        "body": {
-          "target": "com.gcp.keep_v1#Note",
-          "traits": {
-            "smithy.api#httpPayload": {},
-            "smithy.api#documentation": "Request body"
+            "smithy.api#documentation": "Required. Name of the resource.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
           }
         }
       }
@@ -433,6 +434,42 @@
             "status": 403
           }
         ]
+      }
+    },
+    "com.gcp.keep_v1#GetNotes": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.keep_v1#GetNotesRequest"
+      },
+      "output": {
+        "target": "com.gcp.keep_v1#Note"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.keep_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.keep_v1#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "v1/{+name}"
+        },
+        "smithy.api#documentation": "Gets a note."
+      }
+    },
+    "com.gcp.keep_v1#CreateNotesRequest": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.gcp.keep_v1#Note",
+          "traits": {
+            "smithy.api#httpPayload": {},
+            "smithy.api#documentation": "Request body"
+          }
+        }
       }
     },
     "com.gcp.keep_v1#BadRequest": {
@@ -491,97 +528,6 @@
         "smithy.api#documentation": "Creates a new note."
       }
     },
-    "com.gcp.keep_v1#ListNotesRequest": {
-      "type": "structure",
-      "members": {
-        "pageSize": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "The maximum number of results to return.",
-            "smithy.api#httpQuery": "pageSize"
-          }
-        },
-        "filter": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Filter for list results. If no filter is supplied, the `trashed` filter is applied by default. Valid fields to filter by are: `create_time`, `update_time`, `trash_time`, and `trashed`. Filter syntax follows the [Google AIP filtering spec](https://aip.dev/160).",
-            "smithy.api#httpQuery": "filter"
-          }
-        },
-        "pageToken": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The previous page's `next_page_token` field.",
-            "smithy.api#httpQuery": "pageToken"
-          }
-        }
-      }
-    },
-    "com.gcp.keep_v1#ListNotes": {
-      "type": "operation",
-      "input": {
-        "target": "com.gcp.keep_v1#ListNotesRequest"
-      },
-      "output": {
-        "target": "com.gcp.keep_v1#ListNotesResponse"
-      },
-      "errors": [
-        {
-          "target": "com.gcp.keep_v1#NotFound"
-        },
-        {
-          "target": "com.gcp.keep_v1#Forbidden"
-        }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "v1/notes"
-        },
-        "smithy.api#documentation": "Lists notes. Every list call returns a page of results with `page_size` as the upper bound of returned items. A `page_size` of zero allows the server to choose the upper bound. The ListNotesResponse contains at most `page_size` entries. If there are more things left to list, it provides a `next_page_token` value. (Page tokens are opaque values.) To get the next page of results, copy the result's `next_page_token` into the next request's `page_token`. Repeat until the `next_page_token` returned with a page of results is empty. ListNotes return consistent results in the face of concurrent changes, or signals that it cannot with an ABORTED error.",
-        "smithy.api#paginated": {
-          "inputToken": "pageToken",
-          "outputToken": "nextPageToken"
-        }
-      }
-    },
-    "com.gcp.keep_v1#GetNotesRequest": {
-      "type": "structure",
-      "members": {
-        "name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Required. Name of the resource.",
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {}
-          }
-        }
-      }
-    },
-    "com.gcp.keep_v1#GetNotes": {
-      "type": "operation",
-      "input": {
-        "target": "com.gcp.keep_v1#GetNotesRequest"
-      },
-      "output": {
-        "target": "com.gcp.keep_v1#Note"
-      },
-      "errors": [
-        {
-          "target": "com.gcp.keep_v1#NotFound"
-        },
-        {
-          "target": "com.gcp.keep_v1#Forbidden"
-        }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "v1/{+name}"
-        },
-        "smithy.api#documentation": "Gets a note."
-      }
-    },
     "com.gcp.keep_v1#DeleteNotesRequest": {
       "type": "structure",
       "members": {
@@ -623,6 +569,60 @@
           "uri": "v1/{+name}"
         },
         "smithy.api#documentation": "Deletes a note. Caller must have the `OWNER` role on the note to delete. Deleting a note removes the resource immediately and cannot be undone. Any collaborators will lose access to the note."
+      }
+    },
+    "com.gcp.keep_v1#ListNotesRequest": {
+      "type": "structure",
+      "members": {
+        "filter": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Filter for list results. If no filter is supplied, the `trashed` filter is applied by default. Valid fields to filter by are: `create_time`, `update_time`, `trash_time`, and `trashed`. Filter syntax follows the [Google AIP filtering spec](https://aip.dev/160).",
+            "smithy.api#httpQuery": "filter"
+          }
+        },
+        "pageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The previous page's `next_page_token` field.",
+            "smithy.api#httpQuery": "pageToken"
+          }
+        },
+        "pageSize": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The maximum number of results to return.",
+            "smithy.api#httpQuery": "pageSize"
+          }
+        }
+      }
+    },
+    "com.gcp.keep_v1#ListNotes": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.keep_v1#ListNotesRequest"
+      },
+      "output": {
+        "target": "com.gcp.keep_v1#ListNotesResponse"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.keep_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.keep_v1#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "v1/notes"
+        },
+        "smithy.api#documentation": "Lists notes. Every list call returns a page of results with `page_size` as the upper bound of returned items. A `page_size` of zero allows the server to choose the upper bound. The ListNotesResponse contains at most `page_size` entries. If there are more things left to list, it provides a `next_page_token` value. (Page tokens are opaque values.) To get the next page of results, copy the result's `next_page_token` into the next request's `page_token`. Repeat until the `next_page_token` returned with a page of results is empty. ListNotes return consistent results in the face of concurrent changes, or signals that it cannot with an ABORTED error.",
+        "smithy.api#paginated": {
+          "inputToken": "pageToken",
+          "outputToken": "nextPageToken"
+        }
       }
     },
     "com.gcp.keep_v1#BatchCreateNotesPermissionsRequest": {

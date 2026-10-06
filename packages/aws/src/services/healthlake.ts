@@ -1,18 +1,15 @@
+import * as API from "@distilled.cloud/core/api";
+import * as S from "@distilled.cloud/core/schema";
 import * as HttpClient from "effect/http/HttpClient";
 import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
-import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
-const svc = T.AwsApiService({
-  sdkId: "HealthLake",
-  serviceShapeName: "HealthLake",
-});
+import * as T from "../traits.ts";
+const svc = T.AwsApiService({ sdkId: "HealthLake", serviceShapeName: "HealthLake" });
 const auth = T.AwsAuthSigv4({ name: "healthlake" });
 const ver = T.ServiceVersion("2017-07-01");
 const proto = T.AwsProtocolsAwsJson1_0();
@@ -28,14 +25,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -62,9 +55,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://healthlake-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -72,13 +63,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://healthlake.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://healthlake.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://healthlake.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -170,9 +157,7 @@ export interface StarterProfileSource {
 }
 export const StarterProfileSource = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ StarterProfileName: S.String }),
-).annotate({
-  identifier: "StarterProfileSource",
-}) as any as S.Schema<StarterProfileSource>;
+).annotate({ identifier: "StarterProfileSource" }) as any as S.Schema<StarterProfileSource>;
 export interface ExistingVersionedProfileSource {
   ProfileId: string;
   Version: number;
@@ -183,27 +168,20 @@ export const ExistingVersionedProfileSource = /*@__PURE__*/ S.suspend(() =>
   identifier: "ExistingVersionedProfileSource",
 }) as any as S.Schema<ExistingVersionedProfileSource>;
 export type StringMap = { [key: string]: string | undefined };
-export const StringMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const StringMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface ProfileMappingSource {
   ProfileMapping: { [key: string]: string | undefined };
 }
 export const ProfileMappingSource = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ProfileMapping: StringMap }),
-).annotate({
-  identifier: "ProfileMappingSource",
-}) as any as S.Schema<ProfileMappingSource>;
+).annotate({ identifier: "ProfileMappingSource" }) as any as S.Schema<ProfileMappingSource>;
 export type SampleDataS3Uri = string;
 export interface SampleDataSource {
   S3Uri: string;
 }
 export const SampleDataSource = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ S3Uri: S.String }),
-).annotate({
-  identifier: "SampleDataSource",
-}) as any as S.Schema<SampleDataSource>;
+).annotate({ identifier: "SampleDataSource" }) as any as S.Schema<SampleDataSource>;
 export type CreateDataTransformationProfileSource =
   | {
       StarterProfile: StarterProfileSource;
@@ -241,10 +219,7 @@ export type ProfileNameString = string;
 export type DataTransformationTagKey = string;
 export type DataTransformationTagValue = string;
 export type TagMap = { [key: string]: string | undefined };
-export const TagMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const TagMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export type ClientToken = string;
 export interface CreateDataTransformationProfileRequest {
   SourceFormat: SourceFormat;
@@ -255,26 +230,25 @@ export interface CreateDataTransformationProfileRequest {
   Tags?: { [key: string]: string | undefined };
   ClientToken?: string;
 }
-export const CreateDataTransformationProfileRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      SourceFormat: SourceFormat,
-      Source: CreateDataTransformationProfileSource,
-      KmsKeyId: S.optional(S.String),
-      ProfileDescription: S.optional(S.String),
-      ProfileName: S.String,
-      Tags: S.optional(TagMap),
-      ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    }).pipe(
-      T.all(
-        T.Http({ method: "POST", uri: "/data-transformation-profile" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const CreateDataTransformationProfileRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    SourceFormat: SourceFormat,
+    Source: CreateDataTransformationProfileSource,
+    KmsKeyId: S.optional(S.String),
+    ProfileDescription: S.optional(S.String),
+    ProfileName: S.String,
+    Tags: S.optional(TagMap),
+    ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/data-transformation-profile" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "CreateDataTransformationProfileRequest",
 }) as any as S.Schema<CreateDataTransformationProfileRequest>;
@@ -291,16 +265,15 @@ export interface CreateDataTransformationProfileResponse {
   ProfileName: string;
   LastUpdatedAt: Date;
 }
-export const CreateDataTransformationProfileResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ProfileId: S.String,
-      Version: S.Number,
-      SourceFormat: SourceFormat,
-      TargetFormat: TargetFormat,
-      ProfileName: S.String,
-      LastUpdatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    }),
+export const CreateDataTransformationProfileResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ProfileId: S.String,
+    Version: S.Number,
+    SourceFormat: SourceFormat,
+    TargetFormat: TargetFormat,
+    ProfileName: S.String,
+    LastUpdatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  }),
 ).annotate({
   identifier: "CreateDataTransformationProfileResponse",
 }) as any as S.Schema<CreateDataTransformationProfileResponse>;
@@ -308,10 +281,7 @@ export type DatastoreName = string;
 export type FHIRVersion = "R4" | (string & {});
 export const FHIRVersion = S.String;
 
-export type CmkType =
-  | "CUSTOMER_MANAGED_KMS_KEY"
-  | "AWS_OWNED_KMS_KEY"
-  | (string & {});
+export type CmkType = "CUSTOMER_MANAGED_KMS_KEY" | "AWS_OWNED_KMS_KEY" | (string & {});
 export const CmkType = S.String;
 
 export type EncryptionKeyID = string;
@@ -321,17 +291,13 @@ export interface KmsEncryptionConfig {
 }
 export const KmsEncryptionConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ CmkType: CmkType, KmsKeyId: S.optional(S.String) }),
-).annotate({
-  identifier: "KmsEncryptionConfig",
-}) as any as S.Schema<KmsEncryptionConfig>;
+).annotate({ identifier: "KmsEncryptionConfig" }) as any as S.Schema<KmsEncryptionConfig>;
 export interface SseConfiguration {
   KmsEncryptionConfig: KmsEncryptionConfig;
 }
 export const SseConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ KmsEncryptionConfig: KmsEncryptionConfig }),
-).annotate({
-  identifier: "SseConfiguration",
-}) as any as S.Schema<SseConfiguration>;
+).annotate({ identifier: "SseConfiguration" }) as any as S.Schema<SseConfiguration>;
 export type PreloadDataType = "SYNTHEA" | (string & {});
 export const PreloadDataType = S.String;
 
@@ -340,9 +306,7 @@ export interface PreloadDataConfig {
 }
 export const PreloadDataConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ PreloadDataType: PreloadDataType }),
-).annotate({
-  identifier: "PreloadDataConfig",
-}) as any as S.Schema<PreloadDataConfig>;
+).annotate({ identifier: "PreloadDataConfig" }) as any as S.Schema<PreloadDataConfig>;
 export type ClientTokenString = string;
 export type TagKey = string;
 export type TagValue = string;
@@ -396,15 +360,8 @@ export interface AnalyticsConfiguration {
 }
 export const AnalyticsConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Status: S.optional(AnalyticsStatus) }),
-).annotate({
-  identifier: "AnalyticsConfiguration",
-}) as any as S.Schema<AnalyticsConfiguration>;
-export type NlpStatus =
-  | "ENABLED"
-  | "ENABLING"
-  | "DISABLED"
-  | "DISABLING"
-  | (string & {});
+).annotate({ identifier: "AnalyticsConfiguration" }) as any as S.Schema<AnalyticsConfiguration>;
+export type NlpStatus = "ENABLED" | "ENABLING" | "DISABLED" | "DISABLING" | (string & {});
 export const NlpStatus = S.String;
 
 export interface NlpConfiguration {
@@ -412,9 +369,7 @@ export interface NlpConfiguration {
 }
 export const NlpConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Status: S.optional(NlpStatus) }),
-).annotate({
-  identifier: "NlpConfiguration",
-}) as any as S.Schema<NlpConfiguration>;
+).annotate({ identifier: "NlpConfiguration" }) as any as S.Schema<NlpConfiguration>;
 export type HealthLakeString = string;
 export type DefaultProfiles = string[];
 export const DefaultProfiles = /*@__PURE__*/ S.Array(S.String);
@@ -423,9 +378,7 @@ export interface ProfileConfiguration {
 }
 export const ProfileConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ DefaultProfiles: S.optional(DefaultProfiles) }),
-).annotate({
-  identifier: "ProfileConfiguration",
-}) as any as S.Schema<ProfileConfiguration>;
+).annotate({ identifier: "ProfileConfiguration" }) as any as S.Schema<ProfileConfiguration>;
 export type BackupStatus = "ENABLED" | "DISABLED" | (string & {});
 export const BackupStatus = S.String;
 
@@ -446,9 +399,7 @@ export const BackupConfiguration = /*@__PURE__*/ S.suspend(() =>
     RetentionPeriodInDays: S.optional(S.Number),
     BackupTagsEnabled: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "BackupConfiguration",
-}) as any as S.Schema<BackupConfiguration>;
+).annotate({ identifier: "BackupConfiguration" }) as any as S.Schema<BackupConfiguration>;
 export interface CreateFHIRDatastoreRequest {
   DatastoreName?: string;
   DatastoreTypeVersion: FHIRVersion;
@@ -475,9 +426,7 @@ export const CreateFHIRDatastoreRequest = /*@__PURE__*/ S.suspend(() =>
     NlpConfiguration: S.optional(NlpConfiguration),
     ProfileConfiguration: S.optional(ProfileConfiguration),
     BackupConfiguration: S.optional(BackupConfiguration),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateFHIRDatastoreRequest",
 }) as any as S.Schema<CreateFHIRDatastoreRequest>;
@@ -514,21 +463,17 @@ export const CreateFHIRDatastoreResponse = /*@__PURE__*/ S.suspend(() =>
 export interface DeleteDataTransformationProfileRequest {
   ProfileId: string;
 }
-export const DeleteDataTransformationProfileRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ ProfileId: S.String.pipe(T.HttpLabel("ProfileId")) }).pipe(
-      T.all(
-        T.Http({
-          method: "DELETE",
-          uri: "/data-transformation-profile/{ProfileId}",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const DeleteDataTransformationProfileRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ ProfileId: S.String.pipe(T.HttpLabel("ProfileId")) }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/data-transformation-profile/{ProfileId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "DeleteDataTransformationProfileRequest",
 }) as any as S.Schema<DeleteDataTransformationProfileRequest>;
@@ -537,13 +482,12 @@ export interface DeleteDataTransformationProfileResponse {
   ProfileName?: string;
   DeletionTime: Date;
 }
-export const DeleteDataTransformationProfileResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ProfileId: S.String,
-      ProfileName: S.optional(S.String),
-      DeletionTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    }),
+export const DeleteDataTransformationProfileResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ProfileId: S.String,
+    ProfileName: S.optional(S.String),
+    DeletionTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  }),
 ).annotate({
   identifier: "DeleteDataTransformationProfileResponse",
 }) as any as S.Schema<DeleteDataTransformationProfileResponse>;
@@ -577,18 +521,17 @@ export type DataTransformationJobId = string;
 export interface DescribeDataTransformationJobRequest {
   JobId: string;
 }
-export const DescribeDataTransformationJobRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ JobId: S.String.pipe(T.HttpLabel("JobId")) }).pipe(
-      T.all(
-        T.Http({ method: "GET", uri: "/data-transformation-job/{JobId}" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const DescribeDataTransformationJobRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ JobId: S.String.pipe(T.HttpLabel("JobId")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/data-transformation-job/{JobId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "DescribeDataTransformationJobRequest",
 }) as any as S.Schema<DescribeDataTransformationJobRequest>;
@@ -689,8 +632,8 @@ export const TransformationJobProperties = /*@__PURE__*/ S.suspend(() =>
 export interface DescribeDataTransformationJobResponse {
   TransformationJobProperties: TransformationJobProperties;
 }
-export const DescribeDataTransformationJobResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ TransformationJobProperties: TransformationJobProperties }),
+export const DescribeDataTransformationJobResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ TransformationJobProperties: TransformationJobProperties }),
 ).annotate({
   identifier: "DescribeDataTransformationJobResponse",
 }) as any as S.Schema<DescribeDataTransformationJobResponse>;
@@ -706,10 +649,7 @@ export const DescribeFHIRDatastoreRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<DescribeFHIRDatastoreRequest>;
 export type HealthLakeTimestamp = Date;
 export type ErrorMessage = string;
-export type ErrorCategory =
-  | "RETRYABLE_ERROR"
-  | "NON_RETRYABLE_ERROR"
-  | (string & {});
+export type ErrorCategory = "RETRYABLE_ERROR" | "NON_RETRYABLE_ERROR" | (string & {});
 export const ErrorCategory = S.String;
 
 export interface ErrorCause {
@@ -717,10 +657,7 @@ export interface ErrorCause {
   ErrorCategory?: ErrorCategory;
 }
 export const ErrorCause = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ErrorMessage: S.optional(S.String),
-    ErrorCategory: S.optional(ErrorCategory),
-  }),
+  S.Struct({ ErrorMessage: S.optional(S.String), ErrorCategory: S.optional(ErrorCategory) }),
 ).annotate({ identifier: "ErrorCause" }) as any as S.Schema<ErrorCause>;
 export interface DatastoreBackupStatus {
   Configuration?: BackupConfiguration;
@@ -732,22 +669,12 @@ export interface DatastoreBackupStatus {
 export const DatastoreBackupStatus = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     Configuration: S.optional(BackupConfiguration),
-    BackupEnabledAt: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    EarliestRestorePoint: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    LatestRestorePoint: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    ScheduledPermanentDeletionTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    BackupEnabledAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    EarliestRestorePoint: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LatestRestorePoint: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    ScheduledPermanentDeletionTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
-).annotate({
-  identifier: "DatastoreBackupStatus",
-}) as any as S.Schema<DatastoreBackupStatus>;
+).annotate({ identifier: "DatastoreBackupStatus" }) as any as S.Schema<DatastoreBackupStatus>;
 export interface DatastoreProperties {
   DatastoreId: string;
   DatastoreArn: string;
@@ -783,9 +710,7 @@ export const DatastoreProperties = /*@__PURE__*/ S.suspend(() =>
     ProfileConfiguration: S.optional(ProfileConfiguration),
     BackupStatusInfo: S.optional(DatastoreBackupStatus),
   }),
-).annotate({
-  identifier: "DatastoreProperties",
-}) as any as S.Schema<DatastoreProperties>;
+).annotate({ identifier: "DatastoreProperties" }) as any as S.Schema<DatastoreProperties>;
 export interface DescribeFHIRDatastoreResponse {
   DatastoreProperties: DatastoreProperties;
 }
@@ -828,9 +753,7 @@ export interface S3Configuration {
 }
 export const S3Configuration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ S3Uri: S.String, KmsKeyId: S.String }),
-).annotate({
-  identifier: "S3Configuration",
-}) as any as S.Schema<S3Configuration>;
+).annotate({ identifier: "S3Configuration" }) as any as S.Schema<S3Configuration>;
 export type OutputDataConfig = { S3Configuration: S3Configuration };
 export const OutputDataConfig = /*@__PURE__*/ S.Union([
   S.Struct({ S3Configuration: S3Configuration }),
@@ -860,9 +783,7 @@ export const ExportJobProperties = /*@__PURE__*/ S.suspend(() =>
     DataAccessRoleArn: S.optional(S.String),
     Message: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ExportJobProperties",
-}) as any as S.Schema<ExportJobProperties>;
+).annotate({ identifier: "ExportJobProperties" }) as any as S.Schema<ExportJobProperties>;
 export interface DescribeFHIRExportJobResponse {
   ExportJobProperties: ExportJobProperties;
 }
@@ -883,9 +804,7 @@ export const DescribeFHIRImportJobRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DescribeFHIRImportJobRequest",
 }) as any as S.Schema<DescribeFHIRImportJobRequest>;
 export type InputDataConfig = { S3Uri: string };
-export const InputDataConfig = /*@__PURE__*/ S.Union([
-  S.Struct({ S3Uri: S.String }),
-]);
+export const InputDataConfig = /*@__PURE__*/ S.Union([S.Struct({ S3Uri: S.String })]);
 export interface JobProgressReport {
   TotalNumberOfScannedFiles?: number;
   TotalSizeOfScannedFilesInMB?: number;
@@ -925,14 +844,8 @@ export const JobProgressReport = /*@__PURE__*/ S.suspend(() =>
     TotalFilesConverted: S.optional(S.Number),
     TotalResourcesGenerated: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "JobProgressReport",
-}) as any as S.Schema<JobProgressReport>;
-export type ValidationLevel =
-  | "strict"
-  | "structure-only"
-  | "minimal"
-  | (string & {});
+).annotate({ identifier: "JobProgressReport" }) as any as S.Schema<JobProgressReport>;
+export type ValidationLevel = "strict" | "structure-only" | "minimal" | (string & {});
 export const ValidationLevel = S.String;
 
 export interface ImportJobProperties {
@@ -964,9 +877,7 @@ export const ImportJobProperties = /*@__PURE__*/ S.suspend(() =>
     Message: S.optional(S.String),
     ValidationLevel: S.optional(ValidationLevel),
   }),
-).annotate({
-  identifier: "ImportJobProperties",
-}) as any as S.Schema<ImportJobProperties>;
+).annotate({ identifier: "ImportJobProperties" }) as any as S.Schema<ImportJobProperties>;
 export interface DescribeFHIRImportJobResponse {
   ImportJobProperties: ImportJobProperties;
 }
@@ -985,10 +896,7 @@ export const GetDataTransformationProfileRequest = /*@__PURE__*/ S.suspend(() =>
     ProfileVersion: S.optional(S.Number).pipe(T.HttpQuery("version")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/data-transformation-profile/{ProfileId}",
-      }),
+      T.Http({ method: "GET", uri: "/data-transformation-profile/{ProfileId}" }),
       svc,
       auth,
       proto,
@@ -1002,10 +910,7 @@ export const GetDataTransformationProfileRequest = /*@__PURE__*/ S.suspend(() =>
 export type ProfileMappingKey = string;
 export type ProfileMappingValue = string;
 export type ProfileMapping = { [key: string]: string | undefined };
-export const ProfileMapping = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const ProfileMapping = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export type ChangeDescription = string;
 export interface GetDataTransformationProfileResponse {
   ProfileId: string;
@@ -1018,19 +923,18 @@ export interface GetDataTransformationProfileResponse {
   ChangeDescription?: string;
   LastUpdatedAt: Date;
 }
-export const GetDataTransformationProfileResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ProfileId: S.String,
-      Version: S.Number,
-      SourceFormat: SourceFormat,
-      TargetFormat: TargetFormat,
-      ProfileMapping: ProfileMapping,
-      ProfileName: S.optional(S.String),
-      ProfileDescription: S.optional(S.String),
-      ChangeDescription: S.optional(S.String),
-      LastUpdatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    }),
+export const GetDataTransformationProfileResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ProfileId: S.String,
+    Version: S.Number,
+    SourceFormat: SourceFormat,
+    TargetFormat: TargetFormat,
+    ProfileMapping: ProfileMapping,
+    ProfileName: S.optional(S.String),
+    ProfileDescription: S.optional(S.String),
+    ChangeDescription: S.optional(S.String),
+    LastUpdatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  }),
 ).annotate({
   identifier: "GetDataTransformationProfileResponse",
 }) as any as S.Schema<GetDataTransformationProfileResponse>;
@@ -1048,16 +952,14 @@ export const ListDataTransformationJobsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    JobStatus: S.optional(TransformationJobStatus).pipe(
-      T.HttpQuery("jobStatus"),
-    ),
+    JobStatus: S.optional(TransformationJobStatus).pipe(T.HttpQuery("jobStatus")),
     JobName: S.optional(S.String).pipe(T.HttpQuery("jobName")),
-    SubmittedAfter: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ).pipe(T.HttpQuery("submittedAfter")),
-    SubmittedBefore: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ).pipe(T.HttpQuery("submittedBefore")),
+    SubmittedAfter: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+      T.HttpQuery("submittedAfter"),
+    ),
+    SubmittedBefore: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+      T.HttpQuery("submittedBefore"),
+    ),
   }).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/data-transformation-jobs" }),
@@ -1088,22 +990,15 @@ export const TransformationJobSummary = /*@__PURE__*/ S.suspend(() =>
     EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     SourceFormat: S.optional(SourceFormat),
   }),
-).annotate({
-  identifier: "TransformationJobSummary",
-}) as any as S.Schema<TransformationJobSummary>;
+).annotate({ identifier: "TransformationJobSummary" }) as any as S.Schema<TransformationJobSummary>;
 export type TransformationJobSummaryList = TransformationJobSummary[];
-export const TransformationJobSummaryList = /*@__PURE__*/ S.Array(
-  TransformationJobSummary,
-);
+export const TransformationJobSummaryList = /*@__PURE__*/ S.Array(TransformationJobSummary);
 export interface ListDataTransformationJobsResponse {
   Items: TransformationJobSummary[];
   NextToken?: string;
 }
 export const ListDataTransformationJobsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Items: TransformationJobSummaryList,
-    NextToken: S.optional(S.String),
-  }),
+  S.Struct({ Items: TransformationJobSummaryList, NextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListDataTransformationJobsResponse",
 }) as any as S.Schema<ListDataTransformationJobsResponse>;
@@ -1112,22 +1007,21 @@ export interface ListDataTransformationProfilesRequest {
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListDataTransformationProfilesRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      SourceFormat: SourceFormat.pipe(T.HttpQuery("sourceFormat")),
-      MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-      NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    }).pipe(
-      T.all(
-        T.Http({ method: "GET", uri: "/data-transformation-profile" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const ListDataTransformationProfilesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    SourceFormat: SourceFormat.pipe(T.HttpQuery("sourceFormat")),
+    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/data-transformation-profile" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "ListDataTransformationProfilesRequest",
 }) as any as S.Schema<ListDataTransformationProfilesRequest>;
@@ -1153,8 +1047,7 @@ export const DataTransformationProfileSummary = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "DataTransformationProfileSummary",
 }) as any as S.Schema<DataTransformationProfileSummary>;
-export type DataTransformationProfileSummaryList =
-  DataTransformationProfileSummary[];
+export type DataTransformationProfileSummaryList = DataTransformationProfileSummary[];
 export const DataTransformationProfileSummaryList = /*@__PURE__*/ S.Array(
   DataTransformationProfileSummary,
 );
@@ -1162,12 +1055,8 @@ export interface ListDataTransformationProfilesResponse {
   Items: DataTransformationProfileSummary[];
   NextToken?: string;
 }
-export const ListDataTransformationProfilesResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Items: DataTransformationProfileSummaryList,
-      NextToken: S.optional(S.String),
-    }),
+export const ListDataTransformationProfilesResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ Items: DataTransformationProfileSummaryList, NextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListDataTransformationProfilesResponse",
 }) as any as S.Schema<ListDataTransformationProfilesResponse>;
@@ -1176,28 +1065,24 @@ export interface ListDataTransformationProfileVersionsRequest {
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListDataTransformationProfileVersionsRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ProfileId: S.String.pipe(T.HttpLabel("ProfileId")),
-      MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-      NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "GET",
-          uri: "/data-transformation-profile/{ProfileId}/versions",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const ListDataTransformationProfileVersionsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ProfileId: S.String.pipe(T.HttpLabel("ProfileId")),
+    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/data-transformation-profile/{ProfileId}/versions" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
-  ).annotate({
-    identifier: "ListDataTransformationProfileVersionsRequest",
-  }) as any as S.Schema<ListDataTransformationProfileVersionsRequest>;
+  ),
+).annotate({
+  identifier: "ListDataTransformationProfileVersionsRequest",
+}) as any as S.Schema<ListDataTransformationProfileVersionsRequest>;
 export interface DataTransformationProfileVersionSummary {
   ProfileId: string;
   Version: number;
@@ -1207,39 +1092,32 @@ export interface DataTransformationProfileVersionSummary {
   ChangeDescription?: string;
   LastUpdatedAt?: Date;
 }
-export const DataTransformationProfileVersionSummary = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ProfileId: S.String,
-      Version: S.Number,
-      SourceFormat: SourceFormat,
-      TargetFormat: TargetFormat,
-      ProfileName: S.optional(S.String),
-      ChangeDescription: S.optional(S.String),
-      LastUpdatedAt: S.optional(
-        S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-      ),
-    }),
+export const DataTransformationProfileVersionSummary = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ProfileId: S.String,
+    Version: S.Number,
+    SourceFormat: SourceFormat,
+    TargetFormat: TargetFormat,
+    ProfileName: S.optional(S.String),
+    ChangeDescription: S.optional(S.String),
+    LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
 ).annotate({
   identifier: "DataTransformationProfileVersionSummary",
 }) as any as S.Schema<DataTransformationProfileVersionSummary>;
-export type DataTransformationProfileVersionSummaryList =
-  DataTransformationProfileVersionSummary[];
-export const DataTransformationProfileVersionSummaryList =
-  /*@__PURE__*/ S.Array(DataTransformationProfileVersionSummary);
+export type DataTransformationProfileVersionSummaryList = DataTransformationProfileVersionSummary[];
+export const DataTransformationProfileVersionSummaryList = /*@__PURE__*/ S.Array(
+  DataTransformationProfileVersionSummary,
+);
 export interface ListDataTransformationProfileVersionsResponse {
   Items: DataTransformationProfileVersionSummary[];
   NextToken?: string;
 }
-export const ListDataTransformationProfileVersionsResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      Items: DataTransformationProfileVersionSummaryList,
-      NextToken: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "ListDataTransformationProfileVersionsResponse",
-  }) as any as S.Schema<ListDataTransformationProfileVersionsResponse>;
+export const ListDataTransformationProfileVersionsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ Items: DataTransformationProfileVersionSummaryList, NextToken: S.optional(S.String) }),
+).annotate({
+  identifier: "ListDataTransformationProfileVersionsResponse",
+}) as any as S.Schema<ListDataTransformationProfileVersionsResponse>;
 export interface DatastoreFilter {
   DatastoreName?: string;
   DatastoreStatus?: DatastoreStatus;
@@ -1253,9 +1131,7 @@ export const DatastoreFilter = /*@__PURE__*/ S.suspend(() =>
     CreatedBefore: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     CreatedAfter: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
-).annotate({
-  identifier: "DatastoreFilter",
-}) as any as S.Schema<DatastoreFilter>;
+).annotate({ identifier: "DatastoreFilter" }) as any as S.Schema<DatastoreFilter>;
 export type NextToken = string;
 export type MaxResultsInteger = number;
 export interface ListFHIRDatastoresRequest {
@@ -1268,24 +1144,18 @@ export const ListFHIRDatastoresRequest = /*@__PURE__*/ S.suspend(() =>
     Filter: S.optional(DatastoreFilter),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListFHIRDatastoresRequest",
 }) as any as S.Schema<ListFHIRDatastoresRequest>;
 export type DatastorePropertiesList = DatastoreProperties[];
-export const DatastorePropertiesList =
-  /*@__PURE__*/ S.Array(DatastoreProperties);
+export const DatastorePropertiesList = /*@__PURE__*/ S.Array(DatastoreProperties);
 export interface ListFHIRDatastoresResponse {
   DatastorePropertiesList: DatastoreProperties[];
   NextToken?: string;
 }
 export const ListFHIRDatastoresResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DatastorePropertiesList: DatastorePropertiesList,
-    NextToken: S.optional(S.String),
-  }),
+  S.Struct({ DatastorePropertiesList: DatastorePropertiesList, NextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListFHIRDatastoresResponse",
 }) as any as S.Schema<ListFHIRDatastoresResponse>;
@@ -1305,28 +1175,20 @@ export const ListFHIRExportJobsRequest = /*@__PURE__*/ S.suspend(() =>
     MaxResults: S.optional(S.Number),
     JobName: S.optional(S.String),
     JobStatus: S.optional(JobStatus),
-    SubmittedBefore: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    SubmittedBefore: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     SubmittedAfter: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListFHIRExportJobsRequest",
 }) as any as S.Schema<ListFHIRExportJobsRequest>;
 export type ExportJobPropertiesList = ExportJobProperties[];
-export const ExportJobPropertiesList =
-  /*@__PURE__*/ S.Array(ExportJobProperties);
+export const ExportJobPropertiesList = /*@__PURE__*/ S.Array(ExportJobProperties);
 export interface ListFHIRExportJobsResponse {
   ExportJobPropertiesList: ExportJobProperties[];
   NextToken?: string;
 }
 export const ListFHIRExportJobsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ExportJobPropertiesList: ExportJobPropertiesList,
-    NextToken: S.optional(S.String),
-  }),
+  S.Struct({ ExportJobPropertiesList: ExportJobPropertiesList, NextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListFHIRExportJobsResponse",
 }) as any as S.Schema<ListFHIRExportJobsResponse>;
@@ -1346,28 +1208,20 @@ export const ListFHIRImportJobsRequest = /*@__PURE__*/ S.suspend(() =>
     MaxResults: S.optional(S.Number),
     JobName: S.optional(S.String),
     JobStatus: S.optional(JobStatus),
-    SubmittedBefore: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    SubmittedBefore: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     SubmittedAfter: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListFHIRImportJobsRequest",
 }) as any as S.Schema<ListFHIRImportJobsRequest>;
 export type ImportJobPropertiesList = ImportJobProperties[];
-export const ImportJobPropertiesList =
-  /*@__PURE__*/ S.Array(ImportJobProperties);
+export const ImportJobPropertiesList = /*@__PURE__*/ S.Array(ImportJobProperties);
 export interface ListFHIRImportJobsResponse {
   ImportJobPropertiesList: ImportJobProperties[];
   NextToken?: string;
 }
 export const ListFHIRImportJobsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ImportJobPropertiesList: ImportJobPropertiesList,
-    NextToken: S.optional(S.String),
-  }),
+  S.Struct({ ImportJobPropertiesList: ImportJobPropertiesList, NextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListFHIRImportJobsResponse",
 }) as any as S.Schema<ListFHIRImportJobsResponse>;
@@ -1396,26 +1250,22 @@ export interface PublishDataTransformationProfileRequest {
   FromExistingVersion?: number;
   ChangeDescription?: string;
 }
-export const PublishDataTransformationProfileRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ProfileId: S.String.pipe(T.HttpLabel("ProfileId")),
-      SourceFormat: SourceFormat.pipe(T.HttpQuery("sourceFormat")),
-      FromExistingVersion: S.optional(S.Number),
-      ChangeDescription: S.optional(S.String),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "POST",
-          uri: "/data-transformation-profile/{ProfileId}/publish",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const PublishDataTransformationProfileRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ProfileId: S.String.pipe(T.HttpLabel("ProfileId")),
+    SourceFormat: SourceFormat.pipe(T.HttpQuery("sourceFormat")),
+    FromExistingVersion: S.optional(S.Number),
+    ChangeDescription: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/data-transformation-profile/{ProfileId}/publish" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "PublishDataTransformationProfileRequest",
 }) as any as S.Schema<PublishDataTransformationProfileRequest>;
@@ -1427,29 +1277,23 @@ export interface PublishDataTransformationProfileResponse {
   ProfileName?: string;
   LastUpdatedAt: Date;
 }
-export const PublishDataTransformationProfileResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ProfileId: S.String,
-      Version: S.Number,
-      SourceFormat: SourceFormat,
-      TargetFormat: TargetFormat,
-      ProfileName: S.optional(S.String),
-      LastUpdatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    }),
+export const PublishDataTransformationProfileResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ProfileId: S.String,
+    Version: S.Number,
+    SourceFormat: SourceFormat,
+    TargetFormat: TargetFormat,
+    ProfileName: S.optional(S.String),
+    LastUpdatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  }),
 ).annotate({
   identifier: "PublishDataTransformationProfileResponse",
 }) as any as S.Schema<PublishDataTransformationProfileResponse>;
 export interface ContinuousBackupRestoreConfiguration {
   RestorePointTime?: Date;
 }
-export const ContinuousBackupRestoreConfiguration = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      RestorePointTime: S.optional(
-        S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-      ),
-    }),
+export const ContinuousBackupRestoreConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ RestorePointTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))) }),
 ).annotate({
   identifier: "ContinuousBackupRestoreConfiguration",
 }) as any as S.Schema<ContinuousBackupRestoreConfiguration>;
@@ -1457,9 +1301,7 @@ export type RestoreConfiguration = {
   ContinuousBackupRestoreConfiguration: ContinuousBackupRestoreConfiguration;
 };
 export const RestoreConfiguration = /*@__PURE__*/ S.Union([
-  S.Struct({
-    ContinuousBackupRestoreConfiguration: ContinuousBackupRestoreConfiguration,
-  }),
+  S.Struct({ ContinuousBackupRestoreConfiguration: ContinuousBackupRestoreConfiguration }),
 ]);
 export interface RestoreFHIRDatastoreRequest {
   SourceDatastoreId: string;
@@ -1485,9 +1327,7 @@ export const RestoreFHIRDatastoreRequest = /*@__PURE__*/ S.suspend(() =>
     AnalyticsConfiguration: S.optional(AnalyticsConfiguration),
     NlpConfiguration: S.optional(NlpConfiguration),
     ProfileConfiguration: S.optional(ProfileConfiguration),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "RestoreFHIRDatastoreRequest",
 }) as any as S.Schema<RestoreFHIRDatastoreRequest>;
@@ -1563,9 +1403,7 @@ export const StartFHIRExportJobRequest = /*@__PURE__*/ S.suspend(() =>
     DatastoreId: S.String,
     DataAccessRoleArn: S.String,
     ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "StartFHIRExportJobRequest",
 }) as any as S.Schema<StartFHIRExportJobRequest>;
@@ -1575,11 +1413,7 @@ export interface StartFHIRExportJobResponse {
   DatastoreId?: string;
 }
 export const StartFHIRExportJobResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    JobId: S.String,
-    JobStatus: JobStatus,
-    DatastoreId: S.optional(S.String),
-  }),
+  S.Struct({ JobId: S.String, JobStatus: JobStatus, DatastoreId: S.optional(S.String) }),
 ).annotate({
   identifier: "StartFHIRExportJobResponse",
 }) as any as S.Schema<StartFHIRExportJobResponse>;
@@ -1610,9 +1444,7 @@ export const StartFHIRImportJobRequest = /*@__PURE__*/ S.suspend(() =>
     InputFormat: S.optional(S.String),
     DriftDetectionEnabled: S.optional(S.Boolean),
     ProvenanceEnabled: S.optional(S.Boolean),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "StartFHIRImportJobRequest",
 }) as any as S.Schema<StartFHIRImportJobRequest>;
@@ -1622,11 +1454,7 @@ export interface StartFHIRImportJobResponse {
   DatastoreId?: string;
 }
 export const StartFHIRImportJobResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    JobId: S.String,
-    JobStatus: JobStatus,
-    DatastoreId: S.optional(S.String),
-  }),
+  S.Struct({ JobId: S.String, JobStatus: JobStatus, DatastoreId: S.optional(S.String) }),
 ).annotate({
   identifier: "StartFHIRImportJobResponse",
 }) as any as S.Schema<StartFHIRImportJobResponse>;
@@ -1638,13 +1466,9 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceARN: S.String, Tags: TagList }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
+).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = string[];
@@ -1657,13 +1481,9 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceARN: S.String, TagKeys: TagKeyList }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
+).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateDataTransformationProfileRequest {
@@ -1671,25 +1491,21 @@ export interface UpdateDataTransformationProfileRequest {
   ProfileMapping: { [key: string]: string | undefined };
   ChangeDescription?: string;
 }
-export const UpdateDataTransformationProfileRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ProfileId: S.String.pipe(T.HttpLabel("ProfileId")),
-      ProfileMapping: ProfileMapping,
-      ChangeDescription: S.optional(S.String),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "PUT",
-          uri: "/data-transformation-profile/{ProfileId}",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const UpdateDataTransformationProfileRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ProfileId: S.String.pipe(T.HttpLabel("ProfileId")),
+    ProfileMapping: ProfileMapping,
+    ChangeDescription: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/data-transformation-profile/{ProfileId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "UpdateDataTransformationProfileRequest",
 }) as any as S.Schema<UpdateDataTransformationProfileRequest>;
@@ -1700,15 +1516,14 @@ export interface UpdateDataTransformationProfileResponse {
   ProfileName?: string;
   LastUpdatedAt: Date;
 }
-export const UpdateDataTransformationProfileResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ProfileId: S.String,
-      SourceFormat: SourceFormat,
-      TargetFormat: TargetFormat,
-      ProfileName: S.optional(S.String),
-      LastUpdatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    }),
+export const UpdateDataTransformationProfileResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ProfileId: S.String,
+    SourceFormat: SourceFormat,
+    TargetFormat: TargetFormat,
+    ProfileName: S.optional(S.String),
+    LastUpdatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+  }),
 ).annotate({
   identifier: "UpdateDataTransformationProfileResponse",
 }) as any as S.Schema<UpdateDataTransformationProfileResponse>;
@@ -1730,9 +1545,7 @@ export const UpdateFHIRDatastoreRequest = /*@__PURE__*/ S.suspend(() =>
     ProfileConfiguration: S.optional(ProfileConfiguration),
     IdentityProviderConfiguration: S.optional(IdentityProviderConfiguration),
     BackupConfiguration: S.optional(BackupConfiguration),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "UpdateFHIRDatastoreRequest",
 }) as any as S.Schema<UpdateFHIRDatastoreRequest>;
@@ -1745,10 +1558,7 @@ export const UpdateFHIRDatastoreResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "UpdateFHIRDatastoreResponse",
 }) as any as S.Schema<UpdateFHIRDatastoreResponse>;
 export type AgentMessageString = string | redacted.Redacted<string>;
-export type AgentInputMessageType =
-  | "normal"
-  | "confirmation_response"
-  | (string & {});
+export type AgentInputMessageType = "normal" | "confirmation_response" | (string & {});
 export const AgentInputMessageType = S.String;
 
 export interface AgentInputMessage {
@@ -1757,9 +1567,7 @@ export interface AgentInputMessage {
 }
 export const AgentInputMessage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Body: SensitiveString, Type: AgentInputMessageType }),
-).annotate({
-  identifier: "AgentInputMessage",
-}) as any as S.Schema<AgentInputMessage>;
+).annotate({ identifier: "AgentInputMessage" }) as any as S.Schema<AgentInputMessage>;
 export type ConversationIdString = string;
 export interface UpdateProfileWithAgentRequest {
   ProfileId: string;
@@ -1797,15 +1605,9 @@ export type AgentOutputMessageType =
   | (string & {});
 export const AgentOutputMessageType = S.String;
 
-export type DataTransformationChatOptionString =
-  | string
-  | redacted.Redacted<string>;
-export type DataTransformationChatOptionsList = (
-  | string
-  | redacted.Redacted<string>
-)[];
-export const DataTransformationChatOptionsList =
-  /*@__PURE__*/ S.Array(SensitiveString);
+export type DataTransformationChatOptionString = string | redacted.Redacted<string>;
+export type DataTransformationChatOptionsList = (string | redacted.Redacted<string>)[];
+export const DataTransformationChatOptionsList = /*@__PURE__*/ S.Array(SensitiveString);
 export interface AgentOutputMessage {
   Body: string | redacted.Redacted<string>;
   Type: AgentOutputMessageType;
@@ -1817,9 +1619,7 @@ export const AgentOutputMessage = /*@__PURE__*/ S.suspend(() =>
     Type: AgentOutputMessageType,
     OptionsList: S.optional(DataTransformationChatOptionsList),
   }),
-).annotate({
-  identifier: "AgentOutputMessage",
-}) as any as S.Schema<AgentOutputMessage>;
+).annotate({ identifier: "AgentOutputMessage" }) as any as S.Schema<AgentOutputMessage>;
 export interface UpdateProfileWithAgentResponse {
   AgentResponse: AgentOutputMessage;
   ConversationId: string;
@@ -2492,10 +2292,7 @@ export const startFHIRImportJob: API.OperationMethod<
   operationName: "StartFHIRImportJob",
 }));
 
-export type TagResourceError =
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors;
+export type TagResourceError = ResourceNotFoundException | ValidationException | CommonErrors;
 /**
  * Add a user-specifed key and value tag to a data store.
  */
@@ -2513,10 +2310,7 @@ export const tagResource: API.OperationMethod<
   operationName: "TagResource",
 }));
 
-export type UntagResourceError =
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors;
+export type UntagResourceError = ResourceNotFoundException | ValidationException | CommonErrors;
 /**
  * Remove a user-specifed key and value tag from a data store.
  */

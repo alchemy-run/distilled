@@ -278,11 +278,8 @@ export type ServiceSpec = typeof ServiceSpec.Type;
  * @param baseDir - Base directory to resolve patches from (defaults to the aws-sdk package root)
  * @returns The parsed ServiceSpec, or a default empty spec if no patch file exists
  */
-export const loadServiceSpecPatch = (
-  serviceSdkId: string,
-  baseDir?: string,
-): ServiceSpec => {
-  const root = baseDir ?? path.join(__dirname, "..");
+export const loadServiceSpecPatch = (serviceSdkId: string, baseDir?: string): ServiceSpec => {
+  const root = baseDir ?? path.join(import.meta.dirname, "..");
   const specPath = path.join(
     root,
     "patches",

@@ -1,18 +1,15 @@
+import * as API from "@distilled.cloud/core/api";
+import * as S from "@distilled.cloud/core/schema";
 import * as HttpClient from "effect/http/HttpClient";
 import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
-import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
-const svc = T.AwsApiService({
-  sdkId: "CloudControl",
-  serviceShapeName: "CloudApiService",
-});
+import * as T from "../traits.ts";
+const svc = T.AwsApiService({ sdkId: "CloudControl", serviceShapeName: "CloudApiService" });
 const auth = T.AwsAuthSigv4({ name: "cloudcontrolapi" });
 const ver = T.ServiceVersion("2021-09-30");
 const proto = T.AwsProtocolsAwsJson1_0();
@@ -28,14 +25,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -62,9 +55,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://cloudcontrolapi-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -72,13 +63,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://cloudcontrolapi.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://cloudcontrolapi.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://cloudcontrolapi.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -90,10 +77,7 @@ export class AlreadyExistsException
     "AlreadyExistsException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "AlreadyExistsException",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "AlreadyExistsException", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError, C.withAlreadyExistsError) {}
@@ -102,10 +86,7 @@ export class ClientTokenConflictException
     "ClientTokenConflictException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "ClientTokenConflictException",
-        httpResponseCode: 409,
-      }),
+      T.AwsQueryError({ code: "ClientTokenConflictException", httpResponseCode: 409 }),
       T.HttpError(409),
     ),
   ).pipe(C.withConflictError) {}
@@ -114,10 +95,7 @@ export class ConcurrentModificationException
     "ConcurrentModificationException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "ConcurrentModificationException",
-        httpResponseCode: 500,
-      }),
+      T.AwsQueryError({ code: "ConcurrentModificationException", httpResponseCode: 500 }),
       T.HttpError(500),
     ),
   ).pipe(C.withServerError) {}
@@ -126,10 +104,7 @@ export class ConcurrentOperationException
     "ConcurrentOperationException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "ConcurrentOperationException",
-        httpResponseCode: 409,
-      }),
+      T.AwsQueryError({ code: "ConcurrentOperationException", httpResponseCode: 409 }),
       T.HttpError(409),
     ),
   ).pipe(C.withConflictError) {}
@@ -138,10 +113,7 @@ export class GeneralServiceException
     "GeneralServiceException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "GeneralServiceException",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "GeneralServiceException", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -150,10 +122,7 @@ export class HandlerFailureException
     "HandlerFailureException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "HandlerFailureException",
-        httpResponseCode: 502,
-      }),
+      T.AwsQueryError({ code: "HandlerFailureException", httpResponseCode: 502 }),
       T.HttpError(502),
     ),
   ).pipe(C.withServerError) {}
@@ -162,10 +131,7 @@ export class HandlerInternalFailureException
     "HandlerInternalFailureException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "HandlerInternalFailureException",
-        httpResponseCode: 502,
-      }),
+      T.AwsQueryError({ code: "HandlerInternalFailureException", httpResponseCode: 502 }),
       T.HttpError(502),
     ),
   ).pipe(C.withServerError) {}
@@ -174,10 +140,7 @@ export class InvalidCredentialsException
     "InvalidCredentialsException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "InvalidCredentialsException",
-        httpResponseCode: 401,
-      }),
+      T.AwsQueryError({ code: "InvalidCredentialsException", httpResponseCode: 401 }),
       T.HttpError(401),
     ),
   ).pipe(C.withAuthError) {}
@@ -186,10 +149,7 @@ export class InvalidRequestException
     "InvalidRequestException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "InvalidRequestException",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "InvalidRequestException", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -198,10 +158,7 @@ export class NetworkFailureException
     "NetworkFailureException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "NetworkFailureException",
-        httpResponseCode: 502,
-      }),
+      T.AwsQueryError({ code: "NetworkFailureException", httpResponseCode: 502 }),
       T.HttpError(502),
     ),
   ).pipe(C.withServerError) {}
@@ -210,10 +167,7 @@ export class NotStabilizedException
     "NotStabilizedException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "NotStabilizedException",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "NotStabilizedException", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -240,10 +194,7 @@ export class RequestTokenNotFoundException
     "RequestTokenNotFoundException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "RequestTokenNotFoundException",
-        httpResponseCode: 404,
-      }),
+      T.AwsQueryError({ code: "RequestTokenNotFoundException", httpResponseCode: 404 }),
       T.HttpError(404),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -252,10 +203,7 @@ export class ResourceConflictException
     "ResourceConflictException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "ResourceConflictException",
-        httpResponseCode: 409,
-      }),
+      T.AwsQueryError({ code: "ResourceConflictException", httpResponseCode: 409 }),
       T.HttpError(409),
     ),
   ).pipe(C.withConflictError) {}
@@ -264,10 +212,7 @@ export class ResourceNotFoundException
     "ResourceNotFoundException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "ResourceNotFoundException",
-        httpResponseCode: 404,
-      }),
+      T.AwsQueryError({ code: "ResourceNotFoundException", httpResponseCode: 404 }),
       T.HttpError(404),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -276,10 +221,7 @@ export class ServiceInternalErrorException
     "ServiceInternalErrorException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "ServiceInternalErrorException",
-        httpResponseCode: 502,
-      }),
+      T.AwsQueryError({ code: "ServiceInternalErrorException", httpResponseCode: 502 }),
       T.HttpError(502),
     ),
   ).pipe(C.withServerError) {}
@@ -288,10 +230,7 @@ export class ServiceLimitExceededException
     "ServiceLimitExceededException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "ServiceLimitExceededException",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "ServiceLimitExceededException", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -318,10 +257,7 @@ export class UnsupportedActionException
     "UnsupportedActionException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "UnsupportedActionException",
-        httpResponseCode: 405,
-      }),
+      T.AwsQueryError({ code: "UnsupportedActionException", httpResponseCode: 405 }),
       T.HttpError(405),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -396,20 +332,14 @@ export const CreateResourceInput = /*@__PURE__*/ S.suspend(() =>
     RoleArn: S.optional(S.String),
     ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
     DesiredState: SensitiveString,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "CreateResourceInput",
-}) as any as S.Schema<CreateResourceInput>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "CreateResourceInput" }) as any as S.Schema<CreateResourceInput>;
 export interface CreateResourceOutput {
   ProgressEvent?: ProgressEvent;
 }
 export const CreateResourceOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ProgressEvent: S.optional(ProgressEvent) }),
-).annotate({
-  identifier: "CreateResourceOutput",
-}) as any as S.Schema<CreateResourceOutput>;
+).annotate({ identifier: "CreateResourceOutput" }) as any as S.Schema<CreateResourceOutput>;
 export interface DeleteResourceInput {
   TypeName: string;
   TypeVersionId?: string;
@@ -424,20 +354,14 @@ export const DeleteResourceInput = /*@__PURE__*/ S.suspend(() =>
     RoleArn: S.optional(S.String),
     ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
     Identifier: S.String,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DeleteResourceInput",
-}) as any as S.Schema<DeleteResourceInput>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "DeleteResourceInput" }) as any as S.Schema<DeleteResourceInput>;
 export interface DeleteResourceOutput {
   ProgressEvent?: ProgressEvent;
 }
 export const DeleteResourceOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ProgressEvent: S.optional(ProgressEvent) }),
-).annotate({
-  identifier: "DeleteResourceOutput",
-}) as any as S.Schema<DeleteResourceOutput>;
+).annotate({ identifier: "DeleteResourceOutput" }) as any as S.Schema<DeleteResourceOutput>;
 export interface GetResourceInput {
   TypeName: string;
   TypeVersionId?: string;
@@ -450,24 +374,15 @@ export const GetResourceInput = /*@__PURE__*/ S.suspend(() =>
     TypeVersionId: S.optional(S.String),
     RoleArn: S.optional(S.String),
     Identifier: S.String,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "GetResourceInput",
-}) as any as S.Schema<GetResourceInput>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "GetResourceInput" }) as any as S.Schema<GetResourceInput>;
 export interface ResourceDescription {
   Identifier?: string;
   Properties?: string | redacted.Redacted<string>;
 }
 export const ResourceDescription = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Identifier: S.optional(S.String),
-    Properties: S.optional(SensitiveString),
-  }),
-).annotate({
-  identifier: "ResourceDescription",
-}) as any as S.Schema<ResourceDescription>;
+  S.Struct({ Identifier: S.optional(S.String), Properties: S.optional(SensitiveString) }),
+).annotate({ identifier: "ResourceDescription" }) as any as S.Schema<ResourceDescription>;
 export interface GetResourceOutput {
   TypeName?: string;
   ResourceDescription?: ResourceDescription;
@@ -477,9 +392,7 @@ export const GetResourceOutput = /*@__PURE__*/ S.suspend(() =>
     TypeName: S.optional(S.String),
     ResourceDescription: S.optional(ResourceDescription),
   }),
-).annotate({
-  identifier: "GetResourceOutput",
-}) as any as S.Schema<GetResourceOutput>;
+).annotate({ identifier: "GetResourceOutput" }) as any as S.Schema<GetResourceOutput>;
 export interface GetResourceRequestStatusInput {
   RequestToken: string;
 }
@@ -515,9 +428,7 @@ export const HookProgressEvent = /*@__PURE__*/ S.suspend(() =>
     HookStatusMessage: S.optional(S.String),
     FailureMode: S.optional(S.String),
   }),
-).annotate({
-  identifier: "HookProgressEvent",
-}) as any as S.Schema<HookProgressEvent>;
+).annotate({ identifier: "HookProgressEvent" }) as any as S.Schema<HookProgressEvent>;
 export type HooksProgressEvent = HookProgressEvent[];
 export const HooksProgressEvent = /*@__PURE__*/ S.Array(HookProgressEvent);
 export interface GetResourceRequestStatusOutput {
@@ -560,15 +471,12 @@ export const ListResourceRequestsInput = /*@__PURE__*/ S.suspend(() =>
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
     ResourceRequestStatusFilter: S.optional(ResourceRequestStatusFilter),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListResourceRequestsInput",
 }) as any as S.Schema<ListResourceRequestsInput>;
 export type ResourceRequestStatusSummaries = ProgressEvent[];
-export const ResourceRequestStatusSummaries =
-  /*@__PURE__*/ S.Array(ProgressEvent);
+export const ResourceRequestStatusSummaries = /*@__PURE__*/ S.Array(ProgressEvent);
 export interface ListResourceRequestsOutput {
   ResourceRequestStatusSummaries?: ProgressEvent[];
   NextToken?: string;
@@ -598,12 +506,8 @@ export const ListResourcesInput = /*@__PURE__*/ S.suspend(() =>
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     ResourceModel: S.optional(SensitiveString),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListResourcesInput",
-}) as any as S.Schema<ListResourcesInput>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "ListResourcesInput" }) as any as S.Schema<ListResourcesInput>;
 export type ResourceDescriptions = ResourceDescription[];
 export const ResourceDescriptions = /*@__PURE__*/ S.Array(ResourceDescription);
 export interface ListResourcesOutput {
@@ -617,9 +521,7 @@ export const ListResourcesOutput = /*@__PURE__*/ S.suspend(() =>
     ResourceDescriptions: S.optional(ResourceDescriptions),
     NextToken: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListResourcesOutput",
-}) as any as S.Schema<ListResourcesOutput>;
+).annotate({ identifier: "ListResourcesOutput" }) as any as S.Schema<ListResourcesOutput>;
 export type PatchDocument = string | redacted.Redacted<string>;
 export interface UpdateResourceInput {
   TypeName: string;
@@ -637,20 +539,14 @@ export const UpdateResourceInput = /*@__PURE__*/ S.suspend(() =>
     ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
     Identifier: S.String,
     PatchDocument: SensitiveString,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "UpdateResourceInput",
-}) as any as S.Schema<UpdateResourceInput>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "UpdateResourceInput" }) as any as S.Schema<UpdateResourceInput>;
 export interface UpdateResourceOutput {
   ProgressEvent?: ProgressEvent;
 }
 export const UpdateResourceOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ProgressEvent: S.optional(ProgressEvent) }),
-).annotate({
-  identifier: "UpdateResourceOutput",
-}) as any as S.Schema<UpdateResourceOutput>;
+).annotate({ identifier: "UpdateResourceOutput" }) as any as S.Schema<UpdateResourceOutput>;
 export type ErrorMessage = string;
 export type CancelResourceRequestError =
   | ConcurrentModificationException
@@ -861,9 +757,7 @@ export const getResource: API.OperationMethod<
   operationName: "GetResource",
 }));
 
-export type GetResourceRequestStatusError =
-  | RequestTokenNotFoundException
-  | CommonErrors;
+export type GetResourceRequestStatusError = RequestTokenNotFoundException | CommonErrors;
 /**
  * Returns the current status of a resource operation request. For more information, see
  * Tracking the progress of resource operation requests in the

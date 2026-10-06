@@ -1,14 +1,14 @@
+import * as API from "@distilled.cloud/core/api";
+import * as S from "@distilled.cloud/core/schema";
 import * as HttpClient from "effect/http/HttpClient";
 import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
-import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
 import * as C from "../category.ts";
 import type { Credentials as Creds } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
+import * as T from "../traits.ts";
 const ns = T.XmlNamespace("http://awss3control.amazonaws.com/doc/2018-08-20/");
 const svc = T.AwsApiService({
   sdkId: "S3 Control",
@@ -62,12 +62,7 @@ const rules = T.EndpointResolver((p, _) => {
   });
   const _p2 = (_0: unknown) => ({
     authSchemes: [
-      {
-        disableDoubleEncoding: true,
-        name: "sigv4",
-        signingName: "s3",
-        signingRegion: `${_0}`,
-      },
+      { disableDoubleEncoding: true, name: "sigv4", signingName: "s3", signingRegion: `${_0}` },
     ],
   });
   const _p3 = (_0: unknown) => ({
@@ -96,11 +91,7 @@ const rules = T.EndpointResolver((p, _) => {
       {
         const partitionResult = _.partition(Region);
         if (partitionResult != null && partitionResult !== false) {
-          if (
-            RequiresAccountId != null &&
-            RequiresAccountId === true &&
-            !(AccountId != null)
-          ) {
+          if (RequiresAccountId != null && RequiresAccountId === true && !(AccountId != null)) {
             return err("AccountId is required but not set");
           }
           if (AccountId != null && !_.isValidHostLabel(AccountId, false)) {
@@ -110,9 +101,7 @@ const rules = T.EndpointResolver((p, _) => {
             return err("OutpostId must only contain a-z, A-Z, 0-9 and `-`.");
           }
           if (Endpoint != null && UseDualStack === true) {
-            return err(
-              "Invalid Configuration: DualStack and custom endpoint are not supported",
-            );
+            return err("Invalid Configuration: DualStack and custom endpoint are not supported");
           }
           if (_.isValidHostLabel(Region, true)) {
             {
@@ -168,14 +157,9 @@ const rules = T.EndpointResolver((p, _) => {
           const partitionResult = _.partition(Region);
           if (partitionResult != null && partitionResult !== false) {
             {
-              const arnPartition = _.partition(
-                _.getAttr(resourceArn, "region"),
-              );
+              const arnPartition = _.partition(_.getAttr(resourceArn, "region"));
               if (arnPartition != null && arnPartition !== false) {
-                if (
-                  _.getAttr(arnPartition, "name") ===
-                  _.getAttr(partitionResult, "name")
-                ) {
+                if (_.getAttr(arnPartition, "name") === _.getAttr(partitionResult, "name")) {
                   if (
                     UseArnRegion != null &&
                     UseArnRegion === false &&
@@ -237,9 +221,7 @@ const rules = T.EndpointResolver((p, _) => {
           const partitionResult = _.partition(Region);
           if (partitionResult != null && partitionResult !== false) {
             if (Endpoint != null && UseDualStack === true) {
-              return err(
-                "Invalid Configuration: DualStack and custom endpoint are not supported",
-              );
+              return err("Invalid Configuration: DualStack and custom endpoint are not supported");
             }
             if (UseDualStack === true) {
               return err("S3Express does not support Dual-stack.");
@@ -255,18 +237,8 @@ const rules = T.EndpointResolver((p, _) => {
               }
             }
             {
-              const s3expressAvailabilityZoneId = _.substring(
-                AccessPointName,
-                7,
-                15,
-                true,
-              );
-              const s3expressAvailabilityZoneDelim = _.substring(
-                AccessPointName,
-                15,
-                17,
-                true,
-              );
+              const s3expressAvailabilityZoneId = _.substring(AccessPointName, 7, 15, true);
+              const s3expressAvailabilityZoneDelim = _.substring(AccessPointName, 15, 17, true);
               if (
                 s3expressAvailabilityZoneId != null &&
                 s3expressAvailabilityZoneId !== false &&
@@ -289,18 +261,8 @@ const rules = T.EndpointResolver((p, _) => {
               }
             }
             {
-              const s3expressAvailabilityZoneId = _.substring(
-                AccessPointName,
-                7,
-                16,
-                true,
-              );
-              const s3expressAvailabilityZoneDelim = _.substring(
-                AccessPointName,
-                16,
-                18,
-                true,
-              );
+              const s3expressAvailabilityZoneId = _.substring(AccessPointName, 7, 16, true);
+              const s3expressAvailabilityZoneDelim = _.substring(AccessPointName, 16, 18, true);
               if (
                 s3expressAvailabilityZoneId != null &&
                 s3expressAvailabilityZoneId !== false &&
@@ -323,18 +285,8 @@ const rules = T.EndpointResolver((p, _) => {
               }
             }
             {
-              const s3expressAvailabilityZoneId = _.substring(
-                AccessPointName,
-                7,
-                20,
-                true,
-              );
-              const s3expressAvailabilityZoneDelim = _.substring(
-                AccessPointName,
-                20,
-                22,
-                true,
-              );
+              const s3expressAvailabilityZoneId = _.substring(AccessPointName, 7, 20, true);
+              const s3expressAvailabilityZoneDelim = _.substring(AccessPointName, 20, 22, true);
               if (
                 s3expressAvailabilityZoneId != null &&
                 s3expressAvailabilityZoneId !== false &&
@@ -357,18 +309,8 @@ const rules = T.EndpointResolver((p, _) => {
               }
             }
             {
-              const s3expressAvailabilityZoneId = _.substring(
-                AccessPointName,
-                7,
-                21,
-                true,
-              );
-              const s3expressAvailabilityZoneDelim = _.substring(
-                AccessPointName,
-                21,
-                23,
-                true,
-              );
+              const s3expressAvailabilityZoneId = _.substring(AccessPointName, 7, 21, true);
+              const s3expressAvailabilityZoneDelim = _.substring(AccessPointName, 21, 23, true);
               if (
                 s3expressAvailabilityZoneId != null &&
                 s3expressAvailabilityZoneId !== false &&
@@ -391,18 +333,8 @@ const rules = T.EndpointResolver((p, _) => {
               }
             }
             {
-              const s3expressAvailabilityZoneId = _.substring(
-                AccessPointName,
-                7,
-                27,
-                true,
-              );
-              const s3expressAvailabilityZoneDelim = _.substring(
-                AccessPointName,
-                27,
-                29,
-                true,
-              );
+              const s3expressAvailabilityZoneId = _.substring(AccessPointName, 7, 27, true);
+              const s3expressAvailabilityZoneDelim = _.substring(AccessPointName, 27, 29, true);
               if (
                 s3expressAvailabilityZoneId != null &&
                 s3expressAvailabilityZoneId !== false &&
@@ -429,17 +361,12 @@ const rules = T.EndpointResolver((p, _) => {
         }
       }
     }
-    if (
-      UseS3ExpressControlEndpoint != null &&
-      UseS3ExpressControlEndpoint === true
-    ) {
+    if (UseS3ExpressControlEndpoint != null && UseS3ExpressControlEndpoint === true) {
       {
         const partitionResult = _.partition(Region);
         if (partitionResult != null && partitionResult !== false) {
           if (Endpoint != null && UseDualStack === true) {
-            return err(
-              "Invalid Configuration: DualStack and custom endpoint are not supported",
-            );
+            return err("Invalid Configuration: DualStack and custom endpoint are not supported");
           }
           if (UseDualStack === true) {
             return err("S3Express does not support Dual-stack.");
@@ -471,12 +398,7 @@ const rules = T.EndpointResolver((p, _) => {
     }
     {
       const url = _.parseURL(Endpoint);
-      if (
-        Region === "snow" &&
-        Endpoint != null &&
-        url != null &&
-        url !== false
-      ) {
+      if (Region === "snow" && Endpoint != null && url != null && url !== false) {
         {
           const partitionResult = _.partition(Region);
           if (partitionResult != null && partitionResult !== false) {
@@ -497,11 +419,7 @@ const rules = T.EndpointResolver((p, _) => {
     }
     {
       const accessPointArn = _.parseArn(AccessPointName);
-      if (
-        AccessPointName != null &&
-        accessPointArn != null &&
-        accessPointArn !== false
-      ) {
+      if (AccessPointName != null && accessPointArn != null && accessPointArn !== false) {
         {
           const arnType = _.getAttr(accessPointArn, "resourceId[0]");
           if (arnType != null && arnType !== false && !(arnType === "")) {
@@ -526,31 +444,15 @@ const rules = T.EndpointResolver((p, _) => {
                     }
                     {
                       const partitionResult = _.partition(Region);
-                      if (
-                        partitionResult != null &&
-                        partitionResult !== false
-                      ) {
+                      if (partitionResult != null && partitionResult !== false) {
                         {
-                          const arnPartition = _.partition(
-                            _.getAttr(accessPointArn, "region"),
-                          );
+                          const arnPartition = _.partition(_.getAttr(accessPointArn, "region"));
                           if (arnPartition != null && arnPartition !== false) {
                             if (
-                              _.getAttr(arnPartition, "name") ===
-                              _.getAttr(partitionResult, "name")
+                              _.getAttr(arnPartition, "name") === _.getAttr(partitionResult, "name")
                             ) {
-                              if (
-                                _.isValidHostLabel(
-                                  _.getAttr(accessPointArn, "region"),
-                                  true,
-                                )
-                              ) {
-                                if (
-                                  !(
-                                    _.getAttr(accessPointArn, "accountId") ===
-                                    ""
-                                  )
-                                ) {
+                              if (_.isValidHostLabel(_.getAttr(accessPointArn, "region"), true)) {
+                                if (!(_.getAttr(accessPointArn, "accountId") === "")) {
                                   if (
                                     _.isValidHostLabel(
                                       _.getAttr(accessPointArn, "accountId"),
@@ -559,10 +461,7 @@ const rules = T.EndpointResolver((p, _) => {
                                   ) {
                                     if (
                                       AccountId != null &&
-                                      !(
-                                        AccountId ===
-                                        `${_.getAttr(accessPointArn, "accountId")}`
-                                      )
+                                      !(AccountId === `${_.getAttr(accessPointArn, "accountId")}`)
                                     ) {
                                       return err(
                                         `Invalid ARN: the accountId specified in the ARN (\`${_.getAttr(accessPointArn, "accountId")}\`) does not match the parameter (\`${AccountId}\`)`,
@@ -573,10 +472,7 @@ const rules = T.EndpointResolver((p, _) => {
                                         accessPointArn,
                                         "resourceId[2]",
                                       );
-                                      if (
-                                        outpostType != null &&
-                                        outpostType !== false
-                                      ) {
+                                      if (outpostType != null && outpostType !== false) {
                                         {
                                           const accessPointName = _.getAttr(
                                             accessPointArn,
@@ -587,10 +483,7 @@ const rules = T.EndpointResolver((p, _) => {
                                             accessPointName !== false
                                           ) {
                                             if (outpostType === "accesspoint") {
-                                              if (
-                                                UseFIPS === true &&
-                                                UseDualStack === true
-                                              ) {
+                                              if (UseFIPS === true && UseDualStack === true) {
                                                 return e(
                                                   `https://s3-outposts-fips.${_.getAttr(accessPointArn, "region")}.${_.getAttr(arnPartition, "dualStackDnsSuffix")}`,
                                                   _p3(accessPointArn),
@@ -598,9 +491,7 @@ const rules = T.EndpointResolver((p, _) => {
                                                     "x-amz-account-id": [
                                                       `${_.getAttr(accessPointArn, "accountId")}`,
                                                     ],
-                                                    "x-amz-outpost-id": [
-                                                      `${outpostId}`,
-                                                    ],
+                                                    "x-amz-outpost-id": [`${outpostId}`],
                                                   },
                                                 );
                                               }
@@ -612,9 +503,7 @@ const rules = T.EndpointResolver((p, _) => {
                                                     "x-amz-account-id": [
                                                       `${_.getAttr(accessPointArn, "accountId")}`,
                                                     ],
-                                                    "x-amz-outpost-id": [
-                                                      `${outpostId}`,
-                                                    ],
+                                                    "x-amz-outpost-id": [`${outpostId}`],
                                                   },
                                                 );
                                               }
@@ -626,15 +515,12 @@ const rules = T.EndpointResolver((p, _) => {
                                                     "x-amz-account-id": [
                                                       `${_.getAttr(accessPointArn, "accountId")}`,
                                                     ],
-                                                    "x-amz-outpost-id": [
-                                                      `${outpostId}`,
-                                                    ],
+                                                    "x-amz-outpost-id": [`${outpostId}`],
                                                   },
                                                 );
                                               }
                                               {
-                                                const url =
-                                                  _.parseURL(Endpoint);
+                                                const url = _.parseURL(Endpoint);
                                                 if (
                                                   Endpoint != null &&
                                                   url != null &&
@@ -647,9 +533,7 @@ const rules = T.EndpointResolver((p, _) => {
                                                       "x-amz-account-id": [
                                                         `${_.getAttr(accessPointArn, "accountId")}`,
                                                       ],
-                                                      "x-amz-outpost-id": [
-                                                        `${outpostId}`,
-                                                      ],
+                                                      "x-amz-outpost-id": [`${outpostId}`],
                                                     },
                                                   );
                                                 }
@@ -661,9 +545,7 @@ const rules = T.EndpointResolver((p, _) => {
                                                   "x-amz-account-id": [
                                                     `${_.getAttr(accessPointArn, "accountId")}`,
                                                   ],
-                                                  "x-amz-outpost-id": [
-                                                    `${outpostId}`,
-                                                  ],
+                                                  "x-amz-outpost-id": [`${outpostId}`],
                                                 },
                                               );
                                             }
@@ -672,14 +554,10 @@ const rules = T.EndpointResolver((p, _) => {
                                             );
                                           }
                                         }
-                                        return err(
-                                          "Invalid ARN: expected an access point name",
-                                        );
+                                        return err("Invalid ARN: expected an access point name");
                                       }
                                     }
-                                    return err(
-                                      "Invalid ARN: Expected a 4-component resource",
-                                    );
+                                    return err("Invalid ARN: Expected a 4-component resource");
                                   }
                                   return err(
                                     `Invalid ARN: The account id may only contain a-z, A-Z, 0-9 and \`-\`. Found: \`${_.getAttr(accessPointArn, "accountId")}\``,
@@ -737,69 +615,35 @@ const rules = T.EndpointResolver((p, _) => {
                       );
                     }
                     {
-                      const arnPartition = _.partition(
-                        _.getAttr(bucketArn, "region"),
-                      );
+                      const arnPartition = _.partition(_.getAttr(bucketArn, "region"));
                       if (arnPartition != null && arnPartition !== false) {
                         {
                           const partitionResult = _.partition(Region);
-                          if (
-                            partitionResult != null &&
-                            partitionResult !== false
-                          ) {
+                          if (partitionResult != null && partitionResult !== false) {
                             if (
-                              _.getAttr(arnPartition, "name") ===
-                              _.getAttr(partitionResult, "name")
+                              _.getAttr(arnPartition, "name") === _.getAttr(partitionResult, "name")
                             ) {
-                              if (
-                                _.isValidHostLabel(
-                                  _.getAttr(bucketArn, "region"),
-                                  true,
-                                )
-                              ) {
-                                if (
-                                  !(_.getAttr(bucketArn, "accountId") === "")
-                                ) {
+                              if (_.isValidHostLabel(_.getAttr(bucketArn, "region"), true)) {
+                                if (!(_.getAttr(bucketArn, "accountId") === "")) {
                                   if (
-                                    _.isValidHostLabel(
-                                      _.getAttr(bucketArn, "accountId"),
-                                      false,
-                                    )
+                                    _.isValidHostLabel(_.getAttr(bucketArn, "accountId"), false)
                                   ) {
                                     if (
                                       AccountId != null &&
-                                      !(
-                                        AccountId ===
-                                        `${_.getAttr(bucketArn, "accountId")}`
-                                      )
+                                      !(AccountId === `${_.getAttr(bucketArn, "accountId")}`)
                                     ) {
                                       return err(
                                         `Invalid ARN: the accountId specified in the ARN (\`${_.getAttr(bucketArn, "accountId")}\`) does not match the parameter (\`${AccountId}\`)`,
                                       );
                                     }
                                     {
-                                      const outpostType = _.getAttr(
-                                        bucketArn,
-                                        "resourceId[2]",
-                                      );
-                                      if (
-                                        outpostType != null &&
-                                        outpostType !== false
-                                      ) {
+                                      const outpostType = _.getAttr(bucketArn, "resourceId[2]");
+                                      if (outpostType != null && outpostType !== false) {
                                         {
-                                          const bucketName = _.getAttr(
-                                            bucketArn,
-                                            "resourceId[3]",
-                                          );
-                                          if (
-                                            bucketName != null &&
-                                            bucketName !== false
-                                          ) {
+                                          const bucketName = _.getAttr(bucketArn, "resourceId[3]");
+                                          if (bucketName != null && bucketName !== false) {
                                             if (outpostType === "bucket") {
-                                              if (
-                                                UseFIPS === true &&
-                                                UseDualStack === true
-                                              ) {
+                                              if (UseFIPS === true && UseDualStack === true) {
                                                 return e(
                                                   `https://s3-outposts-fips.${_.getAttr(bucketArn, "region")}.${_.getAttr(arnPartition, "dualStackDnsSuffix")}`,
                                                   _p3(bucketArn),
@@ -807,9 +651,7 @@ const rules = T.EndpointResolver((p, _) => {
                                                     "x-amz-account-id": [
                                                       `${_.getAttr(bucketArn, "accountId")}`,
                                                     ],
-                                                    "x-amz-outpost-id": [
-                                                      `${outpostId}`,
-                                                    ],
+                                                    "x-amz-outpost-id": [`${outpostId}`],
                                                   },
                                                 );
                                               }
@@ -821,9 +663,7 @@ const rules = T.EndpointResolver((p, _) => {
                                                     "x-amz-account-id": [
                                                       `${_.getAttr(bucketArn, "accountId")}`,
                                                     ],
-                                                    "x-amz-outpost-id": [
-                                                      `${outpostId}`,
-                                                    ],
+                                                    "x-amz-outpost-id": [`${outpostId}`],
                                                   },
                                                 );
                                               }
@@ -835,15 +675,12 @@ const rules = T.EndpointResolver((p, _) => {
                                                     "x-amz-account-id": [
                                                       `${_.getAttr(bucketArn, "accountId")}`,
                                                     ],
-                                                    "x-amz-outpost-id": [
-                                                      `${outpostId}`,
-                                                    ],
+                                                    "x-amz-outpost-id": [`${outpostId}`],
                                                   },
                                                 );
                                               }
                                               {
-                                                const url =
-                                                  _.parseURL(Endpoint);
+                                                const url = _.parseURL(Endpoint);
                                                 if (
                                                   Endpoint != null &&
                                                   url != null &&
@@ -856,9 +693,7 @@ const rules = T.EndpointResolver((p, _) => {
                                                       "x-amz-account-id": [
                                                         `${_.getAttr(bucketArn, "accountId")}`,
                                                       ],
-                                                      "x-amz-outpost-id": [
-                                                        `${outpostId}`,
-                                                      ],
+                                                      "x-amz-outpost-id": [`${outpostId}`],
                                                     },
                                                   );
                                                 }
@@ -870,9 +705,7 @@ const rules = T.EndpointResolver((p, _) => {
                                                   "x-amz-account-id": [
                                                     `${_.getAttr(bucketArn, "accountId")}`,
                                                   ],
-                                                  "x-amz-outpost-id": [
-                                                    `${outpostId}`,
-                                                  ],
+                                                  "x-amz-outpost-id": [`${outpostId}`],
                                                 },
                                               );
                                             }
@@ -881,14 +714,10 @@ const rules = T.EndpointResolver((p, _) => {
                                             );
                                           }
                                         }
-                                        return err(
-                                          "Invalid ARN: expected a bucket name",
-                                        );
+                                        return err("Invalid ARN: expected a bucket name");
                                       }
                                     }
-                                    return err(
-                                      "Invalid ARN: Expected a 4-component resource",
-                                    );
+                                    return err("Invalid ARN: Expected a 4-component resource");
                                   }
                                   return err(
                                     `Invalid ARN: The account id may only contain a-z, A-Z, 0-9 and \`-\`. Found: \`${_.getAttr(bucketArn, "accountId")}\``,
@@ -924,11 +753,7 @@ const rules = T.EndpointResolver((p, _) => {
       const partitionResult = _.partition(Region);
       if (partitionResult != null && partitionResult !== false) {
         if (_.isValidHostLabel(Region, true)) {
-          if (
-            RequiresAccountId != null &&
-            RequiresAccountId === true &&
-            !(AccountId != null)
-          ) {
+          if (RequiresAccountId != null && RequiresAccountId === true && !(AccountId != null)) {
             return err("AccountId is required but not set");
           }
           if (AccountId != null && !_.isValidHostLabel(AccountId, false)) {
@@ -942,11 +767,7 @@ const rules = T.EndpointResolver((p, _) => {
                   "Invalid Configuration: DualStack and custom endpoint are not supported",
                 );
               }
-              if (
-                RequiresAccountId != null &&
-                RequiresAccountId === true &&
-                AccountId != null
-              ) {
+              if (RequiresAccountId != null && RequiresAccountId === true && AccountId != null) {
                 return e(
                   `${_.getAttr(url, "scheme")}://${AccountId}.${_.getAttr(url, "authority")}${_.getAttr(url, "path")}`,
                   _p2(Region),
@@ -1054,57 +875,46 @@ export class AccessPointAlreadyOwnedByYou
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
   ).pipe(C.withAlreadyExistsError) {}
 export class BadRequestException
-  extends /*@__PURE__*/ S.TaggedError<BadRequestException>()(
-    "BadRequestException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<BadRequestException>()("BadRequestException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class BucketAlreadyExists
-  extends /*@__PURE__*/ S.TaggedError<BucketAlreadyExists>()(
-    "BucketAlreadyExists",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ).pipe(C.withAlreadyExistsError) {}
+  extends /*@__PURE__*/ S.TaggedError<BucketAlreadyExists>()("BucketAlreadyExists", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }).pipe(C.withAlreadyExistsError) {}
 export class BucketAlreadyOwnedByYou
-  extends /*@__PURE__*/ S.TaggedError<BucketAlreadyOwnedByYou>()(
-    "BucketAlreadyOwnedByYou",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<BucketAlreadyOwnedByYou>()("BucketAlreadyOwnedByYou", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class IdempotencyException
-  extends /*@__PURE__*/ S.TaggedError<IdempotencyException>()(
-    "IdempotencyException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<IdempotencyException>()("IdempotencyException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class InternalServiceException
-  extends /*@__PURE__*/ S.TaggedError<InternalServiceException>()(
-    "InternalServiceException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<InternalServiceException>()("InternalServiceException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class InvalidNextTokenException
-  extends /*@__PURE__*/ S.TaggedError<InvalidNextTokenException>()(
-    "InvalidNextTokenException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<InvalidNextTokenException>()("InvalidNextTokenException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class InvalidRequest
   extends /*@__PURE__*/ S.TaggedError<InvalidRequest>()("InvalidRequest", {
     message: S.optional(S.String).pipe(T.ErrorMessage()),
   }).pipe(C.withBadRequestError) {}
 export class InvalidRequestException
-  extends /*@__PURE__*/ S.TaggedError<InvalidRequestException>()(
-    "InvalidRequestException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<InvalidRequestException>()("InvalidRequestException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class JobStatusException
-  extends /*@__PURE__*/ S.TaggedError<JobStatusException>()(
-    "JobStatusException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<JobStatusException>()("JobStatusException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class JobStatusTransitionForbidden
   extends /*@__PURE__*/ S.TaggedError<JobStatusTransitionForbidden>()(
     "JobStatusTransitionForbidden",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.SyntheticError({
-      from: "InvalidRequest",
-      message: { includes: "job status forbidden" },
-    }),
+    T.SyntheticError({ from: "InvalidRequest", message: { includes: "job status forbidden" } }),
   ).pipe(C.withBadRequestError) {}
 export class MalformedPolicy
   extends /*@__PURE__*/ S.TaggedError<MalformedPolicy>()("MalformedPolicy", {
@@ -1116,20 +926,17 @@ export class MissingBucketLevelActivityMetrics
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
   ).pipe(C.withBadRequestError) {}
 export class NoSuchAccessPoint
-  extends /*@__PURE__*/ S.TaggedError<NoSuchAccessPoint>()(
-    "NoSuchAccessPoint",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ).pipe(C.withNotFoundError) {}
+  extends /*@__PURE__*/ S.TaggedError<NoSuchAccessPoint>()("NoSuchAccessPoint", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }).pipe(C.withNotFoundError) {}
 export class NoSuchAccessPointPolicy
-  extends /*@__PURE__*/ S.TaggedError<NoSuchAccessPointPolicy>()(
-    "NoSuchAccessPointPolicy",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ).pipe(C.withNotFoundError) {}
+  extends /*@__PURE__*/ S.TaggedError<NoSuchAccessPointPolicy>()("NoSuchAccessPointPolicy", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }).pipe(C.withNotFoundError) {}
 export class NoSuchConfiguration
-  extends /*@__PURE__*/ S.TaggedError<NoSuchConfiguration>()(
-    "NoSuchConfiguration",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ).pipe(C.withNotFoundError) {}
+  extends /*@__PURE__*/ S.TaggedError<NoSuchConfiguration>()("NoSuchConfiguration", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }).pipe(C.withNotFoundError) {}
 export class NoSuchMultiRegionAccessPoint
   extends /*@__PURE__*/ S.TaggedError<NoSuchMultiRegionAccessPoint>()(
     "NoSuchMultiRegionAccessPoint",
@@ -1142,69 +949,61 @@ export class NoSuchPublicAccessBlockConfiguration
     T.HttpError(404),
   ).pipe(C.withBadRequestError) {}
 export class NotFoundException
-  extends /*@__PURE__*/ S.TaggedError<NotFoundException>()(
-    "NotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<NotFoundException>()("NotFoundException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class ObjectLambdaNotAvailable
   extends /*@__PURE__*/ S.TaggedError<ObjectLambdaNotAvailable>()(
     "ObjectLambdaNotAvailable",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.SyntheticError({
       from: "AccessDenied",
-      message: {
-        includes: "Object Lambda is available only to existing customers",
-      },
+      message: { includes: "Object Lambda is available only to existing customers" },
     }),
   ).pipe(C.withAuthError) {}
 export class TooManyRequestsException
-  extends /*@__PURE__*/ S.TaggedError<TooManyRequestsException>()(
-    "TooManyRequestsException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<TooManyRequestsException>()("TooManyRequestsException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class TooManyTagsException
-  extends /*@__PURE__*/ S.TaggedError<TooManyTagsException>()(
-    "TooManyTagsException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<TooManyTagsException>()("TooManyTagsException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export type AccountId = string;
 export type IdentityCenterArn = string;
 export interface AssociateAccessGrantsIdentityCenterRequest {
   AccountId: string;
   IdentityCenterArn: string;
 }
-export const AssociateAccessGrantsIdentityCenterRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      AccountId: S.String.pipe(
-        T.HttpHeader("x-amz-account-id"),
-        T.ContextParam("AccountId"),
-        T.HostLabel(),
-      ),
-      IdentityCenterArn: S.String,
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({
-          method: "POST",
-          uri: "/v20180820/accessgrantsinstance/identitycenter",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-        T.StaticContextParams({ RequiresAccountId: { value: true } }),
-      ),
+export const AssociateAccessGrantsIdentityCenterRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    AccountId: S.String.pipe(
+      T.HttpHeader("x-amz-account-id"),
+      T.ContextParam("AccountId"),
+      T.HostLabel(),
     ),
-  ).annotate({
-    identifier: "AssociateAccessGrantsIdentityCenterRequest",
-  }) as any as S.Schema<AssociateAccessGrantsIdentityCenterRequest>;
+    IdentityCenterArn: S.String,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/v20180820/accessgrantsinstance/identitycenter" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.StaticContextParams({ RequiresAccountId: { value: true } }),
+    ),
+  ),
+).annotate({
+  identifier: "AssociateAccessGrantsIdentityCenterRequest",
+}) as any as S.Schema<AssociateAccessGrantsIdentityCenterRequest>;
 export interface AssociateAccessGrantsIdentityCenterResponse {}
-export const AssociateAccessGrantsIdentityCenterResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
-    identifier: "AssociateAccessGrantsIdentityCenterResponse",
-  }) as any as S.Schema<AssociateAccessGrantsIdentityCenterResponse>;
+export const AssociateAccessGrantsIdentityCenterResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "AssociateAccessGrantsIdentityCenterResponse",
+}) as any as S.Schema<AssociateAccessGrantsIdentityCenterResponse>;
 export type AccessGrantsLocationId = string;
 export type S3Prefix = string;
 export interface AccessGrantsLocationConfiguration {
@@ -1215,11 +1014,7 @@ export const AccessGrantsLocationConfiguration = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "AccessGrantsLocationConfiguration",
 }) as any as S.Schema<AccessGrantsLocationConfiguration>;
-export type GranteeType =
-  | "DIRECTORY_USER"
-  | "DIRECTORY_GROUP"
-  | "IAM"
-  | (string & {});
+export type GranteeType = "DIRECTORY_USER" | "DIRECTORY_GROUP" | "IAM" | (string & {});
 export const GranteeType = S.String;
 
 export type GranteeIdentifier = string;
@@ -1228,10 +1023,7 @@ export interface Grantee {
   GranteeIdentifier?: string;
 }
 export const Grantee = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GranteeType: S.optional(GranteeType),
-    GranteeIdentifier: S.optional(S.String),
-  }),
+  S.Struct({ GranteeType: S.optional(GranteeType), GranteeIdentifier: S.optional(S.String) }),
 ).annotate({ identifier: "Grantee" }) as any as S.Schema<Grantee>;
 export type Permission = "READ" | "WRITE" | "READWRITE" | (string & {});
 export const Permission = S.String;
@@ -1271,9 +1063,7 @@ export const CreateAccessGrantRequest = /*@__PURE__*/ S.suspend(() =>
       T.HostLabel(),
     ),
     AccessGrantsLocationId: S.String,
-    AccessGrantsLocationConfiguration: S.optional(
-      AccessGrantsLocationConfiguration,
-    ),
+    AccessGrantsLocationConfiguration: S.optional(AccessGrantsLocationConfiguration),
     Grantee: Grantee,
     Permission: Permission,
     ApplicationArn: S.optional(S.String),
@@ -1291,9 +1081,7 @@ export const CreateAccessGrantRequest = /*@__PURE__*/ S.suspend(() =>
       T.StaticContextParams({ RequiresAccountId: { value: true } }),
     ),
   ),
-).annotate({
-  identifier: "CreateAccessGrantRequest",
-}) as any as S.Schema<CreateAccessGrantRequest>;
+).annotate({ identifier: "CreateAccessGrantRequest" }) as any as S.Schema<CreateAccessGrantRequest>;
 export type CreationTimestamp = Date;
 export type AccessGrantId = string;
 export type AccessGrantArn = string;
@@ -1315,16 +1103,12 @@ export const CreateAccessGrantResult = /*@__PURE__*/ S.suspend(() =>
     AccessGrantArn: S.optional(S.String),
     Grantee: S.optional(Grantee),
     AccessGrantsLocationId: S.optional(S.String),
-    AccessGrantsLocationConfiguration: S.optional(
-      AccessGrantsLocationConfiguration,
-    ),
+    AccessGrantsLocationConfiguration: S.optional(AccessGrantsLocationConfiguration),
     Permission: S.optional(Permission),
     ApplicationArn: S.optional(S.String),
     GrantScope: S.optional(S.String),
   }).pipe(ns),
-).annotate({
-  identifier: "CreateAccessGrantResult",
-}) as any as S.Schema<CreateAccessGrantResult>;
+).annotate({ identifier: "CreateAccessGrantResult" }) as any as S.Schema<CreateAccessGrantResult>;
 export interface CreateAccessGrantsInstanceRequest {
   AccountId: string;
   IdentityCenterArn?: string;
@@ -1396,10 +1180,7 @@ export const CreateAccessGrantsLocationRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(
       ns,
-      T.Http({
-        method: "POST",
-        uri: "/v20180820/accessgrantsinstance/location",
-      }),
+      T.Http({ method: "POST", uri: "/v20180820/accessgrantsinstance/location" }),
       svc,
       auth,
       proto,
@@ -1438,9 +1219,7 @@ export interface VpcConfiguration {
 }
 export const VpcConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ VpcId: S.String }),
-).annotate({
-  identifier: "VpcConfiguration",
-}) as any as S.Schema<VpcConfiguration>;
+).annotate({ identifier: "VpcConfiguration" }) as any as S.Schema<VpcConfiguration>;
 export type Setting = boolean;
 export interface PublicAccessBlockConfiguration {
   BlockPublicAcls?: boolean;
@@ -1452,21 +1231,15 @@ export const PublicAccessBlockConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     BlockPublicAcls: S.optional(S.Boolean).pipe(T.XmlName("BlockPublicAcls")),
     IgnorePublicAcls: S.optional(S.Boolean).pipe(T.XmlName("IgnorePublicAcls")),
-    BlockPublicPolicy: S.optional(S.Boolean).pipe(
-      T.XmlName("BlockPublicPolicy"),
-    ),
-    RestrictPublicBuckets: S.optional(S.Boolean).pipe(
-      T.XmlName("RestrictPublicBuckets"),
-    ),
+    BlockPublicPolicy: S.optional(S.Boolean).pipe(T.XmlName("BlockPublicPolicy")),
+    RestrictPublicBuckets: S.optional(S.Boolean).pipe(T.XmlName("RestrictPublicBuckets")),
   }),
 ).annotate({
   identifier: "PublicAccessBlockConfiguration",
 }) as any as S.Schema<PublicAccessBlockConfiguration>;
 export type Prefix = string;
 export type PrefixesList = string[];
-export const PrefixesList = /*@__PURE__*/ S.Array(
-  S.String.pipe(T.XmlName("Prefix")),
-);
+export const PrefixesList = /*@__PURE__*/ S.Array(S.String.pipe(T.XmlName("Prefix")));
 export type ScopePermission =
   | "GetObject"
   | "GetObjectAttributes"
@@ -1529,9 +1302,7 @@ export const CreateAccessPointRequest = /*@__PURE__*/ S.suspend(() =>
       T.StaticContextParams({ RequiresAccountId: { value: true } }),
     ),
   ),
-).annotate({
-  identifier: "CreateAccessPointRequest",
-}) as any as S.Schema<CreateAccessPointRequest>;
+).annotate({ identifier: "CreateAccessPointRequest" }) as any as S.Schema<CreateAccessPointRequest>;
 export type S3AccessPointArn = string;
 export type Alias = string;
 export interface CreateAccessPointResult {
@@ -1539,13 +1310,8 @@ export interface CreateAccessPointResult {
   Alias?: string;
 }
 export const CreateAccessPointResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AccessPointArn: S.optional(S.String),
-    Alias: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "CreateAccessPointResult",
-}) as any as S.Schema<CreateAccessPointResult>;
+  S.Struct({ AccessPointArn: S.optional(S.String), Alias: S.optional(S.String) }).pipe(ns),
+).annotate({ identifier: "CreateAccessPointResult" }) as any as S.Schema<CreateAccessPointResult>;
 export type ObjectLambdaAccessPointName = string;
 export type ObjectLambdaSupportingAccessPointArn = string;
 export type ObjectLambdaAllowedFeature =
@@ -1570,10 +1336,9 @@ export const ObjectLambdaTransformationConfigurationAction = S.String;
 
 export type ObjectLambdaTransformationConfigurationActionsList =
   ObjectLambdaTransformationConfigurationAction[];
-export const ObjectLambdaTransformationConfigurationActionsList =
-  /*@__PURE__*/ S.Array(
-    ObjectLambdaTransformationConfigurationAction.pipe(T.XmlName("Action")),
-  );
+export const ObjectLambdaTransformationConfigurationActionsList = /*@__PURE__*/ S.Array(
+  ObjectLambdaTransformationConfigurationAction.pipe(T.XmlName("Action")),
+);
 export type FunctionArnString = string;
 export type AwsLambdaTransformationPayload = string;
 export interface AwsLambdaTransformation {
@@ -1582,12 +1347,8 @@ export interface AwsLambdaTransformation {
 }
 export const AwsLambdaTransformation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ FunctionArn: S.String, FunctionPayload: S.optional(S.String) }),
-).annotate({
-  identifier: "AwsLambdaTransformation",
-}) as any as S.Schema<AwsLambdaTransformation>;
-export type ObjectLambdaContentTransformation = {
-  AwsLambda: AwsLambdaTransformation;
-};
+).annotate({ identifier: "AwsLambdaTransformation" }) as any as S.Schema<AwsLambdaTransformation>;
+export type ObjectLambdaContentTransformation = { AwsLambda: AwsLambdaTransformation };
 export const ObjectLambdaContentTransformation = /*@__PURE__*/ S.Union([
   S.Struct({ AwsLambda: AwsLambdaTransformation }),
 ]);
@@ -1595,23 +1356,21 @@ export interface ObjectLambdaTransformationConfiguration {
   Actions: ObjectLambdaTransformationConfigurationAction[];
   ContentTransformation: ObjectLambdaContentTransformation;
 }
-export const ObjectLambdaTransformationConfiguration = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Actions: ObjectLambdaTransformationConfigurationActionsList,
-      ContentTransformation: ObjectLambdaContentTransformation,
-    }),
+export const ObjectLambdaTransformationConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Actions: ObjectLambdaTransformationConfigurationActionsList,
+    ContentTransformation: ObjectLambdaContentTransformation,
+  }),
 ).annotate({
   identifier: "ObjectLambdaTransformationConfiguration",
 }) as any as S.Schema<ObjectLambdaTransformationConfiguration>;
 export type ObjectLambdaTransformationConfigurationsList =
   ObjectLambdaTransformationConfiguration[];
-export const ObjectLambdaTransformationConfigurationsList =
-  /*@__PURE__*/ S.Array(
-    ObjectLambdaTransformationConfiguration.pipe(
-      T.XmlName("TransformationConfiguration"),
-    ).annotate({ identifier: "ObjectLambdaTransformationConfiguration" }),
-  );
+export const ObjectLambdaTransformationConfigurationsList = /*@__PURE__*/ S.Array(
+  ObjectLambdaTransformationConfiguration.pipe(T.XmlName("TransformationConfiguration")).annotate({
+    identifier: "ObjectLambdaTransformationConfiguration",
+  }),
+);
 export interface ObjectLambdaConfiguration {
   SupportingAccessPoint: string;
   CloudWatchMetricsEnabled?: boolean;
@@ -1633,40 +1392,33 @@ export interface CreateAccessPointForObjectLambdaRequest {
   Name: string;
   Configuration: ObjectLambdaConfiguration;
 }
-export const CreateAccessPointForObjectLambdaRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      AccountId: S.String.pipe(
-        T.HttpHeader("x-amz-account-id"),
-        T.ContextParam("AccountId"),
-        T.HostLabel(),
-      ),
-      Name: S.String.pipe(T.HttpLabel("Name")),
-      Configuration: ObjectLambdaConfiguration,
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({
-          method: "PUT",
-          uri: "/v20180820/accesspointforobjectlambda/{Name}",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-        T.StaticContextParams({ RequiresAccountId: { value: true } }),
-      ),
+export const CreateAccessPointForObjectLambdaRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    AccountId: S.String.pipe(
+      T.HttpHeader("x-amz-account-id"),
+      T.ContextParam("AccountId"),
+      T.HostLabel(),
     ),
+    Name: S.String.pipe(T.HttpLabel("Name")),
+    Configuration: ObjectLambdaConfiguration,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "PUT", uri: "/v20180820/accesspointforobjectlambda/{Name}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.StaticContextParams({ RequiresAccountId: { value: true } }),
+    ),
+  ),
 ).annotate({
   identifier: "CreateAccessPointForObjectLambdaRequest",
 }) as any as S.Schema<CreateAccessPointForObjectLambdaRequest>;
 export type ObjectLambdaAccessPointArn = string;
 export type ObjectLambdaAccessPointAliasValue = string;
-export type ObjectLambdaAccessPointAliasStatus =
-  | "PROVISIONING"
-  | "READY"
-  | (string & {});
+export type ObjectLambdaAccessPointAliasStatus = "PROVISIONING" | "READY" | (string & {});
 export const ObjectLambdaAccessPointAliasStatus = S.String;
 
 export interface ObjectLambdaAccessPointAlias {
@@ -1674,10 +1426,7 @@ export interface ObjectLambdaAccessPointAlias {
   Status?: ObjectLambdaAccessPointAliasStatus;
 }
 export const ObjectLambdaAccessPointAlias = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Value: S.optional(S.String),
-    Status: S.optional(ObjectLambdaAccessPointAliasStatus),
-  }),
+  S.Struct({ Value: S.optional(S.String), Status: S.optional(ObjectLambdaAccessPointAliasStatus) }),
 ).annotate({
   identifier: "ObjectLambdaAccessPointAlias",
 }) as any as S.Schema<ObjectLambdaAccessPointAlias>;
@@ -1685,12 +1434,11 @@ export interface CreateAccessPointForObjectLambdaResult {
   ObjectLambdaAccessPointArn?: string;
   Alias?: ObjectLambdaAccessPointAlias;
 }
-export const CreateAccessPointForObjectLambdaResult = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ObjectLambdaAccessPointArn: S.optional(S.String),
-      Alias: S.optional(ObjectLambdaAccessPointAlias),
-    }).pipe(ns),
+export const CreateAccessPointForObjectLambdaResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ObjectLambdaAccessPointArn: S.optional(S.String),
+    Alias: S.optional(ObjectLambdaAccessPointAlias),
+  }).pipe(ns),
 ).annotate({
   identifier: "CreateAccessPointForObjectLambdaResult",
 }) as any as S.Schema<CreateAccessPointForObjectLambdaResult>;
@@ -1751,17 +1499,11 @@ export const CreateBucketRequest = /*@__PURE__*/ S.suspend(() =>
     CreateBucketConfiguration: S.optional(CreateBucketConfiguration)
       .pipe(T.HttpPayload(), T.XmlName("CreateBucketConfiguration"))
       .annotate({ identifier: "CreateBucketConfiguration" }),
-    GrantFullControl: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-grant-full-control"),
-    ),
+    GrantFullControl: S.optional(S.String).pipe(T.HttpHeader("x-amz-grant-full-control")),
     GrantRead: S.optional(S.String).pipe(T.HttpHeader("x-amz-grant-read")),
-    GrantReadACP: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-grant-read-acp"),
-    ),
+    GrantReadACP: S.optional(S.String).pipe(T.HttpHeader("x-amz-grant-read-acp")),
     GrantWrite: S.optional(S.String).pipe(T.HttpHeader("x-amz-grant-write")),
-    GrantWriteACP: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-grant-write-acp"),
-    ),
+    GrantWriteACP: S.optional(S.String).pipe(T.HttpHeader("x-amz-grant-write-acp")),
     ObjectLockEnabledForBucket: S.optional(S.Boolean).pipe(
       T.HttpHeader("x-amz-bucket-object-lock-enabled"),
     ),
@@ -1780,9 +1522,7 @@ export const CreateBucketRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "CreateBucketRequest",
-}) as any as S.Schema<CreateBucketRequest>;
+).annotate({ identifier: "CreateBucketRequest" }) as any as S.Schema<CreateBucketRequest>;
 export type Location = string;
 export type S3RegionalBucketArn = string;
 export interface CreateBucketResult {
@@ -1794,16 +1534,11 @@ export const CreateBucketResult = /*@__PURE__*/ S.suspend(() =>
     Location: S.optional(S.String).pipe(T.HttpHeader("Location")),
     BucketArn: S.optional(S.String),
   }).pipe(ns),
-).annotate({
-  identifier: "CreateBucketResult",
-}) as any as S.Schema<CreateBucketResult>;
+).annotate({ identifier: "CreateBucketResult" }) as any as S.Schema<CreateBucketResult>;
 export type ConfirmationRequired = boolean;
 export type MaxLength1024String = string;
 export type UserArguments = { [key: string]: string | undefined };
-export const UserArguments = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const UserArguments = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface LambdaInvokeOperation {
   FunctionArn?: string;
   InvocationSchemaVersion?: string;
@@ -1815,9 +1550,7 @@ export const LambdaInvokeOperation = /*@__PURE__*/ S.suspend(() =>
     InvocationSchemaVersion: S.optional(S.String),
     UserArguments: S.optional(UserArguments),
   }),
-).annotate({
-  identifier: "LambdaInvokeOperation",
-}) as any as S.Schema<LambdaInvokeOperation>;
+).annotate({ identifier: "LambdaInvokeOperation" }) as any as S.Schema<LambdaInvokeOperation>;
 export type S3RegionalOrS3ExpressBucketArnString = string;
 export type S3CannedAccessControlList =
   | "private"
@@ -1830,11 +1563,7 @@ export type S3CannedAccessControlList =
   | (string & {});
 export const S3CannedAccessControlList = S.String;
 
-export type S3GranteeTypeIdentifier =
-  | "id"
-  | "emailAddress"
-  | "uri"
-  | (string & {});
+export type S3GranteeTypeIdentifier = "id" | "emailAddress" | "uri" | (string & {});
 export const S3GranteeTypeIdentifier = S.String;
 
 export type NonEmptyMaxLength1024String = string;
@@ -1864,21 +1593,18 @@ export interface S3Grant {
   Permission?: S3Permission;
 }
 export const S3Grant = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Grantee: S.optional(S3Grantee),
-    Permission: S.optional(S3Permission),
-  }),
+  S.Struct({ Grantee: S.optional(S3Grantee), Permission: S.optional(S3Permission) }),
 ).annotate({ identifier: "S3Grant" }) as any as S.Schema<S3Grant>;
 export type S3GrantList = S3Grant[];
 export const S3GrantList = /*@__PURE__*/ S.Array(S3Grant);
 export type S3MetadataDirective = "COPY" | "REPLACE" | (string & {});
 export const S3MetadataDirective = S.String;
 
+export type S3AnnotationDirective = "COPY" | "EXCLUDE" | (string & {});
+export const S3AnnotationDirective = S.String;
+
 export type S3UserMetadata = { [key: string]: string | undefined };
-export const S3UserMetadata = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const S3UserMetadata = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export type S3ContentLength = number;
 export type S3SSEAlgorithm = "AES256" | "KMS" | (string & {});
 export const S3SSEAlgorithm = S.String;
@@ -1910,9 +1636,7 @@ export const S3ObjectMetadata = /*@__PURE__*/ S.suspend(() =>
     RequesterCharged: S.optional(S.Boolean),
     SSEAlgorithm: S.optional(S3SSEAlgorithm),
   }),
-).annotate({
-  identifier: "S3ObjectMetadata",
-}) as any as S.Schema<S3ObjectMetadata>;
+).annotate({ identifier: "S3ObjectMetadata" }) as any as S.Schema<S3ObjectMetadata>;
 export interface S3Tag {
   Key: string;
   Value: string;
@@ -1955,11 +1679,26 @@ export type S3ChecksumAlgorithm =
   | (string & {});
 export const S3ChecksumAlgorithm = S.String;
 
+export type S3ObjectLockEventHold = "ON" | "OFF" | (string & {});
+export const S3ObjectLockEventHold = S.String;
+
+export type S3ObjectLockEventHoldDurationDays = number;
+export type S3ObjectLockEventHoldDurationYears = number;
+export interface S3ObjectLockEventHoldDuration {
+  Days?: number;
+  Years?: number;
+}
+export const S3ObjectLockEventHoldDuration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ Days: S.optional(S.Number), Years: S.optional(S.Number) }),
+).annotate({
+  identifier: "S3ObjectLockEventHoldDuration",
+}) as any as S.Schema<S3ObjectLockEventHoldDuration>;
 export interface S3CopyObjectOperation {
   TargetResource?: string;
   CannedAccessControlList?: S3CannedAccessControlList;
   AccessControlGrants?: S3Grant[];
   MetadataDirective?: S3MetadataDirective;
+  AnnotationDirective?: S3AnnotationDirective;
   ModifiedSinceConstraint?: Date;
   NewObjectMetadata?: S3ObjectMetadata;
   NewObjectTagging?: S3Tag[];
@@ -1974,6 +1713,8 @@ export interface S3CopyObjectOperation {
   ObjectLockRetainUntilDate?: Date;
   BucketKeyEnabled?: boolean;
   ChecksumAlgorithm?: S3ChecksumAlgorithm;
+  ObjectLockEventHold?: S3ObjectLockEventHold;
+  ObjectLockEventHoldDuration?: S3ObjectLockEventHoldDuration;
 }
 export const S3CopyObjectOperation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1981,6 +1722,7 @@ export const S3CopyObjectOperation = /*@__PURE__*/ S.suspend(() =>
     CannedAccessControlList: S.optional(S3CannedAccessControlList),
     AccessControlGrants: S.optional(S3GrantList),
     MetadataDirective: S.optional(S3MetadataDirective),
+    AnnotationDirective: S.optional(S3AnnotationDirective),
     ModifiedSinceConstraint: S.optional(T.DateFromString),
     NewObjectMetadata: S.optional(S3ObjectMetadata),
     NewObjectTagging: S.optional(S3TagSet),
@@ -1995,10 +1737,10 @@ export const S3CopyObjectOperation = /*@__PURE__*/ S.suspend(() =>
     ObjectLockRetainUntilDate: S.optional(T.DateFromString),
     BucketKeyEnabled: S.optional(S.Boolean),
     ChecksumAlgorithm: S.optional(S3ChecksumAlgorithm),
+    ObjectLockEventHold: S.optional(S3ObjectLockEventHold),
+    ObjectLockEventHoldDuration: S.optional(S3ObjectLockEventHoldDuration),
   }),
-).annotate({
-  identifier: "S3CopyObjectOperation",
-}) as any as S.Schema<S3CopyObjectOperation>;
+).annotate({ identifier: "S3CopyObjectOperation" }) as any as S.Schema<S3CopyObjectOperation>;
 export interface S3ObjectOwner {
   ID?: string;
   DisplayName?: string;
@@ -2012,9 +1754,7 @@ export interface S3AccessControlList {
 }
 export const S3AccessControlList = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Owner: S3ObjectOwner, Grants: S.optional(S3GrantList) }),
-).annotate({
-  identifier: "S3AccessControlList",
-}) as any as S.Schema<S3AccessControlList>;
+).annotate({ identifier: "S3AccessControlList" }) as any as S.Schema<S3AccessControlList>;
 export interface S3AccessControlPolicy {
   AccessControlList?: S3AccessControlList;
   CannedAccessControlList?: S3CannedAccessControlList;
@@ -2024,17 +1764,13 @@ export const S3AccessControlPolicy = /*@__PURE__*/ S.suspend(() =>
     AccessControlList: S.optional(S3AccessControlList),
     CannedAccessControlList: S.optional(S3CannedAccessControlList),
   }),
-).annotate({
-  identifier: "S3AccessControlPolicy",
-}) as any as S.Schema<S3AccessControlPolicy>;
+).annotate({ identifier: "S3AccessControlPolicy" }) as any as S.Schema<S3AccessControlPolicy>;
 export interface S3SetObjectAclOperation {
   AccessControlPolicy?: S3AccessControlPolicy;
 }
 export const S3SetObjectAclOperation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ AccessControlPolicy: S.optional(S3AccessControlPolicy) }),
-).annotate({
-  identifier: "S3SetObjectAclOperation",
-}) as any as S.Schema<S3SetObjectAclOperation>;
+).annotate({ identifier: "S3SetObjectAclOperation" }) as any as S.Schema<S3SetObjectAclOperation>;
 export interface S3SetObjectTaggingOperation {
   TagSet?: S3Tag[];
 }
@@ -2044,9 +1780,7 @@ export const S3SetObjectTaggingOperation = /*@__PURE__*/ S.suspend(() =>
   identifier: "S3SetObjectTaggingOperation",
 }) as any as S.Schema<S3SetObjectTaggingOperation>;
 export interface S3DeleteObjectTaggingOperation {}
-export const S3DeleteObjectTaggingOperation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const S3DeleteObjectTaggingOperation = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "S3DeleteObjectTaggingOperation",
 }) as any as S.Schema<S3DeleteObjectTaggingOperation>;
 export type S3ExpirationInDays = number;
@@ -2070,9 +1804,7 @@ export interface S3ObjectLockLegalHold {
 }
 export const S3ObjectLockLegalHold = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Status: S3ObjectLockLegalHoldStatus }),
-).annotate({
-  identifier: "S3ObjectLockLegalHold",
-}) as any as S.Schema<S3ObjectLockLegalHold>;
+).annotate({ identifier: "S3ObjectLockLegalHold" }) as any as S.Schema<S3ObjectLockLegalHold>;
 export interface S3SetObjectLegalHoldOperation {
   LegalHold: S3ObjectLockLegalHold;
 }
@@ -2081,20 +1813,35 @@ export const S3SetObjectLegalHoldOperation = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "S3SetObjectLegalHoldOperation",
 }) as any as S.Schema<S3SetObjectLegalHoldOperation>;
-export type S3ObjectLockRetentionMode =
-  | "COMPLIANCE"
-  | "GOVERNANCE"
-  | (string & {});
+export type S3ObjectLockRetentionMode = "COMPLIANCE" | "GOVERNANCE" | (string & {});
 export const S3ObjectLockRetentionMode = S.String;
 
+export type S3ObjectLockRetentionEventHold = "ON" | "OFF" | (string & {});
+export const S3ObjectLockRetentionEventHold = S.String;
+
+export type S3ObjectLockRetentionEventHoldDurationDays = number;
+export type S3ObjectLockRetentionEventHoldDurationYears = number;
+export interface S3ObjectLockRetentionEventHoldDuration {
+  Days?: number;
+  Years?: number;
+}
+export const S3ObjectLockRetentionEventHoldDuration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ Days: S.optional(S.Number), Years: S.optional(S.Number) }),
+).annotate({
+  identifier: "S3ObjectLockRetentionEventHoldDuration",
+}) as any as S.Schema<S3ObjectLockRetentionEventHoldDuration>;
 export interface S3Retention {
   RetainUntilDate?: Date;
   Mode?: S3ObjectLockRetentionMode;
+  EventHold?: S3ObjectLockRetentionEventHold;
+  EventHoldDuration?: S3ObjectLockRetentionEventHoldDuration;
 }
 export const S3Retention = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     RetainUntilDate: S.optional(T.DateFromString),
     Mode: S.optional(S3ObjectLockRetentionMode),
+    EventHold: S.optional(S3ObjectLockRetentionEventHold),
+    EventHoldDuration: S.optional(S3ObjectLockRetentionEventHoldDuration),
   }),
 ).annotate({ identifier: "S3Retention" }) as any as S.Schema<S3Retention>;
 export interface S3SetObjectRetentionOperation {
@@ -2102,17 +1849,12 @@ export interface S3SetObjectRetentionOperation {
   Retention: S3Retention;
 }
 export const S3SetObjectRetentionOperation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BypassGovernanceRetention: S.optional(S.Boolean),
-    Retention: S3Retention,
-  }),
+  S.Struct({ BypassGovernanceRetention: S.optional(S.Boolean), Retention: S3Retention }),
 ).annotate({
   identifier: "S3SetObjectRetentionOperation",
 }) as any as S.Schema<S3SetObjectRetentionOperation>;
 export interface S3ReplicateObjectOperation {}
-export const S3ReplicateObjectOperation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const S3ReplicateObjectOperation = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "S3ReplicateObjectOperation",
 }) as any as S.Schema<S3ReplicateObjectOperation>;
 export type ComputeObjectChecksumAlgorithm =
@@ -2129,10 +1871,7 @@ export type ComputeObjectChecksumAlgorithm =
   | (string & {});
 export const ComputeObjectChecksumAlgorithm = S.String;
 
-export type ComputeObjectChecksumType =
-  | "FULL_OBJECT"
-  | "COMPOSITE"
-  | (string & {});
+export type ComputeObjectChecksumType = "FULL_OBJECT" | "COMPOSITE" | (string & {});
 export const ComputeObjectChecksumType = S.String;
 
 export interface S3ComputeObjectChecksumOperation {
@@ -2153,10 +1892,9 @@ export interface S3UpdateObjectEncryptionSSEKMS {
   BucketKeyEnabled?: boolean;
 }
 export const S3UpdateObjectEncryptionSSEKMS = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    KMSKeyArn: S.String,
-    BucketKeyEnabled: S.optional(S.Boolean),
-  }).pipe(T.XmlName("SSE-KMS")),
+  S.Struct({ KMSKeyArn: S.String, BucketKeyEnabled: S.optional(S.Boolean) }).pipe(
+    T.XmlName("SSE-KMS"),
+  ),
 ).annotate({
   identifier: "S3UpdateObjectEncryptionSSEKMS",
 }) as any as S.Schema<S3UpdateObjectEncryptionSSEKMS>;
@@ -2169,9 +1907,7 @@ export const ObjectEncryption = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.XmlName("SSE-KMS"))
       .annotate({ identifier: "S3UpdateObjectEncryptionSSEKMS" }),
   }),
-).annotate({
-  identifier: "ObjectEncryption",
-}) as any as S.Schema<ObjectEncryption>;
+).annotate({ identifier: "ObjectEncryption" }) as any as S.Schema<ObjectEncryption>;
 export interface S3UpdateObjectEncryptionOperation {
   ObjectEncryption?: ObjectEncryption;
 }
@@ -2240,12 +1976,7 @@ export type JobManifestFormat =
   | (string & {});
 export const JobManifestFormat = S.String;
 
-export type JobManifestFieldName =
-  | "Ignore"
-  | "Bucket"
-  | "Key"
-  | "VersionId"
-  | (string & {});
+export type JobManifestFieldName = "Ignore" | "Bucket" | "Key" | "VersionId" | (string & {});
 export const JobManifestFieldName = S.String;
 
 export type JobManifestFieldList = JobManifestFieldName[];
@@ -2255,13 +1986,8 @@ export interface JobManifestSpec {
   Fields?: JobManifestFieldName[];
 }
 export const JobManifestSpec = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Format: JobManifestFormat,
-    Fields: S.optional(JobManifestFieldList),
-  }),
-).annotate({
-  identifier: "JobManifestSpec",
-}) as any as S.Schema<JobManifestSpec>;
+  S.Struct({ Format: JobManifestFormat, Fields: S.optional(JobManifestFieldList) }),
+).annotate({ identifier: "JobManifestSpec" }) as any as S.Schema<JobManifestSpec>;
 export type S3KeyArnString = string;
 export type S3ObjectVersionId = string;
 export interface JobManifestLocation {
@@ -2270,14 +1996,8 @@ export interface JobManifestLocation {
   ETag: string;
 }
 export const JobManifestLocation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ObjectArn: S.String,
-    ObjectVersionId: S.optional(S.String),
-    ETag: S.String,
-  }),
-).annotate({
-  identifier: "JobManifestLocation",
-}) as any as S.Schema<JobManifestLocation>;
+  S.Struct({ ObjectArn: S.String, ObjectVersionId: S.optional(S.String), ETag: S.String }),
+).annotate({ identifier: "JobManifestLocation" }) as any as S.Schema<JobManifestLocation>;
 export interface JobManifest {
   Spec: JobManifestSpec;
   Location: JobManifestLocation;
@@ -2291,17 +2011,13 @@ export type ManifestPrefixString = string;
 export interface SSES3Encryption {}
 export const SSES3Encryption = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.XmlName("SSE-S3")),
-).annotate({
-  identifier: "SSES3Encryption",
-}) as any as S.Schema<SSES3Encryption>;
+).annotate({ identifier: "SSES3Encryption" }) as any as S.Schema<SSES3Encryption>;
 export interface SSEKMSEncryption {
   KeyId: string;
 }
 export const SSEKMSEncryption = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ KeyId: S.String }).pipe(T.XmlName("SSE-KMS")),
-).annotate({
-  identifier: "SSEKMSEncryption",
-}) as any as S.Schema<SSEKMSEncryption>;
+).annotate({ identifier: "SSEKMSEncryption" }) as any as S.Schema<SSEKMSEncryption>;
 export interface GeneratedManifestEncryption {
   SSES3?: SSES3Encryption;
   SSEKMS?: SSEKMSEncryption;
@@ -2318,9 +2034,7 @@ export const GeneratedManifestEncryption = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "GeneratedManifestEncryption",
 }) as any as S.Schema<GeneratedManifestEncryption>;
-export type GeneratedManifestFormat =
-  | "S3InventoryReport_CSV_20211130"
-  | (string & {});
+export type GeneratedManifestFormat = "S3InventoryReport_CSV_20211130" | (string & {});
 export const GeneratedManifestFormat = S.String;
 
 export interface S3ManifestOutputLocation {
@@ -2338,21 +2052,13 @@ export const S3ManifestOutputLocation = /*@__PURE__*/ S.suspend(() =>
     ManifestEncryption: S.optional(GeneratedManifestEncryption),
     ManifestFormat: GeneratedManifestFormat,
   }),
-).annotate({
-  identifier: "S3ManifestOutputLocation",
-}) as any as S.Schema<S3ManifestOutputLocation>;
+).annotate({ identifier: "S3ManifestOutputLocation" }) as any as S.Schema<S3ManifestOutputLocation>;
 export type ObjectCreationTime = Date;
-export type ReplicationStatus =
-  | "COMPLETED"
-  | "FAILED"
-  | "REPLICA"
-  | "NONE"
-  | (string & {});
+export type ReplicationStatus = "COMPLETED" | "FAILED" | "REPLICA" | "NONE" | (string & {});
 export const ReplicationStatus = S.String;
 
 export type ReplicationStatusFilterList = ReplicationStatus[];
-export const ReplicationStatusFilterList =
-  /*@__PURE__*/ S.Array(ReplicationStatus);
+export const ReplicationStatusFilterList = /*@__PURE__*/ S.Array(ReplicationStatus);
 export type NonEmptyMaxLength1024StringList = string[];
 export const NonEmptyMaxLength1024StringList = /*@__PURE__*/ S.Array(S.String);
 export interface KeyNameConstraint {
@@ -2366,26 +2072,21 @@ export const KeyNameConstraint = /*@__PURE__*/ S.suspend(() =>
     MatchAnySuffix: S.optional(NonEmptyMaxLength1024StringList),
     MatchAnySubstring: S.optional(NonEmptyMaxLength1024StringList),
   }),
-).annotate({
-  identifier: "KeyNameConstraint",
-}) as any as S.Schema<KeyNameConstraint>;
+).annotate({ identifier: "KeyNameConstraint" }) as any as S.Schema<KeyNameConstraint>;
 export type ObjectSizeGreaterThanBytes = number;
 export type ObjectSizeLessThanBytes = number;
 export type StorageClassList = S3StorageClass[];
 export const StorageClassList = /*@__PURE__*/ S.Array(S3StorageClass);
 export interface SSES3Filter {}
-export const SSES3Filter = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  { identifier: "SSES3Filter" },
-) as any as S.Schema<SSES3Filter>;
+export const SSES3Filter = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  identifier: "SSES3Filter",
+}) as any as S.Schema<SSES3Filter>;
 export interface SSEKMSFilter {
   KmsKeyArn?: string;
   BucketKeyEnabled?: boolean;
 }
 export const SSEKMSFilter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    KmsKeyArn: S.optional(S.String),
-    BucketKeyEnabled: S.optional(S.Boolean),
-  }),
+  S.Struct({ KmsKeyArn: S.optional(S.String), BucketKeyEnabled: S.optional(S.Boolean) }),
 ).annotate({ identifier: "SSEKMSFilter" }) as any as S.Schema<SSEKMSFilter>;
 export interface DSSEKMSFilter {
   KmsKeyArn?: string;
@@ -2398,70 +2099,28 @@ export const SSECFilter = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "SSECFilter",
 }) as any as S.Schema<SSECFilter>;
 export interface NotSSEFilter {}
-export const NotSSEFilter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({ identifier: "NotSSEFilter" }) as any as S.Schema<NotSSEFilter>;
+export const NotSSEFilter = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  identifier: "NotSSEFilter",
+}) as any as S.Schema<NotSSEFilter>;
 export type ObjectEncryptionFilter =
-  | {
-      SSES3: SSES3Filter;
-      SSEKMS?: never;
-      DSSEKMS?: never;
-      SSEC?: never;
-      NOTSSE?: never;
-    }
-  | {
-      SSES3?: never;
-      SSEKMS: SSEKMSFilter;
-      DSSEKMS?: never;
-      SSEC?: never;
-      NOTSSE?: never;
-    }
-  | {
-      SSES3?: never;
-      SSEKMS?: never;
-      DSSEKMS: DSSEKMSFilter;
-      SSEC?: never;
-      NOTSSE?: never;
-    }
-  | {
-      SSES3?: never;
-      SSEKMS?: never;
-      DSSEKMS?: never;
-      SSEC: SSECFilter;
-      NOTSSE?: never;
-    }
-  | {
-      SSES3?: never;
-      SSEKMS?: never;
-      DSSEKMS?: never;
-      SSEC?: never;
-      NOTSSE: NotSSEFilter;
-    };
+  | { SSES3: SSES3Filter; SSEKMS?: never; DSSEKMS?: never; SSEC?: never; NOTSSE?: never }
+  | { SSES3?: never; SSEKMS: SSEKMSFilter; DSSEKMS?: never; SSEC?: never; NOTSSE?: never }
+  | { SSES3?: never; SSEKMS?: never; DSSEKMS: DSSEKMSFilter; SSEC?: never; NOTSSE?: never }
+  | { SSES3?: never; SSEKMS?: never; DSSEKMS?: never; SSEC: SSECFilter; NOTSSE?: never }
+  | { SSES3?: never; SSEKMS?: never; DSSEKMS?: never; SSEC?: never; NOTSSE: NotSSEFilter };
 export const ObjectEncryptionFilter = /*@__PURE__*/ S.Union([
   S.Struct({
-    SSES3: SSES3Filter.pipe(T.XmlName("SSE-S3")).annotate({
-      identifier: "SSES3Filter",
-    }),
+    SSES3: SSES3Filter.pipe(T.XmlName("SSE-S3")).annotate({ identifier: "SSES3Filter" }),
   }),
   S.Struct({
-    SSEKMS: SSEKMSFilter.pipe(T.XmlName("SSE-KMS")).annotate({
-      identifier: "SSEKMSFilter",
-    }),
+    SSEKMS: SSEKMSFilter.pipe(T.XmlName("SSE-KMS")).annotate({ identifier: "SSEKMSFilter" }),
   }),
   S.Struct({
-    DSSEKMS: DSSEKMSFilter.pipe(T.XmlName("DSSE-KMS")).annotate({
-      identifier: "DSSEKMSFilter",
-    }),
+    DSSEKMS: DSSEKMSFilter.pipe(T.XmlName("DSSE-KMS")).annotate({ identifier: "DSSEKMSFilter" }),
   }),
+  S.Struct({ SSEC: SSECFilter.pipe(T.XmlName("SSE-C")).annotate({ identifier: "SSECFilter" }) }),
   S.Struct({
-    SSEC: SSECFilter.pipe(T.XmlName("SSE-C")).annotate({
-      identifier: "SSECFilter",
-    }),
-  }),
-  S.Struct({
-    NOTSSE: NotSSEFilter.pipe(T.XmlName("NOT-SSE")).annotate({
-      identifier: "NotSSEFilter",
-    }),
+    NOTSSE: NotSSEFilter.pipe(T.XmlName("NOT-SSE")).annotate({ identifier: "NotSSEFilter" }),
   }),
 ]);
 export type ObjectEncryptionFilterList = ObjectEncryptionFilter[];
@@ -2509,12 +2168,8 @@ export const S3JobManifestGenerator = /*@__PURE__*/ S.suspend(() =>
     Filter: S.optional(JobManifestGeneratorFilter),
     EnableManifestOutput: S.Boolean,
   }),
-).annotate({
-  identifier: "S3JobManifestGenerator",
-}) as any as S.Schema<S3JobManifestGenerator>;
-export type JobManifestGenerator = {
-  S3JobManifestGenerator: S3JobManifestGenerator;
-};
+).annotate({ identifier: "S3JobManifestGenerator" }) as any as S.Schema<S3JobManifestGenerator>;
+export type JobManifestGenerator = { S3JobManifestGenerator: S3JobManifestGenerator };
 export const JobManifestGenerator = /*@__PURE__*/ S.Union([
   S.Struct({ S3JobManifestGenerator: S3JobManifestGenerator }),
 ]);
@@ -2560,18 +2215,14 @@ export const CreateJobRequest = /*@__PURE__*/ S.suspend(() =>
       T.StaticContextParams({ RequiresAccountId: { value: true } }),
     ),
   ),
-).annotate({
-  identifier: "CreateJobRequest",
-}) as any as S.Schema<CreateJobRequest>;
+).annotate({ identifier: "CreateJobRequest" }) as any as S.Schema<CreateJobRequest>;
 export type JobId = string;
 export interface CreateJobResult {
   JobId?: string;
 }
 export const CreateJobResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ JobId: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "CreateJobResult",
-}) as any as S.Schema<CreateJobResult>;
+).annotate({ identifier: "CreateJobResult" }) as any as S.Schema<CreateJobResult>;
 export type MultiRegionAccessPointClientToken = string;
 export type MultiRegionAccessPointName = string;
 export interface Region {
@@ -2639,14 +2290,10 @@ export const CreateMultiRegionAccessPointResult = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreateMultiRegionAccessPointResult>;
 export type StorageLensGroupName = string;
 export type MatchAnyPrefix = string[];
-export const MatchAnyPrefix = /*@__PURE__*/ S.Array(
-  S.String.pipe(T.XmlName("Prefix")),
-);
+export const MatchAnyPrefix = /*@__PURE__*/ S.Array(S.String.pipe(T.XmlName("Prefix")));
 export type Suffix = string;
 export type MatchAnySuffix = string[];
-export const MatchAnySuffix = /*@__PURE__*/ S.Array(
-  S.String.pipe(T.XmlName("Suffix")),
-);
+export const MatchAnySuffix = /*@__PURE__*/ S.Array(S.String.pipe(T.XmlName("Suffix")));
 export type MatchAnyTag = S3Tag[];
 export const MatchAnyTag = /*@__PURE__*/ S.Array(
   S3Tag.pipe(T.XmlName("Tag")).annotate({ identifier: "S3Tag" }),
@@ -2657,10 +2304,7 @@ export interface MatchObjectAge {
   DaysLessThan?: number;
 }
 export const MatchObjectAge = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DaysGreaterThan: S.optional(S.Number),
-    DaysLessThan: S.optional(S.Number),
-  }),
+  S.Struct({ DaysGreaterThan: S.optional(S.Number), DaysLessThan: S.optional(S.Number) }),
 ).annotate({ identifier: "MatchObjectAge" }) as any as S.Schema<MatchObjectAge>;
 export type ObjectSizeValue = number;
 export interface MatchObjectSize {
@@ -2668,13 +2312,8 @@ export interface MatchObjectSize {
   BytesLessThan?: number;
 }
 export const MatchObjectSize = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BytesGreaterThan: S.optional(S.Number),
-    BytesLessThan: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "MatchObjectSize",
-}) as any as S.Schema<MatchObjectSize>;
+  S.Struct({ BytesGreaterThan: S.optional(S.Number), BytesLessThan: S.optional(S.Number) }),
+).annotate({ identifier: "MatchObjectSize" }) as any as S.Schema<MatchObjectSize>;
 export interface StorageLensGroupAndOperator {
   MatchAnyPrefix?: string[];
   MatchAnySuffix?: string[];
@@ -2730,9 +2369,7 @@ export const StorageLensGroupFilter = /*@__PURE__*/ S.suspend(() =>
     And: S.optional(StorageLensGroupAndOperator),
     Or: S.optional(StorageLensGroupOrOperator),
   }),
-).annotate({
-  identifier: "StorageLensGroupFilter",
-}) as any as S.Schema<StorageLensGroupFilter>;
+).annotate({ identifier: "StorageLensGroupFilter" }) as any as S.Schema<StorageLensGroupFilter>;
 export type StorageLensGroupArn = string;
 export interface StorageLensGroup {
   Name: string;
@@ -2745,9 +2382,7 @@ export const StorageLensGroup = /*@__PURE__*/ S.suspend(() =>
     Filter: StorageLensGroupFilter,
     StorageLensGroupArn: S.optional(S.String),
   }),
-).annotate({
-  identifier: "StorageLensGroup",
-}) as any as S.Schema<StorageLensGroup>;
+).annotate({ identifier: "StorageLensGroup" }) as any as S.Schema<StorageLensGroup>;
 export interface CreateStorageLensGroupRequest {
   AccountId: string;
   StorageLensGroup: StorageLensGroup;
@@ -2798,10 +2433,7 @@ export const DeleteAccessGrantRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(
       ns,
-      T.Http({
-        method: "DELETE",
-        uri: "/v20180820/accessgrantsinstance/grant/{AccessGrantId}",
-      }),
+      T.Http({ method: "DELETE", uri: "/v20180820/accessgrantsinstance/grant/{AccessGrantId}" }),
       svc,
       auth,
       proto,
@@ -2810,9 +2442,7 @@ export const DeleteAccessGrantRequest = /*@__PURE__*/ S.suspend(() =>
       T.StaticContextParams({ RequiresAccountId: { value: true } }),
     ),
   ),
-).annotate({
-  identifier: "DeleteAccessGrantRequest",
-}) as any as S.Schema<DeleteAccessGrantRequest>;
+).annotate({ identifier: "DeleteAccessGrantRequest" }) as any as S.Schema<DeleteAccessGrantRequest>;
 export interface DeleteAccessGrantResponse {}
 export const DeleteAccessGrantResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(ns),
@@ -2853,37 +2483,34 @@ export const DeleteAccessGrantsInstanceResponse = /*@__PURE__*/ S.suspend(() =>
 export interface DeleteAccessGrantsInstanceResourcePolicyRequest {
   AccountId: string;
 }
-export const DeleteAccessGrantsInstanceResourcePolicyRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      AccountId: S.String.pipe(
-        T.HttpHeader("x-amz-account-id"),
-        T.ContextParam("AccountId"),
-        T.HostLabel(),
-      ),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({
-          method: "DELETE",
-          uri: "/v20180820/accessgrantsinstance/resourcepolicy",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-        T.StaticContextParams({ RequiresAccountId: { value: true } }),
-      ),
+export const DeleteAccessGrantsInstanceResourcePolicyRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    AccountId: S.String.pipe(
+      T.HttpHeader("x-amz-account-id"),
+      T.ContextParam("AccountId"),
+      T.HostLabel(),
     ),
-  ).annotate({
-    identifier: "DeleteAccessGrantsInstanceResourcePolicyRequest",
-  }) as any as S.Schema<DeleteAccessGrantsInstanceResourcePolicyRequest>;
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "DELETE", uri: "/v20180820/accessgrantsinstance/resourcepolicy" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.StaticContextParams({ RequiresAccountId: { value: true } }),
+    ),
+  ),
+).annotate({
+  identifier: "DeleteAccessGrantsInstanceResourcePolicyRequest",
+}) as any as S.Schema<DeleteAccessGrantsInstanceResourcePolicyRequest>;
 export interface DeleteAccessGrantsInstanceResourcePolicyResponse {}
-export const DeleteAccessGrantsInstanceResourcePolicyResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
-    identifier: "DeleteAccessGrantsInstanceResourcePolicyResponse",
-  }) as any as S.Schema<DeleteAccessGrantsInstanceResourcePolicyResponse>;
+export const DeleteAccessGrantsInstanceResourcePolicyResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "DeleteAccessGrantsInstanceResourcePolicyResponse",
+}) as any as S.Schema<DeleteAccessGrantsInstanceResourcePolicyResponse>;
 export interface DeleteAccessGrantsLocationRequest {
   AccountId: string;
   AccessGrantsLocationId: string;
@@ -2895,9 +2522,7 @@ export const DeleteAccessGrantsLocationRequest = /*@__PURE__*/ S.suspend(() =>
       T.ContextParam("AccountId"),
       T.HostLabel(),
     ),
-    AccessGrantsLocationId: S.String.pipe(
-      T.HttpLabel("AccessGrantsLocationId"),
-    ),
+    AccessGrantsLocationId: S.String.pipe(T.HttpLabel("AccessGrantsLocationId")),
   }).pipe(
     T.all(
       ns,
@@ -2946,9 +2571,7 @@ export const DeleteAccessPointRequest = /*@__PURE__*/ S.suspend(() =>
       T.StaticContextParams({ RequiresAccountId: { value: true } }),
     ),
   ),
-).annotate({
-  identifier: "DeleteAccessPointRequest",
-}) as any as S.Schema<DeleteAccessPointRequest>;
+).annotate({ identifier: "DeleteAccessPointRequest" }) as any as S.Schema<DeleteAccessPointRequest>;
 export interface DeleteAccessPointResponse {}
 export const DeleteAccessPointResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(ns),
@@ -2959,36 +2582,32 @@ export interface DeleteAccessPointForObjectLambdaRequest {
   AccountId: string;
   Name: string;
 }
-export const DeleteAccessPointForObjectLambdaRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      AccountId: S.String.pipe(
-        T.HttpHeader("x-amz-account-id"),
-        T.ContextParam("AccountId"),
-        T.HostLabel(),
-      ),
-      Name: S.String.pipe(T.HttpLabel("Name")),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({
-          method: "DELETE",
-          uri: "/v20180820/accesspointforobjectlambda/{Name}",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-        T.StaticContextParams({ RequiresAccountId: { value: true } }),
-      ),
+export const DeleteAccessPointForObjectLambdaRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    AccountId: S.String.pipe(
+      T.HttpHeader("x-amz-account-id"),
+      T.ContextParam("AccountId"),
+      T.HostLabel(),
     ),
+    Name: S.String.pipe(T.HttpLabel("Name")),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "DELETE", uri: "/v20180820/accesspointforobjectlambda/{Name}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.StaticContextParams({ RequiresAccountId: { value: true } }),
+    ),
+  ),
 ).annotate({
   identifier: "DeleteAccessPointForObjectLambdaRequest",
 }) as any as S.Schema<DeleteAccessPointForObjectLambdaRequest>;
 export interface DeleteAccessPointForObjectLambdaResponse {}
-export const DeleteAccessPointForObjectLambdaResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}).pipe(ns),
+export const DeleteAccessPointForObjectLambdaResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(ns),
 ).annotate({
   identifier: "DeleteAccessPointForObjectLambdaResponse",
 }) as any as S.Schema<DeleteAccessPointForObjectLambdaResponse>;
@@ -3029,38 +2648,35 @@ export interface DeleteAccessPointPolicyForObjectLambdaRequest {
   AccountId: string;
   Name: string;
 }
-export const DeleteAccessPointPolicyForObjectLambdaRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      AccountId: S.String.pipe(
-        T.HttpHeader("x-amz-account-id"),
-        T.ContextParam("AccountId"),
-        T.HostLabel(),
-      ),
-      Name: S.String.pipe(T.HttpLabel("Name")),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({
-          method: "DELETE",
-          uri: "/v20180820/accesspointforobjectlambda/{Name}/policy",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-        T.StaticContextParams({ RequiresAccountId: { value: true } }),
-      ),
+export const DeleteAccessPointPolicyForObjectLambdaRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    AccountId: S.String.pipe(
+      T.HttpHeader("x-amz-account-id"),
+      T.ContextParam("AccountId"),
+      T.HostLabel(),
     ),
-  ).annotate({
-    identifier: "DeleteAccessPointPolicyForObjectLambdaRequest",
-  }) as any as S.Schema<DeleteAccessPointPolicyForObjectLambdaRequest>;
+    Name: S.String.pipe(T.HttpLabel("Name")),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "DELETE", uri: "/v20180820/accesspointforobjectlambda/{Name}/policy" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.StaticContextParams({ RequiresAccountId: { value: true } }),
+    ),
+  ),
+).annotate({
+  identifier: "DeleteAccessPointPolicyForObjectLambdaRequest",
+}) as any as S.Schema<DeleteAccessPointPolicyForObjectLambdaRequest>;
 export interface DeleteAccessPointPolicyForObjectLambdaResponse {}
-export const DeleteAccessPointPolicyForObjectLambdaResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
-    identifier: "DeleteAccessPointPolicyForObjectLambdaResponse",
-  }) as any as S.Schema<DeleteAccessPointPolicyForObjectLambdaResponse>;
+export const DeleteAccessPointPolicyForObjectLambdaResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "DeleteAccessPointPolicyForObjectLambdaResponse",
+}) as any as S.Schema<DeleteAccessPointPolicyForObjectLambdaResponse>;
 export interface DeleteAccessPointScopeRequest {
   AccountId: string;
   Name: string;
@@ -3121,51 +2737,44 @@ export const DeleteBucketRequest = /*@__PURE__*/ S.suspend(() =>
       T.StaticContextParams({ RequiresAccountId: { value: true } }),
     ),
   ),
-).annotate({
-  identifier: "DeleteBucketRequest",
-}) as any as S.Schema<DeleteBucketRequest>;
+).annotate({ identifier: "DeleteBucketRequest" }) as any as S.Schema<DeleteBucketRequest>;
 export interface DeleteBucketResponse {}
-export const DeleteBucketResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
+export const DeleteBucketResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "DeleteBucketResponse",
 }) as any as S.Schema<DeleteBucketResponse>;
 export interface DeleteBucketLifecycleConfigurationRequest {
   AccountId: string;
   Bucket: string;
 }
-export const DeleteBucketLifecycleConfigurationRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      AccountId: S.String.pipe(
-        T.HttpHeader("x-amz-account-id"),
-        T.ContextParam("AccountId"),
-        T.HostLabel(),
-      ),
-      Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({
-          method: "DELETE",
-          uri: "/v20180820/bucket/{Bucket}/lifecycleconfiguration",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-        T.StaticContextParams({ RequiresAccountId: { value: true } }),
-      ),
+export const DeleteBucketLifecycleConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    AccountId: S.String.pipe(
+      T.HttpHeader("x-amz-account-id"),
+      T.ContextParam("AccountId"),
+      T.HostLabel(),
     ),
-  ).annotate({
-    identifier: "DeleteBucketLifecycleConfigurationRequest",
-  }) as any as S.Schema<DeleteBucketLifecycleConfigurationRequest>;
+    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "DELETE", uri: "/v20180820/bucket/{Bucket}/lifecycleconfiguration" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.StaticContextParams({ RequiresAccountId: { value: true } }),
+    ),
+  ),
+).annotate({
+  identifier: "DeleteBucketLifecycleConfigurationRequest",
+}) as any as S.Schema<DeleteBucketLifecycleConfigurationRequest>;
 export interface DeleteBucketLifecycleConfigurationResponse {}
-export const DeleteBucketLifecycleConfigurationResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
-    identifier: "DeleteBucketLifecycleConfigurationResponse",
-  }) as any as S.Schema<DeleteBucketLifecycleConfigurationResponse>;
+export const DeleteBucketLifecycleConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "DeleteBucketLifecycleConfigurationResponse",
+}) as any as S.Schema<DeleteBucketLifecycleConfigurationResponse>;
 export interface DeleteBucketPolicyRequest {
   AccountId: string;
   Bucket: string;
@@ -3214,10 +2823,7 @@ export const DeleteBucketReplicationRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(
       ns,
-      T.Http({
-        method: "DELETE",
-        uri: "/v20180820/bucket/{Bucket}/replication",
-      }),
+      T.Http({ method: "DELETE", uri: "/v20180820/bucket/{Bucket}/replication" }),
       svc,
       auth,
       proto,
@@ -3292,15 +2898,11 @@ export const DeleteJobTaggingRequest = /*@__PURE__*/ S.suspend(() =>
       T.StaticContextParams({ RequiresAccountId: { value: true } }),
     ),
   ),
-).annotate({
-  identifier: "DeleteJobTaggingRequest",
-}) as any as S.Schema<DeleteJobTaggingRequest>;
+).annotate({ identifier: "DeleteJobTaggingRequest" }) as any as S.Schema<DeleteJobTaggingRequest>;
 export interface DeleteJobTaggingResult {}
-export const DeleteJobTaggingResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteJobTaggingResult",
-}) as any as S.Schema<DeleteJobTaggingResult>;
+export const DeleteJobTaggingResult = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate(
+  { identifier: "DeleteJobTaggingResult" },
+) as any as S.Schema<DeleteJobTaggingResult>;
 export interface DeleteMultiRegionAccessPointInput {
   Name: string;
 }
@@ -3359,10 +2961,7 @@ export const DeletePublicAccessBlockRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(
       ns,
-      T.Http({
-        method: "DELETE",
-        uri: "/v20180820/configuration/publicAccessBlock",
-      }),
+      T.Http({ method: "DELETE", uri: "/v20180820/configuration/publicAccessBlock" }),
       svc,
       auth,
       proto,
@@ -3385,33 +2984,32 @@ export interface DeleteStorageLensConfigurationRequest {
   ConfigId: string;
   AccountId: string;
 }
-export const DeleteStorageLensConfigurationRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ConfigId: S.String.pipe(T.HttpLabel("ConfigId")),
-      AccountId: S.String.pipe(
-        T.HttpHeader("x-amz-account-id"),
-        T.ContextParam("AccountId"),
-        T.HostLabel(),
-      ),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "DELETE", uri: "/v20180820/storagelens/{ConfigId}" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-        T.StaticContextParams({ RequiresAccountId: { value: true } }),
-      ),
+export const DeleteStorageLensConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ConfigId: S.String.pipe(T.HttpLabel("ConfigId")),
+    AccountId: S.String.pipe(
+      T.HttpHeader("x-amz-account-id"),
+      T.ContextParam("AccountId"),
+      T.HostLabel(),
     ),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "DELETE", uri: "/v20180820/storagelens/{ConfigId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.StaticContextParams({ RequiresAccountId: { value: true } }),
+    ),
+  ),
 ).annotate({
   identifier: "DeleteStorageLensConfigurationRequest",
 }) as any as S.Schema<DeleteStorageLensConfigurationRequest>;
 export interface DeleteStorageLensConfigurationResponse {}
-export const DeleteStorageLensConfigurationResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}).pipe(ns),
+export const DeleteStorageLensConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(ns),
 ).annotate({
   identifier: "DeleteStorageLensConfigurationResponse",
 }) as any as S.Schema<DeleteStorageLensConfigurationResponse>;
@@ -3419,38 +3017,35 @@ export interface DeleteStorageLensConfigurationTaggingRequest {
   ConfigId: string;
   AccountId: string;
 }
-export const DeleteStorageLensConfigurationTaggingRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ConfigId: S.String.pipe(T.HttpLabel("ConfigId")),
-      AccountId: S.String.pipe(
-        T.HttpHeader("x-amz-account-id"),
-        T.ContextParam("AccountId"),
-        T.HostLabel(),
-      ),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({
-          method: "DELETE",
-          uri: "/v20180820/storagelens/{ConfigId}/tagging",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-        T.StaticContextParams({ RequiresAccountId: { value: true } }),
-      ),
+export const DeleteStorageLensConfigurationTaggingRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ConfigId: S.String.pipe(T.HttpLabel("ConfigId")),
+    AccountId: S.String.pipe(
+      T.HttpHeader("x-amz-account-id"),
+      T.ContextParam("AccountId"),
+      T.HostLabel(),
     ),
-  ).annotate({
-    identifier: "DeleteStorageLensConfigurationTaggingRequest",
-  }) as any as S.Schema<DeleteStorageLensConfigurationTaggingRequest>;
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "DELETE", uri: "/v20180820/storagelens/{ConfigId}/tagging" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.StaticContextParams({ RequiresAccountId: { value: true } }),
+    ),
+  ),
+).annotate({
+  identifier: "DeleteStorageLensConfigurationTaggingRequest",
+}) as any as S.Schema<DeleteStorageLensConfigurationTaggingRequest>;
 export interface DeleteStorageLensConfigurationTaggingResult {}
-export const DeleteStorageLensConfigurationTaggingResult =
-  /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
-    identifier: "DeleteStorageLensConfigurationTaggingResult",
-  }) as any as S.Schema<DeleteStorageLensConfigurationTaggingResult>;
+export const DeleteStorageLensConfigurationTaggingResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "DeleteStorageLensConfigurationTaggingResult",
+}) as any as S.Schema<DeleteStorageLensConfigurationTaggingResult>;
 export interface DeleteStorageLensGroupRequest {
   Name: string;
   AccountId: string;
@@ -3508,9 +3103,7 @@ export const DescribeJobRequest = /*@__PURE__*/ S.suspend(() =>
       T.StaticContextParams({ RequiresAccountId: { value: true } }),
     ),
   ),
-).annotate({
-  identifier: "DescribeJobRequest",
-}) as any as S.Schema<DescribeJobRequest>;
+).annotate({ identifier: "DescribeJobRequest" }) as any as S.Schema<DescribeJobRequest>;
 export type JobArn = string;
 export type JobStatus =
   | "Active"
@@ -3552,9 +3145,7 @@ export const JobProgressSummary = /*@__PURE__*/ S.suspend(() =>
     NumberOfTasksFailed: S.optional(S.Number),
     Timers: S.optional(JobTimers),
   }),
-).annotate({
-  identifier: "JobProgressSummary",
-}) as any as S.Schema<JobProgressSummary>;
+).annotate({ identifier: "JobProgressSummary" }) as any as S.Schema<JobProgressSummary>;
 export type JobStatusUpdateReason = string;
 export type JobFailureCode = string;
 export type JobFailureReason = string;
@@ -3563,10 +3154,7 @@ export interface JobFailure {
   FailureReason?: string;
 }
 export const JobFailure = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FailureCode: S.optional(S.String),
-    FailureReason: S.optional(S.String),
-  }),
+  S.Struct({ FailureCode: S.optional(S.String), FailureReason: S.optional(S.String) }),
 ).annotate({ identifier: "JobFailure" }) as any as S.Schema<JobFailure>;
 export type JobFailureList = JobFailure[];
 export const JobFailureList = /*@__PURE__*/ S.Array(JobFailure);
@@ -3635,40 +3223,34 @@ export interface DescribeJobResult {
 }
 export const DescribeJobResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Job: S.optional(JobDescriptor) }).pipe(ns),
-).annotate({
-  identifier: "DescribeJobResult",
-}) as any as S.Schema<DescribeJobResult>;
+).annotate({ identifier: "DescribeJobResult" }) as any as S.Schema<DescribeJobResult>;
 export interface DescribeMultiRegionAccessPointOperationRequest {
   AccountId: string;
   RequestTokenARN: string;
 }
-export const DescribeMultiRegionAccessPointOperationRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      AccountId: S.String.pipe(
-        T.HttpHeader("x-amz-account-id"),
-        T.ContextParam("AccountId"),
-        T.HostLabel(),
-      ),
-      RequestTokenARN: S.String.pipe(T.HttpLabel("RequestTokenARN")),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({
-          method: "GET",
-          uri: "/v20180820/async-requests/mrap/{RequestTokenARN+}",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-        T.StaticContextParams({ RequiresAccountId: { value: true } }),
-      ),
+export const DescribeMultiRegionAccessPointOperationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    AccountId: S.String.pipe(
+      T.HttpHeader("x-amz-account-id"),
+      T.ContextParam("AccountId"),
+      T.HostLabel(),
     ),
-  ).annotate({
-    identifier: "DescribeMultiRegionAccessPointOperationRequest",
-  }) as any as S.Schema<DescribeMultiRegionAccessPointOperationRequest>;
+    RequestTokenARN: S.String.pipe(T.HttpLabel("RequestTokenARN")),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "GET", uri: "/v20180820/async-requests/mrap/{RequestTokenARN+}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.StaticContextParams({ RequiresAccountId: { value: true } }),
+    ),
+  ),
+).annotate({
+  identifier: "DescribeMultiRegionAccessPointOperationRequest",
+}) as any as S.Schema<DescribeMultiRegionAccessPointOperationRequest>;
 export type AsyncCreationTimestamp = Date;
 export type AsyncOperationName =
   | "CreateMultiRegionAccessPoint"
@@ -3682,8 +3264,8 @@ export interface PutMultiRegionAccessPointPolicyInput {
   Name: string;
   Policy: string;
 }
-export const PutMultiRegionAccessPointPolicyInput = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ Name: S.String, Policy: S.String }),
+export const PutMultiRegionAccessPointPolicyInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ Name: S.String, Policy: S.String }),
 ).annotate({
   identifier: "PutMultiRegionAccessPointPolicyInput",
 }) as any as S.Schema<PutMultiRegionAccessPointPolicyInput>;
@@ -3694,36 +3276,23 @@ export interface AsyncRequestParameters {
 }
 export const AsyncRequestParameters = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    CreateMultiRegionAccessPointRequest: S.optional(
-      CreateMultiRegionAccessPointInput,
-    ),
-    DeleteMultiRegionAccessPointRequest: S.optional(
-      DeleteMultiRegionAccessPointInput,
-    ),
-    PutMultiRegionAccessPointPolicyRequest: S.optional(
-      PutMultiRegionAccessPointPolicyInput,
-    ),
+    CreateMultiRegionAccessPointRequest: S.optional(CreateMultiRegionAccessPointInput),
+    DeleteMultiRegionAccessPointRequest: S.optional(DeleteMultiRegionAccessPointInput),
+    PutMultiRegionAccessPointPolicyRequest: S.optional(PutMultiRegionAccessPointPolicyInput),
   }),
-).annotate({
-  identifier: "AsyncRequestParameters",
-}) as any as S.Schema<AsyncRequestParameters>;
+).annotate({ identifier: "AsyncRequestParameters" }) as any as S.Schema<AsyncRequestParameters>;
 export type AsyncRequestStatus = string;
 export type RegionName = string;
 export interface MultiRegionAccessPointRegionalResponse {
   Name?: string;
   RequestStatus?: string;
 }
-export const MultiRegionAccessPointRegionalResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Name: S.optional(S.String),
-      RequestStatus: S.optional(S.String),
-    }),
+export const MultiRegionAccessPointRegionalResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ Name: S.optional(S.String), RequestStatus: S.optional(S.String) }),
 ).annotate({
   identifier: "MultiRegionAccessPointRegionalResponse",
 }) as any as S.Schema<MultiRegionAccessPointRegionalResponse>;
-export type MultiRegionAccessPointRegionalResponseList =
-  MultiRegionAccessPointRegionalResponse[];
+export type MultiRegionAccessPointRegionalResponseList = MultiRegionAccessPointRegionalResponse[];
 export const MultiRegionAccessPointRegionalResponseList = /*@__PURE__*/ S.Array(
   MultiRegionAccessPointRegionalResponse.pipe(T.XmlName("Region")).annotate({
     identifier: "MultiRegionAccessPointRegionalResponse",
@@ -3732,11 +3301,8 @@ export const MultiRegionAccessPointRegionalResponseList = /*@__PURE__*/ S.Array(
 export interface MultiRegionAccessPointsAsyncResponse {
   Regions?: MultiRegionAccessPointRegionalResponse[];
 }
-export const MultiRegionAccessPointsAsyncResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Regions: S.optional(MultiRegionAccessPointRegionalResponseList),
-    }),
+export const MultiRegionAccessPointsAsyncResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ Regions: S.optional(MultiRegionAccessPointRegionalResponseList) }),
 ).annotate({
   identifier: "MultiRegionAccessPointsAsyncResponse",
 }) as any as S.Schema<MultiRegionAccessPointsAsyncResponse>;
@@ -3753,23 +3319,17 @@ export const AsyncErrorDetails = /*@__PURE__*/ S.suspend(() =>
     Resource: S.optional(S.String),
     RequestId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AsyncErrorDetails",
-}) as any as S.Schema<AsyncErrorDetails>;
+).annotate({ identifier: "AsyncErrorDetails" }) as any as S.Schema<AsyncErrorDetails>;
 export interface AsyncResponseDetails {
   MultiRegionAccessPointDetails?: MultiRegionAccessPointsAsyncResponse;
   ErrorDetails?: AsyncErrorDetails;
 }
 export const AsyncResponseDetails = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    MultiRegionAccessPointDetails: S.optional(
-      MultiRegionAccessPointsAsyncResponse,
-    ),
+    MultiRegionAccessPointDetails: S.optional(MultiRegionAccessPointsAsyncResponse),
     ErrorDetails: S.optional(AsyncErrorDetails),
   }),
-).annotate({
-  identifier: "AsyncResponseDetails",
-}) as any as S.Schema<AsyncResponseDetails>;
+).annotate({ identifier: "AsyncResponseDetails" }) as any as S.Schema<AsyncResponseDetails>;
 export interface AsyncOperation {
   CreationTime?: Date;
   Operation?: AsyncOperationName;
@@ -3791,46 +3351,42 @@ export const AsyncOperation = /*@__PURE__*/ S.suspend(() =>
 export interface DescribeMultiRegionAccessPointOperationResult {
   AsyncOperation?: AsyncOperation;
 }
-export const DescribeMultiRegionAccessPointOperationResult =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ AsyncOperation: S.optional(AsyncOperation) }).pipe(ns),
-  ).annotate({
-    identifier: "DescribeMultiRegionAccessPointOperationResult",
-  }) as any as S.Schema<DescribeMultiRegionAccessPointOperationResult>;
+export const DescribeMultiRegionAccessPointOperationResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ AsyncOperation: S.optional(AsyncOperation) }).pipe(ns),
+).annotate({
+  identifier: "DescribeMultiRegionAccessPointOperationResult",
+}) as any as S.Schema<DescribeMultiRegionAccessPointOperationResult>;
 export interface DissociateAccessGrantsIdentityCenterRequest {
   AccountId: string;
 }
-export const DissociateAccessGrantsIdentityCenterRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      AccountId: S.String.pipe(
-        T.HttpHeader("x-amz-account-id"),
-        T.ContextParam("AccountId"),
-        T.HostLabel(),
-      ),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({
-          method: "DELETE",
-          uri: "/v20180820/accessgrantsinstance/identitycenter",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-        T.StaticContextParams({ RequiresAccountId: { value: true } }),
-      ),
+export const DissociateAccessGrantsIdentityCenterRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    AccountId: S.String.pipe(
+      T.HttpHeader("x-amz-account-id"),
+      T.ContextParam("AccountId"),
+      T.HostLabel(),
     ),
-  ).annotate({
-    identifier: "DissociateAccessGrantsIdentityCenterRequest",
-  }) as any as S.Schema<DissociateAccessGrantsIdentityCenterRequest>;
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "DELETE", uri: "/v20180820/accessgrantsinstance/identitycenter" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.StaticContextParams({ RequiresAccountId: { value: true } }),
+    ),
+  ),
+).annotate({
+  identifier: "DissociateAccessGrantsIdentityCenterRequest",
+}) as any as S.Schema<DissociateAccessGrantsIdentityCenterRequest>;
 export interface DissociateAccessGrantsIdentityCenterResponse {}
-export const DissociateAccessGrantsIdentityCenterResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
-    identifier: "DissociateAccessGrantsIdentityCenterResponse",
-  }) as any as S.Schema<DissociateAccessGrantsIdentityCenterResponse>;
+export const DissociateAccessGrantsIdentityCenterResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "DissociateAccessGrantsIdentityCenterResponse",
+}) as any as S.Schema<DissociateAccessGrantsIdentityCenterResponse>;
 export interface GetAccessGrantRequest {
   AccountId: string;
   AccessGrantId: string;
@@ -3846,10 +3402,7 @@ export const GetAccessGrantRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(
       ns,
-      T.Http({
-        method: "GET",
-        uri: "/v20180820/accessgrantsinstance/grant/{AccessGrantId}",
-      }),
+      T.Http({ method: "GET", uri: "/v20180820/accessgrantsinstance/grant/{AccessGrantId}" }),
       svc,
       auth,
       proto,
@@ -3858,9 +3411,7 @@ export const GetAccessGrantRequest = /*@__PURE__*/ S.suspend(() =>
       T.StaticContextParams({ RequiresAccountId: { value: true } }),
     ),
   ),
-).annotate({
-  identifier: "GetAccessGrantRequest",
-}) as any as S.Schema<GetAccessGrantRequest>;
+).annotate({ identifier: "GetAccessGrantRequest" }) as any as S.Schema<GetAccessGrantRequest>;
 export interface GetAccessGrantResult {
   CreatedAt?: Date;
   AccessGrantId?: string;
@@ -3880,15 +3431,11 @@ export const GetAccessGrantResult = /*@__PURE__*/ S.suspend(() =>
     Grantee: S.optional(Grantee),
     Permission: S.optional(Permission),
     AccessGrantsLocationId: S.optional(S.String),
-    AccessGrantsLocationConfiguration: S.optional(
-      AccessGrantsLocationConfiguration,
-    ),
+    AccessGrantsLocationConfiguration: S.optional(AccessGrantsLocationConfiguration),
     GrantScope: S.optional(S.String),
     ApplicationArn: S.optional(S.String),
   }).pipe(ns),
-).annotate({
-  identifier: "GetAccessGrantResult",
-}) as any as S.Schema<GetAccessGrantResult>;
+).annotate({ identifier: "GetAccessGrantResult" }) as any as S.Schema<GetAccessGrantResult>;
 export interface GetAccessGrantsInstanceRequest {
   AccountId: string;
 }
@@ -3938,30 +3485,26 @@ export interface GetAccessGrantsInstanceForPrefixRequest {
   AccountId: string;
   S3Prefix: string;
 }
-export const GetAccessGrantsInstanceForPrefixRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      AccountId: S.String.pipe(
-        T.HttpHeader("x-amz-account-id"),
-        T.ContextParam("AccountId"),
-        T.HostLabel(),
-      ),
-      S3Prefix: S.String.pipe(T.HttpQuery("s3prefix")),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({
-          method: "GET",
-          uri: "/v20180820/accessgrantsinstance/prefix",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-        T.StaticContextParams({ RequiresAccountId: { value: true } }),
-      ),
+export const GetAccessGrantsInstanceForPrefixRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    AccountId: S.String.pipe(
+      T.HttpHeader("x-amz-account-id"),
+      T.ContextParam("AccountId"),
+      T.HostLabel(),
     ),
+    S3Prefix: S.String.pipe(T.HttpQuery("s3prefix")),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "GET", uri: "/v20180820/accessgrantsinstance/prefix" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.StaticContextParams({ RequiresAccountId: { value: true } }),
+    ),
+  ),
 ).annotate({
   identifier: "GetAccessGrantsInstanceForPrefixRequest",
 }) as any as S.Schema<GetAccessGrantsInstanceForPrefixRequest>;
@@ -3969,44 +3512,39 @@ export interface GetAccessGrantsInstanceForPrefixResult {
   AccessGrantsInstanceArn?: string;
   AccessGrantsInstanceId?: string;
 }
-export const GetAccessGrantsInstanceForPrefixResult = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      AccessGrantsInstanceArn: S.optional(S.String),
-      AccessGrantsInstanceId: S.optional(S.String),
-    }).pipe(ns),
+export const GetAccessGrantsInstanceForPrefixResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    AccessGrantsInstanceArn: S.optional(S.String),
+    AccessGrantsInstanceId: S.optional(S.String),
+  }).pipe(ns),
 ).annotate({
   identifier: "GetAccessGrantsInstanceForPrefixResult",
 }) as any as S.Schema<GetAccessGrantsInstanceForPrefixResult>;
 export interface GetAccessGrantsInstanceResourcePolicyRequest {
   AccountId: string;
 }
-export const GetAccessGrantsInstanceResourcePolicyRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      AccountId: S.String.pipe(
-        T.HttpHeader("x-amz-account-id"),
-        T.ContextParam("AccountId"),
-        T.HostLabel(),
-      ),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({
-          method: "GET",
-          uri: "/v20180820/accessgrantsinstance/resourcepolicy",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-        T.StaticContextParams({ RequiresAccountId: { value: true } }),
-      ),
+export const GetAccessGrantsInstanceResourcePolicyRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    AccountId: S.String.pipe(
+      T.HttpHeader("x-amz-account-id"),
+      T.ContextParam("AccountId"),
+      T.HostLabel(),
     ),
-  ).annotate({
-    identifier: "GetAccessGrantsInstanceResourcePolicyRequest",
-  }) as any as S.Schema<GetAccessGrantsInstanceResourcePolicyRequest>;
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "GET", uri: "/v20180820/accessgrantsinstance/resourcepolicy" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.StaticContextParams({ RequiresAccountId: { value: true } }),
+    ),
+  ),
+).annotate({
+  identifier: "GetAccessGrantsInstanceResourcePolicyRequest",
+}) as any as S.Schema<GetAccessGrantsInstanceResourcePolicyRequest>;
 export type PolicyDocument = string;
 export type Organization = string;
 export interface GetAccessGrantsInstanceResourcePolicyResult {
@@ -4014,16 +3552,15 @@ export interface GetAccessGrantsInstanceResourcePolicyResult {
   Organization?: string;
   CreatedAt?: Date;
 }
-export const GetAccessGrantsInstanceResourcePolicyResult =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      Policy: S.optional(S.String),
-      Organization: S.optional(S.String),
-      CreatedAt: S.optional(T.DateFromString),
-    }).pipe(ns),
-  ).annotate({
-    identifier: "GetAccessGrantsInstanceResourcePolicyResult",
-  }) as any as S.Schema<GetAccessGrantsInstanceResourcePolicyResult>;
+export const GetAccessGrantsInstanceResourcePolicyResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Policy: S.optional(S.String),
+    Organization: S.optional(S.String),
+    CreatedAt: S.optional(T.DateFromString),
+  }).pipe(ns),
+).annotate({
+  identifier: "GetAccessGrantsInstanceResourcePolicyResult",
+}) as any as S.Schema<GetAccessGrantsInstanceResourcePolicyResult>;
 export interface GetAccessGrantsLocationRequest {
   AccountId: string;
   AccessGrantsLocationId: string;
@@ -4035,9 +3572,7 @@ export const GetAccessGrantsLocationRequest = /*@__PURE__*/ S.suspend(() =>
       T.ContextParam("AccountId"),
       T.HostLabel(),
     ),
-    AccessGrantsLocationId: S.String.pipe(
-      T.HttpLabel("AccessGrantsLocationId"),
-    ),
+    AccessGrantsLocationId: S.String.pipe(T.HttpLabel("AccessGrantsLocationId")),
   }).pipe(
     T.all(
       ns,
@@ -4098,19 +3633,14 @@ export const GetAccessPointRequest = /*@__PURE__*/ S.suspend(() =>
       T.StaticContextParams({ RequiresAccountId: { value: true } }),
     ),
   ),
-).annotate({
-  identifier: "GetAccessPointRequest",
-}) as any as S.Schema<GetAccessPointRequest>;
+).annotate({ identifier: "GetAccessPointRequest" }) as any as S.Schema<GetAccessPointRequest>;
 export type AccessPointBucketName = string;
 export type NetworkOrigin = "Internet" | "VPC" | (string & {});
 export const NetworkOrigin = S.String;
 
 export type CreationDate = Date;
 export type Endpoints = { [key: string]: string | undefined };
-export const Endpoints = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const Endpoints = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export type DataSourceId = string;
 export type DataSourceType = string;
 export interface GetAccessPointResult {
@@ -4142,77 +3672,66 @@ export const GetAccessPointResult = /*@__PURE__*/ S.suspend(() =>
     DataSourceId: S.optional(S.String),
     DataSourceType: S.optional(S.String),
   }).pipe(ns),
-).annotate({
-  identifier: "GetAccessPointResult",
-}) as any as S.Schema<GetAccessPointResult>;
+).annotate({ identifier: "GetAccessPointResult" }) as any as S.Schema<GetAccessPointResult>;
 export interface GetAccessPointConfigurationForObjectLambdaRequest {
   AccountId: string;
   Name: string;
 }
-export const GetAccessPointConfigurationForObjectLambdaRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      AccountId: S.String.pipe(
-        T.HttpHeader("x-amz-account-id"),
-        T.ContextParam("AccountId"),
-        T.HostLabel(),
-      ),
-      Name: S.String.pipe(T.HttpLabel("Name")),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({
-          method: "GET",
-          uri: "/v20180820/accesspointforobjectlambda/{Name}/configuration",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-        T.StaticContextParams({ RequiresAccountId: { value: true } }),
-      ),
+export const GetAccessPointConfigurationForObjectLambdaRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    AccountId: S.String.pipe(
+      T.HttpHeader("x-amz-account-id"),
+      T.ContextParam("AccountId"),
+      T.HostLabel(),
     ),
-  ).annotate({
-    identifier: "GetAccessPointConfigurationForObjectLambdaRequest",
-  }) as any as S.Schema<GetAccessPointConfigurationForObjectLambdaRequest>;
+    Name: S.String.pipe(T.HttpLabel("Name")),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "GET", uri: "/v20180820/accesspointforobjectlambda/{Name}/configuration" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.StaticContextParams({ RequiresAccountId: { value: true } }),
+    ),
+  ),
+).annotate({
+  identifier: "GetAccessPointConfigurationForObjectLambdaRequest",
+}) as any as S.Schema<GetAccessPointConfigurationForObjectLambdaRequest>;
 export interface GetAccessPointConfigurationForObjectLambdaResult {
   Configuration?: ObjectLambdaConfiguration;
 }
-export const GetAccessPointConfigurationForObjectLambdaResult =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ Configuration: S.optional(ObjectLambdaConfiguration) }).pipe(ns),
-  ).annotate({
-    identifier: "GetAccessPointConfigurationForObjectLambdaResult",
-  }) as any as S.Schema<GetAccessPointConfigurationForObjectLambdaResult>;
+export const GetAccessPointConfigurationForObjectLambdaResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ Configuration: S.optional(ObjectLambdaConfiguration) }).pipe(ns),
+).annotate({
+  identifier: "GetAccessPointConfigurationForObjectLambdaResult",
+}) as any as S.Schema<GetAccessPointConfigurationForObjectLambdaResult>;
 export interface GetAccessPointForObjectLambdaRequest {
   AccountId: string;
   Name: string;
 }
-export const GetAccessPointForObjectLambdaRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      AccountId: S.String.pipe(
-        T.HttpHeader("x-amz-account-id"),
-        T.ContextParam("AccountId"),
-        T.HostLabel(),
-      ),
-      Name: S.String.pipe(T.HttpLabel("Name")),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({
-          method: "GET",
-          uri: "/v20180820/accesspointforobjectlambda/{Name}",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-        T.StaticContextParams({ RequiresAccountId: { value: true } }),
-      ),
+export const GetAccessPointForObjectLambdaRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    AccountId: S.String.pipe(
+      T.HttpHeader("x-amz-account-id"),
+      T.ContextParam("AccountId"),
+      T.HostLabel(),
     ),
+    Name: S.String.pipe(T.HttpLabel("Name")),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "GET", uri: "/v20180820/accesspointforobjectlambda/{Name}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.StaticContextParams({ RequiresAccountId: { value: true } }),
+    ),
+  ),
 ).annotate({
   identifier: "GetAccessPointForObjectLambdaRequest",
 }) as any as S.Schema<GetAccessPointForObjectLambdaRequest>;
@@ -4271,43 +3790,38 @@ export interface GetAccessPointPolicyForObjectLambdaRequest {
   AccountId: string;
   Name: string;
 }
-export const GetAccessPointPolicyForObjectLambdaRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      AccountId: S.String.pipe(
-        T.HttpHeader("x-amz-account-id"),
-        T.ContextParam("AccountId"),
-        T.HostLabel(),
-      ),
-      Name: S.String.pipe(T.HttpLabel("Name")),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({
-          method: "GET",
-          uri: "/v20180820/accesspointforobjectlambda/{Name}/policy",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-        T.StaticContextParams({ RequiresAccountId: { value: true } }),
-      ),
+export const GetAccessPointPolicyForObjectLambdaRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    AccountId: S.String.pipe(
+      T.HttpHeader("x-amz-account-id"),
+      T.ContextParam("AccountId"),
+      T.HostLabel(),
     ),
-  ).annotate({
-    identifier: "GetAccessPointPolicyForObjectLambdaRequest",
-  }) as any as S.Schema<GetAccessPointPolicyForObjectLambdaRequest>;
+    Name: S.String.pipe(T.HttpLabel("Name")),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "GET", uri: "/v20180820/accesspointforobjectlambda/{Name}/policy" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.StaticContextParams({ RequiresAccountId: { value: true } }),
+    ),
+  ),
+).annotate({
+  identifier: "GetAccessPointPolicyForObjectLambdaRequest",
+}) as any as S.Schema<GetAccessPointPolicyForObjectLambdaRequest>;
 export type ObjectLambdaPolicy = string;
 export interface GetAccessPointPolicyForObjectLambdaResult {
   Policy?: string;
 }
-export const GetAccessPointPolicyForObjectLambdaResult =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ Policy: S.optional(S.String) }).pipe(ns),
-  ).annotate({
-    identifier: "GetAccessPointPolicyForObjectLambdaResult",
-  }) as any as S.Schema<GetAccessPointPolicyForObjectLambdaResult>;
+export const GetAccessPointPolicyForObjectLambdaResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ Policy: S.optional(S.String) }).pipe(ns),
+).annotate({
+  identifier: "GetAccessPointPolicyForObjectLambdaResult",
+}) as any as S.Schema<GetAccessPointPolicyForObjectLambdaResult>;
 export interface GetAccessPointPolicyStatusRequest {
   AccountId: string;
   Name: string;
@@ -4323,10 +3837,7 @@ export const GetAccessPointPolicyStatusRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(
       ns,
-      T.Http({
-        method: "GET",
-        uri: "/v20180820/accesspoint/{Name}/policyStatus",
-      }),
+      T.Http({ method: "GET", uri: "/v20180820/accesspoint/{Name}/policyStatus" }),
       svc,
       auth,
       proto,
@@ -4357,42 +3868,37 @@ export interface GetAccessPointPolicyStatusForObjectLambdaRequest {
   AccountId: string;
   Name: string;
 }
-export const GetAccessPointPolicyStatusForObjectLambdaRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      AccountId: S.String.pipe(
-        T.HttpHeader("x-amz-account-id"),
-        T.ContextParam("AccountId"),
-        T.HostLabel(),
-      ),
-      Name: S.String.pipe(T.HttpLabel("Name")),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({
-          method: "GET",
-          uri: "/v20180820/accesspointforobjectlambda/{Name}/policyStatus",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-        T.StaticContextParams({ RequiresAccountId: { value: true } }),
-      ),
+export const GetAccessPointPolicyStatusForObjectLambdaRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    AccountId: S.String.pipe(
+      T.HttpHeader("x-amz-account-id"),
+      T.ContextParam("AccountId"),
+      T.HostLabel(),
     ),
-  ).annotate({
-    identifier: "GetAccessPointPolicyStatusForObjectLambdaRequest",
-  }) as any as S.Schema<GetAccessPointPolicyStatusForObjectLambdaRequest>;
+    Name: S.String.pipe(T.HttpLabel("Name")),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "GET", uri: "/v20180820/accesspointforobjectlambda/{Name}/policyStatus" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.StaticContextParams({ RequiresAccountId: { value: true } }),
+    ),
+  ),
+).annotate({
+  identifier: "GetAccessPointPolicyStatusForObjectLambdaRequest",
+}) as any as S.Schema<GetAccessPointPolicyStatusForObjectLambdaRequest>;
 export interface GetAccessPointPolicyStatusForObjectLambdaResult {
   PolicyStatus?: PolicyStatus;
 }
-export const GetAccessPointPolicyStatusForObjectLambdaResult =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ PolicyStatus: S.optional(PolicyStatus) }).pipe(ns),
-  ).annotate({
-    identifier: "GetAccessPointPolicyStatusForObjectLambdaResult",
-  }) as any as S.Schema<GetAccessPointPolicyStatusForObjectLambdaResult>;
+export const GetAccessPointPolicyStatusForObjectLambdaResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ PolicyStatus: S.optional(PolicyStatus) }).pipe(ns),
+).annotate({
+  identifier: "GetAccessPointPolicyStatusForObjectLambdaResult",
+}) as any as S.Schema<GetAccessPointPolicyStatusForObjectLambdaResult>;
 export interface GetAccessPointScopeRequest {
   AccountId: string;
   Name: string;
@@ -4455,9 +3961,7 @@ export const GetBucketRequest = /*@__PURE__*/ S.suspend(() =>
       T.StaticContextParams({ RequiresAccountId: { value: true } }),
     ),
   ),
-).annotate({
-  identifier: "GetBucketRequest",
-}) as any as S.Schema<GetBucketRequest>;
+).annotate({ identifier: "GetBucketRequest" }) as any as S.Schema<GetBucketRequest>;
 export type PublicAccessBlockEnabled = boolean;
 export interface GetBucketResult {
   Bucket?: string;
@@ -4470,37 +3974,31 @@ export const GetBucketResult = /*@__PURE__*/ S.suspend(() =>
     PublicAccessBlockEnabled: S.optional(S.Boolean),
     CreationDate: S.optional(T.DateFromString),
   }).pipe(ns),
-).annotate({
-  identifier: "GetBucketResult",
-}) as any as S.Schema<GetBucketResult>;
+).annotate({ identifier: "GetBucketResult" }) as any as S.Schema<GetBucketResult>;
 export interface GetBucketLifecycleConfigurationRequest {
   AccountId: string;
   Bucket: string;
 }
-export const GetBucketLifecycleConfigurationRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      AccountId: S.String.pipe(
-        T.HttpHeader("x-amz-account-id"),
-        T.ContextParam("AccountId"),
-        T.HostLabel(),
-      ),
-      Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({
-          method: "GET",
-          uri: "/v20180820/bucket/{Bucket}/lifecycleconfiguration",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-        T.StaticContextParams({ RequiresAccountId: { value: true } }),
-      ),
+export const GetBucketLifecycleConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    AccountId: S.String.pipe(
+      T.HttpHeader("x-amz-account-id"),
+      T.ContextParam("AccountId"),
+      T.HostLabel(),
     ),
+    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "GET", uri: "/v20180820/bucket/{Bucket}/lifecycleconfiguration" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.StaticContextParams({ RequiresAccountId: { value: true } }),
+    ),
+  ),
 ).annotate({
   identifier: "GetBucketLifecycleConfigurationRequest",
 }) as any as S.Schema<GetBucketLifecycleConfigurationRequest>;
@@ -4517,9 +4015,7 @@ export const LifecycleExpiration = /*@__PURE__*/ S.suspend(() =>
     Days: S.optional(S.Number),
     ExpiredObjectDeleteMarker: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "LifecycleExpiration",
-}) as any as S.Schema<LifecycleExpiration>;
+).annotate({ identifier: "LifecycleExpiration" }) as any as S.Schema<LifecycleExpiration>;
 export type ID = string;
 export interface LifecycleRuleAndOperator {
   Prefix?: string;
@@ -4534,9 +4030,7 @@ export const LifecycleRuleAndOperator = /*@__PURE__*/ S.suspend(() =>
     ObjectSizeGreaterThan: S.optional(S.Number),
     ObjectSizeLessThan: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "LifecycleRuleAndOperator",
-}) as any as S.Schema<LifecycleRuleAndOperator>;
+).annotate({ identifier: "LifecycleRuleAndOperator" }) as any as S.Schema<LifecycleRuleAndOperator>;
 export interface LifecycleRuleFilter {
   Prefix?: string;
   Tag?: S3Tag;
@@ -4552,9 +4046,7 @@ export const LifecycleRuleFilter = /*@__PURE__*/ S.suspend(() =>
     ObjectSizeGreaterThan: S.optional(S.Number),
     ObjectSizeLessThan: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "LifecycleRuleFilter",
-}) as any as S.Schema<LifecycleRuleFilter>;
+).annotate({ identifier: "LifecycleRuleFilter" }) as any as S.Schema<LifecycleRuleFilter>;
 export type ExpirationStatus = "Enabled" | "Disabled" | (string & {});
 export const ExpirationStatus = S.String;
 
@@ -4581,9 +4073,7 @@ export const Transition = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "Transition" }) as any as S.Schema<Transition>;
 export type TransitionList = Transition[];
 export const TransitionList = /*@__PURE__*/ S.Array(
-  Transition.pipe(T.XmlName("Transition")).annotate({
-    identifier: "Transition",
-  }),
+  Transition.pipe(T.XmlName("Transition")).annotate({ identifier: "Transition" }),
 );
 export interface NoncurrentVersionTransition {
   NoncurrentDays?: number;
@@ -4599,9 +4089,9 @@ export const NoncurrentVersionTransition = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<NoncurrentVersionTransition>;
 export type NoncurrentVersionTransitionList = NoncurrentVersionTransition[];
 export const NoncurrentVersionTransitionList = /*@__PURE__*/ S.Array(
-  NoncurrentVersionTransition.pipe(
-    T.XmlName("NoncurrentVersionTransition"),
-  ).annotate({ identifier: "NoncurrentVersionTransition" }),
+  NoncurrentVersionTransition.pipe(T.XmlName("NoncurrentVersionTransition")).annotate({
+    identifier: "NoncurrentVersionTransition",
+  }),
 );
 export type NoncurrentVersionCount = number;
 export interface NoncurrentVersionExpiration {
@@ -4609,10 +4099,7 @@ export interface NoncurrentVersionExpiration {
   NewerNoncurrentVersions?: number;
 }
 export const NoncurrentVersionExpiration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NoncurrentDays: S.optional(S.Number),
-    NewerNoncurrentVersions: S.optional(S.Number),
-  }),
+  S.Struct({ NoncurrentDays: S.optional(S.Number), NewerNoncurrentVersions: S.optional(S.Number) }),
 ).annotate({
   identifier: "NoncurrentVersionExpiration",
 }) as any as S.Schema<NoncurrentVersionExpiration>;
@@ -4649,15 +4136,13 @@ export const LifecycleRule = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "LifecycleRule" }) as any as S.Schema<LifecycleRule>;
 export type LifecycleRules = LifecycleRule[];
 export const LifecycleRules = /*@__PURE__*/ S.Array(
-  LifecycleRule.pipe(T.XmlName("Rule")).annotate({
-    identifier: "LifecycleRule",
-  }),
+  LifecycleRule.pipe(T.XmlName("Rule")).annotate({ identifier: "LifecycleRule" }),
 );
 export interface GetBucketLifecycleConfigurationResult {
   Rules?: LifecycleRule[];
 }
-export const GetBucketLifecycleConfigurationResult = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ Rules: S.optional(LifecycleRules) }).pipe(ns),
+export const GetBucketLifecycleConfigurationResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ Rules: S.optional(LifecycleRules) }).pipe(ns),
 ).annotate({
   identifier: "GetBucketLifecycleConfigurationResult",
 }) as any as S.Schema<GetBucketLifecycleConfigurationResult>;
@@ -4685,17 +4170,13 @@ export const GetBucketPolicyRequest = /*@__PURE__*/ S.suspend(() =>
       T.StaticContextParams({ RequiresAccountId: { value: true } }),
     ),
   ),
-).annotate({
-  identifier: "GetBucketPolicyRequest",
-}) as any as S.Schema<GetBucketPolicyRequest>;
+).annotate({ identifier: "GetBucketPolicyRequest" }) as any as S.Schema<GetBucketPolicyRequest>;
 export interface GetBucketPolicyResult {
   Policy?: string;
 }
 export const GetBucketPolicyResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Policy: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "GetBucketPolicyResult",
-}) as any as S.Schema<GetBucketPolicyResult>;
+).annotate({ identifier: "GetBucketPolicyResult" }) as any as S.Schema<GetBucketPolicyResult>;
 export interface GetBucketReplicationRequest {
   AccountId: string;
   Bucket: string;
@@ -4745,16 +4226,11 @@ export const ReplicationRuleFilter = /*@__PURE__*/ S.suspend(() =>
     Tag: S.optional(S3Tag),
     And: S.optional(ReplicationRuleAndOperator),
   }),
-).annotate({
-  identifier: "ReplicationRuleFilter",
-}) as any as S.Schema<ReplicationRuleFilter>;
+).annotate({ identifier: "ReplicationRuleFilter" }) as any as S.Schema<ReplicationRuleFilter>;
 export type ReplicationRuleStatus = "Enabled" | "Disabled" | (string & {});
 export const ReplicationRuleStatus = S.String;
 
-export type SseKmsEncryptedObjectsStatus =
-  | "Enabled"
-  | "Disabled"
-  | (string & {});
+export type SseKmsEncryptedObjectsStatus = "Enabled" | "Disabled" | (string & {});
 export const SseKmsEncryptedObjectsStatus = S.String;
 
 export interface SseKmsEncryptedObjects {
@@ -4762,9 +4238,7 @@ export interface SseKmsEncryptedObjects {
 }
 export const SseKmsEncryptedObjects = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Status: SseKmsEncryptedObjectsStatus }),
-).annotate({
-  identifier: "SseKmsEncryptedObjects",
-}) as any as S.Schema<SseKmsEncryptedObjects>;
+).annotate({ identifier: "SseKmsEncryptedObjects" }) as any as S.Schema<SseKmsEncryptedObjects>;
 export type ReplicaModificationsStatus = "Enabled" | "Disabled" | (string & {});
 export const ReplicaModificationsStatus = S.String;
 
@@ -4773,9 +4247,7 @@ export interface ReplicaModifications {
 }
 export const ReplicaModifications = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Status: ReplicaModificationsStatus }),
-).annotate({
-  identifier: "ReplicaModifications",
-}) as any as S.Schema<ReplicaModifications>;
+).annotate({ identifier: "ReplicaModifications" }) as any as S.Schema<ReplicaModifications>;
 export interface SourceSelectionCriteria {
   SseKmsEncryptedObjects?: SseKmsEncryptedObjects;
   ReplicaModifications?: ReplicaModifications;
@@ -4785,13 +4257,8 @@ export const SourceSelectionCriteria = /*@__PURE__*/ S.suspend(() =>
     SseKmsEncryptedObjects: S.optional(SseKmsEncryptedObjects),
     ReplicaModifications: S.optional(ReplicaModifications),
   }),
-).annotate({
-  identifier: "SourceSelectionCriteria",
-}) as any as S.Schema<SourceSelectionCriteria>;
-export type ExistingObjectReplicationStatus =
-  | "Enabled"
-  | "Disabled"
-  | (string & {});
+).annotate({ identifier: "SourceSelectionCriteria" }) as any as S.Schema<SourceSelectionCriteria>;
+export type ExistingObjectReplicationStatus = "Enabled" | "Disabled" | (string & {});
 export const ExistingObjectReplicationStatus = S.String;
 
 export interface ExistingObjectReplication {
@@ -4812,18 +4279,14 @@ export interface ReplicationTimeValue {
 }
 export const ReplicationTimeValue = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Minutes: S.optional(S.Number) }),
-).annotate({
-  identifier: "ReplicationTimeValue",
-}) as any as S.Schema<ReplicationTimeValue>;
+).annotate({ identifier: "ReplicationTimeValue" }) as any as S.Schema<ReplicationTimeValue>;
 export interface ReplicationTime {
   Status: ReplicationTimeStatus;
   Time: ReplicationTimeValue;
 }
 export const ReplicationTime = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Status: ReplicationTimeStatus, Time: ReplicationTimeValue }),
-).annotate({
-  identifier: "ReplicationTime",
-}) as any as S.Schema<ReplicationTime>;
+).annotate({ identifier: "ReplicationTime" }) as any as S.Schema<ReplicationTime>;
 export type OwnerOverride = "Destination" | (string & {});
 export const OwnerOverride = S.String;
 
@@ -4832,18 +4295,14 @@ export interface AccessControlTranslation {
 }
 export const AccessControlTranslation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Owner: OwnerOverride }),
-).annotate({
-  identifier: "AccessControlTranslation",
-}) as any as S.Schema<AccessControlTranslation>;
+).annotate({ identifier: "AccessControlTranslation" }) as any as S.Schema<AccessControlTranslation>;
 export type ReplicaKmsKeyID = string;
 export interface EncryptionConfiguration {
   ReplicaKmsKeyID?: string;
 }
 export const EncryptionConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ReplicaKmsKeyID: S.optional(S.String) }),
-).annotate({
-  identifier: "EncryptionConfiguration",
-}) as any as S.Schema<EncryptionConfiguration>;
+).annotate({ identifier: "EncryptionConfiguration" }) as any as S.Schema<EncryptionConfiguration>;
 export type MetricsStatus = "Enabled" | "Disabled" | (string & {});
 export const MetricsStatus = S.String;
 
@@ -4852,10 +4311,7 @@ export interface Metrics {
   EventThreshold?: ReplicationTimeValue;
 }
 export const Metrics = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Status: MetricsStatus,
-    EventThreshold: S.optional(ReplicationTimeValue),
-  }),
+  S.Struct({ Status: MetricsStatus, EventThreshold: S.optional(ReplicationTimeValue) }),
 ).annotate({ identifier: "Metrics" }) as any as S.Schema<Metrics>;
 export type ReplicationStorageClass =
   | "STANDARD"
@@ -4890,10 +4346,7 @@ export const Destination = /*@__PURE__*/ S.suspend(() =>
     StorageClass: S.optional(ReplicationStorageClass),
   }),
 ).annotate({ identifier: "Destination" }) as any as S.Schema<Destination>;
-export type DeleteMarkerReplicationStatus =
-  | "Enabled"
-  | "Disabled"
-  | (string & {});
+export type DeleteMarkerReplicationStatus = "Enabled" | "Disabled" | (string & {});
 export const DeleteMarkerReplicationStatus = S.String;
 
 export interface DeleteMarkerReplication {
@@ -4901,9 +4354,7 @@ export interface DeleteMarkerReplication {
 }
 export const DeleteMarkerReplication = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Status: DeleteMarkerReplicationStatus }),
-).annotate({
-  identifier: "DeleteMarkerReplication",
-}) as any as S.Schema<DeleteMarkerReplication>;
+).annotate({ identifier: "DeleteMarkerReplication" }) as any as S.Schema<DeleteMarkerReplication>;
 export interface ReplicationRule {
   ID?: string;
   Priority?: number;
@@ -4929,14 +4380,10 @@ export const ReplicationRule = /*@__PURE__*/ S.suspend(() =>
     DeleteMarkerReplication: S.optional(DeleteMarkerReplication),
     Bucket: S.String,
   }),
-).annotate({
-  identifier: "ReplicationRule",
-}) as any as S.Schema<ReplicationRule>;
+).annotate({ identifier: "ReplicationRule" }) as any as S.Schema<ReplicationRule>;
 export type ReplicationRules = ReplicationRule[];
 export const ReplicationRules = /*@__PURE__*/ S.Array(
-  ReplicationRule.pipe(T.XmlName("Rule")).annotate({
-    identifier: "ReplicationRule",
-  }),
+  ReplicationRule.pipe(T.XmlName("Rule")).annotate({ identifier: "ReplicationRule" }),
 );
 export interface ReplicationConfiguration {
   Role: string;
@@ -4944,16 +4391,12 @@ export interface ReplicationConfiguration {
 }
 export const ReplicationConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Role: S.String, Rules: ReplicationRules }),
-).annotate({
-  identifier: "ReplicationConfiguration",
-}) as any as S.Schema<ReplicationConfiguration>;
+).annotate({ identifier: "ReplicationConfiguration" }) as any as S.Schema<ReplicationConfiguration>;
 export interface GetBucketReplicationResult {
   ReplicationConfiguration?: ReplicationConfiguration;
 }
 export const GetBucketReplicationResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ReplicationConfiguration: S.optional(ReplicationConfiguration),
-  }).pipe(ns),
+  S.Struct({ ReplicationConfiguration: S.optional(ReplicationConfiguration) }).pipe(ns),
 ).annotate({
   identifier: "GetBucketReplicationResult",
 }) as any as S.Schema<GetBucketReplicationResult>;
@@ -4981,17 +4424,13 @@ export const GetBucketTaggingRequest = /*@__PURE__*/ S.suspend(() =>
       T.StaticContextParams({ RequiresAccountId: { value: true } }),
     ),
   ),
-).annotate({
-  identifier: "GetBucketTaggingRequest",
-}) as any as S.Schema<GetBucketTaggingRequest>;
+).annotate({ identifier: "GetBucketTaggingRequest" }) as any as S.Schema<GetBucketTaggingRequest>;
 export interface GetBucketTaggingResult {
   TagSet: S3Tag[];
 }
 export const GetBucketTaggingResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ TagSet: S3TagSet }).pipe(ns),
-).annotate({
-  identifier: "GetBucketTaggingResult",
-}) as any as S.Schema<GetBucketTaggingResult>;
+).annotate({ identifier: "GetBucketTaggingResult" }) as any as S.Schema<GetBucketTaggingResult>;
 export interface GetBucketVersioningRequest {
   AccountId: string;
   Bucket: string;
@@ -5067,10 +4506,7 @@ export const GetDataAccessRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(
       ns,
-      T.Http({
-        method: "GET",
-        uri: "/v20180820/accessgrantsinstance/dataaccess",
-      }),
+      T.Http({ method: "GET", uri: "/v20180820/accessgrantsinstance/dataaccess" }),
       svc,
       auth,
       proto,
@@ -5079,9 +4515,7 @@ export const GetDataAccessRequest = /*@__PURE__*/ S.suspend(() =>
       T.StaticContextParams({ RequiresAccountId: { value: true } }),
     ),
   ),
-).annotate({
-  identifier: "GetDataAccessRequest",
-}) as any as S.Schema<GetDataAccessRequest>;
+).annotate({ identifier: "GetDataAccessRequest" }) as any as S.Schema<GetDataAccessRequest>;
 export type AccessKeyId = string | redacted.Redacted<string>;
 export type SecretAccessKey = string | redacted.Redacted<string>;
 export type SessionToken = string | redacted.Redacted<string>;
@@ -5111,9 +4545,7 @@ export const GetDataAccessResult = /*@__PURE__*/ S.suspend(() =>
     MatchedGrantTarget: S.optional(S.String),
     Grantee: S.optional(Grantee),
   }).pipe(ns),
-).annotate({
-  identifier: "GetDataAccessResult",
-}) as any as S.Schema<GetDataAccessResult>;
+).annotate({ identifier: "GetDataAccessResult" }) as any as S.Schema<GetDataAccessResult>;
 export interface GetJobTaggingRequest {
   AccountId: string;
   JobId: string;
@@ -5138,17 +4570,13 @@ export const GetJobTaggingRequest = /*@__PURE__*/ S.suspend(() =>
       T.StaticContextParams({ RequiresAccountId: { value: true } }),
     ),
   ),
-).annotate({
-  identifier: "GetJobTaggingRequest",
-}) as any as S.Schema<GetJobTaggingRequest>;
+).annotate({ identifier: "GetJobTaggingRequest" }) as any as S.Schema<GetJobTaggingRequest>;
 export interface GetJobTaggingResult {
   Tags?: S3Tag[];
 }
 export const GetJobTaggingResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Tags: S.optional(S3TagSet) }).pipe(ns),
-).annotate({
-  identifier: "GetJobTaggingResult",
-}) as any as S.Schema<GetJobTaggingResult>;
+).annotate({ identifier: "GetJobTaggingResult" }) as any as S.Schema<GetJobTaggingResult>;
 export interface GetMultiRegionAccessPointRequest {
   AccountId: string;
   Name: string;
@@ -5201,9 +4629,7 @@ export const RegionReport = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "RegionReport" }) as any as S.Schema<RegionReport>;
 export type RegionReportList = RegionReport[];
 export const RegionReportList = /*@__PURE__*/ S.Array(
-  RegionReport.pipe(T.XmlName("Region")).annotate({
-    identifier: "RegionReport",
-  }),
+  RegionReport.pipe(T.XmlName("Region")).annotate({ identifier: "RegionReport" }),
 );
 export interface MultiRegionAccessPointReport {
   Name?: string;
@@ -5237,46 +4663,42 @@ export interface GetMultiRegionAccessPointPolicyRequest {
   AccountId: string;
   Name: string;
 }
-export const GetMultiRegionAccessPointPolicyRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      AccountId: S.String.pipe(
-        T.HttpHeader("x-amz-account-id"),
-        T.ContextParam("AccountId"),
-        T.HostLabel(),
-      ),
-      Name: S.String.pipe(T.HttpLabel("Name")),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({
-          method: "GET",
-          uri: "/v20180820/mrap/instances/{Name+}/policy",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-        T.StaticContextParams({ RequiresAccountId: { value: true } }),
-      ),
+export const GetMultiRegionAccessPointPolicyRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    AccountId: S.String.pipe(
+      T.HttpHeader("x-amz-account-id"),
+      T.ContextParam("AccountId"),
+      T.HostLabel(),
     ),
+    Name: S.String.pipe(T.HttpLabel("Name")),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "GET", uri: "/v20180820/mrap/instances/{Name+}/policy" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.StaticContextParams({ RequiresAccountId: { value: true } }),
+    ),
+  ),
 ).annotate({
   identifier: "GetMultiRegionAccessPointPolicyRequest",
 }) as any as S.Schema<GetMultiRegionAccessPointPolicyRequest>;
 export interface EstablishedMultiRegionAccessPointPolicy {
   Policy?: string;
 }
-export const EstablishedMultiRegionAccessPointPolicy = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ Policy: S.optional(S.String) }),
+export const EstablishedMultiRegionAccessPointPolicy = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ Policy: S.optional(S.String) }),
 ).annotate({
   identifier: "EstablishedMultiRegionAccessPointPolicy",
 }) as any as S.Schema<EstablishedMultiRegionAccessPointPolicy>;
 export interface ProposedMultiRegionAccessPointPolicy {
   Policy?: string;
 }
-export const ProposedMultiRegionAccessPointPolicy = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ Policy: S.optional(S.String) }),
+export const ProposedMultiRegionAccessPointPolicy = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ Policy: S.optional(S.String) }),
 ).annotate({
   identifier: "ProposedMultiRegionAccessPointPolicy",
 }) as any as S.Schema<ProposedMultiRegionAccessPointPolicy>;
@@ -5284,23 +4706,19 @@ export interface MultiRegionAccessPointPolicyDocument {
   Established?: EstablishedMultiRegionAccessPointPolicy;
   Proposed?: ProposedMultiRegionAccessPointPolicy;
 }
-export const MultiRegionAccessPointPolicyDocument = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Established: S.optional(EstablishedMultiRegionAccessPointPolicy),
-      Proposed: S.optional(ProposedMultiRegionAccessPointPolicy),
-    }),
+export const MultiRegionAccessPointPolicyDocument = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Established: S.optional(EstablishedMultiRegionAccessPointPolicy),
+    Proposed: S.optional(ProposedMultiRegionAccessPointPolicy),
+  }),
 ).annotate({
   identifier: "MultiRegionAccessPointPolicyDocument",
 }) as any as S.Schema<MultiRegionAccessPointPolicyDocument>;
 export interface GetMultiRegionAccessPointPolicyResult {
   Policy?: MultiRegionAccessPointPolicyDocument;
 }
-export const GetMultiRegionAccessPointPolicyResult = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ Policy: S.optional(MultiRegionAccessPointPolicyDocument) }).pipe(
-      ns,
-    ),
+export const GetMultiRegionAccessPointPolicyResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ Policy: S.optional(MultiRegionAccessPointPolicyDocument) }).pipe(ns),
 ).annotate({
   identifier: "GetMultiRegionAccessPointPolicyResult",
 }) as any as S.Schema<GetMultiRegionAccessPointPolicyResult>;
@@ -5308,71 +4726,62 @@ export interface GetMultiRegionAccessPointPolicyStatusRequest {
   AccountId: string;
   Name: string;
 }
-export const GetMultiRegionAccessPointPolicyStatusRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      AccountId: S.String.pipe(
-        T.HttpHeader("x-amz-account-id"),
-        T.ContextParam("AccountId"),
-        T.HostLabel(),
-      ),
-      Name: S.String.pipe(T.HttpLabel("Name")),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({
-          method: "GET",
-          uri: "/v20180820/mrap/instances/{Name+}/policystatus",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-        T.StaticContextParams({ RequiresAccountId: { value: true } }),
-      ),
+export const GetMultiRegionAccessPointPolicyStatusRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    AccountId: S.String.pipe(
+      T.HttpHeader("x-amz-account-id"),
+      T.ContextParam("AccountId"),
+      T.HostLabel(),
     ),
-  ).annotate({
-    identifier: "GetMultiRegionAccessPointPolicyStatusRequest",
-  }) as any as S.Schema<GetMultiRegionAccessPointPolicyStatusRequest>;
+    Name: S.String.pipe(T.HttpLabel("Name")),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "GET", uri: "/v20180820/mrap/instances/{Name+}/policystatus" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.StaticContextParams({ RequiresAccountId: { value: true } }),
+    ),
+  ),
+).annotate({
+  identifier: "GetMultiRegionAccessPointPolicyStatusRequest",
+}) as any as S.Schema<GetMultiRegionAccessPointPolicyStatusRequest>;
 export interface GetMultiRegionAccessPointPolicyStatusResult {
   Established?: PolicyStatus;
 }
-export const GetMultiRegionAccessPointPolicyStatusResult =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ Established: S.optional(PolicyStatus) }).pipe(ns),
-  ).annotate({
-    identifier: "GetMultiRegionAccessPointPolicyStatusResult",
-  }) as any as S.Schema<GetMultiRegionAccessPointPolicyStatusResult>;
+export const GetMultiRegionAccessPointPolicyStatusResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ Established: S.optional(PolicyStatus) }).pipe(ns),
+).annotate({
+  identifier: "GetMultiRegionAccessPointPolicyStatusResult",
+}) as any as S.Schema<GetMultiRegionAccessPointPolicyStatusResult>;
 export type MultiRegionAccessPointId = string;
 export interface GetMultiRegionAccessPointRoutesRequest {
   AccountId: string;
   Mrap: string;
 }
-export const GetMultiRegionAccessPointRoutesRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      AccountId: S.String.pipe(
-        T.HttpHeader("x-amz-account-id"),
-        T.ContextParam("AccountId"),
-        T.HostLabel(),
-      ),
-      Mrap: S.String.pipe(T.HttpLabel("Mrap")),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({
-          method: "GET",
-          uri: "/v20180820/mrap/instances/{Mrap+}/routes",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-        T.StaticContextParams({ RequiresAccountId: { value: true } }),
-      ),
+export const GetMultiRegionAccessPointRoutesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    AccountId: S.String.pipe(
+      T.HttpHeader("x-amz-account-id"),
+      T.ContextParam("AccountId"),
+      T.HostLabel(),
     ),
+    Mrap: S.String.pipe(T.HttpLabel("Mrap")),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "GET", uri: "/v20180820/mrap/instances/{Mrap+}/routes" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.StaticContextParams({ RequiresAccountId: { value: true } }),
+    ),
+  ),
 ).annotate({
   identifier: "GetMultiRegionAccessPointRoutesRequest",
 }) as any as S.Schema<GetMultiRegionAccessPointRoutesRequest>;
@@ -5401,12 +4810,8 @@ export interface GetMultiRegionAccessPointRoutesResult {
   Mrap?: string;
   Routes?: MultiRegionAccessPointRoute[];
 }
-export const GetMultiRegionAccessPointRoutesResult = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Mrap: S.optional(S.String),
-      Routes: S.optional(RouteList),
-    }).pipe(ns),
+export const GetMultiRegionAccessPointRoutesResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ Mrap: S.optional(S.String), Routes: S.optional(RouteList) }).pipe(ns),
 ).annotate({
   identifier: "GetMultiRegionAccessPointRoutesResult",
 }) as any as S.Schema<GetMultiRegionAccessPointRoutesResult>;
@@ -5423,10 +4828,7 @@ export const GetPublicAccessBlockRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(
       ns,
-      T.Http({
-        method: "GET",
-        uri: "/v20180820/configuration/publicAccessBlock",
-      }),
+      T.Http({ method: "GET", uri: "/v20180820/configuration/publicAccessBlock" }),
       svc,
       auth,
       proto,
@@ -5483,9 +4885,7 @@ export interface ActivityMetrics {
 }
 export const ActivityMetrics = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ IsEnabled: S.optional(S.Boolean) }),
-).annotate({
-  identifier: "ActivityMetrics",
-}) as any as S.Schema<ActivityMetrics>;
+).annotate({ identifier: "ActivityMetrics" }) as any as S.Schema<ActivityMetrics>;
 export type StorageLensPrefixLevelDelimiter = string;
 export type StorageLensPrefixLevelMaxDepth = number;
 export type MinStorageBytesPercentage = number;
@@ -5500,18 +4900,13 @@ export const SelectionCriteria = /*@__PURE__*/ S.suspend(() =>
     MaxDepth: S.optional(S.Number),
     MinStorageBytesPercentage: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "SelectionCriteria",
-}) as any as S.Schema<SelectionCriteria>;
+).annotate({ identifier: "SelectionCriteria" }) as any as S.Schema<SelectionCriteria>;
 export interface PrefixLevelStorageMetrics {
   IsEnabled?: boolean;
   SelectionCriteria?: SelectionCriteria;
 }
 export const PrefixLevelStorageMetrics = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    IsEnabled: S.optional(S.Boolean),
-    SelectionCriteria: S.optional(SelectionCriteria),
-  }),
+  S.Struct({ IsEnabled: S.optional(S.Boolean), SelectionCriteria: S.optional(SelectionCriteria) }),
 ).annotate({
   identifier: "PrefixLevelStorageMetrics",
 }) as any as S.Schema<PrefixLevelStorageMetrics>;
@@ -5565,32 +4960,25 @@ export const BucketLevel = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ActivityMetrics: S.optional(ActivityMetrics),
     PrefixLevel: S.optional(PrefixLevel),
-    AdvancedCostOptimizationMetrics: S.optional(
-      AdvancedCostOptimizationMetrics,
-    ),
+    AdvancedCostOptimizationMetrics: S.optional(AdvancedCostOptimizationMetrics),
     AdvancedDataProtectionMetrics: S.optional(AdvancedDataProtectionMetrics),
     DetailedStatusCodesMetrics: S.optional(DetailedStatusCodesMetrics),
     AdvancedPerformanceMetrics: S.optional(AdvancedPerformanceMetrics),
   }),
 ).annotate({ identifier: "BucketLevel" }) as any as S.Schema<BucketLevel>;
 export type StorageLensGroupLevelInclude = string[];
-export const StorageLensGroupLevelInclude = /*@__PURE__*/ S.Array(
-  S.String.pipe(T.XmlName("Arn")),
-);
+export const StorageLensGroupLevelInclude = /*@__PURE__*/ S.Array(S.String.pipe(T.XmlName("Arn")));
 export type StorageLensGroupLevelExclude = string[];
-export const StorageLensGroupLevelExclude = /*@__PURE__*/ S.Array(
-  S.String.pipe(T.XmlName("Arn")),
-);
+export const StorageLensGroupLevelExclude = /*@__PURE__*/ S.Array(S.String.pipe(T.XmlName("Arn")));
 export interface StorageLensGroupLevelSelectionCriteria {
   Include?: string[];
   Exclude?: string[];
 }
-export const StorageLensGroupLevelSelectionCriteria = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Include: S.optional(StorageLensGroupLevelInclude),
-      Exclude: S.optional(StorageLensGroupLevelExclude),
-    }),
+export const StorageLensGroupLevelSelectionCriteria = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Include: S.optional(StorageLensGroupLevelInclude),
+    Exclude: S.optional(StorageLensGroupLevelExclude),
+  }),
 ).annotate({
   identifier: "StorageLensGroupLevelSelectionCriteria",
 }) as any as S.Schema<StorageLensGroupLevelSelectionCriteria>;
@@ -5598,12 +4986,8 @@ export interface StorageLensGroupLevel {
   SelectionCriteria?: StorageLensGroupLevelSelectionCriteria;
 }
 export const StorageLensGroupLevel = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SelectionCriteria: S.optional(StorageLensGroupLevelSelectionCriteria),
-  }),
-).annotate({
-  identifier: "StorageLensGroupLevel",
-}) as any as S.Schema<StorageLensGroupLevel>;
+  S.Struct({ SelectionCriteria: S.optional(StorageLensGroupLevelSelectionCriteria) }),
+).annotate({ identifier: "StorageLensGroupLevel" }) as any as S.Schema<StorageLensGroupLevel>;
 export interface AccountLevel {
   ActivityMetrics?: ActivityMetrics;
   BucketLevel?: BucketLevel;
@@ -5617,9 +5001,7 @@ export const AccountLevel = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ActivityMetrics: S.optional(ActivityMetrics),
     BucketLevel: S.optional(BucketLevel),
-    AdvancedCostOptimizationMetrics: S.optional(
-      AdvancedCostOptimizationMetrics,
-    ),
+    AdvancedCostOptimizationMetrics: S.optional(AdvancedCostOptimizationMetrics),
     AdvancedDataProtectionMetrics: S.optional(AdvancedDataProtectionMetrics),
     DetailedStatusCodesMetrics: S.optional(DetailedStatusCodesMetrics),
     AdvancedPerformanceMetrics: S.optional(AdvancedPerformanceMetrics),
@@ -5630,9 +5012,7 @@ export type Buckets = string[];
 export const Buckets = /*@__PURE__*/ S.Array(S.String.pipe(T.XmlName("Arn")));
 export type S3AWSRegion = string;
 export type Regions = string[];
-export const Regions = /*@__PURE__*/ S.Array(
-  S.String.pipe(T.XmlName("Region")),
-);
+export const Regions = /*@__PURE__*/ S.Array(S.String.pipe(T.XmlName("Region")));
 export interface Include {
   Buckets?: string[];
   Regions?: string[];
@@ -5654,9 +5034,9 @@ export type OutputSchemaVersion = "V_1" | (string & {});
 export const OutputSchemaVersion = S.String;
 
 export interface SSES3 {}
-export const SSES3 = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(T.XmlName("SSE-S3")),
-).annotate({ identifier: "SSES3" }) as any as S.Schema<SSES3>;
+export const SSES3 = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(T.XmlName("SSE-S3"))).annotate(
+  { identifier: "SSES3" },
+) as any as S.Schema<SSES3>;
 export type SSEKMSKeyId = string;
 export interface SSEKMS {
   KeyId: string;
@@ -5670,12 +5050,8 @@ export interface StorageLensDataExportEncryption {
 }
 export const StorageLensDataExportEncryption = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    SSES3: S.optional(SSES3)
-      .pipe(T.XmlName("SSE-S3"))
-      .annotate({ identifier: "SSES3" }),
-    SSEKMS: S.optional(SSEKMS)
-      .pipe(T.XmlName("SSE-KMS"))
-      .annotate({ identifier: "SSEKMS" }),
+    SSES3: S.optional(SSES3).pipe(T.XmlName("SSE-S3")).annotate({ identifier: "SSES3" }),
+    SSEKMS: S.optional(SSEKMS).pipe(T.XmlName("SSE-KMS")).annotate({ identifier: "SSEKMS" }),
   }),
 ).annotate({
   identifier: "StorageLensDataExportEncryption",
@@ -5697,26 +5073,19 @@ export const S3BucketDestination = /*@__PURE__*/ S.suspend(() =>
     Prefix: S.optional(S.String),
     Encryption: S.optional(StorageLensDataExportEncryption),
   }),
-).annotate({
-  identifier: "S3BucketDestination",
-}) as any as S.Schema<S3BucketDestination>;
+).annotate({ identifier: "S3BucketDestination" }) as any as S.Schema<S3BucketDestination>;
 export interface CloudWatchMetrics {
   IsEnabled: boolean;
 }
 export const CloudWatchMetrics = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ IsEnabled: S.Boolean }),
-).annotate({
-  identifier: "CloudWatchMetrics",
-}) as any as S.Schema<CloudWatchMetrics>;
+).annotate({ identifier: "CloudWatchMetrics" }) as any as S.Schema<CloudWatchMetrics>;
 export interface StorageLensTableDestination {
   IsEnabled: boolean;
   Encryption?: StorageLensDataExportEncryption;
 }
 export const StorageLensTableDestination = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    IsEnabled: S.Boolean,
-    Encryption: S.optional(StorageLensDataExportEncryption),
-  }),
+  S.Struct({ IsEnabled: S.Boolean, Encryption: S.optional(StorageLensDataExportEncryption) }),
 ).annotate({
   identifier: "StorageLensTableDestination",
 }) as any as S.Schema<StorageLensTableDestination>;
@@ -5731,19 +5100,16 @@ export const StorageLensDataExport = /*@__PURE__*/ S.suspend(() =>
     CloudWatchMetrics: S.optional(CloudWatchMetrics),
     StorageLensTableDestination: S.optional(StorageLensTableDestination),
   }),
-).annotate({
-  identifier: "StorageLensDataExport",
-}) as any as S.Schema<StorageLensDataExport>;
+).annotate({ identifier: "StorageLensDataExport" }) as any as S.Schema<StorageLensDataExport>;
 export interface StorageLensExpandedPrefixesDataExport {
   S3BucketDestination?: S3BucketDestination;
   StorageLensTableDestination?: StorageLensTableDestination;
 }
-export const StorageLensExpandedPrefixesDataExport = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      S3BucketDestination: S.optional(S3BucketDestination),
-      StorageLensTableDestination: S.optional(StorageLensTableDestination),
-    }),
+export const StorageLensExpandedPrefixesDataExport = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    S3BucketDestination: S.optional(S3BucketDestination),
+    StorageLensTableDestination: S.optional(StorageLensTableDestination),
+  }),
 ).annotate({
   identifier: "StorageLensExpandedPrefixesDataExport",
 }) as any as S.Schema<StorageLensExpandedPrefixesDataExport>;
@@ -5753,9 +5119,7 @@ export interface StorageLensAwsOrg {
 }
 export const StorageLensAwsOrg = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Arn: S.String }),
-).annotate({
-  identifier: "StorageLensAwsOrg",
-}) as any as S.Schema<StorageLensAwsOrg>;
+).annotate({ identifier: "StorageLensAwsOrg" }) as any as S.Schema<StorageLensAwsOrg>;
 export type StorageLensArn = string;
 export interface StorageLensConfiguration {
   Id: string;
@@ -5776,17 +5140,13 @@ export const StorageLensConfiguration = /*@__PURE__*/ S.suspend(() =>
     Include: S.optional(Include),
     Exclude: S.optional(Exclude),
     DataExport: S.optional(StorageLensDataExport),
-    ExpandedPrefixesDataExport: S.optional(
-      StorageLensExpandedPrefixesDataExport,
-    ),
+    ExpandedPrefixesDataExport: S.optional(StorageLensExpandedPrefixesDataExport),
     IsEnabled: S.Boolean,
     AwsOrg: S.optional(StorageLensAwsOrg),
     StorageLensArn: S.optional(S.String),
     PrefixDelimiter: S.optional(S.String),
   }),
-).annotate({
-  identifier: "StorageLensConfiguration",
-}) as any as S.Schema<StorageLensConfiguration>;
+).annotate({ identifier: "StorageLensConfiguration" }) as any as S.Schema<StorageLensConfiguration>;
 export interface GetStorageLensConfigurationResult {
   StorageLensConfiguration?: StorageLensConfiguration;
 }
@@ -5803,33 +5163,29 @@ export interface GetStorageLensConfigurationTaggingRequest {
   ConfigId: string;
   AccountId: string;
 }
-export const GetStorageLensConfigurationTaggingRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ConfigId: S.String.pipe(T.HttpLabel("ConfigId")),
-      AccountId: S.String.pipe(
-        T.HttpHeader("x-amz-account-id"),
-        T.ContextParam("AccountId"),
-        T.HostLabel(),
-      ),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({
-          method: "GET",
-          uri: "/v20180820/storagelens/{ConfigId}/tagging",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-        T.StaticContextParams({ RequiresAccountId: { value: true } }),
-      ),
+export const GetStorageLensConfigurationTaggingRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ConfigId: S.String.pipe(T.HttpLabel("ConfigId")),
+    AccountId: S.String.pipe(
+      T.HttpHeader("x-amz-account-id"),
+      T.ContextParam("AccountId"),
+      T.HostLabel(),
     ),
-  ).annotate({
-    identifier: "GetStorageLensConfigurationTaggingRequest",
-  }) as any as S.Schema<GetStorageLensConfigurationTaggingRequest>;
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "GET", uri: "/v20180820/storagelens/{ConfigId}/tagging" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.StaticContextParams({ RequiresAccountId: { value: true } }),
+    ),
+  ),
+).annotate({
+  identifier: "GetStorageLensConfigurationTaggingRequest",
+}) as any as S.Schema<GetStorageLensConfigurationTaggingRequest>;
 export interface StorageLensTag {
   Key: string;
   Value: string;
@@ -5839,15 +5195,13 @@ export const StorageLensTag = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "StorageLensTag" }) as any as S.Schema<StorageLensTag>;
 export type StorageLensTags = StorageLensTag[];
 export const StorageLensTags = /*@__PURE__*/ S.Array(
-  StorageLensTag.pipe(T.XmlName("Tag")).annotate({
-    identifier: "StorageLensTag",
-  }),
+  StorageLensTag.pipe(T.XmlName("Tag")).annotate({ identifier: "StorageLensTag" }),
 );
 export interface GetStorageLensConfigurationTaggingResult {
   Tags?: StorageLensTag[];
 }
-export const GetStorageLensConfigurationTaggingResult = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ Tags: S.optional(StorageLensTags) }).pipe(ns),
+export const GetStorageLensConfigurationTaggingResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ Tags: S.optional(StorageLensTags) }).pipe(ns),
 ).annotate({
   identifier: "GetStorageLensConfigurationTaggingResult",
 }) as any as S.Schema<GetStorageLensConfigurationTaggingResult>;
@@ -5912,9 +5266,7 @@ export const ListAccessGrantsRequest = /*@__PURE__*/ S.suspend(() =>
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     GranteeType: S.optional(GranteeType).pipe(T.HttpQuery("granteetype")),
-    GranteeIdentifier: S.optional(S.String).pipe(
-      T.HttpQuery("granteeidentifier"),
-    ),
+    GranteeIdentifier: S.optional(S.String).pipe(T.HttpQuery("granteeidentifier")),
     Permission: S.optional(Permission).pipe(T.HttpQuery("permission")),
     GrantScope: S.optional(S.String).pipe(T.HttpQuery("grantscope")),
     ApplicationArn: S.optional(S.String).pipe(T.HttpQuery("application_arn")),
@@ -5930,9 +5282,7 @@ export const ListAccessGrantsRequest = /*@__PURE__*/ S.suspend(() =>
       T.StaticContextParams({ RequiresAccountId: { value: true } }),
     ),
   ),
-).annotate({
-  identifier: "ListAccessGrantsRequest",
-}) as any as S.Schema<ListAccessGrantsRequest>;
+).annotate({ identifier: "ListAccessGrantsRequest" }) as any as S.Schema<ListAccessGrantsRequest>;
 export interface ListAccessGrantEntry {
   CreatedAt?: Date;
   AccessGrantId?: string;
@@ -5952,15 +5302,11 @@ export const ListAccessGrantEntry = /*@__PURE__*/ S.suspend(() =>
     Grantee: S.optional(Grantee),
     Permission: S.optional(Permission),
     AccessGrantsLocationId: S.optional(S.String),
-    AccessGrantsLocationConfiguration: S.optional(
-      AccessGrantsLocationConfiguration,
-    ),
+    AccessGrantsLocationConfiguration: S.optional(AccessGrantsLocationConfiguration),
     GrantScope: S.optional(S.String),
     ApplicationArn: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListAccessGrantEntry",
-}) as any as S.Schema<ListAccessGrantEntry>;
+).annotate({ identifier: "ListAccessGrantEntry" }) as any as S.Schema<ListAccessGrantEntry>;
 export type AccessGrantsList = ListAccessGrantEntry[];
 export const AccessGrantsList = /*@__PURE__*/ S.Array(
   ListAccessGrantEntry.pipe(T.XmlName("AccessGrant")).annotate({
@@ -5976,9 +5322,7 @@ export const ListAccessGrantsResult = /*@__PURE__*/ S.suspend(() =>
     NextToken: S.optional(S.String),
     AccessGrantsList: S.optional(AccessGrantsList),
   }).pipe(ns),
-).annotate({
-  identifier: "ListAccessGrantsResult",
-}) as any as S.Schema<ListAccessGrantsResult>;
+).annotate({ identifier: "ListAccessGrantsResult" }) as any as S.Schema<ListAccessGrantsResult>;
 export interface ListAccessGrantsInstancesRequest {
   AccountId: string;
   NextToken?: string;
@@ -6030,9 +5374,9 @@ export const ListAccessGrantsInstanceEntry = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListAccessGrantsInstanceEntry>;
 export type AccessGrantsInstancesList = ListAccessGrantsInstanceEntry[];
 export const AccessGrantsInstancesList = /*@__PURE__*/ S.Array(
-  ListAccessGrantsInstanceEntry.pipe(
-    T.XmlName("AccessGrantsInstance"),
-  ).annotate({ identifier: "ListAccessGrantsInstanceEntry" }),
+  ListAccessGrantsInstanceEntry.pipe(T.XmlName("AccessGrantsInstance")).annotate({
+    identifier: "ListAccessGrantsInstanceEntry",
+  }),
 );
 export interface ListAccessGrantsInstancesResult {
   NextToken?: string;
@@ -6065,10 +5409,7 @@ export const ListAccessGrantsLocationsRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(
       ns,
-      T.Http({
-        method: "GET",
-        uri: "/v20180820/accessgrantsinstance/locations",
-      }),
+      T.Http({ method: "GET", uri: "/v20180820/accessgrantsinstance/locations" }),
       svc,
       auth,
       proto,
@@ -6100,9 +5441,9 @@ export const ListAccessGrantsLocationsEntry = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListAccessGrantsLocationsEntry>;
 export type AccessGrantsLocationsList = ListAccessGrantsLocationsEntry[];
 export const AccessGrantsLocationsList = /*@__PURE__*/ S.Array(
-  ListAccessGrantsLocationsEntry.pipe(
-    T.XmlName("AccessGrantsLocation"),
-  ).annotate({ identifier: "ListAccessGrantsLocationsEntry" }),
+  ListAccessGrantsLocationsEntry.pipe(T.XmlName("AccessGrantsLocation")).annotate({
+    identifier: "ListAccessGrantsLocationsEntry",
+  }),
 );
 export interface ListAccessGrantsLocationsResult {
   NextToken?: string;
@@ -6131,10 +5472,7 @@ export const ListAccessPointsRequest = /*@__PURE__*/ S.suspend(() =>
       T.ContextParam("AccountId"),
       T.HostLabel(),
     ),
-    Bucket: S.optional(S.String).pipe(
-      T.HttpQuery("bucket"),
-      T.ContextParam("Bucket"),
-    ),
+    Bucket: S.optional(S.String).pipe(T.HttpQuery("bucket"), T.ContextParam("Bucket")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     DataSourceId: S.optional(S.String).pipe(T.HttpQuery("dataSourceId")),
@@ -6151,9 +5489,7 @@ export const ListAccessPointsRequest = /*@__PURE__*/ S.suspend(() =>
       T.StaticContextParams({ RequiresAccountId: { value: true } }),
     ),
   ),
-).annotate({
-  identifier: "ListAccessPointsRequest",
-}) as any as S.Schema<ListAccessPointsRequest>;
+).annotate({ identifier: "ListAccessPointsRequest" }) as any as S.Schema<ListAccessPointsRequest>;
 export interface AccessPoint {
   Name: string;
   NetworkOrigin: NetworkOrigin;
@@ -6180,99 +5516,88 @@ export const AccessPoint = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "AccessPoint" }) as any as S.Schema<AccessPoint>;
 export type AccessPointList = AccessPoint[];
 export const AccessPointList = /*@__PURE__*/ S.Array(
-  AccessPoint.pipe(T.XmlName("AccessPoint")).annotate({
-    identifier: "AccessPoint",
-  }),
+  AccessPoint.pipe(T.XmlName("AccessPoint")).annotate({ identifier: "AccessPoint" }),
 );
 export interface ListAccessPointsResult {
   AccessPointList?: AccessPoint[];
   NextToken?: string;
 }
 export const ListAccessPointsResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AccessPointList: S.optional(AccessPointList),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListAccessPointsResult",
-}) as any as S.Schema<ListAccessPointsResult>;
+  S.Struct({ AccessPointList: S.optional(AccessPointList), NextToken: S.optional(S.String) }).pipe(
+    ns,
+  ),
+).annotate({ identifier: "ListAccessPointsResult" }) as any as S.Schema<ListAccessPointsResult>;
 export interface ListAccessPointsForDirectoryBucketsRequest {
   AccountId: string;
   DirectoryBucket?: string;
   NextToken?: string;
   MaxResults?: number;
 }
-export const ListAccessPointsForDirectoryBucketsRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      AccountId: S.String.pipe(
-        T.HttpHeader("x-amz-account-id"),
-        T.ContextParam("AccountId"),
-        T.HostLabel(),
-      ),
-      DirectoryBucket: S.optional(S.String).pipe(
-        T.HttpQuery("directoryBucket"),
-      ),
-      NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-      MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "GET", uri: "/v20180820/accesspointfordirectory" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-        T.StaticContextParams({
-          RequiresAccountId: { value: true },
-          UseS3ExpressControlEndpoint: { value: true },
-        }),
-      ),
+export const ListAccessPointsForDirectoryBucketsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    AccountId: S.String.pipe(
+      T.HttpHeader("x-amz-account-id"),
+      T.ContextParam("AccountId"),
+      T.HostLabel(),
     ),
-  ).annotate({
-    identifier: "ListAccessPointsForDirectoryBucketsRequest",
-  }) as any as S.Schema<ListAccessPointsForDirectoryBucketsRequest>;
+    DirectoryBucket: S.optional(S.String).pipe(T.HttpQuery("directoryBucket")),
+    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "GET", uri: "/v20180820/accesspointfordirectory" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.StaticContextParams({
+        RequiresAccountId: { value: true },
+        UseS3ExpressControlEndpoint: { value: true },
+      }),
+    ),
+  ),
+).annotate({
+  identifier: "ListAccessPointsForDirectoryBucketsRequest",
+}) as any as S.Schema<ListAccessPointsForDirectoryBucketsRequest>;
 export interface ListAccessPointsForDirectoryBucketsResult {
   AccessPointList?: AccessPoint[];
   NextToken?: string;
 }
-export const ListAccessPointsForDirectoryBucketsResult =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      AccessPointList: S.optional(AccessPointList),
-      NextToken: S.optional(S.String),
-    }).pipe(ns),
-  ).annotate({
-    identifier: "ListAccessPointsForDirectoryBucketsResult",
-  }) as any as S.Schema<ListAccessPointsForDirectoryBucketsResult>;
+export const ListAccessPointsForDirectoryBucketsResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ AccessPointList: S.optional(AccessPointList), NextToken: S.optional(S.String) }).pipe(
+    ns,
+  ),
+).annotate({
+  identifier: "ListAccessPointsForDirectoryBucketsResult",
+}) as any as S.Schema<ListAccessPointsForDirectoryBucketsResult>;
 export interface ListAccessPointsForObjectLambdaRequest {
   AccountId: string;
   NextToken?: string;
   MaxResults?: number;
 }
-export const ListAccessPointsForObjectLambdaRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      AccountId: S.String.pipe(
-        T.HttpHeader("x-amz-account-id"),
-        T.ContextParam("AccountId"),
-        T.HostLabel(),
-      ),
-      NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-      MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "GET", uri: "/v20180820/accesspointforobjectlambda" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-        T.StaticContextParams({ RequiresAccountId: { value: true } }),
-      ),
+export const ListAccessPointsForObjectLambdaRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    AccountId: S.String.pipe(
+      T.HttpHeader("x-amz-account-id"),
+      T.ContextParam("AccountId"),
+      T.HostLabel(),
     ),
+    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "GET", uri: "/v20180820/accesspointforobjectlambda" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.StaticContextParams({ RequiresAccountId: { value: true } }),
+    ),
+  ),
 ).annotate({
   identifier: "ListAccessPointsForObjectLambdaRequest",
 }) as any as S.Schema<ListAccessPointsForObjectLambdaRequest>;
@@ -6287,9 +5612,7 @@ export const ObjectLambdaAccessPoint = /*@__PURE__*/ S.suspend(() =>
     ObjectLambdaAccessPointArn: S.optional(S.String),
     Alias: S.optional(ObjectLambdaAccessPointAlias),
   }),
-).annotate({
-  identifier: "ObjectLambdaAccessPoint",
-}) as any as S.Schema<ObjectLambdaAccessPoint>;
+).annotate({ identifier: "ObjectLambdaAccessPoint" }) as any as S.Schema<ObjectLambdaAccessPoint>;
 export type ObjectLambdaAccessPointList = ObjectLambdaAccessPoint[];
 export const ObjectLambdaAccessPointList = /*@__PURE__*/ S.Array(
   ObjectLambdaAccessPoint.pipe(T.XmlName("ObjectLambdaAccessPoint")).annotate({
@@ -6300,12 +5623,11 @@ export interface ListAccessPointsForObjectLambdaResult {
   ObjectLambdaAccessPointList?: ObjectLambdaAccessPoint[];
   NextToken?: string;
 }
-export const ListAccessPointsForObjectLambdaResult = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ObjectLambdaAccessPointList: S.optional(ObjectLambdaAccessPointList),
-      NextToken: S.optional(S.String),
-    }).pipe(ns),
+export const ListAccessPointsForObjectLambdaResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ObjectLambdaAccessPointList: S.optional(ObjectLambdaAccessPointList),
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
 ).annotate({
   identifier: "ListAccessPointsForObjectLambdaResult",
 }) as any as S.Schema<ListAccessPointsForObjectLambdaResult>;
@@ -6326,16 +5648,11 @@ export const ListCallerAccessGrantsRequest = /*@__PURE__*/ S.suspend(() =>
     GrantScope: S.optional(S.String).pipe(T.HttpQuery("grantscope")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    AllowedByApplication: S.optional(S.Boolean).pipe(
-      T.HttpQuery("allowedByApplication"),
-    ),
+    AllowedByApplication: S.optional(S.Boolean).pipe(T.HttpQuery("allowedByApplication")),
   }).pipe(
     T.all(
       ns,
-      T.Http({
-        method: "GET",
-        uri: "/v20180820/accessgrantsinstance/caller/grants",
-      }),
+      T.Http({ method: "GET", uri: "/v20180820/accessgrantsinstance/caller/grants" }),
       svc,
       auth,
       proto,
@@ -6410,9 +5727,7 @@ export const ListJobsRequest = /*@__PURE__*/ S.suspend(() =>
       T.StaticContextParams({ RequiresAccountId: { value: true } }),
     ),
   ),
-).annotate({
-  identifier: "ListJobsRequest",
-}) as any as S.Schema<ListJobsRequest>;
+).annotate({ identifier: "ListJobsRequest" }) as any as S.Schema<ListJobsRequest>;
 export type OperationName =
   | "LambdaInvoke"
   | "S3PutObjectCopy"
@@ -6449,9 +5764,7 @@ export const JobListDescriptor = /*@__PURE__*/ S.suspend(() =>
     TerminationDate: S.optional(T.DateFromString),
     ProgressSummary: S.optional(JobProgressSummary),
   }),
-).annotate({
-  identifier: "JobListDescriptor",
-}) as any as S.Schema<JobListDescriptor>;
+).annotate({ identifier: "JobListDescriptor" }) as any as S.Schema<JobListDescriptor>;
 export type JobListDescriptorList = JobListDescriptor[];
 export const JobListDescriptorList = /*@__PURE__*/ S.Array(JobListDescriptor);
 export interface ListJobsResult {
@@ -6459,10 +5772,7 @@ export interface ListJobsResult {
   Jobs?: JobListDescriptor[];
 }
 export const ListJobsResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    Jobs: S.optional(JobListDescriptorList),
-  }).pipe(ns),
+  S.Struct({ NextToken: S.optional(S.String), Jobs: S.optional(JobListDescriptorList) }).pipe(ns),
 ).annotate({ identifier: "ListJobsResult" }) as any as S.Schema<ListJobsResult>;
 export interface ListMultiRegionAccessPointsRequest {
   AccountId: string;
@@ -6563,9 +5873,7 @@ export const RegionalBucket = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "RegionalBucket" }) as any as S.Schema<RegionalBucket>;
 export type RegionalBucketList = RegionalBucket[];
 export const RegionalBucketList = /*@__PURE__*/ S.Array(
-  RegionalBucket.pipe(T.XmlName("RegionalBucket")).annotate({
-    identifier: "RegionalBucket",
-  }),
+  RegionalBucket.pipe(T.XmlName("RegionalBucket")).annotate({ identifier: "RegionalBucket" }),
 );
 export interface ListRegionalBucketsResult {
   RegionalBucketList?: RegionalBucket[];
@@ -6583,27 +5891,26 @@ export interface ListStorageLensConfigurationsRequest {
   AccountId: string;
   NextToken?: string;
 }
-export const ListStorageLensConfigurationsRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      AccountId: S.String.pipe(
-        T.HttpHeader("x-amz-account-id"),
-        T.ContextParam("AccountId"),
-        T.HostLabel(),
-      ),
-      NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "GET", uri: "/v20180820/storagelens" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-        T.StaticContextParams({ RequiresAccountId: { value: true } }),
-      ),
+export const ListStorageLensConfigurationsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    AccountId: S.String.pipe(
+      T.HttpHeader("x-amz-account-id"),
+      T.ContextParam("AccountId"),
+      T.HostLabel(),
     ),
+    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "GET", uri: "/v20180820/storagelens" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.StaticContextParams({ RequiresAccountId: { value: true } }),
+    ),
+  ),
 ).annotate({
   identifier: "ListStorageLensConfigurationsRequest",
 }) as any as S.Schema<ListStorageLensConfigurationsRequest>;
@@ -6625,9 +5932,9 @@ export const ListStorageLensConfigurationEntry = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListStorageLensConfigurationEntry>;
 export type StorageLensConfigurationList = ListStorageLensConfigurationEntry[];
 export const StorageLensConfigurationList = /*@__PURE__*/ S.Array(
-  ListStorageLensConfigurationEntry.pipe(
-    T.XmlName("StorageLensConfiguration"),
-  ).annotate({ identifier: "ListStorageLensConfigurationEntry" }),
+  ListStorageLensConfigurationEntry.pipe(T.XmlName("StorageLensConfiguration")).annotate({
+    identifier: "ListStorageLensConfigurationEntry",
+  }),
 );
 export interface ListStorageLensConfigurationsResult {
   NextToken?: string;
@@ -6677,11 +5984,7 @@ export interface ListStorageLensGroupEntry {
   HomeRegion: string;
 }
 export const ListStorageLensGroupEntry = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.String,
-    StorageLensGroupArn: S.String,
-    HomeRegion: S.String,
-  }),
+  S.Struct({ Name: S.String, StorageLensGroupArn: S.String, HomeRegion: S.String }),
 ).annotate({
   identifier: "ListStorageLensGroupEntry",
 }) as any as S.Schema<ListStorageLensGroupEntry>;
@@ -6718,10 +6021,7 @@ export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
       T.ContextParam("AccountId"),
       T.HostLabel(),
     ),
-    ResourceArn: S.String.pipe(
-      T.HttpLabel("ResourceArn"),
-      T.ContextParam("ResourceArn"),
-    ),
+    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn"), T.ContextParam("ResourceArn")),
   }).pipe(
     T.all(
       ns,
@@ -6750,87 +6050,79 @@ export interface PutAccessGrantsInstanceResourcePolicyRequest {
   Policy: string;
   Organization?: string;
 }
-export const PutAccessGrantsInstanceResourcePolicyRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      AccountId: S.String.pipe(
-        T.HttpHeader("x-amz-account-id"),
-        T.ContextParam("AccountId"),
-        T.HostLabel(),
-      ),
-      Policy: S.String,
-      Organization: S.optional(S.String),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({
-          method: "PUT",
-          uri: "/v20180820/accessgrantsinstance/resourcepolicy",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-        T.StaticContextParams({ RequiresAccountId: { value: true } }),
-      ),
+export const PutAccessGrantsInstanceResourcePolicyRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    AccountId: S.String.pipe(
+      T.HttpHeader("x-amz-account-id"),
+      T.ContextParam("AccountId"),
+      T.HostLabel(),
     ),
-  ).annotate({
-    identifier: "PutAccessGrantsInstanceResourcePolicyRequest",
-  }) as any as S.Schema<PutAccessGrantsInstanceResourcePolicyRequest>;
+    Policy: S.String,
+    Organization: S.optional(S.String),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "PUT", uri: "/v20180820/accessgrantsinstance/resourcepolicy" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.StaticContextParams({ RequiresAccountId: { value: true } }),
+    ),
+  ),
+).annotate({
+  identifier: "PutAccessGrantsInstanceResourcePolicyRequest",
+}) as any as S.Schema<PutAccessGrantsInstanceResourcePolicyRequest>;
 export interface PutAccessGrantsInstanceResourcePolicyResult {
   Policy?: string;
   Organization?: string;
   CreatedAt?: Date;
 }
-export const PutAccessGrantsInstanceResourcePolicyResult =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      Policy: S.optional(S.String),
-      Organization: S.optional(S.String),
-      CreatedAt: S.optional(T.DateFromString),
-    }).pipe(ns),
-  ).annotate({
-    identifier: "PutAccessGrantsInstanceResourcePolicyResult",
-  }) as any as S.Schema<PutAccessGrantsInstanceResourcePolicyResult>;
+export const PutAccessGrantsInstanceResourcePolicyResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Policy: S.optional(S.String),
+    Organization: S.optional(S.String),
+    CreatedAt: S.optional(T.DateFromString),
+  }).pipe(ns),
+).annotate({
+  identifier: "PutAccessGrantsInstanceResourcePolicyResult",
+}) as any as S.Schema<PutAccessGrantsInstanceResourcePolicyResult>;
 export interface PutAccessPointConfigurationForObjectLambdaRequest {
   AccountId: string;
   Name: string;
   Configuration: ObjectLambdaConfiguration;
 }
-export const PutAccessPointConfigurationForObjectLambdaRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      AccountId: S.String.pipe(
-        T.HttpHeader("x-amz-account-id"),
-        T.ContextParam("AccountId"),
-        T.HostLabel(),
-      ),
-      Name: S.String.pipe(T.HttpLabel("Name")),
-      Configuration: ObjectLambdaConfiguration,
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({
-          method: "PUT",
-          uri: "/v20180820/accesspointforobjectlambda/{Name}/configuration",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-        T.StaticContextParams({ RequiresAccountId: { value: true } }),
-      ),
+export const PutAccessPointConfigurationForObjectLambdaRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    AccountId: S.String.pipe(
+      T.HttpHeader("x-amz-account-id"),
+      T.ContextParam("AccountId"),
+      T.HostLabel(),
     ),
-  ).annotate({
-    identifier: "PutAccessPointConfigurationForObjectLambdaRequest",
-  }) as any as S.Schema<PutAccessPointConfigurationForObjectLambdaRequest>;
+    Name: S.String.pipe(T.HttpLabel("Name")),
+    Configuration: ObjectLambdaConfiguration,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "PUT", uri: "/v20180820/accesspointforobjectlambda/{Name}/configuration" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.StaticContextParams({ RequiresAccountId: { value: true } }),
+    ),
+  ),
+).annotate({
+  identifier: "PutAccessPointConfigurationForObjectLambdaRequest",
+}) as any as S.Schema<PutAccessPointConfigurationForObjectLambdaRequest>;
 export interface PutAccessPointConfigurationForObjectLambdaResponse {}
-export const PutAccessPointConfigurationForObjectLambdaResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
-    identifier: "PutAccessPointConfigurationForObjectLambdaResponse",
-  }) as any as S.Schema<PutAccessPointConfigurationForObjectLambdaResponse>;
+export const PutAccessPointConfigurationForObjectLambdaResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "PutAccessPointConfigurationForObjectLambdaResponse",
+}) as any as S.Schema<PutAccessPointConfigurationForObjectLambdaResponse>;
 export interface PutAccessPointPolicyRequest {
   AccountId: string;
   Name: string;
@@ -6871,39 +6163,36 @@ export interface PutAccessPointPolicyForObjectLambdaRequest {
   Name: string;
   Policy: string;
 }
-export const PutAccessPointPolicyForObjectLambdaRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      AccountId: S.String.pipe(
-        T.HttpHeader("x-amz-account-id"),
-        T.ContextParam("AccountId"),
-        T.HostLabel(),
-      ),
-      Name: S.String.pipe(T.HttpLabel("Name")),
-      Policy: S.String,
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({
-          method: "PUT",
-          uri: "/v20180820/accesspointforobjectlambda/{Name}/policy",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-        T.StaticContextParams({ RequiresAccountId: { value: true } }),
-      ),
+export const PutAccessPointPolicyForObjectLambdaRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    AccountId: S.String.pipe(
+      T.HttpHeader("x-amz-account-id"),
+      T.ContextParam("AccountId"),
+      T.HostLabel(),
     ),
-  ).annotate({
-    identifier: "PutAccessPointPolicyForObjectLambdaRequest",
-  }) as any as S.Schema<PutAccessPointPolicyForObjectLambdaRequest>;
+    Name: S.String.pipe(T.HttpLabel("Name")),
+    Policy: S.String,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "PUT", uri: "/v20180820/accesspointforobjectlambda/{Name}/policy" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.StaticContextParams({ RequiresAccountId: { value: true } }),
+    ),
+  ),
+).annotate({
+  identifier: "PutAccessPointPolicyForObjectLambdaRequest",
+}) as any as S.Schema<PutAccessPointPolicyForObjectLambdaRequest>;
 export interface PutAccessPointPolicyForObjectLambdaResponse {}
-export const PutAccessPointPolicyForObjectLambdaResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
-    identifier: "PutAccessPointPolicyForObjectLambdaResponse",
-  }) as any as S.Schema<PutAccessPointPolicyForObjectLambdaResponse>;
+export const PutAccessPointPolicyForObjectLambdaResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "PutAccessPointPolicyForObjectLambdaResponse",
+}) as any as S.Schema<PutAccessPointPolicyForObjectLambdaResponse>;
 export interface PutAccessPointScopeRequest {
   AccountId: string;
   Name: string;
@@ -6947,47 +6236,41 @@ export interface LifecycleConfiguration {
 }
 export const LifecycleConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Rules: S.optional(LifecycleRules) }),
-).annotate({
-  identifier: "LifecycleConfiguration",
-}) as any as S.Schema<LifecycleConfiguration>;
+).annotate({ identifier: "LifecycleConfiguration" }) as any as S.Schema<LifecycleConfiguration>;
 export interface PutBucketLifecycleConfigurationRequest {
   AccountId: string;
   Bucket: string;
   LifecycleConfiguration?: LifecycleConfiguration;
 }
-export const PutBucketLifecycleConfigurationRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      AccountId: S.String.pipe(
-        T.HttpHeader("x-amz-account-id"),
-        T.ContextParam("AccountId"),
-        T.HostLabel(),
-      ),
-      Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-      LifecycleConfiguration: S.optional(LifecycleConfiguration)
-        .pipe(T.HttpPayload(), T.XmlName("LifecycleConfiguration"))
-        .annotate({ identifier: "LifecycleConfiguration" }),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({
-          method: "PUT",
-          uri: "/v20180820/bucket/{Bucket}/lifecycleconfiguration",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-        T.StaticContextParams({ RequiresAccountId: { value: true } }),
-      ),
+export const PutBucketLifecycleConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    AccountId: S.String.pipe(
+      T.HttpHeader("x-amz-account-id"),
+      T.ContextParam("AccountId"),
+      T.HostLabel(),
     ),
+    Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
+    LifecycleConfiguration: S.optional(LifecycleConfiguration)
+      .pipe(T.HttpPayload(), T.XmlName("LifecycleConfiguration"))
+      .annotate({ identifier: "LifecycleConfiguration" }),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "PUT", uri: "/v20180820/bucket/{Bucket}/lifecycleconfiguration" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.StaticContextParams({ RequiresAccountId: { value: true } }),
+    ),
+  ),
 ).annotate({
   identifier: "PutBucketLifecycleConfigurationRequest",
 }) as any as S.Schema<PutBucketLifecycleConfigurationRequest>;
 export interface PutBucketLifecycleConfigurationResponse {}
-export const PutBucketLifecycleConfigurationResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}).pipe(ns),
+export const PutBucketLifecycleConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(ns),
 ).annotate({
   identifier: "PutBucketLifecycleConfigurationResponse",
 }) as any as S.Schema<PutBucketLifecycleConfigurationResponse>;
@@ -7022,15 +6305,11 @@ export const PutBucketPolicyRequest = /*@__PURE__*/ S.suspend(() =>
       T.StaticContextParams({ RequiresAccountId: { value: true } }),
     ),
   ),
-).annotate({
-  identifier: "PutBucketPolicyRequest",
-}) as any as S.Schema<PutBucketPolicyRequest>;
+).annotate({ identifier: "PutBucketPolicyRequest" }) as any as S.Schema<PutBucketPolicyRequest>;
 export interface PutBucketPolicyResponse {}
 export const PutBucketPolicyResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "PutBucketPolicyResponse",
-}) as any as S.Schema<PutBucketPolicyResponse>;
+).annotate({ identifier: "PutBucketPolicyResponse" }) as any as S.Schema<PutBucketPolicyResponse>;
 export interface PutBucketReplicationRequest {
   AccountId: string;
   Bucket: string;
@@ -7072,9 +6351,9 @@ export const PutBucketReplicationResponse = /*@__PURE__*/ S.suspend(() =>
 export interface Tagging {
   TagSet: S3Tag[];
 }
-export const Tagging = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ TagSet: S3TagSet }),
-).annotate({ identifier: "Tagging" }) as any as S.Schema<Tagging>;
+export const Tagging = /*@__PURE__*/ S.suspend(() => S.Struct({ TagSet: S3TagSet })).annotate({
+  identifier: "Tagging",
+}) as any as S.Schema<Tagging>;
 export interface PutBucketTaggingRequest {
   AccountId: string;
   Bucket: string;
@@ -7103,15 +6382,11 @@ export const PutBucketTaggingRequest = /*@__PURE__*/ S.suspend(() =>
       T.StaticContextParams({ RequiresAccountId: { value: true } }),
     ),
   ),
-).annotate({
-  identifier: "PutBucketTaggingRequest",
-}) as any as S.Schema<PutBucketTaggingRequest>;
+).annotate({ identifier: "PutBucketTaggingRequest" }) as any as S.Schema<PutBucketTaggingRequest>;
 export interface PutBucketTaggingResponse {}
 export const PutBucketTaggingResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "PutBucketTaggingResponse",
-}) as any as S.Schema<PutBucketTaggingResponse>;
+).annotate({ identifier: "PutBucketTaggingResponse" }) as any as S.Schema<PutBucketTaggingResponse>;
 export type MFA = string;
 export type MFADelete = "Enabled" | "Disabled" | (string & {});
 export const MFADelete = S.String;
@@ -7125,9 +6400,7 @@ export const VersioningConfiguration = /*@__PURE__*/ S.suspend(() =>
     MFADelete: S.optional(MFADelete).pipe(T.XmlName("MfaDelete")),
     Status: S.optional(BucketVersioningStatus),
   }),
-).annotate({
-  identifier: "VersioningConfiguration",
-}) as any as S.Schema<VersioningConfiguration>;
+).annotate({ identifier: "VersioningConfiguration" }) as any as S.Schema<VersioningConfiguration>;
 export interface PutBucketVersioningRequest {
   AccountId: string;
   Bucket: string;
@@ -7194,13 +6467,9 @@ export const PutJobTaggingRequest = /*@__PURE__*/ S.suspend(() =>
       T.StaticContextParams({ RequiresAccountId: { value: true } }),
     ),
   ),
-).annotate({
-  identifier: "PutJobTaggingRequest",
-}) as any as S.Schema<PutJobTaggingRequest>;
+).annotate({ identifier: "PutJobTaggingRequest" }) as any as S.Schema<PutJobTaggingRequest>;
 export interface PutJobTaggingResult {}
-export const PutJobTaggingResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
+export const PutJobTaggingResult = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "PutJobTaggingResult",
 }) as any as S.Schema<PutJobTaggingResult>;
 export interface PutMultiRegionAccessPointPolicyRequest {
@@ -7208,39 +6477,35 @@ export interface PutMultiRegionAccessPointPolicyRequest {
   ClientToken: string;
   Details: PutMultiRegionAccessPointPolicyInput;
 }
-export const PutMultiRegionAccessPointPolicyRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      AccountId: S.String.pipe(
-        T.HttpHeader("x-amz-account-id"),
-        T.ContextParam("AccountId"),
-        T.HostLabel(),
-      ),
-      ClientToken: S.String.pipe(T.IdempotencyToken()),
-      Details: PutMultiRegionAccessPointPolicyInput,
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({
-          method: "POST",
-          uri: "/v20180820/async-requests/mrap/put-policy",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-        T.StaticContextParams({ RequiresAccountId: { value: true } }),
-      ),
+export const PutMultiRegionAccessPointPolicyRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    AccountId: S.String.pipe(
+      T.HttpHeader("x-amz-account-id"),
+      T.ContextParam("AccountId"),
+      T.HostLabel(),
     ),
+    ClientToken: S.String.pipe(T.IdempotencyToken()),
+    Details: PutMultiRegionAccessPointPolicyInput,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/v20180820/async-requests/mrap/put-policy" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.StaticContextParams({ RequiresAccountId: { value: true } }),
+    ),
+  ),
 ).annotate({
   identifier: "PutMultiRegionAccessPointPolicyRequest",
 }) as any as S.Schema<PutMultiRegionAccessPointPolicyRequest>;
 export interface PutMultiRegionAccessPointPolicyResult {
   RequestTokenARN?: string;
 }
-export const PutMultiRegionAccessPointPolicyResult = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ RequestTokenARN: S.optional(S.String) }).pipe(ns),
+export const PutMultiRegionAccessPointPolicyResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ RequestTokenARN: S.optional(S.String) }).pipe(ns),
 ).annotate({
   identifier: "PutMultiRegionAccessPointPolicyResult",
 }) as any as S.Schema<PutMultiRegionAccessPointPolicyResult>;
@@ -7262,10 +6527,7 @@ export const PutPublicAccessBlockRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(
       ns,
-      T.Http({
-        method: "PUT",
-        uri: "/v20180820/configuration/publicAccessBlock",
-      }),
+      T.Http({ method: "PUT", uri: "/v20180820/configuration/publicAccessBlock" }),
       svc,
       auth,
       proto,
@@ -7325,37 +6587,33 @@ export interface PutStorageLensConfigurationTaggingRequest {
   AccountId: string;
   Tags: StorageLensTag[];
 }
-export const PutStorageLensConfigurationTaggingRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ConfigId: S.String.pipe(T.HttpLabel("ConfigId")),
-      AccountId: S.String.pipe(
-        T.HttpHeader("x-amz-account-id"),
-        T.ContextParam("AccountId"),
-        T.HostLabel(),
-      ),
-      Tags: StorageLensTags,
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({
-          method: "PUT",
-          uri: "/v20180820/storagelens/{ConfigId}/tagging",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-        T.StaticContextParams({ RequiresAccountId: { value: true } }),
-      ),
+export const PutStorageLensConfigurationTaggingRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ConfigId: S.String.pipe(T.HttpLabel("ConfigId")),
+    AccountId: S.String.pipe(
+      T.HttpHeader("x-amz-account-id"),
+      T.ContextParam("AccountId"),
+      T.HostLabel(),
     ),
-  ).annotate({
-    identifier: "PutStorageLensConfigurationTaggingRequest",
-  }) as any as S.Schema<PutStorageLensConfigurationTaggingRequest>;
+    Tags: StorageLensTags,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "PUT", uri: "/v20180820/storagelens/{ConfigId}/tagging" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.StaticContextParams({ RequiresAccountId: { value: true } }),
+    ),
+  ),
+).annotate({
+  identifier: "PutStorageLensConfigurationTaggingRequest",
+}) as any as S.Schema<PutStorageLensConfigurationTaggingRequest>;
 export interface PutStorageLensConfigurationTaggingResult {}
-export const PutStorageLensConfigurationTaggingResult = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}).pipe(ns),
+export const PutStorageLensConfigurationTaggingResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(ns),
 ).annotate({
   identifier: "PutStorageLensConfigurationTaggingResult",
 }) as any as S.Schema<PutStorageLensConfigurationTaggingResult>;
@@ -7364,37 +6622,33 @@ export interface SubmitMultiRegionAccessPointRoutesRequest {
   Mrap: string;
   RouteUpdates: MultiRegionAccessPointRoute[];
 }
-export const SubmitMultiRegionAccessPointRoutesRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      AccountId: S.String.pipe(
-        T.HttpHeader("x-amz-account-id"),
-        T.ContextParam("AccountId"),
-        T.HostLabel(),
-      ),
-      Mrap: S.String.pipe(T.HttpLabel("Mrap")),
-      RouteUpdates: RouteList,
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({
-          method: "PATCH",
-          uri: "/v20180820/mrap/instances/{Mrap+}/routes",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-        T.StaticContextParams({ RequiresAccountId: { value: true } }),
-      ),
+export const SubmitMultiRegionAccessPointRoutesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    AccountId: S.String.pipe(
+      T.HttpHeader("x-amz-account-id"),
+      T.ContextParam("AccountId"),
+      T.HostLabel(),
     ),
-  ).annotate({
-    identifier: "SubmitMultiRegionAccessPointRoutesRequest",
-  }) as any as S.Schema<SubmitMultiRegionAccessPointRoutesRequest>;
+    Mrap: S.String.pipe(T.HttpLabel("Mrap")),
+    RouteUpdates: RouteList,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "PATCH", uri: "/v20180820/mrap/instances/{Mrap+}/routes" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+      T.StaticContextParams({ RequiresAccountId: { value: true } }),
+    ),
+  ),
+).annotate({
+  identifier: "SubmitMultiRegionAccessPointRoutesRequest",
+}) as any as S.Schema<SubmitMultiRegionAccessPointRoutesRequest>;
 export interface SubmitMultiRegionAccessPointRoutesResult {}
-export const SubmitMultiRegionAccessPointRoutesResult = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}).pipe(ns),
+export const SubmitMultiRegionAccessPointRoutesResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(ns),
 ).annotate({
   identifier: "SubmitMultiRegionAccessPointRoutesResult",
 }) as any as S.Schema<SubmitMultiRegionAccessPointRoutesResult>;
@@ -7410,10 +6664,7 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
       T.ContextParam("AccountId"),
       T.HostLabel(),
     ),
-    ResourceArn: S.String.pipe(
-      T.HttpLabel("ResourceArn"),
-      T.ContextParam("ResourceArn"),
-    ),
+    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn"), T.ContextParam("ResourceArn")),
     Tags: TagList,
   }).pipe(
     T.all(
@@ -7427,13 +6678,9 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
       T.StaticContextParams({ RequiresAccountId: { value: true } }),
     ),
   ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
+).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResult {}
-export const TagResourceResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
+export const TagResourceResult = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "TagResourceResult",
 }) as any as S.Schema<TagResourceResult>;
 export type TagKeyList = string[];
@@ -7450,10 +6697,7 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
       T.ContextParam("AccountId"),
       T.HostLabel(),
     ),
-    ResourceArn: S.String.pipe(
-      T.HttpLabel("ResourceArn"),
-      T.ContextParam("ResourceArn"),
-    ),
+    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn"), T.ContextParam("ResourceArn")),
     TagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
   }).pipe(
     T.all(
@@ -7467,13 +6711,9 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
       T.StaticContextParams({ RequiresAccountId: { value: true } }),
     ),
   ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
+).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResult {}
-export const UntagResourceResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
+export const UntagResourceResult = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "UntagResourceResult",
 }) as any as S.Schema<UntagResourceResult>;
 export interface UpdateAccessGrantsLocationRequest {
@@ -7488,9 +6728,7 @@ export const UpdateAccessGrantsLocationRequest = /*@__PURE__*/ S.suspend(() =>
       T.ContextParam("AccountId"),
       T.HostLabel(),
     ),
-    AccessGrantsLocationId: S.String.pipe(
-      T.HttpLabel("AccessGrantsLocationId"),
-    ),
+    AccessGrantsLocationId: S.String.pipe(T.HttpLabel("AccessGrantsLocationId")),
     IAMRoleArn: S.String,
   }).pipe(
     T.all(
@@ -7554,18 +6792,14 @@ export const UpdateJobPriorityRequest = /*@__PURE__*/ S.suspend(() =>
       T.StaticContextParams({ RequiresAccountId: { value: true } }),
     ),
   ),
-).annotate({
-  identifier: "UpdateJobPriorityRequest",
-}) as any as S.Schema<UpdateJobPriorityRequest>;
+).annotate({ identifier: "UpdateJobPriorityRequest" }) as any as S.Schema<UpdateJobPriorityRequest>;
 export interface UpdateJobPriorityResult {
   JobId: string;
   Priority: number;
 }
 export const UpdateJobPriorityResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ JobId: S.String, Priority: S.Number }).pipe(ns),
-).annotate({
-  identifier: "UpdateJobPriorityResult",
-}) as any as S.Schema<UpdateJobPriorityResult>;
+).annotate({ identifier: "UpdateJobPriorityResult" }) as any as S.Schema<UpdateJobPriorityResult>;
 export type RequestedJobStatus = "Cancelled" | "Ready" | (string & {});
 export const RequestedJobStatus = S.String;
 
@@ -7583,12 +6817,8 @@ export const UpdateJobStatusRequest = /*@__PURE__*/ S.suspend(() =>
       T.HostLabel(),
     ),
     JobId: S.String.pipe(T.HttpLabel("JobId")),
-    RequestedJobStatus: RequestedJobStatus.pipe(
-      T.HttpQuery("requestedJobStatus"),
-    ),
-    StatusUpdateReason: S.optional(S.String).pipe(
-      T.HttpQuery("statusUpdateReason"),
-    ),
+    RequestedJobStatus: RequestedJobStatus.pipe(T.HttpQuery("requestedJobStatus")),
+    StatusUpdateReason: S.optional(S.String).pipe(T.HttpQuery("statusUpdateReason")),
   }).pipe(
     T.all(
       ns,
@@ -7601,9 +6831,7 @@ export const UpdateJobStatusRequest = /*@__PURE__*/ S.suspend(() =>
       T.StaticContextParams({ RequiresAccountId: { value: true } }),
     ),
   ),
-).annotate({
-  identifier: "UpdateJobStatusRequest",
-}) as any as S.Schema<UpdateJobStatusRequest>;
+).annotate({ identifier: "UpdateJobStatusRequest" }) as any as S.Schema<UpdateJobStatusRequest>;
 export interface UpdateJobStatusResult {
   JobId?: string;
   Status?: JobStatus;
@@ -7615,9 +6843,7 @@ export const UpdateJobStatusResult = /*@__PURE__*/ S.suspend(() =>
     Status: S.optional(JobStatus),
     StatusUpdateReason: S.optional(S.String),
   }).pipe(ns),
-).annotate({
-  identifier: "UpdateJobStatusResult",
-}) as any as S.Schema<UpdateJobStatusResult>;
+).annotate({ identifier: "UpdateJobStatusResult" }) as any as S.Schema<UpdateJobStatusResult>;
 export interface UpdateStorageLensGroupRequest {
   Name: string;
   AccountId: string;
@@ -7775,10 +7001,7 @@ export const createAccessGrantsLocation: API.OperationMethod<
   endpointHostPrefix: "{AccountId}.",
 }));
 
-export type CreateAccessPointError =
-  | AccessPointAlreadyOwnedByYou
-  | InvalidRequest
-  | CommonErrors;
+export type CreateAccessPointError = AccessPointAlreadyOwnedByYou | InvalidRequest | CommonErrors;
 /**
  * Creates an access point and associates it to a specified bucket. For more information, see
  * Managing
@@ -7863,10 +7086,7 @@ export const createAccessPointForObjectLambda: API.OperationMethod<
   endpointHostPrefix: "{AccountId}.",
 }));
 
-export type CreateBucketError =
-  | BucketAlreadyExists
-  | BucketAlreadyOwnedByYou
-  | CommonErrors;
+export type CreateBucketError = BucketAlreadyExists | BucketAlreadyOwnedByYou | CommonErrors;
 /**
  * This action creates an Amazon S3 on Outposts bucket. To create an S3 bucket, see Create
  * Bucket in the *Amazon S3 API Reference*.
@@ -8167,9 +7387,7 @@ export const deleteAccessPoint: API.OperationMethod<
   endpointHostPrefix: "{AccountId}.",
 }));
 
-export type DeleteAccessPointForObjectLambdaError =
-  | NoSuchAccessPoint
-  | CommonErrors;
+export type DeleteAccessPointForObjectLambdaError = NoSuchAccessPoint | CommonErrors;
 /**
  * This operation is not supported by directory buckets.
  *
@@ -8523,11 +7741,7 @@ export const deleteJobTagging: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteJobTaggingRequest,
   output: DeleteJobTaggingResult,
-  errors: [
-    InternalServiceException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
+  errors: [InternalServiceException, NotFoundException, TooManyRequestsException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteJobTagging",
@@ -8611,9 +7825,7 @@ export const deletePublicAccessBlock: API.OperationMethod<
   endpointHostPrefix: "{AccountId}.",
 }));
 
-export type DeleteStorageLensConfigurationError =
-  | NoSuchConfiguration
-  | CommonErrors;
+export type DeleteStorageLensConfigurationError = NoSuchConfiguration | CommonErrors;
 /**
  * This operation is not supported by directory buckets.
  *
@@ -8641,9 +7853,7 @@ export const deleteStorageLensConfiguration: API.OperationMethod<
   endpointHostPrefix: "{AccountId}.",
 }));
 
-export type DeleteStorageLensConfigurationTaggingError =
-  | NoSuchConfiguration
-  | CommonErrors;
+export type DeleteStorageLensConfigurationTaggingError = NoSuchConfiguration | CommonErrors;
 /**
  * This operation is not supported by directory buckets.
  *
@@ -8742,9 +7952,7 @@ export const describeJob: API.OperationMethod<
   endpointHostPrefix: "{AccountId}.",
 }));
 
-export type DescribeMultiRegionAccessPointOperationError =
-  | InvalidRequest
-  | CommonErrors;
+export type DescribeMultiRegionAccessPointOperationError = InvalidRequest | CommonErrors;
 /**
  * This operation is not supported by directory buckets.
  *
@@ -8953,9 +8161,7 @@ export const getAccessPoint: API.OperationMethod<
   endpointHostPrefix: "{AccountId}.",
 }));
 
-export type GetAccessPointConfigurationForObjectLambdaError =
-  | NoSuchAccessPoint
-  | CommonErrors;
+export type GetAccessPointConfigurationForObjectLambdaError = NoSuchAccessPoint | CommonErrors;
 /**
  * This operation is not supported by directory buckets.
  *
@@ -8981,9 +8187,7 @@ export const getAccessPointConfigurationForObjectLambda: API.OperationMethod<
   endpointHostPrefix: "{AccountId}.",
 }));
 
-export type GetAccessPointForObjectLambdaError =
-  | NoSuchAccessPoint
-  | CommonErrors;
+export type GetAccessPointForObjectLambdaError = NoSuchAccessPoint | CommonErrors;
 /**
  * This operation is not supported by directory buckets.
  *
@@ -9012,10 +8216,7 @@ export const getAccessPointForObjectLambda: API.OperationMethod<
   endpointHostPrefix: "{AccountId}.",
 }));
 
-export type GetAccessPointPolicyError =
-  | NoSuchAccessPoint
-  | NoSuchAccessPointPolicy
-  | CommonErrors;
+export type GetAccessPointPolicyError = NoSuchAccessPoint | NoSuchAccessPointPolicy | CommonErrors;
 /**
  * Returns the access point policy associated with the specified access point.
  *
@@ -9486,20 +8687,14 @@ export const getJobTagging: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetJobTaggingRequest,
   output: GetJobTaggingResult,
-  errors: [
-    InternalServiceException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
+  errors: [InternalServiceException, NotFoundException, TooManyRequestsException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetJobTagging",
   endpointHostPrefix: "{AccountId}.",
 }));
 
-export type GetMultiRegionAccessPointError =
-  | NoSuchMultiRegionAccessPoint
-  | CommonErrors;
+export type GetMultiRegionAccessPointError = NoSuchMultiRegionAccessPoint | CommonErrors;
 /**
  * This operation is not supported by directory buckets.
  *
@@ -9534,9 +8729,7 @@ export const getMultiRegionAccessPoint: API.OperationMethod<
   endpointHostPrefix: "{AccountId}.",
 }));
 
-export type GetMultiRegionAccessPointPolicyError =
-  | NoSuchMultiRegionAccessPoint
-  | CommonErrors;
+export type GetMultiRegionAccessPointPolicyError = NoSuchMultiRegionAccessPoint | CommonErrors;
 /**
  * This operation is not supported by directory buckets.
  *
@@ -9636,9 +8829,7 @@ export const getMultiRegionAccessPointRoutes: API.OperationMethod<
   endpointHostPrefix: "{AccountId}.",
 }));
 
-export type GetPublicAccessBlockError =
-  | NoSuchPublicAccessBlockConfiguration
-  | CommonErrors;
+export type GetPublicAccessBlockError = NoSuchPublicAccessBlockConfiguration | CommonErrors;
 /**
  * This operation is not supported by directory buckets.
  *
@@ -9668,9 +8859,7 @@ export const getPublicAccessBlock: API.OperationMethod<
   endpointHostPrefix: "{AccountId}.",
 }));
 
-export type GetStorageLensConfigurationError =
-  | NoSuchConfiguration
-  | CommonErrors;
+export type GetStorageLensConfigurationError = NoSuchConfiguration | CommonErrors;
 /**
  * This operation is not supported by directory buckets.
  *
@@ -9697,9 +8886,7 @@ export const getStorageLensConfiguration: API.OperationMethod<
   endpointHostPrefix: "{AccountId}.",
 }));
 
-export type GetStorageLensConfigurationTaggingError =
-  | NoSuchConfiguration
-  | CommonErrors;
+export type GetStorageLensConfigurationTaggingError = NoSuchConfiguration | CommonErrors;
 /**
  * This operation is not supported by directory buckets.
  *
@@ -10019,11 +9206,7 @@ export const listJobs: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListJobsRequest,
   output: ListJobsResult,
-  errors: [
-    InternalServiceException,
-    InvalidNextTokenException,
-    InvalidRequestException,
-  ],
+  errors: [InternalServiceException, InvalidNextTokenException, InvalidRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListJobs",
@@ -10268,10 +9451,7 @@ export const putAccessPointConfigurationForObjectLambda: API.OperationMethod<
   endpointHostPrefix: "{AccountId}.",
 }));
 
-export type PutAccessPointPolicyError =
-  | NoSuchAccessPoint
-  | MalformedPolicy
-  | CommonErrors;
+export type PutAccessPointPolicyError = NoSuchAccessPoint | MalformedPolicy | CommonErrors;
 /**
  * Associates an access policy with the specified access point. Each access point can have only one policy,
  * so a request made to this API replaces any existing policy associated with the specified
@@ -10843,9 +10023,7 @@ export const putStorageLensConfiguration: API.OperationMethod<
   endpointHostPrefix: "{AccountId}.",
 }));
 
-export type PutStorageLensConfigurationTaggingError =
-  | NoSuchConfiguration
-  | CommonErrors;
+export type PutStorageLensConfigurationTaggingError = NoSuchConfiguration | CommonErrors;
 /**
  * This operation is not supported by directory buckets.
  *

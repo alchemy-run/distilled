@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
 /**
  * convert — the Prisma Management API OpenAPI 3.1 spec → a Smithy
  * JSON model in .generated-specs/.
@@ -19,7 +19,7 @@
 import { runOpenApiConvert } from "@distilled.cloud/core/codegen/openapi-cli";
 
 await runOpenApiConvert({
-  root: `${import.meta.dir}/..`,
+  root: `${import.meta.dirname}/..`,
   specs: [
     {
       name: "management",

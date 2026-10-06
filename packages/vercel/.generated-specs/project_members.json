@@ -76,7 +76,7 @@
         "smithy.api#input": {}
       }
     },
-    "com.vercel.project_members#GetProjectMembersResponseBodyCase1MembersItemRole": {
+    "com.vercel.project_members#GetProjectMembersResponseBodyCase1MembersItemComputedProjectRole": {
       "type": "enum",
       "members": {
         "ADMIN": {
@@ -108,7 +108,7 @@
         "smithy.api#documentation": "Role of this user in the project."
       }
     },
-    "com.vercel.project_members#GetProjectMembersResponseBodyCase1MembersItemComputedProjectRole": {
+    "com.vercel.project_members#GetProjectMembersResponseBodyCase1MembersItemRole": {
       "type": "enum",
       "members": {
         "ADMIN": {
@@ -205,11 +205,31 @@
             "smithy.api#documentation": "ID of the file for the Avatar of this member."
           }
         },
+        "computedProjectRole": {
+          "target": "com.vercel.project_members#GetProjectMembersResponseBodyCase1MembersItemComputedProjectRole",
+          "traits": {
+            "smithy.api#documentation": "Role of this user in the project.",
+            "smithy.api#required": {}
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Timestamp in milliseconds when this member was added.",
+            "smithy.api#required": {}
+          }
+        },
         "email": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The email of this member.",
             "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of this user."
           }
         },
         "role": {
@@ -219,10 +239,10 @@
             "smithy.api#required": {}
           }
         },
-        "computedProjectRole": {
-          "target": "com.vercel.project_members#GetProjectMembersResponseBodyCase1MembersItemComputedProjectRole",
+        "teamRole": {
+          "target": "com.vercel.project_members#GetProjectMembersResponseBodyCase1MembersItemTeamRole",
           "traits": {
-            "smithy.api#documentation": "Role of this user in the project.",
+            "smithy.api#documentation": "The role of this user in the team.",
             "smithy.api#required": {}
           }
         },
@@ -239,26 +259,6 @@
             "smithy.api#documentation": "The unique username of this user.",
             "smithy.api#required": {}
           }
-        },
-        "name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The name of this user."
-          }
-        },
-        "createdAt": {
-          "target": "smithy.api#Double",
-          "traits": {
-            "smithy.api#documentation": "Timestamp in milliseconds when this member was added.",
-            "smithy.api#required": {}
-          }
-        },
-        "teamRole": {
-          "target": "com.vercel.project_members#GetProjectMembersResponseBodyCase1MembersItemTeamRole",
-          "traits": {
-            "smithy.api#documentation": "The role of this user in the team.",
-            "smithy.api#required": {}
-          }
         }
       },
       "traits": {}
@@ -273,16 +273,16 @@
     "com.vercel.project_members#GetProjectMembersResponseBodyCase1Pagination": {
       "type": "structure",
       "members": {
-        "hasNext": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
         "count": {
           "target": "smithy.api#Double",
           "traits": {
             "smithy.api#documentation": "Amount of items in the current page.",
+            "smithy.api#required": {}
+          }
+        },
+        "hasNext": {
+          "target": "smithy.api#Boolean",
+          "traits": {
             "smithy.api#required": {}
           }
         },
@@ -366,6 +366,9 @@
         },
         {
           "target": "com.vercel.project_members#Forbidden"
+        },
+        {
+          "target": "com.vercel.project_members#NotFound"
         }
       ],
       "traits": {
@@ -486,6 +489,9 @@
         },
         {
           "target": "com.vercel.project_members#Forbidden"
+        },
+        {
+          "target": "com.vercel.project_members#NotFound"
         }
       ],
       "traits": {
@@ -563,6 +569,9 @@
         },
         {
           "target": "com.vercel.project_members#Forbidden"
+        },
+        {
+          "target": "com.vercel.project_members#NotFound"
         }
       ],
       "traits": {
@@ -596,6 +605,19 @@
         "com.distilled.openapi#errorMatchers": [
           {
             "status": 403
+          }
+        ]
+      }
+    },
+    "com.vercel.project_members#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
           }
         ]
       }

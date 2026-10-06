@@ -1,17 +1,14 @@
-import * as HttpClient from "effect/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
+import * as T from "../traits.ts";
 const ns = T.XmlNamespace("http://batch.amazonaws.com/doc/2016-08-10/");
-const svc = T.AwsApiService({
-  sdkId: "Batch",
-  serviceShapeName: "AWSBatchV20160810",
-});
+const svc = T.AwsApiService({ sdkId: "Batch", serviceShapeName: "AWSBatchV20160810" });
 const auth = T.AwsAuthSigv4({ name: "batch" });
 const ver = T.ServiceVersion("2016-08-10");
 const proto = T.AwsProtocolsRestJson1();
@@ -27,14 +24,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -63,27 +56,17 @@ const rules = T.EndpointResolver((p, _) => {
             if (_.getAttr(PartitionResult, "name") === "aws-us-gov") {
               return e(`https://batch.${Region}.amazonaws.com`);
             }
-            return e(
-              `https://batch-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
+            return e(`https://batch-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
-            return e(
-              `https://batch.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
+            return e(`https://batch.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`);
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://batch.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://batch.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -100,10 +83,7 @@ export class ComputeEnvironmentBeingModified
   extends /*@__PURE__*/ S.TaggedError<ComputeEnvironmentBeingModified>()(
     "ComputeEnvironmentBeingModified",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.SyntheticError({
-      from: "ClientException",
-      message: { includes: "is being modified" },
-    }),
+    T.SyntheticError({ from: "ClientException", message: { includes: "is being modified" } }),
   ).pipe(C.withConflictError, C.withRetryableError) {}
 export class ComputeEnvironmentInUse
   extends /*@__PURE__*/ S.TaggedError<ComputeEnvironmentInUse>()(
@@ -136,19 +116,13 @@ export class JobQueueAlreadyExists
   extends /*@__PURE__*/ S.TaggedError<JobQueueAlreadyExists>()(
     "JobQueueAlreadyExists",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.SyntheticError({
-      from: "ClientException",
-      message: { includes: "already exists" },
-    }),
+    T.SyntheticError({ from: "ClientException", message: { includes: "already exists" } }),
   ).pipe(C.withAlreadyExistsError, C.withConflictError) {}
 export class JobQueueBeingModified
   extends /*@__PURE__*/ S.TaggedError<JobQueueBeingModified>()(
     "JobQueueBeingModified",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.SyntheticError({
-      from: "ClientException",
-      message: { includes: "is being modified" },
-    }),
+    T.SyntheticError({ from: "ClientException", message: { includes: "is being modified" } }),
   ).pipe(C.withConflictError, C.withRetryableError) {}
 export class JobQueueNotFound
   extends /*@__PURE__*/ S.TaggedError<JobQueueNotFound>()(
@@ -171,25 +145,48 @@ export interface CancelJobRequest {
 }
 export const CancelJobRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ jobId: S.optional(S.String), reason: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/v1/canceljob" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/v1/canceljob" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "CancelJobRequest",
-}) as any as S.Schema<CancelJobRequest>;
+).annotate({ identifier: "CancelJobRequest" }) as any as S.Schema<CancelJobRequest>;
 export interface CancelJobResponse {}
-export const CancelJobResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
+export const CancelJobResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "CancelJobResponse",
 }) as any as S.Schema<CancelJobResponse>;
+export type StringList = string[];
+export const StringList = /*@__PURE__*/ S.Array(S.String);
+export interface CancelJobsRequest {
+  jobs?: string[];
+  reason?: string;
+}
+export const CancelJobsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ jobs: S.optional(StringList), reason: S.optional(S.String) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/v1/canceljobs" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({ identifier: "CancelJobsRequest" }) as any as S.Schema<CancelJobsRequest>;
+export interface CancelJobsErrorDetail {
+  job?: string;
+  code?: string;
+  message?: string;
+}
+export const CancelJobsErrorDetail = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    job: S.optional(S.String),
+    code: S.optional(S.String),
+    message: S.optional(S.String),
+  }),
+).annotate({ identifier: "CancelJobsErrorDetail" }) as any as S.Schema<CancelJobsErrorDetail>;
+export type CancelJobsErrorDetailList = CancelJobsErrorDetail[];
+export const CancelJobsErrorDetailList = /*@__PURE__*/ S.Array(CancelJobsErrorDetail);
+export interface CancelJobsResponse {
+  successful: string[];
+  errors: (CancelJobsErrorDetail & { job: string; code: string; message: string })[];
+}
+export const CancelJobsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    successful: S.optional(StringList),
+    errors: S.optional(CancelJobsErrorDetailList),
+  }).pipe(ns),
+).annotate({ identifier: "CancelJobsResponse" }) as any as S.Schema<CancelJobsResponse>;
 export type CEType = "MANAGED" | "UNMANAGED" | (string & {});
 export const CEType = S.String;
 
@@ -215,13 +212,8 @@ export type CRAllocationStrategy =
   | (string & {});
 export const CRAllocationStrategy = S.String;
 
-export type StringList = string[];
-export const StringList = /*@__PURE__*/ S.Array(S.String);
 export type TagsMap = { [key: string]: string | undefined };
-export const TagsMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const TagsMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export type UserdataType = "EKS_BOOTSTRAP_SH" | "EKS_NODEADM" | (string & {});
 export const UserdataType = S.String;
 
@@ -243,8 +235,7 @@ export const LaunchTemplateSpecificationOverride = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "LaunchTemplateSpecificationOverride",
 }) as any as S.Schema<LaunchTemplateSpecificationOverride>;
-export type LaunchTemplateSpecificationOverrideList =
-  LaunchTemplateSpecificationOverride[];
+export type LaunchTemplateSpecificationOverrideList = LaunchTemplateSpecificationOverride[];
 export const LaunchTemplateSpecificationOverrideList = /*@__PURE__*/ S.Array(
   LaunchTemplateSpecificationOverride,
 );
@@ -282,9 +273,7 @@ export const Ec2Configuration = /*@__PURE__*/ S.suspend(() =>
     batchImageStatus: S.optional(S.String),
     imageKubernetesVersion: S.optional(S.String),
   }),
-).annotate({
-  identifier: "Ec2Configuration",
-}) as any as S.Schema<Ec2Configuration>;
+).annotate({ identifier: "Ec2Configuration" }) as any as S.Schema<Ec2Configuration>;
 export type Ec2ConfigurationList = Ec2Configuration[];
 export const Ec2ConfigurationList = /*@__PURE__*/ S.Array(Ec2Configuration);
 export interface ComputeScalingPolicy {
@@ -292,19 +281,13 @@ export interface ComputeScalingPolicy {
 }
 export const ComputeScalingPolicy = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ minScaleDownDelayMinutes: S.optional(S.Number) }),
-).annotate({
-  identifier: "ComputeScalingPolicy",
-}) as any as S.Schema<ComputeScalingPolicy>;
+).annotate({ identifier: "ComputeScalingPolicy" }) as any as S.Schema<ComputeScalingPolicy>;
 export interface ManagedInstancesNetworkConfiguration {
   subnets?: string[];
   securityGroups?: string[];
 }
-export const ManagedInstancesNetworkConfiguration = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      subnets: S.optional(StringList),
-      securityGroups: S.optional(StringList),
-    }),
+export const ManagedInstancesNetworkConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ subnets: S.optional(StringList), securityGroups: S.optional(StringList) }),
 ).annotate({
   identifier: "ManagedInstancesNetworkConfiguration",
 }) as any as S.Schema<ManagedInstancesNetworkConfiguration>;
@@ -319,8 +302,8 @@ export const InstanceRequirementsRequest = /*@__PURE__*/ S.suspend(() =>
 export interface ManagedInstancesStorageConfiguration {
   storageSizeGiB?: number;
 }
-export const ManagedInstancesStorageConfiguration = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ storageSizeGiB: S.optional(S.Number) }),
+export const ManagedInstancesStorageConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ storageSizeGiB: S.optional(S.Number) }),
 ).annotate({
   identifier: "ManagedInstancesStorageConfiguration",
 }) as any as S.Schema<ManagedInstancesStorageConfiguration>;
@@ -339,12 +322,11 @@ export const CapacityReservationRequest = /*@__PURE__*/ S.suspend(() =>
 export interface ManagedInstancesLocalStorageConfiguration {
   useLocalStorage?: boolean;
 }
-export const ManagedInstancesLocalStorageConfiguration =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ useLocalStorage: S.optional(S.Boolean) }),
-  ).annotate({
-    identifier: "ManagedInstancesLocalStorageConfiguration",
-  }) as any as S.Schema<ManagedInstancesLocalStorageConfiguration>;
+export const ManagedInstancesLocalStorageConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ useLocalStorage: S.optional(S.Boolean) }),
+).annotate({
+  identifier: "ManagedInstancesLocalStorageConfiguration",
+}) as any as S.Schema<ManagedInstancesLocalStorageConfiguration>;
 export interface InstanceLaunchTemplate {
   ec2InstanceProfileArn?: string;
   networkConfiguration?: ManagedInstancesNetworkConfiguration;
@@ -368,13 +350,9 @@ export const InstanceLaunchTemplate = /*@__PURE__*/ S.suspend(() =>
     fipsEnabled: S.optional(S.Boolean),
     capacityReservations: S.optional(CapacityReservationRequest),
     instanceMetadataTagsPropagation: S.optional(S.Boolean),
-    localStorageConfiguration: S.optional(
-      ManagedInstancesLocalStorageConfiguration,
-    ),
+    localStorageConfiguration: S.optional(ManagedInstancesLocalStorageConfiguration),
   }),
-).annotate({
-  identifier: "InstanceLaunchTemplate",
-}) as any as S.Schema<InstanceLaunchTemplate>;
+).annotate({ identifier: "InstanceLaunchTemplate" }) as any as S.Schema<InstanceLaunchTemplate>;
 export interface InfrastructureOptimization {
   scaleInAfter?: number;
 }
@@ -396,16 +374,11 @@ export const ManagedInstancesProvider = /*@__PURE__*/ S.suspend(() =>
     instanceLaunchTemplate: S.optional(InstanceLaunchTemplate),
     infrastructureOptimization: S.optional(InfrastructureOptimization),
   }),
-).annotate({
-  identifier: "ManagedInstancesProvider",
-}) as any as S.Schema<ManagedInstancesProvider>;
+).annotate({ identifier: "ManagedInstancesProvider" }) as any as S.Schema<ManagedInstancesProvider>;
 export type TagKey = string;
 export type TagValue = string;
 export type TagrisTagsMap = { [key: string]: string | undefined };
-export const TagrisTagsMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const TagrisTagsMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface ComputeResource {
   type?: CRType;
   allocationStrategy?: CRAllocationStrategy;
@@ -451,26 +424,40 @@ export const ComputeResource = /*@__PURE__*/ S.suspend(() =>
     managedInstancesProvider: S.optional(ManagedInstancesProvider),
     capacityTags: S.optional(TagrisTagsMap),
   }),
-).annotate({
-  identifier: "ComputeResource",
-}) as any as S.Schema<ComputeResource>;
+).annotate({ identifier: "ComputeResource" }) as any as S.Schema<ComputeResource>;
+export type EksAccessEntryDesiredState =
+  | "ENABLED"
+  | "DISABLED"
+  | "INHERIT_FROM_CLUSTER"
+  | (string & {});
+export const EksAccessEntryDesiredState = S.String;
+
+export type EksAccessEntryStatus = "ACTIVE" | "INACTIVE" | (string & {});
+export const EksAccessEntryStatus = S.String;
+
+export interface EksAccessEntry {
+  desiredState?: EksAccessEntryDesiredState;
+  status?: EksAccessEntryStatus;
+}
+export const EksAccessEntry = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    desiredState: S.optional(EksAccessEntryDesiredState),
+    status: S.optional(EksAccessEntryStatus),
+  }),
+).annotate({ identifier: "EksAccessEntry" }) as any as S.Schema<EksAccessEntry>;
 export interface EksConfiguration {
   eksClusterArn?: string;
   kubernetesNamespace?: string;
+  accessEntry?: EksAccessEntry;
 }
 export const EksConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     eksClusterArn: S.optional(S.String),
     kubernetesNamespace: S.optional(S.String),
+    accessEntry: S.optional(EksAccessEntry),
   }),
-).annotate({
-  identifier: "EksConfiguration",
-}) as any as S.Schema<EksConfiguration>;
-export type ContainerInsights =
-  | "ENABLED"
-  | "ENHANCED"
-  | "DISABLED"
-  | (string & {});
+).annotate({ identifier: "EksConfiguration" }) as any as S.Schema<EksConfiguration>;
+export type ContainerInsights = "ENABLED" | "ENHANCED" | "DISABLED" | (string & {});
 export const ContainerInsights = S.String;
 
 export interface EcsSettings {
@@ -575,33 +562,19 @@ export interface ComputeEnvironmentOrder {
   computeEnvironment?: string;
 }
 export const ComputeEnvironmentOrder = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    order: S.optional(S.Number),
-    computeEnvironment: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ComputeEnvironmentOrder",
-}) as any as S.Schema<ComputeEnvironmentOrder>;
+  S.Struct({ order: S.optional(S.Number), computeEnvironment: S.optional(S.String) }),
+).annotate({ identifier: "ComputeEnvironmentOrder" }) as any as S.Schema<ComputeEnvironmentOrder>;
 export type ComputeEnvironmentOrders = ComputeEnvironmentOrder[];
-export const ComputeEnvironmentOrders = /*@__PURE__*/ S.Array(
-  ComputeEnvironmentOrder,
-);
+export const ComputeEnvironmentOrders = /*@__PURE__*/ S.Array(ComputeEnvironmentOrder);
 export interface ServiceEnvironmentOrder {
   order?: number;
   serviceEnvironment?: string;
 }
 export const ServiceEnvironmentOrder = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    order: S.optional(S.Number),
-    serviceEnvironment: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ServiceEnvironmentOrder",
-}) as any as S.Schema<ServiceEnvironmentOrder>;
+  S.Struct({ order: S.optional(S.Number), serviceEnvironment: S.optional(S.String) }),
+).annotate({ identifier: "ServiceEnvironmentOrder" }) as any as S.Schema<ServiceEnvironmentOrder>;
 export type ServiceEnvironmentOrders = ServiceEnvironmentOrder[];
-export const ServiceEnvironmentOrders = /*@__PURE__*/ S.Array(
-  ServiceEnvironmentOrder,
-);
+export const ServiceEnvironmentOrders = /*@__PURE__*/ S.Array(ServiceEnvironmentOrder);
 export type JobQueueType =
   | "EKS"
   | "ECS"
@@ -614,10 +587,7 @@ export const JobQueueType = S.String;
 export type JobStateTimeLimitActionsState = "RUNNABLE" | (string & {});
 export const JobStateTimeLimitActionsState = S.String;
 
-export type JobStateTimeLimitActionsAction =
-  | "CANCEL"
-  | "TERMINATE"
-  | (string & {});
+export type JobStateTimeLimitActionsAction = "CANCEL" | "TERMINATE" | (string & {});
 export const JobStateTimeLimitActionsAction = S.String;
 
 export interface JobStateTimeLimitAction {
@@ -633,13 +603,9 @@ export const JobStateTimeLimitAction = /*@__PURE__*/ S.suspend(() =>
     maxTimeSeconds: S.optional(S.Number),
     action: S.optional(JobStateTimeLimitActionsAction),
   }),
-).annotate({
-  identifier: "JobStateTimeLimitAction",
-}) as any as S.Schema<JobStateTimeLimitAction>;
+).annotate({ identifier: "JobStateTimeLimitAction" }) as any as S.Schema<JobStateTimeLimitAction>;
 export type JobStateTimeLimitActions = JobStateTimeLimitAction[];
-export const JobStateTimeLimitActions = /*@__PURE__*/ S.Array(
-  JobStateTimeLimitAction,
-);
+export const JobStateTimeLimitActions = /*@__PURE__*/ S.Array(JobStateTimeLimitAction);
 export interface CreateJobQueueRequest {
   jobQueueName?: string;
   state?: JQState;
@@ -663,47 +629,25 @@ export const CreateJobQueueRequest = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(TagrisTagsMap),
     jobStateTimeLimitActions: S.optional(JobStateTimeLimitActions),
   }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/v1/createjobqueue" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/v1/createjobqueue" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "CreateJobQueueRequest",
-}) as any as S.Schema<CreateJobQueueRequest>;
+).annotate({ identifier: "CreateJobQueueRequest" }) as any as S.Schema<CreateJobQueueRequest>;
 export interface CreateJobQueueResponse {
   jobQueueName: string;
   jobQueueArn: string;
 }
 export const CreateJobQueueResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    jobQueueName: S.optional(S.String),
-    jobQueueArn: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "CreateJobQueueResponse",
-}) as any as S.Schema<CreateJobQueueResponse>;
+  S.Struct({ jobQueueName: S.optional(S.String), jobQueueArn: S.optional(S.String) }).pipe(ns),
+).annotate({ identifier: "CreateJobQueueResponse" }) as any as S.Schema<CreateJobQueueResponse>;
 export interface QuotaShareCapacityLimit {
   maxCapacity?: number;
   capacityUnit?: string;
 }
 export const QuotaShareCapacityLimit = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    maxCapacity: S.optional(S.Number),
-    capacityUnit: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "QuotaShareCapacityLimit",
-}) as any as S.Schema<QuotaShareCapacityLimit>;
+  S.Struct({ maxCapacity: S.optional(S.Number), capacityUnit: S.optional(S.String) }),
+).annotate({ identifier: "QuotaShareCapacityLimit" }) as any as S.Schema<QuotaShareCapacityLimit>;
 export type QuotaShareCapacityLimits = QuotaShareCapacityLimit[];
-export const QuotaShareCapacityLimits = /*@__PURE__*/ S.Array(
-  QuotaShareCapacityLimit,
-);
+export const QuotaShareCapacityLimits = /*@__PURE__*/ S.Array(QuotaShareCapacityLimit);
 export type QuotaShareResourceSharingStrategy =
   | "RESERVE"
   | "LEND"
@@ -715,19 +659,15 @@ export interface QuotaShareResourceSharingConfiguration {
   strategy?: QuotaShareResourceSharingStrategy;
   borrowLimit?: number;
 }
-export const QuotaShareResourceSharingConfiguration = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      strategy: S.optional(QuotaShareResourceSharingStrategy),
-      borrowLimit: S.optional(S.Number),
-    }),
+export const QuotaShareResourceSharingConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    strategy: S.optional(QuotaShareResourceSharingStrategy),
+    borrowLimit: S.optional(S.Number),
+  }),
 ).annotate({
   identifier: "QuotaShareResourceSharingConfiguration",
 }) as any as S.Schema<QuotaShareResourceSharingConfiguration>;
-export type QuotaShareInSharePreemptionState =
-  | "ENABLED"
-  | "DISABLED"
-  | (string & {});
+export type QuotaShareInSharePreemptionState = "ENABLED" | "DISABLED" | (string & {});
 export const QuotaShareInSharePreemptionState = S.String;
 
 export interface QuotaSharePreemptionConfiguration {
@@ -755,9 +695,7 @@ export const CreateQuotaShareRequest = /*@__PURE__*/ S.suspend(() =>
     quotaShareName: S.optional(S.String),
     jobQueue: S.optional(S.String),
     capacityLimits: S.optional(QuotaShareCapacityLimits),
-    resourceSharingConfiguration: S.optional(
-      QuotaShareResourceSharingConfiguration,
-    ),
+    resourceSharingConfiguration: S.optional(QuotaShareResourceSharingConfiguration),
     preemptionConfiguration: S.optional(QuotaSharePreemptionConfiguration),
     state: S.optional(QuotaShareState),
     tags: S.optional(TagrisTagsMap),
@@ -772,21 +710,14 @@ export const CreateQuotaShareRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "CreateQuotaShareRequest",
-}) as any as S.Schema<CreateQuotaShareRequest>;
+).annotate({ identifier: "CreateQuotaShareRequest" }) as any as S.Schema<CreateQuotaShareRequest>;
 export interface CreateQuotaShareResponse {
   quotaShareName?: string;
   quotaShareArn?: string;
 }
 export const CreateQuotaShareResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    quotaShareName: S.optional(S.String),
-    quotaShareArn: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "CreateQuotaShareResponse",
-}) as any as S.Schema<CreateQuotaShareResponse>;
+  S.Struct({ quotaShareName: S.optional(S.String), quotaShareArn: S.optional(S.String) }).pipe(ns),
+).annotate({ identifier: "CreateQuotaShareResponse" }) as any as S.Schema<CreateQuotaShareResponse>;
 export type QuotaShareIdleResourceAssignmentStrategy = "FIFO" | (string & {});
 export const QuotaShareIdleResourceAssignmentStrategy = S.String;
 
@@ -795,25 +726,16 @@ export interface QuotaSharePolicy {
 }
 export const QuotaSharePolicy = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    idleResourceAssignmentStrategy: S.optional(
-      QuotaShareIdleResourceAssignmentStrategy,
-    ),
+    idleResourceAssignmentStrategy: S.optional(QuotaShareIdleResourceAssignmentStrategy),
   }),
-).annotate({
-  identifier: "QuotaSharePolicy",
-}) as any as S.Schema<QuotaSharePolicy>;
+).annotate({ identifier: "QuotaSharePolicy" }) as any as S.Schema<QuotaSharePolicy>;
 export interface ShareAttributes {
   shareIdentifier?: string;
   weightFactor?: number;
 }
 export const ShareAttributes = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    shareIdentifier: S.optional(S.String),
-    weightFactor: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "ShareAttributes",
-}) as any as S.Schema<ShareAttributes>;
+  S.Struct({ shareIdentifier: S.optional(S.String), weightFactor: S.optional(S.Number) }),
+).annotate({ identifier: "ShareAttributes" }) as any as S.Schema<ShareAttributes>;
 export type ShareAttributesList = ShareAttributes[];
 export const ShareAttributesList = /*@__PURE__*/ S.Array(ShareAttributes);
 export interface FairsharePolicy {
@@ -827,9 +749,7 @@ export const FairsharePolicy = /*@__PURE__*/ S.suspend(() =>
     computeReservation: S.optional(S.Number),
     shareDistribution: S.optional(ShareAttributesList),
   }),
-).annotate({
-  identifier: "FairsharePolicy",
-}) as any as S.Schema<FairsharePolicy>;
+).annotate({ identifier: "FairsharePolicy" }) as any as S.Schema<FairsharePolicy>;
 export interface CreateSchedulingPolicyRequest {
   name?: string;
   quotaSharePolicy?: QuotaSharePolicy;
@@ -876,10 +796,7 @@ export interface CapacityLimit {
   capacityUnit?: string;
 }
 export const CapacityLimit = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    maxCapacity: S.optional(S.Number),
-    capacityUnit: S.optional(S.String),
-  }),
+  S.Struct({ maxCapacity: S.optional(S.Number), capacityUnit: S.optional(S.String) }),
 ).annotate({ identifier: "CapacityLimit" }) as any as S.Schema<CapacityLimit>;
 export type CapacityLimits = CapacityLimit[];
 export const CapacityLimits = /*@__PURE__*/ S.Array(CapacityLimit);
@@ -976,25 +893,13 @@ export interface DeleteJobQueueRequest {
 }
 export const DeleteJobQueueRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ jobQueue: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/v1/deletejobqueue" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/v1/deletejobqueue" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteJobQueueRequest",
-}) as any as S.Schema<DeleteJobQueueRequest>;
+).annotate({ identifier: "DeleteJobQueueRequest" }) as any as S.Schema<DeleteJobQueueRequest>;
 export interface DeleteJobQueueResponse {}
-export const DeleteJobQueueResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteJobQueueResponse",
-}) as any as S.Schema<DeleteJobQueueResponse>;
+export const DeleteJobQueueResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate(
+  { identifier: "DeleteJobQueueResponse" },
+) as any as S.Schema<DeleteJobQueueResponse>;
 export interface DeleteQuotaShareRequest {
   quotaShareArn?: string;
 }
@@ -1010,15 +915,11 @@ export const DeleteQuotaShareRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteQuotaShareRequest",
-}) as any as S.Schema<DeleteQuotaShareRequest>;
+).annotate({ identifier: "DeleteQuotaShareRequest" }) as any as S.Schema<DeleteQuotaShareRequest>;
 export interface DeleteQuotaShareResponse {}
 export const DeleteQuotaShareResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteQuotaShareResponse",
-}) as any as S.Schema<DeleteQuotaShareResponse>;
+).annotate({ identifier: "DeleteQuotaShareResponse" }) as any as S.Schema<DeleteQuotaShareResponse>;
 export interface DeleteSchedulingPolicyRequest {
   arn?: string;
 }
@@ -1178,13 +1079,9 @@ export const ComputeEnvironmentDetail = /*@__PURE__*/ S.suspend(() =>
     context: S.optional(S.String),
     ecsSettings: S.optional(EcsSettings),
   }),
-).annotate({
-  identifier: "ComputeEnvironmentDetail",
-}) as any as S.Schema<ComputeEnvironmentDetail>;
+).annotate({ identifier: "ComputeEnvironmentDetail" }) as any as S.Schema<ComputeEnvironmentDetail>;
 export type ComputeEnvironmentDetailList = ComputeEnvironmentDetail[];
-export const ComputeEnvironmentDetailList = /*@__PURE__*/ S.Array(
-  ComputeEnvironmentDetail,
-);
+export const ComputeEnvironmentDetailList = /*@__PURE__*/ S.Array(ComputeEnvironmentDetail);
 export interface DescribeComputeEnvironmentsResponse {
   computeEnvironments?: (ComputeEnvironmentDetail & {
     computeEnvironmentName: string;
@@ -1207,6 +1104,7 @@ export interface DescribeComputeEnvironmentsResponse {
     eksConfiguration: EksConfiguration & {
       eksClusterArn: string;
       kubernetesNamespace: string;
+      accessEntry: EksAccessEntry & { desiredState: EksAccessEntryDesiredState };
     };
   })[];
   nextToken?: string;
@@ -1290,10 +1188,7 @@ export const DescribeJobDefinitionsRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DescribeJobDefinitionsRequest",
 }) as any as S.Schema<DescribeJobDefinitionsRequest>;
 export type ParametersMap = { [key: string]: string | undefined };
-export const ParametersMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const ParametersMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export type RetryAction = "RETRY" | "EXIT" | (string & {});
 export const RetryAction = S.String;
 
@@ -1318,10 +1213,7 @@ export interface RetryStrategy {
   evaluateOnExit?: EvaluateOnExit[];
 }
 export const RetryStrategy = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    attempts: S.optional(S.Number),
-    evaluateOnExit: S.optional(EvaluateOnExitList),
-  }),
+  S.Struct({ attempts: S.optional(S.Number), evaluateOnExit: S.optional(EvaluateOnExitList) }),
 ).annotate({ identifier: "RetryStrategy" }) as any as S.Schema<RetryStrategy>;
 export interface Host {
   sourcePath?: string;
@@ -1340,13 +1232,8 @@ export interface EFSAuthorizationConfig {
   iam?: EFSAuthorizationConfigIAM;
 }
 export const EFSAuthorizationConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    accessPointId: S.optional(S.String),
-    iam: S.optional(EFSAuthorizationConfigIAM),
-  }),
-).annotate({
-  identifier: "EFSAuthorizationConfig",
-}) as any as S.Schema<EFSAuthorizationConfig>;
+  S.Struct({ accessPointId: S.optional(S.String), iam: S.optional(EFSAuthorizationConfigIAM) }),
+).annotate({ identifier: "EFSAuthorizationConfig" }) as any as S.Schema<EFSAuthorizationConfig>;
 export interface EFSVolumeConfiguration {
   fileSystemId?: string;
   rootDirectory?: string;
@@ -1362,9 +1249,7 @@ export const EFSVolumeConfiguration = /*@__PURE__*/ S.suspend(() =>
     transitEncryptionPort: S.optional(S.Number),
     authorizationConfig: S.optional(EFSAuthorizationConfig),
   }),
-).annotate({
-  identifier: "EFSVolumeConfiguration",
-}) as any as S.Schema<EFSVolumeConfiguration>;
+).annotate({ identifier: "EFSVolumeConfiguration" }) as any as S.Schema<EFSVolumeConfiguration>;
 export interface S3FilesVolumeConfiguration {
   fileSystemArn?: string;
   rootDirectory?: string;
@@ -1443,18 +1328,14 @@ export interface ResourceRequirement {
 }
 export const ResourceRequirement = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ value: S.optional(S.String), type: S.optional(ResourceType) }),
-).annotate({
-  identifier: "ResourceRequirement",
-}) as any as S.Schema<ResourceRequirement>;
+).annotate({ identifier: "ResourceRequirement" }) as any as S.Schema<ResourceRequirement>;
 export type ResourceRequirements = ResourceRequirement[];
 export const ResourceRequirements = /*@__PURE__*/ S.Array(ResourceRequirement);
 export type DeviceCgroupPermission = "READ" | "WRITE" | "MKNOD" | (string & {});
 export const DeviceCgroupPermission = S.String;
 
 export type DeviceCgroupPermissions = DeviceCgroupPermission[];
-export const DeviceCgroupPermissions = /*@__PURE__*/ S.Array(
-  DeviceCgroupPermission,
-);
+export const DeviceCgroupPermissions = /*@__PURE__*/ S.Array(DeviceCgroupPermission);
 export interface Device {
   hostPath?: string;
   containerPath?: string;
@@ -1500,9 +1381,7 @@ export const LinuxParameters = /*@__PURE__*/ S.suspend(() =>
     maxSwap: S.optional(S.Number),
     swappiness: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "LinuxParameters",
-}) as any as S.Schema<LinuxParameters>;
+).annotate({ identifier: "LinuxParameters" }) as any as S.Schema<LinuxParameters>;
 export type LogDriver =
   | "json-file"
   | "syslog"
@@ -1540,9 +1419,7 @@ export const LogConfiguration = /*@__PURE__*/ S.suspend(() =>
     options: S.optional(LogConfigurationOptionsMap),
     secretOptions: S.optional(SecretList),
   }),
-).annotate({
-  identifier: "LogConfiguration",
-}) as any as S.Schema<LogConfiguration>;
+).annotate({ identifier: "LogConfiguration" }) as any as S.Schema<LogConfiguration>;
 export type AssignPublicIp = "ENABLED" | "DISABLED" | (string & {});
 export const AssignPublicIp = S.String;
 
@@ -1551,9 +1428,7 @@ export interface NetworkConfiguration {
 }
 export const NetworkConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ assignPublicIp: S.optional(AssignPublicIp) }),
-).annotate({
-  identifier: "NetworkConfiguration",
-}) as any as S.Schema<NetworkConfiguration>;
+).annotate({ identifier: "NetworkConfiguration" }) as any as S.Schema<NetworkConfiguration>;
 export interface FargatePlatformConfiguration {
   platformVersion?: string;
 }
@@ -1567,29 +1442,20 @@ export interface EphemeralStorage {
 }
 export const EphemeralStorage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ sizeInGiB: S.optional(S.Number) }),
-).annotate({
-  identifier: "EphemeralStorage",
-}) as any as S.Schema<EphemeralStorage>;
+).annotate({ identifier: "EphemeralStorage" }) as any as S.Schema<EphemeralStorage>;
 export interface RuntimePlatform {
   operatingSystemFamily?: string;
   cpuArchitecture?: string;
 }
 export const RuntimePlatform = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    operatingSystemFamily: S.optional(S.String),
-    cpuArchitecture: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "RuntimePlatform",
-}) as any as S.Schema<RuntimePlatform>;
+  S.Struct({ operatingSystemFamily: S.optional(S.String), cpuArchitecture: S.optional(S.String) }),
+).annotate({ identifier: "RuntimePlatform" }) as any as S.Schema<RuntimePlatform>;
 export interface RepositoryCredentials {
   credentialsParameter?: string;
 }
 export const RepositoryCredentials = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ credentialsParameter: S.optional(S.String) }),
-).annotate({
-  identifier: "RepositoryCredentials",
-}) as any as S.Schema<RepositoryCredentials>;
+).annotate({ identifier: "RepositoryCredentials" }) as any as S.Schema<RepositoryCredentials>;
 export interface ContainerProperties {
   image?: string;
   vcpus?: number;
@@ -1643,9 +1509,7 @@ export const ContainerProperties = /*@__PURE__*/ S.suspend(() =>
     runtimePlatform: S.optional(RuntimePlatform),
     repositoryCredentials: S.optional(RepositoryCredentials),
   }),
-).annotate({
-  identifier: "ContainerProperties",
-}) as any as S.Schema<ContainerProperties>;
+).annotate({ identifier: "ContainerProperties" }) as any as S.Schema<ContainerProperties>;
 export interface JobTimeout {
   attemptDurationSeconds?: number;
 }
@@ -1657,23 +1521,14 @@ export interface TaskContainerDependency {
   condition?: string;
 }
 export const TaskContainerDependency = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    containerName: S.optional(S.String),
-    condition: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "TaskContainerDependency",
-}) as any as S.Schema<TaskContainerDependency>;
+  S.Struct({ containerName: S.optional(S.String), condition: S.optional(S.String) }),
+).annotate({ identifier: "TaskContainerDependency" }) as any as S.Schema<TaskContainerDependency>;
 export type TaskContainerDependencyList = TaskContainerDependency[];
-export const TaskContainerDependencyList = /*@__PURE__*/ S.Array(
-  TaskContainerDependency,
-);
+export const TaskContainerDependencyList = /*@__PURE__*/ S.Array(TaskContainerDependency);
 export type FirelensConfigurationType = "fluentd" | "fluentbit" | (string & {});
 export const FirelensConfigurationType = S.String;
 
-export type FirelensConfigurationOptionsMap = {
-  [key: string]: string | undefined;
-};
+export type FirelensConfigurationOptionsMap = { [key: string]: string | undefined };
 export const FirelensConfigurationOptionsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String.pipe(S.optional),
@@ -1687,9 +1542,7 @@ export const FirelensConfiguration = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(FirelensConfigurationType),
     options: S.optional(FirelensConfigurationOptionsMap),
   }),
-).annotate({
-  identifier: "FirelensConfiguration",
-}) as any as S.Schema<FirelensConfiguration>;
+).annotate({ identifier: "FirelensConfiguration" }) as any as S.Schema<FirelensConfiguration>;
 export interface TaskContainerProperties {
   command?: string[];
   dependsOn?: TaskContainerDependency[];
@@ -1733,13 +1586,9 @@ export const TaskContainerProperties = /*@__PURE__*/ S.suspend(() =>
     startTimeout: S.optional(S.Number),
     stopTimeout: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "TaskContainerProperties",
-}) as any as S.Schema<TaskContainerProperties>;
+).annotate({ identifier: "TaskContainerProperties" }) as any as S.Schema<TaskContainerProperties>;
 export type ListTaskContainerProperties = TaskContainerProperties[];
-export const ListTaskContainerProperties = /*@__PURE__*/ S.Array(
-  TaskContainerProperties,
-);
+export const ListTaskContainerProperties = /*@__PURE__*/ S.Array(TaskContainerProperties);
 export interface EcsTaskProperties {
   containers?: TaskContainerProperties[];
   ephemeralStorage?: EphemeralStorage;
@@ -1769,9 +1618,7 @@ export const EcsTaskProperties = /*@__PURE__*/ S.suspend(() =>
     enableExecuteCommand: S.optional(S.Boolean),
     networkMode: S.optional(S.String),
   }),
-).annotate({
-  identifier: "EcsTaskProperties",
-}) as any as S.Schema<EcsTaskProperties>;
+).annotate({ identifier: "EcsTaskProperties" }) as any as S.Schema<EcsTaskProperties>;
 export type ListEcsTaskProperties = EcsTaskProperties[];
 export const ListEcsTaskProperties = /*@__PURE__*/ S.Array(EcsTaskProperties);
 export interface EcsProperties {
@@ -1785,9 +1632,7 @@ export interface ImagePullSecret {
 }
 export const ImagePullSecret = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ name: S.optional(S.String) }),
-).annotate({
-  identifier: "ImagePullSecret",
-}) as any as S.Schema<ImagePullSecret>;
+).annotate({ identifier: "ImagePullSecret" }) as any as S.Schema<ImagePullSecret>;
 export type ImagePullSecrets = ImagePullSecret[];
 export const ImagePullSecrets = /*@__PURE__*/ S.Array(ImagePullSecret);
 export interface EksContainerEnvironmentVariable {
@@ -1799,31 +1644,21 @@ export const EksContainerEnvironmentVariable = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "EksContainerEnvironmentVariable",
 }) as any as S.Schema<EksContainerEnvironmentVariable>;
-export type EksContainerEnvironmentVariables =
-  EksContainerEnvironmentVariable[];
+export type EksContainerEnvironmentVariables = EksContainerEnvironmentVariable[];
 export const EksContainerEnvironmentVariables = /*@__PURE__*/ S.Array(
   EksContainerEnvironmentVariable,
 );
 export type Quantity = string;
 export type EksLimits = { [key: string]: string | undefined };
-export const EksLimits = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const EksLimits = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export type EksRequests = { [key: string]: string | undefined };
-export const EksRequests = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const EksRequests = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface EksContainerResourceRequirements {
   limits?: { [key: string]: string | undefined };
   requests?: { [key: string]: string | undefined };
 }
 export const EksContainerResourceRequirements = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    limits: S.optional(EksLimits),
-    requests: S.optional(EksRequests),
-  }),
+  S.Struct({ limits: S.optional(EksLimits), requests: S.optional(EksRequests) }),
 ).annotate({
   identifier: "EksContainerResourceRequirements",
 }) as any as S.Schema<EksContainerResourceRequirements>;
@@ -1840,13 +1675,9 @@ export const EksContainerVolumeMount = /*@__PURE__*/ S.suspend(() =>
     subPath: S.optional(S.String),
     readOnly: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "EksContainerVolumeMount",
-}) as any as S.Schema<EksContainerVolumeMount>;
+).annotate({ identifier: "EksContainerVolumeMount" }) as any as S.Schema<EksContainerVolumeMount>;
 export type EksContainerVolumeMounts = EksContainerVolumeMount[];
-export const EksContainerVolumeMounts = /*@__PURE__*/ S.Array(
-  EksContainerVolumeMount,
-);
+export const EksContainerVolumeMounts = /*@__PURE__*/ S.Array(EksContainerVolumeMount);
 export interface EksContainerSecurityContext {
   runAsUser?: number;
   runAsGroup?: number;
@@ -1911,23 +1742,15 @@ export interface EksSecret {
   optional?: boolean;
 }
 export const EksSecret = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    secretName: S.optional(S.String),
-    optional: S.optional(S.Boolean),
-  }),
+  S.Struct({ secretName: S.optional(S.String), optional: S.optional(S.Boolean) }),
 ).annotate({ identifier: "EksSecret" }) as any as S.Schema<EksSecret>;
 export interface EksPersistentVolumeClaim {
   claimName?: string;
   readOnly?: boolean;
 }
 export const EksPersistentVolumeClaim = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    claimName: S.optional(S.String),
-    readOnly: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "EksPersistentVolumeClaim",
-}) as any as S.Schema<EksPersistentVolumeClaim>;
+  S.Struct({ claimName: S.optional(S.String), readOnly: S.optional(S.Boolean) }),
+).annotate({ identifier: "EksPersistentVolumeClaim" }) as any as S.Schema<EksPersistentVolumeClaim>;
 export interface EksVolume {
   name?: string;
   hostPath?: EksHostPath;
@@ -1947,15 +1770,9 @@ export const EksVolume = /*@__PURE__*/ S.suspend(() =>
 export type EksVolumes = EksVolume[];
 export const EksVolumes = /*@__PURE__*/ S.Array(EksVolume);
 export type EksLabelsMap = { [key: string]: string | undefined };
-export const EksLabelsMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const EksLabelsMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export type EksAnnotationsMap = { [key: string]: string | undefined };
-export const EksAnnotationsMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const EksAnnotationsMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface EksMetadata {
   labels?: { [key: string]: string | undefined };
   annotations?: { [key: string]: string | undefined };
@@ -1991,9 +1808,7 @@ export const EksPodProperties = /*@__PURE__*/ S.suspend(() =>
     metadata: S.optional(EksMetadata),
     shareProcessNamespace: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "EksPodProperties",
-}) as any as S.Schema<EksPodProperties>;
+).annotate({ identifier: "EksPodProperties" }) as any as S.Schema<EksPodProperties>;
 export interface EksProperties {
   podProperties?: EksPodProperties;
 }
@@ -2005,17 +1820,12 @@ export interface ConsumableResourceRequirement {
   quantity?: number;
 }
 export const ConsumableResourceRequirement = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    consumableResource: S.optional(S.String),
-    quantity: S.optional(S.Number),
-  }),
+  S.Struct({ consumableResource: S.optional(S.String), quantity: S.optional(S.Number) }),
 ).annotate({
   identifier: "ConsumableResourceRequirement",
 }) as any as S.Schema<ConsumableResourceRequirement>;
 export type ConsumableResourceList = ConsumableResourceRequirement[];
-export const ConsumableResourceList = /*@__PURE__*/ S.Array(
-  ConsumableResourceRequirement,
-);
+export const ConsumableResourceList = /*@__PURE__*/ S.Array(ConsumableResourceRequirement);
 export interface ConsumableResourceProperties {
   consumableResourceList?: ConsumableResourceRequirement[];
 }
@@ -2041,9 +1851,7 @@ export const NodeRangeProperty = /*@__PURE__*/ S.suspend(() =>
     eksProperties: S.optional(EksProperties),
     consumableResourceProperties: S.optional(ConsumableResourceProperties),
   }),
-).annotate({
-  identifier: "NodeRangeProperty",
-}) as any as S.Schema<NodeRangeProperty>;
+).annotate({ identifier: "NodeRangeProperty" }) as any as S.Schema<NodeRangeProperty>;
 export type NodeRangeProperties = NodeRangeProperty[];
 export const NodeRangeProperties = /*@__PURE__*/ S.Array(NodeRangeProperty);
 export interface NodeProperties {
@@ -2058,11 +1866,7 @@ export const NodeProperties = /*@__PURE__*/ S.suspend(() =>
     nodeRangeProperties: S.optional(NodeRangeProperties),
   }),
 ).annotate({ identifier: "NodeProperties" }) as any as S.Schema<NodeProperties>;
-export type PlatformCapability =
-  | "EC2"
-  | "FARGATE"
-  | "MANAGED_INSTANCES"
-  | (string & {});
+export type PlatformCapability = "EC2" | "FARGATE" | "MANAGED_INSTANCES" | (string & {});
 export const PlatformCapability = S.String;
 
 export type PlatformCapabilityList = PlatformCapability[];
@@ -2117,27 +1921,14 @@ export interface DescribeJobDefinitionsResponse {
     jobDefinitionArn: string;
     revision: number;
     type: string;
-    retryStrategy: RetryStrategy & {
-      evaluateOnExit: (EvaluateOnExit & { action: RetryAction })[];
-    };
+    retryStrategy: RetryStrategy & { evaluateOnExit: (EvaluateOnExit & { action: RetryAction })[] };
     containerProperties: ContainerProperties & {
       volumes: (Volume & {
-        efsVolumeConfiguration: EFSVolumeConfiguration & {
-          fileSystemId: string;
-        };
-        s3filesVolumeConfiguration: S3FilesVolumeConfiguration & {
-          fileSystemArn: string;
-        };
+        efsVolumeConfiguration: EFSVolumeConfiguration & { fileSystemId: string };
+        s3filesVolumeConfiguration: S3FilesVolumeConfiguration & { fileSystemArn: string };
       })[];
-      ulimits: (Ulimit & {
-        hardLimit: number;
-        name: string;
-        softLimit: number;
-      })[];
-      resourceRequirements: (ResourceRequirement & {
-        value: string;
-        type: ResourceType;
-      })[];
+      ulimits: (Ulimit & { hardLimit: number; name: string; softLimit: number })[];
+      resourceRequirements: (ResourceRequirement & { value: string; type: ResourceType })[];
       linuxParameters: LinuxParameters & {
         devices: (Device & { hostPath: string })[];
         tmpfs: (Tmpfs & { containerPath: string; size: number })[];
@@ -2148,9 +1939,7 @@ export interface DescribeJobDefinitionsResponse {
       };
       secrets: (Secret & { name: string; valueFrom: string })[];
       ephemeralStorage: EphemeralStorage & { sizeInGiB: number };
-      repositoryCredentials: RepositoryCredentials & {
-        credentialsParameter: string;
-      };
+      repositoryCredentials: RepositoryCredentials & { credentialsParameter: string };
     };
     nodeProperties: NodeProperties & {
       numNodes: number;
@@ -2159,22 +1948,11 @@ export interface DescribeJobDefinitionsResponse {
         targetNodes: string;
         container: ContainerProperties & {
           volumes: (Volume & {
-            efsVolumeConfiguration: EFSVolumeConfiguration & {
-              fileSystemId: string;
-            };
-            s3filesVolumeConfiguration: S3FilesVolumeConfiguration & {
-              fileSystemArn: string;
-            };
+            efsVolumeConfiguration: EFSVolumeConfiguration & { fileSystemId: string };
+            s3filesVolumeConfiguration: S3FilesVolumeConfiguration & { fileSystemArn: string };
           })[];
-          ulimits: (Ulimit & {
-            hardLimit: number;
-            name: string;
-            softLimit: number;
-          })[];
-          resourceRequirements: (ResourceRequirement & {
-            value: string;
-            type: ResourceType;
-          })[];
+          ulimits: (Ulimit & { hardLimit: number; name: string; softLimit: number })[];
+          resourceRequirements: (ResourceRequirement & { value: string; type: ResourceType })[];
           linuxParameters: LinuxParameters & {
             devices: (Device & { hostPath: string })[];
             tmpfs: (Tmpfs & { containerPath: string; size: number })[];
@@ -2185,17 +1963,13 @@ export interface DescribeJobDefinitionsResponse {
           };
           secrets: (Secret & { name: string; valueFrom: string })[];
           ephemeralStorage: EphemeralStorage & { sizeInGiB: number };
-          repositoryCredentials: RepositoryCredentials & {
-            credentialsParameter: string;
-          };
+          repositoryCredentials: RepositoryCredentials & { credentialsParameter: string };
         };
         ecsProperties: EcsProperties & {
           taskProperties: (EcsTaskProperties & {
             containers: (TaskContainerProperties & {
               image: string;
-              firelensConfiguration: FirelensConfiguration & {
-                type: FirelensConfigurationType;
-              };
+              firelensConfiguration: FirelensConfiguration & { type: FirelensConfigurationType };
               linuxParameters: LinuxParameters & {
                 devices: (Device & { hostPath: string })[];
                 tmpfs: (Tmpfs & { containerPath: string; size: number })[];
@@ -2204,28 +1978,15 @@ export interface DescribeJobDefinitionsResponse {
                 logDriver: LogDriver;
                 secretOptions: (Secret & { name: string; valueFrom: string })[];
               };
-              repositoryCredentials: RepositoryCredentials & {
-                credentialsParameter: string;
-              };
-              resourceRequirements: (ResourceRequirement & {
-                value: string;
-                type: ResourceType;
-              })[];
+              repositoryCredentials: RepositoryCredentials & { credentialsParameter: string };
+              resourceRequirements: (ResourceRequirement & { value: string; type: ResourceType })[];
               secrets: (Secret & { name: string; valueFrom: string })[];
-              ulimits: (Ulimit & {
-                hardLimit: number;
-                name: string;
-                softLimit: number;
-              })[];
+              ulimits: (Ulimit & { hardLimit: number; name: string; softLimit: number })[];
             })[];
             ephemeralStorage: EphemeralStorage & { sizeInGiB: number };
             volumes: (Volume & {
-              efsVolumeConfiguration: EFSVolumeConfiguration & {
-                fileSystemId: string;
-              };
-              s3filesVolumeConfiguration: S3FilesVolumeConfiguration & {
-                fileSystemArn: string;
-              };
+              efsVolumeConfiguration: EFSVolumeConfiguration & { fileSystemId: string };
+              s3filesVolumeConfiguration: S3FilesVolumeConfiguration & { fileSystemArn: string };
             })[];
           })[];
         };
@@ -2243,9 +2004,7 @@ export interface DescribeJobDefinitionsResponse {
             volumes: (EksVolume & {
               name: string;
               secret: EksSecret & { secretName: string };
-              persistentVolumeClaim: EksPersistentVolumeClaim & {
-                claimName: string;
-              };
+              persistentVolumeClaim: EksPersistentVolumeClaim & { claimName: string };
             })[];
           };
         };
@@ -2255,9 +2014,7 @@ export interface DescribeJobDefinitionsResponse {
       taskProperties: (EcsTaskProperties & {
         containers: (TaskContainerProperties & {
           image: string;
-          firelensConfiguration: FirelensConfiguration & {
-            type: FirelensConfigurationType;
-          };
+          firelensConfiguration: FirelensConfiguration & { type: FirelensConfigurationType };
           linuxParameters: LinuxParameters & {
             devices: (Device & { hostPath: string })[];
             tmpfs: (Tmpfs & { containerPath: string; size: number })[];
@@ -2266,28 +2023,15 @@ export interface DescribeJobDefinitionsResponse {
             logDriver: LogDriver;
             secretOptions: (Secret & { name: string; valueFrom: string })[];
           };
-          repositoryCredentials: RepositoryCredentials & {
-            credentialsParameter: string;
-          };
-          resourceRequirements: (ResourceRequirement & {
-            value: string;
-            type: ResourceType;
-          })[];
+          repositoryCredentials: RepositoryCredentials & { credentialsParameter: string };
+          resourceRequirements: (ResourceRequirement & { value: string; type: ResourceType })[];
           secrets: (Secret & { name: string; valueFrom: string })[];
-          ulimits: (Ulimit & {
-            hardLimit: number;
-            name: string;
-            softLimit: number;
-          })[];
+          ulimits: (Ulimit & { hardLimit: number; name: string; softLimit: number })[];
         })[];
         ephemeralStorage: EphemeralStorage & { sizeInGiB: number };
         volumes: (Volume & {
-          efsVolumeConfiguration: EFSVolumeConfiguration & {
-            fileSystemId: string;
-          };
-          s3filesVolumeConfiguration: S3FilesVolumeConfiguration & {
-            fileSystemArn: string;
-          };
+          efsVolumeConfiguration: EFSVolumeConfiguration & { fileSystemId: string };
+          s3filesVolumeConfiguration: S3FilesVolumeConfiguration & { fileSystemArn: string };
         })[];
       })[];
     };
@@ -2305,9 +2049,7 @@ export interface DescribeJobDefinitionsResponse {
         volumes: (EksVolume & {
           name: string;
           secret: EksSecret & { secretName: string };
-          persistentVolumeClaim: EksPersistentVolumeClaim & {
-            claimName: string;
-          };
+          persistentVolumeClaim: EksPersistentVolumeClaim & { claimName: string };
         })[];
       };
     };
@@ -2315,10 +2057,9 @@ export interface DescribeJobDefinitionsResponse {
   nextToken?: string;
 }
 export const DescribeJobDefinitionsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    jobDefinitions: S.optional(JobDefinitionList),
-    nextToken: S.optional(S.String),
-  }).pipe(ns),
+  S.Struct({ jobDefinitions: S.optional(JobDefinitionList), nextToken: S.optional(S.String) }).pipe(
+    ns,
+  ),
 ).annotate({
   identifier: "DescribeJobDefinitionsResponse",
 }) as any as S.Schema<DescribeJobDefinitionsResponse>;
@@ -2343,9 +2084,7 @@ export const DescribeJobQueuesRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DescribeJobQueuesRequest",
-}) as any as S.Schema<DescribeJobQueuesRequest>;
+).annotate({ identifier: "DescribeJobQueuesRequest" }) as any as S.Schema<DescribeJobQueuesRequest>;
 export type JQStatus =
   | "CREATING"
   | "UPDATING"
@@ -2412,10 +2151,7 @@ export interface DescribeJobQueuesResponse {
   nextToken?: string;
 }
 export const DescribeJobQueuesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    jobQueues: S.optional(JobQueueDetailList),
-    nextToken: S.optional(S.String),
-  }).pipe(ns),
+  S.Struct({ jobQueues: S.optional(JobQueueDetailList), nextToken: S.optional(S.String) }).pipe(ns),
 ).annotate({
   identifier: "DescribeJobQueuesResponse",
 }) as any as S.Schema<DescribeJobQueuesResponse>;
@@ -2424,19 +2160,9 @@ export interface DescribeJobsRequest {
 }
 export const DescribeJobsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ jobs: S.optional(StringList) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/v1/describejobs" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/v1/describejobs" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DescribeJobsRequest",
-}) as any as S.Schema<DescribeJobsRequest>;
+).annotate({ identifier: "DescribeJobsRequest" }) as any as S.Schema<DescribeJobsRequest>;
 export type JobStatus =
   | "SUBMITTED"
   | "PENDING"
@@ -2459,9 +2185,7 @@ export const NetworkInterface = /*@__PURE__*/ S.suspend(() =>
     ipv6Address: S.optional(S.String),
     privateIpv4Address: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NetworkInterface",
-}) as any as S.Schema<NetworkInterface>;
+).annotate({ identifier: "NetworkInterface" }) as any as S.Schema<NetworkInterface>;
 export type NetworkInterfaceList = NetworkInterface[];
 export const NetworkInterfaceList = /*@__PURE__*/ S.Array(NetworkInterface);
 export interface AttemptContainerDetail {
@@ -2481,9 +2205,7 @@ export const AttemptContainerDetail = /*@__PURE__*/ S.suspend(() =>
     logStreamName: S.optional(S.String),
     networkInterfaces: S.optional(NetworkInterfaceList),
   }),
-).annotate({
-  identifier: "AttemptContainerDetail",
-}) as any as S.Schema<AttemptContainerDetail>;
+).annotate({ identifier: "AttemptContainerDetail" }) as any as S.Schema<AttemptContainerDetail>;
 export interface AttemptTaskContainerDetails {
   exitCode?: number;
   name?: string;
@@ -2503,9 +2225,7 @@ export const AttemptTaskContainerDetails = /*@__PURE__*/ S.suspend(() =>
   identifier: "AttemptTaskContainerDetails",
 }) as any as S.Schema<AttemptTaskContainerDetails>;
 export type ListAttemptTaskContainerDetails = AttemptTaskContainerDetails[];
-export const ListAttemptTaskContainerDetails = /*@__PURE__*/ S.Array(
-  AttemptTaskContainerDetails,
-);
+export const ListAttemptTaskContainerDetails = /*@__PURE__*/ S.Array(AttemptTaskContainerDetails);
 export interface AttemptEcsTaskDetails {
   containerInstanceArn?: string;
   taskArn?: string;
@@ -2517,13 +2237,9 @@ export const AttemptEcsTaskDetails = /*@__PURE__*/ S.suspend(() =>
     taskArn: S.optional(S.String),
     containers: S.optional(ListAttemptTaskContainerDetails),
   }),
-).annotate({
-  identifier: "AttemptEcsTaskDetails",
-}) as any as S.Schema<AttemptEcsTaskDetails>;
+).annotate({ identifier: "AttemptEcsTaskDetails" }) as any as S.Schema<AttemptEcsTaskDetails>;
 export type ListAttemptEcsTaskDetails = AttemptEcsTaskDetails[];
-export const ListAttemptEcsTaskDetails = /*@__PURE__*/ S.Array(
-  AttemptEcsTaskDetails,
-);
+export const ListAttemptEcsTaskDetails = /*@__PURE__*/ S.Array(AttemptEcsTaskDetails);
 export interface AttemptDetail {
   container?: AttemptContainerDetail;
   startedAt?: number;
@@ -2550,10 +2266,7 @@ export interface JobDependency {
   type?: ArrayJobDependency;
 }
 export const JobDependency = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    jobId: S.optional(S.String),
-    type: S.optional(ArrayJobDependency),
-  }),
+  S.Struct({ jobId: S.optional(S.String), type: S.optional(ArrayJobDependency) }),
 ).annotate({ identifier: "JobDependency" }) as any as S.Schema<JobDependency>;
 export type JobDependencyList = JobDependency[];
 export const JobDependencyList = /*@__PURE__*/ S.Array(JobDependency);
@@ -2622,24 +2335,16 @@ export const ContainerDetail = /*@__PURE__*/ S.suspend(() =>
     repositoryCredentials: S.optional(RepositoryCredentials),
     enableExecuteCommand: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "ContainerDetail",
-}) as any as S.Schema<ContainerDetail>;
+).annotate({ identifier: "ContainerDetail" }) as any as S.Schema<ContainerDetail>;
 export interface NodeDetails {
   nodeIndex?: number;
   isMainNode?: boolean;
 }
 export const NodeDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    nodeIndex: S.optional(S.Number),
-    isMainNode: S.optional(S.Boolean),
-  }),
+  S.Struct({ nodeIndex: S.optional(S.Number), isMainNode: S.optional(S.Boolean) }),
 ).annotate({ identifier: "NodeDetails" }) as any as S.Schema<NodeDetails>;
 export type ArrayJobStatusSummary = { [key: string]: number | undefined };
-export const ArrayJobStatusSummary = /*@__PURE__*/ S.Record(
-  S.String,
-  S.Number.pipe(S.optional),
-);
+export const ArrayJobStatusSummary = /*@__PURE__*/ S.Record(S.String, S.Number.pipe(S.optional));
 export interface ArrayPropertiesDetail {
   statusSummary?: { [key: string]: number | undefined };
   statusSummaryLastUpdatedAt?: number;
@@ -2653,9 +2358,7 @@ export const ArrayPropertiesDetail = /*@__PURE__*/ S.suspend(() =>
     size: S.optional(S.Number),
     index: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ArrayPropertiesDetail",
-}) as any as S.Schema<ArrayPropertiesDetail>;
+).annotate({ identifier: "ArrayPropertiesDetail" }) as any as S.Schema<ArrayPropertiesDetail>;
 export interface EksContainerDetail {
   name?: string;
   image?: string;
@@ -2683,9 +2386,7 @@ export const EksContainerDetail = /*@__PURE__*/ S.suspend(() =>
     volumeMounts: S.optional(EksContainerVolumeMounts),
     securityContext: S.optional(EksContainerSecurityContext),
   }),
-).annotate({
-  identifier: "EksContainerDetail",
-}) as any as S.Schema<EksContainerDetail>;
+).annotate({ identifier: "EksContainerDetail" }) as any as S.Schema<EksContainerDetail>;
 export type EksContainerDetails = EksContainerDetail[];
 export const EksContainerDetails = /*@__PURE__*/ S.Array(EksContainerDetail);
 export interface EksPodPropertiesDetail {
@@ -2715,17 +2416,13 @@ export const EksPodPropertiesDetail = /*@__PURE__*/ S.suspend(() =>
     metadata: S.optional(EksMetadata),
     shareProcessNamespace: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "EksPodPropertiesDetail",
-}) as any as S.Schema<EksPodPropertiesDetail>;
+).annotate({ identifier: "EksPodPropertiesDetail" }) as any as S.Schema<EksPodPropertiesDetail>;
 export interface EksPropertiesDetail {
   podProperties?: EksPodPropertiesDetail;
 }
 export const EksPropertiesDetail = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ podProperties: S.optional(EksPodPropertiesDetail) }),
-).annotate({
-  identifier: "EksPropertiesDetail",
-}) as any as S.Schema<EksPropertiesDetail>;
+).annotate({ identifier: "EksPropertiesDetail" }) as any as S.Schema<EksPropertiesDetail>;
 export interface EksAttemptContainerDetail {
   name?: string;
   containerID?: string;
@@ -2743,9 +2440,7 @@ export const EksAttemptContainerDetail = /*@__PURE__*/ S.suspend(() =>
   identifier: "EksAttemptContainerDetail",
 }) as any as S.Schema<EksAttemptContainerDetail>;
 export type EksAttemptContainerDetails = EksAttemptContainerDetail[];
-export const EksAttemptContainerDetails = /*@__PURE__*/ S.Array(
-  EksAttemptContainerDetail,
-);
+export const EksAttemptContainerDetails = /*@__PURE__*/ S.Array(EksAttemptContainerDetail);
 export interface EksAttemptDetail {
   containers?: EksAttemptContainerDetail[];
   initContainers?: EksAttemptContainerDetail[];
@@ -2769,9 +2464,7 @@ export const EksAttemptDetail = /*@__PURE__*/ S.suspend(() =>
     stoppedAt: S.optional(S.Number),
     statusReason: S.optional(S.String),
   }),
-).annotate({
-  identifier: "EksAttemptDetail",
-}) as any as S.Schema<EksAttemptDetail>;
+).annotate({ identifier: "EksAttemptDetail" }) as any as S.Schema<EksAttemptDetail>;
 export type EksAttemptDetails = EksAttemptDetail[];
 export const EksAttemptDetails = /*@__PURE__*/ S.Array(EksAttemptDetail);
 export interface TaskContainerDetails {
@@ -2825,12 +2518,9 @@ export const TaskContainerDetails = /*@__PURE__*/ S.suspend(() =>
     logStreamName: S.optional(S.String),
     networkInterfaces: S.optional(NetworkInterfaceList),
   }),
-).annotate({
-  identifier: "TaskContainerDetails",
-}) as any as S.Schema<TaskContainerDetails>;
+).annotate({ identifier: "TaskContainerDetails" }) as any as S.Schema<TaskContainerDetails>;
 export type ListTaskContainerDetails = TaskContainerDetails[];
-export const ListTaskContainerDetails =
-  /*@__PURE__*/ S.Array(TaskContainerDetails);
+export const ListTaskContainerDetails = /*@__PURE__*/ S.Array(TaskContainerDetails);
 export interface EcsTaskDetails {
   containers?: TaskContainerDetails[];
   containerInstanceArn?: string;
@@ -2872,9 +2562,7 @@ export interface EcsPropertiesDetail {
 }
 export const EcsPropertiesDetail = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ taskProperties: S.optional(ListEcsTaskDetails) }),
-).annotate({
-  identifier: "EcsPropertiesDetail",
-}) as any as S.Schema<EcsPropertiesDetail>;
+).annotate({ identifier: "EcsPropertiesDetail" }) as any as S.Schema<EcsPropertiesDetail>;
 export interface JobDetail {
   jobArn?: string;
   jobName?: string;
@@ -2951,27 +2639,14 @@ export interface DescribeJobsResponse {
     status: JobStatus;
     startedAt: number;
     jobDefinition: string;
-    retryStrategy: RetryStrategy & {
-      evaluateOnExit: (EvaluateOnExit & { action: RetryAction })[];
-    };
+    retryStrategy: RetryStrategy & { evaluateOnExit: (EvaluateOnExit & { action: RetryAction })[] };
     container: ContainerDetail & {
       volumes: (Volume & {
-        efsVolumeConfiguration: EFSVolumeConfiguration & {
-          fileSystemId: string;
-        };
-        s3filesVolumeConfiguration: S3FilesVolumeConfiguration & {
-          fileSystemArn: string;
-        };
+        efsVolumeConfiguration: EFSVolumeConfiguration & { fileSystemId: string };
+        s3filesVolumeConfiguration: S3FilesVolumeConfiguration & { fileSystemArn: string };
       })[];
-      ulimits: (Ulimit & {
-        hardLimit: number;
-        name: string;
-        softLimit: number;
-      })[];
-      resourceRequirements: (ResourceRequirement & {
-        value: string;
-        type: ResourceType;
-      })[];
+      ulimits: (Ulimit & { hardLimit: number; name: string; softLimit: number })[];
+      resourceRequirements: (ResourceRequirement & { value: string; type: ResourceType })[];
       linuxParameters: LinuxParameters & {
         devices: (Device & { hostPath: string })[];
         tmpfs: (Tmpfs & { containerPath: string; size: number })[];
@@ -2982,9 +2657,7 @@ export interface DescribeJobsResponse {
       };
       secrets: (Secret & { name: string; valueFrom: string })[];
       ephemeralStorage: EphemeralStorage & { sizeInGiB: number };
-      repositoryCredentials: RepositoryCredentials & {
-        credentialsParameter: string;
-      };
+      repositoryCredentials: RepositoryCredentials & { credentialsParameter: string };
     };
     nodeProperties: NodeProperties & {
       numNodes: number;
@@ -2993,22 +2666,11 @@ export interface DescribeJobsResponse {
         targetNodes: string;
         container: ContainerProperties & {
           volumes: (Volume & {
-            efsVolumeConfiguration: EFSVolumeConfiguration & {
-              fileSystemId: string;
-            };
-            s3filesVolumeConfiguration: S3FilesVolumeConfiguration & {
-              fileSystemArn: string;
-            };
+            efsVolumeConfiguration: EFSVolumeConfiguration & { fileSystemId: string };
+            s3filesVolumeConfiguration: S3FilesVolumeConfiguration & { fileSystemArn: string };
           })[];
-          ulimits: (Ulimit & {
-            hardLimit: number;
-            name: string;
-            softLimit: number;
-          })[];
-          resourceRequirements: (ResourceRequirement & {
-            value: string;
-            type: ResourceType;
-          })[];
+          ulimits: (Ulimit & { hardLimit: number; name: string; softLimit: number })[];
+          resourceRequirements: (ResourceRequirement & { value: string; type: ResourceType })[];
           linuxParameters: LinuxParameters & {
             devices: (Device & { hostPath: string })[];
             tmpfs: (Tmpfs & { containerPath: string; size: number })[];
@@ -3019,17 +2681,13 @@ export interface DescribeJobsResponse {
           };
           secrets: (Secret & { name: string; valueFrom: string })[];
           ephemeralStorage: EphemeralStorage & { sizeInGiB: number };
-          repositoryCredentials: RepositoryCredentials & {
-            credentialsParameter: string;
-          };
+          repositoryCredentials: RepositoryCredentials & { credentialsParameter: string };
         };
         ecsProperties: EcsProperties & {
           taskProperties: (EcsTaskProperties & {
             containers: (TaskContainerProperties & {
               image: string;
-              firelensConfiguration: FirelensConfiguration & {
-                type: FirelensConfigurationType;
-              };
+              firelensConfiguration: FirelensConfiguration & { type: FirelensConfigurationType };
               linuxParameters: LinuxParameters & {
                 devices: (Device & { hostPath: string })[];
                 tmpfs: (Tmpfs & { containerPath: string; size: number })[];
@@ -3038,28 +2696,15 @@ export interface DescribeJobsResponse {
                 logDriver: LogDriver;
                 secretOptions: (Secret & { name: string; valueFrom: string })[];
               };
-              repositoryCredentials: RepositoryCredentials & {
-                credentialsParameter: string;
-              };
-              resourceRequirements: (ResourceRequirement & {
-                value: string;
-                type: ResourceType;
-              })[];
+              repositoryCredentials: RepositoryCredentials & { credentialsParameter: string };
+              resourceRequirements: (ResourceRequirement & { value: string; type: ResourceType })[];
               secrets: (Secret & { name: string; valueFrom: string })[];
-              ulimits: (Ulimit & {
-                hardLimit: number;
-                name: string;
-                softLimit: number;
-              })[];
+              ulimits: (Ulimit & { hardLimit: number; name: string; softLimit: number })[];
             })[];
             ephemeralStorage: EphemeralStorage & { sizeInGiB: number };
             volumes: (Volume & {
-              efsVolumeConfiguration: EFSVolumeConfiguration & {
-                fileSystemId: string;
-              };
-              s3filesVolumeConfiguration: S3FilesVolumeConfiguration & {
-                fileSystemArn: string;
-              };
+              efsVolumeConfiguration: EFSVolumeConfiguration & { fileSystemId: string };
+              s3filesVolumeConfiguration: S3FilesVolumeConfiguration & { fileSystemArn: string };
             })[];
           })[];
         };
@@ -3077,9 +2722,7 @@ export interface DescribeJobsResponse {
             volumes: (EksVolume & {
               name: string;
               secret: EksSecret & { secretName: string };
-              persistentVolumeClaim: EksPersistentVolumeClaim & {
-                claimName: string;
-              };
+              persistentVolumeClaim: EksPersistentVolumeClaim & { claimName: string };
             })[];
           };
         };
@@ -3097,18 +2740,14 @@ export interface DescribeJobsResponse {
         volumes: (EksVolume & {
           name: string;
           secret: EksSecret & { secretName: string };
-          persistentVolumeClaim: EksPersistentVolumeClaim & {
-            claimName: string;
-          };
+          persistentVolumeClaim: EksPersistentVolumeClaim & { claimName: string };
         })[];
       };
     };
     ecsProperties: EcsPropertiesDetail & {
       taskProperties: (EcsTaskDetails & {
         containers: (TaskContainerDetails & {
-          firelensConfiguration: FirelensConfiguration & {
-            type: FirelensConfigurationType;
-          };
+          firelensConfiguration: FirelensConfiguration & { type: FirelensConfigurationType };
           linuxParameters: LinuxParameters & {
             devices: (Device & { hostPath: string })[];
             tmpfs: (Tmpfs & { containerPath: string; size: number })[];
@@ -3117,28 +2756,15 @@ export interface DescribeJobsResponse {
             logDriver: LogDriver;
             secretOptions: (Secret & { name: string; valueFrom: string })[];
           };
-          repositoryCredentials: RepositoryCredentials & {
-            credentialsParameter: string;
-          };
-          resourceRequirements: (ResourceRequirement & {
-            value: string;
-            type: ResourceType;
-          })[];
+          repositoryCredentials: RepositoryCredentials & { credentialsParameter: string };
+          resourceRequirements: (ResourceRequirement & { value: string; type: ResourceType })[];
           secrets: (Secret & { name: string; valueFrom: string })[];
-          ulimits: (Ulimit & {
-            hardLimit: number;
-            name: string;
-            softLimit: number;
-          })[];
+          ulimits: (Ulimit & { hardLimit: number; name: string; softLimit: number })[];
         })[];
         ephemeralStorage: EphemeralStorage & { sizeInGiB: number };
         volumes: (Volume & {
-          efsVolumeConfiguration: EFSVolumeConfiguration & {
-            fileSystemId: string;
-          };
-          s3filesVolumeConfiguration: S3FilesVolumeConfiguration & {
-            fileSystemArn: string;
-          };
+          efsVolumeConfiguration: EFSVolumeConfiguration & { fileSystemId: string };
+          s3filesVolumeConfiguration: S3FilesVolumeConfiguration & { fileSystemArn: string };
         })[];
       })[];
     };
@@ -3146,9 +2772,7 @@ export interface DescribeJobsResponse {
 }
 export const DescribeJobsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ jobs: S.optional(JobDetailList) }).pipe(ns),
-).annotate({
-  identifier: "DescribeJobsResponse",
-}) as any as S.Schema<DescribeJobsResponse>;
+).annotate({ identifier: "DescribeJobsResponse" }) as any as S.Schema<DescribeJobsResponse>;
 export interface DescribeQuotaShareRequest {
   quotaShareArn?: string;
 }
@@ -3180,10 +2804,7 @@ export interface DescribeQuotaShareResponse {
   quotaShareName?: string;
   quotaShareArn?: string;
   jobQueueArn?: string;
-  capacityLimits?: (QuotaShareCapacityLimit & {
-    maxCapacity: number;
-    capacityUnit: string;
-  })[];
+  capacityLimits?: (QuotaShareCapacityLimit & { maxCapacity: number; capacityUnit: string })[];
   resourceSharingConfiguration?: QuotaShareResourceSharingConfiguration & {
     strategy: QuotaShareResourceSharingStrategy;
   };
@@ -3200,9 +2821,7 @@ export const DescribeQuotaShareResponse = /*@__PURE__*/ S.suspend(() =>
     quotaShareArn: S.optional(S.String),
     jobQueueArn: S.optional(S.String),
     capacityLimits: S.optional(QuotaShareCapacityLimits),
-    resourceSharingConfiguration: S.optional(
-      QuotaShareResourceSharingConfiguration,
-    ),
+    resourceSharingConfiguration: S.optional(QuotaShareResourceSharingConfiguration),
     preemptionConfiguration: S.optional(QuotaSharePreemptionConfiguration),
     state: S.optional(QuotaShareState),
     status: S.optional(QuotaShareStatus),
@@ -3244,13 +2863,9 @@ export const SchedulingPolicyDetail = /*@__PURE__*/ S.suspend(() =>
     fairsharePolicy: S.optional(FairsharePolicy),
     tags: S.optional(TagrisTagsMap),
   }),
-).annotate({
-  identifier: "SchedulingPolicyDetail",
-}) as any as S.Schema<SchedulingPolicyDetail>;
+).annotate({ identifier: "SchedulingPolicyDetail" }) as any as S.Schema<SchedulingPolicyDetail>;
 export type SchedulingPolicyDetailList = SchedulingPolicyDetail[];
-export const SchedulingPolicyDetailList = /*@__PURE__*/ S.Array(
-  SchedulingPolicyDetail,
-);
+export const SchedulingPolicyDetailList = /*@__PURE__*/ S.Array(SchedulingPolicyDetail);
 export interface DescribeSchedulingPoliciesResponse {
   schedulingPolicies?: (SchedulingPolicyDetail & {
     name: string;
@@ -3264,9 +2879,7 @@ export interface DescribeSchedulingPoliciesResponse {
   })[];
 }
 export const DescribeSchedulingPoliciesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ schedulingPolicies: S.optional(SchedulingPolicyDetailList) }).pipe(
-    ns,
-  ),
+  S.Struct({ schedulingPolicies: S.optional(SchedulingPolicyDetailList) }).pipe(ns),
 ).annotate({
   identifier: "DescribeSchedulingPoliciesResponse",
 }) as any as S.Schema<DescribeSchedulingPoliciesResponse>;
@@ -3323,13 +2936,9 @@ export const ServiceEnvironmentDetail = /*@__PURE__*/ S.suspend(() =>
     capacityLimits: S.optional(CapacityLimits),
     tags: S.optional(TagrisTagsMap),
   }),
-).annotate({
-  identifier: "ServiceEnvironmentDetail",
-}) as any as S.Schema<ServiceEnvironmentDetail>;
+).annotate({ identifier: "ServiceEnvironmentDetail" }) as any as S.Schema<ServiceEnvironmentDetail>;
 export type ServiceEnvironmentDetailList = ServiceEnvironmentDetail[];
-export const ServiceEnvironmentDetailList = /*@__PURE__*/ S.Array(
-  ServiceEnvironmentDetail,
-);
+export const ServiceEnvironmentDetailList = /*@__PURE__*/ S.Array(ServiceEnvironmentDetail);
 export interface DescribeServiceEnvironmentsResponse {
   serviceEnvironments?: (ServiceEnvironmentDetail & {
     serviceEnvironmentName: string;
@@ -3373,13 +2982,8 @@ export interface ServiceResourceId {
   value?: string;
 }
 export const ServiceResourceId = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(ServiceResourceIdName),
-    value: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ServiceResourceId",
-}) as any as S.Schema<ServiceResourceId>;
+  S.Struct({ name: S.optional(ServiceResourceIdName), value: S.optional(S.String) }),
+).annotate({ identifier: "ServiceResourceId" }) as any as S.Schema<ServiceResourceId>;
 export interface ServiceJobAttemptDetail {
   serviceResourceId?: ServiceResourceId;
   startedAt?: number;
@@ -3393,22 +2997,15 @@ export const ServiceJobAttemptDetail = /*@__PURE__*/ S.suspend(() =>
     stoppedAt: S.optional(S.Number),
     statusReason: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ServiceJobAttemptDetail",
-}) as any as S.Schema<ServiceJobAttemptDetail>;
+).annotate({ identifier: "ServiceJobAttemptDetail" }) as any as S.Schema<ServiceJobAttemptDetail>;
 export type ServiceJobAttemptDetails = ServiceJobAttemptDetail[];
-export const ServiceJobAttemptDetails = /*@__PURE__*/ S.Array(
-  ServiceJobAttemptDetail,
-);
+export const ServiceJobAttemptDetails = /*@__PURE__*/ S.Array(ServiceJobAttemptDetail);
 export interface ServiceJobCapacityUsageDetail {
   capacityUnit?: string;
   quantity?: number;
 }
 export const ServiceJobCapacityUsageDetail = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    capacityUnit: S.optional(S.String),
-    quantity: S.optional(S.Number),
-  }),
+  S.Struct({ capacityUnit: S.optional(S.String), quantity: S.optional(S.Number) }),
 ).annotate({
   identifier: "ServiceJobCapacityUsageDetail",
 }) as any as S.Schema<ServiceJobCapacityUsageDetail>;
@@ -3421,9 +3018,7 @@ export interface LatestServiceJobAttempt {
 }
 export const LatestServiceJobAttempt = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ serviceResourceId: S.optional(ServiceResourceId) }),
-).annotate({
-  identifier: "LatestServiceJobAttempt",
-}) as any as S.Schema<LatestServiceJobAttempt>;
+).annotate({ identifier: "LatestServiceJobAttempt" }) as any as S.Schema<LatestServiceJobAttempt>;
 export type ServiceJobRetryAction = "RETRY" | "EXIT" | (string & {});
 export const ServiceJobRetryAction = S.String;
 
@@ -3432,17 +3027,10 @@ export interface ServiceJobEvaluateOnExit {
   onStatusReason?: string;
 }
 export const ServiceJobEvaluateOnExit = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    action: S.optional(ServiceJobRetryAction),
-    onStatusReason: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ServiceJobEvaluateOnExit",
-}) as any as S.Schema<ServiceJobEvaluateOnExit>;
+  S.Struct({ action: S.optional(ServiceJobRetryAction), onStatusReason: S.optional(S.String) }),
+).annotate({ identifier: "ServiceJobEvaluateOnExit" }) as any as S.Schema<ServiceJobEvaluateOnExit>;
 export type ServiceJobEvaluateOnExitList = ServiceJobEvaluateOnExit[];
-export const ServiceJobEvaluateOnExitList = /*@__PURE__*/ S.Array(
-  ServiceJobEvaluateOnExit,
-);
+export const ServiceJobEvaluateOnExitList = /*@__PURE__*/ S.Array(ServiceJobEvaluateOnExit);
 export interface ServiceJobRetryStrategy {
   attempts?: number;
   evaluateOnExit?: ServiceJobEvaluateOnExit[];
@@ -3452,9 +3040,7 @@ export const ServiceJobRetryStrategy = /*@__PURE__*/ S.suspend(() =>
     attempts: S.optional(S.Number),
     evaluateOnExit: S.optional(ServiceJobEvaluateOnExitList),
   }),
-).annotate({
-  identifier: "ServiceJobRetryStrategy",
-}) as any as S.Schema<ServiceJobRetryStrategy>;
+).annotate({ identifier: "ServiceJobRetryStrategy" }) as any as S.Schema<ServiceJobRetryStrategy>;
 export type ServiceJobType = "SAGEMAKER_TRAINING" | (string & {});
 export const ServiceJobType = S.String;
 
@@ -3515,15 +3101,10 @@ export interface ServiceJobTimeout {
 }
 export const ServiceJobTimeout = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ attemptDurationSeconds: S.optional(S.Number) }),
-).annotate({
-  identifier: "ServiceJobTimeout",
-}) as any as S.Schema<ServiceJobTimeout>;
+).annotate({ identifier: "ServiceJobTimeout" }) as any as S.Schema<ServiceJobTimeout>;
 export interface DescribeServiceJobResponse {
   attempts?: (ServiceJobAttemptDetail & {
-    serviceResourceId: ServiceResourceId & {
-      name: ServiceResourceIdName;
-      value: string;
-    };
+    serviceResourceId: ServiceResourceId & { name: ServiceResourceIdName; value: string };
   })[];
   capacityUsage?: ServiceJobCapacityUsageDetail[];
   createdAt?: number;
@@ -3533,10 +3114,7 @@ export interface DescribeServiceJobResponse {
   jobName: string;
   jobQueue: string;
   latestAttempt?: LatestServiceJobAttempt & {
-    serviceResourceId: ServiceResourceId & {
-      name: ServiceResourceIdName;
-      value: string;
-    };
+    serviceResourceId: ServiceResourceId & { name: ServiceResourceIdName; value: string };
   };
   retryStrategy?: ServiceJobRetryStrategy & { attempts: number };
   scheduledAt?: number;
@@ -3548,10 +3126,7 @@ export interface DescribeServiceJobResponse {
   preemptionConfiguration?: ServiceJobPreemptionConfiguration;
   preemptionSummary?: ServiceJobPreemptionSummary & {
     recentPreemptedAttempts: (ServiceJobPreemptedAttempt & {
-      serviceResourceId: ServiceResourceId & {
-        name: ServiceResourceIdName;
-        value: string;
-      };
+      serviceResourceId: ServiceResourceId & { name: ServiceResourceIdName; value: string };
     })[];
   };
   startedAt: number;
@@ -3614,45 +3189,28 @@ export interface FrontOfQueueJobSummary {
   earliestTimeAtPosition?: number;
 }
 export const FrontOfQueueJobSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    jobArn: S.optional(S.String),
-    earliestTimeAtPosition: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "FrontOfQueueJobSummary",
-}) as any as S.Schema<FrontOfQueueJobSummary>;
+  S.Struct({ jobArn: S.optional(S.String), earliestTimeAtPosition: S.optional(S.Number) }),
+).annotate({ identifier: "FrontOfQueueJobSummary" }) as any as S.Schema<FrontOfQueueJobSummary>;
 export type FrontOfQueueJobSummaryList = FrontOfQueueJobSummary[];
-export const FrontOfQueueJobSummaryList = /*@__PURE__*/ S.Array(
-  FrontOfQueueJobSummary,
-);
+export const FrontOfQueueJobSummaryList = /*@__PURE__*/ S.Array(FrontOfQueueJobSummary);
 export interface FrontOfQueueDetail {
   jobs?: FrontOfQueueJobSummary[];
   lastUpdatedAt?: number;
 }
 export const FrontOfQueueDetail = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    jobs: S.optional(FrontOfQueueJobSummaryList),
-    lastUpdatedAt: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "FrontOfQueueDetail",
-}) as any as S.Schema<FrontOfQueueDetail>;
+  S.Struct({ jobs: S.optional(FrontOfQueueJobSummaryList), lastUpdatedAt: S.optional(S.Number) }),
+).annotate({ identifier: "FrontOfQueueDetail" }) as any as S.Schema<FrontOfQueueDetail>;
 export interface FrontOfQuotaShareJobSummary {
   jobArn?: string;
   earliestTimeAtPosition?: number;
 }
 export const FrontOfQuotaShareJobSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    jobArn: S.optional(S.String),
-    earliestTimeAtPosition: S.optional(S.Number),
-  }),
+  S.Struct({ jobArn: S.optional(S.String), earliestTimeAtPosition: S.optional(S.Number) }),
 ).annotate({
   identifier: "FrontOfQuotaShareJobSummary",
 }) as any as S.Schema<FrontOfQuotaShareJobSummary>;
 export type FrontOfQuotaShareJobSummaryList = FrontOfQuotaShareJobSummary[];
-export const FrontOfQuotaShareJobSummaryList = /*@__PURE__*/ S.Array(
-  FrontOfQuotaShareJobSummary,
-);
+export const FrontOfQuotaShareJobSummaryList = /*@__PURE__*/ S.Array(FrontOfQuotaShareJobSummary);
 export type FrontOfQuotaSharesJobSummaryMap = {
   [key: string]: FrontOfQuotaShareJobSummary[] | undefined;
 };
@@ -3669,41 +3227,27 @@ export const FrontOfQuotaSharesDetail = /*@__PURE__*/ S.suspend(() =>
     quotaShares: S.optional(FrontOfQuotaSharesJobSummaryMap),
     lastUpdatedAt: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "FrontOfQuotaSharesDetail",
-}) as any as S.Schema<FrontOfQuotaSharesDetail>;
+).annotate({ identifier: "FrontOfQuotaSharesDetail" }) as any as S.Schema<FrontOfQuotaSharesDetail>;
 export interface QueueSnapshotCapacityUsage {
   capacityUnit?: string;
   quantity?: number;
 }
 export const QueueSnapshotCapacityUsage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    capacityUnit: S.optional(S.String),
-    quantity: S.optional(S.Number),
-  }),
+  S.Struct({ capacityUnit: S.optional(S.String), quantity: S.optional(S.Number) }),
 ).annotate({
   identifier: "QueueSnapshotCapacityUsage",
 }) as any as S.Schema<QueueSnapshotCapacityUsage>;
 export type QueueSnapshotCapacityUsageList = QueueSnapshotCapacityUsage[];
-export const QueueSnapshotCapacityUsageList = /*@__PURE__*/ S.Array(
-  QueueSnapshotCapacityUsage,
-);
+export const QueueSnapshotCapacityUsageList = /*@__PURE__*/ S.Array(QueueSnapshotCapacityUsage);
 export interface FairshareCapacityUsage {
   capacityUnit?: string;
   quantity?: number;
 }
 export const FairshareCapacityUsage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    capacityUnit: S.optional(S.String),
-    quantity: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "FairshareCapacityUsage",
-}) as any as S.Schema<FairshareCapacityUsage>;
+  S.Struct({ capacityUnit: S.optional(S.String), quantity: S.optional(S.Number) }),
+).annotate({ identifier: "FairshareCapacityUsage" }) as any as S.Schema<FairshareCapacityUsage>;
 export type FairshareCapacityUsageList = FairshareCapacityUsage[];
-export const FairshareCapacityUsageList = /*@__PURE__*/ S.Array(
-  FairshareCapacityUsage,
-);
+export const FairshareCapacityUsageList = /*@__PURE__*/ S.Array(FairshareCapacityUsage);
 export interface FairshareCapacityUtilization {
   shareIdentifier?: string;
   capacityUsage?: FairshareCapacityUsage[];
@@ -3717,9 +3261,7 @@ export const FairshareCapacityUtilization = /*@__PURE__*/ S.suspend(() =>
   identifier: "FairshareCapacityUtilization",
 }) as any as S.Schema<FairshareCapacityUtilization>;
 export type FairshareCapacityUtilizationList = FairshareCapacityUtilization[];
-export const FairshareCapacityUtilizationList = /*@__PURE__*/ S.Array(
-  FairshareCapacityUtilization,
-);
+export const FairshareCapacityUtilizationList = /*@__PURE__*/ S.Array(FairshareCapacityUtilization);
 export interface FairshareUtilizationDetail {
   activeShareCount?: number;
   topCapacityUtilization?: FairshareCapacityUtilization[];
@@ -3737,17 +3279,10 @@ export interface QuotaShareCapacityUsage {
   quantity?: number;
 }
 export const QuotaShareCapacityUsage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    capacityUnit: S.optional(S.String),
-    quantity: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "QuotaShareCapacityUsage",
-}) as any as S.Schema<QuotaShareCapacityUsage>;
+  S.Struct({ capacityUnit: S.optional(S.String), quantity: S.optional(S.Number) }),
+).annotate({ identifier: "QuotaShareCapacityUsage" }) as any as S.Schema<QuotaShareCapacityUsage>;
 export type QuotaShareCapacityUsageList = QuotaShareCapacityUsage[];
-export const QuotaShareCapacityUsageList = /*@__PURE__*/ S.Array(
-  QuotaShareCapacityUsage,
-);
+export const QuotaShareCapacityUsageList = /*@__PURE__*/ S.Array(QuotaShareCapacityUsage);
 export interface QuotaShareCapacityUtilization {
   quotaShareName?: string;
   capacityUsage?: QuotaShareCapacityUsage[];
@@ -3768,9 +3303,7 @@ export interface QuotaShareUtilizationDetail {
   topCapacityUtilization?: QuotaShareCapacityUtilization[];
 }
 export const QuotaShareUtilizationDetail = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    topCapacityUtilization: S.optional(QuotaShareCapacityUtilizationList),
-  }),
+  S.Struct({ topCapacityUtilization: S.optional(QuotaShareCapacityUtilizationList) }),
 ).annotate({
   identifier: "QuotaShareUtilizationDetail",
 }) as any as S.Schema<QuotaShareUtilizationDetail>;
@@ -3812,8 +3345,7 @@ export const KeyValuesPair = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ name: S.optional(S.String), values: S.optional(StringList) }),
 ).annotate({ identifier: "KeyValuesPair" }) as any as S.Schema<KeyValuesPair>;
 export type ListConsumableResourcesFilterList = KeyValuesPair[];
-export const ListConsumableResourcesFilterList =
-  /*@__PURE__*/ S.Array(KeyValuesPair);
+export const ListConsumableResourcesFilterList = /*@__PURE__*/ S.Array(KeyValuesPair);
 export interface ListConsumableResourcesRequest {
   filters?: KeyValuesPair[];
   maxResults?: number;
@@ -3857,9 +3389,7 @@ export const ConsumableResourceSummary = /*@__PURE__*/ S.suspend(() =>
   identifier: "ConsumableResourceSummary",
 }) as any as S.Schema<ConsumableResourceSummary>;
 export type ConsumableResourceSummaryList = ConsumableResourceSummary[];
-export const ConsumableResourceSummaryList = /*@__PURE__*/ S.Array(
-  ConsumableResourceSummary,
-);
+export const ConsumableResourceSummaryList = /*@__PURE__*/ S.Array(ConsumableResourceSummary);
 export interface ListConsumableResourcesResponse {
   consumableResources: (ConsumableResourceSummary & {
     consumableResourceArn: string;
@@ -3895,45 +3425,24 @@ export const ListJobsRequest = /*@__PURE__*/ S.suspend(() =>
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
     filters: S.optional(ListJobsFilterList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/v1/listjobs" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListJobsRequest",
-}) as any as S.Schema<ListJobsRequest>;
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/v1/listjobs" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "ListJobsRequest" }) as any as S.Schema<ListJobsRequest>;
 export interface JobCapacityUsageSummary {
   capacityUnit?: string;
   quantity?: number;
 }
 export const JobCapacityUsageSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    capacityUnit: S.optional(S.String),
-    quantity: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "JobCapacityUsageSummary",
-}) as any as S.Schema<JobCapacityUsageSummary>;
+  S.Struct({ capacityUnit: S.optional(S.String), quantity: S.optional(S.Number) }),
+).annotate({ identifier: "JobCapacityUsageSummary" }) as any as S.Schema<JobCapacityUsageSummary>;
 export type JobCapacityUsageSummaryList = JobCapacityUsageSummary[];
-export const JobCapacityUsageSummaryList = /*@__PURE__*/ S.Array(
-  JobCapacityUsageSummary,
-);
+export const JobCapacityUsageSummaryList = /*@__PURE__*/ S.Array(JobCapacityUsageSummary);
 export interface ContainerSummary {
   exitCode?: number;
   reason?: string;
 }
 export const ContainerSummary = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ exitCode: S.optional(S.Number), reason: S.optional(S.String) }),
-).annotate({
-  identifier: "ContainerSummary",
-}) as any as S.Schema<ContainerSummary>;
+).annotate({ identifier: "ContainerSummary" }) as any as S.Schema<ContainerSummary>;
 export interface ArrayPropertiesSummary {
   size?: number;
   index?: number;
@@ -3947,9 +3456,7 @@ export const ArrayPropertiesSummary = /*@__PURE__*/ S.suspend(() =>
     statusSummary: S.optional(ArrayJobStatusSummary),
     statusSummaryLastUpdatedAt: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ArrayPropertiesSummary",
-}) as any as S.Schema<ArrayPropertiesSummary>;
+).annotate({ identifier: "ArrayPropertiesSummary" }) as any as S.Schema<ArrayPropertiesSummary>;
 export interface NodePropertiesSummary {
   isMainNode?: boolean;
   numNodes?: number;
@@ -3961,9 +3468,7 @@ export const NodePropertiesSummary = /*@__PURE__*/ S.suspend(() =>
     numNodes: S.optional(S.Number),
     nodeIndex: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "NodePropertiesSummary",
-}) as any as S.Schema<NodePropertiesSummary>;
+).annotate({ identifier: "NodePropertiesSummary" }) as any as S.Schema<NodePropertiesSummary>;
 export interface JobSummary {
   jobArn?: string;
   jobId?: string;
@@ -3980,6 +3485,8 @@ export interface JobSummary {
   arrayProperties?: ArrayPropertiesSummary;
   nodeProperties?: NodePropertiesSummary;
   jobDefinition?: string;
+  isCancelled?: boolean;
+  isTerminated?: boolean;
 }
 export const JobSummary = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -3998,6 +3505,8 @@ export const JobSummary = /*@__PURE__*/ S.suspend(() =>
     arrayProperties: S.optional(ArrayPropertiesSummary),
     nodeProperties: S.optional(NodePropertiesSummary),
     jobDefinition: S.optional(S.String),
+    isCancelled: S.optional(S.Boolean),
+    isTerminated: S.optional(S.Boolean),
   }),
 ).annotate({ identifier: "JobSummary" }) as any as S.Schema<JobSummary>;
 export type JobSummaryList = JobSummary[];
@@ -4007,16 +3516,12 @@ export interface ListJobsResponse {
   nextToken?: string;
 }
 export const ListJobsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    jobSummaryList: S.optional(JobSummaryList),
-    nextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListJobsResponse",
-}) as any as S.Schema<ListJobsResponse>;
+  S.Struct({ jobSummaryList: S.optional(JobSummaryList), nextToken: S.optional(S.String) }).pipe(
+    ns,
+  ),
+).annotate({ identifier: "ListJobsResponse" }) as any as S.Schema<ListJobsResponse>;
 export type ListJobsByConsumableResourceFilterList = KeyValuesPair[];
-export const ListJobsByConsumableResourceFilterList =
-  /*@__PURE__*/ S.Array(KeyValuesPair);
+export const ListJobsByConsumableResourceFilterList = /*@__PURE__*/ S.Array(KeyValuesPair);
 export interface ListJobsByConsumableResourceRequest {
   consumableResource?: string;
   filters?: KeyValuesPair[];
@@ -4073,8 +3578,7 @@ export const ListJobsByConsumableResourceSummary = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ListJobsByConsumableResourceSummary",
 }) as any as S.Schema<ListJobsByConsumableResourceSummary>;
-export type ListJobsByConsumableResourceSummaryList =
-  ListJobsByConsumableResourceSummary[];
+export type ListJobsByConsumableResourceSummaryList = ListJobsByConsumableResourceSummary[];
 export const ListJobsByConsumableResourceSummaryList = /*@__PURE__*/ S.Array(
   ListJobsByConsumableResourceSummary,
 );
@@ -4090,12 +3594,11 @@ export interface ListJobsByConsumableResourceResponse {
   })[];
   nextToken?: string;
 }
-export const ListJobsByConsumableResourceResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      jobs: S.optional(ListJobsByConsumableResourceSummaryList),
-      nextToken: S.optional(S.String),
-    }).pipe(ns),
+export const ListJobsByConsumableResourceResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    jobs: S.optional(ListJobsByConsumableResourceSummaryList),
+    nextToken: S.optional(S.String),
+  }).pipe(ns),
 ).annotate({
   identifier: "ListJobsByConsumableResourceResponse",
 }) as any as S.Schema<ListJobsByConsumableResourceResponse>;
@@ -4110,19 +3613,9 @@ export const ListQuotaSharesRequest = /*@__PURE__*/ S.suspend(() =>
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
   }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/v1/listquotashares" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/v1/listquotashares" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "ListQuotaSharesRequest",
-}) as any as S.Schema<ListQuotaSharesRequest>;
+).annotate({ identifier: "ListQuotaSharesRequest" }) as any as S.Schema<ListQuotaSharesRequest>;
 export interface QuotaShareDetail {
   quotaShareName?: string;
   quotaShareArn?: string;
@@ -4139,24 +3632,17 @@ export const QuotaShareDetail = /*@__PURE__*/ S.suspend(() =>
     quotaShareArn: S.optional(S.String),
     jobQueueArn: S.optional(S.String),
     capacityLimits: S.optional(QuotaShareCapacityLimits),
-    resourceSharingConfiguration: S.optional(
-      QuotaShareResourceSharingConfiguration,
-    ),
+    resourceSharingConfiguration: S.optional(QuotaShareResourceSharingConfiguration),
     preemptionConfiguration: S.optional(QuotaSharePreemptionConfiguration),
     state: S.optional(QuotaShareState),
     status: S.optional(QuotaShareStatus),
   }),
-).annotate({
-  identifier: "QuotaShareDetail",
-}) as any as S.Schema<QuotaShareDetail>;
+).annotate({ identifier: "QuotaShareDetail" }) as any as S.Schema<QuotaShareDetail>;
 export type QuotaShareList = QuotaShareDetail[];
 export const QuotaShareList = /*@__PURE__*/ S.Array(QuotaShareDetail);
 export interface ListQuotaSharesResponse {
   quotaShares?: (QuotaShareDetail & {
-    capacityLimits: (QuotaShareCapacityLimit & {
-      maxCapacity: number;
-      capacityUnit: string;
-    })[];
+    capacityLimits: (QuotaShareCapacityLimit & { maxCapacity: number; capacityUnit: string })[];
     resourceSharingConfiguration: QuotaShareResourceSharingConfiguration & {
       strategy: QuotaShareResourceSharingStrategy;
     };
@@ -4167,22 +3653,14 @@ export interface ListQuotaSharesResponse {
   nextToken?: string;
 }
 export const ListQuotaSharesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    quotaShares: S.optional(QuotaShareList),
-    nextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListQuotaSharesResponse",
-}) as any as S.Schema<ListQuotaSharesResponse>;
+  S.Struct({ quotaShares: S.optional(QuotaShareList), nextToken: S.optional(S.String) }).pipe(ns),
+).annotate({ identifier: "ListQuotaSharesResponse" }) as any as S.Schema<ListQuotaSharesResponse>;
 export interface ListSchedulingPoliciesRequest {
   maxResults?: number;
   nextToken?: string;
 }
 export const ListSchedulingPoliciesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    maxResults: S.optional(S.Number),
-    nextToken: S.optional(S.String),
-  }).pipe(
+  S.Struct({ maxResults: S.optional(S.Number), nextToken: S.optional(S.String) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/v1/listschedulingpolicies" }),
@@ -4235,33 +3713,19 @@ export const ListServiceJobsRequest = /*@__PURE__*/ S.suspend(() =>
     nextToken: S.optional(S.String),
     filters: S.optional(ListJobsFilterList),
   }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/v1/listservicejobs" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/v1/listservicejobs" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "ListServiceJobsRequest",
-}) as any as S.Schema<ListServiceJobsRequest>;
+).annotate({ identifier: "ListServiceJobsRequest" }) as any as S.Schema<ListServiceJobsRequest>;
 export interface ServiceJobCapacityUsageSummary {
   capacityUnit?: string;
   quantity?: number;
 }
 export const ServiceJobCapacityUsageSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    capacityUnit: S.optional(S.String),
-    quantity: S.optional(S.Number),
-  }),
+  S.Struct({ capacityUnit: S.optional(S.String), quantity: S.optional(S.Number) }),
 ).annotate({
   identifier: "ServiceJobCapacityUsageSummary",
 }) as any as S.Schema<ServiceJobCapacityUsageSummary>;
-export type ServiceJobCapacityUsageSummaryList =
-  ServiceJobCapacityUsageSummary[];
+export type ServiceJobCapacityUsageSummaryList = ServiceJobCapacityUsageSummary[];
 export const ServiceJobCapacityUsageSummaryList = /*@__PURE__*/ S.Array(
   ServiceJobCapacityUsageSummary,
 );
@@ -4280,6 +3744,7 @@ export interface ServiceJobSummary {
   statusReason?: string;
   startedAt?: number;
   stoppedAt?: number;
+  isTerminated?: boolean;
 }
 export const ServiceJobSummary = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -4297,10 +3762,9 @@ export const ServiceJobSummary = /*@__PURE__*/ S.suspend(() =>
     statusReason: S.optional(S.String),
     startedAt: S.optional(S.Number),
     stoppedAt: S.optional(S.Number),
+    isTerminated: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "ServiceJobSummary",
-}) as any as S.Schema<ServiceJobSummary>;
+).annotate({ identifier: "ServiceJobSummary" }) as any as S.Schema<ServiceJobSummary>;
 export type ServiceJobSummaryList = ServiceJobSummary[];
 export const ServiceJobSummaryList = /*@__PURE__*/ S.Array(ServiceJobSummary);
 export interface ListServiceJobsResponse {
@@ -4309,10 +3773,7 @@ export interface ListServiceJobsResponse {
     jobName: string;
     serviceJobType: ServiceJobType;
     latestAttempt: LatestServiceJobAttempt & {
-      serviceResourceId: ServiceResourceId & {
-        name: ServiceResourceIdName;
-        value: string;
-      };
+      serviceResourceId: ServiceResourceId & { name: ServiceResourceIdName; value: string };
     };
   })[];
   nextToken?: string;
@@ -4322,9 +3783,7 @@ export const ListServiceJobsResponse = /*@__PURE__*/ S.suspend(() =>
     jobSummaryList: S.optional(ServiceJobSummaryList),
     nextToken: S.optional(S.String),
   }).pipe(ns),
-).annotate({
-  identifier: "ListServiceJobsResponse",
-}) as any as S.Schema<ListServiceJobsResponse>;
+).annotate({ identifier: "ListServiceJobsResponse" }) as any as S.Schema<ListServiceJobsResponse>;
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
@@ -4419,9 +3878,7 @@ export interface ArrayProperties {
 }
 export const ArrayProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ size: S.optional(S.Number) }),
-).annotate({
-  identifier: "ArrayProperties",
-}) as any as S.Schema<ArrayProperties>;
+).annotate({ identifier: "ArrayProperties" }) as any as S.Schema<ArrayProperties>;
 export interface ContainerOverrides {
   vcpus?: number;
   memory?: number;
@@ -4439,9 +3896,7 @@ export const ContainerOverrides = /*@__PURE__*/ S.suspend(() =>
     environment: S.optional(EnvironmentVariables),
     resourceRequirements: S.optional(ResourceRequirements),
   }),
-).annotate({
-  identifier: "ContainerOverrides",
-}) as any as S.Schema<ContainerOverrides>;
+).annotate({ identifier: "ContainerOverrides" }) as any as S.Schema<ContainerOverrides>;
 export interface TaskContainerOverrides {
   command?: string[];
   environment?: KeyValuePair[];
@@ -4455,33 +3910,23 @@ export const TaskContainerOverrides = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     resourceRequirements: S.optional(ResourceRequirements),
   }),
-).annotate({
-  identifier: "TaskContainerOverrides",
-}) as any as S.Schema<TaskContainerOverrides>;
+).annotate({ identifier: "TaskContainerOverrides" }) as any as S.Schema<TaskContainerOverrides>;
 export type ListTaskContainerOverrides = TaskContainerOverrides[];
-export const ListTaskContainerOverrides = /*@__PURE__*/ S.Array(
-  TaskContainerOverrides,
-);
+export const ListTaskContainerOverrides = /*@__PURE__*/ S.Array(TaskContainerOverrides);
 export interface TaskPropertiesOverride {
   containers?: TaskContainerOverrides[];
 }
 export const TaskPropertiesOverride = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ containers: S.optional(ListTaskContainerOverrides) }),
-).annotate({
-  identifier: "TaskPropertiesOverride",
-}) as any as S.Schema<TaskPropertiesOverride>;
+).annotate({ identifier: "TaskPropertiesOverride" }) as any as S.Schema<TaskPropertiesOverride>;
 export type ListTaskPropertiesOverride = TaskPropertiesOverride[];
-export const ListTaskPropertiesOverride = /*@__PURE__*/ S.Array(
-  TaskPropertiesOverride,
-);
+export const ListTaskPropertiesOverride = /*@__PURE__*/ S.Array(TaskPropertiesOverride);
 export interface EcsPropertiesOverride {
   taskProperties?: TaskPropertiesOverride[];
 }
 export const EcsPropertiesOverride = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ taskProperties: S.optional(ListTaskPropertiesOverride) }),
-).annotate({
-  identifier: "EcsPropertiesOverride",
-}) as any as S.Schema<EcsPropertiesOverride>;
+).annotate({ identifier: "EcsPropertiesOverride" }) as any as S.Schema<EcsPropertiesOverride>;
 export interface EksContainerOverride {
   name?: string;
   image?: string;
@@ -4499,12 +3944,9 @@ export const EksContainerOverride = /*@__PURE__*/ S.suspend(() =>
     env: S.optional(EksContainerEnvironmentVariables),
     resources: S.optional(EksContainerResourceRequirements),
   }),
-).annotate({
-  identifier: "EksContainerOverride",
-}) as any as S.Schema<EksContainerOverride>;
+).annotate({ identifier: "EksContainerOverride" }) as any as S.Schema<EksContainerOverride>;
 export type EksContainerOverrideList = EksContainerOverride[];
-export const EksContainerOverrideList =
-  /*@__PURE__*/ S.Array(EksContainerOverride);
+export const EksContainerOverrideList = /*@__PURE__*/ S.Array(EksContainerOverride);
 export interface EksPodPropertiesOverride {
   containers?: EksContainerOverride[];
   initContainers?: EksContainerOverride[];
@@ -4516,17 +3958,13 @@ export const EksPodPropertiesOverride = /*@__PURE__*/ S.suspend(() =>
     initContainers: S.optional(EksContainerOverrideList),
     metadata: S.optional(EksMetadata),
   }),
-).annotate({
-  identifier: "EksPodPropertiesOverride",
-}) as any as S.Schema<EksPodPropertiesOverride>;
+).annotate({ identifier: "EksPodPropertiesOverride" }) as any as S.Schema<EksPodPropertiesOverride>;
 export interface EksPropertiesOverride {
   podProperties?: EksPodPropertiesOverride;
 }
 export const EksPropertiesOverride = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ podProperties: S.optional(EksPodPropertiesOverride) }),
-).annotate({
-  identifier: "EksPropertiesOverride",
-}) as any as S.Schema<EksPropertiesOverride>;
+).annotate({ identifier: "EksPropertiesOverride" }) as any as S.Schema<EksPropertiesOverride>;
 export interface NodePropertyOverride {
   targetNodes?: string;
   containerOverrides?: ContainerOverrides;
@@ -4542,16 +3980,11 @@ export const NodePropertyOverride = /*@__PURE__*/ S.suspend(() =>
     ecsPropertiesOverride: S.optional(EcsPropertiesOverride),
     instanceTypes: S.optional(StringList),
     eksPropertiesOverride: S.optional(EksPropertiesOverride),
-    consumableResourcePropertiesOverride: S.optional(
-      ConsumableResourceProperties,
-    ),
+    consumableResourcePropertiesOverride: S.optional(ConsumableResourceProperties),
   }),
-).annotate({
-  identifier: "NodePropertyOverride",
-}) as any as S.Schema<NodePropertyOverride>;
+).annotate({ identifier: "NodePropertyOverride" }) as any as S.Schema<NodePropertyOverride>;
 export type NodePropertyOverrides = NodePropertyOverride[];
-export const NodePropertyOverrides =
-  /*@__PURE__*/ S.Array(NodePropertyOverride);
+export const NodePropertyOverrides = /*@__PURE__*/ S.Array(NodePropertyOverride);
 export interface NodeOverrides {
   numNodes?: number;
   nodePropertyOverrides?: NodePropertyOverride[];
@@ -4599,23 +4032,11 @@ export const SubmitJobRequest = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(TagrisTagsMap),
     eksPropertiesOverride: S.optional(EksPropertiesOverride),
     ecsPropertiesOverride: S.optional(EcsPropertiesOverride),
-    consumableResourcePropertiesOverride: S.optional(
-      ConsumableResourceProperties,
-    ),
+    consumableResourcePropertiesOverride: S.optional(ConsumableResourceProperties),
   }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/v1/submitjob" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/v1/submitjob" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "SubmitJobRequest",
-}) as any as S.Schema<SubmitJobRequest>;
+).annotate({ identifier: "SubmitJobRequest" }) as any as S.Schema<SubmitJobRequest>;
 export interface SubmitJobResponse {
   jobArn?: string;
   jobName: string;
@@ -4627,9 +4048,7 @@ export const SubmitJobResponse = /*@__PURE__*/ S.suspend(() =>
     jobName: S.optional(S.String),
     jobId: S.optional(S.String),
   }).pipe(ns),
-).annotate({
-  identifier: "SubmitJobResponse",
-}) as any as S.Schema<SubmitJobResponse>;
+).annotate({ identifier: "SubmitJobResponse" }) as any as S.Schema<SubmitJobResponse>;
 export type ClientRequestToken = string;
 export interface SubmitServiceJobRequest {
   jobName?: string;
@@ -4670,9 +4089,7 @@ export const SubmitServiceJobRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "SubmitServiceJobRequest",
-}) as any as S.Schema<SubmitServiceJobRequest>;
+).annotate({ identifier: "SubmitServiceJobRequest" }) as any as S.Schema<SubmitServiceJobRequest>;
 export interface SubmitServiceJobResponse {
   jobArn?: string;
   jobName: string;
@@ -4684,9 +4101,7 @@ export const SubmitServiceJobResponse = /*@__PURE__*/ S.suspend(() =>
     jobName: S.optional(S.String),
     jobId: S.optional(S.String),
   }).pipe(ns),
-).annotate({
-  identifier: "SubmitServiceJobResponse",
-}) as any as S.Schema<SubmitServiceJobResponse>;
+).annotate({ identifier: "SubmitServiceJobResponse" }) as any as S.Schema<SubmitServiceJobResponse>;
 export interface TagResourceRequest {
   resourceArn: string;
   tags?: { [key: string]: string | undefined };
@@ -4706,13 +4121,9 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
+).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
+export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export interface TerminateJobRequest {
@@ -4721,25 +4132,46 @@ export interface TerminateJobRequest {
 }
 export const TerminateJobRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ jobId: S.optional(S.String), reason: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/v1/terminatejob" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/v1/terminatejob" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "TerminateJobRequest",
-}) as any as S.Schema<TerminateJobRequest>;
+).annotate({ identifier: "TerminateJobRequest" }) as any as S.Schema<TerminateJobRequest>;
 export interface TerminateJobResponse {}
-export const TerminateJobResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
+export const TerminateJobResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "TerminateJobResponse",
 }) as any as S.Schema<TerminateJobResponse>;
+export interface TerminateJobsRequest {
+  jobs?: string[];
+  reason?: string;
+}
+export const TerminateJobsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ jobs: S.optional(StringList), reason: S.optional(S.String) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/v1/terminatejobs" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({ identifier: "TerminateJobsRequest" }) as any as S.Schema<TerminateJobsRequest>;
+export interface TerminateJobsErrorDetail {
+  job?: string;
+  code?: string;
+  message?: string;
+}
+export const TerminateJobsErrorDetail = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    job: S.optional(S.String),
+    code: S.optional(S.String),
+    message: S.optional(S.String),
+  }),
+).annotate({ identifier: "TerminateJobsErrorDetail" }) as any as S.Schema<TerminateJobsErrorDetail>;
+export type TerminateJobsErrorDetailList = TerminateJobsErrorDetail[];
+export const TerminateJobsErrorDetailList = /*@__PURE__*/ S.Array(TerminateJobsErrorDetail);
+export interface TerminateJobsResponse {
+  successful: string[];
+  errors: (TerminateJobsErrorDetail & { job: string; code: string; message: string })[];
+}
+export const TerminateJobsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    successful: S.optional(StringList),
+    errors: S.optional(TerminateJobsErrorDetailList),
+  }).pipe(ns),
+).annotate({ identifier: "TerminateJobsResponse" }) as any as S.Schema<TerminateJobsResponse>;
 export interface TerminateServiceJobRequest {
   jobId?: string;
   reason?: string;
@@ -4765,6 +4197,55 @@ export const TerminateServiceJobResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "TerminateServiceJobResponse",
 }) as any as S.Schema<TerminateServiceJobResponse>;
+export interface TerminateServiceJobsRequest {
+  jobs?: string[];
+  reason?: string;
+}
+export const TerminateServiceJobsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ jobs: S.optional(StringList), reason: S.optional(S.String) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/v1/terminateservicejobs" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "TerminateServiceJobsRequest",
+}) as any as S.Schema<TerminateServiceJobsRequest>;
+export interface TerminateServiceJobsErrorDetail {
+  job?: string;
+  code?: string;
+  message?: string;
+}
+export const TerminateServiceJobsErrorDetail = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    job: S.optional(S.String),
+    code: S.optional(S.String),
+    message: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "TerminateServiceJobsErrorDetail",
+}) as any as S.Schema<TerminateServiceJobsErrorDetail>;
+export type TerminateServiceJobsErrorDetailList = TerminateServiceJobsErrorDetail[];
+export const TerminateServiceJobsErrorDetailList = /*@__PURE__*/ S.Array(
+  TerminateServiceJobsErrorDetail,
+);
+export interface TerminateServiceJobsResponse {
+  successful: string[];
+  errors: (TerminateServiceJobsErrorDetail & { job: string; code: string; message: string })[];
+}
+export const TerminateServiceJobsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    successful: S.optional(StringList),
+    errors: S.optional(TerminateServiceJobsErrorDetailList),
+  }).pipe(ns),
+).annotate({
+  identifier: "TerminateServiceJobsResponse",
+}) as any as S.Schema<TerminateServiceJobsResponse>;
 export type TagKeysList = string[];
 export const TagKeysList = /*@__PURE__*/ S.Array(S.String);
 export interface UntagResourceRequest {
@@ -4786,13 +4267,9 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
+).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export type CRUpdateAllocationStrategy =
@@ -4823,9 +4300,7 @@ export const InstanceLaunchTemplateUpdate = /*@__PURE__*/ S.suspend(() =>
     monitoring: S.optional(S.String),
     capacityReservations: S.optional(CapacityReservationRequest),
     instanceMetadataTagsPropagation: S.optional(S.Boolean),
-    localStorageConfiguration: S.optional(
-      ManagedInstancesLocalStorageConfiguration,
-    ),
+    localStorageConfiguration: S.optional(ManagedInstancesLocalStorageConfiguration),
   }),
 ).annotate({
   identifier: "InstanceLaunchTemplateUpdate",
@@ -4836,17 +4311,16 @@ export interface UpdateManagedInstancesProviderConfiguration {
   instanceLaunchTemplate?: InstanceLaunchTemplateUpdate;
   infrastructureOptimization?: InfrastructureOptimization;
 }
-export const UpdateManagedInstancesProviderConfiguration =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      propagateTags: S.optional(S.String),
-      infrastructureRoleArn: S.optional(S.String),
-      instanceLaunchTemplate: S.optional(InstanceLaunchTemplateUpdate),
-      infrastructureOptimization: S.optional(InfrastructureOptimization),
-    }),
-  ).annotate({
-    identifier: "UpdateManagedInstancesProviderConfiguration",
-  }) as any as S.Schema<UpdateManagedInstancesProviderConfiguration>;
+export const UpdateManagedInstancesProviderConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    propagateTags: S.optional(S.String),
+    infrastructureRoleArn: S.optional(S.String),
+    instanceLaunchTemplate: S.optional(InstanceLaunchTemplateUpdate),
+    infrastructureOptimization: S.optional(InfrastructureOptimization),
+  }),
+).annotate({
+  identifier: "UpdateManagedInstancesProviderConfiguration",
+}) as any as S.Schema<UpdateManagedInstancesProviderConfiguration>;
 export interface ComputeResourceUpdate {
   minvCpus?: number;
   maxvCpus?: number;
@@ -4889,14 +4363,16 @@ export const ComputeResourceUpdate = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(CRType),
     imageId: S.optional(S.String),
     scalingPolicy: S.optional(ComputeScalingPolicy),
-    managedInstancesProvider: S.optional(
-      UpdateManagedInstancesProviderConfiguration,
-    ),
+    managedInstancesProvider: S.optional(UpdateManagedInstancesProviderConfiguration),
     capacityTags: S.optional(TagrisTagsMap),
   }),
-).annotate({
-  identifier: "ComputeResourceUpdate",
-}) as any as S.Schema<ComputeResourceUpdate>;
+).annotate({ identifier: "ComputeResourceUpdate" }) as any as S.Schema<ComputeResourceUpdate>;
+export interface EksConfigurationUpdate {
+  accessEntry?: EksAccessEntry;
+}
+export const EksConfigurationUpdate = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ accessEntry: S.optional(EksAccessEntry) }),
+).annotate({ identifier: "EksConfigurationUpdate" }) as any as S.Schema<EksConfigurationUpdate>;
 export interface UpdateComputeEnvironmentRequest {
   computeEnvironment?: string;
   state?: CEState;
@@ -4906,6 +4382,7 @@ export interface UpdateComputeEnvironmentRequest {
   updatePolicy?: UpdatePolicy;
   context?: string;
   ecsSettings?: EcsSettings;
+  eksConfiguration?: EksConfigurationUpdate;
 }
 export const UpdateComputeEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -4917,6 +4394,7 @@ export const UpdateComputeEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
     updatePolicy: S.optional(UpdatePolicy),
     context: S.optional(S.String),
     ecsSettings: S.optional(EcsSettings),
+    eksConfiguration: S.optional(EksConfigurationUpdate),
   }).pipe(
     T.all(
       ns,
@@ -5002,31 +4480,16 @@ export const UpdateJobQueueRequest = /*@__PURE__*/ S.suspend(() =>
     serviceEnvironmentOrder: S.optional(ServiceEnvironmentOrders),
     jobStateTimeLimitActions: S.optional(JobStateTimeLimitActions),
   }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/v1/updatejobqueue" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/v1/updatejobqueue" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UpdateJobQueueRequest",
-}) as any as S.Schema<UpdateJobQueueRequest>;
+).annotate({ identifier: "UpdateJobQueueRequest" }) as any as S.Schema<UpdateJobQueueRequest>;
 export interface UpdateJobQueueResponse {
   jobQueueName?: string;
   jobQueueArn?: string;
 }
 export const UpdateJobQueueResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    jobQueueName: S.optional(S.String),
-    jobQueueArn: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "UpdateJobQueueResponse",
-}) as any as S.Schema<UpdateJobQueueResponse>;
+  S.Struct({ jobQueueName: S.optional(S.String), jobQueueArn: S.optional(S.String) }).pipe(ns),
+).annotate({ identifier: "UpdateJobQueueResponse" }) as any as S.Schema<UpdateJobQueueResponse>;
 export interface UpdateQuotaShareRequest {
   quotaShareArn?: string;
   capacityLimits?: QuotaShareCapacityLimit[];
@@ -5038,9 +4501,7 @@ export const UpdateQuotaShareRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     quotaShareArn: S.optional(S.String),
     capacityLimits: S.optional(QuotaShareCapacityLimits),
-    resourceSharingConfiguration: S.optional(
-      QuotaShareResourceSharingConfiguration,
-    ),
+    resourceSharingConfiguration: S.optional(QuotaShareResourceSharingConfiguration),
     preemptionConfiguration: S.optional(QuotaSharePreemptionConfiguration),
     state: S.optional(QuotaShareState),
   }).pipe(
@@ -5054,21 +4515,14 @@ export const UpdateQuotaShareRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "UpdateQuotaShareRequest",
-}) as any as S.Schema<UpdateQuotaShareRequest>;
+).annotate({ identifier: "UpdateQuotaShareRequest" }) as any as S.Schema<UpdateQuotaShareRequest>;
 export interface UpdateQuotaShareResponse {
   quotaShareName?: string;
   quotaShareArn?: string;
 }
 export const UpdateQuotaShareResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    quotaShareName: S.optional(S.String),
-    quotaShareArn: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "UpdateQuotaShareResponse",
-}) as any as S.Schema<UpdateQuotaShareResponse>;
+  S.Struct({ quotaShareName: S.optional(S.String), quotaShareArn: S.optional(S.String) }).pipe(ns),
+).annotate({ identifier: "UpdateQuotaShareResponse" }) as any as S.Schema<UpdateQuotaShareResponse>;
 export interface UpdateSchedulingPolicyRequest {
   arn?: string;
   quotaSharePolicy?: QuotaSharePolicy;
@@ -5140,10 +4594,7 @@ export interface UpdateServiceJobRequest {
   schedulingPriority?: number;
 }
 export const UpdateServiceJobRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    jobId: S.optional(S.String),
-    schedulingPriority: S.optional(S.Number),
-  }).pipe(
+  S.Struct({ jobId: S.optional(S.String), schedulingPriority: S.optional(S.Number) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/v1/updateservicejob" }),
@@ -5154,9 +4605,7 @@ export const UpdateServiceJobRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "UpdateServiceJobRequest",
-}) as any as S.Schema<UpdateServiceJobRequest>;
+).annotate({ identifier: "UpdateServiceJobRequest" }) as any as S.Schema<UpdateServiceJobRequest>;
 export interface UpdateServiceJobResponse {
   jobArn?: string;
   jobName?: string;
@@ -5168,25 +4617,23 @@ export const UpdateServiceJobResponse = /*@__PURE__*/ S.suspend(() =>
     jobName: S.optional(S.String),
     jobId: S.optional(S.String),
   }).pipe(ns),
-).annotate({
-  identifier: "UpdateServiceJobResponse",
-}) as any as S.Schema<UpdateServiceJobResponse>;
+).annotate({ identifier: "UpdateServiceJobResponse" }) as any as S.Schema<UpdateServiceJobResponse>;
 export type CancelJobError = ClientException | ServerException | CommonErrors;
 /**
  * Cancels a job in an Batch job queue. Jobs that are in a `SUBMITTED`, `PENDING`, or `RUNNABLE` state are cancelled and the job status is updated to `FAILED`.
  *
- * A `PENDING` job is canceled after all dependency jobs are completed.
- * Therefore, it may take longer than expected to cancel a job in `PENDING`
+ * A `PENDING` job is cancelled after all dependency jobs are completed.
+ * Therefore, it might take longer than expected to cancel a job in `PENDING`
  * status.
  *
  * When you try to cancel an array parent job in `PENDING`, Batch attempts to
- * cancel all child jobs. The array parent job is canceled when all child jobs are
+ * cancel all child jobs. The array parent job is cancelled when all child jobs are
  * completed.
  *
  * Jobs that progressed to the `STARTING` or
- * `RUNNING` state aren't canceled. However, the API operation still succeeds, even
- * if no job is canceled. These jobs must be terminated with the TerminateJob
- * operation.
+ * `RUNNING` state aren't cancelled. However, the API operation still succeeds, even
+ * if no job is cancelled. These jobs must be terminated with the TerminateJob or
+ * TerminateJobs operation.
  */
 export const cancelJob: API.OperationMethod<
   CancelJobRequest,
@@ -5202,10 +4649,51 @@ export const cancelJob: API.OperationMethod<
   operationName: "CancelJob",
 }));
 
-export type CreateComputeEnvironmentError =
-  | ClientException
-  | ServerException
-  | CommonErrors;
+export type CancelJobsError = ClientException | ServerException | CommonErrors;
+/**
+ * Cancels up to 50 jobs in an Batch job queue. This is a bulk version of CancelJob. Jobs that are in a
+ * `SUBMITTED`, `PENDING`, or `RUNNABLE` state are cancelled
+ * and the job status is updated to `FAILED`.
+ *
+ * A `PENDING` job is cancelled after all dependency jobs are completed.
+ * Therefore, it might take longer than expected to cancel a job in `PENDING`
+ * status.
+ *
+ * When you try to cancel an array parent job in `PENDING`, Batch attempts to
+ * cancel all child jobs. The array parent job is cancelled when all child jobs are
+ * completed.
+ *
+ * Jobs that progressed to the `STARTING` or `RUNNING` state aren't
+ * cancelled. These jobs must be terminated with the TerminateJob or
+ * TerminateJobs operation.
+ *
+ * Batch reports the result for each job individually in the response. Jobs that
+ * were processed successfully are reported in the `successful` list. Jobs that
+ * encountered errors are reported in the `errors` list. The response returns an
+ * HTTP status code of `200` even when some jobs encountered errors, so check the
+ * `errors` list. Jobs that can't be found are treated as successfully
+ * processed.
+ *
+ * This operation requires `batch:CancelJob` permission for each job in the
+ * request. There is no separate `batch:CancelJobs` IAM action. If a caller's IAM
+ * policy grants `batch:CancelJob`, they can use both the singular
+ * CancelJob and bulk `CancelJobs` operations.
+ */
+export const cancelJobs: API.OperationMethod<
+  CancelJobsRequest,
+  CancelJobsResponse,
+  CancelJobsError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: CancelJobsRequest,
+  output: CancelJobsResponse,
+  errors: [ClientException, ServerException],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "CancelJobs",
+}));
+
+export type CreateComputeEnvironmentError = ClientException | ServerException | CommonErrors;
 /**
  * Creates an Batch compute environment. You can create `MANAGED` or
  * `UNMANAGED` compute environments. `MANAGED` compute environments can
@@ -5248,10 +4736,7 @@ export const createComputeEnvironment: API.OperationMethod<
   operationName: "CreateComputeEnvironment",
 }));
 
-export type CreateConsumableResourceError =
-  | ClientException
-  | ServerException
-  | CommonErrors;
+export type CreateConsumableResourceError = ClientException | ServerException | CommonErrors;
 /**
  * Creates an Batch consumable resource.
  */
@@ -5293,21 +4778,13 @@ export const createJobQueue: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateJobQueueRequest,
   output: CreateJobQueueResponse,
-  errors: [
-    ClientException,
-    ServerException,
-    ComputeEnvironmentNotValid,
-    JobQueueAlreadyExists,
-  ],
+  errors: [ClientException, ServerException, ComputeEnvironmentNotValid, JobQueueAlreadyExists],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateJobQueue",
 }));
 
-export type CreateQuotaShareError =
-  | ClientException
-  | ServerException
-  | CommonErrors;
+export type CreateQuotaShareError = ClientException | ServerException | CommonErrors;
 /**
  * Creates an Batch quota share. Each quota share operates as a virtual queue with a configured compute capacity, resource sharing strategy, and borrow limits.
  */
@@ -5325,10 +4802,7 @@ export const createQuotaShare: API.OperationMethod<
   operationName: "CreateQuotaShare",
 }));
 
-export type CreateSchedulingPolicyError =
-  | ClientException
-  | ServerException
-  | CommonErrors;
+export type CreateSchedulingPolicyError = ClientException | ServerException | CommonErrors;
 /**
  * Creates an Batch scheduling policy.
  */
@@ -5346,10 +4820,7 @@ export const createSchedulingPolicy: API.OperationMethod<
   operationName: "CreateSchedulingPolicy",
 }));
 
-export type CreateServiceEnvironmentError =
-  | ClientException
-  | ServerException
-  | CommonErrors;
+export type CreateServiceEnvironmentError = ClientException | ServerException | CommonErrors;
 /**
  * Creates a service environment for running service jobs. Service environments define capacity limits for specific service types such as SageMaker Training jobs.
  */
@@ -5404,10 +4875,7 @@ export const deleteComputeEnvironment: API.OperationMethod<
   operationName: "DeleteComputeEnvironment",
 }));
 
-export type DeleteConsumableResourceError =
-  | ClientException
-  | ServerException
-  | CommonErrors;
+export type DeleteConsumableResourceError = ClientException | ServerException | CommonErrors;
 /**
  * Deletes the specified consumable resource.
  */
@@ -5447,21 +4915,13 @@ export const deleteJobQueue: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteJobQueueRequest,
   output: DeleteJobQueueResponse,
-  errors: [
-    ClientException,
-    ServerException,
-    JobQueueNotFound,
-    JobQueueBeingModified,
-  ],
+  errors: [ClientException, ServerException, JobQueueNotFound, JobQueueBeingModified],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteJobQueue",
 }));
 
-export type DeleteQuotaShareError =
-  | ClientException
-  | ServerException
-  | CommonErrors;
+export type DeleteQuotaShareError = ClientException | ServerException | CommonErrors;
 /**
  * Deletes the specified quota share. You must first disable submissions for the share by
  * updating the state to `DISABLED` using the UpdateQuotaShare operation.
@@ -5481,10 +4941,7 @@ export const deleteQuotaShare: API.OperationMethod<
   operationName: "DeleteQuotaShare",
 }));
 
-export type DeleteSchedulingPolicyError =
-  | ClientException
-  | ServerException
-  | CommonErrors;
+export type DeleteSchedulingPolicyError = ClientException | ServerException | CommonErrors;
 /**
  * Deletes the specified scheduling policy.
  *
@@ -5504,10 +4961,7 @@ export const deleteSchedulingPolicy: API.OperationMethod<
   operationName: "DeleteSchedulingPolicy",
 }));
 
-export type DeleteServiceEnvironmentError =
-  | ClientException
-  | ServerException
-  | CommonErrors;
+export type DeleteServiceEnvironmentError = ClientException | ServerException | CommonErrors;
 /**
  * Deletes a Service environment. Before you can delete a service environment, you must first set its state to `DISABLED` with the `UpdateServiceEnvironment` API operation and disassociate it from any job queues with the `UpdateJobQueue` API operation.
  */
@@ -5525,10 +4979,7 @@ export const deleteServiceEnvironment: API.OperationMethod<
   operationName: "DeleteServiceEnvironment",
 }));
 
-export type DeregisterJobDefinitionError =
-  | ClientException
-  | ServerException
-  | CommonErrors;
+export type DeregisterJobDefinitionError = ClientException | ServerException | CommonErrors;
 /**
  * Deregisters an Batch job definition. Job definitions are permanently deleted after 180
  * days.
@@ -5547,10 +4998,7 @@ export const deregisterJobDefinition: API.OperationMethod<
   operationName: "DeregisterJobDefinition",
 }));
 
-export type DescribeComputeEnvironmentsError =
-  | ClientException
-  | ServerException
-  | CommonErrors;
+export type DescribeComputeEnvironmentsError = ClientException | ServerException | CommonErrors;
 /**
  * Describes one or more of your compute environments.
  *
@@ -5579,10 +5027,7 @@ export const describeComputeEnvironments: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type DescribeConsumableResourceError =
-  | ClientException
-  | ServerException
-  | CommonErrors;
+export type DescribeConsumableResourceError = ClientException | ServerException | CommonErrors;
 /**
  * Returns a description of the specified consumable resource.
  */
@@ -5600,10 +5045,7 @@ export const describeConsumableResource: API.OperationMethod<
   operationName: "DescribeConsumableResource",
 }));
 
-export type DescribeJobDefinitionsError =
-  | ClientException
-  | ServerException
-  | CommonErrors;
+export type DescribeJobDefinitionsError = ClientException | ServerException | CommonErrors;
 /**
  * Describes a list of job definitions. You can specify a `status` (such as
  * `ACTIVE`) to only return job definitions that match that status.
@@ -5629,10 +5071,7 @@ export const describeJobDefinitions: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type DescribeJobQueuesError =
-  | ClientException
-  | ServerException
-  | CommonErrors;
+export type DescribeJobQueuesError = ClientException | ServerException | CommonErrors;
 /**
  * Describes one or more of your job queues.
  */
@@ -5657,10 +5096,7 @@ export const describeJobQueues: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type DescribeJobsError =
-  | ClientException
-  | ServerException
-  | CommonErrors;
+export type DescribeJobsError = ClientException | ServerException | CommonErrors;
 /**
  * Describes a list of Batch jobs.
  */
@@ -5678,10 +5114,7 @@ export const describeJobs: API.OperationMethod<
   operationName: "DescribeJobs",
 }));
 
-export type DescribeQuotaShareError =
-  | ClientException
-  | ServerException
-  | CommonErrors;
+export type DescribeQuotaShareError = ClientException | ServerException | CommonErrors;
 /**
  * Returns a description of the specified quota share.
  */
@@ -5699,10 +5132,7 @@ export const describeQuotaShare: API.OperationMethod<
   operationName: "DescribeQuotaShare",
 }));
 
-export type DescribeSchedulingPoliciesError =
-  | ClientException
-  | ServerException
-  | CommonErrors;
+export type DescribeSchedulingPoliciesError = ClientException | ServerException | CommonErrors;
 /**
  * Describes one or more of your scheduling policies.
  */
@@ -5720,10 +5150,7 @@ export const describeSchedulingPolicies: API.OperationMethod<
   operationName: "DescribeSchedulingPolicies",
 }));
 
-export type DescribeServiceEnvironmentsError =
-  | ClientException
-  | ServerException
-  | CommonErrors;
+export type DescribeServiceEnvironmentsError = ClientException | ServerException | CommonErrors;
 /**
  * Describes one or more of your service environments.
  */
@@ -5748,10 +5175,7 @@ export const describeServiceEnvironments: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type DescribeServiceJobError =
-  | ClientException
-  | ServerException
-  | CommonErrors;
+export type DescribeServiceJobError = ClientException | ServerException | CommonErrors;
 /**
  * The details of a service job.
  */
@@ -5769,10 +5193,7 @@ export const describeServiceJob: API.OperationMethod<
   operationName: "DescribeServiceJob",
 }));
 
-export type GetJobQueueSnapshotError =
-  | ClientException
-  | ServerException
-  | CommonErrors;
+export type GetJobQueueSnapshotError = ClientException | ServerException | CommonErrors;
 /**
  * Provides a snapshot of job queue state, including ordering of `RUNNABLE` jobs, as well as capacity utilization for already dispatched jobs.
  * The first 100 `RUNNABLE` jobs in the job queue are listed in order of dispatch. For job queues with an attached
@@ -5793,10 +5214,7 @@ export const getJobQueueSnapshot: API.OperationMethod<
   operationName: "GetJobQueueSnapshot",
 }));
 
-export type ListConsumableResourcesError =
-  | ClientException
-  | ServerException
-  | CommonErrors;
+export type ListConsumableResourcesError = ClientException | ServerException | CommonErrors;
 /**
  * Returns a list of Batch consumable resources.
  */
@@ -5854,10 +5272,7 @@ export const listJobs: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListJobsByConsumableResourceError =
-  | ClientException
-  | ServerException
-  | CommonErrors;
+export type ListJobsByConsumableResourceError = ClientException | ServerException | CommonErrors;
 /**
  * Returns a list of Batch jobs that require a specific consumable resource.
  */
@@ -5882,10 +5297,7 @@ export const listJobsByConsumableResource: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListQuotaSharesError =
-  | ClientException
-  | ServerException
-  | CommonErrors;
+export type ListQuotaSharesError = ClientException | ServerException | CommonErrors;
 /**
  * Returns a list of Batch quota shares associated with a job queue.
  */
@@ -5910,10 +5322,7 @@ export const listQuotaShares: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListSchedulingPoliciesError =
-  | ClientException
-  | ServerException
-  | CommonErrors;
+export type ListSchedulingPoliciesError = ClientException | ServerException | CommonErrors;
 /**
  * Returns a list of Batch scheduling policies.
  */
@@ -5938,10 +5347,7 @@ export const listSchedulingPolicies: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListServiceJobsError =
-  | ClientException
-  | ServerException
-  | CommonErrors;
+export type ListServiceJobsError = ClientException | ServerException | CommonErrors;
 /**
  * Returns a list of service jobs for a specified job queue.
  */
@@ -5966,10 +5372,7 @@ export const listServiceJobs: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListTagsForResourceError =
-  | ClientException
-  | ServerException
-  | CommonErrors;
+export type ListTagsForResourceError = ClientException | ServerException | CommonErrors;
 /**
  * Lists the tags for an Batch resource. Batch resources that support tags are compute environments, jobs, job definitions, job queues,
  * and scheduling policies. ARNs for child jobs of array and multi-node parallel (MNP) jobs aren't supported.
@@ -5988,10 +5391,7 @@ export const listTagsForResource: API.OperationMethod<
   operationName: "ListTagsForResource",
 }));
 
-export type RegisterJobDefinitionError =
-  | ClientException
-  | ServerException
-  | CommonErrors;
+export type RegisterJobDefinitionError = ClientException | ServerException | CommonErrors;
 /**
  * Registers an Batch job definition.
  */
@@ -6039,10 +5439,7 @@ export const submitJob: API.OperationMethod<
   operationName: "SubmitJob",
 }));
 
-export type SubmitServiceJobError =
-  | ClientException
-  | ServerException
-  | CommonErrors;
+export type SubmitServiceJobError = ClientException | ServerException | CommonErrors;
 /**
  * Submits a service job to a specified job queue to run on SageMaker AI. A service job is a unit of work that you submit to Batch for execution on SageMaker AI.
  */
@@ -6082,10 +5479,7 @@ export const tagResource: API.OperationMethod<
   operationName: "TagResource",
 }));
 
-export type TerminateJobError =
-  | ClientException
-  | ServerException
-  | CommonErrors;
+export type TerminateJobError = ClientException | ServerException | CommonErrors;
 /**
  * Terminates a job in a job queue. Jobs that are in the `STARTING` or
  * `RUNNING` state are terminated, which causes them to transition to
@@ -6106,10 +5500,40 @@ export const terminateJob: API.OperationMethod<
   operationName: "TerminateJob",
 }));
 
-export type TerminateServiceJobError =
-  | ClientException
-  | ServerException
-  | CommonErrors;
+export type TerminateJobsError = ClientException | ServerException | CommonErrors;
+/**
+ * Terminates up to 50 jobs in a job queue. This is a bulk version of TerminateJob. Jobs that are in the `STARTING` or
+ * `RUNNING` state are terminated, which causes them to transition to
+ * `FAILED`. Jobs that have not progressed to the `STARTING` state are
+ * cancelled.
+ *
+ * Batch reports the result for each job individually in the response. Jobs that
+ * were processed successfully are reported in the `successful` list. Jobs that
+ * encountered errors are reported in the `errors` list. The response returns an
+ * HTTP status code of `200` even when some jobs encountered errors, so check the
+ * `errors` list. Jobs that can't be found are treated as successfully
+ * processed.
+ *
+ * This operation requires `batch:TerminateJob` permission for each job in the
+ * request. There is no separate `batch:TerminateJobs` IAM action. If a caller's IAM
+ * policy grants `batch:TerminateJob`, they can use both the singular
+ * TerminateJob and bulk `TerminateJobs` operations.
+ */
+export const terminateJobs: API.OperationMethod<
+  TerminateJobsRequest,
+  TerminateJobsResponse,
+  TerminateJobsError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: TerminateJobsRequest,
+  output: TerminateJobsResponse,
+  errors: [ClientException, ServerException],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "TerminateJobs",
+}));
+
+export type TerminateServiceJobError = ClientException | ServerException | CommonErrors;
 /**
  * Terminates a service job in a job queue.
  */
@@ -6127,10 +5551,32 @@ export const terminateServiceJob: API.OperationMethod<
   operationName: "TerminateServiceJob",
 }));
 
-export type UntagResourceError =
-  | ClientException
-  | ServerException
-  | CommonErrors;
+export type TerminateServiceJobsError = ClientException | ServerException | CommonErrors;
+/**
+ * Terminates up to 50 service jobs in a job queue. This is a bulk version of TerminateServiceJob.
+ *
+ * Batch reports the result for each service job individually in the response. Service jobs that were processed successfully are reported in the `successful` list. Service jobs that encountered errors are reported in the `errors` list. The response returns an HTTP status code of `200` even when some service jobs encountered errors, so check the `errors` list. Service jobs that can't be found are treated as successfully processed.
+ *
+ * This operation requires `batch:TerminateServiceJob` permission for each service job in the
+ * request. There is no separate `batch:TerminateServiceJobs` IAM action. If a caller's IAM
+ * policy grants `batch:TerminateServiceJob`, they can use both the singular
+ * `TerminateServiceJob` and bulk `TerminateServiceJobs` operations.
+ */
+export const terminateServiceJobs: API.OperationMethod<
+  TerminateServiceJobsRequest,
+  TerminateServiceJobsResponse,
+  TerminateServiceJobsError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: TerminateServiceJobsRequest,
+  output: TerminateServiceJobsResponse,
+  errors: [ClientException, ServerException],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "TerminateServiceJobs",
+}));
+
+export type UntagResourceError = ClientException | ServerException | CommonErrors;
 /**
  * Deletes specified tags from an Batch resource.
  */
@@ -6176,10 +5622,7 @@ export const updateComputeEnvironment: API.OperationMethod<
   operationName: "UpdateComputeEnvironment",
 }));
 
-export type UpdateConsumableResourceError =
-  | ClientException
-  | ServerException
-  | CommonErrors;
+export type UpdateConsumableResourceError = ClientException | ServerException | CommonErrors;
 /**
  * Updates a consumable resource.
  */
@@ -6214,21 +5657,13 @@ export const updateJobQueue: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateJobQueueRequest,
   output: UpdateJobQueueResponse,
-  errors: [
-    ClientException,
-    ServerException,
-    JobQueueNotFound,
-    JobQueueBeingModified,
-  ],
+  errors: [ClientException, ServerException, JobQueueNotFound, JobQueueBeingModified],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateJobQueue",
 }));
 
-export type UpdateQuotaShareError =
-  | ClientException
-  | ServerException
-  | CommonErrors;
+export type UpdateQuotaShareError = ClientException | ServerException | CommonErrors;
 /**
  * Updates a quota share.
  */
@@ -6246,10 +5681,7 @@ export const updateQuotaShare: API.OperationMethod<
   operationName: "UpdateQuotaShare",
 }));
 
-export type UpdateSchedulingPolicyError =
-  | ClientException
-  | ServerException
-  | CommonErrors;
+export type UpdateSchedulingPolicyError = ClientException | ServerException | CommonErrors;
 /**
  * Updates a scheduling policy.
  */
@@ -6267,10 +5699,7 @@ export const updateSchedulingPolicy: API.OperationMethod<
   operationName: "UpdateSchedulingPolicy",
 }));
 
-export type UpdateServiceEnvironmentError =
-  | ClientException
-  | ServerException
-  | CommonErrors;
+export type UpdateServiceEnvironmentError = ClientException | ServerException | CommonErrors;
 /**
  * Updates a service environment. You can update the state of a service environment from `ENABLED` to `DISABLED` to prevent new service jobs from being placed in the service environment.
  */
@@ -6288,10 +5717,7 @@ export const updateServiceEnvironment: API.OperationMethod<
   operationName: "UpdateServiceEnvironment",
 }));
 
-export type UpdateServiceJobError =
-  | ClientException
-  | ServerException
-  | CommonErrors;
+export type UpdateServiceJobError = ClientException | ServerException | CommonErrors;
 /**
  * Updates the priority of a specified service job in an Batch job queue.
  */

@@ -21,12 +21,6 @@
     "com.huggingface.buckets#DuplicateXetFilesRequestTargetType": {
       "type": "enum",
       "members": {
-        "DATASET": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "dataset"
-          }
-        },
         "MODEL": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -37,6 +31,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "space"
+          }
+        },
+        "DATASET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dataset"
           }
         },
         "KERNEL": {
@@ -377,6 +377,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -473,6 +474,12 @@
           "traits": {
             "smithy.api#enumValue": "kernel"
           }
+        },
+        "CONTAINER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "container"
+          }
         }
       },
       "traits": {}
@@ -547,6 +554,24 @@
       "traits": {
         "smithy.api#input": {}
       }
+    },
+    "com.huggingface.buckets#GetBucketDetailsResponseRepoType": {
+      "type": "enum",
+      "members": {
+        "BUCKET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bucket"
+          }
+        },
+        "CONTAINER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "container"
+          }
+        }
+      },
+      "traits": {}
     },
     "com.huggingface.buckets#GetBucketDetailsResponseAdminTagsList": {
       "type": "list",
@@ -637,6 +662,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -658,6 +684,7 @@
         "_id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -679,6 +706,13 @@
             "com.distilled.openapi#nullable": {}
           }
         },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Free-text description of the bucket / container image",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
         "createdAt": {
           "target": "smithy.api#String",
           "traits": {
@@ -688,6 +722,7 @@
         "updatedAt": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "Moves on every successful change to the bucket's files. Poll it to know when to re-list instead of re-listing every path.",
             "smithy.api#required": {}
           }
         },
@@ -706,7 +741,7 @@
           }
         },
         "repoType": {
-          "target": "smithy.api#Document",
+          "target": "com.huggingface.buckets#GetBucketDetailsResponseRepoType",
           "traits": {
             "smithy.api#required": {}
           }
@@ -746,6 +781,26 @@
           "code": 200
         },
         "smithy.api#documentation": "Get bucket details"
+      }
+    },
+    "com.huggingface.buckets#CreateBucketRequestVisibility": {
+      "type": "enum",
+      "members": {
+        "PRIVATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "private"
+          }
+        },
+        "PUBLIC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "public"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Bucket visibility. Cannot be specified along with private."
       }
     },
     "com.huggingface.buckets#CreateBucketRequestCdnItemProvider": {
@@ -851,8 +906,14 @@
         "private": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Bucket visibility. Defaults to public",
+            "smithy.api#documentation": "Bucket visibility. Defaults to public. Cannot be specified along with visibility.",
             "com.distilled.openapi#nullable": {}
+          }
+        },
+        "visibility": {
+          "target": "com.huggingface.buckets#CreateBucketRequestVisibility",
+          "traits": {
+            "smithy.api#documentation": "Bucket visibility. Cannot be specified along with private."
           }
         },
         "resourceGroupId": {
@@ -868,6 +929,12 @@
           "target": "com.huggingface.buckets#CreateBucketRequestRegion",
           "traits": {
             "smithy.api#documentation": "The region where the bucket is hosted."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Free-text description."
           }
         }
       },
@@ -893,6 +960,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         }
@@ -961,18 +1029,6 @@
         },
         "smithy.api#documentation": "Delete bucket"
       }
-    },
-    "com.huggingface.buckets#UpdateBucketSettingsRequestPrivate": {
-      "type": "union",
-      "members": {
-        "Case0": {
-          "target": "smithy.api#Boolean"
-        },
-        "Case1": {
-          "target": "smithy.api#Document"
-        }
-      },
-      "traits": {}
     },
     "com.huggingface.buckets#UpdateBucketSettingsRequestCdnRegionsItemProvider": {
       "type": "enum",
@@ -1053,13 +1109,10 @@
           }
         },
         "private": {
-          "target": "com.huggingface.buckets#UpdateBucketSettingsRequestPrivate"
+          "target": "smithy.api#Document"
         },
         "cdnRegions": {
-          "target": "com.huggingface.buckets#UpdateBucketSettingsRequestCdnRegionsList",
-          "traits": {
-            "smithy.api#required": {}
-          }
+          "target": "com.huggingface.buckets#UpdateBucketSettingsRequestCdnRegionsList"
         }
       },
       "traits": {
@@ -1179,6 +1232,24 @@
         "smithy.api#input": {}
       }
     },
+    "com.huggingface.buckets#ListNamespaceBucketsResponseBodyItemRepoType": {
+      "type": "enum",
+      "members": {
+        "BUCKET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bucket"
+          }
+        },
+        "CONTAINER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "container"
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.huggingface.buckets#ListNamespaceBucketsResponseBodyItemAdminTagsList": {
       "type": "list",
       "member": {
@@ -1268,6 +1339,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -1289,6 +1361,7 @@
         "_id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -1310,6 +1383,13 @@
             "com.distilled.openapi#nullable": {}
           }
         },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Free-text description of the bucket / container image",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
         "createdAt": {
           "target": "smithy.api#String",
           "traits": {
@@ -1319,6 +1399,7 @@
         "updatedAt": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "Moves on every successful change to the bucket's files. Poll it to know when to re-list instead of re-listing every path.",
             "smithy.api#required": {}
           }
         },
@@ -1337,7 +1418,7 @@
           }
         },
         "repoType": {
-          "target": "smithy.api#Document",
+          "target": "com.huggingface.buckets#ListNamespaceBucketsResponseBodyItemRepoType",
           "traits": {
             "smithy.api#required": {}
           }
@@ -1426,19 +1507,19 @@
           }
         },
         "noContentDisposition": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "noContentDisposition"
           }
         },
         "download": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "download"
           }
         },
         "accept": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpHeader": "Accept"
           }
@@ -1708,7 +1789,7 @@
           }
         },
         "recursive": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "recursive"
           }
@@ -1830,6 +1911,57 @@
           "code": 200
         },
         "smithy.api#documentation": "List files"
+      }
+    },
+    "com.huggingface.buckets#FollowChangesRequest": {
+      "type": "structure",
+      "members": {
+        "namespace": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "repo": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "cursor"
+          }
+        },
+        "since": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "since"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.huggingface.buckets#FollowChanges": {
+      "type": "operation",
+      "input": {
+        "target": "com.huggingface.buckets#FollowChangesRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/buckets/{namespace}/{repo}/events",
+          "code": 200
+        },
+        "smithy.api#documentation": "Follow changes\n\nServer-sent events (`Accept: text/event-stream`) of the bucket's file changes, so clients can stop polling `/tree`.\n\nEvents:\n- `ready`: `{\"cursor\"}` — replay (if any) is done, live changes follow. `cursor` may be absent if the feed has seen no change yet.\n- `changes`: `{\"cursor\", \"changes\": [{\"path\", \"op\": \"add\" | \"update\" | \"delete\", \"size\"?, \"xetHash\"?, \"uploadedAt\"?, \"mtime\"?, \"mtimeNanos\"?}]}` — a batch of changes coalesced over ~200ms. An `update` only carries the fields that changed (an identical re-upload has just `uploadedAt`); `mtime`/`mtimeNanos` are `null` when a re-upload cleared them. `xetHash` is omitted without content read access.\n- `reset`: `{\"reason\": \"cursor_too_old\"}` — the requested `cursor`/`since` is older than what the server buffers (about 15 minutes); the stream ends and the client must re-list. A `since` at or after the bucket's `updatedAt` never resets, however old.\n- `reconnect`: `{\"cursor\"}` — sent after 20 minutes or when the server shuts down (deploys), then the stream ends; reconnect with that cursor. Treat any other end of the stream the same way: reconnect with the last cursor you received.\n\nA `: ping` comment is sent every 30s. Resume with `?cursor=` (exclusive) or `?since=` (inclusive); without either, only live changes are sent."
       }
     },
     "com.huggingface.buckets#ListPathsInfoRequestPathsCase0List": {
@@ -2075,6 +2207,9 @@
         },
         {
           "target": "com.huggingface.buckets#ListFiles"
+        },
+        {
+          "target": "com.huggingface.buckets#FollowChanges"
         },
         {
           "target": "com.huggingface.buckets#ListPathsInfo"

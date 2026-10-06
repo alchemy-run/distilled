@@ -1,15 +1,15 @@
+import * as API from "@distilled.cloud/core/api";
+import * as S from "@distilled.cloud/core/schema";
 import * as HttpClient from "effect/http/HttpClient";
 import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
 import * as stream from "effect/Stream";
-import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
+import * as T from "../traits.ts";
 const ns = T.XmlNamespace("http://polly.amazonaws.com/doc/v1");
 const svc = T.AwsApiService({ sdkId: "Polly", serviceShapeName: "Parrot_v1" });
 const auth = T.AwsAuthSigv4({ name: "polly" });
@@ -27,14 +27,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -57,27 +53,17 @@ const rules = T.EndpointResolver((p, _) => {
         }
         if (UseFIPS === true) {
           if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            return e(
-              `https://polly-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
+            return e(`https://polly-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
-            return e(
-              `https://polly.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
+            return e(`https://polly.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`);
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://polly.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://polly.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -185,12 +171,8 @@ export class ServiceQuotaExceededException
     "ServiceQuotaExceededException",
     {
       message: S.String.pipe(T.ErrorMessage()),
-      quotaCode: S.suspend(() => QuotaCode).annotate({
-        identifier: "QuotaCode",
-      }),
-      serviceCode: S.suspend(() => ServiceCode).annotate({
-        identifier: "ServiceCode",
-      }),
+      quotaCode: S.suspend(() => QuotaCode).annotate({ identifier: "QuotaCode" }),
+      serviceCode: S.suspend(() => ServiceCode).annotate({ identifier: "ServiceCode" }),
     },
     T.HttpError(402),
   ).pipe(C.withQuotaError) {}
@@ -218,15 +200,10 @@ export class ThrottlingException
     {
       message: S.optional(S.String).pipe(T.ErrorMessage()),
       throttlingReasons: S.optional(
-        S.suspend(() => ThrottlingReasonList).annotate({
-          identifier: "ThrottlingReasonList",
-        }),
+        S.suspend(() => ThrottlingReasonList).annotate({ identifier: "ThrottlingReasonList" }),
       ),
     },
-    T.all(
-      T.AwsQueryError({ code: "Throttling", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
+    T.all(T.AwsQueryError({ code: "Throttling", httpResponseCode: 400 }), T.HttpError(400)),
   ).pipe(C.withBadRequestError) {}
 export class UnsupportedPlsAlphabetException
   extends /*@__PURE__*/ S.TaggedError<UnsupportedPlsAlphabetException>()(
@@ -272,21 +249,12 @@ export const DeleteLexiconInput = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteLexiconInput",
-}) as any as S.Schema<DeleteLexiconInput>;
+).annotate({ identifier: "DeleteLexiconInput" }) as any as S.Schema<DeleteLexiconInput>;
 export interface DeleteLexiconOutput {}
-export const DeleteLexiconOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
+export const DeleteLexiconOutput = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "DeleteLexiconOutput",
 }) as any as S.Schema<DeleteLexiconOutput>;
-export type Engine =
-  | "standard"
-  | "neural"
-  | "long-form"
-  | "generative"
-  | (string & {});
+export type Engine = "standard" | "neural" | "long-form" | "generative" | (string & {});
 export const Engine = S.String;
 
 export type LanguageCode =
@@ -351,20 +319,8 @@ export const DescribeVoicesInput = /*@__PURE__*/ S.suspend(() =>
       T.HttpQuery("IncludeAdditionalLanguageCodes"),
     ),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/v1/voices" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeVoicesInput",
-}) as any as S.Schema<DescribeVoicesInput>;
+  }).pipe(T.all(ns, T.Http({ method: "GET", uri: "/v1/voices" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "DescribeVoicesInput" }) as any as S.Schema<DescribeVoicesInput>;
 export type Gender = "Female" | "Male" | (string & {});
 export const Gender = S.String;
 
@@ -511,41 +467,23 @@ export interface DescribeVoicesOutput {
   NextToken?: string;
 }
 export const DescribeVoicesOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Voices: S.optional(VoiceList),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeVoicesOutput",
-}) as any as S.Schema<DescribeVoicesOutput>;
+  S.Struct({ Voices: S.optional(VoiceList), NextToken: S.optional(S.String) }).pipe(ns),
+).annotate({ identifier: "DescribeVoicesOutput" }) as any as S.Schema<DescribeVoicesOutput>;
 export interface GetLexiconInput {
   Name: string;
 }
 export const GetLexiconInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Name: S.String.pipe(T.HttpLabel("Name")) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/v1/lexicons/{Name}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "GET", uri: "/v1/lexicons/{Name}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetLexiconInput",
-}) as any as S.Schema<GetLexiconInput>;
+).annotate({ identifier: "GetLexiconInput" }) as any as S.Schema<GetLexiconInput>;
 export type LexiconContent = string | redacted.Redacted<string>;
 export interface Lexicon {
   Content?: string | redacted.Redacted<string>;
   Name?: string;
 }
 export const Lexicon = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Content: S.optional(SensitiveString),
-    Name: S.optional(S.String),
-  }),
+  S.Struct({ Content: S.optional(SensitiveString), Name: S.optional(S.String) }),
 ).annotate({ identifier: "Lexicon" }) as any as S.Schema<Lexicon>;
 export type Alphabet = string;
 export type LastModified = Date;
@@ -569,21 +507,16 @@ export const LexiconAttributes = /*@__PURE__*/ S.suspend(() =>
     LexemesCount: S.optional(S.Number),
     Size: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "LexiconAttributes",
-}) as any as S.Schema<LexiconAttributes>;
+).annotate({ identifier: "LexiconAttributes" }) as any as S.Schema<LexiconAttributes>;
 export interface GetLexiconOutput {
   Lexicon?: Lexicon;
   LexiconAttributes?: LexiconAttributes;
 }
 export const GetLexiconOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Lexicon: S.optional(Lexicon),
-    LexiconAttributes: S.optional(LexiconAttributes),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetLexiconOutput",
-}) as any as S.Schema<GetLexiconOutput>;
+  S.Struct({ Lexicon: S.optional(Lexicon), LexiconAttributes: S.optional(LexiconAttributes) }).pipe(
+    ns,
+  ),
+).annotate({ identifier: "GetLexiconOutput" }) as any as S.Schema<GetLexiconOutput>;
 export type TaskId = string;
 export interface GetSpeechSynthesisTaskInput {
   TaskId: string;
@@ -603,12 +536,7 @@ export const GetSpeechSynthesisTaskInput = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "GetSpeechSynthesisTaskInput",
 }) as any as S.Schema<GetSpeechSynthesisTaskInput>;
-export type TaskStatus =
-  | "scheduled"
-  | "inProgress"
-  | "completed"
-  | "failed"
-  | (string & {});
+export type TaskStatus = "scheduled" | "inProgress" | "completed" | "failed" | (string & {});
 export const TaskStatus = S.String;
 
 export type TaskStatusReason = string;
@@ -629,12 +557,7 @@ export type OutputFormat =
 export const OutputFormat = S.String;
 
 export type SampleRate = string;
-export type SpeechMarkType =
-  | "sentence"
-  | "ssml"
-  | "viseme"
-  | "word"
-  | (string & {});
+export type SpeechMarkType = "sentence" | "ssml" | "viseme" | "word" | (string & {});
 export const SpeechMarkType = S.String;
 
 export type SpeechMarkTypeList = SpeechMarkType[];
@@ -690,34 +613,17 @@ export interface ListLexiconsInput {
   NextToken?: string;
 }
 export const ListLexiconsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/v1/lexicons" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+  S.Struct({ NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")) }).pipe(
+    T.all(ns, T.Http({ method: "GET", uri: "/v1/lexicons" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "ListLexiconsInput",
-}) as any as S.Schema<ListLexiconsInput>;
+).annotate({ identifier: "ListLexiconsInput" }) as any as S.Schema<ListLexiconsInput>;
 export interface LexiconDescription {
   Name?: string;
   Attributes?: LexiconAttributes;
 }
 export const LexiconDescription = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String),
-    Attributes: S.optional(LexiconAttributes),
-  }),
-).annotate({
-  identifier: "LexiconDescription",
-}) as any as S.Schema<LexiconDescription>;
+  S.Struct({ Name: S.optional(S.String), Attributes: S.optional(LexiconAttributes) }),
+).annotate({ identifier: "LexiconDescription" }) as any as S.Schema<LexiconDescription>;
 export type LexiconDescriptionList = LexiconDescription[];
 export const LexiconDescriptionList = /*@__PURE__*/ S.Array(LexiconDescription);
 export interface ListLexiconsOutput {
@@ -725,13 +631,10 @@ export interface ListLexiconsOutput {
   NextToken?: string;
 }
 export const ListLexiconsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Lexicons: S.optional(LexiconDescriptionList),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListLexiconsOutput",
-}) as any as S.Schema<ListLexiconsOutput>;
+  S.Struct({ Lexicons: S.optional(LexiconDescriptionList), NextToken: S.optional(S.String) }).pipe(
+    ns,
+  ),
+).annotate({ identifier: "ListLexiconsOutput" }) as any as S.Schema<ListLexiconsOutput>;
 export type MaxResults = number;
 export interface ListSpeechSynthesisTasksInput {
   MaxResults?: number;
@@ -744,15 +647,7 @@ export const ListSpeechSynthesisTasksInput = /*@__PURE__*/ S.suspend(() =>
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
     Status: S.optional(TaskStatus).pipe(T.HttpQuery("Status")),
   }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/v1/synthesisTasks" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "GET", uri: "/v1/synthesisTasks" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListSpeechSynthesisTasksInput",
@@ -764,10 +659,9 @@ export interface ListSpeechSynthesisTasksOutput {
   SynthesisTasks?: SynthesisTask[];
 }
 export const ListSpeechSynthesisTasksOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    SynthesisTasks: S.optional(SynthesisTasks),
-  }).pipe(ns),
+  S.Struct({ NextToken: S.optional(S.String), SynthesisTasks: S.optional(SynthesisTasks) }).pipe(
+    ns,
+  ),
 ).annotate({
   identifier: "ListSpeechSynthesisTasksOutput",
 }) as any as S.Schema<ListSpeechSynthesisTasksOutput>;
@@ -776,27 +670,12 @@ export interface PutLexiconInput {
   Content: string | redacted.Redacted<string>;
 }
 export const PutLexiconInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.String.pipe(T.HttpLabel("Name")),
-    Content: SensitiveString,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "PUT", uri: "/v1/lexicons/{Name}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+  S.Struct({ Name: S.String.pipe(T.HttpLabel("Name")), Content: SensitiveString }).pipe(
+    T.all(ns, T.Http({ method: "PUT", uri: "/v1/lexicons/{Name}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "PutLexiconInput",
-}) as any as S.Schema<PutLexiconInput>;
+).annotate({ identifier: "PutLexiconInput" }) as any as S.Schema<PutLexiconInput>;
 export interface PutLexiconOutput {}
-export const PutLexiconOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
+export const PutLexiconOutput = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "PutLexiconOutput",
 }) as any as S.Schema<PutLexiconOutput>;
 export type Text = string;
@@ -806,9 +685,7 @@ export interface FlushStreamConfiguration {
 }
 export const FlushStreamConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Force: S.optional(S.Boolean) }),
-).annotate({
-  identifier: "FlushStreamConfiguration",
-}) as any as S.Schema<FlushStreamConfiguration>;
+).annotate({ identifier: "FlushStreamConfiguration" }) as any as S.Schema<FlushStreamConfiguration>;
 export interface TextEvent {
   Text: string;
   TextType?: TextType;
@@ -822,23 +699,15 @@ export const TextEvent = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "TextEvent" }) as any as S.Schema<TextEvent>;
 export interface CloseStreamEvent {}
-export const CloseStreamEvent = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const CloseStreamEvent = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "CloseStreamEvent",
 }) as any as S.Schema<CloseStreamEvent>;
 export type StartSpeechSynthesisStreamActionStream =
   | { TextEvent: TextEvent; CloseStreamEvent?: never }
   | { TextEvent?: never; CloseStreamEvent: CloseStreamEvent };
-export const StartSpeechSynthesisStreamActionStream =
-  /*@__PURE__*/ T.InputEventStream(
-    S.Union([
-      S.Struct({ TextEvent: TextEvent }),
-      S.Struct({ CloseStreamEvent: CloseStreamEvent }),
-    ]),
-  ) as any as S.Schema<
-    stream.Stream<StartSpeechSynthesisStreamActionStream, Error, never>
-  >;
+export const StartSpeechSynthesisStreamActionStream = /*@__PURE__*/ T.InputEventStream(
+  S.Union([S.Struct({ TextEvent: TextEvent }), S.Struct({ CloseStreamEvent: CloseStreamEvent })]),
+) as any as S.Schema<stream.Stream<StartSpeechSynthesisStreamActionStream, Error, never>>;
 export interface StartSpeechSynthesisStreamInput {
   Engine: Engine;
   LanguageCode?: LanguageCode;
@@ -846,37 +715,19 @@ export interface StartSpeechSynthesisStreamInput {
   OutputFormat: OutputFormat;
   SampleRate?: string;
   VoiceId: VoiceId;
-  ActionStream?: stream.Stream<
-    StartSpeechSynthesisStreamActionStream,
-    Error,
-    never
-  >;
+  ActionStream?: stream.Stream<StartSpeechSynthesisStreamActionStream, Error, never>;
 }
 export const StartSpeechSynthesisStreamInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     Engine: Engine.pipe(T.HttpHeader("x-amzn-Engine")),
-    LanguageCode: S.optional(LanguageCode).pipe(
-      T.HttpHeader("x-amzn-LanguageCode"),
-    ),
-    LexiconNames: S.optional(LexiconNameList).pipe(
-      T.HttpHeader("x-amzn-LexiconNames"),
-    ),
+    LanguageCode: S.optional(LanguageCode).pipe(T.HttpHeader("x-amzn-LanguageCode")),
+    LexiconNames: S.optional(LexiconNameList).pipe(T.HttpHeader("x-amzn-LexiconNames")),
     OutputFormat: OutputFormat.pipe(T.HttpHeader("x-amzn-OutputFormat")),
     SampleRate: S.optional(S.String).pipe(T.HttpHeader("x-amzn-SampleRate")),
     VoiceId: VoiceId.pipe(T.HttpHeader("x-amzn-VoiceId")),
-    ActionStream: S.optional(StartSpeechSynthesisStreamActionStream).pipe(
-      T.HttpPayload(),
-    ),
+    ActionStream: S.optional(StartSpeechSynthesisStreamActionStream).pipe(T.HttpPayload()),
   }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/v1/synthesisStream" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/v1/synthesisStream" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "StartSpeechSynthesisStreamInput",
@@ -893,9 +744,7 @@ export interface StreamClosedEvent {
 }
 export const StreamClosedEvent = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ RequestCharacters: S.optional(S.Number) }),
-).annotate({
-  identifier: "StreamClosedEvent",
-}) as any as S.Schema<StreamClosedEvent>;
+).annotate({ identifier: "StreamClosedEvent" }) as any as S.Schema<StreamClosedEvent>;
 export type ErrorMessage = string;
 export type ValidationExceptionReason =
   | "unsupportedOperation"
@@ -913,13 +762,9 @@ export interface ValidationExceptionField {
 }
 export const ValidationExceptionField = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ name: S.String, message: S.String }),
-).annotate({
-  identifier: "ValidationExceptionField",
-}) as any as S.Schema<ValidationExceptionField>;
+).annotate({ identifier: "ValidationExceptionField" }) as any as S.Schema<ValidationExceptionField>;
 export type ValidationExceptionFieldList = ValidationExceptionField[];
-export const ValidationExceptionFieldList = /*@__PURE__*/ S.Array(
-  ValidationExceptionField,
-);
+export const ValidationExceptionFieldList = /*@__PURE__*/ S.Array(ValidationExceptionField);
 export type QuotaCode =
   | "input-stream-inbound-event-timeout"
   | "input-stream-timeout"
@@ -938,9 +783,7 @@ export interface ThrottlingReason {
 }
 export const ThrottlingReason = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ reason: S.optional(S.String), resource: S.optional(S.String) }),
-).annotate({
-  identifier: "ThrottlingReason",
-}) as any as S.Schema<ThrottlingReason>;
+).annotate({ identifier: "ThrottlingReason" }) as any as S.Schema<ThrottlingReason>;
 export type ThrottlingReasonList = ThrottlingReason[];
 export const ThrottlingReasonList = /*@__PURE__*/ S.Array(ThrottlingReason);
 export type StartSpeechSynthesisStreamEventStream =
@@ -992,47 +835,38 @@ export type StartSpeechSynthesisStreamEventStream =
       ServiceFailureException?: never;
       ThrottlingException: ThrottlingException;
     };
-export const StartSpeechSynthesisStreamEventStream =
-  /*@__PURE__*/ T.EventStream(
-    S.Union([
-      S.Struct({ AudioEvent: AudioEvent }),
-      S.Struct({ StreamClosedEvent: StreamClosedEvent }),
-      S.Struct({
-        ValidationException: S.suspend(() => ValidationException).annotate({
-          identifier: "ValidationException",
-        }),
+export const StartSpeechSynthesisStreamEventStream = /*@__PURE__*/ T.EventStream(
+  S.Union([
+    S.Struct({ AudioEvent: AudioEvent }),
+    S.Struct({ StreamClosedEvent: StreamClosedEvent }),
+    S.Struct({
+      ValidationException: S.suspend(() => ValidationException).annotate({
+        identifier: "ValidationException",
       }),
-      S.Struct({
-        ServiceQuotaExceededException: S.suspend(
-          () => ServiceQuotaExceededException,
-        ).annotate({ identifier: "ServiceQuotaExceededException" }),
+    }),
+    S.Struct({
+      ServiceQuotaExceededException: S.suspend(() => ServiceQuotaExceededException).annotate({
+        identifier: "ServiceQuotaExceededException",
       }),
-      S.Struct({
-        ServiceFailureException: S.suspend(
-          () => ServiceFailureException,
-        ).annotate({ identifier: "ServiceFailureException" }),
+    }),
+    S.Struct({
+      ServiceFailureException: S.suspend(() => ServiceFailureException).annotate({
+        identifier: "ServiceFailureException",
       }),
-      S.Struct({
-        ThrottlingException: S.suspend(() => ThrottlingException).annotate({
-          identifier: "ThrottlingException",
-        }),
+    }),
+    S.Struct({
+      ThrottlingException: S.suspend(() => ThrottlingException).annotate({
+        identifier: "ThrottlingException",
       }),
-    ]),
-  ) as any as S.Schema<
-    stream.Stream<StartSpeechSynthesisStreamEventStream, Error, never>
-  >;
+    }),
+  ]),
+) as any as S.Schema<stream.Stream<StartSpeechSynthesisStreamEventStream, Error, never>>;
 export interface StartSpeechSynthesisStreamOutput {
-  EventStream?: stream.Stream<
-    StartSpeechSynthesisStreamEventStream,
-    Error,
-    never
-  >;
+  EventStream?: stream.Stream<StartSpeechSynthesisStreamEventStream, Error, never>;
 }
 export const StartSpeechSynthesisStreamOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    EventStream: S.optional(StartSpeechSynthesisStreamEventStream).pipe(
-      T.HttpPayload(),
-    ),
+    EventStream: S.optional(StartSpeechSynthesisStreamEventStream).pipe(T.HttpPayload()),
   }).pipe(ns),
 ).annotate({
   identifier: "StartSpeechSynthesisStreamOutput",
@@ -1068,15 +902,7 @@ export const StartSpeechSynthesisTaskInput = /*@__PURE__*/ S.suspend(() =>
     TextType: S.optional(TextType),
     VoiceId: VoiceId,
   }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/v1/synthesisTasks" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/v1/synthesisTasks" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "StartSpeechSynthesisTaskInput",
@@ -1111,20 +937,8 @@ export const SynthesizeSpeechInput = /*@__PURE__*/ S.suspend(() =>
     Text: S.String,
     TextType: S.optional(TextType),
     VoiceId: VoiceId,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/v1/speech" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "SynthesizeSpeechInput",
-}) as any as S.Schema<SynthesizeSpeechInput>;
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/v1/speech" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "SynthesizeSpeechInput" }) as any as S.Schema<SynthesizeSpeechInput>;
 export type ContentType = string;
 export interface SynthesizeSpeechOutput {
   AudioStream?: T.StreamingOutputBody;
@@ -1135,17 +949,10 @@ export const SynthesizeSpeechOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     AudioStream: S.optional(T.StreamingOutput).pipe(T.HttpPayload()),
     ContentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
-    RequestCharacters: S.optional(S.Number).pipe(
-      T.HttpHeader("x-amzn-RequestCharacters"),
-    ),
+    RequestCharacters: S.optional(S.Number).pipe(T.HttpHeader("x-amzn-RequestCharacters")),
   }).pipe(ns),
-).annotate({
-  identifier: "SynthesizeSpeechOutput",
-}) as any as S.Schema<SynthesizeSpeechOutput>;
-export type DeleteLexiconError =
-  | LexiconNotFoundException
-  | ServiceFailureException
-  | CommonErrors;
+).annotate({ identifier: "SynthesizeSpeechOutput" }) as any as S.Schema<SynthesizeSpeechOutput>;
+export type DeleteLexiconError = LexiconNotFoundException | ServiceFailureException | CommonErrors;
 /**
  * Deletes the specified pronunciation lexicon stored in an Amazon Web Services Region. A lexicon which has been deleted is not available for
  * speech synthesis, nor is it possible to retrieve it using either the
@@ -1207,10 +1014,7 @@ export const describeVoices: API.OperationMethod<
   operationName: "DescribeVoices",
 }));
 
-export type GetLexiconError =
-  | LexiconNotFoundException
-  | ServiceFailureException
-  | CommonErrors;
+export type GetLexiconError = LexiconNotFoundException | ServiceFailureException | CommonErrors;
 /**
  * Returns the content of the specified pronunciation lexicon stored
  * in an Amazon Web Services Region. For more information, see Managing Lexicons.
@@ -1248,20 +1052,13 @@ export const getSpeechSynthesisTask: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetSpeechSynthesisTaskInput,
   output: GetSpeechSynthesisTaskOutput,
-  errors: [
-    InvalidTaskIdException,
-    ServiceFailureException,
-    SynthesisTaskNotFoundException,
-  ],
+  errors: [InvalidTaskIdException, ServiceFailureException, SynthesisTaskNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSpeechSynthesisTask",
 }));
 
-export type ListLexiconsError =
-  | InvalidNextTokenException
-  | ServiceFailureException
-  | CommonErrors;
+export type ListLexiconsError = InvalidNextTokenException | ServiceFailureException | CommonErrors;
 /**
  * Returns a list of pronunciation lexicons stored in an Amazon Web Services Region. For more information, see Managing Lexicons.
  */

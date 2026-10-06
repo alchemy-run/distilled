@@ -47,16 +47,14 @@ export const CodeSamples = (props: {
         ready = true;
       },
       onComplete: () => setMorphing(false),
-      onRender: () =>
-        paintMorph(layer, morph.value(), colours[props.active()]!),
+      onRender: () => paintMorph(layer, morph.value(), colours[props.active()]!),
     });
 
     // `fitCode` scales each panel on its own; the morph layer shows a copy of
     // one of them, so it borrows that panel's scale — otherwise, on a narrow
     // screen, the code changes size for the length of the morph.
     const borrowFit = (i: number) => {
-      const panel =
-        layer.parentElement?.querySelectorAll<HTMLElement>("pre.sample")[i];
+      const panel = layer.parentElement?.querySelectorAll<HTMLElement>("pre.sample")[i];
       const fit = panel && getComputedStyle(panel).getPropertyValue("--fit");
       layer.style.setProperty("--fit", fit?.trim() || "1");
     };
@@ -121,11 +119,7 @@ export const CodeSamples = (props: {
           <i class="size-[0.6rem] rounded-full bg-teal" />
         </span>
         <span class="text-fg-2">{sample().file}</span>
-        <div
-          class="ml-auto flex items-center gap-1.5"
-          role="tablist"
-          aria-label="Provider"
-        >
+        <div class="ml-auto flex items-center gap-1.5" role="tablist" aria-label="Provider">
           <For each={SAMPLES}>
             {(s, i) => (
               <button

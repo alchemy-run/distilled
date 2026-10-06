@@ -25,9 +25,5 @@ export * from "./errors.ts";
 export * as Jose from "./jose.ts";
 export * as T from "./traits.ts";
 export * as Retry from "./retry.ts";
-export {
-  AcmeProtocol,
-  type AcmeOpError,
-  type AcmeOpContext,
-} from "./protocol.ts";
+export { AcmeProtocol, type AcmeOpError, type AcmeOpContext } from "./protocol.ts";
 export * from "./services/index.ts";

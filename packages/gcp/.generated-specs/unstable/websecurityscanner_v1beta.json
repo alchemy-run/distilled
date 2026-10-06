@@ -8,183 +8,6 @@
     "distilled.finalized": true
   },
   "shapes": {
-    "com.gcp.websecurityscanner_v1beta#OutdatedLibrary": {
-      "type": "structure",
-      "members": {
-        "libraryName": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The name of the outdated library."
-          }
-        },
-        "learnMoreUrls": {
-          "target": "com.gcp.websecurityscanner_v1beta#StringList",
-          "traits": {
-            "smithy.api#documentation": "URLs to learn more information about the vulnerabilities in the library."
-          }
-        },
-        "version": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The version number."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Information reported for an outdated library."
-      }
-    },
-    "com.gcp.websecurityscanner_v1beta#StringList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      }
-    },
-    "com.gcp.websecurityscanner_v1beta#GoogleAccount": {
-      "type": "structure",
-      "members": {
-        "username": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Required. The user name of the Google account."
-          }
-        },
-        "password": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Required. Input only. The password of the Google account. The credential is stored encrypted and not returned in any response nor included in audit logs."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Describes authentication configuration that uses a Google account."
-      }
-    },
-    "com.gcp.websecurityscanner_v1beta#ListScanConfigsResponse": {
-      "type": "structure",
-      "members": {
-        "scanConfigs": {
-          "target": "com.gcp.websecurityscanner_v1beta#ScanConfigList",
-          "traits": {
-            "smithy.api#documentation": "The list of ScanConfigs returned."
-          }
-        },
-        "nextPageToken": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Token to retrieve the next page of results, or empty if there are no more results in the list."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Response for the `ListScanConfigs` method."
-      }
-    },
-    "com.gcp.websecurityscanner_v1beta#ScanConfigList": {
-      "type": "list",
-      "member": {
-        "target": "com.gcp.websecurityscanner_v1beta#ScanConfig"
-      }
-    },
-    "com.gcp.websecurityscanner_v1beta#FindingTypeStats": {
-      "type": "structure",
-      "members": {
-        "findingType": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The finding type associated with the stats."
-          }
-        },
-        "findingCount": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "The count of findings belonging to this finding type."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "A FindingTypeStats resource represents stats regarding a specific FindingType of Findings under a given ScanRun."
-      }
-    },
-    "com.gcp.websecurityscanner_v1beta#ListCrawledUrlsResponse": {
-      "type": "structure",
-      "members": {
-        "crawledUrls": {
-          "target": "com.gcp.websecurityscanner_v1beta#CrawledUrlList",
-          "traits": {
-            "smithy.api#documentation": "The list of CrawledUrls returned."
-          }
-        },
-        "nextPageToken": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Token to retrieve the next page of results, or empty if there are no more results in the list."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Response for the `ListCrawledUrls` method."
-      }
-    },
-    "com.gcp.websecurityscanner_v1beta#CrawledUrlList": {
-      "type": "list",
-      "member": {
-        "target": "com.gcp.websecurityscanner_v1beta#CrawledUrl"
-      }
-    },
-    "com.gcp.websecurityscanner_v1beta#Authentication": {
-      "type": "structure",
-      "members": {
-        "customAccount": {
-          "target": "com.gcp.websecurityscanner_v1beta#CustomAccount",
-          "traits": {
-            "smithy.api#documentation": "Authentication using a custom account."
-          }
-        },
-        "googleAccount": {
-          "target": "com.gcp.websecurityscanner_v1beta#GoogleAccount",
-          "traits": {
-            "smithy.api#documentation": "Authentication using a Google account."
-          }
-        },
-        "iapCredential": {
-          "target": "com.gcp.websecurityscanner_v1beta#IapCredential",
-          "traits": {
-            "smithy.api#documentation": "Authentication using Identity-Aware-Proxy (IAP)."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Scan authentication configuration."
-      }
-    },
-    "com.gcp.websecurityscanner_v1beta#ListFindingTypeStatsResponse": {
-      "type": "structure",
-      "members": {
-        "findingTypeStats": {
-          "target": "com.gcp.websecurityscanner_v1beta#FindingTypeStatsList",
-          "traits": {
-            "smithy.api#documentation": "The list of FindingTypeStats returned."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Response for the `ListFindingTypeStats` method."
-      }
-    },
-    "com.gcp.websecurityscanner_v1beta#FindingTypeStatsList": {
-      "type": "list",
-      "member": {
-        "target": "com.gcp.websecurityscanner_v1beta#FindingTypeStats"
-      }
-    },
-    "com.gcp.websecurityscanner_v1beta#StartScanRunRequest": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#documentation": "Request for the `StartScanRun` method."
-      }
-    },
     "com.gcp.websecurityscanner_v1beta#Xxe": {
       "type": "structure",
       "members": {
@@ -222,24 +45,599 @@
         }
       }
     },
-    "com.gcp.websecurityscanner_v1beta#Header": {
+    "com.gcp.websecurityscanner_v1beta#ListFindingsResponse": {
       "type": "structure",
       "members": {
-        "value": {
+        "findings": {
+          "target": "com.gcp.websecurityscanner_v1beta#FindingList",
+          "traits": {
+            "smithy.api#documentation": "The list of Findings returned."
+          }
+        },
+        "nextPageToken": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Header value."
+            "smithy.api#documentation": "Token to retrieve the next page of results, or empty if there are no more results in the list."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Response for the `ListFindings` method."
+      }
+    },
+    "com.gcp.websecurityscanner_v1beta#FindingList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.websecurityscanner_v1beta#Finding"
+      }
+    },
+    "com.gcp.websecurityscanner_v1beta#IapTestServiceAccountInfo": {
+      "type": "structure",
+      "members": {
+        "targetAudienceClientId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. Describes OAuth2 Client ID of resources protected by Identity-Aware-Proxy(IAP)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Describes authentication configuration when Web-Security-Scanner service account is added in Identity-Aware-Proxy (IAP) access policies."
+      }
+    },
+    "com.gcp.websecurityscanner_v1beta#ListScanConfigsResponse": {
+      "type": "structure",
+      "members": {
+        "scanConfigs": {
+          "target": "com.gcp.websecurityscanner_v1beta#ScanConfigList",
+          "traits": {
+            "smithy.api#documentation": "The list of ScanConfigs returned."
+          }
+        },
+        "nextPageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Token to retrieve the next page of results, or empty if there are no more results in the list."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Response for the `ListScanConfigs` method."
+      }
+    },
+    "com.gcp.websecurityscanner_v1beta#ScanConfigList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.websecurityscanner_v1beta#ScanConfig"
+      }
+    },
+    "com.gcp.websecurityscanner_v1beta#ScanRunWarningTrace": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "com.gcp.websecurityscanner_v1beta#ScanRunWarningTraceCodeEnum",
+          "traits": {
+            "smithy.api#documentation": "Indicates the warning code."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Output only. Defines a warning trace message for ScanRun. Warning traces provide customers with useful information that helps make the scanning process more effective."
+      }
+    },
+    "com.gcp.websecurityscanner_v1beta#ScanRunWarningTraceCodeEnum": {
+      "type": "enum",
+      "members": {
+        "CODE_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CODE_UNSPECIFIED"
+          }
+        },
+        "INSUFFICIENT_CRAWL_RESULTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "INSUFFICIENT_CRAWL_RESULTS"
+          }
+        },
+        "TOO_MANY_CRAWL_RESULTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TOO_MANY_CRAWL_RESULTS"
+          }
+        },
+        "TOO_MANY_FUZZ_TASKS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TOO_MANY_FUZZ_TASKS"
+          }
+        },
+        "BLOCKED_BY_IAP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "BLOCKED_BY_IAP"
+          }
+        },
+        "NO_STARTING_URL_FOUND_FOR_MANAGED_SCAN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "NO_STARTING_URL_FOUND_FOR_MANAGED_SCAN"
+          }
+        }
+      }
+    },
+    "com.gcp.websecurityscanner_v1beta#Form": {
+      "type": "structure",
+      "members": {
+        "actionUri": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "! The URI where to send the form when it's submitted."
+          }
+        },
+        "fields": {
+          "target": "com.gcp.websecurityscanner_v1beta#StringList",
+          "traits": {
+            "smithy.api#documentation": "! The names of form fields related to the vulnerability."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "! Information about a vulnerability with an HTML."
+      }
+    },
+    "com.gcp.websecurityscanner_v1beta#StringList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.gcp.websecurityscanner_v1beta#StopScanRunRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#documentation": "Request for the `StopScanRun` method."
+      }
+    },
+    "com.gcp.websecurityscanner_v1beta#ListFindingTypeStatsResponse": {
+      "type": "structure",
+      "members": {
+        "findingTypeStats": {
+          "target": "com.gcp.websecurityscanner_v1beta#FindingTypeStatsList",
+          "traits": {
+            "smithy.api#documentation": "The list of FindingTypeStats returned."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Response for the `ListFindingTypeStats` method."
+      }
+    },
+    "com.gcp.websecurityscanner_v1beta#FindingTypeStatsList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.websecurityscanner_v1beta#FindingTypeStats"
+      }
+    },
+    "com.gcp.websecurityscanner_v1beta#FindingTypeStats": {
+      "type": "structure",
+      "members": {
+        "findingType": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The finding type associated with the stats."
+          }
+        },
+        "findingCount": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The count of findings belonging to this finding type."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A FindingTypeStats resource represents stats regarding a specific FindingType of Findings under a given ScanRun."
+      }
+    },
+    "com.gcp.websecurityscanner_v1beta#ScanRun": {
+      "type": "structure",
+      "members": {
+        "resultState": {
+          "target": "com.gcp.websecurityscanner_v1beta#ScanRunResultStateEnum",
+          "traits": {
+            "smithy.api#documentation": "The result state of the ScanRun. This field is only available after the execution state reaches \"FINISHED\"."
+          }
+        },
+        "startTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The time at which the ScanRun started."
+          }
+        },
+        "executionState": {
+          "target": "com.gcp.websecurityscanner_v1beta#ScanRunExecutionStateEnum",
+          "traits": {
+            "smithy.api#documentation": "The execution state of the ScanRun."
+          }
+        },
+        "errorTrace": {
+          "target": "com.gcp.websecurityscanner_v1beta#ScanRunErrorTrace",
+          "traits": {
+            "smithy.api#documentation": "If result_state is an ERROR, this field provides the primary reason for scan's termination and more details, if such are available."
+          }
+        },
+        "warningTraces": {
+          "target": "com.gcp.websecurityscanner_v1beta#ScanRunWarningTraceList",
+          "traits": {
+            "smithy.api#documentation": "A list of warnings, if such are encountered during this scan run."
+          }
+        },
+        "urlsTestedCount": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The number of URLs tested during this ScanRun. If the scan is in progress, the value represents the number of URLs tested up to now. The number of URLs tested is usually larger than the number URLS crawled because typically a crawled URL is tested with multiple test payloads."
+          }
+        },
+        "urlsCrawledCount": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The number of URLs crawled during this ScanRun. If the scan is in progress, the value represents the number of URLs crawled up to now."
           }
         },
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Header name."
+            "smithy.api#documentation": "The resource name of the ScanRun. The name follows the format of 'projects/{projectId}/scanConfigs/{scanConfigId}/scanRuns/{scanRunId}'. The ScanRun IDs are generated by the system."
+          }
+        },
+        "progressPercent": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The percentage of total completion ranging from 0 to 100. If the scan is in queue, the value is 0. If the scan is running, the value ranges from 0 to 100. If the scan is finished, the value is 100."
+          }
+        },
+        "hasVulnerabilities": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the scan run has found any vulnerabilities."
+          }
+        },
+        "endTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The time at which the ScanRun reached termination state - that the ScanRun is either finished or stopped by user."
           }
         }
       },
       "traits": {
-        "smithy.api#documentation": "Describes a HTTP Header."
+        "smithy.api#documentation": "A ScanRun is a output-only resource representing an actual run of the scan. Next id: 12"
+      }
+    },
+    "com.gcp.websecurityscanner_v1beta#ScanRunResultStateEnum": {
+      "type": "enum",
+      "members": {
+        "RESULT_STATE_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "RESULT_STATE_UNSPECIFIED"
+          }
+        },
+        "SUCCESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SUCCESS"
+          }
+        },
+        "ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ERROR"
+          }
+        },
+        "KILLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "KILLED"
+          }
+        }
+      }
+    },
+    "com.gcp.websecurityscanner_v1beta#ScanRunExecutionStateEnum": {
+      "type": "enum",
+      "members": {
+        "EXECUTION_STATE_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "EXECUTION_STATE_UNSPECIFIED"
+          }
+        },
+        "QUEUED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "QUEUED"
+          }
+        },
+        "SCANNING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SCANNING"
+          }
+        },
+        "FINISHED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FINISHED"
+          }
+        }
+      }
+    },
+    "com.gcp.websecurityscanner_v1beta#ScanRunWarningTraceList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.websecurityscanner_v1beta#ScanRunWarningTrace"
+      }
+    },
+    "com.gcp.websecurityscanner_v1beta#CustomAccount": {
+      "type": "structure",
+      "members": {
+        "password": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. Input only. The password of the custom account. The credential is stored encrypted and not returned in any response nor included in audit logs."
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. The user name of the custom account."
+          }
+        },
+        "loginUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. The login form URL of the website."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Describes authentication configuration that uses a custom account."
+      }
+    },
+    "com.gcp.websecurityscanner_v1beta#OutdatedLibrary": {
+      "type": "structure",
+      "members": {
+        "version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The version number."
+          }
+        },
+        "learnMoreUrls": {
+          "target": "com.gcp.websecurityscanner_v1beta#StringList",
+          "traits": {
+            "smithy.api#documentation": "URLs to learn more information about the vulnerabilities in the library."
+          }
+        },
+        "libraryName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the outdated library."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Information reported for an outdated library."
+      }
+    },
+    "com.gcp.websecurityscanner_v1beta#ListScanRunsResponse": {
+      "type": "structure",
+      "members": {
+        "scanRuns": {
+          "target": "com.gcp.websecurityscanner_v1beta#ScanRunList",
+          "traits": {
+            "smithy.api#documentation": "The list of ScanRuns returned."
+          }
+        },
+        "nextPageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Token to retrieve the next page of results, or empty if there are no more results in the list."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Response for the `ListScanRuns` method."
+      }
+    },
+    "com.gcp.websecurityscanner_v1beta#ScanRunList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.websecurityscanner_v1beta#ScanRun"
+      }
+    },
+    "com.gcp.websecurityscanner_v1beta#GoogleAccount": {
+      "type": "structure",
+      "members": {
+        "password": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. Input only. The password of the Google account. The credential is stored encrypted and not returned in any response nor included in audit logs."
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. The user name of the Google account."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Describes authentication configuration that uses a Google account."
+      }
+    },
+    "com.gcp.websecurityscanner_v1beta#IapCredential": {
+      "type": "structure",
+      "members": {
+        "iapTestServiceAccountInfo": {
+          "target": "com.gcp.websecurityscanner_v1beta#IapTestServiceAccountInfo",
+          "traits": {
+            "smithy.api#documentation": "Authentication configuration when Web-Security-Scanner service account is added in Identity-Aware-Proxy (IAP) access policies."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Describes authentication configuration for Identity-Aware-Proxy (IAP)."
+      }
+    },
+    "com.gcp.websecurityscanner_v1beta#Finding": {
+      "type": "structure",
+      "members": {
+        "trackingId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The tracking ID uniquely identifies a vulnerability instance across multiple ScanRuns."
+          }
+        },
+        "violatingResource": {
+          "target": "com.gcp.websecurityscanner_v1beta#ViolatingResource",
+          "traits": {
+            "smithy.api#documentation": "An addon containing detailed information regarding any resource causing the vulnerability such as JavaScript sources, image, audio files, etc."
+          }
+        },
+        "severity": {
+          "target": "com.gcp.websecurityscanner_v1beta#FindingSeverityEnum",
+          "traits": {
+            "smithy.api#documentation": "The severity level of the reported vulnerability."
+          }
+        },
+        "vulnerableHeaders": {
+          "target": "com.gcp.websecurityscanner_v1beta#VulnerableHeaders",
+          "traits": {
+            "smithy.api#documentation": "An addon containing information about vulnerable or missing HTTP headers."
+          }
+        },
+        "xxe": {
+          "target": "com.gcp.websecurityscanner_v1beta#Xxe",
+          "traits": {
+            "smithy.api#documentation": "An addon containing information reported for an XXE, if any."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The resource name of the Finding. The name follows the format of 'projects/{projectId}/scanConfigs/{scanConfigId}/scanruns/{scanRunId}/findings/{findingId}'. The finding IDs are generated by the system."
+          }
+        },
+        "reproductionUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The URL containing human-readable payload that user can leverage to reproduce the vulnerability."
+          }
+        },
+        "xss": {
+          "target": "com.gcp.websecurityscanner_v1beta#Xss",
+          "traits": {
+            "smithy.api#documentation": "An addon containing information reported for an XSS, if any."
+          }
+        },
+        "form": {
+          "target": "com.gcp.websecurityscanner_v1beta#Form",
+          "traits": {
+            "smithy.api#documentation": "An addon containing information reported for a vulnerability with an HTML form, if any."
+          }
+        },
+        "vulnerableParameters": {
+          "target": "com.gcp.websecurityscanner_v1beta#VulnerableParameters",
+          "traits": {
+            "smithy.api#documentation": "An addon containing information about request parameters which were found to be vulnerable."
+          }
+        },
+        "body": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The body of the request that triggered the vulnerability."
+          }
+        },
+        "findingType": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The type of the Finding. Detailed and up-to-date information on findings can be found here: https://cloud.google.com/security-command-center/docs/how-to-remediate-web-security-scanner"
+          }
+        },
+        "httpMethod": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The http method of the request that triggered the vulnerability, in uppercase."
+          }
+        },
+        "frameUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "If the vulnerability was originated from nested IFrame, the immediate parent IFrame is reported."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The description of the vulnerability."
+          }
+        },
+        "fuzzedUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The URL produced by the server-side fuzzer and used in the request that triggered the vulnerability."
+          }
+        },
+        "outdatedLibrary": {
+          "target": "com.gcp.websecurityscanner_v1beta#OutdatedLibrary",
+          "traits": {
+            "smithy.api#documentation": "An addon containing information about outdated libraries."
+          }
+        },
+        "finalUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The URL where the browser lands when the vulnerability is detected."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A Finding resource represents a vulnerability instance identified during a ScanRun."
+      }
+    },
+    "com.gcp.websecurityscanner_v1beta#FindingSeverityEnum": {
+      "type": "enum",
+      "members": {
+        "SEVERITY_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SEVERITY_UNSPECIFIED"
+          }
+        },
+        "CRITICAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CRITICAL"
+          }
+        },
+        "HIGH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "HIGH"
+          }
+        },
+        "MEDIUM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "MEDIUM"
+          }
+        },
+        "LOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "LOW"
+          }
+        }
       }
     },
     "com.gcp.websecurityscanner_v1beta#ScanConfigError": {
@@ -525,445 +923,24 @@
         }
       }
     },
-    "com.gcp.websecurityscanner_v1beta#Schedule": {
+    "com.gcp.websecurityscanner_v1beta#Xss": {
       "type": "structure",
       "members": {
-        "scheduleTime": {
+        "errorMessage": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "A timestamp indicates when the next run will be scheduled. The value is refreshed by the server after each run. If unspecified, it will default to current server time, which means the scan will be scheduled to start immediately."
+            "smithy.api#documentation": "An error message generated by a javascript breakage."
           }
         },
-        "intervalDurationDays": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "Required. The duration of time between executions in days."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Scan schedule configuration."
-      }
-    },
-    "com.gcp.websecurityscanner_v1beta#ScanConfig": {
-      "type": "structure",
-      "members": {
-        "exportToSecurityCommandCenter": {
-          "target": "com.gcp.websecurityscanner_v1beta#ScanConfigExportToSecurityCommandCenterEnum",
-          "traits": {
-            "smithy.api#documentation": "Controls export of scan configurations and results to Security Command Center."
-          }
-        },
-        "userAgent": {
-          "target": "com.gcp.websecurityscanner_v1beta#ScanConfigUserAgentEnum",
-          "traits": {
-            "smithy.api#documentation": "The user agent used during scanning."
-          }
-        },
-        "displayName": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Required. The user provided display name of the ScanConfig."
-          }
-        },
-        "blacklistPatterns": {
+        "stackTraces": {
           "target": "com.gcp.websecurityscanner_v1beta#StringList",
           "traits": {
-            "smithy.api#documentation": "The excluded URL patterns as described in https://cloud.google.com/security-command-center/docs/how-to-use-web-security-scanner#excluding_urls"
-          }
-        },
-        "ignoreHttpStatusErrors": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "Whether to keep scanning even if most requests return HTTP error codes."
-          }
-        },
-        "maxQps": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "The maximum QPS during scanning. A valid value ranges from 5 to 20 inclusively. If the field is unspecified or its value is set 0, server will default to 15. Other values outside of [5, 20] range will be rejected with INVALID_ARGUMENT error."
-          }
-        },
-        "schedule": {
-          "target": "com.gcp.websecurityscanner_v1beta#Schedule",
-          "traits": {
-            "smithy.api#documentation": "The schedule of the ScanConfig."
-          }
-        },
-        "latestRun": {
-          "target": "com.gcp.websecurityscanner_v1beta#ScanRun",
-          "traits": {
-            "smithy.api#documentation": "Latest ScanRun if available."
-          }
-        },
-        "managedScan": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "Whether the scan config is managed by Web Security Scanner, output only."
-          }
-        },
-        "riskLevel": {
-          "target": "com.gcp.websecurityscanner_v1beta#ScanConfigRiskLevelEnum",
-          "traits": {
-            "smithy.api#documentation": "The risk level selected for the scan"
-          }
-        },
-        "name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The resource name of the ScanConfig. The name follows the format of 'projects/{projectId}/scanConfigs/{scanConfigId}'. The ScanConfig IDs are generated by the system."
-          }
-        },
-        "authentication": {
-          "target": "com.gcp.websecurityscanner_v1beta#Authentication",
-          "traits": {
-            "smithy.api#documentation": "The authentication configuration. If specified, service will use the authentication configuration during scanning."
-          }
-        },
-        "targetPlatforms": {
-          "target": "com.gcp.websecurityscanner_v1beta#ScanConfigTargetPlatformsItemEnumList",
-          "traits": {
-            "smithy.api#documentation": "Set of Google Cloud platforms targeted by the scan. If empty, APP_ENGINE will be used as a default."
-          }
-        },
-        "staticIpScan": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "Whether the scan configuration has enabled static IP address scan feature. If enabled, the scanner will access applications from static IP addresses."
-          }
-        },
-        "startingUrls": {
-          "target": "com.gcp.websecurityscanner_v1beta#StringList",
-          "traits": {
-            "smithy.api#documentation": "Required. The starting URLs from which the scanner finds site pages."
+            "smithy.api#documentation": "Stack traces leading to the point where the XSS occurred."
           }
         }
       },
       "traits": {
-        "smithy.api#documentation": "A ScanConfig resource contains the configurations to launch a scan."
-      }
-    },
-    "com.gcp.websecurityscanner_v1beta#ScanConfigExportToSecurityCommandCenterEnum": {
-      "type": "enum",
-      "members": {
-        "EXPORT_TO_SECURITY_COMMAND_CENTER_UNSPECIFIED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "EXPORT_TO_SECURITY_COMMAND_CENTER_UNSPECIFIED"
-          }
-        },
-        "ENABLED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "ENABLED"
-          }
-        },
-        "DISABLED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "DISABLED"
-          }
-        }
-      }
-    },
-    "com.gcp.websecurityscanner_v1beta#ScanConfigUserAgentEnum": {
-      "type": "enum",
-      "members": {
-        "USER_AGENT_UNSPECIFIED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "USER_AGENT_UNSPECIFIED"
-          }
-        },
-        "CHROME_LINUX": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "CHROME_LINUX"
-          }
-        },
-        "CHROME_ANDROID": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "CHROME_ANDROID"
-          }
-        },
-        "SAFARI_IPHONE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "SAFARI_IPHONE"
-          }
-        }
-      }
-    },
-    "com.gcp.websecurityscanner_v1beta#ScanConfigRiskLevelEnum": {
-      "type": "enum",
-      "members": {
-        "RISK_LEVEL_UNSPECIFIED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "RISK_LEVEL_UNSPECIFIED"
-          }
-        },
-        "NORMAL": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "NORMAL"
-          }
-        },
-        "LOW": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "LOW"
-          }
-        }
-      }
-    },
-    "com.gcp.websecurityscanner_v1beta#ScanConfigTargetPlatformsItemEnum": {
-      "type": "enum",
-      "members": {
-        "TARGET_PLATFORM_UNSPECIFIED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "TARGET_PLATFORM_UNSPECIFIED"
-          }
-        },
-        "APP_ENGINE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "APP_ENGINE"
-          }
-        },
-        "COMPUTE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "COMPUTE"
-          }
-        },
-        "CLOUD_RUN": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "CLOUD_RUN"
-          }
-        },
-        "CLOUD_FUNCTIONS": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "CLOUD_FUNCTIONS"
-          }
-        }
-      }
-    },
-    "com.gcp.websecurityscanner_v1beta#ScanConfigTargetPlatformsItemEnumList": {
-      "type": "list",
-      "member": {
-        "target": "com.gcp.websecurityscanner_v1beta#ScanConfigTargetPlatformsItemEnum"
-      }
-    },
-    "com.gcp.websecurityscanner_v1beta#CrawledUrl": {
-      "type": "structure",
-      "members": {
-        "httpMethod": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The http method of the request that was used to visit the URL, in uppercase."
-          }
-        },
-        "url": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The URL that was crawled."
-          }
-        },
-        "body": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The body of the request that was used to visit the URL."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "A CrawledUrl resource represents a URL that was crawled during a ScanRun. Web Security Scanner Service crawls the web applications, following all links within the scope of sites, to find the URLs to test against."
-      }
-    },
-    "com.gcp.websecurityscanner_v1beta#VulnerableParameters": {
-      "type": "structure",
-      "members": {
-        "parameterNames": {
-          "target": "com.gcp.websecurityscanner_v1beta#StringList",
-          "traits": {
-            "smithy.api#documentation": "The vulnerable parameter names."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Information about vulnerable request parameters."
-      }
-    },
-    "com.gcp.websecurityscanner_v1beta#CustomAccount": {
-      "type": "structure",
-      "members": {
-        "username": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Required. The user name of the custom account."
-          }
-        },
-        "loginUrl": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Required. The login form URL of the website."
-          }
-        },
-        "password": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Required. Input only. The password of the custom account. The credential is stored encrypted and not returned in any response nor included in audit logs."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Describes authentication configuration that uses a custom account."
-      }
-    },
-    "com.gcp.websecurityscanner_v1beta#VulnerableHeaders": {
-      "type": "structure",
-      "members": {
-        "headers": {
-          "target": "com.gcp.websecurityscanner_v1beta#HeaderList",
-          "traits": {
-            "smithy.api#documentation": "List of vulnerable headers."
-          }
-        },
-        "missingHeaders": {
-          "target": "com.gcp.websecurityscanner_v1beta#HeaderList",
-          "traits": {
-            "smithy.api#documentation": "List of missing headers."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Information about vulnerable or missing HTTP Headers."
-      }
-    },
-    "com.gcp.websecurityscanner_v1beta#HeaderList": {
-      "type": "list",
-      "member": {
-        "target": "com.gcp.websecurityscanner_v1beta#Header"
-      }
-    },
-    "com.gcp.websecurityscanner_v1beta#ScanRunWarningTrace": {
-      "type": "structure",
-      "members": {
-        "code": {
-          "target": "com.gcp.websecurityscanner_v1beta#ScanRunWarningTraceCodeEnum",
-          "traits": {
-            "smithy.api#documentation": "Indicates the warning code."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Output only. Defines a warning trace message for ScanRun. Warning traces provide customers with useful information that helps make the scanning process more effective."
-      }
-    },
-    "com.gcp.websecurityscanner_v1beta#ScanRunWarningTraceCodeEnum": {
-      "type": "enum",
-      "members": {
-        "CODE_UNSPECIFIED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "CODE_UNSPECIFIED"
-          }
-        },
-        "INSUFFICIENT_CRAWL_RESULTS": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "INSUFFICIENT_CRAWL_RESULTS"
-          }
-        },
-        "TOO_MANY_CRAWL_RESULTS": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "TOO_MANY_CRAWL_RESULTS"
-          }
-        },
-        "TOO_MANY_FUZZ_TASKS": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "TOO_MANY_FUZZ_TASKS"
-          }
-        },
-        "BLOCKED_BY_IAP": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "BLOCKED_BY_IAP"
-          }
-        },
-        "NO_STARTING_URL_FOUND_FOR_MANAGED_SCAN": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "NO_STARTING_URL_FOUND_FOR_MANAGED_SCAN"
-          }
-        }
-      }
-    },
-    "com.gcp.websecurityscanner_v1beta#ViolatingResource": {
-      "type": "structure",
-      "members": {
-        "resourceUrl": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "URL of this violating resource."
-          }
-        },
-        "contentType": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The MIME type of this resource."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Information regarding any resource causing the vulnerability such as JavaScript sources, image, audio files, etc."
-      }
-    },
-    "com.gcp.websecurityscanner_v1beta#IapTestServiceAccountInfo": {
-      "type": "structure",
-      "members": {
-        "targetAudienceClientId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Required. Describes OAuth2 Client ID of resources protected by Identity-Aware-Proxy(IAP)."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Describes authentication configuration when Web-Security-Scanner service account is added in Identity-Aware-Proxy (IAP) access policies."
-      }
-    },
-    "com.gcp.websecurityscanner_v1beta#ListScanRunsResponse": {
-      "type": "structure",
-      "members": {
-        "scanRuns": {
-          "target": "com.gcp.websecurityscanner_v1beta#ScanRunList",
-          "traits": {
-            "smithy.api#documentation": "The list of ScanRuns returned."
-          }
-        },
-        "nextPageToken": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Token to retrieve the next page of results, or empty if there are no more results in the list."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Response for the `ListScanRuns` method."
-      }
-    },
-    "com.gcp.websecurityscanner_v1beta#ScanRunList": {
-      "type": "list",
-      "member": {
-        "target": "com.gcp.websecurityscanner_v1beta#ScanRun"
+        "smithy.api#documentation": "Information reported for an XSS."
       }
     },
     "com.gcp.websecurityscanner_v1beta#ScanRunErrorTrace": {
@@ -975,16 +952,16 @@
             "smithy.api#documentation": "Indicates the error reason code."
           }
         },
-        "scanConfigError": {
-          "target": "com.gcp.websecurityscanner_v1beta#ScanConfigError",
-          "traits": {
-            "smithy.api#documentation": "If the scan encounters SCAN_CONFIG_ISSUE error, this field has the error message encountered during scan configuration validation that is performed before each scan run."
-          }
-        },
         "mostCommonHttpErrorCode": {
           "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#documentation": "If the scan encounters TOO_MANY_HTTP_ERRORS, this field indicates the most common HTTP error code, if such is available. For example, if this code is 404, the scan has encountered too many NOT_FOUND responses."
+          }
+        },
+        "scanConfigError": {
+          "target": "com.gcp.websecurityscanner_v1beta#ScanConfigError",
+          "traits": {
+            "smithy.api#documentation": "If the scan encounters SCAN_CONFIG_ISSUE error, this field has the error message encountered during scan configuration validation that is performed before each scan run."
           }
         }
       },
@@ -1045,207 +1022,146 @@
         }
       }
     },
-    "com.gcp.websecurityscanner_v1beta#IapCredential": {
+    "com.gcp.websecurityscanner_v1beta#ScanConfig": {
       "type": "structure",
       "members": {
-        "iapTestServiceAccountInfo": {
-          "target": "com.gcp.websecurityscanner_v1beta#IapTestServiceAccountInfo",
+        "schedule": {
+          "target": "com.gcp.websecurityscanner_v1beta#Schedule",
           "traits": {
-            "smithy.api#documentation": "Authentication configuration when Web-Security-Scanner service account is added in Identity-Aware-Proxy (IAP) access policies."
+            "smithy.api#documentation": "The schedule of the ScanConfig."
           }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Describes authentication configuration for Identity-Aware-Proxy (IAP)."
-      }
-    },
-    "com.gcp.websecurityscanner_v1beta#Form": {
-      "type": "structure",
-      "members": {
-        "fields": {
+        },
+        "startingUrls": {
           "target": "com.gcp.websecurityscanner_v1beta#StringList",
           "traits": {
-            "smithy.api#documentation": "! The names of form fields related to the vulnerability."
+            "smithy.api#documentation": "Required. The starting URLs from which the scanner finds site pages."
           }
         },
-        "actionUri": {
-          "target": "smithy.api#String",
+        "userAgent": {
+          "target": "com.gcp.websecurityscanner_v1beta#ScanConfigUserAgentEnum",
           "traits": {
-            "smithy.api#documentation": "! The URI where to send the form when it's submitted."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "! Information about a vulnerability with an HTML."
-      }
-    },
-    "com.gcp.websecurityscanner_v1beta#ListFindingsResponse": {
-      "type": "structure",
-      "members": {
-        "nextPageToken": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Token to retrieve the next page of results, or empty if there are no more results in the list."
+            "smithy.api#documentation": "The user agent used during scanning."
           }
         },
-        "findings": {
-          "target": "com.gcp.websecurityscanner_v1beta#FindingList",
+        "riskLevel": {
+          "target": "com.gcp.websecurityscanner_v1beta#ScanConfigRiskLevelEnum",
           "traits": {
-            "smithy.api#documentation": "The list of Findings returned."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Response for the `ListFindings` method."
-      }
-    },
-    "com.gcp.websecurityscanner_v1beta#FindingList": {
-      "type": "list",
-      "member": {
-        "target": "com.gcp.websecurityscanner_v1beta#Finding"
-      }
-    },
-    "com.gcp.websecurityscanner_v1beta#Finding": {
-      "type": "structure",
-      "members": {
-        "outdatedLibrary": {
-          "target": "com.gcp.websecurityscanner_v1beta#OutdatedLibrary",
-          "traits": {
-            "smithy.api#documentation": "An addon containing information about outdated libraries."
-          }
-        },
-        "body": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The body of the request that triggered the vulnerability."
-          }
-        },
-        "httpMethod": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The http method of the request that triggered the vulnerability, in uppercase."
-          }
-        },
-        "reproductionUrl": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The URL containing human-readable payload that user can leverage to reproduce the vulnerability."
-          }
-        },
-        "trackingId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The tracking ID uniquely identifies a vulnerability instance across multiple ScanRuns."
-          }
-        },
-        "description": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The description of the vulnerability."
-          }
-        },
-        "violatingResource": {
-          "target": "com.gcp.websecurityscanner_v1beta#ViolatingResource",
-          "traits": {
-            "smithy.api#documentation": "An addon containing detailed information regarding any resource causing the vulnerability such as JavaScript sources, image, audio files, etc."
-          }
-        },
-        "findingType": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The type of the Finding. Detailed and up-to-date information on findings can be found here: https://cloud.google.com/security-command-center/docs/how-to-remediate-web-security-scanner"
-          }
-        },
-        "severity": {
-          "target": "com.gcp.websecurityscanner_v1beta#FindingSeverityEnum",
-          "traits": {
-            "smithy.api#documentation": "The severity level of the reported vulnerability."
-          }
-        },
-        "form": {
-          "target": "com.gcp.websecurityscanner_v1beta#Form",
-          "traits": {
-            "smithy.api#documentation": "An addon containing information reported for a vulnerability with an HTML form, if any."
-          }
-        },
-        "vulnerableParameters": {
-          "target": "com.gcp.websecurityscanner_v1beta#VulnerableParameters",
-          "traits": {
-            "smithy.api#documentation": "An addon containing information about request parameters which were found to be vulnerable."
-          }
-        },
-        "frameUrl": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "If the vulnerability was originated from nested IFrame, the immediate parent IFrame is reported."
-          }
-        },
-        "xxe": {
-          "target": "com.gcp.websecurityscanner_v1beta#Xxe",
-          "traits": {
-            "smithy.api#documentation": "An addon containing information reported for an XXE, if any."
-          }
-        },
-        "vulnerableHeaders": {
-          "target": "com.gcp.websecurityscanner_v1beta#VulnerableHeaders",
-          "traits": {
-            "smithy.api#documentation": "An addon containing information about vulnerable or missing HTTP headers."
+            "smithy.api#documentation": "The risk level selected for the scan"
           }
         },
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The resource name of the Finding. The name follows the format of 'projects/{projectId}/scanConfigs/{scanConfigId}/scanruns/{scanRunId}/findings/{findingId}'. The finding IDs are generated by the system."
+            "smithy.api#documentation": "The resource name of the ScanConfig. The name follows the format of 'projects/{projectId}/scanConfigs/{scanConfigId}'. The ScanConfig IDs are generated by the system."
           }
         },
-        "fuzzedUrl": {
+        "displayName": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The URL produced by the server-side fuzzer and used in the request that triggered the vulnerability."
+            "smithy.api#documentation": "Required. The user provided display name of the ScanConfig."
           }
         },
-        "xss": {
-          "target": "com.gcp.websecurityscanner_v1beta#Xss",
+        "authentication": {
+          "target": "com.gcp.websecurityscanner_v1beta#Authentication",
           "traits": {
-            "smithy.api#documentation": "An addon containing information reported for an XSS, if any."
+            "smithy.api#documentation": "The authentication configuration. If specified, service will use the authentication configuration during scanning."
           }
         },
-        "finalUrl": {
-          "target": "smithy.api#String",
+        "staticIpScan": {
+          "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "The URL where the browser lands when the vulnerability is detected."
+            "smithy.api#documentation": "Whether the scan configuration has enabled static IP address scan feature. If enabled, the scanner will access applications from static IP addresses."
+          }
+        },
+        "exportToSecurityCommandCenter": {
+          "target": "com.gcp.websecurityscanner_v1beta#ScanConfigExportToSecurityCommandCenterEnum",
+          "traits": {
+            "smithy.api#documentation": "Controls export of scan configurations and results to Security Command Center."
+          }
+        },
+        "managedScan": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the scan config is managed by Web Security Scanner, output only."
+          }
+        },
+        "blacklistPatterns": {
+          "target": "com.gcp.websecurityscanner_v1beta#StringList",
+          "traits": {
+            "smithy.api#documentation": "The excluded URL patterns as described in https://cloud.google.com/security-command-center/docs/how-to-use-web-security-scanner#excluding_urls"
+          }
+        },
+        "targetPlatforms": {
+          "target": "com.gcp.websecurityscanner_v1beta#ScanConfigTargetPlatformsItemEnumList",
+          "traits": {
+            "smithy.api#documentation": "Set of Google Cloud platforms targeted by the scan. If empty, APP_ENGINE will be used as a default."
+          }
+        },
+        "latestRun": {
+          "target": "com.gcp.websecurityscanner_v1beta#ScanRun",
+          "traits": {
+            "smithy.api#documentation": "Latest ScanRun if available."
+          }
+        },
+        "maxQps": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The maximum QPS during scanning. A valid value ranges from 5 to 20 inclusively. If the field is unspecified or its value is set 0, server will default to 15. Other values outside of [5, 20] range will be rejected with INVALID_ARGUMENT error."
+          }
+        },
+        "ignoreHttpStatusErrors": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether to keep scanning even if most requests return HTTP error codes."
           }
         }
       },
       "traits": {
-        "smithy.api#documentation": "A Finding resource represents a vulnerability instance identified during a ScanRun."
+        "smithy.api#documentation": "A ScanConfig resource contains the configurations to launch a scan."
       }
     },
-    "com.gcp.websecurityscanner_v1beta#FindingSeverityEnum": {
+    "com.gcp.websecurityscanner_v1beta#ScanConfigUserAgentEnum": {
       "type": "enum",
       "members": {
-        "SEVERITY_UNSPECIFIED": {
+        "USER_AGENT_UNSPECIFIED": {
           "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#enumValue": "SEVERITY_UNSPECIFIED"
+            "smithy.api#enumValue": "USER_AGENT_UNSPECIFIED"
           }
         },
-        "CRITICAL": {
+        "CHROME_LINUX": {
           "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#enumValue": "CRITICAL"
+            "smithy.api#enumValue": "CHROME_LINUX"
           }
         },
-        "HIGH": {
+        "CHROME_ANDROID": {
           "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#enumValue": "HIGH"
+            "smithy.api#enumValue": "CHROME_ANDROID"
           }
         },
-        "MEDIUM": {
+        "SAFARI_IPHONE": {
           "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#enumValue": "MEDIUM"
+            "smithy.api#enumValue": "SAFARI_IPHONE"
+          }
+        }
+      }
+    },
+    "com.gcp.websecurityscanner_v1beta#ScanConfigRiskLevelEnum": {
+      "type": "enum",
+      "members": {
+        "RISK_LEVEL_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "RISK_LEVEL_UNSPECIFIED"
+          }
+        },
+        "NORMAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "NORMAL"
           }
         },
         "LOW": {
@@ -1256,24 +1172,253 @@
         }
       }
     },
-    "com.gcp.websecurityscanner_v1beta#Xss": {
-      "type": "structure",
+    "com.gcp.websecurityscanner_v1beta#ScanConfigExportToSecurityCommandCenterEnum": {
+      "type": "enum",
       "members": {
-        "errorMessage": {
-          "target": "smithy.api#String",
+        "EXPORT_TO_SECURITY_COMMAND_CENTER_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#documentation": "An error message generated by a javascript breakage."
+            "smithy.api#enumValue": "EXPORT_TO_SECURITY_COMMAND_CENTER_UNSPECIFIED"
           }
         },
-        "stackTraces": {
+        "ENABLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ENABLED"
+          }
+        },
+        "DISABLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DISABLED"
+          }
+        }
+      }
+    },
+    "com.gcp.websecurityscanner_v1beta#ScanConfigTargetPlatformsItemEnum": {
+      "type": "enum",
+      "members": {
+        "TARGET_PLATFORM_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TARGET_PLATFORM_UNSPECIFIED"
+          }
+        },
+        "APP_ENGINE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "APP_ENGINE"
+          }
+        },
+        "COMPUTE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "COMPUTE"
+          }
+        },
+        "CLOUD_RUN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CLOUD_RUN"
+          }
+        },
+        "CLOUD_FUNCTIONS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CLOUD_FUNCTIONS"
+          }
+        }
+      }
+    },
+    "com.gcp.websecurityscanner_v1beta#ScanConfigTargetPlatformsItemEnumList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.websecurityscanner_v1beta#ScanConfigTargetPlatformsItemEnum"
+      }
+    },
+    "com.gcp.websecurityscanner_v1beta#VulnerableParameters": {
+      "type": "structure",
+      "members": {
+        "parameterNames": {
           "target": "com.gcp.websecurityscanner_v1beta#StringList",
           "traits": {
-            "smithy.api#documentation": "Stack traces leading to the point where the XSS occurred."
+            "smithy.api#documentation": "The vulnerable parameter names."
           }
         }
       },
       "traits": {
-        "smithy.api#documentation": "Information reported for an XSS."
+        "smithy.api#documentation": "Information about vulnerable request parameters."
+      }
+    },
+    "com.gcp.websecurityscanner_v1beta#StartScanRunRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#documentation": "Request for the `StartScanRun` method."
+      }
+    },
+    "com.gcp.websecurityscanner_v1beta#CrawledUrl": {
+      "type": "structure",
+      "members": {
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The URL that was crawled."
+          }
+        },
+        "httpMethod": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The http method of the request that was used to visit the URL, in uppercase."
+          }
+        },
+        "body": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The body of the request that was used to visit the URL."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A CrawledUrl resource represents a URL that was crawled during a ScanRun. Web Security Scanner Service crawls the web applications, following all links within the scope of sites, to find the URLs to test against."
+      }
+    },
+    "com.gcp.websecurityscanner_v1beta#Header": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Header name."
+          }
+        },
+        "value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Header value."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Describes a HTTP Header."
+      }
+    },
+    "com.gcp.websecurityscanner_v1beta#ListCrawledUrlsResponse": {
+      "type": "structure",
+      "members": {
+        "crawledUrls": {
+          "target": "com.gcp.websecurityscanner_v1beta#CrawledUrlList",
+          "traits": {
+            "smithy.api#documentation": "The list of CrawledUrls returned."
+          }
+        },
+        "nextPageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Token to retrieve the next page of results, or empty if there are no more results in the list."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Response for the `ListCrawledUrls` method."
+      }
+    },
+    "com.gcp.websecurityscanner_v1beta#CrawledUrlList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.websecurityscanner_v1beta#CrawledUrl"
+      }
+    },
+    "com.gcp.websecurityscanner_v1beta#VulnerableHeaders": {
+      "type": "structure",
+      "members": {
+        "headers": {
+          "target": "com.gcp.websecurityscanner_v1beta#HeaderList",
+          "traits": {
+            "smithy.api#documentation": "List of vulnerable headers."
+          }
+        },
+        "missingHeaders": {
+          "target": "com.gcp.websecurityscanner_v1beta#HeaderList",
+          "traits": {
+            "smithy.api#documentation": "List of missing headers."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Information about vulnerable or missing HTTP Headers."
+      }
+    },
+    "com.gcp.websecurityscanner_v1beta#HeaderList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.websecurityscanner_v1beta#Header"
+      }
+    },
+    "com.gcp.websecurityscanner_v1beta#ViolatingResource": {
+      "type": "structure",
+      "members": {
+        "contentType": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The MIME type of this resource."
+          }
+        },
+        "resourceUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL of this violating resource."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Information regarding any resource causing the vulnerability such as JavaScript sources, image, audio files, etc."
+      }
+    },
+    "com.gcp.websecurityscanner_v1beta#Schedule": {
+      "type": "structure",
+      "members": {
+        "scheduleTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A timestamp indicates when the next run will be scheduled. The value is refreshed by the server after each run. If unspecified, it will default to current server time, which means the scan will be scheduled to start immediately."
+          }
+        },
+        "intervalDurationDays": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Required. The duration of time between executions in days."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Scan schedule configuration."
+      }
+    },
+    "com.gcp.websecurityscanner_v1beta#Authentication": {
+      "type": "structure",
+      "members": {
+        "googleAccount": {
+          "target": "com.gcp.websecurityscanner_v1beta#GoogleAccount",
+          "traits": {
+            "smithy.api#documentation": "Authentication using a Google account."
+          }
+        },
+        "customAccount": {
+          "target": "com.gcp.websecurityscanner_v1beta#CustomAccount",
+          "traits": {
+            "smithy.api#documentation": "Authentication using a custom account."
+          }
+        },
+        "iapCredential": {
+          "target": "com.gcp.websecurityscanner_v1beta#IapCredential",
+          "traits": {
+            "smithy.api#documentation": "Authentication using Identity-Aware-Proxy (IAP)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Scan authentication configuration."
       }
     },
     "com.gcp.websecurityscanner_v1beta#Empty": {
@@ -1283,164 +1428,26 @@
         "smithy.api#documentation": "A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); }"
       }
     },
-    "com.gcp.websecurityscanner_v1beta#ScanRun": {
-      "type": "structure",
-      "members": {
-        "startTime": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The time at which the ScanRun started."
-          }
-        },
-        "urlsTestedCount": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The number of URLs tested during this ScanRun. If the scan is in progress, the value represents the number of URLs tested up to now. The number of URLs tested is usually larger than the number URLS crawled because typically a crawled URL is tested with multiple test payloads."
-          }
-        },
-        "errorTrace": {
-          "target": "com.gcp.websecurityscanner_v1beta#ScanRunErrorTrace",
-          "traits": {
-            "smithy.api#documentation": "If result_state is an ERROR, this field provides the primary reason for scan's termination and more details, if such are available."
-          }
-        },
-        "name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The resource name of the ScanRun. The name follows the format of 'projects/{projectId}/scanConfigs/{scanConfigId}/scanRuns/{scanRunId}'. The ScanRun IDs are generated by the system."
-          }
-        },
-        "executionState": {
-          "target": "com.gcp.websecurityscanner_v1beta#ScanRunExecutionStateEnum",
-          "traits": {
-            "smithy.api#documentation": "The execution state of the ScanRun."
-          }
-        },
-        "progressPercent": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "The percentage of total completion ranging from 0 to 100. If the scan is in queue, the value is 0. If the scan is running, the value ranges from 0 to 100. If the scan is finished, the value is 100."
-          }
-        },
-        "endTime": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The time at which the ScanRun reached termination state - that the ScanRun is either finished or stopped by user."
-          }
-        },
-        "hasVulnerabilities": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "Whether the scan run has found any vulnerabilities."
-          }
-        },
-        "warningTraces": {
-          "target": "com.gcp.websecurityscanner_v1beta#ScanRunWarningTraceList",
-          "traits": {
-            "smithy.api#documentation": "A list of warnings, if such are encountered during this scan run."
-          }
-        },
-        "urlsCrawledCount": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The number of URLs crawled during this ScanRun. If the scan is in progress, the value represents the number of URLs crawled up to now."
-          }
-        },
-        "resultState": {
-          "target": "com.gcp.websecurityscanner_v1beta#ScanRunResultStateEnum",
-          "traits": {
-            "smithy.api#documentation": "The result state of the ScanRun. This field is only available after the execution state reaches \"FINISHED\"."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "A ScanRun is a output-only resource representing an actual run of the scan. Next id: 12"
-      }
-    },
-    "com.gcp.websecurityscanner_v1beta#ScanRunExecutionStateEnum": {
-      "type": "enum",
-      "members": {
-        "EXECUTION_STATE_UNSPECIFIED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "EXECUTION_STATE_UNSPECIFIED"
-          }
-        },
-        "QUEUED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "QUEUED"
-          }
-        },
-        "SCANNING": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "SCANNING"
-          }
-        },
-        "FINISHED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "FINISHED"
-          }
-        }
-      }
-    },
-    "com.gcp.websecurityscanner_v1beta#ScanRunWarningTraceList": {
-      "type": "list",
-      "member": {
-        "target": "com.gcp.websecurityscanner_v1beta#ScanRunWarningTrace"
-      }
-    },
-    "com.gcp.websecurityscanner_v1beta#ScanRunResultStateEnum": {
-      "type": "enum",
-      "members": {
-        "RESULT_STATE_UNSPECIFIED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "RESULT_STATE_UNSPECIFIED"
-          }
-        },
-        "SUCCESS": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "SUCCESS"
-          }
-        },
-        "ERROR": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "ERROR"
-          }
-        },
-        "KILLED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "KILLED"
-          }
-        }
-      }
-    },
-    "com.gcp.websecurityscanner_v1beta#StopScanRunRequest": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#documentation": "Request for the `StopScanRun` method."
-      }
-    },
-    "com.gcp.websecurityscanner_v1beta#StartProjectsScanConfigsRequest": {
+    "com.gcp.websecurityscanner_v1beta#PatchProjectsScanConfigsRequest": {
       "type": "structure",
       "members": {
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Required. The resource name of the ScanConfig to be used. The name follows the format of 'projects/{projectId}/scanConfigs/{scanConfigId}'.",
+            "smithy.api#documentation": "The resource name of the ScanConfig. The name follows the format of 'projects/{projectId}/scanConfigs/{scanConfigId}'. The ScanConfig IDs are generated by the system.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
         },
+        "updateMask": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. The update mask applies to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask",
+            "smithy.api#httpQuery": "updateMask"
+          }
+        },
         "body": {
-          "target": "com.gcp.websecurityscanner_v1beta#StartScanRunRequest",
+          "target": "com.gcp.websecurityscanner_v1beta#ScanConfig",
           "traits": {
             "smithy.api#httpPayload": {},
             "smithy.api#documentation": "Request body"
@@ -1500,13 +1507,13 @@
         ]
       }
     },
-    "com.gcp.websecurityscanner_v1beta#StartProjectsScanConfigs": {
+    "com.gcp.websecurityscanner_v1beta#PatchProjectsScanConfigs": {
       "type": "operation",
       "input": {
-        "target": "com.gcp.websecurityscanner_v1beta#StartProjectsScanConfigsRequest"
+        "target": "com.gcp.websecurityscanner_v1beta#PatchProjectsScanConfigsRequest"
       },
       "output": {
-        "target": "com.gcp.websecurityscanner_v1beta#ScanRun"
+        "target": "com.gcp.websecurityscanner_v1beta#ScanConfig"
       },
       "errors": [
         {
@@ -1524,10 +1531,65 @@
       ],
       "traits": {
         "smithy.api#http": {
-          "method": "POST",
-          "uri": "v1beta/{+name}:start"
+          "method": "PATCH",
+          "uri": "v1beta/{+name}"
         },
-        "smithy.api#documentation": "Start a ScanRun according to the given ScanConfig."
+        "smithy.api#documentation": "Updates a ScanConfig. This method support partial update of a ScanConfig."
+      }
+    },
+    "com.gcp.websecurityscanner_v1beta#ListProjectsScanConfigsRequest": {
+      "type": "structure",
+      "members": {
+        "pageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A token identifying a page of results to be returned. This should be a `next_page_token` value returned from a previous List request. If unspecified, the first page of results is returned.",
+            "smithy.api#httpQuery": "pageToken"
+          }
+        },
+        "pageSize": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The maximum number of ScanConfigs to return, can be limited by server. If not specified or not positive, the implementation will select a reasonable value.",
+            "smithy.api#httpQuery": "pageSize"
+          }
+        },
+        "parent": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. The parent resource name, which should be a project resource name in the format 'projects/{projectId}'.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.gcp.websecurityscanner_v1beta#ListProjectsScanConfigs": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.websecurityscanner_v1beta#ListProjectsScanConfigsRequest"
+      },
+      "output": {
+        "target": "com.gcp.websecurityscanner_v1beta#ListScanConfigsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.websecurityscanner_v1beta#NotFound"
+        },
+        {
+          "target": "com.gcp.websecurityscanner_v1beta#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "v1beta/{+parent}/scanConfigs"
+        },
+        "smithy.api#documentation": "Lists ScanConfigs under a given project.",
+        "smithy.api#paginated": {
+          "inputToken": "pageToken",
+          "outputToken": "nextPageToken"
+        }
       }
     },
     "com.gcp.websecurityscanner_v1beta#GetProjectsScanConfigsRequest": {
@@ -1565,6 +1627,56 @@
           "uri": "v1beta/{+name}"
         },
         "smithy.api#documentation": "Gets a ScanConfig."
+      }
+    },
+    "com.gcp.websecurityscanner_v1beta#StartProjectsScanConfigsRequest": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. The resource name of the ScanConfig to be used. The name follows the format of 'projects/{projectId}/scanConfigs/{scanConfigId}'.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "body": {
+          "target": "com.gcp.websecurityscanner_v1beta#StartScanRunRequest",
+          "traits": {
+            "smithy.api#httpPayload": {},
+            "smithy.api#documentation": "Request body"
+          }
+        }
+      }
+    },
+    "com.gcp.websecurityscanner_v1beta#StartProjectsScanConfigs": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.websecurityscanner_v1beta#StartProjectsScanConfigsRequest"
+      },
+      "output": {
+        "target": "com.gcp.websecurityscanner_v1beta#ScanRun"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.websecurityscanner_v1beta#NotFound"
+        },
+        {
+          "target": "com.gcp.websecurityscanner_v1beta#Forbidden"
+        },
+        {
+          "target": "com.gcp.websecurityscanner_v1beta#BadRequest"
+        },
+        {
+          "target": "com.gcp.websecurityscanner_v1beta#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "v1beta/{+name}:start"
+        },
+        "smithy.api#documentation": "Start a ScanRun according to the given ScanConfig."
       }
     },
     "com.gcp.websecurityscanner_v1beta#DeleteProjectsScanConfigsRequest": {
@@ -1608,118 +1720,6 @@
           "uri": "v1beta/{+name}"
         },
         "smithy.api#documentation": "Deletes an existing ScanConfig and its child resources."
-      }
-    },
-    "com.gcp.websecurityscanner_v1beta#ListProjectsScanConfigsRequest": {
-      "type": "structure",
-      "members": {
-        "parent": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Required. The parent resource name, which should be a project resource name in the format 'projects/{projectId}'.",
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {}
-          }
-        },
-        "pageToken": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "A token identifying a page of results to be returned. This should be a `next_page_token` value returned from a previous List request. If unspecified, the first page of results is returned.",
-            "smithy.api#httpQuery": "pageToken"
-          }
-        },
-        "pageSize": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "The maximum number of ScanConfigs to return, can be limited by server. If not specified or not positive, the implementation will select a reasonable value.",
-            "smithy.api#httpQuery": "pageSize"
-          }
-        }
-      }
-    },
-    "com.gcp.websecurityscanner_v1beta#ListProjectsScanConfigs": {
-      "type": "operation",
-      "input": {
-        "target": "com.gcp.websecurityscanner_v1beta#ListProjectsScanConfigsRequest"
-      },
-      "output": {
-        "target": "com.gcp.websecurityscanner_v1beta#ListScanConfigsResponse"
-      },
-      "errors": [
-        {
-          "target": "com.gcp.websecurityscanner_v1beta#NotFound"
-        },
-        {
-          "target": "com.gcp.websecurityscanner_v1beta#Forbidden"
-        }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "v1beta/{+parent}/scanConfigs"
-        },
-        "smithy.api#documentation": "Lists ScanConfigs under a given project.",
-        "smithy.api#paginated": {
-          "inputToken": "pageToken",
-          "outputToken": "nextPageToken"
-        }
-      }
-    },
-    "com.gcp.websecurityscanner_v1beta#PatchProjectsScanConfigsRequest": {
-      "type": "structure",
-      "members": {
-        "updateMask": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Required. The update mask applies to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask",
-            "smithy.api#httpQuery": "updateMask"
-          }
-        },
-        "name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The resource name of the ScanConfig. The name follows the format of 'projects/{projectId}/scanConfigs/{scanConfigId}'. The ScanConfig IDs are generated by the system.",
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {}
-          }
-        },
-        "body": {
-          "target": "com.gcp.websecurityscanner_v1beta#ScanConfig",
-          "traits": {
-            "smithy.api#httpPayload": {},
-            "smithy.api#documentation": "Request body"
-          }
-        }
-      }
-    },
-    "com.gcp.websecurityscanner_v1beta#PatchProjectsScanConfigs": {
-      "type": "operation",
-      "input": {
-        "target": "com.gcp.websecurityscanner_v1beta#PatchProjectsScanConfigsRequest"
-      },
-      "output": {
-        "target": "com.gcp.websecurityscanner_v1beta#ScanConfig"
-      },
-      "errors": [
-        {
-          "target": "com.gcp.websecurityscanner_v1beta#NotFound"
-        },
-        {
-          "target": "com.gcp.websecurityscanner_v1beta#Forbidden"
-        },
-        {
-          "target": "com.gcp.websecurityscanner_v1beta#BadRequest"
-        },
-        {
-          "target": "com.gcp.websecurityscanner_v1beta#Conflict"
-        }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "v1beta/{+name}"
-        },
-        "smithy.api#documentation": "Updates a ScanConfig. This method support partial update of a ScanConfig."
       }
     },
     "com.gcp.websecurityscanner_v1beta#CreateProjectsScanConfigsRequest": {
@@ -1775,14 +1775,6 @@
     "com.gcp.websecurityscanner_v1beta#ListProjectsScanConfigsScanRunsRequest": {
       "type": "structure",
       "members": {
-        "parent": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Required. The parent resource name, which should be a scan resource name in the format 'projects/{projectId}/scanConfigs/{scanConfigId}'.",
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {}
-          }
-        },
         "pageToken": {
           "target": "smithy.api#String",
           "traits": {
@@ -1795,6 +1787,14 @@
           "traits": {
             "smithy.api#documentation": "The maximum number of ScanRuns to return, can be limited by server. If not specified or not positive, the implementation will select a reasonable value.",
             "smithy.api#httpQuery": "pageSize"
+          }
+        },
+        "parent": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. The parent resource name, which should be a scan resource name in the format 'projects/{projectId}/scanConfigs/{scanConfigId}'.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
           }
         }
       }
@@ -1917,14 +1917,6 @@
     "com.gcp.websecurityscanner_v1beta#ListProjectsScanConfigsScanRunsCrawledUrlsRequest": {
       "type": "structure",
       "members": {
-        "parent": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Required. The parent resource name, which should be a scan run resource name in the format 'projects/{projectId}/scanConfigs/{scanConfigId}/scanRuns/{scanRunId}'.",
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {}
-          }
-        },
         "pageToken": {
           "target": "smithy.api#String",
           "traits": {
@@ -1937,6 +1929,14 @@
           "traits": {
             "smithy.api#documentation": "The maximum number of CrawledUrls to return, can be limited by server. If not specified or not positive, the implementation will select a reasonable value.",
             "smithy.api#httpQuery": "pageSize"
+          }
+        },
+        "parent": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. The parent resource name, which should be a scan run resource name in the format 'projects/{projectId}/scanConfigs/{scanConfigId}/scanRuns/{scanRunId}'.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
           }
         }
       }

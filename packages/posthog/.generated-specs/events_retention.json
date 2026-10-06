@@ -1,0 +1,96 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.posthog.events_retention#GetEventsRetentionRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.events_retention#EventsRetention2": {
+      "type": "structure",
+      "members": {
+        "retention_months": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "How many months of events stay queryable, counted back from today. Null while no retention window applies to the project.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "retained_from": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The earliest date whose events are still queryable, in the project's timezone. Null while no retention window applies to the project.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "docs_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Where the events retention policy is documented.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.events_retention#GetEventsRetention": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.events_retention#GetEventsRetentionRequest"
+      },
+      "output": {
+        "target": "com.posthog.events_retention#EventsRetention2"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/events_retention/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get the events retention window for a project\n\nReturns how far back events stay queryable for this project. The window comes from the organization's plan and is read-only. Both window fields are null while no retention window applies to the project."
+      }
+    },
+    "com.posthog.events_retention#EventsRetention": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.posthog.events_retention#GetEventsRetention"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "PostHog API"
+      }
+    }
+  }
+}

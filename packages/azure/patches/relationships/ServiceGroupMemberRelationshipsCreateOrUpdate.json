@@ -1,0 +1,98 @@
+{
+  "description": "The GA serviceGroupMember PUT (2026-08-01, and 2026-03-01-preview) is rejected in tenants without relationship lifecycle callbacks (400 RelLifecycleNotEnabledForTenant: 'Relationship lifecycle callbacks are not enabled for tenant ...'). The 2023-09-01-preview PUT, whose body names the service group as `targetId`, creates the same membership (GA GET/DELETE read and remove it with GA semantics: sourceId = service group). Pin the PUT to 2023-09-01-preview with the preview request/response shapes.",
+  "patches": [
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.relationships#ServiceGroupMemberRelationshipsCreateOrUpdate/traits/smithy.api#http/apiVersion",
+      "value": "2023-09-01-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.relationships#ServiceGroupMemberRelationshipsCreateOrUpdate/traits/com.distilled.openapi#apiVersion",
+      "value": "2023-09-01-preview"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.relationships#ServiceGroupMemberRelationshipPropertiesPreviewInput",
+      "value": {
+        "type": "structure",
+        "members": {
+          "targetId": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The service group the scoped resource joins, e.g. `/providers/Microsoft.Management/serviceGroups/{name}`.",
+              "smithy.api#required": {}
+            }
+          },
+          "targetTenant": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The tenant of the target service group."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "ServiceGroupMember relationship properties (2023-09-01-preview request shape)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.relationships#ServiceGroupMemberRelationshipPropertiesPreview",
+      "value": {
+        "type": "structure",
+        "members": {
+          "targetId": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The service group the scoped resource joins."
+            }
+          },
+          "sourceId": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The scoped (member) resource id."
+            }
+          },
+          "targetTenant": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The tenant of the target service group."
+            }
+          },
+          "originInformation": {
+            "target": "com.azure.relationships#RelationshipOriginInformation",
+            "traits": {
+              "smithy.api#documentation": "Information about the origin of the relationship."
+            }
+          },
+          "metadata": {
+            "target": "com.azure.relationships#RelationshipMetadata",
+            "traits": {
+              "smithy.api#documentation": "Metadata about the relationship."
+            }
+          },
+          "provisioningState": {
+            "target": "com.azure.relationships#ProvisioningState",
+            "traits": {
+              "smithy.api#documentation": "The provisioning state of the relationship."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "ServiceGroupMember relationship properties (2023-09-01-preview response shape)."
+        }
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.relationships#ServiceGroupMemberRelationshipsCreateOrUpdateRequest/members/properties/target",
+      "value": "com.azure.relationships#ServiceGroupMemberRelationshipPropertiesPreviewInput"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.relationships#ServiceGroupMemberRelationshipsCreateOrUpdateResponse/members/properties/target",
+      "value": "com.azure.relationships#ServiceGroupMemberRelationshipPropertiesPreview"
+    }
+  ]
+}

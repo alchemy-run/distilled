@@ -1,19 +1,16 @@
+import * as API from "@distilled.cloud/core/api";
+import * as S from "@distilled.cloud/core/schema";
 import * as HttpClient from "effect/http/HttpClient";
 import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
-import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
+import * as T from "../traits.ts";
 const ns = T.XmlNamespace("https://kinesisvideo.amazonaws.com/doc/2017-09-30/");
-const svc = T.AwsApiService({
-  sdkId: "Kinesis Video",
-  serviceShapeName: "KinesisVideo_20170930",
-});
+const svc = T.AwsApiService({ sdkId: "Kinesis Video", serviceShapeName: "KinesisVideo_20170930" });
 const auth = T.AwsAuthSigv4({ name: "kinesisvideo" });
 const ver = T.ServiceVersion("2017-09-30");
 const proto = T.AwsProtocolsRestJson1();
@@ -29,14 +26,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -63,9 +56,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://kinesisvideo-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -73,13 +64,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://kinesisvideo.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://kinesisvideo.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://kinesisvideo.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -168,10 +155,7 @@ export class StreamNotActive
   extends /*@__PURE__*/ S.TaggedError<StreamNotActive>()(
     "StreamNotActive",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.SyntheticError({
-      from: "ResourceNotFoundException",
-      message: { includes: "not active" },
-    }),
+    T.SyntheticError({ from: "ResourceNotFoundException", message: { includes: "not active" } }),
   ).pipe(C.withConflictError, C.withRetryableError) {}
 export class TagsPerResourceExceededLimitException
   extends /*@__PURE__*/ S.TaggedError<TagsPerResourceExceededLimitException>()(
@@ -250,10 +234,7 @@ export type MediaType = string;
 export type KmsKeyId = string;
 export type DataRetentionInHours = number;
 export type ResourceTags = { [key: string]: string | undefined };
-export const ResourceTags = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const ResourceTags = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export type DefaultStorageTier = "HOT" | "WARM" | (string & {});
 export const DefaultStorageTier = S.String;
 
@@ -284,36 +265,21 @@ export const CreateStreamInput = /*@__PURE__*/ S.suspend(() =>
     Tags: S.optional(ResourceTags),
     StreamStorageConfiguration: S.optional(StreamStorageConfiguration),
   }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/createStream" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/createStream" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "CreateStreamInput",
-}) as any as S.Schema<CreateStreamInput>;
+).annotate({ identifier: "CreateStreamInput" }) as any as S.Schema<CreateStreamInput>;
 export interface CreateStreamOutput {
   StreamARN?: string;
 }
 export const CreateStreamOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ StreamARN: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "CreateStreamOutput",
-}) as any as S.Schema<CreateStreamOutput>;
+).annotate({ identifier: "CreateStreamOutput" }) as any as S.Schema<CreateStreamOutput>;
 export interface DeleteEdgeConfigurationInput {
   StreamName?: string;
   StreamARN?: string;
 }
 export const DeleteEdgeConfigurationInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    StreamName: S.optional(S.String),
-    StreamARN: S.optional(S.String),
-  }).pipe(
+  S.Struct({ StreamName: S.optional(S.String), StreamARN: S.optional(S.String) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/deleteEdgeConfiguration" }),
@@ -365,23 +331,11 @@ export interface DeleteStreamInput {
 }
 export const DeleteStreamInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ StreamARN: S.String, CurrentVersion: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/deleteStream" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/deleteStream" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteStreamInput",
-}) as any as S.Schema<DeleteStreamInput>;
+).annotate({ identifier: "DeleteStreamInput" }) as any as S.Schema<DeleteStreamInput>;
 export interface DeleteStreamOutput {}
-export const DeleteStreamOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
+export const DeleteStreamOutput = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "DeleteStreamOutput",
 }) as any as S.Schema<DeleteStreamOutput>;
 export interface DescribeEdgeConfigurationInput {
@@ -389,10 +343,7 @@ export interface DescribeEdgeConfigurationInput {
   StreamARN?: string;
 }
 export const DescribeEdgeConfigurationInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    StreamName: S.optional(S.String),
-    StreamARN: S.optional(S.String),
-  }).pipe(
+  S.Struct({ StreamName: S.optional(S.String), StreamARN: S.optional(S.String) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/describeEdgeConfiguration" }),
@@ -429,9 +380,7 @@ export interface MediaSourceConfig {
 }
 export const MediaSourceConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ MediaUriSecretArn: SensitiveString, MediaUriType: MediaUriType }),
-).annotate({
-  identifier: "MediaSourceConfig",
-}) as any as S.Schema<MediaSourceConfig>;
+).annotate({ identifier: "MediaSourceConfig" }) as any as S.Schema<MediaSourceConfig>;
 export type ScheduleExpression = string;
 export type DurationInSeconds = number;
 export interface ScheduleConfig {
@@ -446,10 +395,7 @@ export interface RecorderConfig {
   ScheduleConfig?: ScheduleConfig;
 }
 export const RecorderConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MediaSourceConfig: MediaSourceConfig,
-    ScheduleConfig: S.optional(ScheduleConfig),
-  }),
+  S.Struct({ MediaSourceConfig: MediaSourceConfig, ScheduleConfig: S.optional(ScheduleConfig) }),
 ).annotate({ identifier: "RecorderConfig" }) as any as S.Schema<RecorderConfig>;
 export interface UploaderConfig {
   ScheduleConfig: ScheduleConfig;
@@ -459,10 +405,7 @@ export const UploaderConfig = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "UploaderConfig" }) as any as S.Schema<UploaderConfig>;
 export type EdgeRetentionInHours = number;
 export type MaxLocalMediaSizeInMB = number;
-export type StrategyOnFullSize =
-  | "DELETE_OLDEST_MEDIA"
-  | "DENY_NEW_MEDIA"
-  | (string & {});
+export type StrategyOnFullSize = "DELETE_OLDEST_MEDIA" | "DENY_NEW_MEDIA" | (string & {});
 export const StrategyOnFullSize = S.String;
 
 export interface LocalSizeConfig {
@@ -474,9 +417,7 @@ export const LocalSizeConfig = /*@__PURE__*/ S.suspend(() =>
     MaxLocalMediaSizeInMB: S.optional(S.Number),
     StrategyOnFullSize: S.optional(StrategyOnFullSize),
   }),
-).annotate({
-  identifier: "LocalSizeConfig",
-}) as any as S.Schema<LocalSizeConfig>;
+).annotate({ identifier: "LocalSizeConfig" }) as any as S.Schema<LocalSizeConfig>;
 export type DeleteAfterUpload = boolean;
 export interface DeletionConfig {
   EdgeRetentionInHours?: number;
@@ -505,11 +446,7 @@ export const EdgeConfig = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "EdgeConfig" }) as any as S.Schema<EdgeConfig>;
 export type JobStatusDetails = string;
-export type RecorderStatus =
-  | "SUCCESS"
-  | "USER_ERROR"
-  | "SYSTEM_ERROR"
-  | (string & {});
+export type RecorderStatus = "SUCCESS" | "USER_ERROR" | "SYSTEM_ERROR" | (string & {});
 export const RecorderStatus = S.String;
 
 export interface LastRecorderStatus {
@@ -521,22 +458,12 @@ export interface LastRecorderStatus {
 export const LastRecorderStatus = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     JobStatusDetails: S.optional(S.String),
-    LastCollectedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    LastUpdatedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LastCollectedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastUpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     RecorderStatus: S.optional(RecorderStatus),
   }),
-).annotate({
-  identifier: "LastRecorderStatus",
-}) as any as S.Schema<LastRecorderStatus>;
-export type UploaderStatus =
-  | "SUCCESS"
-  | "USER_ERROR"
-  | "SYSTEM_ERROR"
-  | (string & {});
+).annotate({ identifier: "LastRecorderStatus" }) as any as S.Schema<LastRecorderStatus>;
+export type UploaderStatus = "SUCCESS" | "USER_ERROR" | "SYSTEM_ERROR" | (string & {});
 export const UploaderStatus = S.String;
 
 export interface LastUploaderStatus {
@@ -548,17 +475,11 @@ export interface LastUploaderStatus {
 export const LastUploaderStatus = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     JobStatusDetails: S.optional(S.String),
-    LastCollectedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    LastUpdatedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LastCollectedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastUpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     UploaderStatus: S.optional(UploaderStatus),
   }),
-).annotate({
-  identifier: "LastUploaderStatus",
-}) as any as S.Schema<LastUploaderStatus>;
+).annotate({ identifier: "LastUploaderStatus" }) as any as S.Schema<LastUploaderStatus>;
 export interface EdgeAgentStatus {
   LastRecorderStatus?: LastRecorderStatus;
   LastUploaderStatus?: LastUploaderStatus;
@@ -568,9 +489,7 @@ export const EdgeAgentStatus = /*@__PURE__*/ S.suspend(() =>
     LastRecorderStatus: S.optional(LastRecorderStatus),
     LastUploaderStatus: S.optional(LastUploaderStatus),
   }),
-).annotate({
-  identifier: "EdgeAgentStatus",
-}) as any as S.Schema<EdgeAgentStatus>;
+).annotate({ identifier: "EdgeAgentStatus" }) as any as S.Schema<EdgeAgentStatus>;
 export interface DescribeEdgeConfigurationOutput {
   StreamName?: string;
   StreamARN?: string;
@@ -586,9 +505,7 @@ export const DescribeEdgeConfigurationOutput = /*@__PURE__*/ S.suspend(() =>
     StreamName: S.optional(S.String),
     StreamARN: S.optional(S.String),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    LastUpdatedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LastUpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     SyncStatus: S.optional(SyncStatus),
     FailedStatusDetails: S.optional(S.String),
     EdgeConfig: S.optional(EdgeConfig),
@@ -601,35 +518,25 @@ export interface DescribeImageGenerationConfigurationInput {
   StreamName?: string;
   StreamARN?: string;
 }
-export const DescribeImageGenerationConfigurationInput =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      StreamName: S.optional(S.String),
-      StreamARN: S.optional(S.String),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({
-          method: "POST",
-          uri: "/describeImageGenerationConfiguration",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const DescribeImageGenerationConfigurationInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ StreamName: S.optional(S.String), StreamARN: S.optional(S.String) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/describeImageGenerationConfiguration" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
-  ).annotate({
-    identifier: "DescribeImageGenerationConfigurationInput",
-  }) as any as S.Schema<DescribeImageGenerationConfigurationInput>;
+  ),
+).annotate({
+  identifier: "DescribeImageGenerationConfigurationInput",
+}) as any as S.Schema<DescribeImageGenerationConfigurationInput>;
 export type ConfigurationStatus = "ENABLED" | "DISABLED" | (string & {});
 export const ConfigurationStatus = S.String;
 
-export type ImageSelectorType =
-  | "SERVER_TIMESTAMP"
-  | "PRODUCER_TIMESTAMP"
-  | (string & {});
+export type ImageSelectorType = "SERVER_TIMESTAMP" | "PRODUCER_TIMESTAMP" | (string & {});
 export const ImageSelectorType = S.String;
 
 export type DestinationUri = string;
@@ -652,10 +559,7 @@ export const FormatConfigKey = S.String;
 
 export type FormatConfigValue = string;
 export type FormatConfig = { [key in FormatConfigKey]?: string };
-export const FormatConfig = /*@__PURE__*/ S.Record(
-  FormatConfigKey,
-  S.String.pipe(S.optional),
-);
+export const FormatConfig = /*@__PURE__*/ S.Record(FormatConfigKey, S.String.pipe(S.optional));
 export type WidthPixels = number;
 export type HeightPixels = number;
 export interface ImageGenerationConfiguration {
@@ -685,14 +589,11 @@ export const ImageGenerationConfiguration = /*@__PURE__*/ S.suspend(() =>
 export interface DescribeImageGenerationConfigurationOutput {
   ImageGenerationConfiguration?: ImageGenerationConfiguration;
 }
-export const DescribeImageGenerationConfigurationOutput =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ImageGenerationConfiguration: S.optional(ImageGenerationConfiguration),
-    }).pipe(ns),
-  ).annotate({
-    identifier: "DescribeImageGenerationConfigurationOutput",
-  }) as any as S.Schema<DescribeImageGenerationConfigurationOutput>;
+export const DescribeImageGenerationConfigurationOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ ImageGenerationConfiguration: S.optional(ImageGenerationConfiguration) }).pipe(ns),
+).annotate({
+  identifier: "DescribeImageGenerationConfigurationOutput",
+}) as any as S.Schema<DescribeImageGenerationConfigurationOutput>;
 export type MappedResourceConfigurationListLimit = number;
 export type NextToken = string;
 export interface DescribeMappedResourceConfigurationInput {
@@ -701,24 +602,23 @@ export interface DescribeMappedResourceConfigurationInput {
   MaxResults?: number;
   NextToken?: string;
 }
-export const DescribeMappedResourceConfigurationInput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      StreamName: S.optional(S.String),
-      StreamARN: S.optional(S.String),
-      MaxResults: S.optional(S.Number),
-      NextToken: S.optional(S.String),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/describeMappedResourceConfiguration" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const DescribeMappedResourceConfigurationInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    StreamName: S.optional(S.String),
+    StreamARN: S.optional(S.String),
+    MaxResults: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/describeMappedResourceConfiguration" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "DescribeMappedResourceConfigurationInput",
 }) as any as S.Schema<DescribeMappedResourceConfigurationInput>;
@@ -732,8 +632,7 @@ export const MappedResourceConfigurationListItem = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "MappedResourceConfigurationListItem",
 }) as any as S.Schema<MappedResourceConfigurationListItem>;
-export type MappedResourceConfigurationList =
-  MappedResourceConfigurationListItem[];
+export type MappedResourceConfigurationList = MappedResourceConfigurationListItem[];
 export const MappedResourceConfigurationList = /*@__PURE__*/ S.Array(
   MappedResourceConfigurationListItem,
 );
@@ -741,44 +640,34 @@ export interface DescribeMappedResourceConfigurationOutput {
   MappedResourceConfigurationList?: MappedResourceConfigurationListItem[];
   NextToken?: string;
 }
-export const DescribeMappedResourceConfigurationOutput =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      MappedResourceConfigurationList: S.optional(
-        MappedResourceConfigurationList,
-      ),
-      NextToken: S.optional(S.String),
-    }).pipe(ns),
-  ).annotate({
-    identifier: "DescribeMappedResourceConfigurationOutput",
-  }) as any as S.Schema<DescribeMappedResourceConfigurationOutput>;
+export const DescribeMappedResourceConfigurationOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    MappedResourceConfigurationList: S.optional(MappedResourceConfigurationList),
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotate({
+  identifier: "DescribeMappedResourceConfigurationOutput",
+}) as any as S.Schema<DescribeMappedResourceConfigurationOutput>;
 export interface DescribeMediaStorageConfigurationInput {
   ChannelName?: string;
   ChannelARN?: string;
 }
-export const DescribeMediaStorageConfigurationInput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ChannelName: S.optional(S.String),
-      ChannelARN: S.optional(S.String),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/describeMediaStorageConfiguration" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const DescribeMediaStorageConfigurationInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ ChannelName: S.optional(S.String), ChannelARN: S.optional(S.String) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/describeMediaStorageConfiguration" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "DescribeMediaStorageConfigurationInput",
 }) as any as S.Schema<DescribeMediaStorageConfigurationInput>;
-export type MediaStorageConfigurationStatus =
-  | "ENABLED"
-  | "DISABLED"
-  | (string & {});
+export type MediaStorageConfigurationStatus = "ENABLED" | "DISABLED" | (string & {});
 export const MediaStorageConfigurationStatus = S.String;
 
 export interface MediaStorageConfiguration {
@@ -786,21 +675,15 @@ export interface MediaStorageConfiguration {
   Status: MediaStorageConfigurationStatus;
 }
 export const MediaStorageConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    StreamARN: S.optional(S.String),
-    Status: MediaStorageConfigurationStatus,
-  }),
+  S.Struct({ StreamARN: S.optional(S.String), Status: MediaStorageConfigurationStatus }),
 ).annotate({
   identifier: "MediaStorageConfiguration",
 }) as any as S.Schema<MediaStorageConfiguration>;
 export interface DescribeMediaStorageConfigurationOutput {
   MediaStorageConfiguration?: MediaStorageConfiguration;
 }
-export const DescribeMediaStorageConfigurationOutput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      MediaStorageConfiguration: S.optional(MediaStorageConfiguration),
-    }).pipe(ns),
+export const DescribeMediaStorageConfigurationOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ MediaStorageConfiguration: S.optional(MediaStorageConfiguration) }).pipe(ns),
 ).annotate({
   identifier: "DescribeMediaStorageConfigurationOutput",
 }) as any as S.Schema<DescribeMediaStorageConfigurationOutput>;
@@ -808,22 +691,18 @@ export interface DescribeNotificationConfigurationInput {
   StreamName?: string;
   StreamARN?: string;
 }
-export const DescribeNotificationConfigurationInput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      StreamName: S.optional(S.String),
-      StreamARN: S.optional(S.String),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/describeNotificationConfiguration" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const DescribeNotificationConfigurationInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ StreamName: S.optional(S.String), StreamARN: S.optional(S.String) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/describeNotificationConfiguration" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "DescribeNotificationConfigurationInput",
 }) as any as S.Schema<DescribeNotificationConfigurationInput>;
@@ -840,21 +719,15 @@ export interface NotificationConfiguration {
   DestinationConfig: NotificationDestinationConfig;
 }
 export const NotificationConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Status: ConfigurationStatus,
-    DestinationConfig: NotificationDestinationConfig,
-  }),
+  S.Struct({ Status: ConfigurationStatus, DestinationConfig: NotificationDestinationConfig }),
 ).annotate({
   identifier: "NotificationConfiguration",
 }) as any as S.Schema<NotificationConfiguration>;
 export interface DescribeNotificationConfigurationOutput {
   NotificationConfiguration?: NotificationConfiguration;
 }
-export const DescribeNotificationConfigurationOutput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      NotificationConfiguration: S.optional(NotificationConfiguration),
-    }).pipe(ns),
+export const DescribeNotificationConfigurationOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ NotificationConfiguration: S.optional(NotificationConfiguration) }).pipe(ns),
 ).annotate({
   identifier: "DescribeNotificationConfigurationOutput",
 }) as any as S.Schema<DescribeNotificationConfigurationOutput>;
@@ -863,10 +736,7 @@ export interface DescribeSignalingChannelInput {
   ChannelARN?: string;
 }
 export const DescribeSignalingChannelInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ChannelName: S.optional(S.String),
-    ChannelARN: S.optional(S.String),
-  }).pipe(
+  S.Struct({ ChannelName: S.optional(S.String), ChannelARN: S.optional(S.String) }).pipe(
     T.all(
       ns,
       T.Http({ method: "POST", uri: "/describeSignalingChannel" }),
@@ -880,12 +750,7 @@ export const DescribeSignalingChannelInput = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "DescribeSignalingChannelInput",
 }) as any as S.Schema<DescribeSignalingChannelInput>;
-export type Status =
-  | "CREATING"
-  | "ACTIVE"
-  | "UPDATING"
-  | "DELETING"
-  | (string & {});
+export type Status = "CREATING" | "ACTIVE" | "UPDATING" | "DELETING" | (string & {});
 export const Status = S.String;
 
 export interface ChannelInfo {
@@ -921,23 +786,10 @@ export interface DescribeStreamInput {
   StreamARN?: string;
 }
 export const DescribeStreamInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    StreamName: S.optional(S.String),
-    StreamARN: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/describeStream" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+  S.Struct({ StreamName: S.optional(S.String), StreamARN: S.optional(S.String) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/describeStream" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DescribeStreamInput",
-}) as any as S.Schema<DescribeStreamInput>;
+).annotate({ identifier: "DescribeStreamInput" }) as any as S.Schema<DescribeStreamInput>;
 export interface StreamInfo {
   DeviceName?: string;
   StreamName?: string;
@@ -967,29 +819,23 @@ export interface DescribeStreamOutput {
 }
 export const DescribeStreamOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ StreamInfo: S.optional(StreamInfo) }).pipe(ns),
-).annotate({
-  identifier: "DescribeStreamOutput",
-}) as any as S.Schema<DescribeStreamOutput>;
+).annotate({ identifier: "DescribeStreamOutput" }) as any as S.Schema<DescribeStreamOutput>;
 export interface DescribeStreamStorageConfigurationInput {
   StreamName?: string;
   StreamARN?: string;
 }
-export const DescribeStreamStorageConfigurationInput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      StreamName: S.optional(S.String),
-      StreamARN: S.optional(S.String),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/describeStreamStorageConfiguration" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const DescribeStreamStorageConfigurationInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ StreamName: S.optional(S.String), StreamARN: S.optional(S.String) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/describeStreamStorageConfiguration" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "DescribeStreamStorageConfigurationInput",
 }) as any as S.Schema<DescribeStreamStorageConfigurationInput>;
@@ -998,13 +844,12 @@ export interface DescribeStreamStorageConfigurationOutput {
   StreamARN?: string;
   StreamStorageConfiguration?: StreamStorageConfiguration;
 }
-export const DescribeStreamStorageConfigurationOutput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      StreamName: S.optional(S.String),
-      StreamARN: S.optional(S.String),
-      StreamStorageConfiguration: S.optional(StreamStorageConfiguration),
-    }).pipe(ns),
+export const DescribeStreamStorageConfigurationOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    StreamName: S.optional(S.String),
+    StreamARN: S.optional(S.String),
+    StreamStorageConfiguration: S.optional(StreamStorageConfiguration),
+  }).pipe(ns),
 ).annotate({
   identifier: "DescribeStreamStorageConfigurationOutput",
 }) as any as S.Schema<DescribeStreamStorageConfigurationOutput>;
@@ -1031,28 +876,16 @@ export const GetDataEndpointInput = /*@__PURE__*/ S.suspend(() =>
     StreamARN: S.optional(S.String),
     APIName: APIName,
   }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/getDataEndpoint" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/getDataEndpoint" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetDataEndpointInput",
-}) as any as S.Schema<GetDataEndpointInput>;
+).annotate({ identifier: "GetDataEndpointInput" }) as any as S.Schema<GetDataEndpointInput>;
 export type DataEndpoint = string;
 export interface GetDataEndpointOutput {
   DataEndpoint?: string;
 }
 export const GetDataEndpointOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ DataEndpoint: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "GetDataEndpointOutput",
-}) as any as S.Schema<GetDataEndpointOutput>;
+).annotate({ identifier: "GetDataEndpointOutput" }) as any as S.Schema<GetDataEndpointOutput>;
 export type ChannelProtocol = "WSS" | "HTTPS" | "WEBRTC" | (string & {});
 export const ChannelProtocol = S.String;
 
@@ -1065,12 +898,8 @@ export interface SingleMasterChannelEndpointConfiguration {
   Protocols?: ChannelProtocol[];
   Role?: ChannelRole;
 }
-export const SingleMasterChannelEndpointConfiguration = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Protocols: S.optional(ListOfProtocols),
-      Role: S.optional(ChannelRole),
-    }),
+export const SingleMasterChannelEndpointConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ Protocols: S.optional(ListOfProtocols), Role: S.optional(ChannelRole) }),
 ).annotate({
   identifier: "SingleMasterChannelEndpointConfiguration",
 }) as any as S.Schema<SingleMasterChannelEndpointConfiguration>;
@@ -1081,9 +910,7 @@ export interface GetSignalingChannelEndpointInput {
 export const GetSignalingChannelEndpointInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ChannelARN: S.String,
-    SingleMasterChannelEndpointConfiguration: S.optional(
-      SingleMasterChannelEndpointConfiguration,
-    ),
+    SingleMasterChannelEndpointConfiguration: S.optional(SingleMasterChannelEndpointConfiguration),
   }).pipe(
     T.all(
       ns,
@@ -1104,17 +931,10 @@ export interface ResourceEndpointListItem {
   ResourceEndpoint?: string;
 }
 export const ResourceEndpointListItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Protocol: S.optional(ChannelProtocol),
-    ResourceEndpoint: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ResourceEndpointListItem",
-}) as any as S.Schema<ResourceEndpointListItem>;
+  S.Struct({ Protocol: S.optional(ChannelProtocol), ResourceEndpoint: S.optional(S.String) }),
+).annotate({ identifier: "ResourceEndpointListItem" }) as any as S.Schema<ResourceEndpointListItem>;
 export type ResourceEndpointList = ResourceEndpointListItem[];
-export const ResourceEndpointList = /*@__PURE__*/ S.Array(
-  ResourceEndpointListItem,
-);
+export const ResourceEndpointList = /*@__PURE__*/ S.Array(ResourceEndpointListItem);
 export interface GetSignalingChannelEndpointOutput {
   ResourceEndpointList?: ResourceEndpointListItem[];
 }
@@ -1157,24 +977,20 @@ export interface ListEdgeAgentConfigurationsEdgeConfig {
   FailedStatusDetails?: string;
   EdgeConfig?: EdgeConfig;
 }
-export const ListEdgeAgentConfigurationsEdgeConfig = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      StreamName: S.optional(S.String),
-      StreamARN: S.optional(S.String),
-      CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-      LastUpdatedTime: S.optional(
-        S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-      ),
-      SyncStatus: S.optional(SyncStatus),
-      FailedStatusDetails: S.optional(S.String),
-      EdgeConfig: S.optional(EdgeConfig),
-    }),
+export const ListEdgeAgentConfigurationsEdgeConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    StreamName: S.optional(S.String),
+    StreamARN: S.optional(S.String),
+    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastUpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    SyncStatus: S.optional(SyncStatus),
+    FailedStatusDetails: S.optional(S.String),
+    EdgeConfig: S.optional(EdgeConfig),
+  }),
 ).annotate({
   identifier: "ListEdgeAgentConfigurationsEdgeConfig",
 }) as any as S.Schema<ListEdgeAgentConfigurationsEdgeConfig>;
-export type ListEdgeAgentConfigurationsEdgeConfigList =
-  ListEdgeAgentConfigurationsEdgeConfig[];
+export type ListEdgeAgentConfigurationsEdgeConfigList = ListEdgeAgentConfigurationsEdgeConfig[];
 export const ListEdgeAgentConfigurationsEdgeConfigList = /*@__PURE__*/ S.Array(
   ListEdgeAgentConfigurationsEdgeConfig,
 );
@@ -1203,9 +1019,7 @@ export const ChannelNameCondition = /*@__PURE__*/ S.suspend(() =>
     ComparisonOperator: S.optional(ComparisonOperator),
     ComparisonValue: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ChannelNameCondition",
-}) as any as S.Schema<ChannelNameCondition>;
+).annotate({ identifier: "ChannelNameCondition" }) as any as S.Schema<ChannelNameCondition>;
 export interface ListSignalingChannelsInput {
   MaxResults?: number;
   NextToken?: string;
@@ -1237,10 +1051,9 @@ export interface ListSignalingChannelsOutput {
   NextToken?: string;
 }
 export const ListSignalingChannelsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ChannelInfoList: S.optional(ChannelInfoList),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
+  S.Struct({ ChannelInfoList: S.optional(ChannelInfoList), NextToken: S.optional(S.String) }).pipe(
+    ns,
+  ),
 ).annotate({
   identifier: "ListSignalingChannelsOutput",
 }) as any as S.Schema<ListSignalingChannelsOutput>;
@@ -1253,9 +1066,7 @@ export const StreamNameCondition = /*@__PURE__*/ S.suspend(() =>
     ComparisonOperator: S.optional(ComparisonOperator),
     ComparisonValue: S.optional(S.String),
   }),
-).annotate({
-  identifier: "StreamNameCondition",
-}) as any as S.Schema<StreamNameCondition>;
+).annotate({ identifier: "StreamNameCondition" }) as any as S.Schema<StreamNameCondition>;
 export interface ListStreamsInput {
   MaxResults?: number;
   NextToken?: string;
@@ -1266,20 +1077,8 @@ export const ListStreamsInput = /*@__PURE__*/ S.suspend(() =>
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
     StreamNameCondition: S.optional(StreamNameCondition),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/listStreams" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListStreamsInput",
-}) as any as S.Schema<ListStreamsInput>;
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/listStreams" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "ListStreamsInput" }) as any as S.Schema<ListStreamsInput>;
 export type StreamInfoList = StreamInfo[];
 export const StreamInfoList = /*@__PURE__*/ S.Array(StreamInfo);
 export interface ListStreamsOutput {
@@ -1287,13 +1086,10 @@ export interface ListStreamsOutput {
   NextToken?: string;
 }
 export const ListStreamsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    StreamInfoList: S.optional(StreamInfoList),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListStreamsOutput",
-}) as any as S.Schema<ListStreamsOutput>;
+  S.Struct({ StreamInfoList: S.optional(StreamInfoList), NextToken: S.optional(S.String) }).pipe(
+    ns,
+  ),
+).annotate({ identifier: "ListStreamsOutput" }) as any as S.Schema<ListStreamsOutput>;
 export interface ListTagsForResourceInput {
   NextToken?: string;
   ResourceARN: string;
@@ -1310,18 +1106,13 @@ export const ListTagsForResourceInput = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "ListTagsForResourceInput",
-}) as any as S.Schema<ListTagsForResourceInput>;
+).annotate({ identifier: "ListTagsForResourceInput" }) as any as S.Schema<ListTagsForResourceInput>;
 export interface ListTagsForResourceOutput {
   NextToken?: string;
   Tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    Tags: S.optional(ResourceTags),
-  }).pipe(ns),
+  S.Struct({ NextToken: S.optional(S.String), Tags: S.optional(ResourceTags) }).pipe(ns),
 ).annotate({
   identifier: "ListTagsForResourceOutput",
 }) as any as S.Schema<ListTagsForResourceOutput>;
@@ -1336,31 +1127,16 @@ export const ListTagsForStreamInput = /*@__PURE__*/ S.suspend(() =>
     StreamARN: S.optional(S.String),
     StreamName: S.optional(S.String),
   }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/listTagsForStream" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/listTagsForStream" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "ListTagsForStreamInput",
-}) as any as S.Schema<ListTagsForStreamInput>;
+).annotate({ identifier: "ListTagsForStreamInput" }) as any as S.Schema<ListTagsForStreamInput>;
 export interface ListTagsForStreamOutput {
   NextToken?: string;
   Tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForStreamOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    Tags: S.optional(ResourceTags),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListTagsForStreamOutput",
-}) as any as S.Schema<ListTagsForStreamOutput>;
+  S.Struct({ NextToken: S.optional(S.String), Tags: S.optional(ResourceTags) }).pipe(ns),
+).annotate({ identifier: "ListTagsForStreamOutput" }) as any as S.Schema<ListTagsForStreamOutput>;
 export interface StartEdgeConfigurationUpdateInput {
   StreamName?: string;
   StreamARN?: string;
@@ -1399,9 +1175,7 @@ export const StartEdgeConfigurationUpdateOutput = /*@__PURE__*/ S.suspend(() =>
     StreamName: S.optional(S.String),
     StreamARN: S.optional(S.String),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    LastUpdatedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LastUpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     SyncStatus: S.optional(SyncStatus),
     FailedStatusDetails: S.optional(S.String),
     EdgeConfig: S.optional(EdgeConfig),
@@ -1417,23 +1191,11 @@ export interface TagResourceInput {
 }
 export const TagResourceInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceARN: S.String, Tags: TagList }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/TagResource" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/TagResource" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "TagResourceInput",
-}) as any as S.Schema<TagResourceInput>;
+).annotate({ identifier: "TagResourceInput" }) as any as S.Schema<TagResourceInput>;
 export interface TagResourceOutput {}
-export const TagResourceOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
+export const TagResourceOutput = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "TagResourceOutput",
 }) as any as S.Schema<TagResourceOutput>;
 export interface TagStreamInput {
@@ -1446,22 +1208,10 @@ export const TagStreamInput = /*@__PURE__*/ S.suspend(() =>
     StreamARN: S.optional(S.String),
     StreamName: S.optional(S.String),
     Tags: ResourceTags,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/tagStream" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/tagStream" }), svc, auth, proto, ver, rules)),
 ).annotate({ identifier: "TagStreamInput" }) as any as S.Schema<TagStreamInput>;
 export interface TagStreamOutput {}
-export const TagStreamOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
+export const TagStreamOutput = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "TagStreamOutput",
 }) as any as S.Schema<TagStreamOutput>;
 export type TagKeyList = string[];
@@ -1472,23 +1222,11 @@ export interface UntagResourceInput {
 }
 export const UntagResourceInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceARN: S.String, TagKeyList: TagKeyList }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/UntagResource" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/UntagResource" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UntagResourceInput",
-}) as any as S.Schema<UntagResourceInput>;
+).annotate({ identifier: "UntagResourceInput" }) as any as S.Schema<UntagResourceInput>;
 export interface UntagResourceOutput {}
-export const UntagResourceOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
+export const UntagResourceOutput = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "UntagResourceOutput",
 }) as any as S.Schema<UntagResourceOutput>;
 export interface UntagStreamInput {
@@ -1501,24 +1239,10 @@ export const UntagStreamInput = /*@__PURE__*/ S.suspend(() =>
     StreamARN: S.optional(S.String),
     StreamName: S.optional(S.String),
     TagKeyList: TagKeyList,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/untagStream" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UntagStreamInput",
-}) as any as S.Schema<UntagStreamInput>;
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/untagStream" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "UntagStreamInput" }) as any as S.Schema<UntagStreamInput>;
 export interface UntagStreamOutput {}
-export const UntagStreamOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
+export const UntagStreamOutput = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "UntagStreamOutput",
 }) as any as S.Schema<UntagStreamOutput>;
 export type UpdateDataRetentionOperation =
@@ -1553,9 +1277,7 @@ export const UpdateDataRetentionInput = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "UpdateDataRetentionInput",
-}) as any as S.Schema<UpdateDataRetentionInput>;
+).annotate({ identifier: "UpdateDataRetentionInput" }) as any as S.Schema<UpdateDataRetentionInput>;
 export interface UpdateDataRetentionOutput {}
 export const UpdateDataRetentionOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(ns),
@@ -1567,29 +1289,28 @@ export interface UpdateImageGenerationConfigurationInput {
   StreamARN?: string;
   ImageGenerationConfiguration?: ImageGenerationConfiguration;
 }
-export const UpdateImageGenerationConfigurationInput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      StreamName: S.optional(S.String),
-      StreamARN: S.optional(S.String),
-      ImageGenerationConfiguration: S.optional(ImageGenerationConfiguration),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/updateImageGenerationConfiguration" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const UpdateImageGenerationConfigurationInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    StreamName: S.optional(S.String),
+    StreamARN: S.optional(S.String),
+    ImageGenerationConfiguration: S.optional(ImageGenerationConfiguration),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/updateImageGenerationConfiguration" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "UpdateImageGenerationConfigurationInput",
 }) as any as S.Schema<UpdateImageGenerationConfigurationInput>;
 export interface UpdateImageGenerationConfigurationOutput {}
-export const UpdateImageGenerationConfigurationOutput = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}).pipe(ns),
+export const UpdateImageGenerationConfigurationOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(ns),
 ).annotate({
   identifier: "UpdateImageGenerationConfigurationOutput",
 }) as any as S.Schema<UpdateImageGenerationConfigurationOutput>;
@@ -1597,28 +1318,24 @@ export interface UpdateMediaStorageConfigurationInput {
   ChannelARN: string;
   MediaStorageConfiguration: MediaStorageConfiguration;
 }
-export const UpdateMediaStorageConfigurationInput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ChannelARN: S.String,
-      MediaStorageConfiguration: MediaStorageConfiguration,
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/updateMediaStorageConfiguration" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const UpdateMediaStorageConfigurationInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ ChannelARN: S.String, MediaStorageConfiguration: MediaStorageConfiguration }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/updateMediaStorageConfiguration" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "UpdateMediaStorageConfigurationInput",
 }) as any as S.Schema<UpdateMediaStorageConfigurationInput>;
 export interface UpdateMediaStorageConfigurationOutput {}
-export const UpdateMediaStorageConfigurationOutput = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}).pipe(ns),
+export const UpdateMediaStorageConfigurationOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(ns),
 ).annotate({
   identifier: "UpdateMediaStorageConfigurationOutput",
 }) as any as S.Schema<UpdateMediaStorageConfigurationOutput>;
@@ -1627,29 +1344,28 @@ export interface UpdateNotificationConfigurationInput {
   StreamARN?: string;
   NotificationConfiguration?: NotificationConfiguration;
 }
-export const UpdateNotificationConfigurationInput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      StreamName: S.optional(S.String),
-      StreamARN: S.optional(S.String),
-      NotificationConfiguration: S.optional(NotificationConfiguration),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/updateNotificationConfiguration" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const UpdateNotificationConfigurationInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    StreamName: S.optional(S.String),
+    StreamARN: S.optional(S.String),
+    NotificationConfiguration: S.optional(NotificationConfiguration),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/updateNotificationConfiguration" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "UpdateNotificationConfigurationInput",
 }) as any as S.Schema<UpdateNotificationConfigurationInput>;
 export interface UpdateNotificationConfigurationOutput {}
-export const UpdateNotificationConfigurationOutput = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}).pipe(ns),
+export const UpdateNotificationConfigurationOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(ns),
 ).annotate({
   identifier: "UpdateNotificationConfigurationOutput",
 }) as any as S.Schema<UpdateNotificationConfigurationOutput>;
@@ -1698,23 +1414,11 @@ export const UpdateStreamInput = /*@__PURE__*/ S.suspend(() =>
     DeviceName: S.optional(S.String),
     MediaType: S.optional(S.String),
   }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/updateStream" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/updateStream" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UpdateStreamInput",
-}) as any as S.Schema<UpdateStreamInput>;
+).annotate({ identifier: "UpdateStreamInput" }) as any as S.Schema<UpdateStreamInput>;
 export interface UpdateStreamOutput {}
-export const UpdateStreamOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
+export const UpdateStreamOutput = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "UpdateStreamOutput",
 }) as any as S.Schema<UpdateStreamOutput>;
 export interface UpdateStreamStorageConfigurationInput {
@@ -1723,30 +1427,29 @@ export interface UpdateStreamStorageConfigurationInput {
   CurrentVersion: string;
   StreamStorageConfiguration: StreamStorageConfiguration;
 }
-export const UpdateStreamStorageConfigurationInput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      StreamName: S.optional(S.String),
-      StreamARN: S.optional(S.String),
-      CurrentVersion: S.String,
-      StreamStorageConfiguration: StreamStorageConfiguration,
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/updateStreamStorageConfiguration" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const UpdateStreamStorageConfigurationInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    StreamName: S.optional(S.String),
+    StreamARN: S.optional(S.String),
+    CurrentVersion: S.String,
+    StreamStorageConfiguration: StreamStorageConfiguration,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/updateStreamStorageConfiguration" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "UpdateStreamStorageConfigurationInput",
 }) as any as S.Schema<UpdateStreamStorageConfigurationInput>;
 export interface UpdateStreamStorageConfigurationOutput {}
-export const UpdateStreamStorageConfigurationOutput = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}).pipe(ns),
+export const UpdateStreamStorageConfigurationOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(ns),
 ).annotate({
   identifier: "UpdateStreamStorageConfigurationOutput",
 }) as any as S.Schema<UpdateStreamStorageConfigurationOutput>;
@@ -2286,11 +1989,7 @@ export const listEdgeAgentConfigurations: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListEdgeAgentConfigurationsInput,
   output: ListEdgeAgentConfigurationsOutput,
-  errors: [
-    ClientLimitExceededException,
-    InvalidArgumentException,
-    NotAuthorizedException,
-  ],
+  errors: [ClientLimitExceededException, InvalidArgumentException, NotAuthorizedException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListEdgeAgentConfigurations",
@@ -2321,11 +2020,7 @@ export const listSignalingChannels: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListSignalingChannelsInput,
   output: ListSignalingChannelsOutput,
-  errors: [
-    AccessDeniedException,
-    ClientLimitExceededException,
-    InvalidArgumentException,
-  ],
+  errors: [AccessDeniedException, ClientLimitExceededException, InvalidArgumentException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListSignalingChannels",

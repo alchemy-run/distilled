@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env node
 /**
  * Fetches Inngest's first-party OpenAPI documents and vendor docs to ../specs/.
  *
@@ -11,7 +11,7 @@
  * under docs/ so generate never crawls live docs.
  *
  * Usage:
- *   bun run fetch-specs.ts
+ *   node fetch-specs.ts
  *
  * The specs are saved to:
  *   ../specs/v2.json
@@ -42,24 +42,21 @@ if (!existsSync(SPECS_DIR)) {
 }
 
 class FetchError extends Error {
-  constructor(
-    readonly url: string,
-    readonly status?: number,
-    readonly reason?: unknown,
-  ) {
-    super(
-      `${url} — ${status !== undefined ? `HTTP ${status}` : `${reason ?? "network error"}`}`,
-    );
+  readonly url: string;
+  readonly status?: number;
+  readonly reason?: unknown;
+
+  constructor(url: string, status?: number, reason?: unknown) {
+    super(`${url} — ${status !== undefined ? `HTTP ${status}` : `${reason ?? "network error"}`}`);
+    this.url = url;
+    this.status = status;
+    this.reason = reason;
   }
 }
 
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
-async function fetchText(
-  url: string,
-  accept: string,
-  attempts = 4,
-): Promise<string> {
+async function fetchText(url: string, accept: string, attempts = 4): Promise<string> {
   let lastError: FetchError | undefined;
   for (let attempt = 0; attempt < attempts; attempt++) {
     let error: FetchError;
@@ -71,10 +68,7 @@ async function fetchText(
       error = new FetchError(url, response.status);
       if (response.status < 500) throw error;
     } catch (cause) {
-      error =
-        cause instanceof FetchError
-          ? cause
-          : new FetchError(url, undefined, cause);
+      error = cause instanceof FetchError ? cause : new FetchError(url, undefined, cause);
       if (error.status !== undefined && error.status < 500) throw error;
     }
     lastError = error;
@@ -91,15 +85,11 @@ async function fetchOpenApi(url: string): Promise<Record<string, unknown>> {
     },
   });
   if (!response.ok) {
-    throw new Error(
-      `Failed to fetch OpenAPI spec: ${response.status} ${response.statusText}`,
-    );
+    throw new Error(`Failed to fetch OpenAPI spec: ${response.status} ${response.statusText}`);
   }
   const spec = (await response.json()) as Record<string, unknown>;
   if (typeof spec.openapi !== "string" || spec.paths === undefined) {
-    throw new Error(
-      `${url} returned JSON without \`openapi\`/\`paths\` — not an OpenAPI document`,
-    );
+    throw new Error(`${url} returned JSON without \`openapi\`/\`paths\` — not an OpenAPI document`);
   }
   return spec;
 }
@@ -155,18 +145,15 @@ const mapPool = async <T, R>(
   concurrency: number,
   fn: (item: T) => Promise<R>,
 ): Promise<R[]> => {
-  const out: R[] = new Array(items.length);
+  const out: R[] = [];
   let next = 0;
-  const workers = Array.from(
-    { length: Math.min(concurrency, items.length) },
-    async () => {
-      while (true) {
-        const i = next++;
-        if (i >= items.length) return;
-        out[i] = await fn(items[i]!);
-      }
-    },
-  );
+  const workers = Array.from({ length: Math.min(concurrency, items.length) }, async () => {
+    while (true) {
+      const i = next++;
+      if (i >= items.length) return;
+      out[i] = await fn(items[i]!);
+    }
+  });
   await Promise.all(workers);
   return out;
 };
@@ -185,20 +172,19 @@ const collectFiles = async (root: string): Promise<string[]> => {
   return out;
 };
 
-const withTrailingNewline = (text: string): string =>
-  text.endsWith("\n") ? text : `${text}\n`;
+const withTrailingNewline = (text: string): string => (text.endsWith("\n") ? text : `${text}\n`);
 
 async function main() {
   console.log(`Fetching OpenAPI v2 spec from ${V2_SPEC_URL}...`);
   const v2 = await fetchOpenApi(V2_SPEC_URL);
-  await Bun.write(V2_PATH, JSON.stringify(v2, null, 2) + "\n");
+  await writeFile(V2_PATH, JSON.stringify(v2, null, 2) + "\n");
   console.log(
     `Wrote ${V2_PATH} — OpenAPI ${v2.openapi} — ${Object.keys(v2.paths as object).length} paths`,
   );
 
   console.log(`Fetching OpenAPI v1 spec from ${V1_SPEC_URL}...`);
   const v1 = await fetchOpenApi(V1_SPEC_URL);
-  await Bun.write(V1_PATH, JSON.stringify(v1, null, 2) + "\n");
+  await writeFile(V1_PATH, JSON.stringify(v1, null, 2) + "\n");
   console.log(
     `Wrote ${V1_PATH} — OpenAPI ${v1.openapi} — ${Object.keys(v1.paths as object).length} paths`,
   );
@@ -206,11 +192,9 @@ async function main() {
   console.log(`Fetching docs index from ${LLMS_URL}...`);
   const llms = await fetchText(LLMS_URL, "text/plain, */*");
   if (!llms.includes("Inngest") && !llms.includes("/v2/")) {
-    throw new Error(
-      `${LLMS_URL} did not look like Inngest's docs index — refusing to continue`,
-    );
+    throw new Error(`${LLMS_URL} did not look like Inngest's docs index — refusing to continue`);
   }
-  await Bun.write(`${SPECS_DIR}/llms.txt`, withTrailingNewline(llms));
+  await writeFile(`${SPECS_DIR}/llms.txt`, withTrailingNewline(llms));
 
   const pages = pagesFromLlms(llms);
   if (pages.length === 0) {
@@ -222,34 +206,28 @@ async function main() {
     | { path: string; ok: true; body: string }
     | { path: string; ok: false; error: string };
 
-  const results = await mapPool(
-    pages,
-    CONCURRENCY,
-    async (page): Promise<Result> => {
-      const url = page === "index" ? `${ORIGIN}/` : `${ORIGIN}/${page}`;
-      try {
-        const body = await fetchText(url, "text/html, */*");
-        if (body.trim().length === 0) {
-          return { path: page, ok: false, error: "empty body" };
-        }
-        return { path: page, ok: true, body };
-      } catch (cause) {
-        return {
-          path: page,
-          ok: false,
-          error: cause instanceof Error ? cause.message : String(cause),
-        };
+  const results = await mapPool(pages, CONCURRENCY, async (page): Promise<Result> => {
+    const url = page === "index" ? `${ORIGIN}/` : `${ORIGIN}/${page}`;
+    try {
+      const body = await fetchText(url, "text/html, */*");
+      if (body.trim().length === 0) {
+        return { path: page, ok: false, error: "empty body" };
       }
-    },
-  );
+      return { path: page, ok: true, body };
+    } catch (cause) {
+      return {
+        path: page,
+        ok: false,
+        error: cause instanceof Error ? cause.message : String(cause),
+      };
+    }
+  });
 
   const ok = results.filter((r): r is Extract<Result, { ok: true }> => r.ok);
   const failed = results.filter((r) => !r.ok);
   const failureRate = failed.length / results.length;
   if (ok.length === 0) {
-    throw new Error(
-      `Every Inngest docs page failed to download (${failed.length} failures)`,
-    );
+    throw new Error(`Every Inngest docs page failed to download (${failed.length} failures)`);
   }
   for (const miss of failed) {
     console.warn(`   ⚠️  ${miss.path}: ${miss.error}`);
@@ -272,10 +250,7 @@ async function main() {
     pages: ok.map((p) => p.path),
     failed: failed.map((p) => p.path),
   };
-  await writeFile(
-    join(DOCS_DIR, "_manifest.json"),
-    JSON.stringify(manifest, null, 2) + "\n",
-  );
+  await writeFile(join(DOCS_DIR, "_manifest.json"), JSON.stringify(manifest, null, 2) + "\n");
   written.add("_manifest.json");
 
   if (failureRate <= MAX_FAILURE_RATE_FOR_PRUNE) {
@@ -285,14 +260,10 @@ async function main() {
       await rm(file);
     }
   } else {
-    console.warn(
-      `   ⚠️  ${failed.length}/${results.length} docs pages failed — skipping prune`,
-    );
+    console.warn(`   ⚠️  ${failed.length}/${results.length} docs pages failed — skipping prune`);
   }
 
-  console.log(
-    `Done! ${ok.length} docs pages, ${failed.length} failed, OpenAPI ${v2.openapi}`,
-  );
+  console.log(`Done! ${ok.length} docs pages, ${failed.length} failed, OpenAPI ${v2.openapi}`);
 }
 
 main().catch((err) => {

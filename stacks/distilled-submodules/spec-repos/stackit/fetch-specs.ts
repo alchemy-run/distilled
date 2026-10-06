@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env node
 /**
  * Mirrors STACKIT's OpenAPI documents into ../specs/.
  *
@@ -14,7 +14,7 @@
  * upstream is picked up on the next daily refetch.
  *
  * Usage:
- *   bun run fetch-specs.ts
+ *   node fetch-specs.ts
  *
  * Specs are saved to:
  *   ../specs/<service>.json
@@ -22,6 +22,7 @@
  */
 
 import { mkdirSync } from "fs";
+import { writeFile } from "fs/promises";
 
 /** Upstream repository, as `<owner>/<repo>`. */
 const REPO = "stackitcloud/stackit-api-specifications";
@@ -109,9 +110,7 @@ async function fetchOk(url: string, accept: string): Promise<Response> {
     },
   });
   if (!response.ok) {
-    throw new Error(
-      `Failed to fetch ${url}: ${response.status} ${response.statusText}`,
-    );
+    throw new Error(`Failed to fetch ${url}: ${response.status} ${response.statusText}`);
   }
   return response;
 }
@@ -122,9 +121,7 @@ async function main() {
     await fetchOk(treeUrl, "application/vnd.github+json")
   ).json()) as GitTreeResponse;
   if (tree.truncated) {
-    throw new Error(
-      `${treeUrl} was truncated — the tree is too large to list without a clone`,
-    );
+    throw new Error(`${treeUrl} was truncated — the tree is too large to list without a clone`);
   }
 
   const chosen = new Map<string, ChosenSpec>();
@@ -147,14 +144,10 @@ async function main() {
   }
 
   if (chosen.size === 0) {
-    throw new Error(
-      `${REPO} tree had no services/<name>/<version>/*.json documents`,
-    );
+    throw new Error(`${REPO} tree had no services/<name>/<version>/*.json documents`);
   }
 
-  const specs = [...chosen.values()].sort((a, b) =>
-    a.slug.localeCompare(b.slug),
-  );
+  const specs = [...chosen.values()].sort((a, b) => a.slug.localeCompare(b.slug));
   const manifest: Array<{
     service: string;
     version: string;
@@ -167,9 +160,10 @@ async function main() {
   for (const spec of specs) {
     const url = rawUrl(spec.path);
     console.log(`Fetching ${url}...`);
-    const doc = (await (
-      await fetchOk(url, "application/json")
-    ).json()) as Record<string, unknown> | null;
+    const doc = (await (await fetchOk(url, "application/json")).json()) as Record<
+      string,
+      unknown
+    > | null;
 
     if (
       doc === null ||
@@ -188,7 +182,7 @@ async function main() {
     console.log(
       `Writing ${outputPath} (OpenAPI ${doc.openapi}, ${spec.version}, ${pathCount} paths)...`,
     );
-    await Bun.write(outputPath, JSON.stringify(doc, null, 2) + "\n");
+    await writeFile(outputPath, JSON.stringify(doc, null, 2) + "\n");
     manifest.push({
       service: spec.service,
       version: spec.version,
@@ -200,7 +194,7 @@ async function main() {
   }
 
   const manifestPath = `${SPECS_DIR}/_manifest.json`;
-  await Bun.write(manifestPath, JSON.stringify(manifest, null, 2) + "\n");
+  await writeFile(manifestPath, JSON.stringify(manifest, null, 2) + "\n");
   console.log(
     `Done! ${manifest.length} STACKIT OpenAPI document(s) → ${SPECS_DIR} (manifest ${manifestPath})`,
   );

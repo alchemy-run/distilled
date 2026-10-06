@@ -1,14 +1,14 @@
+import * as API from "@distilled.cloud/core/api";
+import * as S from "@distilled.cloud/core/schema";
 import * as HttpClient from "effect/http/HttpClient";
 import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
-import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "Marketplace Agreement",
   serviceShapeName: "AWSMPCommerceService_v20200301",
@@ -28,14 +28,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -62,9 +58,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://agreement-marketplace-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -72,9 +66,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://agreement-marketplace.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
         return e(
           `https://agreement-marketplace.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
@@ -115,10 +107,7 @@ export class ConflictException
 export class InternalServerException
   extends /*@__PURE__*/ S.TaggedError<InternalServerException>()(
     "InternalServerException",
-    {
-      requestId: S.optional(S.String),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
+    { requestId: S.optional(S.String), message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.HttpError(500),
   ).pipe(C.withServerError) {}
 export class ResourceNotFoundException
@@ -150,10 +139,7 @@ export class ServiceQuotaExceededException
 export class ThrottlingException
   extends /*@__PURE__*/ S.TaggedError<ThrottlingException>()(
     "ThrottlingException",
-    {
-      requestId: S.optional(S.String),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
+    { requestId: S.optional(S.String), message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.HttpError(429),
   ).pipe(C.withThrottlingError) {}
 export class ValidationException
@@ -181,14 +167,10 @@ export interface AcceptAgreementCancellationRequestInput {
   agreementId: string;
   agreementCancellationRequestId: string;
 }
-export const AcceptAgreementCancellationRequestInput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      agreementId: S.String,
-      agreementCancellationRequestId: S.String,
-    }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
+export const AcceptAgreementCancellationRequestInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ agreementId: S.String, agreementCancellationRequestId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "AcceptAgreementCancellationRequestInput",
 }) as any as S.Schema<AcceptAgreementCancellationRequestInput>;
@@ -213,9 +195,7 @@ export type AgreementCancellationRequestReasonCode =
   | (string & {});
 export const AgreementCancellationRequestReasonCode = S.String;
 
-export type AgreementCancellationRequestDescription =
-  | string
-  | redacted.Redacted<string>;
+export type AgreementCancellationRequestDescription = string | redacted.Redacted<string>;
 export interface AcceptAgreementCancellationRequestOutput {
   agreementId?: string;
   agreementCancellationRequestId?: string;
@@ -225,17 +205,16 @@ export interface AcceptAgreementCancellationRequestOutput {
   createdAt?: Date;
   updatedAt?: Date;
 }
-export const AcceptAgreementCancellationRequestOutput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      agreementId: S.optional(S.String),
-      agreementCancellationRequestId: S.optional(S.String),
-      status: S.optional(AgreementCancellationRequestStatus),
-      reasonCode: S.optional(AgreementCancellationRequestReasonCode),
-      description: S.optional(SensitiveString),
-      createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-      updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    }),
+export const AcceptAgreementCancellationRequestOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    agreementId: S.optional(S.String),
+    agreementCancellationRequestId: S.optional(S.String),
+    status: S.optional(AgreementCancellationRequestStatus),
+    reasonCode: S.optional(AgreementCancellationRequestReasonCode),
+    description: S.optional(SensitiveString),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
 ).annotate({
   identifier: "AcceptAgreementCancellationRequestOutput",
 }) as any as S.Schema<AcceptAgreementCancellationRequestOutput>;
@@ -251,9 +230,7 @@ export const AcceptAgreementPaymentRequestInput = /*@__PURE__*/ S.suspend(() =>
     paymentRequestId: S.String,
     agreementId: S.String,
     purchaseOrderReference: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "AcceptAgreementPaymentRequestInput",
 }) as any as S.Schema<AcceptAgreementPaymentRequestInput>;
@@ -321,10 +298,7 @@ export interface AcceptAgreementRequestInput {
   purchaseOrders?: PurchaseOrder[];
 }
 export const AcceptAgreementRequestInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    agreementRequestId: S.String,
-    purchaseOrders: S.optional(PurchaseOrders),
-  }).pipe(
+  S.Struct({ agreementRequestId: S.String, purchaseOrders: S.optional(PurchaseOrders) }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
@@ -361,35 +335,31 @@ export interface BatchCreateBillingAdjustmentRequestEntry {
   description?: string | redacted.Redacted<string>;
   clientToken: string;
 }
-export const BatchCreateBillingAdjustmentRequestEntry = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      agreementId: S.String,
-      originalInvoiceId: S.String,
-      adjustmentAmount: S.String,
-      currencyCode: S.String,
-      adjustmentReasonCode: BillingAdjustmentReasonCode,
-      description: S.optional(SensitiveString),
-      clientToken: S.String,
-    }),
+export const BatchCreateBillingAdjustmentRequestEntry = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    agreementId: S.String,
+    originalInvoiceId: S.String,
+    adjustmentAmount: S.String,
+    currencyCode: S.String,
+    adjustmentReasonCode: BillingAdjustmentReasonCode,
+    description: S.optional(SensitiveString),
+    clientToken: S.String,
+  }),
 ).annotate({
   identifier: "BatchCreateBillingAdjustmentRequestEntry",
 }) as any as S.Schema<BatchCreateBillingAdjustmentRequestEntry>;
 export type BatchCreateBillingAdjustmentRequestEntryList =
   BatchCreateBillingAdjustmentRequestEntry[];
-export const BatchCreateBillingAdjustmentRequestEntryList =
-  /*@__PURE__*/ S.Array(BatchCreateBillingAdjustmentRequestEntry);
+export const BatchCreateBillingAdjustmentRequestEntryList = /*@__PURE__*/ S.Array(
+  BatchCreateBillingAdjustmentRequestEntry,
+);
 export interface BatchCreateBillingAdjustmentRequestInput {
   billingAdjustmentRequestEntries: BatchCreateBillingAdjustmentRequestEntry[];
 }
-export const BatchCreateBillingAdjustmentRequestInput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      billingAdjustmentRequestEntries:
-        BatchCreateBillingAdjustmentRequestEntryList,
-    }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
+export const BatchCreateBillingAdjustmentRequestInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ billingAdjustmentRequestEntries: BatchCreateBillingAdjustmentRequestEntryList }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "BatchCreateBillingAdjustmentRequestInput",
 }) as any as S.Schema<BatchCreateBillingAdjustmentRequestInput>;
@@ -403,8 +373,7 @@ export const BatchCreateBillingAdjustmentItem = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "BatchCreateBillingAdjustmentItem",
 }) as any as S.Schema<BatchCreateBillingAdjustmentItem>;
-export type BatchCreateBillingAdjustmentItemList =
-  BatchCreateBillingAdjustmentItem[];
+export type BatchCreateBillingAdjustmentItemList = BatchCreateBillingAdjustmentItem[];
 export const BatchCreateBillingAdjustmentItemList = /*@__PURE__*/ S.Array(
   BatchCreateBillingAdjustmentItem,
 );
@@ -422,16 +391,11 @@ export interface BatchCreateBillingAdjustmentError {
   clientToken: string;
 }
 export const BatchCreateBillingAdjustmentError = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    code: BillingAdjustmentErrorCode,
-    message: S.String,
-    clientToken: S.String,
-  }),
+  S.Struct({ code: BillingAdjustmentErrorCode, message: S.String, clientToken: S.String }),
 ).annotate({
   identifier: "BatchCreateBillingAdjustmentError",
 }) as any as S.Schema<BatchCreateBillingAdjustmentError>;
-export type BatchCreateBillingAdjustmentErrorList =
-  BatchCreateBillingAdjustmentError[];
+export type BatchCreateBillingAdjustmentErrorList = BatchCreateBillingAdjustmentError[];
 export const BatchCreateBillingAdjustmentErrorList = /*@__PURE__*/ S.Array(
   BatchCreateBillingAdjustmentError,
 );
@@ -439,15 +403,14 @@ export interface BatchCreateBillingAdjustmentRequestOutput {
   items: BatchCreateBillingAdjustmentItem[];
   errors: BatchCreateBillingAdjustmentError[];
 }
-export const BatchCreateBillingAdjustmentRequestOutput =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      items: BatchCreateBillingAdjustmentItemList,
-      errors: BatchCreateBillingAdjustmentErrorList,
-    }),
-  ).annotate({
-    identifier: "BatchCreateBillingAdjustmentRequestOutput",
-  }) as any as S.Schema<BatchCreateBillingAdjustmentRequestOutput>;
+export const BatchCreateBillingAdjustmentRequestOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    items: BatchCreateBillingAdjustmentItemList,
+    errors: BatchCreateBillingAdjustmentErrorList,
+  }),
+).annotate({
+  identifier: "BatchCreateBillingAdjustmentRequestOutput",
+}) as any as S.Schema<BatchCreateBillingAdjustmentRequestOutput>;
 export interface CancelAgreementInput {
   agreementId: string;
 }
@@ -455,32 +418,23 @@ export const CancelAgreementInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ agreementId: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "CancelAgreementInput",
-}) as any as S.Schema<CancelAgreementInput>;
+).annotate({ identifier: "CancelAgreementInput" }) as any as S.Schema<CancelAgreementInput>;
 export interface CancelAgreementOutput {}
-export const CancelAgreementOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const CancelAgreementOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "CancelAgreementOutput",
 }) as any as S.Schema<CancelAgreementOutput>;
-export type AgreementCancellationRequestCancellationReason =
-  | string
-  | redacted.Redacted<string>;
+export type AgreementCancellationRequestCancellationReason = string | redacted.Redacted<string>;
 export interface CancelAgreementCancellationRequestInput {
   agreementId: string;
   agreementCancellationRequestId: string;
   cancellationReason: string | redacted.Redacted<string>;
 }
-export const CancelAgreementCancellationRequestInput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      agreementId: S.String,
-      agreementCancellationRequestId: S.String,
-      cancellationReason: SensitiveString,
-    }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
+export const CancelAgreementCancellationRequestInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    agreementId: S.String,
+    agreementCancellationRequestId: S.String,
+    cancellationReason: SensitiveString,
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CancelAgreementCancellationRequestInput",
 }) as any as S.Schema<CancelAgreementCancellationRequestInput>;
@@ -495,18 +449,17 @@ export interface CancelAgreementCancellationRequestOutput {
   createdAt?: Date;
   updatedAt?: Date;
 }
-export const CancelAgreementCancellationRequestOutput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      agreementCancellationRequestId: S.optional(S.String),
-      agreementId: S.optional(S.String),
-      reasonCode: S.optional(AgreementCancellationRequestReasonCode),
-      description: S.optional(SensitiveString),
-      status: S.optional(AgreementCancellationRequestStatus),
-      statusMessage: S.optional(S.String),
-      createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-      updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    }),
+export const CancelAgreementCancellationRequestOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    agreementCancellationRequestId: S.optional(S.String),
+    agreementId: S.optional(S.String),
+    reasonCode: S.optional(AgreementCancellationRequestReasonCode),
+    description: S.optional(SensitiveString),
+    status: S.optional(AgreementCancellationRequestStatus),
+    statusMessage: S.optional(S.String),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
 ).annotate({
   identifier: "CancelAgreementCancellationRequestOutput",
 }) as any as S.Schema<CancelAgreementCancellationRequestOutput>;
@@ -566,20 +519,17 @@ export interface ConfigurableUpfrontPricingTermConfiguration {
   selectorValue: string;
   dimensions: Dimension[];
 }
-export const ConfigurableUpfrontPricingTermConfiguration =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ selectorValue: S.String, dimensions: DimensionList }),
-  ).annotate({
-    identifier: "ConfigurableUpfrontPricingTermConfiguration",
-  }) as any as S.Schema<ConfigurableUpfrontPricingTermConfiguration>;
+export const ConfigurableUpfrontPricingTermConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ selectorValue: S.String, dimensions: DimensionList }),
+).annotate({
+  identifier: "ConfigurableUpfrontPricingTermConfiguration",
+}) as any as S.Schema<ConfigurableUpfrontPricingTermConfiguration>;
 export interface RenewalTermConfiguration {
   enableAutoRenew: boolean;
 }
 export const RenewalTermConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ enableAutoRenew: S.Boolean }),
-).annotate({
-  identifier: "RenewalTermConfiguration",
-}) as any as S.Schema<RenewalTermConfiguration>;
+).annotate({ identifier: "RenewalTermConfiguration" }) as any as S.Schema<RenewalTermConfiguration>;
 export type PaymentRequestApprovalStrategy =
   | "AUTO_APPROVE_ON_EXPIRATION"
   | "WAIT_FOR_APPROVAL"
@@ -617,23 +567,17 @@ export type RequestedTermConfiguration =
     };
 export const RequestedTermConfiguration = /*@__PURE__*/ S.Union([
   S.Struct({
-    configurableUpfrontPricingTermConfiguration:
-      ConfigurableUpfrontPricingTermConfiguration,
+    configurableUpfrontPricingTermConfiguration: ConfigurableUpfrontPricingTermConfiguration,
   }),
   S.Struct({ renewalTermConfiguration: RenewalTermConfiguration }),
-  S.Struct({
-    variablePaymentTermConfiguration: VariablePaymentTermConfiguration,
-  }),
+  S.Struct({ variablePaymentTermConfiguration: VariablePaymentTermConfiguration }),
 ]);
 export interface RequestedTerm {
   id: string;
   configuration?: RequestedTermConfiguration;
 }
 export const RequestedTerm = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    configuration: S.optional(RequestedTermConfiguration),
-  }),
+  S.Struct({ id: S.String, configuration: S.optional(RequestedTermConfiguration) }),
 ).annotate({ identifier: "RequestedTerm" }) as any as S.Schema<RequestedTerm>;
 export type RequestedTermList = RequestedTerm[];
 export const RequestedTermList = /*@__PURE__*/ S.Array(RequestedTerm);
@@ -646,9 +590,7 @@ export interface TaxConfiguration {
 }
 export const TaxConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ taxEstimation: S.optional(TaxEstimation) }),
-).annotate({
-  identifier: "TaxConfiguration",
-}) as any as S.Schema<TaxConfiguration>;
+).annotate({ identifier: "TaxConfiguration" }) as any as S.Schema<TaxConfiguration>;
 export interface CreateAgreementRequestInput {
   clientToken?: string;
   intent: Intent;
@@ -665,17 +607,11 @@ export const CreateAgreementRequestInput = /*@__PURE__*/ S.suspend(() =>
     sourceAgreementIdentifier: S.optional(S.String),
     agreementProposalIdentifier: S.optional(S.String),
     taxConfiguration: S.optional(TaxConfiguration),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateAgreementRequestInput",
 }) as any as S.Schema<CreateAgreementRequestInput>;
-export type Timing =
-  | "ON_ACCEPTANCE"
-  | "SCHEDULED"
-  | "BILLING_PERIOD"
-  | (string & {});
+export type Timing = "ON_ACCEPTANCE" | "SCHEDULED" | "BILLING_PERIOD" | (string & {});
 export const Timing = S.String;
 
 export interface TaxBreakdownItem {
@@ -689,9 +625,7 @@ export const TaxBreakdownItem = /*@__PURE__*/ S.suspend(() =>
     rate: S.optional(S.String),
     type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TaxBreakdownItem",
-}) as any as S.Schema<TaxBreakdownItem>;
+).annotate({ identifier: "TaxBreakdownItem" }) as any as S.Schema<TaxBreakdownItem>;
 export type TaxBreakdown = TaxBreakdownItem[];
 export const TaxBreakdown = /*@__PURE__*/ S.Array(TaxBreakdownItem);
 export interface EstimatedTaxes {
@@ -699,10 +633,7 @@ export interface EstimatedTaxes {
   totalAmount?: string;
 }
 export const EstimatedTaxes = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    breakdown: S.optional(TaxBreakdown),
-    totalAmount: S.optional(S.String),
-  }),
+  S.Struct({ breakdown: S.optional(TaxBreakdown), totalAmount: S.optional(S.String) }),
 ).annotate({ identifier: "EstimatedTaxes" }) as any as S.Schema<EstimatedTaxes>;
 export interface ExpectedCharge {
   id?: string;
@@ -747,13 +678,8 @@ export interface InvoicingEntity {
   branchName?: string;
 }
 export const InvoicingEntity = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    legalName: S.optional(S.String),
-    branchName: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "InvoicingEntity",
-}) as any as S.Schema<InvoicingEntity>;
+  S.Struct({ legalName: S.optional(S.String), branchName: S.optional(S.String) }),
+).annotate({ identifier: "InvoicingEntity" }) as any as S.Schema<InvoicingEntity>;
 export interface ChargeSummary {
   currencyCode?: string;
   newAgreementValue?: string;
@@ -779,10 +705,7 @@ export interface CreateAgreementRequestOutput {
   chargeSummary?: ChargeSummary;
 }
 export const CreateAgreementRequestOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    agreementRequestId: S.optional(S.String),
-    chargeSummary: S.optional(ChargeSummary),
-  }),
+  S.Struct({ agreementRequestId: S.optional(S.String), chargeSummary: S.optional(ChargeSummary) }),
 ).annotate({
   identifier: "CreateAgreementRequestOutput",
 }) as any as S.Schema<CreateAgreementRequestOutput>;
@@ -793,9 +716,7 @@ export const DescribeAgreementInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ agreementId: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DescribeAgreementInput",
-}) as any as S.Schema<DescribeAgreementInput>;
+).annotate({ identifier: "DescribeAgreementInput" }) as any as S.Schema<DescribeAgreementInput>;
 export type AWSAccountId = string;
 export interface Acceptor {
   accountId?: string;
@@ -815,13 +736,8 @@ export interface EstimatedCharges {
   agreementValue?: string;
 }
 export const EstimatedCharges = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    currencyCode: S.optional(S.String),
-    agreementValue: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "EstimatedCharges",
-}) as any as S.Schema<EstimatedCharges>;
+  S.Struct({ currencyCode: S.optional(S.String), agreementValue: S.optional(S.String) }),
+).annotate({ identifier: "EstimatedCharges" }) as any as S.Schema<EstimatedCharges>;
 export type AgreementResourceType = string;
 export interface Resource {
   id?: string;
@@ -845,9 +761,7 @@ export const ProposalSummary = /*@__PURE__*/ S.suspend(() =>
     offerId: S.optional(S.String),
     offerSetId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ProposalSummary",
-}) as any as S.Schema<ProposalSummary>;
+).annotate({ identifier: "ProposalSummary" }) as any as S.Schema<ProposalSummary>;
 export type AgreementStatus =
   | "ACTIVE"
   | "ARCHIVED"
@@ -861,6 +775,35 @@ export type AgreementStatus =
   | (string & {});
 export const AgreementStatus = S.String;
 
+export type EndTimeBehaviorType = "RENEW" | "REPLACE" | "EXPIRE" | (string & {});
+export const EndTimeBehaviorType = S.String;
+
+export type EndTimeBehaviorReasonCode =
+  | "PROPOSER_RENEW_OPTED_OUT"
+  | "ACCEPTOR_RENEW_OPTED_OUT"
+  | "NO_RENEWAL_TERM"
+  | "RENEWAL_LIMIT_EXHAUSTED"
+  | (string & {});
+export const EndTimeBehaviorReasonCode = S.String;
+
+export interface RenewalSummary {
+  offerId?: string;
+}
+export const RenewalSummary = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ offerId: S.optional(S.String) }),
+).annotate({ identifier: "RenewalSummary" }) as any as S.Schema<RenewalSummary>;
+export interface EndTimeBehavior {
+  type: EndTimeBehaviorType;
+  reasonCode?: EndTimeBehaviorReasonCode;
+  renewalSummary?: RenewalSummary;
+}
+export const EndTimeBehavior = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: EndTimeBehaviorType,
+    reasonCode: S.optional(EndTimeBehaviorReasonCode),
+    renewalSummary: S.optional(RenewalSummary),
+  }),
+).annotate({ identifier: "EndTimeBehavior" }) as any as S.Schema<EndTimeBehavior>;
 export interface DescribeAgreementOutput {
   agreementId?: string;
   acceptor?: Acceptor;
@@ -872,6 +815,8 @@ export interface DescribeAgreementOutput {
   estimatedCharges?: EstimatedCharges;
   proposalSummary?: ProposalSummary;
   status?: AgreementStatus;
+  initialAgreementId?: string;
+  endTimeBehavior?: EndTimeBehavior;
 }
 export const DescribeAgreementOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -885,22 +830,18 @@ export const DescribeAgreementOutput = /*@__PURE__*/ S.suspend(() =>
     estimatedCharges: S.optional(EstimatedCharges),
     proposalSummary: S.optional(ProposalSummary),
     status: S.optional(AgreementStatus),
+    initialAgreementId: S.optional(S.String),
+    endTimeBehavior: S.optional(EndTimeBehavior),
   }),
-).annotate({
-  identifier: "DescribeAgreementOutput",
-}) as any as S.Schema<DescribeAgreementOutput>;
+).annotate({ identifier: "DescribeAgreementOutput" }) as any as S.Schema<DescribeAgreementOutput>;
 export interface GetAgreementCancellationRequestInput {
   agreementCancellationRequestId: string;
   agreementId: string;
 }
-export const GetAgreementCancellationRequestInput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      agreementCancellationRequestId: S.String,
-      agreementId: S.String,
-    }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
+export const GetAgreementCancellationRequestInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ agreementCancellationRequestId: S.String, agreementId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "GetAgreementCancellationRequestInput",
 }) as any as S.Schema<GetAgreementCancellationRequestInput>;
@@ -914,18 +855,17 @@ export interface GetAgreementCancellationRequestOutput {
   createdAt?: Date;
   updatedAt?: Date;
 }
-export const GetAgreementCancellationRequestOutput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      agreementCancellationRequestId: S.optional(S.String),
-      agreementId: S.optional(S.String),
-      reasonCode: S.optional(AgreementCancellationRequestReasonCode),
-      description: S.optional(SensitiveString),
-      status: S.optional(AgreementCancellationRequestStatus),
-      statusMessage: S.optional(S.String),
-      createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-      updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    }),
+export const GetAgreementCancellationRequestOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    agreementCancellationRequestId: S.optional(S.String),
+    agreementId: S.optional(S.String),
+    reasonCode: S.optional(AgreementCancellationRequestReasonCode),
+    description: S.optional(SensitiveString),
+    status: S.optional(AgreementCancellationRequestStatus),
+    statusMessage: S.optional(S.String),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
 ).annotate({
   identifier: "GetAgreementCancellationRequestOutput",
 }) as any as S.Schema<GetAgreementCancellationRequestOutput>;
@@ -941,9 +881,7 @@ export const GetAgreementEntitlementsInput = /*@__PURE__*/ S.suspend(() =>
     agreementId: S.String,
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "GetAgreementEntitlementsInput",
 }) as any as S.Schema<GetAgreementEntitlementsInput>;
@@ -989,12 +927,9 @@ export const AgreementEntitlement = /*@__PURE__*/ S.suspend(() =>
     statusReasonCode: S.optional(AgreementEntitlementStatusReasonCode),
     licenseArn: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AgreementEntitlement",
-}) as any as S.Schema<AgreementEntitlement>;
+).annotate({ identifier: "AgreementEntitlement" }) as any as S.Schema<AgreementEntitlement>;
 export type AgreementEntitlementList = AgreementEntitlement[];
-export const AgreementEntitlementList =
-  /*@__PURE__*/ S.Array(AgreementEntitlement);
+export const AgreementEntitlementList = /*@__PURE__*/ S.Array(AgreementEntitlement);
 export interface GetAgreementEntitlementsOutput {
   agreementEntitlements?: AgreementEntitlement[];
   nextToken?: string;
@@ -1060,12 +995,8 @@ export const GetAgreementTermsInput = /*@__PURE__*/ S.suspend(() =>
     agreementId: S.String,
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "GetAgreementTermsInput",
-}) as any as S.Schema<GetAgreementTermsInput>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "GetAgreementTermsInput" }) as any as S.Schema<GetAgreementTermsInput>;
 export type UnversionedTermType = string;
 export interface DocumentItem {
   type?: string;
@@ -1105,16 +1036,83 @@ export const SupportTerm = /*@__PURE__*/ S.suspend(() =>
     refundPolicy: S.optional(S.String),
   }),
 ).annotate({ identifier: "SupportTerm" }) as any as S.Schema<SupportTerm>;
+export type DayDuration = string;
+export type PriceIncreasePercentage = string;
+export interface FixedPercentage {
+  value?: string;
+}
+export const FixedPercentage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ value: S.optional(S.String) }),
+).annotate({ identifier: "FixedPercentage" }) as any as S.Schema<FixedPercentage>;
+export interface PercentageRange {
+  minValue?: string;
+  maxValue?: string;
+  defaultValue?: string;
+}
+export const PercentageRange = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    minValue: S.optional(S.String),
+    maxValue: S.optional(S.String),
+    defaultValue: S.optional(S.String),
+  }),
+).annotate({ identifier: "PercentageRange" }) as any as S.Schema<PercentageRange>;
+export type PriceIncrease =
+  | { fixedPercentage: FixedPercentage; percentageRange?: never }
+  | { fixedPercentage?: never; percentageRange: PercentageRange };
+export const PriceIncrease = /*@__PURE__*/ S.Union([
+  S.Struct({ fixedPercentage: FixedPercentage }),
+  S.Struct({ percentageRange: PercentageRange }),
+]);
+export type OffsetDuration = string;
+export type ChargePercentage = string;
+export interface PaymentScheduleEntry {
+  chargeDateOffset?: string;
+  chargePercentage?: string;
+  dayOfMonth?: number;
+}
+export const PaymentScheduleEntry = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    chargeDateOffset: S.optional(S.String),
+    chargePercentage: S.optional(S.String),
+    dayOfMonth: S.optional(S.Number),
+  }),
+).annotate({ identifier: "PaymentScheduleEntry" }) as any as S.Schema<PaymentScheduleEntry>;
+export type PaymentScheduleEntryList = PaymentScheduleEntry[];
+export const PaymentScheduleEntryList = /*@__PURE__*/ S.Array(PaymentScheduleEntry);
+export interface PaymentScheduleTermTemplate {
+  schedule?: PaymentScheduleEntry[];
+}
+export const PaymentScheduleTermTemplate = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ schedule: S.optional(PaymentScheduleEntryList) }),
+).annotate({
+  identifier: "PaymentScheduleTermTemplate",
+}) as any as S.Schema<PaymentScheduleTermTemplate>;
+export type TermTemplate = { paymentScheduleTermTemplate: PaymentScheduleTermTemplate };
+export const TermTemplate = /*@__PURE__*/ S.Union([
+  S.Struct({ paymentScheduleTermTemplate: PaymentScheduleTermTemplate }),
+]);
+export type TermTemplateList = TermTemplate[];
+export const TermTemplateList = /*@__PURE__*/ S.Array(TermTemplate);
 export interface RenewalTerm {
   type?: string;
   id?: string;
   configuration?: RenewalTermConfiguration;
+  lockoutPeriod?: string;
+  maxRenewals?: number;
+  adjustmentDeadline?: string;
+  priceIncrease?: PriceIncrease;
+  termTemplates?: TermTemplate[];
 }
 export const RenewalTerm = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     type: S.optional(S.String),
     id: S.optional(S.String),
     configuration: S.optional(RenewalTermConfiguration),
+    lockoutPeriod: S.optional(S.String),
+    maxRenewals: S.optional(S.Number),
+    adjustmentDeadline: S.optional(S.String),
+    priceIncrease: S.optional(PriceIncrease),
+    termTemplates: S.optional(TermTemplateList),
   }),
 ).annotate({ identifier: "RenewalTerm" }) as any as S.Schema<RenewalTerm>;
 export interface RateCardItem {
@@ -1131,13 +1129,9 @@ export interface UsageBasedRateCardItem {
 }
 export const UsageBasedRateCardItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ rateCard: S.optional(RateCardList) }),
-).annotate({
-  identifier: "UsageBasedRateCardItem",
-}) as any as S.Schema<UsageBasedRateCardItem>;
+).annotate({ identifier: "UsageBasedRateCardItem" }) as any as S.Schema<UsageBasedRateCardItem>;
 export type UsageBasedRateCardList = UsageBasedRateCardItem[];
-export const UsageBasedRateCardList = /*@__PURE__*/ S.Array(
-  UsageBasedRateCardItem,
-);
+export const UsageBasedRateCardList = /*@__PURE__*/ S.Array(UsageBasedRateCardItem);
 export interface UsageBasedPricingTerm {
   type?: string;
   id?: string;
@@ -1151,9 +1145,7 @@ export const UsageBasedPricingTerm = /*@__PURE__*/ S.suspend(() =>
     currencyCode: S.optional(S.String),
     rateCards: S.optional(UsageBasedRateCardList),
   }),
-).annotate({
-  identifier: "UsageBasedPricingTerm",
-}) as any as S.Schema<UsageBasedPricingTerm>;
+).annotate({ identifier: "UsageBasedPricingTerm" }) as any as S.Schema<UsageBasedPricingTerm>;
 export interface Selector {
   type?: string;
   value?: string;
@@ -1213,9 +1205,7 @@ export interface ByolPricingTerm {
 }
 export const ByolPricingTerm = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ type: S.optional(S.String), id: S.optional(S.String) }),
-).annotate({
-  identifier: "ByolPricingTerm",
-}) as any as S.Schema<ByolPricingTerm>;
+).annotate({ identifier: "ByolPricingTerm" }) as any as S.Schema<ByolPricingTerm>;
 export interface RecurringPaymentTerm {
   type?: string;
   id?: string;
@@ -1231,9 +1221,7 @@ export const RecurringPaymentTerm = /*@__PURE__*/ S.suspend(() =>
     billingPeriod: S.optional(S.String),
     price: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RecurringPaymentTerm",
-}) as any as S.Schema<RecurringPaymentTerm>;
+).annotate({ identifier: "RecurringPaymentTerm" }) as any as S.Schema<RecurringPaymentTerm>;
 export interface ValidityTerm {
   type?: string;
   id?: string;
@@ -1246,12 +1234,8 @@ export const ValidityTerm = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     id: S.optional(S.String),
     agreementDuration: S.optional(S.String),
-    agreementStartDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    agreementEndDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    agreementStartDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    agreementEndDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({ identifier: "ValidityTerm" }) as any as S.Schema<ValidityTerm>;
 export interface ScheduleItem {
@@ -1279,19 +1263,14 @@ export const PaymentScheduleTerm = /*@__PURE__*/ S.suspend(() =>
     currencyCode: S.optional(S.String),
     schedule: S.optional(ScheduleList),
   }),
-).annotate({
-  identifier: "PaymentScheduleTerm",
-}) as any as S.Schema<PaymentScheduleTerm>;
+).annotate({ identifier: "PaymentScheduleTerm" }) as any as S.Schema<PaymentScheduleTerm>;
 export type PositiveIntegerWithDefaultValueOne = number;
 export interface GrantItem {
   dimensionKey?: string;
   maxQuantity?: number;
 }
 export const GrantItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    dimensionKey: S.optional(S.String),
-    maxQuantity: S.optional(S.Number),
-  }),
+  S.Struct({ dimensionKey: S.optional(S.String), maxQuantity: S.optional(S.Number) }),
 ).annotate({ identifier: "GrantItem" }) as any as S.Schema<GrantItem>;
 export type GrantList = GrantItem[];
 export const GrantList = /*@__PURE__*/ S.Array(GrantItem);
@@ -1308,9 +1287,7 @@ export const FreeTrialPricingTerm = /*@__PURE__*/ S.suspend(() =>
     duration: S.optional(S.String),
     grants: S.optional(GrantList),
   }),
-).annotate({
-  identifier: "FreeTrialPricingTerm",
-}) as any as S.Schema<FreeTrialPricingTerm>;
+).annotate({ identifier: "FreeTrialPricingTerm" }) as any as S.Schema<FreeTrialPricingTerm>;
 export interface FixedUpfrontPricingTerm {
   type?: string;
   id?: string;
@@ -1328,9 +1305,7 @@ export const FixedUpfrontPricingTerm = /*@__PURE__*/ S.suspend(() =>
     price: S.optional(S.String),
     grants: S.optional(GrantList),
   }),
-).annotate({
-  identifier: "FixedUpfrontPricingTerm",
-}) as any as S.Schema<FixedUpfrontPricingTerm>;
+).annotate({ identifier: "FixedUpfrontPricingTerm" }) as any as S.Schema<FixedUpfrontPricingTerm>;
 export interface VariablePaymentTerm {
   type?: string;
   id?: string;
@@ -1346,9 +1321,7 @@ export const VariablePaymentTerm = /*@__PURE__*/ S.suspend(() =>
     maxTotalChargeAmount: S.optional(S.String),
     configuration: S.optional(VariablePaymentTermConfiguration),
   }),
-).annotate({
-  identifier: "VariablePaymentTerm",
-}) as any as S.Schema<VariablePaymentTerm>;
+).annotate({ identifier: "VariablePaymentTerm" }) as any as S.Schema<VariablePaymentTerm>;
 export interface NetPaymentTerm {
   type?: string;
   id?: string;
@@ -1579,32 +1552,20 @@ export interface GetAgreementTermsOutput {
   nextToken?: string;
 }
 export const GetAgreementTermsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    acceptedTerms: S.optional(AcceptedTermList),
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GetAgreementTermsOutput",
-}) as any as S.Schema<GetAgreementTermsOutput>;
+  S.Struct({ acceptedTerms: S.optional(AcceptedTermList), nextToken: S.optional(S.String) }),
+).annotate({ identifier: "GetAgreementTermsOutput" }) as any as S.Schema<GetAgreementTermsOutput>;
 export interface GetBillingAdjustmentRequestInput {
   agreementId: string;
   billingAdjustmentRequestId: string;
 }
 export const GetBillingAdjustmentRequestInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    agreementId: S.String,
-    billingAdjustmentRequestId: S.String,
-  }).pipe(
+  S.Struct({ agreementId: S.String, billingAdjustmentRequestId: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetBillingAdjustmentRequestInput",
 }) as any as S.Schema<GetBillingAdjustmentRequestInput>;
-export type BillingAdjustmentStatus =
-  | "PENDING"
-  | "VALIDATION_FAILED"
-  | "COMPLETED"
-  | (string & {});
+export type BillingAdjustmentStatus = "PENDING" | "VALIDATION_FAILED" | "COMPLETED" | (string & {});
 export const BillingAdjustmentStatus = S.String;
 
 export type BillingAdjustmentStatusMessage = string;
@@ -1649,19 +1610,16 @@ export interface ListAgreementCancellationRequestsInput {
   maxResults?: number;
   nextToken?: string;
 }
-export const ListAgreementCancellationRequestsInput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      partyType: S.String,
-      agreementId: S.optional(S.String),
-      status: S.optional(AgreementCancellationRequestStatus),
-      agreementType: S.optional(S.String),
-      catalog: S.optional(S.String),
-      maxResults: S.optional(S.Number),
-      nextToken: S.optional(S.String),
-    }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
+export const ListAgreementCancellationRequestsInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    partyType: S.String,
+    agreementId: S.optional(S.String),
+    status: S.optional(AgreementCancellationRequestStatus),
+    agreementType: S.optional(S.String),
+    catalog: S.optional(S.String),
+    maxResults: S.optional(S.Number),
+    nextToken: S.optional(S.String),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListAgreementCancellationRequestsInput",
 }) as any as S.Schema<ListAgreementCancellationRequestsInput>;
@@ -1689,8 +1647,7 @@ export const AgreementCancellationRequestSummary = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "AgreementCancellationRequestSummary",
 }) as any as S.Schema<AgreementCancellationRequestSummary>;
-export type AgreementCancellationRequestSummaryList =
-  AgreementCancellationRequestSummary[];
+export type AgreementCancellationRequestSummaryList = AgreementCancellationRequestSummary[];
 export const AgreementCancellationRequestSummaryList = /*@__PURE__*/ S.Array(
   AgreementCancellationRequestSummary,
 );
@@ -1698,12 +1655,11 @@ export interface ListAgreementCancellationRequestsOutput {
   nextToken?: string;
   items?: AgreementCancellationRequestSummary[];
 }
-export const ListAgreementCancellationRequestsOutput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      nextToken: S.optional(S.String),
-      items: S.optional(AgreementCancellationRequestSummaryList),
-    }),
+export const ListAgreementCancellationRequestsOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String),
+    items: S.optional(AgreementCancellationRequestSummaryList),
+  }),
 ).annotate({
   identifier: "ListAgreementCancellationRequestsOutput",
 }) as any as S.Schema<ListAgreementCancellationRequestsOutput>;
@@ -1721,9 +1677,7 @@ export const ListAgreementChargesInput = /*@__PURE__*/ S.suspend(() =>
     agreementType: S.optional(S.String),
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListAgreementChargesInput",
 }) as any as S.Schema<ListAgreementChargesInput>;
@@ -1772,9 +1726,7 @@ export interface InvoiceBillingPeriod {
 }
 export const InvoiceBillingPeriod = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ month: S.Number, year: S.Number }),
-).annotate({
-  identifier: "InvoiceBillingPeriod",
-}) as any as S.Schema<InvoiceBillingPeriod>;
+).annotate({ identifier: "InvoiceBillingPeriod" }) as any as S.Schema<InvoiceBillingPeriod>;
 export interface ListAgreementInvoiceLineItemsInput {
   agreementId: string;
   groupBy: LineItemGroupBy;
@@ -1793,17 +1745,11 @@ export const ListAgreementInvoiceLineItemsInput = /*@__PURE__*/ S.suspend(() =>
     invoiceId: S.optional(S.String),
     invoiceType: S.optional(InvoiceType),
     invoiceBillingPeriod: S.optional(InvoiceBillingPeriod),
-    beforeIssuedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    afterIssuedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    beforeIssuedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    afterIssuedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListAgreementInvoiceLineItemsInput",
 }) as any as S.Schema<ListAgreementInvoiceLineItemsInput>;
@@ -1818,9 +1764,7 @@ export const PricingCurrencyAmount = /*@__PURE__*/ S.suspend(() =>
     maxAdjustmentAmount: S.optional(S.String),
     currencyCode: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PricingCurrencyAmount",
-}) as any as S.Schema<PricingCurrencyAmount>;
+).annotate({ identifier: "PricingCurrencyAmount" }) as any as S.Schema<PricingCurrencyAmount>;
 export interface AgreementInvoiceLineItemGroupSummary {
   agreementId?: string;
   invoiceId?: string;
@@ -1830,22 +1774,20 @@ export interface AgreementInvoiceLineItemGroupSummary {
   invoiceType?: InvoiceType;
   invoicingEntity?: InvoicingEntity;
 }
-export const AgreementInvoiceLineItemGroupSummary = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      agreementId: S.optional(S.String),
-      invoiceId: S.optional(S.String),
-      pricingCurrencyAmount: S.optional(PricingCurrencyAmount),
-      invoiceBillingPeriod: S.optional(InvoiceBillingPeriod),
-      issuedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-      invoiceType: S.optional(InvoiceType),
-      invoicingEntity: S.optional(InvoicingEntity),
-    }),
+export const AgreementInvoiceLineItemGroupSummary = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    agreementId: S.optional(S.String),
+    invoiceId: S.optional(S.String),
+    pricingCurrencyAmount: S.optional(PricingCurrencyAmount),
+    invoiceBillingPeriod: S.optional(InvoiceBillingPeriod),
+    issuedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    invoiceType: S.optional(InvoiceType),
+    invoicingEntity: S.optional(InvoicingEntity),
+  }),
 ).annotate({
   identifier: "AgreementInvoiceLineItemGroupSummary",
 }) as any as S.Schema<AgreementInvoiceLineItemGroupSummary>;
-export type AgreementInvoiceLineItemGroupSummaries =
-  AgreementInvoiceLineItemGroupSummary[];
+export type AgreementInvoiceLineItemGroupSummaries = AgreementInvoiceLineItemGroupSummary[];
 export const AgreementInvoiceLineItemGroupSummaries = /*@__PURE__*/ S.Array(
   AgreementInvoiceLineItemGroupSummary,
 );
@@ -1855,9 +1797,7 @@ export interface ListAgreementInvoiceLineItemsOutput {
 }
 export const ListAgreementInvoiceLineItemsOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    agreementInvoiceLineItemGroupSummaries: S.optional(
-      AgreementInvoiceLineItemGroupSummaries,
-    ),
+    agreementInvoiceLineItemGroupSummaries: S.optional(AgreementInvoiceLineItemGroupSummaries),
     nextToken: S.optional(S.String),
   }),
 ).annotate({
@@ -1881,9 +1821,7 @@ export const ListAgreementPaymentRequestsInput = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(PaymentRequestStatus),
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListAgreementPaymentRequestsInput",
 }) as any as S.Schema<ListAgreementPaymentRequestsInput>;
@@ -1910,22 +1848,15 @@ export const PaymentRequestSummary = /*@__PURE__*/ S.suspend(() =>
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
-).annotate({
-  identifier: "PaymentRequestSummary",
-}) as any as S.Schema<PaymentRequestSummary>;
+).annotate({ identifier: "PaymentRequestSummary" }) as any as S.Schema<PaymentRequestSummary>;
 export type PaymentRequestSummaryList = PaymentRequestSummary[];
-export const PaymentRequestSummaryList = /*@__PURE__*/ S.Array(
-  PaymentRequestSummary,
-);
+export const PaymentRequestSummaryList = /*@__PURE__*/ S.Array(PaymentRequestSummary);
 export interface ListAgreementPaymentRequestsOutput {
   nextToken?: string;
   items: PaymentRequestSummary[];
 }
 export const ListAgreementPaymentRequestsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    nextToken: S.optional(S.String),
-    items: PaymentRequestSummaryList,
-  }),
+  S.Struct({ nextToken: S.optional(S.String), items: PaymentRequestSummaryList }),
 ).annotate({
   identifier: "ListAgreementPaymentRequestsOutput",
 }) as any as S.Schema<ListAgreementPaymentRequestsOutput>;
@@ -1949,9 +1880,7 @@ export const ListBillingAdjustmentRequestsInput = /*@__PURE__*/ S.suspend(() =>
     catalog: S.optional(S.String),
     agreementType: S.optional(S.String),
     nextToken: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListBillingAdjustmentRequestsInput",
 }) as any as S.Schema<ListBillingAdjustmentRequestsInput>;
@@ -1980,42 +1909,30 @@ export const BillingAdjustmentSummary = /*@__PURE__*/ S.suspend(() =>
     agreementType: S.String,
     catalog: S.String,
   }),
-).annotate({
-  identifier: "BillingAdjustmentSummary",
-}) as any as S.Schema<BillingAdjustmentSummary>;
+).annotate({ identifier: "BillingAdjustmentSummary" }) as any as S.Schema<BillingAdjustmentSummary>;
 export type BillingAdjustmentSummaryList = BillingAdjustmentSummary[];
-export const BillingAdjustmentSummaryList = /*@__PURE__*/ S.Array(
-  BillingAdjustmentSummary,
-);
+export const BillingAdjustmentSummaryList = /*@__PURE__*/ S.Array(BillingAdjustmentSummary);
 export interface ListBillingAdjustmentRequestsOutput {
   nextToken?: string;
   items: BillingAdjustmentSummary[];
 }
 export const ListBillingAdjustmentRequestsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    nextToken: S.optional(S.String),
-    items: BillingAdjustmentSummaryList,
-  }),
+  S.Struct({ nextToken: S.optional(S.String), items: BillingAdjustmentSummaryList }),
 ).annotate({
   identifier: "ListBillingAdjustmentRequestsOutput",
 }) as any as S.Schema<ListBillingAdjustmentRequestsOutput>;
-export type AgreementCancellationRequestRejectionReason =
-  | string
-  | redacted.Redacted<string>;
+export type AgreementCancellationRequestRejectionReason = string | redacted.Redacted<string>;
 export interface RejectAgreementCancellationRequestInput {
   agreementId: string;
   agreementCancellationRequestId: string;
   rejectionReason: string | redacted.Redacted<string>;
 }
-export const RejectAgreementCancellationRequestInput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      agreementId: S.String,
-      agreementCancellationRequestId: S.String,
-      rejectionReason: SensitiveString,
-    }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
+export const RejectAgreementCancellationRequestInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    agreementId: S.String,
+    agreementCancellationRequestId: S.String,
+    rejectionReason: SensitiveString,
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "RejectAgreementCancellationRequestInput",
 }) as any as S.Schema<RejectAgreementCancellationRequestInput>;
@@ -2029,18 +1946,17 @@ export interface RejectAgreementCancellationRequestOutput {
   createdAt?: Date;
   updatedAt?: Date;
 }
-export const RejectAgreementCancellationRequestOutput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      agreementId: S.optional(S.String),
-      agreementCancellationRequestId: S.optional(S.String),
-      status: S.optional(AgreementCancellationRequestStatus),
-      statusMessage: S.optional(S.String),
-      reasonCode: S.optional(AgreementCancellationRequestReasonCode),
-      description: S.optional(SensitiveString),
-      createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-      updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    }),
+export const RejectAgreementCancellationRequestOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    agreementId: S.optional(S.String),
+    agreementCancellationRequestId: S.optional(S.String),
+    status: S.optional(AgreementCancellationRequestStatus),
+    statusMessage: S.optional(S.String),
+    reasonCode: S.optional(AgreementCancellationRequestReasonCode),
+    description: S.optional(SensitiveString),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
 ).annotate({
   identifier: "RejectAgreementCancellationRequestOutput",
 }) as any as S.Schema<RejectAgreementCancellationRequestOutput>;
@@ -2055,9 +1971,7 @@ export const RejectAgreementPaymentRequestInput = /*@__PURE__*/ S.suspend(() =>
     paymentRequestId: S.String,
     agreementId: S.String,
     rejectionReason: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "RejectAgreementPaymentRequestInput",
 }) as any as S.Schema<RejectAgreementPaymentRequestInput>;
@@ -2127,12 +2041,8 @@ export const SearchAgreementsInput = /*@__PURE__*/ S.suspend(() =>
     sort: S.optional(Sort),
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "SearchAgreementsInput",
-}) as any as S.Schema<SearchAgreementsInput>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "SearchAgreementsInput" }) as any as S.Schema<SearchAgreementsInput>;
 export interface Entitlement {
   licenseArn?: string;
 }
@@ -2146,12 +2056,16 @@ export interface AgreementViewSummary {
   acceptanceTime?: Date;
   startTime?: Date;
   endTime?: Date;
+  lastUpdateTime?: Date;
   agreementType?: string;
   acceptor?: Acceptor;
   proposer?: Proposer;
   proposalSummary?: ProposalSummary;
   status?: AgreementStatus;
   entitlements?: Entitlement[];
+  initialAgreementId?: string;
+  endTimeBehaviorType?: EndTimeBehaviorType;
+  endTimeBehaviorReasonCode?: EndTimeBehaviorReasonCode;
 }
 export const AgreementViewSummary = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2159,19 +2073,20 @@ export const AgreementViewSummary = /*@__PURE__*/ S.suspend(() =>
     acceptanceTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    lastUpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     agreementType: S.optional(S.String),
     acceptor: S.optional(Acceptor),
     proposer: S.optional(Proposer),
     proposalSummary: S.optional(ProposalSummary),
     status: S.optional(AgreementStatus),
     entitlements: S.optional(EntitlementList),
+    initialAgreementId: S.optional(S.String),
+    endTimeBehaviorType: S.optional(EndTimeBehaviorType),
+    endTimeBehaviorReasonCode: S.optional(EndTimeBehaviorReasonCode),
   }),
-).annotate({
-  identifier: "AgreementViewSummary",
-}) as any as S.Schema<AgreementViewSummary>;
+).annotate({ identifier: "AgreementViewSummary" }) as any as S.Schema<AgreementViewSummary>;
 export type AgreementViewSummaryList = AgreementViewSummary[];
-export const AgreementViewSummaryList =
-  /*@__PURE__*/ S.Array(AgreementViewSummary);
+export const AgreementViewSummaryList = /*@__PURE__*/ S.Array(AgreementViewSummary);
 export interface SearchAgreementsOutput {
   agreementViewSummaries?: AgreementViewSummary[];
   nextToken?: string;
@@ -2181,25 +2096,20 @@ export const SearchAgreementsOutput = /*@__PURE__*/ S.suspend(() =>
     agreementViewSummaries: S.optional(AgreementViewSummaryList),
     nextToken: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SearchAgreementsOutput",
-}) as any as S.Schema<SearchAgreementsOutput>;
+).annotate({ identifier: "SearchAgreementsOutput" }) as any as S.Schema<SearchAgreementsOutput>;
 export interface SendAgreementCancellationRequestInput {
   agreementId: string;
   reasonCode: AgreementCancellationRequestReasonCode;
   clientToken?: string;
   description?: string | redacted.Redacted<string>;
 }
-export const SendAgreementCancellationRequestInput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      agreementId: S.String,
-      reasonCode: AgreementCancellationRequestReasonCode,
-      clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-      description: S.optional(SensitiveString),
-    }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
+export const SendAgreementCancellationRequestInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    agreementId: S.String,
+    reasonCode: AgreementCancellationRequestReasonCode,
+    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+    description: S.optional(SensitiveString),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "SendAgreementCancellationRequestInput",
 }) as any as S.Schema<SendAgreementCancellationRequestInput>;
@@ -2212,17 +2122,16 @@ export interface SendAgreementCancellationRequestOutput {
   createdAt?: Date;
   updatedAt?: Date;
 }
-export const SendAgreementCancellationRequestOutput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      agreementId: S.optional(S.String),
-      agreementCancellationRequestId: S.optional(S.String),
-      status: S.optional(AgreementCancellationRequestStatus),
-      reasonCode: S.optional(AgreementCancellationRequestReasonCode),
-      description: S.optional(SensitiveString),
-      createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-      updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    }),
+export const SendAgreementCancellationRequestOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    agreementId: S.optional(S.String),
+    agreementCancellationRequestId: S.optional(S.String),
+    status: S.optional(AgreementCancellationRequestStatus),
+    reasonCode: S.optional(AgreementCancellationRequestReasonCode),
+    description: S.optional(SensitiveString),
+    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
 ).annotate({
   identifier: "SendAgreementCancellationRequestOutput",
 }) as any as S.Schema<SendAgreementCancellationRequestOutput>;
@@ -2242,9 +2151,7 @@ export const SendAgreementPaymentRequestInput = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     chargeAmount: S.String,
     description: S.optional(SensitiveString),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "SendAgreementPaymentRequestInput",
 }) as any as S.Schema<SendAgreementPaymentRequestInput>;
@@ -2283,9 +2190,7 @@ export const UpdatePurchaseOrdersInput = /*@__PURE__*/ S.suspend(() =>
   identifier: "UpdatePurchaseOrdersInput",
 }) as any as S.Schema<UpdatePurchaseOrdersInput>;
 export interface UpdatePurchaseOrdersOutput {}
-export const UpdatePurchaseOrdersOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UpdatePurchaseOrdersOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UpdatePurchaseOrdersOutput",
 }) as any as S.Schema<UpdatePurchaseOrdersOutput>;
 export type RequestId = string;
@@ -2403,13 +2308,9 @@ export interface ValidationExceptionField {
 }
 export const ValidationExceptionField = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ name: S.String, message: S.String }),
-).annotate({
-  identifier: "ValidationExceptionField",
-}) as any as S.Schema<ValidationExceptionField>;
+).annotate({ identifier: "ValidationExceptionField" }) as any as S.Schema<ValidationExceptionField>;
 export type ValidationExceptionFieldList = ValidationExceptionField[];
-export const ValidationExceptionFieldList = /*@__PURE__*/ S.Array(
-  ValidationExceptionField,
-);
+export const ValidationExceptionFieldList = /*@__PURE__*/ S.Array(ValidationExceptionField);
 export type AcceptAgreementCancellationRequestError =
   | AccessDeniedException
   | ConflictException
@@ -3141,120 +3042,6 @@ export type SearchAgreementsError =
   | CommonErrors;
 /**
  * Searches across all agreements that a proposer or an acceptor has in AWS Marketplace. The search returns a list of agreements with basic agreement information.
- *
- * The following filter combinations are supported when the `PartyType` is `Proposer`:
- *
- * - `AgreementType`
- *
- * - `AgreementType` + `EndTime`
- *
- * - `AgreementType` + `ResourceType`
- *
- * - `AgreementType` + `ResourceType` + `EndTime`
- *
- * - `AgreementType` + `ResourceType` + `Status`
- *
- * - `AgreementType` + `ResourceType` + `Status` + `EndTime`
- *
- * - `AgreementType` + `ResourceIdentifier`
- *
- * - `AgreementType` + `ResourceIdentifier` + `EndTime`
- *
- * - `AgreementType` + `ResourceIdentifier` + `Status`
- *
- * - `AgreementType` + `ResourceIdentifier` + `Status` + `EndTime`
- *
- * - `AgreementType` + `AcceptorAccountId`
- *
- * - `AgreementType` + `AcceptorAccountId` + `EndTime`
- *
- * - `AgreementType` + `AcceptorAccountId` + `Status`
- *
- * - `AgreementType` + `AcceptorAccountId` + `Status` + `EndTime`
- *
- * - `AgreementType` + `AcceptorAccountId` + `OfferId`
- *
- * - `AgreementType` + `AcceptorAccountId` + `OfferId` + `Status`
- *
- * - `AgreementType` + `AcceptorAccountId` + `OfferId` + `EndTime`
- *
- * - `AgreementType` + `AcceptorAccountId` + `OfferId` + `Status` + `EndTime`
- *
- * - `AgreementType` + `AcceptorAccountId` + `ResourceIdentifier`
- *
- * - `AgreementType` + `AcceptorAccountId` + `ResourceIdentifier` + `Status`
- *
- * - `AgreementType` + `AcceptorAccountId` + `ResourceIdentifier` + `EndTime`
- *
- * - `AgreementType` + `AcceptorAccountId` + `ResourceIdentifier` + `Status` + `EndTime`
- *
- * - `AgreementType` + `AcceptorAccountId` + `ResourceType`
- *
- * - `AgreementType` + `AcceptorAccountId` + `ResourceType` + `EndTime`
- *
- * - `AgreementType` + `AcceptorAccountId` + `ResourceType` + `Status`
- *
- * - `AgreementType` + `AcceptorAccountId` + `ResourceType` + `Status` + `EndTime`
- *
- * - `AgreementType` + `Status`
- *
- * - `AgreementType` + `Status` + `EndTime`
- *
- * - `AgreementType` + `OfferId`
- *
- * - `AgreementType` + `OfferId` + `EndTime`
- *
- * - `AgreementType` + `OfferId` + `Status`
- *
- * - `AgreementType` + `OfferId` + `Status` + `EndTime`
- *
- * - `AgreementType` + `OfferSetId`
- *
- * - `AgreementType` + `OfferSetId` + `EndTime`
- *
- * - `AgreementType` + `OfferSetId` + `Status`
- *
- * - `AgreementType` + `OfferSetId` + `Status` + `EndTime`
- *
- * To filter by `EndTime`, you can use `BeforeEndTime` and/or `AfterEndTime`. Only `EndTime` is supported for sorting.
- *
- * The following filter combinations are supported when the `PartyType` is `Acceptor`:
- *
- * - `AgreementType`
- *
- * - `AgreementType` + `Status`
- *
- * - `AgreementType` + `EndTime`
- *
- * - `AgreementType` + `Status` + `EndTime`
- *
- * - `AgreementType` + `ResourceIdentifier`
- *
- * - `AgreementType` + `ResourceIdentifier` + `EndTime`
- *
- * - `AgreementType` + `ResourceIdentifier` + `Status`
- *
- * - `AgreementType` + `ResourceIdentifier` + `Status` + `EndTime`
- *
- * - `AgreementType` + `ResourceType`
- *
- * - `AgreementType` + `ResourceType` + `EndTime`
- *
- * - `AgreementType` + `OfferId`
- *
- * - `AgreementType` + `OfferId` + `EndTime`
- *
- * - `AgreementType` + `OfferId` + `Status`
- *
- * - `AgreementType` + `OfferId` + `Status` + `EndTime`
- *
- * - `AgreementType` + `OfferSetId`
- *
- * - `AgreementType` + `OfferSetId` + `EndTime`
- *
- * - `AgreementType` + `OfferSetId` + `Status`
- *
- * - `AgreementType` + `OfferSetId` + `Status` + `EndTime`
  */
 export const searchAgreements: API.PaginatedOperationMethod<
   SearchAgreementsInput,

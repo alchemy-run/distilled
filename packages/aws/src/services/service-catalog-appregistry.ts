@@ -1,12 +1,12 @@
-import * as HttpClient from "effect/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "Service Catalog AppRegistry",
   serviceShapeName: "AWS242AppRegistry",
@@ -26,14 +26,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -57,17 +53,13 @@ const rules = T.EndpointResolver((p, _) => {
         if (UseFIPS === true) {
           if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
             if (_.getAttr(PartitionResult, "name") === "aws-us-gov") {
-              return e(
-                `https://servicecatalog-appregistry.${Region}.amazonaws.com`,
-              );
+              return e(`https://servicecatalog-appregistry.${Region}.amazonaws.com`);
             }
             return e(
               `https://servicecatalog-appregistry-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -75,9 +67,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://servicecatalog-appregistry.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
         return e(
           `https://servicecatalog-appregistry.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
@@ -115,10 +105,7 @@ export class ServiceQuotaExceededException
 export class ThrottlingException
   extends /*@__PURE__*/ S.TaggedError<ThrottlingException>()(
     "ThrottlingException",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      serviceCode: S.optional(S.String),
-    },
+    { message: S.optional(S.String).pipe(T.ErrorMessage()), serviceCode: S.optional(S.String) },
     T.HttpError(429),
   ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class ValidationException
@@ -160,10 +147,7 @@ export interface AssociateAttributeGroupResponse {
   attributeGroupArn?: string;
 }
 export const AssociateAttributeGroupResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    applicationArn: S.optional(S.String),
-    attributeGroupArn: S.optional(S.String),
-  }),
+  S.Struct({ applicationArn: S.optional(S.String), attributeGroupArn: S.optional(S.String) }),
 ).annotate({
   identifier: "AssociateAttributeGroupResponse",
 }) as any as S.Schema<AssociateAttributeGroupResponse>;
@@ -171,10 +155,7 @@ export type ResourceType = "CFN_STACK" | "RESOURCE_TAG_VALUE" | (string & {});
 export const ResourceType = S.String;
 
 export type ResourceSpecifier = string;
-export type AssociationOption =
-  | "APPLY_APPLICATION_TAG"
-  | "SKIP_APPLICATION_TAG"
-  | (string & {});
+export type AssociationOption = "APPLY_APPLICATION_TAG" | "SKIP_APPLICATION_TAG" | (string & {});
 export const AssociationOption = S.String;
 
 export type Options = AssociationOption[];
@@ -204,9 +185,7 @@ export const AssociateResourceRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "AssociateResourceRequest",
-}) as any as S.Schema<AssociateResourceRequest>;
+).annotate({ identifier: "AssociateResourceRequest" }) as any as S.Schema<AssociateResourceRequest>;
 export type Arn = string;
 export interface AssociateResourceResponse {
   applicationArn?: string;
@@ -241,25 +220,11 @@ export const CreateApplicationRequest = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     tags: S.optional(Tags),
     clientToken: S.String.pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/applications" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateApplicationRequest",
-}) as any as S.Schema<CreateApplicationRequest>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/applications" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "CreateApplicationRequest" }) as any as S.Schema<CreateApplicationRequest>;
 export type ApplicationId = string;
 export type ApplicationTagDefinition = { [key: string]: string | undefined };
-export const ApplicationTagDefinition = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const ApplicationTagDefinition = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface Application {
   id?: string;
   arn?: string;
@@ -276,12 +241,8 @@ export const Application = /*@__PURE__*/ S.suspend(() =>
     arn: S.optional(S.String),
     name: S.optional(S.String),
     description: S.optional(S.String),
-    creationTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    lastUpdateTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    creationTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    lastUpdateTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     tags: S.optional(Tags),
     applicationTag: S.optional(ApplicationTagDefinition),
   }),
@@ -310,14 +271,7 @@ export const CreateAttributeGroupRequest = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(Tags),
     clientToken: S.String.pipe(T.IdempotencyToken()),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/attribute-groups" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/attribute-groups" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "CreateAttributeGroupRequest",
@@ -338,12 +292,8 @@ export const AttributeGroup = /*@__PURE__*/ S.suspend(() =>
     arn: S.optional(S.String),
     name: S.optional(S.String),
     description: S.optional(S.String),
-    creationTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    lastUpdateTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    creationTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    lastUpdateTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     tags: S.optional(Tags),
   }),
 ).annotate({ identifier: "AttributeGroup" }) as any as S.Schema<AttributeGroup>;
@@ -369,9 +319,7 @@ export const DeleteApplicationRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteApplicationRequest",
-}) as any as S.Schema<DeleteApplicationRequest>;
+).annotate({ identifier: "DeleteApplicationRequest" }) as any as S.Schema<DeleteApplicationRequest>;
 export interface ApplicationSummary {
   id?: string;
   arn?: string;
@@ -386,16 +334,10 @@ export const ApplicationSummary = /*@__PURE__*/ S.suspend(() =>
     arn: S.optional(S.String),
     name: S.optional(S.String),
     description: S.optional(S.String),
-    creationTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    lastUpdateTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    creationTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    lastUpdateTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
-).annotate({
-  identifier: "ApplicationSummary",
-}) as any as S.Schema<ApplicationSummary>;
+).annotate({ identifier: "ApplicationSummary" }) as any as S.Schema<ApplicationSummary>;
 export interface DeleteApplicationResponse {
   application?: ApplicationSummary;
 }
@@ -408,9 +350,7 @@ export interface DeleteAttributeGroupRequest {
   attributeGroup: string;
 }
 export const DeleteAttributeGroupRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    attributeGroup: S.String.pipe(T.HttpLabel("attributeGroup")),
-  }).pipe(
+  S.Struct({ attributeGroup: S.String.pipe(T.HttpLabel("attributeGroup")) }).pipe(
     T.all(
       T.Http({ method: "DELETE", uri: "/attribute-groups/{attributeGroup}" }),
       svc,
@@ -439,17 +379,11 @@ export const AttributeGroupSummary = /*@__PURE__*/ S.suspend(() =>
     arn: S.optional(S.String),
     name: S.optional(S.String),
     description: S.optional(S.String),
-    creationTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    lastUpdateTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    creationTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    lastUpdateTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     createdBy: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AttributeGroupSummary",
-}) as any as S.Schema<AttributeGroupSummary>;
+).annotate({ identifier: "AttributeGroupSummary" }) as any as S.Schema<AttributeGroupSummary>;
 export interface DeleteAttributeGroupResponse {
   attributeGroup?: AttributeGroupSummary;
 }
@@ -487,10 +421,7 @@ export interface DisassociateAttributeGroupResponse {
   attributeGroupArn?: string;
 }
 export const DisassociateAttributeGroupResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    applicationArn: S.optional(S.String),
-    attributeGroupArn: S.optional(S.String),
-  }),
+  S.Struct({ applicationArn: S.optional(S.String), attributeGroupArn: S.optional(S.String) }),
 ).annotate({
   identifier: "DisassociateAttributeGroupResponse",
 }) as any as S.Schema<DisassociateAttributeGroupResponse>;
@@ -525,10 +456,7 @@ export interface DisassociateResourceResponse {
   resourceArn?: string;
 }
 export const DisassociateResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    applicationArn: S.optional(S.String),
-    resourceArn: S.optional(S.String),
-  }),
+  S.Struct({ applicationArn: S.optional(S.String), resourceArn: S.optional(S.String) }),
 ).annotate({
   identifier: "DisassociateResourceResponse",
 }) as any as S.Schema<DisassociateResourceResponse>;
@@ -546,9 +474,7 @@ export const GetApplicationRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetApplicationRequest",
-}) as any as S.Schema<GetApplicationRequest>;
+).annotate({ identifier: "GetApplicationRequest" }) as any as S.Schema<GetApplicationRequest>;
 export type AssociationCount = number;
 export type ResourceGroupState =
   | "CREATING"
@@ -600,32 +526,20 @@ export const GetApplicationResponse = /*@__PURE__*/ S.suspend(() =>
     arn: S.optional(S.String),
     name: S.optional(S.String),
     description: S.optional(S.String),
-    creationTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    lastUpdateTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    creationTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    lastUpdateTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     associatedResourceCount: S.optional(S.Number),
     tags: S.optional(Tags),
     integrations: S.optional(Integrations),
     applicationTag: S.optional(ApplicationTagDefinition),
   }),
-).annotate({
-  identifier: "GetApplicationResponse",
-}) as any as S.Schema<GetApplicationResponse>;
+).annotate({ identifier: "GetApplicationResponse" }) as any as S.Schema<GetApplicationResponse>;
 export type NextToken = string;
-export type ResourceItemStatus =
-  | "SUCCESS"
-  | "FAILED"
-  | "IN_PROGRESS"
-  | "SKIPPED"
-  | (string & {});
+export type ResourceItemStatus = "SUCCESS" | "FAILED" | "IN_PROGRESS" | "SKIPPED" | (string & {});
 export const ResourceItemStatus = S.String;
 
 export type GetAssociatedResourceFilter = ResourceItemStatus[];
-export const GetAssociatedResourceFilter =
-  /*@__PURE__*/ S.Array(ResourceItemStatus);
+export const GetAssociatedResourceFilter = /*@__PURE__*/ S.Array(ResourceItemStatus);
 export type MaxResults = number;
 export interface GetAssociatedResourceRequest {
   application: string;
@@ -666,9 +580,7 @@ export interface ResourceIntegrations {
 }
 export const ResourceIntegrations = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ resourceGroup: S.optional(ResourceGroup) }),
-).annotate({
-  identifier: "ResourceIntegrations",
-}) as any as S.Schema<ResourceIntegrations>;
+).annotate({ identifier: "ResourceIntegrations" }) as any as S.Schema<ResourceIntegrations>;
 export interface Resource {
   name?: string;
   arn?: string;
@@ -679,17 +591,11 @@ export const Resource = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.optional(S.String),
     arn: S.optional(S.String),
-    associationTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    associationTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     integrations: S.optional(ResourceIntegrations),
   }),
 ).annotate({ identifier: "Resource" }) as any as S.Schema<Resource>;
-export type ApplicationTagStatus =
-  | "IN_PROGRESS"
-  | "SUCCESS"
-  | "FAILURE"
-  | (string & {});
+export type ApplicationTagStatus = "IN_PROGRESS" | "SUCCESS" | "FAILURE" | (string & {});
 export const ApplicationTagStatus = S.String;
 
 export type ResourcesListItemErrorMessage = string;
@@ -707,9 +613,7 @@ export const ResourcesListItem = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(S.String),
     resourceType: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ResourcesListItem",
-}) as any as S.Schema<ResourcesListItem>;
+).annotate({ identifier: "ResourcesListItem" }) as any as S.Schema<ResourcesListItem>;
 export type ResourcesList = ResourcesListItem[];
 export const ResourcesList = /*@__PURE__*/ S.Array(ResourcesListItem);
 export interface ApplicationTagResult {
@@ -725,9 +629,7 @@ export const ApplicationTagResult = /*@__PURE__*/ S.suspend(() =>
     resources: S.optional(ResourcesList),
     nextToken: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ApplicationTagResult",
-}) as any as S.Schema<ApplicationTagResult>;
+).annotate({ identifier: "ApplicationTagResult" }) as any as S.Schema<ApplicationTagResult>;
 export interface GetAssociatedResourceResponse {
   resource?: Resource;
   options?: AssociationOption[];
@@ -746,9 +648,7 @@ export interface GetAttributeGroupRequest {
   attributeGroup: string;
 }
 export const GetAttributeGroupRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    attributeGroup: S.String.pipe(T.HttpLabel("attributeGroup")),
-  }).pipe(
+  S.Struct({ attributeGroup: S.String.pipe(T.HttpLabel("attributeGroup")) }).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/attribute-groups/{attributeGroup}" }),
       svc,
@@ -758,9 +658,7 @@ export const GetAttributeGroupRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetAttributeGroupRequest",
-}) as any as S.Schema<GetAttributeGroupRequest>;
+).annotate({ identifier: "GetAttributeGroupRequest" }) as any as S.Schema<GetAttributeGroupRequest>;
 export interface GetAttributeGroupResponse {
   id?: string;
   arn?: string;
@@ -779,12 +677,8 @@ export const GetAttributeGroupResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     description: S.optional(S.String),
     attributes: S.optional(S.String),
-    creationTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    lastUpdateTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    creationTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    lastUpdateTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     tags: S.optional(Tags),
     createdBy: S.optional(S.String),
   }),
@@ -794,43 +688,28 @@ export const GetAttributeGroupResponse = /*@__PURE__*/ S.suspend(() =>
 export interface GetConfigurationRequest {}
 export const GetConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/configuration" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/configuration" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetConfigurationRequest",
-}) as any as S.Schema<GetConfigurationRequest>;
+).annotate({ identifier: "GetConfigurationRequest" }) as any as S.Schema<GetConfigurationRequest>;
 export type TagKeyConfig = string;
 export interface TagQueryConfiguration {
   tagKey?: string;
 }
 export const TagQueryConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ tagKey: S.optional(S.String) }),
-).annotate({
-  identifier: "TagQueryConfiguration",
-}) as any as S.Schema<TagQueryConfiguration>;
+).annotate({ identifier: "TagQueryConfiguration" }) as any as S.Schema<TagQueryConfiguration>;
 export interface AppRegistryConfiguration {
   tagQueryConfiguration?: TagQueryConfiguration;
 }
 export const AppRegistryConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ tagQueryConfiguration: S.optional(TagQueryConfiguration) }),
-).annotate({
-  identifier: "AppRegistryConfiguration",
-}) as any as S.Schema<AppRegistryConfiguration>;
+).annotate({ identifier: "AppRegistryConfiguration" }) as any as S.Schema<AppRegistryConfiguration>;
 export interface GetConfigurationResponse {
   configuration?: AppRegistryConfiguration;
 }
 export const GetConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ configuration: S.optional(AppRegistryConfiguration) }),
-).annotate({
-  identifier: "GetConfigurationResponse",
-}) as any as S.Schema<GetConfigurationResponse>;
+).annotate({ identifier: "GetConfigurationResponse" }) as any as S.Schema<GetConfigurationResponse>;
 export interface ListApplicationsRequest {
   nextToken?: string;
   maxResults?: number;
@@ -839,19 +718,8 @@ export const ListApplicationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/applications" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListApplicationsRequest",
-}) as any as S.Schema<ListApplicationsRequest>;
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/applications" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "ListApplicationsRequest" }) as any as S.Schema<ListApplicationsRequest>;
 export type ApplicationSummaries = ApplicationSummary[];
 export const ApplicationSummaries = /*@__PURE__*/ S.Array(ApplicationSummary);
 export interface ListApplicationsResponse {
@@ -859,37 +727,28 @@ export interface ListApplicationsResponse {
   nextToken?: string;
 }
 export const ListApplicationsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    applications: S.optional(ApplicationSummaries),
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListApplicationsResponse",
-}) as any as S.Schema<ListApplicationsResponse>;
+  S.Struct({ applications: S.optional(ApplicationSummaries), nextToken: S.optional(S.String) }),
+).annotate({ identifier: "ListApplicationsResponse" }) as any as S.Schema<ListApplicationsResponse>;
 export interface ListAssociatedAttributeGroupsRequest {
   application: string;
   nextToken?: string;
   maxResults?: number;
 }
-export const ListAssociatedAttributeGroupsRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      application: S.String.pipe(T.HttpLabel("application")),
-      nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-      maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "GET",
-          uri: "/applications/{application}/attribute-groups",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const ListAssociatedAttributeGroupsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    application: S.String.pipe(T.HttpLabel("application")),
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/applications/{application}/attribute-groups" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "ListAssociatedAttributeGroupsRequest",
 }) as any as S.Schema<ListAssociatedAttributeGroupsRequest>;
@@ -899,12 +758,8 @@ export interface ListAssociatedAttributeGroupsResponse {
   attributeGroups?: string[];
   nextToken?: string;
 }
-export const ListAssociatedAttributeGroupsResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      attributeGroups: S.optional(AttributeGroupIds),
-      nextToken: S.optional(S.String),
-    }),
+export const ListAssociatedAttributeGroupsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ attributeGroups: S.optional(AttributeGroupIds), nextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListAssociatedAttributeGroupsResponse",
 }) as any as S.Schema<ListAssociatedAttributeGroupsResponse>;
@@ -936,9 +791,7 @@ export interface ResourceDetails {
 }
 export const ResourceDetails = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ tagValue: S.optional(S.String) }),
-).annotate({
-  identifier: "ResourceDetails",
-}) as any as S.Schema<ResourceDetails>;
+).annotate({ identifier: "ResourceDetails" }) as any as S.Schema<ResourceDetails>;
 export interface ResourceInfo {
   name?: string;
   arn?: string;
@@ -962,10 +815,7 @@ export interface ListAssociatedResourcesResponse {
   nextToken?: string;
 }
 export const ListAssociatedResourcesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resources: S.optional(Resources),
-    nextToken: S.optional(S.String),
-  }),
+  S.Struct({ resources: S.optional(Resources), nextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListAssociatedResourcesResponse",
 }) as any as S.Schema<ListAssociatedResourcesResponse>;
@@ -977,23 +827,12 @@ export const ListAttributeGroupsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/attribute-groups" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/attribute-groups" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListAttributeGroupsRequest",
 }) as any as S.Schema<ListAttributeGroupsRequest>;
 export type AttributeGroupSummaries = AttributeGroupSummary[];
-export const AttributeGroupSummaries = /*@__PURE__*/ S.Array(
-  AttributeGroupSummary,
-);
+export const AttributeGroupSummaries = /*@__PURE__*/ S.Array(AttributeGroupSummary);
 export interface ListAttributeGroupsResponse {
   attributeGroups?: AttributeGroupSummary[];
   nextToken?: string;
@@ -1011,25 +850,21 @@ export interface ListAttributeGroupsForApplicationRequest {
   nextToken?: string;
   maxResults?: number;
 }
-export const ListAttributeGroupsForApplicationRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      application: S.String.pipe(T.HttpLabel("application")),
-      nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-      maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "GET",
-          uri: "/applications/{application}/attribute-group-details",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const ListAttributeGroupsForApplicationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    application: S.String.pipe(T.HttpLabel("application")),
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/applications/{application}/attribute-group-details" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "ListAttributeGroupsForApplicationRequest",
 }) as any as S.Schema<ListAttributeGroupsForApplicationRequest>;
@@ -1046,39 +881,27 @@ export const AttributeGroupDetails = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     createdBy: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AttributeGroupDetails",
-}) as any as S.Schema<AttributeGroupDetails>;
+).annotate({ identifier: "AttributeGroupDetails" }) as any as S.Schema<AttributeGroupDetails>;
 export type AttributeGroupDetailsList = AttributeGroupDetails[];
-export const AttributeGroupDetailsList = /*@__PURE__*/ S.Array(
-  AttributeGroupDetails,
-);
+export const AttributeGroupDetailsList = /*@__PURE__*/ S.Array(AttributeGroupDetails);
 export interface ListAttributeGroupsForApplicationResponse {
   attributeGroupsDetails?: AttributeGroupDetails[];
   nextToken?: string;
 }
-export const ListAttributeGroupsForApplicationResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      attributeGroupsDetails: S.optional(AttributeGroupDetailsList),
-      nextToken: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "ListAttributeGroupsForApplicationResponse",
-  }) as any as S.Schema<ListAttributeGroupsForApplicationResponse>;
+export const ListAttributeGroupsForApplicationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    attributeGroupsDetails: S.optional(AttributeGroupDetailsList),
+    nextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListAttributeGroupsForApplicationResponse",
+}) as any as S.Schema<ListAttributeGroupsForApplicationResponse>;
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
 export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListTagsForResourceRequest",
@@ -1096,22 +919,11 @@ export interface PutConfigurationRequest {
 }
 export const PutConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ configuration: AppRegistryConfiguration }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/configuration" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "PUT", uri: "/configuration" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "PutConfigurationRequest",
-}) as any as S.Schema<PutConfigurationRequest>;
+).annotate({ identifier: "PutConfigurationRequest" }) as any as S.Schema<PutConfigurationRequest>;
 export interface PutConfigurationResponse {}
-export const PutConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const PutConfigurationResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "PutConfigurationResponse",
 }) as any as S.Schema<PutConfigurationResponse>;
 export interface SyncResourceRequest {
@@ -1132,9 +944,7 @@ export const SyncResourceRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "SyncResourceRequest",
-}) as any as S.Schema<SyncResourceRequest>;
+).annotate({ identifier: "SyncResourceRequest" }) as any as S.Schema<SyncResourceRequest>;
 export type SyncAction = "START_SYNC" | "NO_ACTION" | (string & {});
 export const SyncAction = S.String;
 
@@ -1149,34 +959,18 @@ export const SyncResourceResponse = /*@__PURE__*/ S.suspend(() =>
     resourceArn: S.optional(S.String),
     actionTaken: S.optional(SyncAction),
   }),
-).annotate({
-  identifier: "SyncResourceResponse",
-}) as any as S.Schema<SyncResourceResponse>;
+).annotate({ identifier: "SyncResourceResponse" }) as any as S.Schema<SyncResourceResponse>;
 export interface TagResourceRequest {
   resourceArn: string;
   tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-    tags: Tags,
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tags: Tags }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
+).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export type TagKeys = string[];
@@ -1190,22 +984,11 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeys.pipe(T.HttpQuery("tagKeys")),
   }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
+).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateApplicationRequest {
@@ -1228,9 +1011,7 @@ export const UpdateApplicationRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "UpdateApplicationRequest",
-}) as any as S.Schema<UpdateApplicationRequest>;
+).annotate({ identifier: "UpdateApplicationRequest" }) as any as S.Schema<UpdateApplicationRequest>;
 export interface UpdateApplicationResponse {
   application?: Application;
 }
@@ -1437,11 +1218,7 @@ export const deleteApplication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteApplicationRequest,
   output: DeleteApplicationResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApplication",
@@ -1463,11 +1240,7 @@ export const deleteAttributeGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteAttributeGroupRequest,
   output: DeleteAttributeGroupResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAttributeGroup",
@@ -1489,11 +1262,7 @@ export const disassociateAttributeGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DisassociateAttributeGroupRequest,
   output: DisassociateAttributeGroupResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateAttributeGroup",
@@ -1608,11 +1377,7 @@ export const getAssociatedResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetAssociatedResourceRequest,
   output: GetAssociatedResourceResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAssociatedResource",
@@ -1668,10 +1433,7 @@ export const getConfiguration: API.OperationMethod<
   operationName: "GetConfiguration",
 }));
 
-export type ListApplicationsError =
-  | InternalServerException
-  | ValidationException
-  | CommonErrors;
+export type ListApplicationsError = InternalServerException | ValidationException | CommonErrors;
 /**
  * Retrieves a list of all of your applications. Results are paginated.
  */
@@ -1713,11 +1475,7 @@ export const listAssociatedAttributeGroups: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListAssociatedAttributeGroupsRequest,
   output: ListAssociatedAttributeGroupsResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAssociatedAttributeGroups",
@@ -1761,11 +1519,7 @@ export const listAssociatedResources: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListAssociatedResourcesRequest,
   output: ListAssociatedResourcesResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAssociatedResources",
@@ -1777,10 +1531,7 @@ export const listAssociatedResources: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListAttributeGroupsError =
-  | InternalServerException
-  | ValidationException
-  | CommonErrors;
+export type ListAttributeGroupsError = InternalServerException | ValidationException | CommonErrors;
 /**
  * Lists all attribute groups which you have access to. Results are paginated.
  */
@@ -1822,11 +1573,7 @@ export const listAttributeGroupsForApplication: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListAttributeGroupsForApplicationRequest,
   output: ListAttributeGroupsForApplicationResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAttributeGroupsForApplication",
@@ -1854,11 +1601,7 @@ export const listTagsForResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
@@ -1939,11 +1682,7 @@ export const tagResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
@@ -1967,11 +1706,7 @@ export const untagResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",

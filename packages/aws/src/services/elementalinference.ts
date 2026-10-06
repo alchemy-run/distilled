@@ -1,12 +1,12 @@
-import * as HttpClient from "effect/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "ElementalInference",
   serviceShapeName: "ElementalInference",
@@ -26,14 +26,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -60,9 +56,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://elemental-inference-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -70,9 +64,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://elemental-inference.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
         return e(
           `https://elemental-inference.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
@@ -165,9 +157,7 @@ export interface DataSourceConfiguration {
 }
 export const DataSourceConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ fixtureId: S.String }),
-).annotate({
-  identifier: "DataSourceConfiguration",
-}) as any as S.Schema<DataSourceConfiguration>;
+).annotate({ identifier: "DataSourceConfiguration" }) as any as S.Schema<DataSourceConfiguration>;
 export interface ClippingConfig {
   callbackMetadata?: string;
   dataSourceConfiguration?: DataSourceConfiguration;
@@ -199,11 +189,7 @@ export const AspectRatio = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ width: S.Number, height: S.Number }),
 ).annotate({ identifier: "AspectRatio" }) as any as S.Schema<AspectRatio>;
 export type DictionaryId = string;
-export type ProfanityFilterMode =
-  | "DISABLED"
-  | "CENSOR"
-  | "DROP"
-  | (string & {});
+export type ProfanityFilterMode = "DISABLED" | "CENSOR" | "DROP" | (string & {});
 export const ProfanityFilterMode = S.String;
 
 export interface SubtitlingConfig {
@@ -219,17 +205,38 @@ export const SubtitlingConfig = /*@__PURE__*/ S.suspend(() =>
     dictionary: S.optional(S.String),
     profanityFilter: S.optional(ProfanityFilterMode),
   }),
-).annotate({
-  identifier: "SubtitlingConfig",
-}) as any as S.Schema<SubtitlingConfig>;
+).annotate({ identifier: "SubtitlingConfig" }) as any as S.Schema<SubtitlingConfig>;
+export type SummaryGenerationMode = "ENABLED" | "DISABLED" | (string & {});
+export const SummaryGenerationMode = S.String;
+
+export type ExtendedAnalysisMode = "ENABLED" | "DISABLED" | (string & {});
+export const ExtendedAnalysisMode = S.String;
+
+export interface ContextualMetadataConfig {
+  summaryGeneration?: SummaryGenerationMode;
+  extendedAnalysis?: ExtendedAnalysisMode;
+}
+export const ContextualMetadataConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    summaryGeneration: S.optional(SummaryGenerationMode),
+    extendedAnalysis: S.optional(ExtendedAnalysisMode),
+  }),
+).annotate({ identifier: "ContextualMetadataConfig" }) as any as S.Schema<ContextualMetadataConfig>;
 export type OutputConfig =
-  | { cropping: CroppingConfig; clipping?: never; subtitling?: never }
-  | { cropping?: never; clipping: ClippingConfig; subtitling?: never }
-  | { cropping?: never; clipping?: never; subtitling: SubtitlingConfig };
+  | { cropping: CroppingConfig; clipping?: never; subtitling?: never; contextualMetadata?: never }
+  | { cropping?: never; clipping: ClippingConfig; subtitling?: never; contextualMetadata?: never }
+  | { cropping?: never; clipping?: never; subtitling: SubtitlingConfig; contextualMetadata?: never }
+  | {
+      cropping?: never;
+      clipping?: never;
+      subtitling?: never;
+      contextualMetadata: ContextualMetadataConfig;
+    };
 export const OutputConfig = /*@__PURE__*/ S.Union([
   S.Struct({ cropping: CroppingConfig }),
   S.Struct({ clipping: ClippingConfig }),
   S.Struct({ subtitling: SubtitlingConfig }),
+  S.Struct({ contextualMetadata: ContextualMetadataConfig }),
 ]);
 export type OutputStatus = "ENABLED" | "DISABLED" | (string & {});
 export const OutputStatus = S.String;
@@ -263,18 +270,9 @@ export const AssociateFeedRequest = /*@__PURE__*/ S.suspend(() =>
     outputs: CreateOutputList,
     dryRun: S.optional(S.Boolean),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/v1/feed/{id}/associate" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/v1/feed/{id}/associate" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "AssociateFeedRequest",
-}) as any as S.Schema<AssociateFeedRequest>;
+).annotate({ identifier: "AssociateFeedRequest" }) as any as S.Schema<AssociateFeedRequest>;
 export type FeedArn = string;
 export interface AssociateFeedResponse {
   arn: string;
@@ -282,27 +280,15 @@ export interface AssociateFeedResponse {
 }
 export const AssociateFeedResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ arn: S.String, id: S.String }),
-).annotate({
-  identifier: "AssociateFeedResponse",
-}) as any as S.Schema<AssociateFeedResponse>;
-export type DictionaryLanguage =
-  | "eng"
-  | "fra"
-  | "ita"
-  | "deu"
-  | "spa"
-  | "por"
-  | (string & {});
+).annotate({ identifier: "AssociateFeedResponse" }) as any as S.Schema<AssociateFeedResponse>;
+export type DictionaryLanguage = "eng" | "fra" | "ita" | "deu" | "spa" | "por" | (string & {});
 export const DictionaryLanguage = S.String;
 
 export type DictionaryEntriesPayload = string;
 export type TagKey = string;
 export type TagValue = string;
 export type TagMap = { [key: string]: string | undefined };
-export const TagMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const TagMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface CreateDictionaryRequest {
   name: string;
   language: DictionaryLanguage;
@@ -315,19 +301,8 @@ export const CreateDictionaryRequest = /*@__PURE__*/ S.suspend(() =>
     language: DictionaryLanguage,
     entries: S.optional(S.String),
     tags: S.optional(TagMap),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/v1/dictionary" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateDictionaryRequest",
-}) as any as S.Schema<CreateDictionaryRequest>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/v1/dictionary" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "CreateDictionaryRequest" }) as any as S.Schema<CreateDictionaryRequest>;
 export type DictionaryArn = string;
 export type DictionaryStatus =
   | "CREATING"
@@ -359,9 +334,7 @@ export const CreateDictionaryResponse = /*@__PURE__*/ S.suspend(() =>
     references: S.optional(FeedReferences),
     tags: S.optional(TagMap),
   }),
-).annotate({
-  identifier: "CreateDictionaryResponse",
-}) as any as S.Schema<CreateDictionaryResponse>;
+).annotate({ identifier: "CreateDictionaryResponse" }) as any as S.Schema<CreateDictionaryResponse>;
 export type IamRoleArn = string;
 export interface CreateFeedRequest {
   name: string;
@@ -375,19 +348,8 @@ export const CreateFeedRequest = /*@__PURE__*/ S.suspend(() =>
     accessRoleArn: S.optional(S.String),
     outputs: CreateOutputList,
     tags: S.optional(TagMap),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/v1/feed" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateFeedRequest",
-}) as any as S.Schema<CreateFeedRequest>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/v1/feed" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "CreateFeedRequest" }) as any as S.Schema<CreateFeedRequest>;
 export type StringList = string[];
 export const StringList = /*@__PURE__*/ S.Array(S.String);
 export interface GetOutput {
@@ -424,9 +386,7 @@ export interface FeedAssociation {
 }
 export const FeedAssociation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ associatedResourceName: S.String }),
-).annotate({
-  identifier: "FeedAssociation",
-}) as any as S.Schema<FeedAssociation>;
+).annotate({ identifier: "FeedAssociation" }) as any as S.Schema<FeedAssociation>;
 export interface CreateFeedResponse {
   arn: string;
   name: string;
@@ -450,26 +410,15 @@ export const CreateFeedResponse = /*@__PURE__*/ S.suspend(() =>
     association: S.optional(FeedAssociation),
     tags: S.optional(TagMap),
   }),
-).annotate({
-  identifier: "CreateFeedResponse",
-}) as any as S.Schema<CreateFeedResponse>;
+).annotate({ identifier: "CreateFeedResponse" }) as any as S.Schema<CreateFeedResponse>;
 export interface DeleteDictionaryRequest {
   id: string;
 }
 export const DeleteDictionaryRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ id: S.String.pipe(T.HttpLabel("id")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/v1/dictionary/{id}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/v1/dictionary/{id}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteDictionaryRequest",
-}) as any as S.Schema<DeleteDictionaryRequest>;
+).annotate({ identifier: "DeleteDictionaryRequest" }) as any as S.Schema<DeleteDictionaryRequest>;
 export interface DeleteDictionaryResponse {
   arn: string;
   id: string;
@@ -477,26 +426,15 @@ export interface DeleteDictionaryResponse {
 }
 export const DeleteDictionaryResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ arn: S.String, id: S.String, status: DictionaryStatus }),
-).annotate({
-  identifier: "DeleteDictionaryResponse",
-}) as any as S.Schema<DeleteDictionaryResponse>;
+).annotate({ identifier: "DeleteDictionaryResponse" }) as any as S.Schema<DeleteDictionaryResponse>;
 export interface DeleteFeedRequest {
   id: string;
 }
 export const DeleteFeedRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ id: S.String.pipe(T.HttpLabel("id")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/v1/feed/{id}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/v1/feed/{id}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteFeedRequest",
-}) as any as S.Schema<DeleteFeedRequest>;
+).annotate({ identifier: "DeleteFeedRequest" }) as any as S.Schema<DeleteFeedRequest>;
 export interface DeleteFeedResponse {
   arn: string;
   id: string;
@@ -504,9 +442,19 @@ export interface DeleteFeedResponse {
 }
 export const DeleteFeedResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ arn: S.String, id: S.String, status: FeedStatus }),
-).annotate({
-  identifier: "DeleteFeedResponse",
-}) as any as S.Schema<DeleteFeedResponse>;
+).annotate({ identifier: "DeleteFeedResponse" }) as any as S.Schema<DeleteFeedResponse>;
+export interface DeleteFeedPolicyRequest {
+  id: string;
+}
+export const DeleteFeedPolicyRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ id: S.String.pipe(T.HttpLabel("id")) }).pipe(
+    T.all(T.Http({ method: "DELETE", uri: "/v1/feed/{id}/policy" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({ identifier: "DeleteFeedPolicyRequest" }) as any as S.Schema<DeleteFeedPolicyRequest>;
+export interface DeleteFeedPolicyResponse {}
+export const DeleteFeedPolicyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  identifier: "DeleteFeedPolicyResponse",
+}) as any as S.Schema<DeleteFeedPolicyResponse>;
 export interface DisassociateFeedRequest {
   id: string;
   associatedResourceName: string;
@@ -527,18 +475,14 @@ export const DisassociateFeedRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DisassociateFeedRequest",
-}) as any as S.Schema<DisassociateFeedRequest>;
+).annotate({ identifier: "DisassociateFeedRequest" }) as any as S.Schema<DisassociateFeedRequest>;
 export interface DisassociateFeedResponse {
   arn: string;
   id: string;
 }
 export const DisassociateFeedResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ arn: S.String, id: S.String }),
-).annotate({
-  identifier: "DisassociateFeedResponse",
-}) as any as S.Schema<DisassociateFeedResponse>;
+).annotate({ identifier: "DisassociateFeedResponse" }) as any as S.Schema<DisassociateFeedResponse>;
 export interface ExportDictionaryEntriesRequest {
   id: string;
 }
@@ -569,18 +513,9 @@ export interface GetDictionaryRequest {
 }
 export const GetDictionaryRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ id: S.String.pipe(T.HttpLabel("id")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/v1/dictionary/{id}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/v1/dictionary/{id}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetDictionaryRequest",
-}) as any as S.Schema<GetDictionaryRequest>;
+).annotate({ identifier: "GetDictionaryRequest" }) as any as S.Schema<GetDictionaryRequest>;
 export interface GetDictionaryResponse {
   name: string;
   arn: string;
@@ -600,22 +535,13 @@ export const GetDictionaryResponse = /*@__PURE__*/ S.suspend(() =>
     references: S.optional(FeedReferences),
     tags: S.optional(TagMap),
   }),
-).annotate({
-  identifier: "GetDictionaryResponse",
-}) as any as S.Schema<GetDictionaryResponse>;
+).annotate({ identifier: "GetDictionaryResponse" }) as any as S.Schema<GetDictionaryResponse>;
 export interface GetFeedRequest {
   id: string;
 }
 export const GetFeedRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ id: S.String.pipe(T.HttpLabel("id")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/v1/feed/{id}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/v1/feed/{id}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({ identifier: "GetFeedRequest" }) as any as S.Schema<GetFeedRequest>;
 export interface GetFeedResponse {
@@ -641,26 +567,30 @@ export const GetFeedResponse = /*@__PURE__*/ S.suspend(() =>
     association: S.optional(FeedAssociation),
     tags: S.optional(TagMap),
   }),
-).annotate({
-  identifier: "GetFeedResponse",
-}) as any as S.Schema<GetFeedResponse>;
+).annotate({ identifier: "GetFeedResponse" }) as any as S.Schema<GetFeedResponse>;
+export interface GetFeedPolicyRequest {
+  id: string;
+}
+export const GetFeedPolicyRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ id: S.String.pipe(T.HttpLabel("id")) }).pipe(
+    T.all(T.Http({ method: "GET", uri: "/v1/feed/{id}/policy" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({ identifier: "GetFeedPolicyRequest" }) as any as S.Schema<GetFeedPolicyRequest>;
+export type PolicyDocument = string;
+export interface GetFeedPolicyResponse {
+  policy: string;
+}
+export const GetFeedPolicyResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ policy: S.String }),
+).annotate({ identifier: "GetFeedPolicyResponse" }) as any as S.Schema<GetFeedPolicyResponse>;
 export interface GetFixtureRequest {
   fixtureId: string;
 }
 export const GetFixtureRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ fixtureId: S.String.pipe(T.HttpLabel("fixtureId")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/v1/fixtures/{fixtureId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/v1/fixtures/{fixtureId}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetFixtureRequest",
-}) as any as S.Schema<GetFixtureRequest>;
+).annotate({ identifier: "GetFixtureRequest" }) as any as S.Schema<GetFixtureRequest>;
 export interface Competitor {
   name?: string;
   isHome?: boolean;
@@ -683,15 +613,11 @@ export const GetFixtureResponse = /*@__PURE__*/ S.suspend(() =>
     fixtureId: S.String,
     name: S.String,
     fixtureGroup: S.optional(S.String),
-    scheduledStart: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    scheduledStart: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     status: S.String,
     competitors: CompetitorList,
   }),
-).annotate({
-  identifier: "GetFixtureResponse",
-}) as any as S.Schema<GetFixtureResponse>;
+).annotate({ identifier: "GetFixtureResponse" }) as any as S.Schema<GetFixtureResponse>;
 export interface ListDictionariesRequest {
   maxResults?: number;
   nextToken?: string;
@@ -700,19 +626,8 @@ export const ListDictionariesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/v1/dictionaries" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListDictionariesRequest",
-}) as any as S.Schema<ListDictionariesRequest>;
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/v1/dictionaries" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "ListDictionariesRequest" }) as any as S.Schema<ListDictionariesRequest>;
 export interface DictionarySummary {
   arn: string;
   id: string;
@@ -728,9 +643,7 @@ export const DictionarySummary = /*@__PURE__*/ S.suspend(() =>
     language: DictionaryLanguage,
     status: DictionaryStatus,
   }),
-).annotate({
-  identifier: "DictionarySummary",
-}) as any as S.Schema<DictionarySummary>;
+).annotate({ identifier: "DictionarySummary" }) as any as S.Schema<DictionarySummary>;
 export type DictionarySummaryList = DictionarySummary[];
 export const DictionarySummaryList = /*@__PURE__*/ S.Array(DictionarySummary);
 export interface ListDictionariesResponse {
@@ -738,13 +651,8 @@ export interface ListDictionariesResponse {
   nextToken?: string;
 }
 export const ListDictionariesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    dictionaries: DictionarySummaryList,
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListDictionariesResponse",
-}) as any as S.Schema<ListDictionariesResponse>;
+  S.Struct({ dictionaries: DictionarySummaryList, nextToken: S.optional(S.String) }),
+).annotate({ identifier: "ListDictionariesResponse" }) as any as S.Schema<ListDictionariesResponse>;
 export interface ListFeedsRequest {
   maxResults?: number;
   nextToken?: string;
@@ -753,19 +661,8 @@ export const ListFeedsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/v1/feeds" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListFeedsRequest",
-}) as any as S.Schema<ListFeedsRequest>;
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/v1/feeds" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "ListFeedsRequest" }) as any as S.Schema<ListFeedsRequest>;
 export interface FeedSummary {
   arn: string;
   id: string;
@@ -790,23 +687,14 @@ export interface ListFeedsResponse {
 }
 export const ListFeedsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ feeds: FeedSummaryList, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListFeedsResponse",
-}) as any as S.Schema<ListFeedsResponse>;
+).annotate({ identifier: "ListFeedsResponse" }) as any as S.Schema<ListFeedsResponse>;
 export type ResourceArn = string;
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
 export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/v1/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/v1/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListTagsForResourceRequest",
@@ -819,10 +707,20 @@ export const ListTagsForResourceResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ListTagsForResourceResponse",
 }) as any as S.Schema<ListTagsForResourceResponse>;
-export type DataSourceSport =
-  | "basketball"
-  | "american-football"
-  | (string & {});
+export interface PutFeedPolicyRequest {
+  id: string;
+  policy: string;
+}
+export const PutFeedPolicyRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ id: S.String.pipe(T.HttpLabel("id")), policy: S.String }).pipe(
+    T.all(T.Http({ method: "PUT", uri: "/v1/feed/{id}/policy" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({ identifier: "PutFeedPolicyRequest" }) as any as S.Schema<PutFeedPolicyRequest>;
+export interface PutFeedPolicyResponse {}
+export const PutFeedPolicyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  identifier: "PutFeedPolicyResponse",
+}) as any as S.Schema<PutFeedPolicyResponse>;
+export type DataSourceSport = "basketball" | "american-football" | (string & {});
 export const DataSourceSport = S.String;
 
 export type FixtureDate = string;
@@ -857,19 +755,8 @@ export const SearchFixturesRequest = /*@__PURE__*/ S.suspend(() =>
     filters: S.optional(SearchFilterList),
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/v1/fixtures" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "SearchFixturesRequest",
-}) as any as S.Schema<SearchFixturesRequest>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/v1/fixtures" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "SearchFixturesRequest" }) as any as S.Schema<SearchFixturesRequest>;
 export interface FixtureSummary {
   fixtureId: string;
   name: string;
@@ -883,9 +770,7 @@ export const FixtureSummary = /*@__PURE__*/ S.suspend(() =>
     fixtureId: S.String,
     name: S.String,
     fixtureGroup: S.optional(S.String),
-    scheduledStart: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    scheduledStart: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     status: S.String,
     competitors: CompetitorList,
   }),
@@ -898,34 +783,18 @@ export interface SearchFixturesResponse {
 }
 export const SearchFixturesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ fixtures: FixtureSummaryList, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "SearchFixturesResponse",
-}) as any as S.Schema<SearchFixturesResponse>;
+).annotate({ identifier: "SearchFixturesResponse" }) as any as S.Schema<SearchFixturesResponse>;
 export interface TagResourceRequest {
   resourceArn: string;
   tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-    tags: TagMap,
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/v1/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tags: TagMap }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/v1/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
+).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = string[];
@@ -948,13 +817,9 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
+).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateDictionaryRequest {
@@ -970,18 +835,9 @@ export const UpdateDictionaryRequest = /*@__PURE__*/ S.suspend(() =>
     language: S.optional(DictionaryLanguage),
     entries: S.optional(S.String),
   }).pipe(
-    T.all(
-      T.Http({ method: "PATCH", uri: "/v1/dictionary/{id}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "PATCH", uri: "/v1/dictionary/{id}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UpdateDictionaryRequest",
-}) as any as S.Schema<UpdateDictionaryRequest>;
+).annotate({ identifier: "UpdateDictionaryRequest" }) as any as S.Schema<UpdateDictionaryRequest>;
 export interface UpdateDictionaryResponse {
   name: string;
   arn: string;
@@ -1001,9 +857,7 @@ export const UpdateDictionaryResponse = /*@__PURE__*/ S.suspend(() =>
     references: S.optional(FeedReferences),
     tags: S.optional(TagMap),
   }),
-).annotate({
-  identifier: "UpdateDictionaryResponse",
-}) as any as S.Schema<UpdateDictionaryResponse>;
+).annotate({ identifier: "UpdateDictionaryResponse" }) as any as S.Schema<UpdateDictionaryResponse>;
 export interface UpdateOutput {
   name: string;
   outputConfig: OutputConfig;
@@ -1034,19 +888,8 @@ export const UpdateFeedRequest = /*@__PURE__*/ S.suspend(() =>
     accessRoleArn: S.optional(S.String),
     id: S.String.pipe(T.HttpLabel("id")),
     outputs: UpdateOutputList,
-  }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/v1/feed/{id}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateFeedRequest",
-}) as any as S.Schema<UpdateFeedRequest>;
+  }).pipe(T.all(T.Http({ method: "PUT", uri: "/v1/feed/{id}" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "UpdateFeedRequest" }) as any as S.Schema<UpdateFeedRequest>;
 export interface UpdateFeedResponse {
   arn: string;
   name: string;
@@ -1070,9 +913,7 @@ export const UpdateFeedResponse = /*@__PURE__*/ S.suspend(() =>
     association: S.optional(FeedAssociation),
     tags: S.optional(TagMap),
   }),
-).annotate({
-  identifier: "UpdateFeedResponse",
-}) as any as S.Schema<UpdateFeedResponse>;
+).annotate({ identifier: "UpdateFeedResponse" }) as any as S.Schema<UpdateFeedResponse>;
 export type AssociateFeedError =
   | AccessDeniedException
   | ConflictException
@@ -1249,6 +1090,36 @@ export const deleteFeed: API.OperationMethod<
   operationName: "DeleteFeed",
 }));
 
+export type DeleteFeedPolicyError =
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | TooManyRequestException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Deletes the resource-based policy attached to the specified feed. After you delete the policy, the operation revokes the cross-account access that the policy granted.
+ */
+export const deleteFeedPolicy: API.OperationMethod<
+  DeleteFeedPolicyRequest,
+  DeleteFeedPolicyResponse,
+  DeleteFeedPolicyError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteFeedPolicyRequest,
+  output: DeleteFeedPolicyResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerErrorException,
+    ResourceNotFoundException,
+    TooManyRequestException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "DeleteFeedPolicy",
+}));
+
 export type DisassociateFeedError =
   | AccessDeniedException
   | ConflictException
@@ -1367,6 +1238,36 @@ export const getFeed: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFeed",
+}));
+
+export type GetFeedPolicyError =
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | TooManyRequestException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Retrieves the resource-based policy attached to the specified feed.
+ */
+export const getFeedPolicy: API.OperationMethod<
+  GetFeedPolicyRequest,
+  GetFeedPolicyResponse,
+  GetFeedPolicyError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetFeedPolicyRequest,
+  output: GetFeedPolicyResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerErrorException,
+    ResourceNotFoundException,
+    TooManyRequestException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "GetFeedPolicy",
 }));
 
 export type GetFixtureError =
@@ -1503,6 +1404,38 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+}));
+
+export type PutFeedPolicyError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | TooManyRequestException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Attaches or replaces a resource-based policy on the specified feed. A resource-based policy grants cross-account access to the feed.
+ */
+export const putFeedPolicy: API.OperationMethod<
+  PutFeedPolicyRequest,
+  PutFeedPolicyResponse,
+  PutFeedPolicyError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: PutFeedPolicyRequest,
+  output: PutFeedPolicyResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerErrorException,
+    ResourceNotFoundException,
+    TooManyRequestException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "PutFeedPolicy",
 }));
 
 export type SearchFixturesError =

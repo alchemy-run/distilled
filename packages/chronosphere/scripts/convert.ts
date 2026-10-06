@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
 /**
  * convert — turn the Chronosphere Config V1 OpenAPI spec into a Smithy 2.0
  * JSON model.
@@ -15,7 +15,7 @@ import * as fs from "node:fs";
 import * as path from "node:path";
 import { runOpenApiConvert } from "@distilled.cloud/core/codegen/openapi-cli";
 
-const root = path.resolve(import.meta.dir, "..");
+const root = path.resolve(import.meta.dirname, "..");
 const modelPath = path.join(root, ".generated-specs", "chronosphere.json");
 
 await runOpenApiConvert({

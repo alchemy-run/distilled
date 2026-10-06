@@ -1,0 +1,3950 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "service": "auditmanager",
+    "version": "v1",
+    "title": "Audit Manager API",
+    "baseUrl": "https://auditmanager.googleapis.com/",
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.gcp.auditmanager_v1#EligibleDestination": {
+      "type": "structure",
+      "members": {
+        "eligibleGcsBucket": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The location of the Cloud Storage bucket where you want to upload the audit report and evidence during the GenerateAuditReport API call."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Details about the bucket where you want to upload the audit report."
+      }
+    },
+    "com.gcp.auditmanager_v1#ListAuditSchedulesResponse": {
+      "type": "structure",
+      "members": {
+        "auditSchedules": {
+          "target": "com.gcp.auditmanager_v1#AuditScheduleList",
+          "traits": {
+            "smithy.api#documentation": "List of audit schedules."
+          }
+        },
+        "unreachable": {
+          "target": "com.gcp.auditmanager_v1#StringList",
+          "traits": {
+            "smithy.api#documentation": "Locations that can't be reached."
+          }
+        },
+        "nextPageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A token that you can send as the `page_token` in a subsequent request to retrieve the next page of results. If this field is empty, there are no subsequent pages."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Response message for ListAuditSchedules."
+      }
+    },
+    "com.gcp.auditmanager_v1#AuditScheduleList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.auditmanager_v1#AuditSchedule"
+      }
+    },
+    "com.gcp.auditmanager_v1#StringList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.gcp.auditmanager_v1#Empty": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#documentation": "A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); }"
+      }
+    },
+    "com.gcp.auditmanager_v1#GenerateAuditReportRequest": {
+      "type": "structure",
+      "members": {
+        "reportFormat": {
+          "target": "com.gcp.auditmanager_v1#GenerateAuditReportRequestReportFormatEnum",
+          "traits": {
+            "smithy.api#documentation": "Required. Format for the audit report."
+          }
+        },
+        "complianceStandard": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. Deprecated. Compliance standard for the audit report. Use the `compliance_framework` field instead."
+          }
+        },
+        "validateOnly": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Optional. If `true`, only validates the request and does not generate the audit report. This executes standard request validation (such as schema, framework existence, scope, and IAM checks) and skips the apply phase. Use this field for the following purposes: * **Infrastructure as Code (IaC)**: Allow tools like Terraform to run dry-run mutations (e.g., `terraform plan`) without creating real resources or incurring costs. * **User Interface Validation**: Enable real-time form and permission validation in custom UIs before submitting requests. * **CI/CD & Automation**: Test your scripts, permissions, and parameters safely without triggering expensive Long-Running Operations (LROs) or consuming resource quotas."
+          }
+        },
+        "complianceFramework": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. The framework that's used for the audit report. For example, `NIST_800_53`."
+          }
+        },
+        "gcsUri": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL for the Cloud Storage bucket where the report and evidence is uploaded. You must select a bucket that was provided during the enrollment process."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Request message for GenerateAuditReport."
+      }
+    },
+    "com.gcp.auditmanager_v1#GenerateAuditReportRequestReportFormatEnum": {
+      "type": "enum",
+      "members": {
+        "AUDIT_REPORT_FORMAT_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "AUDIT_REPORT_FORMAT_UNSPECIFIED"
+          }
+        },
+        "AUDIT_REPORT_FORMAT_ODF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "AUDIT_REPORT_FORMAT_ODF"
+          }
+        }
+      }
+    },
+    "com.gcp.auditmanager_v1#OperationMetadata": {
+      "type": "structure",
+      "members": {
+        "createTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Output only. Time that the operation was created."
+          }
+        },
+        "apiVersion": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Output only. The API version used to start the operation. For example, `v1`."
+          }
+        },
+        "target": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Output only. A server-defined resource path for the target of the operation."
+          }
+        },
+        "statusMessage": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Output only. A human-readable status of the operation, if any."
+          }
+        },
+        "requestedCancellation": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Output only. Whether you requested that the operation be cancelled. Operations that were cancelled successfully have an Operation.error value with a status code Code.CANCELLED."
+          }
+        },
+        "verb": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Output only. The name of the verb that was executed by the operation."
+          }
+        },
+        "endTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Output only. Time that the operation finished running."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Metadata for the long-running operation."
+      }
+    },
+    "com.gcp.auditmanager_v1#ListResourceEnrollmentStatusesResponse": {
+      "type": "structure",
+      "members": {
+        "nextPageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Output only. A token that you can send as the `page_token` in a subsequent request to retrieve the next page of results. If this field is empty, there are no subsequent pages."
+          }
+        },
+        "resourceEnrollmentStatuses": {
+          "target": "com.gcp.auditmanager_v1#ResourceEnrollmentStatusList",
+          "traits": {
+            "smithy.api#documentation": "Resources with their enrollment status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Response message for ListResourceEnrollmentStatuses."
+      }
+    },
+    "com.gcp.auditmanager_v1#ResourceEnrollmentStatusList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.auditmanager_v1#ResourceEnrollmentStatus"
+      }
+    },
+    "com.gcp.auditmanager_v1#ListControlsResponse": {
+      "type": "structure",
+      "members": {
+        "controls": {
+          "target": "com.gcp.auditmanager_v1#ControlList",
+          "traits": {
+            "smithy.api#documentation": "Output only. Controls for a given regulatory standard."
+          }
+        },
+        "nextPageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Output only. A token that you can send as the `page_token` in a subsequent request to retrieve the next page of results. If this field is empty, there are no subsequent pages."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Response message for ListControls."
+      }
+    },
+    "com.gcp.auditmanager_v1#ControlList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.auditmanager_v1#Control"
+      }
+    },
+    "com.gcp.auditmanager_v1#ControlDetails": {
+      "type": "structure",
+      "members": {
+        "control": {
+          "target": "com.gcp.auditmanager_v1#Control",
+          "traits": {
+            "smithy.api#documentation": "Control that the findings are being reported for."
+          }
+        },
+        "complianceState": {
+          "target": "com.gcp.auditmanager_v1#ControlDetailsComplianceStateEnum",
+          "traits": {
+            "smithy.api#documentation": "Output only. Overall status of the findings for the control."
+          }
+        },
+        "controlReportSummary": {
+          "target": "com.gcp.auditmanager_v1#ReportSummary",
+          "traits": {
+            "smithy.api#documentation": "A control report summary that provides a high-level overview of the compliance controls and the assessment status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Evaluation details for a control."
+      }
+    },
+    "com.gcp.auditmanager_v1#ControlDetailsComplianceStateEnum": {
+      "type": "enum",
+      "members": {
+        "COMPLIANCE_STATE_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "COMPLIANCE_STATE_UNSPECIFIED"
+          }
+        },
+        "COMPLIANT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "COMPLIANT"
+          }
+        },
+        "VIOLATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "VIOLATION"
+          }
+        },
+        "MANUAL_REVIEW_NEEDED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "MANUAL_REVIEW_NEEDED"
+          }
+        },
+        "ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ERROR"
+          }
+        },
+        "AUDIT_NOT_SUPPORTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "AUDIT_NOT_SUPPORTED"
+          }
+        }
+      }
+    },
+    "com.gcp.auditmanager_v1#AuditSchedule": {
+      "type": "structure",
+      "members": {
+        "state": {
+          "target": "com.gcp.auditmanager_v1#AuditScheduleStateEnum",
+          "traits": {
+            "smithy.api#documentation": "Optional. State of the audit schedule. While most states are managed by the system, you can use UpdateAuditSchedule to start, pause, or delete the schedule."
+          }
+        },
+        "errorMessage": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Output only. Describes the error if the schedule is in an error state."
+          }
+        },
+        "createTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Output only. Timestamp when the schedule was created."
+          }
+        },
+        "complianceFramework": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. Framework (set of controls) that the audit scope report is generated against. For example, `NIST_800_53`."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier. Unique identifier for the audit schedule. Format: projects/{project}/locations/{location}/auditSchedules/{audit_schedule} folders/{folder}/locations/{location}/auditSchedules/{audit_schedule} organizations/{organization}/locations/{location}/auditSchedules/{audit_schedule}"
+          }
+        },
+        "lastTriggerTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Output only. Timestamp when the audit run was last triggered."
+          }
+        },
+        "updateTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Output only. Timestamp when the schedule was last updated."
+          }
+        },
+        "nextRunTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Output only. Calculated timestamp for the next scheduled run."
+          }
+        },
+        "reportFormat": {
+          "target": "com.gcp.auditmanager_v1#AuditScheduleReportFormatEnum",
+          "traits": {
+            "smithy.api#documentation": "Required. Format for the audit report."
+          }
+        },
+        "gcsUri": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. Cloud Storage bucket where Audit Manager can upload the audit report and evidence. The format is `gs://{bucket_name}`."
+          }
+        },
+        "scheduleConfig": {
+          "target": "com.gcp.auditmanager_v1#ScheduleConfig",
+          "traits": {
+            "smithy.api#documentation": "Required. Configuration that defines when and how often audit runs are automatically triggered for this schedule."
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. Display name for the audit schedule."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "An audit schedule, in one of the following formats: * `projects/{project}/locations/{location}/auditSchedules/{audit_schedule}` * `folders/{folder}/locations/{location}/auditSchedules/{audit_schedule}`"
+      }
+    },
+    "com.gcp.auditmanager_v1#AuditScheduleStateEnum": {
+      "type": "enum",
+      "members": {
+        "SCHEDULE_STATE_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SCHEDULE_STATE_UNSPECIFIED"
+          }
+        },
+        "SCHEDULE_STATE_ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SCHEDULE_STATE_ACTIVE"
+          }
+        },
+        "SCHEDULE_STATE_PAUSED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SCHEDULE_STATE_PAUSED"
+          }
+        },
+        "SCHEDULE_STATE_COMPLETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SCHEDULE_STATE_COMPLETED"
+          }
+        },
+        "SCHEDULE_STATE_FAILED_SETUP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SCHEDULE_STATE_FAILED_SETUP"
+          }
+        },
+        "SCHEDULE_STATE_ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SCHEDULE_STATE_ERROR"
+          }
+        },
+        "SCHEDULE_STATE_DELETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SCHEDULE_STATE_DELETED"
+          }
+        }
+      }
+    },
+    "com.gcp.auditmanager_v1#AuditScheduleReportFormatEnum": {
+      "type": "enum",
+      "members": {
+        "AUDIT_REPORT_FORMAT_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "AUDIT_REPORT_FORMAT_UNSPECIFIED"
+          }
+        },
+        "AUDIT_REPORT_FORMAT_ODF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "AUDIT_REPORT_FORMAT_ODF"
+          }
+        }
+      }
+    },
+    "com.gcp.auditmanager_v1#Enrollment": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier. Name of the enrollment, in one of the following formats: * `projects/{project}/locations/{location}/enrollments/{enrollment}` * `folders/{folder}/locations/{location}/enrollments/{enrollment}` * `organizations/{organization}/locations/{location}/enrollments/{enrollment}`"
+          }
+        },
+        "destinationDetails": {
+          "target": "com.gcp.auditmanager_v1#DestinationDetailsList",
+          "traits": {
+            "smithy.api#documentation": "Output only. Cloud Storage buckets where you want to upload the audit reports."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Organization, folder, or project to enroll for audit reports."
+      }
+    },
+    "com.gcp.auditmanager_v1#DestinationDetailsList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.auditmanager_v1#DestinationDetails"
+      }
+    },
+    "com.gcp.auditmanager_v1#ReportSummary": {
+      "type": "structure",
+      "members": {
+        "compliantCount": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of compliant checks."
+          }
+        },
+        "manualReviewNeededCount": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of checks that require a manual review."
+          }
+        },
+        "violationCount": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of checks with violations."
+          }
+        },
+        "errorCount": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of checks that can't be performed due to errors."
+          }
+        },
+        "totalCount": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total number of evaluated checks."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Additional information about the number of checks that were made during an audit operation."
+      }
+    },
+    "com.gcp.auditmanager_v1#CancelOperationRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#documentation": "The request message for Operations.CancelOperation."
+      }
+    },
+    "com.gcp.auditmanager_v1#AuditScopeReport": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier. Name for the audit scope report, in one of the following formats: * `projects/{project}/locations/{location}/auditScopeReports/{audit_scope_report}` * `folders/{folder}/locations/{location}/auditScopeReports/{audit_scope_report}` * `organizations/{organization}/locations/{location}/auditScopeReports/{audit_scope_report}`"
+          }
+        },
+        "scopeReportContents": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Audit scope report content in byte format."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Audit scope report."
+      }
+    },
+    "com.gcp.auditmanager_v1#ListLocationsResponse": {
+      "type": "structure",
+      "members": {
+        "nextPageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The standard List next-page token."
+          }
+        },
+        "locations": {
+          "target": "com.gcp.auditmanager_v1#LocationList",
+          "traits": {
+            "smithy.api#documentation": "A list of locations that matches the specified filter in the request."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The response message for Locations.ListLocations."
+      }
+    },
+    "com.gcp.auditmanager_v1#LocationList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.auditmanager_v1#Location"
+      }
+    },
+    "com.gcp.auditmanager_v1#ListOperationsResponse": {
+      "type": "structure",
+      "members": {
+        "nextPageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The standard List next-page token."
+          }
+        },
+        "operations": {
+          "target": "com.gcp.auditmanager_v1#OperationList",
+          "traits": {
+            "smithy.api#documentation": "A list of operations that matches the specified filter in the request."
+          }
+        },
+        "unreachable": {
+          "target": "com.gcp.auditmanager_v1#StringList",
+          "traits": {
+            "smithy.api#documentation": "Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The response message for Operations.ListOperations."
+      }
+    },
+    "com.gcp.auditmanager_v1#OperationList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.auditmanager_v1#Operation"
+      }
+    },
+    "com.gcp.auditmanager_v1#AuditReport": {
+      "type": "structure",
+      "members": {
+        "scope": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Output only. Organization, folder, or project that the report is generated for, in one of the following formats: * `projects/{project}/locations/{location}` * `folders/{folder}/locations/{location}` * `organizations/{organization}/locations/{location}`"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier. Name of the audit report, in one of the following formats: * `projects/{project}/locations/{location}/auditReports/{audit_report}` * `folders/{folder}/locations/{location}/auditReports/{audit_report}` * `organizations/{organization}/locations/{location}/auditReports/{audit_report}`"
+          }
+        },
+        "complianceStandard": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Output only. Deprecated. Compliance standard to be audited against. Use the `compliance_framework` field instead."
+          }
+        },
+        "scopeId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Output only. Project number, folder ID, or organization ID that the audit report was generated for."
+          }
+        },
+        "reportGenerationState": {
+          "target": "com.gcp.auditmanager_v1#AuditReportReportGenerationStateEnum",
+          "traits": {
+            "smithy.api#documentation": "Output only. State of audit report generation."
+          }
+        },
+        "reportSummary": {
+          "target": "com.gcp.auditmanager_v1#ReportSummary",
+          "traits": {
+            "smithy.api#documentation": "Output only. Report summary that includes information about compliance and violation counts."
+          }
+        },
+        "operationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Output only. Client operation ID for the audit report."
+          }
+        },
+        "createTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Output only. Creation time of the audit report."
+          }
+        },
+        "controlDetails": {
+          "target": "com.gcp.auditmanager_v1#ControlDetailsList",
+          "traits": {
+            "smithy.api#documentation": "Output only. Overall status of the controls."
+          }
+        },
+        "destinationDetails": {
+          "target": "com.gcp.auditmanager_v1#DestinationDetails",
+          "traits": {
+            "smithy.api#documentation": "Output only. Cloud Storage bucket where the audit report is uploaded to."
+          }
+        },
+        "complianceFramework": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Output only. Compliance framework to use for the audit report. For example, `CIS_GCP_FOUNDATIONS_V1_2_0`."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "An audit report."
+      }
+    },
+    "com.gcp.auditmanager_v1#AuditReportReportGenerationStateEnum": {
+      "type": "enum",
+      "members": {
+        "REPORT_GENERATION_STATE_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "REPORT_GENERATION_STATE_UNSPECIFIED"
+          }
+        },
+        "IN_PROGRESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "IN_PROGRESS"
+          }
+        },
+        "COMPLETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "COMPLETED"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FAILED"
+          }
+        },
+        "SUMMARY_UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SUMMARY_UNKNOWN"
+          }
+        }
+      }
+    },
+    "com.gcp.auditmanager_v1#ControlDetailsList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.auditmanager_v1#ControlDetails"
+      }
+    },
+    "com.gcp.auditmanager_v1#ResourceEnrollmentStatus": {
+      "type": "structure",
+      "members": {
+        "enrollmentState": {
+          "target": "com.gcp.auditmanager_v1#ResourceEnrollmentStatusEnrollmentStateEnum",
+          "traits": {
+            "smithy.api#documentation": "Output only. Enrollment state of the organization, folder, or project."
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Output only. Display name for the organization, folder, or project."
+          }
+        },
+        "enrolled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Output only. Deprecated. Whether the organization, folder, or project is enrolled. Use `enrollment_state` instead."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier. Name of the resource enrollment status, in one of the following formats: * `folders/{folder}/locations/{location}/resourceEnrollmentStatuses/{resource_enrollment_status}` * `projects/{project}/locations/{location}/resourceEnrollmentStatuses/{resource_enrollment_status}` * `organizations/{organization}/locations/{location}/resourceEnrollmentStatuses/{resource_enrollment_status}`"
+          }
+        },
+        "enrollment": {
+          "target": "com.gcp.auditmanager_v1#Enrollment",
+          "traits": {
+            "smithy.api#documentation": "Output only. Enrolled destination details for the organization, folder, or project."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "An organization, folder, or project with its enrollment status."
+      }
+    },
+    "com.gcp.auditmanager_v1#ResourceEnrollmentStatusEnrollmentStateEnum": {
+      "type": "enum",
+      "members": {
+        "RESOURCE_ENROLLMENT_STATE_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "RESOURCE_ENROLLMENT_STATE_UNSPECIFIED"
+          }
+        },
+        "NOT_ENROLLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "NOT_ENROLLED"
+          }
+        },
+        "INHERITED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "INHERITED"
+          }
+        },
+        "ENROLLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ENROLLED"
+          }
+        }
+      }
+    },
+    "com.gcp.auditmanager_v1#ControlFamily": {
+      "type": "structure",
+      "members": {
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Display name of the regulatory control family."
+          }
+        },
+        "familyId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the regulatory control family. To find the list of supported control families, use the ListControls method and review the `control_family` field in the response."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Regulatory family of the control."
+      }
+    },
+    "com.gcp.auditmanager_v1#EnrollResourceRequest": {
+      "type": "structure",
+      "members": {
+        "destinations": {
+          "target": "com.gcp.auditmanager_v1#EligibleDestinationList",
+          "traits": {
+            "smithy.api#documentation": "Required. Cloud Storage buckets that you can upload your audit reports to during the audit process. When you enroll an organization or folder, you can choose a Cloud Storage bucket from any project in the organization or folder. If you run an audit at the project level using the service agent at the organization or folder level, all the buckets that are associated with the service agent are available."
+          }
+        },
+        "validateOnly": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Optional. If `true`, only validates the request and does not enroll the resource. This executes standard request validation (such as schema, IAM, and destination checks) and skips the apply phase. Use this field for the following purposes: * **Infrastructure as Code (IaC)**: Allow tools like Terraform to run dry-run mutations (e.g., `terraform plan`) without creating real resources or incurring costs. * **User Interface Validation**: Enable real-time form and permission validation in custom UIs before submitting requests. * **CI/CD & Automation**: Test your scripts, permissions, and parameters safely without consuming resource quotas."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Request message for EnrollResource."
+      }
+    },
+    "com.gcp.auditmanager_v1#EligibleDestinationList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.auditmanager_v1#EligibleDestination"
+      }
+    },
+    "com.gcp.auditmanager_v1#Control": {
+      "type": "structure",
+      "members": {
+        "controlFamily": {
+          "target": "com.gcp.auditmanager_v1#ControlFamily",
+          "traits": {
+            "smithy.api#documentation": "Output only. Regulatory family of the control."
+          }
+        },
+        "customerResponsibilityDescription": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Output only. A description of your responsibility for this control."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Output only. Control identifier that's used to fetch the findings. The identifier is the same as the control report name."
+          }
+        },
+        "customerResponsibilityImplementation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Output only. A description of how you can implement your responsibility for this control."
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Output only. Display name of the control."
+          }
+        },
+        "googleResponsibilityDescription": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Output only. A description of Google's responsibility for this control."
+          }
+        },
+        "responsibilityType": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Output only. Who is responsible for implementing this control. Set to one of the following values: `GOOGLE`, `CUSTOMER`, or `SHARED`."
+          }
+        },
+        "family": {
+          "target": "com.gcp.auditmanager_v1#ControlFamilyEnum",
+          "traits": {
+            "smithy.api#documentation": "Output only. Category that the control belongs to."
+          }
+        },
+        "googleResponsibilityImplementation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Output only. A description of how Google implements its responsibility for this control."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Output only. Description of the control."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A control."
+      }
+    },
+    "com.gcp.auditmanager_v1#ControlFamilyEnum": {
+      "type": "enum",
+      "members": {
+        "FAMILY_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FAMILY_UNSPECIFIED"
+          }
+        },
+        "AC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "AC"
+          }
+        },
+        "AT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "AT"
+          }
+        },
+        "AU": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "AU"
+          }
+        },
+        "CA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CA"
+          }
+        },
+        "CM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CM"
+          }
+        },
+        "CP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CP"
+          }
+        },
+        "IA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "IA"
+          }
+        },
+        "IR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "IR"
+          }
+        },
+        "MA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "MA"
+          }
+        },
+        "MP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "MP"
+          }
+        },
+        "PE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PE"
+          }
+        },
+        "PL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PL"
+          }
+        },
+        "PS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PS"
+          }
+        },
+        "RA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "RA"
+          }
+        },
+        "SA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SA"
+          }
+        },
+        "SC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SC"
+          }
+        },
+        "SI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SI"
+          }
+        },
+        "SR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SR"
+          }
+        }
+      }
+    },
+    "com.gcp.auditmanager_v1#DestinationDetails": {
+      "type": "structure",
+      "members": {
+        "gcsBucketUri": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URI for the Cloud Storage bucket, in the format `gs://{bucket_name}`."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Cloud Storage bucket where the audit report is uploaded to."
+      }
+    },
+    "com.gcp.auditmanager_v1#Operation": {
+      "type": "structure",
+      "members": {
+        "error": {
+          "target": "com.gcp.auditmanager_v1#Status",
+          "traits": {
+            "smithy.api#documentation": "The error result of the operation in case of failure or cancellation."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`."
+          }
+        },
+        "response": {
+          "target": "com.gcp.auditmanager_v1#DocumentMap",
+          "traits": {
+            "smithy.api#documentation": "The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`."
+          }
+        },
+        "done": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available."
+          }
+        },
+        "metadata": {
+          "target": "com.gcp.auditmanager_v1#DocumentMap",
+          "traits": {
+            "smithy.api#documentation": "Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "This resource represents a long-running operation that is the result of a network API call."
+      }
+    },
+    "com.gcp.auditmanager_v1#DocumentMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.gcp.auditmanager_v1#Location": {
+      "type": "structure",
+      "members": {
+        "locationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The canonical id for this location. For example: `\"us-east1\"`."
+          }
+        },
+        "metadata": {
+          "target": "com.gcp.auditmanager_v1#DocumentMap",
+          "traits": {
+            "smithy.api#documentation": "Service-specific metadata. For example the available capacity at the given location."
+          }
+        },
+        "labels": {
+          "target": "com.gcp.auditmanager_v1#StringMap",
+          "traits": {
+            "smithy.api#documentation": "Cross-service attributes for the location. For example {\"cloud.googleapis.com/region\": \"us-east1\"}"
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The friendly name for this location, typically a nearby city name. For example, \"Tokyo\"."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Resource name for the location, which may vary between implementations. For example: `\"projects/example-project/locations/us-east1\"`"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A resource that represents a Google Cloud location."
+      }
+    },
+    "com.gcp.auditmanager_v1#StringMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.gcp.auditmanager_v1#ScheduleConfig": {
+      "type": "structure",
+      "members": {
+        "endTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. Date that the schedule stops. If not specified, the schedule runs indefinitely."
+          }
+        },
+        "frequency": {
+          "target": "com.gcp.auditmanager_v1#ScheduleConfigFrequencyEnum",
+          "traits": {
+            "smithy.api#documentation": "Required. Frequency of audit runs."
+          }
+        },
+        "timeZone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. Time zone for the audit schedule in IANA format (for example, `America/New_York`). The time zone is used to interpret the `start_time` and the `end_time`, and to calculate subsequent run dates. If not specified, the time zone default is UTC."
+          }
+        },
+        "startTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. Date and time when the first audit run is triggered. Subsequent runs are based on this time and the chosen frequency."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Timing and frequency parameters for recurring audit runs."
+      }
+    },
+    "com.gcp.auditmanager_v1#ScheduleConfigFrequencyEnum": {
+      "type": "enum",
+      "members": {
+        "FREQUENCY_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FREQUENCY_UNSPECIFIED"
+          }
+        },
+        "DAILY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DAILY"
+          }
+        },
+        "WEEKLY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "WEEKLY"
+          }
+        },
+        "MONTHLY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "MONTHLY"
+          }
+        },
+        "QUARTERLY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "QUARTERLY"
+          }
+        },
+        "ANNUALLY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ANNUALLY"
+          }
+        }
+      }
+    },
+    "com.gcp.auditmanager_v1#Status": {
+      "type": "structure",
+      "members": {
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client."
+          }
+        },
+        "details": {
+          "target": "com.gcp.auditmanager_v1#DocumentMapList",
+          "traits": {
+            "smithy.api#documentation": "A list of messages that carry the error details. There is a common set of message types for APIs to use."
+          }
+        },
+        "code": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The status code, which should be an enum value of google.rpc.Code."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors)."
+      }
+    },
+    "com.gcp.auditmanager_v1#DocumentMapList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.auditmanager_v1#DocumentMap"
+      }
+    },
+    "com.gcp.auditmanager_v1#ReportGenerationProgress": {
+      "type": "structure",
+      "members": {
+        "state": {
+          "target": "com.gcp.auditmanager_v1#ReportGenerationProgressStateEnum",
+          "traits": {
+            "smithy.api#documentation": "Output only. Current state of execution for report generation."
+          }
+        },
+        "reportGenerationPercentComplete": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Report generation progress, defined in terms of percentage complete. Until evaluation is complete, this value is always `0`."
+          }
+        },
+        "auditReport": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Output only. Name of the audit report."
+          }
+        },
+        "reportUploadingPercentComplete": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Report uploading progress, defined in terms of percentage complete. Until evaluation and report generation are complete, this value is always `0`."
+          }
+        },
+        "evaluationPercentComplete": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Progress of the evaluation process. The progress is defined in terms of percentage complete."
+          }
+        },
+        "destinationGcsBucket": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Output only. Cloud Storage bucket where the audit report is uploaded to after the evaluation process is completed."
+          }
+        },
+        "failureReason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Output only. Reason for failure during the audit report generation process. This field is set only if the `OperationState` attribute is `OPERATION_STATE_FAILED`."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Details about the current status of the report-generation process."
+      }
+    },
+    "com.gcp.auditmanager_v1#ReportGenerationProgressStateEnum": {
+      "type": "enum",
+      "members": {
+        "OPERATION_STATE_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OPERATION_STATE_UNSPECIFIED"
+          }
+        },
+        "OPERATION_STATE_NOT_STARTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OPERATION_STATE_NOT_STARTED"
+          }
+        },
+        "OPERATION_STATE_EVALUATION_IN_PROGRESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OPERATION_STATE_EVALUATION_IN_PROGRESS"
+          }
+        },
+        "OPERATION_STATE_EVALUATION_DONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OPERATION_STATE_EVALUATION_DONE"
+          }
+        },
+        "OPERATION_STATE_EVIDENCE_REPORT_GENERATION_IN_PROGRESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OPERATION_STATE_EVIDENCE_REPORT_GENERATION_IN_PROGRESS"
+          }
+        },
+        "OPERATION_STATE_EVIDENCE_REPORT_GENERATION_DONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OPERATION_STATE_EVIDENCE_REPORT_GENERATION_DONE"
+          }
+        },
+        "OPERATION_STATE_EVIDENCE_UPLOAD_IN_PROGRESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OPERATION_STATE_EVIDENCE_UPLOAD_IN_PROGRESS"
+          }
+        },
+        "OPERATION_STATE_DONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OPERATION_STATE_DONE"
+          }
+        },
+        "OPERATION_STATE_FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OPERATION_STATE_FAILED"
+          }
+        }
+      }
+    },
+    "com.gcp.auditmanager_v1#GenerateAuditScopeReportRequest": {
+      "type": "structure",
+      "members": {
+        "complianceStandard": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. Deprecated. The standard (industry or regulatory requirements) that the audit scope report is run against. Use the `compliance_framework` field instead."
+          }
+        },
+        "reportFormat": {
+          "target": "com.gcp.auditmanager_v1#GenerateAuditScopeReportRequestReportFormatEnum",
+          "traits": {
+            "smithy.api#documentation": "Required. Format for the audit scope report."
+          }
+        },
+        "validateOnly": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Optional. If `true`, only validates the request and does not generate the audit scope report. This executes standard request validation (such as schema, framework existence, scope, and IAM checks) and skips the apply phase. Use this field for the following purposes: * **Infrastructure as Code (IaC)**: Allow tools like Terraform to run dry-run mutations (e.g., `terraform plan`) without creating real resources or incurring costs. * **User Interface Validation**: Enable real-time form and permission validation in custom UIs before submitting requests. * **CI/CD & Automation**: Test your scripts, permissions, and parameters safely without consuming resource quotas."
+          }
+        },
+        "complianceFramework": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. Framework (set of controls) that the audit scope report is generated against. For example, `NIST_800_53`."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Request message for GenerateAuditScopeReport."
+      }
+    },
+    "com.gcp.auditmanager_v1#GenerateAuditScopeReportRequestReportFormatEnum": {
+      "type": "enum",
+      "members": {
+        "AUDIT_SCOPE_REPORT_FORMAT_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "AUDIT_SCOPE_REPORT_FORMAT_UNSPECIFIED"
+          }
+        },
+        "AUDIT_SCOPE_REPORT_FORMAT_ODF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "AUDIT_SCOPE_REPORT_FORMAT_ODF"
+          }
+        }
+      }
+    },
+    "com.gcp.auditmanager_v1#ListAuditReportsResponse": {
+      "type": "structure",
+      "members": {
+        "auditReports": {
+          "target": "com.gcp.auditmanager_v1#AuditReportList",
+          "traits": {
+            "smithy.api#documentation": "Output only. Audit reports."
+          }
+        },
+        "nextPageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Output only. A token that you can send as the `page_token` in a subsequent request to retrieve the next page of results. If this field is empty, there are no subsequent pages."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Response message for ListAuditReports."
+      }
+    },
+    "com.gcp.auditmanager_v1#AuditReportList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.auditmanager_v1#AuditReport"
+      }
+    },
+    "com.gcp.auditmanager_v1#EnrollResourceFoldersLocationsRequest": {
+      "type": "structure",
+      "members": {
+        "scope": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. Organization, folder, or project to enroll in Audit Manager, in one of the following formats: * `projects/{project}/locations/{location}` * `folders/{folder}/locations/{location}` * `organizations/{organization}/locations/{location}`",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "body": {
+          "target": "com.gcp.auditmanager_v1#EnrollResourceRequest",
+          "traits": {
+            "smithy.api#httpPayload": {},
+            "smithy.api#documentation": "Request body"
+          }
+        }
+      }
+    },
+    "com.gcp.auditmanager_v1#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.gcp.auditmanager_v1#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.gcp.auditmanager_v1#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.gcp.auditmanager_v1#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.gcp.auditmanager_v1#EnrollResourceFoldersLocations": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.auditmanager_v1#EnrollResourceFoldersLocationsRequest"
+      },
+      "output": {
+        "target": "com.gcp.auditmanager_v1#Enrollment"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.auditmanager_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.auditmanager_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.auditmanager_v1#BadRequest"
+        },
+        {
+          "target": "com.gcp.auditmanager_v1#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "v1/{+scope}:enrollResource"
+        },
+        "smithy.api#documentation": "Adds your project, folder, or organization to Audit Manager. This method creates the Audit Manager service agent in your workload and grants required permissions to the service agent. If you make this request on a workload that's already enrolled, then this method overrides the existing set of destinations."
+      }
+    },
+    "com.gcp.auditmanager_v1#GenerateFoldersLocationsAuditScopeReportsRequest": {
+      "type": "structure",
+      "members": {
+        "scope": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. Project or folder that the audit scope report is generated for, in one of the following formats: * `projects/{project}/locations/{location}` * `folders/{folder}/locations/{location}` * `organizations/{organization}/locations/{location}`",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "body": {
+          "target": "com.gcp.auditmanager_v1#GenerateAuditScopeReportRequest",
+          "traits": {
+            "smithy.api#httpPayload": {},
+            "smithy.api#documentation": "Request body"
+          }
+        }
+      }
+    },
+    "com.gcp.auditmanager_v1#GenerateFoldersLocationsAuditScopeReports": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.auditmanager_v1#GenerateFoldersLocationsAuditScopeReportsRequest"
+      },
+      "output": {
+        "target": "com.gcp.auditmanager_v1#AuditScopeReport"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.auditmanager_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.auditmanager_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.auditmanager_v1#BadRequest"
+        },
+        {
+          "target": "com.gcp.auditmanager_v1#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "v1/{+scope}/auditScopeReports:generate"
+        },
+        "smithy.api#documentation": "Generates an audit scope report for the given standard. The report includes the following: * The technical attributes and constraints that Audit Manager uses to verify your compliance with a framework. * A list of Google Cloud services and resources that are within the scope of the framework."
+      }
+    },
+    "com.gcp.auditmanager_v1#GetFoldersLocationsResourceEnrollmentStatusesRequest": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. Name of the resource enrollment status, in one of the following formats: * `folders/{folder}/locations/{location}/resourceEnrollmentStatuses/{resource_enrollment_status}` * `projects/{project}/locations/{location}/resourceEnrollmentStatuses/{resource_enrollment_status}` * `organizations/{organization}/locations/{location}/resourceEnrollmentStatuses/{resource_enrollment_status}`",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.gcp.auditmanager_v1#GetFoldersLocationsResourceEnrollmentStatuses": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.auditmanager_v1#GetFoldersLocationsResourceEnrollmentStatusesRequest"
+      },
+      "output": {
+        "target": "com.gcp.auditmanager_v1#ResourceEnrollmentStatus"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.auditmanager_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.auditmanager_v1#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "v1/{+name}"
+        },
+        "smithy.api#documentation": "Gets a resource and its enrollment status."
+      }
+    },
+    "com.gcp.auditmanager_v1#ListFoldersLocationsResourceEnrollmentStatusesRequest": {
+      "type": "structure",
+      "members": {
+        "parent": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. Parent organization or folder to list enrollment statuses for, in one of the following formats: * `folders/{folder}/locations/{location}` * `organizations/{organization}/locations/{location}`",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "pageSize": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Optional. Maximum number of items to return in a single page. The service might return fewer items than this value. If unspecified, the service picks an appropriate default. The maximum value is 100; values above 100 are reduced to 100.",
+            "smithy.api#httpQuery": "pageSize"
+          }
+        },
+        "pageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. A page token, received from a previous call, to retrieve the next page of results.",
+            "smithy.api#httpQuery": "pageToken"
+          }
+        }
+      }
+    },
+    "com.gcp.auditmanager_v1#ListFoldersLocationsResourceEnrollmentStatuses": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.auditmanager_v1#ListFoldersLocationsResourceEnrollmentStatusesRequest"
+      },
+      "output": {
+        "target": "com.gcp.auditmanager_v1#ListResourceEnrollmentStatusesResponse"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.auditmanager_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.auditmanager_v1#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "v1/{+parent}/resourceEnrollmentStatuses"
+        },
+        "smithy.api#documentation": "Lists all the folders and projects in an organization or folder, along with their enrollments.",
+        "smithy.api#paginated": {
+          "inputToken": "pageToken",
+          "outputToken": "nextPageToken"
+        }
+      }
+    },
+    "com.gcp.auditmanager_v1#GetFoldersLocationsOperationDetailsRequest": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the operation resource.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.gcp.auditmanager_v1#GetFoldersLocationsOperationDetails": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.auditmanager_v1#GetFoldersLocationsOperationDetailsRequest"
+      },
+      "output": {
+        "target": "com.gcp.auditmanager_v1#Operation"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.auditmanager_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.auditmanager_v1#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "v1/{+name}"
+        },
+        "smithy.api#documentation": "Gets details about the long-running operation to generate audit reports."
+      }
+    },
+    "com.gcp.auditmanager_v1#ListFoldersLocationsStandardsControlsRequest": {
+      "type": "structure",
+      "members": {
+        "parent": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. Standard to list controls for, in one of the following formats: * `projects/{project}/locations/{location}/standards/{standard}` * `folders/{folder}/locations/{location}/standards/{standard}` * `organizations/{organization}/locations/{location}/standards/{standard}`",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "pageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. A page token, received from a previous call, to retrieve the next page of results.",
+            "smithy.api#httpQuery": "pageToken"
+          }
+        },
+        "pageSize": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Optional. Maximum number of items to return in a single page. The service might return fewer items than this value. If unspecified, the service picks an appropriate default. The maximum value is 100; values above 100 are reduced to 100.",
+            "smithy.api#httpQuery": "pageSize"
+          }
+        }
+      }
+    },
+    "com.gcp.auditmanager_v1#ListFoldersLocationsStandardsControls": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.auditmanager_v1#ListFoldersLocationsStandardsControlsRequest"
+      },
+      "output": {
+        "target": "com.gcp.auditmanager_v1#ListControlsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.auditmanager_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.auditmanager_v1#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "v1/{+parent}/controls"
+        },
+        "smithy.api#documentation": "Lists the controls that you must implement to become compliant to a regulatory standard.",
+        "smithy.api#paginated": {
+          "inputToken": "pageToken",
+          "outputToken": "nextPageToken"
+        }
+      }
+    },
+    "com.gcp.auditmanager_v1#GetFoldersLocationsOperationIdsRequest": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the operation resource.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.gcp.auditmanager_v1#GetFoldersLocationsOperationIds": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.auditmanager_v1#GetFoldersLocationsOperationIdsRequest"
+      },
+      "output": {
+        "target": "com.gcp.auditmanager_v1#Operation"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.auditmanager_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.auditmanager_v1#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "v1/{+name}"
+        },
+        "smithy.api#documentation": "Gets details about the long-running operation to generate audit reports."
+      }
+    },
+    "com.gcp.auditmanager_v1#ListFoldersLocationsAuditSchedulesRequest": {
+      "type": "structure",
+      "members": {
+        "pageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. A page token, received from a previous call, to retrieve the next page of results.",
+            "smithy.api#httpQuery": "pageToken"
+          }
+        },
+        "parent": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. Parent for the audit schedule, in one of the following formats: * `projects/{project}/locations/{location}` * `folders/{folder}/locations/{location}` * `organizations/{organization}/locations/{location}`",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "pageSize": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Optional. Maximum number of items to return in a single page. The service might return fewer items than this value. If unspecified, the service picks an appropriate default. The maximum value is 100; values above 100 are reduced to 100.",
+            "smithy.api#httpQuery": "pageSize"
+          }
+        }
+      }
+    },
+    "com.gcp.auditmanager_v1#ListFoldersLocationsAuditSchedules": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.auditmanager_v1#ListFoldersLocationsAuditSchedulesRequest"
+      },
+      "output": {
+        "target": "com.gcp.auditmanager_v1#ListAuditSchedulesResponse"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.auditmanager_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.auditmanager_v1#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "v1/{+parent}/auditSchedules"
+        },
+        "smithy.api#documentation": "Lists audit schedules in a given project and location.",
+        "smithy.api#paginated": {
+          "inputToken": "pageToken",
+          "outputToken": "nextPageToken"
+        }
+      }
+    },
+    "com.gcp.auditmanager_v1#PatchFoldersLocationsAuditSchedulesRequest": {
+      "type": "structure",
+      "members": {
+        "updateMask": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. List of fields to update.",
+            "smithy.api#httpQuery": "updateMask"
+          }
+        },
+        "validateOnly": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Optional. If `true`, only validates the request and does not update the audit schedule. This executes standard request validation (such as schema, framework existence, scope, and IAM checks) and skips the apply phase. Use this field for the following purposes: * **Infrastructure as Code (IaC)**: Allow tools like Terraform to run dry-run mutations (e.g., `terraform plan`) without creating real resources or incurring costs. * **User Interface Validation**: Enable real-time form and permission validation in custom UIs before submitting requests. * **CI/CD & Automation**: Test your scripts, permissions, and parameters safely without consuming resource quotas.",
+            "smithy.api#httpQuery": "validateOnly"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier. Unique identifier for the audit schedule. Format: projects/{project}/locations/{location}/auditSchedules/{audit_schedule} folders/{folder}/locations/{location}/auditSchedules/{audit_schedule} organizations/{organization}/locations/{location}/auditSchedules/{audit_schedule}",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "body": {
+          "target": "com.gcp.auditmanager_v1#AuditSchedule",
+          "traits": {
+            "smithy.api#httpPayload": {},
+            "smithy.api#documentation": "Request body"
+          }
+        }
+      }
+    },
+    "com.gcp.auditmanager_v1#PatchFoldersLocationsAuditSchedules": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.auditmanager_v1#PatchFoldersLocationsAuditSchedulesRequest"
+      },
+      "output": {
+        "target": "com.gcp.auditmanager_v1#AuditSchedule"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.auditmanager_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.auditmanager_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.auditmanager_v1#BadRequest"
+        },
+        {
+          "target": "com.gcp.auditmanager_v1#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "v1/{+name}"
+        },
+        "smithy.api#documentation": "Updates an existing audit schedule."
+      }
+    },
+    "com.gcp.auditmanager_v1#GetFoldersLocationsAuditSchedulesRequest": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. Name of the audit schedule to retrieve, in one of the following formats: * `projects/{project}/locations/{location}/auditSchedules/{audit_schedule}` * `folders/{folder}/locations/{location}/auditSchedules/{audit_schedule}` * `organizations/{organization}/locations/{location}/auditSchedules/{audit_schedule}`",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.gcp.auditmanager_v1#GetFoldersLocationsAuditSchedules": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.auditmanager_v1#GetFoldersLocationsAuditSchedulesRequest"
+      },
+      "output": {
+        "target": "com.gcp.auditmanager_v1#AuditSchedule"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.auditmanager_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.auditmanager_v1#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "v1/{+name}"
+        },
+        "smithy.api#documentation": "Gets details of a single audit schedule."
+      }
+    },
+    "com.gcp.auditmanager_v1#CreateFoldersLocationsAuditSchedulesRequest": {
+      "type": "structure",
+      "members": {
+        "validateOnly": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Optional. If `true`, only validates the request and does not create the audit schedule. This executes standard request validation (such as schema, framework existence, scope, and IAM checks) and skips the apply phase. Use this field for the following purposes: * **Infrastructure as Code (IaC)**: Allow tools like Terraform to run dry-run mutations (e.g., `terraform plan`) without creating real resources or incurring costs. * **User Interface Validation**: Enable real-time form and permission validation in custom UIs before submitting requests. * **CI/CD & Automation**: Test your scripts, permissions, and parameters safely without consuming resource quotas.",
+            "smithy.api#httpQuery": "validateOnly"
+          }
+        },
+        "auditScheduleId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. ID to use for the audit schedule, which becomes the final component of the audit schedule's resource name.",
+            "smithy.api#httpQuery": "auditScheduleId"
+          }
+        },
+        "parent": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. Project or folder that this audit schedule is for, in one of the following formats: * `projects/{project}/locations/{location}` * `folders/{folder}/locations/{location}`",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "body": {
+          "target": "com.gcp.auditmanager_v1#AuditSchedule",
+          "traits": {
+            "smithy.api#httpPayload": {},
+            "smithy.api#documentation": "Request body"
+          }
+        }
+      }
+    },
+    "com.gcp.auditmanager_v1#CreateFoldersLocationsAuditSchedules": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.auditmanager_v1#CreateFoldersLocationsAuditSchedulesRequest"
+      },
+      "output": {
+        "target": "com.gcp.auditmanager_v1#AuditSchedule"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.auditmanager_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.auditmanager_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.auditmanager_v1#BadRequest"
+        },
+        {
+          "target": "com.gcp.auditmanager_v1#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "v1/{+parent}/auditSchedules"
+        },
+        "smithy.api#documentation": "Creates a new audit schedule in a given project and location."
+      }
+    },
+    "com.gcp.auditmanager_v1#GenerateFoldersLocationsAuditReportsRequest": {
+      "type": "structure",
+      "members": {
+        "scope": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. Organization, folder, or project that the audit applies to, in one of the following formats: * `projects/{project}/locations/{location}` * `folders/{folder}/locations/{location}` * `organizations/{organization}/locations/{location}`",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "body": {
+          "target": "com.gcp.auditmanager_v1#GenerateAuditReportRequest",
+          "traits": {
+            "smithy.api#httpPayload": {},
+            "smithy.api#documentation": "Request body"
+          }
+        }
+      }
+    },
+    "com.gcp.auditmanager_v1#GenerateFoldersLocationsAuditReports": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.auditmanager_v1#GenerateFoldersLocationsAuditReportsRequest"
+      },
+      "output": {
+        "target": "com.gcp.auditmanager_v1#Operation"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.auditmanager_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.auditmanager_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.auditmanager_v1#BadRequest"
+        },
+        {
+          "target": "com.gcp.auditmanager_v1#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "v1/{+scope}/auditReports:generate"
+        },
+        "smithy.api#documentation": "Registers audit report generation requests. This method returns the operation identifier that you can use to track the report generation progress."
+      }
+    },
+    "com.gcp.auditmanager_v1#GetFoldersLocationsAuditReportsRequest": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. Name of the audit report, in one of the following formats: * `projects/{project}/locations/{location}/auditReports/{audit_report}` * `folders/{folder}/locations/{location}/auditReports/{audit_report}` * `organizations/{organization}/locations/{location}/auditReports/{audit_report}`",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.gcp.auditmanager_v1#GetFoldersLocationsAuditReports": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.auditmanager_v1#GetFoldersLocationsAuditReportsRequest"
+      },
+      "output": {
+        "target": "com.gcp.auditmanager_v1#AuditReport"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.auditmanager_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.auditmanager_v1#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "v1/{+name}"
+        },
+        "smithy.api#documentation": "Gets the full metadata and findings for an audit report."
+      }
+    },
+    "com.gcp.auditmanager_v1#ListFoldersLocationsAuditReportsRequest": {
+      "type": "structure",
+      "members": {
+        "pageSize": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Optional. Maximum number of items to return in a single page. The service might return fewer items than this value. If unspecified, the service picks an appropriate default. The maximum value is 100; values above 100 are reduced to 100.",
+            "smithy.api#httpQuery": "pageSize"
+          }
+        },
+        "pageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. A page token, received from a previous call, to retrieve the next page of results.",
+            "smithy.api#httpQuery": "pageToken"
+          }
+        },
+        "parent": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. Parent organization, folder, or project to list reports for, in one of the following formats: * `projects/{project}/locations/{location}` * `folders/{folder}/locations/{location}` * `organizations/{organization}/locations/{location}`",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.gcp.auditmanager_v1#ListFoldersLocationsAuditReports": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.auditmanager_v1#ListFoldersLocationsAuditReportsRequest"
+      },
+      "output": {
+        "target": "com.gcp.auditmanager_v1#ListAuditReportsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.auditmanager_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.auditmanager_v1#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "v1/{+parent}/auditReports"
+        },
+        "smithy.api#documentation": "Lists the audit reports for the organization, folder, or project that you specify as the parent scope.",
+        "smithy.api#paginated": {
+          "inputToken": "pageToken",
+          "outputToken": "nextPageToken"
+        }
+      }
+    },
+    "com.gcp.auditmanager_v1#GetProjectsLocationsRequest": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Resource name for the location.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.gcp.auditmanager_v1#GetProjectsLocations": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.auditmanager_v1#GetProjectsLocationsRequest"
+      },
+      "output": {
+        "target": "com.gcp.auditmanager_v1#Location"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.auditmanager_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.auditmanager_v1#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "v1/{+name}"
+        },
+        "smithy.api#documentation": "Gets information about a location."
+      }
+    },
+    "com.gcp.auditmanager_v1#ListProjectsLocationsRequest": {
+      "type": "structure",
+      "members": {
+        "filter": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A filter to narrow down results to a preferred subset. The filtering language accepts strings like `\"displayName=tokyo\"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160).",
+            "smithy.api#httpQuery": "filter"
+          }
+        },
+        "pageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page.",
+            "smithy.api#httpQuery": "pageToken"
+          }
+        },
+        "pageSize": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The maximum number of results to return. If not set, the service selects a default.",
+            "smithy.api#httpQuery": "pageSize"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The resource that owns the locations collection, if applicable.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "extraLocationTypes": {
+          "target": "com.gcp.auditmanager_v1#StringList",
+          "traits": {
+            "smithy.api#documentation": "Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage.",
+            "smithy.api#httpQuery": "extraLocationTypes"
+          }
+        }
+      }
+    },
+    "com.gcp.auditmanager_v1#ListProjectsLocations": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.auditmanager_v1#ListProjectsLocationsRequest"
+      },
+      "output": {
+        "target": "com.gcp.auditmanager_v1#ListLocationsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.auditmanager_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.auditmanager_v1#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "v1/{+name}/locations"
+        },
+        "smithy.api#documentation": "Lists information about the supported locations for this service. This method lists locations based on the resource scope provided in the ListLocationsRequest.name field: * **Global locations**: If `name` is empty, the method lists the public locations available to all projects. * **Project-specific locations**: If `name` follows the format `projects/{project}`, the method lists locations visible to that specific project. This includes public, private, or other project-specific locations enabled for the project. For gRPC and client library implementations, the resource name is passed as the `name` field. For direct service calls, the resource name is incorporated into the request path based on the specific service implementation and version.",
+        "smithy.api#paginated": {
+          "inputToken": "pageToken",
+          "outputToken": "nextPageToken"
+        }
+      }
+    },
+    "com.gcp.auditmanager_v1#EnrollResourceProjectsLocationsRequest": {
+      "type": "structure",
+      "members": {
+        "scope": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. Organization, folder, or project to enroll in Audit Manager, in one of the following formats: * `projects/{project}/locations/{location}` * `folders/{folder}/locations/{location}` * `organizations/{organization}/locations/{location}`",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "body": {
+          "target": "com.gcp.auditmanager_v1#EnrollResourceRequest",
+          "traits": {
+            "smithy.api#httpPayload": {},
+            "smithy.api#documentation": "Request body"
+          }
+        }
+      }
+    },
+    "com.gcp.auditmanager_v1#EnrollResourceProjectsLocations": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.auditmanager_v1#EnrollResourceProjectsLocationsRequest"
+      },
+      "output": {
+        "target": "com.gcp.auditmanager_v1#Enrollment"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.auditmanager_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.auditmanager_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.auditmanager_v1#BadRequest"
+        },
+        {
+          "target": "com.gcp.auditmanager_v1#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "v1/{+scope}:enrollResource"
+        },
+        "smithy.api#documentation": "Adds your project, folder, or organization to Audit Manager. This method creates the Audit Manager service agent in your workload and grants required permissions to the service agent. If you make this request on a workload that's already enrolled, then this method overrides the existing set of destinations."
+      }
+    },
+    "com.gcp.auditmanager_v1#CreateProjectsLocationsAuditSchedulesRequest": {
+      "type": "structure",
+      "members": {
+        "validateOnly": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Optional. If `true`, only validates the request and does not create the audit schedule. This executes standard request validation (such as schema, framework existence, scope, and IAM checks) and skips the apply phase. Use this field for the following purposes: * **Infrastructure as Code (IaC)**: Allow tools like Terraform to run dry-run mutations (e.g., `terraform plan`) without creating real resources or incurring costs. * **User Interface Validation**: Enable real-time form and permission validation in custom UIs before submitting requests. * **CI/CD & Automation**: Test your scripts, permissions, and parameters safely without consuming resource quotas.",
+            "smithy.api#httpQuery": "validateOnly"
+          }
+        },
+        "auditScheduleId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. ID to use for the audit schedule, which becomes the final component of the audit schedule's resource name.",
+            "smithy.api#httpQuery": "auditScheduleId"
+          }
+        },
+        "parent": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. Project or folder that this audit schedule is for, in one of the following formats: * `projects/{project}/locations/{location}` * `folders/{folder}/locations/{location}`",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "body": {
+          "target": "com.gcp.auditmanager_v1#AuditSchedule",
+          "traits": {
+            "smithy.api#httpPayload": {},
+            "smithy.api#documentation": "Request body"
+          }
+        }
+      }
+    },
+    "com.gcp.auditmanager_v1#CreateProjectsLocationsAuditSchedules": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.auditmanager_v1#CreateProjectsLocationsAuditSchedulesRequest"
+      },
+      "output": {
+        "target": "com.gcp.auditmanager_v1#AuditSchedule"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.auditmanager_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.auditmanager_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.auditmanager_v1#BadRequest"
+        },
+        {
+          "target": "com.gcp.auditmanager_v1#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "v1/{+parent}/auditSchedules"
+        },
+        "smithy.api#documentation": "Creates a new audit schedule in a given project and location."
+      }
+    },
+    "com.gcp.auditmanager_v1#PatchProjectsLocationsAuditSchedulesRequest": {
+      "type": "structure",
+      "members": {
+        "updateMask": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. List of fields to update.",
+            "smithy.api#httpQuery": "updateMask"
+          }
+        },
+        "validateOnly": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Optional. If `true`, only validates the request and does not update the audit schedule. This executes standard request validation (such as schema, framework existence, scope, and IAM checks) and skips the apply phase. Use this field for the following purposes: * **Infrastructure as Code (IaC)**: Allow tools like Terraform to run dry-run mutations (e.g., `terraform plan`) without creating real resources or incurring costs. * **User Interface Validation**: Enable real-time form and permission validation in custom UIs before submitting requests. * **CI/CD & Automation**: Test your scripts, permissions, and parameters safely without consuming resource quotas.",
+            "smithy.api#httpQuery": "validateOnly"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier. Unique identifier for the audit schedule. Format: projects/{project}/locations/{location}/auditSchedules/{audit_schedule} folders/{folder}/locations/{location}/auditSchedules/{audit_schedule} organizations/{organization}/locations/{location}/auditSchedules/{audit_schedule}",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "body": {
+          "target": "com.gcp.auditmanager_v1#AuditSchedule",
+          "traits": {
+            "smithy.api#httpPayload": {},
+            "smithy.api#documentation": "Request body"
+          }
+        }
+      }
+    },
+    "com.gcp.auditmanager_v1#PatchProjectsLocationsAuditSchedules": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.auditmanager_v1#PatchProjectsLocationsAuditSchedulesRequest"
+      },
+      "output": {
+        "target": "com.gcp.auditmanager_v1#AuditSchedule"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.auditmanager_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.auditmanager_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.auditmanager_v1#BadRequest"
+        },
+        {
+          "target": "com.gcp.auditmanager_v1#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "v1/{+name}"
+        },
+        "smithy.api#documentation": "Updates an existing audit schedule."
+      }
+    },
+    "com.gcp.auditmanager_v1#GetProjectsLocationsAuditSchedulesRequest": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. Name of the audit schedule to retrieve, in one of the following formats: * `projects/{project}/locations/{location}/auditSchedules/{audit_schedule}` * `folders/{folder}/locations/{location}/auditSchedules/{audit_schedule}` * `organizations/{organization}/locations/{location}/auditSchedules/{audit_schedule}`",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.gcp.auditmanager_v1#GetProjectsLocationsAuditSchedules": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.auditmanager_v1#GetProjectsLocationsAuditSchedulesRequest"
+      },
+      "output": {
+        "target": "com.gcp.auditmanager_v1#AuditSchedule"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.auditmanager_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.auditmanager_v1#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "v1/{+name}"
+        },
+        "smithy.api#documentation": "Gets details of a single audit schedule."
+      }
+    },
+    "com.gcp.auditmanager_v1#ListProjectsLocationsAuditSchedulesRequest": {
+      "type": "structure",
+      "members": {
+        "parent": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. Parent for the audit schedule, in one of the following formats: * `projects/{project}/locations/{location}` * `folders/{folder}/locations/{location}` * `organizations/{organization}/locations/{location}`",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "pageSize": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Optional. Maximum number of items to return in a single page. The service might return fewer items than this value. If unspecified, the service picks an appropriate default. The maximum value is 100; values above 100 are reduced to 100.",
+            "smithy.api#httpQuery": "pageSize"
+          }
+        },
+        "pageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. A page token, received from a previous call, to retrieve the next page of results.",
+            "smithy.api#httpQuery": "pageToken"
+          }
+        }
+      }
+    },
+    "com.gcp.auditmanager_v1#ListProjectsLocationsAuditSchedules": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.auditmanager_v1#ListProjectsLocationsAuditSchedulesRequest"
+      },
+      "output": {
+        "target": "com.gcp.auditmanager_v1#ListAuditSchedulesResponse"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.auditmanager_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.auditmanager_v1#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "v1/{+parent}/auditSchedules"
+        },
+        "smithy.api#documentation": "Lists audit schedules in a given project and location.",
+        "smithy.api#paginated": {
+          "inputToken": "pageToken",
+          "outputToken": "nextPageToken"
+        }
+      }
+    },
+    "com.gcp.auditmanager_v1#GetProjectsLocationsOperationDetailsRequest": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the operation resource.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.gcp.auditmanager_v1#GetProjectsLocationsOperationDetails": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.auditmanager_v1#GetProjectsLocationsOperationDetailsRequest"
+      },
+      "output": {
+        "target": "com.gcp.auditmanager_v1#Operation"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.auditmanager_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.auditmanager_v1#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "v1/{+name}"
+        },
+        "smithy.api#documentation": "Gets details about the long-running operation to generate audit reports."
+      }
+    },
+    "com.gcp.auditmanager_v1#GenerateProjectsLocationsAuditScopeReportsRequest": {
+      "type": "structure",
+      "members": {
+        "scope": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. Project or folder that the audit scope report is generated for, in one of the following formats: * `projects/{project}/locations/{location}` * `folders/{folder}/locations/{location}` * `organizations/{organization}/locations/{location}`",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "body": {
+          "target": "com.gcp.auditmanager_v1#GenerateAuditScopeReportRequest",
+          "traits": {
+            "smithy.api#httpPayload": {},
+            "smithy.api#documentation": "Request body"
+          }
+        }
+      }
+    },
+    "com.gcp.auditmanager_v1#GenerateProjectsLocationsAuditScopeReports": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.auditmanager_v1#GenerateProjectsLocationsAuditScopeReportsRequest"
+      },
+      "output": {
+        "target": "com.gcp.auditmanager_v1#AuditScopeReport"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.auditmanager_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.auditmanager_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.auditmanager_v1#BadRequest"
+        },
+        {
+          "target": "com.gcp.auditmanager_v1#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "v1/{+scope}/auditScopeReports:generate"
+        },
+        "smithy.api#documentation": "Generates an audit scope report for the given standard. The report includes the following: * The technical attributes and constraints that Audit Manager uses to verify your compliance with a framework. * A list of Google Cloud services and resources that are within the scope of the framework."
+      }
+    },
+    "com.gcp.auditmanager_v1#ListProjectsLocationsStandardsControlsRequest": {
+      "type": "structure",
+      "members": {
+        "pageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. A page token, received from a previous call, to retrieve the next page of results.",
+            "smithy.api#httpQuery": "pageToken"
+          }
+        },
+        "parent": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. Standard to list controls for, in one of the following formats: * `projects/{project}/locations/{location}/standards/{standard}` * `folders/{folder}/locations/{location}/standards/{standard}` * `organizations/{organization}/locations/{location}/standards/{standard}`",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "pageSize": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Optional. Maximum number of items to return in a single page. The service might return fewer items than this value. If unspecified, the service picks an appropriate default. The maximum value is 100; values above 100 are reduced to 100.",
+            "smithy.api#httpQuery": "pageSize"
+          }
+        }
+      }
+    },
+    "com.gcp.auditmanager_v1#ListProjectsLocationsStandardsControls": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.auditmanager_v1#ListProjectsLocationsStandardsControlsRequest"
+      },
+      "output": {
+        "target": "com.gcp.auditmanager_v1#ListControlsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.auditmanager_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.auditmanager_v1#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "v1/{+parent}/controls"
+        },
+        "smithy.api#documentation": "Lists the controls that you must implement to become compliant to a regulatory standard.",
+        "smithy.api#paginated": {
+          "inputToken": "pageToken",
+          "outputToken": "nextPageToken"
+        }
+      }
+    },
+    "com.gcp.auditmanager_v1#GetProjectsLocationsResourceEnrollmentStatusesRequest": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. Name of the resource enrollment status, in one of the following formats: * `folders/{folder}/locations/{location}/resourceEnrollmentStatuses/{resource_enrollment_status}` * `projects/{project}/locations/{location}/resourceEnrollmentStatuses/{resource_enrollment_status}` * `organizations/{organization}/locations/{location}/resourceEnrollmentStatuses/{resource_enrollment_status}`",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.gcp.auditmanager_v1#GetProjectsLocationsResourceEnrollmentStatuses": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.auditmanager_v1#GetProjectsLocationsResourceEnrollmentStatusesRequest"
+      },
+      "output": {
+        "target": "com.gcp.auditmanager_v1#ResourceEnrollmentStatus"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.auditmanager_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.auditmanager_v1#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "v1/{+name}"
+        },
+        "smithy.api#documentation": "Gets a resource and its enrollment status."
+      }
+    },
+    "com.gcp.auditmanager_v1#GetProjectsLocationsOperationIdsRequest": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the operation resource.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.gcp.auditmanager_v1#GetProjectsLocationsOperationIds": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.auditmanager_v1#GetProjectsLocationsOperationIdsRequest"
+      },
+      "output": {
+        "target": "com.gcp.auditmanager_v1#Operation"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.auditmanager_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.auditmanager_v1#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "v1/{+name}"
+        },
+        "smithy.api#documentation": "Gets details about the long-running operation to generate audit reports."
+      }
+    },
+    "com.gcp.auditmanager_v1#ListProjectsLocationsAuditReportsRequest": {
+      "type": "structure",
+      "members": {
+        "parent": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. Parent organization, folder, or project to list reports for, in one of the following formats: * `projects/{project}/locations/{location}` * `folders/{folder}/locations/{location}` * `organizations/{organization}/locations/{location}`",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "pageSize": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Optional. Maximum number of items to return in a single page. The service might return fewer items than this value. If unspecified, the service picks an appropriate default. The maximum value is 100; values above 100 are reduced to 100.",
+            "smithy.api#httpQuery": "pageSize"
+          }
+        },
+        "pageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. A page token, received from a previous call, to retrieve the next page of results.",
+            "smithy.api#httpQuery": "pageToken"
+          }
+        }
+      }
+    },
+    "com.gcp.auditmanager_v1#ListProjectsLocationsAuditReports": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.auditmanager_v1#ListProjectsLocationsAuditReportsRequest"
+      },
+      "output": {
+        "target": "com.gcp.auditmanager_v1#ListAuditReportsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.auditmanager_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.auditmanager_v1#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "v1/{+parent}/auditReports"
+        },
+        "smithy.api#documentation": "Lists the audit reports for the organization, folder, or project that you specify as the parent scope.",
+        "smithy.api#paginated": {
+          "inputToken": "pageToken",
+          "outputToken": "nextPageToken"
+        }
+      }
+    },
+    "com.gcp.auditmanager_v1#GetProjectsLocationsAuditReportsRequest": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. Name of the audit report, in one of the following formats: * `projects/{project}/locations/{location}/auditReports/{audit_report}` * `folders/{folder}/locations/{location}/auditReports/{audit_report}` * `organizations/{organization}/locations/{location}/auditReports/{audit_report}`",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.gcp.auditmanager_v1#GetProjectsLocationsAuditReports": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.auditmanager_v1#GetProjectsLocationsAuditReportsRequest"
+      },
+      "output": {
+        "target": "com.gcp.auditmanager_v1#AuditReport"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.auditmanager_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.auditmanager_v1#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "v1/{+name}"
+        },
+        "smithy.api#documentation": "Gets the full metadata and findings for an audit report."
+      }
+    },
+    "com.gcp.auditmanager_v1#GenerateProjectsLocationsAuditReportsRequest": {
+      "type": "structure",
+      "members": {
+        "scope": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. Organization, folder, or project that the audit applies to, in one of the following formats: * `projects/{project}/locations/{location}` * `folders/{folder}/locations/{location}` * `organizations/{organization}/locations/{location}`",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "body": {
+          "target": "com.gcp.auditmanager_v1#GenerateAuditReportRequest",
+          "traits": {
+            "smithy.api#httpPayload": {},
+            "smithy.api#documentation": "Request body"
+          }
+        }
+      }
+    },
+    "com.gcp.auditmanager_v1#GenerateProjectsLocationsAuditReports": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.auditmanager_v1#GenerateProjectsLocationsAuditReportsRequest"
+      },
+      "output": {
+        "target": "com.gcp.auditmanager_v1#Operation"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.auditmanager_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.auditmanager_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.auditmanager_v1#BadRequest"
+        },
+        {
+          "target": "com.gcp.auditmanager_v1#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "v1/{+scope}/auditReports:generate"
+        },
+        "smithy.api#documentation": "Registers audit report generation requests. This method returns the operation identifier that you can use to track the report generation progress."
+      }
+    },
+    "com.gcp.auditmanager_v1#CancelProjectsLocationsOperationsRequest": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the operation resource to be cancelled.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "body": {
+          "target": "com.gcp.auditmanager_v1#CancelOperationRequest",
+          "traits": {
+            "smithy.api#httpPayload": {},
+            "smithy.api#documentation": "Request body"
+          }
+        }
+      }
+    },
+    "com.gcp.auditmanager_v1#CancelProjectsLocationsOperations": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.auditmanager_v1#CancelProjectsLocationsOperationsRequest"
+      },
+      "output": {
+        "target": "com.gcp.auditmanager_v1#Empty"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.auditmanager_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.auditmanager_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.auditmanager_v1#BadRequest"
+        },
+        {
+          "target": "com.gcp.auditmanager_v1#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "v1/{+name}:cancel"
+        },
+        "smithy.api#documentation": "Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`."
+      }
+    },
+    "com.gcp.auditmanager_v1#GetProjectsLocationsOperationsRequest": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the operation resource.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.gcp.auditmanager_v1#GetProjectsLocationsOperations": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.auditmanager_v1#GetProjectsLocationsOperationsRequest"
+      },
+      "output": {
+        "target": "com.gcp.auditmanager_v1#Operation"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.auditmanager_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.auditmanager_v1#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "v1/{+name}"
+        },
+        "smithy.api#documentation": "Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service."
+      }
+    },
+    "com.gcp.auditmanager_v1#DeleteProjectsLocationsOperationsRequest": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the operation resource to be deleted.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.gcp.auditmanager_v1#DeleteProjectsLocationsOperations": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.auditmanager_v1#DeleteProjectsLocationsOperationsRequest"
+      },
+      "output": {
+        "target": "com.gcp.auditmanager_v1#Empty"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.auditmanager_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.auditmanager_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.auditmanager_v1#BadRequest"
+        },
+        {
+          "target": "com.gcp.auditmanager_v1#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "v1/{+name}"
+        },
+        "smithy.api#documentation": "Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`."
+      }
+    },
+    "com.gcp.auditmanager_v1#ListProjectsLocationsOperationsRequest": {
+      "type": "structure",
+      "members": {
+        "returnPartialSuccess": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `\"projects/example/locations/-\"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation.",
+            "smithy.api#httpQuery": "returnPartialSuccess"
+          }
+        },
+        "pageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The standard list page token.",
+            "smithy.api#httpQuery": "pageToken"
+          }
+        },
+        "pageSize": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The standard list page size.",
+            "smithy.api#httpQuery": "pageSize"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the operation's parent resource.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "filter": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The standard list filter.",
+            "smithy.api#httpQuery": "filter"
+          }
+        }
+      }
+    },
+    "com.gcp.auditmanager_v1#ListProjectsLocationsOperations": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.auditmanager_v1#ListProjectsLocationsOperationsRequest"
+      },
+      "output": {
+        "target": "com.gcp.auditmanager_v1#ListOperationsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.auditmanager_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.auditmanager_v1#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "v1/{+name}/operations"
+        },
+        "smithy.api#documentation": "Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`.",
+        "smithy.api#paginated": {
+          "inputToken": "pageToken",
+          "outputToken": "nextPageToken"
+        }
+      }
+    },
+    "com.gcp.auditmanager_v1#EnrollResourceOrganizationsLocationsRequest": {
+      "type": "structure",
+      "members": {
+        "scope": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. Organization, folder, or project to enroll in Audit Manager, in one of the following formats: * `projects/{project}/locations/{location}` * `folders/{folder}/locations/{location}` * `organizations/{organization}/locations/{location}`",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "body": {
+          "target": "com.gcp.auditmanager_v1#EnrollResourceRequest",
+          "traits": {
+            "smithy.api#httpPayload": {},
+            "smithy.api#documentation": "Request body"
+          }
+        }
+      }
+    },
+    "com.gcp.auditmanager_v1#EnrollResourceOrganizationsLocations": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.auditmanager_v1#EnrollResourceOrganizationsLocationsRequest"
+      },
+      "output": {
+        "target": "com.gcp.auditmanager_v1#Enrollment"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.auditmanager_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.auditmanager_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.auditmanager_v1#BadRequest"
+        },
+        {
+          "target": "com.gcp.auditmanager_v1#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "v1/{+scope}:enrollResource"
+        },
+        "smithy.api#documentation": "Adds your project, folder, or organization to Audit Manager. This method creates the Audit Manager service agent in your workload and grants required permissions to the service agent. If you make this request on a workload that's already enrolled, then this method overrides the existing set of destinations."
+      }
+    },
+    "com.gcp.auditmanager_v1#GenerateOrganizationsLocationsAuditScopeReportsRequest": {
+      "type": "structure",
+      "members": {
+        "scope": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. Project or folder that the audit scope report is generated for, in one of the following formats: * `projects/{project}/locations/{location}` * `folders/{folder}/locations/{location}` * `organizations/{organization}/locations/{location}`",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "body": {
+          "target": "com.gcp.auditmanager_v1#GenerateAuditScopeReportRequest",
+          "traits": {
+            "smithy.api#httpPayload": {},
+            "smithy.api#documentation": "Request body"
+          }
+        }
+      }
+    },
+    "com.gcp.auditmanager_v1#GenerateOrganizationsLocationsAuditScopeReports": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.auditmanager_v1#GenerateOrganizationsLocationsAuditScopeReportsRequest"
+      },
+      "output": {
+        "target": "com.gcp.auditmanager_v1#AuditScopeReport"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.auditmanager_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.auditmanager_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.auditmanager_v1#BadRequest"
+        },
+        {
+          "target": "com.gcp.auditmanager_v1#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "v1/{+scope}/auditScopeReports:generate"
+        },
+        "smithy.api#documentation": "Generates an audit scope report for the given standard. The report includes the following: * The technical attributes and constraints that Audit Manager uses to verify your compliance with a framework. * A list of Google Cloud services and resources that are within the scope of the framework."
+      }
+    },
+    "com.gcp.auditmanager_v1#ListOrganizationsLocationsStandardsControlsRequest": {
+      "type": "structure",
+      "members": {
+        "pageSize": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Optional. Maximum number of items to return in a single page. The service might return fewer items than this value. If unspecified, the service picks an appropriate default. The maximum value is 100; values above 100 are reduced to 100.",
+            "smithy.api#httpQuery": "pageSize"
+          }
+        },
+        "parent": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. Standard to list controls for, in one of the following formats: * `projects/{project}/locations/{location}/standards/{standard}` * `folders/{folder}/locations/{location}/standards/{standard}` * `organizations/{organization}/locations/{location}/standards/{standard}`",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "pageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. A page token, received from a previous call, to retrieve the next page of results.",
+            "smithy.api#httpQuery": "pageToken"
+          }
+        }
+      }
+    },
+    "com.gcp.auditmanager_v1#ListOrganizationsLocationsStandardsControls": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.auditmanager_v1#ListOrganizationsLocationsStandardsControlsRequest"
+      },
+      "output": {
+        "target": "com.gcp.auditmanager_v1#ListControlsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.auditmanager_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.auditmanager_v1#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "v1/{+parent}/controls"
+        },
+        "smithy.api#documentation": "Lists the controls that you must implement to become compliant to a regulatory standard.",
+        "smithy.api#paginated": {
+          "inputToken": "pageToken",
+          "outputToken": "nextPageToken"
+        }
+      }
+    },
+    "com.gcp.auditmanager_v1#GetOrganizationsLocationsOperationIdsRequest": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the operation resource.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.gcp.auditmanager_v1#GetOrganizationsLocationsOperationIds": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.auditmanager_v1#GetOrganizationsLocationsOperationIdsRequest"
+      },
+      "output": {
+        "target": "com.gcp.auditmanager_v1#Operation"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.auditmanager_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.auditmanager_v1#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "v1/{+name}"
+        },
+        "smithy.api#documentation": "Gets details about the long-running operation to generate audit reports."
+      }
+    },
+    "com.gcp.auditmanager_v1#ListOrganizationsLocationsResourceEnrollmentStatusesRequest": {
+      "type": "structure",
+      "members": {
+        "parent": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. Parent organization or folder to list enrollment statuses for, in one of the following formats: * `folders/{folder}/locations/{location}` * `organizations/{organization}/locations/{location}`",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "pageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. A page token, received from a previous call, to retrieve the next page of results.",
+            "smithy.api#httpQuery": "pageToken"
+          }
+        },
+        "pageSize": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Optional. Maximum number of items to return in a single page. The service might return fewer items than this value. If unspecified, the service picks an appropriate default. The maximum value is 100; values above 100 are reduced to 100.",
+            "smithy.api#httpQuery": "pageSize"
+          }
+        }
+      }
+    },
+    "com.gcp.auditmanager_v1#ListOrganizationsLocationsResourceEnrollmentStatuses": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.auditmanager_v1#ListOrganizationsLocationsResourceEnrollmentStatusesRequest"
+      },
+      "output": {
+        "target": "com.gcp.auditmanager_v1#ListResourceEnrollmentStatusesResponse"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.auditmanager_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.auditmanager_v1#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "v1/{+parent}/resourceEnrollmentStatuses"
+        },
+        "smithy.api#documentation": "Lists all the folders and projects in an organization or folder, along with their enrollments.",
+        "smithy.api#paginated": {
+          "inputToken": "pageToken",
+          "outputToken": "nextPageToken"
+        }
+      }
+    },
+    "com.gcp.auditmanager_v1#GetOrganizationsLocationsResourceEnrollmentStatusesRequest": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. Name of the resource enrollment status, in one of the following formats: * `folders/{folder}/locations/{location}/resourceEnrollmentStatuses/{resource_enrollment_status}` * `projects/{project}/locations/{location}/resourceEnrollmentStatuses/{resource_enrollment_status}` * `organizations/{organization}/locations/{location}/resourceEnrollmentStatuses/{resource_enrollment_status}`",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.gcp.auditmanager_v1#GetOrganizationsLocationsResourceEnrollmentStatuses": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.auditmanager_v1#GetOrganizationsLocationsResourceEnrollmentStatusesRequest"
+      },
+      "output": {
+        "target": "com.gcp.auditmanager_v1#ResourceEnrollmentStatus"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.auditmanager_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.auditmanager_v1#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "v1/{+name}"
+        },
+        "smithy.api#documentation": "Gets a resource and its enrollment status."
+      }
+    },
+    "com.gcp.auditmanager_v1#GetOrganizationsLocationsAuditReportsRequest": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. Name of the audit report, in one of the following formats: * `projects/{project}/locations/{location}/auditReports/{audit_report}` * `folders/{folder}/locations/{location}/auditReports/{audit_report}` * `organizations/{organization}/locations/{location}/auditReports/{audit_report}`",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.gcp.auditmanager_v1#GetOrganizationsLocationsAuditReports": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.auditmanager_v1#GetOrganizationsLocationsAuditReportsRequest"
+      },
+      "output": {
+        "target": "com.gcp.auditmanager_v1#AuditReport"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.auditmanager_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.auditmanager_v1#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "v1/{+name}"
+        },
+        "smithy.api#documentation": "Gets the full metadata and findings for an audit report."
+      }
+    },
+    "com.gcp.auditmanager_v1#GenerateOrganizationsLocationsAuditReportsRequest": {
+      "type": "structure",
+      "members": {
+        "scope": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. Organization, folder, or project that the audit applies to, in one of the following formats: * `projects/{project}/locations/{location}` * `folders/{folder}/locations/{location}` * `organizations/{organization}/locations/{location}`",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "body": {
+          "target": "com.gcp.auditmanager_v1#GenerateAuditReportRequest",
+          "traits": {
+            "smithy.api#httpPayload": {},
+            "smithy.api#documentation": "Request body"
+          }
+        }
+      }
+    },
+    "com.gcp.auditmanager_v1#GenerateOrganizationsLocationsAuditReports": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.auditmanager_v1#GenerateOrganizationsLocationsAuditReportsRequest"
+      },
+      "output": {
+        "target": "com.gcp.auditmanager_v1#Operation"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.auditmanager_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.auditmanager_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.auditmanager_v1#BadRequest"
+        },
+        {
+          "target": "com.gcp.auditmanager_v1#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "v1/{+scope}/auditReports:generate"
+        },
+        "smithy.api#documentation": "Registers audit report generation requests. This method returns the operation identifier that you can use to track the report generation progress."
+      }
+    },
+    "com.gcp.auditmanager_v1#ListOrganizationsLocationsAuditReportsRequest": {
+      "type": "structure",
+      "members": {
+        "pageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. A page token, received from a previous call, to retrieve the next page of results.",
+            "smithy.api#httpQuery": "pageToken"
+          }
+        },
+        "pageSize": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Optional. Maximum number of items to return in a single page. The service might return fewer items than this value. If unspecified, the service picks an appropriate default. The maximum value is 100; values above 100 are reduced to 100.",
+            "smithy.api#httpQuery": "pageSize"
+          }
+        },
+        "parent": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. Parent organization, folder, or project to list reports for, in one of the following formats: * `projects/{project}/locations/{location}` * `folders/{folder}/locations/{location}` * `organizations/{organization}/locations/{location}`",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.gcp.auditmanager_v1#ListOrganizationsLocationsAuditReports": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.auditmanager_v1#ListOrganizationsLocationsAuditReportsRequest"
+      },
+      "output": {
+        "target": "com.gcp.auditmanager_v1#ListAuditReportsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.auditmanager_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.auditmanager_v1#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "v1/{+parent}/auditReports"
+        },
+        "smithy.api#documentation": "Lists the audit reports for the organization, folder, or project that you specify as the parent scope.",
+        "smithy.api#paginated": {
+          "inputToken": "pageToken",
+          "outputToken": "nextPageToken"
+        }
+      }
+    },
+    "com.gcp.auditmanager_v1#ListOrganizationsLocationsAuditSchedulesRequest": {
+      "type": "structure",
+      "members": {
+        "pageSize": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Optional. Maximum number of items to return in a single page. The service might return fewer items than this value. If unspecified, the service picks an appropriate default. The maximum value is 100; values above 100 are reduced to 100.",
+            "smithy.api#httpQuery": "pageSize"
+          }
+        },
+        "pageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. A page token, received from a previous call, to retrieve the next page of results.",
+            "smithy.api#httpQuery": "pageToken"
+          }
+        },
+        "parent": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. Parent for the audit schedule, in one of the following formats: * `projects/{project}/locations/{location}` * `folders/{folder}/locations/{location}` * `organizations/{organization}/locations/{location}`",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.gcp.auditmanager_v1#ListOrganizationsLocationsAuditSchedules": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.auditmanager_v1#ListOrganizationsLocationsAuditSchedulesRequest"
+      },
+      "output": {
+        "target": "com.gcp.auditmanager_v1#ListAuditSchedulesResponse"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.auditmanager_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.auditmanager_v1#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "v1/{+parent}/auditSchedules"
+        },
+        "smithy.api#documentation": "Lists audit schedules in a given project and location.",
+        "smithy.api#paginated": {
+          "inputToken": "pageToken",
+          "outputToken": "nextPageToken"
+        }
+      }
+    },
+    "com.gcp.auditmanager_v1#PatchOrganizationsLocationsAuditSchedulesRequest": {
+      "type": "structure",
+      "members": {
+        "validateOnly": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Optional. If `true`, only validates the request and does not update the audit schedule. This executes standard request validation (such as schema, framework existence, scope, and IAM checks) and skips the apply phase. Use this field for the following purposes: * **Infrastructure as Code (IaC)**: Allow tools like Terraform to run dry-run mutations (e.g., `terraform plan`) without creating real resources or incurring costs. * **User Interface Validation**: Enable real-time form and permission validation in custom UIs before submitting requests. * **CI/CD & Automation**: Test your scripts, permissions, and parameters safely without consuming resource quotas.",
+            "smithy.api#httpQuery": "validateOnly"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier. Unique identifier for the audit schedule. Format: projects/{project}/locations/{location}/auditSchedules/{audit_schedule} folders/{folder}/locations/{location}/auditSchedules/{audit_schedule} organizations/{organization}/locations/{location}/auditSchedules/{audit_schedule}",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "updateMask": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. List of fields to update.",
+            "smithy.api#httpQuery": "updateMask"
+          }
+        },
+        "body": {
+          "target": "com.gcp.auditmanager_v1#AuditSchedule",
+          "traits": {
+            "smithy.api#httpPayload": {},
+            "smithy.api#documentation": "Request body"
+          }
+        }
+      }
+    },
+    "com.gcp.auditmanager_v1#PatchOrganizationsLocationsAuditSchedules": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.auditmanager_v1#PatchOrganizationsLocationsAuditSchedulesRequest"
+      },
+      "output": {
+        "target": "com.gcp.auditmanager_v1#AuditSchedule"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.auditmanager_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.auditmanager_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.auditmanager_v1#BadRequest"
+        },
+        {
+          "target": "com.gcp.auditmanager_v1#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "v1/{+name}"
+        },
+        "smithy.api#documentation": "Updates an existing audit schedule."
+      }
+    },
+    "com.gcp.auditmanager_v1#GetOrganizationsLocationsAuditSchedulesRequest": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. Name of the audit schedule to retrieve, in one of the following formats: * `projects/{project}/locations/{location}/auditSchedules/{audit_schedule}` * `folders/{folder}/locations/{location}/auditSchedules/{audit_schedule}` * `organizations/{organization}/locations/{location}/auditSchedules/{audit_schedule}`",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.gcp.auditmanager_v1#GetOrganizationsLocationsAuditSchedules": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.auditmanager_v1#GetOrganizationsLocationsAuditSchedulesRequest"
+      },
+      "output": {
+        "target": "com.gcp.auditmanager_v1#AuditSchedule"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.auditmanager_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.auditmanager_v1#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "v1/{+name}"
+        },
+        "smithy.api#documentation": "Gets details of a single audit schedule."
+      }
+    },
+    "com.gcp.auditmanager_v1#CreateOrganizationsLocationsAuditSchedulesRequest": {
+      "type": "structure",
+      "members": {
+        "auditScheduleId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. ID to use for the audit schedule, which becomes the final component of the audit schedule's resource name.",
+            "smithy.api#httpQuery": "auditScheduleId"
+          }
+        },
+        "validateOnly": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Optional. If `true`, only validates the request and does not create the audit schedule. This executes standard request validation (such as schema, framework existence, scope, and IAM checks) and skips the apply phase. Use this field for the following purposes: * **Infrastructure as Code (IaC)**: Allow tools like Terraform to run dry-run mutations (e.g., `terraform plan`) without creating real resources or incurring costs. * **User Interface Validation**: Enable real-time form and permission validation in custom UIs before submitting requests. * **CI/CD & Automation**: Test your scripts, permissions, and parameters safely without consuming resource quotas.",
+            "smithy.api#httpQuery": "validateOnly"
+          }
+        },
+        "parent": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. Project or folder that this audit schedule is for, in one of the following formats: * `projects/{project}/locations/{location}` * `folders/{folder}/locations/{location}`",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "body": {
+          "target": "com.gcp.auditmanager_v1#AuditSchedule",
+          "traits": {
+            "smithy.api#httpPayload": {},
+            "smithy.api#documentation": "Request body"
+          }
+        }
+      }
+    },
+    "com.gcp.auditmanager_v1#CreateOrganizationsLocationsAuditSchedules": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.auditmanager_v1#CreateOrganizationsLocationsAuditSchedulesRequest"
+      },
+      "output": {
+        "target": "com.gcp.auditmanager_v1#AuditSchedule"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.auditmanager_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.auditmanager_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.auditmanager_v1#BadRequest"
+        },
+        {
+          "target": "com.gcp.auditmanager_v1#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "v1/{+parent}/auditSchedules"
+        },
+        "smithy.api#documentation": "Creates a new audit schedule in a given project and location."
+      }
+    },
+    "com.gcp.auditmanager_v1#ListOrganizationsLocationsOperationsRequest": {
+      "type": "structure",
+      "members": {
+        "returnPartialSuccess": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `\"projects/example/locations/-\"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation.",
+            "smithy.api#httpQuery": "returnPartialSuccess"
+          }
+        },
+        "pageSize": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The standard list page size.",
+            "smithy.api#httpQuery": "pageSize"
+          }
+        },
+        "filter": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The standard list filter.",
+            "smithy.api#httpQuery": "filter"
+          }
+        },
+        "pageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The standard list page token.",
+            "smithy.api#httpQuery": "pageToken"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the operation's parent resource.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.gcp.auditmanager_v1#ListOrganizationsLocationsOperations": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.auditmanager_v1#ListOrganizationsLocationsOperationsRequest"
+      },
+      "output": {
+        "target": "com.gcp.auditmanager_v1#ListOperationsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.auditmanager_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.auditmanager_v1#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "v1/{+name}/operations"
+        },
+        "smithy.api#documentation": "Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`.",
+        "smithy.api#paginated": {
+          "inputToken": "pageToken",
+          "outputToken": "nextPageToken"
+        }
+      }
+    },
+    "com.gcp.auditmanager_v1#DeleteOrganizationsLocationsOperationsRequest": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the operation resource to be deleted.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.gcp.auditmanager_v1#DeleteOrganizationsLocationsOperations": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.auditmanager_v1#DeleteOrganizationsLocationsOperationsRequest"
+      },
+      "output": {
+        "target": "com.gcp.auditmanager_v1#Empty"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.auditmanager_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.auditmanager_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.auditmanager_v1#BadRequest"
+        },
+        {
+          "target": "com.gcp.auditmanager_v1#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "v1/{+name}"
+        },
+        "smithy.api#documentation": "Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`."
+      }
+    },
+    "com.gcp.auditmanager_v1#GetOrganizationsLocationsOperationsRequest": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the operation resource.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.gcp.auditmanager_v1#GetOrganizationsLocationsOperations": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.auditmanager_v1#GetOrganizationsLocationsOperationsRequest"
+      },
+      "output": {
+        "target": "com.gcp.auditmanager_v1#Operation"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.auditmanager_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.auditmanager_v1#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "v1/{+name}"
+        },
+        "smithy.api#documentation": "Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service."
+      }
+    },
+    "com.gcp.auditmanager_v1#CancelOrganizationsLocationsOperationsRequest": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the operation resource to be cancelled.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "body": {
+          "target": "com.gcp.auditmanager_v1#CancelOperationRequest",
+          "traits": {
+            "smithy.api#httpPayload": {},
+            "smithy.api#documentation": "Request body"
+          }
+        }
+      }
+    },
+    "com.gcp.auditmanager_v1#CancelOrganizationsLocationsOperations": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.auditmanager_v1#CancelOrganizationsLocationsOperationsRequest"
+      },
+      "output": {
+        "target": "com.gcp.auditmanager_v1#Empty"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.auditmanager_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.auditmanager_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.auditmanager_v1#BadRequest"
+        },
+        {
+          "target": "com.gcp.auditmanager_v1#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "v1/{+name}:cancel"
+        },
+        "smithy.api#documentation": "Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`."
+      }
+    },
+    "com.gcp.auditmanager_v1#GetOrganizationsLocationsOperationDetailsRequest": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the operation resource.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.gcp.auditmanager_v1#GetOrganizationsLocationsOperationDetails": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.auditmanager_v1#GetOrganizationsLocationsOperationDetailsRequest"
+      },
+      "output": {
+        "target": "com.gcp.auditmanager_v1#Operation"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.auditmanager_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.auditmanager_v1#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "v1/{+name}"
+        },
+        "smithy.api#documentation": "Gets details about the long-running operation to generate audit reports."
+      }
+    }
+  }
+}

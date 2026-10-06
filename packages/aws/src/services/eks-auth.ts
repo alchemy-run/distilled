@@ -1,18 +1,15 @@
+import * as API from "@distilled.cloud/core/api";
+import * as S from "@distilled.cloud/core/schema";
 import * as HttpClient from "effect/http/HttpClient";
 import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
-import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
 import * as C from "../category.ts";
 import type { Credentials as Creds } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
-const svc = T.AwsApiService({
-  sdkId: "EKS Auth",
-  serviceShapeName: "EKSAuthFrontend",
-});
+import * as T from "../traits.ts";
+const svc = T.AwsApiService({ sdkId: "EKS Auth", serviceShapeName: "EKSAuthFrontend" });
 const auth = T.AwsAuthSigv4({ name: "eks-auth" });
 const ver = T.ServiceVersion("2023-11-26");
 const proto = T.AwsProtocolsRestJson1();
@@ -28,9 +25,7 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -45,9 +40,7 @@ const rules = T.EndpointResolver((p, _) => {
                 `https://eks-auth-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
               );
             }
-            return err(
-              "FIPS is enabled but this partition does not support FIPS",
-            );
+            return err("FIPS is enabled but this partition does not support FIPS");
           }
           return e(
             `https://eks-auth.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
@@ -55,17 +48,11 @@ const rules = T.EndpointResolver((p, _) => {
         }
         if (UseFIPS === true) {
           if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            return e(
-              `https://eks-auth-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
+            return e(`https://eks-auth-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
-        return e(
-          `https://eks-auth.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://eks-auth.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -144,10 +131,7 @@ export const AssumeRoleForPodIdentityRequest = /*@__PURE__*/ S.suspend(() =>
     zone: S.optional(S.String),
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/clusters/{clusterName}/assume-role-for-pod-identity",
-      }),
+      T.Http({ method: "POST", uri: "/clusters/{clusterName}/assume-role-for-pod-identity" }),
       svc,
       auth,
       proto,
@@ -171,18 +155,14 @@ export interface PodIdentityAssociation {
 }
 export const PodIdentityAssociation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ associationArn: S.String, associationId: S.String }),
-).annotate({
-  identifier: "PodIdentityAssociation",
-}) as any as S.Schema<PodIdentityAssociation>;
+).annotate({ identifier: "PodIdentityAssociation" }) as any as S.Schema<PodIdentityAssociation>;
 export interface AssumedRoleUser {
   arn: string;
   assumeRoleId: string;
 }
 export const AssumedRoleUser = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ arn: S.String, assumeRoleId: S.String }),
-).annotate({
-  identifier: "AssumedRoleUser",
-}) as any as S.Schema<AssumedRoleUser>;
+).annotate({ identifier: "AssumedRoleUser" }) as any as S.Schema<AssumedRoleUser>;
 export interface Credentials {
   sessionToken: string | redacted.Redacted<string>;
   secretAccessKey: string | redacted.Redacted<string>;

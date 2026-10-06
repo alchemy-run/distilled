@@ -4101,7 +4101,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier.",
+            "smithy.api#documentation": "Custom hostname identifier tag.",
             "smithy.api#required": {}
           }
         },
@@ -5378,7 +5378,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier.",
+            "smithy.api#documentation": "Custom hostname identifier tag.",
             "smithy.api#required": {}
           }
         },
@@ -5478,7 +5478,7 @@
         "custom_hostname_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier.",
+            "smithy.api#documentation": "Custom hostname identifier tag.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -5486,7 +5486,7 @@
         "certificate_pack_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier.",
+            "smithy.api#documentation": "Custom hostname identifier tag.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -5494,7 +5494,7 @@
         "certificate_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier.",
+            "smithy.api#documentation": "Custom hostname identifier tag.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -5510,7 +5510,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier."
+            "smithy.api#documentation": "Custom hostname identifier tag."
           }
         }
       },
@@ -5559,7 +5559,7 @@
         "custom_hostname_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier.",
+            "smithy.api#documentation": "Custom hostname identifier tag.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -5575,7 +5575,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier."
+            "smithy.api#documentation": "Custom hostname identifier tag."
           }
         }
       },
@@ -5708,7 +5708,7 @@
         "custom_hostname_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier.",
+            "smithy.api#documentation": "Custom hostname identifier tag.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -5724,7 +5724,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier.",
+            "smithy.api#documentation": "Custom hostname identifier tag.",
             "smithy.api#required": {}
           }
         },
@@ -6062,7 +6062,7 @@
         "custom_hostname_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier.",
+            "smithy.api#documentation": "Custom hostname identifier tag.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -6102,7 +6102,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier.",
+            "smithy.api#documentation": "Custom hostname identifier tag.",
             "smithy.api#required": {}
           }
         },
@@ -6202,7 +6202,7 @@
         "custom_hostname_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier.",
+            "smithy.api#documentation": "Custom hostname identifier tag.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -6210,7 +6210,7 @@
         "certificate_pack_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier.",
+            "smithy.api#documentation": "Custom hostname identifier tag.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -6218,7 +6218,7 @@
         "certificate_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier.",
+            "smithy.api#documentation": "Custom hostname identifier tag.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -6248,7 +6248,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier.",
+            "smithy.api#documentation": "Custom hostname identifier tag.",
             "smithy.api#required": {}
           }
         },

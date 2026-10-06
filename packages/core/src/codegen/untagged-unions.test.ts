@@ -1,4 +1,4 @@
-import { expect, test } from "bun:test";
+import { expect, test } from "vitest";
 import { generateService } from "./generator.ts";
 
 const model = {
@@ -60,12 +60,8 @@ test("untagged unions honor the configured schema type", () => {
       schemaType,
       operationDecl,
     });
-    expect(code).toContain(
-      `S.Union([S.Boolean, Paths]) as any as S.${schemaType}<Choice>`,
-    );
-    expect(code).toContain(
-      `S.Array(S.String) as any as S.${schemaType}<Paths>`,
-    );
+    expect(code).toContain(`S.Union([S.Boolean, Paths]) as any as S.${schemaType}<Choice>`);
+    expect(code).toContain(`S.Array(S.String) as any as S.${schemaType}<Paths>`);
   }
 });
 

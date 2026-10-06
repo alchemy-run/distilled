@@ -140,6 +140,13 @@
             "smithy.api#documentation": "Display name of the insight monitored by this alert."
           }
         },
+        "llm_detector_available": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this alert can use the AI detector, judged for the person who created it, since scheduled checks run as the creator. Only computed when retrieving a single alert; null elsewhere.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
         "name": {
           "target": "smithy.api#String",
           "traits": {
@@ -189,6 +196,13 @@
             "com.distilled.openapi#nullable": {}
           }
         },
+        "schedule_start_time": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Local time that starts alert checks in HH:MM format. Updating this value recalculates the next check. Set null to remove the custom start time.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
         "next_check_at": {
           "target": "smithy.api#String",
           "traits": {
@@ -219,6 +233,12 @@
           "target": "com.posthog.alerts#DetectorConfig",
           "traits": {
             "com.distilled.openapi#nullable": {}
+          }
+        },
+        "evaluation_delay_intervals": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Skip this many completed insight intervals after excluding the ongoing interval (0-100, default 0). Time-series Trends only. A positive delay requires check_ongoing_interval=false. Uses the insight interval, not the check frequency. Allows late data to arrive, but also delays detection of real problems."
           }
         },
         "calculation_interval": {
@@ -1015,6 +1035,9 @@
         },
         "PCADetectorConfig": {
           "target": "com.posthog.alerts#PCADetectorConfig"
+        },
+        "LLMDetectorConfig": {
+          "target": "com.posthog.alerts#LLMDetectorConfig"
         }
       },
       "traits": {
@@ -1571,6 +1594,36 @@
       },
       "traits": {}
     },
+    "com.posthog.alerts#LLMDetectorConfig": {
+      "type": "structure",
+      "members": {
+        "instructions": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "What counts as unusual or interesting for this metric, in your own words. Optional.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "threshold": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Minimum confidence [0-1] the model must report before the alert fires (default: 0.7)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String"
+        },
+        "window": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "How many recent points the model is shown (default: 90)",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.posthog.alerts#CalculationIntervalEnum": {
       "type": "enum",
       "members": {
@@ -1801,6 +1854,13 @@
             "smithy.api#documentation": "Whether the alert is actively being evaluated."
           }
         },
+        "schedule_start_time": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Local time that starts alert checks in HH:MM format. Updating this value recalculates the next check. Set null to remove the custom start time.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
         "config": {
           "target": "com.posthog.alerts#AlertConfigUnion",
           "traits": {
@@ -1812,6 +1872,12 @@
           "target": "com.posthog.alerts#DetectorConfig",
           "traits": {
             "com.distilled.openapi#nullable": {}
+          }
+        },
+        "evaluation_delay_intervals": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Skip this many completed insight intervals after excluding the ongoing interval (0-100, default 0). Time-series Trends only. A positive delay requires check_ongoing_interval=false. Uses the insight interval, not the check frequency. Allows late data to arrive, but also delays detection of real problems."
           }
         },
         "calculation_interval": {
@@ -2035,6 +2101,13 @@
             "smithy.api#documentation": "Whether the alert is actively being evaluated."
           }
         },
+        "schedule_start_time": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Local time that starts alert checks in HH:MM format. Updating this value recalculates the next check. Set null to remove the custom start time.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
         "config": {
           "target": "com.posthog.alerts#AlertConfigUnion",
           "traits": {
@@ -2046,6 +2119,12 @@
           "target": "com.posthog.alerts#DetectorConfig",
           "traits": {
             "com.distilled.openapi#nullable": {}
+          }
+        },
+        "evaluation_delay_intervals": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Skip this many completed insight intervals after excluding the ongoing interval (0-100, default 0). Time-series Trends only. A positive delay requires check_ongoing_interval=false. Uses the insight interval, not the check frequency. Allows late data to arrive, but also delays detection of real problems."
           }
         },
         "calculation_interval": {
@@ -2190,6 +2269,13 @@
             "smithy.api#documentation": "Whether the alert is actively being evaluated."
           }
         },
+        "schedule_start_time": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Local time that starts alert checks in HH:MM format. Updating this value recalculates the next check. Set null to remove the custom start time.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
         "config": {
           "target": "com.posthog.alerts#AlertConfigUnion",
           "traits": {
@@ -2201,6 +2287,12 @@
           "target": "com.posthog.alerts#DetectorConfig",
           "traits": {
             "com.distilled.openapi#nullable": {}
+          }
+        },
+        "evaluation_delay_intervals": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Skip this many completed insight intervals after excluding the ongoing interval (0-100, default 0). Time-series Trends only. A positive delay requires check_ongoing_interval=false. Uses the insight interval, not the check frequency. Allows late data to arrive, but also delays detection of real problems."
           }
         },
         "calculation_interval": {
@@ -2328,6 +2420,166 @@
         }
       }
     },
+    "com.posthog.alerts#ChannelTypeEnum": {
+      "type": "enum",
+      "members": {
+        "SLACK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "slack"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `slack` - slack"
+      }
+    },
+    "com.posthog.alerts#CreateAlertsDestinationRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A UUID string identifying this alert configuration."
+          }
+        },
+        "type": {
+          "target": "com.posthog.alerts#ChannelTypeEnum",
+          "traits": {
+            "smithy.api#documentation": "Destination type. Slack is the only type this endpoint creates.\n\n* `slack` - slack"
+          }
+        },
+        "slack_workspace_id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Integration ID of the Slack workspace to post in. List them with the integrations endpoint.",
+            "smithy.api#required": {}
+          }
+        },
+        "slack_channel_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Slack channel ID to post in, for example C0123456789.",
+            "smithy.api#required": {}
+          }
+        },
+        "slack_channel_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Channel name shown on the destination, for example product-alerts."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.alerts#AlertDestinationResponse": {
+      "type": "structure",
+      "members": {
+        "hog_function_ids": {
+          "target": "com.posthog.alerts#AlertDestinationResponseHogFunctionIdsList",
+          "traits": {
+            "smithy.api#documentation": "IDs of the created destination. Pass them to destinations/delete to remove it.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.alerts#AlertDestinationResponseHogFunctionIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "IDs of the created destination. Pass them to destinations/delete to remove it."
+      }
+    },
+    "com.posthog.alerts#CreateAlertsDestination": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.alerts#CreateAlertsDestinationRequest"
+      },
+      "output": {
+        "target": "com.posthog.alerts#AlertDestinationResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/alerts/{id}/destinations/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Send this alert to a Slack channel as well as by email. The workspace must already be connected to the project. The returned IDs identify the destination."
+      }
+    },
+    "com.posthog.alerts#AlertsDestinationsDeleteCreateRequestHogFunctionIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Destination IDs to delete, as returned when the destination was created."
+      }
+    },
+    "com.posthog.alerts#AlertsDestinationsDeleteCreateRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A UUID string identifying this alert configuration."
+          }
+        },
+        "hog_function_ids": {
+          "target": "com.posthog.alerts#AlertsDestinationsDeleteCreateRequestHogFunctionIdsList",
+          "traits": {
+            "smithy.api#documentation": "Destination IDs to delete, as returned when the destination was created.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.alerts#AlertsDestinationsDeleteCreate": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.alerts#AlertsDestinationsDeleteCreateRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/alerts/{id}/destinations/delete/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Stop sending this alert to a destination. The alert keeps its email recipients."
+      }
+    },
     "com.posthog.alerts#CreateAlertsTestDeliveryRequest": {
       "type": "structure",
       "members": {
@@ -2394,6 +2646,12 @@
             "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
           }
         },
+        "evaluation_delay_intervals": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Skip this many completed insight intervals before simulation, matching live evaluation. Time-series Trends only; a positive delay requires check_ongoing_interval=false."
+          }
+        },
         "insight": {
           "target": "com.posthog.alerts#CreateAlertsSimulateRequestInsight",
           "traits": {
@@ -2434,6 +2692,30 @@
     "com.posthog.alerts#AlertSimulateResponse": {
       "type": "structure",
       "members": {
+        "evaluation_delay_intervals": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Completed intervals skipped."
+          }
+        },
+        "evaluated_interval_start": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Start of the latest eligible interval."
+          }
+        },
+        "evaluated_interval_end": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Exclusive end of the latest eligible interval."
+          }
+        },
+        "evaluated_interval_timezone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Project timezone of the interval."
+          }
+        },
         "data": {
           "target": "com.posthog.alerts#AlertSimulateResponseDataList",
           "traits": {
@@ -2449,7 +2731,7 @@
         "scores": {
           "target": "com.posthog.alerts#AlertSimulateResponseScoresList",
           "traits": {
-            "smithy.api#documentation": "Anomaly score for each point (null if insufficient data)."
+            "smithy.api#documentation": "Score for each point. Null can mean insufficient data or a valid unscored point. AI previews report model confidence only for points flagged by an anomaly verdict; all other points are null, including every point in a normal verdict."
           }
         },
         "triggered_indices": {
@@ -2525,7 +2807,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "Anomaly score for each point (null if insufficient data)."
+        "smithy.api#documentation": "Score for each point. Null can mean insufficient data or a valid unscored point. AI previews report model confidence only for points flagged by an anomaly verdict; all other points are null, including every point in a normal verdict."
       }
     },
     "com.posthog.alerts#AlertSimulateResponseTriggeredIndicesList": {
@@ -2726,7 +3008,7 @@
           "uri": "/api/projects/{project_id}/alerts/simulate/",
           "code": 200
         },
-        "smithy.api#documentation": "Simulate a detector on an insight's historical data. Read-only — no AlertCheck records are created."
+        "smithy.api#documentation": "Simulate a detector on an insight's historical data. No AlertCheck records are created. The AI detector makes a real model call, so that mode needs the 'alert:write' scope."
       }
     },
     "com.posthog.alerts#BadRequest": {
@@ -2789,6 +3071,12 @@
         },
         {
           "target": "com.posthog.alerts#AlertsDestroy"
+        },
+        {
+          "target": "com.posthog.alerts#CreateAlertsDestination"
+        },
+        {
+          "target": "com.posthog.alerts#AlertsDestinationsDeleteCreate"
         },
         {
           "target": "com.posthog.alerts#CreateAlertsTestDelivery"

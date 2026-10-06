@@ -8,46 +8,6 @@
     "distilled.finalized": true
   },
   "shapes": {
-    "com.gcp.dataportability_v1beta#CheckAccessTypeRequest": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#documentation": "Request to check the token's access type. All required information is derived from the attached OAuth token."
-      }
-    },
-    "com.gcp.dataportability_v1beta#CheckAccessTypeResponse": {
-      "type": "structure",
-      "members": {
-        "timeBasedResources": {
-          "target": "com.gcp.dataportability_v1beta#StringList",
-          "traits": {
-            "smithy.api#documentation": "Jobs initiated with this token will be time-based if all requested resources have time-based access."
-          }
-        },
-        "oneTimeResources": {
-          "target": "com.gcp.dataportability_v1beta#StringList",
-          "traits": {
-            "smithy.api#documentation": "Jobs initiated with this token will be one-time if any requested resources have one-time access."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Response to checking the token's access type."
-      }
-    },
-    "com.gcp.dataportability_v1beta#StringList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      }
-    },
-    "com.gcp.dataportability_v1beta#CancelPortabilityArchiveRequest": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#documentation": "Request to cancel a Portability Archive job."
-      }
-    },
     "com.gcp.dataportability_v1beta#CancelPortabilityArchiveResponse": {
       "type": "structure",
       "members": {},
@@ -55,42 +15,22 @@
         "smithy.api#documentation": "Response to canceling a Data Portability Archive job."
       }
     },
-    "com.gcp.dataportability_v1beta#ResetAuthorizationRequest": {
+    "com.gcp.dataportability_v1beta#RetryPortabilityArchiveRequest": {
       "type": "structure",
       "members": {},
       "traits": {
-        "smithy.api#documentation": "Request to reset exhausted OAuth scopes."
-      }
-    },
-    "com.gcp.dataportability_v1beta#ArchiveInitiatePortabilityRequest": {
-      "type": "structure",
-      "members": {
-        "endTime": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Optional. The timestamp that represents the end point for the data you are exporting. If the end_time is not specified in the InitiatePortabilityArchiveRequest, this field is set to the latest available data."
-          }
-        },
-        "resources": {
-          "target": "com.gcp.dataportability_v1beta#StringList",
-          "traits": {
-            "smithy.api#documentation": "The resources from which you're exporting data. These values have a 1:1 correspondence with the OAuth scopes."
-          }
-        },
-        "startTime": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Optional. The timestamp that represents the starting point for the data you are exporting. If the start_time is not specified in the InitiatePortabilityArchiveRequest, the field is set to the earliest available data."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Request to kick off an Archive job."
+        "smithy.api#documentation": "Request to retry a failed Portability Archive job."
       }
     },
     "com.gcp.dataportability_v1beta#PortabilityArchiveState": {
       "type": "structure",
       "members": {
+        "startTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The timestamp that represents the starting point for the data you are exporting. This field is set only if the start_time field is specified in the InitiatePortabilityArchiveRequest."
+          }
+        },
         "exportTime": {
           "target": "smithy.api#String",
           "traits": {
@@ -103,22 +43,16 @@
             "smithy.api#documentation": "The resource name of ArchiveJob's PortabilityArchiveState singleton. The format is: archiveJobs/{archive_job}/portabilityArchiveState. archive_job is the job ID provided in the request."
           }
         },
-        "urls": {
-          "target": "com.gcp.dataportability_v1beta#StringList",
-          "traits": {
-            "smithy.api#documentation": "If the state is complete, this method returns the signed URLs of the objects in the Cloud Storage bucket."
-          }
-        },
         "state": {
           "target": "com.gcp.dataportability_v1beta#PortabilityArchiveStateStateEnum",
           "traits": {
             "smithy.api#documentation": "Resource that represents the state of the Archive job."
           }
         },
-        "startTime": {
-          "target": "smithy.api#String",
+        "urls": {
+          "target": "com.gcp.dataportability_v1beta#StringList",
           "traits": {
-            "smithy.api#documentation": "The timestamp that represents the starting point for the data you are exporting. This field is set only if the start_time field is specified in the InitiatePortabilityArchiveRequest."
+            "smithy.api#documentation": "If the state is complete, this method returns the signed URLs of the objects in the Cloud Storage bucket."
           }
         }
       },
@@ -161,6 +95,46 @@
         }
       }
     },
+    "com.gcp.dataportability_v1beta#StringList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.gcp.dataportability_v1beta#ResetAuthorizationRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#documentation": "Request to reset exhausted OAuth scopes."
+      }
+    },
+    "com.gcp.dataportability_v1beta#CancelPortabilityArchiveRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#documentation": "Request to cancel a Portability Archive job."
+      }
+    },
+    "com.gcp.dataportability_v1beta#CheckAccessTypeResponse": {
+      "type": "structure",
+      "members": {
+        "oneTimeResources": {
+          "target": "com.gcp.dataportability_v1beta#StringList",
+          "traits": {
+            "smithy.api#documentation": "Jobs initiated with this token will be one-time if any requested resources have one-time access."
+          }
+        },
+        "timeBasedResources": {
+          "target": "com.gcp.dataportability_v1beta#StringList",
+          "traits": {
+            "smithy.api#documentation": "Jobs initiated with this token will be time-based if all requested resources have time-based access."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Response to checking the token's access type."
+      }
+    },
     "com.gcp.dataportability_v1beta#RetryPortabilityArchiveResponse": {
       "type": "structure",
       "members": {
@@ -175,11 +149,11 @@
         "smithy.api#documentation": "Response from retrying a Portability Archive."
       }
     },
-    "com.gcp.dataportability_v1beta#Empty": {
+    "com.gcp.dataportability_v1beta#CheckAccessTypeRequest": {
       "type": "structure",
       "members": {},
       "traits": {
-        "smithy.api#documentation": "A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); }"
+        "smithy.api#documentation": "Request to check the token's access type. All required information is derived from the attached OAuth token."
       }
     },
     "com.gcp.dataportability_v1beta#ArchiveInitiatePortabilityResponse": {
@@ -225,22 +199,47 @@
         }
       }
     },
-    "com.gcp.dataportability_v1beta#RetryPortabilityArchiveRequest": {
+    "com.gcp.dataportability_v1beta#ArchiveInitiatePortabilityRequest": {
+      "type": "structure",
+      "members": {
+        "endTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. The timestamp that represents the end point for the data you are exporting. If the end_time is not specified in the InitiatePortabilityArchiveRequest, this field is set to the latest available data."
+          }
+        },
+        "resources": {
+          "target": "com.gcp.dataportability_v1beta#StringList",
+          "traits": {
+            "smithy.api#documentation": "The resources from which you're exporting data. These values have a 1:1 correspondence with the OAuth scopes."
+          }
+        },
+        "startTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. The timestamp that represents the starting point for the data you are exporting. If the start_time is not specified in the InitiatePortabilityArchiveRequest, the field is set to the earliest available data."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Request to kick off an Archive job."
+      }
+    },
+    "com.gcp.dataportability_v1beta#Empty": {
       "type": "structure",
       "members": {},
       "traits": {
-        "smithy.api#documentation": "Request to retry a failed Portability Archive job."
+        "smithy.api#documentation": "A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); }"
       }
     },
-    "com.gcp.dataportability_v1beta#GetPortabilityArchiveStateArchiveJobsRequest": {
+    "com.gcp.dataportability_v1beta#CheckAccessTypeRequest_": {
       "type": "structure",
       "members": {
-        "name": {
-          "target": "smithy.api#String",
+        "body": {
+          "target": "com.gcp.dataportability_v1beta#CheckAccessTypeRequest",
           "traits": {
-            "smithy.api#documentation": "Required. The archive job ID that is returned when you request the state of the job. The format is: archiveJobs/{archive_job}/portabilityArchiveState. archive_job is the job ID returned by the InitiatePortabilityArchiveResponse.",
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {}
+            "smithy.api#httpPayload": {},
+            "smithy.api#documentation": "Request body"
           }
         }
       }
@@ -269,6 +268,75 @@
             "status": 403
           }
         ]
+      }
+    },
+    "com.gcp.dataportability_v1beta#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.gcp.dataportability_v1beta#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.gcp.dataportability_v1beta#CheckAccessType": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.dataportability_v1beta#CheckAccessTypeRequest_"
+      },
+      "output": {
+        "target": "com.gcp.dataportability_v1beta#CheckAccessTypeResponse"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.dataportability_v1beta#NotFound"
+        },
+        {
+          "target": "com.gcp.dataportability_v1beta#Forbidden"
+        },
+        {
+          "target": "com.gcp.dataportability_v1beta#BadRequest"
+        },
+        {
+          "target": "com.gcp.dataportability_v1beta#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "v1beta/accessType:check"
+        },
+        "smithy.api#documentation": "Gets the access type of the token."
+      }
+    },
+    "com.gcp.dataportability_v1beta#GetPortabilityArchiveStateArchiveJobsRequest": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. The archive job ID that is returned when you request the state of the job. The format is: archiveJobs/{archive_job}/portabilityArchiveState. archive_job is the job ID returned by the InitiatePortabilityArchiveResponse.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
       }
     },
     "com.gcp.dataportability_v1beta#GetPortabilityArchiveStateArchiveJobs": {
@@ -313,32 +381,6 @@
             "smithy.api#documentation": "Request body"
           }
         }
-      }
-    },
-    "com.gcp.dataportability_v1beta#BadRequest": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 400,
-        "com.gcp.protocols#errorMatchers": [
-          {
-            "status": 400
-          }
-        ]
-      }
-    },
-    "com.gcp.dataportability_v1beta#Conflict": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 409,
-        "com.gcp.protocols#errorMatchers": [
-          {
-            "status": 409
-          }
-        ]
       }
     },
     "com.gcp.dataportability_v1beta#RetryArchiveJobs": {
@@ -503,48 +545,6 @@
           "uri": "v1beta/portabilityArchive:initiate"
         },
         "smithy.api#documentation": "Initiates a new Archive job for the Portability API."
-      }
-    },
-    "com.gcp.dataportability_v1beta#CheckAccessTypeRequest_": {
-      "type": "structure",
-      "members": {
-        "body": {
-          "target": "com.gcp.dataportability_v1beta#CheckAccessTypeRequest",
-          "traits": {
-            "smithy.api#httpPayload": {},
-            "smithy.api#documentation": "Request body"
-          }
-        }
-      }
-    },
-    "com.gcp.dataportability_v1beta#CheckAccessType": {
-      "type": "operation",
-      "input": {
-        "target": "com.gcp.dataportability_v1beta#CheckAccessTypeRequest_"
-      },
-      "output": {
-        "target": "com.gcp.dataportability_v1beta#CheckAccessTypeResponse"
-      },
-      "errors": [
-        {
-          "target": "com.gcp.dataportability_v1beta#NotFound"
-        },
-        {
-          "target": "com.gcp.dataportability_v1beta#Forbidden"
-        },
-        {
-          "target": "com.gcp.dataportability_v1beta#BadRequest"
-        },
-        {
-          "target": "com.gcp.dataportability_v1beta#Conflict"
-        }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "v1beta/accessType:check"
-        },
-        "smithy.api#documentation": "Gets the access type of the token."
       }
     }
   }

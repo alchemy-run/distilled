@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env node
 /**
  * Mirrors the AWS Smithy service models into ../specs/.
  *
@@ -16,15 +16,17 @@
  * a single file, so it is fetched straight from raw.githubusercontent.com.
  *
  * Usage:
- *   bun run fetch-specs.ts
+ *   node fetch-specs.ts
  *
  * Specs are saved to:
  *   ../specs/models/<service>/service/<version>/<service>-<version>.json
  *   ../specs/partitions.json
  */
 
+import { spawn } from "child_process";
+import { once } from "events";
 import { mkdtempSync, rmSync } from "fs";
-import { cp, mkdir, rm } from "fs/promises";
+import { cp, mkdir, rm, writeFile } from "fs/promises";
 import { tmpdir } from "os";
 import { join } from "path";
 
@@ -40,12 +42,8 @@ const PARTITIONS_URL =
 const SPECS_DIR = "../specs";
 
 const git = async (cwd: string, ...args: string[]) => {
-  const proc = Bun.spawn(["git", ...args], {
-    cwd,
-    stdout: "inherit",
-    stderr: "inherit",
-  });
-  const code = await proc.exited;
+  const proc = spawn("git", args, { cwd, stdio: ["ignore", "inherit", "inherit"] });
+  const [code] = await once(proc, "close");
   if (code !== 0) {
     throw new Error(`git ${args.join(" ")} failed with exit code ${code}`);
   }
@@ -92,13 +90,11 @@ async function fetchPartitions() {
   console.log(`Fetching ${PARTITIONS_URL}...`);
   const response = await fetch(PARTITIONS_URL);
   if (!response.ok) {
-    throw new Error(
-      `Failed to fetch ${PARTITIONS_URL}: ${response.status} ${response.statusText}`,
-    );
+    throw new Error(`Failed to fetch ${PARTITIONS_URL}: ${response.status} ${response.statusText}`);
   }
   const outputPath = `${SPECS_DIR}/partitions.json`;
   console.log(`Writing ${outputPath}...`);
-  await Bun.write(outputPath, await response.arrayBuffer());
+  await writeFile(outputPath, new Uint8Array(await response.arrayBuffer()));
 }
 
 async function main() {

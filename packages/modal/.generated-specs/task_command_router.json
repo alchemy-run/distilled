@@ -246,6 +246,40 @@
         }
       }
     },
+    "com.modal.task.command.router#SecretSource": {
+      "type": "structure",
+      "members": {
+        "secretId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Server-side Secret, resolved on the worker."
+          }
+        },
+        "env": {
+          "target": "com.modal.task.command.router#StringMap2",
+          "traits": {
+            "smithy.api#documentation": "Plaintext values sent directly to the worker. Must not be persisted."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "One source of environment variables for a Sandbox container or exec."
+      }
+    },
+    "com.modal.task.command.router#StringMap2": {
+      "type": "structure",
+      "members": {
+        "contents": {
+          "target": "com.modal.task.command.router#StringMap"
+        }
+      }
+    },
+    "com.modal.task.command.router#SecretSourceList": {
+      "type": "list",
+      "member": {
+        "target": "com.modal.task.command.router#SecretSource"
+      }
+    },
     "com.modal.task.command.router#CreateTaskContainerRequest": {
       "type": "structure",
       "members": {
@@ -292,6 +326,18 @@
           "target": "com.modal.task.command.router#PTYInfo",
           "traits": {
             "smithy.api#documentation": "Optional PTY info for sidecar."
+          }
+        },
+        "memoryReserveConsumeMib": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Memory, in MiB, the sidecar consumes from the sandbox's sidecar memory reserve (experimental option vm_sidecar_memory_reserve_mib); unset consumes whatever is left of it. Ignored without a reserve."
+          }
+        },
+        "secretSources": {
+          "target": "com.modal.task.command.router#SecretSourceList",
+          "traits": {
+            "smithy.api#documentation": "Applied in order. Cannot be combined with secret_ids or env."
           }
         }
       },
@@ -836,6 +882,12 @@
           "traits": {
             "smithy.api#documentation": "Environment variables to set directly for the exec'd command."
           }
+        },
+        "secretSources": {
+          "target": "com.modal.task.command.router#SecretSourceList",
+          "traits": {
+            "smithy.api#documentation": "Applied in order. Cannot be combined with secret_ids or env."
+          }
         }
       },
       "traits": {
@@ -1167,6 +1219,90 @@
         "smithy.api#documentation": "Replace the task's outbound network allowlist (domains + CIDRs)."
       }
     },
+    "com.modal.task.command.router#OutboundPolicy": {
+      "type": "structure",
+      "members": {
+        "headerReplacements": {
+          "target": "com.modal.task.command.router#OutboundPolicyHeaderReplacementList",
+          "traits": {
+            "smithy.api#documentation": "Replace headers in outbound HTTPS requests, potentially with secret values."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Policy for outbound traffic from a sandbox."
+      }
+    },
+    "com.modal.task.command.router#OutboundPolicyHeaderReplacement": {
+      "type": "structure",
+      "members": {
+        "domain": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Domain that the header replacements are scoped to. Supports wildcards in subdomain positions."
+          }
+        },
+        "secretId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Reference to a secret usable in the header value templates. Can be empty if no secret value is used."
+          }
+        },
+        "headers": {
+          "target": "com.modal.task.command.router#StringMap",
+          "traits": {
+            "smithy.api#documentation": "Header name -> header value. Values support templating with keys in the stanza's secret_id: a $-prefixed key name in the secret will be replaced with the secret value. Literal $ characters can be represented by two dollars: `$$`."
+          }
+        }
+      }
+    },
+    "com.modal.task.command.router#OutboundPolicyHeaderReplacementList": {
+      "type": "list",
+      "member": {
+        "target": "com.modal.task.command.router#OutboundPolicyHeaderReplacement"
+      }
+    },
+    "com.modal.task.command.router#TaskSetOutboundPolicyRequest": {
+      "type": "structure",
+      "members": {
+        "taskId": {
+          "target": "smithy.api#String"
+        },
+        "outboundPolicy": {
+          "target": "com.modal.task.command.router#OutboundPolicy",
+          "traits": {
+            "smithy.api#documentation": "Replaces the task's outbound policy."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.task.command.router#TaskSetOutboundPolicyResponse": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.task.command.router#TaskSetOutboundPolicy": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.task.command.router#TaskSetOutboundPolicyRequest"
+      },
+      "output": {
+        "target": "com.modal.task.command.router#TaskSetOutboundPolicyResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.task_command_router.TaskCommandRouter/TaskSetOutboundPolicy",
+          "code": 200
+        },
+        "smithy.api#documentation": "Replace the task's outbound policy."
+      }
+    },
     "com.modal.task.command.router#TaskSnapshotDirectoryRequest": {
       "type": "structure",
       "members": {
@@ -1423,6 +1559,9 @@
         },
         {
           "target": "com.modal.task.command.router#TaskSetNetworkAccess"
+        },
+        {
+          "target": "com.modal.task.command.router#TaskSetOutboundPolicy"
         },
         {
           "target": "com.modal.task.command.router#TaskSnapshotDirectory"

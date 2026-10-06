@@ -1,14 +1,14 @@
+import * as API from "@distilled.cloud/core/api";
+import * as S from "@distilled.cloud/core/schema";
 import * as HttpClient from "effect/http/HttpClient";
 import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
-import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "DocDB Elastic",
   serviceShapeName: "ChimeraDbLionfishServiceLambda",
@@ -28,14 +28,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -62,9 +58,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://docdb-elastic-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -72,13 +66,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://docdb-elastic.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://docdb-elastic.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://docdb-elastic.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -94,11 +84,7 @@ export class AccessDeniedException
 export class ConflictException
   extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
     "ConflictException",
-    {
-      message: S.String.pipe(T.ErrorMessage()),
-      resourceId: S.String,
-      resourceType: S.String,
-    },
+    { message: S.String.pipe(T.ErrorMessage()), resourceId: S.String, resourceType: S.String },
     T.HttpError(409),
   ).pipe(C.withConflictError) {}
 export class InternalServerException
@@ -110,11 +96,7 @@ export class InternalServerException
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",
-    {
-      message: S.String.pipe(T.ErrorMessage()),
-      resourceId: S.String,
-      resourceType: S.String,
-    },
+    { message: S.String.pipe(T.ErrorMessage()), resourceId: S.String, resourceType: S.String },
     T.HttpError(404),
   ).pipe(C.withBadRequestError) {}
 export class ServiceQuotaExceededException
@@ -160,16 +142,7 @@ export const ApplyPendingMaintenanceActionInput = /*@__PURE__*/ S.suspend(() =>
     applyAction: S.String,
     optInType: S.String,
     applyOn: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/pending-action" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/pending-action" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ApplyPendingMaintenanceActionInput",
 }) as any as S.Schema<ApplyPendingMaintenanceActionInput>;
@@ -193,8 +166,7 @@ export const PendingMaintenanceActionDetails = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "PendingMaintenanceActionDetails",
 }) as any as S.Schema<PendingMaintenanceActionDetails>;
-export type PendingMaintenanceActionDetailsList =
-  PendingMaintenanceActionDetails[];
+export type PendingMaintenanceActionDetailsList = PendingMaintenanceActionDetails[];
 export const PendingMaintenanceActionDetailsList = /*@__PURE__*/ S.Array(
   PendingMaintenanceActionDetails,
 );
@@ -205,9 +177,7 @@ export interface ResourcePendingMaintenanceAction {
 export const ResourcePendingMaintenanceAction = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     resourceArn: S.optional(S.String),
-    pendingMaintenanceActionDetails: S.optional(
-      PendingMaintenanceActionDetailsList,
-    ),
+    pendingMaintenanceActionDetails: S.optional(PendingMaintenanceActionDetailsList),
   }),
 ).annotate({
   identifier: "ResourcePendingMaintenanceAction",
@@ -216,19 +186,14 @@ export interface ApplyPendingMaintenanceActionOutput {
   resourcePendingMaintenanceAction: ResourcePendingMaintenanceAction;
 }
 export const ApplyPendingMaintenanceActionOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourcePendingMaintenanceAction: ResourcePendingMaintenanceAction,
-  }),
+  S.Struct({ resourcePendingMaintenanceAction: ResourcePendingMaintenanceAction }),
 ).annotate({
   identifier: "ApplyPendingMaintenanceActionOutput",
 }) as any as S.Schema<ApplyPendingMaintenanceActionOutput>;
 export type TagKey = string;
 export type TagValue = string;
 export type TagMap = { [key: string]: string | undefined };
-export const TagMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const TagMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface CopyClusterSnapshotInput {
   snapshotArn: string;
   targetSnapshotName: string;
@@ -253,9 +218,7 @@ export const CopyClusterSnapshotInput = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "CopyClusterSnapshotInput",
-}) as any as S.Schema<CopyClusterSnapshotInput>;
+).annotate({ identifier: "CopyClusterSnapshotInput" }) as any as S.Schema<CopyClusterSnapshotInput>;
 export type StringList = string[];
 export const StringList = /*@__PURE__*/ S.Array(S.String);
 export type Status = string;
@@ -287,9 +250,7 @@ export const ClusterSnapshot = /*@__PURE__*/ S.suspend(() =>
     kmsKeyId: S.String,
     snapshotType: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ClusterSnapshot",
-}) as any as S.Schema<ClusterSnapshot>;
+).annotate({ identifier: "ClusterSnapshot" }) as any as S.Schema<ClusterSnapshot>;
 export interface CopyClusterSnapshotOutput {
   snapshot: ClusterSnapshot;
 }
@@ -334,19 +295,8 @@ export const CreateClusterInput = /*@__PURE__*/ S.suspend(() =>
     backupRetentionPeriod: S.optional(S.Number),
     preferredBackupWindow: S.optional(S.String),
     shardInstanceCount: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/cluster" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateClusterInput",
-}) as any as S.Schema<CreateClusterInput>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/cluster" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "CreateClusterInput" }) as any as S.Schema<CreateClusterInput>;
 export interface Shard {
   shardId: string;
   createTime: string;
@@ -402,28 +352,15 @@ export interface CreateClusterOutput {
 }
 export const CreateClusterOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ cluster: Cluster }),
-).annotate({
-  identifier: "CreateClusterOutput",
-}) as any as S.Schema<CreateClusterOutput>;
+).annotate({ identifier: "CreateClusterOutput" }) as any as S.Schema<CreateClusterOutput>;
 export interface CreateClusterSnapshotInput {
   clusterArn: string;
   snapshotName: string;
   tags?: { [key: string]: string | undefined };
 }
 export const CreateClusterSnapshotInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    clusterArn: S.String,
-    snapshotName: S.String,
-    tags: S.optional(TagMap),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/cluster-snapshot" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+  S.Struct({ clusterArn: S.String, snapshotName: S.String, tags: S.optional(TagMap) }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/cluster-snapshot" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "CreateClusterSnapshotInput",
@@ -441,26 +378,15 @@ export interface DeleteClusterInput {
 }
 export const DeleteClusterInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ clusterArn: S.String.pipe(T.HttpLabel("clusterArn")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/cluster/{clusterArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/cluster/{clusterArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteClusterInput",
-}) as any as S.Schema<DeleteClusterInput>;
+).annotate({ identifier: "DeleteClusterInput" }) as any as S.Schema<DeleteClusterInput>;
 export interface DeleteClusterOutput {
   cluster: Cluster;
 }
 export const DeleteClusterOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ cluster: Cluster }),
-).annotate({
-  identifier: "DeleteClusterOutput",
-}) as any as S.Schema<DeleteClusterOutput>;
+).annotate({ identifier: "DeleteClusterOutput" }) as any as S.Schema<DeleteClusterOutput>;
 export interface DeleteClusterSnapshotInput {
   snapshotArn: string;
 }
@@ -491,26 +417,15 @@ export interface GetClusterInput {
 }
 export const GetClusterInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ clusterArn: S.String.pipe(T.HttpLabel("clusterArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/cluster/{clusterArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/cluster/{clusterArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetClusterInput",
-}) as any as S.Schema<GetClusterInput>;
+).annotate({ identifier: "GetClusterInput" }) as any as S.Schema<GetClusterInput>;
 export interface GetClusterOutput {
   cluster: Cluster;
 }
 export const GetClusterOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ cluster: Cluster }),
-).annotate({
-  identifier: "GetClusterOutput",
-}) as any as S.Schema<GetClusterOutput>;
+).annotate({ identifier: "GetClusterOutput" }) as any as S.Schema<GetClusterOutput>;
 export interface GetClusterSnapshotInput {
   snapshotArn: string;
 }
@@ -525,17 +440,13 @@ export const GetClusterSnapshotInput = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetClusterSnapshotInput",
-}) as any as S.Schema<GetClusterSnapshotInput>;
+).annotate({ identifier: "GetClusterSnapshotInput" }) as any as S.Schema<GetClusterSnapshotInput>;
 export interface GetClusterSnapshotOutput {
   snapshot: ClusterSnapshot;
 }
 export const GetClusterSnapshotOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ snapshot: ClusterSnapshot }),
-).annotate({
-  identifier: "GetClusterSnapshotOutput",
-}) as any as S.Schema<GetClusterSnapshotOutput>;
+).annotate({ identifier: "GetClusterSnapshotOutput" }) as any as S.Schema<GetClusterSnapshotOutput>;
 export interface GetPendingMaintenanceActionInput {
   resourceArn: string;
 }
@@ -557,9 +468,7 @@ export interface GetPendingMaintenanceActionOutput {
   resourcePendingMaintenanceAction: ResourcePendingMaintenanceAction;
 }
 export const GetPendingMaintenanceActionOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourcePendingMaintenanceAction: ResourcePendingMaintenanceAction,
-  }),
+  S.Struct({ resourcePendingMaintenanceAction: ResourcePendingMaintenanceAction }),
 ).annotate({
   identifier: "GetPendingMaintenanceActionOutput",
 }) as any as S.Schema<GetPendingMaintenanceActionOutput>;
@@ -572,19 +481,8 @@ export const ListClustersInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/clusters" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListClustersInput",
-}) as any as S.Schema<ListClustersInput>;
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/clusters" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "ListClustersInput" }) as any as S.Schema<ListClustersInput>;
 export interface ClusterInList {
   clusterName: string;
   clusterArn: string;
@@ -600,13 +498,8 @@ export interface ListClustersOutput {
   nextToken?: string;
 }
 export const ListClustersOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    clusters: S.optional(ClusterList),
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListClustersOutput",
-}) as any as S.Schema<ListClustersOutput>;
+  S.Struct({ clusters: S.optional(ClusterList), nextToken: S.optional(S.String) }),
+).annotate({ identifier: "ListClustersOutput" }) as any as S.Schema<ListClustersOutput>;
 export interface ListClusterSnapshotsInput {
   clusterArn?: string;
   nextToken?: string;
@@ -620,14 +513,7 @@ export const ListClusterSnapshotsInput = /*@__PURE__*/ S.suspend(() =>
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     snapshotType: S.optional(S.String).pipe(T.HttpQuery("snapshotType")),
   }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/cluster-snapshots" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/cluster-snapshots" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListClusterSnapshotsInput",
@@ -647,9 +533,7 @@ export const ClusterSnapshotInList = /*@__PURE__*/ S.suspend(() =>
     status: S.String,
     snapshotCreationTime: S.String,
   }),
-).annotate({
-  identifier: "ClusterSnapshotInList",
-}) as any as S.Schema<ClusterSnapshotInList>;
+).annotate({ identifier: "ClusterSnapshotInList" }) as any as S.Schema<ClusterSnapshotInList>;
 export type ClusterSnapshotList = ClusterSnapshotInList[];
 export const ClusterSnapshotList = /*@__PURE__*/ S.Array(ClusterSnapshotInList);
 export interface ListClusterSnapshotsOutput {
@@ -657,10 +541,7 @@ export interface ListClusterSnapshotsOutput {
   nextToken?: string;
 }
 export const ListClusterSnapshotsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    snapshots: S.optional(ClusterSnapshotList),
-    nextToken: S.optional(S.String),
-  }),
+  S.Struct({ snapshots: S.optional(ClusterSnapshotList), nextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListClusterSnapshotsOutput",
 }) as any as S.Schema<ListClusterSnapshotsOutput>;
@@ -672,21 +553,11 @@ export const ListPendingMaintenanceActionsInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/pending-actions" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/pending-actions" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListPendingMaintenanceActionsInput",
 }) as any as S.Schema<ListPendingMaintenanceActionsInput>;
-export type ResourcePendingMaintenanceActionList =
-  ResourcePendingMaintenanceAction[];
+export type ResourcePendingMaintenanceActionList = ResourcePendingMaintenanceAction[];
 export const ResourcePendingMaintenanceActionList = /*@__PURE__*/ S.Array(
   ResourcePendingMaintenanceAction,
 );
@@ -708,14 +579,7 @@ export interface ListTagsForResourceRequest {
 }
 export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListTagsForResourceRequest",
@@ -750,10 +614,7 @@ export const RestoreClusterFromSnapshotInput = /*@__PURE__*/ S.suspend(() =>
     shardInstanceCount: S.optional(S.Number),
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/cluster-snapshot/{snapshotArn}/restore",
-      }),
+      T.Http({ method: "POST", uri: "/cluster-snapshot/{snapshotArn}/restore" }),
       svc,
       auth,
       proto,
@@ -786,17 +647,13 @@ export const StartClusterInput = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "StartClusterInput",
-}) as any as S.Schema<StartClusterInput>;
+).annotate({ identifier: "StartClusterInput" }) as any as S.Schema<StartClusterInput>;
 export interface StartClusterOutput {
   cluster: Cluster;
 }
 export const StartClusterOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ cluster: Cluster }),
-).annotate({
-  identifier: "StartClusterOutput",
-}) as any as S.Schema<StartClusterOutput>;
+).annotate({ identifier: "StartClusterOutput" }) as any as S.Schema<StartClusterOutput>;
 export interface StopClusterInput {
   clusterArn: string;
 }
@@ -811,42 +668,24 @@ export const StopClusterInput = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "StopClusterInput",
-}) as any as S.Schema<StopClusterInput>;
+).annotate({ identifier: "StopClusterInput" }) as any as S.Schema<StopClusterInput>;
 export interface StopClusterOutput {
   cluster: Cluster;
 }
 export const StopClusterOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ cluster: Cluster }),
-).annotate({
-  identifier: "StopClusterOutput",
-}) as any as S.Schema<StopClusterOutput>;
+).annotate({ identifier: "StopClusterOutput" }) as any as S.Schema<StopClusterOutput>;
 export interface TagResourceRequest {
   resourceArn: string;
   tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-    tags: TagMap,
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tags: TagMap }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
+).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = string[];
@@ -860,22 +699,11 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
   }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
+).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateClusterInput {
@@ -907,26 +735,15 @@ export const UpdateClusterInput = /*@__PURE__*/ S.suspend(() =>
     preferredBackupWindow: S.optional(S.String),
     shardInstanceCount: S.optional(S.Number),
   }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/cluster/{clusterArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "PUT", uri: "/cluster/{clusterArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UpdateClusterInput",
-}) as any as S.Schema<UpdateClusterInput>;
+).annotate({ identifier: "UpdateClusterInput" }) as any as S.Schema<UpdateClusterInput>;
 export interface UpdateClusterOutput {
   cluster: Cluster;
 }
 export const UpdateClusterOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ cluster: Cluster }),
-).annotate({
-  identifier: "UpdateClusterOutput",
-}) as any as S.Schema<UpdateClusterOutput>;
+).annotate({ identifier: "UpdateClusterOutput" }) as any as S.Schema<UpdateClusterOutput>;
 export type ValidationExceptionReason = string;
 export interface ValidationExceptionField {
   name: string;
@@ -934,13 +751,9 @@ export interface ValidationExceptionField {
 }
 export const ValidationExceptionField = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ name: S.String, message: S.String }),
-).annotate({
-  identifier: "ValidationExceptionField",
-}) as any as S.Schema<ValidationExceptionField>;
+).annotate({ identifier: "ValidationExceptionField" }) as any as S.Schema<ValidationExceptionField>;
 export type ValidationExceptionFieldList = ValidationExceptionField[];
-export const ValidationExceptionFieldList = /*@__PURE__*/ S.Array(
-  ValidationExceptionField,
-);
+export const ValidationExceptionFieldList = /*@__PURE__*/ S.Array(ValidationExceptionField);
 export type ApplyPendingMaintenanceActionError =
   | AccessDeniedException
   | ConflictException

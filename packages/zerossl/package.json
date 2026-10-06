@@ -1,19 +1,19 @@
 {
   "name": "@distilled.cloud/zerossl",
-  "version": "1.0.0-rc.8",
+  "version": "1.0.0-rc.13",
+  "license": "Apache-2.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/alchemy-run/distilled",
     "directory": "packages/zerossl"
   },
-  "license": "Apache-2.0",
-  "type": "module",
-  "sideEffects": false,
-  "module": "src/index.ts",
   "files": [
     "lib",
     "src"
   ],
+  "type": "module",
+  "sideEffects": false,
+  "module": "src/index.ts",
   "exports": {
     ".": {
       "types": "./lib/index.d.ts",
@@ -60,16 +60,14 @@
   },
   "scripts": {
     "build": "tsc -b",
-    "generate": "bun scripts/generate.ts",
+    "generate": "node --conditions=bun scripts/generate.ts",
     "typecheck": "tsc -p tsconfig.json"
   },
   "dependencies": {
     "@distilled.cloud/core": "workspace:*"
   },
   "devDependencies": {
-    "@types/bun": "catalog:",
-    "@types/node": "catalog:",
-    "@effect/platform-bun": "catalog:"
+    "@types/node": "catalog:"
   },
   "peerDependencies": {
     "effect": "catalog:"

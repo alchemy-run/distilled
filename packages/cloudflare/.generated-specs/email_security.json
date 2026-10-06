@@ -660,7 +660,10 @@
           "target": "smithy.api#String"
         },
         "detection": {
-          "target": "com.cloudflare.email_security#InvestigateGetResponseFindingsItemDetection"
+          "target": "com.cloudflare.email_security#InvestigateGetResponseFindingsItemDetection",
+          "traits": {
+            "smithy.api#documentation": "The verdict Email Security assigns to a message."
+          }
         },
         "field": {
           "target": "smithy.api#String"
@@ -1510,7 +1513,10 @@
           "target": "smithy.api#String"
         },
         "detection": {
-          "target": "com.cloudflare.email_security#InvestigateListResultItemFindingsItemDetection"
+          "target": "com.cloudflare.email_security#InvestigateListResultItemFindingsItemDetection",
+          "traits": {
+            "smithy.api#documentation": "The verdict Email Security assigns to a message."
+          }
         },
         "field": {
           "target": "smithy.api#String"
@@ -1794,7 +1800,10 @@
           "target": "com.cloudflare.email_security#InvestigateListResultItemEnvelopeToList"
         },
         "final_disposition": {
-          "target": "com.cloudflare.email_security#InvestigateListResultItemFinalDisposition"
+          "target": "com.cloudflare.email_security#InvestigateListResultItemFinalDisposition",
+          "traits": {
+            "smithy.api#documentation": "The verdict Email Security assigns to a message."
+          }
         },
         "findings": {
           "target": "com.cloudflare.email_security#InvestigateListResultItemFindingsList",
@@ -2041,19 +2050,28 @@
           }
         },
         "alert_id": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Alert ID of the detection to filter by."
+          }
         },
         "delivery_status": {
           "target": "com.cloudflare.email_security#InvestigateBulkCreateRequestSearchParamsDeliveryStatus",
           "traits": {
-            "smithy.api#documentation": "Delivery status of the message."
+            "smithy.api#documentation": "Delivery status to filter by."
           }
         },
         "detections_only": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether to include only detections in search results."
+          }
         },
         "domain": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Match messages that mention this domain — sender domain, recipient domain, or a domain in a link."
+          }
         },
         "end": {
           "target": "smithy.api#String",
@@ -2062,28 +2080,52 @@
           }
         },
         "exact_subject": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Match messages whose subject line equals this value exactly."
+          }
         },
         "final_disposition": {
-          "target": "com.cloudflare.email_security#InvestigateBulkCreateRequestSearchParamsFinalDisposition"
+          "target": "com.cloudflare.email_security#InvestigateBulkCreateRequestSearchParamsFinalDisposition",
+          "traits": {
+            "smithy.api#documentation": "Dispositions to filter by."
+          }
         },
         "message_action": {
-          "target": "com.cloudflare.email_security#InvestigateBulkCreateRequestSearchParamsMessageAction"
+          "target": "com.cloudflare.email_security#InvestigateBulkCreateRequestSearchParamsMessageAction",
+          "traits": {
+            "smithy.api#documentation": "Message actions to filter by."
+          }
         },
         "message_id": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Message-ID header value to filter by."
+          }
         },
         "metric": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Metric name to filter the search by."
+          }
         },
         "query": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Space-delimited search term. Case-insensitive."
+          }
         },
         "recipient": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Match messages whose recipient is this email address or domain."
+          }
         },
         "sender": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Match messages whose sender is this email address or domain."
+          }
         },
         "smtp_helo_ip": {
           "target": "smithy.api#String",
@@ -2098,10 +2140,16 @@
           }
         },
         "subject": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Match messages whose subject contains these keywords, in any order."
+          }
         },
         "submissions": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether to search reclassification submissions instead of original messages."
+          }
         }
       }
     },
@@ -2322,6 +2370,7 @@
         "destination": {
           "target": "com.cloudflare.email_security#InvestigateBulkCreateResponseActionParamsMoveDestination",
           "traits": {
+            "smithy.api#documentation": "The mailbox folder to move messages to.",
             "smithy.api#required": {}
           }
         },
@@ -2332,7 +2381,10 @@
           }
         },
         "expected_disposition": {
-          "target": "com.cloudflare.email_security#InvestigateBulkCreateResponseActionParamsMoveExpectedDisposition"
+          "target": "com.cloudflare.email_security#InvestigateBulkCreateResponseActionParamsMoveExpectedDisposition",
+          "traits": {
+            "smithy.api#documentation": "This field is nonfunctional."
+          }
         }
       }
     },
@@ -2537,19 +2589,28 @@
           }
         },
         "alert_id": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Alert ID of the detection to filter by."
+          }
         },
         "delivery_status": {
           "target": "com.cloudflare.email_security#InvestigateBulkCreateResponseSearchParamsDeliveryStatus",
           "traits": {
-            "smithy.api#documentation": "Delivery status of the message."
+            "smithy.api#documentation": "Delivery status to filter by."
           }
         },
         "detections_only": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether to include only detections in search results."
+          }
         },
         "domain": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Match messages that mention this domain — sender domain, recipient domain, or a domain in a link."
+          }
         },
         "end": {
           "target": "smithy.api#String",
@@ -2558,28 +2619,52 @@
           }
         },
         "exact_subject": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Match messages whose subject line equals this value exactly."
+          }
         },
         "final_disposition": {
-          "target": "com.cloudflare.email_security#InvestigateBulkCreateResponseSearchParamsFinalDisposition"
+          "target": "com.cloudflare.email_security#InvestigateBulkCreateResponseSearchParamsFinalDisposition",
+          "traits": {
+            "smithy.api#documentation": "Dispositions to filter by."
+          }
         },
         "message_action": {
-          "target": "com.cloudflare.email_security#InvestigateBulkCreateResponseSearchParamsMessageAction"
+          "target": "com.cloudflare.email_security#InvestigateBulkCreateResponseSearchParamsMessageAction",
+          "traits": {
+            "smithy.api#documentation": "Message actions to filter by."
+          }
         },
         "message_id": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Message-ID header value to filter by."
+          }
         },
         "metric": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Metric name to filter the search by."
+          }
         },
         "query": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Space-delimited search term. Case-insensitive."
+          }
         },
         "recipient": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Match messages whose recipient is this email address or domain."
+          }
         },
         "sender": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Match messages whose sender is this email address or domain."
+          }
         },
         "smtp_helo_ip": {
           "target": "smithy.api#String",
@@ -2594,10 +2679,16 @@
           }
         },
         "subject": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Match messages whose subject contains these keywords, in any order."
+          }
         },
         "submissions": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether to search reclassification submissions instead of original messages."
+          }
         }
       }
     },
@@ -2638,12 +2729,6 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "CANCELLED"
-          }
-        },
-        "SKIPPED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "SKIPPED"
           }
         }
       }
@@ -2765,6 +2850,7 @@
         "destination": {
           "target": "com.cloudflare.email_security#InvestigateBulkGetResponseActionParamsMoveDestination",
           "traits": {
+            "smithy.api#documentation": "The mailbox folder to move messages to.",
             "smithy.api#required": {}
           }
         },
@@ -2775,7 +2861,10 @@
           }
         },
         "expected_disposition": {
-          "target": "com.cloudflare.email_security#InvestigateBulkGetResponseActionParamsMoveExpectedDisposition"
+          "target": "com.cloudflare.email_security#InvestigateBulkGetResponseActionParamsMoveExpectedDisposition",
+          "traits": {
+            "smithy.api#documentation": "This field is nonfunctional."
+          }
         }
       }
     },
@@ -2980,19 +3069,28 @@
           }
         },
         "alert_id": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Alert ID of the detection to filter by."
+          }
         },
         "delivery_status": {
           "target": "com.cloudflare.email_security#InvestigateBulkGetResponseSearchParamsDeliveryStatus",
           "traits": {
-            "smithy.api#documentation": "Delivery status of the message."
+            "smithy.api#documentation": "Delivery status to filter by."
           }
         },
         "detections_only": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether to include only detections in search results."
+          }
         },
         "domain": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Match messages that mention this domain — sender domain, recipient domain, or a domain in a link."
+          }
         },
         "end": {
           "target": "smithy.api#String",
@@ -3001,28 +3099,52 @@
           }
         },
         "exact_subject": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Match messages whose subject line equals this value exactly."
+          }
         },
         "final_disposition": {
-          "target": "com.cloudflare.email_security#InvestigateBulkGetResponseSearchParamsFinalDisposition"
+          "target": "com.cloudflare.email_security#InvestigateBulkGetResponseSearchParamsFinalDisposition",
+          "traits": {
+            "smithy.api#documentation": "Dispositions to filter by."
+          }
         },
         "message_action": {
-          "target": "com.cloudflare.email_security#InvestigateBulkGetResponseSearchParamsMessageAction"
+          "target": "com.cloudflare.email_security#InvestigateBulkGetResponseSearchParamsMessageAction",
+          "traits": {
+            "smithy.api#documentation": "Message actions to filter by."
+          }
         },
         "message_id": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Message-ID header value to filter by."
+          }
         },
         "metric": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Metric name to filter the search by."
+          }
         },
         "query": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Space-delimited search term. Case-insensitive."
+          }
         },
         "recipient": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Match messages whose recipient is this email address or domain."
+          }
         },
         "sender": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Match messages whose sender is this email address or domain."
+          }
         },
         "smtp_helo_ip": {
           "target": "smithy.api#String",
@@ -3037,10 +3159,16 @@
           }
         },
         "subject": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Match messages whose subject contains these keywords, in any order."
+          }
         },
         "submissions": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether to search reclassification submissions instead of original messages."
+          }
         }
       }
     },
@@ -3081,12 +3209,6 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "CANCELLED"
-          }
-        },
-        "SKIPPED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "SKIPPED"
           }
         }
       }
@@ -3145,12 +3267,6 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "CANCELLED"
-          }
-        },
-        "SKIPPED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "SKIPPED"
           }
         }
       }
@@ -3272,6 +3388,7 @@
         "destination": {
           "target": "com.cloudflare.email_security#InvestigateBulkListResultItemActionParamsMoveDestination",
           "traits": {
+            "smithy.api#documentation": "The mailbox folder to move messages to.",
             "smithy.api#required": {}
           }
         },
@@ -3282,7 +3399,10 @@
           }
         },
         "expected_disposition": {
-          "target": "com.cloudflare.email_security#InvestigateBulkListResultItemActionParamsMoveExpectedDisposition"
+          "target": "com.cloudflare.email_security#InvestigateBulkListResultItemActionParamsMoveExpectedDisposition",
+          "traits": {
+            "smithy.api#documentation": "This field is nonfunctional."
+          }
         }
       }
     },
@@ -3487,19 +3607,28 @@
           }
         },
         "alert_id": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Alert ID of the detection to filter by."
+          }
         },
         "delivery_status": {
           "target": "com.cloudflare.email_security#InvestigateBulkListResultItemSearchParamsDeliveryStatus",
           "traits": {
-            "smithy.api#documentation": "Delivery status of the message."
+            "smithy.api#documentation": "Delivery status to filter by."
           }
         },
         "detections_only": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether to include only detections in search results."
+          }
         },
         "domain": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Match messages that mention this domain — sender domain, recipient domain, or a domain in a link."
+          }
         },
         "end": {
           "target": "smithy.api#String",
@@ -3508,28 +3637,52 @@
           }
         },
         "exact_subject": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Match messages whose subject line equals this value exactly."
+          }
         },
         "final_disposition": {
-          "target": "com.cloudflare.email_security#InvestigateBulkListResultItemSearchParamsFinalDisposition"
+          "target": "com.cloudflare.email_security#InvestigateBulkListResultItemSearchParamsFinalDisposition",
+          "traits": {
+            "smithy.api#documentation": "Dispositions to filter by."
+          }
         },
         "message_action": {
-          "target": "com.cloudflare.email_security#InvestigateBulkListResultItemSearchParamsMessageAction"
+          "target": "com.cloudflare.email_security#InvestigateBulkListResultItemSearchParamsMessageAction",
+          "traits": {
+            "smithy.api#documentation": "Message actions to filter by."
+          }
         },
         "message_id": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Message-ID header value to filter by."
+          }
         },
         "metric": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Metric name to filter the search by."
+          }
         },
         "query": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Space-delimited search term. Case-insensitive."
+          }
         },
         "recipient": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Match messages whose recipient is this email address or domain."
+          }
         },
         "sender": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Match messages whose sender is this email address or domain."
+          }
         },
         "smtp_helo_ip": {
           "target": "smithy.api#String",
@@ -3544,10 +3697,16 @@
           }
         },
         "subject": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Match messages whose subject contains these keywords, in any order."
+          }
         },
         "submissions": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether to search reclassification submissions instead of original messages."
+          }
         }
       }
     },
@@ -3589,12 +3748,6 @@
           "traits": {
             "smithy.api#enumValue": "CANCELLED"
           }
-        },
-        "SKIPPED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "SKIPPED"
-          }
         }
       }
     },
@@ -3625,6 +3778,13 @@
             "smithy.api#required": {}
           }
         },
+        "messages_cancelled": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Messages that were cancelled: rows cancelled via the API before being claimed, and rows whose in-flight attempt ended when the job reached a terminal state. Together the counters satisfy total_messages_discovered = messages_pending + messages_successful + messages_failed + messages_skipped + messages_cancelled.",
+            "smithy.api#required": {}
+          }
+        },
         "messages_failed": {
           "target": "smithy.api#Double",
           "traits": {
@@ -3634,6 +3794,13 @@
         "messages_pending": {
           "target": "smithy.api#Double",
           "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "messages_skipped": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Messages that discovery skipped (for example, phish submissions, which the job cannot action).",
             "smithy.api#required": {}
           }
         },
@@ -3652,6 +3819,7 @@
         "status": {
           "target": "com.cloudflare.email_security#InvestigateBulkListResultItemStatus",
           "traits": {
+            "smithy.api#documentation": "Status of a bulk action job.",
             "smithy.api#required": {}
           }
         },
@@ -3798,6 +3966,7 @@
         "destination": {
           "target": "com.cloudflare.email_security#InvestigateBulkCancelCreateResponseActionParamsMoveDestination",
           "traits": {
+            "smithy.api#documentation": "The mailbox folder to move messages to.",
             "smithy.api#required": {}
           }
         },
@@ -3808,7 +3977,10 @@
           }
         },
         "expected_disposition": {
-          "target": "com.cloudflare.email_security#InvestigateBulkCancelCreateResponseActionParamsMoveExpectedDisposition"
+          "target": "com.cloudflare.email_security#InvestigateBulkCancelCreateResponseActionParamsMoveExpectedDisposition",
+          "traits": {
+            "smithy.api#documentation": "This field is nonfunctional."
+          }
         }
       }
     },
@@ -4013,19 +4185,28 @@
           }
         },
         "alert_id": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Alert ID of the detection to filter by."
+          }
         },
         "delivery_status": {
           "target": "com.cloudflare.email_security#InvestigateBulkCancelCreateResponseSearchParamsDeliveryStatus",
           "traits": {
-            "smithy.api#documentation": "Delivery status of the message."
+            "smithy.api#documentation": "Delivery status to filter by."
           }
         },
         "detections_only": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether to include only detections in search results."
+          }
         },
         "domain": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Match messages that mention this domain — sender domain, recipient domain, or a domain in a link."
+          }
         },
         "end": {
           "target": "smithy.api#String",
@@ -4034,28 +4215,52 @@
           }
         },
         "exact_subject": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Match messages whose subject line equals this value exactly."
+          }
         },
         "final_disposition": {
-          "target": "com.cloudflare.email_security#InvestigateBulkCancelCreateResponseSearchParamsFinalDisposition"
+          "target": "com.cloudflare.email_security#InvestigateBulkCancelCreateResponseSearchParamsFinalDisposition",
+          "traits": {
+            "smithy.api#documentation": "Dispositions to filter by."
+          }
         },
         "message_action": {
-          "target": "com.cloudflare.email_security#InvestigateBulkCancelCreateResponseSearchParamsMessageAction"
+          "target": "com.cloudflare.email_security#InvestigateBulkCancelCreateResponseSearchParamsMessageAction",
+          "traits": {
+            "smithy.api#documentation": "Message actions to filter by."
+          }
         },
         "message_id": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Message-ID header value to filter by."
+          }
         },
         "metric": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Metric name to filter the search by."
+          }
         },
         "query": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Space-delimited search term. Case-insensitive."
+          }
         },
         "recipient": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Match messages whose recipient is this email address or domain."
+          }
         },
         "sender": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Match messages whose sender is this email address or domain."
+          }
         },
         "smtp_helo_ip": {
           "target": "smithy.api#String",
@@ -4070,10 +4275,16 @@
           }
         },
         "subject": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Match messages whose subject contains these keywords, in any order."
+          }
         },
         "submissions": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether to search reclassification submissions instead of original messages."
+          }
         }
       }
     },
@@ -4115,12 +4326,6 @@
           "traits": {
             "smithy.api#enumValue": "CANCELLED"
           }
-        },
-        "SKIPPED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "SKIPPED"
-          }
         }
       }
     },
@@ -4131,12 +4336,6 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "PENDING"
-          }
-        },
-        "DISCOVERING": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "DISCOVERING"
           }
         },
         "PROCESSING": {
@@ -4294,6 +4493,7 @@
         "destination": {
           "target": "com.cloudflare.email_security#InvestigateBulkMessagesListResultItemActionParamsMoveDestination",
           "traits": {
+            "smithy.api#documentation": "The mailbox folder to move messages to.",
             "smithy.api#required": {}
           }
         },
@@ -4304,7 +4504,10 @@
           }
         },
         "expected_disposition": {
-          "target": "com.cloudflare.email_security#InvestigateBulkMessagesListResultItemActionParamsMoveExpectedDisposition"
+          "target": "com.cloudflare.email_security#InvestigateBulkMessagesListResultItemActionParamsMoveExpectedDisposition",
+          "traits": {
+            "smithy.api#documentation": "This field is nonfunctional."
+          }
         }
       }
     },
@@ -4371,12 +4574,6 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "PENDING"
-          }
-        },
-        "DISCOVERING": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "DISCOVERING"
           }
         },
         "PROCESSING": {
@@ -4941,7 +5138,10 @@
           "target": "smithy.api#String"
         },
         "detection": {
-          "target": "com.cloudflare.email_security#InvestigateBulkMessagesListResultItemMessageFindingsItemDetection"
+          "target": "com.cloudflare.email_security#InvestigateBulkMessagesListResultItemMessageFindingsItemDetection",
+          "traits": {
+            "smithy.api#documentation": "The verdict Email Security assigns to a message."
+          }
         },
         "field": {
           "target": "smithy.api#String"
@@ -5225,7 +5425,10 @@
           "target": "com.cloudflare.email_security#InvestigateBulkMessagesListResultItemMessageEnvelopeToList"
         },
         "final_disposition": {
-          "target": "com.cloudflare.email_security#InvestigateBulkMessagesListResultItemMessageFinalDisposition"
+          "target": "com.cloudflare.email_security#InvestigateBulkMessagesListResultItemMessageFinalDisposition",
+          "traits": {
+            "smithy.api#documentation": "The verdict Email Security assigns to a message."
+          }
         },
         "findings": {
           "target": "com.cloudflare.email_security#InvestigateBulkMessagesListResultItemMessageFindingsList",
@@ -5340,6 +5543,7 @@
         "status": {
           "target": "com.cloudflare.email_security#InvestigateBulkMessagesListResultItemStatus",
           "traits": {
+            "smithy.api#documentation": "Status of a message within a bulk action job.",
             "smithy.api#required": {}
           }
         },
@@ -5920,6 +6124,12 @@
         }
       }
     },
+    "com.cloudflare.email_security#InvestigateMoveBulkRequestIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
     "com.cloudflare.email_security#InvestigateMoveBulkRequestExpectedDisposition": {
       "type": "enum",
       "members": {
@@ -5983,12 +6193,6 @@
             "smithy.api#enumValue": "NONE"
           }
         }
-      }
-    },
-    "com.cloudflare.email_security#InvestigateMoveBulkRequestIdsList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
       }
     },
     "com.cloudflare.email_security#InvestigateMoveBulkRequestPostfixIdsList": {
@@ -6270,7 +6474,7 @@
         }
       }
     },
-    "com.cloudflare.email_security#InvestigateReleaseBulkRequestBodyList": {
+    "com.cloudflare.email_security#InvestigateReleaseBulkRequestIdsList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
@@ -6545,6 +6749,7 @@
         "disposition": {
           "target": "com.cloudflare.email_security#PhishguardReportsListResultItemDisposition",
           "traits": {
+            "smithy.api#documentation": "The verdict Email Security assigns to a message.",
             "smithy.api#required": {}
           }
         },
@@ -6994,24 +7199,28 @@
         "deletes": {
           "target": "com.cloudflare.email_security#SettingsAllowPoliciesBatchRequestDeletesList",
           "traits": {
+            "smithy.api#documentation": "IDs of the allow policies to delete.",
             "smithy.api#required": {}
           }
         },
         "patches": {
           "target": "com.cloudflare.email_security#SettingsAllowPoliciesBatchRequestPatchesList",
           "traits": {
+            "smithy.api#documentation": "Partial updates to apply — each entry carries the policy's ID and only the fields to change.",
             "smithy.api#required": {}
           }
         },
         "posts": {
           "target": "com.cloudflare.email_security#SettingsAllowPoliciesBatchRequestPostsList",
           "traits": {
+            "smithy.api#documentation": "Allow policies to create.",
             "smithy.api#required": {}
           }
         },
         "puts": {
           "target": "com.cloudflare.email_security#SettingsAllowPoliciesBatchRequestPutsList",
           "traits": {
+            "smithy.api#documentation": "Full replacements to apply — each entry carries the policy's ID and every field of its new value.",
             "smithy.api#required": {}
           }
         }
@@ -7442,7 +7651,7 @@
           "uri": "/accounts/{account_id}/email-security/settings/allow_policies/batch",
           "code": 200
         },
-        "smithy.api#documentation": "Executes multiple operations atomically. All four operation arrays (deletes, patches, puts, posts) are required and executed in order. Send empty arrays for unused operations."
+        "smithy.api#documentation": "Executes multiple allow policy operations atomically: delete, partially update, replace, and create allow policies in a single request. All four operation arrays (deletes, patches, puts, posts) are required and executed in order. Send empty arrays for unused operations."
       }
     },
     "com.cloudflare.email_security#SettingsAllowPoliciesCreateRequestPatternType": {
@@ -7840,7 +8049,10 @@
           "target": "smithy.api#String"
         },
         "is_regex": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether `pattern` is a regular expression instead of a literal value."
+          }
         },
         "last_modified": {
           "target": "smithy.api#String",
@@ -7906,6 +8118,7 @@
         "is_regex": {
           "target": "smithy.api#Boolean",
           "traits": {
+            "smithy.api#documentation": "Whether `pattern` is a regular expression instead of a literal value.",
             "smithy.api#required": {}
           }
         },
@@ -7994,6 +8207,7 @@
         "is_regex": {
           "target": "smithy.api#Boolean",
           "traits": {
+            "smithy.api#documentation": "Whether `pattern` is a regular expression instead of a literal value.",
             "smithy.api#required": {}
           }
         },
@@ -8048,24 +8262,28 @@
         "deletes": {
           "target": "com.cloudflare.email_security#SettingsBlockSendersBatchRequestDeletesList",
           "traits": {
+            "smithy.api#documentation": "IDs of the blocked sender patterns to delete.",
             "smithy.api#required": {}
           }
         },
         "patches": {
           "target": "com.cloudflare.email_security#SettingsBlockSendersBatchRequestPatchesList",
           "traits": {
+            "smithy.api#documentation": "Partial updates to apply — each entry carries the pattern's ID and only the fields to change.",
             "smithy.api#required": {}
           }
         },
         "posts": {
           "target": "com.cloudflare.email_security#SettingsBlockSendersBatchRequestPostsList",
           "traits": {
+            "smithy.api#documentation": "Blocked sender patterns to create.",
             "smithy.api#required": {}
           }
         },
         "puts": {
           "target": "com.cloudflare.email_security#SettingsBlockSendersBatchRequestPutsList",
           "traits": {
+            "smithy.api#documentation": "Full replacements to apply — each entry carries the pattern's ID and every field of its new value.",
             "smithy.api#required": {}
           }
         }
@@ -8137,7 +8355,10 @@
           "target": "smithy.api#String"
         },
         "is_regex": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether `pattern` is a regular expression instead of a literal value."
+          }
         },
         "last_modified": {
           "target": "smithy.api#String",
@@ -8213,7 +8434,10 @@
           "target": "smithy.api#String"
         },
         "is_regex": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether `pattern` is a regular expression instead of a literal value."
+          }
         },
         "last_modified": {
           "target": "smithy.api#String",
@@ -8289,7 +8513,10 @@
           "target": "smithy.api#String"
         },
         "is_regex": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether `pattern` is a regular expression instead of a literal value."
+          }
         },
         "last_modified": {
           "target": "smithy.api#String",
@@ -8355,7 +8582,7 @@
           "uri": "/accounts/{account_id}/email-security/settings/block_senders/batch",
           "code": 200
         },
-        "smithy.api#documentation": "Executes multiple operations atomically. All four operation arrays (deletes, patches, puts, posts) are required and executed in order. Send empty arrays for unused operations."
+        "smithy.api#documentation": "Executes multiple blocked sender operations atomically: delete, partially update, replace, and create blocked sender patterns in a single request. All four operation arrays (deletes, patches, puts, posts) are required and executed in order. Send empty arrays for unused operations."
       }
     },
     "com.cloudflare.email_security#SettingsBlockSendersCreateRequestPatternType": {
@@ -8611,7 +8838,10 @@
           "target": "smithy.api#String"
         },
         "is_regex": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether `pattern` is a regular expression instead of a literal value."
+          }
         },
         "last_modified": {
           "target": "smithy.api#String",
@@ -8697,22 +8927,37 @@
           "target": "smithy.api#String"
         },
         "enabled": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the policy is active."
+          }
         },
         "modified_at": {
           "target": "smithy.api#String"
         },
         "name": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human-readable name of the policy."
+          }
         },
         "notes": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional note describing the purpose of the policy."
+          }
         },
         "pattern": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Regular expression the policy matches against."
+          }
         },
         "targets": {
-          "target": "com.cloudflare.email_security#SettingsContentPoliciesBatchRequestPatchesItemTargetsList"
+          "target": "com.cloudflare.email_security#SettingsContentPoliciesBatchRequestPatchesItemTargetsList",
+          "traits": {
+            "smithy.api#documentation": "Parts of the email the pattern is matched against."
+          }
         }
       }
     },
@@ -8751,24 +8996,28 @@
         "enabled": {
           "target": "smithy.api#Boolean",
           "traits": {
+            "smithy.api#documentation": "Whether the policy is active.",
             "smithy.api#required": {}
           }
         },
         "name": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "Human-readable name of the policy.",
             "smithy.api#required": {}
           }
         },
         "pattern": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "Regular expression the policy matches against.",
             "smithy.api#required": {}
           }
         },
         "targets": {
           "target": "com.cloudflare.email_security#SettingsContentPoliciesBatchRequestPostsItemTargetsList",
           "traits": {
+            "smithy.api#documentation": "Parts of the email the pattern is matched against.",
             "smithy.api#required": {}
           }
         },
@@ -8785,7 +9034,10 @@
           "target": "smithy.api#String"
         },
         "notes": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional note describing the purpose of the policy."
+          }
         }
       }
     },
@@ -8831,24 +9083,28 @@
         "enabled": {
           "target": "smithy.api#Boolean",
           "traits": {
+            "smithy.api#documentation": "Whether the policy is active.",
             "smithy.api#required": {}
           }
         },
         "name": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "Human-readable name of the policy.",
             "smithy.api#required": {}
           }
         },
         "pattern": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "Regular expression the policy matches against.",
             "smithy.api#required": {}
           }
         },
         "targets": {
           "target": "com.cloudflare.email_security#SettingsContentPoliciesBatchRequestPutsItemTargetsList",
           "traits": {
+            "smithy.api#documentation": "Parts of the email the pattern is matched against.",
             "smithy.api#required": {}
           }
         },
@@ -8859,7 +9115,10 @@
           "target": "smithy.api#String"
         },
         "notes": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional note describing the purpose of the policy."
+          }
         }
       }
     },
@@ -8883,24 +9142,28 @@
         "deletes": {
           "target": "com.cloudflare.email_security#SettingsContentPoliciesBatchRequestDeletesList",
           "traits": {
+            "smithy.api#documentation": "IDs of the content policies to delete.",
             "smithy.api#required": {}
           }
         },
         "patches": {
           "target": "com.cloudflare.email_security#SettingsContentPoliciesBatchRequestPatchesList",
           "traits": {
+            "smithy.api#documentation": "Partial updates to apply — each entry carries the policy's ID and only the fields to change.",
             "smithy.api#required": {}
           }
         },
         "posts": {
           "target": "com.cloudflare.email_security#SettingsContentPoliciesBatchRequestPostsList",
           "traits": {
+            "smithy.api#documentation": "Content policies to create.",
             "smithy.api#required": {}
           }
         },
         "puts": {
           "target": "com.cloudflare.email_security#SettingsContentPoliciesBatchRequestPutsList",
           "traits": {
+            "smithy.api#documentation": "Full replacements to apply — each entry carries the policy's ID and every field of its new value.",
             "smithy.api#required": {}
           }
         }
@@ -8963,22 +9226,37 @@
           "target": "smithy.api#String"
         },
         "enabled": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the policy is active."
+          }
         },
         "modified_at": {
           "target": "smithy.api#String"
         },
         "name": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human-readable name of the policy."
+          }
         },
         "notes": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional note describing the purpose of the policy."
+          }
         },
         "pattern": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Regular expression the policy matches against."
+          }
         },
         "targets": {
-          "target": "com.cloudflare.email_security#SettingsContentPoliciesBatchResponsePatchesItemTargetsList"
+          "target": "com.cloudflare.email_security#SettingsContentPoliciesBatchResponsePatchesItemTargetsList",
+          "traits": {
+            "smithy.api#documentation": "Parts of the email the pattern is matched against."
+          }
         }
       }
     },
@@ -9024,22 +9302,37 @@
           "target": "smithy.api#String"
         },
         "enabled": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the policy is active."
+          }
         },
         "modified_at": {
           "target": "smithy.api#String"
         },
         "name": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human-readable name of the policy."
+          }
         },
         "notes": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional note describing the purpose of the policy."
+          }
         },
         "pattern": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Regular expression the policy matches against."
+          }
         },
         "targets": {
-          "target": "com.cloudflare.email_security#SettingsContentPoliciesBatchResponsePostsItemTargetsList"
+          "target": "com.cloudflare.email_security#SettingsContentPoliciesBatchResponsePostsItemTargetsList",
+          "traits": {
+            "smithy.api#documentation": "Parts of the email the pattern is matched against."
+          }
         }
       }
     },
@@ -9085,22 +9378,37 @@
           "target": "smithy.api#String"
         },
         "enabled": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the policy is active."
+          }
         },
         "modified_at": {
           "target": "smithy.api#String"
         },
         "name": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human-readable name of the policy."
+          }
         },
         "notes": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional note describing the purpose of the policy."
+          }
         },
         "pattern": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Regular expression the policy matches against."
+          }
         },
         "targets": {
-          "target": "com.cloudflare.email_security#SettingsContentPoliciesBatchResponsePutsItemTargetsList"
+          "target": "com.cloudflare.email_security#SettingsContentPoliciesBatchResponsePutsItemTargetsList",
+          "traits": {
+            "smithy.api#documentation": "Parts of the email the pattern is matched against."
+          }
         }
       }
     },
@@ -9145,7 +9453,7 @@
           "uri": "/accounts/{account_id}/email-security/settings/content_policies/batch",
           "code": 200
         },
-        "smithy.api#documentation": "Executes multiple operations atomically. All four operation arrays (deletes, patches, puts, posts) are required and executed in order. Send empty arrays for unused operations."
+        "smithy.api#documentation": "Executes multiple content policy operations atomically: delete, partially update, replace, and create content policies in a single request. All four operation arrays (deletes, patches, puts, posts) are required and executed in order. Send empty arrays for unused operations."
       }
     },
     "com.cloudflare.email_security#CreateSettingsContentPolicyRequestTargetsItem": {
@@ -9185,29 +9493,36 @@
         "enabled": {
           "target": "smithy.api#Boolean",
           "traits": {
+            "smithy.api#documentation": "Whether the policy is active.",
             "smithy.api#required": {}
           }
         },
         "name": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "Human-readable name of the policy.",
             "smithy.api#required": {}
           }
         },
         "pattern": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "Regular expression the policy matches against.",
             "smithy.api#required": {}
           }
         },
         "targets": {
           "target": "com.cloudflare.email_security#CreateSettingsContentPolicyRequestTargetsList",
           "traits": {
+            "smithy.api#documentation": "Parts of the email the pattern is matched against.",
             "smithy.api#required": {}
           }
         },
         "notes": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional note describing the purpose of the policy."
+          }
         }
       },
       "traits": {
@@ -9250,22 +9565,37 @@
           "target": "smithy.api#String"
         },
         "enabled": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the policy is active."
+          }
         },
         "modified_at": {
           "target": "smithy.api#String"
         },
         "name": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human-readable name of the policy."
+          }
         },
         "notes": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional note describing the purpose of the policy."
+          }
         },
         "pattern": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Regular expression the policy matches against."
+          }
         },
         "targets": {
-          "target": "com.cloudflare.email_security#CreateSettingsContentPolicyResponseTargetsList"
+          "target": "com.cloudflare.email_security#CreateSettingsContentPolicyResponseTargetsList",
+          "traits": {
+            "smithy.api#documentation": "Parts of the email the pattern is matched against."
+          }
         }
       },
       "traits": {
@@ -9391,19 +9721,34 @@
           }
         },
         "enabled": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the policy is active."
+          }
         },
         "name": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human-readable name of the policy."
+          }
         },
         "notes": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional note describing the purpose of the policy."
+          }
         },
         "pattern": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Regular expression the policy matches against."
+          }
         },
         "targets": {
-          "target": "com.cloudflare.email_security#EditSettingsContentPolicyRequestTargetsList"
+          "target": "com.cloudflare.email_security#EditSettingsContentPolicyRequestTargetsList",
+          "traits": {
+            "smithy.api#documentation": "Parts of the email the pattern is matched against."
+          }
         }
       },
       "traits": {
@@ -9446,22 +9791,37 @@
           "target": "smithy.api#String"
         },
         "enabled": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the policy is active."
+          }
         },
         "modified_at": {
           "target": "smithy.api#String"
         },
         "name": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human-readable name of the policy."
+          }
         },
         "notes": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional note describing the purpose of the policy."
+          }
         },
         "pattern": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Regular expression the policy matches against."
+          }
         },
         "targets": {
-          "target": "com.cloudflare.email_security#EditSettingsContentPolicyResponseTargetsList"
+          "target": "com.cloudflare.email_security#EditSettingsContentPolicyResponseTargetsList",
+          "traits": {
+            "smithy.api#documentation": "Parts of the email the pattern is matched against."
+          }
         }
       },
       "traits": {
@@ -9546,22 +9906,37 @@
           "target": "smithy.api#String"
         },
         "enabled": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the policy is active."
+          }
         },
         "modified_at": {
           "target": "smithy.api#String"
         },
         "name": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human-readable name of the policy."
+          }
         },
         "notes": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional note describing the purpose of the policy."
+          }
         },
         "pattern": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Regular expression the policy matches against."
+          }
         },
         "targets": {
-          "target": "com.cloudflare.email_security#GetSettingsContentPolicyResponseTargetsList"
+          "target": "com.cloudflare.email_security#GetSettingsContentPolicyResponseTargetsList",
+          "traits": {
+            "smithy.api#documentation": "Parts of the email the pattern is matched against."
+          }
         }
       },
       "traits": {
@@ -9722,22 +10097,37 @@
           "target": "smithy.api#String"
         },
         "enabled": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the policy is active."
+          }
         },
         "modified_at": {
           "target": "smithy.api#String"
         },
         "name": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human-readable name of the policy."
+          }
         },
         "notes": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional note describing the purpose of the policy."
+          }
         },
         "pattern": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Regular expression the policy matches against."
+          }
         },
         "targets": {
-          "target": "com.cloudflare.email_security#ListSettingsContentPoliciesResultItemTargetsList"
+          "target": "com.cloudflare.email_security#ListSettingsContentPoliciesResultItemTargetsList",
+          "traits": {
+            "smithy.api#documentation": "Parts of the email the pattern is matched against."
+          }
         }
       }
     },
@@ -9985,34 +10375,64 @@
           }
         },
         "allowed_delivery_modes": {
-          "target": "com.cloudflare.email_security#SettingsDomainsBatchRequestPatchesItemAllowedDeliveryModesList"
+          "target": "com.cloudflare.email_security#SettingsDomainsBatchRequestPatchesItemAllowedDeliveryModesList",
+          "traits": {
+            "smithy.api#documentation": "Delivery modes to onboard the domain through."
+          }
         },
         "drop_dispositions": {
-          "target": "com.cloudflare.email_security#SettingsDomainsBatchRequestPatchesItemDropDispositionsList"
+          "target": "com.cloudflare.email_security#SettingsDomainsBatchRequestPatchesItemDropDispositionsList",
+          "traits": {
+            "smithy.api#documentation": "Dispositions to drop instead of delivering, e.g. `[\"MALICIOUS\", \"SPAM\"]`."
+          }
         },
         "folder": {
-          "target": "com.cloudflare.email_security#SettingsDomainsBatchRequestPatchesItemFolder"
+          "target": "com.cloudflare.email_security#SettingsDomainsBatchRequestPatchesItemFolder",
+          "traits": {
+            "smithy.api#documentation": "The mailbox folder to scan, for API-scanning domains."
+          }
         },
         "integration_id": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier of the CASB integration that authorizes this domain. The integration also enables API scanning, post-delivery actions, and directory sync."
+          }
         },
         "ip_restrictions": {
-          "target": "com.cloudflare.email_security#SettingsDomainsBatchRequestPatchesItemIpRestrictionsList"
+          "target": "com.cloudflare.email_security#SettingsDomainsBatchRequestPatchesItemIpRestrictionsList",
+          "traits": {
+            "smithy.api#documentation": "Source IP ranges mail is accepted from. Any other source is rejected."
+          }
         },
         "lookback_hops": {
-          "target": "smithy.api#Double"
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Number of hops to trace back through received headers when reconstructing the original message (1-20)."
+          }
         },
         "regions": {
-          "target": "com.cloudflare.email_security#SettingsDomainsBatchRequestPatchesItemRegionsList"
+          "target": "com.cloudflare.email_security#SettingsDomainsBatchRequestPatchesItemRegionsList",
+          "traits": {
+            "smithy.api#documentation": "Regions that process messages for this domain, e.g. `[\"GLOBAL\"]` or `[\"US\"]`."
+          }
         },
         "require_tls_inbound": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Require TLS on inbound connections."
+          }
         },
         "require_tls_outbound": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Require TLS on outbound connections."
+          }
         },
         "transport": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The mail transport hostname for MX/Inline delivery — the MX record Cloudflare delivers email to (e.g. `mx.example.com`)."
+          }
         }
       }
     },
@@ -10204,50 +10624,73 @@
         "allowed_delivery_modes": {
           "target": "com.cloudflare.email_security#SettingsDomainsBatchRequestPostsItemAllowedDeliveryModesList",
           "traits": {
+            "smithy.api#documentation": "Delivery modes to onboard the domain through.",
             "smithy.api#required": {}
           }
         },
         "domain": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "The email domain to protect.",
             "smithy.api#required": {}
           }
         },
         "drop_dispositions": {
           "target": "com.cloudflare.email_security#SettingsDomainsBatchRequestPostsItemDropDispositionsList",
           "traits": {
+            "smithy.api#documentation": "Dispositions to drop instead of delivering, e.g. `[\"MALICIOUS\", \"SPAM\"]`.",
             "smithy.api#required": {}
           }
         },
         "ip_restrictions": {
           "target": "com.cloudflare.email_security#SettingsDomainsBatchRequestPostsItemIpRestrictionsList",
           "traits": {
+            "smithy.api#documentation": "Source IP ranges mail is accepted from. Any other source is rejected.",
             "smithy.api#required": {}
           }
         },
         "regions": {
           "target": "com.cloudflare.email_security#SettingsDomainsBatchRequestPostsItemRegionsList",
           "traits": {
+            "smithy.api#documentation": "Regions that process messages for this domain, e.g. `[\"GLOBAL\"]` or `[\"US\"]`.",
             "smithy.api#required": {}
           }
         },
         "folder": {
-          "target": "com.cloudflare.email_security#SettingsDomainsBatchRequestPostsItemFolder"
+          "target": "com.cloudflare.email_security#SettingsDomainsBatchRequestPostsItemFolder",
+          "traits": {
+            "smithy.api#documentation": "The mailbox folder to scan, for API-scanning domains."
+          }
         },
         "integration_id": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier of the CASB integration that authorizes this domain. The integration also enables API scanning, post-delivery actions, and directory sync."
+          }
         },
         "lookback_hops": {
-          "target": "smithy.api#Double"
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Number of hops to trace back through received headers when reconstructing the original message (1-20)."
+          }
         },
         "require_tls_inbound": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Require TLS on inbound connections."
+          }
         },
         "require_tls_outbound": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Require TLS on outbound connections."
+          }
         },
         "transport": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The mail transport hostname for MX/Inline delivery — the MX record Cloudflare delivers email to (e.g. `mx.example.com`)."
+          }
         }
       }
     },
@@ -10446,44 +10889,66 @@
         "allowed_delivery_modes": {
           "target": "com.cloudflare.email_security#SettingsDomainsBatchRequestPutsItemAllowedDeliveryModesList",
           "traits": {
+            "smithy.api#documentation": "Delivery modes to onboard the domain through.",
             "smithy.api#required": {}
           }
         },
         "drop_dispositions": {
           "target": "com.cloudflare.email_security#SettingsDomainsBatchRequestPutsItemDropDispositionsList",
           "traits": {
+            "smithy.api#documentation": "Dispositions to drop instead of delivering, e.g. `[\"MALICIOUS\", \"SPAM\"]`.",
             "smithy.api#required": {}
           }
         },
         "ip_restrictions": {
           "target": "com.cloudflare.email_security#SettingsDomainsBatchRequestPutsItemIpRestrictionsList",
           "traits": {
+            "smithy.api#documentation": "Source IP ranges mail is accepted from. Any other source is rejected.",
             "smithy.api#required": {}
           }
         },
         "regions": {
           "target": "com.cloudflare.email_security#SettingsDomainsBatchRequestPutsItemRegionsList",
           "traits": {
+            "smithy.api#documentation": "Regions that process messages for this domain, e.g. `[\"GLOBAL\"]` or `[\"US\"]`.",
             "smithy.api#required": {}
           }
         },
         "folder": {
-          "target": "com.cloudflare.email_security#SettingsDomainsBatchRequestPutsItemFolder"
+          "target": "com.cloudflare.email_security#SettingsDomainsBatchRequestPutsItemFolder",
+          "traits": {
+            "smithy.api#documentation": "The mailbox folder to scan, for API-scanning domains."
+          }
         },
         "integration_id": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier of the CASB integration that authorizes this domain. The integration also enables API scanning, post-delivery actions, and directory sync."
+          }
         },
         "lookback_hops": {
-          "target": "smithy.api#Double"
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Number of hops to trace back through received headers when reconstructing the original message (1-20)."
+          }
         },
         "require_tls_inbound": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Require TLS on inbound connections."
+          }
         },
         "require_tls_outbound": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Require TLS on outbound connections."
+          }
         },
         "transport": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The mail transport hostname for MX/Inline delivery — the MX record Cloudflare delivers email to (e.g. `mx.example.com`)."
+          }
         }
       }
     },
@@ -10507,24 +10972,28 @@
         "deletes": {
           "target": "com.cloudflare.email_security#SettingsDomainsBatchRequestDeletesList",
           "traits": {
+            "smithy.api#documentation": "IDs of the domains to remove protection from.",
             "smithy.api#required": {}
           }
         },
         "patches": {
           "target": "com.cloudflare.email_security#SettingsDomainsBatchRequestPatchesList",
           "traits": {
+            "smithy.api#documentation": "Partial updates to apply — each entry carries the domain's ID and only the fields to change.",
             "smithy.api#required": {}
           }
         },
         "posts": {
           "target": "com.cloudflare.email_security#SettingsDomainsBatchRequestPostsList",
           "traits": {
+            "smithy.api#documentation": "Domains to add protection for.",
             "smithy.api#required": {}
           }
         },
         "puts": {
           "target": "com.cloudflare.email_security#SettingsDomainsBatchRequestPutsList",
           "traits": {
+            "smithy.api#documentation": "Full replacements to apply — each entry carries the domain's ID and every field of its new value.",
             "smithy.api#required": {}
           }
         }
@@ -10905,7 +11374,10 @@
           "target": "com.cloudflare.email_security#SettingsDomainsBatchResponsePatchesItemEmailsProcessed"
         },
         "folder": {
-          "target": "com.cloudflare.email_security#SettingsDomainsBatchResponsePatchesItemFolder"
+          "target": "com.cloudflare.email_security#SettingsDomainsBatchResponsePatchesItemFolder",
+          "traits": {
+            "smithy.api#documentation": "The mailbox folder to scan, for API-scanning domains."
+          }
         },
         "inbox_provider": {
           "target": "com.cloudflare.email_security#SettingsDomainsBatchResponsePatchesItemInboxProvider"
@@ -11311,7 +11783,10 @@
           "target": "com.cloudflare.email_security#SettingsDomainsBatchResponsePostsItemEmailsProcessed"
         },
         "folder": {
-          "target": "com.cloudflare.email_security#SettingsDomainsBatchResponsePostsItemFolder"
+          "target": "com.cloudflare.email_security#SettingsDomainsBatchResponsePostsItemFolder",
+          "traits": {
+            "smithy.api#documentation": "The mailbox folder to scan, for API-scanning domains."
+          }
         },
         "inbox_provider": {
           "target": "com.cloudflare.email_security#SettingsDomainsBatchResponsePostsItemInboxProvider"
@@ -11717,7 +12192,10 @@
           "target": "com.cloudflare.email_security#SettingsDomainsBatchResponsePutsItemEmailsProcessed"
         },
         "folder": {
-          "target": "com.cloudflare.email_security#SettingsDomainsBatchResponsePutsItemFolder"
+          "target": "com.cloudflare.email_security#SettingsDomainsBatchResponsePutsItemFolder",
+          "traits": {
+            "smithy.api#documentation": "The mailbox folder to scan, for API-scanning domains."
+          }
         },
         "inbox_provider": {
           "target": "com.cloudflare.email_security#SettingsDomainsBatchResponsePutsItemInboxProvider"
@@ -12076,50 +12554,73 @@
         "allowed_delivery_modes": {
           "target": "com.cloudflare.email_security#CreateSettingsDomainRequestAllowedDeliveryModesList",
           "traits": {
+            "smithy.api#documentation": "Delivery modes to onboard the domain through.",
             "smithy.api#required": {}
           }
         },
         "domain": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "The email domain to protect.",
             "smithy.api#required": {}
           }
         },
         "drop_dispositions": {
           "target": "com.cloudflare.email_security#CreateSettingsDomainRequestDropDispositionsList",
           "traits": {
+            "smithy.api#documentation": "Dispositions to drop instead of delivering, e.g. `[\"MALICIOUS\", \"SPAM\"]`.",
             "smithy.api#required": {}
           }
         },
         "ip_restrictions": {
           "target": "com.cloudflare.email_security#CreateSettingsDomainRequestIpRestrictionsList",
           "traits": {
+            "smithy.api#documentation": "Source IP ranges mail is accepted from. Any other source is rejected.",
             "smithy.api#required": {}
           }
         },
         "regions": {
           "target": "com.cloudflare.email_security#CreateSettingsDomainRequestRegionsList",
           "traits": {
+            "smithy.api#documentation": "Regions that process messages for this domain, e.g. `[\"GLOBAL\"]` or `[\"US\"]`.",
             "smithy.api#required": {}
           }
         },
         "folder": {
-          "target": "com.cloudflare.email_security#CreateSettingsDomainRequestFolder"
+          "target": "com.cloudflare.email_security#CreateSettingsDomainRequestFolder",
+          "traits": {
+            "smithy.api#documentation": "The mailbox folder to scan, for API-scanning domains."
+          }
         },
         "integration_id": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier of the CASB integration that authorizes this domain. The integration also enables API scanning, post-delivery actions, and directory sync."
+          }
         },
         "lookback_hops": {
-          "target": "smithy.api#Double"
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Number of hops to trace back through received headers when reconstructing the original message (1-20)."
+          }
         },
         "require_tls_inbound": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Require TLS on inbound connections."
+          }
         },
         "require_tls_outbound": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Require TLS on outbound connections."
+          }
         },
         "transport": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The mail transport hostname for MX/Inline delivery — the MX record Cloudflare delivers email to (e.g. `mx.example.com`)."
+          }
         }
       },
       "traits": {
@@ -12480,7 +12981,10 @@
           "target": "com.cloudflare.email_security#CreateSettingsDomainResponseEmailsProcessed"
         },
         "folder": {
-          "target": "com.cloudflare.email_security#CreateSettingsDomainResponseFolder"
+          "target": "com.cloudflare.email_security#CreateSettingsDomainResponseFolder",
+          "traits": {
+            "smithy.api#documentation": "The mailbox folder to scan, for API-scanning domains."
+          }
         },
         "inbox_provider": {
           "target": "com.cloudflare.email_security#CreateSettingsDomainResponseInboxProvider"
@@ -13862,7 +14366,10 @@
           "target": "com.cloudflare.email_security#SettingsDomainsListResultItemEmailsProcessed"
         },
         "folder": {
-          "target": "com.cloudflare.email_security#SettingsDomainsListResultItemFolder"
+          "target": "com.cloudflare.email_security#SettingsDomainsListResultItemFolder",
+          "traits": {
+            "smithy.api#documentation": "The mailbox folder to scan, for API-scanning domains."
+          }
         },
         "inbox_provider": {
           "target": "com.cloudflare.email_security#SettingsDomainsListResultItemInboxProvider"
@@ -14112,44 +14619,66 @@
         "allowed_delivery_modes": {
           "target": "com.cloudflare.email_security#UpdateSettingsDomainRequestAllowedDeliveryModesList",
           "traits": {
+            "smithy.api#documentation": "Delivery modes to onboard the domain through.",
             "smithy.api#required": {}
           }
         },
         "drop_dispositions": {
           "target": "com.cloudflare.email_security#UpdateSettingsDomainRequestDropDispositionsList",
           "traits": {
+            "smithy.api#documentation": "Dispositions to drop instead of delivering, e.g. `[\"MALICIOUS\", \"SPAM\"]`.",
             "smithy.api#required": {}
           }
         },
         "ip_restrictions": {
           "target": "com.cloudflare.email_security#UpdateSettingsDomainRequestIpRestrictionsList",
           "traits": {
+            "smithy.api#documentation": "Source IP ranges mail is accepted from. Any other source is rejected.",
             "smithy.api#required": {}
           }
         },
         "regions": {
           "target": "com.cloudflare.email_security#UpdateSettingsDomainRequestRegionsList",
           "traits": {
+            "smithy.api#documentation": "Regions that process messages for this domain, e.g. `[\"GLOBAL\"]` or `[\"US\"]`.",
             "smithy.api#required": {}
           }
         },
         "folder": {
-          "target": "com.cloudflare.email_security#UpdateSettingsDomainRequestFolder"
+          "target": "com.cloudflare.email_security#UpdateSettingsDomainRequestFolder",
+          "traits": {
+            "smithy.api#documentation": "The mailbox folder to scan, for API-scanning domains."
+          }
         },
         "integration_id": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier of the CASB integration that authorizes this domain. The integration also enables API scanning, post-delivery actions, and directory sync."
+          }
         },
         "lookback_hops": {
-          "target": "smithy.api#Double"
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Number of hops to trace back through received headers when reconstructing the original message (1-20)."
+          }
         },
         "require_tls_inbound": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Require TLS on inbound connections."
+          }
         },
         "require_tls_outbound": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Require TLS on outbound connections."
+          }
         },
         "transport": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The mail transport hostname for MX/Inline delivery — the MX record Cloudflare delivers email to (e.g. `mx.example.com`)."
+          }
         }
       },
       "traits": {
@@ -14510,7 +15039,10 @@
           "target": "com.cloudflare.email_security#UpdateSettingsDomainResponseEmailsProcessed"
         },
         "folder": {
-          "target": "com.cloudflare.email_security#UpdateSettingsDomainResponseFolder"
+          "target": "com.cloudflare.email_security#UpdateSettingsDomainResponseFolder",
+          "traits": {
+            "smithy.api#documentation": "The mailbox folder to scan, for API-scanning domains."
+          }
         },
         "inbox_provider": {
           "target": "com.cloudflare.email_security#UpdateSettingsDomainResponseInboxProvider"
@@ -14831,19 +15363,31 @@
           }
         },
         "comments": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional note describing the entry."
+          }
         },
         "created_at": {
           "target": "smithy.api#String"
         },
         "directory_id": {
-          "target": "smithy.api#Double"
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Identifier of the directory the entry was synced from, when directory-synced."
+          }
         },
         "directory_node_id": {
-          "target": "smithy.api#Double"
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Identifier of the directory node the entry was synced from, when directory-synced."
+          }
         },
         "email": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Email address (or pattern) of the protected identity."
+          }
         },
         "external_directory_node_id": {
           "target": "smithy.api#String",
@@ -14852,7 +15396,10 @@
           }
         },
         "is_email_regex": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether `email` is a regular expression instead of a literal address."
+          }
         },
         "last_modified": {
           "target": "smithy.api#String",
@@ -14864,10 +15411,16 @@
           "target": "smithy.api#String"
         },
         "name": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Display name of the protected identity."
+          }
         },
         "provenance": {
-          "target": "com.cloudflare.email_security#SettingsImpersonationRegistryListResultItemProvenance"
+          "target": "com.cloudflare.email_security#SettingsImpersonationRegistryListResultItemProvenance",
+          "traits": {
+            "smithy.api#documentation": "Source the entry was created from."
+          }
         }
       }
     },
@@ -15032,7 +15585,10 @@
           }
         },
         "is_regex": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether `pattern` is a regular expression instead of a literal domain."
+          }
         },
         "is_similarity": {
           "target": "smithy.api#Boolean",
@@ -15050,7 +15606,10 @@
           "target": "smithy.api#String"
         },
         "pattern": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The domain pattern to trust, e.g. `example.com`."
+          }
         }
       }
     },
@@ -15073,6 +15632,7 @@
         "is_regex": {
           "target": "smithy.api#Boolean",
           "traits": {
+            "smithy.api#documentation": "Whether `pattern` is a regular expression instead of a literal domain.",
             "smithy.api#required": {}
           }
         },
@@ -15086,6 +15646,7 @@
         "pattern": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "The domain pattern to trust, e.g. `example.com`.",
             "smithy.api#required": {}
           }
         },
@@ -15138,6 +15699,7 @@
         "is_regex": {
           "target": "smithy.api#Boolean",
           "traits": {
+            "smithy.api#documentation": "Whether `pattern` is a regular expression instead of a literal domain.",
             "smithy.api#required": {}
           }
         },
@@ -15151,6 +15713,7 @@
         "pattern": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "The domain pattern to trust, e.g. `example.com`.",
             "smithy.api#required": {}
           }
         },
@@ -15191,24 +15754,28 @@
         "deletes": {
           "target": "com.cloudflare.email_security#SettingsTrustedDomainsBatchRequestDeletesList",
           "traits": {
+            "smithy.api#documentation": "IDs of the trusted domain patterns to delete.",
             "smithy.api#required": {}
           }
         },
         "patches": {
           "target": "com.cloudflare.email_security#SettingsTrustedDomainsBatchRequestPatchesList",
           "traits": {
+            "smithy.api#documentation": "Partial updates to apply — each entry carries the pattern's ID and only the fields to change.",
             "smithy.api#required": {}
           }
         },
         "posts": {
           "target": "com.cloudflare.email_security#SettingsTrustedDomainsBatchRequestPostsList",
           "traits": {
+            "smithy.api#documentation": "Trusted domain patterns to create.",
             "smithy.api#required": {}
           }
         },
         "puts": {
           "target": "com.cloudflare.email_security#SettingsTrustedDomainsBatchRequestPutsList",
           "traits": {
+            "smithy.api#documentation": "Full replacements to apply — each entry carries the pattern's ID and every field of its new value.",
             "smithy.api#required": {}
           }
         }
@@ -15257,7 +15824,10 @@
           }
         },
         "is_regex": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether `pattern` is a regular expression instead of a literal domain."
+          }
         },
         "is_similarity": {
           "target": "smithy.api#Boolean",
@@ -15275,7 +15845,10 @@
           "target": "smithy.api#String"
         },
         "pattern": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The domain pattern to trust, e.g. `example.com`."
+          }
         }
       }
     },
@@ -15307,7 +15880,10 @@
           }
         },
         "is_regex": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether `pattern` is a regular expression instead of a literal domain."
+          }
         },
         "is_similarity": {
           "target": "smithy.api#Boolean",
@@ -15325,7 +15901,10 @@
           "target": "smithy.api#String"
         },
         "pattern": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The domain pattern to trust, e.g. `example.com`."
+          }
         }
       }
     },
@@ -15357,7 +15936,10 @@
           }
         },
         "is_regex": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether `pattern` is a regular expression instead of a literal domain."
+          }
         },
         "is_similarity": {
           "target": "smithy.api#Boolean",
@@ -15375,7 +15957,10 @@
           "target": "smithy.api#String"
         },
         "pattern": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The domain pattern to trust, e.g. `example.com`."
+          }
         }
       }
     },
@@ -15420,7 +16005,7 @@
           "uri": "/accounts/{account_id}/email-security/settings/trusted_domains/batch",
           "code": 200
         },
-        "smithy.api#documentation": "Executes multiple operations atomically. All four operation arrays (deletes, patches, puts, posts) are required and executed in order. Send empty arrays for unused operations."
+        "smithy.api#documentation": "Executes multiple trusted domain operations atomically: delete, partially update, replace, and create trusted domain patterns in a single request. All four operation arrays (deletes, patches, puts, posts) are required and executed in order. Send empty arrays for unused operations."
       }
     },
     "com.cloudflare.email_security#SettingsTrustedDomainsListRequestDirection": {
@@ -15479,7 +16064,10 @@
           }
         },
         "is_regex": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether `pattern` is a regular expression instead of a literal domain."
+          }
         },
         "is_similarity": {
           "target": "smithy.api#Boolean",
@@ -15497,7 +16085,10 @@
           "target": "smithy.api#String"
         },
         "pattern": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The domain pattern to trust, e.g. `example.com`."
+          }
         }
       }
     },
@@ -15975,22 +16566,40 @@
           "target": "com.cloudflare.email_security#SubmissionsListResultItemCustomerStatus"
         },
         "escalated_as": {
-          "target": "com.cloudflare.email_security#SubmissionsListResultItemEscalatedAs"
+          "target": "com.cloudflare.email_security#SubmissionsListResultItemEscalatedAs",
+          "traits": {
+            "smithy.api#documentation": "The disposition a message is submitted to have."
+          }
         },
         "escalated_at": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the submission was escalated to the security team."
+          }
         },
         "escalated_by": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Email address of the user who escalated the submission."
+          }
         },
         "escalated_submission_id": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Submission ID of the escalated team submission, when this user submission was escalated."
+          }
         },
         "original_disposition": {
-          "target": "com.cloudflare.email_security#SubmissionsListResultItemOriginalDisposition"
+          "target": "com.cloudflare.email_security#SubmissionsListResultItemOriginalDisposition",
+          "traits": {
+            "smithy.api#documentation": "The disposition a message is submitted to have."
+          }
         },
         "original_edf_hash": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "EDF hash of the original message."
+          }
         },
         "original_postfix_id": {
           "target": "smithy.api#String",
@@ -15999,16 +16608,28 @@
           }
         },
         "outcome": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Processing outcome of the submission."
+          }
         },
         "outcome_disposition": {
-          "target": "com.cloudflare.email_security#SubmissionsListResultItemOutcomeDisposition"
+          "target": "com.cloudflare.email_security#SubmissionsListResultItemOutcomeDisposition",
+          "traits": {
+            "smithy.api#documentation": "The disposition a message is submitted to have."
+          }
         },
         "requested_by": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Email address of the user who requested the submission."
+          }
         },
         "requested_disposition": {
-          "target": "com.cloudflare.email_security#SubmissionsListResultItemRequestedDisposition"
+          "target": "com.cloudflare.email_security#SubmissionsListResultItemRequestedDisposition",
+          "traits": {
+            "smithy.api#documentation": "The disposition a message is submitted to have."
+          }
         },
         "requested_ts": {
           "target": "smithy.api#String",
@@ -16017,10 +16638,16 @@
           }
         },
         "status": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Processing status of the submission."
+          }
         },
         "subject": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Subject line of the submitted message."
+          }
         },
         "type": {
           "target": "com.cloudflare.email_security#SubmissionsListResultItemType",
@@ -16395,7 +17022,7 @@
           "uri": "/accounts/{account_id}/email-security/investigate/move",
           "code": 200
         },
-        "smithy.api#documentation": "Moves multiple messages to a specified mailbox folder (Inbox, JunkEmail, DeletedItems, RecoverableItemsDeletions, or RecoverableItemsPurges). Requires active integration.",
+        "smithy.api#documentation": "Moves one or more messages to a specified mailbox folder (Inbox, JunkEmail, DeletedItems, RecoverableItemsDeletions, or RecoverableItemsPurges). Requires active integration. Operates on an explicit list of messages; to move all messages matching a search, create a bulk action job instead.",
         "smithy.api#paginated": {
           "mode": "single",
           "items": "result"
@@ -16416,16 +17043,21 @@
         "destination": {
           "target": "com.cloudflare.email_security#InvestigateMoveBulkRequestDestination",
           "traits": {
+            "smithy.api#documentation": "The mailbox folder to move messages to.",
             "smithy.api#required": {}
           }
-        },
-        "expected_disposition": {
-          "target": "com.cloudflare.email_security#InvestigateMoveBulkRequestExpectedDisposition"
         },
         "ids": {
           "target": "com.cloudflare.email_security#InvestigateMoveBulkRequestIdsList",
           "traits": {
-            "smithy.api#documentation": "List of message IDs to move."
+            "smithy.api#documentation": "List of message IDs to move.",
+            "smithy.api#required": {}
+          }
+        },
+        "expected_disposition": {
+          "target": "com.cloudflare.email_security#InvestigateMoveBulkRequestExpectedDisposition",
+          "traits": {
+            "smithy.api#documentation": "This field is nonfunctional."
           }
         },
         "postfix_ids": {
@@ -16468,7 +17100,7 @@
           "uri": "/accounts/{account_id}/email-security/investigate/release",
           "code": 200
         },
-        "smithy.api#documentation": "Delivers one or more quarantined messages to their intended recipients, for cases where a message was incorrectly quarantined. The response includes delivery status for each recipient.",
+        "smithy.api#documentation": "Delivers one or more quarantined messages to their intended recipients, for cases where a message was incorrectly quarantined. Operates on an explicit list of messages; to release all messages matching a search, create a bulk action job instead. The response includes delivery status for each recipient.",
         "smithy.api#paginated": {
           "mode": "single",
           "items": "result"
@@ -16486,11 +17118,11 @@
             "smithy.api#required": {}
           }
         },
-        "body": {
-          "target": "com.cloudflare.email_security#InvestigateReleaseBulkRequestBodyList",
+        "ids": {
+          "target": "com.cloudflare.email_security#InvestigateReleaseBulkRequestIdsList",
           "traits": {
-            "smithy.api#required": {},
-            "smithy.api#httpPayload": {}
+            "smithy.api#documentation": "Investigate IDs of the messages to release.",
+            "smithy.api#required": {}
           }
         }
       },
@@ -16527,7 +17159,7 @@
           "uri": "/accounts/{account_id}/email-security/investigate/bulk",
           "code": 200
         },
-        "smithy.api#documentation": "Creates a new bulk action job to move or release messages that match the provided search parameters."
+        "smithy.api#documentation": "Creates a new bulk action job to move or release messages that match the provided search parameters. To move or release an explicit list of known messages instead of a search, use the move or release endpoints."
       }
     },
     "com.cloudflare.email_security#CreateInvestigateBulkRequest": {
@@ -16544,6 +17176,7 @@
         "action": {
           "target": "com.cloudflare.email_security#InvestigateBulkCreateRequestAction",
           "traits": {
+            "smithy.api#documentation": "The action the job performs on every message matching the search parameters.",
             "smithy.api#required": {}
           }
         },
@@ -16554,13 +17187,22 @@
           }
         },
         "comment": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional note describing the job."
+          }
         },
         "destination": {
-          "target": "com.cloudflare.email_security#InvestigateBulkCreateRequestDestination"
+          "target": "com.cloudflare.email_security#InvestigateBulkCreateRequestDestination",
+          "traits": {
+            "smithy.api#documentation": "Required when action is 'MOVE'."
+          }
         },
         "expected_disposition": {
-          "target": "com.cloudflare.email_security#InvestigateBulkCreateRequestExpectedDisposition"
+          "target": "com.cloudflare.email_security#InvestigateBulkCreateRequestExpectedDisposition",
+          "traits": {
+            "smithy.api#documentation": "This field is nonfunctional."
+          }
         }
       },
       "traits": {
@@ -16594,6 +17236,13 @@
             "smithy.api#required": {}
           }
         },
+        "messages_cancelled": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Messages that were cancelled: rows cancelled via the API before being claimed, and rows whose in-flight attempt ended when the job reached a terminal state. Together the counters satisfy total_messages_discovered = messages_pending + messages_successful + messages_failed + messages_skipped + messages_cancelled.",
+            "smithy.api#required": {}
+          }
+        },
         "messages_failed": {
           "target": "smithy.api#Double",
           "traits": {
@@ -16603,6 +17252,13 @@
         "messages_pending": {
           "target": "smithy.api#Double",
           "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "messages_skipped": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Messages that discovery skipped (for example, phish submissions, which the job cannot action).",
             "smithy.api#required": {}
           }
         },
@@ -16621,6 +17277,7 @@
         "status": {
           "target": "com.cloudflare.email_security#InvestigateBulkCreateResponseStatus",
           "traits": {
+            "smithy.api#documentation": "Status of a bulk action job.",
             "smithy.api#required": {}
           }
         },
@@ -16679,6 +17336,7 @@
         "job_id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "Bulk action job identifier.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -16715,6 +17373,13 @@
             "smithy.api#required": {}
           }
         },
+        "messages_cancelled": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Messages that were cancelled: rows cancelled via the API before being claimed, and rows whose in-flight attempt ended when the job reached a terminal state. Together the counters satisfy total_messages_discovered = messages_pending + messages_successful + messages_failed + messages_skipped + messages_cancelled.",
+            "smithy.api#required": {}
+          }
+        },
         "messages_failed": {
           "target": "smithy.api#Double",
           "traits": {
@@ -16724,6 +17389,13 @@
         "messages_pending": {
           "target": "smithy.api#Double",
           "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "messages_skipped": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Messages that discovery skipped (for example, phish submissions, which the job cannot action).",
             "smithy.api#required": {}
           }
         },
@@ -16742,6 +17414,7 @@
         "status": {
           "target": "com.cloudflare.email_security#InvestigateBulkCancelCreateResponseStatus",
           "traits": {
+            "smithy.api#documentation": "Status of a bulk action job.",
             "smithy.api#required": {}
           }
         },
@@ -16812,11 +17485,15 @@
         "destination": {
           "target": "com.cloudflare.email_security#InvestigateMoveCreateRequestDestination",
           "traits": {
+            "smithy.api#documentation": "The mailbox folder to move messages to.",
             "smithy.api#required": {}
           }
         },
         "expected_disposition": {
-          "target": "com.cloudflare.email_security#InvestigateMoveCreateRequestExpectedDisposition"
+          "target": "com.cloudflare.email_security#InvestigateMoveCreateRequestExpectedDisposition",
+          "traits": {
+            "smithy.api#documentation": "This field is nonfunctional."
+          }
         }
       },
       "traits": {
@@ -16852,7 +17529,7 @@
           "uri": "/accounts/{account_id}/email-security/investigate/preview",
           "code": 200
         },
-        "smithy.api#documentation": "Generates a preview image for a message that was not flagged as a detection. Useful for investigating benign messages. Returns a base64-encoded PNG screenshot of the email body."
+        "smithy.api#documentation": "Generates a preview image for a message that was not flagged as a detection. The message is rendered from the copy in the recipient's mailbox, so this requires an active integration and only works while the message is still in the recipient's inbox. Returns a base64-encoded PNG screenshot of the email body. For messages with a detection, use the detection preview endpoint instead."
       }
     },
     "com.cloudflare.email_security#CreateInvestigatePreviewRequest": {
@@ -16866,10 +17543,10 @@
             "smithy.api#required": {}
           }
         },
-        "postfix_id": {
+        "id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The identifier of the message.",
+            "smithy.api#documentation": "Unique identifier for a message retrieved from investigation.",
             "smithy.api#required": {}
           }
         }
@@ -16908,7 +17585,7 @@
           "uri": "/accounts/{account_id}/email-security/investigate/{investigate_id}/reclassify",
           "code": 200
         },
-        "smithy.api#documentation": "Submits a request to reclassify an email's disposition. Use for reporting false positives or false negatives. Optionally provide the raw EML content for reanalysis. The reclassification is processed asynchronously."
+        "smithy.api#documentation": "Submits a request to reclassify an email's disposition. Use for reporting false positives or false negatives. Optionally provide the raw EML content for reanalysis. The reclassification is processed asynchronously. Deprecated; use the create submissions endpoint instead."
       }
     },
     "com.cloudflare.email_security#CreateInvestigateReclassifyRequest": {
@@ -16933,6 +17610,7 @@
         "expected_disposition": {
           "target": "com.cloudflare.email_security#InvestigateReclassifyCreateRequestExpectedDisposition",
           "traits": {
+            "smithy.api#documentation": "The disposition the message should have.",
             "smithy.api#required": {}
           }
         },
@@ -16943,7 +17621,10 @@
           }
         },
         "escalated_submission_id": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Submission ID of the original user submission, when reclassifying an escalated user report."
+          }
         }
       },
       "traits": {
@@ -17206,6 +17887,7 @@
         "is_regex": {
           "target": "smithy.api#Boolean",
           "traits": {
+            "smithy.api#documentation": "Whether `pattern` is a regular expression instead of a literal value.",
             "smithy.api#required": {}
           }
         },
@@ -17247,7 +17929,10 @@
           "target": "smithy.api#String"
         },
         "is_regex": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether `pattern` is a regular expression instead of a literal value."
+          }
         },
         "last_modified": {
           "target": "smithy.api#String",
@@ -17315,29 +18000,41 @@
         "email": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "Email address (or pattern) of the protected identity.",
             "smithy.api#required": {}
           }
         },
         "is_email_regex": {
           "target": "smithy.api#Boolean",
           "traits": {
+            "smithy.api#documentation": "Whether `email` is a regular expression instead of a literal address.",
             "smithy.api#required": {}
           }
         },
         "name": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "Display name of the protected identity.",
             "smithy.api#required": {}
           }
         },
         "comments": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional note describing the entry."
+          }
         },
         "directory_id": {
-          "target": "smithy.api#Double"
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Identifier of the directory the entry was synced from, when directory-synced."
+          }
         },
         "directory_node_id": {
-          "target": "smithy.api#Double"
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Identifier of the directory node the entry was synced from, when directory-synced."
+          }
         },
         "external_directory_node_id": {
           "target": "smithy.api#String",
@@ -17346,7 +18043,10 @@
           }
         },
         "provenance": {
-          "target": "com.cloudflare.email_security#SettingsImpersonationRegistryCreateRequestProvenance"
+          "target": "com.cloudflare.email_security#SettingsImpersonationRegistryCreateRequestProvenance",
+          "traits": {
+            "smithy.api#documentation": "Source the entry was created from."
+          }
         }
       },
       "traits": {
@@ -17363,19 +18063,31 @@
           }
         },
         "comments": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional note describing the entry."
+          }
         },
         "created_at": {
           "target": "smithy.api#String"
         },
         "directory_id": {
-          "target": "smithy.api#Double"
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Identifier of the directory the entry was synced from, when directory-synced."
+          }
         },
         "directory_node_id": {
-          "target": "smithy.api#Double"
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Identifier of the directory node the entry was synced from, when directory-synced."
+          }
         },
         "email": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Email address (or pattern) of the protected identity."
+          }
         },
         "external_directory_node_id": {
           "target": "smithy.api#String",
@@ -17384,7 +18096,10 @@
           }
         },
         "is_email_regex": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether `email` is a regular expression instead of a literal address."
+          }
         },
         "last_modified": {
           "target": "smithy.api#String",
@@ -17396,10 +18111,16 @@
           "target": "smithy.api#String"
         },
         "name": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Display name of the protected identity."
+          }
         },
         "provenance": {
-          "target": "com.cloudflare.email_security#SettingsImpersonationRegistryCreateResponseProvenance"
+          "target": "com.cloudflare.email_security#SettingsImpersonationRegistryCreateResponseProvenance",
+          "traits": {
+            "smithy.api#documentation": "Source the entry was created from."
+          }
         }
       },
       "traits": {
@@ -17545,6 +18266,7 @@
         "is_regex": {
           "target": "smithy.api#Boolean",
           "traits": {
+            "smithy.api#documentation": "Whether `pattern` is a regular expression instead of a literal domain.",
             "smithy.api#required": {}
           }
         },
@@ -17558,6 +18280,7 @@
         "pattern": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "The domain pattern to trust, e.g. `example.com`.",
             "smithy.api#required": {}
           }
         },
@@ -17591,7 +18314,10 @@
           }
         },
         "is_regex": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether `pattern` is a regular expression instead of a literal domain."
+          }
         },
         "is_similarity": {
           "target": "smithy.api#Boolean",
@@ -17609,7 +18335,10 @@
           "target": "smithy.api#String"
         },
         "pattern": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The domain pattern to trust, e.g. `example.com`."
+          }
         }
       },
       "traits": {
@@ -17721,7 +18450,7 @@
           "uri": "/accounts/{account_id}/email-security/investigate/bulk/{job_id}",
           "code": 200
         },
-        "smithy.api#documentation": "Deletes the job, removing it from all list and detail endpoints. Only jobs in a terminal state (`COMPLETED`, `CANCELLED`, `FAILED`, or `SKIPPED`) can be deleted. To stop an in-progress job without removing it, use the cancel endpoint instead.",
+        "smithy.api#documentation": "Deletes the job, removing it from all list and detail endpoints. Only jobs in a terminal state (`COMPLETED`, `CANCELLED`, or `FAILED`) can be deleted. To stop an in-progress job without removing it, use the cancel endpoint instead.",
         "smithy.api#idempotent": {}
       }
     },
@@ -17739,6 +18468,7 @@
         "job_id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "Bulk action job identifier.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -18354,7 +19084,10 @@
           "target": "com.cloudflare.email_security#InvestigateGetResponseEnvelopeToList"
         },
         "final_disposition": {
-          "target": "com.cloudflare.email_security#InvestigateGetResponseFinalDisposition"
+          "target": "com.cloudflare.email_security#InvestigateGetResponseFinalDisposition",
+          "traits": {
+            "smithy.api#documentation": "The verdict Email Security assigns to a message."
+          }
         },
         "findings": {
           "target": "com.cloudflare.email_security#InvestigateGetResponseFindingsList",
@@ -18463,6 +19196,7 @@
         "job_id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "Bulk action job identifier.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -18499,6 +19233,13 @@
             "smithy.api#required": {}
           }
         },
+        "messages_cancelled": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Messages that were cancelled: rows cancelled via the API before being claimed, and rows whose in-flight attempt ended when the job reached a terminal state. Together the counters satisfy total_messages_discovered = messages_pending + messages_successful + messages_failed + messages_skipped + messages_cancelled.",
+            "smithy.api#required": {}
+          }
+        },
         "messages_failed": {
           "target": "smithy.api#Double",
           "traits": {
@@ -18508,6 +19249,13 @@
         "messages_pending": {
           "target": "smithy.api#Double",
           "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "messages_skipped": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Messages that discovery skipped (for example, phish submissions, which the job cannot action).",
             "smithy.api#required": {}
           }
         },
@@ -18526,6 +19274,7 @@
         "status": {
           "target": "com.cloudflare.email_security#InvestigateBulkGetResponseStatus",
           "traits": {
+            "smithy.api#documentation": "Status of a bulk action job.",
             "smithy.api#required": {}
           }
         },
@@ -18567,7 +19316,7 @@
           "uri": "/accounts/{account_id}/email-security/investigate/{investigate_id}/detections",
           "code": 200
         },
-        "smithy.api#documentation": "Returns detection details such as threat categories and sender information for non-benign messages.",
+        "smithy.api#documentation": "Returns detection details such as threat categories and sender information for messages with a detection.",
         "smithy.api#readonly": {}
       }
     },
@@ -18647,7 +19396,10 @@
           }
         },
         "final_disposition": {
-          "target": "com.cloudflare.email_security#InvestigateDetectionsGetResponseFinalDisposition"
+          "target": "com.cloudflare.email_security#InvestigateDetectionsGetResponseFinalDisposition",
+          "traits": {
+            "smithy.api#documentation": "The verdict Email Security assigns to a message."
+          }
         }
       },
       "traits": {
@@ -18669,7 +19421,7 @@
           "uri": "/accounts/{account_id}/email-security/investigate/{investigate_id}/preview",
           "code": 200
         },
-        "smithy.api#documentation": "Returns a preview of the message body as a base64 encoded PNG image for non-benign messages.",
+        "smithy.api#documentation": "Returns a preview of the message body as a base64-encoded PNG image for any message with a detection. For messages without a detection, use the non-detection preview endpoint instead.",
         "smithy.api#readonly": {}
       }
     },
@@ -18727,7 +19479,7 @@
           "uri": "/accounts/{account_id}/email-security/investigate/{investigate_id}/raw",
           "code": 200
         },
-        "smithy.api#documentation": "Returns the raw eml of any non-benign message.",
+        "smithy.api#documentation": "Returns the raw EML content of any message with a detection.",
         "smithy.api#readonly": {}
       }
     },
@@ -19048,7 +19800,10 @@
           "target": "smithy.api#String"
         },
         "is_regex": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether `pattern` is a regular expression instead of a literal value."
+          }
         },
         "last_modified": {
           "target": "smithy.api#String",
@@ -19161,7 +19916,10 @@
           "target": "com.cloudflare.email_security#SettingsDomainsGetResponseEmailsProcessed"
         },
         "folder": {
-          "target": "com.cloudflare.email_security#SettingsDomainsGetResponseFolder"
+          "target": "com.cloudflare.email_security#SettingsDomainsGetResponseFolder",
+          "traits": {
+            "smithy.api#documentation": "The mailbox folder to scan, for API-scanning domains."
+          }
         },
         "inbox_provider": {
           "target": "com.cloudflare.email_security#SettingsDomainsGetResponseInboxProvider"
@@ -19274,19 +20032,31 @@
           }
         },
         "comments": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional note describing the entry."
+          }
         },
         "created_at": {
           "target": "smithy.api#String"
         },
         "directory_id": {
-          "target": "smithy.api#Double"
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Identifier of the directory the entry was synced from, when directory-synced."
+          }
         },
         "directory_node_id": {
-          "target": "smithy.api#Double"
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Identifier of the directory node the entry was synced from, when directory-synced."
+          }
         },
         "email": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Email address (or pattern) of the protected identity."
+          }
         },
         "external_directory_node_id": {
           "target": "smithy.api#String",
@@ -19295,7 +20065,10 @@
           }
         },
         "is_email_regex": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether `email` is a regular expression instead of a literal address."
+          }
         },
         "last_modified": {
           "target": "smithy.api#String",
@@ -19307,10 +20080,16 @@
           "target": "smithy.api#String"
         },
         "name": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Display name of the protected identity."
+          }
         },
         "provenance": {
-          "target": "com.cloudflare.email_security#SettingsImpersonationRegistryGetResponseProvenance"
+          "target": "com.cloudflare.email_security#SettingsImpersonationRegistryGetResponseProvenance",
+          "traits": {
+            "smithy.api#documentation": "Source the entry was created from."
+          }
         }
       },
       "traits": {
@@ -19477,7 +20256,10 @@
           }
         },
         "is_regex": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether `pattern` is a regular expression instead of a literal domain."
+          }
         },
         "is_similarity": {
           "target": "smithy.api#Boolean",
@@ -19495,7 +20277,10 @@
           "target": "smithy.api#String"
         },
         "pattern": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The domain pattern to trust, e.g. `example.com`."
+          }
         }
       },
       "traits": {
@@ -19628,6 +20413,7 @@
         "job_id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "Bulk action job identifier.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -19649,6 +20435,7 @@
         "status": {
           "target": "com.cloudflare.email_security#InvestigateBulkMessagesListRequestStatus",
           "traits": {
+            "smithy.api#documentation": "Filter the job's messages by their processing status.",
             "smithy.api#httpQuery": "status"
           }
         }
@@ -19711,6 +20498,7 @@
         "action_type": {
           "target": "com.cloudflare.email_security#InvestigateBulkListRequestActionType",
           "traits": {
+            "smithy.api#documentation": "Filter jobs by the action they perform.",
             "smithy.api#httpQuery": "action_type"
           }
         },
@@ -19731,6 +20519,7 @@
         "status": {
           "target": "com.cloudflare.email_security#InvestigateBulkListRequestStatus",
           "traits": {
+            "smithy.api#documentation": "Filter jobs by their processing status.",
             "smithy.api#httpQuery": "status"
           }
         }
@@ -19768,7 +20557,7 @@
           "uri": "/accounts/{account_id}/email-security/investigate",
           "code": 200
         },
-        "smithy.api#documentation": "Returns information for each email that matches the search parameter(s).",
+        "smithy.api#documentation": "Returns information for each email that matches the provided search parameters.",
         "smithy.api#readonly": {},
         "smithy.api#paginated": {
           "mode": "page",
@@ -19793,12 +20582,14 @@
         "alert_id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "Filter by alert ID.",
             "smithy.api#httpQuery": "alert_id"
           }
         },
         "cursor": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "Pagination cursor from the previous response's `result_info`.",
             "smithy.api#httpQuery": "cursor"
           }
         },
@@ -19819,7 +20610,7 @@
         "domain": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Sender domains to filter by.",
+            "smithy.api#documentation": "Filter by a domain found in the email — sender domain, recipient domain, or a domain in a link.",
             "smithy.api#httpQuery": "domain"
           }
         },
@@ -19847,12 +20638,14 @@
         "message_id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "Filter by the RFC 5322 Message-ID header.",
             "smithy.api#httpQuery": "message_id"
           }
         },
         "metric": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "Metric to aggregate the results by.",
             "smithy.api#httpQuery": "metric"
           }
         },
@@ -19873,19 +20666,21 @@
         "query": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Space-delimited search term. Case-insensitive.",
+            "smithy.api#documentation": "Space-delimited term matched case-insensitively against message metadata — sender, recipient, subject, attachment names and hashes, and message ID.",
             "smithy.api#httpQuery": "query"
           }
         },
         "recipient": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "Filter by recipient. Matches an email address or a domain.",
             "smithy.api#httpQuery": "recipient"
           }
         },
         "sender": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "Filter by sender. Matches an email address or a domain.",
             "smithy.api#httpQuery": "sender"
           }
         },
@@ -19906,6 +20701,7 @@
         "subject": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "Search for messages containing individual keywords in any order within the subject.",
             "smithy.api#httpQuery": "subject"
           }
         }
@@ -19974,6 +20770,20 @@
           "traits": {
             "smithy.api#documentation": "Deprecated, use `start` instead. Start date in YYYY-MM-DD format.",
             "smithy.api#httpQuery": "from_date"
+          }
+        },
+        "page": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Current page within paginated list of results.",
+            "smithy.api#httpQuery": "page"
+          }
+        },
+        "per_page": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The number of results per page. Maximum value is 1000.",
+            "smithy.api#httpQuery": "per_page"
           }
         },
         "start": {
@@ -20099,13 +20909,14 @@
         "pattern": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "Filter by exact pattern value.",
             "smithy.api#httpQuery": "pattern"
           }
         },
         "pattern_type": {
           "target": "com.cloudflare.email_security#SettingsAllowPoliciesListRequestPatternType",
           "traits": {
-            "smithy.api#documentation": "Type of pattern matching.",
+            "smithy.api#documentation": "Filter by pattern type.",
             "smithy.api#httpQuery": "pattern_type"
           }
         },
@@ -20849,12 +21660,14 @@
         "original_disposition": {
           "target": "com.cloudflare.email_security#SubmissionsListRequestOriginalDisposition",
           "traits": {
+            "smithy.api#documentation": "The disposition a message is submitted to have.",
             "smithy.api#httpQuery": "original_disposition"
           }
         },
         "outcome_disposition": {
           "target": "com.cloudflare.email_security#SubmissionsListRequestOutcomeDisposition",
           "traits": {
+            "smithy.api#documentation": "The disposition a message is submitted to have.",
             "smithy.api#httpQuery": "outcome_disposition"
           }
         },
@@ -20875,12 +21688,14 @@
         "query": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "Search term for filtering submissions.",
             "smithy.api#httpQuery": "query"
           }
         },
         "requested_disposition": {
           "target": "com.cloudflare.email_security#SubmissionsListRequestRequestedDisposition",
           "traits": {
+            "smithy.api#documentation": "The disposition a message is submitted to have.",
             "smithy.api#httpQuery": "requested_disposition"
           }
         },
@@ -20894,18 +21709,21 @@
         "status": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "Filter by review status — `escalated`, `reviewed`, or `unreviewed`.",
             "smithy.api#httpQuery": "status"
           }
         },
         "submission_id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "Filter by a specific submission ID.",
             "smithy.api#httpQuery": "submission_id"
           }
         },
         "type": {
           "target": "com.cloudflare.email_security#SubmissionsListRequestType",
           "traits": {
+            "smithy.api#documentation": "Filter by who created the submission — `TEAM` for security team members or `USER` for end users.",
             "smithy.api#httpQuery": "type"
           }
         }
@@ -21184,7 +22002,10 @@
           "target": "smithy.api#String"
         },
         "is_regex": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether `pattern` is a regular expression instead of a literal value."
+          }
         },
         "pattern": {
           "target": "smithy.api#String",
@@ -21219,7 +22040,10 @@
           "target": "smithy.api#String"
         },
         "is_regex": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether `pattern` is a regular expression instead of a literal value."
+          }
         },
         "last_modified": {
           "target": "smithy.api#String",
@@ -21296,34 +22120,64 @@
           }
         },
         "allowed_delivery_modes": {
-          "target": "com.cloudflare.email_security#SettingsDomainsEditRequestAllowedDeliveryModesList"
+          "target": "com.cloudflare.email_security#SettingsDomainsEditRequestAllowedDeliveryModesList",
+          "traits": {
+            "smithy.api#documentation": "Delivery modes to onboard the domain through."
+          }
         },
         "drop_dispositions": {
-          "target": "com.cloudflare.email_security#SettingsDomainsEditRequestDropDispositionsList"
+          "target": "com.cloudflare.email_security#SettingsDomainsEditRequestDropDispositionsList",
+          "traits": {
+            "smithy.api#documentation": "Dispositions to drop instead of delivering, e.g. `[\"MALICIOUS\", \"SPAM\"]`."
+          }
         },
         "folder": {
-          "target": "com.cloudflare.email_security#SettingsDomainsEditRequestFolder"
+          "target": "com.cloudflare.email_security#SettingsDomainsEditRequestFolder",
+          "traits": {
+            "smithy.api#documentation": "The mailbox folder to scan, for API-scanning domains."
+          }
         },
         "integration_id": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier of the CASB integration that authorizes this domain. The integration also enables API scanning, post-delivery actions, and directory sync."
+          }
         },
         "ip_restrictions": {
-          "target": "com.cloudflare.email_security#SettingsDomainsEditRequestIpRestrictionsList"
+          "target": "com.cloudflare.email_security#SettingsDomainsEditRequestIpRestrictionsList",
+          "traits": {
+            "smithy.api#documentation": "Source IP ranges mail is accepted from. Any other source is rejected."
+          }
         },
         "lookback_hops": {
-          "target": "smithy.api#Double"
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Number of hops to trace back through received headers when reconstructing the original message (1-20)."
+          }
         },
         "regions": {
-          "target": "com.cloudflare.email_security#SettingsDomainsEditRequestRegionsList"
+          "target": "com.cloudflare.email_security#SettingsDomainsEditRequestRegionsList",
+          "traits": {
+            "smithy.api#documentation": "Regions that process messages for this domain, e.g. `[\"GLOBAL\"]` or `[\"US\"]`."
+          }
         },
         "require_tls_inbound": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Require TLS on inbound connections."
+          }
         },
         "require_tls_outbound": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Require TLS on outbound connections."
+          }
         },
         "transport": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The mail transport hostname for MX/Inline delivery — the MX record Cloudflare delivers email to (e.g. `mx.example.com`)."
+          }
         }
       },
       "traits": {
@@ -21361,7 +22215,10 @@
           "target": "com.cloudflare.email_security#SettingsDomainsEditResponseEmailsProcessed"
         },
         "folder": {
-          "target": "com.cloudflare.email_security#SettingsDomainsEditResponseFolder"
+          "target": "com.cloudflare.email_security#SettingsDomainsEditResponseFolder",
+          "traits": {
+            "smithy.api#documentation": "The mailbox folder to scan, for API-scanning domains."
+          }
         },
         "inbox_provider": {
           "target": "com.cloudflare.email_security#SettingsDomainsEditResponseInboxProvider"
@@ -21459,16 +22316,28 @@
           }
         },
         "comments": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional note describing the entry."
+          }
         },
         "directory_id": {
-          "target": "smithy.api#Double"
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Identifier of the directory the entry was synced from, when directory-synced."
+          }
         },
         "directory_node_id": {
-          "target": "smithy.api#Double"
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Identifier of the directory node the entry was synced from, when directory-synced."
+          }
         },
         "email": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Email address (or pattern) of the protected identity."
+          }
         },
         "external_directory_node_id": {
           "target": "smithy.api#String",
@@ -21477,13 +22346,22 @@
           }
         },
         "is_email_regex": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether `email` is a regular expression instead of a literal address."
+          }
         },
         "name": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Display name of the protected identity."
+          }
         },
         "provenance": {
-          "target": "com.cloudflare.email_security#SettingsImpersonationRegistryEditRequestProvenance"
+          "target": "com.cloudflare.email_security#SettingsImpersonationRegistryEditRequestProvenance",
+          "traits": {
+            "smithy.api#documentation": "Source the entry was created from."
+          }
         }
       },
       "traits": {
@@ -21500,19 +22378,31 @@
           }
         },
         "comments": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional note describing the entry."
+          }
         },
         "created_at": {
           "target": "smithy.api#String"
         },
         "directory_id": {
-          "target": "smithy.api#Double"
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Identifier of the directory the entry was synced from, when directory-synced."
+          }
         },
         "directory_node_id": {
-          "target": "smithy.api#Double"
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Identifier of the directory node the entry was synced from, when directory-synced."
+          }
         },
         "email": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Email address (or pattern) of the protected identity."
+          }
         },
         "external_directory_node_id": {
           "target": "smithy.api#String",
@@ -21521,7 +22411,10 @@
           }
         },
         "is_email_regex": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether `email` is a regular expression instead of a literal address."
+          }
         },
         "last_modified": {
           "target": "smithy.api#String",
@@ -21533,10 +22426,16 @@
           "target": "smithy.api#String"
         },
         "name": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Display name of the protected identity."
+          }
         },
         "provenance": {
-          "target": "com.cloudflare.email_security#SettingsImpersonationRegistryEditResponseProvenance"
+          "target": "com.cloudflare.email_security#SettingsImpersonationRegistryEditResponseProvenance",
+          "traits": {
+            "smithy.api#documentation": "Source the entry was created from."
+          }
         }
       },
       "traits": {
@@ -21699,7 +22598,10 @@
           }
         },
         "is_regex": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether `pattern` is a regular expression instead of a literal domain."
+          }
         },
         "is_similarity": {
           "target": "smithy.api#Boolean",
@@ -21708,7 +22610,10 @@
           }
         },
         "pattern": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The domain pattern to trust, e.g. `example.com`."
+          }
         }
       },
       "traits": {
@@ -21737,7 +22642,10 @@
           }
         },
         "is_regex": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether `pattern` is a regular expression instead of a literal domain."
+          }
         },
         "is_similarity": {
           "target": "smithy.api#Boolean",
@@ -21755,7 +22663,10 @@
           "target": "smithy.api#String"
         },
         "pattern": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The domain pattern to trust, e.g. `example.com`."
+          }
         }
       },
       "traits": {

@@ -1,11 +1,3 @@
-/** Mock-transport regressions for the Railway Query SDK. */
-import { describe, expect, test } from "bun:test";
-import * as Effect from "effect/Effect";
-import * as Layer from "effect/Layer";
-import * as Result from "effect/Result";
-import * as Stream from "effect/Stream";
-import * as HttpClient from "effect/http/HttpClient";
-import * as HttpClientResponse from "effect/http/HttpClientResponse";
 import {
   GqlTransport,
   type CompiledOperation,
@@ -22,6 +14,15 @@ import {
   Railway,
   UnknownGraphQLError,
 } from "@distilled.cloud/railway";
+import * as Effect from "effect/Effect";
+import * as HttpClient from "effect/http/HttpClient";
+import * as HttpClientResponse from "effect/http/HttpClientResponse";
+import * as Layer from "effect/Layer";
+import * as Redacted from "effect/Redacted";
+import * as Result from "effect/Result";
+import * as Stream from "effect/Stream";
+/** Mock-transport regressions for the Railway Query SDK. */
+import { describe, expect, test } from "vitest";
 
 /** Answers each request with the next response; the last one repeats. */
 const sequence = (...responses: GraphQLResponse[]) => {
@@ -36,29 +37,21 @@ const sequence = (...responses: GraphQLResponse[]) => {
   return { layer, requests };
 };
 
-const harness = (data: unknown, errors?: RawGraphQLError[]) =>
-  sequence({ data, errors });
+const harness = (data: unknown, errors?: RawGraphQLError[]) => sequence({ data, errors });
 
-const run = <A, E>(
-  effect: Effect.Effect<A, E, GqlTransport>,
-  layer: Layer.Layer<GqlTransport>,
-) => Effect.runPromise(effect.pipe(Effect.provide(layer)));
+const run = <A, E>(effect: Effect.Effect<A, E, GqlTransport>, layer: Layer.Layer<GqlTransport>) =>
+  Effect.runPromise(effect.pipe(Effect.provide(layer)));
 
 const failure = async <A, E>(
   effect: Effect.Effect<A, E, GqlTransport>,
   layer: Layer.Layer<GqlTransport>,
 ): Promise<E> => {
-  const result = await Effect.runPromise(
-    Effect.result(effect.pipe(Effect.provide(layer))),
-  );
+  const result = await Effect.runPromise(Effect.result(effect.pipe(Effect.provide(layer))));
   if (Result.isSuccess(result)) throw new Error("expected a failure");
   return result.failure;
 };
 
-const internal = (
-  message: string,
-  path?: ReadonlyArray<string | number>,
-): RawGraphQLError => ({
+const internal = (message: string, path?: ReadonlyArray<string | number>): RawGraphQLError => ({
   message,
   ...(path ? { path } : {}),
   extensions: { code: "INTERNAL_SERVER_ERROR" },
@@ -166,15 +159,11 @@ describe("Railway Query SDK", () => {
     expect(result).toEqual({ id: "p-new", name: "example" });
     expect(requests[0]!.kind).toBe("mutation");
     expect(requests[0]!.document).toContain("projectCreate");
-    expect(Object.values(requests[0]!.variables)).toEqual([
-      { name: "example" },
-    ]);
+    expect(Object.values(requests[0]!.variables)).toEqual([{ name: "example" }]);
   });
 
   test("a declared root error is a typed tag", async () => {
-    const { layer } = harness(null, [
-      internal("Project not found", ["project"]),
-    ]);
+    const { layer } = harness(null, [internal("Project not found", ["project"])]);
     const error = await failure(getProject("missing"), layer);
     expect(error._tag).toBe("RailwayNotFound");
     expect(error.message).toBe("Project not found");
@@ -193,14 +182,9 @@ describe("Railway Query SDK", () => {
   });
 
   test("errors are scoped to the root the path points at", async () => {
-    const message =
-      "Cannot delete TCP proxy: an operation is already in progress";
-    const tcpProxyDelete = Query.fn(() =>
-      Railway.tcpProxyDelete({ id: "proxy" }),
-    );
-    const projectDelete = Query.fn(() =>
-      Railway.projectDelete({ id: "project" }),
-    );
+    const message = "Cannot delete TCP proxy: an operation is already in progress";
+    const tcpProxyDelete = Query.fn(() => Railway.tcpProxyDelete({ id: "proxy" }));
+    const projectDelete = Query.fn(() => Railway.projectDelete({ id: "project" }));
     const onProxy = await failure(
       tcpProxyDelete(),
       harness(null, [internal(message, ["tcpProxyDelete"])]).layer,
@@ -215,17 +199,13 @@ describe("Railway Query SDK", () => {
   });
 
   test("path-less errors match only global errors", async () => {
-    const { layer } = harness(null, [
-      { message: "Problem processing request" },
-    ]);
+    const { layer } = harness(null, [{ message: "Problem processing request" }]);
     const error = await failure(getProject("p"), layer);
     expect(error._tag).toBe("RailwayRequestProcessingError");
   });
 
   test("unmatched errors are UnknownGraphQLError with the root", async () => {
-    const { layer } = harness(null, [
-      { message: "something new", path: ["project"] },
-    ]);
+    const { layer } = harness(null, [{ message: "something new", path: ["project"] }]);
     const error = await failure(getProject("p"), layer);
     expect(error).toBeInstanceOf(UnknownGraphQLError);
     expect(error).toMatchObject({ coordinate: "project" });
@@ -248,9 +228,10 @@ describe("Railway Query SDK", () => {
       layer,
     );
     expect(error).toBeInstanceOf(GraphQLFailure);
-    expect((error as GraphQLFailure).errors.map((issue) => issue._tag)).toEqual(
-      ["RailwayNotFound", "RailwayForbidden"],
-    );
+    expect((error as GraphQLFailure).errors.map((issue) => issue._tag)).toEqual([
+      "RailwayNotFound",
+      "RailwayForbidden",
+    ]);
   });
 
   test("queries retry retryable errors; mutations do not", async () => {
@@ -294,7 +275,7 @@ describe("Railway Query SDK", () => {
     const live = (status: number, body: string) =>
       GraphQLLive.pipe(
         Layer.provideMerge(respond(status, body)),
-        Layer.provideMerge(CredentialsFromToken({ token: "t" })),
+        Layer.provideMerge(CredentialsFromToken({ token: Redacted.make("t") })),
       );
     const createProject = Query.fn(() => ({
       id: Railway.projectCreate({ input: { name: "example" } }).id,
@@ -336,11 +317,7 @@ describe("Railway Query SDK", () => {
       );
       const names = await run(
         Stream.runCollect(
-          Query.items(
-            Railway.projects({ first: 2 }).pipe(
-              Query.map((project) => project.name),
-            ),
-          ),
+          Query.items(Railway.projects({ first: 2 }).pipe(Query.map((project) => project.name))),
         ),
         layer,
       );
@@ -385,9 +362,7 @@ describe("Railway Query SDK", () => {
       });
       const error = await failure(
         Stream.runCollect(
-          Query.items(
-            Railway.projects({ first: 1 }).pipe(Query.map((p) => p.name)),
-          ),
+          Query.items(Railway.projects({ first: 1 }).pipe(Query.map((p) => p.name))),
         ),
         layer,
       );
@@ -395,9 +370,7 @@ describe("Railway Query SDK", () => {
     });
 
     test("page errors keep the root's typed errors", async () => {
-      const { layer } = harness(null, [
-        internal("Project not found", ["project"]),
-      ]);
+      const { layer } = harness(null, [internal("Project not found", ["project"])]);
       const recovered = await run(
         Stream.runCollect(
           Query.items(

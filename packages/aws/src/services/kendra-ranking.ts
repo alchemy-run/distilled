@@ -1,12 +1,12 @@
-import * as HttpClient from "effect/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "Kendra Ranking",
   serviceShapeName: "AWSKendraRerankingFrontendService",
@@ -26,9 +26,7 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -43,9 +41,7 @@ const rules = T.EndpointResolver((p, _) => {
                 `https://kendra-ranking-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
               );
             }
-            return err(
-              "FIPS is enabled but this partition does not support FIPS",
-            );
+            return err("FIPS is enabled but this partition does not support FIPS");
           }
           return e(
             `https://kendra-ranking.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
@@ -57,13 +53,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://kendra-ranking-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
-        return e(
-          `https://kendra-ranking.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://kendra-ranking.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -240,19 +232,18 @@ export interface DescribeRescoreExecutionPlanResponse {
   Status?: RescoreExecutionPlanStatus;
   ErrorMessage?: string;
 }
-export const DescribeRescoreExecutionPlanResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Id: S.optional(S.String),
-      Arn: S.optional(S.String),
-      Name: S.optional(S.String),
-      Description: S.optional(S.String),
-      CapacityUnits: S.optional(CapacityUnitsConfiguration),
-      CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-      UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-      Status: S.optional(RescoreExecutionPlanStatus),
-      ErrorMessage: S.optional(S.String),
-    }),
+export const DescribeRescoreExecutionPlanResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Id: S.optional(S.String),
+    Arn: S.optional(S.String),
+    Name: S.optional(S.String),
+    Description: S.optional(S.String),
+    CapacityUnits: S.optional(CapacityUnitsConfiguration),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    Status: S.optional(RescoreExecutionPlanStatus),
+    ErrorMessage: S.optional(S.String),
+  }),
 ).annotate({
   identifier: "DescribeRescoreExecutionPlanResponse",
 }) as any as S.Schema<DescribeRescoreExecutionPlanResponse>;
@@ -267,14 +258,7 @@ export const ListRescoreExecutionPlansRequest = /*@__PURE__*/ S.suspend(() =>
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/rescore-execution-plans" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/rescore-execution-plans" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListRescoreExecutionPlansRequest",
@@ -298,9 +282,7 @@ export const RescoreExecutionPlanSummary = /*@__PURE__*/ S.suspend(() =>
   identifier: "RescoreExecutionPlanSummary",
 }) as any as S.Schema<RescoreExecutionPlanSummary>;
 export type RescoreExecutionPlanSummaryList = RescoreExecutionPlanSummary[];
-export const RescoreExecutionPlanSummaryList = /*@__PURE__*/ S.Array(
-  RescoreExecutionPlanSummary,
-);
+export const RescoreExecutionPlanSummaryList = /*@__PURE__*/ S.Array(RescoreExecutionPlanSummary);
 export interface ListRescoreExecutionPlansResponse {
   SummaryItems?: RescoreExecutionPlanSummary[];
   NextToken?: string;
@@ -371,17 +353,12 @@ export interface RescoreRequest {
 }
 export const RescoreRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    RescoreExecutionPlanId: S.String.pipe(
-      T.HttpLabel("RescoreExecutionPlanId"),
-    ),
+    RescoreExecutionPlanId: S.String.pipe(T.HttpLabel("RescoreExecutionPlanId")),
     SearchQuery: S.String,
     Documents: DocumentList,
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/rescore-execution-plans/{RescoreExecutionPlanId}/rescore",
-      }),
+      T.Http({ method: "POST", uri: "/rescore-execution-plans/{RescoreExecutionPlanId}/rescore" }),
       svc,
       auth,
       proto,
@@ -397,9 +374,7 @@ export interface RescoreResultItem {
 }
 export const RescoreResultItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ DocumentId: S.optional(S.String), Score: S.optional(S.Number) }),
-).annotate({
-  identifier: "RescoreResultItem",
-}) as any as S.Schema<RescoreResultItem>;
+).annotate({ identifier: "RescoreResultItem" }) as any as S.Schema<RescoreResultItem>;
 export type RescoreResultItemList = RescoreResultItem[];
 export const RescoreResultItemList = /*@__PURE__*/ S.Array(RescoreResultItem);
 export interface RescoreResult {
@@ -407,10 +382,7 @@ export interface RescoreResult {
   ResultItems?: RescoreResultItem[];
 }
 export const RescoreResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RescoreId: S.optional(S.String),
-    ResultItems: S.optional(RescoreResultItemList),
-  }),
+  S.Struct({ RescoreId: S.optional(S.String), ResultItems: S.optional(RescoreResultItemList) }),
 ).annotate({ identifier: "RescoreResult" }) as any as S.Schema<RescoreResult>;
 export interface TagResourceRequest {
   ResourceARN: string;
@@ -420,13 +392,9 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceARN: S.String, Tags: TagList }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
+).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = string[];
@@ -439,13 +407,9 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceARN: S.String, TagKeys: TagKeyList }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
+).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateRescoreExecutionPlanRequest {

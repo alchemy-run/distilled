@@ -1,14 +1,14 @@
+import * as API from "@distilled.cloud/core/api";
+import * as S from "@distilled.cloud/core/schema";
 import * as HttpClient from "effect/http/HttpClient";
 import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
-import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "CodeGuru Security",
   serviceShapeName: "AwsCodeGuruSecurity",
@@ -28,14 +28,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -62,9 +58,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://codeguru-security-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -72,13 +66,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://codeguru-security.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://codeguru-security.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://codeguru-security.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -110,10 +100,7 @@ export class ConflictException
 export class InternalServerException
   extends /*@__PURE__*/ S.TaggedError<InternalServerException>()(
     "InternalServerException",
-    {
-      error: S.optional(S.String),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
+    { error: S.optional(S.String), message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(T.HttpError(500), T.Retryable()),
   ).pipe(C.withServerError, C.withRetryableError) {}
 export class ResourceNotFoundException
@@ -161,9 +148,7 @@ export interface FindingIdentifier {
 }
 export const FindingIdentifier = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ scanName: S.String, findingId: S.String }),
-).annotate({
-  identifier: "FindingIdentifier",
-}) as any as S.Schema<FindingIdentifier>;
+).annotate({ identifier: "FindingIdentifier" }) as any as S.Schema<FindingIdentifier>;
 export type FindingIdentifiers = FindingIdentifier[];
 export const FindingIdentifiers = /*@__PURE__*/ S.Array(FindingIdentifier);
 export interface BatchGetFindingsRequest {
@@ -171,18 +156,9 @@ export interface BatchGetFindingsRequest {
 }
 export const BatchGetFindingsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ findingIdentifiers: FindingIdentifiers }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/batchGetFindings" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/batchGetFindings" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "BatchGetFindingsRequest",
-}) as any as S.Schema<BatchGetFindingsRequest>;
+).annotate({ identifier: "BatchGetFindingsRequest" }) as any as S.Schema<BatchGetFindingsRequest>;
 export type Status = "Closed" | "Open" | "All" | (string & {});
 export const Status = S.String;
 
@@ -238,13 +214,7 @@ export const Vulnerability = /*@__PURE__*/ S.suspend(() =>
     itemCount: S.optional(S.Number),
   }),
 ).annotate({ identifier: "Vulnerability" }) as any as S.Schema<Vulnerability>;
-export type Severity =
-  | "Critical"
-  | "High"
-  | "Medium"
-  | "Low"
-  | "Info"
-  | (string & {});
+export type Severity = "Critical" | "High" | "Medium" | "Low" | "Info" | (string & {});
 export const Severity = S.String;
 
 export interface Recommendation {
@@ -332,34 +302,21 @@ export interface BatchGetFindingsError_ {
   message: string;
 }
 export const BatchGetFindingsError_ = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    scanName: S.String,
-    findingId: S.String,
-    errorCode: ErrorCode,
-    message: S.String,
-  }),
-).annotate({
-  identifier: "BatchGetFindingsError",
-}) as any as S.Schema<BatchGetFindingsError_>;
+  S.Struct({ scanName: S.String, findingId: S.String, errorCode: ErrorCode, message: S.String }),
+).annotate({ identifier: "BatchGetFindingsError" }) as any as S.Schema<BatchGetFindingsError_>;
 export type BatchGetFindingsErrors = BatchGetFindingsError_[];
-export const BatchGetFindingsErrors = /*@__PURE__*/ S.Array(
-  BatchGetFindingsError_,
-);
+export const BatchGetFindingsErrors = /*@__PURE__*/ S.Array(BatchGetFindingsError_);
 export interface BatchGetFindingsResponse {
   findings: Finding[];
   failedFindings: BatchGetFindingsError_[];
 }
 export const BatchGetFindingsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ findings: Findings, failedFindings: BatchGetFindingsErrors }),
-).annotate({
-  identifier: "BatchGetFindingsResponse",
-}) as any as S.Schema<BatchGetFindingsResponse>;
+).annotate({ identifier: "BatchGetFindingsResponse" }) as any as S.Schema<BatchGetFindingsResponse>;
 export type ClientToken = string;
 export type Uuid = string;
 export type ResourceId = { codeArtifactId: string };
-export const ResourceId = /*@__PURE__*/ S.Union([
-  S.Struct({ codeArtifactId: S.String }),
-]);
+export const ResourceId = /*@__PURE__*/ S.Union([S.Struct({ codeArtifactId: S.String })]);
 export type ScanType = "Standard" | "Express" | (string & {});
 export const ScanType = S.String;
 
@@ -369,10 +326,7 @@ export const AnalysisType = S.String;
 export type TagKey = string;
 export type TagValue = string;
 export type TagMap = { [key: string]: string | undefined };
-export const TagMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const TagMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface CreateScanRequest {
   clientToken?: string;
   resourceId: ResourceId;
@@ -389,19 +343,8 @@ export const CreateScanRequest = /*@__PURE__*/ S.suspend(() =>
     scanType: S.optional(ScanType),
     analysisType: S.optional(AnalysisType),
     tags: S.optional(TagMap),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/scans" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateScanRequest",
-}) as any as S.Schema<CreateScanRequest>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/scans" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "CreateScanRequest" }) as any as S.Schema<CreateScanRequest>;
 export type ScanState = "InProgress" | "Successful" | "Failed" | (string & {});
 export const ScanState = S.String;
 
@@ -421,48 +364,28 @@ export const CreateScanResponse = /*@__PURE__*/ S.suspend(() =>
     scanState: ScanState,
     scanNameArn: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CreateScanResponse",
-}) as any as S.Schema<CreateScanResponse>;
+).annotate({ identifier: "CreateScanResponse" }) as any as S.Schema<CreateScanResponse>;
 export interface CreateUploadUrlRequest {
   scanName: string;
 }
 export const CreateUploadUrlRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ scanName: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/uploadUrl" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/uploadUrl" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "CreateUploadUrlRequest",
-}) as any as S.Schema<CreateUploadUrlRequest>;
+).annotate({ identifier: "CreateUploadUrlRequest" }) as any as S.Schema<CreateUploadUrlRequest>;
 export type S3Url = string | redacted.Redacted<string>;
 export type HeaderKey = string;
 export type HeaderValue = string;
 export type RequestHeaderMap = { [key: string]: string | undefined };
-export const RequestHeaderMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const RequestHeaderMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface CreateUploadUrlResponse {
   s3Url: string | redacted.Redacted<string>;
   requestHeaders: { [key: string]: string | undefined };
   codeArtifactId: string;
 }
 export const CreateUploadUrlResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    s3Url: SensitiveString,
-    requestHeaders: RequestHeaderMap,
-    codeArtifactId: S.String,
-  }),
-).annotate({
-  identifier: "CreateUploadUrlResponse",
-}) as any as S.Schema<CreateUploadUrlResponse>;
+  S.Struct({ s3Url: SensitiveString, requestHeaders: RequestHeaderMap, codeArtifactId: S.String }),
+).annotate({ identifier: "CreateUploadUrlResponse" }) as any as S.Schema<CreateUploadUrlResponse>;
 export interface GetAccountConfigurationRequest {}
 export const GetAccountConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
@@ -484,9 +407,7 @@ export interface EncryptionConfig {
 }
 export const EncryptionConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ kmsKeyArn: S.optional(S.String) }),
-).annotate({
-  identifier: "EncryptionConfig",
-}) as any as S.Schema<EncryptionConfig>;
+).annotate({ identifier: "EncryptionConfig" }) as any as S.Schema<EncryptionConfig>;
 export interface GetAccountConfigurationResponse {
   encryptionConfig: EncryptionConfig;
 }
@@ -509,48 +430,24 @@ export const GetFindingsRequest = /*@__PURE__*/ S.suspend(() =>
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     status: S.optional(Status).pipe(T.HttpQuery("status")),
   }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/findings/{scanName}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/findings/{scanName}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetFindingsRequest",
-}) as any as S.Schema<GetFindingsRequest>;
+).annotate({ identifier: "GetFindingsRequest" }) as any as S.Schema<GetFindingsRequest>;
 export interface GetFindingsResponse {
   findings?: Finding[];
   nextToken?: string;
 }
 export const GetFindingsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ findings: S.optional(Findings), nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "GetFindingsResponse",
-}) as any as S.Schema<GetFindingsResponse>;
+).annotate({ identifier: "GetFindingsResponse" }) as any as S.Schema<GetFindingsResponse>;
 export interface GetMetricsSummaryRequest {
   date: Date;
 }
 export const GetMetricsSummaryRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    date: S.Date.pipe(T.TimestampFormat("epoch-seconds")).pipe(
-      T.HttpQuery("date"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/metrics/summary" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetMetricsSummaryRequest",
-}) as any as S.Schema<GetMetricsSummaryRequest>;
+    date: S.Date.pipe(T.TimestampFormat("epoch-seconds")).pipe(T.HttpQuery("date")),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/metrics/summary" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "GetMetricsSummaryRequest" }) as any as S.Schema<GetMetricsSummaryRequest>;
 export interface FindingMetricsValuePerSeverity {
   info?: number;
   low?: number;
@@ -574,37 +471,21 @@ export interface CategoryWithFindingNum {
   findingNumber?: number;
 }
 export const CategoryWithFindingNum = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    categoryName: S.optional(S.String),
-    findingNumber: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "CategoryWithFindingNum",
-}) as any as S.Schema<CategoryWithFindingNum>;
+  S.Struct({ categoryName: S.optional(S.String), findingNumber: S.optional(S.Number) }),
+).annotate({ identifier: "CategoryWithFindingNum" }) as any as S.Schema<CategoryWithFindingNum>;
 export type CategoriesWithMostFindings = CategoryWithFindingNum[];
-export const CategoriesWithMostFindings = /*@__PURE__*/ S.Array(
-  CategoryWithFindingNum,
-);
+export const CategoriesWithMostFindings = /*@__PURE__*/ S.Array(CategoryWithFindingNum);
 export interface ScanNameWithFindingNum {
   scanName?: string;
   findingNumber?: number;
 }
 export const ScanNameWithFindingNum = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    scanName: S.optional(S.String),
-    findingNumber: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "ScanNameWithFindingNum",
-}) as any as S.Schema<ScanNameWithFindingNum>;
+  S.Struct({ scanName: S.optional(S.String), findingNumber: S.optional(S.Number) }),
+).annotate({ identifier: "ScanNameWithFindingNum" }) as any as S.Schema<ScanNameWithFindingNum>;
 export type ScansWithMostOpenFindings = ScanNameWithFindingNum[];
-export const ScansWithMostOpenFindings = /*@__PURE__*/ S.Array(
-  ScanNameWithFindingNum,
-);
+export const ScansWithMostOpenFindings = /*@__PURE__*/ S.Array(ScanNameWithFindingNum);
 export type ScansWithMostOpenCriticalFindings = ScanNameWithFindingNum[];
-export const ScansWithMostOpenCriticalFindings = /*@__PURE__*/ S.Array(
-  ScanNameWithFindingNum,
-);
+export const ScansWithMostOpenCriticalFindings = /*@__PURE__*/ S.Array(ScanNameWithFindingNum);
 export interface MetricsSummary {
   date?: Date;
   openFindings?: FindingMetricsValuePerSeverity;
@@ -618,9 +499,7 @@ export const MetricsSummary = /*@__PURE__*/ S.suspend(() =>
     openFindings: S.optional(FindingMetricsValuePerSeverity),
     categoriesWithMostFindings: S.optional(CategoriesWithMostFindings),
     scansWithMostOpenFindings: S.optional(ScansWithMostOpenFindings),
-    scansWithMostOpenCriticalFindings: S.optional(
-      ScansWithMostOpenCriticalFindings,
-    ),
+    scansWithMostOpenCriticalFindings: S.optional(ScansWithMostOpenCriticalFindings),
   }),
 ).annotate({ identifier: "MetricsSummary" }) as any as S.Schema<MetricsSummary>;
 export interface GetMetricsSummaryResponse {
@@ -639,16 +518,7 @@ export const GetScanRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     scanName: S.String.pipe(T.HttpLabel("scanName")),
     runId: S.optional(S.String).pipe(T.HttpQuery("runId")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/scans/{scanName}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/scans/{scanName}" }), svc, auth, proto, ver, rules)),
 ).annotate({ identifier: "GetScanRequest" }) as any as S.Schema<GetScanRequest>;
 export type ErrorMessage = string;
 export interface GetScanResponse {
@@ -674,9 +544,7 @@ export const GetScanResponse = /*@__PURE__*/ S.suspend(() =>
     scanNameArn: S.optional(S.String),
     errorMessage: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetScanResponse",
-}) as any as S.Schema<GetScanResponse>;
+).annotate({ identifier: "GetScanResponse" }) as any as S.Schema<GetScanResponse>;
 export interface ListFindingsMetricsRequest {
   nextToken?: string;
   maxResults?: number;
@@ -687,22 +555,9 @@ export const ListFindingsMetricsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    startDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")).pipe(
-      T.HttpQuery("startDate"),
-    ),
-    endDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")).pipe(
-      T.HttpQuery("endDate"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/metrics/findings" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+    startDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")).pipe(T.HttpQuery("startDate")),
+    endDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")).pipe(T.HttpQuery("endDate")),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/metrics/findings" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListFindingsMetricsRequest",
 }) as any as S.Schema<ListFindingsMetricsRequest>;
@@ -721,9 +576,7 @@ export const AccountFindingsMetric = /*@__PURE__*/ S.suspend(() =>
     openFindings: S.optional(FindingMetricsValuePerSeverity),
     meanTimeToClose: S.optional(FindingMetricsValuePerSeverity),
   }),
-).annotate({
-  identifier: "AccountFindingsMetric",
-}) as any as S.Schema<AccountFindingsMetric>;
+).annotate({ identifier: "AccountFindingsMetric" }) as any as S.Schema<AccountFindingsMetric>;
 export type FindingsMetricList = AccountFindingsMetric[];
 export const FindingsMetricList = /*@__PURE__*/ S.Array(AccountFindingsMetric);
 export interface ListFindingsMetricsResponse {
@@ -731,10 +584,7 @@ export interface ListFindingsMetricsResponse {
   nextToken?: string;
 }
 export const ListFindingsMetricsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    findingsMetrics: S.optional(FindingsMetricList),
-    nextToken: S.optional(S.String),
-  }),
+  S.Struct({ findingsMetrics: S.optional(FindingsMetricList), nextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListFindingsMetricsResponse",
 }) as any as S.Schema<ListFindingsMetricsResponse>;
@@ -746,19 +596,8 @@ export const ListScansRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/scans" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListScansRequest",
-}) as any as S.Schema<ListScansRequest>;
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/scans" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "ListScansRequest" }) as any as S.Schema<ListScansRequest>;
 export interface ScanSummary {
   scanState: ScanState;
   createdAt: Date;
@@ -784,26 +623,14 @@ export interface ListScansResponse {
   nextToken?: string;
 }
 export const ListScansResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    summaries: S.optional(ScanSummaries),
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListScansResponse",
-}) as any as S.Schema<ListScansResponse>;
+  S.Struct({ summaries: S.optional(ScanSummaries), nextToken: S.optional(S.String) }),
+).annotate({ identifier: "ListScansResponse" }) as any as S.Schema<ListScansResponse>;
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
 export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListTagsForResourceRequest",
@@ -821,26 +648,12 @@ export interface TagResourceRequest {
   tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-    tags: TagMap,
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tags: TagMap }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
+).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = string[];
@@ -854,22 +667,11 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
   }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
+).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateAccountConfigurationRequest {
@@ -912,13 +714,9 @@ export interface ValidationExceptionField {
 }
 export const ValidationExceptionField = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ name: S.String, message: S.String }),
-).annotate({
-  identifier: "ValidationExceptionField",
-}) as any as S.Schema<ValidationExceptionField>;
+).annotate({ identifier: "ValidationExceptionField" }) as any as S.Schema<ValidationExceptionField>;
 export type ValidationExceptionFieldList = ValidationExceptionField[];
-export const ValidationExceptionFieldList = /*@__PURE__*/ S.Array(
-  ValidationExceptionField,
-);
+export const ValidationExceptionFieldList = /*@__PURE__*/ S.Array(ValidationExceptionField);
 export type BatchGetFindingsError =
   | AccessDeniedException
   | InternalServerException

@@ -1,14 +1,14 @@
+import * as API from "@distilled.cloud/core/api";
+import * as S from "@distilled.cloud/core/schema";
 import * as HttpClient from "effect/http/HttpClient";
 import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
-import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
+import * as T from "../traits.ts";
 const ns = T.XmlNamespace("http://rds.amazonaws.com/doc/2014-10-31/");
 const svc = T.AwsApiService({ sdkId: "RDS", serviceShapeName: "AmazonRDSv19" });
 const auth = T.AwsAuthSigv4({ name: "rds" });
@@ -26,14 +26,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -59,27 +55,17 @@ const rules = T.EndpointResolver((p, _) => {
             if (_.getAttr(PartitionResult, "name") === "aws-us-gov") {
               return e(`https://rds.${Region}.amazonaws.com`);
             }
-            return e(
-              `https://rds-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
+            return e(`https://rds-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
-            return e(
-              `https://rds.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
+            return e(`https://rds.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`);
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://rds.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://rds.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -91,10 +77,7 @@ export class AuthorizationAlreadyExistsFault
     "AuthorizationAlreadyExistsFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "AuthorizationAlreadyExists",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "AuthorizationAlreadyExists", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError, C.withAlreadyExistsError) {}
@@ -112,10 +95,7 @@ export class AuthorizationQuotaExceededFault
     "AuthorizationQuotaExceededFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "AuthorizationQuotaExceeded",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "AuthorizationQuotaExceeded", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -124,10 +104,7 @@ export class BackupPolicyNotFoundFault
     "BackupPolicyNotFoundFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "BackupPolicyNotFoundFault",
-        httpResponseCode: 404,
-      }),
+      T.AwsQueryError({ code: "BackupPolicyNotFoundFault", httpResponseCode: 404 }),
       T.HttpError(404),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -136,10 +113,7 @@ export class BlueGreenDeploymentAlreadyExistsFault
     "BlueGreenDeploymentAlreadyExistsFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "BlueGreenDeploymentAlreadyExistsFault",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "BlueGreenDeploymentAlreadyExistsFault", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError, C.withAlreadyExistsError) {}
@@ -148,10 +122,7 @@ export class BlueGreenDeploymentNotFoundFault
     "BlueGreenDeploymentNotFoundFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "BlueGreenDeploymentNotFoundFault",
-        httpResponseCode: 404,
-      }),
+      T.AwsQueryError({ code: "BlueGreenDeploymentNotFoundFault", httpResponseCode: 404 }),
       T.HttpError(404),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -169,10 +140,7 @@ export class CreateCustomDBEngineVersionFault
     "CreateCustomDBEngineVersionFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "CreateCustomDBEngineVersionFault",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "CreateCustomDBEngineVersionFault", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -181,10 +149,7 @@ export class CustomAvailabilityZoneNotFoundFault
     "CustomAvailabilityZoneNotFoundFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "CustomAvailabilityZoneNotFound",
-        httpResponseCode: 404,
-      }),
+      T.AwsQueryError({ code: "CustomAvailabilityZoneNotFound", httpResponseCode: 404 }),
       T.HttpError(404),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -193,10 +158,7 @@ export class CustomDBEngineVersionAlreadyExistsFault
     "CustomDBEngineVersionAlreadyExistsFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "CustomDBEngineVersionAlreadyExistsFault",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "CustomDBEngineVersionAlreadyExistsFault", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError, C.withAlreadyExistsError) {}
@@ -205,10 +167,7 @@ export class CustomDBEngineVersionNotFoundFault
     "CustomDBEngineVersionNotFoundFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "CustomDBEngineVersionNotFoundFault",
-        httpResponseCode: 404,
-      }),
+      T.AwsQueryError({ code: "CustomDBEngineVersionNotFoundFault", httpResponseCode: 404 }),
       T.HttpError(404),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -217,10 +176,7 @@ export class CustomDBEngineVersionQuotaExceededFault
     "CustomDBEngineVersionQuotaExceededFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "CustomDBEngineVersionQuotaExceededFault",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "CustomDBEngineVersionQuotaExceededFault", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -229,26 +185,16 @@ export class DBClusterAlreadyExistsFault
     "DBClusterAlreadyExistsFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "DBClusterAlreadyExistsFault",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "DBClusterAlreadyExistsFault", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
-  ).pipe(
-    C.withBadRequestError,
-    C.withConflictError,
-    C.withAlreadyExistsError,
-  ) {}
+  ).pipe(C.withBadRequestError, C.withConflictError, C.withAlreadyExistsError) {}
 export class DBClusterAutomatedBackupNotFoundFault
   extends /*@__PURE__*/ S.TaggedError<DBClusterAutomatedBackupNotFoundFault>()(
     "DBClusterAutomatedBackupNotFoundFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "DBClusterAutomatedBackupNotFoundFault",
-        httpResponseCode: 404,
-      }),
+      T.AwsQueryError({ code: "DBClusterAutomatedBackupNotFoundFault", httpResponseCode: 404 }),
       T.HttpError(404),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -269,10 +215,7 @@ export class DBClusterBacktrackNotFoundFault
     "DBClusterBacktrackNotFoundFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "DBClusterBacktrackNotFoundFault",
-        httpResponseCode: 404,
-      }),
+      T.AwsQueryError({ code: "DBClusterBacktrackNotFoundFault", httpResponseCode: 404 }),
       T.HttpError(404),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -281,10 +224,7 @@ export class DBClusterEndpointAlreadyExistsFault
     "DBClusterEndpointAlreadyExistsFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "DBClusterEndpointAlreadyExistsFault",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "DBClusterEndpointAlreadyExistsFault", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError, C.withAlreadyExistsError) {}
@@ -293,10 +233,7 @@ export class DBClusterEndpointNotFoundFault
     "DBClusterEndpointNotFoundFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "DBClusterEndpointNotFoundFault",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "DBClusterEndpointNotFoundFault", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -305,10 +242,7 @@ export class DBClusterEndpointQuotaExceededFault
     "DBClusterEndpointQuotaExceededFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "DBClusterEndpointQuotaExceededFault",
-        httpResponseCode: 403,
-      }),
+      T.AwsQueryError({ code: "DBClusterEndpointQuotaExceededFault", httpResponseCode: 403 }),
       T.HttpError(403),
     ),
   ).pipe(C.withAuthError) {}
@@ -317,10 +251,7 @@ export class DBClusterNotFoundFault
     "DBClusterNotFoundFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "DBClusterNotFoundFault",
-        httpResponseCode: 404,
-      }),
+      T.AwsQueryError({ code: "DBClusterNotFoundFault", httpResponseCode: 404 }),
       T.HttpError(404),
     ),
   ).pipe(C.withBadRequestError, C.withNotFoundError) {}
@@ -329,10 +260,7 @@ export class DBClusterParameterGroupNotFoundFault
     "DBClusterParameterGroupNotFoundFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "DBClusterParameterGroupNotFound",
-        httpResponseCode: 404,
-      }),
+      T.AwsQueryError({ code: "DBClusterParameterGroupNotFound", httpResponseCode: 404 }),
       T.HttpError(404),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -341,10 +269,7 @@ export class DBClusterQuotaExceededFault
     "DBClusterQuotaExceededFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "DBClusterQuotaExceededFault",
-        httpResponseCode: 403,
-      }),
+      T.AwsQueryError({ code: "DBClusterQuotaExceededFault", httpResponseCode: 403 }),
       T.HttpError(403),
     ),
   ).pipe(C.withAuthError, C.withQuotaError) {}
@@ -353,10 +278,7 @@ export class DBClusterRoleAlreadyExistsFault
     "DBClusterRoleAlreadyExistsFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "DBClusterRoleAlreadyExists",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "DBClusterRoleAlreadyExists", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError, C.withAlreadyExistsError) {}
@@ -374,10 +296,7 @@ export class DBClusterRoleQuotaExceededFault
     "DBClusterRoleQuotaExceededFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "DBClusterRoleQuotaExceeded",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "DBClusterRoleQuotaExceeded", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -386,10 +305,7 @@ export class DBClusterSnapshotAlreadyExistsFault
     "DBClusterSnapshotAlreadyExistsFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "DBClusterSnapshotAlreadyExistsFault",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "DBClusterSnapshotAlreadyExistsFault", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError, C.withAlreadyExistsError) {}
@@ -398,10 +314,7 @@ export class DBClusterSnapshotNotFoundFault
     "DBClusterSnapshotNotFoundFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "DBClusterSnapshotNotFoundFault",
-        httpResponseCode: 404,
-      }),
+      T.AwsQueryError({ code: "DBClusterSnapshotNotFoundFault", httpResponseCode: 404 }),
       T.HttpError(404),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -410,10 +323,7 @@ export class DBInstanceAlreadyExistsFault
     "DBInstanceAlreadyExistsFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "DBInstanceAlreadyExists",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "DBInstanceAlreadyExists", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError, C.withAlreadyExistsError) {}
@@ -422,10 +332,7 @@ export class DBInstanceAutomatedBackupNotFoundFault
     "DBInstanceAutomatedBackupNotFoundFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "DBInstanceAutomatedBackupNotFound",
-        httpResponseCode: 404,
-      }),
+      T.AwsQueryError({ code: "DBInstanceAutomatedBackupNotFound", httpResponseCode: 404 }),
       T.HttpError(404),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -434,10 +341,7 @@ export class DBInstanceAutomatedBackupQuotaExceededFault
     "DBInstanceAutomatedBackupQuotaExceededFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "DBInstanceAutomatedBackupQuotaExceeded",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "DBInstanceAutomatedBackupQuotaExceeded", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -445,29 +349,20 @@ export class DBInstanceNotFoundFault
   extends /*@__PURE__*/ S.TaggedError<DBInstanceNotFoundFault>()(
     "DBInstanceNotFoundFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "DBInstanceNotFound", httpResponseCode: 404 }),
-      T.HttpError(404),
-    ),
+    T.all(T.AwsQueryError({ code: "DBInstanceNotFound", httpResponseCode: 404 }), T.HttpError(404)),
   ).pipe(C.withBadRequestError) {}
 export class DBInstanceNotReadyFault
   extends /*@__PURE__*/ S.TaggedError<DBInstanceNotReadyFault>()(
     "DBInstanceNotReadyFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "DBInstanceNotReady", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
+    T.all(T.AwsQueryError({ code: "DBInstanceNotReady", httpResponseCode: 400 }), T.HttpError(400)),
   ).pipe(C.withBadRequestError) {}
 export class DBInstanceRoleAlreadyExistsFault
   extends /*@__PURE__*/ S.TaggedError<DBInstanceRoleAlreadyExistsFault>()(
     "DBInstanceRoleAlreadyExistsFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "DBInstanceRoleAlreadyExists",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "DBInstanceRoleAlreadyExists", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError, C.withAlreadyExistsError) {}
@@ -476,10 +371,7 @@ export class DBInstanceRoleNotFoundFault
     "DBInstanceRoleNotFoundFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "DBInstanceRoleNotFound",
-        httpResponseCode: 404,
-      }),
+      T.AwsQueryError({ code: "DBInstanceRoleNotFound", httpResponseCode: 404 }),
       T.HttpError(404),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -488,10 +380,7 @@ export class DBInstanceRoleQuotaExceededFault
     "DBInstanceRoleQuotaExceededFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "DBInstanceRoleQuotaExceeded",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "DBInstanceRoleQuotaExceeded", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -500,10 +389,7 @@ export class DBLogFileNotFoundFault
     "DBLogFileNotFoundFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "DBLogFileNotFoundFault",
-        httpResponseCode: 404,
-      }),
+      T.AwsQueryError({ code: "DBLogFileNotFoundFault", httpResponseCode: 404 }),
       T.HttpError(404),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -512,10 +398,7 @@ export class DBParameterGroupAlreadyExistsFault
     "DBParameterGroupAlreadyExistsFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "DBParameterGroupAlreadyExists",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "DBParameterGroupAlreadyExists", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError, C.withAlreadyExistsError) {}
@@ -524,10 +407,7 @@ export class DBParameterGroupNotFoundFault
     "DBParameterGroupNotFoundFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "DBParameterGroupNotFound",
-        httpResponseCode: 404,
-      }),
+      T.AwsQueryError({ code: "DBParameterGroupNotFound", httpResponseCode: 404 }),
       T.HttpError(404),
     ),
   ).pipe(C.withBadRequestError, C.withNotFoundError) {}
@@ -536,10 +416,7 @@ export class DBParameterGroupQuotaExceededFault
     "DBParameterGroupQuotaExceededFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "DBParameterGroupQuotaExceeded",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "DBParameterGroupQuotaExceeded", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -548,10 +425,7 @@ export class DBProxyAlreadyExistsFault
     "DBProxyAlreadyExistsFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "DBProxyAlreadyExistsFault",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "DBProxyAlreadyExistsFault", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError, C.withAlreadyExistsError) {}
@@ -560,10 +434,7 @@ export class DBProxyEndpointAlreadyExistsFault
     "DBProxyEndpointAlreadyExistsFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "DBProxyEndpointAlreadyExistsFault",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "DBProxyEndpointAlreadyExistsFault", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError, C.withAlreadyExistsError) {}
@@ -572,10 +443,7 @@ export class DBProxyEndpointNotFoundFault
     "DBProxyEndpointNotFoundFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "DBProxyEndpointNotFoundFault",
-        httpResponseCode: 404,
-      }),
+      T.AwsQueryError({ code: "DBProxyEndpointNotFoundFault", httpResponseCode: 404 }),
       T.HttpError(404),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -584,10 +452,7 @@ export class DBProxyEndpointQuotaExceededFault
     "DBProxyEndpointQuotaExceededFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "DBProxyEndpointQuotaExceededFault",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "DBProxyEndpointQuotaExceededFault", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -605,10 +470,7 @@ export class DBProxyQuotaExceededFault
     "DBProxyQuotaExceededFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "DBProxyQuotaExceededFault",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "DBProxyQuotaExceededFault", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -617,10 +479,7 @@ export class DBProxyTargetAlreadyRegisteredFault
     "DBProxyTargetAlreadyRegisteredFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "DBProxyTargetAlreadyRegisteredFault",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "DBProxyTargetAlreadyRegisteredFault", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -629,10 +488,7 @@ export class DBProxyTargetGroupNotFoundFault
     "DBProxyTargetGroupNotFoundFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "DBProxyTargetGroupNotFoundFault",
-        httpResponseCode: 404,
-      }),
+      T.AwsQueryError({ code: "DBProxyTargetGroupNotFoundFault", httpResponseCode: 404 }),
       T.HttpError(404),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -641,10 +497,7 @@ export class DBProxyTargetNotFoundFault
     "DBProxyTargetNotFoundFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "DBProxyTargetNotFoundFault",
-        httpResponseCode: 404,
-      }),
+      T.AwsQueryError({ code: "DBProxyTargetNotFoundFault", httpResponseCode: 404 }),
       T.HttpError(404),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -653,10 +506,7 @@ export class DBSecurityGroupAlreadyExistsFault
     "DBSecurityGroupAlreadyExistsFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "DBSecurityGroupAlreadyExists",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "DBSecurityGroupAlreadyExists", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError, C.withAlreadyExistsError) {}
@@ -665,10 +515,7 @@ export class DBSecurityGroupNotFoundFault
     "DBSecurityGroupNotFoundFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "DBSecurityGroupNotFound",
-        httpResponseCode: 404,
-      }),
+      T.AwsQueryError({ code: "DBSecurityGroupNotFound", httpResponseCode: 404 }),
       T.HttpError(404),
     ),
   ).pipe(C.withBadRequestError, C.withNotFoundError) {}
@@ -677,10 +524,7 @@ export class DBSecurityGroupNotSupportedFault
     "DBSecurityGroupNotSupportedFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "DBSecurityGroupNotSupported",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "DBSecurityGroupNotSupported", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -689,10 +533,7 @@ export class DBSecurityGroupQuotaExceededFault
     "DBSecurityGroupQuotaExceededFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "QuotaExceeded.DBSecurityGroup",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "QuotaExceeded.DBSecurityGroup", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -701,10 +542,7 @@ export class DBShardGroupAlreadyExistsFault
     "DBShardGroupAlreadyExistsFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "DBShardGroupAlreadyExists",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "DBShardGroupAlreadyExists", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError, C.withAlreadyExistsError) {}
@@ -722,10 +560,7 @@ export class DBSnapshotAlreadyExistsFault
     "DBSnapshotAlreadyExistsFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "DBSnapshotAlreadyExists",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "DBSnapshotAlreadyExists", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError, C.withAlreadyExistsError) {}
@@ -733,20 +568,14 @@ export class DBSnapshotNotFoundFault
   extends /*@__PURE__*/ S.TaggedError<DBSnapshotNotFoundFault>()(
     "DBSnapshotNotFoundFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "DBSnapshotNotFound", httpResponseCode: 404 }),
-      T.HttpError(404),
-    ),
+    T.all(T.AwsQueryError({ code: "DBSnapshotNotFound", httpResponseCode: 404 }), T.HttpError(404)),
   ).pipe(C.withBadRequestError) {}
 export class DBSnapshotTenantDatabaseNotFoundFault
   extends /*@__PURE__*/ S.TaggedError<DBSnapshotTenantDatabaseNotFoundFault>()(
     "DBSnapshotTenantDatabaseNotFoundFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "DBSnapshotTenantDatabaseNotFoundFault",
-        httpResponseCode: 404,
-      }),
+      T.AwsQueryError({ code: "DBSnapshotTenantDatabaseNotFoundFault", httpResponseCode: 404 }),
       T.HttpError(404),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -755,10 +584,7 @@ export class DBSubnetGroupAlreadyExistsFault
     "DBSubnetGroupAlreadyExistsFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "DBSubnetGroupAlreadyExists",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "DBSubnetGroupAlreadyExists", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError, C.withAlreadyExistsError) {}
@@ -767,10 +593,7 @@ export class DBSubnetGroupDoesNotCoverEnoughAZs
     "DBSubnetGroupDoesNotCoverEnoughAZs",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "DBSubnetGroupDoesNotCoverEnoughAZs",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "DBSubnetGroupDoesNotCoverEnoughAZs", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -779,10 +602,7 @@ export class DBSubnetGroupNotAllowedFault
     "DBSubnetGroupNotAllowedFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "DBSubnetGroupNotAllowedFault",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "DBSubnetGroupNotAllowedFault", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -791,10 +611,7 @@ export class DBSubnetGroupNotFoundFault
     "DBSubnetGroupNotFoundFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "DBSubnetGroupNotFoundFault",
-        httpResponseCode: 404,
-      }),
+      T.AwsQueryError({ code: "DBSubnetGroupNotFoundFault", httpResponseCode: 404 }),
       T.HttpError(404),
     ),
   ).pipe(C.withBadRequestError, C.withNotFoundError) {}
@@ -803,10 +620,7 @@ export class DBSubnetGroupQuotaExceededFault
     "DBSubnetGroupQuotaExceededFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "DBSubnetGroupQuotaExceeded",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "DBSubnetGroupQuotaExceeded", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError, C.withQuotaError) {}
@@ -815,10 +629,7 @@ export class DBSubnetQuotaExceededFault
     "DBSubnetQuotaExceededFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "DBSubnetQuotaExceededFault",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "DBSubnetQuotaExceededFault", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -827,10 +638,7 @@ export class DBUpgradeDependencyFailureFault
     "DBUpgradeDependencyFailureFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "DBUpgradeDependencyFailure",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "DBUpgradeDependencyFailure", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -848,10 +656,7 @@ export class Ec2ImagePropertiesNotSupportedFault
     "Ec2ImagePropertiesNotSupportedFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "Ec2ImagePropertiesNotSupportedFault",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "Ec2ImagePropertiesNotSupportedFault", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -860,10 +665,7 @@ export class EventSubscriptionQuotaExceededFault
     "EventSubscriptionQuotaExceededFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "EventSubscriptionQuotaExceeded",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "EventSubscriptionQuotaExceeded", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -872,10 +674,7 @@ export class ExportTaskAlreadyExistsFault
     "ExportTaskAlreadyExistsFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "ExportTaskAlreadyExists",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "ExportTaskAlreadyExists", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError, C.withAlreadyExistsError) {}
@@ -883,20 +682,14 @@ export class ExportTaskNotFoundFault
   extends /*@__PURE__*/ S.TaggedError<ExportTaskNotFoundFault>()(
     "ExportTaskNotFoundFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "ExportTaskNotFound", httpResponseCode: 404 }),
-      T.HttpError(404),
-    ),
+    T.all(T.AwsQueryError({ code: "ExportTaskNotFound", httpResponseCode: 404 }), T.HttpError(404)),
   ).pipe(C.withBadRequestError) {}
 export class GlobalClusterAlreadyExistsFault
   extends /*@__PURE__*/ S.TaggedError<GlobalClusterAlreadyExistsFault>()(
     "GlobalClusterAlreadyExistsFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "GlobalClusterAlreadyExistsFault",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "GlobalClusterAlreadyExistsFault", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError, C.withAlreadyExistsError) {}
@@ -905,10 +698,7 @@ export class GlobalClusterNotFoundFault
     "GlobalClusterNotFoundFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "GlobalClusterNotFoundFault",
-        httpResponseCode: 404,
-      }),
+      T.AwsQueryError({ code: "GlobalClusterNotFoundFault", httpResponseCode: 404 }),
       T.HttpError(404),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -917,10 +707,7 @@ export class GlobalClusterQuotaExceededFault
     "GlobalClusterQuotaExceededFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "GlobalClusterQuotaExceededFault",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "GlobalClusterQuotaExceededFault", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -929,10 +716,7 @@ export class IamRoleMissingPermissionsFault
     "IamRoleMissingPermissionsFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "IamRoleMissingPermissions",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "IamRoleMissingPermissions", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -940,10 +724,7 @@ export class IamRoleNotFoundFault
   extends /*@__PURE__*/ S.TaggedError<IamRoleNotFoundFault>()(
     "IamRoleNotFoundFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "IamRoleNotFound", httpResponseCode: 404 }),
-      T.HttpError(404),
-    ),
+    T.all(T.AwsQueryError({ code: "IamRoleNotFound", httpResponseCode: 404 }), T.HttpError(404)),
   ).pipe(C.withBadRequestError) {}
 export class InstanceQuotaExceededFault
   extends /*@__PURE__*/ S.TaggedError<InstanceQuotaExceededFault>()(
@@ -959,10 +740,7 @@ export class InsufficientAvailableIPsInSubnetFault
     "InsufficientAvailableIPsInSubnetFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "InsufficientAvailableIPsInSubnetFault",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "InsufficientAvailableIPsInSubnetFault", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -971,10 +749,7 @@ export class InsufficientDBClusterCapacityFault
     "InsufficientDBClusterCapacityFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "InsufficientDBClusterCapacityFault",
-        httpResponseCode: 403,
-      }),
+      T.AwsQueryError({ code: "InsufficientDBClusterCapacityFault", httpResponseCode: 403 }),
       T.HttpError(403),
     ),
   ).pipe(C.withAuthError, C.withQuotaError) {}
@@ -983,10 +758,7 @@ export class InsufficientDBInstanceCapacityFault
     "InsufficientDBInstanceCapacityFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "InsufficientDBInstanceCapacity",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "InsufficientDBInstanceCapacity", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -995,10 +767,7 @@ export class InsufficientStorageClusterCapacityFault
     "InsufficientStorageClusterCapacityFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "InsufficientStorageClusterCapacity",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "InsufficientStorageClusterCapacity", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -1007,10 +776,7 @@ export class IntegrationAlreadyExistsFault
     "IntegrationAlreadyExistsFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "IntegrationAlreadyExistsFault",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "IntegrationAlreadyExistsFault", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError, C.withAlreadyExistsError) {}
@@ -1019,10 +785,7 @@ export class IntegrationConflictOperationFault
     "IntegrationConflictOperationFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "IntegrationConflictOperationFault",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "IntegrationConflictOperationFault", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -1031,10 +794,7 @@ export class IntegrationNotFoundFault
     "IntegrationNotFoundFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "IntegrationNotFoundFault",
-        httpResponseCode: 404,
-      }),
+      T.AwsQueryError({ code: "IntegrationNotFoundFault", httpResponseCode: 404 }),
       T.HttpError(404),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -1043,10 +803,7 @@ export class IntegrationQuotaExceededFault
     "IntegrationQuotaExceededFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "IntegrationQuotaExceededFault",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "IntegrationQuotaExceededFault", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -1055,10 +812,7 @@ export class InvalidBlueGreenDeploymentStateFault
     "InvalidBlueGreenDeploymentStateFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "InvalidBlueGreenDeploymentStateFault",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "InvalidBlueGreenDeploymentStateFault", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -1067,10 +821,7 @@ export class InvalidCustomDBEngineVersionStateFault
     "InvalidCustomDBEngineVersionStateFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "InvalidCustomDBEngineVersionStateFault",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "InvalidCustomDBEngineVersionStateFault", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -1079,10 +830,7 @@ export class InvalidDBClusterAutomatedBackupStateFault
     "InvalidDBClusterAutomatedBackupStateFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "InvalidDBClusterAutomatedBackupStateFault",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "InvalidDBClusterAutomatedBackupStateFault", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -1091,10 +839,7 @@ export class InvalidDBClusterCapacityFault
     "InvalidDBClusterCapacityFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "InvalidDBClusterCapacityFault",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "InvalidDBClusterCapacityFault", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -1103,10 +848,7 @@ export class InvalidDBClusterEndpointStateFault
     "InvalidDBClusterEndpointStateFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "InvalidDBClusterEndpointStateFault",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "InvalidDBClusterEndpointStateFault", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -1115,10 +857,7 @@ export class InvalidDBClusterSnapshotStateFault
     "InvalidDBClusterSnapshotStateFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "InvalidDBClusterSnapshotStateFault",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "InvalidDBClusterSnapshotStateFault", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -1127,10 +866,7 @@ export class InvalidDBClusterStateFault
     "InvalidDBClusterStateFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "InvalidDBClusterStateFault",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "InvalidDBClusterStateFault", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError, C.withConflictError, C.withRetryableError) {}
@@ -1139,10 +875,7 @@ export class InvalidDBInstanceAutomatedBackupStateFault
     "InvalidDBInstanceAutomatedBackupStateFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "InvalidDBInstanceAutomatedBackupState",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "InvalidDBInstanceAutomatedBackupState", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -1151,10 +884,7 @@ export class InvalidDBInstanceStateFault
     "InvalidDBInstanceStateFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "InvalidDBInstanceState",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "InvalidDBInstanceState", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -1163,10 +893,7 @@ export class InvalidDBParameterGroupStateFault
     "InvalidDBParameterGroupStateFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "InvalidDBParameterGroupState",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "InvalidDBParameterGroupState", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -1175,10 +902,7 @@ export class InvalidDBProxyEndpointStateFault
     "InvalidDBProxyEndpointStateFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "InvalidDBProxyEndpointStateFault",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "InvalidDBProxyEndpointStateFault", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -1187,10 +911,7 @@ export class InvalidDBProxyStateFault
     "InvalidDBProxyStateFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "InvalidDBProxyStateFault",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "InvalidDBProxyStateFault", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -1199,10 +920,7 @@ export class InvalidDBSecurityGroupStateFault
     "InvalidDBSecurityGroupStateFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "InvalidDBSecurityGroupState",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "InvalidDBSecurityGroupState", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -1211,10 +929,7 @@ export class InvalidDBShardGroupStateFault
     "InvalidDBShardGroupStateFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "InvalidDBShardGroupState",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "InvalidDBShardGroupState", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -1223,10 +938,7 @@ export class InvalidDBSnapshotStateFault
     "InvalidDBSnapshotStateFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "InvalidDBSnapshotState",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "InvalidDBSnapshotState", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -1235,10 +947,7 @@ export class InvalidDBSubnetGroupFault
     "InvalidDBSubnetGroupFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "InvalidDBSubnetGroupFault",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "InvalidDBSubnetGroupFault", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -1247,10 +956,7 @@ export class InvalidDBSubnetGroupStateFault
     "InvalidDBSubnetGroupStateFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "InvalidDBSubnetGroupStateFault",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "InvalidDBSubnetGroupStateFault", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -1259,10 +965,7 @@ export class InvalidDBSubnetStateFault
     "InvalidDBSubnetStateFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "InvalidDBSubnetStateFault",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "InvalidDBSubnetStateFault", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -1271,10 +974,7 @@ export class InvalidEventSubscriptionStateFault
     "InvalidEventSubscriptionStateFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "InvalidEventSubscriptionState",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "InvalidEventSubscriptionState", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -1282,20 +982,14 @@ export class InvalidExportOnlyFault
   extends /*@__PURE__*/ S.TaggedError<InvalidExportOnlyFault>()(
     "InvalidExportOnlyFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "InvalidExportOnly", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
+    T.all(T.AwsQueryError({ code: "InvalidExportOnly", httpResponseCode: 400 }), T.HttpError(400)),
   ).pipe(C.withBadRequestError) {}
 export class InvalidExportSourceStateFault
   extends /*@__PURE__*/ S.TaggedError<InvalidExportSourceStateFault>()(
     "InvalidExportSourceStateFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "InvalidExportSourceState",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "InvalidExportSourceState", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -1304,10 +998,7 @@ export class InvalidExportTaskStateFault
     "InvalidExportTaskStateFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "InvalidExportTaskStateFault",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "InvalidExportTaskStateFault", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -1316,10 +1007,7 @@ export class InvalidGlobalClusterStateFault
     "InvalidGlobalClusterStateFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "InvalidGlobalClusterStateFault",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "InvalidGlobalClusterStateFault", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -1328,10 +1016,7 @@ export class InvalidIntegrationStateFault
     "InvalidIntegrationStateFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "InvalidIntegrationStateFault",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "InvalidIntegrationStateFault", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -1340,10 +1025,7 @@ export class InvalidOptionGroupStateFault
     "InvalidOptionGroupStateFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "InvalidOptionGroupStateFault",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "InvalidOptionGroupStateFault", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -1353,19 +1035,15 @@ export class InvalidParameterCombination
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
   ).pipe(C.withBadRequestError) {}
 export class InvalidParameterValue
-  extends /*@__PURE__*/ S.TaggedError<InvalidParameterValue>()(
-    "InvalidParameterValue",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ).pipe(C.withBadRequestError) {}
+  extends /*@__PURE__*/ S.TaggedError<InvalidParameterValue>()("InvalidParameterValue", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }).pipe(C.withBadRequestError) {}
 export class InvalidResourceStateFault
   extends /*@__PURE__*/ S.TaggedError<InvalidResourceStateFault>()(
     "InvalidResourceStateFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "InvalidResourceStateFault",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "InvalidResourceStateFault", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -1391,20 +1069,14 @@ export class InvalidSubnet
   extends /*@__PURE__*/ S.TaggedError<InvalidSubnet>()(
     "InvalidSubnet",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "InvalidSubnet", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
+    T.all(T.AwsQueryError({ code: "InvalidSubnet", httpResponseCode: 400 }), T.HttpError(400)),
   ).pipe(C.withBadRequestError) {}
 export class InvalidVPCNetworkStateFault
   extends /*@__PURE__*/ S.TaggedError<InvalidVPCNetworkStateFault>()(
     "InvalidVPCNetworkStateFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "InvalidVPCNetworkStateFault",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "InvalidVPCNetworkStateFault", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -1413,10 +1085,7 @@ export class KMSKeyNotAccessibleFault
     "KMSKeyNotAccessibleFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "KMSKeyNotAccessibleFault",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "KMSKeyNotAccessibleFault", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -1425,10 +1094,7 @@ export class MaxDBShardGroupLimitReached
     "MaxDBShardGroupLimitReached",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "MaxDBShardGroupLimitReached",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "MaxDBShardGroupLimitReached", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -1437,10 +1103,7 @@ export class NetworkTypeNotSupported
     "NetworkTypeNotSupported",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "NetworkTypeNotSupported",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "NetworkTypeNotSupported", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -1449,10 +1112,7 @@ export class OptionGroupAlreadyExistsFault
     "OptionGroupAlreadyExistsFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "OptionGroupAlreadyExistsFault",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "OptionGroupAlreadyExistsFault", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError, C.withAlreadyExistsError) {}
@@ -1461,10 +1121,7 @@ export class OptionGroupNotFoundFault
     "OptionGroupNotFoundFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "OptionGroupNotFoundFault",
-        httpResponseCode: 404,
-      }),
+      T.AwsQueryError({ code: "OptionGroupNotFoundFault", httpResponseCode: 404 }),
       T.HttpError(404),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -1473,10 +1130,7 @@ export class OptionGroupQuotaExceededFault
     "OptionGroupQuotaExceededFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "OptionGroupQuotaExceededFault",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "OptionGroupQuotaExceededFault", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -1485,10 +1139,7 @@ export class PointInTimeRestoreNotEnabledFault
     "PointInTimeRestoreNotEnabledFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "PointInTimeRestoreNotEnabled",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "PointInTimeRestoreNotEnabled", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -1497,10 +1148,7 @@ export class ProvisionedIopsNotAvailableInAZFault
     "ProvisionedIopsNotAvailableInAZFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "ProvisionedIopsNotAvailableInAZFault",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "ProvisionedIopsNotAvailableInAZFault", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError, C.withQuotaError) {}
@@ -1509,10 +1157,7 @@ export class ReservedDBInstanceAlreadyExistsFault
     "ReservedDBInstanceAlreadyExistsFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "ReservedDBInstanceAlreadyExists",
-        httpResponseCode: 404,
-      }),
+      T.AwsQueryError({ code: "ReservedDBInstanceAlreadyExists", httpResponseCode: 404 }),
       T.HttpError(404),
     ),
   ).pipe(C.withBadRequestError, C.withAlreadyExistsError) {}
@@ -1521,10 +1166,7 @@ export class ReservedDBInstanceNotFoundFault
     "ReservedDBInstanceNotFoundFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "ReservedDBInstanceNotFound",
-        httpResponseCode: 404,
-      }),
+      T.AwsQueryError({ code: "ReservedDBInstanceNotFound", httpResponseCode: 404 }),
       T.HttpError(404),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -1533,10 +1175,7 @@ export class ReservedDBInstanceQuotaExceededFault
     "ReservedDBInstanceQuotaExceededFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "ReservedDBInstanceQuotaExceeded",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "ReservedDBInstanceQuotaExceeded", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -1545,10 +1184,7 @@ export class ReservedDBInstancesOfferingNotFoundFault
     "ReservedDBInstancesOfferingNotFoundFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "ReservedDBInstancesOfferingNotFound",
-        httpResponseCode: 404,
-      }),
+      T.AwsQueryError({ code: "ReservedDBInstancesOfferingNotFound", httpResponseCode: 404 }),
       T.HttpError(404),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -1566,10 +1202,7 @@ export class SharedSnapshotQuotaExceededFault
     "SharedSnapshotQuotaExceededFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "SharedSnapshotQuotaExceeded",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "SharedSnapshotQuotaExceeded", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -1586,19 +1219,13 @@ export class SNSInvalidTopicFault
   extends /*@__PURE__*/ S.TaggedError<SNSInvalidTopicFault>()(
     "SNSInvalidTopicFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "SNSInvalidTopic", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
+    T.all(T.AwsQueryError({ code: "SNSInvalidTopic", httpResponseCode: 400 }), T.HttpError(400)),
   ).pipe(C.withBadRequestError) {}
 export class SNSNoAuthorizationFault
   extends /*@__PURE__*/ S.TaggedError<SNSNoAuthorizationFault>()(
     "SNSNoAuthorizationFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "SNSNoAuthorization", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
+    T.all(T.AwsQueryError({ code: "SNSNoAuthorization", httpResponseCode: 400 }), T.HttpError(400)),
   ).pipe(C.withBadRequestError) {}
 export class SNSTopicArnNotFoundFault
   extends /*@__PURE__*/ S.TaggedError<SNSTopicArnNotFoundFault>()(
@@ -1614,10 +1241,7 @@ export class SourceClusterNotSupportedFault
     "SourceClusterNotSupportedFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "SourceClusterNotSupportedFault",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "SourceClusterNotSupportedFault", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -1626,10 +1250,7 @@ export class SourceDatabaseNotSupportedFault
     "SourceDatabaseNotSupportedFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "SourceDatabaseNotSupportedFault",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "SourceDatabaseNotSupportedFault", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -1637,10 +1258,7 @@ export class SourceNotFoundFault
   extends /*@__PURE__*/ S.TaggedError<SourceNotFoundFault>()(
     "SourceNotFoundFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "SourceNotFound", httpResponseCode: 404 }),
-      T.HttpError(404),
-    ),
+    T.all(T.AwsQueryError({ code: "SourceNotFound", httpResponseCode: 404 }), T.HttpError(404)),
   ).pipe(C.withBadRequestError) {}
 export class StorageQuotaExceededFault
   extends /*@__PURE__*/ S.TaggedError<StorageQuotaExceededFault>()(
@@ -1656,10 +1274,7 @@ export class StorageTypeNotAvailableFault
     "StorageTypeNotAvailableFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "StorageTypeNotAvailableFault",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "StorageTypeNotAvailableFault", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -1668,10 +1283,7 @@ export class StorageTypeNotSupportedFault
     "StorageTypeNotSupportedFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "StorageTypeNotSupported",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "StorageTypeNotSupported", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -1679,20 +1291,14 @@ export class SubnetAlreadyInUse
   extends /*@__PURE__*/ S.TaggedError<SubnetAlreadyInUse>()(
     "SubnetAlreadyInUse",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "SubnetAlreadyInUse", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
+    T.all(T.AwsQueryError({ code: "SubnetAlreadyInUse", httpResponseCode: 400 }), T.HttpError(400)),
   ).pipe(C.withBadRequestError, C.withDependencyViolationError) {}
 export class SubscriptionAlreadyExistFault
   extends /*@__PURE__*/ S.TaggedError<SubscriptionAlreadyExistFault>()(
     "SubscriptionAlreadyExistFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "SubscriptionAlreadyExist",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "SubscriptionAlreadyExist", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -1701,10 +1307,7 @@ export class SubscriptionCategoryNotFoundFault
     "SubscriptionCategoryNotFoundFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "SubscriptionCategoryNotFound",
-        httpResponseCode: 404,
-      }),
+      T.AwsQueryError({ code: "SubscriptionCategoryNotFound", httpResponseCode: 404 }),
       T.HttpError(404),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -1722,10 +1325,7 @@ export class TenantDatabaseAlreadyExistsFault
     "TenantDatabaseAlreadyExistsFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "TenantDatabaseAlreadyExists",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "TenantDatabaseAlreadyExists", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError, C.withAlreadyExistsError) {}
@@ -1734,10 +1334,7 @@ export class TenantDatabaseNotFoundFault
     "TenantDatabaseNotFoundFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "TenantDatabaseNotFound",
-        httpResponseCode: 404,
-      }),
+      T.AwsQueryError({ code: "TenantDatabaseNotFound", httpResponseCode: 404 }),
       T.HttpError(404),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -1746,10 +1343,7 @@ export class TenantDatabaseQuotaExceededFault
     "TenantDatabaseQuotaExceededFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "TenantDatabaseQuotaExceeded",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "TenantDatabaseQuotaExceeded", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -1758,10 +1352,7 @@ export class UnsupportedDBEngineVersionFault
     "UnsupportedDBEngineVersionFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "UnsupportedDBEngineVersion",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "UnsupportedDBEngineVersion", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -1770,10 +1361,7 @@ export class VpcEncryptionControlViolationException
     "VpcEncryptionControlViolationException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "VpcEncryptionControlViolationException",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "VpcEncryptionControlViolationException", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -1788,17 +1376,7 @@ export const AddRoleToDBClusterMessage = /*@__PURE__*/ S.suspend(() =>
     DBClusterIdentifier: S.optional(S.String),
     RoleArn: S.optional(S.String),
     FeatureName: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "AddRoleToDBClusterMessage",
 }) as any as S.Schema<AddRoleToDBClusterMessage>;
@@ -1818,17 +1396,7 @@ export const AddRoleToDBInstanceMessage = /*@__PURE__*/ S.suspend(() =>
     DBInstanceIdentifier: S.optional(S.String),
     RoleArn: S.optional(S.String),
     FeatureName: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "AddRoleToDBInstanceMessage",
 }) as any as S.Schema<AddRoleToDBInstanceMessage>;
@@ -1842,33 +1410,17 @@ export interface AddSourceIdentifierToSubscriptionMessage {
   SubscriptionName?: string;
   SourceIdentifier?: string;
 }
-export const AddSourceIdentifierToSubscriptionMessage = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      SubscriptionName: S.optional(S.String),
-      SourceIdentifier: S.optional(S.String),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
+export const AddSourceIdentifierToSubscriptionMessage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ SubscriptionName: S.optional(S.String), SourceIdentifier: S.optional(S.String) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "AddSourceIdentifierToSubscriptionMessage",
 }) as any as S.Schema<AddSourceIdentifierToSubscriptionMessage>;
 export type SourceIdsList = string[];
-export const SourceIdsList = /*@__PURE__*/ S.Array(
-  S.String.pipe(T.XmlName("SourceId")),
-);
+export const SourceIdsList = /*@__PURE__*/ S.Array(S.String.pipe(T.XmlName("SourceId")));
 export type EventCategoriesList = string[];
-export const EventCategoriesList = /*@__PURE__*/ S.Array(
-  S.String.pipe(T.XmlName("EventCategory")),
-);
+export const EventCategoriesList = /*@__PURE__*/ S.Array(S.String.pipe(T.XmlName("EventCategory")));
 export interface EventSubscription {
   CustomerAwsId?: string;
   CustSubscriptionId?: string;
@@ -1894,14 +1446,12 @@ export const EventSubscription = /*@__PURE__*/ S.suspend(() =>
     Enabled: S.optional(S.Boolean),
     EventSubscriptionArn: S.optional(S.String),
   }),
-).annotate({
-  identifier: "EventSubscription",
-}) as any as S.Schema<EventSubscription>;
+).annotate({ identifier: "EventSubscription" }) as any as S.Schema<EventSubscription>;
 export interface AddSourceIdentifierToSubscriptionResult {
   EventSubscription?: EventSubscription;
 }
-export const AddSourceIdentifierToSubscriptionResult = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ EventSubscription: S.optional(EventSubscription) }).pipe(ns),
+export const AddSourceIdentifierToSubscriptionResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ EventSubscription: S.optional(EventSubscription) }).pipe(ns),
 ).annotate({
   identifier: "AddSourceIdentifierToSubscriptionResult",
 }) as any as S.Schema<AddSourceIdentifierToSubscriptionResult>;
@@ -1921,23 +1471,10 @@ export interface AddTagsToResourceMessage {
   Tags?: Tag[];
 }
 export const AddTagsToResourceMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceName: S.optional(S.String),
-    Tags: S.optional(TagList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+  S.Struct({ ResourceName: S.optional(S.String), Tags: S.optional(TagList) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "AddTagsToResourceMessage",
-}) as any as S.Schema<AddTagsToResourceMessage>;
+).annotate({ identifier: "AddTagsToResourceMessage" }) as any as S.Schema<AddTagsToResourceMessage>;
 export interface AddTagsToResourceResponse {}
 export const AddTagsToResourceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(ns),
@@ -1949,23 +1486,12 @@ export interface ApplyPendingMaintenanceActionMessage {
   ApplyAction?: string;
   OptInType?: string;
 }
-export const ApplyPendingMaintenanceActionMessage = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ResourceIdentifier: S.optional(S.String),
-      ApplyAction: S.optional(S.String),
-      OptInType: S.optional(S.String),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
+export const ApplyPendingMaintenanceActionMessage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ResourceIdentifier: S.optional(S.String),
+    ApplyAction: S.optional(S.String),
+    OptInType: S.optional(S.String),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ApplyPendingMaintenanceActionMessage",
 }) as any as S.Schema<ApplyPendingMaintenanceActionMessage>;
@@ -1980,26 +1506,18 @@ export interface PendingMaintenanceAction {
 export const PendingMaintenanceAction = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     Action: S.optional(S.String),
-    AutoAppliedAfterDate: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    ForcedApplyDate: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    AutoAppliedAfterDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    ForcedApplyDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     OptInStatus: S.optional(S.String),
-    CurrentApplyDate: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    CurrentApplyDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     Description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PendingMaintenanceAction",
-}) as any as S.Schema<PendingMaintenanceAction>;
+).annotate({ identifier: "PendingMaintenanceAction" }) as any as S.Schema<PendingMaintenanceAction>;
 export type PendingMaintenanceActionDetails = PendingMaintenanceAction[];
 export const PendingMaintenanceActionDetails = /*@__PURE__*/ S.Array(
-  PendingMaintenanceAction.pipe(T.XmlName("PendingMaintenanceAction")).annotate(
-    { identifier: "PendingMaintenanceAction" },
-  ),
+  PendingMaintenanceAction.pipe(T.XmlName("PendingMaintenanceAction")).annotate({
+    identifier: "PendingMaintenanceAction",
+  }),
 );
 export interface ResourcePendingMaintenanceActions {
   ResourceIdentifier?: string;
@@ -2008,9 +1526,7 @@ export interface ResourcePendingMaintenanceActions {
 export const ResourcePendingMaintenanceActions = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ResourceIdentifier: S.optional(S.String),
-    PendingMaintenanceActionDetails: S.optional(
-      PendingMaintenanceActionDetails,
-    ),
+    PendingMaintenanceActionDetails: S.optional(PendingMaintenanceActionDetails),
   }),
 ).annotate({
   identifier: "ResourcePendingMaintenanceActions",
@@ -2020,9 +1536,7 @@ export interface ApplyPendingMaintenanceActionResult {
 }
 export const ApplyPendingMaintenanceActionResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    ResourcePendingMaintenanceActions: S.optional(
-      ResourcePendingMaintenanceActions,
-    ),
+    ResourcePendingMaintenanceActions: S.optional(ResourcePendingMaintenanceActions),
   }).pipe(ns),
 ).annotate({
   identifier: "ApplyPendingMaintenanceActionResult",
@@ -2034,25 +1548,14 @@ export interface AuthorizeDBSecurityGroupIngressMessage {
   EC2SecurityGroupId?: string;
   EC2SecurityGroupOwnerId?: string;
 }
-export const AuthorizeDBSecurityGroupIngressMessage = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      DBSecurityGroupName: S.optional(S.String),
-      CIDRIP: S.optional(S.String),
-      EC2SecurityGroupName: S.optional(S.String),
-      EC2SecurityGroupId: S.optional(S.String),
-      EC2SecurityGroupOwnerId: S.optional(S.String),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
+export const AuthorizeDBSecurityGroupIngressMessage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    DBSecurityGroupName: S.optional(S.String),
+    CIDRIP: S.optional(S.String),
+    EC2SecurityGroupName: S.optional(S.String),
+    EC2SecurityGroupId: S.optional(S.String),
+    EC2SecurityGroupOwnerId: S.optional(S.String),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "AuthorizeDBSecurityGroupIngressMessage",
 }) as any as S.Schema<AuthorizeDBSecurityGroupIngressMessage>;
@@ -2069,14 +1572,10 @@ export const EC2SecurityGroup = /*@__PURE__*/ S.suspend(() =>
     EC2SecurityGroupId: S.optional(S.String),
     EC2SecurityGroupOwnerId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "EC2SecurityGroup",
-}) as any as S.Schema<EC2SecurityGroup>;
+).annotate({ identifier: "EC2SecurityGroup" }) as any as S.Schema<EC2SecurityGroup>;
 export type EC2SecurityGroupList = EC2SecurityGroup[];
 export const EC2SecurityGroupList = /*@__PURE__*/ S.Array(
-  EC2SecurityGroup.pipe(T.XmlName("EC2SecurityGroup")).annotate({
-    identifier: "EC2SecurityGroup",
-  }),
+  EC2SecurityGroup.pipe(T.XmlName("EC2SecurityGroup")).annotate({ identifier: "EC2SecurityGroup" }),
 );
 export interface IPRange {
   Status?: string;
@@ -2108,14 +1607,12 @@ export const DBSecurityGroup = /*@__PURE__*/ S.suspend(() =>
     IPRanges: S.optional(IPRangeList),
     DBSecurityGroupArn: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DBSecurityGroup",
-}) as any as S.Schema<DBSecurityGroup>;
+).annotate({ identifier: "DBSecurityGroup" }) as any as S.Schema<DBSecurityGroup>;
 export interface AuthorizeDBSecurityGroupIngressResult {
   DBSecurityGroup?: DBSecurityGroup;
 }
-export const AuthorizeDBSecurityGroupIngressResult = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ DBSecurityGroup: S.optional(DBSecurityGroup) }).pipe(ns),
+export const AuthorizeDBSecurityGroupIngressResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ DBSecurityGroup: S.optional(DBSecurityGroup) }).pipe(ns),
 ).annotate({
   identifier: "AuthorizeDBSecurityGroupIngressResult",
 }) as any as S.Schema<AuthorizeDBSecurityGroupIngressResult>;
@@ -2128,22 +1625,10 @@ export interface BacktrackDBClusterMessage {
 export const BacktrackDBClusterMessage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     DBClusterIdentifier: S.optional(S.String),
-    BacktrackTo: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    BacktrackTo: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     Force: S.optional(S.Boolean),
     UseEarliestTimeOnPointInTimeUnavailable: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "BacktrackDBClusterMessage",
 }) as any as S.Schema<BacktrackDBClusterMessage>;
@@ -2159,38 +1644,20 @@ export const DBClusterBacktrack = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     DBClusterIdentifier: S.optional(S.String),
     BacktrackIdentifier: S.optional(S.String),
-    BacktrackTo: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    BacktrackedFrom: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    BacktrackRequestCreationTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    BacktrackTo: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    BacktrackedFrom: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    BacktrackRequestCreationTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     Status: S.optional(S.String),
   }).pipe(ns),
-).annotate({
-  identifier: "DBClusterBacktrack",
-}) as any as S.Schema<DBClusterBacktrack>;
+).annotate({ identifier: "DBClusterBacktrack" }) as any as S.Schema<DBClusterBacktrack>;
 export interface CancelExportTaskMessage {
   ExportTaskIdentifier?: string;
 }
 export const CancelExportTaskMessage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ExportTaskIdentifier: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "CancelExportTaskMessage",
-}) as any as S.Schema<CancelExportTaskMessage>;
+).annotate({ identifier: "CancelExportTaskMessage" }) as any as S.Schema<CancelExportTaskMessage>;
 export type StringList = string[];
 export const StringList = /*@__PURE__*/ S.Array(S.String);
 export type ExportSourceType = "SNAPSHOT" | "CLUSTER" | (string & {});
@@ -2219,15 +1686,9 @@ export const ExportTask = /*@__PURE__*/ S.suspend(() =>
     ExportTaskIdentifier: S.optional(S.String),
     SourceArn: S.optional(S.String),
     ExportOnly: S.optional(StringList),
-    SnapshotTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    TaskStartTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    TaskEndTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    SnapshotTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    TaskStartTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    TaskEndTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     S3Bucket: S.optional(S.String),
     S3Prefix: S.optional(S.String),
     IamRoleArn: S.optional(S.String),
@@ -2252,17 +1713,7 @@ export const CopyDBClusterParameterGroupMessage = /*@__PURE__*/ S.suspend(() =>
     TargetDBClusterParameterGroupIdentifier: S.optional(S.String),
     TargetDBClusterParameterGroupDescription: S.optional(S.String),
     Tags: S.optional(TagList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CopyDBClusterParameterGroupMessage",
 }) as any as S.Schema<CopyDBClusterParameterGroupMessage>;
@@ -2279,16 +1730,12 @@ export const DBClusterParameterGroup = /*@__PURE__*/ S.suspend(() =>
     Description: S.optional(S.String),
     DBClusterParameterGroupArn: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DBClusterParameterGroup",
-}) as any as S.Schema<DBClusterParameterGroup>;
+).annotate({ identifier: "DBClusterParameterGroup" }) as any as S.Schema<DBClusterParameterGroup>;
 export interface CopyDBClusterParameterGroupResult {
   DBClusterParameterGroup?: DBClusterParameterGroup;
 }
 export const CopyDBClusterParameterGroupResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DBClusterParameterGroup: S.optional(DBClusterParameterGroup),
-  }).pipe(ns),
+  S.Struct({ DBClusterParameterGroup: S.optional(DBClusterParameterGroup) }).pipe(ns),
 ).annotate({
   identifier: "CopyDBClusterParameterGroupResult",
 }) as any as S.Schema<CopyDBClusterParameterGroupResult>;
@@ -2309,17 +1756,7 @@ export const CopyDBClusterSnapshotMessage = /*@__PURE__*/ S.suspend(() =>
     PreSignedUrl: S.optional(SensitiveString),
     CopyTags: S.optional(S.Boolean),
     Tags: S.optional(TagList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CopyDBClusterSnapshotMessage",
 }) as any as S.Schema<CopyDBClusterSnapshotMessage>;
@@ -2327,11 +1764,7 @@ export type AvailabilityZones = string[];
 export const AvailabilityZones = /*@__PURE__*/ S.Array(
   S.String.pipe(T.XmlName("AvailabilityZone")),
 );
-export type StorageEncryptionType =
-  | "none"
-  | "sse-kms"
-  | "sse-rds"
-  | (string & {});
+export type StorageEncryptionType = "none" | "sse-kms" | "sse-rds" | (string & {});
 export const StorageEncryptionType = S.String;
 
 export interface DBClusterSnapshot {
@@ -2370,18 +1803,14 @@ export const DBClusterSnapshot = /*@__PURE__*/ S.suspend(() =>
     AvailabilityZones: S.optional(AvailabilityZones),
     DBClusterSnapshotIdentifier: S.optional(S.String),
     DBClusterIdentifier: S.optional(S.String),
-    SnapshotCreateTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    SnapshotCreateTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     Engine: S.optional(S.String),
     EngineMode: S.optional(S.String),
     AllocatedStorage: S.optional(S.Number),
     Status: S.optional(S.String),
     Port: S.optional(S.Number),
     VpcId: S.optional(S.String),
-    ClusterCreateTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    ClusterCreateTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     MasterUsername: S.optional(S.String),
     EngineVersion: S.optional(S.String),
     LicenseModel: S.optional(S.String),
@@ -2401,9 +1830,7 @@ export const DBClusterSnapshot = /*@__PURE__*/ S.suspend(() =>
     DbClusterResourceId: S.optional(S.String),
     DBSystemId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DBClusterSnapshot",
-}) as any as S.Schema<DBClusterSnapshot>;
+).annotate({ identifier: "DBClusterSnapshot" }) as any as S.Schema<DBClusterSnapshot>;
 export interface CopyDBClusterSnapshotResult {
   DBClusterSnapshot?: DBClusterSnapshot;
 }
@@ -2424,17 +1851,7 @@ export const CopyDBParameterGroupMessage = /*@__PURE__*/ S.suspend(() =>
     TargetDBParameterGroupIdentifier: S.optional(S.String),
     TargetDBParameterGroupDescription: S.optional(S.String),
     Tags: S.optional(TagList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CopyDBParameterGroupMessage",
 }) as any as S.Schema<CopyDBParameterGroupMessage>;
@@ -2451,9 +1868,7 @@ export const DBParameterGroup = /*@__PURE__*/ S.suspend(() =>
     Description: S.optional(S.String),
     DBParameterGroupArn: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DBParameterGroup",
-}) as any as S.Schema<DBParameterGroup>;
+).annotate({ identifier: "DBParameterGroup" }) as any as S.Schema<DBParameterGroup>;
 export interface CopyDBParameterGroupResult {
   DBParameterGroup?: DBParameterGroup;
 }
@@ -2488,34 +1903,18 @@ export const CopyDBSnapshotMessage = /*@__PURE__*/ S.suspend(() =>
     SnapshotTarget: S.optional(S.String),
     CopyOptionGroup: S.optional(S.Boolean),
     SnapshotAvailabilityZone: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CopyDBSnapshotMessage",
-}) as any as S.Schema<CopyDBSnapshotMessage>;
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "CopyDBSnapshotMessage" }) as any as S.Schema<CopyDBSnapshotMessage>;
 export interface ProcessorFeature {
   Name?: string;
   Value?: string;
 }
 export const ProcessorFeature = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Name: S.optional(S.String), Value: S.optional(S.String) }),
-).annotate({
-  identifier: "ProcessorFeature",
-}) as any as S.Schema<ProcessorFeature>;
+).annotate({ identifier: "ProcessorFeature" }) as any as S.Schema<ProcessorFeature>;
 export type ProcessorFeatureList = ProcessorFeature[];
 export const ProcessorFeatureList = /*@__PURE__*/ S.Array(
-  ProcessorFeature.pipe(T.XmlName("ProcessorFeature")).annotate({
-    identifier: "ProcessorFeature",
-  }),
+  ProcessorFeature.pipe(T.XmlName("ProcessorFeature")).annotate({ identifier: "ProcessorFeature" }),
 );
 export interface AdditionalStorageVolume {
   VolumeName?: string;
@@ -2534,13 +1933,9 @@ export const AdditionalStorageVolume = /*@__PURE__*/ S.suspend(() =>
     StorageThroughput: S.optional(S.Number),
     StorageType: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AdditionalStorageVolume",
-}) as any as S.Schema<AdditionalStorageVolume>;
+).annotate({ identifier: "AdditionalStorageVolume" }) as any as S.Schema<AdditionalStorageVolume>;
 export type AdditionalStorageVolumesList = AdditionalStorageVolume[];
-export const AdditionalStorageVolumesList = /*@__PURE__*/ S.Array(
-  AdditionalStorageVolume,
-);
+export const AdditionalStorageVolumesList = /*@__PURE__*/ S.Array(AdditionalStorageVolume);
 export interface DBSnapshot {
   DBSnapshotIdentifier?: string;
   DBInstanceIdentifier?: string;
@@ -2589,18 +1984,14 @@ export const DBSnapshot = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     DBSnapshotIdentifier: S.optional(S.String),
     DBInstanceIdentifier: S.optional(S.String),
-    SnapshotCreateTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    SnapshotCreateTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     Engine: S.optional(S.String),
     AllocatedStorage: S.optional(S.Number),
     Status: S.optional(S.String),
     Port: S.optional(S.Number),
     AvailabilityZone: S.optional(S.String),
     VpcId: S.optional(S.String),
-    InstanceCreateTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    InstanceCreateTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     MasterUsername: S.optional(S.String),
     EngineVersion: S.optional(S.String),
     LicenseModel: S.optional(S.String),
@@ -2625,12 +2016,8 @@ export const DBSnapshot = /*@__PURE__*/ S.suspend(() =>
     DbiResourceId: S.optional(S.String),
     TagList: S.optional(TagList),
     SnapshotTarget: S.optional(S.String),
-    OriginalSnapshotCreateTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    SnapshotDatabaseTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    OriginalSnapshotCreateTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    SnapshotDatabaseTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     DBSystemId: S.optional(S.String),
     MultiTenant: S.optional(S.Boolean),
     DedicatedLogVolume: S.optional(S.Boolean),
@@ -2641,16 +2028,12 @@ export const DBSnapshot = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "DBSnapshot" }) as any as S.Schema<DBSnapshot>;
 export interface CopyDBSnapshotResult {
   DBSnapshot?: DBSnapshot & {
-    AdditionalStorageVolumes: (AdditionalStorageVolume & {
-      VolumeName: string;
-    })[];
+    AdditionalStorageVolumes: (AdditionalStorageVolume & { VolumeName: string })[];
   };
 }
 export const CopyDBSnapshotResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ DBSnapshot: S.optional(DBSnapshot) }).pipe(ns),
-).annotate({
-  identifier: "CopyDBSnapshotResult",
-}) as any as S.Schema<CopyDBSnapshotResult>;
+).annotate({ identifier: "CopyDBSnapshotResult" }) as any as S.Schema<CopyDBSnapshotResult>;
 export interface CopyOptionGroupMessage {
   SourceOptionGroupIdentifier?: string;
   TargetOptionGroupIdentifier?: string;
@@ -2663,23 +2046,9 @@ export const CopyOptionGroupMessage = /*@__PURE__*/ S.suspend(() =>
     TargetOptionGroupIdentifier: S.optional(S.String),
     TargetOptionGroupDescription: S.optional(S.String),
     Tags: S.optional(TagList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CopyOptionGroupMessage",
-}) as any as S.Schema<CopyOptionGroupMessage>;
-export type PotentiallySensitiveOptionSettingValue =
-  | string
-  | redacted.Redacted<string>;
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "CopyOptionGroupMessage" }) as any as S.Schema<CopyOptionGroupMessage>;
+export type PotentiallySensitiveOptionSettingValue = string | redacted.Redacted<string>;
 export interface OptionSetting {
   Name?: string;
   Value?: string | redacted.Redacted<string>;
@@ -2706,19 +2075,14 @@ export const OptionSetting = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "OptionSetting" }) as any as S.Schema<OptionSetting>;
 export type OptionSettingConfigurationList = OptionSetting[];
 export const OptionSettingConfigurationList = /*@__PURE__*/ S.Array(
-  OptionSetting.pipe(T.XmlName("OptionSetting")).annotate({
-    identifier: "OptionSetting",
-  }),
+  OptionSetting.pipe(T.XmlName("OptionSetting")).annotate({ identifier: "OptionSetting" }),
 );
 export interface DBSecurityGroupMembership {
   DBSecurityGroupName?: string;
   Status?: string;
 }
 export const DBSecurityGroupMembership = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DBSecurityGroupName: S.optional(S.String),
-    Status: S.optional(S.String),
-  }),
+  S.Struct({ DBSecurityGroupName: S.optional(S.String), Status: S.optional(S.String) }),
 ).annotate({
   identifier: "DBSecurityGroupMembership",
 }) as any as S.Schema<DBSecurityGroupMembership>;
@@ -2733,18 +2097,15 @@ export interface VpcSecurityGroupMembership {
   Status?: string;
 }
 export const VpcSecurityGroupMembership = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    VpcSecurityGroupId: S.optional(S.String),
-    Status: S.optional(S.String),
-  }),
+  S.Struct({ VpcSecurityGroupId: S.optional(S.String), Status: S.optional(S.String) }),
 ).annotate({
   identifier: "VpcSecurityGroupMembership",
 }) as any as S.Schema<VpcSecurityGroupMembership>;
 export type VpcSecurityGroupMembershipList = VpcSecurityGroupMembership[];
 export const VpcSecurityGroupMembershipList = /*@__PURE__*/ S.Array(
-  VpcSecurityGroupMembership.pipe(
-    T.XmlName("VpcSecurityGroupMembership"),
-  ).annotate({ identifier: "VpcSecurityGroupMembership" }),
+  VpcSecurityGroupMembership.pipe(T.XmlName("VpcSecurityGroupMembership")).annotate({
+    identifier: "VpcSecurityGroupMembership",
+  }),
 );
 export interface Option {
   OptionName?: string;
@@ -2799,9 +2160,7 @@ export const OptionGroup = /*@__PURE__*/ S.suspend(() =>
     OptionGroupArn: S.optional(S.String),
     SourceOptionGroup: S.optional(S.String),
     SourceAccountId: S.optional(S.String),
-    CopyTimestamp: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    CopyTimestamp: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotate({ identifier: "OptionGroup" }) as any as S.Schema<OptionGroup>;
 export interface CopyOptionGroupResult {
@@ -2809,9 +2168,7 @@ export interface CopyOptionGroupResult {
 }
 export const CopyOptionGroupResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ OptionGroup: S.optional(OptionGroup) }).pipe(ns),
-).annotate({
-  identifier: "CopyOptionGroupResult",
-}) as any as S.Schema<CopyOptionGroupResult>;
+).annotate({ identifier: "CopyOptionGroupResult" }) as any as S.Schema<CopyOptionGroupResult>;
 export type BlueGreenDeploymentName = string;
 export type DatabaseArn = string;
 export type TargetEngineVersion = string;
@@ -2819,6 +2176,23 @@ export type TargetDBParameterGroupName = string;
 export type TargetDBClusterParameterGroupName = string;
 export type TargetDBInstanceClass = string;
 export type TargetStorageType = string;
+export type DBAndClusterArn = string;
+export type KmsKeyIdOrArn = string;
+export interface TargetResourceConfiguration {
+  SourceArn: string;
+  TargetKmsKeyId?: string;
+}
+export const TargetResourceConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ SourceArn: S.String, TargetKmsKeyId: S.optional(S.String) }),
+).annotate({
+  identifier: "TargetResourceConfiguration",
+}) as any as S.Schema<TargetResourceConfiguration>;
+export type TargetResourceConfigurationList = TargetResourceConfiguration[];
+export const TargetResourceConfigurationList = /*@__PURE__*/ S.Array(
+  TargetResourceConfiguration.pipe(T.XmlName("TargetResourceConfiguration")).annotate({
+    identifier: "TargetResourceConfiguration",
+  }),
+);
 export interface CreateBlueGreenDeploymentRequest {
   BlueGreenDeploymentName?: string;
   Source?: string;
@@ -2832,6 +2206,7 @@ export interface CreateBlueGreenDeploymentRequest {
   TargetStorageType?: string;
   TargetAllocatedStorage?: number;
   TargetStorageThroughput?: number;
+  TargetResourceConfigurations?: TargetResourceConfiguration[];
 }
 export const CreateBlueGreenDeploymentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2847,17 +2222,8 @@ export const CreateBlueGreenDeploymentRequest = /*@__PURE__*/ S.suspend(() =>
     TargetStorageType: S.optional(S.String),
     TargetAllocatedStorage: S.optional(S.Number),
     TargetStorageThroughput: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+    TargetResourceConfigurations: S.optional(TargetResourceConfigurationList),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateBlueGreenDeploymentRequest",
 }) as any as S.Schema<CreateBlueGreenDeploymentRequest>;
@@ -2874,9 +2240,7 @@ export const SwitchoverDetail = /*@__PURE__*/ S.suspend(() =>
     TargetMember: S.optional(S.String),
     Status: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SwitchoverDetail",
-}) as any as S.Schema<SwitchoverDetail>;
+).annotate({ identifier: "SwitchoverDetail" }) as any as S.Schema<SwitchoverDetail>;
 export type SwitchoverDetailList = SwitchoverDetail[];
 export const SwitchoverDetailList = /*@__PURE__*/ S.Array(SwitchoverDetail);
 export type BlueGreenDeploymentTaskName = string;
@@ -2887,13 +2251,9 @@ export interface BlueGreenDeploymentTask {
 }
 export const BlueGreenDeploymentTask = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Name: S.optional(S.String), Status: S.optional(S.String) }),
-).annotate({
-  identifier: "BlueGreenDeploymentTask",
-}) as any as S.Schema<BlueGreenDeploymentTask>;
+).annotate({ identifier: "BlueGreenDeploymentTask" }) as any as S.Schema<BlueGreenDeploymentTask>;
 export type BlueGreenDeploymentTaskList = BlueGreenDeploymentTask[];
-export const BlueGreenDeploymentTaskList = /*@__PURE__*/ S.Array(
-  BlueGreenDeploymentTask,
-);
+export const BlueGreenDeploymentTaskList = /*@__PURE__*/ S.Array(BlueGreenDeploymentTask);
 export type BlueGreenDeploymentStatus = string;
 export type BlueGreenDeploymentStatusDetails = string;
 export interface BlueGreenDeployment {
@@ -2919,17 +2279,11 @@ export const BlueGreenDeployment = /*@__PURE__*/ S.suspend(() =>
     Tasks: S.optional(BlueGreenDeploymentTaskList),
     Status: S.optional(S.String),
     StatusDetails: S.optional(S.String),
-    CreateTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    DeleteTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    CreateTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    DeleteTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     TagList: S.optional(TagList),
   }),
-).annotate({
-  identifier: "BlueGreenDeployment",
-}) as any as S.Schema<BlueGreenDeployment>;
+).annotate({ identifier: "BlueGreenDeployment" }) as any as S.Schema<BlueGreenDeployment>;
 export interface CreateBlueGreenDeploymentResponse {
   BlueGreenDeployment?: BlueGreenDeployment;
 }
@@ -2942,7 +2296,6 @@ export type CustomEngineName = string;
 export type CustomEngineVersion = string;
 export type BucketName = string;
 export type String255 = string;
-export type KmsKeyIdOrArn = string;
 export type Description = string;
 export type CustomDBEngineVersionManifest = string;
 export interface CreateCustomDBEngineVersionMessage {
@@ -2973,17 +2326,7 @@ export const CreateCustomDBEngineVersionMessage = /*@__PURE__*/ S.suspend(() =>
     Description: S.optional(S.String),
     Manifest: S.optional(S.String),
     Tags: S.optional(TagList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateCustomDBEngineVersionMessage",
 }) as any as S.Schema<CreateCustomDBEngineVersionMessage>;
@@ -3003,14 +2346,10 @@ export interface CustomDBEngineVersionAMI {
 }
 export const CustomDBEngineVersionAMI = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ImageId: S.optional(S.String), Status: S.optional(S.String) }),
-).annotate({
-  identifier: "CustomDBEngineVersionAMI",
-}) as any as S.Schema<CustomDBEngineVersionAMI>;
+).annotate({ identifier: "CustomDBEngineVersionAMI" }) as any as S.Schema<CustomDBEngineVersionAMI>;
 export type SupportedCharacterSetsList = CharacterSet[];
 export const SupportedCharacterSetsList = /*@__PURE__*/ S.Array(
-  CharacterSet.pipe(T.XmlName("CharacterSet")).annotate({
-    identifier: "CharacterSet",
-  }),
+  CharacterSet.pipe(T.XmlName("CharacterSet")).annotate({ identifier: "CharacterSet" }),
 );
 export type EngineModeList = string[];
 export const EngineModeList = /*@__PURE__*/ S.Array(S.String);
@@ -3046,9 +2385,7 @@ export const UpgradeTarget = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "UpgradeTarget" }) as any as S.Schema<UpgradeTarget>;
 export type ValidUpgradeTargetList = UpgradeTarget[];
 export const ValidUpgradeTargetList = /*@__PURE__*/ S.Array(
-  UpgradeTarget.pipe(T.XmlName("UpgradeTarget")).annotate({
-    identifier: "UpgradeTarget",
-  }),
+  UpgradeTarget.pipe(T.XmlName("UpgradeTarget")).annotate({ identifier: "UpgradeTarget" }),
 );
 export interface Timezone {
   TimezoneName?: string;
@@ -3071,10 +2408,7 @@ export interface ServerlessV2FeaturesSupport {
   MaxCapacity?: number;
 }
 export const ServerlessV2FeaturesSupport = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MinCapacity: S.optional(S.Number),
-    MaxCapacity: S.optional(S.Number),
-  }),
+  S.Struct({ MinCapacity: S.optional(S.Number), MaxCapacity: S.optional(S.Number) }),
 ).annotate({
   identifier: "ServerlessV2FeaturesSupport",
 }) as any as S.Schema<ServerlessV2FeaturesSupport>;
@@ -3135,9 +2469,7 @@ export const DBEngineVersion = /*@__PURE__*/ S.suspend(() =>
     Image: S.optional(CustomDBEngineVersionAMI),
     DBEngineMediaType: S.optional(S.String),
     KMSKeyId: S.optional(S.String),
-    CreateTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    CreateTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     SupportedCharacterSets: S.optional(SupportedCharacterSetsList),
     SupportedNcharCharacterSets: S.optional(SupportedCharacterSetsList),
     ValidUpgradeTarget: S.optional(ValidUpgradeTargetList),
@@ -3159,9 +2491,7 @@ export const DBEngineVersion = /*@__PURE__*/ S.suspend(() =>
     SupportsIntegrations: S.optional(S.Boolean),
     ServerlessV2FeaturesSupport: S.optional(ServerlessV2FeaturesSupport),
   }).pipe(ns),
-).annotate({
-  identifier: "DBEngineVersion",
-}) as any as S.Schema<DBEngineVersion>;
+).annotate({ identifier: "DBEngineVersion" }) as any as S.Schema<DBEngineVersion>;
 export type VpcSecurityGroupIdList = string[];
 export const VpcSecurityGroupIdList = /*@__PURE__*/ S.Array(
   S.String.pipe(T.XmlName("VpcSecurityGroupId")),
@@ -3183,9 +2513,7 @@ export const ScalingConfiguration = /*@__PURE__*/ S.suspend(() =>
     TimeoutAction: S.optional(S.String),
     SecondsBeforeTimeout: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ScalingConfiguration",
-}) as any as S.Schema<ScalingConfiguration>;
+).annotate({ identifier: "ScalingConfiguration" }) as any as S.Schema<ScalingConfiguration>;
 export type ReplicaMode = "open-read-only" | "mounted" | (string & {});
 export const ReplicaMode = S.String;
 
@@ -3230,19 +2558,12 @@ export interface TagSpecification {
 }
 export const TagSpecification = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceType: S.optional(S.String), Tags: S.optional(TagList) }),
-).annotate({
-  identifier: "TagSpecification",
-}) as any as S.Schema<TagSpecification>;
+).annotate({ identifier: "TagSpecification" }) as any as S.Schema<TagSpecification>;
 export type TagSpecificationList = TagSpecification[];
 export const TagSpecificationList = /*@__PURE__*/ S.Array(
-  TagSpecification.pipe(T.XmlName("item")).annotate({
-    identifier: "TagSpecification",
-  }),
+  TagSpecification.pipe(T.XmlName("item")).annotate({ identifier: "TagSpecification" }),
 );
-export type MasterUserAuthenticationType =
-  | "password"
-  | "iam-db-auth"
-  | (string & {});
+export type MasterUserAuthenticationType = "password" | "iam-db-auth" | (string & {});
 export const MasterUserAuthenticationType = S.String;
 
 export interface DBClusterAssociatedRole {
@@ -3251,9 +2572,7 @@ export interface DBClusterAssociatedRole {
 }
 export const DBClusterAssociatedRole = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ RoleArn: S.String, FeatureName: S.optional(S.String) }),
-).annotate({
-  identifier: "DBClusterAssociatedRole",
-}) as any as S.Schema<DBClusterAssociatedRole>;
+).annotate({ identifier: "DBClusterAssociatedRole" }) as any as S.Schema<DBClusterAssociatedRole>;
 export type DBClusterAssociatedRoles = DBClusterAssociatedRole[];
 export const DBClusterAssociatedRoles = /*@__PURE__*/ S.Array(
   DBClusterAssociatedRole.pipe(T.XmlName("DBClusterAssociatedRole")).annotate({
@@ -3365,9 +2684,7 @@ export const CreateDBClusterMessage = /*@__PURE__*/ S.suspend(() =>
     DomainIAMRoleName: S.optional(S.String),
     EnableGlobalWriteForwarding: S.optional(S.Boolean),
     NetworkType: S.optional(S.String),
-    ServerlessV2ScalingConfiguration: S.optional(
-      ServerlessV2ScalingConfiguration,
-    ),
+    ServerlessV2ScalingConfiguration: S.optional(ServerlessV2ScalingConfiguration),
     MonitoringInterval: S.optional(S.Number),
     MonitoringRoleArn: S.optional(S.String),
     DatabaseInsightsMode: S.optional(DatabaseInsightsMode),
@@ -3386,29 +2703,14 @@ export const CreateDBClusterMessage = /*@__PURE__*/ S.suspend(() =>
     MasterUserAuthenticationType: S.optional(MasterUserAuthenticationType),
     WithExpressConfiguration: S.optional(S.Boolean),
     AssociatedRoles: S.optional(DBClusterAssociatedRoles),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateDBClusterMessage",
-}) as any as S.Schema<CreateDBClusterMessage>;
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "CreateDBClusterMessage" }) as any as S.Schema<CreateDBClusterMessage>;
 export interface DBClusterOptionGroupStatus {
   DBClusterOptionGroupName?: string;
   Status?: string;
 }
 export const DBClusterOptionGroupStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DBClusterOptionGroupName: S.optional(S.String),
-    Status: S.optional(S.String),
-  }),
+  S.Struct({ DBClusterOptionGroupName: S.optional(S.String), Status: S.optional(S.String) }),
 ).annotate({
   identifier: "DBClusterOptionGroupStatus",
 }) as any as S.Schema<DBClusterOptionGroupStatus>;
@@ -3438,9 +2740,7 @@ export const DBClusterStatusInfo = /*@__PURE__*/ S.suspend(() =>
     Status: S.optional(S.String),
     Message: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DBClusterStatusInfo",
-}) as any as S.Schema<DBClusterStatusInfo>;
+).annotate({ identifier: "DBClusterStatusInfo" }) as any as S.Schema<DBClusterStatusInfo>;
 export type DBClusterStatusInfoList = DBClusterStatusInfo[];
 export const DBClusterStatusInfoList = /*@__PURE__*/ S.Array(
   DBClusterStatusInfo.pipe(T.XmlName("DBClusterStatusInfo")).annotate({
@@ -3460,14 +2760,10 @@ export const DBClusterMember = /*@__PURE__*/ S.suspend(() =>
     DBClusterParameterGroupStatus: S.optional(S.String),
     PromotionTier: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "DBClusterMember",
-}) as any as S.Schema<DBClusterMember>;
+).annotate({ identifier: "DBClusterMember" }) as any as S.Schema<DBClusterMember>;
 export type DBClusterMemberList = DBClusterMember[];
 export const DBClusterMemberList = /*@__PURE__*/ S.Array(
-  DBClusterMember.pipe(T.XmlName("DBClusterMember")).annotate({
-    identifier: "DBClusterMember",
-  }),
+  DBClusterMember.pipe(T.XmlName("DBClusterMember")).annotate({ identifier: "DBClusterMember" }),
 );
 export interface DBClusterRole {
   RoleArn?: string;
@@ -3483,9 +2779,7 @@ export const DBClusterRole = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "DBClusterRole" }) as any as S.Schema<DBClusterRole>;
 export type DBClusterRoles = DBClusterRole[];
 export const DBClusterRoles = /*@__PURE__*/ S.Array(
-  DBClusterRole.pipe(T.XmlName("DBClusterRole")).annotate({
-    identifier: "DBClusterRole",
-  }),
+  DBClusterRole.pipe(T.XmlName("DBClusterRole")).annotate({ identifier: "DBClusterRole" }),
 );
 export interface PendingCloudwatchLogsExports {
   LogTypesToEnable?: string[];
@@ -3506,13 +2800,9 @@ export interface CertificateDetails {
 export const CertificateDetails = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     CAIdentifier: S.optional(S.String),
-    ValidTill: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    ValidTill: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
-).annotate({
-  identifier: "CertificateDetails",
-}) as any as S.Schema<CertificateDetails>;
+).annotate({ identifier: "CertificateDetails" }) as any as S.Schema<CertificateDetails>;
 export interface ClusterPendingModifiedValues {
   PendingCloudwatchLogsExports?: PendingCloudwatchLogsExports;
   DBClusterIdentifier?: string;
@@ -3560,18 +2850,11 @@ export const ScalingConfigurationInfo = /*@__PURE__*/ S.suspend(() =>
     TimeoutAction: S.optional(S.String),
     SecondsBeforeTimeout: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ScalingConfigurationInfo",
-}) as any as S.Schema<ScalingConfigurationInfo>;
+).annotate({ identifier: "ScalingConfigurationInfo" }) as any as S.Schema<ScalingConfigurationInfo>;
 export type ActivityStreamMode = "sync" | "async" | (string & {});
 export const ActivityStreamMode = S.String;
 
-export type ActivityStreamStatus =
-  | "stopped"
-  | "starting"
-  | "started"
-  | "stopping"
-  | (string & {});
+export type ActivityStreamStatus = "stopped" | "starting" | "started" | "stopping" | (string & {});
 export const ActivityStreamStatus = S.String;
 
 export interface DomainMembership {
@@ -3593,14 +2876,10 @@ export const DomainMembership = /*@__PURE__*/ S.suspend(() =>
     AuthSecretArn: S.optional(S.String),
     DnsIps: S.optional(StringList),
   }),
-).annotate({
-  identifier: "DomainMembership",
-}) as any as S.Schema<DomainMembership>;
+).annotate({ identifier: "DomainMembership" }) as any as S.Schema<DomainMembership>;
 export type DomainMembershipList = DomainMembership[];
 export const DomainMembershipList = /*@__PURE__*/ S.Array(
-  DomainMembership.pipe(T.XmlName("DomainMembership")).annotate({
-    identifier: "DomainMembership",
-  }),
+  DomainMembership.pipe(T.XmlName("DomainMembership")).annotate({ identifier: "DomainMembership" }),
 );
 export type WriteForwardingStatus =
   | "enabled"
@@ -3616,13 +2895,12 @@ export interface ServerlessV2ScalingConfigurationInfo {
   MaxCapacity?: number;
   SecondsUntilAutoPause?: number;
 }
-export const ServerlessV2ScalingConfigurationInfo = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      MinCapacity: S.optional(S.Number),
-      MaxCapacity: S.optional(S.Number),
-      SecondsUntilAutoPause: S.optional(S.Number),
-    }),
+export const ServerlessV2ScalingConfigurationInfo = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    MinCapacity: S.optional(S.Number),
+    MaxCapacity: S.optional(S.Number),
+    SecondsUntilAutoPause: S.optional(S.Number),
+  }),
 ).annotate({
   identifier: "ServerlessV2ScalingConfigurationInfo",
 }) as any as S.Schema<ServerlessV2ScalingConfigurationInfo>;
@@ -3637,9 +2915,7 @@ export const MasterUserSecret = /*@__PURE__*/ S.suspend(() =>
     SecretStatus: S.optional(S.String),
     KmsKeyId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MasterUserSecret",
-}) as any as S.Schema<MasterUserSecret>;
+).annotate({ identifier: "MasterUserSecret" }) as any as S.Schema<MasterUserSecret>;
 export type LocalWriteForwardingStatus =
   | "enabled"
   | "disabled"
@@ -3666,13 +2942,8 @@ export interface LimitlessDatabase {
   MinRequiredACU?: number;
 }
 export const LimitlessDatabase = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Status: S.optional(LimitlessDatabaseStatus),
-    MinRequiredACU: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "LimitlessDatabase",
-}) as any as S.Schema<LimitlessDatabase>;
+  S.Struct({ Status: S.optional(LimitlessDatabaseStatus), MinRequiredACU: S.optional(S.Number) }),
+).annotate({ identifier: "LimitlessDatabase" }) as any as S.Schema<LimitlessDatabase>;
 export interface DBCluster {
   AllocatedStorage?: number;
   AvailabilityZones?: string[];
@@ -3775,23 +3046,17 @@ export const DBCluster = /*@__PURE__*/ S.suspend(() =>
     DBSubnetGroup: S.optional(S.String),
     Status: S.optional(S.String),
     PercentProgress: S.optional(S.String),
-    EarliestRestorableTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    EarliestRestorableTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     Endpoint: S.optional(S.String),
     ReaderEndpoint: S.optional(S.String),
     CustomEndpoints: S.optional(StringList),
     MultiAZ: S.optional(S.Boolean),
     Engine: S.optional(S.String),
     EngineVersion: S.optional(S.String),
-    LatestRestorableTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    LatestRestorableTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     Port: S.optional(S.Number),
     MasterUsername: S.optional(S.String),
-    DBClusterOptionGroupMemberships: S.optional(
-      DBClusterOptionGroupMemberships,
-    ),
+    DBClusterOptionGroupMemberships: S.optional(DBClusterOptionGroupMemberships),
     PreferredBackupWindow: S.optional(S.String),
     PreferredMaintenanceWindow: S.optional(S.String),
     UpgradeRolloutOrder: S.optional(UpgradeRolloutOrder),
@@ -3809,12 +3074,8 @@ export const DBCluster = /*@__PURE__*/ S.suspend(() =>
     AssociatedRoles: S.optional(DBClusterRoles),
     IAMDatabaseAuthenticationEnabled: S.optional(S.Boolean),
     CloneGroupId: S.optional(S.String),
-    ClusterCreateTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    EarliestBacktrackTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    ClusterCreateTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    EarliestBacktrackTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     BacktrackWindow: S.optional(S.Number),
     BacktrackConsumedChangeRecords: S.optional(S.Number),
     EnabledCloudwatchLogsExports: S.optional(LogTypeList),
@@ -3846,12 +3107,8 @@ export const DBCluster = /*@__PURE__*/ S.suspend(() =>
     GlobalWriteForwardingStatus: S.optional(WriteForwardingStatus),
     GlobalWriteForwardingRequested: S.optional(S.Boolean),
     NetworkType: S.optional(S.String),
-    AutomaticRestartTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    ServerlessV2ScalingConfiguration: S.optional(
-      ServerlessV2ScalingConfigurationInfo,
-    ),
+    AutomaticRestartTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    ServerlessV2ScalingConfiguration: S.optional(ServerlessV2ScalingConfigurationInfo),
     ServerlessV2PlatformVersion: S.optional(S.String),
     MonitoringInterval: S.optional(S.Number),
     MonitoringRoleArn: S.optional(S.String),
@@ -3876,9 +3133,7 @@ export interface CreateDBClusterResult {
 }
 export const CreateDBClusterResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ DBCluster: S.optional(DBCluster) }).pipe(ns),
-).annotate({
-  identifier: "CreateDBClusterResult",
-}) as any as S.Schema<CreateDBClusterResult>;
+).annotate({ identifier: "CreateDBClusterResult" }) as any as S.Schema<CreateDBClusterResult>;
 export interface CreateDBClusterEndpointMessage {
   DBClusterIdentifier?: string;
   DBClusterEndpointIdentifier?: string;
@@ -3895,17 +3150,7 @@ export const CreateDBClusterEndpointMessage = /*@__PURE__*/ S.suspend(() =>
     StaticMembers: S.optional(StringList),
     ExcludedMembers: S.optional(StringList),
     Tags: S.optional(TagList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateDBClusterEndpointMessage",
 }) as any as S.Schema<CreateDBClusterEndpointMessage>;
@@ -3934,33 +3179,20 @@ export const DBClusterEndpoint = /*@__PURE__*/ S.suspend(() =>
     ExcludedMembers: S.optional(StringList),
     DBClusterEndpointArn: S.optional(S.String),
   }).pipe(ns),
-).annotate({
-  identifier: "DBClusterEndpoint",
-}) as any as S.Schema<DBClusterEndpoint>;
+).annotate({ identifier: "DBClusterEndpoint" }) as any as S.Schema<DBClusterEndpoint>;
 export interface CreateDBClusterParameterGroupMessage {
   DBClusterParameterGroupName?: string;
   DBParameterGroupFamily?: string;
   Description?: string;
   Tags?: Tag[];
 }
-export const CreateDBClusterParameterGroupMessage = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      DBClusterParameterGroupName: S.optional(S.String),
-      DBParameterGroupFamily: S.optional(S.String),
-      Description: S.optional(S.String),
-      Tags: S.optional(TagList),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
+export const CreateDBClusterParameterGroupMessage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    DBClusterParameterGroupName: S.optional(S.String),
+    DBParameterGroupFamily: S.optional(S.String),
+    Description: S.optional(S.String),
+    Tags: S.optional(TagList),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateDBClusterParameterGroupMessage",
 }) as any as S.Schema<CreateDBClusterParameterGroupMessage>;
@@ -3968,9 +3200,7 @@ export interface CreateDBClusterParameterGroupResult {
   DBClusterParameterGroup?: DBClusterParameterGroup;
 }
 export const CreateDBClusterParameterGroupResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DBClusterParameterGroup: S.optional(DBClusterParameterGroup),
-  }).pipe(ns),
+  S.Struct({ DBClusterParameterGroup: S.optional(DBClusterParameterGroup) }).pipe(ns),
 ).annotate({
   identifier: "CreateDBClusterParameterGroupResult",
 }) as any as S.Schema<CreateDBClusterParameterGroupResult>;
@@ -3984,17 +3214,7 @@ export const CreateDBClusterSnapshotMessage = /*@__PURE__*/ S.suspend(() =>
     DBClusterSnapshotIdentifier: S.optional(S.String),
     DBClusterIdentifier: S.optional(S.String),
     Tags: S.optional(TagList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateDBClusterSnapshotMessage",
 }) as any as S.Schema<CreateDBClusterSnapshotMessage>;
@@ -4148,20 +3368,8 @@ export const CreateDBInstanceMessage = /*@__PURE__*/ S.suspend(() =>
     AdditionalStorageVolumes: S.optional(AdditionalStorageVolumesList),
     TagSpecifications: S.optional(TagSpecificationList),
     MasterUserAuthenticationType: S.optional(MasterUserAuthenticationType),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateDBInstanceMessage",
-}) as any as S.Schema<CreateDBInstanceMessage>;
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "CreateDBInstanceMessage" }) as any as S.Schema<CreateDBInstanceMessage>;
 export interface Endpoint {
   Address?: string;
   Port?: number;
@@ -4183,9 +3391,7 @@ export const DBParameterGroupStatus = /*@__PURE__*/ S.suspend(() =>
     DBParameterGroupName: S.optional(S.String),
     ParameterApplyStatus: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DBParameterGroupStatus",
-}) as any as S.Schema<DBParameterGroupStatus>;
+).annotate({ identifier: "DBParameterGroupStatus" }) as any as S.Schema<DBParameterGroupStatus>;
 export type DBParameterGroupStatusList = DBParameterGroupStatus[];
 export const DBParameterGroupStatusList = /*@__PURE__*/ S.Array(
   DBParameterGroupStatus.pipe(T.XmlName("DBParameterGroup")).annotate({
@@ -4197,9 +3403,7 @@ export interface AvailabilityZone {
 }
 export const AvailabilityZone = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Name: S.optional(S.String) }),
-).annotate({
-  identifier: "AvailabilityZone",
-}) as any as S.Schema<AvailabilityZone>;
+).annotate({ identifier: "AvailabilityZone" }) as any as S.Schema<AvailabilityZone>;
 export interface Outpost {
   Arn?: string;
 }
@@ -4291,18 +3495,14 @@ export const PendingModifiedValues = /*@__PURE__*/ S.suspend(() =>
     PendingCloudwatchLogsExports: S.optional(PendingCloudwatchLogsExports),
     ProcessorFeatures: S.optional(ProcessorFeatureList),
     AutomationMode: S.optional(AutomationMode),
-    ResumeFullAutomationModeTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    ResumeFullAutomationModeTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     MultiTenant: S.optional(S.Boolean),
     IAMDatabaseAuthenticationEnabled: S.optional(S.Boolean),
     DedicatedLogVolume: S.optional(S.Boolean),
     Engine: S.optional(S.String),
     AdditionalStorageVolumes: S.optional(AdditionalStorageVolumesList),
   }),
-).annotate({
-  identifier: "PendingModifiedValues",
-}) as any as S.Schema<PendingModifiedValues>;
+).annotate({ identifier: "PendingModifiedValues" }) as any as S.Schema<PendingModifiedValues>;
 export type ReadReplicaDBInstanceIdentifierList = string[];
 export const ReadReplicaDBInstanceIdentifierList = /*@__PURE__*/ S.Array(
   S.String.pipe(T.XmlName("ReadReplicaDBInstanceIdentifier")),
@@ -4316,13 +3516,8 @@ export interface OptionGroupMembership {
   Status?: string;
 }
 export const OptionGroupMembership = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    OptionGroupName: S.optional(S.String),
-    Status: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "OptionGroupMembership",
-}) as any as S.Schema<OptionGroupMembership>;
+  S.Struct({ OptionGroupName: S.optional(S.String), Status: S.optional(S.String) }),
+).annotate({ identifier: "OptionGroupMembership" }) as any as S.Schema<OptionGroupMembership>;
 export type OptionGroupMembershipList = OptionGroupMembership[];
 export const OptionGroupMembershipList = /*@__PURE__*/ S.Array(
   OptionGroupMembership.pipe(T.XmlName("OptionGroupMembership")).annotate({
@@ -4342,9 +3537,7 @@ export const DBInstanceStatusInfo = /*@__PURE__*/ S.suspend(() =>
     Status: S.optional(S.String),
     Message: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DBInstanceStatusInfo",
-}) as any as S.Schema<DBInstanceStatusInfo>;
+).annotate({ identifier: "DBInstanceStatusInfo" }) as any as S.Schema<DBInstanceStatusInfo>;
 export type DBInstanceStatusInfoList = DBInstanceStatusInfo[];
 export const DBInstanceStatusInfoList = /*@__PURE__*/ S.Array(
   DBInstanceStatusInfo.pipe(T.XmlName("DBInstanceStatusInfo")).annotate({
@@ -4365,20 +3558,17 @@ export const DBInstanceRole = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "DBInstanceRole" }) as any as S.Schema<DBInstanceRole>;
 export type DBInstanceRoles = DBInstanceRole[];
 export const DBInstanceRoles = /*@__PURE__*/ S.Array(
-  DBInstanceRole.pipe(T.XmlName("DBInstanceRole")).annotate({
-    identifier: "DBInstanceRole",
-  }),
+  DBInstanceRole.pipe(T.XmlName("DBInstanceRole")).annotate({ identifier: "DBInstanceRole" }),
 );
 export interface DBInstanceAutomatedBackupsReplication {
   DBInstanceAutomatedBackupsArn?: string;
 }
-export const DBInstanceAutomatedBackupsReplication = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ DBInstanceAutomatedBackupsArn: S.optional(S.String) }),
+export const DBInstanceAutomatedBackupsReplication = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ DBInstanceAutomatedBackupsArn: S.optional(S.String) }),
 ).annotate({
   identifier: "DBInstanceAutomatedBackupsReplication",
 }) as any as S.Schema<DBInstanceAutomatedBackupsReplication>;
-export type DBInstanceAutomatedBackupsReplicationList =
-  DBInstanceAutomatedBackupsReplication[];
+export type DBInstanceAutomatedBackupsReplicationList = DBInstanceAutomatedBackupsReplication[];
 export const DBInstanceAutomatedBackupsReplicationList = /*@__PURE__*/ S.Array(
   DBInstanceAutomatedBackupsReplication.pipe(
     T.XmlName("DBInstanceAutomatedBackupsReplication"),
@@ -4418,8 +3608,7 @@ export const AdditionalStorageVolumeOutput = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "AdditionalStorageVolumeOutput",
 }) as any as S.Schema<AdditionalStorageVolumeOutput>;
-export type AdditionalStorageVolumesOutputList =
-  AdditionalStorageVolumeOutput[];
+export type AdditionalStorageVolumesOutputList = AdditionalStorageVolumeOutput[];
 export const AdditionalStorageVolumesOutputList = /*@__PURE__*/ S.Array(
   AdditionalStorageVolumeOutput,
 );
@@ -4528,9 +3717,7 @@ export const DBInstance = /*@__PURE__*/ S.suspend(() =>
     DBName: S.optional(S.String),
     Endpoint: S.optional(Endpoint),
     AllocatedStorage: S.optional(S.Number),
-    InstanceCreateTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    InstanceCreateTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     PreferredBackupWindow: S.optional(S.String),
     BackupRetentionPeriod: S.optional(S.Number),
     DBSecurityGroups: S.optional(DBSecurityGroupMembershipList),
@@ -4541,19 +3728,13 @@ export const DBInstance = /*@__PURE__*/ S.suspend(() =>
     PreferredMaintenanceWindow: S.optional(S.String),
     UpgradeRolloutOrder: S.optional(UpgradeRolloutOrder),
     PendingModifiedValues: S.optional(PendingModifiedValues),
-    LatestRestorableTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    LatestRestorableTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     MultiAZ: S.optional(S.Boolean),
     EngineVersion: S.optional(S.String),
     AutoMinorVersionUpgrade: S.optional(S.Boolean),
     ReadReplicaSourceDBInstanceIdentifier: S.optional(S.String),
-    ReadReplicaDBInstanceIdentifiers: S.optional(
-      ReadReplicaDBInstanceIdentifierList,
-    ),
-    ReadReplicaDBClusterIdentifiers: S.optional(
-      ReadReplicaDBClusterIdentifierList,
-    ),
+    ReadReplicaDBInstanceIdentifiers: S.optional(ReadReplicaDBInstanceIdentifierList),
+    ReadReplicaDBClusterIdentifiers: S.optional(ReadReplicaDBClusterIdentifierList),
     ReplicaMode: S.optional(ReplicaMode),
     LicenseModel: S.optional(S.String),
     Iops: S.optional(S.Number),
@@ -4594,9 +3775,7 @@ export const DBInstance = /*@__PURE__*/ S.suspend(() =>
     MaxAllocatedStorage: S.optional(S.Number),
     TagList: S.optional(TagList),
     AutomationMode: S.optional(AutomationMode),
-    ResumeFullAutomationModeTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    ResumeFullAutomationModeTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     CustomerOwnedIpEnabled: S.optional(S.Boolean),
     NetworkType: S.optional(S.String),
     ActivityStreamStatus: S.optional(ActivityStreamStatus),
@@ -4605,13 +3784,9 @@ export const DBInstance = /*@__PURE__*/ S.suspend(() =>
     ActivityStreamMode: S.optional(ActivityStreamMode),
     ActivityStreamEngineNativeAuditFieldsIncluded: S.optional(S.Boolean),
     AwsBackupRecoveryPointArn: S.optional(S.String),
-    DBInstanceAutomatedBackupsReplications: S.optional(
-      DBInstanceAutomatedBackupsReplicationList,
-    ),
+    DBInstanceAutomatedBackupsReplications: S.optional(DBInstanceAutomatedBackupsReplicationList),
     BackupTarget: S.optional(S.String),
-    AutomaticRestartTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    AutomaticRestartTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     CustomIamInstanceProfile: S.optional(S.String),
     ActivityStreamPolicyStatus: S.optional(ActivityStreamPolicyStatus),
     CertificateDetails: S.optional(CertificateDetails),
@@ -4632,17 +3807,13 @@ export const DBInstance = /*@__PURE__*/ S.suspend(() =>
 export interface CreateDBInstanceResult {
   DBInstance?: DBInstance & {
     PendingModifiedValues: PendingModifiedValues & {
-      AdditionalStorageVolumes: (AdditionalStorageVolume & {
-        VolumeName: string;
-      })[];
+      AdditionalStorageVolumes: (AdditionalStorageVolume & { VolumeName: string })[];
     };
   };
 }
 export const CreateDBInstanceResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ DBInstance: S.optional(DBInstance) }).pipe(ns),
-).annotate({
-  identifier: "CreateDBInstanceResult",
-}) as any as S.Schema<CreateDBInstanceResult>;
+).annotate({ identifier: "CreateDBInstanceResult" }) as any as S.Schema<CreateDBInstanceResult>;
 export interface CreateDBInstanceReadReplicaMessage {
   DBInstanceIdentifier?: string;
   SourceDBInstanceIdentifier?: string;
@@ -4745,26 +3916,14 @@ export const CreateDBInstanceReadReplicaMessage = /*@__PURE__*/ S.suspend(() =>
     CACertificateIdentifier: S.optional(S.String),
     AdditionalStorageVolumes: S.optional(AdditionalStorageVolumesList),
     TagSpecifications: S.optional(TagSpecificationList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateDBInstanceReadReplicaMessage",
 }) as any as S.Schema<CreateDBInstanceReadReplicaMessage>;
 export interface CreateDBInstanceReadReplicaResult {
   DBInstance?: DBInstance & {
     PendingModifiedValues: PendingModifiedValues & {
-      AdditionalStorageVolumes: (AdditionalStorageVolume & {
-        VolumeName: string;
-      })[];
+      AdditionalStorageVolumes: (AdditionalStorageVolume & { VolumeName: string })[];
     };
   };
 }
@@ -4785,17 +3944,7 @@ export const CreateDBParameterGroupMessage = /*@__PURE__*/ S.suspend(() =>
     DBParameterGroupFamily: S.optional(S.String),
     Description: S.optional(S.String),
     Tags: S.optional(TagList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateDBParameterGroupMessage",
 }) as any as S.Schema<CreateDBParameterGroupMessage>;
@@ -4887,20 +4036,8 @@ export const CreateDBProxyRequest = /*@__PURE__*/ S.suspend(() =>
     Tags: S.optional(TagList),
     EndpointNetworkType: S.optional(EndpointNetworkType),
     TargetConnectionNetworkType: S.optional(TargetConnectionNetworkType),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateDBProxyRequest",
-}) as any as S.Schema<CreateDBProxyRequest>;
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "CreateDBProxyRequest" }) as any as S.Schema<CreateDBProxyRequest>;
 export type DBProxyStatus =
   | "available"
   | "modifying"
@@ -4931,9 +4068,7 @@ export const UserAuthConfigInfo = /*@__PURE__*/ S.suspend(() =>
     IAMAuth: S.optional(IAMAuthMode),
     ClientPasswordAuthType: S.optional(ClientPasswordAuthType),
   }),
-).annotate({
-  identifier: "UserAuthConfigInfo",
-}) as any as S.Schema<UserAuthConfigInfo>;
+).annotate({ identifier: "UserAuthConfigInfo" }) as any as S.Schema<UserAuthConfigInfo>;
 export type UserAuthConfigInfoList = UserAuthConfigInfo[];
 export const UserAuthConfigInfoList = /*@__PURE__*/ S.Array(UserAuthConfigInfo);
 export interface DBProxy {
@@ -4972,12 +4107,8 @@ export const DBProxy = /*@__PURE__*/ S.suspend(() =>
     RequireTLS: S.optional(S.Boolean),
     IdleClientTimeout: S.optional(S.Number),
     DebugLogging: S.optional(S.Boolean),
-    CreatedDate: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    UpdatedDate: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    CreatedDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    UpdatedDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     EndpointNetworkType: S.optional(EndpointNetworkType),
     TargetConnectionNetworkType: S.optional(TargetConnectionNetworkType),
   }),
@@ -4987,14 +4118,9 @@ export interface CreateDBProxyResponse {
 }
 export const CreateDBProxyResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ DBProxy: S.optional(DBProxy) }).pipe(ns),
-).annotate({
-  identifier: "CreateDBProxyResponse",
-}) as any as S.Schema<CreateDBProxyResponse>;
+).annotate({ identifier: "CreateDBProxyResponse" }) as any as S.Schema<CreateDBProxyResponse>;
 export type DBProxyEndpointName = string;
-export type DBProxyEndpointTargetRole =
-  | "READ_WRITE"
-  | "READ_ONLY"
-  | (string & {});
+export type DBProxyEndpointTargetRole = "READ_WRITE" | "READ_ONLY" | (string & {});
 export const DBProxyEndpointTargetRole = S.String;
 
 export interface CreateDBProxyEndpointRequest {
@@ -5015,17 +4141,7 @@ export const CreateDBProxyEndpointRequest = /*@__PURE__*/ S.suspend(() =>
     TargetRole: S.optional(DBProxyEndpointTargetRole),
     Tags: S.optional(TagList),
     EndpointNetworkType: S.optional(EndpointNetworkType),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateDBProxyEndpointRequest",
 }) as any as S.Schema<CreateDBProxyEndpointRequest>;
@@ -5063,16 +4179,12 @@ export const DBProxyEndpoint = /*@__PURE__*/ S.suspend(() =>
     VpcSecurityGroupIds: S.optional(StringList),
     VpcSubnetIds: S.optional(StringList),
     Endpoint: S.optional(S.String),
-    CreatedDate: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    CreatedDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     TargetRole: S.optional(DBProxyEndpointTargetRole),
     IsDefault: S.optional(S.Boolean),
     EndpointNetworkType: S.optional(EndpointNetworkType),
   }),
-).annotate({
-  identifier: "DBProxyEndpoint",
-}) as any as S.Schema<DBProxyEndpoint>;
+).annotate({ identifier: "DBProxyEndpoint" }) as any as S.Schema<DBProxyEndpoint>;
 export interface CreateDBProxyEndpointResponse {
   DBProxyEndpoint?: DBProxyEndpoint;
 }
@@ -5091,17 +4203,7 @@ export const CreateDBSecurityGroupMessage = /*@__PURE__*/ S.suspend(() =>
     DBSecurityGroupName: S.optional(S.String),
     DBSecurityGroupDescription: S.optional(S.String),
     Tags: S.optional(TagList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateDBSecurityGroupMessage",
 }) as any as S.Schema<CreateDBSecurityGroupMessage>;
@@ -5131,17 +4233,7 @@ export const CreateDBShardGroupMessage = /*@__PURE__*/ S.suspend(() =>
     MinACU: S.optional(S.Number),
     PubliclyAccessible: S.optional(S.Boolean),
     Tags: S.optional(TagList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateDBShardGroupMessage",
 }) as any as S.Schema<CreateDBShardGroupMessage>;
@@ -5184,32 +4276,16 @@ export const CreateDBSnapshotMessage = /*@__PURE__*/ S.suspend(() =>
     DBSnapshotIdentifier: S.optional(S.String),
     DBInstanceIdentifier: S.optional(S.String),
     Tags: S.optional(TagList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateDBSnapshotMessage",
-}) as any as S.Schema<CreateDBSnapshotMessage>;
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "CreateDBSnapshotMessage" }) as any as S.Schema<CreateDBSnapshotMessage>;
 export interface CreateDBSnapshotResult {
   DBSnapshot?: DBSnapshot & {
-    AdditionalStorageVolumes: (AdditionalStorageVolume & {
-      VolumeName: string;
-    })[];
+    AdditionalStorageVolumes: (AdditionalStorageVolume & { VolumeName: string })[];
   };
 }
 export const CreateDBSnapshotResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ DBSnapshot: S.optional(DBSnapshot) }).pipe(ns),
-).annotate({
-  identifier: "CreateDBSnapshotResult",
-}) as any as S.Schema<CreateDBSnapshotResult>;
+).annotate({ identifier: "CreateDBSnapshotResult" }) as any as S.Schema<CreateDBSnapshotResult>;
 export type SubnetIdentifierList = string[];
 export const SubnetIdentifierList = /*@__PURE__*/ S.Array(
   S.String.pipe(T.XmlName("SubnetIdentifier")),
@@ -5226,17 +4302,7 @@ export const CreateDBSubnetGroupMessage = /*@__PURE__*/ S.suspend(() =>
     DBSubnetGroupDescription: S.optional(S.String),
     SubnetIds: S.optional(SubnetIdentifierList),
     Tags: S.optional(TagList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateDBSubnetGroupMessage",
 }) as any as S.Schema<CreateDBSubnetGroupMessage>;
@@ -5266,17 +4332,7 @@ export const CreateEventSubscriptionMessage = /*@__PURE__*/ S.suspend(() =>
     SourceIds: S.optional(SourceIdsList),
     Enabled: S.optional(S.Boolean),
     Tags: S.optional(TagList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateEventSubscriptionMessage",
 }) as any as S.Schema<CreateEventSubscriptionMessage>;
@@ -5310,17 +4366,7 @@ export const CreateGlobalClusterMessage = /*@__PURE__*/ S.suspend(() =>
     DatabaseName: S.optional(S.String),
     StorageEncrypted: S.optional(S.Boolean),
     Tags: S.optional(TagList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateGlobalClusterMessage",
 }) as any as S.Schema<CreateGlobalClusterMessage>;
@@ -5347,20 +4393,14 @@ export const GlobalClusterMember = /*@__PURE__*/ S.suspend(() =>
     GlobalWriteForwardingStatus: S.optional(WriteForwardingStatus),
     SynchronizationStatus: S.optional(GlobalClusterMemberSynchronizationStatus),
   }),
-).annotate({
-  identifier: "GlobalClusterMember",
-}) as any as S.Schema<GlobalClusterMember>;
+).annotate({ identifier: "GlobalClusterMember" }) as any as S.Schema<GlobalClusterMember>;
 export type GlobalClusterMemberList = GlobalClusterMember[];
 export const GlobalClusterMemberList = /*@__PURE__*/ S.Array(
   GlobalClusterMember.pipe(T.XmlName("GlobalClusterMember")).annotate({
     identifier: "GlobalClusterMember",
   }),
 );
-export type FailoverStatus =
-  | "pending"
-  | "failing-over"
-  | "cancelling"
-  | (string & {});
+export type FailoverStatus = "pending" | "failing-over" | "cancelling" | (string & {});
 export const FailoverStatus = S.String;
 
 export interface FailoverState {
@@ -5424,10 +4464,7 @@ export const CreateGlobalClusterResult = /*@__PURE__*/ S.suspend(() =>
 export type SourceArn = string;
 export type IntegrationName = string;
 export type EncryptionContextMap = { [key: string]: string | undefined };
-export const EncryptionContextMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const EncryptionContextMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export type DataFilter = string;
 export type IntegrationDescription = string;
 export interface CreateIntegrationMessage {
@@ -5450,20 +4487,8 @@ export const CreateIntegrationMessage = /*@__PURE__*/ S.suspend(() =>
     Tags: S.optional(TagList),
     DataFilter: S.optional(S.String),
     Description: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateIntegrationMessage",
-}) as any as S.Schema<CreateIntegrationMessage>;
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "CreateIntegrationMessage" }) as any as S.Schema<CreateIntegrationMessage>;
 export type IntegrationArn = string;
 export type IntegrationStatus =
   | "creating"
@@ -5481,18 +4506,11 @@ export interface IntegrationError {
   ErrorMessage?: string;
 }
 export const IntegrationError = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ErrorCode: S.optional(S.String),
-    ErrorMessage: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "IntegrationError",
-}) as any as S.Schema<IntegrationError>;
+  S.Struct({ ErrorCode: S.optional(S.String), ErrorMessage: S.optional(S.String) }),
+).annotate({ identifier: "IntegrationError" }) as any as S.Schema<IntegrationError>;
 export type IntegrationErrorList = IntegrationError[];
 export const IntegrationErrorList = /*@__PURE__*/ S.Array(
-  IntegrationError.pipe(T.XmlName("IntegrationError")).annotate({
-    identifier: "IntegrationError",
-  }),
+  IntegrationError.pipe(T.XmlName("IntegrationError")).annotate({ identifier: "IntegrationError" }),
 );
 export interface Integration {
   SourceArn?: string;
@@ -5520,9 +4538,7 @@ export const Integration = /*@__PURE__*/ S.suspend(() =>
     Tags: S.optional(TagList),
     DataFilter: S.optional(S.String),
     Description: S.optional(S.String),
-    CreateTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    CreateTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     Errors: S.optional(IntegrationErrorList),
   }).pipe(ns),
 ).annotate({ identifier: "Integration" }) as any as S.Schema<Integration>;
@@ -5540,28 +4556,14 @@ export const CreateOptionGroupMessage = /*@__PURE__*/ S.suspend(() =>
     MajorEngineVersion: S.optional(S.String),
     OptionGroupDescription: S.optional(S.String),
     Tags: S.optional(TagList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateOptionGroupMessage",
-}) as any as S.Schema<CreateOptionGroupMessage>;
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "CreateOptionGroupMessage" }) as any as S.Schema<CreateOptionGroupMessage>;
 export interface CreateOptionGroupResult {
   OptionGroup?: OptionGroup;
 }
 export const CreateOptionGroupResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ OptionGroup: S.optional(OptionGroup) }).pipe(ns),
-).annotate({
-  identifier: "CreateOptionGroupResult",
-}) as any as S.Schema<CreateOptionGroupResult>;
+).annotate({ identifier: "CreateOptionGroupResult" }) as any as S.Schema<CreateOptionGroupResult>;
 export interface CreateTenantDatabaseMessage {
   DBInstanceIdentifier?: string;
   TenantDBName?: string;
@@ -5584,17 +4586,7 @@ export const CreateTenantDatabaseMessage = /*@__PURE__*/ S.suspend(() =>
     ManageMasterUserPassword: S.optional(S.Boolean),
     MasterUserSecretKmsKeyId: S.optional(S.String),
     Tags: S.optional(TagList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateTenantDatabaseMessage",
 }) as any as S.Schema<CreateTenantDatabaseMessage>;
@@ -5603,10 +4595,7 @@ export interface TenantDatabasePendingModifiedValues {
   TenantDBName?: string;
 }
 export const TenantDatabasePendingModifiedValues = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MasterUserPassword: S.optional(SensitiveString),
-    TenantDBName: S.optional(S.String),
-  }),
+  S.Struct({ MasterUserPassword: S.optional(SensitiveString), TenantDBName: S.optional(S.String) }),
 ).annotate({
   identifier: "TenantDatabasePendingModifiedValues",
 }) as any as S.Schema<TenantDatabasePendingModifiedValues>;
@@ -5628,9 +4617,7 @@ export interface TenantDatabase {
 }
 export const TenantDatabase = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    TenantDatabaseCreateTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    TenantDatabaseCreateTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     DBInstanceIdentifier: S.optional(S.String),
     TenantDBName: S.optional(S.String),
     Status: S.optional(S.String),
@@ -5662,17 +4649,7 @@ export const DeleteBlueGreenDeploymentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     BlueGreenDeploymentIdentifier: S.optional(S.String),
     DeleteTarget: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DeleteBlueGreenDeploymentRequest",
 }) as any as S.Schema<DeleteBlueGreenDeploymentRequest>;
@@ -5689,19 +4666,8 @@ export interface DeleteCustomDBEngineVersionMessage {
   EngineVersion?: string;
 }
 export const DeleteCustomDBEngineVersionMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Engine: S.optional(S.String),
-    EngineVersion: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+  S.Struct({ Engine: S.optional(S.String), EngineVersion: S.optional(S.String) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DeleteCustomDBEngineVersionMessage",
@@ -5718,44 +4684,21 @@ export const DeleteDBClusterMessage = /*@__PURE__*/ S.suspend(() =>
     SkipFinalSnapshot: S.optional(S.Boolean),
     FinalDBSnapshotIdentifier: S.optional(S.String),
     DeleteAutomatedBackups: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteDBClusterMessage",
-}) as any as S.Schema<DeleteDBClusterMessage>;
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "DeleteDBClusterMessage" }) as any as S.Schema<DeleteDBClusterMessage>;
 export interface DeleteDBClusterResult {
   DBCluster?: DBCluster;
 }
 export const DeleteDBClusterResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ DBCluster: S.optional(DBCluster) }).pipe(ns),
-).annotate({
-  identifier: "DeleteDBClusterResult",
-}) as any as S.Schema<DeleteDBClusterResult>;
+).annotate({ identifier: "DeleteDBClusterResult" }) as any as S.Schema<DeleteDBClusterResult>;
 export interface DeleteDBClusterAutomatedBackupMessage {
   DbClusterResourceId?: string;
 }
-export const DeleteDBClusterAutomatedBackupMessage = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ DbClusterResourceId: S.optional(S.String) }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
+export const DeleteDBClusterAutomatedBackupMessage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ DbClusterResourceId: S.optional(S.String) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "DeleteDBClusterAutomatedBackupMessage",
 }) as any as S.Schema<DeleteDBClusterAutomatedBackupMessage>;
@@ -5765,12 +4708,8 @@ export interface RestoreWindow {
 }
 export const RestoreWindow = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    EarliestTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    LatestTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    EarliestTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    LatestTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotate({ identifier: "RestoreWindow" }) as any as S.Schema<RestoreWindow>;
 export interface DBClusterAutomatedBackup {
@@ -5816,9 +4755,7 @@ export const DBClusterAutomatedBackup = /*@__PURE__*/ S.suspend(() =>
     LicenseModel: S.optional(S.String),
     Status: S.optional(S.String),
     IAMDatabaseAuthenticationEnabled: S.optional(S.Boolean),
-    ClusterCreateTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    ClusterCreateTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     StorageEncrypted: S.optional(S.Boolean),
     StorageEncryptionType: S.optional(StorageEncryptionType),
     AllocatedStorage: S.optional(S.Number),
@@ -5836,17 +4773,12 @@ export const DBClusterAutomatedBackup = /*@__PURE__*/ S.suspend(() =>
     AwsBackupRecoveryPointArn: S.optional(S.String),
     TagList: S.optional(TagList),
   }),
-).annotate({
-  identifier: "DBClusterAutomatedBackup",
-}) as any as S.Schema<DBClusterAutomatedBackup>;
+).annotate({ identifier: "DBClusterAutomatedBackup" }) as any as S.Schema<DBClusterAutomatedBackup>;
 export interface DeleteDBClusterAutomatedBackupResult {
   DBClusterAutomatedBackup?: DBClusterAutomatedBackup;
 }
-export const DeleteDBClusterAutomatedBackupResult = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      DBClusterAutomatedBackup: S.optional(DBClusterAutomatedBackup),
-    }).pipe(ns),
+export const DeleteDBClusterAutomatedBackupResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ DBClusterAutomatedBackup: S.optional(DBClusterAutomatedBackup) }).pipe(ns),
 ).annotate({
   identifier: "DeleteDBClusterAutomatedBackupResult",
 }) as any as S.Schema<DeleteDBClusterAutomatedBackupResult>;
@@ -5855,15 +4787,7 @@ export interface DeleteDBClusterEndpointMessage {
 }
 export const DeleteDBClusterEndpointMessage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ DBClusterEndpointIdentifier: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DeleteDBClusterEndpointMessage",
@@ -5871,25 +4795,16 @@ export const DeleteDBClusterEndpointMessage = /*@__PURE__*/ S.suspend(() =>
 export interface DeleteDBClusterParameterGroupMessage {
   DBClusterParameterGroupName?: string;
 }
-export const DeleteDBClusterParameterGroupMessage = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ DBClusterParameterGroupName: S.optional(S.String) }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
+export const DeleteDBClusterParameterGroupMessage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ DBClusterParameterGroupName: S.optional(S.String) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "DeleteDBClusterParameterGroupMessage",
 }) as any as S.Schema<DeleteDBClusterParameterGroupMessage>;
 export interface DeleteDBClusterParameterGroupResponse {}
-export const DeleteDBClusterParameterGroupResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}).pipe(ns),
+export const DeleteDBClusterParameterGroupResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(ns),
 ).annotate({
   identifier: "DeleteDBClusterParameterGroupResponse",
 }) as any as S.Schema<DeleteDBClusterParameterGroupResponse>;
@@ -5898,15 +4813,7 @@ export interface DeleteDBClusterSnapshotMessage {
 }
 export const DeleteDBClusterSnapshotMessage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ DBClusterSnapshotIdentifier: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DeleteDBClusterSnapshotMessage",
@@ -5931,54 +4838,27 @@ export const DeleteDBInstanceMessage = /*@__PURE__*/ S.suspend(() =>
     SkipFinalSnapshot: S.optional(S.Boolean),
     FinalDBSnapshotIdentifier: S.optional(S.String),
     DeleteAutomatedBackups: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteDBInstanceMessage",
-}) as any as S.Schema<DeleteDBInstanceMessage>;
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "DeleteDBInstanceMessage" }) as any as S.Schema<DeleteDBInstanceMessage>;
 export interface DeleteDBInstanceResult {
   DBInstance?: DBInstance & {
     PendingModifiedValues: PendingModifiedValues & {
-      AdditionalStorageVolumes: (AdditionalStorageVolume & {
-        VolumeName: string;
-      })[];
+      AdditionalStorageVolumes: (AdditionalStorageVolume & { VolumeName: string })[];
     };
   };
 }
 export const DeleteDBInstanceResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ DBInstance: S.optional(DBInstance) }).pipe(ns),
-).annotate({
-  identifier: "DeleteDBInstanceResult",
-}) as any as S.Schema<DeleteDBInstanceResult>;
+).annotate({ identifier: "DeleteDBInstanceResult" }) as any as S.Schema<DeleteDBInstanceResult>;
 export interface DeleteDBInstanceAutomatedBackupMessage {
   DbiResourceId?: string;
   DBInstanceAutomatedBackupsArn?: string;
 }
-export const DeleteDBInstanceAutomatedBackupMessage = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      DbiResourceId: S.optional(S.String),
-      DBInstanceAutomatedBackupsArn: S.optional(S.String),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
+export const DeleteDBInstanceAutomatedBackupMessage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    DbiResourceId: S.optional(S.String),
+    DBInstanceAutomatedBackupsArn: S.optional(S.String),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DeleteDBInstanceAutomatedBackupMessage",
 }) as any as S.Schema<DeleteDBInstanceAutomatedBackupMessage>;
@@ -6031,9 +4911,7 @@ export const DBInstanceAutomatedBackup = /*@__PURE__*/ S.suspend(() =>
     Port: S.optional(S.Number),
     AvailabilityZone: S.optional(S.String),
     VpcId: S.optional(S.String),
-    InstanceCreateTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    InstanceCreateTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     MasterUsername: S.optional(S.String),
     Engine: S.optional(S.String),
     EngineVersion: S.optional(S.String),
@@ -6051,9 +4929,7 @@ export const DBInstanceAutomatedBackup = /*@__PURE__*/ S.suspend(() =>
     BackupRetentionPeriod: S.optional(S.Number),
     PreferredBackupWindow: S.optional(S.String),
     DBInstanceAutomatedBackupsArn: S.optional(S.String),
-    DBInstanceAutomatedBackupsReplications: S.optional(
-      DBInstanceAutomatedBackupsReplicationList,
-    ),
+    DBInstanceAutomatedBackupsReplications: S.optional(DBInstanceAutomatedBackupsReplicationList),
     BackupTarget: S.optional(S.String),
     MultiTenant: S.optional(S.Boolean),
     AwsBackupRecoveryPointArn: S.optional(S.String),
@@ -6066,16 +4942,11 @@ export const DBInstanceAutomatedBackup = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<DBInstanceAutomatedBackup>;
 export interface DeleteDBInstanceAutomatedBackupResult {
   DBInstanceAutomatedBackup?: DBInstanceAutomatedBackup & {
-    AdditionalStorageVolumes: (AdditionalStorageVolume & {
-      VolumeName: string;
-    })[];
+    AdditionalStorageVolumes: (AdditionalStorageVolume & { VolumeName: string })[];
   };
 }
-export const DeleteDBInstanceAutomatedBackupResult = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      DBInstanceAutomatedBackup: S.optional(DBInstanceAutomatedBackup),
-    }).pipe(ns),
+export const DeleteDBInstanceAutomatedBackupResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ DBInstanceAutomatedBackup: S.optional(DBInstanceAutomatedBackup) }).pipe(ns),
 ).annotate({
   identifier: "DeleteDBInstanceAutomatedBackupResult",
 }) as any as S.Schema<DeleteDBInstanceAutomatedBackupResult>;
@@ -6084,15 +4955,7 @@ export interface DeleteDBParameterGroupMessage {
 }
 export const DeleteDBParameterGroupMessage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ DBParameterGroupName: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DeleteDBParameterGroupMessage",
@@ -6108,41 +4971,21 @@ export interface DeleteDBProxyRequest {
 }
 export const DeleteDBProxyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ DBProxyName: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteDBProxyRequest",
-}) as any as S.Schema<DeleteDBProxyRequest>;
+).annotate({ identifier: "DeleteDBProxyRequest" }) as any as S.Schema<DeleteDBProxyRequest>;
 export interface DeleteDBProxyResponse {
   DBProxy?: DBProxy;
 }
 export const DeleteDBProxyResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ DBProxy: S.optional(DBProxy) }).pipe(ns),
-).annotate({
-  identifier: "DeleteDBProxyResponse",
-}) as any as S.Schema<DeleteDBProxyResponse>;
+).annotate({ identifier: "DeleteDBProxyResponse" }) as any as S.Schema<DeleteDBProxyResponse>;
 export interface DeleteDBProxyEndpointRequest {
   DBProxyEndpointName?: string;
 }
 export const DeleteDBProxyEndpointRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ DBProxyEndpointName: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DeleteDBProxyEndpointRequest",
@@ -6160,15 +5003,7 @@ export interface DeleteDBSecurityGroupMessage {
 }
 export const DeleteDBSecurityGroupMessage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ DBSecurityGroupName: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DeleteDBSecurityGroupMessage",
@@ -6184,15 +5019,7 @@ export interface DeleteDBShardGroupMessage {
 }
 export const DeleteDBShardGroupMessage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ DBShardGroupIdentifier: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DeleteDBShardGroupMessage",
@@ -6202,45 +5029,23 @@ export interface DeleteDBSnapshotMessage {
 }
 export const DeleteDBSnapshotMessage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ DBSnapshotIdentifier: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteDBSnapshotMessage",
-}) as any as S.Schema<DeleteDBSnapshotMessage>;
+).annotate({ identifier: "DeleteDBSnapshotMessage" }) as any as S.Schema<DeleteDBSnapshotMessage>;
 export interface DeleteDBSnapshotResult {
   DBSnapshot?: DBSnapshot & {
-    AdditionalStorageVolumes: (AdditionalStorageVolume & {
-      VolumeName: string;
-    })[];
+    AdditionalStorageVolumes: (AdditionalStorageVolume & { VolumeName: string })[];
   };
 }
 export const DeleteDBSnapshotResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ DBSnapshot: S.optional(DBSnapshot) }).pipe(ns),
-).annotate({
-  identifier: "DeleteDBSnapshotResult",
-}) as any as S.Schema<DeleteDBSnapshotResult>;
+).annotate({ identifier: "DeleteDBSnapshotResult" }) as any as S.Schema<DeleteDBSnapshotResult>;
 export interface DeleteDBSubnetGroupMessage {
   DBSubnetGroupName?: string;
 }
 export const DeleteDBSubnetGroupMessage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ DBSubnetGroupName: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DeleteDBSubnetGroupMessage",
@@ -6256,15 +5061,7 @@ export interface DeleteEventSubscriptionMessage {
 }
 export const DeleteEventSubscriptionMessage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ SubscriptionName: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DeleteEventSubscriptionMessage",
@@ -6282,15 +5079,7 @@ export interface DeleteGlobalClusterMessage {
 }
 export const DeleteGlobalClusterMessage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ GlobalClusterIdentifier: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DeleteGlobalClusterMessage",
@@ -6309,37 +5098,17 @@ export interface DeleteIntegrationMessage {
 }
 export const DeleteIntegrationMessage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ IntegrationIdentifier: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteIntegrationMessage",
-}) as any as S.Schema<DeleteIntegrationMessage>;
+).annotate({ identifier: "DeleteIntegrationMessage" }) as any as S.Schema<DeleteIntegrationMessage>;
 export interface DeleteOptionGroupMessage {
   OptionGroupName?: string;
 }
 export const DeleteOptionGroupMessage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ OptionGroupName: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteOptionGroupMessage",
-}) as any as S.Schema<DeleteOptionGroupMessage>;
+).annotate({ identifier: "DeleteOptionGroupMessage" }) as any as S.Schema<DeleteOptionGroupMessage>;
 export interface DeleteOptionGroupResponse {}
 export const DeleteOptionGroupResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(ns),
@@ -6358,17 +5127,7 @@ export const DeleteTenantDatabaseMessage = /*@__PURE__*/ S.suspend(() =>
     TenantDBName: S.optional(S.String),
     SkipFinalSnapshot: S.optional(S.Boolean),
     FinalDBSnapshotIdentifier: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DeleteTenantDatabaseMessage",
 }) as any as S.Schema<DeleteTenantDatabaseMessage>;
@@ -6393,17 +5152,7 @@ export const DeregisterDBProxyTargetsRequest = /*@__PURE__*/ S.suspend(() =>
     TargetGroupName: S.optional(S.String),
     DBInstanceIdentifiers: S.optional(StringList),
     DBClusterIdentifiers: S.optional(StringList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DeregisterDBProxyTargetsRequest",
 }) as any as S.Schema<DeregisterDBProxyTargetsRequest>;
@@ -6415,17 +5164,7 @@ export const DeregisterDBProxyTargetsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<DeregisterDBProxyTargetsResponse>;
 export interface DescribeAccountAttributesMessage {}
 export const DescribeAccountAttributesMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  S.Struct({}).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeAccountAttributesMessage",
 }) as any as S.Schema<DescribeAccountAttributesMessage>;
@@ -6443,22 +5182,16 @@ export const AccountQuota = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "AccountQuota" }) as any as S.Schema<AccountQuota>;
 export type AccountQuotaList = AccountQuota[];
 export const AccountQuotaList = /*@__PURE__*/ S.Array(
-  AccountQuota.pipe(T.XmlName("AccountQuota")).annotate({
-    identifier: "AccountQuota",
-  }),
+  AccountQuota.pipe(T.XmlName("AccountQuota")).annotate({ identifier: "AccountQuota" }),
 );
 export interface AccountAttributesMessage {
   AccountQuotas?: AccountQuota[];
 }
 export const AccountAttributesMessage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ AccountQuotas: S.optional(AccountQuotaList) }).pipe(ns),
-).annotate({
-  identifier: "AccountAttributesMessage",
-}) as any as S.Schema<AccountAttributesMessage>;
+).annotate({ identifier: "AccountAttributesMessage" }) as any as S.Schema<AccountAttributesMessage>;
 export type FilterValueList = string[];
-export const FilterValueList = /*@__PURE__*/ S.Array(
-  S.String.pipe(T.XmlName("Value")),
-);
+export const FilterValueList = /*@__PURE__*/ S.Array(S.String.pipe(T.XmlName("Value")));
 export interface Filter {
   Name?: string;
   Values?: string[];
@@ -6483,33 +5216,21 @@ export const DescribeBlueGreenDeploymentsRequest = /*@__PURE__*/ S.suspend(() =>
     Filters: S.optional(FilterList),
     Marker: S.optional(S.String),
     MaxRecords: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeBlueGreenDeploymentsRequest",
 }) as any as S.Schema<DescribeBlueGreenDeploymentsRequest>;
 export type BlueGreenDeploymentList = BlueGreenDeployment[];
-export const BlueGreenDeploymentList =
-  /*@__PURE__*/ S.Array(BlueGreenDeployment);
+export const BlueGreenDeploymentList = /*@__PURE__*/ S.Array(BlueGreenDeployment);
 export interface DescribeBlueGreenDeploymentsResponse {
   BlueGreenDeployments?: BlueGreenDeployment[];
   Marker?: string;
 }
-export const DescribeBlueGreenDeploymentsResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      BlueGreenDeployments: S.optional(BlueGreenDeploymentList),
-      Marker: S.optional(S.String),
-    }).pipe(ns),
+export const DescribeBlueGreenDeploymentsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    BlueGreenDeployments: S.optional(BlueGreenDeploymentList),
+    Marker: S.optional(S.String),
+  }).pipe(ns),
 ).annotate({
   identifier: "DescribeBlueGreenDeploymentsResponse",
 }) as any as S.Schema<DescribeBlueGreenDeploymentsResponse>;
@@ -6525,17 +5246,7 @@ export const DescribeCertificatesMessage = /*@__PURE__*/ S.suspend(() =>
     Filters: S.optional(FilterList),
     MaxRecords: S.optional(S.Number),
     Marker: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeCertificatesMessage",
 }) as any as S.Schema<DescribeCertificatesMessage>;
@@ -6554,24 +5265,16 @@ export const Certificate = /*@__PURE__*/ S.suspend(() =>
     CertificateIdentifier: S.optional(S.String),
     CertificateType: S.optional(S.String),
     Thumbprint: S.optional(S.String),
-    ValidFrom: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    ValidTill: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    ValidFrom: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    ValidTill: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     CertificateArn: S.optional(S.String),
     CustomerOverride: S.optional(S.Boolean),
-    CustomerOverrideValidTill: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    CustomerOverrideValidTill: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotate({ identifier: "Certificate" }) as any as S.Schema<Certificate>;
 export type CertificateList = Certificate[];
 export const CertificateList = /*@__PURE__*/ S.Array(
-  Certificate.pipe(T.XmlName("Certificate")).annotate({
-    identifier: "Certificate",
-  }),
+  Certificate.pipe(T.XmlName("Certificate")).annotate({ identifier: "Certificate" }),
 );
 export interface CertificateMessage {
   DefaultCertificateForNewLaunches?: string;
@@ -6584,9 +5287,7 @@ export const CertificateMessage = /*@__PURE__*/ S.suspend(() =>
     Certificates: S.optional(CertificateList),
     Marker: S.optional(S.String),
   }).pipe(ns),
-).annotate({
-  identifier: "CertificateMessage",
-}) as any as S.Schema<CertificateMessage>;
+).annotate({ identifier: "CertificateMessage" }) as any as S.Schema<CertificateMessage>;
 export interface DescribeDBClusterAutomatedBackupsMessage {
   DbClusterResourceId?: string;
   DBClusterIdentifier?: string;
@@ -6594,33 +5295,22 @@ export interface DescribeDBClusterAutomatedBackupsMessage {
   MaxRecords?: number;
   Marker?: string;
 }
-export const DescribeDBClusterAutomatedBackupsMessage = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      DbClusterResourceId: S.optional(S.String),
-      DBClusterIdentifier: S.optional(S.String),
-      Filters: S.optional(FilterList),
-      MaxRecords: S.optional(S.Number),
-      Marker: S.optional(S.String),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
+export const DescribeDBClusterAutomatedBackupsMessage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    DbClusterResourceId: S.optional(S.String),
+    DBClusterIdentifier: S.optional(S.String),
+    Filters: S.optional(FilterList),
+    MaxRecords: S.optional(S.Number),
+    Marker: S.optional(S.String),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeDBClusterAutomatedBackupsMessage",
 }) as any as S.Schema<DescribeDBClusterAutomatedBackupsMessage>;
 export type DBClusterAutomatedBackupList = DBClusterAutomatedBackup[];
 export const DBClusterAutomatedBackupList = /*@__PURE__*/ S.Array(
-  DBClusterAutomatedBackup.pipe(T.XmlName("DBClusterAutomatedBackup")).annotate(
-    { identifier: "DBClusterAutomatedBackup" },
-  ),
+  DBClusterAutomatedBackup.pipe(T.XmlName("DBClusterAutomatedBackup")).annotate({
+    identifier: "DBClusterAutomatedBackup",
+  }),
 );
 export interface DBClusterAutomatedBackupMessage {
   Marker?: string;
@@ -6648,17 +5338,7 @@ export const DescribeDBClusterBacktracksMessage = /*@__PURE__*/ S.suspend(() =>
     Filters: S.optional(FilterList),
     MaxRecords: S.optional(S.Number),
     Marker: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeDBClusterBacktracksMessage",
 }) as any as S.Schema<DescribeDBClusterBacktracksMessage>;
@@ -6694,17 +5374,7 @@ export const DescribeDBClusterEndpointsMessage = /*@__PURE__*/ S.suspend(() =>
     Filters: S.optional(FilterList),
     MaxRecords: S.optional(S.Number),
     Marker: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeDBClusterEndpointsMessage",
 }) as any as S.Schema<DescribeDBClusterEndpointsMessage>;
@@ -6723,33 +5393,20 @@ export const DBClusterEndpointMessage = /*@__PURE__*/ S.suspend(() =>
     Marker: S.optional(S.String),
     DBClusterEndpoints: S.optional(DBClusterEndpointList),
   }).pipe(ns),
-).annotate({
-  identifier: "DBClusterEndpointMessage",
-}) as any as S.Schema<DBClusterEndpointMessage>;
+).annotate({ identifier: "DBClusterEndpointMessage" }) as any as S.Schema<DBClusterEndpointMessage>;
 export interface DescribeDBClusterParameterGroupsMessage {
   DBClusterParameterGroupName?: string;
   Filters?: Filter[];
   MaxRecords?: number;
   Marker?: string;
 }
-export const DescribeDBClusterParameterGroupsMessage = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      DBClusterParameterGroupName: S.optional(S.String),
-      Filters: S.optional(FilterList),
-      MaxRecords: S.optional(S.Number),
-      Marker: S.optional(S.String),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
+export const DescribeDBClusterParameterGroupsMessage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    DBClusterParameterGroupName: S.optional(S.String),
+    Filters: S.optional(FilterList),
+    MaxRecords: S.optional(S.Number),
+    Marker: S.optional(S.String),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeDBClusterParameterGroupsMessage",
 }) as any as S.Schema<DescribeDBClusterParameterGroupsMessage>;
@@ -6785,17 +5442,7 @@ export const DescribeDBClusterParametersMessage = /*@__PURE__*/ S.suspend(() =>
     Filters: S.optional(FilterList),
     MaxRecords: S.optional(S.Number),
     Marker: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeDBClusterParametersMessage",
 }) as any as S.Schema<DescribeDBClusterParametersMessage>;
@@ -6840,10 +5487,7 @@ export interface DBClusterParameterGroupDetails {
   Marker?: string;
 }
 export const DBClusterParameterGroupDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Parameters: S.optional(ParametersList),
-    Marker: S.optional(S.String),
-  }).pipe(ns),
+  S.Struct({ Parameters: S.optional(ParametersList), Marker: S.optional(S.String) }).pipe(ns),
 ).annotate({
   identifier: "DBClusterParameterGroupDetails",
 }) as any as S.Schema<DBClusterParameterGroupDetails>;
@@ -6861,17 +5505,7 @@ export const DescribeDBClustersMessage = /*@__PURE__*/ S.suspend(() =>
     MaxRecords: S.optional(S.Number),
     Marker: S.optional(S.String),
     IncludeShared: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeDBClustersMessage",
 }) as any as S.Schema<DescribeDBClustersMessage>;
@@ -6884,36 +5518,20 @@ export interface DBClusterMessage {
   DBClusters?: DBCluster[];
 }
 export const DBClusterMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Marker: S.optional(S.String),
-    DBClusters: S.optional(DBClusterList),
-  }).pipe(ns),
-).annotate({
-  identifier: "DBClusterMessage",
-}) as any as S.Schema<DBClusterMessage>;
+  S.Struct({ Marker: S.optional(S.String), DBClusters: S.optional(DBClusterList) }).pipe(ns),
+).annotate({ identifier: "DBClusterMessage" }) as any as S.Schema<DBClusterMessage>;
 export interface DescribeDBClusterSnapshotAttributesMessage {
   DBClusterSnapshotIdentifier?: string;
 }
-export const DescribeDBClusterSnapshotAttributesMessage =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ DBClusterSnapshotIdentifier: S.optional(S.String) }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "DescribeDBClusterSnapshotAttributesMessage",
-  }) as any as S.Schema<DescribeDBClusterSnapshotAttributesMessage>;
+export const DescribeDBClusterSnapshotAttributesMessage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ DBClusterSnapshotIdentifier: S.optional(S.String) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "DescribeDBClusterSnapshotAttributesMessage",
+}) as any as S.Schema<DescribeDBClusterSnapshotAttributesMessage>;
 export type AttributeValueList = string[];
-export const AttributeValueList = /*@__PURE__*/ S.Array(
-  S.String.pipe(T.XmlName("AttributeValue")),
-);
+export const AttributeValueList = /*@__PURE__*/ S.Array(S.String.pipe(T.XmlName("AttributeValue")));
 export interface DBClusterSnapshotAttribute {
   AttributeName?: string;
   AttributeValues?: string[];
@@ -6928,9 +5546,9 @@ export const DBClusterSnapshotAttribute = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<DBClusterSnapshotAttribute>;
 export type DBClusterSnapshotAttributeList = DBClusterSnapshotAttribute[];
 export const DBClusterSnapshotAttributeList = /*@__PURE__*/ S.Array(
-  DBClusterSnapshotAttribute.pipe(
-    T.XmlName("DBClusterSnapshotAttribute"),
-  ).annotate({ identifier: "DBClusterSnapshotAttribute" }),
+  DBClusterSnapshotAttribute.pipe(T.XmlName("DBClusterSnapshotAttribute")).annotate({
+    identifier: "DBClusterSnapshotAttribute",
+  }),
 );
 export interface DBClusterSnapshotAttributesResult {
   DBClusterSnapshotIdentifier?: string;
@@ -6947,16 +5565,13 @@ export const DBClusterSnapshotAttributesResult = /*@__PURE__*/ S.suspend(() =>
 export interface DescribeDBClusterSnapshotAttributesResult {
   DBClusterSnapshotAttributesResult?: DBClusterSnapshotAttributesResult;
 }
-export const DescribeDBClusterSnapshotAttributesResult =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      DBClusterSnapshotAttributesResult: S.optional(
-        DBClusterSnapshotAttributesResult,
-      ),
-    }).pipe(ns),
-  ).annotate({
-    identifier: "DescribeDBClusterSnapshotAttributesResult",
-  }) as any as S.Schema<DescribeDBClusterSnapshotAttributesResult>;
+export const DescribeDBClusterSnapshotAttributesResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    DBClusterSnapshotAttributesResult: S.optional(DBClusterSnapshotAttributesResult),
+  }).pipe(ns),
+).annotate({
+  identifier: "DescribeDBClusterSnapshotAttributesResult",
+}) as any as S.Schema<DescribeDBClusterSnapshotAttributesResult>;
 export interface DescribeDBClusterSnapshotsMessage {
   DBClusterIdentifier?: string;
   DBClusterSnapshotIdentifier?: string;
@@ -6979,17 +5594,7 @@ export const DescribeDBClusterSnapshotsMessage = /*@__PURE__*/ S.suspend(() =>
     IncludeShared: S.optional(S.Boolean),
     IncludePublic: S.optional(S.Boolean),
     DbClusterResourceId: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeDBClusterSnapshotsMessage",
 }) as any as S.Schema<DescribeDBClusterSnapshotsMessage>;
@@ -7008,9 +5613,7 @@ export const DBClusterSnapshotMessage = /*@__PURE__*/ S.suspend(() =>
     Marker: S.optional(S.String),
     DBClusterSnapshots: S.optional(DBClusterSnapshotList),
   }).pipe(ns),
-).annotate({
-  identifier: "DBClusterSnapshotMessage",
-}) as any as S.Schema<DBClusterSnapshotMessage>;
+).annotate({ identifier: "DBClusterSnapshotMessage" }) as any as S.Schema<DBClusterSnapshotMessage>;
 export interface DescribeDBEngineVersionsMessage {
   Engine?: string;
   EngineVersion?: string;
@@ -7035,25 +5638,13 @@ export const DescribeDBEngineVersionsMessage = /*@__PURE__*/ S.suspend(() =>
     ListSupportedCharacterSets: S.optional(S.Boolean),
     ListSupportedTimezones: S.optional(S.Boolean),
     IncludeAll: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeDBEngineVersionsMessage",
 }) as any as S.Schema<DescribeDBEngineVersionsMessage>;
 export type DBEngineVersionList = DBEngineVersion[];
 export const DBEngineVersionList = /*@__PURE__*/ S.Array(
-  DBEngineVersion.pipe(T.XmlName("DBEngineVersion")).annotate({
-    identifier: "DBEngineVersion",
-  }),
+  DBEngineVersion.pipe(T.XmlName("DBEngineVersion")).annotate({ identifier: "DBEngineVersion" }),
 );
 export interface DBEngineVersionMessage {
   Marker?: string;
@@ -7064,9 +5655,7 @@ export const DBEngineVersionMessage = /*@__PURE__*/ S.suspend(() =>
     Marker: S.optional(S.String),
     DBEngineVersions: S.optional(DBEngineVersionList),
   }).pipe(ns),
-).annotate({
-  identifier: "DBEngineVersionMessage",
-}) as any as S.Schema<DBEngineVersionMessage>;
+).annotate({ identifier: "DBEngineVersionMessage" }) as any as S.Schema<DBEngineVersionMessage>;
 export interface DescribeDBInstanceAutomatedBackupsMessage {
   DbiResourceId?: string;
   DBInstanceIdentifier?: string;
@@ -7075,41 +5664,28 @@ export interface DescribeDBInstanceAutomatedBackupsMessage {
   Marker?: string;
   DBInstanceAutomatedBackupsArn?: string;
 }
-export const DescribeDBInstanceAutomatedBackupsMessage =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      DbiResourceId: S.optional(S.String),
-      DBInstanceIdentifier: S.optional(S.String),
-      Filters: S.optional(FilterList),
-      MaxRecords: S.optional(S.Number),
-      Marker: S.optional(S.String),
-      DBInstanceAutomatedBackupsArn: S.optional(S.String),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "DescribeDBInstanceAutomatedBackupsMessage",
-  }) as any as S.Schema<DescribeDBInstanceAutomatedBackupsMessage>;
+export const DescribeDBInstanceAutomatedBackupsMessage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    DbiResourceId: S.optional(S.String),
+    DBInstanceIdentifier: S.optional(S.String),
+    Filters: S.optional(FilterList),
+    MaxRecords: S.optional(S.Number),
+    Marker: S.optional(S.String),
+    DBInstanceAutomatedBackupsArn: S.optional(S.String),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({
+  identifier: "DescribeDBInstanceAutomatedBackupsMessage",
+}) as any as S.Schema<DescribeDBInstanceAutomatedBackupsMessage>;
 export type DBInstanceAutomatedBackupList = DBInstanceAutomatedBackup[];
 export const DBInstanceAutomatedBackupList = /*@__PURE__*/ S.Array(
-  DBInstanceAutomatedBackup.pipe(
-    T.XmlName("DBInstanceAutomatedBackup"),
-  ).annotate({ identifier: "DBInstanceAutomatedBackup" }),
+  DBInstanceAutomatedBackup.pipe(T.XmlName("DBInstanceAutomatedBackup")).annotate({
+    identifier: "DBInstanceAutomatedBackup",
+  }),
 );
 export interface DBInstanceAutomatedBackupMessage {
   Marker?: string;
   DBInstanceAutomatedBackups?: (DBInstanceAutomatedBackup & {
-    AdditionalStorageVolumes: (AdditionalStorageVolume & {
-      VolumeName: string;
-    })[];
+    AdditionalStorageVolumes: (AdditionalStorageVolume & { VolumeName: string })[];
   })[];
 }
 export const DBInstanceAutomatedBackupMessage = /*@__PURE__*/ S.suspend(() =>
@@ -7132,44 +5708,25 @@ export const DescribeDBInstancesMessage = /*@__PURE__*/ S.suspend(() =>
     Filters: S.optional(FilterList),
     MaxRecords: S.optional(S.Number),
     Marker: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeDBInstancesMessage",
 }) as any as S.Schema<DescribeDBInstancesMessage>;
 export type DBInstanceList = DBInstance[];
 export const DBInstanceList = /*@__PURE__*/ S.Array(
-  DBInstance.pipe(T.XmlName("DBInstance")).annotate({
-    identifier: "DBInstance",
-  }),
+  DBInstance.pipe(T.XmlName("DBInstance")).annotate({ identifier: "DBInstance" }),
 );
 export interface DBInstanceMessage {
   Marker?: string;
   DBInstances?: (DBInstance & {
     PendingModifiedValues: PendingModifiedValues & {
-      AdditionalStorageVolumes: (AdditionalStorageVolume & {
-        VolumeName: string;
-      })[];
+      AdditionalStorageVolumes: (AdditionalStorageVolume & { VolumeName: string })[];
     };
   })[];
 }
 export const DBInstanceMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Marker: S.optional(S.String),
-    DBInstances: S.optional(DBInstanceList),
-  }).pipe(ns),
-).annotate({
-  identifier: "DBInstanceMessage",
-}) as any as S.Schema<DBInstanceMessage>;
+  S.Struct({ Marker: S.optional(S.String), DBInstances: S.optional(DBInstanceList) }).pipe(ns),
+).annotate({ identifier: "DBInstanceMessage" }) as any as S.Schema<DBInstanceMessage>;
 export interface DescribeDBLogFilesMessage {
   DBInstanceIdentifier?: string;
   FilenameContains?: string;
@@ -7188,17 +5745,7 @@ export const DescribeDBLogFilesMessage = /*@__PURE__*/ S.suspend(() =>
     Filters: S.optional(FilterList),
     MaxRecords: S.optional(S.Number),
     Marker: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeDBLogFilesMessage",
 }) as any as S.Schema<DescribeDBLogFilesMessage>;
@@ -7218,9 +5765,9 @@ export const DescribeDBLogFilesDetails = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<DescribeDBLogFilesDetails>;
 export type DescribeDBLogFilesList = DescribeDBLogFilesDetails[];
 export const DescribeDBLogFilesList = /*@__PURE__*/ S.Array(
-  DescribeDBLogFilesDetails.pipe(
-    T.XmlName("DescribeDBLogFilesDetails"),
-  ).annotate({ identifier: "DescribeDBLogFilesDetails" }),
+  DescribeDBLogFilesDetails.pipe(T.XmlName("DescribeDBLogFilesDetails")).annotate({
+    identifier: "DescribeDBLogFilesDetails",
+  }),
 );
 export interface DescribeDBLogFilesResponse {
   DescribeDBLogFiles?: DescribeDBLogFilesDetails[];
@@ -7243,24 +5790,13 @@ export interface DescribeDBMajorEngineVersionsRequest {
   Marker?: string;
   MaxRecords?: number;
 }
-export const DescribeDBMajorEngineVersionsRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Engine: S.optional(S.String),
-      MajorEngineVersion: S.optional(S.String),
-      Marker: S.optional(S.String),
-      MaxRecords: S.optional(S.Number),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
+export const DescribeDBMajorEngineVersionsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Engine: S.optional(S.String),
+    MajorEngineVersion: S.optional(S.String),
+    Marker: S.optional(S.String),
+    MaxRecords: S.optional(S.Number),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeDBMajorEngineVersionsRequest",
 }) as any as S.Schema<DescribeDBMajorEngineVersionsRequest>;
@@ -7278,21 +5814,15 @@ export interface SupportedEngineLifecycle {
 export const SupportedEngineLifecycle = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     LifecycleSupportName: S.optional(LifecycleSupportName),
-    LifecycleSupportStartDate: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    LifecycleSupportEndDate: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    LifecycleSupportStartDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    LifecycleSupportEndDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
-).annotate({
-  identifier: "SupportedEngineLifecycle",
-}) as any as S.Schema<SupportedEngineLifecycle>;
+).annotate({ identifier: "SupportedEngineLifecycle" }) as any as S.Schema<SupportedEngineLifecycle>;
 export type SupportedEngineLifecycleList = SupportedEngineLifecycle[];
 export const SupportedEngineLifecycleList = /*@__PURE__*/ S.Array(
-  SupportedEngineLifecycle.pipe(T.XmlName("SupportedEngineLifecycle")).annotate(
-    { identifier: "SupportedEngineLifecycle" },
-  ),
+  SupportedEngineLifecycle.pipe(T.XmlName("SupportedEngineLifecycle")).annotate({
+    identifier: "SupportedEngineLifecycle",
+  }),
 );
 export interface DBMajorEngineVersion {
   Engine?: string;
@@ -7305,9 +5835,7 @@ export const DBMajorEngineVersion = /*@__PURE__*/ S.suspend(() =>
     MajorEngineVersion: S.optional(S.String),
     SupportedEngineLifecycles: S.optional(SupportedEngineLifecycleList),
   }),
-).annotate({
-  identifier: "DBMajorEngineVersion",
-}) as any as S.Schema<DBMajorEngineVersion>;
+).annotate({ identifier: "DBMajorEngineVersion" }) as any as S.Schema<DBMajorEngineVersion>;
 export type DBMajorEngineVersionsList = DBMajorEngineVersion[];
 export const DBMajorEngineVersionsList = /*@__PURE__*/ S.Array(
   DBMajorEngineVersion.pipe(T.XmlName("DBMajorEngineVersion")).annotate({
@@ -7324,12 +5852,11 @@ export interface DescribeDBMajorEngineVersionsResponse {
   })[];
   Marker?: string;
 }
-export const DescribeDBMajorEngineVersionsResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      DBMajorEngineVersions: S.optional(DBMajorEngineVersionsList),
-      Marker: S.optional(S.String),
-    }).pipe(ns),
+export const DescribeDBMajorEngineVersionsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    DBMajorEngineVersions: S.optional(DBMajorEngineVersionsList),
+    Marker: S.optional(S.String),
+  }).pipe(ns),
 ).annotate({
   identifier: "DescribeDBMajorEngineVersionsResponse",
 }) as any as S.Schema<DescribeDBMajorEngineVersionsResponse>;
@@ -7345,25 +5872,13 @@ export const DescribeDBParameterGroupsMessage = /*@__PURE__*/ S.suspend(() =>
     Filters: S.optional(FilterList),
     MaxRecords: S.optional(S.Number),
     Marker: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeDBParameterGroupsMessage",
 }) as any as S.Schema<DescribeDBParameterGroupsMessage>;
 export type DBParameterGroupList = DBParameterGroup[];
 export const DBParameterGroupList = /*@__PURE__*/ S.Array(
-  DBParameterGroup.pipe(T.XmlName("DBParameterGroup")).annotate({
-    identifier: "DBParameterGroup",
-  }),
+  DBParameterGroup.pipe(T.XmlName("DBParameterGroup")).annotate({ identifier: "DBParameterGroup" }),
 );
 export interface DBParameterGroupsMessage {
   Marker?: string;
@@ -7374,9 +5889,7 @@ export const DBParameterGroupsMessage = /*@__PURE__*/ S.suspend(() =>
     Marker: S.optional(S.String),
     DBParameterGroups: S.optional(DBParameterGroupList),
   }).pipe(ns),
-).annotate({
-  identifier: "DBParameterGroupsMessage",
-}) as any as S.Schema<DBParameterGroupsMessage>;
+).annotate({ identifier: "DBParameterGroupsMessage" }) as any as S.Schema<DBParameterGroupsMessage>;
 export interface DescribeDBParametersMessage {
   DBParameterGroupName?: string;
   Source?: string;
@@ -7391,17 +5904,7 @@ export const DescribeDBParametersMessage = /*@__PURE__*/ S.suspend(() =>
     Filters: S.optional(FilterList),
     MaxRecords: S.optional(S.Number),
     Marker: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeDBParametersMessage",
 }) as any as S.Schema<DescribeDBParametersMessage>;
@@ -7410,13 +5913,8 @@ export interface DBParameterGroupDetails {
   Marker?: string;
 }
 export const DBParameterGroupDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Parameters: S.optional(ParametersList),
-    Marker: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "DBParameterGroupDetails",
-}) as any as S.Schema<DBParameterGroupDetails>;
+  S.Struct({ Parameters: S.optional(ParametersList), Marker: S.optional(S.String) }).pipe(ns),
+).annotate({ identifier: "DBParameterGroupDetails" }) as any as S.Schema<DBParameterGroupDetails>;
 export interface DescribeDBProxiesRequest {
   DBProxyName?: string;
   Filters?: Filter[];
@@ -7429,20 +5927,8 @@ export const DescribeDBProxiesRequest = /*@__PURE__*/ S.suspend(() =>
     Filters: S.optional(FilterList),
     Marker: S.optional(S.String),
     MaxRecords: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeDBProxiesRequest",
-}) as any as S.Schema<DescribeDBProxiesRequest>;
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "DescribeDBProxiesRequest" }) as any as S.Schema<DescribeDBProxiesRequest>;
 export type DBProxyList = DBProxy[];
 export const DBProxyList = /*@__PURE__*/ S.Array(DBProxy);
 export interface DescribeDBProxiesResponse {
@@ -7450,10 +5936,7 @@ export interface DescribeDBProxiesResponse {
   Marker?: string;
 }
 export const DescribeDBProxiesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DBProxies: S.optional(DBProxyList),
-    Marker: S.optional(S.String),
-  }).pipe(ns),
+  S.Struct({ DBProxies: S.optional(DBProxyList), Marker: S.optional(S.String) }).pipe(ns),
 ).annotate({
   identifier: "DescribeDBProxiesResponse",
 }) as any as S.Schema<DescribeDBProxiesResponse>;
@@ -7471,17 +5954,7 @@ export const DescribeDBProxyEndpointsRequest = /*@__PURE__*/ S.suspend(() =>
     Filters: S.optional(FilterList),
     Marker: S.optional(S.String),
     MaxRecords: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeDBProxyEndpointsRequest",
 }) as any as S.Schema<DescribeDBProxyEndpointsRequest>;
@@ -7513,17 +5986,7 @@ export const DescribeDBProxyTargetGroupsRequest = /*@__PURE__*/ S.suspend(() =>
     Filters: S.optional(FilterList),
     Marker: S.optional(S.String),
     MaxRecords: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeDBProxyTargetGroupsRequest",
 }) as any as S.Schema<DescribeDBProxyTargetGroupsRequest>;
@@ -7564,16 +6027,10 @@ export const DBProxyTargetGroup = /*@__PURE__*/ S.suspend(() =>
     IsDefault: S.optional(S.Boolean),
     Status: S.optional(S.String),
     ConnectionPoolConfig: S.optional(ConnectionPoolConfigurationInfo),
-    CreatedDate: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    UpdatedDate: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    CreatedDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    UpdatedDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
-).annotate({
-  identifier: "DBProxyTargetGroup",
-}) as any as S.Schema<DBProxyTargetGroup>;
+).annotate({ identifier: "DBProxyTargetGroup" }) as any as S.Schema<DBProxyTargetGroup>;
 export type TargetGroupList = DBProxyTargetGroup[];
 export const TargetGroupList = /*@__PURE__*/ S.Array(DBProxyTargetGroup);
 export interface DescribeDBProxyTargetGroupsResponse {
@@ -7581,10 +6038,7 @@ export interface DescribeDBProxyTargetGroupsResponse {
   Marker?: string;
 }
 export const DescribeDBProxyTargetGroupsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TargetGroups: S.optional(TargetGroupList),
-    Marker: S.optional(S.String),
-  }).pipe(ns),
+  S.Struct({ TargetGroups: S.optional(TargetGroupList), Marker: S.optional(S.String) }).pipe(ns),
 ).annotate({
   identifier: "DescribeDBProxyTargetGroupsResponse",
 }) as any as S.Schema<DescribeDBProxyTargetGroupsResponse>;
@@ -7602,17 +6056,7 @@ export const DescribeDBProxyTargetsRequest = /*@__PURE__*/ S.suspend(() =>
     Filters: S.optional(FilterList),
     Marker: S.optional(S.String),
     MaxRecords: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeDBProxyTargetsRequest",
 }) as any as S.Schema<DescribeDBProxyTargetsRequest>;
@@ -7626,12 +6070,7 @@ export const TargetType = S.String;
 export type TargetRole = "READ_WRITE" | "READ_ONLY" | "UNKNOWN" | (string & {});
 export const TargetRole = S.String;
 
-export type TargetState =
-  | "REGISTERING"
-  | "AVAILABLE"
-  | "UNAVAILABLE"
-  | "UNUSED"
-  | (string & {});
+export type TargetState = "REGISTERING" | "AVAILABLE" | "UNAVAILABLE" | "UNUSED" | (string & {});
 export const TargetState = S.String;
 
 export type TargetHealthReason =
@@ -7685,10 +6124,7 @@ export interface DescribeDBProxyTargetsResponse {
   Marker?: string;
 }
 export const DescribeDBProxyTargetsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Targets: S.optional(TargetList),
-    Marker: S.optional(S.String),
-  }).pipe(ns),
+  S.Struct({ Targets: S.optional(TargetList), Marker: S.optional(S.String) }).pipe(ns),
 ).annotate({
   identifier: "DescribeDBProxyTargetsResponse",
 }) as any as S.Schema<DescribeDBProxyTargetsResponse>;
@@ -7702,27 +6138,13 @@ export interface DescribeDBRecommendationsMessage {
 }
 export const DescribeDBRecommendationsMessage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    LastUpdatedAfter: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    LastUpdatedBefore: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    LastUpdatedAfter: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    LastUpdatedBefore: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     Locale: S.optional(S.String),
     Filters: S.optional(FilterList),
     MaxRecords: S.optional(S.Number),
     Marker: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeDBRecommendationsMessage",
 }) as any as S.Schema<DescribeDBRecommendationsMessage>;
@@ -7736,37 +6158,26 @@ export const RecommendedActionParameter = /*@__PURE__*/ S.suspend(() =>
   identifier: "RecommendedActionParameter",
 }) as any as S.Schema<RecommendedActionParameter>;
 export type RecommendedActionParameterList = RecommendedActionParameter[];
-export const RecommendedActionParameterList = /*@__PURE__*/ S.Array(
-  RecommendedActionParameter,
-);
+export const RecommendedActionParameterList = /*@__PURE__*/ S.Array(RecommendedActionParameter);
 export interface ScalarReferenceDetails {
   Value?: number;
 }
 export const ScalarReferenceDetails = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Value: S.optional(S.Number) }),
-).annotate({
-  identifier: "ScalarReferenceDetails",
-}) as any as S.Schema<ScalarReferenceDetails>;
+).annotate({ identifier: "ScalarReferenceDetails" }) as any as S.Schema<ScalarReferenceDetails>;
 export interface ReferenceDetails {
   ScalarReferenceDetails?: ScalarReferenceDetails;
 }
 export const ReferenceDetails = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ScalarReferenceDetails: S.optional(ScalarReferenceDetails) }),
-).annotate({
-  identifier: "ReferenceDetails",
-}) as any as S.Schema<ReferenceDetails>;
+).annotate({ identifier: "ReferenceDetails" }) as any as S.Schema<ReferenceDetails>;
 export interface MetricReference {
   Name?: string;
   ReferenceDetails?: ReferenceDetails;
 }
 export const MetricReference = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String),
-    ReferenceDetails: S.optional(ReferenceDetails),
-  }),
-).annotate({
-  identifier: "MetricReference",
-}) as any as S.Schema<MetricReference>;
+  S.Struct({ Name: S.optional(S.String), ReferenceDetails: S.optional(ReferenceDetails) }),
+).annotate({ identifier: "MetricReference" }) as any as S.Schema<MetricReference>;
 export type MetricReferenceList = MetricReference[];
 export const MetricReferenceList = /*@__PURE__*/ S.Array(MetricReference);
 export interface PerformanceInsightsMetricDimensionGroup {
@@ -7774,13 +6185,12 @@ export interface PerformanceInsightsMetricDimensionGroup {
   Group?: string;
   Limit?: number;
 }
-export const PerformanceInsightsMetricDimensionGroup = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Dimensions: S.optional(StringList),
-      Group: S.optional(S.String),
-      Limit: S.optional(S.Number),
-    }),
+export const PerformanceInsightsMetricDimensionGroup = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Dimensions: S.optional(StringList),
+    Group: S.optional(S.String),
+    Limit: S.optional(S.Number),
+  }),
 ).annotate({
   identifier: "PerformanceInsightsMetricDimensionGroup",
 }) as any as S.Schema<PerformanceInsightsMetricDimensionGroup>;
@@ -7800,9 +6210,7 @@ export interface MetricQuery {
   PerformanceInsightsMetricQuery?: PerformanceInsightsMetricQuery;
 }
 export const MetricQuery = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PerformanceInsightsMetricQuery: S.optional(PerformanceInsightsMetricQuery),
-  }),
+  S.Struct({ PerformanceInsightsMetricQuery: S.optional(PerformanceInsightsMetricQuery) }),
 ).annotate({ identifier: "MetricQuery" }) as any as S.Schema<MetricQuery>;
 export interface Metric {
   Name?: string;
@@ -7828,16 +6236,12 @@ export interface PerformanceIssueDetails {
 }
 export const PerformanceIssueDetails = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    StartTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    StartTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     EndTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     Metrics: S.optional(MetricList),
     Analysis: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PerformanceIssueDetails",
-}) as any as S.Schema<PerformanceIssueDetails>;
+).annotate({ identifier: "PerformanceIssueDetails" }) as any as S.Schema<PerformanceIssueDetails>;
 export interface IssueDetails {
   PerformanceIssueDetails?: PerformanceIssueDetails;
 }
@@ -7850,9 +6254,7 @@ export interface ContextAttribute {
 }
 export const ContextAttribute = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Key: S.optional(S.String), Value: S.optional(S.String) }),
-).annotate({
-  identifier: "ContextAttribute",
-}) as any as S.Schema<ContextAttribute>;
+).annotate({ identifier: "ContextAttribute" }) as any as S.Schema<ContextAttribute>;
 export type ContextAttributeList = ContextAttribute[];
 export const ContextAttributeList = /*@__PURE__*/ S.Array(ContextAttribute);
 export interface RecommendedAction {
@@ -7878,9 +6280,7 @@ export const RecommendedAction = /*@__PURE__*/ S.suspend(() =>
     IssueDetails: S.optional(IssueDetails),
     ContextAttributes: S.optional(ContextAttributeList),
   }),
-).annotate({
-  identifier: "RecommendedAction",
-}) as any as S.Schema<RecommendedAction>;
+).annotate({ identifier: "RecommendedAction" }) as any as S.Schema<RecommendedAction>;
 export type RecommendedActionList = RecommendedAction[];
 export const RecommendedActionList = /*@__PURE__*/ S.Array(RecommendedAction);
 export interface DocLink {
@@ -7921,12 +6321,8 @@ export const DBRecommendation = /*@__PURE__*/ S.suspend(() =>
     Severity: S.optional(S.String),
     ResourceArn: S.optional(S.String),
     Status: S.optional(S.String),
-    CreatedTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    UpdatedTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    CreatedTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    UpdatedTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     Detection: S.optional(S.String),
     Recommendation: S.optional(S.String),
     Description: S.optional(S.String),
@@ -7941,9 +6337,7 @@ export const DBRecommendation = /*@__PURE__*/ S.suspend(() =>
     Links: S.optional(DocLinkList),
     IssueDetails: S.optional(IssueDetails),
   }),
-).annotate({
-  identifier: "DBRecommendation",
-}) as any as S.Schema<DBRecommendation>;
+).annotate({ identifier: "DBRecommendation" }) as any as S.Schema<DBRecommendation>;
 export type DBRecommendationList = DBRecommendation[];
 export const DBRecommendationList = /*@__PURE__*/ S.Array(DBRecommendation);
 export interface DBRecommendationsMessage {
@@ -7955,9 +6349,7 @@ export const DBRecommendationsMessage = /*@__PURE__*/ S.suspend(() =>
     DBRecommendations: S.optional(DBRecommendationList),
     Marker: S.optional(S.String),
   }).pipe(ns),
-).annotate({
-  identifier: "DBRecommendationsMessage",
-}) as any as S.Schema<DBRecommendationsMessage>;
+).annotate({ identifier: "DBRecommendationsMessage" }) as any as S.Schema<DBRecommendationsMessage>;
 export interface DescribeDBSecurityGroupsMessage {
   DBSecurityGroupName?: string;
   Filters?: Filter[];
@@ -7970,38 +6362,23 @@ export const DescribeDBSecurityGroupsMessage = /*@__PURE__*/ S.suspend(() =>
     Filters: S.optional(FilterList),
     MaxRecords: S.optional(S.Number),
     Marker: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeDBSecurityGroupsMessage",
 }) as any as S.Schema<DescribeDBSecurityGroupsMessage>;
 export type DBSecurityGroups = DBSecurityGroup[];
 export const DBSecurityGroups = /*@__PURE__*/ S.Array(
-  DBSecurityGroup.pipe(T.XmlName("DBSecurityGroup")).annotate({
-    identifier: "DBSecurityGroup",
-  }),
+  DBSecurityGroup.pipe(T.XmlName("DBSecurityGroup")).annotate({ identifier: "DBSecurityGroup" }),
 );
 export interface DBSecurityGroupMessage {
   Marker?: string;
   DBSecurityGroups?: DBSecurityGroup[];
 }
 export const DBSecurityGroupMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Marker: S.optional(S.String),
-    DBSecurityGroups: S.optional(DBSecurityGroups),
-  }).pipe(ns),
-).annotate({
-  identifier: "DBSecurityGroupMessage",
-}) as any as S.Schema<DBSecurityGroupMessage>;
+  S.Struct({ Marker: S.optional(S.String), DBSecurityGroups: S.optional(DBSecurityGroups) }).pipe(
+    ns,
+  ),
+).annotate({ identifier: "DBSecurityGroupMessage" }) as any as S.Schema<DBSecurityGroupMessage>;
 export interface DescribeDBShardGroupsMessage {
   DBShardGroupIdentifier?: string;
   Filters?: Filter[];
@@ -8014,35 +6391,20 @@ export const DescribeDBShardGroupsMessage = /*@__PURE__*/ S.suspend(() =>
     Filters: S.optional(FilterList),
     Marker: S.optional(S.String),
     MaxRecords: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeDBShardGroupsMessage",
 }) as any as S.Schema<DescribeDBShardGroupsMessage>;
 export type DBShardGroupsList = DBShardGroup[];
 export const DBShardGroupsList = /*@__PURE__*/ S.Array(
-  DBShardGroup.pipe(T.XmlName("DBShardGroup")).annotate({
-    identifier: "DBShardGroup",
-  }),
+  DBShardGroup.pipe(T.XmlName("DBShardGroup")).annotate({ identifier: "DBShardGroup" }),
 );
 export interface DescribeDBShardGroupsResponse {
   DBShardGroups?: DBShardGroup[];
   Marker?: string;
 }
 export const DescribeDBShardGroupsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DBShardGroups: S.optional(DBShardGroupsList),
-    Marker: S.optional(S.String),
-  }).pipe(ns),
+  S.Struct({ DBShardGroups: S.optional(DBShardGroupsList), Marker: S.optional(S.String) }).pipe(ns),
 ).annotate({
   identifier: "DescribeDBShardGroupsResponse",
 }) as any as S.Schema<DescribeDBShardGroupsResponse>;
@@ -8051,15 +6413,7 @@ export interface DescribeDBSnapshotAttributesMessage {
 }
 export const DescribeDBSnapshotAttributesMessage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ DBSnapshotIdentifier: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DescribeDBSnapshotAttributesMessage",
@@ -8073,9 +6427,7 @@ export const DBSnapshotAttribute = /*@__PURE__*/ S.suspend(() =>
     AttributeName: S.optional(S.String),
     AttributeValues: S.optional(AttributeValueList),
   }),
-).annotate({
-  identifier: "DBSnapshotAttribute",
-}) as any as S.Schema<DBSnapshotAttribute>;
+).annotate({ identifier: "DBSnapshotAttribute" }) as any as S.Schema<DBSnapshotAttribute>;
 export type DBSnapshotAttributeList = DBSnapshotAttribute[];
 export const DBSnapshotAttributeList = /*@__PURE__*/ S.Array(
   DBSnapshotAttribute.pipe(T.XmlName("DBSnapshotAttribute")).annotate({
@@ -8098,9 +6450,7 @@ export interface DescribeDBSnapshotAttributesResult {
   DBSnapshotAttributesResult?: DBSnapshotAttributesResult;
 }
 export const DescribeDBSnapshotAttributesResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DBSnapshotAttributesResult: S.optional(DBSnapshotAttributesResult),
-  }).pipe(ns),
+  S.Struct({ DBSnapshotAttributesResult: S.optional(DBSnapshotAttributesResult) }).pipe(ns),
 ).annotate({
   identifier: "DescribeDBSnapshotAttributesResult",
 }) as any as S.Schema<DescribeDBSnapshotAttributesResult>;
@@ -8126,42 +6476,23 @@ export const DescribeDBSnapshotsMessage = /*@__PURE__*/ S.suspend(() =>
     IncludeShared: S.optional(S.Boolean),
     IncludePublic: S.optional(S.Boolean),
     DbiResourceId: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeDBSnapshotsMessage",
 }) as any as S.Schema<DescribeDBSnapshotsMessage>;
 export type DBSnapshotList = DBSnapshot[];
 export const DBSnapshotList = /*@__PURE__*/ S.Array(
-  DBSnapshot.pipe(T.XmlName("DBSnapshot")).annotate({
-    identifier: "DBSnapshot",
-  }),
+  DBSnapshot.pipe(T.XmlName("DBSnapshot")).annotate({ identifier: "DBSnapshot" }),
 );
 export interface DBSnapshotMessage {
   Marker?: string;
   DBSnapshots?: (DBSnapshot & {
-    AdditionalStorageVolumes: (AdditionalStorageVolume & {
-      VolumeName: string;
-    })[];
+    AdditionalStorageVolumes: (AdditionalStorageVolume & { VolumeName: string })[];
   })[];
 }
 export const DBSnapshotMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Marker: S.optional(S.String),
-    DBSnapshots: S.optional(DBSnapshotList),
-  }).pipe(ns),
-).annotate({
-  identifier: "DBSnapshotMessage",
-}) as any as S.Schema<DBSnapshotMessage>;
+  S.Struct({ Marker: S.optional(S.String), DBSnapshots: S.optional(DBSnapshotList) }).pipe(ns),
+).annotate({ identifier: "DBSnapshotMessage" }) as any as S.Schema<DBSnapshotMessage>;
 export interface DescribeDBSnapshotTenantDatabasesMessage {
   DBInstanceIdentifier?: string;
   DBSnapshotIdentifier?: string;
@@ -8171,27 +6502,16 @@ export interface DescribeDBSnapshotTenantDatabasesMessage {
   Marker?: string;
   DbiResourceId?: string;
 }
-export const DescribeDBSnapshotTenantDatabasesMessage = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      DBInstanceIdentifier: S.optional(S.String),
-      DBSnapshotIdentifier: S.optional(S.String),
-      SnapshotType: S.optional(S.String),
-      Filters: S.optional(FilterList),
-      MaxRecords: S.optional(S.Number),
-      Marker: S.optional(S.String),
-      DbiResourceId: S.optional(S.String),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
+export const DescribeDBSnapshotTenantDatabasesMessage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    DBInstanceIdentifier: S.optional(S.String),
+    DBSnapshotIdentifier: S.optional(S.String),
+    SnapshotType: S.optional(S.String),
+    Filters: S.optional(FilterList),
+    MaxRecords: S.optional(S.Number),
+    Marker: S.optional(S.String),
+    DbiResourceId: S.optional(S.String),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeDBSnapshotTenantDatabasesMessage",
 }) as any as S.Schema<DescribeDBSnapshotTenantDatabasesMessage>;
@@ -8217,9 +6537,7 @@ export const DBSnapshotTenantDatabase = /*@__PURE__*/ S.suspend(() =>
     DbiResourceId: S.optional(S.String),
     EngineName: S.optional(S.String),
     SnapshotType: S.optional(S.String),
-    TenantDatabaseCreateTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    TenantDatabaseCreateTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     TenantDBName: S.optional(S.String),
     MasterUsername: S.optional(S.String),
     TenantDatabaseResourceId: S.optional(S.String),
@@ -8228,14 +6546,12 @@ export const DBSnapshotTenantDatabase = /*@__PURE__*/ S.suspend(() =>
     NcharCharacterSetName: S.optional(S.String),
     TagList: S.optional(TagList),
   }),
-).annotate({
-  identifier: "DBSnapshotTenantDatabase",
-}) as any as S.Schema<DBSnapshotTenantDatabase>;
+).annotate({ identifier: "DBSnapshotTenantDatabase" }) as any as S.Schema<DBSnapshotTenantDatabase>;
 export type DBSnapshotTenantDatabasesList = DBSnapshotTenantDatabase[];
 export const DBSnapshotTenantDatabasesList = /*@__PURE__*/ S.Array(
-  DBSnapshotTenantDatabase.pipe(T.XmlName("DBSnapshotTenantDatabase")).annotate(
-    { identifier: "DBSnapshotTenantDatabase" },
-  ),
+  DBSnapshotTenantDatabase.pipe(T.XmlName("DBSnapshotTenantDatabase")).annotate({
+    identifier: "DBSnapshotTenantDatabase",
+  }),
 );
 export interface DBSnapshotTenantDatabasesMessage {
   Marker?: string;
@@ -8261,65 +6577,37 @@ export const DescribeDBSubnetGroupsMessage = /*@__PURE__*/ S.suspend(() =>
     Filters: S.optional(FilterList),
     MaxRecords: S.optional(S.Number),
     Marker: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeDBSubnetGroupsMessage",
 }) as any as S.Schema<DescribeDBSubnetGroupsMessage>;
 export type DBSubnetGroups = DBSubnetGroup[];
 export const DBSubnetGroups = /*@__PURE__*/ S.Array(
-  DBSubnetGroup.pipe(T.XmlName("DBSubnetGroup")).annotate({
-    identifier: "DBSubnetGroup",
-  }),
+  DBSubnetGroup.pipe(T.XmlName("DBSubnetGroup")).annotate({ identifier: "DBSubnetGroup" }),
 );
 export interface DBSubnetGroupMessage {
   Marker?: string;
   DBSubnetGroups?: DBSubnetGroup[];
 }
 export const DBSubnetGroupMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Marker: S.optional(S.String),
-    DBSubnetGroups: S.optional(DBSubnetGroups),
-  }).pipe(ns),
-).annotate({
-  identifier: "DBSubnetGroupMessage",
-}) as any as S.Schema<DBSubnetGroupMessage>;
+  S.Struct({ Marker: S.optional(S.String), DBSubnetGroups: S.optional(DBSubnetGroups) }).pipe(ns),
+).annotate({ identifier: "DBSubnetGroupMessage" }) as any as S.Schema<DBSubnetGroupMessage>;
 export interface DescribeEngineDefaultClusterParametersMessage {
   DBParameterGroupFamily?: string;
   Filters?: Filter[];
   MaxRecords?: number;
   Marker?: string;
 }
-export const DescribeEngineDefaultClusterParametersMessage =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      DBParameterGroupFamily: S.optional(S.String),
-      Filters: S.optional(FilterList),
-      MaxRecords: S.optional(S.Number),
-      Marker: S.optional(S.String),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "DescribeEngineDefaultClusterParametersMessage",
-  }) as any as S.Schema<DescribeEngineDefaultClusterParametersMessage>;
+export const DescribeEngineDefaultClusterParametersMessage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    DBParameterGroupFamily: S.optional(S.String),
+    Filters: S.optional(FilterList),
+    MaxRecords: S.optional(S.Number),
+    Marker: S.optional(S.String),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({
+  identifier: "DescribeEngineDefaultClusterParametersMessage",
+}) as any as S.Schema<DescribeEngineDefaultClusterParametersMessage>;
 export interface EngineDefaults {
   DBParameterGroupFamily?: string;
   Marker?: string;
@@ -8335,44 +6623,32 @@ export const EngineDefaults = /*@__PURE__*/ S.suspend(() =>
 export interface DescribeEngineDefaultClusterParametersResult {
   EngineDefaults?: EngineDefaults;
 }
-export const DescribeEngineDefaultClusterParametersResult =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ EngineDefaults: S.optional(EngineDefaults) }).pipe(ns),
-  ).annotate({
-    identifier: "DescribeEngineDefaultClusterParametersResult",
-  }) as any as S.Schema<DescribeEngineDefaultClusterParametersResult>;
+export const DescribeEngineDefaultClusterParametersResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ EngineDefaults: S.optional(EngineDefaults) }).pipe(ns),
+).annotate({
+  identifier: "DescribeEngineDefaultClusterParametersResult",
+}) as any as S.Schema<DescribeEngineDefaultClusterParametersResult>;
 export interface DescribeEngineDefaultParametersMessage {
   DBParameterGroupFamily?: string;
   Filters?: Filter[];
   MaxRecords?: number;
   Marker?: string;
 }
-export const DescribeEngineDefaultParametersMessage = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      DBParameterGroupFamily: S.optional(S.String),
-      Filters: S.optional(FilterList),
-      MaxRecords: S.optional(S.Number),
-      Marker: S.optional(S.String),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
+export const DescribeEngineDefaultParametersMessage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    DBParameterGroupFamily: S.optional(S.String),
+    Filters: S.optional(FilterList),
+    MaxRecords: S.optional(S.Number),
+    Marker: S.optional(S.String),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeEngineDefaultParametersMessage",
 }) as any as S.Schema<DescribeEngineDefaultParametersMessage>;
 export interface DescribeEngineDefaultParametersResult {
   EngineDefaults?: EngineDefaults;
 }
-export const DescribeEngineDefaultParametersResult = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ EngineDefaults: S.optional(EngineDefaults) }).pipe(ns),
+export const DescribeEngineDefaultParametersResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ EngineDefaults: S.optional(EngineDefaults) }).pipe(ns),
 ).annotate({
   identifier: "DescribeEngineDefaultParametersResult",
 }) as any as S.Schema<DescribeEngineDefaultParametersResult>;
@@ -8381,19 +6657,8 @@ export interface DescribeEventCategoriesMessage {
   Filters?: Filter[];
 }
 export const DescribeEventCategoriesMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SourceType: S.optional(S.String),
-    Filters: S.optional(FilterList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+  S.Struct({ SourceType: S.optional(S.String), Filters: S.optional(FilterList) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DescribeEventCategoriesMessage",
@@ -8403,13 +6668,8 @@ export interface EventCategoriesMap {
   EventCategories?: string[];
 }
 export const EventCategoriesMap = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SourceType: S.optional(S.String),
-    EventCategories: S.optional(EventCategoriesList),
-  }),
-).annotate({
-  identifier: "EventCategoriesMap",
-}) as any as S.Schema<EventCategoriesMap>;
+  S.Struct({ SourceType: S.optional(S.String), EventCategories: S.optional(EventCategoriesList) }),
+).annotate({ identifier: "EventCategoriesMap" }) as any as S.Schema<EventCategoriesMap>;
 export type EventCategoriesMapList = EventCategoriesMap[];
 export const EventCategoriesMapList = /*@__PURE__*/ S.Array(
   EventCategoriesMap.pipe(T.XmlName("EventCategoriesMap")).annotate({
@@ -8420,12 +6680,8 @@ export interface EventCategoriesMessage {
   EventCategoriesMapList?: EventCategoriesMap[];
 }
 export const EventCategoriesMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ EventCategoriesMapList: S.optional(EventCategoriesMapList) }).pipe(
-    ns,
-  ),
-).annotate({
-  identifier: "EventCategoriesMessage",
-}) as any as S.Schema<EventCategoriesMessage>;
+  S.Struct({ EventCategoriesMapList: S.optional(EventCategoriesMapList) }).pipe(ns),
+).annotate({ identifier: "EventCategoriesMessage" }) as any as S.Schema<EventCategoriesMessage>;
 export type SourceType =
   | "db-instance"
   | "db-parameter-group"
@@ -8456,29 +6712,15 @@ export const DescribeEventsMessage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     SourceIdentifier: S.optional(S.String),
     SourceType: S.optional(SourceType),
-    StartTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    StartTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     EndTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     Duration: S.optional(S.Number),
     EventCategories: S.optional(EventCategoriesList),
     Filters: S.optional(FilterList),
     MaxRecords: S.optional(S.Number),
     Marker: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeEventsMessage",
-}) as any as S.Schema<DescribeEventsMessage>;
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "DescribeEventsMessage" }) as any as S.Schema<DescribeEventsMessage>;
 export interface Event {
   SourceIdentifier?: string;
   SourceType?: SourceType;
@@ -8506,10 +6748,7 @@ export interface EventsMessage {
   Events?: Event[];
 }
 export const EventsMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Marker: S.optional(S.String),
-    Events: S.optional(EventList),
-  }).pipe(ns),
+  S.Struct({ Marker: S.optional(S.String), Events: S.optional(EventList) }).pipe(ns),
 ).annotate({ identifier: "EventsMessage" }) as any as S.Schema<EventsMessage>;
 export interface DescribeEventSubscriptionsMessage {
   SubscriptionName?: string;
@@ -8523,17 +6762,7 @@ export const DescribeEventSubscriptionsMessage = /*@__PURE__*/ S.suspend(() =>
     Filters: S.optional(FilterList),
     MaxRecords: S.optional(S.Number),
     Marker: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeEventSubscriptionsMessage",
 }) as any as S.Schema<DescribeEventSubscriptionsMessage>;
@@ -8571,38 +6800,21 @@ export const DescribeExportTasksMessage = /*@__PURE__*/ S.suspend(() =>
     Marker: S.optional(S.String),
     MaxRecords: S.optional(S.Number),
     SourceType: S.optional(ExportSourceType),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeExportTasksMessage",
 }) as any as S.Schema<DescribeExportTasksMessage>;
 export type ExportTasksList = ExportTask[];
 export const ExportTasksList = /*@__PURE__*/ S.Array(
-  ExportTask.pipe(T.XmlName("ExportTask")).annotate({
-    identifier: "ExportTask",
-  }),
+  ExportTask.pipe(T.XmlName("ExportTask")).annotate({ identifier: "ExportTask" }),
 );
 export interface ExportTasksMessage {
   Marker?: string;
   ExportTasks?: ExportTask[];
 }
 export const ExportTasksMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Marker: S.optional(S.String),
-    ExportTasks: S.optional(ExportTasksList),
-  }).pipe(ns),
-).annotate({
-  identifier: "ExportTasksMessage",
-}) as any as S.Schema<ExportTasksMessage>;
+  S.Struct({ Marker: S.optional(S.String), ExportTasks: S.optional(ExportTasksList) }).pipe(ns),
+).annotate({ identifier: "ExportTasksMessage" }) as any as S.Schema<ExportTasksMessage>;
 export interface DescribeGlobalClustersMessage {
   GlobalClusterIdentifier?: string;
   Filters?: Filter[];
@@ -8615,38 +6827,23 @@ export const DescribeGlobalClustersMessage = /*@__PURE__*/ S.suspend(() =>
     Filters: S.optional(FilterList),
     MaxRecords: S.optional(S.Number),
     Marker: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeGlobalClustersMessage",
 }) as any as S.Schema<DescribeGlobalClustersMessage>;
 export type GlobalClusterList = GlobalCluster[];
 export const GlobalClusterList = /*@__PURE__*/ S.Array(
-  GlobalCluster.pipe(T.XmlName("GlobalClusterMember")).annotate({
-    identifier: "GlobalCluster",
-  }),
+  GlobalCluster.pipe(T.XmlName("GlobalClusterMember")).annotate({ identifier: "GlobalCluster" }),
 );
 export interface GlobalClustersMessage {
   Marker?: string;
   GlobalClusters?: GlobalCluster[];
 }
 export const GlobalClustersMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Marker: S.optional(S.String),
-    GlobalClusters: S.optional(GlobalClusterList),
-  }).pipe(ns),
-).annotate({
-  identifier: "GlobalClustersMessage",
-}) as any as S.Schema<GlobalClustersMessage>;
+  S.Struct({ Marker: S.optional(S.String), GlobalClusters: S.optional(GlobalClusterList) }).pipe(
+    ns,
+  ),
+).annotate({ identifier: "GlobalClustersMessage" }) as any as S.Schema<GlobalClustersMessage>;
 export interface DescribeIntegrationsMessage {
   IntegrationIdentifier?: string;
   Filters?: Filter[];
@@ -8659,37 +6856,20 @@ export const DescribeIntegrationsMessage = /*@__PURE__*/ S.suspend(() =>
     Filters: S.optional(FilterList),
     MaxRecords: S.optional(S.Number),
     Marker: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeIntegrationsMessage",
 }) as any as S.Schema<DescribeIntegrationsMessage>;
 export type IntegrationList = Integration[];
 export const IntegrationList = /*@__PURE__*/ S.Array(
-  Integration.pipe(T.XmlName("Integration")).annotate({
-    identifier: "Integration",
-  }),
+  Integration.pipe(T.XmlName("Integration")).annotate({ identifier: "Integration" }),
 );
 export interface DescribeIntegrationsResponse {
   Marker?: string;
-  Integrations?: (Integration & {
-    Errors: (IntegrationError & { ErrorCode: string })[];
-  })[];
+  Integrations?: (Integration & { Errors: (IntegrationError & { ErrorCode: string })[] })[];
 }
 export const DescribeIntegrationsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Marker: S.optional(S.String),
-    Integrations: S.optional(IntegrationList),
-  }).pipe(ns),
+  S.Struct({ Marker: S.optional(S.String), Integrations: S.optional(IntegrationList) }).pipe(ns),
 ).annotate({
   identifier: "DescribeIntegrationsResponse",
 }) as any as S.Schema<DescribeIntegrationsResponse>;
@@ -8707,24 +6887,12 @@ export const DescribeOptionGroupOptionsMessage = /*@__PURE__*/ S.suspend(() =>
     Filters: S.optional(FilterList),
     MaxRecords: S.optional(S.Number),
     Marker: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeOptionGroupOptionsMessage",
 }) as any as S.Schema<DescribeOptionGroupOptionsMessage>;
 export type OptionsDependedOn = string[];
-export const OptionsDependedOn = /*@__PURE__*/ S.Array(
-  S.String.pipe(T.XmlName("OptionName")),
-);
+export const OptionsDependedOn = /*@__PURE__*/ S.Array(S.String.pipe(T.XmlName("OptionName")));
 export type OptionsConflictsWith = string[];
 export const OptionsConflictsWith = /*@__PURE__*/ S.Array(
   S.String.pipe(T.XmlName("OptionConflictName")),
@@ -8734,15 +6902,11 @@ export interface MinimumEngineVersionPerAllowedValue {
   MinimumEngineVersion?: string;
 }
 export const MinimumEngineVersionPerAllowedValue = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AllowedValue: S.optional(S.String),
-    MinimumEngineVersion: S.optional(S.String),
-  }),
+  S.Struct({ AllowedValue: S.optional(S.String), MinimumEngineVersion: S.optional(S.String) }),
 ).annotate({
   identifier: "MinimumEngineVersionPerAllowedValue",
 }) as any as S.Schema<MinimumEngineVersionPerAllowedValue>;
-export type MinimumEngineVersionPerAllowedValueList =
-  MinimumEngineVersionPerAllowedValue[];
+export type MinimumEngineVersionPerAllowedValueList = MinimumEngineVersionPerAllowedValue[];
 export const MinimumEngineVersionPerAllowedValueList = /*@__PURE__*/ S.Array(
   MinimumEngineVersionPerAllowedValue.pipe(
     T.XmlName("MinimumEngineVersionPerAllowedValue"),
@@ -8767,18 +6931,14 @@ export const OptionGroupOptionSetting = /*@__PURE__*/ S.suspend(() =>
     AllowedValues: S.optional(S.String),
     IsModifiable: S.optional(S.Boolean),
     IsRequired: S.optional(S.Boolean),
-    MinimumEngineVersionPerAllowedValue: S.optional(
-      MinimumEngineVersionPerAllowedValueList,
-    ),
+    MinimumEngineVersionPerAllowedValue: S.optional(MinimumEngineVersionPerAllowedValueList),
   }),
-).annotate({
-  identifier: "OptionGroupOptionSetting",
-}) as any as S.Schema<OptionGroupOptionSetting>;
+).annotate({ identifier: "OptionGroupOptionSetting" }) as any as S.Schema<OptionGroupOptionSetting>;
 export type OptionGroupOptionSettingsList = OptionGroupOptionSetting[];
 export const OptionGroupOptionSettingsList = /*@__PURE__*/ S.Array(
-  OptionGroupOptionSetting.pipe(T.XmlName("OptionGroupOptionSetting")).annotate(
-    { identifier: "OptionGroupOptionSetting" },
-  ),
+  OptionGroupOptionSetting.pipe(T.XmlName("OptionGroupOptionSetting")).annotate({
+    identifier: "OptionGroupOptionSetting",
+  }),
 );
 export interface OptionVersion {
   Version?: string;
@@ -8789,9 +6949,7 @@ export const OptionVersion = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "OptionVersion" }) as any as S.Schema<OptionVersion>;
 export type OptionGroupOptionVersionsList = OptionVersion[];
 export const OptionGroupOptionVersionsList = /*@__PURE__*/ S.Array(
-  OptionVersion.pipe(T.XmlName("OptionVersion")).annotate({
-    identifier: "OptionVersion",
-  }),
+  OptionVersion.pipe(T.XmlName("OptionVersion")).annotate({ identifier: "OptionVersion" }),
 );
 export interface OptionGroupOption {
   Name?: string;
@@ -8832,9 +6990,7 @@ export const OptionGroupOption = /*@__PURE__*/ S.suspend(() =>
     OptionGroupOptionVersions: S.optional(OptionGroupOptionVersionsList),
     CopyableCrossAccount: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "OptionGroupOption",
-}) as any as S.Schema<OptionGroupOption>;
+).annotate({ identifier: "OptionGroupOption" }) as any as S.Schema<OptionGroupOption>;
 export type OptionGroupOptionsList = OptionGroupOption[];
 export const OptionGroupOptionsList = /*@__PURE__*/ S.Array(
   OptionGroupOption.pipe(T.XmlName("OptionGroupOption")).annotate({
@@ -8869,35 +7025,22 @@ export const DescribeOptionGroupsMessage = /*@__PURE__*/ S.suspend(() =>
     MaxRecords: S.optional(S.Number),
     EngineName: S.optional(S.String),
     MajorEngineVersion: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeOptionGroupsMessage",
 }) as any as S.Schema<DescribeOptionGroupsMessage>;
 export type OptionGroupsList = OptionGroup[];
 export const OptionGroupsList = /*@__PURE__*/ S.Array(
-  OptionGroup.pipe(T.XmlName("OptionGroup")).annotate({
-    identifier: "OptionGroup",
-  }),
+  OptionGroup.pipe(T.XmlName("OptionGroup")).annotate({ identifier: "OptionGroup" }),
 );
 export interface OptionGroups {
   OptionGroupsList?: OptionGroup[];
   Marker?: string;
 }
 export const OptionGroups = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    OptionGroupsList: S.optional(OptionGroupsList),
-    Marker: S.optional(S.String),
-  }).pipe(ns),
+  S.Struct({ OptionGroupsList: S.optional(OptionGroupsList), Marker: S.optional(S.String) }).pipe(
+    ns,
+  ),
 ).annotate({ identifier: "OptionGroups" }) as any as S.Schema<OptionGroups>;
 export interface DescribeOrderableDBInstanceOptionsMessage {
   Engine?: string;
@@ -8910,37 +7053,24 @@ export interface DescribeOrderableDBInstanceOptionsMessage {
   MaxRecords?: number;
   Marker?: string;
 }
-export const DescribeOrderableDBInstanceOptionsMessage =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      Engine: S.optional(S.String),
-      EngineVersion: S.optional(S.String),
-      DBInstanceClass: S.optional(S.String),
-      LicenseModel: S.optional(S.String),
-      AvailabilityZoneGroup: S.optional(S.String),
-      Vpc: S.optional(S.Boolean),
-      Filters: S.optional(FilterList),
-      MaxRecords: S.optional(S.Number),
-      Marker: S.optional(S.String),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "DescribeOrderableDBInstanceOptionsMessage",
-  }) as any as S.Schema<DescribeOrderableDBInstanceOptionsMessage>;
+export const DescribeOrderableDBInstanceOptionsMessage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Engine: S.optional(S.String),
+    EngineVersion: S.optional(S.String),
+    DBInstanceClass: S.optional(S.String),
+    LicenseModel: S.optional(S.String),
+    AvailabilityZoneGroup: S.optional(S.String),
+    Vpc: S.optional(S.Boolean),
+    Filters: S.optional(FilterList),
+    MaxRecords: S.optional(S.Number),
+    Marker: S.optional(S.String),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({
+  identifier: "DescribeOrderableDBInstanceOptionsMessage",
+}) as any as S.Schema<DescribeOrderableDBInstanceOptionsMessage>;
 export type AvailabilityZoneList = AvailabilityZone[];
 export const AvailabilityZoneList = /*@__PURE__*/ S.Array(
-  AvailabilityZone.pipe(T.XmlName("AvailabilityZone")).annotate({
-    identifier: "AvailabilityZone",
-  }),
+  AvailabilityZone.pipe(T.XmlName("AvailabilityZone")).annotate({ identifier: "AvailabilityZone" }),
 );
 export interface AvailableProcessorFeature {
   Name?: string;
@@ -8958,9 +7088,9 @@ export const AvailableProcessorFeature = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<AvailableProcessorFeature>;
 export type AvailableProcessorFeatureList = AvailableProcessorFeature[];
 export const AvailableProcessorFeatureList = /*@__PURE__*/ S.Array(
-  AvailableProcessorFeature.pipe(
-    T.XmlName("AvailableProcessorFeature"),
-  ).annotate({ identifier: "AvailableProcessorFeature" }),
+  AvailableProcessorFeature.pipe(T.XmlName("AvailableProcessorFeature")).annotate({
+    identifier: "AvailableProcessorFeature",
+  }),
 );
 export type ActivityStreamModeList = string[];
 export const ActivityStreamModeList = /*@__PURE__*/ S.Array(S.String);
@@ -8978,33 +7108,30 @@ export interface AvailableAdditionalStorageVolumesOption {
   MinStorageThroughput?: number;
   MaxStorageThroughput?: number;
 }
-export const AvailableAdditionalStorageVolumesOption = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      SupportsStorageAutoscaling: S.optional(S.Boolean),
-      SupportsStorageThroughput: S.optional(S.Boolean),
-      SupportsIops: S.optional(S.Boolean),
-      StorageType: S.optional(S.String),
-      MinStorageSize: S.optional(S.Number),
-      MaxStorageSize: S.optional(S.Number),
-      MinIops: S.optional(S.Number),
-      MaxIops: S.optional(S.Number),
-      MinIopsPerGib: S.optional(S.Number),
-      MaxIopsPerGib: S.optional(S.Number),
-      MinStorageThroughput: S.optional(S.Number),
-      MaxStorageThroughput: S.optional(S.Number),
-    }),
+export const AvailableAdditionalStorageVolumesOption = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    SupportsStorageAutoscaling: S.optional(S.Boolean),
+    SupportsStorageThroughput: S.optional(S.Boolean),
+    SupportsIops: S.optional(S.Boolean),
+    StorageType: S.optional(S.String),
+    MinStorageSize: S.optional(S.Number),
+    MaxStorageSize: S.optional(S.Number),
+    MinIops: S.optional(S.Number),
+    MaxIops: S.optional(S.Number),
+    MinIopsPerGib: S.optional(S.Number),
+    MaxIopsPerGib: S.optional(S.Number),
+    MinStorageThroughput: S.optional(S.Number),
+    MaxStorageThroughput: S.optional(S.Number),
+  }),
 ).annotate({
   identifier: "AvailableAdditionalStorageVolumesOption",
 }) as any as S.Schema<AvailableAdditionalStorageVolumesOption>;
-export type AvailableAdditionalStorageVolumesOptionList =
-  AvailableAdditionalStorageVolumesOption[];
-export const AvailableAdditionalStorageVolumesOptionList =
-  /*@__PURE__*/ S.Array(
-    AvailableAdditionalStorageVolumesOption.pipe(
-      T.XmlName("AvailableAdditionalStorageVolumesOption"),
-    ).annotate({ identifier: "AvailableAdditionalStorageVolumesOption" }),
-  );
+export type AvailableAdditionalStorageVolumesOptionList = AvailableAdditionalStorageVolumesOption[];
+export const AvailableAdditionalStorageVolumesOptionList = /*@__PURE__*/ S.Array(
+  AvailableAdditionalStorageVolumesOption.pipe(
+    T.XmlName("AvailableAdditionalStorageVolumesOption"),
+  ).annotate({ identifier: "AvailableAdditionalStorageVolumesOption" }),
+);
 export interface OrderableDBInstanceOption {
   Engine?: string;
   EngineVersion?: string;
@@ -9095,9 +7222,9 @@ export const OrderableDBInstanceOption = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<OrderableDBInstanceOption>;
 export type OrderableDBInstanceOptionsList = OrderableDBInstanceOption[];
 export const OrderableDBInstanceOptionsList = /*@__PURE__*/ S.Array(
-  OrderableDBInstanceOption.pipe(
-    T.XmlName("OrderableDBInstanceOption"),
-  ).annotate({ identifier: "OrderableDBInstanceOption" }),
+  OrderableDBInstanceOption.pipe(T.XmlName("OrderableDBInstanceOption")).annotate({
+    identifier: "OrderableDBInstanceOption",
+  }),
 );
 export interface OrderableDBInstanceOptionsMessage {
   OrderableDBInstanceOptions?: OrderableDBInstanceOption[];
@@ -9117,32 +7244,21 @@ export interface DescribePendingMaintenanceActionsMessage {
   Marker?: string;
   MaxRecords?: number;
 }
-export const DescribePendingMaintenanceActionsMessage = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ResourceIdentifier: S.optional(S.String),
-      Filters: S.optional(FilterList),
-      Marker: S.optional(S.String),
-      MaxRecords: S.optional(S.Number),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
+export const DescribePendingMaintenanceActionsMessage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ResourceIdentifier: S.optional(S.String),
+    Filters: S.optional(FilterList),
+    Marker: S.optional(S.String),
+    MaxRecords: S.optional(S.Number),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribePendingMaintenanceActionsMessage",
 }) as any as S.Schema<DescribePendingMaintenanceActionsMessage>;
 export type PendingMaintenanceActions = ResourcePendingMaintenanceActions[];
 export const PendingMaintenanceActions = /*@__PURE__*/ S.Array(
-  ResourcePendingMaintenanceActions.pipe(
-    T.XmlName("ResourcePendingMaintenanceActions"),
-  ).annotate({ identifier: "ResourcePendingMaintenanceActions" }),
+  ResourcePendingMaintenanceActions.pipe(T.XmlName("ResourcePendingMaintenanceActions")).annotate({
+    identifier: "ResourcePendingMaintenanceActions",
+  }),
 );
 export interface PendingMaintenanceActionsMessage {
   PendingMaintenanceActions?: ResourcePendingMaintenanceActions[];
@@ -9182,17 +7298,7 @@ export const DescribeReservedDBInstancesMessage = /*@__PURE__*/ S.suspend(() =>
     Filters: S.optional(FilterList),
     MaxRecords: S.optional(S.Number),
     Marker: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeReservedDBInstancesMessage",
 }) as any as S.Schema<DescribeReservedDBInstancesMessage>;
@@ -9205,14 +7311,10 @@ export const RecurringCharge = /*@__PURE__*/ S.suspend(() =>
     RecurringChargeAmount: S.optional(S.Number),
     RecurringChargeFrequency: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RecurringCharge",
-}) as any as S.Schema<RecurringCharge>;
+).annotate({ identifier: "RecurringCharge" }) as any as S.Schema<RecurringCharge>;
 export type RecurringChargeList = RecurringCharge[];
 export const RecurringChargeList = /*@__PURE__*/ S.Array(
-  RecurringCharge.pipe(T.XmlName("RecurringCharge")).annotate({
-    identifier: "RecurringCharge",
-  }),
+  RecurringCharge.pipe(T.XmlName("RecurringCharge")).annotate({ identifier: "RecurringCharge" }),
 );
 export interface ReservedDBInstance {
   ReservedDBInstanceId?: string;
@@ -9237,9 +7339,7 @@ export const ReservedDBInstance = /*@__PURE__*/ S.suspend(() =>
     ReservedDBInstanceId: S.optional(S.String),
     ReservedDBInstancesOfferingId: S.optional(S.String),
     DBInstanceClass: S.optional(S.String),
-    StartTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    StartTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     Duration: S.optional(S.Number),
     FixedPrice: S.optional(S.Number),
     UsagePrice: S.optional(S.Number),
@@ -9253,9 +7353,7 @@ export const ReservedDBInstance = /*@__PURE__*/ S.suspend(() =>
     ReservedDBInstanceArn: S.optional(S.String),
     LeaseId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ReservedDBInstance",
-}) as any as S.Schema<ReservedDBInstance>;
+).annotate({ identifier: "ReservedDBInstance" }) as any as S.Schema<ReservedDBInstance>;
 export type ReservedDBInstanceList = ReservedDBInstance[];
 export const ReservedDBInstanceList = /*@__PURE__*/ S.Array(
   ReservedDBInstance.pipe(T.XmlName("ReservedDBInstance")).annotate({
@@ -9285,32 +7383,21 @@ export interface DescribeReservedDBInstancesOfferingsMessage {
   MaxRecords?: number;
   Marker?: string;
 }
-export const DescribeReservedDBInstancesOfferingsMessage =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ReservedDBInstancesOfferingId: S.optional(S.String),
-      DBInstanceClass: S.optional(S.String),
-      Duration: S.optional(S.String),
-      ProductDescription: S.optional(S.String),
-      OfferingType: S.optional(S.String),
-      MultiAZ: S.optional(S.Boolean),
-      Filters: S.optional(FilterList),
-      MaxRecords: S.optional(S.Number),
-      Marker: S.optional(S.String),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "DescribeReservedDBInstancesOfferingsMessage",
-  }) as any as S.Schema<DescribeReservedDBInstancesOfferingsMessage>;
+export const DescribeReservedDBInstancesOfferingsMessage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ReservedDBInstancesOfferingId: S.optional(S.String),
+    DBInstanceClass: S.optional(S.String),
+    Duration: S.optional(S.String),
+    ProductDescription: S.optional(S.String),
+    OfferingType: S.optional(S.String),
+    MultiAZ: S.optional(S.Boolean),
+    Filters: S.optional(FilterList),
+    MaxRecords: S.optional(S.Number),
+    Marker: S.optional(S.String),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({
+  identifier: "DescribeReservedDBInstancesOfferingsMessage",
+}) as any as S.Schema<DescribeReservedDBInstancesOfferingsMessage>;
 export interface ReservedDBInstancesOffering {
   ReservedDBInstancesOfferingId?: string;
   DBInstanceClass?: string;
@@ -9341,9 +7428,9 @@ export const ReservedDBInstancesOffering = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ReservedDBInstancesOffering>;
 export type ReservedDBInstancesOfferingList = ReservedDBInstancesOffering[];
 export const ReservedDBInstancesOfferingList = /*@__PURE__*/ S.Array(
-  ReservedDBInstancesOffering.pipe(
-    T.XmlName("ReservedDBInstancesOffering"),
-  ).annotate({ identifier: "ReservedDBInstancesOffering" }),
+  ReservedDBInstancesOffering.pipe(T.XmlName("ReservedDBInstancesOffering")).annotate({
+    identifier: "ReservedDBInstancesOffering",
+  }),
 );
 export interface ReservedDBInstancesOfferingMessage {
   Marker?: string;
@@ -9366,30 +7453,19 @@ export interface DescribeServerlessV2PlatformVersionsMessage {
   MaxRecords?: number;
   Marker?: string;
 }
-export const DescribeServerlessV2PlatformVersionsMessage =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ServerlessV2PlatformVersion: S.optional(S.String),
-      Engine: S.optional(S.String),
-      Filters: S.optional(FilterList),
-      DefaultOnly: S.optional(S.Boolean),
-      IncludeAll: S.optional(S.Boolean),
-      MaxRecords: S.optional(S.Number),
-      Marker: S.optional(S.String),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "DescribeServerlessV2PlatformVersionsMessage",
-  }) as any as S.Schema<DescribeServerlessV2PlatformVersionsMessage>;
+export const DescribeServerlessV2PlatformVersionsMessage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ServerlessV2PlatformVersion: S.optional(S.String),
+    Engine: S.optional(S.String),
+    Filters: S.optional(FilterList),
+    DefaultOnly: S.optional(S.Boolean),
+    IncludeAll: S.optional(S.Boolean),
+    MaxRecords: S.optional(S.Number),
+    Marker: S.optional(S.String),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({
+  identifier: "DescribeServerlessV2PlatformVersionsMessage",
+}) as any as S.Schema<DescribeServerlessV2PlatformVersionsMessage>;
 export interface ServerlessV2PlatformVersionInfo {
   ServerlessV2PlatformVersion?: string;
   ServerlessV2PlatformVersionDescription?: string;
@@ -9438,17 +7514,7 @@ export const DescribeSourceRegionsMessage = /*@__PURE__*/ S.suspend(() =>
     MaxRecords: S.optional(S.Number),
     Marker: S.optional(S.String),
     Filters: S.optional(FilterList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeSourceRegionsMessage",
 }) as any as S.Schema<DescribeSourceRegionsMessage>;
@@ -9468,22 +7534,15 @@ export const SourceRegion = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "SourceRegion" }) as any as S.Schema<SourceRegion>;
 export type SourceRegionList = SourceRegion[];
 export const SourceRegionList = /*@__PURE__*/ S.Array(
-  SourceRegion.pipe(T.XmlName("SourceRegion")).annotate({
-    identifier: "SourceRegion",
-  }),
+  SourceRegion.pipe(T.XmlName("SourceRegion")).annotate({ identifier: "SourceRegion" }),
 );
 export interface SourceRegionMessage {
   Marker?: string;
   SourceRegions?: SourceRegion[];
 }
 export const SourceRegionMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Marker: S.optional(S.String),
-    SourceRegions: S.optional(SourceRegionList),
-  }).pipe(ns),
-).annotate({
-  identifier: "SourceRegionMessage",
-}) as any as S.Schema<SourceRegionMessage>;
+  S.Struct({ Marker: S.optional(S.String), SourceRegions: S.optional(SourceRegionList) }).pipe(ns),
+).annotate({ identifier: "SourceRegionMessage" }) as any as S.Schema<SourceRegionMessage>;
 export interface DescribeTenantDatabasesMessage {
   DBInstanceIdentifier?: string;
   TenantDBName?: string;
@@ -9498,68 +7557,40 @@ export const DescribeTenantDatabasesMessage = /*@__PURE__*/ S.suspend(() =>
     Filters: S.optional(FilterList),
     Marker: S.optional(S.String),
     MaxRecords: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeTenantDatabasesMessage",
 }) as any as S.Schema<DescribeTenantDatabasesMessage>;
 export type TenantDatabasesList = TenantDatabase[];
 export const TenantDatabasesList = /*@__PURE__*/ S.Array(
-  TenantDatabase.pipe(T.XmlName("TenantDatabase")).annotate({
-    identifier: "TenantDatabase",
-  }),
+  TenantDatabase.pipe(T.XmlName("TenantDatabase")).annotate({ identifier: "TenantDatabase" }),
 );
 export interface TenantDatabasesMessage {
   Marker?: string;
   TenantDatabases?: TenantDatabase[];
 }
 export const TenantDatabasesMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Marker: S.optional(S.String),
-    TenantDatabases: S.optional(TenantDatabasesList),
-  }).pipe(ns),
-).annotate({
-  identifier: "TenantDatabasesMessage",
-}) as any as S.Schema<TenantDatabasesMessage>;
+  S.Struct({ Marker: S.optional(S.String), TenantDatabases: S.optional(TenantDatabasesList) }).pipe(
+    ns,
+  ),
+).annotate({ identifier: "TenantDatabasesMessage" }) as any as S.Schema<TenantDatabasesMessage>;
 export interface DescribeValidDBInstanceModificationsMessage {
   DBInstanceIdentifier?: string;
 }
-export const DescribeValidDBInstanceModificationsMessage =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ DBInstanceIdentifier: S.optional(S.String) }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "DescribeValidDBInstanceModificationsMessage",
-  }) as any as S.Schema<DescribeValidDBInstanceModificationsMessage>;
+export const DescribeValidDBInstanceModificationsMessage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ DBInstanceIdentifier: S.optional(S.String) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "DescribeValidDBInstanceModificationsMessage",
+}) as any as S.Schema<DescribeValidDBInstanceModificationsMessage>;
 export interface Range {
   From?: number;
   To?: number;
   Step?: number;
 }
 export const Range = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    From: S.optional(S.Number),
-    To: S.optional(S.Number),
-    Step: S.optional(S.Number),
-  }),
+  S.Struct({ From: S.optional(S.Number), To: S.optional(S.Number), Step: S.optional(S.Number) }),
 ).annotate({ identifier: "Range" }) as any as S.Schema<Range>;
 export type RangeList = Range[];
 export const RangeList = /*@__PURE__*/ S.Array(
@@ -9574,9 +7605,7 @@ export const DoubleRange = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "DoubleRange" }) as any as S.Schema<DoubleRange>;
 export type DoubleRangeList = DoubleRange[];
 export const DoubleRangeList = /*@__PURE__*/ S.Array(
-  DoubleRange.pipe(T.XmlName("DoubleRange")).annotate({
-    identifier: "DoubleRange",
-  }),
+  DoubleRange.pipe(T.XmlName("DoubleRange")).annotate({ identifier: "DoubleRange" }),
 );
 export interface ValidStorageOptions {
   StorageType?: string;
@@ -9597,9 +7626,7 @@ export const ValidStorageOptions = /*@__PURE__*/ S.suspend(() =>
     StorageThroughputToIopsRatio: S.optional(DoubleRangeList),
     SupportsStorageAutoscaling: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "ValidStorageOptions",
-}) as any as S.Schema<ValidStorageOptions>;
+).annotate({ identifier: "ValidStorageOptions" }) as any as S.Schema<ValidStorageOptions>;
 export type ValidStorageOptionsList = ValidStorageOptions[];
 export const ValidStorageOptionsList = /*@__PURE__*/ S.Array(
   ValidStorageOptions.pipe(T.XmlName("ValidStorageOptions")).annotate({
@@ -9611,13 +7638,8 @@ export interface ValidVolumeOptions {
   Storage?: ValidStorageOptions[];
 }
 export const ValidVolumeOptions = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    VolumeName: S.optional(S.String),
-    Storage: S.optional(ValidStorageOptionsList),
-  }),
-).annotate({
-  identifier: "ValidVolumeOptions",
-}) as any as S.Schema<ValidVolumeOptions>;
+  S.Struct({ VolumeName: S.optional(S.String), Storage: S.optional(ValidStorageOptionsList) }),
+).annotate({ identifier: "ValidVolumeOptions" }) as any as S.Schema<ValidVolumeOptions>;
 export type ValidVolumeOptionsList = ValidVolumeOptions[];
 export const ValidVolumeOptionsList = /*@__PURE__*/ S.Array(ValidVolumeOptions);
 export interface ValidAdditionalStorageOptions {
@@ -9651,30 +7673,19 @@ export const ValidDBInstanceModificationsMessage = /*@__PURE__*/ S.suspend(() =>
 export interface DescribeValidDBInstanceModificationsResult {
   ValidDBInstanceModificationsMessage?: ValidDBInstanceModificationsMessage;
 }
-export const DescribeValidDBInstanceModificationsResult =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ValidDBInstanceModificationsMessage: S.optional(
-        ValidDBInstanceModificationsMessage,
-      ),
-    }).pipe(ns),
-  ).annotate({
-    identifier: "DescribeValidDBInstanceModificationsResult",
-  }) as any as S.Schema<DescribeValidDBInstanceModificationsResult>;
+export const DescribeValidDBInstanceModificationsResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ValidDBInstanceModificationsMessage: S.optional(ValidDBInstanceModificationsMessage),
+  }).pipe(ns),
+).annotate({
+  identifier: "DescribeValidDBInstanceModificationsResult",
+}) as any as S.Schema<DescribeValidDBInstanceModificationsResult>;
 export interface DisableHttpEndpointRequest {
   ResourceArn?: string;
 }
 export const DisableHttpEndpointRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceArn: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DisableHttpEndpointRequest",
@@ -9684,10 +7695,9 @@ export interface DisableHttpEndpointResponse {
   HttpEndpointEnabled?: boolean;
 }
 export const DisableHttpEndpointResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceArn: S.optional(S.String),
-    HttpEndpointEnabled: S.optional(S.Boolean),
-  }).pipe(ns),
+  S.Struct({ ResourceArn: S.optional(S.String), HttpEndpointEnabled: S.optional(S.Boolean) }).pipe(
+    ns,
+  ),
 ).annotate({
   identifier: "DisableHttpEndpointResponse",
 }) as any as S.Schema<DisableHttpEndpointResponse>;
@@ -9703,17 +7713,7 @@ export const DownloadDBLogFilePortionMessage = /*@__PURE__*/ S.suspend(() =>
     LogFileName: S.optional(S.String),
     Marker: S.optional(S.String),
     NumberOfLines: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DownloadDBLogFilePortionMessage",
 }) as any as S.Schema<DownloadDBLogFilePortionMessage>;
@@ -9736,15 +7736,7 @@ export interface EnableHttpEndpointRequest {
 }
 export const EnableHttpEndpointRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceArn: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "EnableHttpEndpointRequest",
@@ -9754,10 +7746,9 @@ export interface EnableHttpEndpointResponse {
   HttpEndpointEnabled?: boolean;
 }
 export const EnableHttpEndpointResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceArn: S.optional(S.String),
-    HttpEndpointEnabled: S.optional(S.Boolean),
-  }).pipe(ns),
+  S.Struct({ ResourceArn: S.optional(S.String), HttpEndpointEnabled: S.optional(S.Boolean) }).pipe(
+    ns,
+  ),
 ).annotate({
   identifier: "EnableHttpEndpointResponse",
 }) as any as S.Schema<EnableHttpEndpointResponse>;
@@ -9769,28 +7760,14 @@ export const FailoverDBClusterMessage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     DBClusterIdentifier: S.optional(S.String),
     TargetDBInstanceIdentifier: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "FailoverDBClusterMessage",
-}) as any as S.Schema<FailoverDBClusterMessage>;
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "FailoverDBClusterMessage" }) as any as S.Schema<FailoverDBClusterMessage>;
 export interface FailoverDBClusterResult {
   DBCluster?: DBCluster;
 }
 export const FailoverDBClusterResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ DBCluster: S.optional(DBCluster) }).pipe(ns),
-).annotate({
-  identifier: "FailoverDBClusterResult",
-}) as any as S.Schema<FailoverDBClusterResult>;
+).annotate({ identifier: "FailoverDBClusterResult" }) as any as S.Schema<FailoverDBClusterResult>;
 export type DBClusterIdentifier = string;
 export interface FailoverGlobalClusterMessage {
   GlobalClusterIdentifier?: string;
@@ -9804,17 +7781,7 @@ export const FailoverGlobalClusterMessage = /*@__PURE__*/ S.suspend(() =>
     TargetDbClusterIdentifier: S.optional(S.String),
     AllowDataLoss: S.optional(S.Boolean),
     Switchover: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "FailoverGlobalClusterMessage",
 }) as any as S.Schema<FailoverGlobalClusterMessage>;
@@ -9831,19 +7798,8 @@ export interface ListTagsForResourceMessage {
   Filters?: Filter[];
 }
 export const ListTagsForResourceMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceName: S.optional(S.String),
-    Filters: S.optional(FilterList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+  S.Struct({ ResourceName: S.optional(S.String), Filters: S.optional(FilterList) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListTagsForResourceMessage",
@@ -9865,17 +7821,7 @@ export const ModifyActivityStreamRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ResourceArn: S.optional(S.String),
     AuditPolicyState: S.optional(AuditPolicyState),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ModifyActivityStreamRequest",
 }) as any as S.Schema<ModifyActivityStreamRequest>;
@@ -9907,17 +7853,7 @@ export const ModifyCertificatesMessage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     CertificateIdentifier: S.optional(S.String),
     RemoveCustomerOverride: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ModifyCertificatesMessage",
 }) as any as S.Schema<ModifyCertificatesMessage>;
@@ -9926,33 +7862,20 @@ export interface ModifyCertificatesResult {
 }
 export const ModifyCertificatesResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Certificate: S.optional(Certificate) }).pipe(ns),
-).annotate({
-  identifier: "ModifyCertificatesResult",
-}) as any as S.Schema<ModifyCertificatesResult>;
+).annotate({ identifier: "ModifyCertificatesResult" }) as any as S.Schema<ModifyCertificatesResult>;
 export interface ModifyCurrentDBClusterCapacityMessage {
   DBClusterIdentifier?: string;
   Capacity?: number;
   SecondsBeforeTimeout?: number;
   TimeoutAction?: string;
 }
-export const ModifyCurrentDBClusterCapacityMessage = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      DBClusterIdentifier: S.optional(S.String),
-      Capacity: S.optional(S.Number),
-      SecondsBeforeTimeout: S.optional(S.Number),
-      TimeoutAction: S.optional(S.String),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
+export const ModifyCurrentDBClusterCapacityMessage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    DBClusterIdentifier: S.optional(S.String),
+    Capacity: S.optional(S.Number),
+    SecondsBeforeTimeout: S.optional(S.Number),
+    TimeoutAction: S.optional(S.String),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ModifyCurrentDBClusterCapacityMessage",
 }) as any as S.Schema<ModifyCurrentDBClusterCapacityMessage>;
@@ -9971,9 +7894,7 @@ export const DBClusterCapacityInfo = /*@__PURE__*/ S.suspend(() =>
     SecondsBeforeTimeout: S.optional(S.Number),
     TimeoutAction: S.optional(S.String),
   }).pipe(ns),
-).annotate({
-  identifier: "DBClusterCapacityInfo",
-}) as any as S.Schema<DBClusterCapacityInfo>;
+).annotate({ identifier: "DBClusterCapacityInfo" }) as any as S.Schema<DBClusterCapacityInfo>;
 export type CustomEngineVersionStatus =
   | "available"
   | "inactive"
@@ -9993,17 +7914,7 @@ export const ModifyCustomDBEngineVersionMessage = /*@__PURE__*/ S.suspend(() =>
     EngineVersion: S.optional(S.String),
     Description: S.optional(S.String),
     Status: S.optional(CustomEngineVersionStatus),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ModifyCustomDBEngineVersionMessage",
 }) as any as S.Schema<ModifyCustomDBEngineVersionMessage>;
@@ -10012,10 +7923,7 @@ export interface CloudwatchLogsExportConfiguration {
   DisableLogTypes?: string[];
 }
 export const CloudwatchLogsExportConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    EnableLogTypes: S.optional(LogTypeList),
-    DisableLogTypes: S.optional(LogTypeList),
-  }),
+  S.Struct({ EnableLogTypes: S.optional(LogTypeList), DisableLogTypes: S.optional(LogTypeList) }),
 ).annotate({
   identifier: "CloudwatchLogsExportConfiguration",
 }) as any as S.Schema<CloudwatchLogsExportConfiguration>;
@@ -10085,9 +7993,7 @@ export const ModifyDBClusterMessage = /*@__PURE__*/ S.suspend(() =>
     PreferredMaintenanceWindow: S.optional(S.String),
     EnableIAMDatabaseAuthentication: S.optional(S.Boolean),
     BacktrackWindow: S.optional(S.Number),
-    CloudwatchLogsExportConfiguration: S.optional(
-      CloudwatchLogsExportConfiguration,
-    ),
+    CloudwatchLogsExportConfiguration: S.optional(CloudwatchLogsExportConfiguration),
     EngineVersion: S.optional(S.String),
     AllowMajorVersionUpgrade: S.optional(S.Boolean),
     DBInstanceParameterGroupName: S.optional(S.String),
@@ -10104,9 +8010,7 @@ export const ModifyDBClusterMessage = /*@__PURE__*/ S.suspend(() =>
     Iops: S.optional(S.Number),
     AutoMinorVersionUpgrade: S.optional(S.Boolean),
     NetworkType: S.optional(S.String),
-    ServerlessV2ScalingConfiguration: S.optional(
-      ServerlessV2ScalingConfiguration,
-    ),
+    ServerlessV2ScalingConfiguration: S.optional(ServerlessV2ScalingConfiguration),
     MonitoringInterval: S.optional(S.Number),
     MonitoringRoleArn: S.optional(S.String),
     DatabaseInsightsMode: S.optional(DatabaseInsightsMode),
@@ -10124,28 +8028,14 @@ export const ModifyDBClusterMessage = /*@__PURE__*/ S.suspend(() =>
     CACertificateIdentifier: S.optional(S.String),
     MasterUserAuthenticationType: S.optional(MasterUserAuthenticationType),
     EngineLifecycleSupport: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ModifyDBClusterMessage",
-}) as any as S.Schema<ModifyDBClusterMessage>;
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "ModifyDBClusterMessage" }) as any as S.Schema<ModifyDBClusterMessage>;
 export interface ModifyDBClusterResult {
   DBCluster?: DBCluster;
 }
 export const ModifyDBClusterResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ DBCluster: S.optional(DBCluster) }).pipe(ns),
-).annotate({
-  identifier: "ModifyDBClusterResult",
-}) as any as S.Schema<ModifyDBClusterResult>;
+).annotate({ identifier: "ModifyDBClusterResult" }) as any as S.Schema<ModifyDBClusterResult>;
 export interface ModifyDBClusterEndpointMessage {
   DBClusterEndpointIdentifier?: string;
   EndpointType?: string;
@@ -10158,17 +8048,7 @@ export const ModifyDBClusterEndpointMessage = /*@__PURE__*/ S.suspend(() =>
     EndpointType: S.optional(S.String),
     StaticMembers: S.optional(StringList),
     ExcludedMembers: S.optional(StringList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ModifyDBClusterEndpointMessage",
 }) as any as S.Schema<ModifyDBClusterEndpointMessage>;
@@ -10176,22 +8056,11 @@ export interface ModifyDBClusterParameterGroupMessage {
   DBClusterParameterGroupName?: string;
   Parameters?: Parameter[];
 }
-export const ModifyDBClusterParameterGroupMessage = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      DBClusterParameterGroupName: S.optional(S.String),
-      Parameters: S.optional(ParametersList),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
+export const ModifyDBClusterParameterGroupMessage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    DBClusterParameterGroupName: S.optional(S.String),
+    Parameters: S.optional(ParametersList),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ModifyDBClusterParameterGroupMessage",
 }) as any as S.Schema<ModifyDBClusterParameterGroupMessage>;
@@ -10209,37 +8078,23 @@ export interface ModifyDBClusterSnapshotAttributeMessage {
   ValuesToAdd?: string[];
   ValuesToRemove?: string[];
 }
-export const ModifyDBClusterSnapshotAttributeMessage = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      DBClusterSnapshotIdentifier: S.optional(S.String),
-      AttributeName: S.optional(S.String),
-      ValuesToAdd: S.optional(AttributeValueList),
-      ValuesToRemove: S.optional(AttributeValueList),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
+export const ModifyDBClusterSnapshotAttributeMessage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    DBClusterSnapshotIdentifier: S.optional(S.String),
+    AttributeName: S.optional(S.String),
+    ValuesToAdd: S.optional(AttributeValueList),
+    ValuesToRemove: S.optional(AttributeValueList),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ModifyDBClusterSnapshotAttributeMessage",
 }) as any as S.Schema<ModifyDBClusterSnapshotAttributeMessage>;
 export interface ModifyDBClusterSnapshotAttributeResult {
   DBClusterSnapshotAttributesResult?: DBClusterSnapshotAttributesResult;
 }
-export const ModifyDBClusterSnapshotAttributeResult = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      DBClusterSnapshotAttributesResult: S.optional(
-        DBClusterSnapshotAttributesResult,
-      ),
-    }).pipe(ns),
+export const ModifyDBClusterSnapshotAttributeResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    DBClusterSnapshotAttributesResult: S.optional(DBClusterSnapshotAttributesResult),
+  }).pipe(ns),
 ).annotate({
   identifier: "ModifyDBClusterSnapshotAttributeResult",
 }) as any as S.Schema<ModifyDBClusterSnapshotAttributeResult>;
@@ -10265,8 +8120,7 @@ export const ModifyAdditionalStorageVolume = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ModifyAdditionalStorageVolume",
 }) as any as S.Schema<ModifyAdditionalStorageVolume>;
-export type ModifyAdditionalStorageVolumesList =
-  ModifyAdditionalStorageVolume[];
+export type ModifyAdditionalStorageVolumesList = ModifyAdditionalStorageVolume[];
 export const ModifyAdditionalStorageVolumesList = /*@__PURE__*/ S.Array(
   ModifyAdditionalStorageVolume,
 );
@@ -10382,9 +8236,7 @@ export const ModifyDBInstanceMessage = /*@__PURE__*/ S.suspend(() =>
     EnablePerformanceInsights: S.optional(S.Boolean),
     PerformanceInsightsKMSKeyId: S.optional(S.String),
     PerformanceInsightsRetentionPeriod: S.optional(S.Number),
-    CloudwatchLogsExportConfiguration: S.optional(
-      CloudwatchLogsExportConfiguration,
-    ),
+    CloudwatchLogsExportConfiguration: S.optional(CloudwatchLogsExportConfiguration),
     ProcessorFeatures: S.optional(ProcessorFeatureList),
     UseDefaultProcessorFeatures: S.optional(S.Boolean),
     DeletionProtection: S.optional(S.Boolean),
@@ -10406,34 +8258,18 @@ export const ModifyDBInstanceMessage = /*@__PURE__*/ S.suspend(() =>
     TagSpecifications: S.optional(TagSpecificationList),
     MasterUserAuthenticationType: S.optional(MasterUserAuthenticationType),
     EngineLifecycleSupport: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ModifyDBInstanceMessage",
-}) as any as S.Schema<ModifyDBInstanceMessage>;
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "ModifyDBInstanceMessage" }) as any as S.Schema<ModifyDBInstanceMessage>;
 export interface ModifyDBInstanceResult {
   DBInstance?: DBInstance & {
     PendingModifiedValues: PendingModifiedValues & {
-      AdditionalStorageVolumes: (AdditionalStorageVolume & {
-        VolumeName: string;
-      })[];
+      AdditionalStorageVolumes: (AdditionalStorageVolume & { VolumeName: string })[];
     };
   };
 }
 export const ModifyDBInstanceResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ DBInstance: S.optional(DBInstance) }).pipe(ns),
-).annotate({
-  identifier: "ModifyDBInstanceResult",
-}) as any as S.Schema<ModifyDBInstanceResult>;
+).annotate({ identifier: "ModifyDBInstanceResult" }) as any as S.Schema<ModifyDBInstanceResult>;
 export interface ModifyDBParameterGroupMessage {
   DBParameterGroupName?: string;
   Parameters?: Parameter[];
@@ -10442,17 +8278,7 @@ export const ModifyDBParameterGroupMessage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     DBParameterGroupName: S.optional(S.String),
     Parameters: S.optional(ParametersList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ModifyDBParameterGroupMessage",
 }) as any as S.Schema<ModifyDBParameterGroupMessage>;
@@ -10486,28 +8312,14 @@ export const ModifyDBProxyRequest = /*@__PURE__*/ S.suspend(() =>
     DebugLogging: S.optional(S.Boolean),
     RoleArn: S.optional(S.String),
     SecurityGroups: S.optional(StringList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ModifyDBProxyRequest",
-}) as any as S.Schema<ModifyDBProxyRequest>;
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "ModifyDBProxyRequest" }) as any as S.Schema<ModifyDBProxyRequest>;
 export interface ModifyDBProxyResponse {
   DBProxy?: DBProxy;
 }
 export const ModifyDBProxyResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ DBProxy: S.optional(DBProxy) }).pipe(ns),
-).annotate({
-  identifier: "ModifyDBProxyResponse",
-}) as any as S.Schema<ModifyDBProxyResponse>;
+).annotate({ identifier: "ModifyDBProxyResponse" }) as any as S.Schema<ModifyDBProxyResponse>;
 export interface ModifyDBProxyEndpointRequest {
   DBProxyEndpointName?: string;
   NewDBProxyEndpointName?: string;
@@ -10518,17 +8330,7 @@ export const ModifyDBProxyEndpointRequest = /*@__PURE__*/ S.suspend(() =>
     DBProxyEndpointName: S.optional(S.String),
     NewDBProxyEndpointName: S.optional(S.String),
     VpcSecurityGroupIds: S.optional(StringList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ModifyDBProxyEndpointRequest",
 }) as any as S.Schema<ModifyDBProxyEndpointRequest>;
@@ -10570,17 +8372,7 @@ export const ModifyDBProxyTargetGroupRequest = /*@__PURE__*/ S.suspend(() =>
     DBProxyName: S.optional(S.String),
     ConnectionPoolConfig: S.optional(ConnectionPoolConfiguration),
     NewName: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ModifyDBProxyTargetGroupRequest",
 }) as any as S.Schema<ModifyDBProxyTargetGroupRequest>;
@@ -10598,13 +8390,9 @@ export interface RecommendedActionUpdate {
 }
 export const RecommendedActionUpdate = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ActionId: S.optional(S.String), Status: S.optional(S.String) }),
-).annotate({
-  identifier: "RecommendedActionUpdate",
-}) as any as S.Schema<RecommendedActionUpdate>;
+).annotate({ identifier: "RecommendedActionUpdate" }) as any as S.Schema<RecommendedActionUpdate>;
 export type RecommendedActionUpdateList = RecommendedActionUpdate[];
-export const RecommendedActionUpdateList = /*@__PURE__*/ S.Array(
-  RecommendedActionUpdate,
-);
+export const RecommendedActionUpdateList = /*@__PURE__*/ S.Array(RecommendedActionUpdate);
 export interface ModifyDBRecommendationMessage {
   RecommendationId?: string;
   Locale?: string;
@@ -10617,17 +8405,7 @@ export const ModifyDBRecommendationMessage = /*@__PURE__*/ S.suspend(() =>
     Locale: S.optional(S.String),
     Status: S.optional(S.String),
     RecommendedActionUpdates: S.optional(RecommendedActionUpdateList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ModifyDBRecommendationMessage",
 }) as any as S.Schema<ModifyDBRecommendationMessage>;
@@ -10636,9 +8414,7 @@ export interface DBRecommendationMessage {
 }
 export const DBRecommendationMessage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ DBRecommendation: S.optional(DBRecommendation) }).pipe(ns),
-).annotate({
-  identifier: "DBRecommendationMessage",
-}) as any as S.Schema<DBRecommendationMessage>;
+).annotate({ identifier: "DBRecommendationMessage" }) as any as S.Schema<DBRecommendationMessage>;
 export interface ModifyDBShardGroupMessage {
   DBShardGroupIdentifier?: string;
   MaxACU?: number;
@@ -10651,17 +8427,7 @@ export const ModifyDBShardGroupMessage = /*@__PURE__*/ S.suspend(() =>
     MaxACU: S.optional(S.Number),
     MinACU: S.optional(S.Number),
     ComputeRedundancy: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ModifyDBShardGroupMessage",
 }) as any as S.Schema<ModifyDBShardGroupMessage>;
@@ -10675,32 +8441,16 @@ export const ModifyDBSnapshotMessage = /*@__PURE__*/ S.suspend(() =>
     DBSnapshotIdentifier: S.optional(S.String),
     EngineVersion: S.optional(S.String),
     OptionGroupName: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ModifyDBSnapshotMessage",
-}) as any as S.Schema<ModifyDBSnapshotMessage>;
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "ModifyDBSnapshotMessage" }) as any as S.Schema<ModifyDBSnapshotMessage>;
 export interface ModifyDBSnapshotResult {
   DBSnapshot?: DBSnapshot & {
-    AdditionalStorageVolumes: (AdditionalStorageVolume & {
-      VolumeName: string;
-    })[];
+    AdditionalStorageVolumes: (AdditionalStorageVolume & { VolumeName: string })[];
   };
 }
 export const ModifyDBSnapshotResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ DBSnapshot: S.optional(DBSnapshot) }).pipe(ns),
-).annotate({
-  identifier: "ModifyDBSnapshotResult",
-}) as any as S.Schema<ModifyDBSnapshotResult>;
+).annotate({ identifier: "ModifyDBSnapshotResult" }) as any as S.Schema<ModifyDBSnapshotResult>;
 export interface ModifyDBSnapshotAttributeMessage {
   DBSnapshotIdentifier?: string;
   AttributeName?: string;
@@ -10713,17 +8463,7 @@ export const ModifyDBSnapshotAttributeMessage = /*@__PURE__*/ S.suspend(() =>
     AttributeName: S.optional(S.String),
     ValuesToAdd: S.optional(AttributeValueList),
     ValuesToRemove: S.optional(AttributeValueList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ModifyDBSnapshotAttributeMessage",
 }) as any as S.Schema<ModifyDBSnapshotAttributeMessage>;
@@ -10731,9 +8471,7 @@ export interface ModifyDBSnapshotAttributeResult {
   DBSnapshotAttributesResult?: DBSnapshotAttributesResult;
 }
 export const ModifyDBSnapshotAttributeResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DBSnapshotAttributesResult: S.optional(DBSnapshotAttributesResult),
-  }).pipe(ns),
+  S.Struct({ DBSnapshotAttributesResult: S.optional(DBSnapshotAttributesResult) }).pipe(ns),
 ).annotate({
   identifier: "ModifyDBSnapshotAttributeResult",
 }) as any as S.Schema<ModifyDBSnapshotAttributeResult>;
@@ -10747,17 +8485,7 @@ export const ModifyDBSubnetGroupMessage = /*@__PURE__*/ S.suspend(() =>
     DBSubnetGroupName: S.optional(S.String),
     DBSubnetGroupDescription: S.optional(S.String),
     SubnetIds: S.optional(SubnetIdentifierList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ModifyDBSubnetGroupMessage",
 }) as any as S.Schema<ModifyDBSubnetGroupMessage>;
@@ -10783,17 +8511,7 @@ export const ModifyEventSubscriptionMessage = /*@__PURE__*/ S.suspend(() =>
     SourceType: S.optional(S.String),
     EventCategories: S.optional(EventCategoriesList),
     Enabled: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ModifyEventSubscriptionMessage",
 }) as any as S.Schema<ModifyEventSubscriptionMessage>;
@@ -10819,17 +8537,7 @@ export const ModifyGlobalClusterMessage = /*@__PURE__*/ S.suspend(() =>
     DeletionProtection: S.optional(S.Boolean),
     EngineVersion: S.optional(S.String),
     AllowMajorVersionUpgrade: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ModifyGlobalClusterMessage",
 }) as any as S.Schema<ModifyGlobalClusterMessage>;
@@ -10853,25 +8561,11 @@ export const ModifyIntegrationMessage = /*@__PURE__*/ S.suspend(() =>
     IntegrationName: S.optional(S.String),
     DataFilter: S.optional(S.String),
     Description: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ModifyIntegrationMessage",
-}) as any as S.Schema<ModifyIntegrationMessage>;
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "ModifyIntegrationMessage" }) as any as S.Schema<ModifyIntegrationMessage>;
 export type OptionSettingsList = OptionSetting[];
 export const OptionSettingsList = /*@__PURE__*/ S.Array(
-  OptionSetting.pipe(T.XmlName("OptionSetting")).annotate({
-    identifier: "OptionSetting",
-  }),
+  OptionSetting.pipe(T.XmlName("OptionSetting")).annotate({ identifier: "OptionSetting" }),
 );
 export interface OptionConfiguration {
   OptionName?: string;
@@ -10890,9 +8584,7 @@ export const OptionConfiguration = /*@__PURE__*/ S.suspend(() =>
     VpcSecurityGroupMemberships: S.optional(VpcSecurityGroupIdList),
     OptionSettings: S.optional(OptionSettingsList),
   }),
-).annotate({
-  identifier: "OptionConfiguration",
-}) as any as S.Schema<OptionConfiguration>;
+).annotate({ identifier: "OptionConfiguration" }) as any as S.Schema<OptionConfiguration>;
 export type OptionConfigurationList = OptionConfiguration[];
 export const OptionConfigurationList = /*@__PURE__*/ S.Array(
   OptionConfiguration.pipe(T.XmlName("OptionConfiguration")).annotate({
@@ -10913,28 +8605,14 @@ export const ModifyOptionGroupMessage = /*@__PURE__*/ S.suspend(() =>
     OptionsToInclude: S.optional(OptionConfigurationList),
     OptionsToRemove: S.optional(OptionNamesList),
     ApplyImmediately: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ModifyOptionGroupMessage",
-}) as any as S.Schema<ModifyOptionGroupMessage>;
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "ModifyOptionGroupMessage" }) as any as S.Schema<ModifyOptionGroupMessage>;
 export interface ModifyOptionGroupResult {
   OptionGroup?: OptionGroup;
 }
 export const ModifyOptionGroupResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ OptionGroup: S.optional(OptionGroup) }).pipe(ns),
-).annotate({
-  identifier: "ModifyOptionGroupResult",
-}) as any as S.Schema<ModifyOptionGroupResult>;
+).annotate({ identifier: "ModifyOptionGroupResult" }) as any as S.Schema<ModifyOptionGroupResult>;
 export interface ModifyTenantDatabaseMessage {
   DBInstanceIdentifier?: string;
   TenantDBName?: string;
@@ -10953,17 +8631,7 @@ export const ModifyTenantDatabaseMessage = /*@__PURE__*/ S.suspend(() =>
     ManageMasterUserPassword: S.optional(S.Boolean),
     RotateMasterUserPassword: S.optional(S.Boolean),
     MasterUserSecretKmsKeyId: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ModifyTenantDatabaseMessage",
 }) as any as S.Schema<ModifyTenantDatabaseMessage>;
@@ -10987,48 +8655,26 @@ export const PromoteReadReplicaMessage = /*@__PURE__*/ S.suspend(() =>
     BackupRetentionPeriod: S.optional(S.Number),
     PreferredBackupWindow: S.optional(S.String),
     TagSpecifications: S.optional(TagSpecificationList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "PromoteReadReplicaMessage",
 }) as any as S.Schema<PromoteReadReplicaMessage>;
 export interface PromoteReadReplicaResult {
   DBInstance?: DBInstance & {
     PendingModifiedValues: PendingModifiedValues & {
-      AdditionalStorageVolumes: (AdditionalStorageVolume & {
-        VolumeName: string;
-      })[];
+      AdditionalStorageVolumes: (AdditionalStorageVolume & { VolumeName: string })[];
     };
   };
 }
 export const PromoteReadReplicaResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ DBInstance: S.optional(DBInstance) }).pipe(ns),
-).annotate({
-  identifier: "PromoteReadReplicaResult",
-}) as any as S.Schema<PromoteReadReplicaResult>;
+).annotate({ identifier: "PromoteReadReplicaResult" }) as any as S.Schema<PromoteReadReplicaResult>;
 export interface PromoteReadReplicaDBClusterMessage {
   DBClusterIdentifier?: string;
 }
 export const PromoteReadReplicaDBClusterMessage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ DBClusterIdentifier: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "PromoteReadReplicaDBClusterMessage",
@@ -11047,62 +8693,38 @@ export interface PurchaseReservedDBInstancesOfferingMessage {
   DBInstanceCount?: number;
   Tags?: Tag[];
 }
-export const PurchaseReservedDBInstancesOfferingMessage =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ReservedDBInstancesOfferingId: S.optional(S.String),
-      ReservedDBInstanceId: S.optional(S.String),
-      DBInstanceCount: S.optional(S.Number),
-      Tags: S.optional(TagList),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "PurchaseReservedDBInstancesOfferingMessage",
-  }) as any as S.Schema<PurchaseReservedDBInstancesOfferingMessage>;
+export const PurchaseReservedDBInstancesOfferingMessage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ReservedDBInstancesOfferingId: S.optional(S.String),
+    ReservedDBInstanceId: S.optional(S.String),
+    DBInstanceCount: S.optional(S.Number),
+    Tags: S.optional(TagList),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({
+  identifier: "PurchaseReservedDBInstancesOfferingMessage",
+}) as any as S.Schema<PurchaseReservedDBInstancesOfferingMessage>;
 export interface PurchaseReservedDBInstancesOfferingResult {
   ReservedDBInstance?: ReservedDBInstance;
 }
-export const PurchaseReservedDBInstancesOfferingResult =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ ReservedDBInstance: S.optional(ReservedDBInstance) }).pipe(ns),
-  ).annotate({
-    identifier: "PurchaseReservedDBInstancesOfferingResult",
-  }) as any as S.Schema<PurchaseReservedDBInstancesOfferingResult>;
+export const PurchaseReservedDBInstancesOfferingResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ ReservedDBInstance: S.optional(ReservedDBInstance) }).pipe(ns),
+).annotate({
+  identifier: "PurchaseReservedDBInstancesOfferingResult",
+}) as any as S.Schema<PurchaseReservedDBInstancesOfferingResult>;
 export interface RebootDBClusterMessage {
   DBClusterIdentifier?: string;
 }
 export const RebootDBClusterMessage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ DBClusterIdentifier: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "RebootDBClusterMessage",
-}) as any as S.Schema<RebootDBClusterMessage>;
+).annotate({ identifier: "RebootDBClusterMessage" }) as any as S.Schema<RebootDBClusterMessage>;
 export interface RebootDBClusterResult {
   DBCluster?: DBCluster;
 }
 export const RebootDBClusterResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ DBCluster: S.optional(DBCluster) }).pipe(ns),
-).annotate({
-  identifier: "RebootDBClusterResult",
-}) as any as S.Schema<RebootDBClusterResult>;
+).annotate({ identifier: "RebootDBClusterResult" }) as any as S.Schema<RebootDBClusterResult>;
 export interface RebootDBInstanceMessage {
   DBInstanceIdentifier?: string;
   ForceFailover?: boolean;
@@ -11111,48 +8733,24 @@ export const RebootDBInstanceMessage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     DBInstanceIdentifier: S.optional(S.String),
     ForceFailover: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "RebootDBInstanceMessage",
-}) as any as S.Schema<RebootDBInstanceMessage>;
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "RebootDBInstanceMessage" }) as any as S.Schema<RebootDBInstanceMessage>;
 export interface RebootDBInstanceResult {
   DBInstance?: DBInstance & {
     PendingModifiedValues: PendingModifiedValues & {
-      AdditionalStorageVolumes: (AdditionalStorageVolume & {
-        VolumeName: string;
-      })[];
+      AdditionalStorageVolumes: (AdditionalStorageVolume & { VolumeName: string })[];
     };
   };
 }
 export const RebootDBInstanceResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ DBInstance: S.optional(DBInstance) }).pipe(ns),
-).annotate({
-  identifier: "RebootDBInstanceResult",
-}) as any as S.Schema<RebootDBInstanceResult>;
+).annotate({ identifier: "RebootDBInstanceResult" }) as any as S.Schema<RebootDBInstanceResult>;
 export interface RebootDBShardGroupMessage {
   DBShardGroupIdentifier?: string;
 }
 export const RebootDBShardGroupMessage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ DBShardGroupIdentifier: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "RebootDBShardGroupMessage",
@@ -11169,17 +8767,7 @@ export const RegisterDBProxyTargetsRequest = /*@__PURE__*/ S.suspend(() =>
     TargetGroupName: S.optional(S.String),
     DBInstanceIdentifiers: S.optional(StringList),
     DBClusterIdentifiers: S.optional(StringList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "RegisterDBProxyTargetsRequest",
 }) as any as S.Schema<RegisterDBProxyTargetsRequest>;
@@ -11199,17 +8787,7 @@ export const RemoveFromGlobalClusterMessage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     GlobalClusterIdentifier: S.optional(S.String),
     DbClusterIdentifier: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "RemoveFromGlobalClusterMessage",
 }) as any as S.Schema<RemoveFromGlobalClusterMessage>;
@@ -11231,17 +8809,7 @@ export const RemoveRoleFromDBClusterMessage = /*@__PURE__*/ S.suspend(() =>
     DBClusterIdentifier: S.optional(S.String),
     RoleArn: S.optional(S.String),
     FeatureName: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "RemoveRoleFromDBClusterMessage",
 }) as any as S.Schema<RemoveRoleFromDBClusterMessage>;
@@ -11261,17 +8829,7 @@ export const RemoveRoleFromDBInstanceMessage = /*@__PURE__*/ S.suspend(() =>
     DBInstanceIdentifier: S.optional(S.String),
     RoleArn: S.optional(S.String),
     FeatureName: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "RemoveRoleFromDBInstanceMessage",
 }) as any as S.Schema<RemoveRoleFromDBInstanceMessage>;
@@ -11285,34 +8843,21 @@ export interface RemoveSourceIdentifierFromSubscriptionMessage {
   SubscriptionName?: string;
   SourceIdentifier?: string;
 }
-export const RemoveSourceIdentifierFromSubscriptionMessage =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      SubscriptionName: S.optional(S.String),
-      SourceIdentifier: S.optional(S.String),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "RemoveSourceIdentifierFromSubscriptionMessage",
-  }) as any as S.Schema<RemoveSourceIdentifierFromSubscriptionMessage>;
+export const RemoveSourceIdentifierFromSubscriptionMessage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ SubscriptionName: S.optional(S.String), SourceIdentifier: S.optional(S.String) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "RemoveSourceIdentifierFromSubscriptionMessage",
+}) as any as S.Schema<RemoveSourceIdentifierFromSubscriptionMessage>;
 export interface RemoveSourceIdentifierFromSubscriptionResult {
   EventSubscription?: EventSubscription;
 }
-export const RemoveSourceIdentifierFromSubscriptionResult =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ EventSubscription: S.optional(EventSubscription) }).pipe(ns),
-  ).annotate({
-    identifier: "RemoveSourceIdentifierFromSubscriptionResult",
-  }) as any as S.Schema<RemoveSourceIdentifierFromSubscriptionResult>;
+export const RemoveSourceIdentifierFromSubscriptionResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ EventSubscription: S.optional(EventSubscription) }).pipe(ns),
+).annotate({
+  identifier: "RemoveSourceIdentifierFromSubscriptionResult",
+}) as any as S.Schema<RemoveSourceIdentifierFromSubscriptionResult>;
 export type KeyList = string[];
 export const KeyList = /*@__PURE__*/ S.Array(S.String);
 export interface RemoveTagsFromResourceMessage {
@@ -11320,19 +8865,8 @@ export interface RemoveTagsFromResourceMessage {
   TagKeys?: string[];
 }
 export const RemoveTagsFromResourceMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceName: S.optional(S.String),
-    TagKeys: S.optional(KeyList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+  S.Struct({ ResourceName: S.optional(S.String), TagKeys: S.optional(KeyList) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "RemoveTagsFromResourceMessage",
@@ -11353,17 +8887,7 @@ export const ResetDBClusterParameterGroupMessage = /*@__PURE__*/ S.suspend(() =>
     DBClusterParameterGroupName: S.optional(S.String),
     ResetAllParameters: S.optional(S.Boolean),
     Parameters: S.optional(ParametersList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ResetDBClusterParameterGroupMessage",
 }) as any as S.Schema<ResetDBClusterParameterGroupMessage>;
@@ -11377,17 +8901,7 @@ export const ResetDBParameterGroupMessage = /*@__PURE__*/ S.suspend(() =>
     DBParameterGroupName: S.optional(S.String),
     ResetAllParameters: S.optional(S.Boolean),
     Parameters: S.optional(ParametersList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ResetDBParameterGroupMessage",
 }) as any as S.Schema<ResetDBParameterGroupMessage>;
@@ -11467,25 +8981,13 @@ export const RestoreDBClusterFromS3Message = /*@__PURE__*/ S.suspend(() =>
     DomainIAMRoleName: S.optional(S.String),
     StorageType: S.optional(S.String),
     NetworkType: S.optional(S.String),
-    ServerlessV2ScalingConfiguration: S.optional(
-      ServerlessV2ScalingConfiguration,
-    ),
+    ServerlessV2ScalingConfiguration: S.optional(ServerlessV2ScalingConfiguration),
     ManageMasterUserPassword: S.optional(S.Boolean),
     MasterUserSecretKmsKeyId: S.optional(S.String),
     EngineLifecycleSupport: S.optional(S.String),
     TagSpecifications: S.optional(TagSpecificationList),
     AssociatedRoles: S.optional(DBClusterAssociatedRoles),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "RestoreDBClusterFromS3Message",
 }) as any as S.Schema<RestoreDBClusterFromS3Message>;
@@ -11569,9 +9071,7 @@ export const RestoreDBClusterFromSnapshotMessage = /*@__PURE__*/ S.suspend(() =>
     Iops: S.optional(S.Number),
     PubliclyAccessible: S.optional(S.Boolean),
     NetworkType: S.optional(S.String),
-    ServerlessV2ScalingConfiguration: S.optional(
-      ServerlessV2ScalingConfiguration,
-    ),
+    ServerlessV2ScalingConfiguration: S.optional(ServerlessV2ScalingConfiguration),
     RdsCustomClusterConfiguration: S.optional(RdsCustomClusterConfiguration),
     MonitoringInterval: S.optional(S.Number),
     MonitoringRoleArn: S.optional(S.String),
@@ -11585,17 +9085,7 @@ export const RestoreDBClusterFromSnapshotMessage = /*@__PURE__*/ S.suspend(() =>
     EnableVPCNetworking: S.optional(S.Boolean),
     EnableInternetAccessGateway: S.optional(S.Boolean),
     AssociatedRoles: S.optional(DBClusterAssociatedRoles),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "RestoreDBClusterFromSnapshotMessage",
 }) as any as S.Schema<RestoreDBClusterFromSnapshotMessage>;
@@ -11650,65 +9140,50 @@ export interface RestoreDBClusterToPointInTimeMessage {
   EnableInternetAccessGateway?: boolean;
   AssociatedRoles?: DBClusterAssociatedRole[];
 }
-export const RestoreDBClusterToPointInTimeMessage = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      DBClusterIdentifier: S.optional(S.String),
-      RestoreType: S.optional(S.String),
-      SourceDBClusterIdentifier: S.optional(S.String),
-      RestoreToTime: S.optional(
-        T.DateFromString.pipe(T.TimestampFormat("date-time")),
-      ),
-      UseLatestRestorableTime: S.optional(S.Boolean),
-      Port: S.optional(S.Number),
-      DBSubnetGroupName: S.optional(S.String),
-      OptionGroupName: S.optional(S.String),
-      VpcSecurityGroupIds: S.optional(VpcSecurityGroupIdList),
-      Tags: S.optional(TagList),
-      KmsKeyId: S.optional(S.String),
-      EnableIAMDatabaseAuthentication: S.optional(S.Boolean),
-      BacktrackWindow: S.optional(S.Number),
-      EnableCloudwatchLogsExports: S.optional(LogTypeList),
-      DBClusterParameterGroupName: S.optional(S.String),
-      DeletionProtection: S.optional(S.Boolean),
-      CopyTagsToSnapshot: S.optional(S.Boolean),
-      Domain: S.optional(S.String),
-      DomainIAMRoleName: S.optional(S.String),
-      DBClusterInstanceClass: S.optional(S.String),
-      StorageType: S.optional(S.String),
-      PubliclyAccessible: S.optional(S.Boolean),
-      Iops: S.optional(S.Number),
-      NetworkType: S.optional(S.String),
-      SourceDbClusterResourceId: S.optional(S.String),
-      ServerlessV2ScalingConfiguration: S.optional(
-        ServerlessV2ScalingConfiguration,
-      ),
-      ScalingConfiguration: S.optional(ScalingConfiguration),
-      EngineMode: S.optional(S.String),
-      RdsCustomClusterConfiguration: S.optional(RdsCustomClusterConfiguration),
-      MonitoringInterval: S.optional(S.Number),
-      MonitoringRoleArn: S.optional(S.String),
-      EnablePerformanceInsights: S.optional(S.Boolean),
-      PerformanceInsightsKMSKeyId: S.optional(S.String),
-      PerformanceInsightsRetentionPeriod: S.optional(S.Number),
-      BackupRetentionPeriod: S.optional(S.Number),
-      PreferredBackupWindow: S.optional(S.String),
-      EngineLifecycleSupport: S.optional(S.String),
-      TagSpecifications: S.optional(TagSpecificationList),
-      EnableVPCNetworking: S.optional(S.Boolean),
-      EnableInternetAccessGateway: S.optional(S.Boolean),
-      AssociatedRoles: S.optional(DBClusterAssociatedRoles),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
+export const RestoreDBClusterToPointInTimeMessage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    DBClusterIdentifier: S.optional(S.String),
+    RestoreType: S.optional(S.String),
+    SourceDBClusterIdentifier: S.optional(S.String),
+    RestoreToTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    UseLatestRestorableTime: S.optional(S.Boolean),
+    Port: S.optional(S.Number),
+    DBSubnetGroupName: S.optional(S.String),
+    OptionGroupName: S.optional(S.String),
+    VpcSecurityGroupIds: S.optional(VpcSecurityGroupIdList),
+    Tags: S.optional(TagList),
+    KmsKeyId: S.optional(S.String),
+    EnableIAMDatabaseAuthentication: S.optional(S.Boolean),
+    BacktrackWindow: S.optional(S.Number),
+    EnableCloudwatchLogsExports: S.optional(LogTypeList),
+    DBClusterParameterGroupName: S.optional(S.String),
+    DeletionProtection: S.optional(S.Boolean),
+    CopyTagsToSnapshot: S.optional(S.Boolean),
+    Domain: S.optional(S.String),
+    DomainIAMRoleName: S.optional(S.String),
+    DBClusterInstanceClass: S.optional(S.String),
+    StorageType: S.optional(S.String),
+    PubliclyAccessible: S.optional(S.Boolean),
+    Iops: S.optional(S.Number),
+    NetworkType: S.optional(S.String),
+    SourceDbClusterResourceId: S.optional(S.String),
+    ServerlessV2ScalingConfiguration: S.optional(ServerlessV2ScalingConfiguration),
+    ScalingConfiguration: S.optional(ScalingConfiguration),
+    EngineMode: S.optional(S.String),
+    RdsCustomClusterConfiguration: S.optional(RdsCustomClusterConfiguration),
+    MonitoringInterval: S.optional(S.Number),
+    MonitoringRoleArn: S.optional(S.String),
+    EnablePerformanceInsights: S.optional(S.Boolean),
+    PerformanceInsightsKMSKeyId: S.optional(S.String),
+    PerformanceInsightsRetentionPeriod: S.optional(S.Number),
+    BackupRetentionPeriod: S.optional(S.Number),
+    PreferredBackupWindow: S.optional(S.String),
+    EngineLifecycleSupport: S.optional(S.String),
+    TagSpecifications: S.optional(TagSpecificationList),
+    EnableVPCNetworking: S.optional(S.Boolean),
+    EnableInternetAccessGateway: S.optional(S.Boolean),
+    AssociatedRoles: S.optional(DBClusterAssociatedRoles),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "RestoreDBClusterToPointInTimeMessage",
 }) as any as S.Schema<RestoreDBClusterToPointInTimeMessage>;
@@ -11770,82 +9245,69 @@ export interface RestoreDBInstanceFromDBSnapshotMessage {
   ManageMasterUserPassword?: boolean;
   MasterUserSecretKmsKeyId?: string;
 }
-export const RestoreDBInstanceFromDBSnapshotMessage = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      DBInstanceIdentifier: S.optional(S.String),
-      DBSnapshotIdentifier: S.optional(S.String),
-      DBInstanceClass: S.optional(S.String),
-      Port: S.optional(S.Number),
-      AvailabilityZone: S.optional(S.String),
-      DBSubnetGroupName: S.optional(S.String),
-      MultiAZ: S.optional(S.Boolean),
-      PubliclyAccessible: S.optional(S.Boolean),
-      AutoMinorVersionUpgrade: S.optional(S.Boolean),
-      LicenseModel: S.optional(S.String),
-      DBName: S.optional(S.String),
-      Engine: S.optional(S.String),
-      Iops: S.optional(S.Number),
-      StorageThroughput: S.optional(S.Number),
-      OptionGroupName: S.optional(S.String),
-      Tags: S.optional(TagList),
-      StorageType: S.optional(S.String),
-      TdeCredentialArn: S.optional(S.String),
-      TdeCredentialPassword: S.optional(SensitiveString),
-      VpcSecurityGroupIds: S.optional(VpcSecurityGroupIdList),
-      Domain: S.optional(S.String),
-      DomainFqdn: S.optional(S.String),
-      DomainOu: S.optional(S.String),
-      DomainAuthSecretArn: S.optional(S.String),
-      DomainDnsIps: S.optional(StringList),
-      CopyTagsToSnapshot: S.optional(S.Boolean),
-      DomainIAMRoleName: S.optional(S.String),
-      EnableIAMDatabaseAuthentication: S.optional(S.Boolean),
-      EnableCloudwatchLogsExports: S.optional(LogTypeList),
-      ProcessorFeatures: S.optional(ProcessorFeatureList),
-      UseDefaultProcessorFeatures: S.optional(S.Boolean),
-      DBParameterGroupName: S.optional(S.String),
-      DeletionProtection: S.optional(S.Boolean),
-      EnableCustomerOwnedIp: S.optional(S.Boolean),
-      NetworkType: S.optional(S.String),
-      BackupTarget: S.optional(S.String),
-      CustomIamInstanceProfile: S.optional(S.String),
-      AllocatedStorage: S.optional(S.Number),
-      DBClusterSnapshotIdentifier: S.optional(S.String),
-      BackupRetentionPeriod: S.optional(S.Number),
-      PreferredBackupWindow: S.optional(S.String),
-      DedicatedLogVolume: S.optional(S.Boolean),
-      CACertificateIdentifier: S.optional(S.String),
-      EngineLifecycleSupport: S.optional(S.String),
-      AdditionalStorageVolumes: S.optional(AdditionalStorageVolumesList),
-      TagSpecifications: S.optional(TagSpecificationList),
-      ManageMasterUserPassword: S.optional(S.Boolean),
-      MasterUserSecretKmsKeyId: S.optional(S.String),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
+export const RestoreDBInstanceFromDBSnapshotMessage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    DBInstanceIdentifier: S.optional(S.String),
+    DBSnapshotIdentifier: S.optional(S.String),
+    DBInstanceClass: S.optional(S.String),
+    Port: S.optional(S.Number),
+    AvailabilityZone: S.optional(S.String),
+    DBSubnetGroupName: S.optional(S.String),
+    MultiAZ: S.optional(S.Boolean),
+    PubliclyAccessible: S.optional(S.Boolean),
+    AutoMinorVersionUpgrade: S.optional(S.Boolean),
+    LicenseModel: S.optional(S.String),
+    DBName: S.optional(S.String),
+    Engine: S.optional(S.String),
+    Iops: S.optional(S.Number),
+    StorageThroughput: S.optional(S.Number),
+    OptionGroupName: S.optional(S.String),
+    Tags: S.optional(TagList),
+    StorageType: S.optional(S.String),
+    TdeCredentialArn: S.optional(S.String),
+    TdeCredentialPassword: S.optional(SensitiveString),
+    VpcSecurityGroupIds: S.optional(VpcSecurityGroupIdList),
+    Domain: S.optional(S.String),
+    DomainFqdn: S.optional(S.String),
+    DomainOu: S.optional(S.String),
+    DomainAuthSecretArn: S.optional(S.String),
+    DomainDnsIps: S.optional(StringList),
+    CopyTagsToSnapshot: S.optional(S.Boolean),
+    DomainIAMRoleName: S.optional(S.String),
+    EnableIAMDatabaseAuthentication: S.optional(S.Boolean),
+    EnableCloudwatchLogsExports: S.optional(LogTypeList),
+    ProcessorFeatures: S.optional(ProcessorFeatureList),
+    UseDefaultProcessorFeatures: S.optional(S.Boolean),
+    DBParameterGroupName: S.optional(S.String),
+    DeletionProtection: S.optional(S.Boolean),
+    EnableCustomerOwnedIp: S.optional(S.Boolean),
+    NetworkType: S.optional(S.String),
+    BackupTarget: S.optional(S.String),
+    CustomIamInstanceProfile: S.optional(S.String),
+    AllocatedStorage: S.optional(S.Number),
+    DBClusterSnapshotIdentifier: S.optional(S.String),
+    BackupRetentionPeriod: S.optional(S.Number),
+    PreferredBackupWindow: S.optional(S.String),
+    DedicatedLogVolume: S.optional(S.Boolean),
+    CACertificateIdentifier: S.optional(S.String),
+    EngineLifecycleSupport: S.optional(S.String),
+    AdditionalStorageVolumes: S.optional(AdditionalStorageVolumesList),
+    TagSpecifications: S.optional(TagSpecificationList),
+    ManageMasterUserPassword: S.optional(S.Boolean),
+    MasterUserSecretKmsKeyId: S.optional(S.String),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "RestoreDBInstanceFromDBSnapshotMessage",
 }) as any as S.Schema<RestoreDBInstanceFromDBSnapshotMessage>;
 export interface RestoreDBInstanceFromDBSnapshotResult {
   DBInstance?: DBInstance & {
     PendingModifiedValues: PendingModifiedValues & {
-      AdditionalStorageVolumes: (AdditionalStorageVolume & {
-        VolumeName: string;
-      })[];
+      AdditionalStorageVolumes: (AdditionalStorageVolume & { VolumeName: string })[];
     };
   };
 }
-export const RestoreDBInstanceFromDBSnapshotResult = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ DBInstance: S.optional(DBInstance) }).pipe(ns),
+export const RestoreDBInstanceFromDBSnapshotResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ DBInstance: S.optional(DBInstance) }).pipe(ns),
 ).annotate({
   identifier: "RestoreDBInstanceFromDBSnapshotResult",
 }) as any as S.Schema<RestoreDBInstanceFromDBSnapshotResult>;
@@ -11961,26 +9423,14 @@ export const RestoreDBInstanceFromS3Message = /*@__PURE__*/ S.suspend(() =>
     EngineLifecycleSupport: S.optional(S.String),
     AdditionalStorageVolumes: S.optional(AdditionalStorageVolumesList),
     TagSpecifications: S.optional(TagSpecificationList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "RestoreDBInstanceFromS3Message",
 }) as any as S.Schema<RestoreDBInstanceFromS3Message>;
 export interface RestoreDBInstanceFromS3Result {
   DBInstance?: DBInstance & {
     PendingModifiedValues: PendingModifiedValues & {
-      AdditionalStorageVolumes: (AdditionalStorageVolume & {
-        VolumeName: string;
-      })[];
+      AdditionalStorageVolumes: (AdditionalStorageVolume & { VolumeName: string })[];
     };
   };
 }
@@ -12043,88 +9493,73 @@ export interface RestoreDBInstanceToPointInTimeMessage {
   ManageMasterUserPassword?: boolean;
   MasterUserSecretKmsKeyId?: string;
 }
-export const RestoreDBInstanceToPointInTimeMessage = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      SourceDBInstanceIdentifier: S.optional(S.String),
-      TargetDBInstanceIdentifier: S.optional(S.String),
-      RestoreTime: S.optional(
-        T.DateFromString.pipe(T.TimestampFormat("date-time")),
-      ),
-      UseLatestRestorableTime: S.optional(S.Boolean),
-      DBInstanceClass: S.optional(S.String),
-      Port: S.optional(S.Number),
-      AvailabilityZone: S.optional(S.String),
-      DBSubnetGroupName: S.optional(S.String),
-      MultiAZ: S.optional(S.Boolean),
-      PubliclyAccessible: S.optional(S.Boolean),
-      AutoMinorVersionUpgrade: S.optional(S.Boolean),
-      LicenseModel: S.optional(S.String),
-      DBName: S.optional(S.String),
-      Engine: S.optional(S.String),
-      Iops: S.optional(S.Number),
-      StorageThroughput: S.optional(S.Number),
-      OptionGroupName: S.optional(S.String),
-      CopyTagsToSnapshot: S.optional(S.Boolean),
-      Tags: S.optional(TagList),
-      StorageType: S.optional(S.String),
-      TdeCredentialArn: S.optional(S.String),
-      TdeCredentialPassword: S.optional(SensitiveString),
-      VpcSecurityGroupIds: S.optional(VpcSecurityGroupIdList),
-      Domain: S.optional(S.String),
-      DomainIAMRoleName: S.optional(S.String),
-      DomainFqdn: S.optional(S.String),
-      DomainOu: S.optional(S.String),
-      DomainAuthSecretArn: S.optional(S.String),
-      DomainDnsIps: S.optional(StringList),
-      EnableIAMDatabaseAuthentication: S.optional(S.Boolean),
-      EnableCloudwatchLogsExports: S.optional(LogTypeList),
-      ProcessorFeatures: S.optional(ProcessorFeatureList),
-      UseDefaultProcessorFeatures: S.optional(S.Boolean),
-      DBParameterGroupName: S.optional(S.String),
-      DeletionProtection: S.optional(S.Boolean),
-      SourceDbiResourceId: S.optional(S.String),
-      MaxAllocatedStorage: S.optional(S.Number),
-      EnableCustomerOwnedIp: S.optional(S.Boolean),
-      NetworkType: S.optional(S.String),
-      SourceDBInstanceAutomatedBackupsArn: S.optional(S.String),
-      BackupTarget: S.optional(S.String),
-      CustomIamInstanceProfile: S.optional(S.String),
-      AllocatedStorage: S.optional(S.Number),
-      BackupRetentionPeriod: S.optional(S.Number),
-      PreferredBackupWindow: S.optional(S.String),
-      DedicatedLogVolume: S.optional(S.Boolean),
-      CACertificateIdentifier: S.optional(S.String),
-      EngineLifecycleSupport: S.optional(S.String),
-      AdditionalStorageVolumes: S.optional(AdditionalStorageVolumesList),
-      TagSpecifications: S.optional(TagSpecificationList),
-      ManageMasterUserPassword: S.optional(S.Boolean),
-      MasterUserSecretKmsKeyId: S.optional(S.String),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
+export const RestoreDBInstanceToPointInTimeMessage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    SourceDBInstanceIdentifier: S.optional(S.String),
+    TargetDBInstanceIdentifier: S.optional(S.String),
+    RestoreTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    UseLatestRestorableTime: S.optional(S.Boolean),
+    DBInstanceClass: S.optional(S.String),
+    Port: S.optional(S.Number),
+    AvailabilityZone: S.optional(S.String),
+    DBSubnetGroupName: S.optional(S.String),
+    MultiAZ: S.optional(S.Boolean),
+    PubliclyAccessible: S.optional(S.Boolean),
+    AutoMinorVersionUpgrade: S.optional(S.Boolean),
+    LicenseModel: S.optional(S.String),
+    DBName: S.optional(S.String),
+    Engine: S.optional(S.String),
+    Iops: S.optional(S.Number),
+    StorageThroughput: S.optional(S.Number),
+    OptionGroupName: S.optional(S.String),
+    CopyTagsToSnapshot: S.optional(S.Boolean),
+    Tags: S.optional(TagList),
+    StorageType: S.optional(S.String),
+    TdeCredentialArn: S.optional(S.String),
+    TdeCredentialPassword: S.optional(SensitiveString),
+    VpcSecurityGroupIds: S.optional(VpcSecurityGroupIdList),
+    Domain: S.optional(S.String),
+    DomainIAMRoleName: S.optional(S.String),
+    DomainFqdn: S.optional(S.String),
+    DomainOu: S.optional(S.String),
+    DomainAuthSecretArn: S.optional(S.String),
+    DomainDnsIps: S.optional(StringList),
+    EnableIAMDatabaseAuthentication: S.optional(S.Boolean),
+    EnableCloudwatchLogsExports: S.optional(LogTypeList),
+    ProcessorFeatures: S.optional(ProcessorFeatureList),
+    UseDefaultProcessorFeatures: S.optional(S.Boolean),
+    DBParameterGroupName: S.optional(S.String),
+    DeletionProtection: S.optional(S.Boolean),
+    SourceDbiResourceId: S.optional(S.String),
+    MaxAllocatedStorage: S.optional(S.Number),
+    EnableCustomerOwnedIp: S.optional(S.Boolean),
+    NetworkType: S.optional(S.String),
+    SourceDBInstanceAutomatedBackupsArn: S.optional(S.String),
+    BackupTarget: S.optional(S.String),
+    CustomIamInstanceProfile: S.optional(S.String),
+    AllocatedStorage: S.optional(S.Number),
+    BackupRetentionPeriod: S.optional(S.Number),
+    PreferredBackupWindow: S.optional(S.String),
+    DedicatedLogVolume: S.optional(S.Boolean),
+    CACertificateIdentifier: S.optional(S.String),
+    EngineLifecycleSupport: S.optional(S.String),
+    AdditionalStorageVolumes: S.optional(AdditionalStorageVolumesList),
+    TagSpecifications: S.optional(TagSpecificationList),
+    ManageMasterUserPassword: S.optional(S.Boolean),
+    MasterUserSecretKmsKeyId: S.optional(S.String),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "RestoreDBInstanceToPointInTimeMessage",
 }) as any as S.Schema<RestoreDBInstanceToPointInTimeMessage>;
 export interface RestoreDBInstanceToPointInTimeResult {
   DBInstance?: DBInstance & {
     PendingModifiedValues: PendingModifiedValues & {
-      AdditionalStorageVolumes: (AdditionalStorageVolume & {
-        VolumeName: string;
-      })[];
+      AdditionalStorageVolumes: (AdditionalStorageVolume & { VolumeName: string })[];
     };
   };
 }
-export const RestoreDBInstanceToPointInTimeResult = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ DBInstance: S.optional(DBInstance) }).pipe(ns),
+export const RestoreDBInstanceToPointInTimeResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ DBInstance: S.optional(DBInstance) }).pipe(ns),
 ).annotate({
   identifier: "RestoreDBInstanceToPointInTimeResult",
 }) as any as S.Schema<RestoreDBInstanceToPointInTimeResult>;
@@ -12142,17 +9577,7 @@ export const RevokeDBSecurityGroupIngressMessage = /*@__PURE__*/ S.suspend(() =>
     EC2SecurityGroupName: S.optional(S.String),
     EC2SecurityGroupId: S.optional(S.String),
     EC2SecurityGroupOwnerId: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "RevokeDBSecurityGroupIngressMessage",
 }) as any as S.Schema<RevokeDBSecurityGroupIngressMessage>;
@@ -12178,17 +9603,7 @@ export const StartActivityStreamRequest = /*@__PURE__*/ S.suspend(() =>
     KmsKeyId: S.optional(S.String),
     ApplyImmediately: S.optional(S.Boolean),
     EngineNativeAuditFieldsIncluded: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "StartActivityStreamRequest",
 }) as any as S.Schema<StartActivityStreamRequest>;
@@ -12217,59 +9632,33 @@ export interface StartDBClusterMessage {
 }
 export const StartDBClusterMessage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ DBClusterIdentifier: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "StartDBClusterMessage",
-}) as any as S.Schema<StartDBClusterMessage>;
+).annotate({ identifier: "StartDBClusterMessage" }) as any as S.Schema<StartDBClusterMessage>;
 export interface StartDBClusterResult {
   DBCluster?: DBCluster;
 }
 export const StartDBClusterResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ DBCluster: S.optional(DBCluster) }).pipe(ns),
-).annotate({
-  identifier: "StartDBClusterResult",
-}) as any as S.Schema<StartDBClusterResult>;
+).annotate({ identifier: "StartDBClusterResult" }) as any as S.Schema<StartDBClusterResult>;
 export interface StartDBInstanceMessage {
   DBInstanceIdentifier?: string;
 }
 export const StartDBInstanceMessage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ DBInstanceIdentifier: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "StartDBInstanceMessage",
-}) as any as S.Schema<StartDBInstanceMessage>;
+).annotate({ identifier: "StartDBInstanceMessage" }) as any as S.Schema<StartDBInstanceMessage>;
 export interface StartDBInstanceResult {
   DBInstance?: DBInstance & {
     PendingModifiedValues: PendingModifiedValues & {
-      AdditionalStorageVolumes: (AdditionalStorageVolume & {
-        VolumeName: string;
-      })[];
+      AdditionalStorageVolumes: (AdditionalStorageVolume & { VolumeName: string })[];
     };
   };
 }
 export const StartDBInstanceResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ DBInstance: S.optional(DBInstance) }).pipe(ns),
-).annotate({
-  identifier: "StartDBInstanceResult",
-}) as any as S.Schema<StartDBInstanceResult>;
+).annotate({ identifier: "StartDBInstanceResult" }) as any as S.Schema<StartDBInstanceResult>;
 export interface StartDBInstanceAutomatedBackupsReplicationMessage {
   SourceDBInstanceArn?: string;
   BackupRetentionPeriod?: number;
@@ -12277,43 +9666,27 @@ export interface StartDBInstanceAutomatedBackupsReplicationMessage {
   PreSignedUrl?: string | redacted.Redacted<string>;
   Tags?: Tag[];
 }
-export const StartDBInstanceAutomatedBackupsReplicationMessage =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      SourceDBInstanceArn: S.optional(S.String),
-      BackupRetentionPeriod: S.optional(S.Number),
-      KmsKeyId: S.optional(S.String),
-      PreSignedUrl: S.optional(SensitiveString),
-      Tags: S.optional(TagList),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "StartDBInstanceAutomatedBackupsReplicationMessage",
-  }) as any as S.Schema<StartDBInstanceAutomatedBackupsReplicationMessage>;
+export const StartDBInstanceAutomatedBackupsReplicationMessage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    SourceDBInstanceArn: S.optional(S.String),
+    BackupRetentionPeriod: S.optional(S.Number),
+    KmsKeyId: S.optional(S.String),
+    PreSignedUrl: S.optional(SensitiveString),
+    Tags: S.optional(TagList),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({
+  identifier: "StartDBInstanceAutomatedBackupsReplicationMessage",
+}) as any as S.Schema<StartDBInstanceAutomatedBackupsReplicationMessage>;
 export interface StartDBInstanceAutomatedBackupsReplicationResult {
   DBInstanceAutomatedBackup?: DBInstanceAutomatedBackup & {
-    AdditionalStorageVolumes: (AdditionalStorageVolume & {
-      VolumeName: string;
-    })[];
+    AdditionalStorageVolumes: (AdditionalStorageVolume & { VolumeName: string })[];
   };
 }
-export const StartDBInstanceAutomatedBackupsReplicationResult =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      DBInstanceAutomatedBackup: S.optional(DBInstanceAutomatedBackup),
-    }).pipe(ns),
-  ).annotate({
-    identifier: "StartDBInstanceAutomatedBackupsReplicationResult",
-  }) as any as S.Schema<StartDBInstanceAutomatedBackupsReplicationResult>;
+export const StartDBInstanceAutomatedBackupsReplicationResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ DBInstanceAutomatedBackup: S.optional(DBInstanceAutomatedBackup) }).pipe(ns),
+).annotate({
+  identifier: "StartDBInstanceAutomatedBackupsReplicationResult",
+}) as any as S.Schema<StartDBInstanceAutomatedBackupsReplicationResult>;
 export interface StartExportTaskMessage {
   ExportTaskIdentifier?: string;
   SourceArn?: string;
@@ -12332,38 +9705,15 @@ export const StartExportTaskMessage = /*@__PURE__*/ S.suspend(() =>
     KmsKeyId: S.optional(S.String),
     S3Prefix: S.optional(S.String),
     ExportOnly: S.optional(StringList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "StartExportTaskMessage",
-}) as any as S.Schema<StartExportTaskMessage>;
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "StartExportTaskMessage" }) as any as S.Schema<StartExportTaskMessage>;
 export interface StopActivityStreamRequest {
   ResourceArn?: string;
   ApplyImmediately?: boolean;
 }
 export const StopActivityStreamRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceArn: S.optional(S.String),
-    ApplyImmediately: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+  S.Struct({ ResourceArn: S.optional(S.String), ApplyImmediately: S.optional(S.Boolean) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "StopActivityStreamRequest",
@@ -12387,27 +9737,15 @@ export interface StopDBClusterMessage {
 }
 export const StopDBClusterMessage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ DBClusterIdentifier: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "StopDBClusterMessage",
-}) as any as S.Schema<StopDBClusterMessage>;
+).annotate({ identifier: "StopDBClusterMessage" }) as any as S.Schema<StopDBClusterMessage>;
 export interface StopDBClusterResult {
   DBCluster?: DBCluster;
 }
 export const StopDBClusterResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ DBCluster: S.optional(DBCluster) }).pipe(ns),
-).annotate({
-  identifier: "StopDBClusterResult",
-}) as any as S.Schema<StopDBClusterResult>;
+).annotate({ identifier: "StopDBClusterResult" }) as any as S.Schema<StopDBClusterResult>;
 export interface StopDBInstanceMessage {
   DBInstanceIdentifier?: string;
   DBSnapshotIdentifier?: string;
@@ -12416,98 +9754,56 @@ export const StopDBInstanceMessage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     DBInstanceIdentifier: S.optional(S.String),
     DBSnapshotIdentifier: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "StopDBInstanceMessage",
-}) as any as S.Schema<StopDBInstanceMessage>;
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "StopDBInstanceMessage" }) as any as S.Schema<StopDBInstanceMessage>;
 export interface StopDBInstanceResult {
   DBInstance?: DBInstance & {
     PendingModifiedValues: PendingModifiedValues & {
-      AdditionalStorageVolumes: (AdditionalStorageVolume & {
-        VolumeName: string;
-      })[];
+      AdditionalStorageVolumes: (AdditionalStorageVolume & { VolumeName: string })[];
     };
   };
 }
 export const StopDBInstanceResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ DBInstance: S.optional(DBInstance) }).pipe(ns),
-).annotate({
-  identifier: "StopDBInstanceResult",
-}) as any as S.Schema<StopDBInstanceResult>;
+).annotate({ identifier: "StopDBInstanceResult" }) as any as S.Schema<StopDBInstanceResult>;
 export interface StopDBInstanceAutomatedBackupsReplicationMessage {
   SourceDBInstanceArn?: string;
 }
-export const StopDBInstanceAutomatedBackupsReplicationMessage =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ SourceDBInstanceArn: S.optional(S.String) }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "StopDBInstanceAutomatedBackupsReplicationMessage",
-  }) as any as S.Schema<StopDBInstanceAutomatedBackupsReplicationMessage>;
+export const StopDBInstanceAutomatedBackupsReplicationMessage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ SourceDBInstanceArn: S.optional(S.String) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "StopDBInstanceAutomatedBackupsReplicationMessage",
+}) as any as S.Schema<StopDBInstanceAutomatedBackupsReplicationMessage>;
 export interface StopDBInstanceAutomatedBackupsReplicationResult {
   DBInstanceAutomatedBackup?: DBInstanceAutomatedBackup & {
-    AdditionalStorageVolumes: (AdditionalStorageVolume & {
-      VolumeName: string;
-    })[];
+    AdditionalStorageVolumes: (AdditionalStorageVolume & { VolumeName: string })[];
   };
 }
-export const StopDBInstanceAutomatedBackupsReplicationResult =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      DBInstanceAutomatedBackup: S.optional(DBInstanceAutomatedBackup),
-    }).pipe(ns),
-  ).annotate({
-    identifier: "StopDBInstanceAutomatedBackupsReplicationResult",
-  }) as any as S.Schema<StopDBInstanceAutomatedBackupsReplicationResult>;
+export const StopDBInstanceAutomatedBackupsReplicationResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ DBInstanceAutomatedBackup: S.optional(DBInstanceAutomatedBackup) }).pipe(ns),
+).annotate({
+  identifier: "StopDBInstanceAutomatedBackupsReplicationResult",
+}) as any as S.Schema<StopDBInstanceAutomatedBackupsReplicationResult>;
 export type SwitchoverTimeout = number;
 export interface SwitchoverBlueGreenDeploymentRequest {
   BlueGreenDeploymentIdentifier?: string;
   SwitchoverTimeout?: number;
 }
-export const SwitchoverBlueGreenDeploymentRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      BlueGreenDeploymentIdentifier: S.optional(S.String),
-      SwitchoverTimeout: S.optional(S.Number),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
+export const SwitchoverBlueGreenDeploymentRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    BlueGreenDeploymentIdentifier: S.optional(S.String),
+    SwitchoverTimeout: S.optional(S.Number),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "SwitchoverBlueGreenDeploymentRequest",
 }) as any as S.Schema<SwitchoverBlueGreenDeploymentRequest>;
 export interface SwitchoverBlueGreenDeploymentResponse {
   BlueGreenDeployment?: BlueGreenDeployment;
 }
-export const SwitchoverBlueGreenDeploymentResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ BlueGreenDeployment: S.optional(BlueGreenDeployment) }).pipe(ns),
+export const SwitchoverBlueGreenDeploymentResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ BlueGreenDeployment: S.optional(BlueGreenDeployment) }).pipe(ns),
 ).annotate({
   identifier: "SwitchoverBlueGreenDeploymentResponse",
 }) as any as S.Schema<SwitchoverBlueGreenDeploymentResponse>;
@@ -12519,17 +9815,7 @@ export const SwitchoverGlobalClusterMessage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     GlobalClusterIdentifier: S.optional(S.String),
     TargetDbClusterIdentifier: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "SwitchoverGlobalClusterMessage",
 }) as any as S.Schema<SwitchoverGlobalClusterMessage>;
@@ -12546,15 +9832,7 @@ export interface SwitchoverReadReplicaMessage {
 }
 export const SwitchoverReadReplicaMessage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ DBInstanceIdentifier: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "SwitchoverReadReplicaMessage",
@@ -12562,9 +9840,7 @@ export const SwitchoverReadReplicaMessage = /*@__PURE__*/ S.suspend(() =>
 export interface SwitchoverReadReplicaResult {
   DBInstance?: DBInstance & {
     PendingModifiedValues: PendingModifiedValues & {
-      AdditionalStorageVolumes: (AdditionalStorageVolume & {
-        VolumeName: string;
-      })[];
+      AdditionalStorageVolumes: (AdditionalStorageVolume & { VolumeName: string })[];
     };
   };
 }
@@ -12721,11 +9997,7 @@ export const applyPendingMaintenanceAction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ApplyPendingMaintenanceActionMessage,
   output: ApplyPendingMaintenanceActionResult,
-  errors: [
-    InvalidDBClusterStateFault,
-    InvalidDBInstanceStateFault,
-    ResourceNotFoundFault,
-  ],
+  errors: [InvalidDBClusterStateFault, InvalidDBInstanceStateFault, ResourceNotFoundFault],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ApplyPendingMaintenanceAction",
@@ -12971,11 +10243,7 @@ export const copyOptionGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CopyOptionGroupMessage,
   output: CopyOptionGroupResult,
-  errors: [
-    OptionGroupAlreadyExistsFault,
-    OptionGroupNotFoundFault,
-    OptionGroupQuotaExceededFault,
-  ],
+  errors: [OptionGroupAlreadyExistsFault, OptionGroupNotFoundFault, OptionGroupQuotaExceededFault],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CopyOptionGroup",
@@ -13212,10 +10480,7 @@ export const createDBClusterParameterGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateDBClusterParameterGroupMessage,
   output: CreateDBClusterParameterGroupResult,
-  errors: [
-    DBParameterGroupAlreadyExistsFault,
-    DBParameterGroupQuotaExceededFault,
-  ],
+  errors: [DBParameterGroupAlreadyExistsFault, DBParameterGroupQuotaExceededFault],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDBClusterParameterGroup",
@@ -13426,10 +10691,7 @@ export const createDBParameterGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateDBParameterGroupMessage,
   output: CreateDBParameterGroupResult,
-  errors: [
-    DBParameterGroupAlreadyExistsFault,
-    DBParameterGroupQuotaExceededFault,
-  ],
+  errors: [DBParameterGroupAlreadyExistsFault, DBParameterGroupQuotaExceededFault],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDBParameterGroup",
@@ -13791,10 +11053,7 @@ export const deleteBlueGreenDeployment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteBlueGreenDeploymentRequest,
   output: DeleteBlueGreenDeploymentResponse,
-  errors: [
-    BlueGreenDeploymentNotFoundFault,
-    InvalidBlueGreenDeploymentStateFault,
-  ],
+  errors: [BlueGreenDeploymentNotFoundFault, InvalidBlueGreenDeploymentStateFault],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBlueGreenDeployment",
@@ -13825,10 +11084,7 @@ export const deleteCustomDBEngineVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteCustomDBEngineVersionMessage,
   output: DBEngineVersion,
-  errors: [
-    CustomDBEngineVersionNotFoundFault,
-    InvalidCustomDBEngineVersionStateFault,
-  ],
+  errors: [CustomDBEngineVersionNotFoundFault, InvalidCustomDBEngineVersionStateFault],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCustomDBEngineVersion",
@@ -13891,10 +11147,7 @@ export const deleteDBClusterAutomatedBackup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteDBClusterAutomatedBackupMessage,
   output: DeleteDBClusterAutomatedBackupResult,
-  errors: [
-    DBClusterAutomatedBackupNotFoundFault,
-    InvalidDBClusterAutomatedBackupStateFault,
-  ],
+  errors: [DBClusterAutomatedBackupNotFoundFault, InvalidDBClusterAutomatedBackupStateFault],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDBClusterAutomatedBackup",
@@ -14043,10 +11296,7 @@ export const deleteDBInstanceAutomatedBackup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteDBInstanceAutomatedBackupMessage,
   output: DeleteDBInstanceAutomatedBackupResult,
-  errors: [
-    DBInstanceAutomatedBackupNotFoundFault,
-    InvalidDBInstanceAutomatedBackupStateFault,
-  ],
+  errors: [DBInstanceAutomatedBackupNotFoundFault, InvalidDBInstanceAutomatedBackupStateFault],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDBInstanceAutomatedBackup",
@@ -14073,10 +11323,7 @@ export const deleteDBParameterGroup: API.OperationMethod<
   operationName: "DeleteDBParameterGroup",
 }));
 
-export type DeleteDBProxyError =
-  | DBProxyNotFoundFault
-  | InvalidDBProxyStateFault
-  | CommonErrors;
+export type DeleteDBProxyError = DBProxyNotFoundFault | InvalidDBProxyStateFault | CommonErrors;
 /**
  * Deletes an existing DB proxy.
  */
@@ -14156,11 +11403,7 @@ export const deleteDBShardGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteDBShardGroupMessage,
   output: DBShardGroup,
-  errors: [
-    DBShardGroupNotFoundFault,
-    InvalidDBClusterStateFault,
-    InvalidDBShardGroupStateFault,
-  ],
+  errors: [DBShardGroupNotFoundFault, InvalidDBClusterStateFault, InvalidDBShardGroupStateFault],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDBShardGroup",
@@ -14207,11 +11450,7 @@ export const deleteDBSubnetGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteDBSubnetGroupMessage,
   output: DeleteDBSubnetGroupResponse,
-  errors: [
-    DBSubnetGroupNotFoundFault,
-    InvalidDBSubnetGroupStateFault,
-    InvalidDBSubnetStateFault,
-  ],
+  errors: [DBSubnetGroupNotFoundFault, InvalidDBSubnetGroupStateFault, InvalidDBSubnetStateFault],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDBSubnetGroup",
@@ -14386,9 +11625,7 @@ export const describeAccountAttributes: API.OperationMethod<
   operationName: "DescribeAccountAttributes",
 }));
 
-export type DescribeBlueGreenDeploymentsError =
-  | BlueGreenDeploymentNotFoundFault
-  | CommonErrors;
+export type DescribeBlueGreenDeploymentsError = BlueGreenDeploymentNotFoundFault | CommonErrors;
 /**
  * Describes one or more blue/green deployments.
  *
@@ -14503,9 +11740,7 @@ export const describeDBClusterBacktracks: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type DescribeDBClusterEndpointsError =
-  | DBClusterNotFoundFault
-  | CommonErrors;
+export type DescribeDBClusterEndpointsError = DBClusterNotFoundFault | CommonErrors;
 /**
  * Returns information about endpoints for an Amazon Aurora DB cluster.
  *
@@ -14532,9 +11767,7 @@ export const describeDBClusterEndpoints: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type DescribeDBClusterParameterGroupsError =
-  | DBParameterGroupNotFoundFault
-  | CommonErrors;
+export type DescribeDBClusterParameterGroupsError = DBParameterGroupNotFoundFault | CommonErrors;
 /**
  * Returns a list of `DBClusterParameterGroup` descriptions. If a `DBClusterParameterGroupName` parameter is specified, the list will contain only the description of the specified DB cluster parameter group.
  *
@@ -14563,9 +11796,7 @@ export const describeDBClusterParameterGroups: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type DescribeDBClusterParametersError =
-  | DBParameterGroupNotFoundFault
-  | CommonErrors;
+export type DescribeDBClusterParametersError = DBParameterGroupNotFoundFault | CommonErrors;
 /**
  * Returns the detailed parameter list for a particular DB cluster parameter group.
  *
@@ -14649,9 +11880,7 @@ export const describeDBClusterSnapshotAttributes: API.OperationMethod<
   operationName: "DescribeDBClusterSnapshotAttributes",
 }));
 
-export type DescribeDBClusterSnapshotsError =
-  | DBClusterSnapshotNotFoundFault
-  | CommonErrors;
+export type DescribeDBClusterSnapshotsError = DBClusterSnapshotNotFoundFault | CommonErrors;
 /**
  * Returns information about DB cluster snapshots. This API action supports pagination.
  *
@@ -14680,9 +11909,7 @@ export const describeDBClusterSnapshots: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type DescribeDBEngineVersionsError =
-  | InvalidParameterCombination
-  | CommonErrors;
+export type DescribeDBEngineVersionsError = InvalidParameterCombination | CommonErrors;
 /**
  * Describes the properties of specific versions of DB engines.
  */
@@ -14818,9 +12045,7 @@ export const describeDBMajorEngineVersions: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type DescribeDBParameterGroupsError =
-  | DBParameterGroupNotFoundFault
-  | CommonErrors;
+export type DescribeDBParameterGroupsError = DBParameterGroupNotFoundFault | CommonErrors;
 /**
  * Returns a list of `DBParameterGroup` descriptions. If a `DBParameterGroupName` is specified, the list will contain only the description of the specified DB parameter group.
  */
@@ -14845,9 +12070,7 @@ export const describeDBParameterGroups: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type DescribeDBParametersError =
-  | DBParameterGroupNotFoundFault
-  | CommonErrors;
+export type DescribeDBParametersError = DBParameterGroupNotFoundFault | CommonErrors;
 /**
  * Returns the detailed parameter list for a particular DB parameter group.
  */
@@ -14942,11 +12165,7 @@ export const describeDBProxyTargetGroups: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: DescribeDBProxyTargetGroupsRequest,
   output: DescribeDBProxyTargetGroupsResponse,
-  errors: [
-    DBProxyNotFoundFault,
-    DBProxyTargetGroupNotFoundFault,
-    InvalidDBProxyStateFault,
-  ],
+  errors: [DBProxyNotFoundFault, DBProxyTargetGroupNotFoundFault, InvalidDBProxyStateFault],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDBProxyTargetGroups",
@@ -15018,9 +12237,7 @@ export const describeDBRecommendations: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type DescribeDBSecurityGroupsError =
-  | DBSecurityGroupNotFoundFault
-  | CommonErrors;
+export type DescribeDBSecurityGroupsError = DBSecurityGroupNotFoundFault | CommonErrors;
 /**
  * Returns a list of `DBSecurityGroup` descriptions. If a `DBSecurityGroupName` is specified, the list will contain only the descriptions of the specified DB security group.
  *
@@ -15068,9 +12285,7 @@ export const describeDBShardGroups: API.OperationMethod<
   operationName: "DescribeDBShardGroups",
 }));
 
-export type DescribeDBSnapshotAttributesError =
-  | DBSnapshotNotFoundFault
-  | CommonErrors;
+export type DescribeDBSnapshotAttributesError = DBSnapshotNotFoundFault | CommonErrors;
 /**
  * Returns a list of DB snapshot attribute names and values for a manual DB snapshot.
  *
@@ -15117,9 +12332,7 @@ export const describeDBSnapshots: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type DescribeDBSnapshotTenantDatabasesError =
-  | DBSnapshotNotFoundFault
-  | CommonErrors;
+export type DescribeDBSnapshotTenantDatabasesError = DBSnapshotNotFoundFault | CommonErrors;
 /**
  * Describes the tenant databases that exist in a DB snapshot. This command only applies to RDS for Oracle DB instances in the multi-tenant configuration.
  *
@@ -15146,9 +12359,7 @@ export const describeDBSnapshotTenantDatabases: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type DescribeDBSubnetGroupsError =
-  | DBSubnetGroupNotFoundFault
-  | CommonErrors;
+export type DescribeDBSubnetGroupsError = DBSubnetGroupNotFoundFault | CommonErrors;
 /**
  * Returns a list of DBSubnetGroup descriptions. If a DBSubnetGroupName is specified, the list will contain only the descriptions of the specified DBSubnetGroup.
  *
@@ -15274,9 +12485,7 @@ export const describeEvents: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type DescribeEventSubscriptionsError =
-  | SubscriptionNotFoundFault
-  | CommonErrors;
+export type DescribeEventSubscriptionsError = SubscriptionNotFoundFault | CommonErrors;
 /**
  * Lists all the subscription descriptions for a customer account. The description for a subscription includes `SubscriptionName`, `SNSTopicARN`, `CustomerID`, `SourceType`, `SourceID`, `CreationTime`, and `Status`.
  *
@@ -15328,9 +12537,7 @@ export const describeExportTasks: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type DescribeGlobalClustersError =
-  | GlobalClusterNotFoundFault
-  | CommonErrors;
+export type DescribeGlobalClustersError = GlobalClusterNotFoundFault | CommonErrors;
 /**
  * Returns information about Aurora global database clusters. This API supports pagination.
  *
@@ -15459,9 +12666,7 @@ export const describeOrderableDBInstanceOptions: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type DescribePendingMaintenanceActionsError =
-  | ResourceNotFoundFault
-  | CommonErrors;
+export type DescribePendingMaintenanceActionsError = ResourceNotFoundFault | CommonErrors;
 /**
  * Returns a list of resources (for example, DB instances) that have at least one pending maintenance action.
  *
@@ -15488,9 +12693,7 @@ export const describePendingMaintenanceActions: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type DescribeReservedDBInstancesError =
-  | ReservedDBInstanceNotFoundFault
-  | CommonErrors;
+export type DescribeReservedDBInstancesError = ReservedDBInstanceNotFoundFault | CommonErrors;
 /**
  * Returns information about reserved DB instances for this account, or about a specified reserved DB instance.
  */
@@ -15596,9 +12799,7 @@ export const describeSourceRegions: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type DescribeTenantDatabasesError =
-  | DBInstanceNotFoundFault
-  | CommonErrors;
+export type DescribeTenantDatabasesError = DBInstanceNotFoundFault | CommonErrors;
 /**
  * Describes the tenant databases in a DB instance that uses the multi-tenant configuration. Only RDS for Oracle CDB instances are supported.
  */
@@ -15692,19 +12893,11 @@ export const downloadDBLogFilePortion: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: DownloadDBLogFilePortionMessage,
   output: DownloadDBLogFilePortionDetails,
-  errors: [
-    DBInstanceNotFoundFault,
-    DBInstanceNotReadyFault,
-    DBLogFileNotFoundFault,
-  ],
+  errors: [DBInstanceNotFoundFault, DBInstanceNotReadyFault, DBLogFileNotFoundFault],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DownloadDBLogFilePortion",
-  pagination: {
-    inputToken: "Marker",
-    outputToken: "Marker",
-    pageSize: "NumberOfLines",
-  } as const,
+  pagination: { inputToken: "Marker", outputToken: "Marker", pageSize: "NumberOfLines" } as const,
 })) as any;
 
 export type EnableHttpEndpointError =
@@ -15762,11 +12955,7 @@ export const failoverDBCluster: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: FailoverDBClusterMessage,
   output: FailoverDBClusterResult,
-  errors: [
-    DBClusterNotFoundFault,
-    InvalidDBClusterStateFault,
-    InvalidDBInstanceStateFault,
-  ],
+  errors: [DBClusterNotFoundFault, InvalidDBClusterStateFault, InvalidDBInstanceStateFault],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "FailoverDBCluster",
@@ -15882,11 +13071,7 @@ export const modifyActivityStream: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ModifyActivityStreamRequest,
   output: ModifyActivityStreamResponse,
-  errors: [
-    DBInstanceNotFoundFault,
-    InvalidDBInstanceStateFault,
-    ResourceNotFoundFault,
-  ],
+  errors: [DBInstanceNotFoundFault, InvalidDBInstanceStateFault, ResourceNotFoundFault],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyActivityStream",
@@ -15948,11 +13133,7 @@ export const modifyCurrentDBClusterCapacity: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ModifyCurrentDBClusterCapacityMessage,
   output: DBClusterCapacityInfo,
-  errors: [
-    DBClusterNotFoundFault,
-    InvalidDBClusterCapacityFault,
-    InvalidDBClusterStateFault,
-  ],
+  errors: [DBClusterNotFoundFault, InvalidDBClusterCapacityFault, InvalidDBClusterStateFault],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyCurrentDBClusterCapacity",
@@ -15977,10 +13158,7 @@ export const modifyCustomDBEngineVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ModifyCustomDBEngineVersionMessage,
   output: DBEngineVersion,
-  errors: [
-    CustomDBEngineVersionNotFoundFault,
-    InvalidCustomDBEngineVersionStateFault,
-  ],
+  errors: [CustomDBEngineVersionNotFoundFault, InvalidCustomDBEngineVersionStateFault],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyCustomDBEngineVersion",
@@ -16256,11 +13434,7 @@ export const modifyDBProxy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ModifyDBProxyRequest,
   output: ModifyDBProxyResponse,
-  errors: [
-    DBProxyAlreadyExistsFault,
-    DBProxyNotFoundFault,
-    InvalidDBProxyStateFault,
-  ],
+  errors: [DBProxyAlreadyExistsFault, DBProxyNotFoundFault, InvalidDBProxyStateFault],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyDBProxy",
@@ -16310,11 +13484,7 @@ export const modifyDBProxyTargetGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ModifyDBProxyTargetGroupRequest,
   output: ModifyDBProxyTargetGroupResponse,
-  errors: [
-    DBProxyNotFoundFault,
-    DBProxyTargetGroupNotFoundFault,
-    InvalidDBProxyStateFault,
-  ],
+  errors: [DBProxyNotFoundFault, DBProxyTargetGroupNotFoundFault, InvalidDBProxyStateFault],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyDBProxyTargetGroup",
@@ -16354,11 +13524,7 @@ export const modifyDBShardGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ModifyDBShardGroupMessage,
   output: DBShardGroup,
-  errors: [
-    DBShardGroupAlreadyExistsFault,
-    DBShardGroupNotFoundFault,
-    InvalidDBClusterStateFault,
-  ],
+  errors: [DBShardGroupAlreadyExistsFault, DBShardGroupNotFoundFault, InvalidDBClusterStateFault],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyDBShardGroup",
@@ -16382,11 +13548,7 @@ export const modifyDBSnapshot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ModifyDBSnapshotMessage,
   output: ModifyDBSnapshotResult,
-  errors: [
-    DBSnapshotNotFoundFault,
-    InvalidDBSnapshotStateFault,
-    KMSKeyNotAccessibleFault,
-  ],
+  errors: [DBSnapshotNotFoundFault, InvalidDBSnapshotStateFault, KMSKeyNotAccessibleFault],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyDBSnapshot",
@@ -16416,11 +13578,7 @@ export const modifyDBSnapshotAttribute: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ModifyDBSnapshotAttributeMessage,
   output: ModifyDBSnapshotAttributeResult,
-  errors: [
-    DBSnapshotNotFoundFault,
-    InvalidDBSnapshotStateFault,
-    SharedSnapshotQuotaExceededFault,
-  ],
+  errors: [DBSnapshotNotFoundFault, InvalidDBSnapshotStateFault, SharedSnapshotQuotaExceededFault],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyDBSnapshotAttribute",
@@ -16695,11 +13853,7 @@ export const rebootDBCluster: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: RebootDBClusterMessage,
   output: RebootDBClusterResult,
-  errors: [
-    DBClusterNotFoundFault,
-    InvalidDBClusterStateFault,
-    InvalidDBInstanceStateFault,
-  ],
+  errors: [DBClusterNotFoundFault, InvalidDBClusterStateFault, InvalidDBInstanceStateFault],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RebootDBCluster",
@@ -16729,11 +13883,7 @@ export const rebootDBInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: RebootDBInstanceMessage,
   output: RebootDBInstanceResult,
-  errors: [
-    DBInstanceNotFoundFault,
-    InvalidDBInstanceStateFault,
-    KMSKeyNotAccessibleFault,
-  ],
+  errors: [DBInstanceNotFoundFault, InvalidDBInstanceStateFault, KMSKeyNotAccessibleFault],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RebootDBInstance",
@@ -16850,11 +14000,7 @@ export const removeRoleFromDBCluster: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: RemoveRoleFromDBClusterMessage,
   output: RemoveRoleFromDBClusterResponse,
-  errors: [
-    DBClusterNotFoundFault,
-    DBClusterRoleNotFoundFault,
-    InvalidDBClusterStateFault,
-  ],
+  errors: [DBClusterNotFoundFault, DBClusterRoleNotFoundFault, InvalidDBClusterStateFault],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveRoleFromDBCluster",
@@ -16876,11 +14022,7 @@ export const removeRoleFromDBInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: RemoveRoleFromDBInstanceMessage,
   output: RemoveRoleFromDBInstanceResponse,
-  errors: [
-    DBInstanceNotFoundFault,
-    DBInstanceRoleNotFoundFault,
-    InvalidDBInstanceStateFault,
-  ],
+  errors: [DBInstanceNotFoundFault, DBInstanceRoleNotFoundFault, InvalidDBInstanceStateFault],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveRoleFromDBInstance",
@@ -17809,10 +14951,7 @@ export const switchoverBlueGreenDeployment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: SwitchoverBlueGreenDeploymentRequest,
   output: SwitchoverBlueGreenDeploymentResponse,
-  errors: [
-    BlueGreenDeploymentNotFoundFault,
-    InvalidBlueGreenDeploymentStateFault,
-  ],
+  errors: [BlueGreenDeploymentNotFoundFault, InvalidBlueGreenDeploymentStateFault],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SwitchoverBlueGreenDeployment",

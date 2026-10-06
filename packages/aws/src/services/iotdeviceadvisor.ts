@@ -1,16 +1,13 @@
-import * as HttpClient from "effect/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
-const svc = T.AwsApiService({
-  sdkId: "IotDeviceAdvisor",
-  serviceShapeName: "IotSenateService",
-});
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
+import * as T from "../traits.ts";
+const svc = T.AwsApiService({ sdkId: "IotDeviceAdvisor", serviceShapeName: "IotSenateService" });
 const auth = T.AwsAuthSigv4({ name: "iotdeviceadvisor" });
 const ver = T.ServiceVersion("2020-09-18");
 const proto = T.AwsProtocolsRestJson1();
@@ -26,14 +23,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -60,9 +53,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://api.iotdeviceadvisor-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -70,9 +61,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://api.iotdeviceadvisor.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
         return e(
           `https://api.iotdeviceadvisor.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
@@ -120,9 +109,7 @@ export const DeviceUnderTest = /*@__PURE__*/ S.suspend(() =>
     certificateArn: S.optional(S.String),
     deviceRoleArn: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DeviceUnderTest",
-}) as any as S.Schema<DeviceUnderTest>;
+).annotate({ identifier: "DeviceUnderTest" }) as any as S.Schema<DeviceUnderTest>;
 export type DeviceUnderTestList = DeviceUnderTest[];
 export const DeviceUnderTestList = /*@__PURE__*/ S.Array(DeviceUnderTest);
 export type IntendedForQualificationBoolean = boolean;
@@ -161,10 +148,7 @@ export const SuiteDefinitionConfiguration = /*@__PURE__*/ S.suspend(() =>
 export type String128 = string;
 export type String256 = string;
 export type TagMap = { [key: string]: string | undefined };
-export const TagMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const TagMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export type ClientToken = string;
 export interface CreateSuiteDefinitionRequest {
   suiteDefinitionConfiguration?: SuiteDefinitionConfiguration;
@@ -177,14 +161,7 @@ export const CreateSuiteDefinitionRequest = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(TagMap),
     clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/suiteDefinitions" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/suiteDefinitions" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "CreateSuiteDefinitionRequest",
@@ -210,14 +187,9 @@ export interface DeleteSuiteDefinitionRequest {
   suiteDefinitionId: string;
 }
 export const DeleteSuiteDefinitionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    suiteDefinitionId: S.String.pipe(T.HttpLabel("suiteDefinitionId")),
-  }).pipe(
+  S.Struct({ suiteDefinitionId: S.String.pipe(T.HttpLabel("suiteDefinitionId")) }).pipe(
     T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/suiteDefinitions/{suiteDefinitionId}",
-      }),
+      T.Http({ method: "DELETE", uri: "/suiteDefinitions/{suiteDefinitionId}" }),
       svc,
       auth,
       proto,
@@ -229,15 +201,10 @@ export const DeleteSuiteDefinitionRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteSuiteDefinitionRequest",
 }) as any as S.Schema<DeleteSuiteDefinitionRequest>;
 export interface DeleteSuiteDefinitionResponse {}
-export const DeleteSuiteDefinitionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteSuiteDefinitionResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteSuiteDefinitionResponse",
 }) as any as S.Schema<DeleteSuiteDefinitionResponse>;
-export type AuthenticationMethod =
-  | "X509ClientCertificate"
-  | "SignatureVersion4"
-  | (string & {});
+export type AuthenticationMethod = "X509ClientCertificate" | "SignatureVersion4" | (string & {});
 export const AuthenticationMethod = S.String;
 
 export interface GetEndpointRequest {
@@ -254,28 +221,15 @@ export const GetEndpointRequest = /*@__PURE__*/ S.suspend(() =>
     authenticationMethod: S.optional(AuthenticationMethod).pipe(
       T.HttpQuery("authenticationMethod"),
     ),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/endpoint" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetEndpointRequest",
-}) as any as S.Schema<GetEndpointRequest>;
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/endpoint" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "GetEndpointRequest" }) as any as S.Schema<GetEndpointRequest>;
 export type Endpoint = string;
 export interface GetEndpointResponse {
   endpoint?: string;
 }
 export const GetEndpointResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ endpoint: S.optional(S.String) }),
-).annotate({
-  identifier: "GetEndpointResponse",
-}) as any as S.Schema<GetEndpointResponse>;
+).annotate({ identifier: "GetEndpointResponse" }) as any as S.Schema<GetEndpointResponse>;
 export type SuiteDefinitionVersion = string;
 export interface GetSuiteDefinitionRequest {
   suiteDefinitionId: string;
@@ -284,9 +238,7 @@ export interface GetSuiteDefinitionRequest {
 export const GetSuiteDefinitionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     suiteDefinitionId: S.String.pipe(T.HttpLabel("suiteDefinitionId")),
-    suiteDefinitionVersion: S.optional(S.String).pipe(
-      T.HttpQuery("suiteDefinitionVersion"),
-    ),
+    suiteDefinitionVersion: S.optional(S.String).pipe(T.HttpQuery("suiteDefinitionVersion")),
   }).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/suiteDefinitions/{suiteDefinitionId}" }),
@@ -349,9 +301,7 @@ export const GetSuiteRunRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetSuiteRunRequest",
-}) as any as S.Schema<GetSuiteRunRequest>;
+).annotate({ identifier: "GetSuiteRunRequest" }) as any as S.Schema<GetSuiteRunRequest>;
 export type SelectedTestList = string[];
 export const SelectedTestList = /*@__PURE__*/ S.Array(S.String);
 export type ParallelRun = boolean;
@@ -366,9 +316,7 @@ export const SuiteRunConfiguration = /*@__PURE__*/ S.suspend(() =>
     selectedTestList: S.optional(SelectedTestList),
     parallelRun: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "SuiteRunConfiguration",
-}) as any as S.Schema<SuiteRunConfiguration>;
+).annotate({ identifier: "SuiteRunConfiguration" }) as any as S.Schema<SuiteRunConfiguration>;
 export type GroupName = string;
 export type TestCaseDefinitionName = string;
 export type Status =
@@ -420,9 +368,7 @@ export const TestCaseScenario = /*@__PURE__*/ S.suspend(() =>
     failure: S.optional(S.String),
     systemMessage: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TestCaseScenario",
-}) as any as S.Schema<TestCaseScenario>;
+).annotate({ identifier: "TestCaseScenario" }) as any as S.Schema<TestCaseScenario>;
 export type TestCaseScenariosList = TestCaseScenario[];
 export const TestCaseScenariosList = /*@__PURE__*/ S.Array(TestCaseScenario);
 export interface TestCaseRun {
@@ -492,9 +438,7 @@ export interface GetSuiteRunResponse {
   suiteDefinitionVersion?: string;
   suiteRunId?: string;
   suiteRunArn?: string;
-  suiteRunConfiguration?: SuiteRunConfiguration & {
-    primaryDevice: DeviceUnderTest;
-  };
+  suiteRunConfiguration?: SuiteRunConfiguration & { primaryDevice: DeviceUnderTest };
   testResult?: TestResult;
   startTime?: Date;
   endTime?: Date;
@@ -516,9 +460,7 @@ export const GetSuiteRunResponse = /*@__PURE__*/ S.suspend(() =>
     errorReason: S.optional(S.String),
     tags: S.optional(TagMap),
   }),
-).annotate({
-  identifier: "GetSuiteRunResponse",
-}) as any as S.Schema<GetSuiteRunResponse>;
+).annotate({ identifier: "GetSuiteRunResponse" }) as any as S.Schema<GetSuiteRunResponse>;
 export interface GetSuiteRunReportRequest {
   suiteDefinitionId: string;
   suiteRunId: string;
@@ -540,9 +482,7 @@ export const GetSuiteRunReportRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetSuiteRunReportRequest",
-}) as any as S.Schema<GetSuiteRunReportRequest>;
+).annotate({ identifier: "GetSuiteRunReportRequest" }) as any as S.Schema<GetSuiteRunReportRequest>;
 export type QualificationReportDownloadUrl = string;
 export interface GetSuiteRunReportResponse {
   qualificationReportDownloadUrl?: string;
@@ -562,16 +502,7 @@ export const ListSuiteDefinitionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/suiteDefinitions" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/suiteDefinitions" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListSuiteDefinitionsRequest",
 }) as any as S.Schema<ListSuiteDefinitionsRequest>;
@@ -598,9 +529,7 @@ export const SuiteDefinitionInformation = /*@__PURE__*/ S.suspend(() =>
   identifier: "SuiteDefinitionInformation",
 }) as any as S.Schema<SuiteDefinitionInformation>;
 export type SuiteDefinitionInformationList = SuiteDefinitionInformation[];
-export const SuiteDefinitionInformationList = /*@__PURE__*/ S.Array(
-  SuiteDefinitionInformation,
-);
+export const SuiteDefinitionInformationList = /*@__PURE__*/ S.Array(SuiteDefinitionInformation);
 export interface ListSuiteDefinitionsResponse {
   suiteDefinitionInformationList?: SuiteDefinitionInformation[];
   nextToken?: string;
@@ -621,27 +550,12 @@ export interface ListSuiteRunsRequest {
 }
 export const ListSuiteRunsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    suiteDefinitionId: S.optional(S.String).pipe(
-      T.HttpQuery("suiteDefinitionId"),
-    ),
-    suiteDefinitionVersion: S.optional(S.String).pipe(
-      T.HttpQuery("suiteDefinitionVersion"),
-    ),
+    suiteDefinitionId: S.optional(S.String).pipe(T.HttpQuery("suiteDefinitionId")),
+    suiteDefinitionVersion: S.optional(S.String).pipe(T.HttpQuery("suiteDefinitionVersion")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/suiteRuns" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListSuiteRunsRequest",
-}) as any as S.Schema<ListSuiteRunsRequest>;
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/suiteRuns" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "ListSuiteRunsRequest" }) as any as S.Schema<ListSuiteRunsRequest>;
 export type SuiteRunResultCount = number;
 export interface SuiteRunInformation {
   suiteDefinitionId?: string;
@@ -668,9 +582,7 @@ export const SuiteRunInformation = /*@__PURE__*/ S.suspend(() =>
     passed: S.optional(S.Number),
     failed: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "SuiteRunInformation",
-}) as any as S.Schema<SuiteRunInformation>;
+).annotate({ identifier: "SuiteRunInformation" }) as any as S.Schema<SuiteRunInformation>;
 export type SuiteRunsList = SuiteRunInformation[];
 export const SuiteRunsList = /*@__PURE__*/ S.Array(SuiteRunInformation);
 export interface ListSuiteRunsResponse {
@@ -678,26 +590,14 @@ export interface ListSuiteRunsResponse {
   nextToken?: string;
 }
 export const ListSuiteRunsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    suiteRunsList: S.optional(SuiteRunsList),
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListSuiteRunsResponse",
-}) as any as S.Schema<ListSuiteRunsResponse>;
+  S.Struct({ suiteRunsList: S.optional(SuiteRunsList), nextToken: S.optional(S.String) }),
+).annotate({ identifier: "ListSuiteRunsResponse" }) as any as S.Schema<ListSuiteRunsResponse>;
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
 export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListTagsForResourceRequest",
@@ -724,10 +624,7 @@ export const StartSuiteRunRequest = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(TagMap),
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/suiteDefinitions/{suiteDefinitionId}/suiteRuns",
-      }),
+      T.Http({ method: "POST", uri: "/suiteDefinitions/{suiteDefinitionId}/suiteRuns" }),
       svc,
       auth,
       proto,
@@ -735,9 +632,7 @@ export const StartSuiteRunRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "StartSuiteRunRequest",
-}) as any as S.Schema<StartSuiteRunRequest>;
+).annotate({ identifier: "StartSuiteRunRequest" }) as any as S.Schema<StartSuiteRunRequest>;
 export interface StartSuiteRunResponse {
   suiteRunId?: string;
   suiteRunArn?: string;
@@ -751,9 +646,7 @@ export const StartSuiteRunResponse = /*@__PURE__*/ S.suspend(() =>
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     endpoint: S.optional(S.String),
   }),
-).annotate({
-  identifier: "StartSuiteRunResponse",
-}) as any as S.Schema<StartSuiteRunResponse>;
+).annotate({ identifier: "StartSuiteRunResponse" }) as any as S.Schema<StartSuiteRunResponse>;
 export interface StopSuiteRunRequest {
   suiteDefinitionId: string;
   suiteRunId: string;
@@ -775,13 +668,9 @@ export const StopSuiteRunRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "StopSuiteRunRequest",
-}) as any as S.Schema<StopSuiteRunRequest>;
+).annotate({ identifier: "StopSuiteRunRequest" }) as any as S.Schema<StopSuiteRunRequest>;
 export interface StopSuiteRunResponse {}
-export const StopSuiteRunResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const StopSuiteRunResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "StopSuiteRunResponse",
 }) as any as S.Schema<StopSuiteRunResponse>;
 export interface TagResourceRequest {
@@ -793,22 +682,11 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tags: S.optional(TagMap),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
+).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = string[];
@@ -822,22 +700,11 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: S.optional(TagKeyList).pipe(T.HttpQuery("tagKeys")),
   }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
+).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateSuiteDefinitionRequest {
@@ -944,11 +811,7 @@ export const getEndpoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetEndpointRequest,
   output: GetEndpointResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEndpoint",
@@ -972,11 +835,7 @@ export const getSuiteDefinition: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetSuiteDefinitionRequest,
   output: GetSuiteDefinitionResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSuiteDefinition",
@@ -1000,11 +859,7 @@ export const getSuiteRun: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetSuiteRunRequest,
   output: GetSuiteRunResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSuiteRun",
@@ -1028,11 +883,7 @@ export const getSuiteRunReport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetSuiteRunReportRequest,
   output: GetSuiteRunReportResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSuiteRunReport",
@@ -1067,10 +918,7 @@ export const listSuiteDefinitions: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListSuiteRunsError =
-  | InternalServerException
-  | ValidationException
-  | CommonErrors;
+export type ListSuiteRunsError = InternalServerException | ValidationException | CommonErrors;
 /**
  * Lists runs of the specified Device Advisor test suite. You can list all runs of the test
  * suite, or the runs of a specific version of the test suite.
@@ -1115,11 +963,7 @@ export const listTagsForResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
@@ -1167,11 +1011,7 @@ export const stopSuiteRun: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: StopSuiteRunRequest,
   output: StopSuiteRunResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopSuiteRun",
@@ -1195,11 +1035,7 @@ export const tagResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
@@ -1223,11 +1059,7 @@ export const untagResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",

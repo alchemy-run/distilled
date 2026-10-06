@@ -1,14 +1,14 @@
+import * as API from "@distilled.cloud/core/api";
+import * as S from "@distilled.cloud/core/schema";
 import * as HttpClient from "effect/http/HttpClient";
 import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
-import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({ sdkId: "Account", serviceShapeName: "Account" });
 const auth = T.AwsAuthSigv4({ name: "account" });
 const ver = T.ServiceVersion("2021-02-01");
@@ -24,23 +24,14 @@ const rules = T.EndpointResolver((p, _) => {
     message: m as string,
   });
   const _p0 = (_0: unknown) => ({
-    authSchemes: [
-      {
-        name: "sigv4",
-        signingRegion: `${_.getAttr(_0, "implicitGlobalRegion")}`,
-      },
-    ],
+    authSchemes: [{ name: "sigv4", signingRegion: `${_.getAttr(_0, "implicitGlobalRegion")}` }],
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -71,9 +62,7 @@ const rules = T.EndpointResolver((p, _) => {
               {},
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseFIPS === false && UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -83,9 +72,7 @@ const rules = T.EndpointResolver((p, _) => {
               {},
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
         return e(
           `https://account.${_.getAttr(PartitionResult, "implicitGlobalRegion")}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
@@ -175,11 +162,7 @@ export interface AcceptPrimaryEmailUpdateRequest {
   Otp: string | redacted.Redacted<string>;
 }
 export const AcceptPrimaryEmailUpdateRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AccountId: S.String,
-    PrimaryEmail: SensitiveString,
-    Otp: SensitiveString,
-  }).pipe(
+  S.Struct({ AccountId: S.String, PrimaryEmail: SensitiveString, Otp: SensitiveString }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/acceptPrimaryEmailUpdate" }),
       svc,
@@ -207,26 +190,14 @@ export interface DeleteAlternateContactRequest {
   AccountId?: string;
 }
 export const DeleteAlternateContactRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AlternateContactType: S.String,
-    AccountId: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/deleteAlternateContact" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+  S.Struct({ AlternateContactType: S.String, AccountId: S.optional(S.String) }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/deleteAlternateContact" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DeleteAlternateContactRequest",
 }) as any as S.Schema<DeleteAlternateContactRequest>;
 export interface DeleteAlternateContactResponse {}
-export const DeleteAlternateContactResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteAlternateContactResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteAlternateContactResponse",
 }) as any as S.Schema<DeleteAlternateContactResponse>;
 export type RegionName = string;
@@ -236,22 +207,11 @@ export interface DisableRegionRequest {
 }
 export const DisableRegionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ AccountId: S.optional(S.String), RegionName: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/disableRegion" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/disableRegion" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DisableRegionRequest",
-}) as any as S.Schema<DisableRegionRequest>;
+).annotate({ identifier: "DisableRegionRequest" }) as any as S.Schema<DisableRegionRequest>;
 export interface DisableRegionResponse {}
-export const DisableRegionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DisableRegionResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DisableRegionResponse",
 }) as any as S.Schema<DisableRegionResponse>;
 export interface EnableRegionRequest {
@@ -260,22 +220,11 @@ export interface EnableRegionRequest {
 }
 export const EnableRegionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ AccountId: S.optional(S.String), RegionName: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/enableRegion" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/enableRegion" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "EnableRegionRequest",
-}) as any as S.Schema<EnableRegionRequest>;
+).annotate({ identifier: "EnableRegionRequest" }) as any as S.Schema<EnableRegionRequest>;
 export interface EnableRegionResponse {}
-export const EnableRegionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const EnableRegionResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "EnableRegionResponse",
 }) as any as S.Schema<EnableRegionResponse>;
 export interface GetAccountInformationRequest {
@@ -283,14 +232,7 @@ export interface GetAccountInformationRequest {
 }
 export const GetAccountInformationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ AccountId: S.optional(S.String) }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/getAccountInformation" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/getAccountInformation" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetAccountInformationRequest",
@@ -308,9 +250,7 @@ export const GetAccountInformationResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     AccountId: S.optional(S.String),
     AccountName: S.optional(SensitiveString),
-    AccountCreatedDate: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    AccountCreatedDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     AccountState: S.optional(S.String),
   }),
 ).annotate({
@@ -321,18 +261,8 @@ export interface GetAlternateContactRequest {
   AccountId?: string;
 }
 export const GetAlternateContactRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AlternateContactType: S.String,
-    AccountId: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/getAlternateContact" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+  S.Struct({ AlternateContactType: S.String, AccountId: S.optional(S.String) }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/getAlternateContact" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetAlternateContactRequest",
@@ -356,9 +286,7 @@ export const AlternateContact = /*@__PURE__*/ S.suspend(() =>
     PhoneNumber: S.optional(SensitiveString),
     AlternateContactType: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AlternateContact",
-}) as any as S.Schema<AlternateContact>;
+).annotate({ identifier: "AlternateContact" }) as any as S.Schema<AlternateContact>;
 export interface GetAlternateContactResponse {
   AlternateContact?: AlternateContact;
 }
@@ -372,14 +300,7 @@ export interface GetContactInformationRequest {
 }
 export const GetContactInformationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ AccountId: S.optional(S.String) }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/getContactInformation" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/getContactInformation" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetContactInformationRequest",
@@ -423,52 +344,27 @@ export const ContactInformation = /*@__PURE__*/ S.suspend(() =>
     CompanyName: S.optional(SensitiveString),
     WebsiteUrl: S.optional(SensitiveString),
   }),
-).annotate({
-  identifier: "ContactInformation",
-}) as any as S.Schema<ContactInformation>;
+).annotate({ identifier: "ContactInformation" }) as any as S.Schema<ContactInformation>;
+export type PhoneNumberVerificationStatus = string;
 export interface GetContactInformationResponse {
   ContactInformation?: ContactInformation;
+  VerificationStatus?: string;
 }
 export const GetContactInformationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ContactInformation: S.optional(ContactInformation) }),
+  S.Struct({
+    ContactInformation: S.optional(ContactInformation),
+    VerificationStatus: S.optional(S.String),
+  }),
 ).annotate({
   identifier: "GetContactInformationResponse",
 }) as any as S.Schema<GetContactInformationResponse>;
 export interface GetGovCloudAccountInformationRequest {
   StandardAccountId?: string;
 }
-export const GetGovCloudAccountInformationRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ StandardAccountId: S.optional(S.String) }).pipe(
-      T.all(
-        T.Http({ method: "POST", uri: "/getGovCloudAccountInformation" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "GetGovCloudAccountInformationRequest",
-}) as any as S.Schema<GetGovCloudAccountInformationRequest>;
-export type AwsAccountState = string;
-export interface GetGovCloudAccountInformationResponse {
-  GovCloudAccountId: string;
-  AccountState: string;
-}
-export const GetGovCloudAccountInformationResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ GovCloudAccountId: S.String, AccountState: S.String }),
-).annotate({
-  identifier: "GetGovCloudAccountInformationResponse",
-}) as any as S.Schema<GetGovCloudAccountInformationResponse>;
-export interface GetPrimaryEmailRequest {
-  AccountId: string;
-}
-export const GetPrimaryEmailRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ AccountId: S.String }).pipe(
+export const GetGovCloudAccountInformationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ StandardAccountId: S.optional(S.String) }).pipe(
     T.all(
-      T.Http({ method: "POST", uri: "/getPrimaryEmail" }),
+      T.Http({ method: "POST", uri: "/getGovCloudAccountInformation" }),
       svc,
       auth,
       proto,
@@ -477,16 +373,32 @@ export const GetPrimaryEmailRequest = /*@__PURE__*/ S.suspend(() =>
     ),
   ),
 ).annotate({
-  identifier: "GetPrimaryEmailRequest",
-}) as any as S.Schema<GetPrimaryEmailRequest>;
+  identifier: "GetGovCloudAccountInformationRequest",
+}) as any as S.Schema<GetGovCloudAccountInformationRequest>;
+export type AwsAccountState = string;
+export interface GetGovCloudAccountInformationResponse {
+  GovCloudAccountId: string;
+  AccountState: string;
+}
+export const GetGovCloudAccountInformationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ GovCloudAccountId: S.String, AccountState: S.String }),
+).annotate({
+  identifier: "GetGovCloudAccountInformationResponse",
+}) as any as S.Schema<GetGovCloudAccountInformationResponse>;
+export interface GetPrimaryEmailRequest {
+  AccountId: string;
+}
+export const GetPrimaryEmailRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ AccountId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/getPrimaryEmail" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({ identifier: "GetPrimaryEmailRequest" }) as any as S.Schema<GetPrimaryEmailRequest>;
 export interface GetPrimaryEmailResponse {
   PrimaryEmail?: string | redacted.Redacted<string>;
 }
 export const GetPrimaryEmailResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ PrimaryEmail: S.optional(SensitiveString) }),
-).annotate({
-  identifier: "GetPrimaryEmailResponse",
-}) as any as S.Schema<GetPrimaryEmailResponse>;
+).annotate({ identifier: "GetPrimaryEmailResponse" }) as any as S.Schema<GetPrimaryEmailResponse>;
 export interface GetPrimaryEmailUpdateStatusRequest {
   AccountId?: string;
 }
@@ -522,14 +434,7 @@ export interface GetRegionOptStatusRequest {
 }
 export const GetRegionOptStatusRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ AccountId: S.optional(S.String), RegionName: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/getRegionOptStatus" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/getRegionOptStatus" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetRegionOptStatusRequest",
@@ -540,10 +445,7 @@ export interface GetRegionOptStatusResponse {
   RegionOptStatus?: string;
 }
 export const GetRegionOptStatusResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RegionName: S.optional(S.String),
-    RegionOptStatus: S.optional(S.String),
-  }),
+  S.Struct({ RegionName: S.optional(S.String), RegionOptStatus: S.optional(S.String) }),
 ).annotate({
   identifier: "GetRegionOptStatusResponse",
 }) as any as S.Schema<GetRegionOptStatusResponse>;
@@ -561,28 +463,14 @@ export const ListRegionsRequest = /*@__PURE__*/ S.suspend(() =>
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
     RegionOptStatusContains: S.optional(RegionOptStatusList),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/listRegions" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListRegionsRequest",
-}) as any as S.Schema<ListRegionsRequest>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/listRegions" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "ListRegionsRequest" }) as any as S.Schema<ListRegionsRequest>;
 export interface Region {
   RegionName?: string;
   RegionOptStatus?: string;
 }
 export const Region = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RegionName: S.optional(S.String),
-    RegionOptStatus: S.optional(S.String),
-  }),
+  S.Struct({ RegionName: S.optional(S.String), RegionOptStatus: S.optional(S.String) }),
 ).annotate({ identifier: "Region" }) as any as S.Schema<Region>;
 export type RegionOptList = Region[];
 export const RegionOptList = /*@__PURE__*/ S.Array(Region);
@@ -591,38 +479,19 @@ export interface ListRegionsResponse {
   Regions?: Region[];
 }
 export const ListRegionsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    Regions: S.optional(RegionOptList),
-  }),
-).annotate({
-  identifier: "ListRegionsResponse",
-}) as any as S.Schema<ListRegionsResponse>;
+  S.Struct({ NextToken: S.optional(S.String), Regions: S.optional(RegionOptList) }),
+).annotate({ identifier: "ListRegionsResponse" }) as any as S.Schema<ListRegionsResponse>;
 export interface PutAccountNameRequest {
   AccountName: string | redacted.Redacted<string>;
   AccountId?: string;
 }
 export const PutAccountNameRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AccountName: SensitiveString,
-    AccountId: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/putAccountName" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+  S.Struct({ AccountName: SensitiveString, AccountId: S.optional(S.String) }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/putAccountName" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "PutAccountNameRequest",
-}) as any as S.Schema<PutAccountNameRequest>;
+).annotate({ identifier: "PutAccountNameRequest" }) as any as S.Schema<PutAccountNameRequest>;
 export interface PutAccountNameResponse {}
-export const PutAccountNameResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const PutAccountNameResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "PutAccountNameResponse",
 }) as any as S.Schema<PutAccountNameResponse>;
 export interface PutAlternateContactRequest {
@@ -642,22 +511,13 @@ export const PutAlternateContactRequest = /*@__PURE__*/ S.suspend(() =>
     AlternateContactType: S.String,
     AccountId: S.optional(S.String),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/putAlternateContact" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/putAlternateContact" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "PutAlternateContactRequest",
 }) as any as S.Schema<PutAlternateContactRequest>;
 export interface PutAlternateContactResponse {}
-export const PutAlternateContactResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const PutAlternateContactResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "PutAlternateContactResponse",
 }) as any as S.Schema<PutAlternateContactResponse>;
 export interface PutContactInformationRequest {
@@ -665,12 +525,23 @@ export interface PutContactInformationRequest {
   AccountId?: string;
 }
 export const PutContactInformationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ContactInformation: ContactInformation,
-    AccountId: S.optional(S.String),
-  }).pipe(
+  S.Struct({ ContactInformation: ContactInformation, AccountId: S.optional(S.String) }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/putContactInformation" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "PutContactInformationRequest",
+}) as any as S.Schema<PutContactInformationRequest>;
+export interface PutContactInformationResponse {}
+export const PutContactInformationResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  identifier: "PutContactInformationResponse",
+}) as any as S.Schema<PutContactInformationResponse>;
+export interface SendPhoneNumberVerificationRequest {
+  AccountId?: string;
+}
+export const SendPhoneNumberVerificationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ AccountId: S.optional(S.String) }).pipe(
     T.all(
-      T.Http({ method: "POST", uri: "/putContactInformation" }),
+      T.Http({ method: "POST", uri: "/sendPhoneNumberVerification" }),
       svc,
       auth,
       proto,
@@ -679,14 +550,16 @@ export const PutContactInformationRequest = /*@__PURE__*/ S.suspend(() =>
     ),
   ),
 ).annotate({
-  identifier: "PutContactInformationRequest",
-}) as any as S.Schema<PutContactInformationRequest>;
-export interface PutContactInformationResponse {}
-export const PutContactInformationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  identifier: "SendPhoneNumberVerificationRequest",
+}) as any as S.Schema<SendPhoneNumberVerificationRequest>;
+export interface SendPhoneNumberVerificationResponse {
+  Status?: string;
+}
+export const SendPhoneNumberVerificationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ Status: S.optional(S.String) }),
 ).annotate({
-  identifier: "PutContactInformationResponse",
-}) as any as S.Schema<PutContactInformationResponse>;
+  identifier: "SendPhoneNumberVerificationResponse",
+}) as any as S.Schema<SendPhoneNumberVerificationResponse>;
 export interface StartPrimaryEmailUpdateRequest {
   AccountId: string;
   PrimaryEmail: string | redacted.Redacted<string>;
@@ -713,6 +586,23 @@ export const StartPrimaryEmailUpdateResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "StartPrimaryEmailUpdateResponse",
 }) as any as S.Schema<StartPrimaryEmailUpdateResponse>;
+export interface VerifyPhoneNumberRequest {
+  AccountId?: string;
+  Otp: string | redacted.Redacted<string>;
+}
+export const VerifyPhoneNumberRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ AccountId: S.optional(S.String), Otp: SensitiveString }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/verifyPhoneNumber" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({ identifier: "VerifyPhoneNumberRequest" }) as any as S.Schema<VerifyPhoneNumberRequest>;
+export interface VerifyPhoneNumberResponse {
+  Status?: string;
+}
+export const VerifyPhoneNumberResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ Status: S.optional(S.String) }),
+).annotate({
+  identifier: "VerifyPhoneNumberResponse",
+}) as any as S.Schema<VerifyPhoneNumberResponse>;
 export type SensitiveString = string | redacted.Redacted<string>;
 export type ValidationExceptionReason = string;
 export interface ValidationExceptionField {
@@ -721,13 +611,9 @@ export interface ValidationExceptionField {
 }
 export const ValidationExceptionField = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ name: S.String, message: SensitiveString }),
-).annotate({
-  identifier: "ValidationExceptionField",
-}) as any as S.Schema<ValidationExceptionField>;
+).annotate({ identifier: "ValidationExceptionField" }) as any as S.Schema<ValidationExceptionField>;
 export type ValidationExceptionFieldList = ValidationExceptionField[];
-export const ValidationExceptionFieldList = /*@__PURE__*/ S.Array(
-  ValidationExceptionField,
-);
+export const ValidationExceptionFieldList = /*@__PURE__*/ S.Array(ValidationExceptionField);
 export type AcceptPrimaryEmailUpdateError =
   | AccessDeniedException
   | ConflictException
@@ -1195,6 +1081,40 @@ export const putContactInformation: API.OperationMethod<
   operationName: "PutContactInformation",
 }));
 
+export type SendPhoneNumberVerificationError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Sends a one-time passcode to the phone number in the primary contact information of an Amazon Web Services account. Use VerifyPhoneNumber to submit the passcode and complete the verification.
+ *
+ * For complete details about how to use the primary contact operations, see Update the primary contact for your Amazon Web Services account.
+ */
+export const sendPhoneNumberVerification: API.OperationMethod<
+  SendPhoneNumberVerificationRequest,
+  SendPhoneNumberVerificationResponse,
+  SendPhoneNumberVerificationError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: SendPhoneNumberVerificationRequest,
+  output: SendPhoneNumberVerificationResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "SendPhoneNumberVerification",
+}));
+
 export type StartPrimaryEmailUpdateError =
   | AccessDeniedException
   | ConflictException
@@ -1225,4 +1145,38 @@ export const startPrimaryEmailUpdate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartPrimaryEmailUpdate",
+}));
+
+export type VerifyPhoneNumberError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Verifies the phone number in the primary contact information of an Amazon Web Services account by submitting the one-time passcode that SendPhoneNumberVerification sent to that phone number.
+ *
+ * For complete details about how to use the primary contact operations, see Update the primary contact for your Amazon Web Services account.
+ */
+export const verifyPhoneNumber: API.OperationMethod<
+  VerifyPhoneNumberRequest,
+  VerifyPhoneNumberResponse,
+  VerifyPhoneNumberError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: VerifyPhoneNumberRequest,
+  output: VerifyPhoneNumberResponse,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "VerifyPhoneNumber",
 }));

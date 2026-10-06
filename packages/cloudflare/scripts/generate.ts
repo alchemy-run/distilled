@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
 /**
  * generate — turn the Smithy JSON models in .generated-specs into an Effect SDK.
  *
@@ -12,18 +12,19 @@
  * injection, protocol/retry names, the import header, and route aliases.
  */
 
-import { camel, lowerFirst } from "@distilled.cloud/core/codegen/naming";
-import { type SdkSpec } from "@distilled.cloud/core/codegen/generator";
 import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
+import { type SdkSpec } from "@distilled.cloud/core/codegen/generator";
+import { camel, lowerFirst } from "@distilled.cloud/core/codegen/naming";
 
 const ENVELOPE_PAYLOAD_TRAIT = "com.cloudflare.protocols#envelopePayload";
 const NULLABLE_TRAIT = "com.cloudflare.protocols#nullable";
 const ERROR_MATCHERS_TRAIT = "com.cloudflare.protocols#errorMatchers";
 const FORM_DATA_FILE_TRAIT = "com.cloudflare.protocols#formDataFile";
-const BINARY_RESPONSE_BODY_TRAIT =
-  "com.cloudflare.protocols#binaryResponseBody";
+const BINARY_RESPONSE_BODY_TRAIT = "com.cloudflare.protocols#binaryResponseBody";
 const KEY_DICTIONARY_TRAIT = "com.cloudflare.protocols#keyDictionary";
 const DEEP_QUERY_TRAIT = "com.cloudflare.protocols#deepQuery";
+const HOST_TRAIT = "com.cloudflare.protocols#host";
+const VERBATIM_PAYLOAD_TRAIT = "com.cloudflare.protocols#verbatimPayload";
 
 /** Cloudflare's provider spec for the shared smithy→SDK compiler. */
 const makeCfSpec = (
@@ -94,6 +95,22 @@ const makeCfSpec = (
 
   sourceNote: ".generated-specs",
 
+  // The generic struct pipes (http trait, key dictionary), plus the
+  // per-operation origin for inputs whose operation carries
+  // `com.cloudflare.protocols#host` (K2's per-stream data plane).
+  structPipes: ({ isOpIo, httpTrait, opTraits }) => [
+    ...(httpTrait ? [`T.Http(${JSON.stringify(httpTrait)})`] : []),
+    ...(typeof opTraits?.[HOST_TRAIT] === "string"
+      ? [`T.Host(${JSON.stringify(opTraits[HOST_TRAIT])})`]
+      : []),
+    // An operation whose request body is user data (Pipelines ingest
+    // records) must not have its opaque content renamed through the
+    // service key dictionary.
+    ...(keyDictionary && isOpIo && opTraits?.[VERBATIM_PAYLOAD_TRAIT] === undefined
+      ? [`T.KeyDictionary(KEY_DICTIONARY)`]
+      : []),
+  ],
+
   // Op I/O roots carry the service key dictionary (inside the suspend, so it
   // survives core's Suspend resolution): the protocol reads it off the root
   // AST as the fallback wire mapping for opaque content.
@@ -145,11 +162,10 @@ const makeCfSpec = (
 
 runGeneratorCli({
   description: "Generate the Cloudflare Effect SDK from the Smithy models",
-  root: `${import.meta.dir}/..`,
+  root: `${import.meta.dirname}/..`,
   excludeModel: (f) => f === "cloudflare.protocols.json",
   manualSpecsDir: "manual-specs",
   // Per-service fallback key dictionary and route aliases arrive via the
   // model's metadata (baked into .generated-specs by spec-to-smithy).
-  spec: (model) =>
-    makeCfSpec(model.metadata?.keyDictionary, model.metadata?.opAliases),
+  spec: (model) => makeCfSpec(model.metadata?.keyDictionary, model.metadata?.opAliases),
 });

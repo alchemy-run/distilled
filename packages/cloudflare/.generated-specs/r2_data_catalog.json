@@ -663,13 +663,13 @@
         "state": {
           "target": "com.cloudflare.r2_data_catalog#MaintenanceConfigsUpdateRequestCompactionState",
           "traits": {
-            "smithy.api#documentation": "Updates the state optionally."
+            "smithy.api#documentation": "Specifies the state of maintenance operations."
           }
         },
         "target_size_mb": {
           "target": "com.cloudflare.r2_data_catalog#MaintenanceConfigsUpdateRequestCompactionTargetSizeMb",
           "traits": {
-            "smithy.api#documentation": "Updates the target file size optionally."
+            "smithy.api#documentation": "Sets the target file size for compaction in megabytes. Defaults to \"128\"."
           }
         }
       }
@@ -709,7 +709,7 @@
         "state": {
           "target": "com.cloudflare.r2_data_catalog#MaintenanceConfigsUpdateRequestSnapshotExpirationState",
           "traits": {
-            "smithy.api#documentation": "Updates the state optionally."
+            "smithy.api#documentation": "Specifies the state of maintenance operations."
           }
         }
       }
@@ -1232,7 +1232,7 @@
         "state": {
           "target": "com.cloudflare.r2_data_catalog#NamespacesTablesMaintenanceConfigsUpdateRequestSnapshotExpirationState",
           "traits": {
-            "smithy.api#documentation": "Updates the state optionally."
+            "smithy.api#documentation": "Specifies the state of maintenance operations."
           }
         }
       }

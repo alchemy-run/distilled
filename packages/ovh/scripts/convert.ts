@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
 /**
  * convert — turn OVHcloud's OpenAPI specs into Smithy 2.0 JSON models.
  *
@@ -15,7 +15,7 @@
 import * as path from "node:path";
 import { runOpenApiConvert } from "@distilled.cloud/core/codegen/openapi-cli";
 
-const root = path.resolve(import.meta.dir, "..");
+const root = path.resolve(import.meta.dirname, "..");
 
 /**
  * Filenames under specs/spec-mirror-ovh/specs/. Must match the files

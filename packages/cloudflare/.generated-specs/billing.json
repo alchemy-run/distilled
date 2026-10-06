@@ -1726,7 +1726,7 @@
         }
       }
     },
-    "com.cloudflare.billing#UsageGetResultItemTags": {
+    "com.cloudflare.billing#UsageGetResultItemTagsValue": {
       "type": "union",
       "members": {
         "String": {
@@ -1737,23 +1737,18 @@
         }
       }
     },
+    "com.cloudflare.billing#UsageGetResultItemTagsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.billing#UsageGetResultItemTagsValue"
+      }
+    },
     "com.cloudflare.billing#UsageGetResultItem": {
       "type": "structure",
       "members": {
-        "BillingAccountId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Public identifier of the Cloudflare account (account tag).",
-            "smithy.api#required": {}
-          }
-        },
-        "BillingAccountName": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Display name of the Cloudflare account.",
-            "smithy.api#required": {}
-          }
-        },
         "ChargeCategory": {
           "target": "com.cloudflare.billing#UsageGetResultItemChargeCategory",
           "traits": {
@@ -1831,17 +1826,22 @@
             "smithy.api#required": {}
           }
         },
-        "x_BillableMetricName": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The display name of the billable metric. Cloudflare extension; replaces FOCUS SkuMeter.",
-            "smithy.api#required": {}
-          }
-        },
         "BilledCost": {
           "target": "smithy.api#Double",
           "traits": {
             "smithy.api#documentation": "A charge serving as the basis for invoicing, inclusive of all reduced rates and discounts while excluding the amortization of upfront charges (one-time or recurring)."
+          }
+        },
+        "BillingAccountId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Public identifier of the Cloudflare account (account tag). Omitted when account is not part of the requested grouping, and always omitted for usage measured at contract level, even when grouping by account: that usage is returned as its own record with no account."
+          }
+        },
+        "BillingAccountName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Display name of the Cloudflare account. Omitted when account is not part of the requested grouping, and for usage measured at contract level."
           }
         },
         "BillingCurrency": {
@@ -1935,9 +1935,15 @@
           }
         },
         "Tags": {
-          "target": "com.cloudflare.billing#UsageGetResultItemTags",
+          "target": "com.cloudflare.billing#UsageGetResultItemTagsMap",
           "traits": {
             "smithy.api#documentation": "Tag values for the requested `GroupBy` keys. Omitted when `GroupBy` is not provided. Missing keys are omitted, and key-only tags are returned as boolean `true`. All other tag values are strings."
+          }
+        },
+        "x_BillableMetricName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display name of the billable metric. Cloudflare extension; replaces FOCUS SkuMeter."
           }
         },
         "x_ProductCategoryName": {
@@ -1961,13 +1967,13 @@
         "x_ZoneId": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The identifier for the Cloudflare zone (zone tag). Cloudflare extension."
+            "smithy.api#documentation": "The identifier for the Cloudflare zone (zone tag). Omitted when zone is not part of the requested grouping, and always omitted for usage measured at contract level, even when grouping by zone. Cloudflare extension."
           }
         },
         "x_ZoneName": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The display name of the Cloudflare zone. Cloudflare extension."
+            "smithy.api#documentation": "The display name of the Cloudflare zone. Omitted when zone is not part of the requested grouping, and for usage measured at contract level. Cloudflare extension."
           }
         }
       }
@@ -2406,7 +2412,7 @@
         }
       }
     },
-    "com.cloudflare.billing#UsageGetAccountUsageV2ResultItemTags": {
+    "com.cloudflare.billing#UsageGetAccountUsageV2ResultItemTagsValue": {
       "type": "union",
       "members": {
         "String": {
@@ -2417,23 +2423,18 @@
         }
       }
     },
+    "com.cloudflare.billing#UsageGetAccountUsageV2ResultItemTagsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.billing#UsageGetAccountUsageV2ResultItemTagsValue"
+      }
+    },
     "com.cloudflare.billing#UsageGetAccountUsageV2ResultItem": {
       "type": "structure",
       "members": {
-        "BillingAccountId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Public identifier of the Cloudflare account (account tag).",
-            "smithy.api#required": {}
-          }
-        },
-        "BillingAccountName": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Display name of the Cloudflare account.",
-            "smithy.api#required": {}
-          }
-        },
         "ChargeCategory": {
           "target": "com.cloudflare.billing#UsageGetAccountUsageV2ResultItemChargeCategory",
           "traits": {
@@ -2511,17 +2512,22 @@
             "smithy.api#required": {}
           }
         },
-        "x_BillableMetricName": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The display name of the billable metric. Cloudflare extension; replaces FOCUS SkuMeter.",
-            "smithy.api#required": {}
-          }
-        },
         "BilledCost": {
           "target": "smithy.api#Double",
           "traits": {
             "smithy.api#documentation": "A charge serving as the basis for invoicing, inclusive of all reduced rates and discounts while excluding the amortization of upfront charges (one-time or recurring)."
+          }
+        },
+        "BillingAccountId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Public identifier of the Cloudflare account (account tag). Omitted when account is not part of the requested grouping, and always omitted for usage measured at contract level, even when grouping by account: that usage is returned as its own record with no account."
+          }
+        },
+        "BillingAccountName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Display name of the Cloudflare account. Omitted when account is not part of the requested grouping, and for usage measured at contract level."
           }
         },
         "BillingCurrency": {
@@ -2615,9 +2621,15 @@
           }
         },
         "Tags": {
-          "target": "com.cloudflare.billing#UsageGetAccountUsageV2ResultItemTags",
+          "target": "com.cloudflare.billing#UsageGetAccountUsageV2ResultItemTagsMap",
           "traits": {
             "smithy.api#documentation": "Tag values for the requested `GroupBy` keys. Omitted when `GroupBy` is not provided. Missing keys are omitted, and key-only tags are returned as boolean `true`. All other tag values are strings."
+          }
+        },
+        "x_BillableMetricName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display name of the billable metric. Cloudflare extension; replaces FOCUS SkuMeter."
           }
         },
         "x_ProductCategoryName": {
@@ -2641,13 +2653,13 @@
         "x_ZoneId": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The identifier for the Cloudflare zone (zone tag). Cloudflare extension."
+            "smithy.api#documentation": "The identifier for the Cloudflare zone (zone tag). Omitted when zone is not part of the requested grouping, and always omitted for usage measured at contract level, even when grouping by zone. Cloudflare extension."
           }
         },
         "x_ZoneName": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The display name of the Cloudflare zone. Cloudflare extension."
+            "smithy.api#documentation": "The display name of the Cloudflare zone. Omitted when zone is not part of the requested grouping, and for usage measured at contract level. Cloudflare extension."
           }
         }
       }

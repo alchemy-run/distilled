@@ -811,7 +811,8 @@
           "method": "GET",
           "uri": "/api/projects/{project_id}/surveys/",
           "code": 200
-        }
+        },
+        "smithy.api#documentation": "Mixin for ViewSets to handle approval-gate exceptions raised from decorated serializers.\n\nIntercepts ApprovalRequired (409) and PolicyConflict (400) raised by the @approval_gate\ndecorator on serializer methods and converts them into the same responses the viewset path\nproduces (see decorators._result_to_response), so both paths share one contract."
       }
     },
     "com.posthog.surveys#SurveyScheduleEnum": {
@@ -3002,7 +3003,8 @@
           "method": "POST",
           "uri": "/api/projects/{project_id}/surveys/",
           "code": 200
-        }
+        },
+        "smithy.api#documentation": "Mixin for ViewSets to handle approval-gate exceptions raised from decorated serializers.\n\nIntercepts ApprovalRequired (409) and PolicyConflict (400) raised by the @approval_gate\ndecorator on serializer methods and converts them into the same responses the viewset path\nproduces (see decorators._result_to_response), so both paths share one contract."
       }
     },
     "com.posthog.surveys#GetSurveyRequest": {
@@ -3050,7 +3052,8 @@
           "method": "GET",
           "uri": "/api/projects/{project_id}/surveys/{id}/",
           "code": 200
-        }
+        },
+        "smithy.api#documentation": "Mixin for ViewSets to handle approval-gate exceptions raised from decorated serializers.\n\nIntercepts ApprovalRequired (409) and PolicyConflict (400) raised by the @approval_gate\ndecorator on serializer methods and converts them into the same responses the viewset path\nproduces (see decorators._result_to_response), so both paths share one contract."
       }
     },
     "com.posthog.surveys#UpdateSurveyRequestQuestionsList": {
@@ -3325,7 +3328,8 @@
           "method": "PUT",
           "uri": "/api/projects/{project_id}/surveys/{id}/",
           "code": 200
-        }
+        },
+        "smithy.api#documentation": "Mixin for ViewSets to handle approval-gate exceptions raised from decorated serializers.\n\nIntercepts ApprovalRequired (409) and PolicyConflict (400) raised by the @approval_gate\ndecorator on serializer methods and converts them into the same responses the viewset path\nproduces (see decorators._result_to_response), so both paths share one contract."
       }
     },
     "com.posthog.surveys#UpdateSurveysPartialRequestQuestionsList": {
@@ -3600,7 +3604,8 @@
           "method": "PATCH",
           "uri": "/api/projects/{project_id}/surveys/{id}/",
           "code": 200
-        }
+        },
+        "smithy.api#documentation": "Mixin for ViewSets to handle approval-gate exceptions raised from decorated serializers.\n\nIntercepts ApprovalRequired (409) and PolicyConflict (400) raised by the @approval_gate\ndecorator on serializer methods and converts them into the same responses the viewset path\nproduces (see decorators._result_to_response), so both paths share one contract."
       }
     },
     "com.posthog.surveys#SurveysDestroyRequest": {
@@ -3648,7 +3653,8 @@
           "method": "DELETE",
           "uri": "/api/projects/{project_id}/surveys/{id}/",
           "code": 200
-        }
+        },
+        "smithy.api#documentation": "Mixin for ViewSets to handle approval-gate exceptions raised from decorated serializers.\n\nIntercepts ApprovalRequired (409) and PolicyConflict (400) raised by the @approval_gate\ndecorator on serializer methods and converts them into the same responses the viewset path\nproduces (see decorators._result_to_response), so both paths share one contract."
       }
     },
     "com.posthog.surveys#GetSurveysActivityRequest": {
@@ -3696,7 +3702,8 @@
           "method": "GET",
           "uri": "/api/projects/{project_id}/surveys/{id}/activity/",
           "code": 200
-        }
+        },
+        "smithy.api#documentation": "Mixin for ViewSets to handle approval-gate exceptions raised from decorated serializers.\n\nIntercepts ApprovalRequired (409) and PolicyConflict (400) raised by the @approval_gate\ndecorator on serializer methods and converts them into the same responses the viewset path\nproduces (see decorators._result_to_response), so both paths share one contract."
       }
     },
     "com.posthog.surveys#GetSurveysArchivedResponseUuidRequest": {
@@ -4235,7 +4242,8 @@
           "method": "POST",
           "uri": "/api/projects/{project_id}/surveys/{id}/generate_translations/",
           "code": 200
-        }
+        },
+        "smithy.api#documentation": "Mixin for ViewSets to handle approval-gate exceptions raised from decorated serializers.\n\nIntercepts ApprovalRequired (409) and PolicyConflict (400) raised by the @approval_gate\ndecorator on serializer methods and converts them into the same responses the viewset path\nproduces (see decorators._result_to_response), so both paths share one contract."
       }
     },
     "com.posthog.surveys#SurveysLaunchRequest": {
@@ -5543,7 +5551,8 @@
           "method": "POST",
           "uri": "/api/projects/{project_id}/surveys/{id}/summary_headline/",
           "code": 200
-        }
+        },
+        "smithy.api#documentation": "Mixin for ViewSets to handle approval-gate exceptions raised from decorated serializers.\n\nIntercepts ApprovalRequired (409) and PolicyConflict (400) raised by the @approval_gate\ndecorator on serializer methods and converts them into the same responses the viewset path\nproduces (see decorators._result_to_response), so both paths share one contract."
       }
     },
     "com.posthog.surveys#GetSurveysAllActivityRequest": {
@@ -5583,7 +5592,8 @@
           "method": "GET",
           "uri": "/api/projects/{project_id}/surveys/activity/",
           "code": 200
-        }
+        },
+        "smithy.api#documentation": "Mixin for ViewSets to handle approval-gate exceptions raised from decorated serializers.\n\nIntercepts ApprovalRequired (409) and PolicyConflict (400) raised by the @approval_gate\ndecorator on serializer methods and converts them into the same responses the viewset path\nproduces (see decorators._result_to_response), so both paths share one contract."
       }
     },
     "com.posthog.surveys#SurveysQuestionLabelsRequest": {

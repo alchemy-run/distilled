@@ -1,5 +1,5 @@
 {
-  "description": "Hand-authored typed multipart Worker upload metadata. Keep shared metadata shapes manually synchronized with workers_for_platforms/putDispatchNamespaceScript.manual.json. Wire names verified against Cloudflare workers-sdk packages/workers-utils/src/types.ts (AssetConfigMetadata) and packages/deploy-helpers/src/deploy/helpers/create-worker-upload-form.ts: assets.config contains _headers and _redirects strings, and run_worker_first is boolean | string[]. Shapes originally transcribed from distilled v0. The version endpoint reuses these shapes; endpoint support for individual settings may differ.",
+  "description": "Hand-authored typed multipart Worker upload metadata. Keep shared metadata shapes manually synchronized with workers_for_platforms/putDispatchNamespaceScript.manual.json. Wire names verified against Cloudflare workers-sdk packages/workers-utils/src/types.ts (AssetConfigMetadata) and packages/deploy-helpers/src/deploy/helpers/create-worker-upload-form.ts: assets.config contains _headers and _redirects strings, and run_worker_first is boolean | string[]. Shapes originally transcribed from distilled v0. The version endpoint reuses these shapes; endpoint support for individual settings may differ. Workers Issues observability.issues.enabled is documented at https://developers.cloudflare.com/workers/observability/issues/ (Wrangler 4.134.0+); omitting it on redeploy disables Issues. Alchemy WorkerIssues.test.ts live tests on 2026-10-05 verified PUT with issues-only observability (without top-level enabled), GET script-settings, combined GET settings, and PATCH false-to-true while preserving logs/traces. Top-level enabled is optional for independent Issues configuration.",
   "patches": [
     {
       "op": "add",
@@ -1284,6 +1284,49 @@
     },
     {
       "op": "add",
+      "path": "/shapes/com.cloudflare.workers#PutScriptBindingK2Type",
+      "value": {
+        "type": "enum",
+        "members": {
+          "K2": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "k2"
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workers#PutScriptBindingK2",
+      "value": {
+        "type": "structure",
+        "members": {
+          "name": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {}
+            }
+          },
+          "stream": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "ID of a K2 stream owned by the account deploying the Worker (32 lowercase hex characters)."
+            }
+          },
+          "type": {
+            "target": "com.cloudflare.workers#PutScriptBindingK2Type",
+            "traits": {
+              "smithy.api#required": {}
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "add",
       "path": "/shapes/com.cloudflare.workers#PutScriptBindingQueueType",
       "value": {
         "type": "enum",
@@ -2232,6 +2275,9 @@
           },
           "case37": {
             "target": "com.cloudflare.workers#PutScriptBindingStream"
+          },
+          "case38": {
+            "target": "com.cloudflare.workers#PutScriptBindingK2"
           }
         }
       }
@@ -2479,15 +2525,28 @@
     },
     {
       "op": "add",
-      "path": "/shapes/com.cloudflare.workers#PutScriptMetadataObservability",
+      "path": "/shapes/com.cloudflare.workers#PutScriptObservabilityIssues",
       "value": {
         "type": "structure",
         "members": {
           "enabled": {
             "target": "smithy.api#Boolean",
             "traits": {
-              "smithy.api#required": {}
+              "smithy.api#required": {},
+              "smithy.api#documentation": "Whether Workers Issues error monitoring is enabled."
             }
+          }
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workers#PutScriptMetadataObservability",
+      "value": {
+        "type": "structure",
+        "members": {
+          "enabled": {
+            "target": "smithy.api#Boolean"
           },
           "head_sampling_rate": {
             "target": "smithy.api#Double",
@@ -2506,6 +2565,12 @@
             "traits": {
               "com.cloudflare.protocols#nullable": {}
             }
+          },
+          "issues": {
+            "target": "com.cloudflare.workers#PutScriptObservabilityIssues"
+          },
+          "redact_query_string": {
+            "target": "smithy.api#Boolean"
           }
         }
       }

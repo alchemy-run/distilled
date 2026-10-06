@@ -167,6 +167,27 @@
             "com.distilled.openapi#nullable": {}
           }
         },
+        "full_refresh_interval_days": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Days between scheduled full refreshes, from 1 to 90, or null for none. A full refresh wipes the table and re-imports every row, so rows deleted at the source are removed. It runs on the first scheduled sync once the interval has passed, counted from when it was saved or from the last full resync (or, when full_refresh_time_of_day is set, from the slot of that time the last refresh served), and can start up to an hour early. Queries keep returning the current rows until a full refresh finishes, and workflows and destinations that run on new rows of the table run again for every row. Available for incremental, append, and xmin syncs only, and never shorter than the sync frequency.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "full_refresh_time_of_day": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UTC time of day (HH:MM:SS) that scheduled full refreshes are due, for example outside working hours. The refresh runs on the first scheduled sync from up to an hour before this time, so on a table that syncs every few hours it can run hours later. Each interval counts from the slot of this time that the last refresh or save served, where a slot less than an hour away counts as served. Saving a new time restarts the clock, so the first refresh after a save can come up to a day before a full interval has passed. Null counts the interval from when it was saved or from the last full resync. Cleared when full_refresh_interval_days is null.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "next_full_refresh_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the next scheduled full refresh is due. The first scheduled sync that starts at most an hour before this time re-imports the table. Saving a new interval or time, or any full resync, moves it one interval ahead, onto full_refresh_time_of_day when that is set.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
         "description": {
           "target": "smithy.api#String",
           "traits": {
@@ -184,6 +205,13 @@
           "target": "com.posthog.external_data_schemas#CdcTableModeEnum",
           "traits": {
             "smithy.api#documentation": "For CDC syncs: consolidated, cdc_only, or both.\n\n* `consolidated` - consolidated\n* `cdc_only` - cdc_only\n* `both` - both",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "incremental_sync_blocked": {
+          "target": "com.posthog.external_data_schemas#IncrementalSyncBlockedReasonEnum",
+          "traits": {
+            "smithy.api#documentation": "Why the last sync run could not merge rows for this table, or `null` when no such failure is current, which includes a run that failed for another reason. A blocked table is disabled, and the resolution differs by reason. `missing_primary_key`: no key to merge on, so set `primary_key_columns` to a unique key, which is accepted because none was set before. `duplicate_primary_key`: the key in use does not identify one row, and that key cannot be swapped once data has synced, so either remove the duplicates at the source and set `should_sync` to true, or delete the synced data before setting a different key. Either reason also accepts a different `sync_type`: `append` is only safe for insert-only tables, because updated rows arrive again as duplicates, and `full_refresh` re-reads the whole table on every sync and bills every row. This reports the last run's failure, so it clears once a run succeeds or fails for another reason, not when an update lands.\n\n* `missing_primary_key` - Missing primary key\n* `duplicate_primary_key` - Duplicate primary key",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -451,6 +479,26 @@
       },
       "traits": {
         "smithy.api#documentation": "* `consolidated` - consolidated\n* `cdc_only` - cdc_only\n* `both` - both"
+      }
+    },
+    "com.posthog.external_data_schemas#IncrementalSyncBlockedReasonEnum": {
+      "type": "enum",
+      "members": {
+        "MISSING_PRIMARY_KEY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "missing_primary_key"
+          }
+        },
+        "DUPLICATE_PRIMARY_KEY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "duplicate_primary_key"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `missing_primary_key` - Missing primary key\n* `duplicate_primary_key` - Duplicate primary key"
       }
     },
     "com.posthog.external_data_schemas#ExternalDataSchemaEnabledColumnsList": {
@@ -799,6 +847,20 @@
             "com.distilled.openapi#nullable": {}
           }
         },
+        "full_refresh_interval_days": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Days between scheduled full refreshes, from 1 to 90, or null for none. A full refresh wipes the table and re-imports every row, so rows deleted at the source are removed. It runs on the first scheduled sync once the interval has passed, counted from when it was saved or from the last full resync (or, when full_refresh_time_of_day is set, from the slot of that time the last refresh served), and can start up to an hour early. Queries keep returning the current rows until a full refresh finishes, and workflows and destinations that run on new rows of the table run again for every row. Available for incremental, append, and xmin syncs only, and never shorter than the sync frequency.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "full_refresh_time_of_day": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UTC time of day (HH:MM:SS) that scheduled full refreshes are due, for example outside working hours. The refresh runs on the first scheduled sync from up to an hour before this time, so on a table that syncs every few hours it can run hours later. Each interval counts from the slot of this time that the last refresh or save served, where a slot less than an hour away counts as served. Saving a new time restarts the clock, so the first refresh after a save can come up to a day before a full interval has passed. Null counts the interval from when it was saved or from the last full resync. Cleared when full_refresh_interval_days is null.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
         "primary_key_columns": {
           "target": "com.posthog.external_data_schemas#UpdateExternalDataSchemaRequestPrimaryKeyColumnsList",
           "traits": {
@@ -980,6 +1042,20 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "UTC time of day to run the sync (HH:MM:SS).",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "full_refresh_interval_days": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Days between scheduled full refreshes, from 1 to 90, or null for none. A full refresh wipes the table and re-imports every row, so rows deleted at the source are removed. It runs on the first scheduled sync once the interval has passed, counted from when it was saved or from the last full resync (or, when full_refresh_time_of_day is set, from the slot of that time the last refresh served), and can start up to an hour early. Queries keep returning the current rows until a full refresh finishes, and workflows and destinations that run on new rows of the table run again for every row. Available for incremental, append, and xmin syncs only, and never shorter than the sync frequency.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "full_refresh_time_of_day": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UTC time of day (HH:MM:SS) that scheduled full refreshes are due, for example outside working hours. The refresh runs on the first scheduled sync from up to an hour before this time, so on a table that syncs every few hours it can run hours later. Each interval counts from the slot of this time that the last refresh or save served, where a slot less than an hour away counts as served. Saving a new time restarts the clock, so the first refresh after a save can come up to a day before a full interval has passed. Null counts the interval from when it was saved or from the last full resync. Cleared when full_refresh_interval_days is null.",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -1353,59 +1429,6 @@
         "smithy.api#documentation": "Read or replace this table's destination override.\n\nSend `destination_ids: null` to clear the override so the table follows its source again."
       }
     },
-    "com.posthog.external_data_schemas#CreateExternalDataSchemasIncrementalFieldRequestPrimaryKeyColumnsList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      },
-      "traits": {
-        "smithy.api#documentation": "Column names for primary key deduplication."
-      }
-    },
-    "com.posthog.external_data_schemas#CreateExternalDataSchemasIncrementalFieldRequestEnabledColumnsList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      },
-      "traits": {
-        "smithy.api#documentation": "Names of source columns to sync. `null` (default) syncs all columns. Primary-key columns and the active incremental field are always retained, even if not listed here."
-      }
-    },
-    "com.posthog.external_data_schemas#CreateExternalDataSchemasIncrementalFieldRequestRowFiltersItem": {
-      "type": "structure",
-      "members": {
-        "column": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "operator": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "One of: > >= < <= = != IN \"NOT IN\".",
-            "smithy.api#required": {}
-          }
-        },
-        "value": {
-          "target": "smithy.api#Document",
-          "traits": {
-            "smithy.api#documentation": "Comparison value; must match the column's type. For `IN` / `NOT IN`, a comma-separated list (e.g. `1, 2, 3` or `'a','b'`).",
-            "smithy.api#required": {}
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.posthog.external_data_schemas#CreateExternalDataSchemasIncrementalFieldRequestRowFiltersList": {
-      "type": "list",
-      "member": {
-        "target": "com.posthog.external_data_schemas#CreateExternalDataSchemasIncrementalFieldRequestRowFiltersItem"
-      },
-      "traits": {
-        "smithy.api#documentation": "Predicates ANDed onto the source query so only matching rows sync. Each is `{column, operator, value}`; `null`/empty (default) syncs all rows. The operator must be one of `> >= < <= = != IN \"NOT IN\"` and the value must match the column's type (for `IN`/`NOT IN`, a comma-separated list like `1, 2, 3` or `'a','b'`). Applied on the next sync — not retroactive to already-synced rows."
-      }
-    },
     "com.posthog.external_data_schemas#CreateExternalDataSchemasIncrementalFieldRequest": {
       "type": "structure",
       "members": {
@@ -1423,86 +1446,6 @@
             "smithy.api#httpLabel": {},
             "smithy.api#required": {},
             "smithy.api#documentation": "A UUID string identifying this external data schema."
-          }
-        },
-        "should_sync": {
-          "target": "smithy.api#Boolean"
-        },
-        "sync_type": {
-          "target": "com.posthog.external_data_schemas#ExternalDataSchemaSyncTypeEnum",
-          "traits": {
-            "smithy.api#documentation": "Sync strategy: incremental, full_refresh, append, cdc, or xmin.\n\n* `full_refresh` - full_refresh\n* `incremental` - incremental\n* `append` - append\n* `webhook` - webhook\n* `cdc` - cdc\n* `xmin` - xmin",
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "incremental_field": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Column name used to track sync progress.",
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "incremental_field_type": {
-          "target": "com.posthog.external_data_schemas#IncrementalFieldTypeEnum",
-          "traits": {
-            "smithy.api#documentation": "Data type of the incremental field.\n\n* `integer` - integer\n* `numeric` - numeric\n* `datetime` - datetime\n* `date` - date\n* `timestamp` - timestamp\n* `objectid` - objectid\n* `xid` - xid",
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "incremental_field_lookback_seconds": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "Seconds to subtract from the stored incremental watermark at sync time, so each incremental run re-reads a rolling overlap window and catches late or backdated rows. Applies to timestamp/date incremental fields only. The stored watermark is unchanged. Maximum 5184000 (60 days).",
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "sync_frequency": {
-          "target": "com.posthog.external_data_schemas#ExternalDataSchemaSyncFrequencyEnum",
-          "traits": {
-            "smithy.api#documentation": "How often to sync. The fastest sync frequency is 5 minutes.\n\n* `never` - never\n* `5min` - 5min\n* `15min` - 15min\n* `30min` - 30min\n* `1hour` - 1hour\n* `6hour` - 6hour\n* `12hour` - 12hour\n* `24hour` - 24hour\n* `7day` - 7day\n* `30day` - 30day",
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "sync_time_of_day": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "UTC time of day to run the sync (HH:MM:SS).",
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "primary_key_columns": {
-          "target": "com.posthog.external_data_schemas#CreateExternalDataSchemasIncrementalFieldRequestPrimaryKeyColumnsList",
-          "traits": {
-            "smithy.api#documentation": "Column names for primary key deduplication.",
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "cdc_table_mode": {
-          "target": "com.posthog.external_data_schemas#CdcTableModeEnum",
-          "traits": {
-            "smithy.api#documentation": "For CDC syncs: consolidated, cdc_only, or both.\n\n* `consolidated` - consolidated\n* `cdc_only` - cdc_only\n* `both` - both",
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "enabled_columns": {
-          "target": "com.posthog.external_data_schemas#CreateExternalDataSchemasIncrementalFieldRequestEnabledColumnsList",
-          "traits": {
-            "smithy.api#documentation": "Names of source columns to sync. `null` (default) syncs all columns. Primary-key columns and the active incremental field are always retained, even if not listed here.",
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "row_filters": {
-          "target": "com.posthog.external_data_schemas#CreateExternalDataSchemasIncrementalFieldRequestRowFiltersList",
-          "traits": {
-            "smithy.api#documentation": "Predicates ANDed onto the source query so only matching rows sync. Each is `{column, operator, value}`; `null`/empty (default) syncs all rows. The operator must be one of `> >= < <= = != IN \"NOT IN\"` and the value must match the column's type (for `IN`/`NOT IN`, a comma-separated list like `1, 2, 3` or `'a','b'`). Applied on the next sync — not retroactive to already-synced rows.",
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "api_version": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Vendor API version override for this schema. `null` (default) syncs on the source's pinned version. Must be one of the source type's supported versions. User-managed: version-migration tooling never changes it. Not available for webhook-sync schemas.",
-            "com.distilled.openapi#nullable": {}
           }
         }
       },
@@ -1667,7 +1610,8 @@
           "method": "POST",
           "uri": "/api/projects/{project_id}/external_data_schemas/{id}/reload/",
           "code": 200
-        }
+        },
+        "smithy.api#documentation": "Trigger a sync for the schema using its configured sync method. Most methods keep the existing warehouse table and add or merge new rows, but a full-refresh schema rebuilds the whole table on every run. To force a rebuild from the source, use resync."
       }
     },
     "com.posthog.external_data_schemas#CreateExternalDataSchemasResyncRequest": {
@@ -1718,7 +1662,8 @@
           "method": "POST",
           "uri": "/api/projects/{project_id}/external_data_schemas/{id}/resync/",
           "code": 200
-        }
+        },
+        "smithy.api#documentation": "Request a full resync of the schema. For sources that can backfill, this drops the warehouse table and re-imports every row from the source, so existing data is deleted first. A webhook-only schema cannot backfill, so it keeps its existing table and resumes ingestion instead. To sync without requesting a rebuild, use reload."
       }
     },
     "com.posthog.external_data_schemas#BadRequest": {

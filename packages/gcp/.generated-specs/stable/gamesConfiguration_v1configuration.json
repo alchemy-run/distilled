@@ -8,38 +8,6 @@
     "distilled.finalized": true
   },
   "shapes": {
-    "com.gcp.gamesConfiguration_v1configuration#LeaderboardConfigurationListResponse": {
-      "type": "structure",
-      "members": {
-        "items": {
-          "target": "com.gcp.gamesConfiguration_v1configuration#LeaderboardConfigurationList",
-          "traits": {
-            "smithy.api#documentation": "The leaderboard configurations."
-          }
-        },
-        "kind": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Uniquely identifies the type of this resource. Value is always the fixed string `gamesConfiguration#leaderboardConfigurationListResponse`."
-          }
-        },
-        "nextPageToken": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The pagination token for the next page of results."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "A ListConfigurations response."
-      }
-    },
-    "com.gcp.gamesConfiguration_v1configuration#LeaderboardConfigurationList": {
-      "type": "list",
-      "member": {
-        "target": "com.gcp.gamesConfiguration_v1configuration#LeaderboardConfiguration"
-      }
-    },
     "com.gcp.gamesConfiguration_v1configuration#LocalizedString": {
       "type": "structure",
       "members": {
@@ -66,9 +34,91 @@
         "smithy.api#documentation": "A localized string resource."
       }
     },
+    "com.gcp.gamesConfiguration_v1configuration#LeaderboardConfiguration": {
+      "type": "structure",
+      "members": {
+        "scoreMin": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Minimum score that can be posted to this leaderboard."
+          }
+        },
+        "token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The token for this resource."
+          }
+        },
+        "scoreMax": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Maximum score that can be posted to this leaderboard."
+          }
+        },
+        "scoreOrder": {
+          "target": "com.gcp.gamesConfiguration_v1configuration#LeaderboardConfigurationScoreOrderEnum"
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the leaderboard."
+          }
+        },
+        "draft": {
+          "target": "com.gcp.gamesConfiguration_v1configuration#LeaderboardConfigurationDetail",
+          "traits": {
+            "smithy.api#documentation": "The draft data of the leaderboard."
+          }
+        },
+        "kind": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Uniquely identifies the type of this resource. Value is always the fixed string `gamesConfiguration#leaderboardConfiguration`."
+          }
+        },
+        "published": {
+          "target": "com.gcp.gamesConfiguration_v1configuration#LeaderboardConfigurationDetail",
+          "traits": {
+            "smithy.api#documentation": "The read-only published data of the leaderboard."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "An leaderboard configuration resource."
+      }
+    },
+    "com.gcp.gamesConfiguration_v1configuration#LeaderboardConfigurationScoreOrderEnum": {
+      "type": "enum",
+      "members": {
+        "SCORE_ORDER_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SCORE_ORDER_UNSPECIFIED"
+          }
+        },
+        "LARGER_IS_BETTER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "LARGER_IS_BETTER"
+          }
+        },
+        "SMALLER_IS_BETTER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SMALLER_IS_BETTER"
+          }
+        }
+      }
+    },
     "com.gcp.gamesConfiguration_v1configuration#LeaderboardConfigurationDetail": {
       "type": "structure",
       "members": {
+        "kind": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Uniquely identifies the type of this resource. Value is always the fixed string `gamesConfiguration#leaderboardConfigurationDetail`."
+          }
+        },
         "name": {
           "target": "com.gcp.gamesConfiguration_v1configuration#LocalizedStringBundle",
           "traits": {
@@ -87,12 +137,6 @@
             "smithy.api#documentation": "The score formatting for the leaderboard."
           }
         },
-        "kind": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Uniquely identifies the type of this resource. Value is always the fixed string `gamesConfiguration#leaderboardConfigurationDetail`."
-          }
-        },
         "sortRank": {
           "target": "smithy.api#Integer",
           "traits": {
@@ -102,6 +146,260 @@
       },
       "traits": {
         "smithy.api#documentation": "A leaderboard configuration detail."
+      }
+    },
+    "com.gcp.gamesConfiguration_v1configuration#LeaderboardConfigurationListResponse": {
+      "type": "structure",
+      "members": {
+        "items": {
+          "target": "com.gcp.gamesConfiguration_v1configuration#LeaderboardConfigurationList",
+          "traits": {
+            "smithy.api#documentation": "The leaderboard configurations."
+          }
+        },
+        "nextPageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The pagination token for the next page of results."
+          }
+        },
+        "kind": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Uniquely identifies the type of this resource. Value is always the fixed string `gamesConfiguration#leaderboardConfigurationListResponse`."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A ListConfigurations response."
+      }
+    },
+    "com.gcp.gamesConfiguration_v1configuration#LeaderboardConfigurationList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.gamesConfiguration_v1configuration#LeaderboardConfiguration"
+      }
+    },
+    "com.gcp.gamesConfiguration_v1configuration#AchievementConfiguration": {
+      "type": "structure",
+      "members": {
+        "achievementType": {
+          "target": "com.gcp.gamesConfiguration_v1configuration#AchievementConfigurationAchievementTypeEnum",
+          "traits": {
+            "smithy.api#documentation": "The type of the achievement."
+          }
+        },
+        "kind": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Uniquely identifies the type of this resource. Value is always the fixed string `gamesConfiguration#achievementConfiguration`."
+          }
+        },
+        "published": {
+          "target": "com.gcp.gamesConfiguration_v1configuration#AchievementConfigurationDetail",
+          "traits": {
+            "smithy.api#documentation": "The read-only published data of the achievement."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the achievement."
+          }
+        },
+        "initialState": {
+          "target": "com.gcp.gamesConfiguration_v1configuration#AchievementConfigurationInitialStateEnum",
+          "traits": {
+            "smithy.api#documentation": "The initial state of the achievement."
+          }
+        },
+        "draft": {
+          "target": "com.gcp.gamesConfiguration_v1configuration#AchievementConfigurationDetail",
+          "traits": {
+            "smithy.api#documentation": "The draft data of the achievement."
+          }
+        },
+        "token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The token for this resource."
+          }
+        },
+        "stepsToUnlock": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Steps to unlock. Only applicable to incremental achievements."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "An achievement configuration resource."
+      }
+    },
+    "com.gcp.gamesConfiguration_v1configuration#AchievementConfigurationAchievementTypeEnum": {
+      "type": "enum",
+      "members": {
+        "ACHIEVEMENT_TYPE_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ACHIEVEMENT_TYPE_UNSPECIFIED"
+          }
+        },
+        "STANDARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "STANDARD"
+          }
+        },
+        "INCREMENTAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "INCREMENTAL"
+          }
+        }
+      }
+    },
+    "com.gcp.gamesConfiguration_v1configuration#AchievementConfigurationInitialStateEnum": {
+      "type": "enum",
+      "members": {
+        "INITIAL_STATE_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "INITIAL_STATE_UNSPECIFIED"
+          }
+        },
+        "HIDDEN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "HIDDEN"
+          }
+        },
+        "REVEALED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "REVEALED"
+          }
+        }
+      }
+    },
+    "com.gcp.gamesConfiguration_v1configuration#AchievementConfigurationListResponse": {
+      "type": "structure",
+      "members": {
+        "nextPageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The pagination token for the next page of results."
+          }
+        },
+        "kind": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Uniquely identifies the type of this resource. Value is always the fixed string `gamesConfiguration#achievementConfigurationListResponse`."
+          }
+        },
+        "items": {
+          "target": "com.gcp.gamesConfiguration_v1configuration#AchievementConfigurationList",
+          "traits": {
+            "smithy.api#documentation": "The achievement configurations."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A ListConfigurations response."
+      }
+    },
+    "com.gcp.gamesConfiguration_v1configuration#AchievementConfigurationList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.gamesConfiguration_v1configuration#AchievementConfiguration"
+      }
+    },
+    "com.gcp.gamesConfiguration_v1configuration#AchievementConfigurationDetail": {
+      "type": "structure",
+      "members": {
+        "description": {
+          "target": "com.gcp.gamesConfiguration_v1configuration#LocalizedStringBundle",
+          "traits": {
+            "smithy.api#documentation": "Localized strings for the achievement description."
+          }
+        },
+        "sortRank": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The sort rank of this achievement. Writes to this field are ignored."
+          }
+        },
+        "iconUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The icon url of this achievement. Writes to this field are ignored."
+          }
+        },
+        "pointValue": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Point value for the achievement."
+          }
+        },
+        "kind": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Uniquely identifies the type of this resource. Value is always the fixed string `gamesConfiguration#achievementConfigurationDetail`."
+          }
+        },
+        "name": {
+          "target": "com.gcp.gamesConfiguration_v1configuration#LocalizedStringBundle",
+          "traits": {
+            "smithy.api#documentation": "Localized strings for the achievement name."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "An achievement configuration detail."
+      }
+    },
+    "com.gcp.gamesConfiguration_v1configuration#GamesNumberAffixConfiguration": {
+      "type": "structure",
+      "members": {
+        "other": {
+          "target": "com.gcp.gamesConfiguration_v1configuration#LocalizedStringBundle",
+          "traits": {
+            "smithy.api#documentation": "When the language does not require special treatment of the given quantity (as with all numbers in Chinese, or 42 in English)."
+          }
+        },
+        "one": {
+          "target": "com.gcp.gamesConfiguration_v1configuration#LocalizedStringBundle",
+          "traits": {
+            "smithy.api#documentation": "When the language requires special treatment of numbers like one (as with the number 1 in English and most other languages; in Russian, any number ending in 1 but not ending in 11 is in this class)."
+          }
+        },
+        "two": {
+          "target": "com.gcp.gamesConfiguration_v1configuration#LocalizedStringBundle",
+          "traits": {
+            "smithy.api#documentation": "When the language requires special treatment of numbers like two (as with 2 in Welsh, or 102 in Slovenian)."
+          }
+        },
+        "many": {
+          "target": "com.gcp.gamesConfiguration_v1configuration#LocalizedStringBundle",
+          "traits": {
+            "smithy.api#documentation": "When the language requires special treatment of \"large\" numbers (as with numbers ending 11-99 in Maltese)."
+          }
+        },
+        "few": {
+          "target": "com.gcp.gamesConfiguration_v1configuration#LocalizedStringBundle",
+          "traits": {
+            "smithy.api#documentation": "When the language requires special treatment of \"small\" numbers (as with 2, 3, and 4 in Czech; or numbers ending 2, 3, or 4 but not 12, 13, or 14 in Polish)."
+          }
+        },
+        "zero": {
+          "target": "com.gcp.gamesConfiguration_v1configuration#LocalizedStringBundle",
+          "traits": {
+            "smithy.api#documentation": "When the language requires special treatment of the number 0 (as in Arabic)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A number affix resource."
       }
     },
     "com.gcp.gamesConfiguration_v1configuration#GamesNumberFormatConfiguration": {
@@ -119,16 +417,16 @@
             "smithy.api#documentation": "The curreny code string. Only used for CURRENCY format type."
           }
         },
-        "numDecimalPlaces": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "The number of decimal places for number. Only used for NUMERIC format type."
-          }
-        },
         "numberFormatType": {
           "target": "com.gcp.gamesConfiguration_v1configuration#GamesNumberFormatConfigurationNumberFormatTypeEnum",
           "traits": {
             "smithy.api#documentation": "The formatting for the number."
+          }
+        },
+        "numDecimalPlaces": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The number of decimal places for number. Only used for NUMERIC format type."
           }
         }
       },
@@ -165,304 +463,6 @@
         }
       }
     },
-    "com.gcp.gamesConfiguration_v1configuration#LeaderboardConfiguration": {
-      "type": "structure",
-      "members": {
-        "kind": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Uniquely identifies the type of this resource. Value is always the fixed string `gamesConfiguration#leaderboardConfiguration`."
-          }
-        },
-        "scoreMax": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Maximum score that can be posted to this leaderboard."
-          }
-        },
-        "draft": {
-          "target": "com.gcp.gamesConfiguration_v1configuration#LeaderboardConfigurationDetail",
-          "traits": {
-            "smithy.api#documentation": "The draft data of the leaderboard."
-          }
-        },
-        "scoreMin": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Minimum score that can be posted to this leaderboard."
-          }
-        },
-        "token": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The token for this resource."
-          }
-        },
-        "published": {
-          "target": "com.gcp.gamesConfiguration_v1configuration#LeaderboardConfigurationDetail",
-          "traits": {
-            "smithy.api#documentation": "The read-only published data of the leaderboard."
-          }
-        },
-        "scoreOrder": {
-          "target": "com.gcp.gamesConfiguration_v1configuration#LeaderboardConfigurationScoreOrderEnum"
-        },
-        "id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The ID of the leaderboard."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "An leaderboard configuration resource."
-      }
-    },
-    "com.gcp.gamesConfiguration_v1configuration#LeaderboardConfigurationScoreOrderEnum": {
-      "type": "enum",
-      "members": {
-        "SCORE_ORDER_UNSPECIFIED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "SCORE_ORDER_UNSPECIFIED"
-          }
-        },
-        "LARGER_IS_BETTER": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "LARGER_IS_BETTER"
-          }
-        },
-        "SMALLER_IS_BETTER": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "SMALLER_IS_BETTER"
-          }
-        }
-      }
-    },
-    "com.gcp.gamesConfiguration_v1configuration#AchievementConfiguration": {
-      "type": "structure",
-      "members": {
-        "published": {
-          "target": "com.gcp.gamesConfiguration_v1configuration#AchievementConfigurationDetail",
-          "traits": {
-            "smithy.api#documentation": "The read-only published data of the achievement."
-          }
-        },
-        "token": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The token for this resource."
-          }
-        },
-        "kind": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Uniquely identifies the type of this resource. Value is always the fixed string `gamesConfiguration#achievementConfiguration`."
-          }
-        },
-        "draft": {
-          "target": "com.gcp.gamesConfiguration_v1configuration#AchievementConfigurationDetail",
-          "traits": {
-            "smithy.api#documentation": "The draft data of the achievement."
-          }
-        },
-        "initialState": {
-          "target": "com.gcp.gamesConfiguration_v1configuration#AchievementConfigurationInitialStateEnum",
-          "traits": {
-            "smithy.api#documentation": "The initial state of the achievement."
-          }
-        },
-        "achievementType": {
-          "target": "com.gcp.gamesConfiguration_v1configuration#AchievementConfigurationAchievementTypeEnum",
-          "traits": {
-            "smithy.api#documentation": "The type of the achievement."
-          }
-        },
-        "stepsToUnlock": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "Steps to unlock. Only applicable to incremental achievements."
-          }
-        },
-        "id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The ID of the achievement."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "An achievement configuration resource."
-      }
-    },
-    "com.gcp.gamesConfiguration_v1configuration#AchievementConfigurationInitialStateEnum": {
-      "type": "enum",
-      "members": {
-        "INITIAL_STATE_UNSPECIFIED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "INITIAL_STATE_UNSPECIFIED"
-          }
-        },
-        "HIDDEN": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "HIDDEN"
-          }
-        },
-        "REVEALED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "REVEALED"
-          }
-        }
-      }
-    },
-    "com.gcp.gamesConfiguration_v1configuration#AchievementConfigurationAchievementTypeEnum": {
-      "type": "enum",
-      "members": {
-        "ACHIEVEMENT_TYPE_UNSPECIFIED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "ACHIEVEMENT_TYPE_UNSPECIFIED"
-          }
-        },
-        "STANDARD": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "STANDARD"
-          }
-        },
-        "INCREMENTAL": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "INCREMENTAL"
-          }
-        }
-      }
-    },
-    "com.gcp.gamesConfiguration_v1configuration#AchievementConfigurationDetail": {
-      "type": "structure",
-      "members": {
-        "pointValue": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "Point value for the achievement."
-          }
-        },
-        "kind": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Uniquely identifies the type of this resource. Value is always the fixed string `gamesConfiguration#achievementConfigurationDetail`."
-          }
-        },
-        "sortRank": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "The sort rank of this achievement. Writes to this field are ignored."
-          }
-        },
-        "name": {
-          "target": "com.gcp.gamesConfiguration_v1configuration#LocalizedStringBundle",
-          "traits": {
-            "smithy.api#documentation": "Localized strings for the achievement name."
-          }
-        },
-        "description": {
-          "target": "com.gcp.gamesConfiguration_v1configuration#LocalizedStringBundle",
-          "traits": {
-            "smithy.api#documentation": "Localized strings for the achievement description."
-          }
-        },
-        "iconUrl": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The icon url of this achievement. Writes to this field are ignored."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "An achievement configuration detail."
-      }
-    },
-    "com.gcp.gamesConfiguration_v1configuration#GamesNumberAffixConfiguration": {
-      "type": "structure",
-      "members": {
-        "zero": {
-          "target": "com.gcp.gamesConfiguration_v1configuration#LocalizedStringBundle",
-          "traits": {
-            "smithy.api#documentation": "When the language requires special treatment of the number 0 (as in Arabic)."
-          }
-        },
-        "few": {
-          "target": "com.gcp.gamesConfiguration_v1configuration#LocalizedStringBundle",
-          "traits": {
-            "smithy.api#documentation": "When the language requires special treatment of \"small\" numbers (as with 2, 3, and 4 in Czech; or numbers ending 2, 3, or 4 but not 12, 13, or 14 in Polish)."
-          }
-        },
-        "one": {
-          "target": "com.gcp.gamesConfiguration_v1configuration#LocalizedStringBundle",
-          "traits": {
-            "smithy.api#documentation": "When the language requires special treatment of numbers like one (as with the number 1 in English and most other languages; in Russian, any number ending in 1 but not ending in 11 is in this class)."
-          }
-        },
-        "many": {
-          "target": "com.gcp.gamesConfiguration_v1configuration#LocalizedStringBundle",
-          "traits": {
-            "smithy.api#documentation": "When the language requires special treatment of \"large\" numbers (as with numbers ending 11-99 in Maltese)."
-          }
-        },
-        "two": {
-          "target": "com.gcp.gamesConfiguration_v1configuration#LocalizedStringBundle",
-          "traits": {
-            "smithy.api#documentation": "When the language requires special treatment of numbers like two (as with 2 in Welsh, or 102 in Slovenian)."
-          }
-        },
-        "other": {
-          "target": "com.gcp.gamesConfiguration_v1configuration#LocalizedStringBundle",
-          "traits": {
-            "smithy.api#documentation": "When the language does not require special treatment of the given quantity (as with all numbers in Chinese, or 42 in English)."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "A number affix resource."
-      }
-    },
-    "com.gcp.gamesConfiguration_v1configuration#AchievementConfigurationListResponse": {
-      "type": "structure",
-      "members": {
-        "items": {
-          "target": "com.gcp.gamesConfiguration_v1configuration#AchievementConfigurationList",
-          "traits": {
-            "smithy.api#documentation": "The achievement configurations."
-          }
-        },
-        "nextPageToken": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The pagination token for the next page of results."
-          }
-        },
-        "kind": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Uniquely identifies the type of this resource. Value is always the fixed string `gamesConfiguration#achievementConfigurationListResponse`."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "A ListConfigurations response."
-      }
-    },
-    "com.gcp.gamesConfiguration_v1configuration#AchievementConfigurationList": {
-      "type": "list",
-      "member": {
-        "target": "com.gcp.gamesConfiguration_v1configuration#AchievementConfiguration"
-      }
-    },
     "com.gcp.gamesConfiguration_v1configuration#LocalizedStringBundle": {
       "type": "structure",
       "members": {
@@ -489,7 +489,7 @@
         "target": "com.gcp.gamesConfiguration_v1configuration#LocalizedString"
       }
     },
-    "com.gcp.gamesConfiguration_v1configuration#DeleteAchievementConfigurationsRequest": {
+    "com.gcp.gamesConfiguration_v1configuration#GetAchievementConfigurationsRequest": {
       "type": "structure",
       "members": {
         "achievementId": {
@@ -528,6 +528,106 @@
         ]
       }
     },
+    "com.gcp.gamesConfiguration_v1configuration#GetAchievementConfigurations": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.gamesConfiguration_v1configuration#GetAchievementConfigurationsRequest"
+      },
+      "output": {
+        "target": "com.gcp.gamesConfiguration_v1configuration#AchievementConfiguration"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.gamesConfiguration_v1configuration#NotFound"
+        },
+        {
+          "target": "com.gcp.gamesConfiguration_v1configuration#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "games/v1configuration/achievements/{achievementId}"
+        },
+        "smithy.api#documentation": "Retrieves the metadata of the achievement configuration with the given ID."
+      }
+    },
+    "com.gcp.gamesConfiguration_v1configuration#ListAchievementConfigurationsRequest": {
+      "type": "structure",
+      "members": {
+        "applicationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The application ID from the Google Play developer console.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "pageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The token returned by the previous request.",
+            "smithy.api#httpQuery": "pageToken"
+          }
+        },
+        "maxResults": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The maximum number of resource configurations to return in the response, used for paging. For any response, the actual number of resources returned may be less than the specified `maxResults`.",
+            "smithy.api#httpQuery": "maxResults"
+          }
+        }
+      }
+    },
+    "com.gcp.gamesConfiguration_v1configuration#ListAchievementConfigurations": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.gamesConfiguration_v1configuration#ListAchievementConfigurationsRequest"
+      },
+      "output": {
+        "target": "com.gcp.gamesConfiguration_v1configuration#AchievementConfigurationListResponse"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.gamesConfiguration_v1configuration#NotFound"
+        },
+        {
+          "target": "com.gcp.gamesConfiguration_v1configuration#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "games/v1configuration/applications/{applicationId}/achievements"
+        },
+        "smithy.api#documentation": "Returns a list of the achievement configurations in this application.",
+        "smithy.api#paginated": {
+          "inputToken": "pageToken",
+          "outputToken": "nextPageToken",
+          "items": "items"
+        }
+      }
+    },
+    "com.gcp.gamesConfiguration_v1configuration#UpdateAchievementConfigurationsRequest": {
+      "type": "structure",
+      "members": {
+        "achievementId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the achievement used by this method.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "body": {
+          "target": "com.gcp.gamesConfiguration_v1configuration#AchievementConfiguration",
+          "traits": {
+            "smithy.api#httpPayload": {},
+            "smithy.api#documentation": "Request body"
+          }
+        }
+      }
+    },
     "com.gcp.gamesConfiguration_v1configuration#BadRequest": {
       "type": "structure",
       "members": {},
@@ -554,10 +654,13 @@
         ]
       }
     },
-    "com.gcp.gamesConfiguration_v1configuration#DeleteAchievementConfigurations": {
+    "com.gcp.gamesConfiguration_v1configuration#UpdateAchievementConfigurations": {
       "type": "operation",
       "input": {
-        "target": "com.gcp.gamesConfiguration_v1configuration#DeleteAchievementConfigurationsRequest"
+        "target": "com.gcp.gamesConfiguration_v1configuration#UpdateAchievementConfigurationsRequest"
+      },
+      "output": {
+        "target": "com.gcp.gamesConfiguration_v1configuration#AchievementConfiguration"
       },
       "errors": [
         {
@@ -575,10 +678,10 @@
       ],
       "traits": {
         "smithy.api#http": {
-          "method": "DELETE",
+          "method": "PUT",
           "uri": "games/v1configuration/achievements/{achievementId}"
         },
-        "smithy.api#documentation": "Delete the achievement configuration with the given ID."
+        "smithy.api#documentation": "Update the metadata of the achievement configuration with the given ID."
       }
     },
     "com.gcp.gamesConfiguration_v1configuration#InsertAchievementConfigurationsRequest": {
@@ -631,7 +734,7 @@
         "smithy.api#documentation": "Insert a new achievement configuration in this application."
       }
     },
-    "com.gcp.gamesConfiguration_v1configuration#GetAchievementConfigurationsRequest": {
+    "com.gcp.gamesConfiguration_v1configuration#DeleteAchievementConfigurationsRequest": {
       "type": "structure",
       "members": {
         "achievementId": {
@@ -644,209 +747,10 @@
         }
       }
     },
-    "com.gcp.gamesConfiguration_v1configuration#GetAchievementConfigurations": {
+    "com.gcp.gamesConfiguration_v1configuration#DeleteAchievementConfigurations": {
       "type": "operation",
       "input": {
-        "target": "com.gcp.gamesConfiguration_v1configuration#GetAchievementConfigurationsRequest"
-      },
-      "output": {
-        "target": "com.gcp.gamesConfiguration_v1configuration#AchievementConfiguration"
-      },
-      "errors": [
-        {
-          "target": "com.gcp.gamesConfiguration_v1configuration#NotFound"
-        },
-        {
-          "target": "com.gcp.gamesConfiguration_v1configuration#Forbidden"
-        }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "games/v1configuration/achievements/{achievementId}"
-        },
-        "smithy.api#documentation": "Retrieves the metadata of the achievement configuration with the given ID."
-      }
-    },
-    "com.gcp.gamesConfiguration_v1configuration#UpdateAchievementConfigurationsRequest": {
-      "type": "structure",
-      "members": {
-        "achievementId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The ID of the achievement used by this method.",
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {}
-          }
-        },
-        "body": {
-          "target": "com.gcp.gamesConfiguration_v1configuration#AchievementConfiguration",
-          "traits": {
-            "smithy.api#httpPayload": {},
-            "smithy.api#documentation": "Request body"
-          }
-        }
-      }
-    },
-    "com.gcp.gamesConfiguration_v1configuration#UpdateAchievementConfigurations": {
-      "type": "operation",
-      "input": {
-        "target": "com.gcp.gamesConfiguration_v1configuration#UpdateAchievementConfigurationsRequest"
-      },
-      "output": {
-        "target": "com.gcp.gamesConfiguration_v1configuration#AchievementConfiguration"
-      },
-      "errors": [
-        {
-          "target": "com.gcp.gamesConfiguration_v1configuration#NotFound"
-        },
-        {
-          "target": "com.gcp.gamesConfiguration_v1configuration#Forbidden"
-        },
-        {
-          "target": "com.gcp.gamesConfiguration_v1configuration#BadRequest"
-        },
-        {
-          "target": "com.gcp.gamesConfiguration_v1configuration#Conflict"
-        }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "games/v1configuration/achievements/{achievementId}"
-        },
-        "smithy.api#documentation": "Update the metadata of the achievement configuration with the given ID."
-      }
-    },
-    "com.gcp.gamesConfiguration_v1configuration#ListAchievementConfigurationsRequest": {
-      "type": "structure",
-      "members": {
-        "maxResults": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "The maximum number of resource configurations to return in the response, used for paging. For any response, the actual number of resources returned may be less than the specified `maxResults`.",
-            "smithy.api#httpQuery": "maxResults"
-          }
-        },
-        "pageToken": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The token returned by the previous request.",
-            "smithy.api#httpQuery": "pageToken"
-          }
-        },
-        "applicationId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The application ID from the Google Play developer console.",
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {}
-          }
-        }
-      }
-    },
-    "com.gcp.gamesConfiguration_v1configuration#ListAchievementConfigurations": {
-      "type": "operation",
-      "input": {
-        "target": "com.gcp.gamesConfiguration_v1configuration#ListAchievementConfigurationsRequest"
-      },
-      "output": {
-        "target": "com.gcp.gamesConfiguration_v1configuration#AchievementConfigurationListResponse"
-      },
-      "errors": [
-        {
-          "target": "com.gcp.gamesConfiguration_v1configuration#NotFound"
-        },
-        {
-          "target": "com.gcp.gamesConfiguration_v1configuration#Forbidden"
-        }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "games/v1configuration/applications/{applicationId}/achievements"
-        },
-        "smithy.api#documentation": "Returns a list of the achievement configurations in this application.",
-        "smithy.api#paginated": {
-          "inputToken": "pageToken",
-          "outputToken": "nextPageToken",
-          "items": "items"
-        }
-      }
-    },
-    "com.gcp.gamesConfiguration_v1configuration#ListLeaderboardConfigurationsRequest": {
-      "type": "structure",
-      "members": {
-        "pageToken": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The token returned by the previous request.",
-            "smithy.api#httpQuery": "pageToken"
-          }
-        },
-        "applicationId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The application ID from the Google Play developer console.",
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {}
-          }
-        },
-        "maxResults": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "The maximum number of resource configurations to return in the response, used for paging. For any response, the actual number of resources returned may be less than the specified `maxResults`.",
-            "smithy.api#httpQuery": "maxResults"
-          }
-        }
-      }
-    },
-    "com.gcp.gamesConfiguration_v1configuration#ListLeaderboardConfigurations": {
-      "type": "operation",
-      "input": {
-        "target": "com.gcp.gamesConfiguration_v1configuration#ListLeaderboardConfigurationsRequest"
-      },
-      "output": {
-        "target": "com.gcp.gamesConfiguration_v1configuration#LeaderboardConfigurationListResponse"
-      },
-      "errors": [
-        {
-          "target": "com.gcp.gamesConfiguration_v1configuration#NotFound"
-        },
-        {
-          "target": "com.gcp.gamesConfiguration_v1configuration#Forbidden"
-        }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "games/v1configuration/applications/{applicationId}/leaderboards"
-        },
-        "smithy.api#documentation": "Returns a list of the leaderboard configurations in this application.",
-        "smithy.api#paginated": {
-          "inputToken": "pageToken",
-          "outputToken": "nextPageToken",
-          "items": "items"
-        }
-      }
-    },
-    "com.gcp.gamesConfiguration_v1configuration#DeleteLeaderboardConfigurationsRequest": {
-      "type": "structure",
-      "members": {
-        "leaderboardId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The ID of the leaderboard.",
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {}
-          }
-        }
-      }
-    },
-    "com.gcp.gamesConfiguration_v1configuration#DeleteLeaderboardConfigurations": {
-      "type": "operation",
-      "input": {
-        "target": "com.gcp.gamesConfiguration_v1configuration#DeleteLeaderboardConfigurationsRequest"
+        "target": "com.gcp.gamesConfiguration_v1configuration#DeleteAchievementConfigurationsRequest"
       },
       "errors": [
         {
@@ -865,9 +769,9 @@
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
-          "uri": "games/v1configuration/leaderboards/{leaderboardId}"
+          "uri": "games/v1configuration/achievements/{achievementId}"
         },
-        "smithy.api#documentation": "Delete the leaderboard configuration with the given ID."
+        "smithy.api#documentation": "Delete the achievement configuration with the given ID."
       }
     },
     "com.gcp.gamesConfiguration_v1configuration#InsertLeaderboardConfigurationsRequest": {
@@ -920,7 +824,7 @@
         "smithy.api#documentation": "Insert a new leaderboard configuration in this application."
       }
     },
-    "com.gcp.gamesConfiguration_v1configuration#GetLeaderboardConfigurationsRequest": {
+    "com.gcp.gamesConfiguration_v1configuration#DeleteLeaderboardConfigurationsRequest": {
       "type": "structure",
       "members": {
         "leaderboardId": {
@@ -933,13 +837,67 @@
         }
       }
     },
-    "com.gcp.gamesConfiguration_v1configuration#GetLeaderboardConfigurations": {
+    "com.gcp.gamesConfiguration_v1configuration#DeleteLeaderboardConfigurations": {
       "type": "operation",
       "input": {
-        "target": "com.gcp.gamesConfiguration_v1configuration#GetLeaderboardConfigurationsRequest"
+        "target": "com.gcp.gamesConfiguration_v1configuration#DeleteLeaderboardConfigurationsRequest"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.gamesConfiguration_v1configuration#NotFound"
+        },
+        {
+          "target": "com.gcp.gamesConfiguration_v1configuration#Forbidden"
+        },
+        {
+          "target": "com.gcp.gamesConfiguration_v1configuration#BadRequest"
+        },
+        {
+          "target": "com.gcp.gamesConfiguration_v1configuration#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "games/v1configuration/leaderboards/{leaderboardId}"
+        },
+        "smithy.api#documentation": "Delete the leaderboard configuration with the given ID."
+      }
+    },
+    "com.gcp.gamesConfiguration_v1configuration#ListLeaderboardConfigurationsRequest": {
+      "type": "structure",
+      "members": {
+        "applicationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The application ID from the Google Play developer console.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "maxResults": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The maximum number of resource configurations to return in the response, used for paging. For any response, the actual number of resources returned may be less than the specified `maxResults`.",
+            "smithy.api#httpQuery": "maxResults"
+          }
+        },
+        "pageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The token returned by the previous request.",
+            "smithy.api#httpQuery": "pageToken"
+          }
+        }
+      }
+    },
+    "com.gcp.gamesConfiguration_v1configuration#ListLeaderboardConfigurations": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.gamesConfiguration_v1configuration#ListLeaderboardConfigurationsRequest"
       },
       "output": {
-        "target": "com.gcp.gamesConfiguration_v1configuration#LeaderboardConfiguration"
+        "target": "com.gcp.gamesConfiguration_v1configuration#LeaderboardConfigurationListResponse"
       },
       "errors": [
         {
@@ -952,9 +910,14 @@
       "traits": {
         "smithy.api#http": {
           "method": "GET",
-          "uri": "games/v1configuration/leaderboards/{leaderboardId}"
+          "uri": "games/v1configuration/applications/{applicationId}/leaderboards"
         },
-        "smithy.api#documentation": "Retrieves the metadata of the leaderboard configuration with the given ID."
+        "smithy.api#documentation": "Returns a list of the leaderboard configurations in this application.",
+        "smithy.api#paginated": {
+          "inputToken": "pageToken",
+          "outputToken": "nextPageToken",
+          "items": "items"
+        }
       }
     },
     "com.gcp.gamesConfiguration_v1configuration#UpdateLeaderboardConfigurationsRequest": {
@@ -1005,6 +968,43 @@
           "uri": "games/v1configuration/leaderboards/{leaderboardId}"
         },
         "smithy.api#documentation": "Update the metadata of the leaderboard configuration with the given ID."
+      }
+    },
+    "com.gcp.gamesConfiguration_v1configuration#GetLeaderboardConfigurationsRequest": {
+      "type": "structure",
+      "members": {
+        "leaderboardId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the leaderboard.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.gcp.gamesConfiguration_v1configuration#GetLeaderboardConfigurations": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.gamesConfiguration_v1configuration#GetLeaderboardConfigurationsRequest"
+      },
+      "output": {
+        "target": "com.gcp.gamesConfiguration_v1configuration#LeaderboardConfiguration"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.gamesConfiguration_v1configuration#NotFound"
+        },
+        {
+          "target": "com.gcp.gamesConfiguration_v1configuration#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "games/v1configuration/leaderboards/{leaderboardId}"
+        },
+        "smithy.api#documentation": "Retrieves the metadata of the leaderboard configuration with the given ID."
       }
     }
   }

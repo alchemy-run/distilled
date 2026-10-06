@@ -1,15 +1,13 @@
-import * as HttpClient from "effect/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
-const ns = T.XmlNamespace(
-  "http://analytics.kinesis.amazonaws.com/doc/2015-08-14",
-);
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
+import * as T from "../traits.ts";
+const ns = T.XmlNamespace("http://analytics.kinesis.amazonaws.com/doc/2015-08-14");
 const svc = T.AwsApiService({
   sdkId: "Kinesis Analytics",
   serviceShapeName: "KinesisAnalytics_20150814",
@@ -29,14 +27,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -63,9 +57,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://kinesisanalytics-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -73,13 +65,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://kinesisanalytics.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://kinesisanalytics.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://kinesisanalytics.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -87,10 +75,9 @@ const rules = T.EndpointResolver((p, _) => {
 });
 
 export class CodeValidationException
-  extends /*@__PURE__*/ S.TaggedError<CodeValidationException>()(
-    "CodeValidationException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<CodeValidationException>()("CodeValidationException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class ConcurrentModificationException
   extends /*@__PURE__*/ S.TaggedError<ConcurrentModificationException>()(
     "ConcurrentModificationException",
@@ -103,25 +90,21 @@ export class InvalidApplicationConfigurationException
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
   ) {}
 export class InvalidArgumentException
-  extends /*@__PURE__*/ S.TaggedError<InvalidArgumentException>()(
-    "InvalidArgumentException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<InvalidArgumentException>()("InvalidArgumentException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class LimitExceededException
-  extends /*@__PURE__*/ S.TaggedError<LimitExceededException>()(
-    "LimitExceededException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<LimitExceededException>()("LimitExceededException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class ResourceInUseException
-  extends /*@__PURE__*/ S.TaggedError<ResourceInUseException>()(
-    "ResourceInUseException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<ResourceInUseException>()("ResourceInUseException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class ResourceNotFoundException
-  extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
-    "ResourceNotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()("ResourceNotFoundException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class ResourceProvisionedThroughputExceededException
   extends /*@__PURE__*/ S.TaggedError<ResourceProvisionedThroughputExceededException>()(
     "ResourceProvisionedThroughputExceededException",
@@ -134,24 +117,19 @@ export class ServiceUnavailableException
     T.HttpError(503),
   ).pipe(C.withServerError) {}
 export class TooManyTagsException
-  extends /*@__PURE__*/ S.TaggedError<TooManyTagsException>()(
-    "TooManyTagsException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<TooManyTagsException>()("TooManyTagsException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class UnableToDetectSchemaException
   extends /*@__PURE__*/ S.TaggedError<UnableToDetectSchemaException>()(
     "UnableToDetectSchemaException",
     {
       message: S.optional(S.String).pipe(T.ErrorMessage()),
       RawInputRecords: S.optional(
-        S.suspend(() => RawInputRecords).annotate({
-          identifier: "RawInputRecords",
-        }),
+        S.suspend(() => RawInputRecords).annotate({ identifier: "RawInputRecords" }),
       ),
       ProcessedInputRecords: S.optional(
-        S.suspend(() => ProcessedInputRecords).annotate({
-          identifier: "ProcessedInputRecords",
-        }),
+        S.suspend(() => ProcessedInputRecords).annotate({ identifier: "ProcessedInputRecords" }),
       ),
     },
   ) {}
@@ -170,39 +148,27 @@ export interface CloudWatchLoggingOption {
 }
 export const CloudWatchLoggingOption = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ LogStreamARN: S.String, RoleARN: S.String }),
-).annotate({
-  identifier: "CloudWatchLoggingOption",
-}) as any as S.Schema<CloudWatchLoggingOption>;
+).annotate({ identifier: "CloudWatchLoggingOption" }) as any as S.Schema<CloudWatchLoggingOption>;
 export interface AddApplicationCloudWatchLoggingOptionRequest {
   ApplicationName: string;
   CurrentApplicationVersionId: number;
   CloudWatchLoggingOption: CloudWatchLoggingOption;
 }
-export const AddApplicationCloudWatchLoggingOptionRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ApplicationName: S.String,
-      CurrentApplicationVersionId: S.Number,
-      CloudWatchLoggingOption: CloudWatchLoggingOption,
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "AddApplicationCloudWatchLoggingOptionRequest",
-  }) as any as S.Schema<AddApplicationCloudWatchLoggingOptionRequest>;
+export const AddApplicationCloudWatchLoggingOptionRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ApplicationName: S.String,
+    CurrentApplicationVersionId: S.Number,
+    CloudWatchLoggingOption: CloudWatchLoggingOption,
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({
+  identifier: "AddApplicationCloudWatchLoggingOptionRequest",
+}) as any as S.Schema<AddApplicationCloudWatchLoggingOptionRequest>;
 export interface AddApplicationCloudWatchLoggingOptionResponse {}
-export const AddApplicationCloudWatchLoggingOptionResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
-    identifier: "AddApplicationCloudWatchLoggingOptionResponse",
-  }) as any as S.Schema<AddApplicationCloudWatchLoggingOptionResponse>;
+export const AddApplicationCloudWatchLoggingOptionResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "AddApplicationCloudWatchLoggingOptionResponse",
+}) as any as S.Schema<AddApplicationCloudWatchLoggingOptionResponse>;
 export type InAppStreamName = string;
 export type ResourceARN = string;
 export interface InputLambdaProcessor {
@@ -211,9 +177,7 @@ export interface InputLambdaProcessor {
 }
 export const InputLambdaProcessor = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceARN: S.String, RoleARN: S.String }),
-).annotate({
-  identifier: "InputLambdaProcessor",
-}) as any as S.Schema<InputLambdaProcessor>;
+).annotate({ identifier: "InputLambdaProcessor" }) as any as S.Schema<InputLambdaProcessor>;
 export interface InputProcessingConfiguration {
   InputLambdaProcessor: InputLambdaProcessor;
 }
@@ -228,27 +192,21 @@ export interface KinesisStreamsInput {
 }
 export const KinesisStreamsInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceARN: S.String, RoleARN: S.String }),
-).annotate({
-  identifier: "KinesisStreamsInput",
-}) as any as S.Schema<KinesisStreamsInput>;
+).annotate({ identifier: "KinesisStreamsInput" }) as any as S.Schema<KinesisStreamsInput>;
 export interface KinesisFirehoseInput {
   ResourceARN: string;
   RoleARN: string;
 }
 export const KinesisFirehoseInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceARN: S.String, RoleARN: S.String }),
-).annotate({
-  identifier: "KinesisFirehoseInput",
-}) as any as S.Schema<KinesisFirehoseInput>;
+).annotate({ identifier: "KinesisFirehoseInput" }) as any as S.Schema<KinesisFirehoseInput>;
 export type InputParallelismCount = number;
 export interface InputParallelism {
   Count?: number;
 }
 export const InputParallelism = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Count: S.optional(S.Number) }),
-).annotate({
-  identifier: "InputParallelism",
-}) as any as S.Schema<InputParallelism>;
+).annotate({ identifier: "InputParallelism" }) as any as S.Schema<InputParallelism>;
 export type RecordFormatType = "JSON" | "CSV" | (string & {});
 export const RecordFormatType = S.String;
 
@@ -258,9 +216,7 @@ export interface JSONMappingParameters {
 }
 export const JSONMappingParameters = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ RecordRowPath: S.String }),
-).annotate({
-  identifier: "JSONMappingParameters",
-}) as any as S.Schema<JSONMappingParameters>;
+).annotate({ identifier: "JSONMappingParameters" }) as any as S.Schema<JSONMappingParameters>;
 export type RecordRowDelimiter = string;
 export type RecordColumnDelimiter = string;
 export interface CSVMappingParameters {
@@ -269,9 +225,7 @@ export interface CSVMappingParameters {
 }
 export const CSVMappingParameters = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ RecordRowDelimiter: S.String, RecordColumnDelimiter: S.String }),
-).annotate({
-  identifier: "CSVMappingParameters",
-}) as any as S.Schema<CSVMappingParameters>;
+).annotate({ identifier: "CSVMappingParameters" }) as any as S.Schema<CSVMappingParameters>;
 export interface MappingParameters {
   JSONMappingParameters?: JSONMappingParameters;
   CSVMappingParameters?: CSVMappingParameters;
@@ -281,9 +235,7 @@ export const MappingParameters = /*@__PURE__*/ S.suspend(() =>
     JSONMappingParameters: S.optional(JSONMappingParameters),
     CSVMappingParameters: S.optional(CSVMappingParameters),
   }),
-).annotate({
-  identifier: "MappingParameters",
-}) as any as S.Schema<MappingParameters>;
+).annotate({ identifier: "MappingParameters" }) as any as S.Schema<MappingParameters>;
 export interface RecordFormat {
   RecordFormatType: RecordFormatType;
   MappingParameters?: MappingParameters;
@@ -304,11 +256,7 @@ export interface RecordColumn {
   SqlType: string;
 }
 export const RecordColumn = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.String,
-    Mapping: S.optional(S.String),
-    SqlType: S.String,
-  }),
+  S.Struct({ Name: S.String, Mapping: S.optional(S.String), SqlType: S.String }),
 ).annotate({ identifier: "RecordColumn" }) as any as S.Schema<RecordColumn>;
 export type RecordColumns = RecordColumn[];
 export const RecordColumns = /*@__PURE__*/ S.Array(RecordColumn);
@@ -348,20 +296,8 @@ export interface AddApplicationInputRequest {
   Input: Input;
 }
 export const AddApplicationInputRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ApplicationName: S.String,
-    CurrentApplicationVersionId: S.Number,
-    Input: Input,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+  S.Struct({ ApplicationName: S.String, CurrentApplicationVersionId: S.Number, Input: Input }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "AddApplicationInputRequest",
@@ -379,50 +315,36 @@ export interface AddApplicationInputProcessingConfigurationRequest {
   InputId: string;
   InputProcessingConfiguration: InputProcessingConfiguration;
 }
-export const AddApplicationInputProcessingConfigurationRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ApplicationName: S.String,
-      CurrentApplicationVersionId: S.Number,
-      InputId: S.String,
-      InputProcessingConfiguration: InputProcessingConfiguration,
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "AddApplicationInputProcessingConfigurationRequest",
-  }) as any as S.Schema<AddApplicationInputProcessingConfigurationRequest>;
+export const AddApplicationInputProcessingConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ApplicationName: S.String,
+    CurrentApplicationVersionId: S.Number,
+    InputId: S.String,
+    InputProcessingConfiguration: InputProcessingConfiguration,
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({
+  identifier: "AddApplicationInputProcessingConfigurationRequest",
+}) as any as S.Schema<AddApplicationInputProcessingConfigurationRequest>;
 export interface AddApplicationInputProcessingConfigurationResponse {}
-export const AddApplicationInputProcessingConfigurationResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
-    identifier: "AddApplicationInputProcessingConfigurationResponse",
-  }) as any as S.Schema<AddApplicationInputProcessingConfigurationResponse>;
+export const AddApplicationInputProcessingConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "AddApplicationInputProcessingConfigurationResponse",
+}) as any as S.Schema<AddApplicationInputProcessingConfigurationResponse>;
 export interface KinesisStreamsOutput {
   ResourceARN: string;
   RoleARN: string;
 }
 export const KinesisStreamsOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceARN: S.String, RoleARN: S.String }),
-).annotate({
-  identifier: "KinesisStreamsOutput",
-}) as any as S.Schema<KinesisStreamsOutput>;
+).annotate({ identifier: "KinesisStreamsOutput" }) as any as S.Schema<KinesisStreamsOutput>;
 export interface KinesisFirehoseOutput {
   ResourceARN: string;
   RoleARN: string;
 }
 export const KinesisFirehoseOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceARN: S.String, RoleARN: S.String }),
-).annotate({
-  identifier: "KinesisFirehoseOutput",
-}) as any as S.Schema<KinesisFirehoseOutput>;
+).annotate({ identifier: "KinesisFirehoseOutput" }) as any as S.Schema<KinesisFirehoseOutput>;
 export interface LambdaOutput {
   ResourceARN: string;
   RoleARN: string;
@@ -435,9 +357,7 @@ export interface DestinationSchema {
 }
 export const DestinationSchema = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ RecordFormatType: RecordFormatType }),
-).annotate({
-  identifier: "DestinationSchema",
-}) as any as S.Schema<DestinationSchema>;
+).annotate({ identifier: "DestinationSchema" }) as any as S.Schema<DestinationSchema>;
 export interface Output {
   Name: string;
   KinesisStreamsOutput?: KinesisStreamsOutput;
@@ -464,17 +384,7 @@ export const AddApplicationOutputRequest = /*@__PURE__*/ S.suspend(() =>
     ApplicationName: S.String,
     CurrentApplicationVersionId: S.Number,
     Output: Output,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "AddApplicationOutputRequest",
 }) as any as S.Schema<AddApplicationOutputRequest>;
@@ -493,14 +403,8 @@ export interface S3ReferenceDataSource {
   ReferenceRoleARN: string;
 }
 export const S3ReferenceDataSource = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BucketARN: S.String,
-    FileKey: S.String,
-    ReferenceRoleARN: S.String,
-  }),
-).annotate({
-  identifier: "S3ReferenceDataSource",
-}) as any as S.Schema<S3ReferenceDataSource>;
+  S.Struct({ BucketARN: S.String, FileKey: S.String, ReferenceRoleARN: S.String }),
+).annotate({ identifier: "S3ReferenceDataSource" }) as any as S.Schema<S3ReferenceDataSource>;
 export interface ReferenceDataSource {
   TableName: string;
   S3ReferenceDataSource?: S3ReferenceDataSource;
@@ -512,48 +416,34 @@ export const ReferenceDataSource = /*@__PURE__*/ S.suspend(() =>
     S3ReferenceDataSource: S.optional(S3ReferenceDataSource),
     ReferenceSchema: SourceSchema,
   }),
-).annotate({
-  identifier: "ReferenceDataSource",
-}) as any as S.Schema<ReferenceDataSource>;
+).annotate({ identifier: "ReferenceDataSource" }) as any as S.Schema<ReferenceDataSource>;
 export interface AddApplicationReferenceDataSourceRequest {
   ApplicationName: string;
   CurrentApplicationVersionId: number;
   ReferenceDataSource: ReferenceDataSource;
 }
-export const AddApplicationReferenceDataSourceRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ApplicationName: S.String,
-      CurrentApplicationVersionId: S.Number,
-      ReferenceDataSource: ReferenceDataSource,
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
+export const AddApplicationReferenceDataSourceRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ApplicationName: S.String,
+    CurrentApplicationVersionId: S.Number,
+    ReferenceDataSource: ReferenceDataSource,
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "AddApplicationReferenceDataSourceRequest",
 }) as any as S.Schema<AddApplicationReferenceDataSourceRequest>;
 export interface AddApplicationReferenceDataSourceResponse {}
-export const AddApplicationReferenceDataSourceResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
-    identifier: "AddApplicationReferenceDataSourceResponse",
-  }) as any as S.Schema<AddApplicationReferenceDataSourceResponse>;
+export const AddApplicationReferenceDataSourceResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "AddApplicationReferenceDataSourceResponse",
+}) as any as S.Schema<AddApplicationReferenceDataSourceResponse>;
 export type ApplicationDescription = string;
 export type Inputs = Input[];
 export const Inputs = /*@__PURE__*/ S.Array(Input);
 export type Outputs = Output[];
 export const Outputs = /*@__PURE__*/ S.Array(Output);
 export type CloudWatchLoggingOptions = CloudWatchLoggingOption[];
-export const CloudWatchLoggingOptions = /*@__PURE__*/ S.Array(
-  CloudWatchLoggingOption,
-);
+export const CloudWatchLoggingOptions = /*@__PURE__*/ S.Array(CloudWatchLoggingOption);
 export type ApplicationCode = string;
 export type TagKey = string;
 export type TagValue = string;
@@ -584,20 +474,8 @@ export const CreateApplicationRequest = /*@__PURE__*/ S.suspend(() =>
     CloudWatchLoggingOptions: S.optional(CloudWatchLoggingOptions),
     ApplicationCode: S.optional(S.String),
     Tags: S.optional(Tags),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateApplicationRequest",
-}) as any as S.Schema<CreateApplicationRequest>;
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "CreateApplicationRequest" }) as any as S.Schema<CreateApplicationRequest>;
 export type ApplicationStatus =
   | "DELETING"
   | "STARTING"
@@ -619,9 +497,7 @@ export const ApplicationSummary = /*@__PURE__*/ S.suspend(() =>
     ApplicationARN: S.String,
     ApplicationStatus: ApplicationStatus,
   }),
-).annotate({
-  identifier: "ApplicationSummary",
-}) as any as S.Schema<ApplicationSummary>;
+).annotate({ identifier: "ApplicationSummary" }) as any as S.Schema<ApplicationSummary>;
 export interface CreateApplicationResponse {
   ApplicationSummary: ApplicationSummary;
 }
@@ -638,20 +514,8 @@ export const DeleteApplicationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ApplicationName: S.String,
     CreateTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteApplicationRequest",
-}) as any as S.Schema<DeleteApplicationRequest>;
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "DeleteApplicationRequest" }) as any as S.Schema<DeleteApplicationRequest>;
 export interface DeleteApplicationResponse {}
 export const DeleteApplicationResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(ns),
@@ -663,61 +527,41 @@ export interface DeleteApplicationCloudWatchLoggingOptionRequest {
   CurrentApplicationVersionId: number;
   CloudWatchLoggingOptionId: string;
 }
-export const DeleteApplicationCloudWatchLoggingOptionRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ApplicationName: S.String,
-      CurrentApplicationVersionId: S.Number,
-      CloudWatchLoggingOptionId: S.String,
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "DeleteApplicationCloudWatchLoggingOptionRequest",
-  }) as any as S.Schema<DeleteApplicationCloudWatchLoggingOptionRequest>;
+export const DeleteApplicationCloudWatchLoggingOptionRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ApplicationName: S.String,
+    CurrentApplicationVersionId: S.Number,
+    CloudWatchLoggingOptionId: S.String,
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({
+  identifier: "DeleteApplicationCloudWatchLoggingOptionRequest",
+}) as any as S.Schema<DeleteApplicationCloudWatchLoggingOptionRequest>;
 export interface DeleteApplicationCloudWatchLoggingOptionResponse {}
-export const DeleteApplicationCloudWatchLoggingOptionResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
-    identifier: "DeleteApplicationCloudWatchLoggingOptionResponse",
-  }) as any as S.Schema<DeleteApplicationCloudWatchLoggingOptionResponse>;
+export const DeleteApplicationCloudWatchLoggingOptionResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "DeleteApplicationCloudWatchLoggingOptionResponse",
+}) as any as S.Schema<DeleteApplicationCloudWatchLoggingOptionResponse>;
 export interface DeleteApplicationInputProcessingConfigurationRequest {
   ApplicationName: string;
   CurrentApplicationVersionId: number;
   InputId: string;
 }
-export const DeleteApplicationInputProcessingConfigurationRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ApplicationName: S.String,
-      CurrentApplicationVersionId: S.Number,
-      InputId: S.String,
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "DeleteApplicationInputProcessingConfigurationRequest",
-  }) as any as S.Schema<DeleteApplicationInputProcessingConfigurationRequest>;
+export const DeleteApplicationInputProcessingConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ApplicationName: S.String,
+    CurrentApplicationVersionId: S.Number,
+    InputId: S.String,
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({
+  identifier: "DeleteApplicationInputProcessingConfigurationRequest",
+}) as any as S.Schema<DeleteApplicationInputProcessingConfigurationRequest>;
 export interface DeleteApplicationInputProcessingConfigurationResponse {}
-export const DeleteApplicationInputProcessingConfigurationResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
-    identifier: "DeleteApplicationInputProcessingConfigurationResponse",
-  }) as any as S.Schema<DeleteApplicationInputProcessingConfigurationResponse>;
+export const DeleteApplicationInputProcessingConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "DeleteApplicationInputProcessingConfigurationResponse",
+}) as any as S.Schema<DeleteApplicationInputProcessingConfigurationResponse>;
 export interface DeleteApplicationOutputRequest {
   ApplicationName: string;
   CurrentApplicationVersionId: number;
@@ -728,17 +572,7 @@ export const DeleteApplicationOutputRequest = /*@__PURE__*/ S.suspend(() =>
     ApplicationName: S.String,
     CurrentApplicationVersionId: S.Number,
     OutputId: S.String,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DeleteApplicationOutputRequest",
 }) as any as S.Schema<DeleteApplicationOutputRequest>;
@@ -753,45 +587,27 @@ export interface DeleteApplicationReferenceDataSourceRequest {
   CurrentApplicationVersionId: number;
   ReferenceId: string;
 }
-export const DeleteApplicationReferenceDataSourceRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ApplicationName: S.String,
-      CurrentApplicationVersionId: S.Number,
-      ReferenceId: S.String,
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "DeleteApplicationReferenceDataSourceRequest",
-  }) as any as S.Schema<DeleteApplicationReferenceDataSourceRequest>;
+export const DeleteApplicationReferenceDataSourceRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ApplicationName: S.String,
+    CurrentApplicationVersionId: S.Number,
+    ReferenceId: S.String,
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({
+  identifier: "DeleteApplicationReferenceDataSourceRequest",
+}) as any as S.Schema<DeleteApplicationReferenceDataSourceRequest>;
 export interface DeleteApplicationReferenceDataSourceResponse {}
-export const DeleteApplicationReferenceDataSourceResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
-    identifier: "DeleteApplicationReferenceDataSourceResponse",
-  }) as any as S.Schema<DeleteApplicationReferenceDataSourceResponse>;
+export const DeleteApplicationReferenceDataSourceResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "DeleteApplicationReferenceDataSourceResponse",
+}) as any as S.Schema<DeleteApplicationReferenceDataSourceResponse>;
 export interface DescribeApplicationRequest {
   ApplicationName: string;
 }
 export const DescribeApplicationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ApplicationName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DescribeApplicationRequest",
@@ -803,23 +619,15 @@ export interface InputLambdaProcessorDescription {
   RoleARN?: string;
 }
 export const InputLambdaProcessorDescription = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceARN: S.optional(S.String),
-    RoleARN: S.optional(S.String),
-  }),
+  S.Struct({ ResourceARN: S.optional(S.String), RoleARN: S.optional(S.String) }),
 ).annotate({
   identifier: "InputLambdaProcessorDescription",
 }) as any as S.Schema<InputLambdaProcessorDescription>;
 export interface InputProcessingConfigurationDescription {
   InputLambdaProcessorDescription?: InputLambdaProcessorDescription;
 }
-export const InputProcessingConfigurationDescription = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      InputLambdaProcessorDescription: S.optional(
-        InputLambdaProcessorDescription,
-      ),
-    }),
+export const InputProcessingConfigurationDescription = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ InputLambdaProcessorDescription: S.optional(InputLambdaProcessorDescription) }),
 ).annotate({
   identifier: "InputProcessingConfigurationDescription",
 }) as any as S.Schema<InputProcessingConfigurationDescription>;
@@ -828,10 +636,7 @@ export interface KinesisStreamsInputDescription {
   RoleARN?: string;
 }
 export const KinesisStreamsInputDescription = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceARN: S.optional(S.String),
-    RoleARN: S.optional(S.String),
-  }),
+  S.Struct({ ResourceARN: S.optional(S.String), RoleARN: S.optional(S.String) }),
 ).annotate({
   identifier: "KinesisStreamsInputDescription",
 }) as any as S.Schema<KinesisStreamsInputDescription>;
@@ -840,18 +645,11 @@ export interface KinesisFirehoseInputDescription {
   RoleARN?: string;
 }
 export const KinesisFirehoseInputDescription = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceARN: S.optional(S.String),
-    RoleARN: S.optional(S.String),
-  }),
+  S.Struct({ ResourceARN: S.optional(S.String), RoleARN: S.optional(S.String) }),
 ).annotate({
   identifier: "KinesisFirehoseInputDescription",
 }) as any as S.Schema<KinesisFirehoseInputDescription>;
-export type InputStartingPosition =
-  | "NOW"
-  | "TRIM_HORIZON"
-  | "LAST_STOPPED_POINT"
-  | (string & {});
+export type InputStartingPosition = "NOW" | "TRIM_HORIZON" | "LAST_STOPPED_POINT" | (string & {});
 export const InputStartingPosition = S.String;
 
 export interface InputStartingPositionConfiguration {
@@ -878,22 +676,14 @@ export const InputDescription = /*@__PURE__*/ S.suspend(() =>
     InputId: S.optional(S.String),
     NamePrefix: S.optional(S.String),
     InAppStreamNames: S.optional(InAppStreamNames),
-    InputProcessingConfigurationDescription: S.optional(
-      InputProcessingConfigurationDescription,
-    ),
+    InputProcessingConfigurationDescription: S.optional(InputProcessingConfigurationDescription),
     KinesisStreamsInputDescription: S.optional(KinesisStreamsInputDescription),
-    KinesisFirehoseInputDescription: S.optional(
-      KinesisFirehoseInputDescription,
-    ),
+    KinesisFirehoseInputDescription: S.optional(KinesisFirehoseInputDescription),
     InputSchema: S.optional(SourceSchema),
     InputParallelism: S.optional(InputParallelism),
-    InputStartingPositionConfiguration: S.optional(
-      InputStartingPositionConfiguration,
-    ),
+    InputStartingPositionConfiguration: S.optional(InputStartingPositionConfiguration),
   }),
-).annotate({
-  identifier: "InputDescription",
-}) as any as S.Schema<InputDescription>;
+).annotate({ identifier: "InputDescription" }) as any as S.Schema<InputDescription>;
 export type InputDescriptions = InputDescription[];
 export const InputDescriptions = /*@__PURE__*/ S.Array(InputDescription);
 export interface KinesisStreamsOutputDescription {
@@ -901,10 +691,7 @@ export interface KinesisStreamsOutputDescription {
   RoleARN?: string;
 }
 export const KinesisStreamsOutputDescription = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceARN: S.optional(S.String),
-    RoleARN: S.optional(S.String),
-  }),
+  S.Struct({ ResourceARN: S.optional(S.String), RoleARN: S.optional(S.String) }),
 ).annotate({
   identifier: "KinesisStreamsOutputDescription",
 }) as any as S.Schema<KinesisStreamsOutputDescription>;
@@ -913,10 +700,7 @@ export interface KinesisFirehoseOutputDescription {
   RoleARN?: string;
 }
 export const KinesisFirehoseOutputDescription = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceARN: S.optional(S.String),
-    RoleARN: S.optional(S.String),
-  }),
+  S.Struct({ ResourceARN: S.optional(S.String), RoleARN: S.optional(S.String) }),
 ).annotate({
   identifier: "KinesisFirehoseOutputDescription",
 }) as any as S.Schema<KinesisFirehoseOutputDescription>;
@@ -925,13 +709,8 @@ export interface LambdaOutputDescription {
   RoleARN?: string;
 }
 export const LambdaOutputDescription = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceARN: S.optional(S.String),
-    RoleARN: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "LambdaOutputDescription",
-}) as any as S.Schema<LambdaOutputDescription>;
+  S.Struct({ ResourceARN: S.optional(S.String), RoleARN: S.optional(S.String) }),
+).annotate({ identifier: "LambdaOutputDescription" }) as any as S.Schema<LambdaOutputDescription>;
 export interface OutputDescription {
   OutputId?: string;
   Name?: string;
@@ -944,18 +723,12 @@ export const OutputDescription = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     OutputId: S.optional(S.String),
     Name: S.optional(S.String),
-    KinesisStreamsOutputDescription: S.optional(
-      KinesisStreamsOutputDescription,
-    ),
-    KinesisFirehoseOutputDescription: S.optional(
-      KinesisFirehoseOutputDescription,
-    ),
+    KinesisStreamsOutputDescription: S.optional(KinesisStreamsOutputDescription),
+    KinesisFirehoseOutputDescription: S.optional(KinesisFirehoseOutputDescription),
     LambdaOutputDescription: S.optional(LambdaOutputDescription),
     DestinationSchema: S.optional(DestinationSchema),
   }),
-).annotate({
-  identifier: "OutputDescription",
-}) as any as S.Schema<OutputDescription>;
+).annotate({ identifier: "OutputDescription" }) as any as S.Schema<OutputDescription>;
 export type OutputDescriptions = OutputDescription[];
 export const OutputDescriptions = /*@__PURE__*/ S.Array(OutputDescription);
 export interface S3ReferenceDataSourceDescription {
@@ -964,11 +737,7 @@ export interface S3ReferenceDataSourceDescription {
   ReferenceRoleARN: string;
 }
 export const S3ReferenceDataSourceDescription = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BucketARN: S.String,
-    FileKey: S.String,
-    ReferenceRoleARN: S.String,
-  }),
+  S.Struct({ BucketARN: S.String, FileKey: S.String, ReferenceRoleARN: S.String }),
 ).annotate({
   identifier: "S3ReferenceDataSourceDescription",
 }) as any as S.Schema<S3ReferenceDataSourceDescription>;
@@ -1006,8 +775,7 @@ export const CloudWatchLoggingOptionDescription = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "CloudWatchLoggingOptionDescription",
 }) as any as S.Schema<CloudWatchLoggingOptionDescription>;
-export type CloudWatchLoggingOptionDescriptions =
-  CloudWatchLoggingOptionDescription[];
+export type CloudWatchLoggingOptionDescriptions = CloudWatchLoggingOptionDescription[];
 export const CloudWatchLoggingOptionDescriptions = /*@__PURE__*/ S.Array(
   CloudWatchLoggingOptionDescription,
 );
@@ -1031,26 +799,16 @@ export const ApplicationDetail = /*@__PURE__*/ S.suspend(() =>
     ApplicationDescription: S.optional(S.String),
     ApplicationARN: S.String,
     ApplicationStatus: ApplicationStatus,
-    CreateTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    LastUpdateTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    CreateTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastUpdateTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     InputDescriptions: S.optional(InputDescriptions),
     OutputDescriptions: S.optional(OutputDescriptions),
-    ReferenceDataSourceDescriptions: S.optional(
-      ReferenceDataSourceDescriptions,
-    ),
-    CloudWatchLoggingOptionDescriptions: S.optional(
-      CloudWatchLoggingOptionDescriptions,
-    ),
+    ReferenceDataSourceDescriptions: S.optional(ReferenceDataSourceDescriptions),
+    CloudWatchLoggingOptionDescriptions: S.optional(CloudWatchLoggingOptionDescriptions),
     ApplicationCode: S.optional(S.String),
     ApplicationVersionId: S.Number,
   }),
-).annotate({
-  identifier: "ApplicationDetail",
-}) as any as S.Schema<ApplicationDetail>;
+).annotate({ identifier: "ApplicationDetail" }) as any as S.Schema<ApplicationDetail>;
 export interface DescribeApplicationResponse {
   ApplicationDetail: ApplicationDetail;
 }
@@ -1066,9 +824,7 @@ export interface S3Configuration {
 }
 export const S3Configuration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ RoleARN: S.String, BucketARN: S.String, FileKey: S.String }),
-).annotate({
-  identifier: "S3Configuration",
-}) as any as S.Schema<S3Configuration>;
+).annotate({ identifier: "S3Configuration" }) as any as S.Schema<S3Configuration>;
 export interface DiscoverInputSchemaRequest {
   ResourceARN?: string;
   RoleARN?: string;
@@ -1080,22 +836,10 @@ export const DiscoverInputSchemaRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ResourceARN: S.optional(S.String),
     RoleARN: S.optional(S.String),
-    InputStartingPositionConfiguration: S.optional(
-      InputStartingPositionConfiguration,
-    ),
+    InputStartingPositionConfiguration: S.optional(InputStartingPositionConfiguration),
     S3Configuration: S.optional(S3Configuration),
     InputProcessingConfiguration: S.optional(InputProcessingConfiguration),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DiscoverInputSchemaRequest",
 }) as any as S.Schema<DiscoverInputSchemaRequest>;
@@ -1135,20 +879,8 @@ export const ListApplicationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     Limit: S.optional(S.Number),
     ExclusiveStartApplicationName: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListApplicationsRequest",
-}) as any as S.Schema<ListApplicationsRequest>;
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "ListApplicationsRequest" }) as any as S.Schema<ListApplicationsRequest>;
 export type ApplicationSummaries = ApplicationSummary[];
 export const ApplicationSummaries = /*@__PURE__*/ S.Array(ApplicationSummary);
 export interface ListApplicationsResponse {
@@ -1156,28 +888,15 @@ export interface ListApplicationsResponse {
   HasMoreApplications: boolean;
 }
 export const ListApplicationsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ApplicationSummaries: ApplicationSummaries,
-    HasMoreApplications: S.Boolean,
-  }).pipe(ns),
-).annotate({
-  identifier: "ListApplicationsResponse",
-}) as any as S.Schema<ListApplicationsResponse>;
+  S.Struct({ ApplicationSummaries: ApplicationSummaries, HasMoreApplications: S.Boolean }).pipe(ns),
+).annotate({ identifier: "ListApplicationsResponse" }) as any as S.Schema<ListApplicationsResponse>;
 export type KinesisAnalyticsARN = string;
 export interface ListTagsForResourceRequest {
   ResourceARN: string;
 }
 export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceARN: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListTagsForResourceRequest",
@@ -1199,9 +918,7 @@ export const InputConfiguration = /*@__PURE__*/ S.suspend(() =>
     Id: S.String,
     InputStartingPositionConfiguration: InputStartingPositionConfiguration,
   }),
-).annotate({
-  identifier: "InputConfiguration",
-}) as any as S.Schema<InputConfiguration>;
+).annotate({ identifier: "InputConfiguration" }) as any as S.Schema<InputConfiguration>;
 export type InputConfigurations = InputConfiguration[];
 export const InputConfigurations = /*@__PURE__*/ S.Array(InputConfiguration);
 export interface StartApplicationRequest {
@@ -1209,76 +926,37 @@ export interface StartApplicationRequest {
   InputConfigurations: InputConfiguration[];
 }
 export const StartApplicationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ApplicationName: S.String,
-    InputConfigurations: InputConfigurations,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+  S.Struct({ ApplicationName: S.String, InputConfigurations: InputConfigurations }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "StartApplicationRequest",
-}) as any as S.Schema<StartApplicationRequest>;
+).annotate({ identifier: "StartApplicationRequest" }) as any as S.Schema<StartApplicationRequest>;
 export interface StartApplicationResponse {}
 export const StartApplicationResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "StartApplicationResponse",
-}) as any as S.Schema<StartApplicationResponse>;
+).annotate({ identifier: "StartApplicationResponse" }) as any as S.Schema<StartApplicationResponse>;
 export interface StopApplicationRequest {
   ApplicationName: string;
 }
 export const StopApplicationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ApplicationName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "StopApplicationRequest",
-}) as any as S.Schema<StopApplicationRequest>;
+).annotate({ identifier: "StopApplicationRequest" }) as any as S.Schema<StopApplicationRequest>;
 export interface StopApplicationResponse {}
 export const StopApplicationResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "StopApplicationResponse",
-}) as any as S.Schema<StopApplicationResponse>;
+).annotate({ identifier: "StopApplicationResponse" }) as any as S.Schema<StopApplicationResponse>;
 export interface TagResourceRequest {
   ResourceARN: string;
   Tags: Tag[];
 }
 export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceARN: S.String, Tags: Tags }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
+).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
+export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export type TagKeys = string[];
@@ -1289,23 +967,11 @@ export interface UntagResourceRequest {
 }
 export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceARN: S.String, TagKeys: TagKeys }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
+).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface InputLambdaProcessorUpdate {
@@ -1313,10 +979,7 @@ export interface InputLambdaProcessorUpdate {
   RoleARNUpdate?: string;
 }
 export const InputLambdaProcessorUpdate = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceARNUpdate: S.optional(S.String),
-    RoleARNUpdate: S.optional(S.String),
-  }),
+  S.Struct({ ResourceARNUpdate: S.optional(S.String), RoleARNUpdate: S.optional(S.String) }),
 ).annotate({
   identifier: "InputLambdaProcessorUpdate",
 }) as any as S.Schema<InputLambdaProcessorUpdate>;
@@ -1333,10 +996,7 @@ export interface KinesisStreamsInputUpdate {
   RoleARNUpdate?: string;
 }
 export const KinesisStreamsInputUpdate = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceARNUpdate: S.optional(S.String),
-    RoleARNUpdate: S.optional(S.String),
-  }),
+  S.Struct({ ResourceARNUpdate: S.optional(S.String), RoleARNUpdate: S.optional(S.String) }),
 ).annotate({
   identifier: "KinesisStreamsInputUpdate",
 }) as any as S.Schema<KinesisStreamsInputUpdate>;
@@ -1345,10 +1005,7 @@ export interface KinesisFirehoseInputUpdate {
   RoleARNUpdate?: string;
 }
 export const KinesisFirehoseInputUpdate = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceARNUpdate: S.optional(S.String),
-    RoleARNUpdate: S.optional(S.String),
-  }),
+  S.Struct({ ResourceARNUpdate: S.optional(S.String), RoleARNUpdate: S.optional(S.String) }),
 ).annotate({
   identifier: "KinesisFirehoseInputUpdate",
 }) as any as S.Schema<KinesisFirehoseInputUpdate>;
@@ -1363,17 +1020,13 @@ export const InputSchemaUpdate = /*@__PURE__*/ S.suspend(() =>
     RecordEncodingUpdate: S.optional(S.String),
     RecordColumnUpdates: S.optional(RecordColumns),
   }),
-).annotate({
-  identifier: "InputSchemaUpdate",
-}) as any as S.Schema<InputSchemaUpdate>;
+).annotate({ identifier: "InputSchemaUpdate" }) as any as S.Schema<InputSchemaUpdate>;
 export interface InputParallelismUpdate {
   CountUpdate?: number;
 }
 export const InputParallelismUpdate = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ CountUpdate: S.optional(S.Number) }),
-).annotate({
-  identifier: "InputParallelismUpdate",
-}) as any as S.Schema<InputParallelismUpdate>;
+).annotate({ identifier: "InputParallelismUpdate" }) as any as S.Schema<InputParallelismUpdate>;
 export interface InputUpdate {
   InputId: string;
   NamePrefixUpdate?: string;
@@ -1387,9 +1040,7 @@ export const InputUpdate = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     InputId: S.String,
     NamePrefixUpdate: S.optional(S.String),
-    InputProcessingConfigurationUpdate: S.optional(
-      InputProcessingConfigurationUpdate,
-    ),
+    InputProcessingConfigurationUpdate: S.optional(InputProcessingConfigurationUpdate),
     KinesisStreamsInputUpdate: S.optional(KinesisStreamsInputUpdate),
     KinesisFirehoseInputUpdate: S.optional(KinesisFirehoseInputUpdate),
     InputSchemaUpdate: S.optional(InputSchemaUpdate),
@@ -1403,10 +1054,7 @@ export interface KinesisStreamsOutputUpdate {
   RoleARNUpdate?: string;
 }
 export const KinesisStreamsOutputUpdate = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceARNUpdate: S.optional(S.String),
-    RoleARNUpdate: S.optional(S.String),
-  }),
+  S.Struct({ ResourceARNUpdate: S.optional(S.String), RoleARNUpdate: S.optional(S.String) }),
 ).annotate({
   identifier: "KinesisStreamsOutputUpdate",
 }) as any as S.Schema<KinesisStreamsOutputUpdate>;
@@ -1415,10 +1063,7 @@ export interface KinesisFirehoseOutputUpdate {
   RoleARNUpdate?: string;
 }
 export const KinesisFirehoseOutputUpdate = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceARNUpdate: S.optional(S.String),
-    RoleARNUpdate: S.optional(S.String),
-  }),
+  S.Struct({ ResourceARNUpdate: S.optional(S.String), RoleARNUpdate: S.optional(S.String) }),
 ).annotate({
   identifier: "KinesisFirehoseOutputUpdate",
 }) as any as S.Schema<KinesisFirehoseOutputUpdate>;
@@ -1427,13 +1072,8 @@ export interface LambdaOutputUpdate {
   RoleARNUpdate?: string;
 }
 export const LambdaOutputUpdate = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceARNUpdate: S.optional(S.String),
-    RoleARNUpdate: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "LambdaOutputUpdate",
-}) as any as S.Schema<LambdaOutputUpdate>;
+  S.Struct({ ResourceARNUpdate: S.optional(S.String), RoleARNUpdate: S.optional(S.String) }),
+).annotate({ identifier: "LambdaOutputUpdate" }) as any as S.Schema<LambdaOutputUpdate>;
 export interface OutputUpdate {
   OutputId: string;
   NameUpdate?: string;
@@ -1485,9 +1125,7 @@ export const ReferenceDataSourceUpdate = /*@__PURE__*/ S.suspend(() =>
   identifier: "ReferenceDataSourceUpdate",
 }) as any as S.Schema<ReferenceDataSourceUpdate>;
 export type ReferenceDataSourceUpdates = ReferenceDataSourceUpdate[];
-export const ReferenceDataSourceUpdates = /*@__PURE__*/ S.Array(
-  ReferenceDataSourceUpdate,
-);
+export const ReferenceDataSourceUpdates = /*@__PURE__*/ S.Array(ReferenceDataSourceUpdate);
 export interface CloudWatchLoggingOptionUpdate {
   CloudWatchLoggingOptionId: string;
   LogStreamARNUpdate?: string;
@@ -1503,9 +1141,7 @@ export const CloudWatchLoggingOptionUpdate = /*@__PURE__*/ S.suspend(() =>
   identifier: "CloudWatchLoggingOptionUpdate",
 }) as any as S.Schema<CloudWatchLoggingOptionUpdate>;
 export type CloudWatchLoggingOptionUpdates = CloudWatchLoggingOptionUpdate[];
-export const CloudWatchLoggingOptionUpdates = /*@__PURE__*/ S.Array(
-  CloudWatchLoggingOptionUpdate,
-);
+export const CloudWatchLoggingOptionUpdates = /*@__PURE__*/ S.Array(CloudWatchLoggingOptionUpdate);
 export interface ApplicationUpdate {
   InputUpdates?: InputUpdate[];
   ApplicationCodeUpdate?: string;
@@ -1521,9 +1157,7 @@ export const ApplicationUpdate = /*@__PURE__*/ S.suspend(() =>
     ReferenceDataSourceUpdates: S.optional(ReferenceDataSourceUpdates),
     CloudWatchLoggingOptionUpdates: S.optional(CloudWatchLoggingOptionUpdates),
   }),
-).annotate({
-  identifier: "ApplicationUpdate",
-}) as any as S.Schema<ApplicationUpdate>;
+).annotate({ identifier: "ApplicationUpdate" }) as any as S.Schema<ApplicationUpdate>;
 export interface UpdateApplicationRequest {
   ApplicationName: string;
   CurrentApplicationVersionId: number;
@@ -1534,20 +1168,8 @@ export const UpdateApplicationRequest = /*@__PURE__*/ S.suspend(() =>
     ApplicationName: S.String,
     CurrentApplicationVersionId: S.Number,
     ApplicationUpdate: ApplicationUpdate,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateApplicationRequest",
-}) as any as S.Schema<UpdateApplicationRequest>;
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "UpdateApplicationRequest" }) as any as S.Schema<UpdateApplicationRequest>;
 export interface UpdateApplicationResponse {}
 export const UpdateApplicationResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(ns),
@@ -2109,11 +1731,7 @@ export const listTagsForResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
-  errors: [
-    ConcurrentModificationException,
-    InvalidArgumentException,
-    ResourceNotFoundException,
-  ],
+  errors: [ConcurrentModificationException, InvalidArgumentException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
@@ -2188,11 +1806,7 @@ export const stopApplication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: StopApplicationRequest,
   output: StopApplicationResponse,
-  errors: [
-    ResourceInUseException,
-    ResourceNotFoundException,
-    UnsupportedOperationException,
-  ],
+  errors: [ResourceInUseException, ResourceNotFoundException, UnsupportedOperationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopApplication",

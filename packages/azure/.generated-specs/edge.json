@@ -31,10 +31,10 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/targets/{targetName}/updateExternalValidationStatus",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Post request to update external validation status",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#UpdateTargetExternalValidationStatusResponse": {
@@ -151,13 +151,13 @@
           }
         },
         "configuration": {
-          "target": "smithy.api#String",
+          "target": "smithy.api#Document",
           "traits": {
             "smithy.api#documentation": "Resolved configuration values"
           }
         },
         "targetLevelConfiguration": {
-          "target": "smithy.api#String",
+          "target": "smithy.api#Document",
           "traits": {
             "smithy.api#documentation": "Configuration on the line level across all solution template versions"
           }
@@ -971,10 +971,10 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/targets/{targetName}/unstageSolutionVersion",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Post request to unstage solution version",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#TargetsUnstageSolutionVersionResponse": {
@@ -1079,10 +1079,10 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/targets/{targetName}/uninstallSolution",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Post request to uninstall",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#UninstallTargetSolutionRequest": {
@@ -1143,10 +1143,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/targets/{targetName}/solutions/{solutionName}/versions/{solutionVersionName}",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Delete a Solution Version Resource",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#DeleteSolutionVersionRequest": {
@@ -1210,10 +1210,10 @@
           "method": "PATCH",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/targets/{targetName}/solutions/{solutionName}/versions/{solutionVersionName}",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Update a Solution Version Resource",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#UpdateSolutionVersionResponse": {
@@ -1359,10 +1359,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/targets/{targetName}/solutions/{solutionName}/versions/{solutionVersionName}",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Create or update a Solution Version Resource",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#SolutionVersionsCreateOrUpdateResponse": {
@@ -1528,10 +1528,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/targets/{targetName}/solutions/{solutionName}/versions/{solutionVersionName}",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Get a Solution Version Resource",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#GetSolutionVersionResponse": {
@@ -1645,10 +1645,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/targets/{targetName}/solutions/{solutionName}/versions",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "List Solution Version Resources",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#SolutionVersionListResult": {
@@ -1784,10 +1784,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/targets/{targetName}/solutions/{solutionName}/instances/{instanceName}/histories/{instanceHistoryName}",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Get InstanceHistory Resource",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#GetInstanceHistoryResponse": {
@@ -2213,10 +2213,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/targets/{targetName}/solutions/{solutionName}/instances/{instanceName}/histories",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "List InstanceHistory Resources",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#InstanceHistoryListResult": {
@@ -2360,10 +2360,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/targets/{targetName}/solutions/{solutionName}/instances/{instanceName}",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Delete Instance Resource",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#DeleteInstanceRequest": {
@@ -2427,10 +2427,10 @@
           "method": "PATCH",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/targets/{targetName}/solutions/{solutionName}/instances/{instanceName}",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Update an Instance Resource",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#UpdateInstanceResponse": {
@@ -2666,10 +2666,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/targets/{targetName}/solutions/{solutionName}/instances/{instanceName}",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Create or update Instance Resource",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#InstancesCreateOrUpdateResponse": {
@@ -2835,10 +2835,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/targets/{targetName}/solutions/{solutionName}/instances/{instanceName}",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Get Instance Resource",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#GetInstanceResponse": {
@@ -2952,10 +2952,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/targets/{targetName}/solutions/{solutionName}/instances",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "List Instance Resources",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#InstanceListResult": {
@@ -3091,10 +3091,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/targets/{targetName}/solutions/{solutionName}",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Delete a Solution Resource",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#DeleteSolutionRequest": {
@@ -3150,10 +3150,10 @@
           "method": "PATCH",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/targets/{targetName}/solutions/{solutionName}",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Update a Solution Resource",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#UpdateSolutionResponse": {
@@ -3342,10 +3342,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/targets/{targetName}/solutions/{solutionName}",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Create or update a Solution Resource",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#SolutionsCreateOrUpdateResponse": {
@@ -3470,10 +3470,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/targets/{targetName}/solutions/{solutionName}",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Get a Solution resource",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#GetSolutionResponse": {
@@ -3579,10 +3579,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/targets/{targetName}/solutions",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "List Solution resources",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#SolutionListResult": {
@@ -3710,10 +3710,10 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/targets/{targetName}/reviewSolutionVersion",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Post request to review configuration",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#ReviewTargetSolutionVersionResponse": {
@@ -3892,10 +3892,10 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/targets/{targetName}/resolveConfiguration",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Post request to resolve configuration",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#ResolvedConfiguration": {
@@ -3986,10 +3986,10 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/targets/{targetName}/removeRevision",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Post request to remove solution version revision",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#RemoveTargetRevisionRequest": {
@@ -4051,10 +4051,10 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/targets/{targetName}/publishSolutionVersion",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Post request to publish",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#PublishTargetSolutionVersionResponse": {
@@ -4159,10 +4159,10 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/targets/{targetName}/installSolution",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Post request to deploy",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#InstallTargetSolutionRequest": {
@@ -4217,10 +4217,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/targets/{targetName}",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Delete a Target Resource",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#DeleteTargetRequest": {
@@ -4275,10 +4275,10 @@
           "method": "PATCH",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/targets/{targetName}",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "update a Target Resource",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#UpdateTargetResponse": {
@@ -4371,8 +4371,7 @@
         "targetSpecification": {
           "target": "com.azure.edge#TargetPropertiesTargetSpecificationMap",
           "traits": {
-            "smithy.api#documentation": "target spec",
-            "smithy.api#required": {}
+            "smithy.api#documentation": "target spec"
           }
         },
         "capabilities": {
@@ -4617,10 +4616,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/targets/{targetName}",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Create or update a Target Resource",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#TargetsCreateOrUpdateResponse": {
@@ -4782,8 +4781,7 @@
         "targetSpecification": {
           "target": "com.azure.edge#TargetPropertiesInputTargetSpecificationMap",
           "traits": {
-            "smithy.api#documentation": "target spec",
-            "smithy.api#required": {}
+            "smithy.api#documentation": "target spec"
           }
         },
         "capabilities": {
@@ -4863,10 +4861,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/targets/{targetName}",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Get a Target Resource",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#GetTargetResponse": {
@@ -4989,10 +4987,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/targets",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "List by specified resource group",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#TargetListResult": {
@@ -5137,10 +5135,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/solutionTemplates/{solutionTemplateName}/versions/{solutionTemplateVersionName}/solutionSchemas/{solutionSchemaName}",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Get a SolutionSchema Resource",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#GetSolutionSchemaResponse": {
@@ -5191,7 +5189,7 @@
       "type": "structure",
       "members": {
         "value": {
-          "target": "smithy.api#String",
+          "target": "smithy.api#Document",
           "traits": {
             "smithy.api#documentation": "Value of schema"
           }
@@ -5280,10 +5278,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/solutionTemplates/{solutionTemplateName}/versions/{solutionTemplateVersionName}/solutionSchemas",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "List by SolutionTemplateVersion",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#SolutionSchemaListResult": {
@@ -5413,10 +5411,10 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/solutionTemplates/{solutionTemplateName}/versions/{solutionTemplateVersionName}/bulkReviewSolution",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Post request for bulk review",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#BulkSolutionTemplateVersionReviewSolutionRequest": {
@@ -5557,10 +5555,10 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/solutionTemplates/{solutionTemplateName}/versions/{solutionTemplateVersionName}/bulkPublishSolution",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Post request for bulk publish",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#SolutionTemplateVersionsBulkPublishSolutionRequest": {
@@ -5707,10 +5705,10 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/solutionTemplates/{solutionTemplateName}/versions/{solutionTemplateVersionName}/bulkDeploySolution",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Post request for bulk deploy",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#SolutionTemplateVersionsBulkDeploySolutionRequest": {
@@ -5797,10 +5795,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/solutionTemplates/{solutionTemplateName}/versions/{solutionTemplateVersionName}",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Delete a Solution Template Version Resource",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#DeleteSolutionTemplateVersionRequest": {
@@ -5856,10 +5854,10 @@
           "method": "PATCH",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/solutionTemplates/{solutionTemplateName}/versions/{solutionTemplateVersionName}",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Update a Solution Template Version Resource",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#UpdateSolutionTemplateVersionResponse": {
@@ -5910,10 +5908,9 @@
       "type": "structure",
       "members": {
         "configurations": {
-          "target": "smithy.api#String",
+          "target": "smithy.api#Document",
           "traits": {
-            "smithy.api#documentation": "Config expressions for this solution version",
-            "smithy.api#required": {}
+            "smithy.api#documentation": "Config expressions for this solution version"
           }
         },
         "specification": {
@@ -6054,7 +6051,7 @@
       "type": "structure",
       "members": {
         "configurations": {
-          "target": "smithy.api#String",
+          "target": "smithy.api#Document",
           "traits": {
             "smithy.api#documentation": "Config expressions for this solution version"
           }
@@ -6101,10 +6098,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/solutionTemplates/{solutionTemplateName}/versions/{solutionTemplateVersionName}",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Create or update a Solution Template Version Resource",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#SolutionTemplateVersionsCreateOrUpdateResponse": {
@@ -6201,10 +6198,9 @@
       "type": "structure",
       "members": {
         "configurations": {
-          "target": "smithy.api#String",
+          "target": "smithy.api#Document",
           "traits": {
-            "smithy.api#documentation": "Config expressions for this solution version",
-            "smithy.api#required": {}
+            "smithy.api#documentation": "Config expressions for this solution version"
           }
         },
         "specification": {
@@ -6250,10 +6246,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/solutionTemplates/{solutionTemplateName}/versions/{solutionTemplateVersionName}",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Get a Solution Template Version Resource",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#GetSolutionTemplateVersionResponse": {
@@ -6353,10 +6349,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/solutionTemplates/{solutionTemplateName}/versions",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "List Solution Template Version Resources",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#SolutionTemplateVersionListResult": {
@@ -6478,10 +6474,10 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/solutionTemplates/{solutionTemplateName}/removeVersion",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Remove Solution Template Version Resource",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#RemoveSolutionTemplateVersionRequest": {
@@ -6536,10 +6532,10 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/solutionTemplates/{solutionTemplateName}/createVersion",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Create a Solution Template Version Resource",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#CreateSolutionTemplateVersionResponse": {
@@ -6690,10 +6686,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/solutionTemplates/{solutionTemplateName}",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Delete a Solution Template Resource",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#DeleteSolutionTemplateRequest": {
@@ -6741,10 +6737,10 @@
           "method": "PATCH",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/solutionTemplates/{solutionTemplateName}",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "update a Solution Template Resource",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#UpdateSolutionTemplateResponse": {
@@ -6987,10 +6983,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/solutionTemplates/{solutionTemplateName}",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Create or update a Solution Template Resource",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#SolutionTemplatesCreateOrUpdateResponse": {
@@ -7181,10 +7177,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/solutionTemplates/{solutionTemplateName}",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Get a Solution Template Resource",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#GetSolutionTemplateResponse": {
@@ -7301,10 +7297,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/solutionTemplates",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "List by specified resource group",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#SolutionTemplateListResult": {
@@ -7443,10 +7439,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/schemas/{schemaName}/versions/{schemaVersionName}",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Delete a Schema Version Resource",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#DeleteSchemaVersionRequest": {
@@ -7502,10 +7498,10 @@
           "method": "PATCH",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/schemas/{schemaName}/versions/{schemaVersionName}",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "update a Schema Version Resource",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#UpdateSchemaVersionResponse": {
@@ -7556,7 +7552,7 @@
       "type": "structure",
       "members": {
         "value": {
-          "target": "smithy.api#String",
+          "target": "smithy.api#Document",
           "traits": {
             "smithy.api#documentation": "Value of schema version",
             "smithy.api#required": {}
@@ -7623,7 +7619,7 @@
       "type": "structure",
       "members": {
         "value": {
-          "target": "smithy.api#String",
+          "target": "smithy.api#Document",
           "traits": {
             "smithy.api#documentation": "Value of schema version"
           }
@@ -7646,10 +7642,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/schemas/{schemaName}/versions/{schemaVersionName}",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Create or update a Schema Version Resource",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#SchemaVersionsCreateOrUpdateResponse": {
@@ -7746,7 +7742,7 @@
       "type": "structure",
       "members": {
         "value": {
-          "target": "smithy.api#String",
+          "target": "smithy.api#Document",
           "traits": {
             "smithy.api#documentation": "Value of schema version",
             "smithy.api#required": {}
@@ -7770,10 +7766,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/schemas/{schemaName}/versions/{schemaVersionName}",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Get a Schema Version Resource",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#GetSchemaVersionResponse": {
@@ -7873,10 +7869,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/schemas/{schemaName}/versions",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "List by specified resource group",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#SchemaVersionListResult": {
@@ -7998,10 +7994,10 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/schemas/{schemaName}/removeVersion",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Remove Schema Version Resource",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#RemoveVersionResponse": {
@@ -8071,10 +8067,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/schemas/{schemaName}/dynamicSchemas/{dynamicSchemaName}/versions/{dynamicSchemaVersionName}",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Delete a Dynamic Schema Version Resource",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#DeleteDynamicSchemaVersionRequest": {
@@ -8138,10 +8134,10 @@
           "method": "PATCH",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/schemas/{schemaName}/dynamicSchemas/{dynamicSchemaName}/versions/{dynamicSchemaVersionName}",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "update a Dynamic Schema Version Resource",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#UpdateDynamicSchemaVersionResponse": {
@@ -8255,10 +8251,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/schemas/{schemaName}/dynamicSchemas/{dynamicSchemaName}/versions/{dynamicSchemaVersionName}",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Create or update a Dynamic Schema Version Resource",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#DynamicSchemaVersionsCreateOrUpdateResponse": {
@@ -8372,10 +8368,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/schemas/{schemaName}/dynamicSchemas/{dynamicSchemaName}/versions/{dynamicSchemaVersionName}",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Get a Dynamic Schema Version Resource",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#GetDynamicSchemaVersionResponse": {
@@ -8483,10 +8479,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/schemas/{schemaName}/dynamicSchemas/{dynamicSchemaName}/versions",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "List by Dynamic Schema",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#DynamicSchemaVersionListResult": {
@@ -8616,10 +8612,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/schemas/{schemaName}/dynamicSchemas/{dynamicSchemaName}",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Delete a DynamicSchema Resource",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#DeleteDynamicSchemaRequest": {
@@ -8675,10 +8671,10 @@
           "method": "PATCH",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/schemas/{schemaName}/dynamicSchemas/{dynamicSchemaName}",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "update a DynamicSchema Resource",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#UpdateDynamicSchemaResponse": {
@@ -8863,10 +8859,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/schemas/{schemaName}/dynamicSchemas/{dynamicSchemaName}",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Create or update a DynamicSchema Resource",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#DynamicSchemasCreateOrUpdateResponse": {
@@ -8972,10 +8968,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/schemas/{schemaName}/dynamicSchemas/{dynamicSchemaName}",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Get a DynamicSchema Resource",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#GetDynamicSchemaResponse": {
@@ -9075,10 +9071,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/schemas/{schemaName}/dynamicSchemas",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "List by Schema",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#DynamicSchemaListResult": {
@@ -9200,10 +9196,10 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/schemas/{schemaName}/createVersion",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Create a Schema Version Resource",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#CreateSchemaVersionResponse": {
@@ -9328,10 +9324,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/schemas/{schemaName}",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Delete a Schema Resource",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#DeleteSchemaRequest": {
@@ -9379,10 +9375,10 @@
           "method": "PATCH",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/schemas/{schemaName}",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "update a Schema Resource",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#UpdateSchemaResponse": {
@@ -9550,10 +9546,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/schemas/{schemaName}",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Create or update a Schema Resource",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#SchemasCreateOrUpdateResponse": {
@@ -9708,10 +9704,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/schemas/{schemaName}",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Get a Schema Resource",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#GetSchemaResponse": {
@@ -9828,10 +9824,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/schemas",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "List by specified resource group",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#SchemaListResult": {
@@ -9970,10 +9966,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/diagnostics/{diagnosticName}",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Deletes specified Diagnostic resource.",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#DeleteDiagnosticRequest": {
@@ -10021,10 +10017,10 @@
           "method": "PATCH",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/diagnostics/{diagnosticName}",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Updates existing Diagnostic resource.",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#UpdateDiagnosticResponse": {
@@ -10192,10 +10188,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/diagnostics/{diagnosticName}",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Creates new or updates existing Diagnostic resource.",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#DiagnosticsCreateOrUpdateResponse": {
@@ -10362,10 +10358,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/diagnostics/{diagnosticName}",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Returns details of specified Diagnostic resource.",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#GetDiagnosticResponse": {
@@ -10488,10 +10484,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/diagnostics",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Returns a collection of Diagnostic resources within the resource group.",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#DiagnosticListResult": {
@@ -10636,10 +10632,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/contexts/{contextName}/workflows/{workflowName}/versions/{versionName}/executions/{executionName}",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Delete Execution Resource",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#DeleteExecutionRequest": {
@@ -10711,10 +10707,10 @@
           "method": "PATCH",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/contexts/{contextName}/workflows/{workflowName}/versions/{versionName}/executions/{executionName}",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "update an Execution Resource",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#UpdateExecutionResponse": {
@@ -11040,10 +11036,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/contexts/{contextName}/workflows/{workflowName}/versions/{versionName}/executions/{executionName}",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Create or update Execution Resource",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#ExecutionsCreateOrUpdateResponse": {
@@ -11210,10 +11206,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/contexts/{contextName}/workflows/{workflowName}/versions/{versionName}/executions/{executionName}",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Get Execution Resource",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#GetExecutionResponse": {
@@ -11335,10 +11331,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/contexts/{contextName}/workflows/{workflowName}/versions/{versionName}/executions",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "List Execution Resources",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#ExecutionListResult": {
@@ -11482,10 +11478,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/contexts/{contextName}/workflows/{workflowName}/versions/{versionName}",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Delete a Workflow Version Resource",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#DeleteWorkflowVersionRequest": {
@@ -11549,10 +11545,10 @@
           "method": "PATCH",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/contexts/{contextName}/workflows/{workflowName}/versions/{versionName}",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "update an WorkflowVersion Resource",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#UpdateWorkflowVersionResponse": {
@@ -11945,10 +11941,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/contexts/{contextName}/workflows/{workflowName}/versions/{versionName}",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Create or update a Workflow Version Resource",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#WorkflowVersionsCreateOrUpdateResponse": {
@@ -12116,10 +12112,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/contexts/{contextName}/workflows/{workflowName}/versions/{versionName}",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Get a Workflow Version Resource",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#GetWorkflowVersionResponse": {
@@ -12233,10 +12229,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/contexts/{contextName}/workflows/{workflowName}/versions",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "List Workflow Version Resources",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#WorkflowVersionListResult": {
@@ -12372,10 +12368,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/contexts/{contextName}/workflows/{workflowName}",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Delete a Workflow resource",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#DeleteWorkflowRequest": {
@@ -12431,10 +12427,10 @@
           "method": "PATCH",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/contexts/{contextName}/workflows/{workflowName}",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "update a Workflow resource",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#UpdateWorkflowResponse": {
@@ -12573,10 +12569,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/contexts/{contextName}/workflows/{workflowName}",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Create or update a Workflow resource",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#WorkflowsCreateOrUpdateResponse": {
@@ -12694,10 +12690,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/contexts/{contextName}/workflows/{workflowName}",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Get a Workflow resource",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#GetWorkflowResponse": {
@@ -12803,10 +12799,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/contexts/{contextName}/workflows",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "List Workflow resources",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#WorkflowListResult": {
@@ -12934,10 +12930,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/contexts/{contextName}/siteReferences/{siteReferenceName}",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Get Site Reference Resource",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#DeleteSiteReferenceRequest": {
@@ -12993,10 +12989,10 @@
           "method": "PATCH",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/contexts/{contextName}/siteReferences/{siteReferenceName}",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Get Site Reference Resource",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#UpdateSiteReferenceResponse": {
@@ -13131,10 +13127,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/contexts/{contextName}/siteReferences/{siteReferenceName}",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Get Site Reference Resource",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#SiteReferencesCreateOrUpdateResponse": {
@@ -13249,10 +13245,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/contexts/{contextName}/siteReferences/{siteReferenceName}",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Get Site Reference Resource",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#GetSiteReferenceResponse": {
@@ -13346,10 +13342,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/contexts/{contextName}/siteReferences",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "List Site Reference Resources",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#SiteReferenceListResult": {
@@ -13465,10 +13461,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/contexts/{contextName}",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Delete Context Resource",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#DeleteContextRequest": {
@@ -13516,10 +13512,10 @@
           "method": "PATCH",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/contexts/{contextName}",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "update an Context Resource",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#UpdateContextResponse": {
@@ -13794,10 +13790,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/contexts/{contextName}",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Create or update Context Resource",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#ContextsCreateOrUpdateResponse": {
@@ -13979,10 +13975,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/contexts/{contextName}",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Get Context Resource",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#GetContextResponse": {
@@ -14093,10 +14089,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/contexts",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "List by specified resource group",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#ContextListResult": {
@@ -14229,10 +14225,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/configTemplates/{configTemplateName}/versions/{configTemplateVersionName}/configTemplateSchemas/{configTemplateSchemaName}",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Get a ConfigTemplateSchema Resource",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#GetConfigTemplateSchemaResponse": {
@@ -14283,7 +14279,7 @@
       "type": "structure",
       "members": {
         "value": {
-          "target": "smithy.api#String",
+          "target": "smithy.api#Document",
           "traits": {
             "smithy.api#documentation": "Value of schema"
           }
@@ -14366,10 +14362,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/configTemplates/{configTemplateName}/versions/{configTemplateVersionName}/configTemplateSchemas",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "List by ConfigTemplateVersion",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#ConfigTemplateSchemaListResult": {
@@ -14499,10 +14495,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/configTemplates/{configTemplateName}/versions/{configTemplateVersionName}",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Delete a Config Template Version Resource",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#DeleteConfigTemplateVersionRequest": {
@@ -14558,10 +14554,10 @@
           "method": "PATCH",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/configTemplates/{configTemplateName}/versions/{configTemplateVersionName}",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Update a Config Template Version Resource",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#UpdateConfigTemplateVersionResponse": {
@@ -14612,7 +14608,7 @@
       "type": "structure",
       "members": {
         "configurations": {
-          "target": "smithy.api#String",
+          "target": "smithy.api#Document",
           "traits": {
             "smithy.api#documentation": "Configuration values",
             "smithy.api#required": {}
@@ -14679,7 +14675,7 @@
       "type": "structure",
       "members": {
         "configurations": {
-          "target": "smithy.api#String",
+          "target": "smithy.api#Document",
           "traits": {
             "smithy.api#documentation": "Configuration values"
           }
@@ -14702,10 +14698,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/configTemplates/{configTemplateName}/versions/{configTemplateVersionName}",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Create or update a Config Template Version Resource",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#ConfigTemplateVersionsCreateOrUpdateResponse": {
@@ -14802,7 +14798,7 @@
       "type": "structure",
       "members": {
         "configurations": {
-          "target": "smithy.api#String",
+          "target": "smithy.api#Document",
           "traits": {
             "smithy.api#documentation": "Configuration values",
             "smithy.api#required": {}
@@ -14826,10 +14822,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/configTemplates/{configTemplateName}/versions/{configTemplateVersionName}",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Get a Config Template Version Resource",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#GetConfigTemplateVersionResponse": {
@@ -14929,10 +14925,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/configTemplates/{configTemplateName}/versions",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "List Config Template Version Resources",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#ConfigTemplateVersionListResult": {
@@ -15054,10 +15050,10 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/configTemplates/{configTemplateName}/unLinkFromHierarchies",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Remove a Config Template from a particular hierarchy node",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#ConfigTemplatesUnLinkFromHierarchiesRequest": {
@@ -15133,10 +15129,10 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/configTemplates/{configTemplateName}/removeVersion",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Remove Config Template Version Resource",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#RemoveConfigTemplateVersionRequest": {
@@ -15191,10 +15187,10 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/configTemplates/{configTemplateName}/linkToHierarchies",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Apply a Config Template to a particular hierarchy node",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#ConfigTemplatesLinkToHierarchiesRequest": {
@@ -15270,10 +15266,10 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/configTemplates/{configTemplateName}/createVersion",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Create or update a Config Template Version Resource with the specified UpdateType",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#CreateConfigTemplateVersionResponse": {
@@ -15398,10 +15394,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/configTemplates/{configTemplateName}/configTemplateMetadatas/{configTemplateMetadataName}",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Delete a ConfigTemplateMetadata Resource",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#DeleteConfigTemplateMetadatasRequest": {
@@ -15457,10 +15453,10 @@
           "method": "PATCH",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/configTemplates/{configTemplateName}/configTemplateMetadatas/{configTemplateMetadataName}",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Update a ConfigTemplateMetadata Resource",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#UpdateConfigTemplateMetadatasResponse": {
@@ -15695,10 +15691,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/configTemplates/{configTemplateName}/configTemplateMetadatas/{configTemplateMetadataName}",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Create or update a ConfigTemplateMetadata Resource",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#ConfigTemplateMetadatasCreateOrUpdateResponse": {
@@ -15848,10 +15844,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/configTemplates/{configTemplateName}/configTemplateMetadatas/{configTemplateMetadataName}",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Get a ConfigTemplateMetadata Resource",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#GetConfigTemplateMetadatasResponse": {
@@ -15951,10 +15947,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/configTemplates/{configTemplateName}/configTemplateMetadatas",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "List by ConfigTemplate",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#ConfigTemplateMetadataListResult": {
@@ -16076,10 +16072,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/configTemplates/{configTemplateName}",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Delete a Config Template Resource",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#DeleteConfigTemplateRequest": {
@@ -16127,10 +16123,10 @@
           "method": "PATCH",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/configTemplates/{configTemplateName}",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "update a Config Template Resource",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#UpdateConfigTemplateResponse": {
@@ -16318,10 +16314,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/configTemplates/{configTemplateName}",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Create or update a Config Template Resource",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#ConfigTemplatesCreateOrUpdateResponse": {
@@ -16484,10 +16480,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/configTemplates/{configTemplateName}",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Get a Config Template Resource",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#GetConfigTemplateResponse": {
@@ -16604,10 +16600,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/configTemplates",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "List by specified resource group",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#ConfigTemplateListResult": {
@@ -16746,10 +16742,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.Edge/targets",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "List by subscription",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#ListTargetBySubscriptionRequest": {
@@ -16781,10 +16777,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.Edge/solutionTemplates",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "List by subscription",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#ListSolutionTemplateBySubscriptionRequest": {
@@ -16816,10 +16812,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.Edge/schemas",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "List by subscription",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#ListSchemaBySubscriptionRequest": {
@@ -16851,10 +16847,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.Edge/diagnostics",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Lists Diagnostics resources within an Azure subscription.",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#ListDiagnosticBySubscriptionRequest": {
@@ -16886,10 +16882,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.Edge/contexts",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "List by subscription",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#ListContextBySubscriptionRequest": {
@@ -16921,10 +16917,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.Edge/configTemplates",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "List by subscription",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#ListConfigTemplateBySubscriptionRequest": {
@@ -16956,10 +16952,10 @@
           "method": "GET",
           "uri": "/{resourceUri}/providers/Microsoft.Edge/solutionMetadatas/{solutionMetadataName}/versions/{solutionMetadataVersionName}",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Get a Solution resource",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#GetSolutionMetadataVersionResponse": {
@@ -17103,10 +17099,10 @@
           "method": "GET",
           "uri": "/{resourceUri}/providers/Microsoft.Edge/solutionMetadatas/{solutionMetadataName}/versions",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "List Solution resources",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#SolutionMetadataVersionListResult": {
@@ -17214,10 +17210,10 @@
           "method": "GET",
           "uri": "/{resourceUri}/providers/Microsoft.Edge/solutionMetadatas/{solutionMetadataName}",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Get a Solution resource",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#GetSolutionMetadatasResponse": {
@@ -17327,10 +17323,10 @@
           "method": "GET",
           "uri": "/{resourceUri}/providers/Microsoft.Edge/solutionMetadatas",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "List Solution resources",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#SolutionMetadataListResult": {
@@ -17430,10 +17426,10 @@
           "method": "DELETE",
           "uri": "/{resourceUri}/providers/Microsoft.Edge/schemaReferences/{schemaReferenceName}",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Delete a Schema Reference Resource",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#DeleteSchemaReferenceRequest": {
@@ -17473,10 +17469,10 @@
           "method": "PATCH",
           "uri": "/{resourceUri}/providers/Microsoft.Edge/schemaReferences/{schemaReferenceName}",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "update a Schema Reference Resource",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#UpdateSchemaReferenceResponse": {
@@ -17601,10 +17597,10 @@
           "method": "PUT",
           "uri": "/{resourceUri}/providers/Microsoft.Edge/schemaReferences/{schemaReferenceName}",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Create or update a Schema Reference Resource",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#SchemaReferencesCreateOrUpdateResponse": {
@@ -17709,10 +17705,10 @@
           "method": "GET",
           "uri": "/{resourceUri}/providers/Microsoft.Edge/schemaReferences/{schemaReferenceName}",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Get a Schema Reference Resource",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#GetSchemaReferenceResponse": {
@@ -17796,10 +17792,10 @@
           "method": "GET",
           "uri": "/{resourceUri}/providers/Microsoft.Edge/schemaReferences",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "List by specified resource group",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#SchemaReferenceListResult": {
@@ -17905,10 +17901,10 @@
           "method": "GET",
           "uri": "/{resourceUri}/providers/Microsoft.Edge/jobs/{jobName}",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Get a Job resource",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#GetJobResponse": {
@@ -18332,10 +18328,10 @@
           "method": "GET",
           "uri": "/{resourceUri}/providers/Microsoft.Edge/jobs",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "List Jobs by parent resource",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#JobListResult": {
@@ -18441,10 +18437,10 @@
           "method": "GET",
           "uri": "/{resourceUri}/providers/Microsoft.Edge/hierarchyConfigurationMetadatas/{hierarchyConfigurationMetadataName}/versions/{hierarchyConfigurationMetadataVersionName}",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Get a Hierarchy Configuration Metadata Version resource",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#GetHierarchyConfigurationMetadataVersionResponse": {
@@ -18588,10 +18584,10 @@
           "method": "GET",
           "uri": "/{resourceUri}/providers/Microsoft.Edge/hierarchyConfigurationMetadatas/{hierarchyConfigurationMetadataName}/versions",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "List Hierarchy Configuration Metadata Version resources",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#HierarchyConfigurationMetadataVersionListResult": {
@@ -18699,10 +18695,10 @@
           "method": "GET",
           "uri": "/{resourceUri}/providers/Microsoft.Edge/hierarchyConfigurationMetadatas/{hierarchyConfigurationMetadataName}",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Get a Hierarchy Configuration Metadata resource",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#GetHierarchyConfigurationMetadatasResponse": {
@@ -18800,10 +18796,10 @@
           "method": "GET",
           "uri": "/{resourceUri}/providers/Microsoft.Edge/hierarchyConfigurationMetadatas",
           "code": 200,
-          "apiVersion": "2026-03-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "List Solution resources",
-        "com.distilled.openapi#apiVersion": "2026-03-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#HierarchyConfigurationMetadataListResult": {
@@ -18903,10 +18899,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/configurations/{configurationName}/dynamicConfigurations/{dynamicConfigurationName}/versions/{dynamicConfigurationVersionName}",
           "code": 200,
-          "apiVersion": "2025-08-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Delete a Dynamic Configuration Version Resource",
-        "com.distilled.openapi#apiVersion": "2025-08-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#DeleteDynamicConfigurationVersionRequest": {
@@ -18970,10 +18966,10 @@
           "method": "PATCH",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/configurations/{configurationName}/dynamicConfigurations/{dynamicConfigurationName}/versions/{dynamicConfigurationVersionName}",
           "code": 200,
-          "apiVersion": "2025-08-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "update a Dynamic Configuration Version Resource",
-        "com.distilled.openapi#apiVersion": "2025-08-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#UpdateDynamicConfigurationVersionResponse": {
@@ -19018,7 +19014,7 @@
       "type": "structure",
       "members": {
         "values": {
-          "target": "smithy.api#String",
+          "target": "smithy.api#Document",
           "traits": {
             "smithy.api#documentation": "Values of configuration version",
             "smithy.api#required": {}
@@ -19117,7 +19113,7 @@
       "type": "structure",
       "members": {
         "values": {
-          "target": "smithy.api#String",
+          "target": "smithy.api#Document",
           "traits": {
             "smithy.api#documentation": "Values of configuration version"
           }
@@ -19140,10 +19136,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/configurations/{configurationName}/dynamicConfigurations/{dynamicConfigurationName}/versions/{dynamicConfigurationVersionName}",
           "code": 200,
-          "apiVersion": "2025-08-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Create or update a Dynamic Configuration Version Resource",
-        "com.distilled.openapi#apiVersion": "2025-08-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#DynamicConfigurationVersionsCreateOrUpdateResponse": {
@@ -19242,7 +19238,7 @@
       "type": "structure",
       "members": {
         "values": {
-          "target": "smithy.api#String",
+          "target": "smithy.api#Document",
           "traits": {
             "smithy.api#documentation": "Values of configuration version",
             "smithy.api#required": {}
@@ -19266,10 +19262,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/configurations/{configurationName}/dynamicConfigurations/{dynamicConfigurationName}/versions/{dynamicConfigurationVersionName}",
           "code": 200,
-          "apiVersion": "2025-08-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Get a Dynamic Configuration Version Resource",
-        "com.distilled.openapi#apiVersion": "2025-08-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#GetDynamicConfigurationVersionResponse": {
@@ -19371,10 +19367,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/configurations/{configurationName}/dynamicConfigurations/{dynamicConfigurationName}/versions",
           "code": 200,
-          "apiVersion": "2025-08-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "List Dynamic Configuration Version Resource",
-        "com.distilled.openapi#apiVersion": "2025-08-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#DynamicConfigurationVersionListResult": {
@@ -19498,10 +19494,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/configurations/{configurationName}/dynamicConfigurations/{dynamicConfigurationName}",
           "code": 200,
-          "apiVersion": "2025-08-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Delete a Dynamic Configuration Resource",
-        "com.distilled.openapi#apiVersion": "2025-08-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#DeleteDynamicConfigurationRequest": {
@@ -19557,10 +19553,10 @@
           "method": "PATCH",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/configurations/{configurationName}/dynamicConfigurations/{dynamicConfigurationName}",
           "code": 200,
-          "apiVersion": "2025-08-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Update a Dynamic Configuration Resource",
-        "com.distilled.openapi#apiVersion": "2025-08-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#UpdateDynamicConfigurationResponse": {
@@ -19713,10 +19709,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/configurations/{configurationName}/dynamicConfigurations/{dynamicConfigurationName}",
           "code": 200,
-          "apiVersion": "2025-08-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Create or update a Dynamic Configuration Resource",
-        "com.distilled.openapi#apiVersion": "2025-08-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#DynamicConfigurationsCreateOrUpdateResponse": {
@@ -19831,10 +19827,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/configurations/{configurationName}/dynamicConfigurations/{dynamicConfigurationName}",
           "code": 200,
-          "apiVersion": "2025-08-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Get a Dynamic Configuration Resource",
-        "com.distilled.openapi#apiVersion": "2025-08-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#GetDynamicConfigurationResponse": {
@@ -19928,10 +19924,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/configurations/{configurationName}/dynamicConfigurations",
           "code": 200,
-          "apiVersion": "2025-08-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "List Dynamic Configuration Resources",
-        "com.distilled.openapi#apiVersion": "2025-08-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#DynamicConfigurationListResult": {
@@ -20047,10 +20043,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/configurations/{configurationName}",
           "code": 200,
-          "apiVersion": "2025-08-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Delete a Configuration Resource",
-        "com.distilled.openapi#apiVersion": "2025-08-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#DeleteConfigurationRequest": {
@@ -20098,10 +20094,10 @@
           "method": "PATCH",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/configurations/{configurationName}",
           "code": 200,
-          "apiVersion": "2025-08-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Update a Configuration Resource",
-        "com.distilled.openapi#apiVersion": "2025-08-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#UpdateConfigurationResponse": {
@@ -20283,10 +20279,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/configurations/{configurationName}",
           "code": 200,
-          "apiVersion": "2025-08-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Create or update a Configuration Resource",
-        "com.distilled.openapi#apiVersion": "2025-08-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#ConfigurationsCreateOrUpdateResponse": {
@@ -20428,10 +20424,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/configurations/{configurationName}",
           "code": 200,
-          "apiVersion": "2025-08-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Get a Configuration Resource",
-        "com.distilled.openapi#apiVersion": "2025-08-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#GetConfigurationResponse": {
@@ -20542,10 +20538,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/configurations",
           "code": 200,
-          "apiVersion": "2025-08-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "List by specified resource group",
-        "com.distilled.openapi#apiVersion": "2025-08-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#ConfigurationListResult": {
@@ -20678,10 +20674,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.Edge/configurations",
           "code": 200,
-          "apiVersion": "2025-08-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "List by subscription",
-        "com.distilled.openapi#apiVersion": "2025-08-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#ListConfigurationBySubscriptionRequest": {
@@ -20713,10 +20709,10 @@
           "method": "DELETE",
           "uri": "/{resourceUri}/providers/Microsoft.Edge/configurationReferences/{configurationReferenceName}",
           "code": 200,
-          "apiVersion": "2025-08-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Delete a ConfigurationReference",
-        "com.distilled.openapi#apiVersion": "2025-08-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#DeleteConfigurationReferenceRequest": {
@@ -20756,10 +20752,10 @@
           "method": "PATCH",
           "uri": "/{resourceUri}/providers/Microsoft.Edge/configurationReferences/{configurationReferenceName}",
           "code": 200,
-          "apiVersion": "2025-08-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Update a ConfigurationReference",
-        "com.distilled.openapi#apiVersion": "2025-08-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#UpdateConfigurationReferenceResponse": {
@@ -20877,10 +20873,10 @@
           "method": "PUT",
           "uri": "/{resourceUri}/providers/Microsoft.Edge/configurationReferences/{configurationReferenceName}",
           "code": 200,
-          "apiVersion": "2025-08-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Create a ConfigurationReference",
-        "com.distilled.openapi#apiVersion": "2025-08-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#ConfigurationReferencesCreateOrUpdateResponse": {
@@ -20964,10 +20960,10 @@
           "method": "GET",
           "uri": "/{resourceUri}/providers/Microsoft.Edge/configurationReferences/{configurationReferenceName}",
           "code": 200,
-          "apiVersion": "2025-08-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "Get a ConfigurationReference",
-        "com.distilled.openapi#apiVersion": "2025-08-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#GetConfigurationReferenceResponse": {
@@ -21045,10 +21041,10 @@
           "method": "GET",
           "uri": "/{resourceUri}/providers/Microsoft.Edge/configurationReferences",
           "code": 200,
-          "apiVersion": "2025-08-01"
+          "apiVersion": "2026-06-01"
         },
         "smithy.api#documentation": "List ConfigurationReference resources by parent",
-        "com.distilled.openapi#apiVersion": "2025-08-01"
+        "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
     "com.azure.edge#ConfigurationReferenceListResult": {

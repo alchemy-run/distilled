@@ -1,18 +1,15 @@
+import * as API from "@distilled.cloud/core/api";
+import * as S from "@distilled.cloud/core/schema";
 import * as HttpClient from "effect/http/HttpClient";
 import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
-import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
-const svc = T.AwsApiService({
-  sdkId: "Wisdom",
-  serviceShapeName: "WisdomService",
-});
+import * as T from "../traits.ts";
+const svc = T.AwsApiService({ sdkId: "Wisdom", serviceShapeName: "WisdomService" });
 const auth = T.AwsAuthSigv4({ name: "wisdom" });
 const ver = T.ServiceVersion("2020-10-19");
 const proto = T.AwsProtocolsRestJson1();
@@ -28,14 +25,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -58,13 +51,9 @@ const rules = T.EndpointResolver((p, _) => {
         }
         if (UseFIPS === true) {
           if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            return e(
-              `https://wisdom-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
+            return e(`https://wisdom-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -72,13 +61,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://wisdom.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://wisdom.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://wisdom.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -112,10 +97,7 @@ export class RequestTimeoutException
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      resourceName: S.optional(S.String),
-    },
+    { message: S.optional(S.String).pipe(T.ErrorMessage()), resourceName: S.optional(S.String) },
     T.HttpError(404),
   ).pipe(C.withBadRequestError) {}
 export class ServiceQuotaExceededException
@@ -127,10 +109,7 @@ export class ServiceQuotaExceededException
 export class TooManyTagsException
   extends /*@__PURE__*/ S.TaggedError<TooManyTagsException>()(
     "TooManyTagsException",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      resourceName: S.optional(S.String),
-    },
+    { message: S.optional(S.String).pipe(T.ErrorMessage()), resourceName: S.optional(S.String) },
     T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export class ValidationException
@@ -171,22 +150,9 @@ export const CreateAssistantRequest = /*@__PURE__*/ S.suspend(() =>
     type: S.String,
     description: S.optional(S.String),
     tags: S.optional(Tags),
-    serverSideEncryptionConfiguration: S.optional(
-      ServerSideEncryptionConfiguration,
-    ),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/assistants" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateAssistantRequest",
-}) as any as S.Schema<CreateAssistantRequest>;
+    serverSideEncryptionConfiguration: S.optional(ServerSideEncryptionConfiguration),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/assistants" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "CreateAssistantRequest" }) as any as S.Schema<CreateAssistantRequest>;
 export type Uuid = string;
 export type Arn = string;
 export type AssistantStatus = string;
@@ -219,9 +185,7 @@ export const AssistantData = /*@__PURE__*/ S.suspend(() =>
     status: S.String,
     description: S.optional(S.String),
     tags: S.optional(Tags),
-    serverSideEncryptionConfiguration: S.optional(
-      ServerSideEncryptionConfiguration,
-    ),
+    serverSideEncryptionConfiguration: S.optional(ServerSideEncryptionConfiguration),
     integrationConfiguration: S.optional(AssistantIntegrationConfiguration),
   }),
 ).annotate({ identifier: "AssistantData" }) as any as S.Schema<AssistantData>;
@@ -230,9 +194,7 @@ export interface CreateAssistantResponse {
 }
 export const CreateAssistantResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ assistant: S.optional(AssistantData) }),
-).annotate({
-  identifier: "CreateAssistantResponse",
-}) as any as S.Schema<CreateAssistantResponse>;
+).annotate({ identifier: "CreateAssistantResponse" }) as any as S.Schema<CreateAssistantResponse>;
 export type UuidOrArn = string;
 export type AssociationType = string;
 export type AssistantAssociationInputData = { knowledgeBaseId: string };
@@ -271,10 +233,7 @@ export interface KnowledgeBaseAssociationData {
   knowledgeBaseArn?: string;
 }
 export const KnowledgeBaseAssociationData = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    knowledgeBaseId: S.optional(S.String),
-    knowledgeBaseArn: S.optional(S.String),
-  }),
+  S.Struct({ knowledgeBaseId: S.optional(S.String), knowledgeBaseArn: S.optional(S.String) }),
 ).annotate({
   identifier: "KnowledgeBaseAssociationData",
 }) as any as S.Schema<KnowledgeBaseAssociationData>;
@@ -303,9 +262,7 @@ export const AssistantAssociationData = /*@__PURE__*/ S.suspend(() =>
     associationData: AssistantAssociationOutputData,
     tags: S.optional(Tags),
   }),
-).annotate({
-  identifier: "AssistantAssociationData",
-}) as any as S.Schema<AssistantAssociationData>;
+).annotate({ identifier: "AssistantAssociationData" }) as any as S.Schema<AssistantAssociationData>;
 export interface CreateAssistantAssociationResponse {
   assistantAssociation?: AssistantAssociationData;
 }
@@ -317,10 +274,7 @@ export const CreateAssistantAssociationResponse = /*@__PURE__*/ S.suspend(() =>
 export type ContentTitle = string;
 export type Uri = string;
 export type ContentMetadata = { [key: string]: string | undefined };
-export const ContentMetadata = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const ContentMetadata = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export type UploadId = string;
 export interface CreateContentRequest {
   knowledgeBaseId: string;
@@ -344,10 +298,7 @@ export const CreateContentRequest = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(Tags),
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/knowledgeBases/{knowledgeBaseId}/contents",
-      }),
+      T.Http({ method: "POST", uri: "/knowledgeBases/{knowledgeBaseId}/contents" }),
       svc,
       auth,
       proto,
@@ -355,9 +306,7 @@ export const CreateContentRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "CreateContentRequest",
-}) as any as S.Schema<CreateContentRequest>;
+).annotate({ identifier: "CreateContentRequest" }) as any as S.Schema<CreateContentRequest>;
 export type ContentType = string;
 export type ContentStatus = string;
 export type Url = string | redacted.Redacted<string>;
@@ -400,9 +349,7 @@ export interface CreateContentResponse {
 }
 export const CreateContentResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ content: S.optional(ContentData) }),
-).annotate({
-  identifier: "CreateContentResponse",
-}) as any as S.Schema<CreateContentResponse>;
+).annotate({ identifier: "CreateContentResponse" }) as any as S.Schema<CreateContentResponse>;
 export type KnowledgeBaseType = string;
 export type ObjectFieldsList = string[];
 export const ObjectFieldsList = /*@__PURE__*/ S.Array(S.String);
@@ -411,16 +358,11 @@ export interface AppIntegrationsConfiguration {
   objectFields?: string[];
 }
 export const AppIntegrationsConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    appIntegrationArn: S.String,
-    objectFields: S.optional(ObjectFieldsList),
-  }),
+  S.Struct({ appIntegrationArn: S.String, objectFields: S.optional(ObjectFieldsList) }),
 ).annotate({
   identifier: "AppIntegrationsConfiguration",
 }) as any as S.Schema<AppIntegrationsConfiguration>;
-export type SourceConfiguration = {
-  appIntegrations: AppIntegrationsConfiguration;
-};
+export type SourceConfiguration = { appIntegrations: AppIntegrationsConfiguration };
 export const SourceConfiguration = /*@__PURE__*/ S.Union([
   S.Struct({ appIntegrations: AppIntegrationsConfiguration }),
 ]);
@@ -429,9 +371,7 @@ export interface RenderingConfiguration {
 }
 export const RenderingConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ templateUri: S.optional(S.String) }),
-).annotate({
-  identifier: "RenderingConfiguration",
-}) as any as S.Schema<RenderingConfiguration>;
+).annotate({ identifier: "RenderingConfiguration" }) as any as S.Schema<RenderingConfiguration>;
 export interface CreateKnowledgeBaseRequest {
   clientToken?: string;
   name: string;
@@ -449,21 +389,10 @@ export const CreateKnowledgeBaseRequest = /*@__PURE__*/ S.suspend(() =>
     knowledgeBaseType: S.String,
     sourceConfiguration: S.optional(SourceConfiguration),
     renderingConfiguration: S.optional(RenderingConfiguration),
-    serverSideEncryptionConfiguration: S.optional(
-      ServerSideEncryptionConfiguration,
-    ),
+    serverSideEncryptionConfiguration: S.optional(ServerSideEncryptionConfiguration),
     description: S.optional(S.String),
     tags: S.optional(Tags),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/knowledgeBases" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/knowledgeBases" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateKnowledgeBaseRequest",
 }) as any as S.Schema<CreateKnowledgeBaseRequest>;
@@ -488,20 +417,14 @@ export const KnowledgeBaseData = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     knowledgeBaseType: S.String,
     status: S.String,
-    lastContentModificationTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    lastContentModificationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     sourceConfiguration: S.optional(SourceConfiguration),
     renderingConfiguration: S.optional(RenderingConfiguration),
-    serverSideEncryptionConfiguration: S.optional(
-      ServerSideEncryptionConfiguration,
-    ),
+    serverSideEncryptionConfiguration: S.optional(ServerSideEncryptionConfiguration),
     description: S.optional(S.String),
     tags: S.optional(Tags),
   }),
-).annotate({
-  identifier: "KnowledgeBaseData",
-}) as any as S.Schema<KnowledgeBaseData>;
+).annotate({ identifier: "KnowledgeBaseData" }) as any as S.Schema<KnowledgeBaseData>;
 export interface CreateKnowledgeBaseResponse {
   knowledgeBase?: KnowledgeBaseData;
 }
@@ -512,9 +435,7 @@ export const CreateKnowledgeBaseResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreateKnowledgeBaseResponse>;
 export type QuickResponseName = string;
 export type QuickResponseContent = string | redacted.Redacted<string>;
-export type QuickResponseDataProvider = {
-  content: string | redacted.Redacted<string>;
-};
+export type QuickResponseDataProvider = { content: string | redacted.Redacted<string> };
 export const QuickResponseDataProvider = /*@__PURE__*/ S.Union([
   S.Struct({ content: SensitiveString }),
 ]);
@@ -528,13 +449,8 @@ export interface GroupingConfiguration {
   values?: (string | redacted.Redacted<string>)[];
 }
 export const GroupingConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    criteria: S.optional(SensitiveString),
-    values: S.optional(GroupingValues),
-  }),
-).annotate({
-  identifier: "GroupingConfiguration",
-}) as any as S.Schema<GroupingConfiguration>;
+  S.Struct({ criteria: S.optional(SensitiveString), values: S.optional(GroupingValues) }),
+).annotate({ identifier: "GroupingConfiguration" }) as any as S.Schema<GroupingConfiguration>;
 export type QuickResponseDescription = string;
 export type ShortCutKey = string;
 export type Channel = string | redacted.Redacted<string>;
@@ -571,10 +487,7 @@ export const CreateQuickResponseRequest = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(Tags),
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/knowledgeBases/{knowledgeBaseId}/quickResponses",
-      }),
+      T.Http({ method: "POST", uri: "/knowledgeBases/{knowledgeBaseId}/quickResponses" }),
       svc,
       auth,
       proto,
@@ -586,9 +499,7 @@ export const CreateQuickResponseRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateQuickResponseRequest",
 }) as any as S.Schema<CreateQuickResponseRequest>;
 export type QuickResponseStatus = string;
-export type QuickResponseContentProvider = {
-  content: string | redacted.Redacted<string>;
-};
+export type QuickResponseContentProvider = { content: string | redacted.Redacted<string> };
 export const QuickResponseContentProvider = /*@__PURE__*/ S.Union([
   S.Struct({ content: SensitiveString }),
 ]);
@@ -601,9 +512,7 @@ export const QuickResponseContents = /*@__PURE__*/ S.suspend(() =>
     plainText: S.optional(QuickResponseContentProvider),
     markdown: S.optional(QuickResponseContentProvider),
   }),
-).annotate({
-  identifier: "QuickResponseContents",
-}) as any as S.Schema<QuickResponseContents>;
+).annotate({ identifier: "QuickResponseContents" }) as any as S.Schema<QuickResponseContents>;
 export interface QuickResponseData {
   quickResponseArn: string;
   quickResponseId: string;
@@ -645,9 +554,7 @@ export const QuickResponseData = /*@__PURE__*/ S.suspend(() =>
     language: S.optional(S.String),
     tags: S.optional(Tags),
   }),
-).annotate({
-  identifier: "QuickResponseData",
-}) as any as S.Schema<QuickResponseData>;
+).annotate({ identifier: "QuickResponseData" }) as any as S.Schema<QuickResponseData>;
 export interface CreateQuickResponseResponse {
   quickResponse?: QuickResponseData;
 }
@@ -680,9 +587,7 @@ export const CreateSessionRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "CreateSessionRequest",
-}) as any as S.Schema<CreateSessionRequest>;
+).annotate({ identifier: "CreateSessionRequest" }) as any as S.Schema<CreateSessionRequest>;
 export interface SessionIntegrationConfiguration {
   topicIntegrationArn?: string;
 }
@@ -714,9 +619,7 @@ export interface CreateSessionResponse {
 }
 export const CreateSessionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ session: S.optional(SessionData) }),
-).annotate({
-  identifier: "CreateSessionResponse",
-}) as any as S.Schema<CreateSessionResponse>;
+).annotate({ identifier: "CreateSessionResponse" }) as any as S.Schema<CreateSessionResponse>;
 export interface DeleteAssistantRequest {
   assistantId: string;
 }
@@ -731,13 +634,9 @@ export const DeleteAssistantRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteAssistantRequest",
-}) as any as S.Schema<DeleteAssistantRequest>;
+).annotate({ identifier: "DeleteAssistantRequest" }) as any as S.Schema<DeleteAssistantRequest>;
 export interface DeleteAssistantResponse {}
-export const DeleteAssistantResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteAssistantResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteAssistantResponse",
 }) as any as S.Schema<DeleteAssistantResponse>;
 export interface DeleteAssistantAssociationRequest {
@@ -746,9 +645,7 @@ export interface DeleteAssistantAssociationRequest {
 }
 export const DeleteAssistantAssociationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    assistantAssociationId: S.String.pipe(
-      T.HttpLabel("assistantAssociationId"),
-    ),
+    assistantAssociationId: S.String.pipe(T.HttpLabel("assistantAssociationId")),
     assistantId: S.String.pipe(T.HttpLabel("assistantId")),
   }).pipe(
     T.all(
@@ -782,10 +679,7 @@ export const DeleteContentRequest = /*@__PURE__*/ S.suspend(() =>
     contentId: S.String.pipe(T.HttpLabel("contentId")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/knowledgeBases/{knowledgeBaseId}/contents/{contentId}",
-      }),
+      T.Http({ method: "DELETE", uri: "/knowledgeBases/{knowledgeBaseId}/contents/{contentId}" }),
       svc,
       auth,
       proto,
@@ -793,13 +687,9 @@ export const DeleteContentRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteContentRequest",
-}) as any as S.Schema<DeleteContentRequest>;
+).annotate({ identifier: "DeleteContentRequest" }) as any as S.Schema<DeleteContentRequest>;
 export interface DeleteContentResponse {}
-export const DeleteContentResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteContentResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteContentResponse",
 }) as any as S.Schema<DeleteContentResponse>;
 export interface DeleteImportJobRequest {
@@ -823,22 +713,16 @@ export const DeleteImportJobRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteImportJobRequest",
-}) as any as S.Schema<DeleteImportJobRequest>;
+).annotate({ identifier: "DeleteImportJobRequest" }) as any as S.Schema<DeleteImportJobRequest>;
 export interface DeleteImportJobResponse {}
-export const DeleteImportJobResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteImportJobResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteImportJobResponse",
 }) as any as S.Schema<DeleteImportJobResponse>;
 export interface DeleteKnowledgeBaseRequest {
   knowledgeBaseId: string;
 }
 export const DeleteKnowledgeBaseRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
-  }).pipe(
+  S.Struct({ knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")) }).pipe(
     T.all(
       T.Http({ method: "DELETE", uri: "/knowledgeBases/{knowledgeBaseId}" }),
       svc,
@@ -852,9 +736,7 @@ export const DeleteKnowledgeBaseRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteKnowledgeBaseRequest",
 }) as any as S.Schema<DeleteKnowledgeBaseRequest>;
 export interface DeleteKnowledgeBaseResponse {}
-export const DeleteKnowledgeBaseResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteKnowledgeBaseResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteKnowledgeBaseResponse",
 }) as any as S.Schema<DeleteKnowledgeBaseResponse>;
 export interface DeleteQuickResponseRequest {
@@ -882,9 +764,7 @@ export const DeleteQuickResponseRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteQuickResponseRequest",
 }) as any as S.Schema<DeleteQuickResponseRequest>;
 export interface DeleteQuickResponseResponse {}
-export const DeleteQuickResponseResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteQuickResponseResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteQuickResponseResponse",
 }) as any as S.Schema<DeleteQuickResponseResponse>;
 export interface GetAssistantRequest {
@@ -901,26 +781,20 @@ export const GetAssistantRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetAssistantRequest",
-}) as any as S.Schema<GetAssistantRequest>;
+).annotate({ identifier: "GetAssistantRequest" }) as any as S.Schema<GetAssistantRequest>;
 export interface GetAssistantResponse {
   assistant?: AssistantData;
 }
 export const GetAssistantResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ assistant: S.optional(AssistantData) }),
-).annotate({
-  identifier: "GetAssistantResponse",
-}) as any as S.Schema<GetAssistantResponse>;
+).annotate({ identifier: "GetAssistantResponse" }) as any as S.Schema<GetAssistantResponse>;
 export interface GetAssistantAssociationRequest {
   assistantAssociationId: string;
   assistantId: string;
 }
 export const GetAssistantAssociationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    assistantAssociationId: S.String.pipe(
-      T.HttpLabel("assistantAssociationId"),
-    ),
+    assistantAssociationId: S.String.pipe(T.HttpLabel("assistantAssociationId")),
     assistantId: S.String.pipe(T.HttpLabel("assistantId")),
   }).pipe(
     T.all(
@@ -956,10 +830,7 @@ export const GetContentRequest = /*@__PURE__*/ S.suspend(() =>
     knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/knowledgeBases/{knowledgeBaseId}/contents/{contentId}",
-      }),
+      T.Http({ method: "GET", uri: "/knowledgeBases/{knowledgeBaseId}/contents/{contentId}" }),
       svc,
       auth,
       proto,
@@ -967,17 +838,13 @@ export const GetContentRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetContentRequest",
-}) as any as S.Schema<GetContentRequest>;
+).annotate({ identifier: "GetContentRequest" }) as any as S.Schema<GetContentRequest>;
 export interface GetContentResponse {
   content?: ContentData;
 }
 export const GetContentResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ content: S.optional(ContentData) }),
-).annotate({
-  identifier: "GetContentResponse",
-}) as any as S.Schema<GetContentResponse>;
+).annotate({ identifier: "GetContentResponse" }) as any as S.Schema<GetContentResponse>;
 export interface GetContentSummaryRequest {
   contentId: string;
   knowledgeBaseId: string;
@@ -999,9 +866,7 @@ export const GetContentSummaryRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetContentSummaryRequest",
-}) as any as S.Schema<GetContentSummaryRequest>;
+).annotate({ identifier: "GetContentSummaryRequest" }) as any as S.Schema<GetContentSummaryRequest>;
 export interface ContentSummary {
   contentArn: string;
   contentId: string;
@@ -1048,10 +913,7 @@ export const GetImportJobRequest = /*@__PURE__*/ S.suspend(() =>
     knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/knowledgeBases/{knowledgeBaseId}/importJobs/{importJobId}",
-      }),
+      T.Http({ method: "GET", uri: "/knowledgeBases/{knowledgeBaseId}/importJobs/{importJobId}" }),
       svc,
       auth,
       proto,
@@ -1059,9 +921,7 @@ export const GetImportJobRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetImportJobRequest",
-}) as any as S.Schema<GetImportJobRequest>;
+).annotate({ identifier: "GetImportJobRequest" }) as any as S.Schema<GetImportJobRequest>;
 export type ImportJobType = string;
 export type ImportJobStatus = string;
 export type ExternalSource = string;
@@ -1070,9 +930,7 @@ export interface ConnectConfiguration {
 }
 export const ConnectConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ instanceId: S.optional(S.String) }),
-).annotate({
-  identifier: "ConnectConfiguration",
-}) as any as S.Schema<ConnectConfiguration>;
+).annotate({ identifier: "ConnectConfiguration" }) as any as S.Schema<ConnectConfiguration>;
 export type Configuration = { connectConfiguration: ConnectConfiguration };
 export const Configuration = /*@__PURE__*/ S.Union([
   S.Struct({ connectConfiguration: ConnectConfiguration }),
@@ -1123,16 +981,12 @@ export interface GetImportJobResponse {
 }
 export const GetImportJobResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ importJob: S.optional(ImportJobData) }),
-).annotate({
-  identifier: "GetImportJobResponse",
-}) as any as S.Schema<GetImportJobResponse>;
+).annotate({ identifier: "GetImportJobResponse" }) as any as S.Schema<GetImportJobResponse>;
 export interface GetKnowledgeBaseRequest {
   knowledgeBaseId: string;
 }
 export const GetKnowledgeBaseRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
-  }).pipe(
+  S.Struct({ knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")) }).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/knowledgeBases/{knowledgeBaseId}" }),
       svc,
@@ -1142,17 +996,13 @@ export const GetKnowledgeBaseRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetKnowledgeBaseRequest",
-}) as any as S.Schema<GetKnowledgeBaseRequest>;
+).annotate({ identifier: "GetKnowledgeBaseRequest" }) as any as S.Schema<GetKnowledgeBaseRequest>;
 export interface GetKnowledgeBaseResponse {
   knowledgeBase?: KnowledgeBaseData;
 }
 export const GetKnowledgeBaseResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ knowledgeBase: S.optional(KnowledgeBaseData) }),
-).annotate({
-  identifier: "GetKnowledgeBaseResponse",
-}) as any as S.Schema<GetKnowledgeBaseResponse>;
+).annotate({ identifier: "GetKnowledgeBaseResponse" }) as any as S.Schema<GetKnowledgeBaseResponse>;
 export interface GetQuickResponseRequest {
   quickResponseId: string;
   knowledgeBaseId: string;
@@ -1174,17 +1024,13 @@ export const GetQuickResponseRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetQuickResponseRequest",
-}) as any as S.Schema<GetQuickResponseRequest>;
+).annotate({ identifier: "GetQuickResponseRequest" }) as any as S.Schema<GetQuickResponseRequest>;
 export interface GetQuickResponseResponse {
   quickResponse?: QuickResponseData;
 }
 export const GetQuickResponseResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ quickResponse: S.optional(QuickResponseData) }),
-).annotate({
-  identifier: "GetQuickResponseResponse",
-}) as any as S.Schema<GetQuickResponseResponse>;
+).annotate({ identifier: "GetQuickResponseResponse" }) as any as S.Schema<GetQuickResponseResponse>;
 export type MaxResults = number;
 export type WaitTimeSeconds = number;
 export interface GetRecommendationsRequest {
@@ -1228,9 +1074,7 @@ export const ContentReference = /*@__PURE__*/ S.suspend(() =>
     contentArn: S.optional(S.String),
     contentId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ContentReference",
-}) as any as S.Schema<ContentReference>;
+).annotate({ identifier: "ContentReference" }) as any as S.Schema<ContentReference>;
 export type SensitiveString = string | redacted.Redacted<string>;
 export type HighlightOffset = number;
 export interface Highlight {
@@ -1250,10 +1094,7 @@ export interface DocumentText {
   highlights?: Highlight[];
 }
 export const DocumentText = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    text: S.optional(SensitiveString),
-    highlights: S.optional(Highlights),
-  }),
+  S.Struct({ text: S.optional(SensitiveString), highlights: S.optional(Highlights) }),
 ).annotate({ identifier: "DocumentText" }) as any as S.Schema<DocumentText>;
 export interface Document {
   contentReference: ContentReference;
@@ -1285,9 +1126,7 @@ export const RecommendationData = /*@__PURE__*/ S.suspend(() =>
     relevanceLevel: S.optional(S.String),
     type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RecommendationData",
-}) as any as S.Schema<RecommendationData>;
+).annotate({ identifier: "RecommendationData" }) as any as S.Schema<RecommendationData>;
 export type RecommendationList = RecommendationData[];
 export const RecommendationList = /*@__PURE__*/ S.Array(RecommendationData);
 export type RecommendationTriggerType = string;
@@ -1301,9 +1140,7 @@ export const QueryRecommendationTriggerData = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "QueryRecommendationTriggerData",
 }) as any as S.Schema<QueryRecommendationTriggerData>;
-export type RecommendationTriggerData = {
-  query: QueryRecommendationTriggerData;
-};
+export type RecommendationTriggerData = { query: QueryRecommendationTriggerData };
 export const RecommendationTriggerData = /*@__PURE__*/ S.Union([
   S.Struct({ query: QueryRecommendationTriggerData }),
 ]);
@@ -1324,13 +1161,9 @@ export const RecommendationTrigger = /*@__PURE__*/ S.suspend(() =>
     data: RecommendationTriggerData,
     recommendationIds: RecommendationIdList,
   }),
-).annotate({
-  identifier: "RecommendationTrigger",
-}) as any as S.Schema<RecommendationTrigger>;
+).annotate({ identifier: "RecommendationTrigger" }) as any as S.Schema<RecommendationTrigger>;
 export type RecommendationTriggerList = RecommendationTrigger[];
-export const RecommendationTriggerList = /*@__PURE__*/ S.Array(
-  RecommendationTrigger,
-);
+export const RecommendationTriggerList = /*@__PURE__*/ S.Array(RecommendationTrigger);
 export interface GetRecommendationsResponse {
   recommendations: RecommendationData[];
   triggers?: RecommendationTrigger[];
@@ -1353,10 +1186,7 @@ export const GetSessionRequest = /*@__PURE__*/ S.suspend(() =>
     sessionId: S.String.pipe(T.HttpLabel("sessionId")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/assistants/{assistantId}/sessions/{sessionId}",
-      }),
+      T.Http({ method: "GET", uri: "/assistants/{assistantId}/sessions/{sessionId}" }),
       svc,
       auth,
       proto,
@@ -1364,17 +1194,13 @@ export const GetSessionRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetSessionRequest",
-}) as any as S.Schema<GetSessionRequest>;
+).annotate({ identifier: "GetSessionRequest" }) as any as S.Schema<GetSessionRequest>;
 export interface GetSessionResponse {
   session?: SessionData;
 }
 export const GetSessionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ session: S.optional(SessionData) }),
-).annotate({
-  identifier: "GetSessionResponse",
-}) as any as S.Schema<GetSessionResponse>;
+).annotate({ identifier: "GetSessionResponse" }) as any as S.Schema<GetSessionResponse>;
 export type NextToken = string;
 export interface ListAssistantAssociationsRequest {
   nextToken?: string;
@@ -1422,9 +1248,7 @@ export const AssistantAssociationSummary = /*@__PURE__*/ S.suspend(() =>
   identifier: "AssistantAssociationSummary",
 }) as any as S.Schema<AssistantAssociationSummary>;
 export type AssistantAssociationSummaryList = AssistantAssociationSummary[];
-export const AssistantAssociationSummaryList = /*@__PURE__*/ S.Array(
-  AssistantAssociationSummary,
-);
+export const AssistantAssociationSummaryList = /*@__PURE__*/ S.Array(AssistantAssociationSummary);
 export interface ListAssistantAssociationsResponse {
   assistantAssociationSummaries: AssistantAssociationSummary[];
   nextToken?: string;
@@ -1445,19 +1269,8 @@ export const ListAssistantsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/assistants" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListAssistantsRequest",
-}) as any as S.Schema<ListAssistantsRequest>;
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/assistants" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "ListAssistantsRequest" }) as any as S.Schema<ListAssistantsRequest>;
 export interface AssistantSummary {
   assistantId: string;
   assistantArn: string;
@@ -1478,14 +1291,10 @@ export const AssistantSummary = /*@__PURE__*/ S.suspend(() =>
     status: S.String,
     description: S.optional(S.String),
     tags: S.optional(Tags),
-    serverSideEncryptionConfiguration: S.optional(
-      ServerSideEncryptionConfiguration,
-    ),
+    serverSideEncryptionConfiguration: S.optional(ServerSideEncryptionConfiguration),
     integrationConfiguration: S.optional(AssistantIntegrationConfiguration),
   }),
-).annotate({
-  identifier: "AssistantSummary",
-}) as any as S.Schema<AssistantSummary>;
+).annotate({ identifier: "AssistantSummary" }) as any as S.Schema<AssistantSummary>;
 export type AssistantList = AssistantSummary[];
 export const AssistantList = /*@__PURE__*/ S.Array(AssistantSummary);
 export interface ListAssistantsResponse {
@@ -1493,13 +1302,8 @@ export interface ListAssistantsResponse {
   nextToken?: string;
 }
 export const ListAssistantsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    assistantSummaries: AssistantList,
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListAssistantsResponse",
-}) as any as S.Schema<ListAssistantsResponse>;
+  S.Struct({ assistantSummaries: AssistantList, nextToken: S.optional(S.String) }),
+).annotate({ identifier: "ListAssistantsResponse" }) as any as S.Schema<ListAssistantsResponse>;
 export interface ListContentsRequest {
   nextToken?: string;
   maxResults?: number;
@@ -1512,10 +1316,7 @@ export const ListContentsRequest = /*@__PURE__*/ S.suspend(() =>
     knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/knowledgeBases/{knowledgeBaseId}/contents",
-      }),
+      T.Http({ method: "GET", uri: "/knowledgeBases/{knowledgeBaseId}/contents" }),
       svc,
       auth,
       proto,
@@ -1523,9 +1324,7 @@ export const ListContentsRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "ListContentsRequest",
-}) as any as S.Schema<ListContentsRequest>;
+).annotate({ identifier: "ListContentsRequest" }) as any as S.Schema<ListContentsRequest>;
 export type ContentSummaryList = ContentSummary[];
 export const ContentSummaryList = /*@__PURE__*/ S.Array(ContentSummary);
 export interface ListContentsResponse {
@@ -1533,13 +1332,8 @@ export interface ListContentsResponse {
   nextToken?: string;
 }
 export const ListContentsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    contentSummaries: ContentSummaryList,
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListContentsResponse",
-}) as any as S.Schema<ListContentsResponse>;
+  S.Struct({ contentSummaries: ContentSummaryList, nextToken: S.optional(S.String) }),
+).annotate({ identifier: "ListContentsResponse" }) as any as S.Schema<ListContentsResponse>;
 export interface ListImportJobsRequest {
   nextToken?: string;
   maxResults?: number;
@@ -1552,10 +1346,7 @@ export const ListImportJobsRequest = /*@__PURE__*/ S.suspend(() =>
     knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/knowledgeBases/{knowledgeBaseId}/importJobs",
-      }),
+      T.Http({ method: "GET", uri: "/knowledgeBases/{knowledgeBaseId}/importJobs" }),
       svc,
       auth,
       proto,
@@ -1563,9 +1354,7 @@ export const ListImportJobsRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "ListImportJobsRequest",
-}) as any as S.Schema<ListImportJobsRequest>;
+).annotate({ identifier: "ListImportJobsRequest" }) as any as S.Schema<ListImportJobsRequest>;
 export interface ImportJobSummary {
   importJobId: string;
   knowledgeBaseId: string;
@@ -1591,9 +1380,7 @@ export const ImportJobSummary = /*@__PURE__*/ S.suspend(() =>
     metadata: S.optional(ContentMetadata),
     externalSourceConfiguration: S.optional(ExternalSourceConfiguration),
   }),
-).annotate({
-  identifier: "ImportJobSummary",
-}) as any as S.Schema<ImportJobSummary>;
+).annotate({ identifier: "ImportJobSummary" }) as any as S.Schema<ImportJobSummary>;
 export type ImportJobList = ImportJobSummary[];
 export const ImportJobList = /*@__PURE__*/ S.Array(ImportJobSummary);
 export interface ListImportJobsResponse {
@@ -1601,13 +1388,8 @@ export interface ListImportJobsResponse {
   nextToken?: string;
 }
 export const ListImportJobsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    importJobSummaries: ImportJobList,
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListImportJobsResponse",
-}) as any as S.Schema<ListImportJobsResponse>;
+  S.Struct({ importJobSummaries: ImportJobList, nextToken: S.optional(S.String) }),
+).annotate({ identifier: "ListImportJobsResponse" }) as any as S.Schema<ListImportJobsResponse>;
 export interface ListKnowledgeBasesRequest {
   nextToken?: string;
   maxResults?: number;
@@ -1616,16 +1398,7 @@ export const ListKnowledgeBasesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/knowledgeBases" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/knowledgeBases" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListKnowledgeBasesRequest",
 }) as any as S.Schema<ListKnowledgeBasesRequest>;
@@ -1650,15 +1423,11 @@ export const KnowledgeBaseSummary = /*@__PURE__*/ S.suspend(() =>
     status: S.String,
     sourceConfiguration: S.optional(SourceConfiguration),
     renderingConfiguration: S.optional(RenderingConfiguration),
-    serverSideEncryptionConfiguration: S.optional(
-      ServerSideEncryptionConfiguration,
-    ),
+    serverSideEncryptionConfiguration: S.optional(ServerSideEncryptionConfiguration),
     description: S.optional(S.String),
     tags: S.optional(Tags),
   }),
-).annotate({
-  identifier: "KnowledgeBaseSummary",
-}) as any as S.Schema<KnowledgeBaseSummary>;
+).annotate({ identifier: "KnowledgeBaseSummary" }) as any as S.Schema<KnowledgeBaseSummary>;
 export type KnowledgeBaseList = KnowledgeBaseSummary[];
 export const KnowledgeBaseList = /*@__PURE__*/ S.Array(KnowledgeBaseSummary);
 export interface ListKnowledgeBasesResponse {
@@ -1666,10 +1435,7 @@ export interface ListKnowledgeBasesResponse {
   nextToken?: string;
 }
 export const ListKnowledgeBasesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    knowledgeBaseSummaries: KnowledgeBaseList,
-    nextToken: S.optional(S.String),
-  }),
+  S.Struct({ knowledgeBaseSummaries: KnowledgeBaseList, nextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListKnowledgeBasesResponse",
 }) as any as S.Schema<ListKnowledgeBasesResponse>;
@@ -1685,10 +1451,7 @@ export const ListQuickResponsesRequest = /*@__PURE__*/ S.suspend(() =>
     knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/knowledgeBases/{knowledgeBaseId}/quickResponses",
-      }),
+      T.Http({ method: "GET", uri: "/knowledgeBases/{knowledgeBaseId}/quickResponses" }),
       svc,
       auth,
       proto,
@@ -1732,21 +1495,15 @@ export const QuickResponseSummary = /*@__PURE__*/ S.suspend(() =>
     channels: S.optional(Channels),
     tags: S.optional(Tags),
   }),
-).annotate({
-  identifier: "QuickResponseSummary",
-}) as any as S.Schema<QuickResponseSummary>;
+).annotate({ identifier: "QuickResponseSummary" }) as any as S.Schema<QuickResponseSummary>;
 export type QuickResponseSummaryList = QuickResponseSummary[];
-export const QuickResponseSummaryList =
-  /*@__PURE__*/ S.Array(QuickResponseSummary);
+export const QuickResponseSummaryList = /*@__PURE__*/ S.Array(QuickResponseSummary);
 export interface ListQuickResponsesResponse {
   quickResponseSummaries: QuickResponseSummary[];
   nextToken?: string;
 }
 export const ListQuickResponsesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    quickResponseSummaries: QuickResponseSummaryList,
-    nextToken: S.optional(S.String),
-  }),
+  S.Struct({ quickResponseSummaries: QuickResponseSummaryList, nextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListQuickResponsesResponse",
 }) as any as S.Schema<ListQuickResponsesResponse>;
@@ -1755,14 +1512,7 @@ export interface ListTagsForResourceRequest {
 }
 export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListTagsForResourceRequest",
@@ -1780,25 +1530,24 @@ export interface NotifyRecommendationsReceivedRequest {
   sessionId: string;
   recommendationIds: string[];
 }
-export const NotifyRecommendationsReceivedRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      assistantId: S.String.pipe(T.HttpLabel("assistantId")),
-      sessionId: S.String.pipe(T.HttpLabel("sessionId")),
-      recommendationIds: RecommendationIdList,
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "POST",
-          uri: "/assistants/{assistantId}/sessions/{sessionId}/recommendations/notify",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const NotifyRecommendationsReceivedRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    assistantId: S.String.pipe(T.HttpLabel("assistantId")),
+    sessionId: S.String.pipe(T.HttpLabel("sessionId")),
+    recommendationIds: RecommendationIdList,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/assistants/{assistantId}/sessions/{sessionId}/recommendations/notify",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "NotifyRecommendationsReceivedRequest",
 }) as any as S.Schema<NotifyRecommendationsReceivedRequest>;
@@ -1808,15 +1557,11 @@ export interface NotifyRecommendationsReceivedError_ {
   message?: string;
 }
 export const NotifyRecommendationsReceivedError_ = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    recommendationId: S.optional(S.String),
-    message: S.optional(S.String),
-  }),
+  S.Struct({ recommendationId: S.optional(S.String), message: S.optional(S.String) }),
 ).annotate({
   identifier: "NotifyRecommendationsReceivedError",
 }) as any as S.Schema<NotifyRecommendationsReceivedError_>;
-export type NotifyRecommendationsReceivedErrorList =
-  NotifyRecommendationsReceivedError_[];
+export type NotifyRecommendationsReceivedErrorList = NotifyRecommendationsReceivedError_[];
 export const NotifyRecommendationsReceivedErrorList = /*@__PURE__*/ S.Array(
   NotifyRecommendationsReceivedError_,
 );
@@ -1824,12 +1569,11 @@ export interface NotifyRecommendationsReceivedResponse {
   recommendationIds?: string[];
   errors?: NotifyRecommendationsReceivedError_[];
 }
-export const NotifyRecommendationsReceivedResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      recommendationIds: S.optional(RecommendationIdList),
-      errors: S.optional(NotifyRecommendationsReceivedErrorList),
-    }),
+export const NotifyRecommendationsReceivedResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    recommendationIds: S.optional(RecommendationIdList),
+    errors: S.optional(NotifyRecommendationsReceivedErrorList),
+  }),
 ).annotate({
   identifier: "NotifyRecommendationsReceivedResponse",
 }) as any as S.Schema<NotifyRecommendationsReceivedResponse>;
@@ -1855,20 +1599,14 @@ export const QueryAssistantRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "QueryAssistantRequest",
-}) as any as S.Schema<QueryAssistantRequest>;
+).annotate({ identifier: "QueryAssistantRequest" }) as any as S.Schema<QueryAssistantRequest>;
 export interface ResultData {
   resultId: string;
   document: Document;
   relevanceScore?: number;
 }
 export const ResultData = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resultId: S.String,
-    document: Document,
-    relevanceScore: S.optional(S.Number),
-  }),
+  S.Struct({ resultId: S.String, document: Document, relevanceScore: S.optional(S.Number) }),
 ).annotate({ identifier: "ResultData" }) as any as S.Schema<ResultData>;
 export type QueryResultsList = ResultData[];
 export const QueryResultsList = /*@__PURE__*/ S.Array(ResultData);
@@ -1878,35 +1616,27 @@ export interface QueryAssistantResponse {
 }
 export const QueryAssistantResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ results: QueryResultsList, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "QueryAssistantResponse",
-}) as any as S.Schema<QueryAssistantResponse>;
+).annotate({ identifier: "QueryAssistantResponse" }) as any as S.Schema<QueryAssistantResponse>;
 export interface RemoveKnowledgeBaseTemplateUriRequest {
   knowledgeBaseId: string;
 }
-export const RemoveKnowledgeBaseTemplateUriRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "DELETE",
-          uri: "/knowledgeBases/{knowledgeBaseId}/templateUri",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const RemoveKnowledgeBaseTemplateUriRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")) }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/knowledgeBases/{knowledgeBaseId}/templateUri" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "RemoveKnowledgeBaseTemplateUriRequest",
 }) as any as S.Schema<RemoveKnowledgeBaseTemplateUriRequest>;
 export interface RemoveKnowledgeBaseTemplateUriResponse {}
-export const RemoveKnowledgeBaseTemplateUriResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+export const RemoveKnowledgeBaseTemplateUriResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
 ).annotate({
   identifier: "RemoveKnowledgeBaseTemplateUriResponse",
 }) as any as S.Schema<RemoveKnowledgeBaseTemplateUriResponse>;
@@ -1927,9 +1657,7 @@ export interface SearchExpression {
 }
 export const SearchExpression = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ filters: FilterList }),
-).annotate({
-  identifier: "SearchExpression",
-}) as any as S.Schema<SearchExpression>;
+).annotate({ identifier: "SearchExpression" }) as any as S.Schema<SearchExpression>;
 export interface SearchContentRequest {
   nextToken?: string;
   maxResults?: number;
@@ -1944,10 +1672,7 @@ export const SearchContentRequest = /*@__PURE__*/ S.suspend(() =>
     searchExpression: SearchExpression,
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/knowledgeBases/{knowledgeBaseId}/search",
-      }),
+      T.Http({ method: "POST", uri: "/knowledgeBases/{knowledgeBaseId}/search" }),
       svc,
       auth,
       proto,
@@ -1955,21 +1680,14 @@ export const SearchContentRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "SearchContentRequest",
-}) as any as S.Schema<SearchContentRequest>;
+).annotate({ identifier: "SearchContentRequest" }) as any as S.Schema<SearchContentRequest>;
 export interface SearchContentResponse {
   contentSummaries: ContentSummary[];
   nextToken?: string;
 }
 export const SearchContentResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    contentSummaries: ContentSummaryList,
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "SearchContentResponse",
-}) as any as S.Schema<SearchContentResponse>;
+  S.Struct({ contentSummaries: ContentSummaryList, nextToken: S.optional(S.String) }),
+).annotate({ identifier: "SearchContentResponse" }) as any as S.Schema<SearchContentResponse>;
 export type QuickResponseQueryValue = string;
 export type QuickResponseQueryValueList = string[];
 export const QuickResponseQueryValueList = /*@__PURE__*/ S.Array(S.String);
@@ -1990,13 +1708,9 @@ export const QuickResponseQueryField = /*@__PURE__*/ S.suspend(() =>
     allowFuzziness: S.optional(S.Boolean),
     priority: S.optional(S.String),
   }),
-).annotate({
-  identifier: "QuickResponseQueryField",
-}) as any as S.Schema<QuickResponseQueryField>;
+).annotate({ identifier: "QuickResponseQueryField" }) as any as S.Schema<QuickResponseQueryField>;
 export type QuickResponseQueryFieldList = QuickResponseQueryField[];
-export const QuickResponseQueryFieldList = /*@__PURE__*/ S.Array(
-  QuickResponseQueryField,
-);
+export const QuickResponseQueryFieldList = /*@__PURE__*/ S.Array(QuickResponseQueryField);
 export type QuickResponseFilterValue = string;
 export type QuickResponseFilterValueList = string[];
 export const QuickResponseFilterValueList = /*@__PURE__*/ S.Array(S.String);
@@ -2014,13 +1728,9 @@ export const QuickResponseFilterField = /*@__PURE__*/ S.suspend(() =>
     operator: S.String,
     includeNoExistence: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "QuickResponseFilterField",
-}) as any as S.Schema<QuickResponseFilterField>;
+).annotate({ identifier: "QuickResponseFilterField" }) as any as S.Schema<QuickResponseFilterField>;
 export type QuickResponseFilterFieldList = QuickResponseFilterField[];
-export const QuickResponseFilterFieldList = /*@__PURE__*/ S.Array(
-  QuickResponseFilterField,
-);
+export const QuickResponseFilterFieldList = /*@__PURE__*/ S.Array(QuickResponseFilterField);
 export type Order = string;
 export interface QuickResponseOrderField {
   name: string;
@@ -2028,9 +1738,7 @@ export interface QuickResponseOrderField {
 }
 export const QuickResponseOrderField = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ name: S.String, order: S.optional(S.String) }),
-).annotate({
-  identifier: "QuickResponseOrderField",
-}) as any as S.Schema<QuickResponseOrderField>;
+).annotate({ identifier: "QuickResponseOrderField" }) as any as S.Schema<QuickResponseOrderField>;
 export interface QuickResponseSearchExpression {
   queries?: QuickResponseQueryField[];
   filters?: QuickResponseFilterField[];
@@ -2048,10 +1756,7 @@ export const QuickResponseSearchExpression = /*@__PURE__*/ S.suspend(() =>
 export type ContactAttributeKey = string;
 export type ContactAttributeValue = string;
 export type ContactAttributes = { [key: string]: string | undefined };
-export const ContactAttributes = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const ContactAttributes = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface SearchQuickResponsesRequest {
   knowledgeBaseId: string;
   searchExpression: QuickResponseSearchExpression;
@@ -2068,10 +1773,7 @@ export const SearchQuickResponsesRequest = /*@__PURE__*/ S.suspend(() =>
     attributes: S.optional(ContactAttributes),
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/knowledgeBases/{knowledgeBaseId}/search/quickResponses",
-      }),
+      T.Http({ method: "POST", uri: "/knowledgeBases/{knowledgeBaseId}/search/quickResponses" }),
       svc,
       auth,
       proto,
@@ -2133,18 +1835,13 @@ export const QuickResponseSearchResultData = /*@__PURE__*/ S.suspend(() =>
   identifier: "QuickResponseSearchResultData",
 }) as any as S.Schema<QuickResponseSearchResultData>;
 export type QuickResponseSearchResultsList = QuickResponseSearchResultData[];
-export const QuickResponseSearchResultsList = /*@__PURE__*/ S.Array(
-  QuickResponseSearchResultData,
-);
+export const QuickResponseSearchResultsList = /*@__PURE__*/ S.Array(QuickResponseSearchResultData);
 export interface SearchQuickResponsesResponse {
   results: QuickResponseSearchResultData[];
   nextToken?: string;
 }
 export const SearchQuickResponsesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    results: QuickResponseSearchResultsList,
-    nextToken: S.optional(S.String),
-  }),
+  S.Struct({ results: QuickResponseSearchResultsList, nextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "SearchQuickResponsesResponse",
 }) as any as S.Schema<SearchQuickResponsesResponse>;
@@ -2162,10 +1859,7 @@ export const SearchSessionsRequest = /*@__PURE__*/ S.suspend(() =>
     searchExpression: SearchExpression,
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/assistants/{assistantId}/searchSessions",
-      }),
+      T.Http({ method: "POST", uri: "/assistants/{assistantId}/searchSessions" }),
       svc,
       auth,
       proto,
@@ -2173,9 +1867,7 @@ export const SearchSessionsRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "SearchSessionsRequest",
-}) as any as S.Schema<SearchSessionsRequest>;
+).annotate({ identifier: "SearchSessionsRequest" }) as any as S.Schema<SearchSessionsRequest>;
 export interface SessionSummary {
   sessionId: string;
   sessionArn: string;
@@ -2197,13 +1889,8 @@ export interface SearchSessionsResponse {
   nextToken?: string;
 }
 export const SearchSessionsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    sessionSummaries: SessionSummaries,
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "SearchSessionsResponse",
-}) as any as S.Schema<SearchSessionsResponse>;
+  S.Struct({ sessionSummaries: SessionSummaries, nextToken: S.optional(S.String) }),
+).annotate({ identifier: "SearchSessionsResponse" }) as any as S.Schema<SearchSessionsResponse>;
 export type TimeToLive = number;
 export interface StartContentUploadRequest {
   knowledgeBaseId: string;
@@ -2217,10 +1904,7 @@ export const StartContentUploadRequest = /*@__PURE__*/ S.suspend(() =>
     presignedUrlTimeToLive: S.optional(S.Number),
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/knowledgeBases/{knowledgeBaseId}/upload",
-      }),
+      T.Http({ method: "POST", uri: "/knowledgeBases/{knowledgeBaseId}/upload" }),
       svc,
       auth,
       proto,
@@ -2232,10 +1916,7 @@ export const StartContentUploadRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "StartContentUploadRequest",
 }) as any as S.Schema<StartContentUploadRequest>;
 export type Headers = { [key: string]: string | undefined };
-export const Headers = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const Headers = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface StartContentUploadResponse {
   uploadId: string;
   url: string | redacted.Redacted<string>;
@@ -2270,10 +1951,7 @@ export const StartImportJobRequest = /*@__PURE__*/ S.suspend(() =>
     externalSourceConfiguration: S.optional(ExternalSourceConfiguration),
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/knowledgeBases/{knowledgeBaseId}/importJobs",
-      }),
+      T.Http({ method: "POST", uri: "/knowledgeBases/{knowledgeBaseId}/importJobs" }),
       svc,
       auth,
       proto,
@@ -2281,42 +1959,24 @@ export const StartImportJobRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "StartImportJobRequest",
-}) as any as S.Schema<StartImportJobRequest>;
+).annotate({ identifier: "StartImportJobRequest" }) as any as S.Schema<StartImportJobRequest>;
 export interface StartImportJobResponse {
   importJob?: ImportJobData;
 }
 export const StartImportJobResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ importJob: S.optional(ImportJobData) }),
-).annotate({
-  identifier: "StartImportJobResponse",
-}) as any as S.Schema<StartImportJobResponse>;
+).annotate({ identifier: "StartImportJobResponse" }) as any as S.Schema<StartImportJobResponse>;
 export interface TagResourceRequest {
   resourceArn: string;
   tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-    tags: Tags,
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tags: Tags }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
+).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = string[];
@@ -2330,22 +1990,11 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
   }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
+).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateContentRequest {
@@ -2370,10 +2019,32 @@ export const UpdateContentRequest = /*@__PURE__*/ S.suspend(() =>
     uploadId: S.optional(S.String),
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/knowledgeBases/{knowledgeBaseId}/contents/{contentId}",
-      }),
+      T.Http({ method: "POST", uri: "/knowledgeBases/{knowledgeBaseId}/contents/{contentId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({ identifier: "UpdateContentRequest" }) as any as S.Schema<UpdateContentRequest>;
+export interface UpdateContentResponse {
+  content?: ContentData;
+}
+export const UpdateContentResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ content: S.optional(ContentData) }),
+).annotate({ identifier: "UpdateContentResponse" }) as any as S.Schema<UpdateContentResponse>;
+export interface UpdateKnowledgeBaseTemplateUriRequest {
+  knowledgeBaseId: string;
+  templateUri: string;
+}
+export const UpdateKnowledgeBaseTemplateUriRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
+    templateUri: S.String,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/knowledgeBases/{knowledgeBaseId}/templateUri" }),
       svc,
       auth,
       proto,
@@ -2382,46 +2053,13 @@ export const UpdateContentRequest = /*@__PURE__*/ S.suspend(() =>
     ),
   ),
 ).annotate({
-  identifier: "UpdateContentRequest",
-}) as any as S.Schema<UpdateContentRequest>;
-export interface UpdateContentResponse {
-  content?: ContentData;
-}
-export const UpdateContentResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ content: S.optional(ContentData) }),
-).annotate({
-  identifier: "UpdateContentResponse",
-}) as any as S.Schema<UpdateContentResponse>;
-export interface UpdateKnowledgeBaseTemplateUriRequest {
-  knowledgeBaseId: string;
-  templateUri: string;
-}
-export const UpdateKnowledgeBaseTemplateUriRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
-      templateUri: S.String,
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "POST",
-          uri: "/knowledgeBases/{knowledgeBaseId}/templateUri",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
   identifier: "UpdateKnowledgeBaseTemplateUriRequest",
 }) as any as S.Schema<UpdateKnowledgeBaseTemplateUriRequest>;
 export interface UpdateKnowledgeBaseTemplateUriResponse {
   knowledgeBase?: KnowledgeBaseData;
 }
-export const UpdateKnowledgeBaseTemplateUriResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ knowledgeBase: S.optional(KnowledgeBaseData) }),
+export const UpdateKnowledgeBaseTemplateUriResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ knowledgeBase: S.optional(KnowledgeBaseData) }),
 ).annotate({
   identifier: "UpdateKnowledgeBaseTemplateUriResponse",
 }) as any as S.Schema<UpdateKnowledgeBaseTemplateUriResponse>;
@@ -2687,11 +2325,7 @@ export const deleteAssistant: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteAssistantRequest,
   output: DeleteAssistantResponse,
-  errors: [
-    AccessDeniedException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [AccessDeniedException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAssistant",
@@ -2713,11 +2347,7 @@ export const deleteAssistantAssociation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteAssistantAssociationRequest,
   output: DeleteAssistantAssociationResponse,
-  errors: [
-    AccessDeniedException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [AccessDeniedException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAssistantAssociation",
@@ -2739,11 +2369,7 @@ export const deleteContent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteContentRequest,
   output: DeleteContentResponse,
-  errors: [
-    AccessDeniedException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [AccessDeniedException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteContent",
@@ -2828,11 +2454,7 @@ export const deleteQuickResponse: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteQuickResponseRequest,
   output: DeleteQuickResponseResponse,
-  errors: [
-    AccessDeniedException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [AccessDeniedException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteQuickResponse",
@@ -2854,11 +2476,7 @@ export const getAssistant: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetAssistantRequest,
   output: GetAssistantResponse,
-  errors: [
-    AccessDeniedException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [AccessDeniedException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAssistant",
@@ -2880,11 +2498,7 @@ export const getAssistantAssociation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetAssistantAssociationRequest,
   output: GetAssistantAssociationResponse,
-  errors: [
-    AccessDeniedException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [AccessDeniedException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAssistantAssociation",
@@ -2906,11 +2520,7 @@ export const getContent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetContentRequest,
   output: GetContentResponse,
-  errors: [
-    AccessDeniedException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [AccessDeniedException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetContent",
@@ -2932,11 +2542,7 @@ export const getContentSummary: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetContentSummaryRequest,
   output: GetContentSummaryResponse,
-  errors: [
-    AccessDeniedException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [AccessDeniedException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetContentSummary",
@@ -2958,11 +2564,7 @@ export const getImportJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetImportJobRequest,
   output: GetImportJobResponse,
-  errors: [
-    AccessDeniedException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [AccessDeniedException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetImportJob",
@@ -2984,11 +2586,7 @@ export const getKnowledgeBase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetKnowledgeBaseRequest,
   output: GetKnowledgeBaseResponse,
-  errors: [
-    AccessDeniedException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [AccessDeniedException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetKnowledgeBase",
@@ -3010,11 +2608,7 @@ export const getQuickResponse: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetQuickResponseRequest,
   output: GetQuickResponseResponse,
-  errors: [
-    AccessDeniedException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [AccessDeniedException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetQuickResponse",
@@ -3039,11 +2633,7 @@ export const getRecommendations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetRecommendationsRequest,
   output: GetRecommendationsResponse,
-  errors: [
-    AccessDeniedException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [AccessDeniedException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRecommendations",
@@ -3065,11 +2655,7 @@ export const getSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetSessionRequest,
   output: GetSessionResponse,
-  errors: [
-    AccessDeniedException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [AccessDeniedException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSession",
@@ -3092,11 +2678,7 @@ export const listAssistantAssociations: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListAssistantAssociationsRequest,
   output: ListAssistantAssociationsResponse,
-  errors: [
-    AccessDeniedException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [AccessDeniedException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAssistantAssociations",
@@ -3108,10 +2690,7 @@ export const listAssistantAssociations: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListAssistantsError =
-  | AccessDeniedException
-  | ValidationException
-  | CommonErrors;
+export type ListAssistantsError = AccessDeniedException | ValidationException | CommonErrors;
 /**
  * Lists information about assistants.
  */
@@ -3153,11 +2732,7 @@ export const listContents: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListContentsRequest,
   output: ListContentsResponse,
-  errors: [
-    AccessDeniedException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [AccessDeniedException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListContents",
@@ -3169,10 +2744,7 @@ export const listContents: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListImportJobsError =
-  | AccessDeniedException
-  | ValidationException
-  | CommonErrors;
+export type ListImportJobsError = AccessDeniedException | ValidationException | CommonErrors;
 /**
  * Lists information about import jobs.
  */
@@ -3197,10 +2769,7 @@ export const listImportJobs: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListKnowledgeBasesError =
-  | AccessDeniedException
-  | ValidationException
-  | CommonErrors;
+export type ListKnowledgeBasesError = AccessDeniedException | ValidationException | CommonErrors;
 /**
  * Lists the knowledge bases.
  */
@@ -3242,11 +2811,7 @@ export const listQuickResponses: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListQuickResponsesRequest,
   output: ListQuickResponsesResponse,
-  errors: [
-    AccessDeniedException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [AccessDeniedException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListQuickResponses",
@@ -3294,11 +2859,7 @@ export const notifyRecommendationsReceived: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: NotifyRecommendationsReceivedRequest,
   output: NotifyRecommendationsReceivedResponse,
-  errors: [
-    AccessDeniedException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [AccessDeniedException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "NotifyRecommendationsReceived",
@@ -3356,11 +2917,7 @@ export const removeKnowledgeBaseTemplateUri: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: RemoveKnowledgeBaseTemplateUriRequest,
   output: RemoveKnowledgeBaseTemplateUriResponse,
-  errors: [
-    AccessDeniedException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [AccessDeniedException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveKnowledgeBaseTemplateUri",
@@ -3384,11 +2941,7 @@ export const searchContent: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: SearchContentRequest,
   output: SearchContentResponse,
-  errors: [
-    AccessDeniedException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [AccessDeniedException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SearchContent",
@@ -3452,11 +3005,7 @@ export const searchSessions: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: SearchSessionsRequest,
   output: SearchSessionsResponse,
-  errors: [
-    AccessDeniedException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [AccessDeniedException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SearchSessions",
@@ -3487,11 +3036,7 @@ export const startContentUpload: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: StartContentUploadRequest,
   output: StartContentUploadResponse,
-  errors: [
-    AccessDeniedException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [AccessDeniedException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartContentUpload",
@@ -3530,10 +3075,7 @@ export const startImportJob: API.OperationMethod<
   operationName: "StartImportJob",
 }));
 
-export type TagResourceError =
-  | ResourceNotFoundException
-  | TooManyTagsException
-  | CommonErrors;
+export type TagResourceError = ResourceNotFoundException | TooManyTagsException | CommonErrors;
 /**
  * Adds the specified tags to the specified resource.
  */
@@ -3617,11 +3159,7 @@ export const updateKnowledgeBaseTemplateUri: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateKnowledgeBaseTemplateUriRequest,
   output: UpdateKnowledgeBaseTemplateUriResponse,
-  errors: [
-    AccessDeniedException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [AccessDeniedException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateKnowledgeBaseTemplateUri",

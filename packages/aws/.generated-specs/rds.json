@@ -4276,6 +4276,12 @@
           "traits": {
             "smithy.api#documentation": "<p>The storage throughput value for the green DB instance.</p> <p>This setting applies only to the <code>gp3</code> storage type.</p> <p>This setting doesn't apply to Amazon Aurora blue/green deployments.</p>"
           }
+        },
+        "TargetResourceConfigurations": {
+          "target": "com.amazonaws.rds#TargetResourceConfigurationList",
+          "traits": {
+            "smithy.api#documentation": "<p>Specifies resource-level configuration overrides for the green environment.</p> <p>Each entry identifies a resource in the blue environment by its Amazon Resource Name (ARN). It defines the desired configuration for the corresponding resource in the green environment. Any resource that you don't include in this parameter retains the same configuration as its counterpart in the blue environment.</p> <p>Use this parameter when one or more resources in the green environment require a different configuration than what they have in the blue environment.</p> <p>Constraints:</p> <ul> <li> <p>You can't specify the same <code>SourceArn</code> in more than one entry.</p> </li> </ul>"
+          }
         }
       },
       "traits": {
@@ -7884,6 +7890,16 @@
             "smithy.api#enumValue": "inactive-except-restore"
           }
         }
+      }
+    },
+    "com.amazonaws.rds#DBAndClusterArn": {
+      "type": "string",
+      "traits": {
+        "smithy.api#length": {
+          "min": 39,
+          "max": 255
+        },
+        "smithy.api#pattern": "^arn:aws[a-z-]*:rds(-[a-z]+)?:[a-z0-9-]*:[0-9]{12}:(cluster|db):[a-zA-Z][a-zA-Z0-9-]{0,62}$"
       }
     },
     "com.amazonaws.rds#DBCluster": {
@@ -13326,11 +13342,7 @@
             "output": {
               "DBCluster": {
                 "AllocatedStorage": 20,
-                "AvailabilityZones": [
-                  "eu-central-1b",
-                  "eu-central-1c",
-                  "eu-central-1a"
-                ],
+                "AvailabilityZones": ["eu-central-1b", "eu-central-1c", "eu-central-1a"],
                 "BackupRetentionPeriod": 7,
                 "DBClusterIdentifier": "mycluster",
                 "DBClusterParameterGroup": "default.aurora-postgresql10",
@@ -15591,11 +15603,7 @@
             "output": {
               "DBClusterSnapshots": [
                 {
-                  "AvailabilityZones": [
-                    "us-east-1a",
-                    "us-east-1b",
-                    "us-east-1e"
-                  ],
+                  "AvailabilityZones": ["us-east-1a", "us-east-1b", "us-east-1e"],
                   "DBClusterSnapshotIdentifier": "myclustersnapshotcopy",
                   "DBClusterIdentifier": "mydbcluster",
                   "SnapshotCreateTime": "2019-06-04T09:16:42.649Z",
@@ -15616,11 +15624,7 @@
                   "IAMDatabaseAuthenticationEnabled": false
                 },
                 {
-                  "AvailabilityZones": [
-                    "us-east-1a",
-                    "us-east-1b",
-                    "us-east-1e"
-                  ],
+                  "AvailabilityZones": ["us-east-1a", "us-east-1b", "us-east-1e"],
                   "DBClusterSnapshotIdentifier": "rds:mydbcluster-2019-06-20-09-16",
                   "DBClusterIdentifier": "mydbcluster",
                   "SnapshotCreateTime": "2019-06-20T09:16:26.569Z",
@@ -15871,11 +15875,7 @@
               "DBClusters": [
                 {
                   "AllocatedStorage": 1,
-                  "AvailabilityZones": [
-                    "us-east-1a",
-                    "us-east-1b",
-                    "us-east-1e"
-                  ],
+                  "AvailabilityZones": ["us-east-1a", "us-east-1b", "us-east-1e"],
                   "BackupRetentionPeriod": 1,
                   "DatabaseName": "mydbcluster",
                   "DBClusterIdentifier": "mydbcluster",
@@ -15963,11 +15963,7 @@
               "DBClusters": [
                 {
                   "AllocatedStorage": 1,
-                  "AvailabilityZones": [
-                    "us-east-1d",
-                    "us-east-1a",
-                    "us-east-1c"
-                  ],
+                  "AvailabilityZones": ["us-east-1d", "us-east-1a", "us-east-1c"],
                   "BackupRetentionPeriod": 1,
                   "DBClusterIdentifier": "my-vpcless-cluster",
                   "DBClusterParameterGroup": "default.aurora-postgresql17",
@@ -18361,12 +18357,7 @@
                 },
                 {
                   "SourceType": "db-snapshot",
-                  "EventCategories": [
-                    "deletion",
-                    "creation",
-                    "restoration",
-                    "notification"
-                  ]
+                  "EventCategories": ["deletion", "creation", "restoration", "notification"]
                 },
                 {
                   "SourceType": "db-cluster",
@@ -23379,11 +23370,7 @@
             "output": {
               "DBCluster": {
                 "AllocatedStorage": 1,
-                "AvailabilityZones": [
-                  "eu-central-1b",
-                  "eu-central-1c",
-                  "eu-central-1a"
-                ],
+                "AvailabilityZones": ["eu-central-1b", "eu-central-1c", "eu-central-1a"],
                 "BackupRetentionPeriod": 14,
                 "DatabaseName": "",
                 "DBClusterIdentifier": "cluster-2",
@@ -27976,9 +27963,7 @@
                 "GlobalClusterMembers": [
                   {
                     "DBClusterArn": "arn:aws:rds:us-east-1:123456789012:cluster:js-global-cluster",
-                    "Readers": [
-                      "arn:aws:rds:us-west-2:123456789012:cluster:DB-1"
-                    ],
+                    "Readers": ["arn:aws:rds:us-west-2:123456789012:cluster:DB-1"],
                     "IsWriter": true
                   },
                   {
@@ -33833,6 +33818,41 @@
       "type": "list",
       "member": {
         "target": "com.amazonaws.rds#DBProxyTarget"
+      }
+    },
+    "com.amazonaws.rds#TargetResourceConfiguration": {
+      "type": "structure",
+      "members": {
+        "SourceArn": {
+          "target": "com.amazonaws.rds#DBAndClusterArn",
+          "traits": {
+            "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the DB cluster or DB instance in the blue environment to which this configuration applies.</p>",
+            "smithy.api#required": {}
+          }
+        },
+        "TargetKmsKeyId": {
+          "target": "com.amazonaws.rds#KmsKeyIdOrArn",
+          "traits": {
+            "smithy.api#documentation": "<p>The Amazon Web Services KMS key identifier for encryption of the corresponding resource in the green environment.</p> <p>The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key.</p> <p>Specify this setting in either of the following cases:</p> <ul> <li> <p>You want the green resource to use a different KMS key than the blue resource.</p> </li> <li> <p>The blue resource is unencrypted and you want to encrypt the green resource.</p> </li> </ul> <p>For Aurora, encryption applies at the DB cluster level. Specify a DB cluster ARN in <code>SourceArn</code>. All DB instances in that cluster use the same KMS key.</p> <p>For RDS, encryption applies at the DB instance level. Specify a DB instance ARN in <code>SourceArn</code>. To encrypt read replicas, include a separate entry for each one. Each entry can specify a different KMS key.</p>"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>The configuration for a single resource in the green environment of a blue/green deployment.</p> <p>Use <code>SourceArn</code> to identify a resource in the blue environment. Amazon RDS creates the corresponding resource in the green environment using this configuration.</p> <p>This data type is a request parameter of the <code>CreateBlueGreenDeployment</code> operation.</p>"
+      }
+    },
+    "com.amazonaws.rds#TargetResourceConfigurationList": {
+      "type": "list",
+      "member": {
+        "target": "com.amazonaws.rds#TargetResourceConfiguration",
+        "traits": {
+          "smithy.api#xmlName": "TargetResourceConfiguration"
+        }
+      },
+      "traits": {
+        "smithy.api#length": {
+          "max": 20
+        }
       }
     },
     "com.amazonaws.rds#TargetRole": {

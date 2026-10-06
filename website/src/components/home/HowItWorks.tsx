@@ -22,19 +22,9 @@ const Tip = (props: { id: string; cls: string; size: number }) => (
 );
 
 /** A glowing drop that runs a path on a loop, fading in and out at each end. */
-const Drop = (props: {
-  cls: string;
-  path: string;
-  dur: string;
-  begin?: string;
-}) => (
+const Drop = (props: { cls: string; path: string; dur: string; begin?: string }) => (
   <circle class={`loop-drop ${props.cls}`} r="5" opacity="0">
-    <animateMotion
-      dur={props.dur}
-      begin={props.begin}
-      repeatCount="indefinite"
-      path={props.path}
-    />
+    <animateMotion dur={props.dur} begin={props.begin} repeatCount="indefinite" path={props.path} />
     <animate
       attributeName="opacity"
       dur={props.dur}
@@ -79,11 +69,7 @@ const List = (props: { children: JSX.Element }) => (
  * Below 64rem the SVG is hidden and the nodes stack in reading order.
  */
 export const HowItWorks = () => (
-  <section
-    class="rule pt-section pb-[clamp(2rem,4vw,3rem)]"
-    id="how"
-    aria-labelledby="how-title"
-  >
+  <section class="rule pt-section pb-[clamp(2rem,4vw,3rem)]" id="how" aria-labelledby="how-title">
     <SectionHead
       eyebrow="How it works"
       id="how-title"
@@ -93,12 +79,10 @@ export const HowItWorks = () => (
         </>
       }
     >
-      How do we patch specs for so many provider and keep stuff accurate? We
-      have a feedback loop with <a href="http://alchemy.run">Alchemy</a>;
-      Alchemy uses Distilled to generate resources and run its test suite
-      against the real cloud provider apis, when the tests fail they are
-      investigated and the patches are added back to Distilled for everyone to
-      benefit!
+      How do we patch specs for so many provider and keep stuff accurate? We have a feedback loop
+      with <a href="http://alchemy.run">Alchemy</a>; Alchemy uses Distilled to generate resources
+      and run its test suite against the real cloud provider apis, when the tests fail they are
+      investigated and the patches are added back to Distilled for everyone to benefit!
     </SectionHead>
 
     <div
@@ -137,31 +121,17 @@ export const HowItWorks = () => (
         </text>
 
         {/* Alchemy → Distilled: patches. Drawn solid, then the dashed twin fades over it. */}
-        <path
-          class="loop-edge loop-edge--patch loop-edge--draw"
-          d={PATCH_PATH}
-          pathLength="100"
-        />
+        <path class="loop-edge loop-edge--patch loop-edge--draw" d={PATCH_PATH} pathLength="100" />
         <path
           class="loop-edge loop-edge--patch loop-edge--dashes"
           d={PATCH_PATH}
           pathLength="100"
           marker-end="url(#tip-patch)"
         />
-        <text
-          class="loop-leg loop-leg--patch"
-          x="490"
-          y="48"
-          text-anchor="middle"
-        >
+        <text class="loop-leg loop-leg--patch" x="490" y="48" text-anchor="middle">
           patches
         </text>
-        <text
-          class="loop-leg loop-leg--sub"
-          x="490"
-          y="70"
-          text-anchor="middle"
-        >
+        <text class="loop-leg loop-leg--sub" x="490" y="70" text-anchor="middle">
           tagged errors · schema bugs · missing operations
         </text>
 
@@ -181,8 +151,7 @@ export const HowItWorks = () => (
         >
           <List>
             <li>
-              Resources: <code>Bucket</code>, <code>Table</code>,{" "}
-              <code>Machine</code>
+              Resources: <code>Bucket</code>, <code>Table</code>, <code>Machine</code>
             </li>
             <li>Tests against the actual API</li>
           </List>

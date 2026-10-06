@@ -1,0 +1,5251 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.vercel.vercel_ci#ListVercelCiInvocationsRequestProvider": {
+      "type": "enum",
+      "members": {
+        "GITHUB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "github"
+          }
+        },
+        "GITLAB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gitlab"
+          }
+        },
+        "BITBUCKET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bitbucket"
+          }
+        },
+        "VERCEL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vercel"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Repository provider (e.g., \\\"github\\\")."
+      }
+    },
+    "com.vercel.vercel_ci#ListVercelCiInvocationsRequestStatusItem": {
+      "type": "enum",
+      "members": {
+        "NEW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "new"
+          }
+        },
+        "SKIPPED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "skipped"
+          }
+        },
+        "BOOTSTRAPPING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bootstrapping"
+          }
+        },
+        "BOOTSTRAPPING_FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bootstrapping_failed"
+          }
+        },
+        "SNAPSHOTTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "snapshotted"
+          }
+        },
+        "SANDBOX_NAMED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sandbox_named"
+          }
+        },
+        "JOBS_ON_HIVE_CLONE_DISPATCHED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "jobs_on_hive_clone_dispatched"
+          }
+        },
+        "JOBS_ON_HIVE_DISPATCHED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "jobs_on_hive_dispatched"
+          }
+        },
+        "JOBS_ON_HIVE_COMPLETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "jobs_on_hive_completed"
+          }
+        },
+        "JOBS_ON_HIVE_FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "jobs_on_hive_failed"
+          }
+        },
+        "AWAITING_JOBS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "awaiting_jobs"
+          }
+        },
+        "COMPLETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "completed"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#ListVercelCiInvocationsRequestStatusList": {
+      "type": "list",
+      "member": {
+        "target": "com.vercel.vercel_ci#ListVercelCiInvocationsRequestStatusItem"
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#ListVercelCiInvocationsRequestConclusionItem": {
+      "type": "enum",
+      "members": {
+        "SUCCEEDED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "succeeded"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "failed"
+          }
+        },
+        "SKIPPED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "skipped"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#ListVercelCiInvocationsRequestConclusionList": {
+      "type": "list",
+      "member": {
+        "target": "com.vercel.vercel_ci#ListVercelCiInvocationsRequestConclusionItem"
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#ListVercelCiInvocationsRequestSourceItem": {
+      "type": "enum",
+      "members": {
+        "VERCEL_CI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vercel-ci"
+          }
+        },
+        "VERCEL_NATIVE_CHECKS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vercel-native-checks"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#ListVercelCiInvocationsRequestSourceList": {
+      "type": "list",
+      "member": {
+        "target": "com.vercel.vercel_ci#ListVercelCiInvocationsRequestSourceItem"
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#ListVercelCiInvocationsRequest": {
+      "type": "structure",
+      "members": {
+        "provider": {
+          "target": "com.vercel.vercel_ci#ListVercelCiInvocationsRequestProvider",
+          "traits": {
+            "smithy.api#httpQuery": "provider",
+            "smithy.api#documentation": "Repository provider (e.g., \\\"github\\\")."
+          }
+        },
+        "repository": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "repository",
+            "smithy.api#documentation": "Repository slug (e.g., \\\"vercel/next.js\\\")."
+          }
+        },
+        "branchName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "branchName",
+            "smithy.api#documentation": "Branch name (e.g., \\\"main\\\")."
+          }
+        },
+        "snapshot": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "snapshot",
+            "smithy.api#documentation": "Snapshot/commit hash."
+          }
+        },
+        "status": {
+          "target": "com.vercel.vercel_ci#ListVercelCiInvocationsRequestStatusList",
+          "traits": {
+            "smithy.api#httpQuery": "status"
+          }
+        },
+        "conclusion": {
+          "target": "com.vercel.vercel_ci#ListVercelCiInvocationsRequestConclusionList",
+          "traits": {
+            "smithy.api#httpQuery": "conclusion"
+          }
+        },
+        "source": {
+          "target": "com.vercel.vercel_ci#ListVercelCiInvocationsRequestSourceList",
+          "traits": {
+            "smithy.api#httpQuery": "source"
+          }
+        },
+        "authorGitHubId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "authorGitHubId"
+          }
+        },
+        "author": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "author",
+            "smithy.api#documentation": "GitHub author login."
+          }
+        },
+        "createdAfter": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpQuery": "createdAfter"
+          }
+        },
+        "createdBefore": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpQuery": "createdBefore"
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "Number of results per page (default: 20, max: 100)."
+          }
+        },
+        "cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "cursor",
+            "smithy.api#documentation": "Pagination cursor from a previous response."
+          }
+        },
+        "teamId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "teamId",
+            "smithy.api#documentation": "The Team identifier to perform the request on behalf of."
+          }
+        },
+        "slug": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "slug",
+            "smithy.api#documentation": "The Team slug to perform the request on behalf of."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.vercel.vercel_ci#ListVercelCiInvocationsResponseInvocationsItemSourceCase0": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#ListVercelCiInvocationsResponseInvocationsItemSourceCase1": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "deploymentId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "deploymentTargetSlug": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#ListVercelCiInvocationsResponseInvocationsItemSource": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.vercel.vercel_ci#ListVercelCiInvocationsResponseInvocationsItemSourceCase0"
+        },
+        "Case1": {
+          "target": "com.vercel.vercel_ci#ListVercelCiInvocationsResponseInvocationsItemSourceCase1"
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#ListVercelCiInvocationsResponseInvocationsItemSkipped": {
+      "type": "structure",
+      "members": {
+        "reason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#ListVercelCiInvocationsResponseInvocationsItemBootstrappingStarted": {
+      "type": "structure",
+      "members": {
+        "startedAt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#ListVercelCiInvocationsResponseInvocationsItemBootstrappingFailed": {
+      "type": "structure",
+      "members": {
+        "reason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#ListVercelCiInvocationsResponseInvocationsItemSandboxSnapshotted": {
+      "type": "structure",
+      "members": {
+        "sandboxSnapshotId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "workingDirectory": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "snapshottedAt": {
+          "target": "smithy.api#Double"
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#ListVercelCiInvocationsResponseInvocationsItemSandboxNamed": {
+      "type": "structure",
+      "members": {
+        "sandboxName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "workingDirectory": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "readyAt": {
+          "target": "smithy.api#Double"
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#ListVercelCiInvocationsResponseInvocationsItemJobDefinitionsCreatedNamesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#ListVercelCiInvocationsResponseInvocationsItemJobDefinitionsCreated": {
+      "type": "structure",
+      "members": {
+        "names": {
+          "target": "com.vercel.vercel_ci#ListVercelCiInvocationsResponseInvocationsItemJobDefinitionsCreatedNamesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "source": {
+          "target": "smithy.api#String"
+        },
+        "scheduledAt": {
+          "target": "smithy.api#Double"
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#ListVercelCiInvocationsResponseInvocationsItemCompleted": {
+      "type": "structure",
+      "members": {
+        "completedAt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "conclusion": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#ListVercelCiInvocationsResponseInvocationsItemSetupConclusion": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The terminal setup result. Omitted while invocation setup is still running."
+      }
+    },
+    "com.vercel.vercel_ci#ListVercelCiInvocationsResponseInvocationsItemRunConclusion": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The aggregate outcome of every job in the invocation. Omitted while jobs are still running. Any failed job → \"failed\"; any (non-cascade) skipped job → \"skipped\"; else \"succeeded\". Present on completed invocations written after the field shipped; absent on older rows."
+      }
+    },
+    "com.vercel.vercel_ci#ListVercelCiInvocationsResponseInvocationsItem": {
+      "type": "structure",
+      "members": {
+        "invocationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "attempt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "teamId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "source": {
+          "target": "com.vercel.vercel_ci#ListVercelCiInvocationsResponseInvocationsItemSource",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "repositoryKey": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "ref": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "commitSha": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "skipped": {
+          "target": "com.vercel.vercel_ci#ListVercelCiInvocationsResponseInvocationsItemSkipped"
+        },
+        "bootstrappingStarted": {
+          "target": "com.vercel.vercel_ci#ListVercelCiInvocationsResponseInvocationsItemBootstrappingStarted"
+        },
+        "bootstrappingFailed": {
+          "target": "com.vercel.vercel_ci#ListVercelCiInvocationsResponseInvocationsItemBootstrappingFailed"
+        },
+        "sandboxSnapshotted": {
+          "target": "com.vercel.vercel_ci#ListVercelCiInvocationsResponseInvocationsItemSandboxSnapshotted"
+        },
+        "sandboxNamed": {
+          "target": "com.vercel.vercel_ci#ListVercelCiInvocationsResponseInvocationsItemSandboxNamed"
+        },
+        "jobDefinitionsCreated": {
+          "target": "com.vercel.vercel_ci#ListVercelCiInvocationsResponseInvocationsItemJobDefinitionsCreated"
+        },
+        "completed": {
+          "target": "com.vercel.vercel_ci#ListVercelCiInvocationsResponseInvocationsItemCompleted"
+        },
+        "setupConclusion": {
+          "target": "com.vercel.vercel_ci#ListVercelCiInvocationsResponseInvocationsItemSetupConclusion",
+          "traits": {
+            "smithy.api#documentation": "The terminal setup result. Omitted while invocation setup is still running."
+          }
+        },
+        "runConclusion": {
+          "target": "com.vercel.vercel_ci#ListVercelCiInvocationsResponseInvocationsItemRunConclusion",
+          "traits": {
+            "smithy.api#documentation": "The aggregate outcome of every job in the invocation. Omitted while jobs are still running. Any failed job → \"failed\"; any (non-cascade) skipped job → \"skipped\"; else \"succeeded\". Present on completed invocations written after the field shipped; absent on older rows."
+          }
+        },
+        "status": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#ListVercelCiInvocationsResponseInvocationsList": {
+      "type": "list",
+      "member": {
+        "target": "com.vercel.vercel_ci#ListVercelCiInvocationsResponseInvocationsItem"
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#ListVercelCiInvocationsResponsePagination": {
+      "type": "structure",
+      "members": {
+        "nextCursor": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#ListVercelCiInvocationsResponse": {
+      "type": "structure",
+      "members": {
+        "invocations": {
+          "target": "com.vercel.vercel_ci#ListVercelCiInvocationsResponseInvocationsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "repositories": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "pagination": {
+          "target": "com.vercel.vercel_ci#ListVercelCiInvocationsResponsePagination",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.vercel.vercel_ci#ListVercelCiInvocations": {
+      "type": "operation",
+      "input": {
+        "target": "com.vercel.vercel_ci#ListVercelCiInvocationsRequest"
+      },
+      "output": {
+        "target": "com.vercel.vercel_ci#ListVercelCiInvocationsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.vercel.vercel_ci#BadRequest"
+        },
+        {
+          "target": "com.vercel.vercel_ci#Forbidden"
+        },
+        {
+          "target": "com.vercel.vercel_ci#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/vercel-ci/invocations",
+          "code": 200
+        },
+        "smithy.api#documentation": "List invocations for a team, optionally filtered by repository and invocation metadata\n\nList Invocations"
+      }
+    },
+    "com.vercel.vercel_ci#ListVercelCiBranchesRequest": {
+      "type": "structure",
+      "members": {
+        "query": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "query"
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpQuery": "limit"
+          }
+        },
+        "teamId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "teamId",
+            "smithy.api#documentation": "The Team identifier to perform the request on behalf of."
+          }
+        },
+        "slug": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "slug",
+            "smithy.api#documentation": "The Team slug to perform the request on behalf of."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.vercel.vercel_ci#ListVercelCiBranchesResponseBranchesItem": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "count": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#ListVercelCiBranchesResponseBranchesList": {
+      "type": "list",
+      "member": {
+        "target": "com.vercel.vercel_ci#ListVercelCiBranchesResponseBranchesItem"
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#ListVercelCiBranchesResponse": {
+      "type": "structure",
+      "members": {
+        "branches": {
+          "target": "com.vercel.vercel_ci#ListVercelCiBranchesResponseBranchesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.vercel.vercel_ci#ListVercelCiBranches": {
+      "type": "operation",
+      "input": {
+        "target": "com.vercel.vercel_ci#ListVercelCiBranchesRequest"
+      },
+      "output": {
+        "target": "com.vercel.vercel_ci#ListVercelCiBranchesResponse"
+      },
+      "errors": [
+        {
+          "target": "com.vercel.vercel_ci#BadRequest"
+        },
+        {
+          "target": "com.vercel.vercel_ci#Forbidden"
+        },
+        {
+          "target": "com.vercel.vercel_ci#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v2/vercel-ci/branches",
+          "code": 200
+        },
+        "smithy.api#documentation": "List Vercel CI branch suggestions for a team\n\nList branches"
+      }
+    },
+    "com.vercel.vercel_ci#ListVercelCiInvocationAttemptsRequest": {
+      "type": "structure",
+      "members": {
+        "invocationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "teamId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "teamId",
+            "smithy.api#documentation": "The Team identifier to perform the request on behalf of."
+          }
+        },
+        "slug": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "slug",
+            "smithy.api#documentation": "The Team slug to perform the request on behalf of."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.vercel.vercel_ci#ListVercelCiInvocationAttemptsResponseAttemptsItemSourceCase0": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#ListVercelCiInvocationAttemptsResponseAttemptsItemSourceCase1": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "deploymentId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "deploymentTargetSlug": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#ListVercelCiInvocationAttemptsResponseAttemptsItemSource": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.vercel.vercel_ci#ListVercelCiInvocationAttemptsResponseAttemptsItemSourceCase0"
+        },
+        "Case1": {
+          "target": "com.vercel.vercel_ci#ListVercelCiInvocationAttemptsResponseAttemptsItemSourceCase1"
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#ListVercelCiInvocationAttemptsResponseAttemptsItemSkipped": {
+      "type": "structure",
+      "members": {
+        "reason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#ListVercelCiInvocationAttemptsResponseAttemptsItemBootstrappingStarted": {
+      "type": "structure",
+      "members": {
+        "startedAt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#ListVercelCiInvocationAttemptsResponseAttemptsItemBootstrappingFailed": {
+      "type": "structure",
+      "members": {
+        "reason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#ListVercelCiInvocationAttemptsResponseAttemptsItemSandboxSnapshotted": {
+      "type": "structure",
+      "members": {
+        "sandboxSnapshotId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "workingDirectory": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "snapshottedAt": {
+          "target": "smithy.api#Double"
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#ListVercelCiInvocationAttemptsResponseAttemptsItemSandboxNamed": {
+      "type": "structure",
+      "members": {
+        "sandboxName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "workingDirectory": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "readyAt": {
+          "target": "smithy.api#Double"
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#ListVercelCiInvocationAttemptsResponseAttemptsItemJobDefinitionsCreatedNamesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#ListVercelCiInvocationAttemptsResponseAttemptsItemJobDefinitionsCreated": {
+      "type": "structure",
+      "members": {
+        "names": {
+          "target": "com.vercel.vercel_ci#ListVercelCiInvocationAttemptsResponseAttemptsItemJobDefinitionsCreatedNamesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "source": {
+          "target": "smithy.api#String"
+        },
+        "scheduledAt": {
+          "target": "smithy.api#Double"
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#ListVercelCiInvocationAttemptsResponseAttemptsItemCompleted": {
+      "type": "structure",
+      "members": {
+        "completedAt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "conclusion": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#ListVercelCiInvocationAttemptsResponseAttemptsItemSetupConclusion": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The terminal setup result. Omitted while invocation setup is still running."
+      }
+    },
+    "com.vercel.vercel_ci#ListVercelCiInvocationAttemptsResponseAttemptsItemRunConclusion": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The aggregate outcome of every job in the invocation. Omitted while jobs are still running. Any failed job → \"failed\"; any (non-cascade) skipped job → \"skipped\"; else \"succeeded\". Present on completed invocations written after the field shipped; absent on older rows."
+      }
+    },
+    "com.vercel.vercel_ci#ListVercelCiInvocationAttemptsResponseAttemptsItem": {
+      "type": "structure",
+      "members": {
+        "invocationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "attempt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "teamId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "source": {
+          "target": "com.vercel.vercel_ci#ListVercelCiInvocationAttemptsResponseAttemptsItemSource",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "repositoryKey": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "ref": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "commitSha": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "skipped": {
+          "target": "com.vercel.vercel_ci#ListVercelCiInvocationAttemptsResponseAttemptsItemSkipped"
+        },
+        "bootstrappingStarted": {
+          "target": "com.vercel.vercel_ci#ListVercelCiInvocationAttemptsResponseAttemptsItemBootstrappingStarted"
+        },
+        "bootstrappingFailed": {
+          "target": "com.vercel.vercel_ci#ListVercelCiInvocationAttemptsResponseAttemptsItemBootstrappingFailed"
+        },
+        "sandboxSnapshotted": {
+          "target": "com.vercel.vercel_ci#ListVercelCiInvocationAttemptsResponseAttemptsItemSandboxSnapshotted"
+        },
+        "sandboxNamed": {
+          "target": "com.vercel.vercel_ci#ListVercelCiInvocationAttemptsResponseAttemptsItemSandboxNamed"
+        },
+        "jobDefinitionsCreated": {
+          "target": "com.vercel.vercel_ci#ListVercelCiInvocationAttemptsResponseAttemptsItemJobDefinitionsCreated"
+        },
+        "completed": {
+          "target": "com.vercel.vercel_ci#ListVercelCiInvocationAttemptsResponseAttemptsItemCompleted"
+        },
+        "setupConclusion": {
+          "target": "com.vercel.vercel_ci#ListVercelCiInvocationAttemptsResponseAttemptsItemSetupConclusion",
+          "traits": {
+            "smithy.api#documentation": "The terminal setup result. Omitted while invocation setup is still running."
+          }
+        },
+        "runConclusion": {
+          "target": "com.vercel.vercel_ci#ListVercelCiInvocationAttemptsResponseAttemptsItemRunConclusion",
+          "traits": {
+            "smithy.api#documentation": "The aggregate outcome of every job in the invocation. Omitted while jobs are still running. Any failed job → \"failed\"; any (non-cascade) skipped job → \"skipped\"; else \"succeeded\". Present on completed invocations written after the field shipped; absent on older rows."
+          }
+        },
+        "status": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#ListVercelCiInvocationAttemptsResponseAttemptsList": {
+      "type": "list",
+      "member": {
+        "target": "com.vercel.vercel_ci#ListVercelCiInvocationAttemptsResponseAttemptsItem"
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#ListVercelCiInvocationAttemptsResponse": {
+      "type": "structure",
+      "members": {
+        "attempts": {
+          "target": "com.vercel.vercel_ci#ListVercelCiInvocationAttemptsResponseAttemptsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "repositories": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.vercel.vercel_ci#ListVercelCiInvocationAttempts": {
+      "type": "operation",
+      "input": {
+        "target": "com.vercel.vercel_ci#ListVercelCiInvocationAttemptsRequest"
+      },
+      "output": {
+        "target": "com.vercel.vercel_ci#ListVercelCiInvocationAttemptsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.vercel.vercel_ci#BadRequest"
+        },
+        {
+          "target": "com.vercel.vercel_ci#Forbidden"
+        },
+        {
+          "target": "com.vercel.vercel_ci#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/vercel-ci/invocations/{invocationId}/attempts",
+          "code": 200
+        },
+        "smithy.api#documentation": "List all attempts for an invocation\n\nList Invocation Attempts"
+      }
+    },
+    "com.vercel.vercel_ci#GetVercelCiInvocationTreeRequestFollow": {
+      "type": "intEnum",
+      "members": {
+        "_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": 0
+          }
+        },
+        "_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": 1
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "When 1, stream the tree as newline-delimited JSON until the attempt finishes."
+      }
+    },
+    "com.vercel.vercel_ci#GetVercelCiInvocationTreeRequest": {
+      "type": "structure",
+      "members": {
+        "invocationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "attempt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "attempt",
+            "smithy.api#documentation": "Invocation attempt to return. Defaults to the latest attempt."
+          }
+        },
+        "follow": {
+          "target": "com.vercel.vercel_ci#GetVercelCiInvocationTreeRequestFollow",
+          "traits": {
+            "smithy.api#httpQuery": "follow",
+            "smithy.api#documentation": "When 1, stream the tree as newline-delimited JSON until the attempt finishes."
+          }
+        },
+        "teamId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "teamId",
+            "smithy.api#documentation": "The Team identifier to perform the request on behalf of."
+          }
+        },
+        "slug": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "slug",
+            "smithy.api#documentation": "The Team slug to perform the request on behalf of."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.vercel.vercel_ci#GetVercelCiInvocationTreeResponseInvocationSourceCase0": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#GetVercelCiInvocationTreeResponseInvocationSourceCase1": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "deploymentId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "deploymentTargetSlug": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#GetVercelCiInvocationTreeResponseInvocationSource": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.vercel.vercel_ci#GetVercelCiInvocationTreeResponseInvocationSourceCase0"
+        },
+        "Case1": {
+          "target": "com.vercel.vercel_ci#GetVercelCiInvocationTreeResponseInvocationSourceCase1"
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#GetVercelCiInvocationTreeResponseInvocationSkipped": {
+      "type": "structure",
+      "members": {
+        "reason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#GetVercelCiInvocationTreeResponseInvocationBootstrappingStarted": {
+      "type": "structure",
+      "members": {
+        "startedAt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#GetVercelCiInvocationTreeResponseInvocationBootstrappingFailed": {
+      "type": "structure",
+      "members": {
+        "reason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#GetVercelCiInvocationTreeResponseInvocationSandboxSnapshotted": {
+      "type": "structure",
+      "members": {
+        "sandboxSnapshotId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "workingDirectory": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "snapshottedAt": {
+          "target": "smithy.api#Double"
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#GetVercelCiInvocationTreeResponseInvocationSandboxNamed": {
+      "type": "structure",
+      "members": {
+        "sandboxName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "workingDirectory": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "readyAt": {
+          "target": "smithy.api#Double"
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#GetVercelCiInvocationTreeResponseInvocationJobDefinitionsCreatedNamesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#GetVercelCiInvocationTreeResponseInvocationJobDefinitionsCreated": {
+      "type": "structure",
+      "members": {
+        "names": {
+          "target": "com.vercel.vercel_ci#GetVercelCiInvocationTreeResponseInvocationJobDefinitionsCreatedNamesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "source": {
+          "target": "smithy.api#String"
+        },
+        "scheduledAt": {
+          "target": "smithy.api#Double"
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#GetVercelCiInvocationTreeResponseInvocationCompleted": {
+      "type": "structure",
+      "members": {
+        "completedAt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "conclusion": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#GetVercelCiInvocationTreeResponseInvocationSetupConclusion": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The terminal setup result. Omitted while invocation setup is still running."
+      }
+    },
+    "com.vercel.vercel_ci#GetVercelCiInvocationTreeResponseInvocationRunConclusion": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The aggregate outcome of every job in the invocation. Omitted while jobs are still running. Any failed job → \"failed\"; any (non-cascade) skipped job → \"skipped\"; else \"succeeded\". Present on completed invocations written after the field shipped; absent on older rows."
+      }
+    },
+    "com.vercel.vercel_ci#GetVercelCiInvocationTreeResponseInvocation": {
+      "type": "structure",
+      "members": {
+        "invocationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "attempt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "teamId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "source": {
+          "target": "com.vercel.vercel_ci#GetVercelCiInvocationTreeResponseInvocationSource",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "repositoryKey": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "ref": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "commitSha": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "skipped": {
+          "target": "com.vercel.vercel_ci#GetVercelCiInvocationTreeResponseInvocationSkipped"
+        },
+        "bootstrappingStarted": {
+          "target": "com.vercel.vercel_ci#GetVercelCiInvocationTreeResponseInvocationBootstrappingStarted"
+        },
+        "bootstrappingFailed": {
+          "target": "com.vercel.vercel_ci#GetVercelCiInvocationTreeResponseInvocationBootstrappingFailed"
+        },
+        "sandboxSnapshotted": {
+          "target": "com.vercel.vercel_ci#GetVercelCiInvocationTreeResponseInvocationSandboxSnapshotted"
+        },
+        "sandboxNamed": {
+          "target": "com.vercel.vercel_ci#GetVercelCiInvocationTreeResponseInvocationSandboxNamed"
+        },
+        "jobDefinitionsCreated": {
+          "target": "com.vercel.vercel_ci#GetVercelCiInvocationTreeResponseInvocationJobDefinitionsCreated"
+        },
+        "completed": {
+          "target": "com.vercel.vercel_ci#GetVercelCiInvocationTreeResponseInvocationCompleted"
+        },
+        "setupConclusion": {
+          "target": "com.vercel.vercel_ci#GetVercelCiInvocationTreeResponseInvocationSetupConclusion",
+          "traits": {
+            "smithy.api#documentation": "The terminal setup result. Omitted while invocation setup is still running."
+          }
+        },
+        "runConclusion": {
+          "target": "com.vercel.vercel_ci#GetVercelCiInvocationTreeResponseInvocationRunConclusion",
+          "traits": {
+            "smithy.api#documentation": "The aggregate outcome of every job in the invocation. Omitted while jobs are still running. Any failed job → \"failed\"; any (non-cascade) skipped job → \"skipped\"; else \"succeeded\". Present on completed invocations written after the field shipped; absent on older rows."
+          }
+        },
+        "status": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#GetVercelCiInvocationTreeResponseJobsItemDefinition": {
+      "type": "structure",
+      "members": {
+        "invocationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "invocationAttempt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "jobDefinitionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "kind": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "command": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#GetVercelCiInvocationTreeResponseJobsItemRunStarted": {
+      "type": "structure",
+      "members": {
+        "startedAt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#GetVercelCiInvocationTreeResponseJobsItemRunCompletedConclusionCase0": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#GetVercelCiInvocationTreeResponseJobsItemRunCompletedConclusionCase1": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "reason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#GetVercelCiInvocationTreeResponseJobsItemRunCompletedConclusionCase2": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "reason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#GetVercelCiInvocationTreeResponseJobsItemRunCompletedConclusion": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.vercel.vercel_ci#GetVercelCiInvocationTreeResponseJobsItemRunCompletedConclusionCase0"
+        },
+        "Case1": {
+          "target": "com.vercel.vercel_ci#GetVercelCiInvocationTreeResponseJobsItemRunCompletedConclusionCase1"
+        },
+        "Case2": {
+          "target": "com.vercel.vercel_ci#GetVercelCiInvocationTreeResponseJobsItemRunCompletedConclusionCase2"
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#GetVercelCiInvocationTreeResponseJobsItemRunCompleted": {
+      "type": "structure",
+      "members": {
+        "completedAt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "conclusion": {
+          "target": "com.vercel.vercel_ci#GetVercelCiInvocationTreeResponseJobsItemRunCompletedConclusion",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#GetVercelCiInvocationTreeResponseJobsItemRun": {
+      "type": "structure",
+      "members": {
+        "invocationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "invocationAttempt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "jobDefinitionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "attempt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "started": {
+          "target": "com.vercel.vercel_ci#GetVercelCiInvocationTreeResponseJobsItemRunStarted"
+        },
+        "completed": {
+          "target": "com.vercel.vercel_ci#GetVercelCiInvocationTreeResponseJobsItemRunCompleted"
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#GetVercelCiInvocationTreeResponseJobsItemTasksItemDefinitionOperationCase0": {
+      "type": "structure",
+      "members": {
+        "kind": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "command": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#GetVercelCiInvocationTreeResponseJobsItemTasksItemDefinitionOperationCase1": {
+      "type": "structure",
+      "members": {
+        "kind": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "target": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#GetVercelCiInvocationTreeResponseJobsItemTasksItemDefinitionOperation": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.vercel.vercel_ci#GetVercelCiInvocationTreeResponseJobsItemTasksItemDefinitionOperationCase0"
+        },
+        "Case1": {
+          "target": "com.vercel.vercel_ci#GetVercelCiInvocationTreeResponseJobsItemTasksItemDefinitionOperationCase1"
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#GetVercelCiInvocationTreeResponseJobsItemTasksItemDefinitionDependencyTaskDefinitionIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#GetVercelCiInvocationTreeResponseJobsItemTasksItemDefinition": {
+      "type": "structure",
+      "members": {
+        "invocationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "invocationAttempt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "jobDefinitionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "jobRunAttempt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "taskDefinitionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "operation": {
+          "target": "com.vercel.vercel_ci#GetVercelCiInvocationTreeResponseJobsItemTasksItemDefinitionOperation",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "dependencyTaskDefinitionIds": {
+          "target": "com.vercel.vercel_ci#GetVercelCiInvocationTreeResponseJobsItemTasksItemDefinitionDependencyTaskDefinitionIdsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#GetVercelCiInvocationTreeResponseJobsItemTasksItemRunStarted": {
+      "type": "structure",
+      "members": {
+        "startedAt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#GetVercelCiInvocationTreeResponseJobsItemTasksItemRunCompletedConclusionCase0": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#GetVercelCiInvocationTreeResponseJobsItemTasksItemRunCompletedConclusionCase1": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#GetVercelCiInvocationTreeResponseJobsItemTasksItemRunCompletedConclusionCase2": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "reason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#GetVercelCiInvocationTreeResponseJobsItemTasksItemRunCompletedConclusionCase3": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "reason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#GetVercelCiInvocationTreeResponseJobsItemTasksItemRunCompletedConclusion": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.vercel.vercel_ci#GetVercelCiInvocationTreeResponseJobsItemTasksItemRunCompletedConclusionCase0"
+        },
+        "Case1": {
+          "target": "com.vercel.vercel_ci#GetVercelCiInvocationTreeResponseJobsItemTasksItemRunCompletedConclusionCase1"
+        },
+        "Case2": {
+          "target": "com.vercel.vercel_ci#GetVercelCiInvocationTreeResponseJobsItemTasksItemRunCompletedConclusionCase2"
+        },
+        "Case3": {
+          "target": "com.vercel.vercel_ci#GetVercelCiInvocationTreeResponseJobsItemTasksItemRunCompletedConclusionCase3"
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#GetVercelCiInvocationTreeResponseJobsItemTasksItemRunCompleted": {
+      "type": "structure",
+      "members": {
+        "completedAt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "conclusion": {
+          "target": "com.vercel.vercel_ci#GetVercelCiInvocationTreeResponseJobsItemTasksItemRunCompletedConclusion",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#GetVercelCiInvocationTreeResponseJobsItemTasksItemRun": {
+      "type": "structure",
+      "members": {
+        "invocationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "invocationAttempt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "jobDefinitionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "jobRunAttempt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "taskDefinitionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "attempt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "started": {
+          "target": "com.vercel.vercel_ci#GetVercelCiInvocationTreeResponseJobsItemTasksItemRunStarted"
+        },
+        "completed": {
+          "target": "com.vercel.vercel_ci#GetVercelCiInvocationTreeResponseJobsItemTasksItemRunCompleted"
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#GetVercelCiInvocationTreeResponseJobsItemTasksItem": {
+      "type": "structure",
+      "members": {
+        "definition": {
+          "target": "com.vercel.vercel_ci#GetVercelCiInvocationTreeResponseJobsItemTasksItemDefinition",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "run": {
+          "target": "com.vercel.vercel_ci#GetVercelCiInvocationTreeResponseJobsItemTasksItemRun"
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#GetVercelCiInvocationTreeResponseJobsItemTasksList": {
+      "type": "list",
+      "member": {
+        "target": "com.vercel.vercel_ci#GetVercelCiInvocationTreeResponseJobsItemTasksItem"
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#GetVercelCiInvocationTreeResponseJobsItem": {
+      "type": "structure",
+      "members": {
+        "definition": {
+          "target": "com.vercel.vercel_ci#GetVercelCiInvocationTreeResponseJobsItemDefinition",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "run": {
+          "target": "com.vercel.vercel_ci#GetVercelCiInvocationTreeResponseJobsItemRun"
+        },
+        "tasks": {
+          "target": "com.vercel.vercel_ci#GetVercelCiInvocationTreeResponseJobsItemTasksList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#GetVercelCiInvocationTreeResponseJobsList": {
+      "type": "list",
+      "member": {
+        "target": "com.vercel.vercel_ci#GetVercelCiInvocationTreeResponseJobsItem"
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#GetVercelCiInvocationTreeResponse": {
+      "type": "structure",
+      "members": {
+        "invocation": {
+          "target": "com.vercel.vercel_ci#GetVercelCiInvocationTreeResponseInvocation",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "repositories": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "jobs": {
+          "target": "com.vercel.vercel_ci#GetVercelCiInvocationTreeResponseJobsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.vercel.vercel_ci#GetVercelCiInvocationTree": {
+      "type": "operation",
+      "input": {
+        "target": "com.vercel.vercel_ci#GetVercelCiInvocationTreeRequest"
+      },
+      "output": {
+        "target": "com.vercel.vercel_ci#GetVercelCiInvocationTreeResponse"
+      },
+      "errors": [
+        {
+          "target": "com.vercel.vercel_ci#BadRequest"
+        },
+        {
+          "target": "com.vercel.vercel_ci#Forbidden"
+        },
+        {
+          "target": "com.vercel.vercel_ci#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/vercel-ci/invocations/{invocationId}/tree",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get an invocation with its jobs and tasks\n\nReturns an invocation attempt together with every job definition, its latest job run, and the task definitions and active task runs of that job run. Defaults to the latest attempt when `attempt` is omitted. With `follow=1` the response is a newline-delimited JSON stream: a `{\"type\":\"tree\", ...}` event with the full tree is sent immediately and again whenever it changes, and a final `{\"type\":\"end\",\"reason\":...}` event is sent when the attempt finishes (`completed`) or the stream reaches its maximum duration (`timeout`), after which clients should reconnect."
+      }
+    },
+    "com.vercel.vercel_ci#GetVercelCiInvocationRequest": {
+      "type": "structure",
+      "members": {
+        "invocationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "attempt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "teamId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "teamId",
+            "smithy.api#documentation": "The Team identifier to perform the request on behalf of."
+          }
+        },
+        "slug": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "slug",
+            "smithy.api#documentation": "The Team slug to perform the request on behalf of."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.vercel.vercel_ci#GetVercelCiInvocationResponseInvocationSourceCase0": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#GetVercelCiInvocationResponseInvocationSourceCase1": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "deploymentId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "deploymentTargetSlug": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#GetVercelCiInvocationResponseInvocationSource": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.vercel.vercel_ci#GetVercelCiInvocationResponseInvocationSourceCase0"
+        },
+        "Case1": {
+          "target": "com.vercel.vercel_ci#GetVercelCiInvocationResponseInvocationSourceCase1"
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#GetVercelCiInvocationResponseInvocationSkipped": {
+      "type": "structure",
+      "members": {
+        "reason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#GetVercelCiInvocationResponseInvocationBootstrappingStarted": {
+      "type": "structure",
+      "members": {
+        "startedAt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#GetVercelCiInvocationResponseInvocationBootstrappingFailed": {
+      "type": "structure",
+      "members": {
+        "reason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#GetVercelCiInvocationResponseInvocationSandboxSnapshotted": {
+      "type": "structure",
+      "members": {
+        "sandboxSnapshotId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "workingDirectory": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "snapshottedAt": {
+          "target": "smithy.api#Double"
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#GetVercelCiInvocationResponseInvocationSandboxNamed": {
+      "type": "structure",
+      "members": {
+        "sandboxName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "workingDirectory": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "readyAt": {
+          "target": "smithy.api#Double"
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#GetVercelCiInvocationResponseInvocationJobDefinitionsCreatedNamesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#GetVercelCiInvocationResponseInvocationJobDefinitionsCreated": {
+      "type": "structure",
+      "members": {
+        "names": {
+          "target": "com.vercel.vercel_ci#GetVercelCiInvocationResponseInvocationJobDefinitionsCreatedNamesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "source": {
+          "target": "smithy.api#String"
+        },
+        "scheduledAt": {
+          "target": "smithy.api#Double"
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#GetVercelCiInvocationResponseInvocationCompleted": {
+      "type": "structure",
+      "members": {
+        "completedAt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "conclusion": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#GetVercelCiInvocationResponseInvocationSetupConclusion": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The terminal setup result. Omitted while invocation setup is still running."
+      }
+    },
+    "com.vercel.vercel_ci#GetVercelCiInvocationResponseInvocationRunConclusion": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The aggregate outcome of every job in the invocation. Omitted while jobs are still running. Any failed job → \"failed\"; any (non-cascade) skipped job → \"skipped\"; else \"succeeded\". Present on completed invocations written after the field shipped; absent on older rows."
+      }
+    },
+    "com.vercel.vercel_ci#GetVercelCiInvocationResponseInvocation": {
+      "type": "structure",
+      "members": {
+        "invocationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "attempt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "teamId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "source": {
+          "target": "com.vercel.vercel_ci#GetVercelCiInvocationResponseInvocationSource",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "repositoryKey": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "ref": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "commitSha": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "skipped": {
+          "target": "com.vercel.vercel_ci#GetVercelCiInvocationResponseInvocationSkipped"
+        },
+        "bootstrappingStarted": {
+          "target": "com.vercel.vercel_ci#GetVercelCiInvocationResponseInvocationBootstrappingStarted"
+        },
+        "bootstrappingFailed": {
+          "target": "com.vercel.vercel_ci#GetVercelCiInvocationResponseInvocationBootstrappingFailed"
+        },
+        "sandboxSnapshotted": {
+          "target": "com.vercel.vercel_ci#GetVercelCiInvocationResponseInvocationSandboxSnapshotted"
+        },
+        "sandboxNamed": {
+          "target": "com.vercel.vercel_ci#GetVercelCiInvocationResponseInvocationSandboxNamed"
+        },
+        "jobDefinitionsCreated": {
+          "target": "com.vercel.vercel_ci#GetVercelCiInvocationResponseInvocationJobDefinitionsCreated"
+        },
+        "completed": {
+          "target": "com.vercel.vercel_ci#GetVercelCiInvocationResponseInvocationCompleted"
+        },
+        "setupConclusion": {
+          "target": "com.vercel.vercel_ci#GetVercelCiInvocationResponseInvocationSetupConclusion",
+          "traits": {
+            "smithy.api#documentation": "The terminal setup result. Omitted while invocation setup is still running."
+          }
+        },
+        "runConclusion": {
+          "target": "com.vercel.vercel_ci#GetVercelCiInvocationResponseInvocationRunConclusion",
+          "traits": {
+            "smithy.api#documentation": "The aggregate outcome of every job in the invocation. Omitted while jobs are still running. Any failed job → \"failed\"; any (non-cascade) skipped job → \"skipped\"; else \"succeeded\". Present on completed invocations written after the field shipped; absent on older rows."
+          }
+        },
+        "status": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#GetVercelCiInvocationResponse": {
+      "type": "structure",
+      "members": {
+        "invocation": {
+          "target": "com.vercel.vercel_ci#GetVercelCiInvocationResponseInvocation",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "repositories": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.vercel.vercel_ci#GetVercelCiInvocation": {
+      "type": "operation",
+      "input": {
+        "target": "com.vercel.vercel_ci#GetVercelCiInvocationRequest"
+      },
+      "output": {
+        "target": "com.vercel.vercel_ci#GetVercelCiInvocationResponse"
+      },
+      "errors": [
+        {
+          "target": "com.vercel.vercel_ci#BadRequest"
+        },
+        {
+          "target": "com.vercel.vercel_ci#Forbidden"
+        },
+        {
+          "target": "com.vercel.vercel_ci#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/vercel-ci/invocations/{invocationId}/attempts/{attempt}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get a specific invocation attempt\n\nGet Invocation"
+      }
+    },
+    "com.vercel.vercel_ci#RetryVercelCiInvocationRequest": {
+      "type": "structure",
+      "members": {
+        "invocationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "attempt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "teamId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "teamId",
+            "smithy.api#documentation": "The Team identifier to perform the request on behalf of."
+          }
+        },
+        "slug": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "slug",
+            "smithy.api#documentation": "The Team slug to perform the request on behalf of."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.vercel.vercel_ci#RetryVercelCiInvocationResponse": {
+      "type": "structure",
+      "members": {
+        "invocationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "attempt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.vercel.vercel_ci#RetryVercelCiInvocation": {
+      "type": "operation",
+      "input": {
+        "target": "com.vercel.vercel_ci#RetryVercelCiInvocationRequest"
+      },
+      "output": {
+        "target": "com.vercel.vercel_ci#RetryVercelCiInvocationResponse"
+      },
+      "errors": [
+        {
+          "target": "com.vercel.vercel_ci#BadRequest"
+        },
+        {
+          "target": "com.vercel.vercel_ci#Forbidden"
+        },
+        {
+          "target": "com.vercel.vercel_ci#NotFound"
+        },
+        {
+          "target": "com.vercel.vercel_ci#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1/vercel-ci/invocations/{invocationId}/attempts/{attempt}/retry",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retry a terminal Vercel CI invocation attempt\n\nRetry Invocation"
+      }
+    },
+    "com.vercel.vercel_ci#ListVercelCiJobDefinitionsRequest": {
+      "type": "structure",
+      "members": {
+        "invocationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "attempt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "teamId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "teamId",
+            "smithy.api#documentation": "The Team identifier to perform the request on behalf of."
+          }
+        },
+        "slug": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "slug",
+            "smithy.api#documentation": "The Team slug to perform the request on behalf of."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.vercel.vercel_ci#ListVercelCiJobDefinitionsResponseJobDefinitionsItem": {
+      "type": "structure",
+      "members": {
+        "invocationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "invocationAttempt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "jobDefinitionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "kind": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "command": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#ListVercelCiJobDefinitionsResponseJobDefinitionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.vercel.vercel_ci#ListVercelCiJobDefinitionsResponseJobDefinitionsItem"
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#ListVercelCiJobDefinitionsResponse": {
+      "type": "structure",
+      "members": {
+        "jobDefinitions": {
+          "target": "com.vercel.vercel_ci#ListVercelCiJobDefinitionsResponseJobDefinitionsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.vercel.vercel_ci#ListVercelCiJobDefinitions": {
+      "type": "operation",
+      "input": {
+        "target": "com.vercel.vercel_ci#ListVercelCiJobDefinitionsRequest"
+      },
+      "output": {
+        "target": "com.vercel.vercel_ci#ListVercelCiJobDefinitionsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.vercel.vercel_ci#BadRequest"
+        },
+        {
+          "target": "com.vercel.vercel_ci#Forbidden"
+        },
+        {
+          "target": "com.vercel.vercel_ci#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/vercel-ci/invocations/{invocationId}/attempts/{attempt}/job-definitions",
+          "code": 200
+        },
+        "smithy.api#documentation": "List job definitions for an invocation attempt\n\nList Job Definitions"
+      }
+    },
+    "com.vercel.vercel_ci#GetVercelCiJobDefinitionRequest": {
+      "type": "structure",
+      "members": {
+        "invocationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "attempt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "jobDefinitionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "teamId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "teamId",
+            "smithy.api#documentation": "The Team identifier to perform the request on behalf of."
+          }
+        },
+        "slug": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "slug",
+            "smithy.api#documentation": "The Team slug to perform the request on behalf of."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.vercel.vercel_ci#GetVercelCiJobDefinitionResponseJobDefinition": {
+      "type": "structure",
+      "members": {
+        "invocationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "invocationAttempt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "jobDefinitionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "kind": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "command": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#GetVercelCiJobDefinitionResponse": {
+      "type": "structure",
+      "members": {
+        "jobDefinition": {
+          "target": "com.vercel.vercel_ci#GetVercelCiJobDefinitionResponseJobDefinition",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.vercel.vercel_ci#GetVercelCiJobDefinition": {
+      "type": "operation",
+      "input": {
+        "target": "com.vercel.vercel_ci#GetVercelCiJobDefinitionRequest"
+      },
+      "output": {
+        "target": "com.vercel.vercel_ci#GetVercelCiJobDefinitionResponse"
+      },
+      "errors": [
+        {
+          "target": "com.vercel.vercel_ci#BadRequest"
+        },
+        {
+          "target": "com.vercel.vercel_ci#Forbidden"
+        },
+        {
+          "target": "com.vercel.vercel_ci#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/vercel-ci/invocations/{invocationId}/attempts/{attempt}/job-definitions/{jobDefinitionId}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get a specific job definition\n\nGet Job Definition"
+      }
+    },
+    "com.vercel.vercel_ci#ListVercelCiJobRunsRequest": {
+      "type": "structure",
+      "members": {
+        "invocationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "attempt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "jobDefinitionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "teamId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "teamId",
+            "smithy.api#documentation": "The Team identifier to perform the request on behalf of."
+          }
+        },
+        "slug": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "slug",
+            "smithy.api#documentation": "The Team slug to perform the request on behalf of."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.vercel.vercel_ci#ListVercelCiJobRunsResponseJobRunsItemStarted": {
+      "type": "structure",
+      "members": {
+        "startedAt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#ListVercelCiJobRunsResponseJobRunsItemCompletedConclusionCase0": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#ListVercelCiJobRunsResponseJobRunsItemCompletedConclusionCase1": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "reason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#ListVercelCiJobRunsResponseJobRunsItemCompletedConclusionCase2": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "reason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#ListVercelCiJobRunsResponseJobRunsItemCompletedConclusion": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.vercel.vercel_ci#ListVercelCiJobRunsResponseJobRunsItemCompletedConclusionCase0"
+        },
+        "Case1": {
+          "target": "com.vercel.vercel_ci#ListVercelCiJobRunsResponseJobRunsItemCompletedConclusionCase1"
+        },
+        "Case2": {
+          "target": "com.vercel.vercel_ci#ListVercelCiJobRunsResponseJobRunsItemCompletedConclusionCase2"
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#ListVercelCiJobRunsResponseJobRunsItemCompleted": {
+      "type": "structure",
+      "members": {
+        "completedAt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "conclusion": {
+          "target": "com.vercel.vercel_ci#ListVercelCiJobRunsResponseJobRunsItemCompletedConclusion",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#ListVercelCiJobRunsResponseJobRunsItem": {
+      "type": "structure",
+      "members": {
+        "invocationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "invocationAttempt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "jobDefinitionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "attempt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "started": {
+          "target": "com.vercel.vercel_ci#ListVercelCiJobRunsResponseJobRunsItemStarted"
+        },
+        "completed": {
+          "target": "com.vercel.vercel_ci#ListVercelCiJobRunsResponseJobRunsItemCompleted"
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#ListVercelCiJobRunsResponseJobRunsList": {
+      "type": "list",
+      "member": {
+        "target": "com.vercel.vercel_ci#ListVercelCiJobRunsResponseJobRunsItem"
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#ListVercelCiJobRunsResponse": {
+      "type": "structure",
+      "members": {
+        "jobRuns": {
+          "target": "com.vercel.vercel_ci#ListVercelCiJobRunsResponseJobRunsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.vercel.vercel_ci#ListVercelCiJobRuns": {
+      "type": "operation",
+      "input": {
+        "target": "com.vercel.vercel_ci#ListVercelCiJobRunsRequest"
+      },
+      "output": {
+        "target": "com.vercel.vercel_ci#ListVercelCiJobRunsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.vercel.vercel_ci#BadRequest"
+        },
+        {
+          "target": "com.vercel.vercel_ci#Forbidden"
+        },
+        {
+          "target": "com.vercel.vercel_ci#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/vercel-ci/invocations/{invocationId}/attempts/{attempt}/job-definitions/{jobDefinitionId}/runs",
+          "code": 200
+        },
+        "smithy.api#documentation": "List all runs for a job definition\n\nList Job Runs"
+      }
+    },
+    "com.vercel.vercel_ci#GetVercelCiJobRunRequest": {
+      "type": "structure",
+      "members": {
+        "invocationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "attempt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "jobDefinitionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "runAttempt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "teamId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "teamId",
+            "smithy.api#documentation": "The Team identifier to perform the request on behalf of."
+          }
+        },
+        "slug": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "slug",
+            "smithy.api#documentation": "The Team slug to perform the request on behalf of."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.vercel.vercel_ci#GetVercelCiJobRunResponseJobRunStarted": {
+      "type": "structure",
+      "members": {
+        "startedAt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#GetVercelCiJobRunResponseJobRunCompletedConclusionCase0": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#GetVercelCiJobRunResponseJobRunCompletedConclusionCase1": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "reason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#GetVercelCiJobRunResponseJobRunCompletedConclusionCase2": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "reason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#GetVercelCiJobRunResponseJobRunCompletedConclusion": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.vercel.vercel_ci#GetVercelCiJobRunResponseJobRunCompletedConclusionCase0"
+        },
+        "Case1": {
+          "target": "com.vercel.vercel_ci#GetVercelCiJobRunResponseJobRunCompletedConclusionCase1"
+        },
+        "Case2": {
+          "target": "com.vercel.vercel_ci#GetVercelCiJobRunResponseJobRunCompletedConclusionCase2"
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#GetVercelCiJobRunResponseJobRunCompleted": {
+      "type": "structure",
+      "members": {
+        "completedAt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "conclusion": {
+          "target": "com.vercel.vercel_ci#GetVercelCiJobRunResponseJobRunCompletedConclusion",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#GetVercelCiJobRunResponseJobRun": {
+      "type": "structure",
+      "members": {
+        "invocationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "invocationAttempt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "jobDefinitionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "attempt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "started": {
+          "target": "com.vercel.vercel_ci#GetVercelCiJobRunResponseJobRunStarted"
+        },
+        "completed": {
+          "target": "com.vercel.vercel_ci#GetVercelCiJobRunResponseJobRunCompleted"
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#GetVercelCiJobRunResponse": {
+      "type": "structure",
+      "members": {
+        "jobRun": {
+          "target": "com.vercel.vercel_ci#GetVercelCiJobRunResponseJobRun",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.vercel.vercel_ci#GetVercelCiJobRun": {
+      "type": "operation",
+      "input": {
+        "target": "com.vercel.vercel_ci#GetVercelCiJobRunRequest"
+      },
+      "output": {
+        "target": "com.vercel.vercel_ci#GetVercelCiJobRunResponse"
+      },
+      "errors": [
+        {
+          "target": "com.vercel.vercel_ci#BadRequest"
+        },
+        {
+          "target": "com.vercel.vercel_ci#Forbidden"
+        },
+        {
+          "target": "com.vercel.vercel_ci#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/vercel-ci/invocations/{invocationId}/attempts/{attempt}/job-definitions/{jobDefinitionId}/runs/{runAttempt}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get a specific job run attempt\n\nGet Job Run"
+      }
+    },
+    "com.vercel.vercel_ci#ListVercelCiTaskDefinitionsRequest": {
+      "type": "structure",
+      "members": {
+        "invocationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "attempt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "jobDefinitionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "runAttempt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "teamId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "teamId",
+            "smithy.api#documentation": "The Team identifier to perform the request on behalf of."
+          }
+        },
+        "slug": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "slug",
+            "smithy.api#documentation": "The Team slug to perform the request on behalf of."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.vercel.vercel_ci#ListVercelCiTaskDefinitionsResponseTaskDefinitionsItemOperationCase0": {
+      "type": "structure",
+      "members": {
+        "kind": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "command": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#ListVercelCiTaskDefinitionsResponseTaskDefinitionsItemOperationCase1": {
+      "type": "structure",
+      "members": {
+        "kind": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "target": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#ListVercelCiTaskDefinitionsResponseTaskDefinitionsItemOperation": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.vercel.vercel_ci#ListVercelCiTaskDefinitionsResponseTaskDefinitionsItemOperationCase0"
+        },
+        "Case1": {
+          "target": "com.vercel.vercel_ci#ListVercelCiTaskDefinitionsResponseTaskDefinitionsItemOperationCase1"
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#ListVercelCiTaskDefinitionsResponseTaskDefinitionsItemDependencyTaskDefinitionIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#ListVercelCiTaskDefinitionsResponseTaskDefinitionsItem": {
+      "type": "structure",
+      "members": {
+        "invocationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "invocationAttempt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "jobDefinitionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "jobRunAttempt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "taskDefinitionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "operation": {
+          "target": "com.vercel.vercel_ci#ListVercelCiTaskDefinitionsResponseTaskDefinitionsItemOperation",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "dependencyTaskDefinitionIds": {
+          "target": "com.vercel.vercel_ci#ListVercelCiTaskDefinitionsResponseTaskDefinitionsItemDependencyTaskDefinitionIdsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#ListVercelCiTaskDefinitionsResponseTaskDefinitionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.vercel.vercel_ci#ListVercelCiTaskDefinitionsResponseTaskDefinitionsItem"
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#ListVercelCiTaskDefinitionsResponse": {
+      "type": "structure",
+      "members": {
+        "taskDefinitions": {
+          "target": "com.vercel.vercel_ci#ListVercelCiTaskDefinitionsResponseTaskDefinitionsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.vercel.vercel_ci#ListVercelCiTaskDefinitions": {
+      "type": "operation",
+      "input": {
+        "target": "com.vercel.vercel_ci#ListVercelCiTaskDefinitionsRequest"
+      },
+      "output": {
+        "target": "com.vercel.vercel_ci#ListVercelCiTaskDefinitionsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.vercel.vercel_ci#BadRequest"
+        },
+        {
+          "target": "com.vercel.vercel_ci#Forbidden"
+        },
+        {
+          "target": "com.vercel.vercel_ci#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/vercel-ci/invocations/{invocationId}/attempts/{attempt}/job-definitions/{jobDefinitionId}/runs/{runAttempt}/task-definitions",
+          "code": 200
+        },
+        "smithy.api#documentation": "List all task definitions for a job run\n\nList Task Definitions"
+      }
+    },
+    "com.vercel.vercel_ci#ListVercelCiTaskRunsRequest": {
+      "type": "structure",
+      "members": {
+        "invocationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "attempt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "jobDefinitionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "runAttempt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "taskRunAttempt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "taskRunAttempt"
+          }
+        },
+        "teamId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "teamId",
+            "smithy.api#documentation": "The Team identifier to perform the request on behalf of."
+          }
+        },
+        "slug": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "slug",
+            "smithy.api#documentation": "The Team slug to perform the request on behalf of."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.vercel.vercel_ci#ListVercelCiTaskRunsResponseTaskRunsItemStarted": {
+      "type": "structure",
+      "members": {
+        "startedAt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#ListVercelCiTaskRunsResponseTaskRunsItemCompletedConclusionCase0": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#ListVercelCiTaskRunsResponseTaskRunsItemCompletedConclusionCase1": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#ListVercelCiTaskRunsResponseTaskRunsItemCompletedConclusionCase2": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "reason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#ListVercelCiTaskRunsResponseTaskRunsItemCompletedConclusionCase3": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "reason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#ListVercelCiTaskRunsResponseTaskRunsItemCompletedConclusion": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.vercel.vercel_ci#ListVercelCiTaskRunsResponseTaskRunsItemCompletedConclusionCase0"
+        },
+        "Case1": {
+          "target": "com.vercel.vercel_ci#ListVercelCiTaskRunsResponseTaskRunsItemCompletedConclusionCase1"
+        },
+        "Case2": {
+          "target": "com.vercel.vercel_ci#ListVercelCiTaskRunsResponseTaskRunsItemCompletedConclusionCase2"
+        },
+        "Case3": {
+          "target": "com.vercel.vercel_ci#ListVercelCiTaskRunsResponseTaskRunsItemCompletedConclusionCase3"
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#ListVercelCiTaskRunsResponseTaskRunsItemCompleted": {
+      "type": "structure",
+      "members": {
+        "completedAt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "conclusion": {
+          "target": "com.vercel.vercel_ci#ListVercelCiTaskRunsResponseTaskRunsItemCompletedConclusion",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#ListVercelCiTaskRunsResponseTaskRunsItem": {
+      "type": "structure",
+      "members": {
+        "invocationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "invocationAttempt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "jobDefinitionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "jobRunAttempt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "taskDefinitionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "attempt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "started": {
+          "target": "com.vercel.vercel_ci#ListVercelCiTaskRunsResponseTaskRunsItemStarted"
+        },
+        "completed": {
+          "target": "com.vercel.vercel_ci#ListVercelCiTaskRunsResponseTaskRunsItemCompleted"
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#ListVercelCiTaskRunsResponseTaskRunsList": {
+      "type": "list",
+      "member": {
+        "target": "com.vercel.vercel_ci#ListVercelCiTaskRunsResponseTaskRunsItem"
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#ListVercelCiTaskRunsResponse": {
+      "type": "structure",
+      "members": {
+        "taskRuns": {
+          "target": "com.vercel.vercel_ci#ListVercelCiTaskRunsResponseTaskRunsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.vercel.vercel_ci#ListVercelCiTaskRuns": {
+      "type": "operation",
+      "input": {
+        "target": "com.vercel.vercel_ci#ListVercelCiTaskRunsRequest"
+      },
+      "output": {
+        "target": "com.vercel.vercel_ci#ListVercelCiTaskRunsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.vercel.vercel_ci#BadRequest"
+        },
+        {
+          "target": "com.vercel.vercel_ci#Forbidden"
+        },
+        {
+          "target": "com.vercel.vercel_ci#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/vercel-ci/invocations/{invocationId}/attempts/{attempt}/job-definitions/{jobDefinitionId}/runs/{runAttempt}/task-runs",
+          "code": 200
+        },
+        "smithy.api#documentation": "List task runs for a job run\n\nList Task Runs"
+      }
+    },
+    "com.vercel.vercel_ci#GetVercelCiInvocationLogsRequestLevelItem": {
+      "type": "enum",
+      "members": {
+        "TRACE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "trace"
+          }
+        },
+        "DEBUG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "debug"
+          }
+        },
+        "COMMAND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "command"
+          }
+        },
+        "INFO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "info"
+          }
+        },
+        "WARN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "warn"
+          }
+        },
+        "ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "error"
+          }
+        },
+        "SYSTEMERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "systemError"
+          }
+        },
+        "FATAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fatal"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#GetVercelCiInvocationLogsRequestLevelList": {
+      "type": "list",
+      "member": {
+        "target": "com.vercel.vercel_ci#GetVercelCiInvocationLogsRequestLevelItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Only return log lines with one of these levels."
+      }
+    },
+    "com.vercel.vercel_ci#GetVercelCiInvocationLogsRequest": {
+      "type": "structure",
+      "members": {
+        "invocationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "attempt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "level": {
+          "target": "com.vercel.vercel_ci#GetVercelCiInvocationLogsRequestLevelList",
+          "traits": {
+            "smithy.api#httpQuery": "level",
+            "smithy.api#documentation": "Only return log lines with one of these levels."
+          }
+        },
+        "teamId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "teamId",
+            "smithy.api#documentation": "The Team identifier to perform the request on behalf of."
+          }
+        },
+        "slug": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "slug",
+            "smithy.api#documentation": "The Team slug to perform the request on behalf of."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.vercel.vercel_ci#GetVercelCiInvocationLogsResponseLinesItem": {
+      "type": "structure",
+      "members": {
+        "level": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "timestamp": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#GetVercelCiInvocationLogsResponseLinesList": {
+      "type": "list",
+      "member": {
+        "target": "com.vercel.vercel_ci#GetVercelCiInvocationLogsResponseLinesItem"
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#GetVercelCiInvocationLogsResponse": {
+      "type": "structure",
+      "members": {
+        "lines": {
+          "target": "com.vercel.vercel_ci#GetVercelCiInvocationLogsResponseLinesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.vercel.vercel_ci#GetVercelCiInvocationLogs": {
+      "type": "operation",
+      "input": {
+        "target": "com.vercel.vercel_ci#GetVercelCiInvocationLogsRequest"
+      },
+      "output": {
+        "target": "com.vercel.vercel_ci#GetVercelCiInvocationLogsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.vercel.vercel_ci#BadRequest"
+        },
+        {
+          "target": "com.vercel.vercel_ci#Forbidden"
+        },
+        {
+          "target": "com.vercel.vercel_ci#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/vercel-ci/invocations/{invocationId}/attempts/{attempt}/logs",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get log lines for an invocation attempt\n\nGet Invocation Logs"
+      }
+    },
+    "com.vercel.vercel_ci#GetVercelCiTaskLogsRequestTaskList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Only return tasks with one of these names (e.g., \\\"web#test\\\")."
+      }
+    },
+    "com.vercel.vercel_ci#GetVercelCiTaskLogsRequestConclusionItem": {
+      "type": "enum",
+      "members": {
+        "SUCCEEDED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "succeeded"
+          }
+        },
+        "CACHED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cached"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "failed"
+          }
+        },
+        "SKIPPED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "skipped"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#GetVercelCiTaskLogsRequestConclusionList": {
+      "type": "list",
+      "member": {
+        "target": "com.vercel.vercel_ci#GetVercelCiTaskLogsRequestConclusionItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Only return completed tasks with one of these conclusions."
+      }
+    },
+    "com.vercel.vercel_ci#GetVercelCiTaskLogsRequestLevelItem": {
+      "type": "enum",
+      "members": {
+        "TRACE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "trace"
+          }
+        },
+        "DEBUG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "debug"
+          }
+        },
+        "COMMAND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "command"
+          }
+        },
+        "INFO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "info"
+          }
+        },
+        "WARN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "warn"
+          }
+        },
+        "ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "error"
+          }
+        },
+        "SYSTEMERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "systemError"
+          }
+        },
+        "FATAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fatal"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#GetVercelCiTaskLogsRequestLevelList": {
+      "type": "list",
+      "member": {
+        "target": "com.vercel.vercel_ci#GetVercelCiTaskLogsRequestLevelItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Only return log lines with one of these levels."
+      }
+    },
+    "com.vercel.vercel_ci#GetVercelCiTaskLogsRequest": {
+      "type": "structure",
+      "members": {
+        "invocationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "attempt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "task": {
+          "target": "com.vercel.vercel_ci#GetVercelCiTaskLogsRequestTaskList",
+          "traits": {
+            "smithy.api#httpQuery": "task",
+            "smithy.api#documentation": "Only return tasks with one of these names (e.g., \\\"web#test\\\")."
+          }
+        },
+        "conclusion": {
+          "target": "com.vercel.vercel_ci#GetVercelCiTaskLogsRequestConclusionList",
+          "traits": {
+            "smithy.api#httpQuery": "conclusion",
+            "smithy.api#documentation": "Only return completed tasks with one of these conclusions."
+          }
+        },
+        "level": {
+          "target": "com.vercel.vercel_ci#GetVercelCiTaskLogsRequestLevelList",
+          "traits": {
+            "smithy.api#httpQuery": "level",
+            "smithy.api#documentation": "Only return log lines with one of these levels."
+          }
+        },
+        "search": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "search",
+            "smithy.api#documentation": "Only return log lines containing this text, ignoring case. Tasks without matching lines are left out, `limit` is ignored, and at most 1000 lines are returned."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "Maximum number of tasks to return (default: 10, max: 25)."
+          }
+        },
+        "teamId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "teamId",
+            "smithy.api#documentation": "The Team identifier to perform the request on behalf of."
+          }
+        },
+        "slug": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "slug",
+            "smithy.api#documentation": "The Team slug to perform the request on behalf of."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.vercel.vercel_ci#GetVercelCiTaskLogsResponseTasksItemConclusionCase0": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#GetVercelCiTaskLogsResponseTasksItemConclusionCase1": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#GetVercelCiTaskLogsResponseTasksItemConclusionCase2": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "reason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#GetVercelCiTaskLogsResponseTasksItemConclusionCase3": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "reason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#GetVercelCiTaskLogsResponseTasksItemConclusion": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.vercel.vercel_ci#GetVercelCiTaskLogsResponseTasksItemConclusionCase0"
+        },
+        "Case1": {
+          "target": "com.vercel.vercel_ci#GetVercelCiTaskLogsResponseTasksItemConclusionCase1"
+        },
+        "Case2": {
+          "target": "com.vercel.vercel_ci#GetVercelCiTaskLogsResponseTasksItemConclusionCase2"
+        },
+        "Case3": {
+          "target": "com.vercel.vercel_ci#GetVercelCiTaskLogsResponseTasksItemConclusionCase3"
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#GetVercelCiTaskLogsResponseTasksItemLinesItem": {
+      "type": "structure",
+      "members": {
+        "level": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "timestamp": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#GetVercelCiTaskLogsResponseTasksItemLinesList": {
+      "type": "list",
+      "member": {
+        "target": "com.vercel.vercel_ci#GetVercelCiTaskLogsResponseTasksItemLinesItem"
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#GetVercelCiTaskLogsResponseTasksItem": {
+      "type": "structure",
+      "members": {
+        "jobDefinitionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "jobName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "jobRunAttempt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "taskDefinitionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "taskName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "taskRunAttempt": {
+          "target": "smithy.api#Double"
+        },
+        "conclusion": {
+          "target": "com.vercel.vercel_ci#GetVercelCiTaskLogsResponseTasksItemConclusion"
+        },
+        "lines": {
+          "target": "com.vercel.vercel_ci#GetVercelCiTaskLogsResponseTasksItemLinesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#GetVercelCiTaskLogsResponseTasksList": {
+      "type": "list",
+      "member": {
+        "target": "com.vercel.vercel_ci#GetVercelCiTaskLogsResponseTasksItem"
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#GetVercelCiTaskLogsResponse": {
+      "type": "structure",
+      "members": {
+        "tasks": {
+          "target": "com.vercel.vercel_ci#GetVercelCiTaskLogsResponseTasksList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "hasMore": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether more tasks matched the filters than were returned. With `search`, whether more than 1000 lines matched.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.vercel.vercel_ci#GetVercelCiTaskLogs": {
+      "type": "operation",
+      "input": {
+        "target": "com.vercel.vercel_ci#GetVercelCiTaskLogsRequest"
+      },
+      "output": {
+        "target": "com.vercel.vercel_ci#GetVercelCiTaskLogsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.vercel.vercel_ci#BadRequest"
+        },
+        {
+          "target": "com.vercel.vercel_ci#Forbidden"
+        },
+        {
+          "target": "com.vercel.vercel_ci#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/vercel-ci/invocations/{invocationId}/attempts/{attempt}/task-logs",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get log lines for the tasks of an invocation attempt\n\nReturns log lines for the tasks of an invocation attempt in a single request, grouped by task. Tasks can be narrowed by name and by conclusion, for example `conclusion=failed` to fetch only the logs of failed tasks. With `search`, every matching task is searched at once and only tasks with matching lines are returned."
+      }
+    },
+    "com.vercel.vercel_ci#SearchVercelCiLogsRequestInvocationList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Invocation attempts to search, as \\\"<invocationId>:<attempt>\\\" (at most 50)."
+      }
+    },
+    "com.vercel.vercel_ci#SearchVercelCiLogsRequestLevelItem": {
+      "type": "enum",
+      "members": {
+        "TRACE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "trace"
+          }
+        },
+        "DEBUG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "debug"
+          }
+        },
+        "COMMAND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "command"
+          }
+        },
+        "INFO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "info"
+          }
+        },
+        "WARN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "warn"
+          }
+        },
+        "ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "error"
+          }
+        },
+        "SYSTEMERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "systemError"
+          }
+        },
+        "FATAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fatal"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#SearchVercelCiLogsRequestLevelList": {
+      "type": "list",
+      "member": {
+        "target": "com.vercel.vercel_ci#SearchVercelCiLogsRequestLevelItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Only return log lines with one of these levels."
+      }
+    },
+    "com.vercel.vercel_ci#SearchVercelCiLogsRequest": {
+      "type": "structure",
+      "members": {
+        "invocation": {
+          "target": "com.vercel.vercel_ci#SearchVercelCiLogsRequestInvocationList",
+          "traits": {
+            "smithy.api#httpQuery": "invocation",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Invocation attempts to search, as \\\"<invocationId>:<attempt>\\\" (at most 50)."
+          }
+        },
+        "search": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "search",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Only return log lines containing this text, ignoring case."
+          }
+        },
+        "level": {
+          "target": "com.vercel.vercel_ci#SearchVercelCiLogsRequestLevelList",
+          "traits": {
+            "smithy.api#httpQuery": "level",
+            "smithy.api#documentation": "Only return log lines with one of these levels."
+          }
+        },
+        "teamId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "teamId",
+            "smithy.api#documentation": "The Team identifier to perform the request on behalf of."
+          }
+        },
+        "slug": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "slug",
+            "smithy.api#documentation": "The Team slug to perform the request on behalf of."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.vercel.vercel_ci#SearchVercelCiLogsResponseInvocationsItemTasksItemConclusionCase0": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#SearchVercelCiLogsResponseInvocationsItemTasksItemConclusionCase1": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#SearchVercelCiLogsResponseInvocationsItemTasksItemConclusionCase2": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "reason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#SearchVercelCiLogsResponseInvocationsItemTasksItemConclusionCase3": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "reason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#SearchVercelCiLogsResponseInvocationsItemTasksItemConclusion": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.vercel.vercel_ci#SearchVercelCiLogsResponseInvocationsItemTasksItemConclusionCase0"
+        },
+        "Case1": {
+          "target": "com.vercel.vercel_ci#SearchVercelCiLogsResponseInvocationsItemTasksItemConclusionCase1"
+        },
+        "Case2": {
+          "target": "com.vercel.vercel_ci#SearchVercelCiLogsResponseInvocationsItemTasksItemConclusionCase2"
+        },
+        "Case3": {
+          "target": "com.vercel.vercel_ci#SearchVercelCiLogsResponseInvocationsItemTasksItemConclusionCase3"
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#SearchVercelCiLogsResponseInvocationsItemTasksItemLinesItem": {
+      "type": "structure",
+      "members": {
+        "level": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "timestamp": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#SearchVercelCiLogsResponseInvocationsItemTasksItemLinesList": {
+      "type": "list",
+      "member": {
+        "target": "com.vercel.vercel_ci#SearchVercelCiLogsResponseInvocationsItemTasksItemLinesItem"
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#SearchVercelCiLogsResponseInvocationsItemTasksItem": {
+      "type": "structure",
+      "members": {
+        "jobDefinitionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "jobName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "jobRunAttempt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "taskDefinitionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "taskName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "taskRunAttempt": {
+          "target": "smithy.api#Double"
+        },
+        "conclusion": {
+          "target": "com.vercel.vercel_ci#SearchVercelCiLogsResponseInvocationsItemTasksItemConclusion"
+        },
+        "lines": {
+          "target": "com.vercel.vercel_ci#SearchVercelCiLogsResponseInvocationsItemTasksItemLinesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#SearchVercelCiLogsResponseInvocationsItemTasksList": {
+      "type": "list",
+      "member": {
+        "target": "com.vercel.vercel_ci#SearchVercelCiLogsResponseInvocationsItemTasksItem"
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#SearchVercelCiLogsResponseInvocationsItem": {
+      "type": "structure",
+      "members": {
+        "invocationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "attempt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "tasks": {
+          "target": "com.vercel.vercel_ci#SearchVercelCiLogsResponseInvocationsItemTasksList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#SearchVercelCiLogsResponseInvocationsList": {
+      "type": "list",
+      "member": {
+        "target": "com.vercel.vercel_ci#SearchVercelCiLogsResponseInvocationsItem"
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#SearchVercelCiLogsResponse": {
+      "type": "structure",
+      "members": {
+        "invocations": {
+          "target": "com.vercel.vercel_ci#SearchVercelCiLogsResponseInvocationsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "hasMore": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether more than 1000 lines matched. The newest lines are returned.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.vercel.vercel_ci#SearchVercelCiLogs": {
+      "type": "operation",
+      "input": {
+        "target": "com.vercel.vercel_ci#SearchVercelCiLogsRequest"
+      },
+      "output": {
+        "target": "com.vercel.vercel_ci#SearchVercelCiLogsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.vercel.vercel_ci#BadRequest"
+        },
+        {
+          "target": "com.vercel.vercel_ci#Forbidden"
+        },
+        {
+          "target": "com.vercel.vercel_ci#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/vercel-ci/log-search",
+          "code": 200
+        },
+        "smithy.api#documentation": "Search the task logs of several invocation attempts\n\nSearches the task logs of up to 50 invocation attempts at once, for example the most recent runs of a branch from `GET /v2/vercel-ci/invocations`. Only invocations and tasks with matching lines are returned. When more than 1000 lines match, the newest are kept."
+      }
+    },
+    "com.vercel.vercel_ci#GetVercelCiJobRunLogsRequestFollow": {
+      "type": "intEnum",
+      "members": {
+        "_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": 0
+          }
+        },
+        "_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": 1
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#GetVercelCiJobRunLogsRequestLevelItem": {
+      "type": "enum",
+      "members": {
+        "TRACE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "trace"
+          }
+        },
+        "DEBUG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "debug"
+          }
+        },
+        "COMMAND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "command"
+          }
+        },
+        "INFO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "info"
+          }
+        },
+        "WARN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "warn"
+          }
+        },
+        "ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "error"
+          }
+        },
+        "SYSTEMERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "systemError"
+          }
+        },
+        "FATAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fatal"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#GetVercelCiJobRunLogsRequestLevelList": {
+      "type": "list",
+      "member": {
+        "target": "com.vercel.vercel_ci#GetVercelCiJobRunLogsRequestLevelItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Only return log lines with one of these levels."
+      }
+    },
+    "com.vercel.vercel_ci#GetVercelCiJobRunLogsRequest": {
+      "type": "structure",
+      "members": {
+        "invocationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "attempt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "jobDefinitionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "runAttempt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "follow": {
+          "target": "com.vercel.vercel_ci#GetVercelCiJobRunLogsRequestFollow",
+          "traits": {
+            "smithy.api#httpQuery": "follow"
+          }
+        },
+        "since": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpQuery": "since"
+          }
+        },
+        "level": {
+          "target": "com.vercel.vercel_ci#GetVercelCiJobRunLogsRequestLevelList",
+          "traits": {
+            "smithy.api#httpQuery": "level",
+            "smithy.api#documentation": "Only return log lines with one of these levels."
+          }
+        },
+        "teamId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "teamId",
+            "smithy.api#documentation": "The Team identifier to perform the request on behalf of."
+          }
+        },
+        "slug": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "slug",
+            "smithy.api#documentation": "The Team slug to perform the request on behalf of."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.vercel.vercel_ci#GetVercelCiJobRunLogsResponseLinesItem": {
+      "type": "structure",
+      "members": {
+        "level": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "timestamp": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#GetVercelCiJobRunLogsResponseLinesList": {
+      "type": "list",
+      "member": {
+        "target": "com.vercel.vercel_ci#GetVercelCiJobRunLogsResponseLinesItem"
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#GetVercelCiJobRunLogsResponse": {
+      "type": "structure",
+      "members": {
+        "lines": {
+          "target": "com.vercel.vercel_ci#GetVercelCiJobRunLogsResponseLinesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.vercel.vercel_ci#GetVercelCiJobRunLogs": {
+      "type": "operation",
+      "input": {
+        "target": "com.vercel.vercel_ci#GetVercelCiJobRunLogsRequest"
+      },
+      "output": {
+        "target": "com.vercel.vercel_ci#GetVercelCiJobRunLogsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.vercel.vercel_ci#BadRequest"
+        },
+        {
+          "target": "com.vercel.vercel_ci#Forbidden"
+        },
+        {
+          "target": "com.vercel.vercel_ci#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/vercel-ci/invocations/{invocationId}/attempts/{attempt}/job-definitions/{jobDefinitionId}/runs/{runAttempt}/logs",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get log lines for a specific job run attempt\n\nGet Job Run Logs"
+      }
+    },
+    "com.vercel.vercel_ci#GetVercelCiTaskRunLogsRequestFollow": {
+      "type": "intEnum",
+      "members": {
+        "_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": 0
+          }
+        },
+        "_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": 1
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "When 1, stream log lines as newline-delimited JSON until the task run finishes."
+      }
+    },
+    "com.vercel.vercel_ci#GetVercelCiTaskRunLogsRequestLevelItem": {
+      "type": "enum",
+      "members": {
+        "TRACE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "trace"
+          }
+        },
+        "DEBUG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "debug"
+          }
+        },
+        "COMMAND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "command"
+          }
+        },
+        "INFO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "info"
+          }
+        },
+        "WARN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "warn"
+          }
+        },
+        "ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "error"
+          }
+        },
+        "SYSTEMERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "systemError"
+          }
+        },
+        "FATAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fatal"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#GetVercelCiTaskRunLogsRequestLevelList": {
+      "type": "list",
+      "member": {
+        "target": "com.vercel.vercel_ci#GetVercelCiTaskRunLogsRequestLevelItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Only return log lines with one of these levels."
+      }
+    },
+    "com.vercel.vercel_ci#GetVercelCiTaskRunLogsRequest": {
+      "type": "structure",
+      "members": {
+        "invocationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "attempt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "jobDefinitionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "runAttempt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "taskDefinitionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "taskRunAttempt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "follow": {
+          "target": "com.vercel.vercel_ci#GetVercelCiTaskRunLogsRequestFollow",
+          "traits": {
+            "smithy.api#httpQuery": "follow",
+            "smithy.api#documentation": "When 1, stream log lines as newline-delimited JSON until the task run finishes."
+          }
+        },
+        "since": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpQuery": "since"
+          }
+        },
+        "level": {
+          "target": "com.vercel.vercel_ci#GetVercelCiTaskRunLogsRequestLevelList",
+          "traits": {
+            "smithy.api#httpQuery": "level",
+            "smithy.api#documentation": "Only return log lines with one of these levels."
+          }
+        },
+        "teamId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "teamId",
+            "smithy.api#documentation": "The Team identifier to perform the request on behalf of."
+          }
+        },
+        "slug": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "slug",
+            "smithy.api#documentation": "The Team slug to perform the request on behalf of."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.vercel.vercel_ci#GetVercelCiTaskRunLogsResponseLinesItem": {
+      "type": "structure",
+      "members": {
+        "level": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "timestamp": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#GetVercelCiTaskRunLogsResponseLinesList": {
+      "type": "list",
+      "member": {
+        "target": "com.vercel.vercel_ci#GetVercelCiTaskRunLogsResponseLinesItem"
+      },
+      "traits": {}
+    },
+    "com.vercel.vercel_ci#GetVercelCiTaskRunLogsResponse": {
+      "type": "structure",
+      "members": {
+        "lines": {
+          "target": "com.vercel.vercel_ci#GetVercelCiTaskRunLogsResponseLinesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.vercel.vercel_ci#GetVercelCiTaskRunLogs": {
+      "type": "operation",
+      "input": {
+        "target": "com.vercel.vercel_ci#GetVercelCiTaskRunLogsRequest"
+      },
+      "output": {
+        "target": "com.vercel.vercel_ci#GetVercelCiTaskRunLogsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.vercel.vercel_ci#BadRequest"
+        },
+        {
+          "target": "com.vercel.vercel_ci#Forbidden"
+        },
+        {
+          "target": "com.vercel.vercel_ci#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/vercel-ci/invocations/{invocationId}/attempts/{attempt}/job-definitions/{jobDefinitionId}/runs/{runAttempt}/task-definitions/{taskDefinitionId}/runs/{taskRunAttempt}/logs",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get log lines for a specific task run attempt\n\nGet Task Run Logs With `follow=1` the response is a newline-delimited JSON stream of log lines that ends once the task run has finished and its logs are flushed, or when the stream reaches its maximum duration."
+      }
+    },
+    "com.vercel.vercel_ci#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.vercel.vercel_ci#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.vercel.vercel_ci#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.vercel.vercel_ci#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.vercel.vercel_ci#VercelCi": {
+      "type": "service",
+      "version": "0.0.1",
+      "operations": [
+        {
+          "target": "com.vercel.vercel_ci#ListVercelCiInvocations"
+        },
+        {
+          "target": "com.vercel.vercel_ci#ListVercelCiBranches"
+        },
+        {
+          "target": "com.vercel.vercel_ci#ListVercelCiInvocationAttempts"
+        },
+        {
+          "target": "com.vercel.vercel_ci#GetVercelCiInvocationTree"
+        },
+        {
+          "target": "com.vercel.vercel_ci#GetVercelCiInvocation"
+        },
+        {
+          "target": "com.vercel.vercel_ci#RetryVercelCiInvocation"
+        },
+        {
+          "target": "com.vercel.vercel_ci#ListVercelCiJobDefinitions"
+        },
+        {
+          "target": "com.vercel.vercel_ci#GetVercelCiJobDefinition"
+        },
+        {
+          "target": "com.vercel.vercel_ci#ListVercelCiJobRuns"
+        },
+        {
+          "target": "com.vercel.vercel_ci#GetVercelCiJobRun"
+        },
+        {
+          "target": "com.vercel.vercel_ci#ListVercelCiTaskDefinitions"
+        },
+        {
+          "target": "com.vercel.vercel_ci#ListVercelCiTaskRuns"
+        },
+        {
+          "target": "com.vercel.vercel_ci#GetVercelCiInvocationLogs"
+        },
+        {
+          "target": "com.vercel.vercel_ci#GetVercelCiTaskLogs"
+        },
+        {
+          "target": "com.vercel.vercel_ci#SearchVercelCiLogs"
+        },
+        {
+          "target": "com.vercel.vercel_ci#GetVercelCiJobRunLogs"
+        },
+        {
+          "target": "com.vercel.vercel_ci#GetVercelCiTaskRunLogs"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Vercel API",
+        "smithy.api#documentation": "Vercel combines the best developer experience with an obsessive focus on end-user performance. Our platform enables frontend teams to do their best work."
+      }
+    }
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "description": "The GA serviceGroupMember DELETE (2026-08-01) is rejected in tenants without relationship lifecycle callbacks (400 RelLifecycleNotEnabledForTenant), like the GA PUT. The 2023-09-01-preview DELETE removes the membership. Pin it to 2023-09-01-preview.",
+  "patches": [
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.relationships#DeleteServiceGroupMemberRelationship/traits/smithy.api#http/apiVersion",
+      "value": "2023-09-01-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.relationships#DeleteServiceGroupMemberRelationship/traits/com.distilled.openapi#apiVersion",
+      "value": "2023-09-01-preview"
+    }
+  ]
+}

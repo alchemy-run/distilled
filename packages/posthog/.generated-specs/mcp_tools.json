@@ -18,6 +18,18 @@
     "distilled.finalized": true
   },
   "shapes": {
+    "com.posthog.mcp_tools#CreateMcpToolRequestArgsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "Arguments validated against the selected tool's schema."
+      }
+    },
     "com.posthog.mcp_tools#CreateMcpToolRequest": {
       "type": "structure",
       "members": {
@@ -35,13 +47,53 @@
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
+        },
+        "args": {
+          "target": "com.posthog.mcp_tools#CreateMcpToolRequestArgsMap",
+          "traits": {
+            "smithy.api#documentation": "Arguments validated against the selected tool's schema."
+          }
         }
       },
       "traits": {
         "smithy.api#input": {}
       }
     },
-    "com.posthog.mcp_tools#CreateMcpToolResponseBodyMap": {
+    "com.posthog.mcp_tools#MCPToolResponse": {
+      "type": "structure",
+      "members": {
+        "content": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Formatted tool output for the model.",
+            "smithy.api#required": {}
+          }
+        },
+        "structured_content": {
+          "target": "com.posthog.mcp_tools#MCPToolResponseStructuredContentMap",
+          "traits": {
+            "smithy.api#documentation": "Structured tool output for native widgets.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "success": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the tool completed successfully.",
+            "smithy.api#required": {}
+          }
+        },
+        "error_type": {
+          "target": "com.posthog.mcp_tools#MCPToolResponseErrorType",
+          "traits": {
+            "smithy.api#documentation": "Failure category for MCP analytics.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.mcp_tools#MCPToolResponseStructuredContentMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
@@ -51,20 +103,53 @@
       },
       "traits": {}
     },
-    "com.posthog.mcp_tools#CreateMcpToolResponse": {
-      "type": "structure",
+    "com.posthog.mcp_tools#MCPToolResponseErrorType": {
+      "type": "enum",
       "members": {
-        "body": {
-          "target": "com.posthog.mcp_tools#CreateMcpToolResponseBodyMap",
+        "VALIDATION": {
+          "target": "smithy.api#Unit",
           "traits": {
-            "com.distilled.openapi#rawResponse": {},
-            "smithy.api#required": {}
+            "smithy.api#enumValue": "validation"
+          }
+        },
+        "PERMISSION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "permission"
+          }
+        },
+        "TIMEOUT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "timeout"
+          }
+        },
+        "MEMORY_LIMIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "memory_limit"
+          }
+        },
+        "RATE_LIMITED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rate_limited"
+          }
+        },
+        "API_5XX": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "api_5xx"
+          }
+        },
+        "INTERNAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "internal"
           }
         }
       },
-      "traits": {
-        "smithy.api#output": {}
-      }
+      "traits": {}
     },
     "com.posthog.mcp_tools#CreateMcpTool": {
       "type": "operation",
@@ -72,7 +157,7 @@
         "target": "com.posthog.mcp_tools#CreateMcpToolRequest"
       },
       "output": {
-        "target": "com.posthog.mcp_tools#CreateMcpToolResponse"
+        "target": "com.posthog.mcp_tools#MCPToolResponse"
       },
       "traits": {
         "smithy.api#http": {

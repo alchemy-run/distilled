@@ -1,12 +1,12 @@
-import * as HttpClient from "effect/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "LookoutEquipment",
   serviceShapeName: "AWSLookoutEquipmentFrontendService",
@@ -26,14 +26,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -60,9 +56,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://lookoutequipment-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -70,13 +64,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://lookoutequipment.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://lookoutequipment.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://lookoutequipment.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -160,12 +150,8 @@ export const CreateDatasetRequest = /*@__PURE__*/ S.suspend(() =>
     ServerSideKmsKeyId: S.optional(S.String),
     ClientToken: S.String.pipe(T.IdempotencyToken()),
     Tags: S.optional(TagList),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "CreateDatasetRequest",
-}) as any as S.Schema<CreateDatasetRequest>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "CreateDatasetRequest" }) as any as S.Schema<CreateDatasetRequest>;
 export type DatasetArn = string;
 export type DatasetStatus =
   | "CREATED"
@@ -186,19 +172,11 @@ export const CreateDatasetResponse = /*@__PURE__*/ S.suspend(() =>
     DatasetArn: S.optional(S.String),
     Status: S.optional(DatasetStatus),
   }),
-).annotate({
-  identifier: "CreateDatasetResponse",
-}) as any as S.Schema<CreateDatasetResponse>;
+).annotate({ identifier: "CreateDatasetResponse" }) as any as S.Schema<CreateDatasetResponse>;
 export type ModelName = string;
 export type InferenceSchedulerName = string;
 export type DataDelayOffsetInMinutes = number;
-export type DataUploadFrequency =
-  | "PT5M"
-  | "PT10M"
-  | "PT15M"
-  | "PT30M"
-  | "PT1H"
-  | (string & {});
+export type DataUploadFrequency = "PT5M" | "PT10M" | "PT15M" | "PT30M" | "PT1H" | (string & {});
 export const DataUploadFrequency = S.String;
 
 export type S3Bucket = string;
@@ -236,9 +214,7 @@ export const InferenceInputConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     S3InputConfiguration: S.optional(InferenceS3InputConfiguration),
     InputTimeZoneOffset: S.optional(S.String),
-    InferenceInputNameConfiguration: S.optional(
-      InferenceInputNameConfiguration,
-    ),
+    InferenceInputNameConfiguration: S.optional(InferenceInputNameConfiguration),
   }),
 ).annotate({
   identifier: "InferenceInputConfiguration",
@@ -289,9 +265,7 @@ export const CreateInferenceSchedulerRequest = /*@__PURE__*/ S.suspend(() =>
     ServerSideKmsKeyId: S.optional(S.String),
     ClientToken: S.String.pipe(T.IdempotencyToken()),
     Tags: S.optional(TagList),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateInferenceSchedulerRequest",
 }) as any as S.Schema<CreateInferenceSchedulerRequest>;
@@ -354,21 +328,15 @@ export const CreateLabelRequest = /*@__PURE__*/ S.suspend(() =>
     Notes: S.optional(S.String),
     Equipment: S.optional(S.String),
     ClientToken: S.String.pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "CreateLabelRequest",
-}) as any as S.Schema<CreateLabelRequest>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "CreateLabelRequest" }) as any as S.Schema<CreateLabelRequest>;
 export type LabelId = string;
 export interface CreateLabelResponse {
   LabelId?: string;
 }
 export const CreateLabelResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ LabelId: S.optional(S.String) }),
-).annotate({
-  identifier: "CreateLabelResponse",
-}) as any as S.Schema<CreateLabelResponse>;
+).annotate({ identifier: "CreateLabelResponse" }) as any as S.Schema<CreateLabelResponse>;
 export type FaultCodes = string[];
 export const FaultCodes = /*@__PURE__*/ S.Array(S.String);
 export interface CreateLabelGroupRequest {
@@ -383,25 +351,16 @@ export const CreateLabelGroupRequest = /*@__PURE__*/ S.suspend(() =>
     FaultCodes: S.optional(FaultCodes),
     ClientToken: S.String.pipe(T.IdempotencyToken()),
     Tags: S.optional(TagList),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "CreateLabelGroupRequest",
-}) as any as S.Schema<CreateLabelGroupRequest>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "CreateLabelGroupRequest" }) as any as S.Schema<CreateLabelGroupRequest>;
 export type LabelGroupArn = string;
 export interface CreateLabelGroupResponse {
   LabelGroupName?: string;
   LabelGroupArn?: string;
 }
 export const CreateLabelGroupResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    LabelGroupName: S.optional(S.String),
-    LabelGroupArn: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CreateLabelGroupResponse",
-}) as any as S.Schema<CreateLabelGroupResponse>;
+  S.Struct({ LabelGroupName: S.optional(S.String), LabelGroupArn: S.optional(S.String) }),
+).annotate({ identifier: "CreateLabelGroupResponse" }) as any as S.Schema<CreateLabelGroupResponse>;
 export type DatasetIdentifier = string;
 export interface LabelsS3InputConfiguration {
   Bucket: string;
@@ -421,9 +380,7 @@ export const LabelsInputConfiguration = /*@__PURE__*/ S.suspend(() =>
     S3InputConfiguration: S.optional(LabelsS3InputConfiguration),
     LabelGroupName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "LabelsInputConfiguration",
-}) as any as S.Schema<LabelsInputConfiguration>;
+).annotate({ identifier: "LabelsInputConfiguration" }) as any as S.Schema<LabelsInputConfiguration>;
 export type TargetSamplingRate =
   | "PT1S"
   | "PT5S"
@@ -452,8 +409,8 @@ export interface ModelDiagnosticsS3OutputConfiguration {
   Bucket: string;
   Prefix?: string;
 }
-export const ModelDiagnosticsS3OutputConfiguration = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ Bucket: S.String, Prefix: S.optional(S.String) }),
+export const ModelDiagnosticsS3OutputConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ Bucket: S.String, Prefix: S.optional(S.String) }),
 ).annotate({
   identifier: "ModelDiagnosticsS3OutputConfiguration",
 }) as any as S.Schema<ModelDiagnosticsS3OutputConfiguration>;
@@ -493,32 +450,18 @@ export const CreateModelRequest = /*@__PURE__*/ S.suspend(() =>
     DatasetSchema: S.optional(DatasetSchema),
     LabelsInputConfiguration: S.optional(LabelsInputConfiguration),
     ClientToken: S.String.pipe(T.IdempotencyToken()),
-    TrainingDataStartTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    TrainingDataEndTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    EvaluationDataStartTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    EvaluationDataEndTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    TrainingDataStartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    TrainingDataEndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    EvaluationDataStartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    EvaluationDataEndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     RoleArn: S.optional(S.String),
     DataPreProcessingConfiguration: S.optional(DataPreProcessingConfiguration),
     ServerSideKmsKeyId: S.optional(S.String),
     Tags: S.optional(TagList),
     OffCondition: S.optional(S.String),
-    ModelDiagnosticsOutputConfiguration: S.optional(
-      ModelDiagnosticsOutputConfiguration,
-    ),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "CreateModelRequest",
-}) as any as S.Schema<CreateModelRequest>;
+    ModelDiagnosticsOutputConfiguration: S.optional(ModelDiagnosticsOutputConfiguration),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "CreateModelRequest" }) as any as S.Schema<CreateModelRequest>;
 export type ModelArn = string;
 export type ModelStatus =
   | "IN_PROGRESS"
@@ -534,9 +477,7 @@ export interface CreateModelResponse {
 }
 export const CreateModelResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ModelArn: S.optional(S.String), Status: S.optional(ModelStatus) }),
-).annotate({
-  identifier: "CreateModelResponse",
-}) as any as S.Schema<CreateModelResponse>;
+).annotate({ identifier: "CreateModelResponse" }) as any as S.Schema<CreateModelResponse>;
 export type RetrainingFrequency = string;
 export type LookbackWindow = string;
 export type ModelPromoteMode = "MANAGED" | "MANUAL" | (string & {});
@@ -553,16 +494,12 @@ export interface CreateRetrainingSchedulerRequest {
 export const CreateRetrainingSchedulerRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ModelName: S.String,
-    RetrainingStartDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    RetrainingStartDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     RetrainingFrequency: S.String,
     LookbackWindow: S.String,
     PromoteMode: S.optional(ModelPromoteMode),
     ClientToken: S.String.pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateRetrainingSchedulerRequest",
 }) as any as S.Schema<CreateRetrainingSchedulerRequest>;
@@ -595,13 +532,9 @@ export const DeleteDatasetRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ DatasetName: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteDatasetRequest",
-}) as any as S.Schema<DeleteDatasetRequest>;
+).annotate({ identifier: "DeleteDatasetRequest" }) as any as S.Schema<DeleteDatasetRequest>;
 export interface DeleteDatasetResponse {}
-export const DeleteDatasetResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteDatasetResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteDatasetResponse",
 }) as any as S.Schema<DeleteDatasetResponse>;
 export type InferenceSchedulerIdentifier = string;
@@ -629,13 +562,9 @@ export const DeleteLabelRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ LabelGroupName: S.String, LabelId: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteLabelRequest",
-}) as any as S.Schema<DeleteLabelRequest>;
+).annotate({ identifier: "DeleteLabelRequest" }) as any as S.Schema<DeleteLabelRequest>;
 export interface DeleteLabelResponse {}
-export const DeleteLabelResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteLabelResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteLabelResponse",
 }) as any as S.Schema<DeleteLabelResponse>;
 export interface DeleteLabelGroupRequest {
@@ -645,13 +574,9 @@ export const DeleteLabelGroupRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ LabelGroupName: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteLabelGroupRequest",
-}) as any as S.Schema<DeleteLabelGroupRequest>;
+).annotate({ identifier: "DeleteLabelGroupRequest" }) as any as S.Schema<DeleteLabelGroupRequest>;
 export interface DeleteLabelGroupResponse {}
-export const DeleteLabelGroupResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteLabelGroupResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteLabelGroupResponse",
 }) as any as S.Schema<DeleteLabelGroupResponse>;
 export interface DeleteModelRequest {
@@ -661,13 +586,9 @@ export const DeleteModelRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ModelName: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteModelRequest",
-}) as any as S.Schema<DeleteModelRequest>;
+).annotate({ identifier: "DeleteModelRequest" }) as any as S.Schema<DeleteModelRequest>;
 export interface DeleteModelResponse {}
-export const DeleteModelResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteModelResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteModelResponse",
 }) as any as S.Schema<DeleteModelResponse>;
 export type ResourceArn = string;
@@ -682,9 +603,7 @@ export const DeleteResourcePolicyRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteResourcePolicyRequest",
 }) as any as S.Schema<DeleteResourcePolicyRequest>;
 export interface DeleteResourcePolicyResponse {}
-export const DeleteResourcePolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteResourcePolicyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteResourcePolicyResponse",
 }) as any as S.Schema<DeleteResourcePolicyResponse>;
 export interface DeleteRetrainingSchedulerRequest {
@@ -721,11 +640,7 @@ export interface IngestionS3InputConfiguration {
   KeyPattern?: string;
 }
 export const IngestionS3InputConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Bucket: S.String,
-    Prefix: S.optional(S.String),
-    KeyPattern: S.optional(S.String),
-  }),
+  S.Struct({ Bucket: S.String, Prefix: S.optional(S.String), KeyPattern: S.optional(S.String) }),
 ).annotate({
   identifier: "IngestionS3InputConfiguration",
 }) as any as S.Schema<IngestionS3InputConfiguration>;
@@ -771,49 +686,33 @@ export const InsufficientSensorData = /*@__PURE__*/ S.suspend(() =>
     MissingCompleteSensorData: MissingCompleteSensorData,
     SensorsWithShortDateRange: SensorsWithShortDateRange,
   }),
-).annotate({
-  identifier: "InsufficientSensorData",
-}) as any as S.Schema<InsufficientSensorData>;
+).annotate({ identifier: "InsufficientSensorData" }) as any as S.Schema<InsufficientSensorData>;
 export interface MissingSensorData {
   AffectedSensorCount: number;
   TotalNumberOfMissingValues: number;
 }
 export const MissingSensorData = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AffectedSensorCount: S.Number,
-    TotalNumberOfMissingValues: S.Number,
-  }),
-).annotate({
-  identifier: "MissingSensorData",
-}) as any as S.Schema<MissingSensorData>;
+  S.Struct({ AffectedSensorCount: S.Number, TotalNumberOfMissingValues: S.Number }),
+).annotate({ identifier: "MissingSensorData" }) as any as S.Schema<MissingSensorData>;
 export interface InvalidSensorData {
   AffectedSensorCount: number;
   TotalNumberOfInvalidValues: number;
 }
 export const InvalidSensorData = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AffectedSensorCount: S.Number,
-    TotalNumberOfInvalidValues: S.Number,
-  }),
-).annotate({
-  identifier: "InvalidSensorData",
-}) as any as S.Schema<InvalidSensorData>;
+  S.Struct({ AffectedSensorCount: S.Number, TotalNumberOfInvalidValues: S.Number }),
+).annotate({ identifier: "InvalidSensorData" }) as any as S.Schema<InvalidSensorData>;
 export interface UnsupportedTimestamps {
   TotalNumberOfUnsupportedTimestamps: number;
 }
 export const UnsupportedTimestamps = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ TotalNumberOfUnsupportedTimestamps: S.Number }),
-).annotate({
-  identifier: "UnsupportedTimestamps",
-}) as any as S.Schema<UnsupportedTimestamps>;
+).annotate({ identifier: "UnsupportedTimestamps" }) as any as S.Schema<UnsupportedTimestamps>;
 export interface DuplicateTimestamps {
   TotalNumberOfDuplicateTimestamps: number;
 }
 export const DuplicateTimestamps = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ TotalNumberOfDuplicateTimestamps: S.Number }),
-).annotate({
-  identifier: "DuplicateTimestamps",
-}) as any as S.Schema<DuplicateTimestamps>;
+).annotate({ identifier: "DuplicateTimestamps" }) as any as S.Schema<DuplicateTimestamps>;
 export interface DataQualitySummary {
   InsufficientSensorData: InsufficientSensorData;
   MissingSensorData: MissingSensorData;
@@ -829,9 +728,7 @@ export const DataQualitySummary = /*@__PURE__*/ S.suspend(() =>
     UnsupportedTimestamps: UnsupportedTimestamps,
     DuplicateTimestamps: DuplicateTimestamps,
   }),
-).annotate({
-  identifier: "DataQualitySummary",
-}) as any as S.Schema<DataQualitySummary>;
+).annotate({ identifier: "DataQualitySummary" }) as any as S.Schema<DataQualitySummary>;
 export type S3Key = string;
 export interface S3Object {
   Bucket: string;
@@ -853,9 +750,7 @@ export const IngestedFilesSummary = /*@__PURE__*/ S.suspend(() =>
     IngestedNumberOfFiles: S.Number,
     DiscardedFiles: S.optional(ListOfDiscardedFiles),
   }),
-).annotate({
-  identifier: "IngestedFilesSummary",
-}) as any as S.Schema<IngestedFilesSummary>;
+).annotate({ identifier: "IngestedFilesSummary" }) as any as S.Schema<IngestedFilesSummary>;
 export type DataSizeInBytes = number;
 export interface DescribeDataIngestionJobResponse {
   JobId?: string;
@@ -900,9 +795,7 @@ export const DescribeDatasetRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ DatasetName: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DescribeDatasetRequest",
-}) as any as S.Schema<DescribeDatasetRequest>;
+).annotate({ identifier: "DescribeDatasetRequest" }) as any as S.Schema<DescribeDatasetRequest>;
 export type KmsKeyArn = string;
 export interface DescribeDatasetResponse {
   DatasetName?: string;
@@ -937,9 +830,7 @@ export const DescribeDatasetResponse = /*@__PURE__*/ S.suspend(() =>
     DataEndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     SourceDatasetArn: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DescribeDatasetResponse",
-}) as any as S.Schema<DescribeDatasetResponse>;
+).annotate({ identifier: "DescribeDatasetResponse" }) as any as S.Schema<DescribeDatasetResponse>;
 export interface DescribeInferenceSchedulerRequest {
   InferenceSchedulerName: string;
 }
@@ -997,9 +888,7 @@ export const DescribeLabelRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ LabelGroupName: S.String, LabelId: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DescribeLabelRequest",
-}) as any as S.Schema<DescribeLabelRequest>;
+).annotate({ identifier: "DescribeLabelRequest" }) as any as S.Schema<DescribeLabelRequest>;
 export interface DescribeLabelResponse {
   LabelGroupName?: string;
   LabelGroupArn?: string;
@@ -1025,9 +914,7 @@ export const DescribeLabelResponse = /*@__PURE__*/ S.suspend(() =>
     Equipment: S.optional(S.String),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
-).annotate({
-  identifier: "DescribeLabelResponse",
-}) as any as S.Schema<DescribeLabelResponse>;
+).annotate({ identifier: "DescribeLabelResponse" }) as any as S.Schema<DescribeLabelResponse>;
 export interface DescribeLabelGroupRequest {
   LabelGroupName: string;
 }
@@ -1063,9 +950,7 @@ export const DescribeModelRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ModelName: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DescribeModelRequest",
-}) as any as S.Schema<DescribeModelRequest>;
+).annotate({ identifier: "DescribeModelRequest" }) as any as S.Schema<DescribeModelRequest>;
 export type SynthesizedJsonModelMetrics = string;
 export type ModelVersionArn = string;
 export type ModelVersion = number;
@@ -1130,78 +1015,44 @@ export const DescribeModelResponse = /*@__PURE__*/ S.suspend(() =>
     DatasetArn: S.optional(S.String),
     Schema: S.optional(S.String),
     LabelsInputConfiguration: S.optional(LabelsInputConfiguration),
-    TrainingDataStartTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    TrainingDataEndTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    EvaluationDataStartTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    EvaluationDataEndTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    TrainingDataStartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    TrainingDataEndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    EvaluationDataStartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    EvaluationDataEndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     RoleArn: S.optional(S.String),
     DataPreProcessingConfiguration: S.optional(DataPreProcessingConfiguration),
     Status: S.optional(ModelStatus),
-    TrainingExecutionStartTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    TrainingExecutionEndTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    TrainingExecutionStartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    TrainingExecutionEndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     FailedReason: S.optional(S.String),
     ModelMetrics: S.optional(S.String),
-    LastUpdatedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LastUpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     ServerSideKmsKeyId: S.optional(S.String),
     OffCondition: S.optional(S.String),
     SourceModelVersionArn: S.optional(S.String),
-    ImportJobStartTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    ImportJobEndTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    ImportJobStartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    ImportJobEndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     ActiveModelVersion: S.optional(S.Number),
     ActiveModelVersionArn: S.optional(S.String),
-    ModelVersionActivatedAt: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    ModelVersionActivatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     PreviousActiveModelVersion: S.optional(S.Number),
     PreviousActiveModelVersionArn: S.optional(S.String),
-    PreviousModelVersionActivatedAt: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    PreviousModelVersionActivatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     PriorModelMetrics: S.optional(S.String),
     LatestScheduledRetrainingFailedReason: S.optional(S.String),
     LatestScheduledRetrainingStatus: S.optional(ModelVersionStatus),
     LatestScheduledRetrainingModelVersion: S.optional(S.Number),
-    LatestScheduledRetrainingStartTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LatestScheduledRetrainingStartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LatestScheduledRetrainingAvailableDataInDays: S.optional(S.Number),
-    NextScheduledRetrainingStartDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    AccumulatedInferenceDataStartTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    AccumulatedInferenceDataEndTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    NextScheduledRetrainingStartDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    AccumulatedInferenceDataStartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    AccumulatedInferenceDataEndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     RetrainingSchedulerStatus: S.optional(RetrainingSchedulerStatus),
-    ModelDiagnosticsOutputConfiguration: S.optional(
-      ModelDiagnosticsOutputConfiguration,
-    ),
+    ModelDiagnosticsOutputConfiguration: S.optional(ModelDiagnosticsOutputConfiguration),
     ModelQuality: S.optional(ModelQuality),
   }),
-).annotate({
-  identifier: "DescribeModelResponse",
-}) as any as S.Schema<DescribeModelResponse>;
+).annotate({ identifier: "DescribeModelResponse" }) as any as S.Schema<DescribeModelResponse>;
 export interface DescribeModelVersionRequest {
   ModelName: string;
   ModelVersion: number;
@@ -1213,11 +1064,7 @@ export const DescribeModelVersionRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "DescribeModelVersionRequest",
 }) as any as S.Schema<DescribeModelVersionRequest>;
-export type ModelVersionSourceType =
-  | "TRAINING"
-  | "RETRAINING"
-  | "IMPORT"
-  | (string & {});
+export type ModelVersionSourceType = "TRAINING" | "RETRAINING" | "IMPORT" | (string & {});
 export const ModelVersionSourceType = S.String;
 
 export type InlineDataSchema = string;
@@ -1281,49 +1128,29 @@ export const DescribeModelVersionResponse = /*@__PURE__*/ S.suspend(() =>
     DatasetArn: S.optional(S.String),
     Schema: S.optional(S.String),
     LabelsInputConfiguration: S.optional(LabelsInputConfiguration),
-    TrainingDataStartTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    TrainingDataEndTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    EvaluationDataStartTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    EvaluationDataEndTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    TrainingDataStartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    TrainingDataEndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    EvaluationDataStartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    EvaluationDataEndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     RoleArn: S.optional(S.String),
     DataPreProcessingConfiguration: S.optional(DataPreProcessingConfiguration),
-    TrainingExecutionStartTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    TrainingExecutionEndTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    TrainingExecutionStartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    TrainingExecutionEndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     FailedReason: S.optional(S.String),
     ModelMetrics: S.optional(S.String),
-    LastUpdatedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LastUpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     ServerSideKmsKeyId: S.optional(S.String),
     OffCondition: S.optional(S.String),
     SourceModelVersionArn: S.optional(S.String),
-    ImportJobStartTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    ImportJobEndTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    ImportJobStartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    ImportJobEndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     ImportedDataSizeInBytes: S.optional(S.Number),
     PriorModelMetrics: S.optional(S.String),
     RetrainingAvailableDataInDays: S.optional(S.Number),
     AutoPromotionResult: S.optional(AutoPromotionResult),
     AutoPromotionResultReason: S.optional(S.String),
-    ModelDiagnosticsOutputConfiguration: S.optional(
-      ModelDiagnosticsOutputConfiguration,
-    ),
+    ModelDiagnosticsOutputConfiguration: S.optional(ModelDiagnosticsOutputConfiguration),
     ModelDiagnosticsResultsObject: S.optional(S3Object),
     ModelQuality: S.optional(ModelQuality),
   }),
@@ -1353,9 +1180,7 @@ export const DescribeResourcePolicyResponse = /*@__PURE__*/ S.suspend(() =>
     PolicyRevisionId: S.optional(S.String),
     ResourcePolicy: S.optional(S.String),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    LastModifiedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({
   identifier: "DescribeResourcePolicyResponse",
@@ -1385,9 +1210,7 @@ export const DescribeRetrainingSchedulerResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ModelName: S.optional(S.String),
     ModelArn: S.optional(S.String),
-    RetrainingStartDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    RetrainingStartDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     RetrainingFrequency: S.optional(S.String),
     LookbackWindow: S.optional(S.String),
     Status: S.optional(RetrainingSchedulerStatus),
@@ -1412,12 +1235,8 @@ export const ImportDatasetRequest = /*@__PURE__*/ S.suspend(() =>
     ClientToken: S.String.pipe(T.IdempotencyToken()),
     ServerSideKmsKeyId: S.optional(S.String),
     Tags: S.optional(TagList),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ImportDatasetRequest",
-}) as any as S.Schema<ImportDatasetRequest>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "ImportDatasetRequest" }) as any as S.Schema<ImportDatasetRequest>;
 export interface ImportDatasetResponse {
   DatasetName?: string;
   DatasetArn?: string;
@@ -1431,9 +1250,7 @@ export const ImportDatasetResponse = /*@__PURE__*/ S.suspend(() =>
     Status: S.optional(DatasetStatus),
     JobId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ImportDatasetResponse",
-}) as any as S.Schema<ImportDatasetResponse>;
+).annotate({ identifier: "ImportDatasetResponse" }) as any as S.Schema<ImportDatasetResponse>;
 export type InferenceDataImportStrategy =
   | "NO_IMPORT"
   | "ADD_WHEN_EMPTY"
@@ -1463,9 +1280,7 @@ export const ImportModelVersionRequest = /*@__PURE__*/ S.suspend(() =>
     ServerSideKmsKeyId: S.optional(S.String),
     Tags: S.optional(TagList),
     InferenceDataImportStrategy: S.optional(InferenceDataImportStrategy),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ImportModelVersionRequest",
 }) as any as S.Schema<ImportModelVersionRequest>;
@@ -1501,9 +1316,7 @@ export const ListDataIngestionJobsRequest = /*@__PURE__*/ S.suspend(() =>
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     Status: S.optional(IngestionJobStatus),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListDataIngestionJobsRequest",
 }) as any as S.Schema<ListDataIngestionJobsRequest>;
@@ -1522,13 +1335,9 @@ export const DataIngestionJobSummary = /*@__PURE__*/ S.suspend(() =>
     IngestionInputConfiguration: S.optional(IngestionInputConfiguration),
     Status: S.optional(IngestionJobStatus),
   }),
-).annotate({
-  identifier: "DataIngestionJobSummary",
-}) as any as S.Schema<DataIngestionJobSummary>;
+).annotate({ identifier: "DataIngestionJobSummary" }) as any as S.Schema<DataIngestionJobSummary>;
 export type DataIngestionJobSummaries = DataIngestionJobSummary[];
-export const DataIngestionJobSummaries = /*@__PURE__*/ S.Array(
-  DataIngestionJobSummary,
-);
+export const DataIngestionJobSummaries = /*@__PURE__*/ S.Array(DataIngestionJobSummary);
 export interface ListDataIngestionJobsResponse {
   NextToken?: string;
   DataIngestionJobSummaries?: DataIngestionJobSummary[];
@@ -1551,12 +1360,8 @@ export const ListDatasetsRequest = /*@__PURE__*/ S.suspend(() =>
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     DatasetNameBeginsWith: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListDatasetsRequest",
-}) as any as S.Schema<ListDatasetsRequest>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "ListDatasetsRequest" }) as any as S.Schema<ListDatasetsRequest>;
 export interface DatasetSummary {
   DatasetName?: string;
   DatasetArn?: string;
@@ -1578,13 +1383,8 @@ export interface ListDatasetsResponse {
   DatasetSummaries?: DatasetSummary[];
 }
 export const ListDatasetsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    DatasetSummaries: S.optional(DatasetSummaries),
-  }),
-).annotate({
-  identifier: "ListDatasetsResponse",
-}) as any as S.Schema<ListDatasetsResponse>;
+  S.Struct({ NextToken: S.optional(S.String), DatasetSummaries: S.optional(DatasetSummaries) }),
+).annotate({ identifier: "ListDatasetsResponse" }) as any as S.Schema<ListDatasetsResponse>;
 export interface ListInferenceEventsRequest {
   NextToken?: string;
   MaxResults?: number;
@@ -1599,9 +1399,7 @@ export const ListInferenceEventsRequest = /*@__PURE__*/ S.suspend(() =>
     InferenceSchedulerName: S.String,
     IntervalStartTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     IntervalEndTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListInferenceEventsRequest",
 }) as any as S.Schema<ListInferenceEventsRequest>;
@@ -1623,13 +1421,9 @@ export const InferenceEventSummary = /*@__PURE__*/ S.suspend(() =>
     Diagnostics: S.optional(S.String),
     EventDurationInSeconds: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "InferenceEventSummary",
-}) as any as S.Schema<InferenceEventSummary>;
+).annotate({ identifier: "InferenceEventSummary" }) as any as S.Schema<InferenceEventSummary>;
 export type InferenceEventSummaries = InferenceEventSummary[];
-export const InferenceEventSummaries = /*@__PURE__*/ S.Array(
-  InferenceEventSummary,
-);
+export const InferenceEventSummaries = /*@__PURE__*/ S.Array(InferenceEventSummary);
 export interface ListInferenceEventsResponse {
   NextToken?: string;
   InferenceEventSummaries?: InferenceEventSummary[];
@@ -1642,11 +1436,7 @@ export const ListInferenceEventsResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ListInferenceEventsResponse",
 }) as any as S.Schema<ListInferenceEventsResponse>;
-export type InferenceExecutionStatus =
-  | "IN_PROGRESS"
-  | "SUCCESS"
-  | "FAILED"
-  | (string & {});
+export type InferenceExecutionStatus = "IN_PROGRESS" | "SUCCESS" | "FAILED" | (string & {});
 export const InferenceExecutionStatus = S.String;
 
 export interface ListInferenceExecutionsRequest {
@@ -1662,16 +1452,10 @@ export const ListInferenceExecutionsRequest = /*@__PURE__*/ S.suspend(() =>
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     InferenceSchedulerName: S.String,
-    DataStartTimeAfter: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    DataEndTimeBefore: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    DataStartTimeAfter: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    DataEndTimeBefore: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     Status: S.optional(InferenceExecutionStatus),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListInferenceExecutionsRequest",
 }) as any as S.Schema<ListInferenceExecutionsRequest>;
@@ -1697,9 +1481,7 @@ export const InferenceExecutionSummary = /*@__PURE__*/ S.suspend(() =>
     ModelArn: S.optional(S.String),
     InferenceSchedulerName: S.optional(S.String),
     InferenceSchedulerArn: S.optional(S.String),
-    ScheduledStartTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    ScheduledStartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     DataStartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     DataEndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     DataInputConfiguration: S.optional(InferenceInputConfiguration),
@@ -1714,9 +1496,7 @@ export const InferenceExecutionSummary = /*@__PURE__*/ S.suspend(() =>
   identifier: "InferenceExecutionSummary",
 }) as any as S.Schema<InferenceExecutionSummary>;
 export type InferenceExecutionSummaries = InferenceExecutionSummary[];
-export const InferenceExecutionSummaries = /*@__PURE__*/ S.Array(
-  InferenceExecutionSummary,
-);
+export const InferenceExecutionSummaries = /*@__PURE__*/ S.Array(InferenceExecutionSummary);
 export interface ListInferenceExecutionsResponse {
   NextToken?: string;
   InferenceExecutionSummaries?: InferenceExecutionSummary[];
@@ -1743,9 +1523,7 @@ export const ListInferenceSchedulersRequest = /*@__PURE__*/ S.suspend(() =>
     InferenceSchedulerNameBeginsWith: S.optional(S.String),
     ModelName: S.optional(S.String),
     Status: S.optional(InferenceSchedulerStatus),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListInferenceSchedulersRequest",
 }) as any as S.Schema<ListInferenceSchedulersRequest>;
@@ -1774,9 +1552,7 @@ export const InferenceSchedulerSummary = /*@__PURE__*/ S.suspend(() =>
   identifier: "InferenceSchedulerSummary",
 }) as any as S.Schema<InferenceSchedulerSummary>;
 export type InferenceSchedulerSummaries = InferenceSchedulerSummary[];
-export const InferenceSchedulerSummaries = /*@__PURE__*/ S.Array(
-  InferenceSchedulerSummary,
-);
+export const InferenceSchedulerSummaries = /*@__PURE__*/ S.Array(InferenceSchedulerSummary);
 export interface ListInferenceSchedulersResponse {
   NextToken?: string;
   InferenceSchedulerSummaries?: InferenceSchedulerSummary[];
@@ -1799,12 +1575,8 @@ export const ListLabelGroupsRequest = /*@__PURE__*/ S.suspend(() =>
     LabelGroupNameBeginsWith: S.optional(S.String),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListLabelGroupsRequest",
-}) as any as S.Schema<ListLabelGroupsRequest>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "ListLabelGroupsRequest" }) as any as S.Schema<ListLabelGroupsRequest>;
 export interface LabelGroupSummary {
   LabelGroupName?: string;
   LabelGroupArn?: string;
@@ -1818,9 +1590,7 @@ export const LabelGroupSummary = /*@__PURE__*/ S.suspend(() =>
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
-).annotate({
-  identifier: "LabelGroupSummary",
-}) as any as S.Schema<LabelGroupSummary>;
+).annotate({ identifier: "LabelGroupSummary" }) as any as S.Schema<LabelGroupSummary>;
 export type LabelGroupSummaries = LabelGroupSummary[];
 export const LabelGroupSummaries = /*@__PURE__*/ S.Array(LabelGroupSummary);
 export interface ListLabelGroupsResponse {
@@ -1832,9 +1602,7 @@ export const ListLabelGroupsResponse = /*@__PURE__*/ S.suspend(() =>
     NextToken: S.optional(S.String),
     LabelGroupSummaries: S.optional(LabelGroupSummaries),
   }),
-).annotate({
-  identifier: "ListLabelGroupsResponse",
-}) as any as S.Schema<ListLabelGroupsResponse>;
+).annotate({ identifier: "ListLabelGroupsResponse" }) as any as S.Schema<ListLabelGroupsResponse>;
 export interface ListLabelsRequest {
   LabelGroupName: string;
   IntervalStartTime?: Date;
@@ -1847,22 +1615,14 @@ export interface ListLabelsRequest {
 export const ListLabelsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     LabelGroupName: S.String,
-    IntervalStartTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    IntervalEndTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    IntervalStartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    IntervalEndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     FaultCode: S.optional(S.String),
     Equipment: S.optional(S.String),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListLabelsRequest",
-}) as any as S.Schema<ListLabelsRequest>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "ListLabelsRequest" }) as any as S.Schema<ListLabelsRequest>;
 export interface LabelSummary {
   LabelGroupName?: string;
   LabelId?: string;
@@ -1894,13 +1654,8 @@ export interface ListLabelsResponse {
   LabelSummaries?: LabelSummary[];
 }
 export const ListLabelsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    LabelSummaries: S.optional(LabelSummaries),
-  }),
-).annotate({
-  identifier: "ListLabelsResponse",
-}) as any as S.Schema<ListLabelsResponse>;
+  S.Struct({ NextToken: S.optional(S.String), LabelSummaries: S.optional(LabelSummaries) }),
+).annotate({ identifier: "ListLabelsResponse" }) as any as S.Schema<ListLabelsResponse>;
 export interface ListModelsRequest {
   NextToken?: string;
   MaxResults?: number;
@@ -1915,12 +1670,8 @@ export const ListModelsRequest = /*@__PURE__*/ S.suspend(() =>
     Status: S.optional(ModelStatus),
     ModelNameBeginsWith: S.optional(S.String),
     DatasetNameBeginsWith: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListModelsRequest",
-}) as any as S.Schema<ListModelsRequest>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "ListModelsRequest" }) as any as S.Schema<ListModelsRequest>;
 export interface ModelSummary {
   ModelName?: string;
   ModelArn?: string;
@@ -1950,16 +1701,10 @@ export const ModelSummary = /*@__PURE__*/ S.suspend(() =>
     ActiveModelVersionArn: S.optional(S.String),
     LatestScheduledRetrainingStatus: S.optional(ModelVersionStatus),
     LatestScheduledRetrainingModelVersion: S.optional(S.Number),
-    LatestScheduledRetrainingStartTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    NextScheduledRetrainingStartDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LatestScheduledRetrainingStartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    NextScheduledRetrainingStartDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     RetrainingSchedulerStatus: S.optional(RetrainingSchedulerStatus),
-    ModelDiagnosticsOutputConfiguration: S.optional(
-      ModelDiagnosticsOutputConfiguration,
-    ),
+    ModelDiagnosticsOutputConfiguration: S.optional(ModelDiagnosticsOutputConfiguration),
     ModelQuality: S.optional(ModelQuality),
   }),
 ).annotate({ identifier: "ModelSummary" }) as any as S.Schema<ModelSummary>;
@@ -1970,13 +1715,8 @@ export interface ListModelsResponse {
   ModelSummaries?: ModelSummary[];
 }
 export const ListModelsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    ModelSummaries: S.optional(ModelSummaries),
-  }),
-).annotate({
-  identifier: "ListModelsResponse",
-}) as any as S.Schema<ListModelsResponse>;
+  S.Struct({ NextToken: S.optional(S.String), ModelSummaries: S.optional(ModelSummaries) }),
+).annotate({ identifier: "ListModelsResponse" }) as any as S.Schema<ListModelsResponse>;
 export interface ListModelVersionsRequest {
   ModelName: string;
   NextToken?: string;
@@ -1995,20 +1735,12 @@ export const ListModelVersionsRequest = /*@__PURE__*/ S.suspend(() =>
     MaxResults: S.optional(S.Number),
     Status: S.optional(ModelVersionStatus),
     SourceType: S.optional(ModelVersionSourceType),
-    CreatedAtEndTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    CreatedAtStartTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    CreatedAtEndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    CreatedAtStartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     MaxModelVersion: S.optional(S.Number),
     MinModelVersion: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListModelVersionsRequest",
-}) as any as S.Schema<ListModelVersionsRequest>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "ListModelVersionsRequest" }) as any as S.Schema<ListModelVersionsRequest>;
 export interface ModelVersionSummary {
   ModelName?: string;
   ModelArn?: string;
@@ -2030,9 +1762,7 @@ export const ModelVersionSummary = /*@__PURE__*/ S.suspend(() =>
     SourceType: S.optional(ModelVersionSourceType),
     ModelQuality: S.optional(ModelQuality),
   }),
-).annotate({
-  identifier: "ModelVersionSummary",
-}) as any as S.Schema<ModelVersionSummary>;
+).annotate({ identifier: "ModelVersionSummary" }) as any as S.Schema<ModelVersionSummary>;
 export type ModelVersionSummaries = ModelVersionSummary[];
 export const ModelVersionSummaries = /*@__PURE__*/ S.Array(ModelVersionSummary);
 export interface ListModelVersionsResponse {
@@ -2059,9 +1789,7 @@ export const ListRetrainingSchedulersRequest = /*@__PURE__*/ S.suspend(() =>
     Status: S.optional(RetrainingSchedulerStatus),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListRetrainingSchedulersRequest",
 }) as any as S.Schema<ListRetrainingSchedulersRequest>;
@@ -2078,9 +1806,7 @@ export const RetrainingSchedulerSummary = /*@__PURE__*/ S.suspend(() =>
     ModelName: S.optional(S.String),
     ModelArn: S.optional(S.String),
     Status: S.optional(RetrainingSchedulerStatus),
-    RetrainingStartDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    RetrainingStartDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     RetrainingFrequency: S.optional(S.String),
     LookbackWindow: S.optional(S.String),
   }),
@@ -2088,9 +1814,7 @@ export const RetrainingSchedulerSummary = /*@__PURE__*/ S.suspend(() =>
   identifier: "RetrainingSchedulerSummary",
 }) as any as S.Schema<RetrainingSchedulerSummary>;
 export type RetrainingSchedulerSummaries = RetrainingSchedulerSummary[];
-export const RetrainingSchedulerSummaries = /*@__PURE__*/ S.Array(
-  RetrainingSchedulerSummary,
-);
+export const RetrainingSchedulerSummaries = /*@__PURE__*/ S.Array(RetrainingSchedulerSummary);
 export interface ListRetrainingSchedulersResponse {
   RetrainingSchedulerSummaries?: RetrainingSchedulerSummary[];
   NextToken?: string;
@@ -2115,9 +1839,7 @@ export const ListSensorStatisticsRequest = /*@__PURE__*/ S.suspend(() =>
     IngestionJobId: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListSensorStatisticsRequest",
 }) as any as S.Schema<ListSensorStatisticsRequest>;
@@ -2141,21 +1863,14 @@ export interface CategoricalValues {
   NumberOfCategory?: number;
 }
 export const CategoricalValues = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Status: StatisticalIssueStatus,
-    NumberOfCategory: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "CategoricalValues",
-}) as any as S.Schema<CategoricalValues>;
+  S.Struct({ Status: StatisticalIssueStatus, NumberOfCategory: S.optional(S.Number) }),
+).annotate({ identifier: "CategoricalValues" }) as any as S.Schema<CategoricalValues>;
 export interface MultipleOperatingModes {
   Status: StatisticalIssueStatus;
 }
 export const MultipleOperatingModes = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Status: StatisticalIssueStatus }),
-).annotate({
-  identifier: "MultipleOperatingModes",
-}) as any as S.Schema<MultipleOperatingModes>;
+).annotate({ identifier: "MultipleOperatingModes" }) as any as S.Schema<MultipleOperatingModes>;
 export interface LargeTimestampGaps {
   Status: StatisticalIssueStatus;
   NumberOfLargeTimestampGaps?: number;
@@ -2167,14 +1882,8 @@ export const LargeTimestampGaps = /*@__PURE__*/ S.suspend(() =>
     NumberOfLargeTimestampGaps: S.optional(S.Number),
     MaxTimestampGapInDays: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "LargeTimestampGaps",
-}) as any as S.Schema<LargeTimestampGaps>;
-export type Monotonicity =
-  | "DECREASING"
-  | "INCREASING"
-  | "STATIC"
-  | (string & {});
+).annotate({ identifier: "LargeTimestampGaps" }) as any as S.Schema<LargeTimestampGaps>;
+export type Monotonicity = "DECREASING" | "INCREASING" | "STATIC" | (string & {});
 export const Monotonicity = S.String;
 
 export interface MonotonicValues {
@@ -2182,13 +1891,8 @@ export interface MonotonicValues {
   Monotonicity?: Monotonicity;
 }
 export const MonotonicValues = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Status: StatisticalIssueStatus,
-    Monotonicity: S.optional(Monotonicity),
-  }),
-).annotate({
-  identifier: "MonotonicValues",
-}) as any as S.Schema<MonotonicValues>;
+  S.Struct({ Status: StatisticalIssueStatus, Monotonicity: S.optional(Monotonicity) }),
+).annotate({ identifier: "MonotonicValues" }) as any as S.Schema<MonotonicValues>;
 export interface SensorStatisticsSummary {
   ComponentName?: string;
   SensorName?: string;
@@ -2220,13 +1924,9 @@ export const SensorStatisticsSummary = /*@__PURE__*/ S.suspend(() =>
     DataStartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     DataEndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
-).annotate({
-  identifier: "SensorStatisticsSummary",
-}) as any as S.Schema<SensorStatisticsSummary>;
+).annotate({ identifier: "SensorStatisticsSummary" }) as any as S.Schema<SensorStatisticsSummary>;
 export type SensorStatisticsSummaries = SensorStatisticsSummary[];
-export const SensorStatisticsSummaries = /*@__PURE__*/ S.Array(
-  SensorStatisticsSummary,
-);
+export const SensorStatisticsSummaries = /*@__PURE__*/ S.Array(SensorStatisticsSummary);
 export interface ListSensorStatisticsResponse {
   SensorStatisticsSummaries?: SensorStatisticsSummary[];
   NextToken?: string;
@@ -2270,21 +1970,14 @@ export const PutResourcePolicyRequest = /*@__PURE__*/ S.suspend(() =>
     ResourcePolicy: S.String,
     PolicyRevisionId: S.optional(S.String),
     ClientToken: S.String.pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "PutResourcePolicyRequest",
-}) as any as S.Schema<PutResourcePolicyRequest>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "PutResourcePolicyRequest" }) as any as S.Schema<PutResourcePolicyRequest>;
 export interface PutResourcePolicyResponse {
   ResourceArn?: string;
   PolicyRevisionId?: string;
 }
 export const PutResourcePolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceArn: S.optional(S.String),
-    PolicyRevisionId: S.optional(S.String),
-  }),
+  S.Struct({ ResourceArn: S.optional(S.String), PolicyRevisionId: S.optional(S.String) }),
 ).annotate({
   identifier: "PutResourcePolicyResponse",
 }) as any as S.Schema<PutResourcePolicyResponse>;
@@ -2300,9 +1993,7 @@ export const StartDataIngestionJobRequest = /*@__PURE__*/ S.suspend(() =>
     IngestionInputConfiguration: IngestionInputConfiguration,
     RoleArn: S.String,
     ClientToken: S.String.pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "StartDataIngestionJobRequest",
 }) as any as S.Schema<StartDataIngestionJobRequest>;
@@ -2311,10 +2002,7 @@ export interface StartDataIngestionJobResponse {
   Status?: IngestionJobStatus;
 }
 export const StartDataIngestionJobResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    JobId: S.optional(S.String),
-    Status: S.optional(IngestionJobStatus),
-  }),
+  S.Struct({ JobId: S.optional(S.String), Status: S.optional(IngestionJobStatus) }),
 ).annotate({
   identifier: "StartDataIngestionJobResponse",
 }) as any as S.Schema<StartDataIngestionJobResponse>;
@@ -2430,13 +2118,9 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceArn: S.String, Tags: TagList }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
+).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = string[];
@@ -2449,13 +2133,9 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceArn: S.String, TagKeys: TagKeyList }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
+).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateActiveModelVersionRequest {
@@ -2505,9 +2185,7 @@ export const UpdateInferenceSchedulerRequest = /*@__PURE__*/ S.suspend(() =>
     DataInputConfiguration: S.optional(InferenceInputConfiguration),
     DataOutputConfiguration: S.optional(InferenceOutputConfiguration),
     RoleArn: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "UpdateInferenceSchedulerRequest",
 }) as any as S.Schema<UpdateInferenceSchedulerRequest>;
@@ -2522,19 +2200,12 @@ export interface UpdateLabelGroupRequest {
   FaultCodes?: string[];
 }
 export const UpdateLabelGroupRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    LabelGroupName: S.String,
-    FaultCodes: S.optional(FaultCodes),
-  }).pipe(
+  S.Struct({ LabelGroupName: S.String, FaultCodes: S.optional(FaultCodes) }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UpdateLabelGroupRequest",
-}) as any as S.Schema<UpdateLabelGroupRequest>;
+).annotate({ identifier: "UpdateLabelGroupRequest" }) as any as S.Schema<UpdateLabelGroupRequest>;
 export interface UpdateLabelGroupResponse {}
-export const UpdateLabelGroupResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UpdateLabelGroupResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UpdateLabelGroupResponse",
 }) as any as S.Schema<UpdateLabelGroupResponse>;
 export interface UpdateModelRequest {
@@ -2548,19 +2219,11 @@ export const UpdateModelRequest = /*@__PURE__*/ S.suspend(() =>
     ModelName: S.String,
     LabelsInputConfiguration: S.optional(LabelsInputConfiguration),
     RoleArn: S.optional(S.String),
-    ModelDiagnosticsOutputConfiguration: S.optional(
-      ModelDiagnosticsOutputConfiguration,
-    ),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "UpdateModelRequest",
-}) as any as S.Schema<UpdateModelRequest>;
+    ModelDiagnosticsOutputConfiguration: S.optional(ModelDiagnosticsOutputConfiguration),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "UpdateModelRequest" }) as any as S.Schema<UpdateModelRequest>;
 export interface UpdateModelResponse {}
-export const UpdateModelResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UpdateModelResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UpdateModelResponse",
 }) as any as S.Schema<UpdateModelResponse>;
 export interface UpdateRetrainingSchedulerRequest {
@@ -2573,15 +2236,11 @@ export interface UpdateRetrainingSchedulerRequest {
 export const UpdateRetrainingSchedulerRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ModelName: S.String,
-    RetrainingStartDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    RetrainingStartDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     RetrainingFrequency: S.optional(S.String),
     LookbackWindow: S.optional(S.String),
     PromoteMode: S.optional(ModelPromoteMode),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "UpdateRetrainingSchedulerRequest",
 }) as any as S.Schema<UpdateRetrainingSchedulerRequest>;

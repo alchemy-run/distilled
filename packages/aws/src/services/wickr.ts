@@ -1,18 +1,15 @@
+import * as API from "@distilled.cloud/core/api";
+import * as S from "@distilled.cloud/core/schema";
 import * as HttpClient from "effect/http/HttpClient";
 import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
-import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
-const svc = T.AwsApiService({
-  sdkId: "Wickr",
-  serviceShapeName: "WickrAdminApi",
-});
+import * as T from "../traits.ts";
+const svc = T.AwsApiService({ sdkId: "Wickr", serviceShapeName: "WickrAdminApi" });
 const auth = T.AwsAuthSigv4({ name: "wickr" });
 const ver = T.ServiceVersion("2024-02-01");
 const proto = T.AwsProtocolsRestJson1();
@@ -28,14 +25,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -62,9 +55,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://admin.wickr-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -72,13 +63,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://admin.wickr.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://admin.wickr.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://admin.wickr.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -126,9 +113,7 @@ export class ValidationError
     "ValidationError",
     {
       reasons: S.optional(
-        S.suspend(() => ErrorDetailList).annotate({
-          identifier: "ErrorDetailList",
-        }),
+        S.suspend(() => ErrorDetailList).annotate({ identifier: "ErrorDetailList" }),
       ),
       message: S.optional(S.String).pipe(T.ErrorMessage()),
     },
@@ -162,9 +147,7 @@ export const BatchCreateUserRequestItem = /*@__PURE__*/ S.suspend(() =>
   identifier: "BatchCreateUserRequestItem",
 }) as any as S.Schema<BatchCreateUserRequestItem>;
 export type BatchCreateUserRequestItems = BatchCreateUserRequestItem[];
-export const BatchCreateUserRequestItems = /*@__PURE__*/ S.Array(
-  BatchCreateUserRequestItem,
-);
+export const BatchCreateUserRequestItems = /*@__PURE__*/ S.Array(BatchCreateUserRequestItem);
 export type ClientToken = string;
 export interface BatchCreateUserRequest {
   networkId: string;
@@ -175,10 +158,7 @@ export const BatchCreateUserRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     networkId: S.String.pipe(T.HttpLabel("networkId")),
     users: BatchCreateUserRequestItems,
-    clientToken: S.optional(S.String).pipe(
-      T.HttpHeader("X-Client-Token"),
-      T.IdempotencyToken(),
-    ),
+    clientToken: S.optional(S.String).pipe(T.HttpHeader("X-Client-Token"), T.IdempotencyToken()),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/networks/{networkId}/users" }),
@@ -189,9 +169,7 @@ export const BatchCreateUserRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "BatchCreateUserRequest",
-}) as any as S.Schema<BatchCreateUserRequest>;
+).annotate({ identifier: "BatchCreateUserRequest" }) as any as S.Schema<BatchCreateUserRequest>;
 export type UserId = string;
 export interface User {
   userId?: string;
@@ -245,18 +223,12 @@ export interface BatchUserErrorResponseItem {
   userId: string;
 }
 export const BatchUserErrorResponseItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    field: S.optional(S.String),
-    reason: S.optional(S.String),
-    userId: S.String,
-  }),
+  S.Struct({ field: S.optional(S.String), reason: S.optional(S.String), userId: S.String }),
 ).annotate({
   identifier: "BatchUserErrorResponseItem",
 }) as any as S.Schema<BatchUserErrorResponseItem>;
 export type BatchUserErrorResponseItems = BatchUserErrorResponseItem[];
-export const BatchUserErrorResponseItems = /*@__PURE__*/ S.Array(
-  BatchUserErrorResponseItem,
-);
+export const BatchUserErrorResponseItems = /*@__PURE__*/ S.Array(BatchUserErrorResponseItem);
 export interface BatchCreateUserResponse {
   message?: string;
   successful?: User[];
@@ -268,9 +240,7 @@ export const BatchCreateUserResponse = /*@__PURE__*/ S.suspend(() =>
     successful: S.optional(Users),
     failed: S.optional(BatchUserErrorResponseItems),
   }),
-).annotate({
-  identifier: "BatchCreateUserResponse",
-}) as any as S.Schema<BatchCreateUserResponse>;
+).annotate({ identifier: "BatchCreateUserResponse" }) as any as S.Schema<BatchCreateUserResponse>;
 export type UserIds = string[];
 export const UserIds = /*@__PURE__*/ S.Array(S.String);
 export interface BatchDeleteUserRequest {
@@ -282,16 +252,10 @@ export const BatchDeleteUserRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     networkId: S.String.pipe(T.HttpLabel("networkId")),
     userIds: UserIds,
-    clientToken: S.optional(S.String).pipe(
-      T.HttpHeader("X-Client-Token"),
-      T.IdempotencyToken(),
-    ),
+    clientToken: S.optional(S.String).pipe(T.HttpHeader("X-Client-Token"), T.IdempotencyToken()),
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/networks/{networkId}/users/batch-delete",
-      }),
+      T.Http({ method: "POST", uri: "/networks/{networkId}/users/batch-delete" }),
       svc,
       auth,
       proto,
@@ -299,9 +263,7 @@ export const BatchDeleteUserRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "BatchDeleteUserRequest",
-}) as any as S.Schema<BatchDeleteUserRequest>;
+).annotate({ identifier: "BatchDeleteUserRequest" }) as any as S.Schema<BatchDeleteUserRequest>;
 export interface BatchUserSuccessResponseItem {
   userId: string;
 }
@@ -311,9 +273,7 @@ export const BatchUserSuccessResponseItem = /*@__PURE__*/ S.suspend(() =>
   identifier: "BatchUserSuccessResponseItem",
 }) as any as S.Schema<BatchUserSuccessResponseItem>;
 export type BatchUserSuccessResponseItems = BatchUserSuccessResponseItem[];
-export const BatchUserSuccessResponseItems = /*@__PURE__*/ S.Array(
-  BatchUserSuccessResponseItem,
-);
+export const BatchUserSuccessResponseItems = /*@__PURE__*/ S.Array(BatchUserSuccessResponseItem);
 export interface BatchDeleteUserResponse {
   message?: string;
   successful?: BatchUserSuccessResponseItem[];
@@ -325,9 +285,7 @@ export const BatchDeleteUserResponse = /*@__PURE__*/ S.suspend(() =>
     successful: S.optional(BatchUserSuccessResponseItems),
     failed: S.optional(BatchUserErrorResponseItems),
   }),
-).annotate({
-  identifier: "BatchDeleteUserResponse",
-}) as any as S.Schema<BatchDeleteUserResponse>;
+).annotate({ identifier: "BatchDeleteUserResponse" }) as any as S.Schema<BatchDeleteUserResponse>;
 export type Unames = string[];
 export const Unames = /*@__PURE__*/ S.Array(S.String);
 export interface BatchLookupUserUnameRequest {
@@ -339,16 +297,10 @@ export const BatchLookupUserUnameRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     networkId: S.String.pipe(T.HttpLabel("networkId")),
     unames: Unames,
-    clientToken: S.optional(S.String).pipe(
-      T.HttpHeader("X-Client-Token"),
-      T.IdempotencyToken(),
-    ),
+    clientToken: S.optional(S.String).pipe(T.HttpHeader("X-Client-Token"), T.IdempotencyToken()),
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/networks/{networkId}/users/uname-lookup",
-      }),
+      T.Http({ method: "POST", uri: "/networks/{networkId}/users/uname-lookup" }),
       svc,
       auth,
       proto,
@@ -370,27 +322,19 @@ export const BatchUnameSuccessResponseItem = /*@__PURE__*/ S.suspend(() =>
   identifier: "BatchUnameSuccessResponseItem",
 }) as any as S.Schema<BatchUnameSuccessResponseItem>;
 export type BatchUnameSuccessResponseItems = BatchUnameSuccessResponseItem[];
-export const BatchUnameSuccessResponseItems = /*@__PURE__*/ S.Array(
-  BatchUnameSuccessResponseItem,
-);
+export const BatchUnameSuccessResponseItems = /*@__PURE__*/ S.Array(BatchUnameSuccessResponseItem);
 export interface BatchUnameErrorResponseItem {
   field?: string;
   reason?: string;
   uname: string;
 }
 export const BatchUnameErrorResponseItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    field: S.optional(S.String),
-    reason: S.optional(S.String),
-    uname: S.String,
-  }),
+  S.Struct({ field: S.optional(S.String), reason: S.optional(S.String), uname: S.String }),
 ).annotate({
   identifier: "BatchUnameErrorResponseItem",
 }) as any as S.Schema<BatchUnameErrorResponseItem>;
 export type BatchUnameErrorResponseItems = BatchUnameErrorResponseItem[];
-export const BatchUnameErrorResponseItems = /*@__PURE__*/ S.Array(
-  BatchUnameErrorResponseItem,
-);
+export const BatchUnameErrorResponseItems = /*@__PURE__*/ S.Array(BatchUnameErrorResponseItem);
 export interface BatchLookupUserUnameResponse {
   message?: string;
   successful?: BatchUnameSuccessResponseItem[];
@@ -414,10 +358,7 @@ export const BatchReinviteUserRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     networkId: S.String.pipe(T.HttpLabel("networkId")),
     userIds: UserIds,
-    clientToken: S.optional(S.String).pipe(
-      T.HttpHeader("X-Client-Token"),
-      T.IdempotencyToken(),
-    ),
+    clientToken: S.optional(S.String).pipe(T.HttpHeader("X-Client-Token"), T.IdempotencyToken()),
   }).pipe(
     T.all(
       T.Http({ method: "PATCH", uri: "/networks/{networkId}/users/re-invite" }),
@@ -428,9 +369,7 @@ export const BatchReinviteUserRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "BatchReinviteUserRequest",
-}) as any as S.Schema<BatchReinviteUserRequest>;
+).annotate({ identifier: "BatchReinviteUserRequest" }) as any as S.Schema<BatchReinviteUserRequest>;
 export interface BatchReinviteUserResponse {
   message?: string;
   successful?: BatchUserSuccessResponseItem[];
@@ -458,16 +397,10 @@ export const BatchResetDevicesForUserRequest = /*@__PURE__*/ S.suspend(() =>
     networkId: S.String.pipe(T.HttpLabel("networkId")),
     userId: S.String.pipe(T.HttpLabel("userId")),
     appIds: AppIds,
-    clientToken: S.optional(S.String).pipe(
-      T.HttpHeader("X-Client-Token"),
-      T.IdempotencyToken(),
-    ),
+    clientToken: S.optional(S.String).pipe(T.HttpHeader("X-Client-Token"), T.IdempotencyToken()),
   }).pipe(
     T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/networks/{networkId}/users/{userId}/devices",
-      }),
+      T.Http({ method: "PATCH", uri: "/networks/{networkId}/users/{userId}/devices" }),
       svc,
       auth,
       proto,
@@ -496,18 +429,12 @@ export interface BatchDeviceErrorResponseItem {
   appId: string;
 }
 export const BatchDeviceErrorResponseItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    field: S.optional(S.String),
-    reason: S.optional(S.String),
-    appId: S.String,
-  }),
+  S.Struct({ field: S.optional(S.String), reason: S.optional(S.String), appId: S.String }),
 ).annotate({
   identifier: "BatchDeviceErrorResponseItem",
 }) as any as S.Schema<BatchDeviceErrorResponseItem>;
 export type BatchDeviceErrorResponseItems = BatchDeviceErrorResponseItem[];
-export const BatchDeviceErrorResponseItems = /*@__PURE__*/ S.Array(
-  BatchDeviceErrorResponseItem,
-);
+export const BatchDeviceErrorResponseItems = /*@__PURE__*/ S.Array(BatchDeviceErrorResponseItem);
 export interface BatchResetDevicesForUserResponse {
   message?: string;
   successful?: BatchDeviceSuccessResponseItem[];
@@ -533,16 +460,10 @@ export const BatchToggleUserSuspendStatusRequest = /*@__PURE__*/ S.suspend(() =>
     networkId: S.String.pipe(T.HttpLabel("networkId")),
     suspend: S.Boolean.pipe(T.HttpQuery("suspend")),
     userIds: UserIds,
-    clientToken: S.optional(S.String).pipe(
-      T.HttpHeader("X-Client-Token"),
-      T.IdempotencyToken(),
-    ),
+    clientToken: S.optional(S.String).pipe(T.HttpHeader("X-Client-Token"), T.IdempotencyToken()),
   }).pipe(
     T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/networks/{networkId}/users/toggleSuspend",
-      }),
+      T.Http({ method: "PATCH", uri: "/networks/{networkId}/users/toggleSuspend" }),
       svc,
       auth,
       proto,
@@ -558,13 +479,12 @@ export interface BatchToggleUserSuspendStatusResponse {
   successful?: BatchUserSuccessResponseItem[];
   failed?: BatchUserErrorResponseItem[];
 }
-export const BatchToggleUserSuspendStatusResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      message: S.optional(S.String),
-      successful: S.optional(BatchUserSuccessResponseItems),
-      failed: S.optional(BatchUserErrorResponseItems),
-    }),
+export const BatchToggleUserSuspendStatusResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    message: S.optional(S.String),
+    successful: S.optional(BatchUserSuccessResponseItems),
+    failed: S.optional(BatchUserErrorResponseItems),
+  }),
 ).annotate({
   identifier: "BatchToggleUserSuspendStatusResponse",
 }) as any as S.Schema<BatchToggleUserSuspendStatusResponse>;
@@ -592,9 +512,7 @@ export const CreateBotRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "CreateBotRequest",
-}) as any as S.Schema<CreateBotRequest>;
+).annotate({ identifier: "CreateBotRequest" }) as any as S.Schema<CreateBotRequest>;
 export type BotId = string;
 export interface CreateBotResponse {
   message?: string;
@@ -613,19 +531,14 @@ export const CreateBotResponse = /*@__PURE__*/ S.suspend(() =>
     displayName: S.optional(S.String),
     groupId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CreateBotResponse",
-}) as any as S.Schema<CreateBotResponse>;
+).annotate({ identifier: "CreateBotResponse" }) as any as S.Schema<CreateBotResponse>;
 export interface CreateDataRetentionBotRequest {
   networkId: string;
 }
 export const CreateDataRetentionBotRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ networkId: S.String.pipe(T.HttpLabel("networkId")) }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/networks/{networkId}/data-retention-bots",
-      }),
+      T.Http({ method: "POST", uri: "/networks/{networkId}/data-retention-bots" }),
       svc,
       auth,
       proto,
@@ -647,29 +560,25 @@ export const CreateDataRetentionBotResponse = /*@__PURE__*/ S.suspend(() =>
 export interface CreateDataRetentionBotChallengeRequest {
   networkId: string;
 }
-export const CreateDataRetentionBotChallengeRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ networkId: S.String.pipe(T.HttpLabel("networkId")) }).pipe(
-      T.all(
-        T.Http({
-          method: "POST",
-          uri: "/networks/{networkId}/data-retention-bots/challenge",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const CreateDataRetentionBotChallengeRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ networkId: S.String.pipe(T.HttpLabel("networkId")) }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/networks/{networkId}/data-retention-bots/challenge" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "CreateDataRetentionBotChallengeRequest",
 }) as any as S.Schema<CreateDataRetentionBotChallengeRequest>;
 export interface CreateDataRetentionBotChallengeResponse {
   challenge: string | redacted.Redacted<string>;
 }
-export const CreateDataRetentionBotChallengeResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ challenge: SensitiveString }),
+export const CreateDataRetentionBotChallengeResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ challenge: SensitiveString }),
 ).annotate({
   identifier: "CreateDataRetentionBotChallengeResponse",
 }) as any as S.Schema<CreateDataRetentionBotChallengeResponse>;
@@ -688,19 +597,8 @@ export const CreateNetworkRequest = /*@__PURE__*/ S.suspend(() =>
     accessLevel: AccessLevel,
     enablePremiumFreeTrial: S.optional(S.Boolean),
     encryptionKeyArn: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/networks" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateNetworkRequest",
-}) as any as S.Schema<CreateNetworkRequest>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/networks" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "CreateNetworkRequest" }) as any as S.Schema<CreateNetworkRequest>;
 export interface CreateNetworkResponse {
   networkId?: string;
   networkName?: string;
@@ -712,9 +610,7 @@ export const CreateNetworkResponse = /*@__PURE__*/ S.suspend(() =>
     networkName: S.optional(S.String),
     encryptionKeyArn: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CreateNetworkResponse",
-}) as any as S.Schema<CreateNetworkResponse>;
+).annotate({ identifier: "CreateNetworkResponse" }) as any as S.Schema<CreateNetworkResponse>;
 export type PermittedNetworksList = string[];
 export const PermittedNetworksList = /*@__PURE__*/ S.Array(S.String);
 export interface WickrAwsNetworks {
@@ -723,9 +619,7 @@ export interface WickrAwsNetworks {
 }
 export const WickrAwsNetworks = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ region: S.String, networkId: S.String }),
-).annotate({
-  identifier: "WickrAwsNetworks",
-}) as any as S.Schema<WickrAwsNetworks>;
+).annotate({ identifier: "WickrAwsNetworks" }) as any as S.Schema<WickrAwsNetworks>;
 export type WickrAwsNetworksList = WickrAwsNetworks[];
 export const WickrAwsNetworksList = /*@__PURE__*/ S.Array(WickrAwsNetworks);
 export interface PermittedWickrEnterpriseNetwork {
@@ -737,8 +631,7 @@ export const PermittedWickrEnterpriseNetwork = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "PermittedWickrEnterpriseNetwork",
 }) as any as S.Schema<PermittedWickrEnterpriseNetwork>;
-export type PermittedWickrEnterpriseNetworksList =
-  PermittedWickrEnterpriseNetwork[];
+export type PermittedWickrEnterpriseNetworksList = PermittedWickrEnterpriseNetwork[];
 export const PermittedWickrEnterpriseNetworksList = /*@__PURE__*/ S.Array(
   PermittedWickrEnterpriseNetwork,
 );
@@ -761,9 +654,7 @@ export const SecurityGroupSettingsRequest = /*@__PURE__*/ S.suspend(() =>
     federationMode: S.optional(S.Number),
     enableRestrictedGlobalFederation: S.optional(S.Boolean),
     permittedWickrAwsNetworks: S.optional(WickrAwsNetworksList),
-    permittedWickrEnterpriseNetworks: S.optional(
-      PermittedWickrEnterpriseNetworksList,
-    ),
+    permittedWickrEnterpriseNetworks: S.optional(PermittedWickrEnterpriseNetworksList),
   }),
 ).annotate({
   identifier: "SecurityGroupSettingsRequest",
@@ -779,10 +670,7 @@ export const CreateSecurityGroupRequest = /*@__PURE__*/ S.suspend(() =>
     networkId: S.String.pipe(T.HttpLabel("networkId")),
     name: S.String,
     securityGroupSettings: SecurityGroupSettingsRequest,
-    clientToken: S.optional(S.String).pipe(
-      T.HttpHeader("X-Client-Token"),
-      T.IdempotencyToken(),
-    ),
+    clientToken: S.optional(S.String).pipe(T.HttpHeader("X-Client-Token"), T.IdempotencyToken()),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/networks/{networkId}/security-groups" }),
@@ -809,9 +697,7 @@ export const CallingSettings = /*@__PURE__*/ S.suspend(() =>
     canVideoCall: S.optional(S.Boolean),
     forceTcpCall: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "CallingSettings",
-}) as any as S.Schema<CallingSettings>;
+).annotate({ identifier: "CallingSettings" }) as any as S.Schema<CallingSettings>;
 export interface PasswordRequirements {
   lowercase?: number;
   minLength?: number;
@@ -827,21 +713,14 @@ export const PasswordRequirements = /*@__PURE__*/ S.suspend(() =>
     symbols: S.optional(S.Number),
     uppercase: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "PasswordRequirements",
-}) as any as S.Schema<PasswordRequirements>;
+).annotate({ identifier: "PasswordRequirements" }) as any as S.Schema<PasswordRequirements>;
 export interface ShredderSettings {
   canProcessManually?: boolean;
   intensity?: number;
 }
 export const ShredderSettings = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    canProcessManually: S.optional(S.Boolean),
-    intensity: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "ShredderSettings",
-}) as any as S.Schema<ShredderSettings>;
+  S.Struct({ canProcessManually: S.optional(S.Boolean), intensity: S.optional(S.Number) }),
+).annotate({ identifier: "ShredderSettings" }) as any as S.Schema<ShredderSettings>;
 export interface SecurityGroupSettings {
   alwaysReauthenticate?: boolean;
   atakPackageValues?: string[];
@@ -917,13 +796,9 @@ export const SecurityGroupSettings = /*@__PURE__*/ S.suspend(() =>
     lockoutThreshold: S.optional(S.Number),
     permittedNetworks: S.optional(PermittedNetworksList),
     permittedWickrAwsNetworks: S.optional(WickrAwsNetworksList),
-    permittedWickrEnterpriseNetworks: S.optional(
-      PermittedWickrEnterpriseNetworksList,
-    ),
+    permittedWickrEnterpriseNetworks: S.optional(PermittedWickrEnterpriseNetworksList),
   }),
-).annotate({
-  identifier: "SecurityGroupSettings",
-}) as any as S.Schema<SecurityGroupSettings>;
+).annotate({ identifier: "SecurityGroupSettings" }) as any as S.Schema<SecurityGroupSettings>;
 export interface SecurityGroup {
   activeMembers: number;
   botMembers: number;
@@ -972,27 +847,20 @@ export const DeleteBotRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteBotRequest",
-}) as any as S.Schema<DeleteBotRequest>;
+).annotate({ identifier: "DeleteBotRequest" }) as any as S.Schema<DeleteBotRequest>;
 export interface DeleteBotResponse {
   message?: string;
 }
 export const DeleteBotResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ message: S.optional(S.String) }),
-).annotate({
-  identifier: "DeleteBotResponse",
-}) as any as S.Schema<DeleteBotResponse>;
+).annotate({ identifier: "DeleteBotResponse" }) as any as S.Schema<DeleteBotResponse>;
 export interface DeleteDataRetentionBotRequest {
   networkId: string;
 }
 export const DeleteDataRetentionBotRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ networkId: S.String.pipe(T.HttpLabel("networkId")) }).pipe(
     T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/networks/{networkId}/data-retention-bots",
-      }),
+      T.Http({ method: "DELETE", uri: "/networks/{networkId}/data-retention-bots" }),
       svc,
       auth,
       proto,
@@ -1018,31 +886,17 @@ export interface DeleteNetworkRequest {
 export const DeleteNetworkRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     networkId: S.String.pipe(T.HttpLabel("networkId")),
-    clientToken: S.optional(S.String).pipe(
-      T.HttpHeader("X-Client-Token"),
-      T.IdempotencyToken(),
-    ),
+    clientToken: S.optional(S.String).pipe(T.HttpHeader("X-Client-Token"), T.IdempotencyToken()),
   }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/networks/{networkId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/networks/{networkId}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteNetworkRequest",
-}) as any as S.Schema<DeleteNetworkRequest>;
+).annotate({ identifier: "DeleteNetworkRequest" }) as any as S.Schema<DeleteNetworkRequest>;
 export interface DeleteNetworkResponse {
   message?: string;
 }
 export const DeleteNetworkResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ message: S.optional(S.String) }),
-).annotate({
-  identifier: "DeleteNetworkResponse",
-}) as any as S.Schema<DeleteNetworkResponse>;
+).annotate({ identifier: "DeleteNetworkResponse" }) as any as S.Schema<DeleteNetworkResponse>;
 export interface DeleteSecurityGroupRequest {
   networkId: string;
   groupId: string;
@@ -1053,10 +907,7 @@ export const DeleteSecurityGroupRequest = /*@__PURE__*/ S.suspend(() =>
     groupId: S.String.pipe(T.HttpLabel("groupId")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/networks/{networkId}/security-groups/{groupId}",
-      }),
+      T.Http({ method: "DELETE", uri: "/networks/{networkId}/security-groups/{groupId}" }),
       svc,
       auth,
       proto,
@@ -1142,9 +993,7 @@ export const GetBotsCountRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetBotsCountRequest",
-}) as any as S.Schema<GetBotsCountRequest>;
+).annotate({ identifier: "GetBotsCountRequest" }) as any as S.Schema<GetBotsCountRequest>;
 export interface GetBotsCountResponse {
   pending: number;
   active: number;
@@ -1152,19 +1001,14 @@ export interface GetBotsCountResponse {
 }
 export const GetBotsCountResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ pending: S.Number, active: S.Number, total: S.Number }),
-).annotate({
-  identifier: "GetBotsCountResponse",
-}) as any as S.Schema<GetBotsCountResponse>;
+).annotate({ identifier: "GetBotsCountResponse" }) as any as S.Schema<GetBotsCountResponse>;
 export interface GetDataRetentionBotRequest {
   networkId: string;
 }
 export const GetDataRetentionBotRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ networkId: S.String.pipe(T.HttpLabel("networkId")) }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/networks/{networkId}/data-retention-bots",
-      }),
+      T.Http({ method: "GET", uri: "/networks/{networkId}/data-retention-bots" }),
       svc,
       auth,
       proto,
@@ -1218,13 +1062,9 @@ export interface GuestUserHistoryCount {
 }
 export const GuestUserHistoryCount = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ month: S.String, count: S.String }),
-).annotate({
-  identifier: "GuestUserHistoryCount",
-}) as any as S.Schema<GuestUserHistoryCount>;
+).annotate({ identifier: "GuestUserHistoryCount" }) as any as S.Schema<GuestUserHistoryCount>;
 export type GuestUserHistoryCountList = GuestUserHistoryCount[];
-export const GuestUserHistoryCountList = /*@__PURE__*/ S.Array(
-  GuestUserHistoryCount,
-);
+export const GuestUserHistoryCountList = /*@__PURE__*/ S.Array(GuestUserHistoryCount);
 export interface GetGuestUserHistoryCountResponse {
   history: GuestUserHistoryCount[];
 }
@@ -1238,18 +1078,9 @@ export interface GetNetworkRequest {
 }
 export const GetNetworkRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ networkId: S.String.pipe(T.HttpLabel("networkId")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/networks/{networkId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/networks/{networkId}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetNetworkRequest",
-}) as any as S.Schema<GetNetworkRequest>;
+).annotate({ identifier: "GetNetworkRequest" }) as any as S.Schema<GetNetworkRequest>;
 export interface GetNetworkResponse {
   networkId: string;
   networkName: string;
@@ -1273,9 +1104,7 @@ export const GetNetworkResponse = /*@__PURE__*/ S.suspend(() =>
     migrationState: S.optional(S.Number),
     encryptionKeyArn: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetNetworkResponse",
-}) as any as S.Schema<GetNetworkResponse>;
+).annotate({ identifier: "GetNetworkResponse" }) as any as S.Schema<GetNetworkResponse>;
 export interface GetNetworkSettingsRequest {
   networkId: string;
 }
@@ -1343,9 +1172,7 @@ export const GetOidcInfoRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetOidcInfoRequest",
-}) as any as S.Schema<GetOidcInfoRequest>;
+).annotate({ identifier: "GetOidcInfoRequest" }) as any as S.Schema<GetOidcInfoRequest>;
 export interface OidcConfigInfo {
   applicationName?: string;
   clientId?: string;
@@ -1405,13 +1232,8 @@ export interface GetOidcInfoResponse {
   tokenInfo?: OidcTokenInfo;
 }
 export const GetOidcInfoResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    openidConnectInfo: S.optional(OidcConfigInfo),
-    tokenInfo: S.optional(OidcTokenInfo),
-  }),
-).annotate({
-  identifier: "GetOidcInfoResponse",
-}) as any as S.Schema<GetOidcInfoResponse>;
+  S.Struct({ openidConnectInfo: S.optional(OidcConfigInfo), tokenInfo: S.optional(OidcTokenInfo) }),
+).annotate({ identifier: "GetOidcInfoResponse" }) as any as S.Schema<GetOidcInfoResponse>;
 export interface GetOpentdfConfigRequest {
   networkId: string;
 }
@@ -1426,9 +1248,7 @@ export const GetOpentdfConfigRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetOpentdfConfigRequest",
-}) as any as S.Schema<GetOpentdfConfigRequest>;
+).annotate({ identifier: "GetOpentdfConfigRequest" }) as any as S.Schema<GetOpentdfConfigRequest>;
 export interface GetOpentdfConfigResponse {
   clientId: string;
   domain: string;
@@ -1442,9 +1262,7 @@ export const GetOpentdfConfigResponse = /*@__PURE__*/ S.suspend(() =>
     clientSecret: SensitiveString,
     provider: S.String,
   }),
-).annotate({
-  identifier: "GetOpentdfConfigResponse",
-}) as any as S.Schema<GetOpentdfConfigResponse>;
+).annotate({ identifier: "GetOpentdfConfigResponse" }) as any as S.Schema<GetOpentdfConfigResponse>;
 export interface GetSecurityGroupRequest {
   networkId: string;
   groupId: string;
@@ -1455,10 +1273,7 @@ export const GetSecurityGroupRequest = /*@__PURE__*/ S.suspend(() =>
     groupId: S.String.pipe(T.HttpLabel("groupId")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/networks/{networkId}/security-groups/{groupId}",
-      }),
+      T.Http({ method: "GET", uri: "/networks/{networkId}/security-groups/{groupId}" }),
       svc,
       auth,
       proto,
@@ -1466,17 +1281,13 @@ export const GetSecurityGroupRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetSecurityGroupRequest",
-}) as any as S.Schema<GetSecurityGroupRequest>;
+).annotate({ identifier: "GetSecurityGroupRequest" }) as any as S.Schema<GetSecurityGroupRequest>;
 export interface GetSecurityGroupResponse {
   securityGroup: SecurityGroup;
 }
 export const GetSecurityGroupResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ securityGroup: SecurityGroup }),
-).annotate({
-  identifier: "GetSecurityGroupResponse",
-}) as any as S.Schema<GetSecurityGroupResponse>;
+).annotate({ identifier: "GetSecurityGroupResponse" }) as any as S.Schema<GetSecurityGroupResponse>;
 export interface GetUserRequest {
   networkId: string;
   userId: string;
@@ -1529,9 +1340,7 @@ export const GetUserResponse = /*@__PURE__*/ S.suspend(() =>
     lastLogin: S.optional(S.Number),
     securityGroupIds: S.optional(SecurityGroupIdList),
   }),
-).annotate({
-  identifier: "GetUserResponse",
-}) as any as S.Schema<GetUserResponse>;
+).annotate({ identifier: "GetUserResponse" }) as any as S.Schema<GetUserResponse>;
 export interface GetUsersCountRequest {
   networkId: string;
 }
@@ -1546,9 +1355,7 @@ export const GetUsersCountRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetUsersCountRequest",
-}) as any as S.Schema<GetUsersCountRequest>;
+).annotate({ identifier: "GetUsersCountRequest" }) as any as S.Schema<GetUsersCountRequest>;
 export interface GetUsersCountResponse {
   pending: number;
   active: number;
@@ -1564,9 +1371,7 @@ export const GetUsersCountResponse = /*@__PURE__*/ S.suspend(() =>
     remaining: S.Number,
     total: S.Number,
   }),
-).annotate({
-  identifier: "GetUsersCountResponse",
-}) as any as S.Schema<GetUsersCountResponse>;
+).annotate({ identifier: "GetUsersCountResponse" }) as any as S.Schema<GetUsersCountResponse>;
 export type SortDirection = "ASC" | "DESC" | (string & {});
 export const SortDirection = S.String;
 
@@ -1590,10 +1395,7 @@ export const ListBlockedGuestUsersRequest = /*@__PURE__*/ S.suspend(() =>
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/networks/{networkId}/guest-users/blocklist",
-      }),
+      T.Http({ method: "GET", uri: "/networks/{networkId}/guest-users/blocklist" }),
       svc,
       auth,
       proto,
@@ -1611,15 +1413,8 @@ export interface BlockedGuestUser {
   usernameHash: string;
 }
 export const BlockedGuestUser = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    username: S.String,
-    admin: S.String,
-    modified: S.String,
-    usernameHash: S.String,
-  }),
-).annotate({
-  identifier: "BlockedGuestUser",
-}) as any as S.Schema<BlockedGuestUser>;
+  S.Struct({ username: S.String, admin: S.String, modified: S.String, usernameHash: S.String }),
+).annotate({ identifier: "BlockedGuestUser" }) as any as S.Schema<BlockedGuestUser>;
 export type BlockedGuestUserList = BlockedGuestUser[];
 export const BlockedGuestUserList = /*@__PURE__*/ S.Array(BlockedGuestUser);
 export interface ListBlockedGuestUsersResponse {
@@ -1627,10 +1422,7 @@ export interface ListBlockedGuestUsersResponse {
   blocklist: BlockedGuestUser[];
 }
 export const ListBlockedGuestUsersResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    nextToken: S.optional(S.String),
-    blocklist: BlockedGuestUserList,
-  }),
+  S.Struct({ nextToken: S.optional(S.String), blocklist: BlockedGuestUserList }),
 ).annotate({
   identifier: "ListBlockedGuestUsersResponse",
 }) as any as S.Schema<ListBlockedGuestUsersResponse>;
@@ -1666,9 +1458,7 @@ export const ListBotsRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "ListBotsRequest",
-}) as any as S.Schema<ListBotsRequest>;
+).annotate({ identifier: "ListBotsRequest" }) as any as S.Schema<ListBotsRequest>;
 export interface Bot {
   botId?: string;
   displayName?: string;
@@ -1703,9 +1493,7 @@ export interface ListBotsResponse {
 }
 export const ListBotsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ bots: Bots, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListBotsResponse",
-}) as any as S.Schema<ListBotsResponse>;
+).annotate({ identifier: "ListBotsResponse" }) as any as S.Schema<ListBotsResponse>;
 export interface ListDevicesForUserRequest {
   networkId: string;
   userId: string;
@@ -1724,10 +1512,7 @@ export const ListDevicesForUserRequest = /*@__PURE__*/ S.suspend(() =>
     sortDirection: S.optional(SortDirection).pipe(T.HttpQuery("sortDirection")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/networks/{networkId}/users/{userId}/devices",
-      }),
+      T.Http({ method: "GET", uri: "/networks/{networkId}/users/{userId}/devices" }),
       svc,
       auth,
       proto,
@@ -1755,9 +1540,7 @@ export const BasicDeviceObject = /*@__PURE__*/ S.suspend(() =>
     suspend: S.optional(S.Boolean),
     type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "BasicDeviceObject",
-}) as any as S.Schema<BasicDeviceObject>;
+).annotate({ identifier: "BasicDeviceObject" }) as any as S.Schema<BasicDeviceObject>;
 export type Devices = BasicDeviceObject[];
 export const Devices = /*@__PURE__*/ S.Array(BasicDeviceObject);
 export interface ListDevicesForUserResponse {
@@ -1797,20 +1580,14 @@ export const ListGuestUsersRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "ListGuestUsersRequest",
-}) as any as S.Schema<ListGuestUsersRequest>;
+).annotate({ identifier: "ListGuestUsersRequest" }) as any as S.Schema<ListGuestUsersRequest>;
 export interface GuestUser {
   billingPeriod: string;
   username: string;
   usernameHash: string;
 }
 export const GuestUser = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    billingPeriod: S.String,
-    username: S.String,
-    usernameHash: S.String,
-  }),
+  S.Struct({ billingPeriod: S.String, username: S.String, usernameHash: S.String }),
 ).annotate({ identifier: "GuestUser" }) as any as S.Schema<GuestUser>;
 export type GuestUserList = GuestUser[];
 export const GuestUserList = /*@__PURE__*/ S.Array(GuestUser);
@@ -1820,9 +1597,7 @@ export interface ListGuestUsersResponse {
 }
 export const ListGuestUsersResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ nextToken: S.optional(S.String), guestlist: GuestUserList }),
-).annotate({
-  identifier: "ListGuestUsersResponse",
-}) as any as S.Schema<ListGuestUsersResponse>;
+).annotate({ identifier: "ListGuestUsersResponse" }) as any as S.Schema<ListGuestUsersResponse>;
 export interface ListNetworksRequest {
   maxResults?: number;
   sortFields?: string;
@@ -1835,19 +1610,8 @@ export const ListNetworksRequest = /*@__PURE__*/ S.suspend(() =>
     sortFields: S.optional(S.String).pipe(T.HttpQuery("sortFields")),
     sortDirection: S.optional(SortDirection).pipe(T.HttpQuery("sortDirection")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/networks" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListNetworksRequest",
-}) as any as S.Schema<ListNetworksRequest>;
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/networks" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "ListNetworksRequest" }) as any as S.Schema<ListNetworksRequest>;
 export interface Network {
   networkId: string;
   networkName: string;
@@ -1880,9 +1644,7 @@ export interface ListNetworksResponse {
 }
 export const ListNetworksResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ networks: NetworkList, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListNetworksResponse",
-}) as any as S.Schema<ListNetworksResponse>;
+).annotate({ identifier: "ListNetworksResponse" }) as any as S.Schema<ListNetworksResponse>;
 export interface ListSecurityGroupsRequest {
   networkId: string;
   nextToken?: string;
@@ -1917,10 +1679,7 @@ export interface ListSecurityGroupsResponse {
   nextToken?: string;
 }
 export const ListSecurityGroupsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    securityGroups: S.optional(SecurityGroupList),
-    nextToken: S.optional(S.String),
-  }),
+  S.Struct({ securityGroups: S.optional(SecurityGroupList), nextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListSecurityGroupsResponse",
 }) as any as S.Schema<ListSecurityGroupsResponse>;
@@ -1942,10 +1701,7 @@ export const ListSecurityGroupUsersRequest = /*@__PURE__*/ S.suspend(() =>
     sortDirection: S.optional(SortDirection).pipe(T.HttpQuery("sortDirection")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/networks/{networkId}/security-groups/{groupId}/users",
-      }),
+      T.Http({ method: "GET", uri: "/networks/{networkId}/security-groups/{groupId}/users" }),
       svc,
       auth,
       proto,
@@ -2001,18 +1757,14 @@ export const ListUsersRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "ListUsersRequest",
-}) as any as S.Schema<ListUsersRequest>;
+).annotate({ identifier: "ListUsersRequest" }) as any as S.Schema<ListUsersRequest>;
 export interface ListUsersResponse {
   nextToken?: string;
   users?: User[];
 }
 export const ListUsersResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ nextToken: S.optional(S.String), users: S.optional(Users) }),
-).annotate({
-  identifier: "ListUsersResponse",
-}) as any as S.Schema<ListUsersResponse>;
+).annotate({ identifier: "ListUsersResponse" }) as any as S.Schema<ListUsersResponse>;
 export interface RegisterOidcConfigRequest {
   networkId: string;
   companyId: string;
@@ -2216,22 +1968,14 @@ export const UpdateBotRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "UpdateBotRequest",
-}) as any as S.Schema<UpdateBotRequest>;
+).annotate({ identifier: "UpdateBotRequest" }) as any as S.Schema<UpdateBotRequest>;
 export interface UpdateBotResponse {
   message?: string;
 }
 export const UpdateBotResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ message: S.optional(S.String) }),
-).annotate({
-  identifier: "UpdateBotResponse",
-}) as any as S.Schema<UpdateBotResponse>;
-export type DataRetentionActionType =
-  | "ENABLE"
-  | "DISABLE"
-  | "PUBKEY_MSG_ACK"
-  | (string & {});
+).annotate({ identifier: "UpdateBotResponse" }) as any as S.Schema<UpdateBotResponse>;
+export type DataRetentionActionType = "ENABLE" | "DISABLE" | "PUBKEY_MSG_ACK" | (string & {});
 export const DataRetentionActionType = S.String;
 
 export interface UpdateDataRetentionRequest {
@@ -2244,10 +1988,7 @@ export const UpdateDataRetentionRequest = /*@__PURE__*/ S.suspend(() =>
     actionType: DataRetentionActionType,
   }).pipe(
     T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/networks/{networkId}/data-retention-bots",
-      }),
+      T.Http({ method: "PATCH", uri: "/networks/{networkId}/data-retention-bots" }),
       svc,
       auth,
       proto,
@@ -2278,10 +2019,7 @@ export const UpdateGuestUserRequest = /*@__PURE__*/ S.suspend(() =>
     block: S.Boolean,
   }).pipe(
     T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/networks/{networkId}/guest-users/{usernameHash}",
-      }),
+      T.Http({ method: "PATCH", uri: "/networks/{networkId}/guest-users/{usernameHash}" }),
       svc,
       auth,
       proto,
@@ -2289,17 +2027,13 @@ export const UpdateGuestUserRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "UpdateGuestUserRequest",
-}) as any as S.Schema<UpdateGuestUserRequest>;
+).annotate({ identifier: "UpdateGuestUserRequest" }) as any as S.Schema<UpdateGuestUserRequest>;
 export interface UpdateGuestUserResponse {
   message?: string;
 }
 export const UpdateGuestUserResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ message: S.optional(S.String) }),
-).annotate({
-  identifier: "UpdateGuestUserResponse",
-}) as any as S.Schema<UpdateGuestUserResponse>;
+).annotate({ identifier: "UpdateGuestUserResponse" }) as any as S.Schema<UpdateGuestUserResponse>;
 export interface UpdateNetworkRequest {
   networkId: string;
   networkName: string;
@@ -2310,32 +2044,18 @@ export const UpdateNetworkRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     networkId: S.String.pipe(T.HttpLabel("networkId")),
     networkName: S.String,
-    clientToken: S.optional(S.String).pipe(
-      T.HttpHeader("X-Client-Token"),
-      T.IdempotencyToken(),
-    ),
+    clientToken: S.optional(S.String).pipe(T.HttpHeader("X-Client-Token"), T.IdempotencyToken()),
     encryptionKeyArn: S.optional(S.String),
   }).pipe(
-    T.all(
-      T.Http({ method: "PATCH", uri: "/networks/{networkId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "PATCH", uri: "/networks/{networkId}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UpdateNetworkRequest",
-}) as any as S.Schema<UpdateNetworkRequest>;
+).annotate({ identifier: "UpdateNetworkRequest" }) as any as S.Schema<UpdateNetworkRequest>;
 export interface UpdateNetworkResponse {
   message?: string;
 }
 export const UpdateNetworkResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ message: S.optional(S.String) }),
-).annotate({
-  identifier: "UpdateNetworkResponse",
-}) as any as S.Schema<UpdateNetworkResponse>;
+).annotate({ identifier: "UpdateNetworkResponse" }) as any as S.Schema<UpdateNetworkResponse>;
 export type Status = "DISABLED" | "ENABLED" | "FORCE_ENABLED" | (string & {});
 export const Status = S.String;
 
@@ -2344,9 +2064,7 @@ export interface ReadReceiptConfig {
 }
 export const ReadReceiptConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ status: S.optional(Status) }),
-).annotate({
-  identifier: "ReadReceiptConfig",
-}) as any as S.Schema<ReadReceiptConfig>;
+).annotate({ identifier: "ReadReceiptConfig" }) as any as S.Schema<ReadReceiptConfig>;
 export interface ConsentPopupConfig {
   enabled: boolean;
   header?: string;
@@ -2360,9 +2078,7 @@ export const ConsentPopupConfig = /*@__PURE__*/ S.suspend(() =>
     content: S.optional(S.String),
     closeButtonLabel: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ConsentPopupConfig",
-}) as any as S.Schema<ConsentPopupConfig>;
+).annotate({ identifier: "ConsentPopupConfig" }) as any as S.Schema<ConsentPopupConfig>;
 export interface NetworkSettings {
   enableClientMetrics?: boolean;
   readReceiptConfig?: ReadReceiptConfig;
@@ -2378,18 +2094,13 @@ export const NetworkSettings = /*@__PURE__*/ S.suspend(() =>
     enableTrustedDataFormat: S.optional(S.Boolean),
     consentPopup: S.optional(ConsentPopupConfig),
   }),
-).annotate({
-  identifier: "NetworkSettings",
-}) as any as S.Schema<NetworkSettings>;
+).annotate({ identifier: "NetworkSettings" }) as any as S.Schema<NetworkSettings>;
 export interface UpdateNetworkSettingsRequest {
   networkId: string;
   settings: NetworkSettings;
 }
 export const UpdateNetworkSettingsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    networkId: S.String.pipe(T.HttpLabel("networkId")),
-    settings: NetworkSettings,
-  }).pipe(
+  S.Struct({ networkId: S.String.pipe(T.HttpLabel("networkId")), settings: NetworkSettings }).pipe(
     T.all(
       T.Http({ method: "PATCH", uri: "/networks/{networkId}/settings" }),
       svc,
@@ -2424,10 +2135,7 @@ export const UpdateSecurityGroupRequest = /*@__PURE__*/ S.suspend(() =>
     securityGroupSettings: S.optional(SecurityGroupSettings),
   }).pipe(
     T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/networks/{networkId}/security-groups/{groupId}",
-      }),
+      T.Http({ method: "PATCH", uri: "/networks/{networkId}/security-groups/{groupId}" }),
       svc,
       auth,
       proto,
@@ -2465,9 +2173,7 @@ export const UpdateUserDetails = /*@__PURE__*/ S.suspend(() =>
     inviteCodeTtl: S.optional(S.Number),
     codeValidation: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "UpdateUserDetails",
-}) as any as S.Schema<UpdateUserDetails>;
+).annotate({ identifier: "UpdateUserDetails" }) as any as S.Schema<UpdateUserDetails>;
 export interface UpdateUserRequest {
   networkId: string;
   userId: string;
@@ -2488,9 +2194,7 @@ export const UpdateUserRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "UpdateUserRequest",
-}) as any as S.Schema<UpdateUserRequest>;
+).annotate({ identifier: "UpdateUserRequest" }) as any as S.Schema<UpdateUserRequest>;
 export interface UpdateUserResponse {
   userId: string;
   networkId: string;
@@ -2520,9 +2224,7 @@ export const UpdateUserResponse = /*@__PURE__*/ S.suspend(() =>
     inviteExpiration: S.optional(S.Number),
     codeValidation: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "UpdateUserResponse",
-}) as any as S.Schema<UpdateUserResponse>;
+).annotate({ identifier: "UpdateUserResponse" }) as any as S.Schema<UpdateUserResponse>;
 export interface ErrorDetail {
   field?: string;
   reason?: string;

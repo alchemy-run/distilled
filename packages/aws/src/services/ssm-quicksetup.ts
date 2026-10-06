@@ -1,16 +1,13 @@
-import * as HttpClient from "effect/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
-const svc = T.AwsApiService({
-  sdkId: "SSM QuickSetup",
-  serviceShapeName: "QuickSetup",
-});
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
+import * as T from "../traits.ts";
+const svc = T.AwsApiService({ sdkId: "SSM QuickSetup", serviceShapeName: "QuickSetup" });
 const auth = T.AwsAuthSigv4({ name: "ssm-quicksetup" });
 const ver = T.ServiceVersion("2018-05-10");
 const proto = T.AwsProtocolsRestJson1();
@@ -26,14 +23,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -60,9 +53,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://ssm-quicksetup-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -70,13 +61,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://ssm-quicksetup.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://ssm-quicksetup.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://ssm-quicksetup.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -148,10 +135,7 @@ export const ConfigurationDefinitionsInputList = /*@__PURE__*/ S.Array(
   ConfigurationDefinitionInput,
 );
 export type TagsMap = { [key: string]: string | undefined };
-export const TagsMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const TagsMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface CreateConfigurationManagerInput {
   Name?: string;
   Description?: string;
@@ -165,14 +149,7 @@ export const CreateConfigurationManagerInput = /*@__PURE__*/ S.suspend(() =>
     ConfigurationDefinitions: ConfigurationDefinitionsInputList,
     Tags: S.optional(TagsMap),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/configurationManager" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/configurationManager" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "CreateConfigurationManagerInput",
@@ -212,9 +189,7 @@ export interface GetConfigurationInput {
   ConfigurationId: string;
 }
 export const GetConfigurationInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ConfigurationId: S.String.pipe(T.HttpLabel("ConfigurationId")),
-  }).pipe(
+  S.Struct({ ConfigurationId: S.String.pipe(T.HttpLabel("ConfigurationId")) }).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/getConfiguration/{ConfigurationId}" }),
       svc,
@@ -224,9 +199,7 @@ export const GetConfigurationInput = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetConfigurationInput",
-}) as any as S.Schema<GetConfigurationInput>;
+).annotate({ identifier: "GetConfigurationInput" }) as any as S.Schema<GetConfigurationInput>;
 export type StatusType = "Deployment" | "AsyncExecutions" | (string & {});
 export const StatusType = S.String;
 
@@ -245,10 +218,7 @@ export type Status =
 export const Status = S.String;
 
 export type StatusDetails = { [key: string]: string | undefined };
-export const StatusDetails = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const StatusDetails = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface StatusSummary {
   StatusType: StatusType;
   Status?: Status;
@@ -289,18 +259,12 @@ export const GetConfigurationOutput = /*@__PURE__*/ S.suspend(() =>
     TypeVersion: S.optional(S.String),
     Account: S.optional(S.String),
     Region: S.optional(S.String),
-    CreatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    LastModifiedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    CreatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    LastModifiedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     StatusSummaries: S.optional(StatusSummariesList),
     Parameters: S.optional(ConfigurationParametersMap),
   }),
-).annotate({
-  identifier: "GetConfigurationOutput",
-}) as any as S.Schema<GetConfigurationOutput>;
+).annotate({ identifier: "GetConfigurationOutput" }) as any as S.Schema<GetConfigurationOutput>;
 export interface GetConfigurationManagerInput {
   ManagerArn: string;
 }
@@ -335,13 +299,9 @@ export const ConfigurationDefinition = /*@__PURE__*/ S.suspend(() =>
     LocalDeploymentAdministrationRoleArn: S.optional(S.String),
     Id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ConfigurationDefinition",
-}) as any as S.Schema<ConfigurationDefinition>;
+).annotate({ identifier: "ConfigurationDefinition" }) as any as S.Schema<ConfigurationDefinition>;
 export type ConfigurationDefinitionsList = ConfigurationDefinition[];
-export const ConfigurationDefinitionsList = /*@__PURE__*/ S.Array(
-  ConfigurationDefinition,
-);
+export const ConfigurationDefinitionsList = /*@__PURE__*/ S.Array(ConfigurationDefinition);
 export interface GetConfigurationManagerOutput {
   ManagerArn: string;
   Description?: string;
@@ -357,12 +317,8 @@ export const GetConfigurationManagerOutput = /*@__PURE__*/ S.suspend(() =>
     ManagerArn: S.String,
     Description: S.optional(S.String),
     Name: S.optional(S.String),
-    CreatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    LastModifiedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    CreatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    LastModifiedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     StatusSummaries: S.optional(StatusSummariesList),
     ConfigurationDefinitions: S.optional(ConfigurationDefinitionsList),
     Tags: S.optional(TagsMap),
@@ -373,14 +329,7 @@ export const GetConfigurationManagerOutput = /*@__PURE__*/ S.suspend(() =>
 export interface GetServiceSettingsRequest {}
 export const GetServiceSettingsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/serviceSettings" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/serviceSettings" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetServiceSettingsRequest",
@@ -390,17 +339,13 @@ export interface ServiceSettings {
 }
 export const ServiceSettings = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ExplorerEnablingRoleArn: S.optional(S.String) }),
-).annotate({
-  identifier: "ServiceSettings",
-}) as any as S.Schema<ServiceSettings>;
+).annotate({ identifier: "ServiceSettings" }) as any as S.Schema<ServiceSettings>;
 export interface GetServiceSettingsOutput {
   ServiceSettings?: ServiceSettings;
 }
 export const GetServiceSettingsOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ServiceSettings: S.optional(ServiceSettings) }),
-).annotate({
-  identifier: "GetServiceSettingsOutput",
-}) as any as S.Schema<GetServiceSettingsOutput>;
+).annotate({ identifier: "GetServiceSettingsOutput" }) as any as S.Schema<GetServiceSettingsOutput>;
 export type FilterValues = string[];
 export const FilterValues = /*@__PURE__*/ S.Array(S.String);
 export interface Filter {
@@ -451,8 +396,7 @@ export const ConfigurationDefinitionSummary = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ConfigurationDefinitionSummary",
 }) as any as S.Schema<ConfigurationDefinitionSummary>;
-export type ConfigurationDefinitionSummariesList =
-  ConfigurationDefinitionSummary[];
+export type ConfigurationDefinitionSummariesList = ConfigurationDefinitionSummary[];
 export const ConfigurationDefinitionSummariesList = /*@__PURE__*/ S.Array(
   ConfigurationDefinitionSummary,
 );
@@ -469,17 +413,13 @@ export const ConfigurationManagerSummary = /*@__PURE__*/ S.suspend(() =>
     Description: S.optional(S.String),
     Name: S.optional(S.String),
     StatusSummaries: S.optional(StatusSummariesList),
-    ConfigurationDefinitionSummaries: S.optional(
-      ConfigurationDefinitionSummariesList,
-    ),
+    ConfigurationDefinitionSummaries: S.optional(ConfigurationDefinitionSummariesList),
   }),
 ).annotate({
   identifier: "ConfigurationManagerSummary",
 }) as any as S.Schema<ConfigurationManagerSummary>;
 export type ConfigurationManagerList = ConfigurationManagerSummary[];
-export const ConfigurationManagerList = /*@__PURE__*/ S.Array(
-  ConfigurationManagerSummary,
-);
+export const ConfigurationManagerList = /*@__PURE__*/ S.Array(ConfigurationManagerSummary);
 export interface ListConfigurationManagersOutput {
   ConfigurationManagersList?: ConfigurationManagerSummary[];
   NextToken?: string;
@@ -507,18 +447,9 @@ export const ListConfigurationsInput = /*@__PURE__*/ S.suspend(() =>
     ManagerArn: S.optional(S.String),
     ConfigurationDefinitionId: S.optional(S.String),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/listConfigurations" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/listConfigurations" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "ListConfigurationsInput",
-}) as any as S.Schema<ListConfigurationsInput>;
+).annotate({ identifier: "ListConfigurationsInput" }) as any as S.Schema<ListConfigurationsInput>;
 export interface ConfigurationSummary {
   Id?: string;
   ManagerArn?: string;
@@ -540,15 +471,11 @@ export const ConfigurationSummary = /*@__PURE__*/ S.suspend(() =>
     TypeVersion: S.optional(S.String),
     Region: S.optional(S.String),
     Account: S.optional(S.String),
-    CreatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    CreatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     FirstClassParameters: S.optional(ConfigurationParametersMap),
     StatusSummaries: S.optional(StatusSummariesList),
   }),
-).annotate({
-  identifier: "ConfigurationSummary",
-}) as any as S.Schema<ConfigurationSummary>;
+).annotate({ identifier: "ConfigurationSummary" }) as any as S.Schema<ConfigurationSummary>;
 export type ConfigurationsList = ConfigurationSummary[];
 export const ConfigurationsList = /*@__PURE__*/ S.Array(ConfigurationSummary);
 export interface ListConfigurationsOutput {
@@ -556,24 +483,12 @@ export interface ListConfigurationsOutput {
   NextToken?: string;
 }
 export const ListConfigurationsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ConfigurationsList: S.optional(ConfigurationsList),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListConfigurationsOutput",
-}) as any as S.Schema<ListConfigurationsOutput>;
+  S.Struct({ ConfigurationsList: S.optional(ConfigurationsList), NextToken: S.optional(S.String) }),
+).annotate({ identifier: "ListConfigurationsOutput" }) as any as S.Schema<ListConfigurationsOutput>;
 export interface ListQuickSetupTypesRequest {}
 export const ListQuickSetupTypesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/listQuickSetupTypes" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/listQuickSetupTypes" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListQuickSetupTypesRequest",
@@ -584,9 +499,7 @@ export interface QuickSetupTypeOutput {
 }
 export const QuickSetupTypeOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Type: S.optional(S.String), LatestVersion: S.optional(S.String) }),
-).annotate({
-  identifier: "QuickSetupTypeOutput",
-}) as any as S.Schema<QuickSetupTypeOutput>;
+).annotate({ identifier: "QuickSetupTypeOutput" }) as any as S.Schema<QuickSetupTypeOutput>;
 export type QuickSetupTypeList = QuickSetupTypeOutput[];
 export const QuickSetupTypeList = /*@__PURE__*/ S.Array(QuickSetupTypeOutput);
 export interface ListQuickSetupTypesOutput {
@@ -602,14 +515,7 @@ export interface ListTagsForResourceRequest {
 }
 export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListTagsForResourceRequest",
@@ -636,26 +542,12 @@ export interface TagResourceInput {
   Tags: { [key: string]: string | undefined };
 }
 export const TagResourceInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
-    Tags: TagsMap,
-  }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+  S.Struct({ ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")), Tags: TagsMap }).pipe(
+    T.all(T.Http({ method: "PUT", uri: "/tags/{ResourceArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "TagResourceInput",
-}) as any as S.Schema<TagResourceInput>;
+).annotate({ identifier: "TagResourceInput" }) as any as S.Schema<TagResourceInput>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export type TagKeys = string[];
@@ -669,22 +561,11 @@ export const UntagResourceInput = /*@__PURE__*/ S.suspend(() =>
     ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     TagKeys: TagKeys.pipe(T.HttpQuery("tagKeys")),
   }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UntagResourceInput",
-}) as any as S.Schema<UntagResourceInput>;
+).annotate({ identifier: "UntagResourceInput" }) as any as S.Schema<UntagResourceInput>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateConfigurationDefinitionInput {
@@ -705,10 +586,7 @@ export const UpdateConfigurationDefinitionInput = /*@__PURE__*/ S.suspend(() =>
     LocalDeploymentAdministrationRoleArn: S.optional(S.String),
   }).pipe(
     T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/configurationDefinition/{ManagerArn}/{Id}",
-      }),
+      T.Http({ method: "PUT", uri: "/configurationDefinition/{ManagerArn}/{Id}" }),
       svc,
       auth,
       proto,
@@ -720,8 +598,8 @@ export const UpdateConfigurationDefinitionInput = /*@__PURE__*/ S.suspend(() =>
   identifier: "UpdateConfigurationDefinitionInput",
 }) as any as S.Schema<UpdateConfigurationDefinitionInput>;
 export interface UpdateConfigurationDefinitionResponse {}
-export const UpdateConfigurationDefinitionResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+export const UpdateConfigurationDefinitionResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
 ).annotate({
   identifier: "UpdateConfigurationDefinitionResponse",
 }) as any as S.Schema<UpdateConfigurationDefinitionResponse>;
@@ -759,22 +637,13 @@ export interface UpdateServiceSettingsInput {
 }
 export const UpdateServiceSettingsInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ExplorerEnablingRoleArn: S.optional(S.String) }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/serviceSettings" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "PUT", uri: "/serviceSettings" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "UpdateServiceSettingsInput",
 }) as any as S.Schema<UpdateServiceSettingsInput>;
 export interface UpdateServiceSettingsResponse {}
-export const UpdateServiceSettingsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UpdateServiceSettingsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UpdateServiceSettingsResponse",
 }) as any as S.Schema<UpdateServiceSettingsResponse>;
 export type CreateConfigurationManagerError =
@@ -922,12 +791,7 @@ export const getServiceSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetServiceSettingsRequest,
   output: GetServiceSettingsOutput,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ThrottlingException,
-  ],
+  errors: [AccessDeniedException, ConflictException, InternalServerException, ThrottlingException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetServiceSettings",
@@ -1024,12 +888,7 @@ export const listQuickSetupTypes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListQuickSetupTypesRequest,
   output: ListQuickSetupTypesOutput,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    InternalServerException,
-    ThrottlingException,
-  ],
+  errors: [AccessDeniedException, ConflictException, InternalServerException, ThrottlingException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListQuickSetupTypes",

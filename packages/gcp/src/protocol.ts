@@ -1,3 +1,23 @@
+import * as API from "@distilled.cloud/core/api";
+import { HTTP_STATUS_MAP } from "@distilled.cloud/core/errors";
+import type { DefaultErrors } from "@distilled.cloud/core/errors";
+import {
+  getAnn,
+  getProps,
+  hasPropAnn,
+  matchTypedError,
+  nameOf,
+} from "@distilled.cloud/core/protocol-http";
+import { validateResponse } from "@distilled.cloud/core/response-validation";
+import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
+import {
+  bodySymbol,
+  headerSymbol,
+  httpBodySymbol,
+  httpSymbol,
+  labelSymbol,
+  querySymbol,
+} from "@distilled.cloud/core/trait";
 /**
  * GcpProtocol — hand-written.
  *
@@ -25,38 +45,18 @@
  *             `UnknownGCPError`.
  */
 import * as Effect from "effect/Effect";
-import * as Layer from "effect/Layer";
-import * as Option from "effect/Option";
-import * as Redacted from "effect/Redacted";
-import type * as AST from "effect/SchemaAST";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as HttpClientError from "effect/http/HttpClientError";
 import * as HttpClientRequest from "effect/http/HttpClientRequest";
 import type * as HttpClientResponse from "effect/http/HttpClientResponse";
-import * as API from "@distilled.cloud/core/api";
-import {
-  getAnn,
-  getProps,
-  hasPropAnn,
-  matchTypedError,
-  nameOf,
-} from "@distilled.cloud/core/protocol-http";
-import {
-  bodySymbol,
-  headerSymbol,
-  httpBodySymbol,
-  httpSymbol,
-  labelSymbol,
-  querySymbol,
-} from "@distilled.cloud/core/trait";
-import { HTTP_STATUS_MAP } from "@distilled.cloud/core/errors";
-import type { DefaultErrors } from "@distilled.cloud/core/errors";
-import { validateResponse } from "@distilled.cloud/core/response-validation";
-import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
-import { Credentials, type Config } from "./credentials.ts";
+import * as Layer from "effect/Layer";
+import * as Option from "effect/Option";
+import * as Redacted from "effect/Redacted";
+import type * as AST from "effect/SchemaAST";
+import { Credentials, type Config } from "./credentials-service.ts";
 import * as Endpoint from "./endpoint.ts";
+import { type GCPCredentialsError, GCPParseError, UnknownGCPError } from "./errors.ts";
 import * as Region from "./region.ts";
-import { GCPParseError, UnknownGCPError } from "./errors.ts";
 import type { GcpHttpTrait } from "./traits.ts";
 
 /**
@@ -69,6 +69,7 @@ export type GcpOpError =
   | DefaultErrors
   | UnknownGCPError
   | GCPParseError
+  | GCPCredentialsError
   | HttpClientError.HttpClientError;
 
 /** Context (requirements) shared by every generated GCP operation. */
@@ -78,24 +79,18 @@ export type GcpOpContext = Credentials | HttpClient.HttpClient;
 // GCP failures are real typed errors that an operation re-surfaces via its
 // `errors: [...]` list. Fail with the instance and erase the error type here;
 // `API.make`'s signature reintroduces it for callers.
-const fail = (e: unknown): Effect.Effect<never> =>
-  Effect.fail(e) as Effect.Effect<never>;
+const fail = (e: unknown): Effect.Effect<never> => Effect.fail(e) as Effect.Effect<never>;
 
 /**
  * RFC 6570 §3.2.3 reserved-expansion: encode everything outside the RFC
  * 3986 unreserved (`A-Za-z0-9-._~`) and reserved (`:/?#[]@!$&'()*+,;=`)
  * sets. Used for `{+param}` path tokens (ported from the distilled core).
  */
-const RFC3986_NEEDS_ENCODING = /[^A-Za-z0-9\-._~:/?#\[\]@!$&'()*+,;=]/g;
-const encodeReserved = (v: string): string =>
-  v.replace(RFC3986_NEEDS_ENCODING, encodeURIComponent);
+const RFC3986_NEEDS_ENCODING = /[^A-Za-z0-9\-._~:/?#[\]@!$&'()*+,;=]/g;
+const encodeReserved = (v: string): string => v.replace(RFC3986_NEEDS_ENCODING, encodeURIComponent);
 
 /** Serialize one query member: arrays as repeated `k=v`, scalars stringified. */
-const appendQuery = (
-  query: URLSearchParams,
-  name: string,
-  value: unknown,
-): void => {
+const appendQuery = (query: URLSearchParams, name: string, value: unknown): void => {
   if (Array.isArray(value)) {
     for (const v of value) appendQuery(query, name, v);
   } else if (value !== undefined && value !== null) {
@@ -126,11 +121,7 @@ const extractGCPErrorEnvelope = (
     status: undefined,
     details: undefined,
   };
-  if (
-    typeof errorBody !== "object" ||
-    errorBody === null ||
-    !("error" in errorBody)
-  ) {
+  if (typeof errorBody !== "object" || errorBody === null || !("error" in errorBody)) {
     return none;
   }
   const err = (errorBody as { error?: unknown }).error;
@@ -167,13 +158,7 @@ type EnvelopeAddenda = {
 // calling fiber's context on every request. The requirement is erased at
 // this boundary (Protocol effects are typed with no requirements) and
 // reintroduced for callers by the generated `GcpOpContext` annotations.
-const encode = ({
-  input,
-  inputAst,
-}: {
-  readonly input: unknown;
-  readonly inputAst: AST.AST;
-}) =>
+const encode = ({ input, inputAst }: { readonly input: unknown; readonly inputAst: AST.AST }) =>
   Effect.gen(function* () {
     // The Credentials service holds an effect — resolving it here (per
     // request) picks up externally-rotated tokens.
@@ -224,9 +209,7 @@ const encode = ({
     // Optional overrides, read from the calling fiber like Credentials but
     // never listed in an operation's requirements.
     const endpointOverride = yield* Effect.serviceOption(Endpoint.Endpoint);
-    const override = Option.isSome(endpointOverride)
-      ? yield* endpointOverride.value
-      : undefined;
+    const override = Option.isSome(endpointOverride) ? yield* endpointOverride.value : undefined;
     const mode = Option.getOrElse(
       yield* Effect.serviceOption(Region.RegionalEndpoints),
       () => "required" as const,
@@ -243,8 +226,7 @@ const encode = ({
     let request = HttpClientRequest.make(http.method)(url).pipe(
       HttpClientRequest.setHeaders(headers),
     );
-    const body =
-      rawBody !== undefined ? rawBody : hasBodyBag ? bodyBag : undefined;
+    const body = rawBody !== undefined ? rawBody : hasBodyBag ? bodyBag : undefined;
     if (body !== undefined && http.method !== "GET" && http.method !== "HEAD") {
       request = request.pipe(HttpClientRequest.bodyJsonUnsafe(body));
     }
@@ -288,19 +270,16 @@ const decode = ({
     if (status >= 400) {
       const headers = response.headers as Record<string, string | undefined>;
       const envelope = extractGCPErrorEnvelope(json);
-      const message =
-        envelope.message ?? (nonJson && text ? text : String(status));
+      const message = envelope.message ?? (nonJson && text ? text : String(status));
 
       // 1. Per-operation typed error (matcher metadata on the class). A
       //    message-or-status matcher (e.g. IAM ServiceAccountQuotaExceeded)
       //    has to win over the generic HTTP_STATUS_MAP class, or quota
       //    lands as UnknownGCPError / TooManyRequests with no catchable tag.
-      const typed = matchTypedError(
-        errors,
-        status,
-        [{ code: envelope.code, message }],
-        { body: nonJson ? text : json, headers },
-      );
+      const typed = matchTypedError(errors, status, [{ code: envelope.code, message }], {
+        body: nonJson ? text : json,
+        headers,
+      });
       if (typed !== undefined) {
         return yield* fail(tackEnvelope(typed, envelope));
       }
@@ -309,8 +288,7 @@ const decode = ({
       //    with the per-service typed error classes, and the envelope's
       //    `status` / `details` are tacked on so catch-site narrowing sees
       //    them.
-      const ErrorClass =
-        HTTP_STATUS_MAP[status as keyof typeof HTTP_STATUS_MAP];
+      const ErrorClass = HTTP_STATUS_MAP[status as keyof typeof HTTP_STATUS_MAP];
       if (ErrorClass) {
         const instance = new ErrorClass({
           message,
@@ -343,8 +321,7 @@ export const GcpProtocol: Layer.Layer<API.Protocol> = Layer.succeed(
   API.Protocol,
   API.Protocol.of({
     // Erase encode's Credentials requirement (see comment above).
-    encode: (args) =>
-      encode(args) as Effect.Effect<HttpClientRequest.HttpClientRequest>,
+    encode: (args) => encode(args) as Effect.Effect<HttpClientRequest.HttpClientRequest>,
     decode,
   }),
 );

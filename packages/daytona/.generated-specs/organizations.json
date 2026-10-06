@@ -617,6 +617,14 @@
             "smithy.api#required": {}
           }
         },
+        "defaultQueueTimeout": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Default minutes to wait for runner assignment before cancelling sandbox creation. Applied when sandbox create omits queueTimeout. Null means no default.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
         "sandboxLimitedNetworkEgress": {
           "target": "smithy.api#Boolean",
           "traits": {
@@ -655,6 +663,24 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "ID of the WorkOS organization mirrored from this organization (absent for personal organizations, which are never mirrored)"
+          }
+        },
+        "directorySyncStatus": {
+          "target": "com.daytona.organizations#DirectorySyncStatus",
+          "traits": {
+            "smithy.api#documentation": "Connection state of the WorkOS SCIM directory, as last reported by WorkOS (absent when no directory has ever reported in)"
+          }
+        },
+        "directorySyncStatusChangedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the directory sync status last changed"
+          }
+        },
+        "directorySyncTokenRevokedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the directory bearer token was revoked; absent while a valid token exists. A revoked token stops provisioning even if the directory is still active."
           }
         },
         "authenticatedRateLimit": {
@@ -722,6 +748,32 @@
         }
       },
       "traits": {}
+    },
+    "com.daytona.organizations#DirectorySyncStatus": {
+      "type": "enum",
+      "members": {
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "INACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "inactive"
+          }
+        },
+        "DELETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deleted"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Connection state of the WorkOS SCIM directory, as last reported by WorkOS (absent when no directory has ever reported in)"
+      }
     },
     "com.daytona.organizations#OtelConfig": {
       "type": "structure",
@@ -877,6 +929,47 @@
           "code": 200
         },
         "smithy.api#documentation": "Set default region for organization"
+      }
+    },
+    "com.daytona.organizations#UpdateOrganizationDefaultQueueTimeoutRequest": {
+      "type": "structure",
+      "members": {
+        "organizationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Organization ID"
+          }
+        },
+        "defaultQueueTimeout": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Default minutes to wait for runner assignment before cancelling sandbox creation. Null disables the default. A number must be a positive integer.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.organizations#UpdateOrganizationDefaultQueueTimeout": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.organizations#UpdateOrganizationDefaultQueueTimeoutRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/organizations/{organizationId}/default-queue-timeout",
+          "code": 200
+        },
+        "smithy.api#documentation": "Set organization default queue timeout"
       }
     },
     "com.daytona.organizations#GetOrganizationRequest": {
@@ -1133,12 +1226,6 @@
             "smithy.api#enumValue": "container"
           }
         },
-        "ANDROID": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "android"
-          }
-        },
         "WINDOWS": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -1161,6 +1248,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "H200"
+          }
+        },
+        "B300": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "B300"
           }
         },
         "RTX_PRO_6000": {
@@ -3284,6 +3377,125 @@
         "smithy.api#documentation": "Generate a WorkOS Admin Portal link for configuring SSO or SCIM directory sync"
       }
     },
+    "com.daytona.organizations#ListWorkosSsoConnectionsRequest": {
+      "type": "structure",
+      "members": {
+        "organizationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Organization ID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.daytona.organizations#WorkosSsoConnection": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "WorkOS connection ID",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Connection name as set in the WorkOS Admin Portal",
+            "smithy.api#required": {}
+          }
+        },
+        "connectionType": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "WorkOS connection type, e.g. OktaSAML, AzureSAML, GenericOIDC",
+            "smithy.api#required": {}
+          }
+        },
+        "state": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "WorkOS connection state: active means logins work; draft and requires_type mean setup is incomplete",
+            "smithy.api#required": {}
+          }
+        },
+        "domains": {
+          "target": "com.daytona.organizations#WorkosSsoConnectionDomainsList",
+          "traits": {
+            "smithy.api#documentation": "Email domains routed to this connection",
+            "smithy.api#required": {}
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the connection was created in WorkOS",
+            "smithy.api#required": {}
+          }
+        },
+        "updatedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the connection was last changed in WorkOS",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.daytona.organizations#WorkosSsoConnectionDomainsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Email domains routed to this connection"
+      }
+    },
+    "com.daytona.organizations#ListWorkosSsoConnectionsResponseBodyList": {
+      "type": "list",
+      "member": {
+        "target": "com.daytona.organizations#WorkosSsoConnection"
+      },
+      "traits": {}
+    },
+    "com.daytona.organizations#ListWorkosSsoConnectionsResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.daytona.organizations#ListWorkosSsoConnectionsResponseBodyList",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.daytona.organizations#ListWorkosSsoConnections": {
+      "type": "operation",
+      "input": {
+        "target": "com.daytona.organizations#ListWorkosSsoConnectionsRequest"
+      },
+      "output": {
+        "target": "com.daytona.organizations#ListWorkosSsoConnectionsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/organizations/{organizationId}/identity-providers/workos-sso-connections",
+          "code": 200
+        },
+        "smithy.api#documentation": "List the SSO connections configured for the organization in WorkOS"
+      }
+    },
     "com.daytona.organizations#ListOrganizationIdentityProvidersRequest": {
       "type": "structure",
       "members": {
@@ -3922,14 +4134,14 @@
         "availableOnDemand": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "GPU units available for on-demand placement across schedulable runners in the shared US fleet, including capacity occupied by spot sandboxes that are immediately reclaimable.",
+            "smithy.api#documentation": "GPU units available for on-demand placement across schedulable runners, including capacity occupied by spot sandboxes that are immediately reclaimable.",
             "smithy.api#required": {}
           }
         },
         "availableSpot": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "GPU units currently free for spot placement across schedulable runners in the shared US fleet.",
+            "smithy.api#documentation": "GPU units currently free for spot placement across schedulable runners.",
             "smithy.api#required": {}
           }
         }
@@ -3957,7 +4169,7 @@
           "uri": "/organizations/{organizationId}/gpu-capacity",
           "code": 200
         },
-        "smithy.api#documentation": "Get shared US GPU capacity\n\nReturns a short-lived observation of the shared US GPU fleet. Organization quotas and entitlements are not applied. Capacity can change immediately and sandbox creation remains authoritative."
+        "smithy.api#documentation": "Get shared GPU capacity\n\nReturns a short-lived observation of the shared GPU fleet. Organization quotas and entitlements are not applied. Capacity can change immediately and sandbox creation remains authoritative."
       }
     },
     "com.daytona.organizations#Organizations": {
@@ -3984,6 +4196,9 @@
         },
         {
           "target": "com.daytona.organizations#SetOrganizationDefaultRegion"
+        },
+        {
+          "target": "com.daytona.organizations#UpdateOrganizationDefaultQueueTimeout"
         },
         {
           "target": "com.daytona.organizations#GetOrganization"
@@ -4077,6 +4292,9 @@
         },
         {
           "target": "com.daytona.organizations#GenerateWorkosAdminPortalLink"
+        },
+        {
+          "target": "com.daytona.organizations#ListWorkosSsoConnections"
         },
         {
           "target": "com.daytona.organizations#ListOrganizationIdentityProviders"

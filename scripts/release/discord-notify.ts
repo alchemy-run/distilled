@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env node
 /**
  * Post a release announcement to Discord as a single embed. The body is
  * read verbatim from the CHANGELOG.md entry the release-notes step just
@@ -16,7 +16,7 @@
  *
  * Reads DISCORD_WEBHOOK from the environment. Silently no-ops if unset.
  *
- * Usage: bun discord-notify.ts <tag> <release|beta|alpha|tag>
+ * Usage: node discord-notify.ts <tag> <release|beta|alpha|tag>
  *
  * Reads ALCHEMY_REPO for the GitHub repo to link to.
  */
@@ -30,7 +30,7 @@ const EMBED_DESCRIPTION_LIMIT = 4096;
 const tag = process.argv[2];
 const channel = process.argv[3];
 if (!tag || !channel) {
-  console.error("Usage: bun discord-notify.ts <tag> <channel>");
+  console.error("Usage: node discord-notify.ts <tag> <channel>");
   process.exit(1);
 }
 
@@ -42,8 +42,7 @@ if (!webhook) {
 
 const REPO = repo();
 const repoSlug = REPO.split("/")[1]!;
-const capitalize = (s: string) =>
-  s.length === 0 ? s : s[0]!.toUpperCase() + s.slice(1);
+const capitalize = (s: string) => (s.length === 0 ? s : s[0]!.toUpperCase() + s.slice(1));
 // "alchemy-effect" -> "Alchemy-Effect"
 const fullRepoName = repoSlug.split("-").map(capitalize).join("-");
 // "alchemy-effect" -> "Alchemy"
@@ -69,12 +68,10 @@ const footer = `\n\n[Full release notes →](${releaseUrl})`;
 // a notice line so the reader knows there's more on GitHub. We cut at
 // the last newline before the budget so we never slice mid-bullet, then
 // fall back to a hard slice if no newline lands in range.
-const truncationNotice =
-  "_Release notes truncated — see the full changelog on GitHub._\n\n";
+const truncationNotice = "_Release notes truncated — see the full changelog on GitHub._\n\n";
 let description = `${body}${footer}`;
 if (description.length > EMBED_DESCRIPTION_LIMIT) {
-  const budget =
-    EMBED_DESCRIPTION_LIMIT - footer.length - truncationNotice.length;
+  const budget = EMBED_DESCRIPTION_LIMIT - footer.length - truncationNotice.length;
   let cut = body.lastIndexOf("\n", budget);
   if (cut < budget / 2) cut = budget; // no convenient newline — hard cut
   const truncated = body.slice(0, cut).trimEnd();

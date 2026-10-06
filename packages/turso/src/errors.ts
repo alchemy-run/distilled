@@ -24,6 +24,7 @@ export {
   DEFAULT_ERRORS,
   API_ERRORS,
 } from "@distilled.cloud/core/errors";
+import * as Category from "@distilled.cloud/core/category";
 import type {
   BadRequest as CoreBadRequest,
   Conflict as CoreConflict,
@@ -33,9 +34,7 @@ import type {
   NotFound as CoreNotFound,
   UnprocessableEntity as CoreUnprocessableEntity,
 } from "@distilled.cloud/core/errors";
-
 import * as Schema from "effect/Schema";
-import * as Category from "@distilled.cloud/core/category";
 
 /**
  * Unknown Turso error — returned when an error response cannot be mapped to
@@ -55,13 +54,10 @@ export class UnknownTursoError extends Schema.TaggedError<UnknownTursoError>()(
  * Schema parse error wrapper — kept for parity with the distilled turso SDK's
  * error surface.
  */
-export class TursoParseError extends Schema.TaggedError<TursoParseError>()(
-  "TursoParseError",
-  {
-    body: Schema.Unknown,
-    cause: Schema.Unknown,
-  },
-).pipe(Category.withParseError) {}
+export class TursoParseError extends Schema.TaggedError<TursoParseError>()("TursoParseError", {
+  body: Schema.Unknown,
+  cause: Schema.Unknown,
+}).pipe(Category.withParseError) {}
 
 /**
  * Errors any Turso operation may surface beyond the core HTTP defaults.

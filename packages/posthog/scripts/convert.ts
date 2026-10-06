@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
 /**
  * convert — PostHog OpenAPI spec → Smithy JSON models in .generated-specs.
  *
@@ -8,8 +8,9 @@
  *
  *   1. Read the full spec.
  *   2. Apply ALL `patches/*.patch.json` ONCE to the full spec (RFC-6902,
- *      sorted name order; stale targets warn+skip — the submodule tracks
- *      upstream and drifts — malformed patches fail the run). Patching
+ *      sorted name order, through core's `applyRfc6902Files` so
+ *      `DISTILLED_SKIP_PATCHES` — and with it `pnpm patches:audit` — works;
+ *      stale targets and malformed patches fail the run). Patching
  *      per-slice would hard-fail: a patch targeting one tag's paths doesn't
  *      resolve against another tag's slice.
  *   3. Bucket operations by PRIMARY (first) tag — a single path can
@@ -24,20 +25,16 @@
  */
 import * as fs from "node:fs";
 import * as path from "node:path";
-import {
-  applyOperation,
-  isStaleTargetError,
-  type PatchFile,
-} from "@distilled.cloud/core/json-patch";
 import { convertOpenApiToSmithy } from "@distilled.cloud/core/codegen/openapi";
-import { finalizeConvert } from "@distilled.cloud/core/codegen/patches";
+import {
+  applyRfc6902Files,
+  finalizeConvert,
+  listRfc6902PatchFiles,
+} from "@distilled.cloud/core/codegen/patches";
 import { resolveSpecPath } from "@distilled.cloud/core/codegen/spec-path";
 
-const rootDir = path.resolve(import.meta.dir, "..");
-const specPath = resolveSpecPath(
-  rootDir,
-  "specs/spec-mirror-posthog/specs/openapi.json",
-);
+const rootDir = path.resolve(import.meta.dirname, "..");
+const specPath = resolveSpecPath(rootDir, "specs/spec-mirror-posthog/specs/openapi.json");
 const patchDir = path.join(rootDir, "patches");
 const outDir = path.join(rootDir, ".generated-specs");
 
@@ -61,52 +58,22 @@ const toPascal = (slug: string): string =>
 const fullSpec = JSON.parse(fs.readFileSync(specPath, "utf-8"));
 
 // ---- 2. Apply the patch chain ONCE to the full spec ------------------------
-let patchFiles = 0;
-let staleOps = 0;
-const badPatches: string[] = [];
-for (const pf of fs
-  .readdirSync(patchDir)
-  .filter((f) => f.endsWith(".patch.json"))
-  .sort((a, b) => a.localeCompare(b))) {
-  const parsed = JSON.parse(
-    fs.readFileSync(path.join(patchDir, pf), "utf-8"),
-  ) as PatchFile;
-  for (const patchOp of parsed.patches ?? []) {
-    try {
-      applyOperation(fullSpec, patchOp);
-    } catch (e) {
-      const msg = e instanceof Error ? e.message : String(e);
-      if (isStaleTargetError(msg)) {
-        staleOps++;
-        console.warn(`   ⚠️  stale: ${pf} [${patchOp.op} ${patchOp.path}]`);
-      } else {
-        badPatches.push(`${pf} [${patchOp.op} ${patchOp.path}]: ${msg}`);
-      }
-    }
-  }
-  patchFiles++;
-}
-if (badPatches.length) {
-  for (const b of badPatches) console.error(`❌ bad patch: ${b}`);
+const patched = await applyRfc6902Files(fullSpec, await listRfc6902PatchFiles(patchDir));
+if (patched.errors.length) {
+  for (const b of patched.errors) console.error(`❌ bad patch: ${b}`);
   throw new Error(
-    `${badPatches.length} malformed patch operation(s) — fix or remove them`,
+    `${patched.errors.length} patch operation(s) failed — fix the pointers or delete the patch`,
   );
 }
-console.log(
-  `🩹 ${patchFiles} patch files applied` +
-    (staleOps ? ` (${staleOps} stale op(s) skipped)` : ""),
-);
+console.log(`🩹 ${patched.files} patch files applied`);
 
 // ---- 3. Bucket paths by primary tag ----------------------------------------
 const tagBuckets = new Map<string, Record<string, Record<string, unknown>>>();
-for (const [pathTemplate, pathItem] of Object.entries<Record<string, unknown>>(
-  fullSpec.paths,
-)) {
+for (const [pathTemplate, pathItem] of Object.entries<Record<string, unknown>>(fullSpec.paths)) {
   for (const method of HTTP_METHODS) {
     const op = (pathItem as Record<string, any>)[method];
     if (!op) continue;
-    const rawTag: string =
-      Array.isArray(op.tags) && op.tags.length > 0 ? op.tags[0] : "default";
+    const rawTag: string = Array.isArray(op.tags) && op.tags.length > 0 ? op.tags[0] : "default";
     const slug = toSlug(rawTag) || "default";
     if (!tagBuckets.has(slug)) tagBuckets.set(slug, {});
     const bucketPaths = tagBuckets.get(slug)!;
@@ -144,21 +111,15 @@ for (const slug of [...tagBuckets.keys()].sort()) {
   for (const shape of Object.values(model.shapes) as any[]) {
     if (
       shape.type === "operation" &&
-      shape.traits?.["com.distilled.openapi#contentType"] ===
-        "form-urlencoded" &&
+      shape.traits?.["com.distilled.openapi#contentType"] === "form-urlencoded" &&
       shape.traits["smithy.api#http"]
     ) {
       shape.traits["smithy.api#http"].contentType = "form-urlencoded";
     }
   }
-  const opCount = Object.values(model.shapes).filter(
-    (s: any) => s.type === "operation",
-  ).length;
+  const opCount = Object.values(model.shapes).filter((s: any) => s.type === "operation").length;
   if (opCount === 0) continue; // all-deprecated bucket — mirror v0's pruning
-  fs.writeFileSync(
-    path.join(outDir, `${slug}.json`),
-    JSON.stringify(model, null, 2) + "\n",
-  );
+  fs.writeFileSync(path.join(outDir, `${slug}.json`), JSON.stringify(model, null, 2) + "\n");
   written++;
   totalOps += opCount;
 }

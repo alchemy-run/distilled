@@ -1,12 +1,12 @@
-import * as HttpClient from "effect/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
+import * as T from "../traits.ts";
 const ns = T.XmlNamespace("http://monitoring.amazonaws.com/doc/2010-08-01/");
 const svc = T.AwsApiService({
   sdkId: "CloudWatch",
@@ -27,14 +27,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -47,9 +43,7 @@ const rules = T.EndpointResolver((p, _) => {
           UseFIPS === true &&
           UseDualStack === false
         ) {
-          return e(
-            `https://monitoring.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-          );
+          return e(`https://monitoring.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
         }
         if (
           _.getAttr(PartitionResult, "name") === "aws-us-gov" &&
@@ -79,9 +73,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://monitoring-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseFIPS === false && UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -89,13 +81,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://monitoring.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://monitoring.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://monitoring.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -107,10 +95,7 @@ export class ConcurrentModificationException
     "ConcurrentModificationException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "ConcurrentModificationException",
-        httpResponseCode: 429,
-      }),
+      T.AwsQueryError({ code: "ConcurrentModificationException", httpResponseCode: 429 }),
       T.HttpError(429),
     ),
   ).pipe(C.withThrottlingError) {}
@@ -140,10 +125,7 @@ export class DashboardNotFoundError
   extends /*@__PURE__*/ S.TaggedError<DashboardNotFoundError>()(
     "DashboardNotFoundError",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "ResourceNotFound", httpResponseCode: 404 }),
-      T.HttpError(404),
-    ),
+    T.all(T.AwsQueryError({ code: "ResourceNotFound", httpResponseCode: 404 }), T.HttpError(404)),
   ).pipe(C.withBadRequestError) {}
 export class InternalServiceFault
   extends /*@__PURE__*/ S.TaggedError<InternalServiceFault>()(
@@ -158,29 +140,20 @@ export class InvalidFormatFault
   extends /*@__PURE__*/ S.TaggedError<InvalidFormatFault>()(
     "InvalidFormatFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "InvalidFormat", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
+    T.all(T.AwsQueryError({ code: "InvalidFormat", httpResponseCode: 400 }), T.HttpError(400)),
   ).pipe(C.withBadRequestError) {}
 export class InvalidNextToken
   extends /*@__PURE__*/ S.TaggedError<InvalidNextToken>()(
     "InvalidNextToken",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "InvalidNextToken", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
+    T.all(T.AwsQueryError({ code: "InvalidNextToken", httpResponseCode: 400 }), T.HttpError(400)),
   ).pipe(C.withBadRequestError) {}
 export class InvalidParameterCombinationException
   extends /*@__PURE__*/ S.TaggedError<InvalidParameterCombinationException>()(
     "InvalidParameterCombinationException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "InvalidParameterCombination",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "InvalidParameterCombination", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -194,29 +167,23 @@ export class InvalidParameterValueException
     ),
   ).pipe(C.withBadRequestError) {}
 export class KmsAccessDeniedException
-  extends /*@__PURE__*/ S.TaggedError<KmsAccessDeniedException>()(
-    "KmsAccessDeniedException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ).pipe(C.withAuthError) {}
+  extends /*@__PURE__*/ S.TaggedError<KmsAccessDeniedException>()("KmsAccessDeniedException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }).pipe(C.withAuthError) {}
 export class KmsKeyDisabledException
-  extends /*@__PURE__*/ S.TaggedError<KmsKeyDisabledException>()(
-    "KmsKeyDisabledException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<KmsKeyDisabledException>()("KmsKeyDisabledException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class KmsKeyNotFoundException
-  extends /*@__PURE__*/ S.TaggedError<KmsKeyNotFoundException>()(
-    "KmsKeyNotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<KmsKeyNotFoundException>()("KmsKeyNotFoundException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class LimitExceededException
   extends /*@__PURE__*/ S.TaggedError<LimitExceededException>()(
     "LimitExceededException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "LimitExceededException",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "LimitExceededException", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -224,37 +191,25 @@ export class LimitExceededFault
   extends /*@__PURE__*/ S.TaggedError<LimitExceededFault>()(
     "LimitExceededFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "LimitExceeded", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
+    T.all(T.AwsQueryError({ code: "LimitExceeded", httpResponseCode: 400 }), T.HttpError(400)),
   ).pipe(C.withBadRequestError) {}
 export class MissingRequiredParameterException
   extends /*@__PURE__*/ S.TaggedError<MissingRequiredParameterException>()(
     "MissingRequiredParameterException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "MissingParameter", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
+    T.all(T.AwsQueryError({ code: "MissingParameter", httpResponseCode: 400 }), T.HttpError(400)),
   ).pipe(C.withBadRequestError) {}
 export class ResourceConflict
   extends /*@__PURE__*/ S.TaggedError<ResourceConflict>()(
     "ResourceConflict",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "ResourceConflict", httpResponseCode: 409 }),
-      T.HttpError(409),
-    ),
+    T.all(T.AwsQueryError({ code: "ResourceConflict", httpResponseCode: 409 }), T.HttpError(409)),
   ).pipe(C.withConflictError) {}
 export class ResourceNotFound
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFound>()(
     "ResourceNotFound",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "ResourceNotFound", httpResponseCode: 404 }),
-      T.HttpError(404),
-    ),
+    T.all(T.AwsQueryError({ code: "ResourceNotFound", httpResponseCode: 404 }), T.HttpError(404)),
   ).pipe(C.withBadRequestError) {}
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
@@ -265,22 +220,19 @@ export class ResourceNotFoundException
       message: S.optional(S.String).pipe(T.ErrorMessage()),
     },
     T.all(
-      T.AwsQueryError({
-        code: "ResourceNotFoundException",
-        httpResponseCode: 404,
-      }),
+      T.AwsQueryError({ code: "ResourceNotFoundException", httpResponseCode: 404 }),
       T.HttpError(404),
     ),
   ).pipe(C.withBadRequestError) {}
 export class UnsupportedOperation
-  extends /*@__PURE__*/ S.TaggedError<UnsupportedOperation>()(
-    "UnsupportedOperation",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<UnsupportedOperation>()("UnsupportedOperation", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class ValidationException
   extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
     "ValidationException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
+    T.all(T.AwsQueryError({ code: "ValidationError", httpResponseCode: 400 }), T.HttpError(400)),
   ).pipe(C.withBadRequestError) {}
 export type DatasetIdentifier = string;
 export type KmsKeyArn = string;
@@ -289,19 +241,8 @@ export interface AssociateDatasetKmsKeyInput {
   KmsKeyArn?: string;
 }
 export const AssociateDatasetKmsKeyInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DatasetIdentifier: S.optional(S.String),
-    KmsKeyArn: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+  S.Struct({ DatasetIdentifier: S.optional(S.String), KmsKeyArn: S.optional(S.String) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "AssociateDatasetKmsKeyInput",
@@ -312,25 +253,68 @@ export const AssociateDatasetKmsKeyOutput = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "AssociateDatasetKmsKeyOutput",
 }) as any as S.Schema<AssociateDatasetKmsKeyOutput>;
+export type ResourceArn = string;
+export type MetricName = string;
+export type MetricNameList = string[];
+export const MetricNameList = /*@__PURE__*/ S.Array(S.String);
+export interface ResourceMetricSelection {
+  IncludeMetrics?: string[];
+}
+export const ResourceMetricSelection = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ IncludeMetrics: S.optional(MetricNameList) }),
+).annotate({ identifier: "ResourceMetricSelection" }) as any as S.Schema<ResourceMetricSelection>;
+export type ResourceMetricSelectionList = ResourceMetricSelection[];
+export const ResourceMetricSelectionList = /*@__PURE__*/ S.Array(ResourceMetricSelection);
+export interface CreateResourceMetricsConfigurationInput {
+  ResourceArn?: string;
+  MetricSelections?: ResourceMetricSelection[];
+}
+export const CreateResourceMetricsConfigurationInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ResourceArn: S.optional(S.String),
+    MetricSelections: S.optional(ResourceMetricSelectionList),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({
+  identifier: "CreateResourceMetricsConfigurationInput",
+}) as any as S.Schema<CreateResourceMetricsConfigurationInput>;
+export interface ResourceMetricsConfiguration {
+  ResourceArn?: string;
+  CreatedAt?: Date;
+  UpdatedAt?: Date;
+  MetricSelections?: ResourceMetricSelection[];
+}
+export const ResourceMetricsConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ResourceArn: S.optional(S.String),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    MetricSelections: S.optional(ResourceMetricSelectionList),
+  }),
+).annotate({
+  identifier: "ResourceMetricsConfiguration",
+}) as any as S.Schema<ResourceMetricsConfiguration>;
+export interface CreateResourceMetricsConfigurationOutput {
+  ResourceMetricsConfiguration: ResourceMetricsConfiguration & {
+    ResourceArn: ResourceArn;
+    CreatedAt: Date;
+    UpdatedAt: Date;
+    MetricSelections: (ResourceMetricSelection & { IncludeMetrics: MetricNameList })[];
+  };
+}
+export const CreateResourceMetricsConfigurationOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ ResourceMetricsConfiguration: S.optional(ResourceMetricsConfiguration) }).pipe(ns),
+).annotate({
+  identifier: "CreateResourceMetricsConfigurationOutput",
+}) as any as S.Schema<CreateResourceMetricsConfigurationOutput>;
 export type Name = string;
 export interface DeleteAlarmMuteRuleInput {
   AlarmMuteRuleName?: string;
 }
 export const DeleteAlarmMuteRuleInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ AlarmMuteRuleName: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteAlarmMuteRuleInput",
-}) as any as S.Schema<DeleteAlarmMuteRuleInput>;
+).annotate({ identifier: "DeleteAlarmMuteRuleInput" }) as any as S.Schema<DeleteAlarmMuteRuleInput>;
 export interface DeleteAlarmMuteRuleResponse {}
 export const DeleteAlarmMuteRuleResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(ns),
@@ -345,28 +329,15 @@ export interface DeleteAlarmsInput {
 }
 export const DeleteAlarmsInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ AlarmNames: S.optional(AlarmNames) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteAlarmsInput",
-}) as any as S.Schema<DeleteAlarmsInput>;
+).annotate({ identifier: "DeleteAlarmsInput" }) as any as S.Schema<DeleteAlarmsInput>;
 export interface DeleteAlarmsResponse {}
-export const DeleteAlarmsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
+export const DeleteAlarmsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "DeleteAlarmsResponse",
 }) as any as S.Schema<DeleteAlarmsResponse>;
 export type AnomalyDetectorId = string;
 export type Namespace = string;
-export type MetricName = string;
 export type DimensionName = string;
 export type DimensionValue = string;
 export interface Dimension {
@@ -480,9 +451,7 @@ export const MetricDataQuery = /*@__PURE__*/ S.suspend(() =>
     Period: S.optional(S.Number),
     AccountId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MetricDataQuery",
-}) as any as S.Schema<MetricDataQuery>;
+).annotate({ identifier: "MetricDataQuery" }) as any as S.Schema<MetricDataQuery>;
 export type MetricDataQueries = MetricDataQuery[];
 export const MetricDataQueries = /*@__PURE__*/ S.Array(MetricDataQuery);
 export interface MetricMathAnomalyDetector {
@@ -511,17 +480,7 @@ export const DeleteAnomalyDetectorInput = /*@__PURE__*/ S.suspend(() =>
     Stat: S.optional(S.String),
     SingleMetricAnomalyDetector: S.optional(SingleMetricAnomalyDetector),
     MetricMathAnomalyDetector: S.optional(MetricMathAnomalyDetector),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DeleteAnomalyDetectorInput",
 }) as any as S.Schema<DeleteAnomalyDetectorInput>;
@@ -539,25 +498,13 @@ export interface DeleteDashboardsInput {
 }
 export const DeleteDashboardsInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ DashboardNames: S.optional(DashboardNames) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteDashboardsInput",
-}) as any as S.Schema<DeleteDashboardsInput>;
+).annotate({ identifier: "DeleteDashboardsInput" }) as any as S.Schema<DeleteDashboardsInput>;
 export interface DeleteDashboardsOutput {}
-export const DeleteDashboardsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteDashboardsOutput",
-}) as any as S.Schema<DeleteDashboardsOutput>;
+export const DeleteDashboardsOutput = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate(
+  { identifier: "DeleteDashboardsOutput" },
+) as any as S.Schema<DeleteDashboardsOutput>;
 export type InsightRuleName = string;
 export type InsightRuleNames = string[];
 export const InsightRuleNames = /*@__PURE__*/ S.Array(S.String);
@@ -566,19 +513,9 @@ export interface DeleteInsightRulesInput {
 }
 export const DeleteInsightRulesInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ RuleNames: S.optional(InsightRuleNames) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteInsightRulesInput",
-}) as any as S.Schema<DeleteInsightRulesInput>;
+).annotate({ identifier: "DeleteInsightRulesInput" }) as any as S.Schema<DeleteInsightRulesInput>;
 export type FailureResource = string;
 export type ExceptionType = string;
 export type FailureCode = string;
@@ -604,53 +541,44 @@ export interface DeleteInsightRulesOutput {
 }
 export const DeleteInsightRulesOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Failures: S.optional(BatchFailures) }).pipe(ns),
-).annotate({
-  identifier: "DeleteInsightRulesOutput",
-}) as any as S.Schema<DeleteInsightRulesOutput>;
+).annotate({ identifier: "DeleteInsightRulesOutput" }) as any as S.Schema<DeleteInsightRulesOutput>;
 export type MetricStreamName = string;
 export interface DeleteMetricStreamInput {
   Name?: string;
 }
 export const DeleteMetricStreamInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Name: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteMetricStreamInput",
-}) as any as S.Schema<DeleteMetricStreamInput>;
+).annotate({ identifier: "DeleteMetricStreamInput" }) as any as S.Schema<DeleteMetricStreamInput>;
 export interface DeleteMetricStreamOutput {}
 export const DeleteMetricStreamOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(ns),
+).annotate({ identifier: "DeleteMetricStreamOutput" }) as any as S.Schema<DeleteMetricStreamOutput>;
+export interface DeleteResourceMetricsConfigurationInput {
+  ResourceArn?: string;
+}
+export const DeleteResourceMetricsConfigurationInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ ResourceArn: S.optional(S.String) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
-  identifier: "DeleteMetricStreamOutput",
-}) as any as S.Schema<DeleteMetricStreamOutput>;
+  identifier: "DeleteResourceMetricsConfigurationInput",
+}) as any as S.Schema<DeleteResourceMetricsConfigurationInput>;
+export interface DeleteResourceMetricsConfigurationOutput {}
+export const DeleteResourceMetricsConfigurationOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "DeleteResourceMetricsConfigurationOutput",
+}) as any as S.Schema<DeleteResourceMetricsConfigurationOutput>;
 export type NextToken = string;
 export interface DescribeAlarmContributorsInput {
   AlarmName?: string;
   NextToken?: string;
 }
 export const DescribeAlarmContributorsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AlarmName: S.optional(S.String),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+  S.Struct({ AlarmName: S.optional(S.String), NextToken: S.optional(S.String) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DescribeAlarmContributorsInput",
@@ -659,10 +587,7 @@ export type ContributorId = string;
 export type AttributeName = string;
 export type AttributeValue = string;
 export type ContributorAttributes = { [key: string]: string | undefined };
-export const ContributorAttributes = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const ContributorAttributes = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export type StateReason = string;
 export interface AlarmContributor {
   ContributorId?: string;
@@ -675,13 +600,9 @@ export const AlarmContributor = /*@__PURE__*/ S.suspend(() =>
     ContributorId: S.optional(S.String),
     ContributorAttributes: S.optional(ContributorAttributes),
     StateReason: S.optional(S.String),
-    StateTransitionedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    StateTransitionedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
-).annotate({
-  identifier: "AlarmContributor",
-}) as any as S.Schema<AlarmContributor>;
+).annotate({ identifier: "AlarmContributor" }) as any as S.Schema<AlarmContributor>;
 export type AlarmContributors = AlarmContributor[];
 export const AlarmContributors = /*@__PURE__*/ S.Array(AlarmContributor);
 export interface DescribeAlarmContributorsOutput {
@@ -700,11 +621,7 @@ export const DescribeAlarmContributorsOutput = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "DescribeAlarmContributorsOutput",
 }) as any as S.Schema<DescribeAlarmContributorsOutput>;
-export type AlarmType =
-  | "CompositeAlarm"
-  | "MetricAlarm"
-  | "LogAlarm"
-  | (string & {});
+export type AlarmType = "CompositeAlarm" | "MetricAlarm" | "LogAlarm" | (string & {});
 export const AlarmType = S.String;
 
 export type AlarmTypes = AlarmType[];
@@ -719,10 +636,7 @@ export type HistoryItemType =
 export const HistoryItemType = S.String;
 
 export type MaxRecords = number;
-export type ScanBy =
-  | "TimestampDescending"
-  | "TimestampAscending"
-  | (string & {});
+export type ScanBy = "TimestampDescending" | "TimestampAscending" | (string & {});
 export const ScanBy = S.String;
 
 export interface DescribeAlarmHistoryInput {
@@ -747,17 +661,7 @@ export const DescribeAlarmHistoryInput = /*@__PURE__*/ S.suspend(() =>
     MaxRecords: S.optional(S.Number),
     NextToken: S.optional(S.String),
     ScanBy: S.optional(ScanBy),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeAlarmHistoryInput",
 }) as any as S.Schema<DescribeAlarmHistoryInput>;
@@ -784,9 +688,7 @@ export const AlarmHistoryItem = /*@__PURE__*/ S.suspend(() =>
     HistoryData: S.optional(S.String),
     AlarmContributorAttributes: S.optional(ContributorAttributes),
   }),
-).annotate({
-  identifier: "AlarmHistoryItem",
-}) as any as S.Schema<AlarmHistoryItem>;
+).annotate({ identifier: "AlarmHistoryItem" }) as any as S.Schema<AlarmHistoryItem>;
 export type AlarmHistoryItems = AlarmHistoryItem[];
 export const AlarmHistoryItems = /*@__PURE__*/ S.Array(AlarmHistoryItem);
 export interface DescribeAlarmHistoryOutput {
@@ -828,20 +730,8 @@ export const DescribeAlarmsInput = /*@__PURE__*/ S.suspend(() =>
     ActionPrefix: S.optional(S.String),
     MaxRecords: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeAlarmsInput",
-}) as any as S.Schema<DescribeAlarmsInput>;
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "DescribeAlarmsInput" }) as any as S.Schema<DescribeAlarmsInput>;
 export type ActionsEnabled = boolean;
 export type ResourceName = string;
 export type ResourceList = string[];
@@ -850,11 +740,7 @@ export type AlarmArn = string;
 export type AlarmDescription = string;
 export type AlarmRule = string;
 export type StateReasonData = string;
-export type ActionsSuppressedBy =
-  | "WaitPeriod"
-  | "ExtensionPeriod"
-  | "Alarm"
-  | (string & {});
+export type ActionsSuppressedBy = "WaitPeriod" | "ExtensionPeriod" | "Alarm" | (string & {});
 export const ActionsSuppressedBy = S.String;
 
 export type ActionsSuppressedReason = string;
@@ -885,9 +771,7 @@ export const CompositeAlarm = /*@__PURE__*/ S.suspend(() =>
     ActionsEnabled: S.optional(S.Boolean),
     AlarmActions: S.optional(ResourceList),
     AlarmArn: S.optional(S.String),
-    AlarmConfigurationUpdatedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    AlarmConfigurationUpdatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     AlarmDescription: S.optional(S.String),
     AlarmName: S.optional(S.String),
     AlarmRule: S.optional(S.String),
@@ -895,13 +779,9 @@ export const CompositeAlarm = /*@__PURE__*/ S.suspend(() =>
     OKActions: S.optional(ResourceList),
     StateReason: S.optional(S.String),
     StateReasonData: S.optional(S.String),
-    StateUpdatedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    StateUpdatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     StateValue: S.optional(StateValue),
-    StateTransitionedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    StateTransitionedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     ActionsSuppressedBy: S.optional(ActionsSuppressedBy),
     ActionsSuppressedReason: S.optional(S.String),
     ActionsSuppressor: S.optional(S.String),
@@ -911,13 +791,7 @@ export const CompositeAlarm = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "CompositeAlarm" }) as any as S.Schema<CompositeAlarm>;
 export type CompositeAlarms = CompositeAlarm[];
 export const CompositeAlarms = /*@__PURE__*/ S.Array(CompositeAlarm);
-export type Statistic =
-  | "SampleCount"
-  | "Average"
-  | "Sum"
-  | "Minimum"
-  | "Maximum"
-  | (string & {});
+export type Statistic = "SampleCount" | "Average" | "Sum" | "Minimum" | "Maximum" | (string & {});
 export const Statistic = S.String;
 
 export type ExtendedStatistic = string;
@@ -950,13 +824,11 @@ export interface WallClockWindow {
 }
 export const WallClockWindow = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Timezone: S.optional(S.String) }),
-).annotate({
-  identifier: "WallClockWindow",
-}) as any as S.Schema<WallClockWindow>;
+).annotate({ identifier: "WallClockWindow" }) as any as S.Schema<WallClockWindow>;
 export interface SlidingWindow {}
-export const SlidingWindow = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({ identifier: "SlidingWindow" }) as any as S.Schema<SlidingWindow>;
+export const SlidingWindow = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  identifier: "SlidingWindow",
+}) as any as S.Schema<SlidingWindow>;
 export type EvaluationWindow =
   | { WallClockWindow: WallClockWindow; SlidingWindow?: never }
   | { WallClockWindow?: never; SlidingWindow: SlidingWindow };
@@ -975,9 +847,7 @@ export const WarmUpConfiguration = /*@__PURE__*/ S.suspend(() =>
     WarmUpPeriodDurationInMinutes: S.optional(S.Number),
     OnlyStartEvaluatingAfterWarmUpPeriodEnds: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "WarmUpConfiguration",
-}) as any as S.Schema<WarmUpConfiguration>;
+).annotate({ identifier: "WarmUpConfiguration" }) as any as S.Schema<WarmUpConfiguration>;
 export type Query = string;
 export type PendingPeriod = number;
 export type RecoveryPeriod = number;
@@ -992,9 +862,7 @@ export const AlarmPromQLCriteria = /*@__PURE__*/ S.suspend(() =>
     PendingPeriod: S.optional(S.Number),
     RecoveryPeriod: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "AlarmPromQLCriteria",
-}) as any as S.Schema<AlarmPromQLCriteria>;
+).annotate({ identifier: "AlarmPromQLCriteria" }) as any as S.Schema<AlarmPromQLCriteria>;
 export type EvaluationCriteria = { PromQLCriteria: AlarmPromQLCriteria };
 export const EvaluationCriteria = /*@__PURE__*/ S.Union([
   S.Struct({ PromQLCriteria: AlarmPromQLCriteria }),
@@ -1040,9 +908,7 @@ export const MetricAlarm = /*@__PURE__*/ S.suspend(() =>
     AlarmName: S.optional(S.String),
     AlarmArn: S.optional(S.String),
     AlarmDescription: S.optional(S.String),
-    AlarmConfigurationUpdatedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    AlarmConfigurationUpdatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     ActionsEnabled: S.optional(S.Boolean),
     OKActions: S.optional(ResourceList),
     AlarmActions: S.optional(ResourceList),
@@ -1050,9 +916,7 @@ export const MetricAlarm = /*@__PURE__*/ S.suspend(() =>
     StateValue: S.optional(StateValue),
     StateReason: S.optional(S.String),
     StateReasonData: S.optional(S.String),
-    StateUpdatedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    StateUpdatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     MetricName: S.optional(S.String),
     Namespace: S.optional(S.String),
     Statistic: S.optional(Statistic),
@@ -1069,9 +933,7 @@ export const MetricAlarm = /*@__PURE__*/ S.suspend(() =>
     Metrics: S.optional(MetricDataQueries),
     ThresholdMetricId: S.optional(S.String),
     EvaluationState: S.optional(EvaluationState),
-    StateTransitionedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    StateTransitionedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     EvaluationWindow: S.optional(EvaluationWindow),
     WarmUpConfiguration: S.optional(WarmUpConfiguration),
     EvaluationCriteria: S.optional(EvaluationCriteria),
@@ -1098,9 +960,7 @@ export const ScheduleConfiguration = /*@__PURE__*/ S.suspend(() =>
     StartTimeOffset: S.optional(S.Number),
     EndTimeOffset: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ScheduleConfiguration",
-}) as any as S.Schema<ScheduleConfiguration>;
+).annotate({ identifier: "ScheduleConfiguration" }) as any as S.Schema<ScheduleConfiguration>;
 export type AggregationExpression = string;
 export type TagKey = string;
 export type TagValue = string;
@@ -1169,9 +1029,7 @@ export const LogAlarm = /*@__PURE__*/ S.suspend(() =>
     AlarmName: S.optional(S.String),
     AlarmArn: S.optional(S.String),
     AlarmDescription: S.optional(S.String),
-    AlarmConfigurationUpdatedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    AlarmConfigurationUpdatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     ActionsEnabled: S.optional(S.Boolean),
     OKActions: S.optional(ResourceList),
     AlarmActions: S.optional(ResourceList),
@@ -1179,18 +1037,14 @@ export const LogAlarm = /*@__PURE__*/ S.suspend(() =>
     StateValue: S.optional(StateValue),
     StateReason: S.optional(S.String),
     StateReasonData: S.optional(S.String),
-    StateUpdatedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    StateUpdatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     ScheduledQueryConfiguration: S.optional(ScheduledQueryConfiguration),
     QueryResultsToEvaluate: S.optional(S.Number),
     QueryResultsToAlarm: S.optional(S.Number),
     Threshold: S.optional(S.Number),
     ComparisonOperator: S.optional(ComparisonOperator),
     TreatMissingData: S.optional(S.String),
-    StateTransitionedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    StateTransitionedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     EvaluationState: S.optional(EvaluationState),
     ActionLogLineCount: S.optional(S.Number),
     ActionLogLineRoleArn: S.optional(S.String),
@@ -1207,10 +1061,7 @@ export interface DescribeAlarmsOutput {
       Id: MetricId;
       MetricStat: MetricStat & {
         Metric: Metric & {
-          Dimensions: (Dimension & {
-            Name: DimensionName;
-            Value: DimensionValue;
-          })[];
+          Dimensions: (Dimension & { Name: DimensionName; Value: DimensionValue })[];
         };
         Period: Period;
         Stat: Stat;
@@ -1244,9 +1095,7 @@ export const DescribeAlarmsOutput = /*@__PURE__*/ S.suspend(() =>
     LogAlarms: S.optional(LogAlarms),
     NextToken: S.optional(S.String),
   }).pipe(ns),
-).annotate({
-  identifier: "DescribeAlarmsOutput",
-}) as any as S.Schema<DescribeAlarmsOutput>;
+).annotate({ identifier: "DescribeAlarmsOutput" }) as any as S.Schema<DescribeAlarmsOutput>;
 export interface DescribeAlarmsForMetricInput {
   MetricName?: string;
   Namespace?: string;
@@ -1265,17 +1114,7 @@ export const DescribeAlarmsForMetricInput = /*@__PURE__*/ S.suspend(() =>
     Dimensions: S.optional(Dimensions),
     Period: S.optional(S.Number),
     Unit: S.optional(StandardUnit),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeAlarmsForMetricInput",
 }) as any as S.Schema<DescribeAlarmsForMetricInput>;
@@ -1286,10 +1125,7 @@ export interface DescribeAlarmsForMetricOutput {
       Id: MetricId;
       MetricStat: MetricStat & {
         Metric: Metric & {
-          Dimensions: (Dimension & {
-            Name: DimensionName;
-            Value: DimensionValue;
-          })[];
+          Dimensions: (Dimension & { Name: DimensionName; Value: DimensionValue })[];
         };
         Period: Period;
         Stat: Stat;
@@ -1308,10 +1144,7 @@ export const DescribeAlarmsForMetricOutput = /*@__PURE__*/ S.suspend(() =>
 export type AnomalyDetectorIds = string[];
 export const AnomalyDetectorIds = /*@__PURE__*/ S.Array(S.String);
 export type MaxReturnedResultsCount = number;
-export type AnomalyDetectorType =
-  | "SINGLE_METRIC"
-  | "METRIC_MATH"
-  | (string & {});
+export type AnomalyDetectorType = "SINGLE_METRIC" | "METRIC_MATH" | (string & {});
 export const AnomalyDetectorType = S.String;
 
 export type AnomalyDetectorTypes = AnomalyDetectorType[];
@@ -1334,17 +1167,7 @@ export const DescribeAnomalyDetectorsInput = /*@__PURE__*/ S.suspend(() =>
     MetricName: S.optional(S.String),
     Dimensions: S.optional(Dimensions),
     AnomalyDetectorTypes: S.optional(AnomalyDetectorTypes),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeAnomalyDetectorsInput",
 }) as any as S.Schema<DescribeAnomalyDetectorsInput>;
@@ -1386,9 +1209,7 @@ export interface MetricCharacteristics {
 }
 export const MetricCharacteristics = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ PeriodicSpikes: S.optional(S.Boolean) }),
-).annotate({
-  identifier: "MetricCharacteristics",
-}) as any as S.Schema<MetricCharacteristics>;
+).annotate({ identifier: "MetricCharacteristics" }) as any as S.Schema<MetricCharacteristics>;
 export interface AnomalyDetector {
   AnomalyDetectorId?: string;
   Namespace?: string;
@@ -1414,9 +1235,7 @@ export const AnomalyDetector = /*@__PURE__*/ S.suspend(() =>
     SingleMetricAnomalyDetector: S.optional(SingleMetricAnomalyDetector),
     MetricMathAnomalyDetector: S.optional(MetricMathAnomalyDetector),
   }),
-).annotate({
-  identifier: "AnomalyDetector",
-}) as any as S.Schema<AnomalyDetector>;
+).annotate({ identifier: "AnomalyDetector" }) as any as S.Schema<AnomalyDetector>;
 export type AnomalyDetectors = AnomalyDetector[];
 export const AnomalyDetectors = /*@__PURE__*/ S.Array(AnomalyDetector);
 export interface DescribeAnomalyDetectorsOutput {
@@ -1426,20 +1245,14 @@ export interface DescribeAnomalyDetectorsOutput {
       ExcludedTimeRanges: (Range & { StartTime: Date; EndTime: Date })[];
     };
     SingleMetricAnomalyDetector: SingleMetricAnomalyDetector & {
-      Dimensions: (Dimension & {
-        Name: DimensionName;
-        Value: DimensionValue;
-      })[];
+      Dimensions: (Dimension & { Name: DimensionName; Value: DimensionValue })[];
     };
     MetricMathAnomalyDetector: MetricMathAnomalyDetector & {
       MetricDataQueries: (MetricDataQuery & {
         Id: MetricId;
         MetricStat: MetricStat & {
           Metric: Metric & {
-            Dimensions: (Dimension & {
-              Name: DimensionName;
-              Value: DimensionValue;
-            })[];
+            Dimensions: (Dimension & { Name: DimensionName; Value: DimensionValue })[];
           };
           Period: Period;
           Stat: Stat;
@@ -1463,19 +1276,8 @@ export interface DescribeInsightRulesInput {
   MaxResults?: number;
 }
 export const DescribeInsightRulesInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+  S.Struct({ NextToken: S.optional(S.String), MaxResults: S.optional(S.Number) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DescribeInsightRulesInput",
@@ -1515,10 +1317,7 @@ export interface DescribeInsightRulesOutput {
   })[];
 }
 export const DescribeInsightRulesOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    InsightRules: S.optional(InsightRules),
-  }).pipe(ns),
+  S.Struct({ NextToken: S.optional(S.String), InsightRules: S.optional(InsightRules) }).pipe(ns),
 ).annotate({
   identifier: "DescribeInsightRulesOutput",
 }) as any as S.Schema<DescribeInsightRulesOutput>;
@@ -1527,19 +1326,9 @@ export interface DisableAlarmActionsInput {
 }
 export const DisableAlarmActionsInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ AlarmNames: S.optional(AlarmNames) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DisableAlarmActionsInput",
-}) as any as S.Schema<DisableAlarmActionsInput>;
+).annotate({ identifier: "DisableAlarmActionsInput" }) as any as S.Schema<DisableAlarmActionsInput>;
 export interface DisableAlarmActionsResponse {}
 export const DisableAlarmActionsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(ns),
@@ -1551,19 +1340,9 @@ export interface DisableInsightRulesInput {
 }
 export const DisableInsightRulesInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ RuleNames: S.optional(InsightRuleNames) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DisableInsightRulesInput",
-}) as any as S.Schema<DisableInsightRulesInput>;
+).annotate({ identifier: "DisableInsightRulesInput" }) as any as S.Schema<DisableInsightRulesInput>;
 export interface DisableInsightRulesOutput {
   Failures?: PartialFailure[];
 }
@@ -1577,15 +1356,7 @@ export interface DisassociateDatasetKmsKeyInput {
 }
 export const DisassociateDatasetKmsKeyInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ DatasetIdentifier: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DisassociateDatasetKmsKeyInput",
@@ -1601,19 +1372,9 @@ export interface EnableAlarmActionsInput {
 }
 export const EnableAlarmActionsInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ AlarmNames: S.optional(AlarmNames) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "EnableAlarmActionsInput",
-}) as any as S.Schema<EnableAlarmActionsInput>;
+).annotate({ identifier: "EnableAlarmActionsInput" }) as any as S.Schema<EnableAlarmActionsInput>;
 export interface EnableAlarmActionsResponse {}
 export const EnableAlarmActionsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(ns),
@@ -1625,45 +1386,23 @@ export interface EnableInsightRulesInput {
 }
 export const EnableInsightRulesInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ RuleNames: S.optional(InsightRuleNames) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "EnableInsightRulesInput",
-}) as any as S.Schema<EnableInsightRulesInput>;
+).annotate({ identifier: "EnableInsightRulesInput" }) as any as S.Schema<EnableInsightRulesInput>;
 export interface EnableInsightRulesOutput {
   Failures?: PartialFailure[];
 }
 export const EnableInsightRulesOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Failures: S.optional(BatchFailures) }).pipe(ns),
-).annotate({
-  identifier: "EnableInsightRulesOutput",
-}) as any as S.Schema<EnableInsightRulesOutput>;
+).annotate({ identifier: "EnableInsightRulesOutput" }) as any as S.Schema<EnableInsightRulesOutput>;
 export interface GetAlarmMuteRuleInput {
   AlarmMuteRuleName?: string;
 }
 export const GetAlarmMuteRuleInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ AlarmMuteRuleName: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetAlarmMuteRuleInput",
-}) as any as S.Schema<GetAlarmMuteRuleInput>;
+).annotate({ identifier: "GetAlarmMuteRuleInput" }) as any as S.Schema<GetAlarmMuteRuleInput>;
 export type Arn = string;
 export type Expression = string;
 export type Duration = string;
@@ -1693,11 +1432,7 @@ export interface MuteTargets {
 export const MuteTargets = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ AlarmNames: S.optional(MuteTargetAlarmNameList) }),
 ).annotate({ identifier: "MuteTargets" }) as any as S.Schema<MuteTargets>;
-export type AlarmMuteRuleStatus =
-  | "SCHEDULED"
-  | "ACTIVE"
-  | "EXPIRED"
-  | (string & {});
+export type AlarmMuteRuleStatus = "SCHEDULED" | "ACTIVE" | "EXPIRED" | (string & {});
 export const AlarmMuteRuleStatus = S.String;
 
 export type MuteType = string;
@@ -1705,9 +1440,7 @@ export interface GetAlarmMuteRuleOutput {
   Name?: string;
   AlarmMuteRuleArn?: string;
   Description?: string;
-  Rule?: Rule & {
-    Schedule: Schedule & { Expression: Expression; Duration: Duration };
-  };
+  Rule?: Rule & { Schedule: Schedule & { Expression: Expression; Duration: Duration } };
   MuteTargets?: MuteTargets & { AlarmNames: MuteTargetAlarmNameList };
   StartDate?: Date;
   ExpireDate?: Date;
@@ -1725,32 +1458,18 @@ export const GetAlarmMuteRuleOutput = /*@__PURE__*/ S.suspend(() =>
     StartDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     ExpireDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     Status: S.optional(AlarmMuteRuleStatus),
-    LastUpdatedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LastUpdatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     MuteType: S.optional(S.String),
   }).pipe(ns),
-).annotate({
-  identifier: "GetAlarmMuteRuleOutput",
-}) as any as S.Schema<GetAlarmMuteRuleOutput>;
+).annotate({ identifier: "GetAlarmMuteRuleOutput" }) as any as S.Schema<GetAlarmMuteRuleOutput>;
 export interface GetDashboardInput {
   DashboardName?: string;
 }
 export const GetDashboardInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ DashboardName: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetDashboardInput",
-}) as any as S.Schema<GetDashboardInput>;
+).annotate({ identifier: "GetDashboardInput" }) as any as S.Schema<GetDashboardInput>;
 export type DashboardArn = string;
 export type DashboardBody = string;
 export interface GetDashboardOutput {
@@ -1764,27 +1483,15 @@ export const GetDashboardOutput = /*@__PURE__*/ S.suspend(() =>
     DashboardBody: S.optional(S.String),
     DashboardName: S.optional(S.String),
   }).pipe(ns),
-).annotate({
-  identifier: "GetDashboardOutput",
-}) as any as S.Schema<GetDashboardOutput>;
+).annotate({ identifier: "GetDashboardOutput" }) as any as S.Schema<GetDashboardOutput>;
 export interface GetDatasetInput {
   DatasetIdentifier?: string;
 }
 export const GetDatasetInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ DatasetIdentifier: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetDatasetInput",
-}) as any as S.Schema<GetDatasetInput>;
+).annotate({ identifier: "GetDatasetInput" }) as any as S.Schema<GetDatasetInput>;
 export type DatasetId = string;
 export type DatasetArn = string;
 export interface GetDatasetOutput {
@@ -1798,9 +1505,7 @@ export const GetDatasetOutput = /*@__PURE__*/ S.suspend(() =>
     Arn: S.optional(S.String),
     KmsKeyArn: S.optional(S.String),
   }).pipe(ns),
-).annotate({
-  identifier: "GetDatasetOutput",
-}) as any as S.Schema<GetDatasetOutput>;
+).annotate({ identifier: "GetDatasetOutput" }) as any as S.Schema<GetDatasetOutput>;
 export type InsightRuleUnboundInteger = number;
 export type InsightRuleMetricName = string;
 export type InsightRuleMetricList = string[];
@@ -1824,17 +1529,7 @@ export const GetInsightRuleReportInput = /*@__PURE__*/ S.suspend(() =>
     MaxContributorCount: S.optional(S.Number),
     Metrics: S.optional(InsightRuleMetricList),
     OrderBy: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "GetInsightRuleReportInput",
 }) as any as S.Schema<GetInsightRuleReportInput>;
@@ -1859,8 +1554,7 @@ export const InsightRuleContributorDatapoint = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "InsightRuleContributorDatapoint",
 }) as any as S.Schema<InsightRuleContributorDatapoint>;
-export type InsightRuleContributorDatapoints =
-  InsightRuleContributorDatapoint[];
+export type InsightRuleContributorDatapoints = InsightRuleContributorDatapoint[];
 export const InsightRuleContributorDatapoints = /*@__PURE__*/ S.Array(
   InsightRuleContributorDatapoint,
 );
@@ -1875,13 +1569,9 @@ export const InsightRuleContributor = /*@__PURE__*/ S.suspend(() =>
     ApproximateAggregateValue: S.optional(S.Number),
     Datapoints: S.optional(InsightRuleContributorDatapoints),
   }),
-).annotate({
-  identifier: "InsightRuleContributor",
-}) as any as S.Schema<InsightRuleContributor>;
+).annotate({ identifier: "InsightRuleContributor" }) as any as S.Schema<InsightRuleContributor>;
 export type InsightRuleContributors = InsightRuleContributor[];
-export const InsightRuleContributors = /*@__PURE__*/ S.Array(
-  InsightRuleContributor,
-);
+export const InsightRuleContributors = /*@__PURE__*/ S.Array(InsightRuleContributor);
 export interface InsightRuleMetricDatapoint {
   Timestamp?: Date;
   UniqueContributors?: number;
@@ -1907,9 +1597,7 @@ export const InsightRuleMetricDatapoint = /*@__PURE__*/ S.suspend(() =>
   identifier: "InsightRuleMetricDatapoint",
 }) as any as S.Schema<InsightRuleMetricDatapoint>;
 export type InsightRuleMetricDatapoints = InsightRuleMetricDatapoint[];
-export const InsightRuleMetricDatapoints = /*@__PURE__*/ S.Array(
-  InsightRuleMetricDatapoint,
-);
+export const InsightRuleMetricDatapoints = /*@__PURE__*/ S.Array(InsightRuleMetricDatapoint);
 export interface GetInsightRuleReportOutput {
   KeyLabels?: string[];
   AggregationStatistic?: string;
@@ -1963,33 +1651,14 @@ export const GetMetricDataInput = /*@__PURE__*/ S.suspend(() =>
     ScanBy: S.optional(ScanBy),
     MaxDatapoints: S.optional(S.Number),
     LabelOptions: S.optional(LabelOptions),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetMetricDataInput",
-}) as any as S.Schema<GetMetricDataInput>;
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "GetMetricDataInput" }) as any as S.Schema<GetMetricDataInput>;
 export type Timestamps = Date[];
-export const Timestamps = /*@__PURE__*/ S.Array(
-  S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-);
+export const Timestamps = /*@__PURE__*/ S.Array(S.Date.pipe(T.TimestampFormat("epoch-seconds")));
 export type DatapointValue = number;
 export type DatapointValues = number[];
 export const DatapointValues = /*@__PURE__*/ S.Array(S.Number);
-export type StatusCode =
-  | "Complete"
-  | "InternalError"
-  | "PartialData"
-  | "Forbidden"
-  | (string & {});
+export type StatusCode = "Complete" | "InternalError" | "PartialData" | "Forbidden" | (string & {});
 export const StatusCode = S.String;
 
 export type MessageDataCode = string;
@@ -2020,9 +1689,7 @@ export const MetricDataResult = /*@__PURE__*/ S.suspend(() =>
     StatusCode: S.optional(StatusCode),
     Messages: S.optional(MetricDataResultMessages),
   }),
-).annotate({
-  identifier: "MetricDataResult",
-}) as any as S.Schema<MetricDataResult>;
+).annotate({ identifier: "MetricDataResult" }) as any as S.Schema<MetricDataResult>;
 export type MetricDataResults = MetricDataResult[];
 export const MetricDataResults = /*@__PURE__*/ S.Array(MetricDataResult);
 export interface GetMetricDataOutput {
@@ -2036,9 +1703,7 @@ export const GetMetricDataOutput = /*@__PURE__*/ S.suspend(() =>
     NextToken: S.optional(S.String),
     Messages: S.optional(MetricDataResultMessages),
   }).pipe(ns),
-).annotate({
-  identifier: "GetMetricDataOutput",
-}) as any as S.Schema<GetMetricDataOutput>;
+).annotate({ identifier: "GetMetricDataOutput" }) as any as S.Schema<GetMetricDataOutput>;
 export type Statistics = Statistic[];
 export const Statistics = /*@__PURE__*/ S.Array(Statistic);
 export type ExtendedStatistics = string[];
@@ -2065,25 +1730,10 @@ export const GetMetricStatisticsInput = /*@__PURE__*/ S.suspend(() =>
     Statistics: S.optional(Statistics),
     ExtendedStatistics: S.optional(ExtendedStatistics),
     Unit: S.optional(StandardUnit),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetMetricStatisticsInput",
-}) as any as S.Schema<GetMetricStatisticsInput>;
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "GetMetricStatisticsInput" }) as any as S.Schema<GetMetricStatisticsInput>;
 export type DatapointValueMap = { [key: string]: number | undefined };
-export const DatapointValueMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.Number.pipe(S.optional),
-);
+export const DatapointValueMap = /*@__PURE__*/ S.Record(S.String, S.Number.pipe(S.optional));
 export interface Datapoint {
   Timestamp?: Date;
   SampleCount?: number;
@@ -2113,10 +1763,7 @@ export interface GetMetricStatisticsOutput {
   Datapoints?: Datapoint[];
 }
 export const GetMetricStatisticsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Label: S.optional(S.String),
-    Datapoints: S.optional(Datapoints),
-  }).pipe(ns),
+  S.Struct({ Label: S.optional(S.String), Datapoints: S.optional(Datapoints) }).pipe(ns),
 ).annotate({
   identifier: "GetMetricStatisticsOutput",
 }) as any as S.Schema<GetMetricStatisticsOutput>;
@@ -2125,19 +1772,9 @@ export interface GetMetricStreamInput {
 }
 export const GetMetricStreamInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Name: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetMetricStreamInput",
-}) as any as S.Schema<GetMetricStreamInput>;
+).annotate({ identifier: "GetMetricStreamInput" }) as any as S.Schema<GetMetricStreamInput>;
 export type MetricStreamFilterMetricNames = string[];
 export const MetricStreamFilterMetricNames = /*@__PURE__*/ S.Array(S.String);
 export interface MetricStreamFilter {
@@ -2149,9 +1786,7 @@ export const MetricStreamFilter = /*@__PURE__*/ S.suspend(() =>
     Namespace: S.optional(S.String),
     MetricNames: S.optional(MetricStreamFilterMetricNames),
   }),
-).annotate({
-  identifier: "MetricStreamFilter",
-}) as any as S.Schema<MetricStreamFilter>;
+).annotate({ identifier: "MetricStreamFilter" }) as any as S.Schema<MetricStreamFilter>;
 export type MetricStreamFilters = MetricStreamFilter[];
 export const MetricStreamFilters = /*@__PURE__*/ S.Array(MetricStreamFilter);
 export type MetricStreamState = string;
@@ -2167,23 +1802,17 @@ export interface MetricStreamStatisticsMetric {
   MetricName?: string;
 }
 export const MetricStreamStatisticsMetric = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Namespace: S.optional(S.String),
-    MetricName: S.optional(S.String),
-  }),
+  S.Struct({ Namespace: S.optional(S.String), MetricName: S.optional(S.String) }),
 ).annotate({
   identifier: "MetricStreamStatisticsMetric",
 }) as any as S.Schema<MetricStreamStatisticsMetric>;
-export type MetricStreamStatisticsIncludeMetrics =
-  MetricStreamStatisticsMetric[];
+export type MetricStreamStatisticsIncludeMetrics = MetricStreamStatisticsMetric[];
 export const MetricStreamStatisticsIncludeMetrics = /*@__PURE__*/ S.Array(
   MetricStreamStatisticsMetric,
 );
 export type MetricStreamStatistic = string;
 export type MetricStreamStatisticsAdditionalStatistics = string[];
-export const MetricStreamStatisticsAdditionalStatistics = /*@__PURE__*/ S.Array(
-  S.String,
-);
+export const MetricStreamStatisticsAdditionalStatistics = /*@__PURE__*/ S.Array(S.String);
 export interface MetricStreamStatisticsConfiguration {
   IncludeMetrics?: MetricStreamStatisticsMetric[];
   AdditionalStatistics?: string[];
@@ -2191,15 +1820,12 @@ export interface MetricStreamStatisticsConfiguration {
 export const MetricStreamStatisticsConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     IncludeMetrics: S.optional(MetricStreamStatisticsIncludeMetrics),
-    AdditionalStatistics: S.optional(
-      MetricStreamStatisticsAdditionalStatistics,
-    ),
+    AdditionalStatistics: S.optional(MetricStreamStatisticsAdditionalStatistics),
   }),
 ).annotate({
   identifier: "MetricStreamStatisticsConfiguration",
 }) as any as S.Schema<MetricStreamStatisticsConfiguration>;
-export type MetricStreamStatisticsConfigurations =
-  MetricStreamStatisticsConfiguration[];
+export type MetricStreamStatisticsConfigurations = MetricStreamStatisticsConfiguration[];
 export const MetricStreamStatisticsConfigurations = /*@__PURE__*/ S.Array(
   MetricStreamStatisticsConfiguration,
 );
@@ -2239,9 +1865,7 @@ export const GetMetricStreamOutput = /*@__PURE__*/ S.suspend(() =>
     StatisticsConfigurations: S.optional(MetricStreamStatisticsConfigurations),
     IncludeLinkedAccountsMetrics: S.optional(S.Boolean),
   }).pipe(ns),
-).annotate({
-  identifier: "GetMetricStreamOutput",
-}) as any as S.Schema<GetMetricStreamOutput>;
+).annotate({ identifier: "GetMetricStreamOutput" }) as any as S.Schema<GetMetricStreamOutput>;
 export type MetricWidget = string;
 export type OutputFormat = string;
 export interface GetMetricWidgetImageInput {
@@ -2249,19 +1873,8 @@ export interface GetMetricWidgetImageInput {
   OutputFormat?: string;
 }
 export const GetMetricWidgetImageInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MetricWidget: S.optional(S.String),
-    OutputFormat: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+  S.Struct({ MetricWidget: S.optional(S.String), OutputFormat: S.optional(S.String) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetMetricWidgetImageInput",
@@ -2277,31 +1890,66 @@ export const GetMetricWidgetImageOutput = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetMetricWidgetImageOutput>;
 export interface GetOTelEnrichmentInput {}
 export const GetOTelEnrichmentInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetOTelEnrichmentInput",
-}) as any as S.Schema<GetOTelEnrichmentInput>;
+  S.Struct({}).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "GetOTelEnrichmentInput" }) as any as S.Schema<GetOTelEnrichmentInput>;
 export type OTelEnrichmentStatus = "Running" | "Stopped" | (string & {});
 export const OTelEnrichmentStatus = S.String;
 
+export type OTelEnrichmentMetricNameList = string[];
+export const OTelEnrichmentMetricNameList = /*@__PURE__*/ S.Array(S.String);
+export interface OTelEnrichmentMetricSelector {
+  Namespace?: string;
+  MetricNames?: string[];
+}
+export const OTelEnrichmentMetricSelector = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Namespace: S.optional(S.String),
+    MetricNames: S.optional(OTelEnrichmentMetricNameList),
+  }),
+).annotate({
+  identifier: "OTelEnrichmentMetricSelector",
+}) as any as S.Schema<OTelEnrichmentMetricSelector>;
+export type OTelEnrichmentMetricSelectorList = OTelEnrichmentMetricSelector[];
+export const OTelEnrichmentMetricSelectorList = /*@__PURE__*/ S.Array(OTelEnrichmentMetricSelector);
 export interface GetOTelEnrichmentOutput {
   Status: OTelEnrichmentStatus;
+  IncludeFilters?: (OTelEnrichmentMetricSelector & { Namespace: Namespace })[];
+  ExcludeFilters?: (OTelEnrichmentMetricSelector & { Namespace: Namespace })[];
+  CreatedAt?: Date;
+  UpdatedAt?: Date;
 }
 export const GetOTelEnrichmentOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Status: S.optional(OTelEnrichmentStatus) }).pipe(ns),
+  S.Struct({
+    Status: S.optional(OTelEnrichmentStatus),
+    IncludeFilters: S.optional(OTelEnrichmentMetricSelectorList),
+    ExcludeFilters: S.optional(OTelEnrichmentMetricSelectorList),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }).pipe(ns),
+).annotate({ identifier: "GetOTelEnrichmentOutput" }) as any as S.Schema<GetOTelEnrichmentOutput>;
+export interface GetResourceMetricsConfigurationInput {
+  ResourceArn?: string;
+}
+export const GetResourceMetricsConfigurationInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ ResourceArn: S.optional(S.String) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
-  identifier: "GetOTelEnrichmentOutput",
-}) as any as S.Schema<GetOTelEnrichmentOutput>;
+  identifier: "GetResourceMetricsConfigurationInput",
+}) as any as S.Schema<GetResourceMetricsConfigurationInput>;
+export interface GetResourceMetricsConfigurationOutput {
+  ResourceMetricsConfiguration: ResourceMetricsConfiguration & {
+    ResourceArn: ResourceArn;
+    CreatedAt: Date;
+    UpdatedAt: Date;
+    MetricSelections: (ResourceMetricSelection & { IncludeMetrics: MetricNameList })[];
+  };
+}
+export const GetResourceMetricsConfigurationOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ ResourceMetricsConfiguration: S.optional(ResourceMetricsConfiguration) }).pipe(ns),
+).annotate({
+  identifier: "GetResourceMetricsConfigurationOutput",
+}) as any as S.Schema<GetResourceMetricsConfigurationOutput>;
 export type AlarmMuteRuleStatuses = AlarmMuteRuleStatus[];
 export const AlarmMuteRuleStatuses = /*@__PURE__*/ S.Array(AlarmMuteRuleStatus);
 export interface ListAlarmMuteRulesInput {
@@ -2316,20 +1964,8 @@ export const ListAlarmMuteRulesInput = /*@__PURE__*/ S.suspend(() =>
     Statuses: S.optional(AlarmMuteRuleStatuses),
     MaxRecords: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListAlarmMuteRulesInput",
-}) as any as S.Schema<ListAlarmMuteRulesInput>;
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "ListAlarmMuteRulesInput" }) as any as S.Schema<ListAlarmMuteRulesInput>;
 export interface AlarmMuteRuleSummary {
   AlarmMuteRuleArn?: string;
   ExpireDate?: Date;
@@ -2343,16 +1979,11 @@ export const AlarmMuteRuleSummary = /*@__PURE__*/ S.suspend(() =>
     ExpireDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     Status: S.optional(AlarmMuteRuleStatus),
     MuteType: S.optional(S.String),
-    LastUpdatedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LastUpdatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
-).annotate({
-  identifier: "AlarmMuteRuleSummary",
-}) as any as S.Schema<AlarmMuteRuleSummary>;
+).annotate({ identifier: "AlarmMuteRuleSummary" }) as any as S.Schema<AlarmMuteRuleSummary>;
 export type AlarmMuteRuleSummaries = AlarmMuteRuleSummary[];
-export const AlarmMuteRuleSummaries =
-  /*@__PURE__*/ S.Array(AlarmMuteRuleSummary);
+export const AlarmMuteRuleSummaries = /*@__PURE__*/ S.Array(AlarmMuteRuleSummary);
 export interface ListAlarmMuteRulesOutput {
   AlarmMuteRuleSummaries?: AlarmMuteRuleSummary[];
   NextToken?: string;
@@ -2362,32 +1993,17 @@ export const ListAlarmMuteRulesOutput = /*@__PURE__*/ S.suspend(() =>
     AlarmMuteRuleSummaries: S.optional(AlarmMuteRuleSummaries),
     NextToken: S.optional(S.String),
   }).pipe(ns),
-).annotate({
-  identifier: "ListAlarmMuteRulesOutput",
-}) as any as S.Schema<ListAlarmMuteRulesOutput>;
+).annotate({ identifier: "ListAlarmMuteRulesOutput" }) as any as S.Schema<ListAlarmMuteRulesOutput>;
 export type DashboardNamePrefix = string;
 export interface ListDashboardsInput {
   DashboardNamePrefix?: string;
   NextToken?: string;
 }
 export const ListDashboardsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DashboardNamePrefix: S.optional(S.String),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+  S.Struct({ DashboardNamePrefix: S.optional(S.String), NextToken: S.optional(S.String) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "ListDashboardsInput",
-}) as any as S.Schema<ListDashboardsInput>;
+).annotate({ identifier: "ListDashboardsInput" }) as any as S.Schema<ListDashboardsInput>;
 export type LastModified = Date;
 export type Size = number;
 export interface DashboardEntry {
@@ -2415,9 +2031,7 @@ export const ListDashboardsOutput = /*@__PURE__*/ S.suspend(() =>
     DashboardEntries: S.optional(DashboardEntries),
     NextToken: S.optional(S.String),
   }).pipe(ns),
-).annotate({
-  identifier: "ListDashboardsOutput",
-}) as any as S.Schema<ListDashboardsOutput>;
+).annotate({ identifier: "ListDashboardsOutput" }) as any as S.Schema<ListDashboardsOutput>;
 export interface ListManagedInsightRulesInput {
   ResourceARN?: string;
   NextToken?: string;
@@ -2428,17 +2042,7 @@ export const ListManagedInsightRulesInput = /*@__PURE__*/ S.suspend(() =>
     ResourceARN: S.optional(S.String),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListManagedInsightRulesInput",
 }) as any as S.Schema<ListManagedInsightRulesInput>;
@@ -2449,9 +2053,7 @@ export interface ManagedRuleState {
 }
 export const ManagedRuleState = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ RuleName: S.optional(S.String), State: S.optional(S.String) }),
-).annotate({
-  identifier: "ManagedRuleState",
-}) as any as S.Schema<ManagedRuleState>;
+).annotate({ identifier: "ManagedRuleState" }) as any as S.Schema<ManagedRuleState>;
 export interface ManagedRuleDescription {
   TemplateName?: string;
   ResourceARN?: string;
@@ -2463,19 +2065,12 @@ export const ManagedRuleDescription = /*@__PURE__*/ S.suspend(() =>
     ResourceARN: S.optional(S.String),
     RuleState: S.optional(ManagedRuleState),
   }),
-).annotate({
-  identifier: "ManagedRuleDescription",
-}) as any as S.Schema<ManagedRuleDescription>;
+).annotate({ identifier: "ManagedRuleDescription" }) as any as S.Schema<ManagedRuleDescription>;
 export type ManagedRuleDescriptions = ManagedRuleDescription[];
-export const ManagedRuleDescriptions = /*@__PURE__*/ S.Array(
-  ManagedRuleDescription,
-);
+export const ManagedRuleDescriptions = /*@__PURE__*/ S.Array(ManagedRuleDescription);
 export interface ListManagedInsightRulesOutput {
   ManagedRules?: (ManagedRuleDescription & {
-    RuleState: ManagedRuleState & {
-      RuleName: InsightRuleName;
-      State: InsightRuleState;
-    };
+    RuleState: ManagedRuleState & { RuleName: InsightRuleName; State: InsightRuleState };
   })[];
   NextToken?: string;
 }
@@ -2493,9 +2088,7 @@ export interface DimensionFilter {
 }
 export const DimensionFilter = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Name: S.optional(S.String), Value: S.optional(S.String) }),
-).annotate({
-  identifier: "DimensionFilter",
-}) as any as S.Schema<DimensionFilter>;
+).annotate({ identifier: "DimensionFilter" }) as any as S.Schema<DimensionFilter>;
 export type DimensionFilters = DimensionFilter[];
 export const DimensionFilters = /*@__PURE__*/ S.Array(DimensionFilter);
 export type RecentlyActive = "PT3H" | (string & {});
@@ -2520,20 +2113,8 @@ export const ListMetricsInput = /*@__PURE__*/ S.suspend(() =>
     RecentlyActive: S.optional(RecentlyActive),
     IncludeLinkedAccounts: S.optional(S.Boolean),
     OwningAccount: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListMetricsInput",
-}) as any as S.Schema<ListMetricsInput>;
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "ListMetricsInput" }) as any as S.Schema<ListMetricsInput>;
 export type Metrics = Metric[];
 export const Metrics = /*@__PURE__*/ S.Array(Metric);
 export type OwningAccounts = string[];
@@ -2551,32 +2132,17 @@ export const ListMetricsOutput = /*@__PURE__*/ S.suspend(() =>
     NextToken: S.optional(S.String),
     OwningAccounts: S.optional(OwningAccounts),
   }).pipe(ns),
-).annotate({
-  identifier: "ListMetricsOutput",
-}) as any as S.Schema<ListMetricsOutput>;
+).annotate({ identifier: "ListMetricsOutput" }) as any as S.Schema<ListMetricsOutput>;
 export type ListMetricStreamsMaxResults = number;
 export interface ListMetricStreamsInput {
   NextToken?: string;
   MaxResults?: number;
 }
 export const ListMetricStreamsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+  S.Struct({ NextToken: S.optional(S.String), MaxResults: S.optional(S.Number) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "ListMetricStreamsInput",
-}) as any as S.Schema<ListMetricStreamsInput>;
+).annotate({ identifier: "ListMetricStreamsInput" }) as any as S.Schema<ListMetricStreamsInput>;
 export interface MetricStreamEntry {
   Arn?: string;
   CreationDate?: Date;
@@ -2596,9 +2162,7 @@ export const MetricStreamEntry = /*@__PURE__*/ S.suspend(() =>
     State: S.optional(S.String),
     OutputFormat: S.optional(MetricStreamOutputFormat),
   }),
-).annotate({
-  identifier: "MetricStreamEntry",
-}) as any as S.Schema<MetricStreamEntry>;
+).annotate({ identifier: "MetricStreamEntry" }) as any as S.Schema<MetricStreamEntry>;
 export type MetricStreamEntries = MetricStreamEntry[];
 export const MetricStreamEntries = /*@__PURE__*/ S.Array(MetricStreamEntry);
 export interface ListMetricStreamsOutput {
@@ -2606,31 +2170,16 @@ export interface ListMetricStreamsOutput {
   Entries?: MetricStreamEntry[];
 }
 export const ListMetricStreamsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    Entries: S.optional(MetricStreamEntries),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListMetricStreamsOutput",
-}) as any as S.Schema<ListMetricStreamsOutput>;
+  S.Struct({ NextToken: S.optional(S.String), Entries: S.optional(MetricStreamEntries) }).pipe(ns),
+).annotate({ identifier: "ListMetricStreamsOutput" }) as any as S.Schema<ListMetricStreamsOutput>;
 export interface ListTagsForResourceInput {
   ResourceARN?: string;
 }
 export const ListTagsForResourceInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceARN: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "ListTagsForResourceInput",
-}) as any as S.Schema<ListTagsForResourceInput>;
+).annotate({ identifier: "ListTagsForResourceInput" }) as any as S.Schema<ListTagsForResourceInput>;
 export interface ListTagsForResourceOutput {
   Tags?: (Tag & { Key: TagKey; Value: TagValue })[];
 }
@@ -2657,26 +2206,12 @@ export const PutAlarmMuteRuleInput = /*@__PURE__*/ S.suspend(() =>
     Tags: S.optional(TagList),
     StartDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     ExpireDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "PutAlarmMuteRuleInput",
-}) as any as S.Schema<PutAlarmMuteRuleInput>;
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "PutAlarmMuteRuleInput" }) as any as S.Schema<PutAlarmMuteRuleInput>;
 export interface PutAlarmMuteRuleResponse {}
 export const PutAlarmMuteRuleResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "PutAlarmMuteRuleResponse",
-}) as any as S.Schema<PutAlarmMuteRuleResponse>;
+).annotate({ identifier: "PutAlarmMuteRuleResponse" }) as any as S.Schema<PutAlarmMuteRuleResponse>;
 export interface PutAnomalyDetectorInput {
   Namespace?: string;
   MetricName?: string;
@@ -2697,28 +2232,14 @@ export const PutAnomalyDetectorInput = /*@__PURE__*/ S.suspend(() =>
     MetricCharacteristics: S.optional(MetricCharacteristics),
     SingleMetricAnomalyDetector: S.optional(SingleMetricAnomalyDetector),
     MetricMathAnomalyDetector: S.optional(MetricMathAnomalyDetector),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "PutAnomalyDetectorInput",
-}) as any as S.Schema<PutAnomalyDetectorInput>;
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "PutAnomalyDetectorInput" }) as any as S.Schema<PutAnomalyDetectorInput>;
 export interface PutAnomalyDetectorOutput {
   AnomalyDetectorId?: string;
 }
 export const PutAnomalyDetectorOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ AnomalyDetectorId: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "PutAnomalyDetectorOutput",
-}) as any as S.Schema<PutAnomalyDetectorOutput>;
+).annotate({ identifier: "PutAnomalyDetectorOutput" }) as any as S.Schema<PutAnomalyDetectorOutput>;
 export interface PutCompositeAlarmInput {
   ActionsEnabled?: boolean;
   AlarmActions?: string[];
@@ -2745,20 +2266,8 @@ export const PutCompositeAlarmInput = /*@__PURE__*/ S.suspend(() =>
     ActionsSuppressor: S.optional(S.String),
     ActionsSuppressorWaitPeriod: S.optional(S.Number),
     ActionsSuppressorExtensionPeriod: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "PutCompositeAlarmInput",
-}) as any as S.Schema<PutCompositeAlarmInput>;
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "PutCompositeAlarmInput" }) as any as S.Schema<PutCompositeAlarmInput>;
 export interface PutCompositeAlarmResponse {}
 export const PutCompositeAlarmResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(ns),
@@ -2775,20 +2284,8 @@ export const PutDashboardInput = /*@__PURE__*/ S.suspend(() =>
     DashboardName: S.optional(S.String),
     DashboardBody: S.optional(S.String),
     Tags: S.optional(TagList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "PutDashboardInput",
-}) as any as S.Schema<PutDashboardInput>;
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "PutDashboardInput" }) as any as S.Schema<PutDashboardInput>;
 export type DataPath = string;
 export type Message = string;
 export interface DashboardValidationMessage {
@@ -2801,19 +2298,13 @@ export const DashboardValidationMessage = /*@__PURE__*/ S.suspend(() =>
   identifier: "DashboardValidationMessage",
 }) as any as S.Schema<DashboardValidationMessage>;
 export type DashboardValidationMessages = DashboardValidationMessage[];
-export const DashboardValidationMessages = /*@__PURE__*/ S.Array(
-  DashboardValidationMessage,
-);
+export const DashboardValidationMessages = /*@__PURE__*/ S.Array(DashboardValidationMessage);
 export interface PutDashboardOutput {
   DashboardValidationMessages?: DashboardValidationMessage[];
 }
 export const PutDashboardOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DashboardValidationMessages: S.optional(DashboardValidationMessages),
-  }).pipe(ns),
-).annotate({
-  identifier: "PutDashboardOutput",
-}) as any as S.Schema<PutDashboardOutput>;
+  S.Struct({ DashboardValidationMessages: S.optional(DashboardValidationMessages) }).pipe(ns),
+).annotate({ identifier: "PutDashboardOutput" }) as any as S.Schema<PutDashboardOutput>;
 export interface PutInsightRuleInput {
   RuleName?: string;
   RuleState?: string;
@@ -2828,24 +2319,10 @@ export const PutInsightRuleInput = /*@__PURE__*/ S.suspend(() =>
     RuleDefinition: S.optional(S.String),
     Tags: S.optional(TagList),
     ApplyOnTransformedLogs: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "PutInsightRuleInput",
-}) as any as S.Schema<PutInsightRuleInput>;
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "PutInsightRuleInput" }) as any as S.Schema<PutInsightRuleInput>;
 export interface PutInsightRuleOutput {}
-export const PutInsightRuleOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
+export const PutInsightRuleOutput = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "PutInsightRuleOutput",
 }) as any as S.Schema<PutInsightRuleOutput>;
 export interface PutLogAlarmInput {
@@ -2884,24 +2361,10 @@ export const PutLogAlarmInput = /*@__PURE__*/ S.suspend(() =>
     TreatMissingData: S.optional(S.String),
     Tags: S.optional(TagList),
     WarmUpConfiguration: S.optional(WarmUpConfiguration),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "PutLogAlarmInput",
-}) as any as S.Schema<PutLogAlarmInput>;
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "PutLogAlarmInput" }) as any as S.Schema<PutLogAlarmInput>;
 export interface PutLogAlarmResponse {}
-export const PutLogAlarmResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
+export const PutLogAlarmResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "PutLogAlarmResponse",
 }) as any as S.Schema<PutLogAlarmResponse>;
 export interface ManagedRule {
@@ -2923,15 +2386,7 @@ export interface PutManagedInsightRulesInput {
 }
 export const PutManagedInsightRulesInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ManagedRules: S.optional(ManagedRules) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "PutManagedInsightRulesInput",
@@ -3000,26 +2455,12 @@ export const PutMetricAlarmInput = /*@__PURE__*/ S.suspend(() =>
     WarmUpConfiguration: S.optional(WarmUpConfiguration),
     EvaluationCriteria: S.optional(EvaluationCriteria),
     EvaluationInterval: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "PutMetricAlarmInput",
-}) as any as S.Schema<PutMetricAlarmInput>;
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "PutMetricAlarmInput" }) as any as S.Schema<PutMetricAlarmInput>;
 export interface PutMetricAlarmResponse {}
-export const PutMetricAlarmResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "PutMetricAlarmResponse",
-}) as any as S.Schema<PutMetricAlarmResponse>;
+export const PutMetricAlarmResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate(
+  { identifier: "PutMetricAlarmResponse" },
+) as any as S.Schema<PutMetricAlarmResponse>;
 export interface StatisticSet {
   SampleCount?: number;
   Sum?: number;
@@ -3068,17 +2509,11 @@ export const MetricData = /*@__PURE__*/ S.Array(MetricDatum);
 export type EntityKeyAttributesMapKeyString = string;
 export type EntityKeyAttributesMapValueString = string;
 export type EntityKeyAttributesMap = { [key: string]: string | undefined };
-export const EntityKeyAttributesMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const EntityKeyAttributesMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export type EntityAttributesMapKeyString = string;
 export type EntityAttributesMapValueString = string;
 export type EntityAttributesMap = { [key: string]: string | undefined };
-export const EntityAttributesMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const EntityAttributesMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface Entity {
   KeyAttributes?: { [key: string]: string | undefined };
   Attributes?: { [key: string]: string | undefined };
@@ -3095,9 +2530,7 @@ export interface EntityMetricData {
 }
 export const EntityMetricData = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Entity: S.optional(Entity), MetricData: S.optional(MetricData) }),
-).annotate({
-  identifier: "EntityMetricData",
-}) as any as S.Schema<EntityMetricData>;
+).annotate({ identifier: "EntityMetricData" }) as any as S.Schema<EntityMetricData>;
 export type EntityMetricDataList = EntityMetricData[];
 export const EntityMetricDataList = /*@__PURE__*/ S.Array(EntityMetricData);
 export type StrictEntityValidation = boolean;
@@ -3113,24 +2546,10 @@ export const PutMetricDataInput = /*@__PURE__*/ S.suspend(() =>
     MetricData: S.optional(MetricData),
     EntityMetricData: S.optional(EntityMetricDataList),
     StrictEntityValidation: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "PutMetricDataInput",
-}) as any as S.Schema<PutMetricDataInput>;
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "PutMetricDataInput" }) as any as S.Schema<PutMetricDataInput>;
 export interface PutMetricDataResponse {}
-export const PutMetricDataResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
+export const PutMetricDataResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "PutMetricDataResponse",
 }) as any as S.Schema<PutMetricDataResponse>;
 export interface PutMetricStreamInput {
@@ -3155,28 +2574,14 @@ export const PutMetricStreamInput = /*@__PURE__*/ S.suspend(() =>
     Tags: S.optional(TagList),
     StatisticsConfigurations: S.optional(MetricStreamStatisticsConfigurations),
     IncludeLinkedAccountsMetrics: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "PutMetricStreamInput",
-}) as any as S.Schema<PutMetricStreamInput>;
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "PutMetricStreamInput" }) as any as S.Schema<PutMetricStreamInput>;
 export interface PutMetricStreamOutput {
   Arn?: string;
 }
 export const PutMetricStreamOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Arn: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "PutMetricStreamOutput",
-}) as any as S.Schema<PutMetricStreamOutput>;
+).annotate({ identifier: "PutMetricStreamOutput" }) as any as S.Schema<PutMetricStreamOutput>;
 export interface SetAlarmStateInput {
   AlarmName?: string;
   StateValue?: StateValue;
@@ -3189,24 +2594,10 @@ export const SetAlarmStateInput = /*@__PURE__*/ S.suspend(() =>
     StateValue: S.optional(StateValue),
     StateReason: S.optional(S.String),
     StateReasonData: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "SetAlarmStateInput",
-}) as any as S.Schema<SetAlarmStateInput>;
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "SetAlarmStateInput" }) as any as S.Schema<SetAlarmStateInput>;
 export interface SetAlarmStateResponse {}
-export const SetAlarmStateResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
+export const SetAlarmStateResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "SetAlarmStateResponse",
 }) as any as S.Schema<SetAlarmStateResponse>;
 export type MetricStreamNames = string[];
@@ -3216,44 +2607,36 @@ export interface StartMetricStreamsInput {
 }
 export const StartMetricStreamsInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Names: S.optional(MetricStreamNames) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "StartMetricStreamsInput",
-}) as any as S.Schema<StartMetricStreamsInput>;
+).annotate({ identifier: "StartMetricStreamsInput" }) as any as S.Schema<StartMetricStreamsInput>;
 export interface StartMetricStreamsOutput {}
 export const StartMetricStreamsOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "StartMetricStreamsOutput",
-}) as any as S.Schema<StartMetricStreamsOutput>;
-export interface StartOTelEnrichmentInput {}
+).annotate({ identifier: "StartMetricStreamsOutput" }) as any as S.Schema<StartMetricStreamsOutput>;
+export interface StartOTelEnrichmentInput {
+  IncludeFilters?: OTelEnrichmentMetricSelector[];
+  ExcludeFilters?: OTelEnrichmentMetricSelector[];
+}
 export const StartOTelEnrichmentInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "StartOTelEnrichmentInput",
-}) as any as S.Schema<StartOTelEnrichmentInput>;
-export interface StartOTelEnrichmentOutput {}
+  S.Struct({
+    IncludeFilters: S.optional(OTelEnrichmentMetricSelectorList),
+    ExcludeFilters: S.optional(OTelEnrichmentMetricSelectorList),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "StartOTelEnrichmentInput" }) as any as S.Schema<StartOTelEnrichmentInput>;
+export interface StartOTelEnrichmentOutput {
+  IncludeFilters?: (OTelEnrichmentMetricSelector & { Namespace: Namespace })[];
+  ExcludeFilters?: (OTelEnrichmentMetricSelector & { Namespace: Namespace })[];
+  CreatedAt?: Date;
+  UpdatedAt?: Date;
+}
 export const StartOTelEnrichmentOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
+  S.Struct({
+    IncludeFilters: S.optional(OTelEnrichmentMetricSelectorList),
+    ExcludeFilters: S.optional(OTelEnrichmentMetricSelectorList),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }).pipe(ns),
 ).annotate({
   identifier: "StartOTelEnrichmentOutput",
 }) as any as S.Schema<StartOTelEnrichmentOutput>;
@@ -3262,73 +2645,32 @@ export interface StopMetricStreamsInput {
 }
 export const StopMetricStreamsInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Names: S.optional(MetricStreamNames) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "StopMetricStreamsInput",
-}) as any as S.Schema<StopMetricStreamsInput>;
+).annotate({ identifier: "StopMetricStreamsInput" }) as any as S.Schema<StopMetricStreamsInput>;
 export interface StopMetricStreamsOutput {}
 export const StopMetricStreamsOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "StopMetricStreamsOutput",
-}) as any as S.Schema<StopMetricStreamsOutput>;
+).annotate({ identifier: "StopMetricStreamsOutput" }) as any as S.Schema<StopMetricStreamsOutput>;
 export interface StopOTelEnrichmentInput {}
 export const StopOTelEnrichmentInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "StopOTelEnrichmentInput",
-}) as any as S.Schema<StopOTelEnrichmentInput>;
+  S.Struct({}).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "StopOTelEnrichmentInput" }) as any as S.Schema<StopOTelEnrichmentInput>;
 export interface StopOTelEnrichmentOutput {}
 export const StopOTelEnrichmentOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "StopOTelEnrichmentOutput",
-}) as any as S.Schema<StopOTelEnrichmentOutput>;
+).annotate({ identifier: "StopOTelEnrichmentOutput" }) as any as S.Schema<StopOTelEnrichmentOutput>;
 export interface TagResourceInput {
   ResourceARN?: string;
   Tags?: Tag[];
 }
 export const TagResourceInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceARN: S.optional(S.String),
-    Tags: S.optional(TagList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+  S.Struct({ ResourceARN: S.optional(S.String), Tags: S.optional(TagList) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "TagResourceInput",
-}) as any as S.Schema<TagResourceInput>;
+).annotate({ identifier: "TagResourceInput" }) as any as S.Schema<TagResourceInput>;
 export interface TagResourceOutput {}
-export const TagResourceOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
+export const TagResourceOutput = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "TagResourceOutput",
 }) as any as S.Schema<TagResourceOutput>;
 export type TagKeyList = string[];
@@ -3338,34 +2680,73 @@ export interface UntagResourceInput {
   TagKeys?: string[];
 }
 export const UntagResourceInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceARN: S.optional(S.String),
-    TagKeys: S.optional(TagKeyList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+  S.Struct({ ResourceARN: S.optional(S.String), TagKeys: S.optional(TagKeyList) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UntagResourceInput",
-}) as any as S.Schema<UntagResourceInput>;
+).annotate({ identifier: "UntagResourceInput" }) as any as S.Schema<UntagResourceInput>;
 export interface UntagResourceOutput {}
-export const UntagResourceOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
+export const UntagResourceOutput = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "UntagResourceOutput",
 }) as any as S.Schema<UntagResourceOutput>;
+export interface UpdateOTelEnrichmentInput {
+  IncludeFilters?: OTelEnrichmentMetricSelector[];
+  ExcludeFilters?: OTelEnrichmentMetricSelector[];
+}
+export const UpdateOTelEnrichmentInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    IncludeFilters: S.optional(OTelEnrichmentMetricSelectorList),
+    ExcludeFilters: S.optional(OTelEnrichmentMetricSelectorList),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({
+  identifier: "UpdateOTelEnrichmentInput",
+}) as any as S.Schema<UpdateOTelEnrichmentInput>;
+export interface UpdateOTelEnrichmentOutput {
+  IncludeFilters?: (OTelEnrichmentMetricSelector & { Namespace: Namespace })[];
+  ExcludeFilters?: (OTelEnrichmentMetricSelector & { Namespace: Namespace })[];
+  CreatedAt?: Date;
+  UpdatedAt?: Date;
+}
+export const UpdateOTelEnrichmentOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    IncludeFilters: S.optional(OTelEnrichmentMetricSelectorList),
+    ExcludeFilters: S.optional(OTelEnrichmentMetricSelectorList),
+    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }).pipe(ns),
+).annotate({
+  identifier: "UpdateOTelEnrichmentOutput",
+}) as any as S.Schema<UpdateOTelEnrichmentOutput>;
+export interface UpdateResourceMetricsConfigurationInput {
+  ResourceArn?: string;
+  MetricSelections?: ResourceMetricSelection[];
+}
+export const UpdateResourceMetricsConfigurationInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ResourceArn: S.optional(S.String),
+    MetricSelections: S.optional(ResourceMetricSelectionList),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({
+  identifier: "UpdateResourceMetricsConfigurationInput",
+}) as any as S.Schema<UpdateResourceMetricsConfigurationInput>;
+export interface UpdateResourceMetricsConfigurationOutput {
+  ResourceMetricsConfiguration: ResourceMetricsConfiguration & {
+    ResourceArn: ResourceArn;
+    CreatedAt: Date;
+    UpdatedAt: Date;
+    MetricSelections: (ResourceMetricSelection & { IncludeMetrics: MetricNameList })[];
+  };
+}
+export const UpdateResourceMetricsConfigurationOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ ResourceMetricsConfiguration: S.optional(ResourceMetricsConfiguration) }).pipe(ns),
+).annotate({
+  identifier: "UpdateResourceMetricsConfigurationOutput",
+}) as any as S.Schema<UpdateResourceMetricsConfigurationOutput>;
 export type ErrorMessage = string;
 export type ResourceType = string;
 export type ResourceId = string;
 export type FaultDescription = string;
 export type AwsQueryErrorMessage = string;
+export type ValidationExceptionMessage = string;
 export type DashboardErrorMessage = string;
 export type AssociateDatasetKmsKeyError =
   | ConflictException
@@ -3462,6 +2843,43 @@ export const associateDatasetKmsKey: API.OperationMethod<
   operationName: "AssociateDatasetKmsKey",
 }));
 
+export type CreateResourceMetricsConfigurationError =
+  | ConflictException
+  | ResourceNotFoundException
+  | CommonErrors;
+/**
+ * Creates a resource metrics configuration for an Amazon Web Services resource. After you
+ * create a configuration, Amazon CloudWatch collects detailed metrics for that
+ * resource.
+ *
+ * Each Amazon Web Services resource can have only one resource metrics configuration. If a
+ * configuration already exists for the specified resource ARN, this operation returns a
+ * `ConflictException`. To modify an existing configuration, use UpdateResourceMetricsConfiguration.
+ *
+ * If the Amazon Web Services resource that you specify in `ResourceArn` does
+ * not exist, this operation returns a `ResourceNotFoundException`. Verify that
+ * the resource ARN is correct and that the resource exists before you retry the
+ * request.
+ *
+ * To create a resource metrics configuration, you must have the
+ * `cloudwatch:CreateResourceMetricsConfiguration` permission. For information about scoping
+ * this permission to specific resources, see Condition keys for resource metrics configuration access in the
+ * *Amazon CloudWatch User Guide*.
+ */
+export const createResourceMetricsConfiguration: API.OperationMethod<
+  CreateResourceMetricsConfigurationInput,
+  CreateResourceMetricsConfigurationOutput,
+  CreateResourceMetricsConfigurationError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateResourceMetricsConfigurationInput,
+  output: CreateResourceMetricsConfigurationOutput,
+  errors: [ConflictException, ResourceNotFoundException],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "CreateResourceMetricsConfiguration",
+}));
+
 export type DeleteAlarmMuteRuleError = CommonErrors;
 /**
  * Deletes a specific alarm mute rule.
@@ -3492,10 +2910,7 @@ export const deleteAlarmMuteRule: API.OperationMethod<
   operationName: "DeleteAlarmMuteRule",
 }));
 
-export type DeleteAlarmsError =
-  | ResourceConflict
-  | ResourceNotFound
-  | CommonErrors;
+export type DeleteAlarmsError = ResourceConflict | ResourceNotFound | CommonErrors;
 /**
  * Deletes the specified alarms. You can delete up to 100 alarms in one operation.
  * However, this total can include no more than one composite alarm. For example, you could
@@ -3584,11 +2999,7 @@ export const deleteDashboards: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteDashboardsInput,
   output: DeleteDashboardsOutput,
-  errors: [
-    ConflictException,
-    InternalServiceFault,
-    InvalidParameterValueException,
-  ],
+  errors: [ConflictException, InternalServiceFault, InvalidParameterValueException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDashboards",
@@ -3634,14 +3045,40 @@ export const deleteMetricStream: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteMetricStreamInput,
   output: DeleteMetricStreamOutput,
-  errors: [
-    InternalServiceFault,
-    InvalidParameterValueException,
-    MissingRequiredParameterException,
-  ],
+  errors: [InternalServiceFault, InvalidParameterValueException, MissingRequiredParameterException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMetricStream",
+}));
+
+export type DeleteResourceMetricsConfigurationError = ResourceNotFoundException | CommonErrors;
+/**
+ * Deletes the resource metrics configuration for an Amazon Web Services resource. After
+ * you delete the configuration, Amazon CloudWatch stops collecting detailed metrics
+ * for the resource. Metric data that Amazon CloudWatch already collected for the
+ * resource is not deleted.
+ *
+ * This operation returns a `ResourceNotFoundException` if no resource metrics
+ * configuration exists for the specified resource ARN. Verify that the resource ARN is
+ * correct.
+ *
+ * To delete a resource metrics configuration, you must have the
+ * `cloudwatch:DeleteResourceMetricsConfiguration` permission. For information about scoping
+ * this permission to specific resources, see Condition keys for resource metrics configuration access in the
+ * *Amazon CloudWatch User Guide*.
+ */
+export const deleteResourceMetricsConfiguration: API.OperationMethod<
+  DeleteResourceMetricsConfigurationInput,
+  DeleteResourceMetricsConfigurationOutput,
+  DeleteResourceMetricsConfigurationError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteResourceMetricsConfigurationInput,
+  output: DeleteResourceMetricsConfigurationOutput,
+  errors: [ResourceNotFoundException],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "DeleteResourceMetricsConfiguration",
 }));
 
 export type DescribeAlarmContributorsError =
@@ -3795,10 +3232,7 @@ export const describeAnomalyDetectors: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type DescribeInsightRulesError =
-  | InvalidNextToken
-  | UnsupportedOperation
-  | CommonErrors;
+export type DescribeInsightRulesError = InvalidNextToken | UnsupportedOperation | CommonErrors;
 /**
  * Returns a list of all the Contributor Insights rules in your account.
  *
@@ -4014,6 +3448,14 @@ export type GetDashboardError =
  * To copy an existing dashboard, use `GetDashboard`, and then use the data
  * returned within `DashboardBody` as the template for the new dashboard when
  * you call `PutDashboard` to create the copy.
+ *
+ * You might have recently enabled an opt-in Region (Region that is disabled by default) for your account. In
+ * that Region, `GetDashboard` can return an access denied error for up to 24
+ * hours after you enable the Region. This delay occurs while dashboard data propagates.
+ * The error does not
+ * indicate a problem with your permissions. Because dashboards are global, you can call
+ * `GetDashboard` in any other enabled Region, or retry after propagation
+ * completes.
  */
 export const getDashboard: API.OperationMethod<
   GetDashboardInput,
@@ -4023,11 +3465,7 @@ export const getDashboard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetDashboardInput,
   output: GetDashboardOutput,
-  errors: [
-    DashboardNotFoundError,
-    InternalServiceFault,
-    InvalidParameterValueException,
-  ],
+  errors: [DashboardNotFoundError, InternalServiceFault, InvalidParameterValueException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDashboard",
@@ -4137,8 +3575,10 @@ export type GetMetricDataError = InvalidNextToken | CommonErrors;
  *
  * If you include a Metrics Insights query, each `GetMetricData` operation can
  * include only one query. But the same `GetMetricData` operation can also
- * retrieve other metrics. Metrics Insights queries can query only the most recent three
- * hours of metric data. For more information about Metrics Insights, see Query your metrics with CloudWatch Metrics Insights.
+ * retrieve other metrics. Metrics Insights queries can query the most recent two weeks of
+ * metric data. For alarm condition evaluations, Metrics Insights queries can query only
+ * the most recent three hours of metric data. For more information about Metrics Insights,
+ * see Query your metrics with CloudWatch Metrics Insights.
  *
  * Calls to the `GetMetricData` API have a different pricing structure than
  * calls to `GetMetricStatistics`. For more information about pricing, see
@@ -4371,10 +3811,35 @@ export const getOTelEnrichment: API.OperationMethod<
   operationName: "GetOTelEnrichment",
 }));
 
-export type ListAlarmMuteRulesError =
-  | InvalidNextToken
-  | ResourceNotFoundException
-  | CommonErrors;
+export type GetResourceMetricsConfigurationError = ResourceNotFoundException | CommonErrors;
+/**
+ * Retrieves the current resource metrics configuration for an Amazon Web Services
+ * resource. The response includes the resource ARN, any metric selections, and the times
+ * at which the configuration was created and last updated.
+ *
+ * This operation returns a `ResourceNotFoundException` if no resource metrics
+ * configuration exists for the specified resource ARN. To create a configuration, use CreateResourceMetricsConfiguration.
+ *
+ * To retrieve a resource metrics configuration, you must have the
+ * `cloudwatch:GetResourceMetricsConfiguration` permission. For information
+ * about scoping this permission to specific resources, see Condition keys for resource metrics configuration access in the
+ * *Amazon CloudWatch User Guide*.
+ */
+export const getResourceMetricsConfiguration: API.OperationMethod<
+  GetResourceMetricsConfigurationInput,
+  GetResourceMetricsConfigurationOutput,
+  GetResourceMetricsConfigurationError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetResourceMetricsConfigurationInput,
+  output: GetResourceMetricsConfigurationOutput,
+  errors: [ResourceNotFoundException],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "GetResourceMetricsConfiguration",
+}));
+
+export type ListAlarmMuteRulesError = InvalidNextToken | ResourceNotFoundException | CommonErrors;
 /**
  * Lists alarm mute rules in your Amazon Web Services account and region.
  *
@@ -4424,6 +3889,14 @@ export type ListDashboardsError =
  * more than 1000 dashboards, you can call `ListDashboards` again and include
  * the value you received for `NextToken` in the first call, to receive the next
  * 1000 results.
+ *
+ * You might have recently enabled an opt-in Region (Region that is disabled by default) for your account. In
+ * that Region, `ListDashboards` can return an access denied error for up to 24
+ * hours after you enable the Region. This delay occurs while dashboard data propagates.
+ * The error does not
+ * indicate a problem with your permissions. Because dashboards are global, you can call
+ * `ListDashboards` in any other enabled Region, or retry after propagation
+ * completes.
  */
 export const listDashboards: API.PaginatedOperationMethod<
   ListDashboardsInput,
@@ -4463,11 +3936,7 @@ export const listManagedInsightRules: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListManagedInsightRulesInput,
   output: ListManagedInsightRulesOutput,
-  errors: [
-    InvalidNextToken,
-    InvalidParameterValueException,
-    MissingRequiredParameterException,
-  ],
+  errors: [InvalidNextToken, InvalidParameterValueException, MissingRequiredParameterException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListManagedInsightRules",
@@ -4478,10 +3947,7 @@ export const listManagedInsightRules: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListMetricsError =
-  | InternalServiceFault
-  | InvalidParameterValueException
-  | CommonErrors;
+export type ListMetricsError = InternalServiceFault | InvalidParameterValueException | CommonErrors;
 /**
  * List the specified metrics. You can use the returned metrics with GetMetricData or GetMetricStatistics to get statistical data.
  *
@@ -4565,11 +4031,7 @@ export const listTagsForResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListTagsForResourceInput,
   output: ListTagsForResourceOutput,
-  errors: [
-    InternalServiceFault,
-    InvalidParameterValueException,
-    ResourceNotFoundException,
-  ],
+  errors: [InternalServiceFault, InvalidParameterValueException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
@@ -4808,10 +4270,7 @@ export const putInsightRule: API.OperationMethod<
   operationName: "PutInsightRule",
 }));
 
-export type PutLogAlarmError =
-  | LimitExceededFault
-  | ResourceConflict
-  | CommonErrors;
+export type PutLogAlarmError = LimitExceededFault | ResourceConflict | CommonErrors;
 /**
  * Creates or updates a log alarm. A log alarm evaluates the results of a CloudWatch Logs scheduled query against the configured threshold and comparison operator to determine its state.
  *
@@ -5077,10 +4536,7 @@ export const putMetricStream: API.OperationMethod<
   operationName: "PutMetricStream",
 }));
 
-export type SetAlarmStateError =
-  | InvalidFormatFault
-  | ResourceNotFound
-  | CommonErrors;
+export type SetAlarmStateError = InvalidFormatFault | ResourceNotFound | CommonErrors;
 /**
  * Temporarily sets the state of an alarm for testing purposes. When the updated state
  * differs from the previous value, the action configured for the appropriate state is
@@ -5132,17 +4588,13 @@ export const startMetricStreams: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: StartMetricStreamsInput,
   output: StartMetricStreamsOutput,
-  errors: [
-    InternalServiceFault,
-    InvalidParameterValueException,
-    MissingRequiredParameterException,
-  ],
+  errors: [InternalServiceFault, InvalidParameterValueException, MissingRequiredParameterException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartMetricStreams",
 }));
 
-export type StartOTelEnrichmentError = CommonErrors;
+export type StartOTelEnrichmentError = ValidationException | CommonErrors;
 /**
  * Enables enrichment and PromQL access for CloudWatch vended metrics for supported Amazon Web Services resources in the account. Once enabled,
  * metrics that contain a resource identifier dimension (for example, EC2
@@ -5152,6 +4604,12 @@ export type StartOTelEnrichmentError = CommonErrors;
  * Before calling this operation, you must enable resource tags on telemetry for your
  * account. For more information, see Enable
  * resource tags on telemetry.
+ *
+ * Optionally, `IncludeFilters` and `ExcludeFilters` limit
+ * enrichment to a subset of the account's metrics. These filters are stored only when this
+ * operation starts enrichment. Calling `StartOTelEnrichment` for an account
+ * where enrichment is already running has no effect and does not modify the filters that
+ * are applied. To change them, use UpdateOTelEnrichment.
  */
 export const startOTelEnrichment: API.OperationMethod<
   StartOTelEnrichmentInput,
@@ -5161,7 +4619,7 @@ export const startOTelEnrichment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: StartOTelEnrichmentInput,
   output: StartOTelEnrichmentOutput,
-  errors: [],
+  errors: [ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartOTelEnrichment",
@@ -5183,11 +4641,7 @@ export const stopMetricStreams: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: StopMetricStreamsInput,
   output: StopMetricStreamsOutput,
-  errors: [
-    InternalServiceFault,
-    InvalidParameterValueException,
-    MissingRequiredParameterException,
-  ],
+  errors: [InternalServiceFault, InvalidParameterValueException, MissingRequiredParameterException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopMetricStreams",
@@ -5289,4 +4743,67 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+}));
+
+export type UpdateOTelEnrichmentError =
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Replaces the filters that determine which CloudWatch vended metrics are enriched
+ * with resource ARN and resource tag labels for the account. Enrichment must already be
+ * running for the account. If it is not, this operation returns a
+ * `ResourceNotFoundException`. To start enrichment, use StartOTelEnrichment.
+ *
+ * The filters in the request completely replace the stored filters; they are not
+ * merged with them. `IncludeFilters` and `ExcludeFilters` are
+ * replaced as a pair, so a request that specifies only `IncludeFilters` also
+ * clears the stored `ExcludeFilters`, and a request that specifies neither
+ * clears both.
+ */
+export const updateOTelEnrichment: API.OperationMethod<
+  UpdateOTelEnrichmentInput,
+  UpdateOTelEnrichmentOutput,
+  UpdateOTelEnrichmentError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateOTelEnrichmentInput,
+  output: UpdateOTelEnrichmentOutput,
+  errors: [ResourceNotFoundException, ValidationException],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "UpdateOTelEnrichment",
+}));
+
+export type UpdateResourceMetricsConfigurationError = ResourceNotFoundException | CommonErrors;
+/**
+ * Updates the resource metrics configuration for an Amazon Web Services resource. The
+ * `MetricSelections` value that you provide replaces any existing metric
+ * selections for the resource; it is not merged with them.
+ *
+ * If you omit `MetricSelections`, Amazon CloudWatch removes any existing
+ * metric selection filter and collects all available detailed metrics for the
+ * resource.
+ *
+ * This operation returns a `ResourceNotFoundException` if no resource metrics
+ * configuration exists for the specified resource ARN. To create a configuration, use
+ * CreateResourceMetricsConfiguration.
+ *
+ * To update a resource metrics configuration, you must have the
+ * `cloudwatch:UpdateResourceMetricsConfiguration` permission. For information about scoping
+ * this permission to specific resources, see Condition keys for resource metrics configuration access in the
+ * *Amazon CloudWatch User Guide*.
+ */
+export const updateResourceMetricsConfiguration: API.OperationMethod<
+  UpdateResourceMetricsConfigurationInput,
+  UpdateResourceMetricsConfigurationOutput,
+  UpdateResourceMetricsConfigurationError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateResourceMetricsConfigurationInput,
+  output: UpdateResourceMetricsConfigurationOutput,
+  errors: [ResourceNotFoundException],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "UpdateResourceMetricsConfiguration",
 }));

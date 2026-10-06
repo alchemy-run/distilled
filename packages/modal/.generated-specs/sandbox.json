@@ -132,7 +132,7 @@
         "runtime": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "If set, overrides the runtime used by the function, either \"runc\" or \"gvisor\"."
+            "smithy.api#documentation": "Runtime the sandbox runs in: \"vm\" for a virtual machine, or a container runtime such as \"gvisor\". Leave it unset to let Modal pick."
           }
         },
         "verbose": {
@@ -208,6 +208,15 @@
         },
         "environmentVariables": {
           "target": "com.modal.sandbox#StringMap2"
+        },
+        "outboundPolicy": {
+          "target": "com.modal.sandbox#OutboundPolicy"
+        },
+        "includeX509Svid": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "If set, the sandbox's main container is served an X.509-SVID over a SPIFFE Workload API socket, addressed by SPIFFE_ENDPOINT_SOCKET. The certificate federates into a cloud account (AWS IAM Roles Anywhere). Sidecars are not served one."
+          }
         }
       }
     },
@@ -781,6 +790,49 @@
         }
       }
     },
+    "com.modal.sandbox#OutboundPolicy": {
+      "type": "structure",
+      "members": {
+        "headerReplacements": {
+          "target": "com.modal.sandbox#OutboundPolicyHeaderReplacementList",
+          "traits": {
+            "smithy.api#documentation": "Replace headers in outbound HTTPS requests, potentially with secret values."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Policy for outbound traffic from a sandbox."
+      }
+    },
+    "com.modal.sandbox#OutboundPolicyHeaderReplacement": {
+      "type": "structure",
+      "members": {
+        "domain": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Domain that the header replacements are scoped to. Supports wildcards in subdomain positions."
+          }
+        },
+        "secretId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Reference to a secret usable in the header value templates. Can be empty if no secret value is used."
+          }
+        },
+        "headers": {
+          "target": "com.modal.sandbox#StringMap",
+          "traits": {
+            "smithy.api#documentation": "Header name -> header value. Values support templating with keys in the stanza's secret_id: a $-prefixed key name in the secret will be replaced with the secret value. Literal $ characters can be represented by two dollars: `$$`."
+          }
+        }
+      }
+    },
+    "com.modal.sandbox#OutboundPolicyHeaderReplacementList": {
+      "type": "list",
+      "member": {
+        "target": "com.modal.sandbox#OutboundPolicyHeaderReplacement"
+      }
+    },
     "com.modal.sandbox#StringMap2Map": {
       "type": "map",
       "key": {
@@ -788,6 +840,32 @@
       },
       "value": {
         "target": "com.modal.sandbox#StringMap2"
+      }
+    },
+    "com.modal.sandbox#SecretSource": {
+      "type": "structure",
+      "members": {
+        "secretId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Server-side Secret, resolved on the worker."
+          }
+        },
+        "env": {
+          "target": "com.modal.sandbox#StringMap2",
+          "traits": {
+            "smithy.api#documentation": "Plaintext values sent directly to the worker. Must not be persisted."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "One source of environment variables for a Sandbox container or exec."
+      }
+    },
+    "com.modal.sandbox#SecretSourceList": {
+      "type": "list",
+      "member": {
+        "target": "com.modal.sandbox#SecretSource"
       }
     },
     "com.modal.sandbox#SandboxContainerCreateV2Request": {
@@ -816,6 +894,12 @@
         },
         "cloudBucketMountCredentials": {
           "target": "com.modal.sandbox#StringMap2Map"
+        },
+        "secretSources": {
+          "target": "com.modal.sandbox#SecretSourceList",
+          "traits": {
+            "smithy.api#documentation": "Applied in order. Cannot be combined with ephemeral_secrets. If definition.secret_ids is set, it must match the secret_id entries here."
+          }
         }
       },
       "traits": {
@@ -1176,6 +1260,12 @@
         },
         "cloudBucketMountCredentials": {
           "target": "com.modal.sandbox#StringMap2Map"
+        },
+        "secretSources": {
+          "target": "com.modal.sandbox#SecretSourceList",
+          "traits": {
+            "smithy.api#documentation": "Applied in order. Cannot be combined with ephemeral_secrets. If definition.secret_ids is set, it must match the secret_id entries here."
+          }
         }
       },
       "traits": {
@@ -1239,6 +1329,12 @@
         },
         "commandRouterAccess": {
           "target": "com.modal.sandbox#CommandRouterAccess"
+        },
+        "sandboxToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Signed app and workspace id of the sandbox. Sent as the x-modal-sandbox-token metadata header."
+          }
         }
       },
       "traits": {
@@ -1367,6 +1463,13 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "ERROR_CODE_INTERNAL"
+          }
+        },
+        "ERROR_CODE_FILESYSTEM_INCONSISTENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ERROR_CODE_FILESYSTEM_INCONSISTENT",
+            "smithy.api#documentation": "The sandbox exited without leaving a consistent filesystem (e.g. killed before it could flush) and recovery failed, so no exit snapshot exists."
           }
         }
       }

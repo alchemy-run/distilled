@@ -1,16 +1,13 @@
-import * as HttpClient from "effect/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
-const svc = T.AwsApiService({
-  sdkId: "Support App",
-  serviceShapeName: "SupportApp",
-});
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
+import * as T from "../traits.ts";
+const svc = T.AwsApiService({ sdkId: "Support App", serviceShapeName: "SupportApp" });
 const auth = T.AwsAuthSigv4({ name: "supportapp" });
 const ver = T.ServiceVersion("2021-08-20");
 const proto = T.AwsProtocolsRestJson1();
@@ -26,14 +23,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -60,9 +53,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://supportapp-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -70,13 +61,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://supportapp.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://supportapp.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://supportapp.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -134,36 +121,32 @@ export interface CreateSlackChannelConfigurationRequest {
   notifyOnCaseSeverity: string;
   channelRoleArn: string;
 }
-export const CreateSlackChannelConfigurationRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      teamId: S.String,
-      channelId: S.String,
-      channelName: S.optional(S.String),
-      notifyOnCreateOrReopenCase: S.optional(S.Boolean),
-      notifyOnAddCorrespondenceToCase: S.optional(S.Boolean),
-      notifyOnResolveCase: S.optional(S.Boolean),
-      notifyOnCaseSeverity: S.String,
-      channelRoleArn: S.String,
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "POST",
-          uri: "/control/create-slack-channel-configuration",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const CreateSlackChannelConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    teamId: S.String,
+    channelId: S.String,
+    channelName: S.optional(S.String),
+    notifyOnCreateOrReopenCase: S.optional(S.Boolean),
+    notifyOnAddCorrespondenceToCase: S.optional(S.Boolean),
+    notifyOnResolveCase: S.optional(S.Boolean),
+    notifyOnCaseSeverity: S.String,
+    channelRoleArn: S.String,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/control/create-slack-channel-configuration" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "CreateSlackChannelConfigurationRequest",
 }) as any as S.Schema<CreateSlackChannelConfigurationRequest>;
 export interface CreateSlackChannelConfigurationResult {}
-export const CreateSlackChannelConfigurationResult = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+export const CreateSlackChannelConfigurationResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
 ).annotate({
   identifier: "CreateSlackChannelConfigurationResult",
 }) as any as S.Schema<CreateSlackChannelConfigurationResult>;
@@ -183,63 +166,53 @@ export const DeleteAccountAliasRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteAccountAliasRequest",
 }) as any as S.Schema<DeleteAccountAliasRequest>;
 export interface DeleteAccountAliasResult {}
-export const DeleteAccountAliasResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteAccountAliasResult = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteAccountAliasResult",
 }) as any as S.Schema<DeleteAccountAliasResult>;
 export interface DeleteSlackChannelConfigurationRequest {
   teamId: string;
   channelId: string;
 }
-export const DeleteSlackChannelConfigurationRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ teamId: S.String, channelId: S.String }).pipe(
-      T.all(
-        T.Http({
-          method: "POST",
-          uri: "/control/delete-slack-channel-configuration",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const DeleteSlackChannelConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ teamId: S.String, channelId: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/control/delete-slack-channel-configuration" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "DeleteSlackChannelConfigurationRequest",
 }) as any as S.Schema<DeleteSlackChannelConfigurationRequest>;
 export interface DeleteSlackChannelConfigurationResult {}
-export const DeleteSlackChannelConfigurationResult = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+export const DeleteSlackChannelConfigurationResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
 ).annotate({
   identifier: "DeleteSlackChannelConfigurationResult",
 }) as any as S.Schema<DeleteSlackChannelConfigurationResult>;
 export interface DeleteSlackWorkspaceConfigurationRequest {
   teamId: string;
 }
-export const DeleteSlackWorkspaceConfigurationRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ teamId: S.String }).pipe(
-      T.all(
-        T.Http({
-          method: "POST",
-          uri: "/control/delete-slack-workspace-configuration",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const DeleteSlackWorkspaceConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ teamId: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/control/delete-slack-workspace-configuration" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "DeleteSlackWorkspaceConfigurationRequest",
 }) as any as S.Schema<DeleteSlackWorkspaceConfigurationRequest>;
 export interface DeleteSlackWorkspaceConfigurationResult {}
-export const DeleteSlackWorkspaceConfigurationResult = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+export const DeleteSlackWorkspaceConfigurationResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
 ).annotate({
   identifier: "DeleteSlackWorkspaceConfigurationResult",
 }) as any as S.Schema<DeleteSlackWorkspaceConfigurationResult>;
@@ -255,37 +228,29 @@ export const GetAccountAliasRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetAccountAliasRequest",
-}) as any as S.Schema<GetAccountAliasRequest>;
+).annotate({ identifier: "GetAccountAliasRequest" }) as any as S.Schema<GetAccountAliasRequest>;
 export type AwsAccountAlias = string;
 export interface GetAccountAliasResult {
   accountAlias?: string;
 }
 export const GetAccountAliasResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ accountAlias: S.optional(S.String) }),
-).annotate({
-  identifier: "GetAccountAliasResult",
-}) as any as S.Schema<GetAccountAliasResult>;
+).annotate({ identifier: "GetAccountAliasResult" }) as any as S.Schema<GetAccountAliasResult>;
 export type PaginationToken = string;
 export interface ListSlackChannelConfigurationsRequest {
   nextToken?: string;
 }
-export const ListSlackChannelConfigurationsRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ nextToken: S.optional(S.String) }).pipe(
-      T.all(
-        T.Http({
-          method: "POST",
-          uri: "/control/list-slack-channel-configurations",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const ListSlackChannelConfigurationsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ nextToken: S.optional(S.String) }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/control/list-slack-channel-configurations" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "ListSlackChannelConfigurationsRequest",
 }) as any as S.Schema<ListSlackChannelConfigurationsRequest>;
@@ -314,40 +279,33 @@ export const SlackChannelConfiguration = /*@__PURE__*/ S.suspend(() =>
   identifier: "SlackChannelConfiguration",
 }) as any as S.Schema<SlackChannelConfiguration>;
 export type SlackChannelConfigurationList = SlackChannelConfiguration[];
-export const SlackChannelConfigurationList = /*@__PURE__*/ S.Array(
-  SlackChannelConfiguration,
-);
+export const SlackChannelConfigurationList = /*@__PURE__*/ S.Array(SlackChannelConfiguration);
 export interface ListSlackChannelConfigurationsResult {
   nextToken?: string;
   slackChannelConfigurations: SlackChannelConfiguration[];
 }
-export const ListSlackChannelConfigurationsResult = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      nextToken: S.optional(S.String),
-      slackChannelConfigurations: SlackChannelConfigurationList,
-    }),
+export const ListSlackChannelConfigurationsResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String),
+    slackChannelConfigurations: SlackChannelConfigurationList,
+  }),
 ).annotate({
   identifier: "ListSlackChannelConfigurationsResult",
 }) as any as S.Schema<ListSlackChannelConfigurationsResult>;
 export interface ListSlackWorkspaceConfigurationsRequest {
   nextToken?: string;
 }
-export const ListSlackWorkspaceConfigurationsRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ nextToken: S.optional(S.String) }).pipe(
-      T.all(
-        T.Http({
-          method: "POST",
-          uri: "/control/list-slack-workspace-configurations",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const ListSlackWorkspaceConfigurationsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ nextToken: S.optional(S.String) }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/control/list-slack-workspace-configurations" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "ListSlackWorkspaceConfigurationsRequest",
 }) as any as S.Schema<ListSlackWorkspaceConfigurationsRequest>;
@@ -367,19 +325,16 @@ export const SlackWorkspaceConfiguration = /*@__PURE__*/ S.suspend(() =>
   identifier: "SlackWorkspaceConfiguration",
 }) as any as S.Schema<SlackWorkspaceConfiguration>;
 export type SlackWorkspaceConfigurationList = SlackWorkspaceConfiguration[];
-export const SlackWorkspaceConfigurationList = /*@__PURE__*/ S.Array(
-  SlackWorkspaceConfiguration,
-);
+export const SlackWorkspaceConfigurationList = /*@__PURE__*/ S.Array(SlackWorkspaceConfiguration);
 export interface ListSlackWorkspaceConfigurationsResult {
   nextToken?: string;
   slackWorkspaceConfigurations?: SlackWorkspaceConfiguration[];
 }
-export const ListSlackWorkspaceConfigurationsResult = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      nextToken: S.optional(S.String),
-      slackWorkspaceConfigurations: S.optional(SlackWorkspaceConfigurationList),
-    }),
+export const ListSlackWorkspaceConfigurationsResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String),
+    slackWorkspaceConfigurations: S.optional(SlackWorkspaceConfigurationList),
+  }),
 ).annotate({
   identifier: "ListSlackWorkspaceConfigurationsResult",
 }) as any as S.Schema<ListSlackWorkspaceConfigurationsResult>;
@@ -397,52 +352,43 @@ export const PutAccountAliasRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "PutAccountAliasRequest",
-}) as any as S.Schema<PutAccountAliasRequest>;
+).annotate({ identifier: "PutAccountAliasRequest" }) as any as S.Schema<PutAccountAliasRequest>;
 export interface PutAccountAliasResult {}
-export const PutAccountAliasResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const PutAccountAliasResult = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "PutAccountAliasResult",
 }) as any as S.Schema<PutAccountAliasResult>;
 export interface RegisterSlackWorkspaceForOrganizationRequest {
   teamId: string;
 }
-export const RegisterSlackWorkspaceForOrganizationRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ teamId: S.String }).pipe(
-      T.all(
-        T.Http({
-          method: "POST",
-          uri: "/control/register-slack-workspace-for-organization",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const RegisterSlackWorkspaceForOrganizationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ teamId: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/control/register-slack-workspace-for-organization" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
-  ).annotate({
-    identifier: "RegisterSlackWorkspaceForOrganizationRequest",
-  }) as any as S.Schema<RegisterSlackWorkspaceForOrganizationRequest>;
+  ),
+).annotate({
+  identifier: "RegisterSlackWorkspaceForOrganizationRequest",
+}) as any as S.Schema<RegisterSlackWorkspaceForOrganizationRequest>;
 export type AccountType = string;
 export interface RegisterSlackWorkspaceForOrganizationResult {
   teamId?: string;
   teamName?: string;
   accountType?: string;
 }
-export const RegisterSlackWorkspaceForOrganizationResult =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      teamId: S.optional(S.String),
-      teamName: S.optional(S.String),
-      accountType: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "RegisterSlackWorkspaceForOrganizationResult",
-  }) as any as S.Schema<RegisterSlackWorkspaceForOrganizationResult>;
+export const RegisterSlackWorkspaceForOrganizationResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    teamId: S.optional(S.String),
+    teamName: S.optional(S.String),
+    accountType: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "RegisterSlackWorkspaceForOrganizationResult",
+}) as any as S.Schema<RegisterSlackWorkspaceForOrganizationResult>;
 export interface UpdateSlackChannelConfigurationRequest {
   teamId: string;
   channelId: string;
@@ -453,30 +399,26 @@ export interface UpdateSlackChannelConfigurationRequest {
   notifyOnCaseSeverity?: string;
   channelRoleArn?: string;
 }
-export const UpdateSlackChannelConfigurationRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      teamId: S.String,
-      channelId: S.String,
-      channelName: S.optional(S.String),
-      notifyOnCreateOrReopenCase: S.optional(S.Boolean),
-      notifyOnAddCorrespondenceToCase: S.optional(S.Boolean),
-      notifyOnResolveCase: S.optional(S.Boolean),
-      notifyOnCaseSeverity: S.optional(S.String),
-      channelRoleArn: S.optional(S.String),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "POST",
-          uri: "/control/update-slack-channel-configuration",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const UpdateSlackChannelConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    teamId: S.String,
+    channelId: S.String,
+    channelName: S.optional(S.String),
+    notifyOnCreateOrReopenCase: S.optional(S.Boolean),
+    notifyOnAddCorrespondenceToCase: S.optional(S.Boolean),
+    notifyOnResolveCase: S.optional(S.Boolean),
+    notifyOnCaseSeverity: S.optional(S.String),
+    channelRoleArn: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/control/update-slack-channel-configuration" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "UpdateSlackChannelConfigurationRequest",
 }) as any as S.Schema<UpdateSlackChannelConfigurationRequest>;
@@ -490,18 +432,17 @@ export interface UpdateSlackChannelConfigurationResult {
   notifyOnCaseSeverity?: string;
   channelRoleArn?: string;
 }
-export const UpdateSlackChannelConfigurationResult = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      teamId: S.optional(S.String),
-      channelId: S.optional(S.String),
-      channelName: S.optional(S.String),
-      notifyOnCreateOrReopenCase: S.optional(S.Boolean),
-      notifyOnAddCorrespondenceToCase: S.optional(S.Boolean),
-      notifyOnResolveCase: S.optional(S.Boolean),
-      notifyOnCaseSeverity: S.optional(S.String),
-      channelRoleArn: S.optional(S.String),
-    }),
+export const UpdateSlackChannelConfigurationResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    teamId: S.optional(S.String),
+    channelId: S.optional(S.String),
+    channelName: S.optional(S.String),
+    notifyOnCreateOrReopenCase: S.optional(S.Boolean),
+    notifyOnAddCorrespondenceToCase: S.optional(S.Boolean),
+    notifyOnResolveCase: S.optional(S.Boolean),
+    notifyOnCaseSeverity: S.optional(S.String),
+    channelRoleArn: S.optional(S.String),
+  }),
 ).annotate({
   identifier: "UpdateSlackChannelConfigurationResult",
 }) as any as S.Schema<UpdateSlackChannelConfigurationResult>;
@@ -567,11 +508,7 @@ export const deleteAccountAlias: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteAccountAliasRequest,
   output: DeleteAccountAliasResult,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ResourceNotFoundException,
-  ],
+  errors: [AccessDeniedException, InternalServerException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAccountAlias",

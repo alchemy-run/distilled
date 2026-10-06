@@ -1,0 +1,32 @@
+{
+  "description": "Type the rejection of per-table snapshot expiration while the catalog-level job is off. Observed live 2026-10-05: HTTP 400 \"Cannot enable table snapshot expiration - catalog-level snapshot expiration must be enabled first\" (it surfaced as the untyped status class BadRequest).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.basin_catalog#CatalogSnapshotExpirationDisabled",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": { "target": "smithy.api#Integer" },
+          "message": { "target": "smithy.api#String" }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "com.cloudflare.protocols#errorMatchers": [
+            {
+              "status": 400,
+              "message": { "includes": "catalog-level snapshot expiration must be enabled" }
+            }
+          ],
+          "smithy.api#documentation": "Per-table snapshot expiration needs snapshot expiration enabled on the catalog first."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.basin_catalog#NamespacesTablesMaintenanceConfigsUpdate/errors",
+      "value": [{ "target": "com.cloudflare.basin_catalog#CatalogSnapshotExpirationDisabled" }]
+    }
+  ]
+}

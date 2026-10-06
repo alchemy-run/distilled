@@ -1,0 +1,145 @@
+{
+  "description": "Microsoft.Migrate does not serve `migrateProjects` (and its solutions) on the spec's 2023-01-01 api-version (\"No registered resource provider found for location 'centralus' and API version '2023-01-01' for type 'migrateprojects'. The supported api-versions are '2018-09-01-preview, 2019-06-01, 2020-05-01, 2020-06-01-preview'\"); pin the project and solution operations to 2020-05-01, whose MigrateProject model also carries ARM `tags`.",
+  "patches": [
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.migrate#MigrateProjectsControllerPutMigrateProject/traits/smithy.api#http/apiVersion",
+      "value": "2020-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.migrate#MigrateProjectsControllerPutMigrateProject/traits/com.distilled.openapi#apiVersion",
+      "value": "2020-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.migrate#MigrateProjectsControllerGetMigrateProject/traits/smithy.api#http/apiVersion",
+      "value": "2020-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.migrate#MigrateProjectsControllerGetMigrateProject/traits/com.distilled.openapi#apiVersion",
+      "value": "2020-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.migrate#MigrateProjectsControllerPatchMigrateProject/traits/smithy.api#http/apiVersion",
+      "value": "2020-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.migrate#MigrateProjectsControllerPatchMigrateProject/traits/com.distilled.openapi#apiVersion",
+      "value": "2020-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.migrate#MigrateProjectsControllerDeleteMigrateProject/traits/smithy.api#http/apiVersion",
+      "value": "2020-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.migrate#MigrateProjectsControllerDeleteMigrateProject/traits/com.distilled.openapi#apiVersion",
+      "value": "2020-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.migrate#ListProjects/traits/smithy.api#http/apiVersion",
+      "value": "2020-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.migrate#ListProjects/traits/com.distilled.openapi#apiVersion",
+      "value": "2020-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.migrate#ListProjectBySubscription/traits/smithy.api#http/apiVersion",
+      "value": "2020-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.migrate#ListProjectBySubscription/traits/com.distilled.openapi#apiVersion",
+      "value": "2020-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.migrate#CreateSolutionsController/traits/smithy.api#http/apiVersion",
+      "value": "2020-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.migrate#CreateSolutionsController/traits/com.distilled.openapi#apiVersion",
+      "value": "2020-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.migrate#GetSolutionsControllerSolution/traits/smithy.api#http/apiVersion",
+      "value": "2020-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.migrate#GetSolutionsControllerSolution/traits/com.distilled.openapi#apiVersion",
+      "value": "2020-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.migrate#UpdateSolutionsController/traits/smithy.api#http/apiVersion",
+      "value": "2020-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.migrate#UpdateSolutionsController/traits/com.distilled.openapi#apiVersion",
+      "value": "2020-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.migrate#DeleteSolutionsControllerSolution/traits/smithy.api#http/apiVersion",
+      "value": "2020-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.migrate#DeleteSolutionsControllerSolution/traits/com.distilled.openapi#apiVersion",
+      "value": "2020-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.migrate#ListSolutionsControllerSolutions/traits/smithy.api#http/apiVersion",
+      "value": "2020-05-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.migrate#ListSolutionsControllerSolutions/traits/com.distilled.openapi#apiVersion",
+      "value": "2020-05-01"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.migrate#MigrateProjectsControllerPutMigrateProjectRequest/members/tags",
+      "value": {
+        "target": "com.azure.migrate#CreateAssessmentProjectsOperationRequestTagsMap",
+        "traits": {
+          "smithy.api#documentation": "Resource tags."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.migrate#MigrateProjectsControllerPatchMigrateProjectRequest/members/tags",
+      "value": {
+        "target": "com.azure.migrate#CreateAssessmentProjectsOperationRequestTagsMap",
+        "traits": {
+          "smithy.api#documentation": "Resource tags."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.migrate#MigrateProject/members/tags",
+      "value": {
+        "target": "com.azure.migrate#CreateAssessmentProjectsOperationRequestTagsMap",
+        "traits": {
+          "smithy.api#documentation": "Resource tags."
+        }
+      }
+    }
+  ]
+}

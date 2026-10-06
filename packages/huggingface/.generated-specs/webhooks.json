@@ -18,7 +18,7 @@
     "distilled.finalized": true
   },
   "shapes": {
-    "com.huggingface.webhooks#ListWebhooksResponseBodyItemJobEnvironmentMap": {
+    "com.huggingface.webhooks#ListWebhooksResponseBodyItemJobCase0EnvironmentMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
@@ -28,21 +28,21 @@
       },
       "traits": {}
     },
-    "com.huggingface.webhooks#ListWebhooksResponseBodyItemJobArgumentsList": {
+    "com.huggingface.webhooks#ListWebhooksResponseBodyItemJobCase0ArgumentsList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       },
       "traits": {}
     },
-    "com.huggingface.webhooks#ListWebhooksResponseBodyItemJobCommandList": {
+    "com.huggingface.webhooks#ListWebhooksResponseBodyItemJobCase0CommandList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       },
       "traits": {}
     },
-    "com.huggingface.webhooks#ListWebhooksResponseBodyItemJobFlavor": {
+    "com.huggingface.webhooks#ListWebhooksResponseBodyItemJobCase0Flavor": {
       "type": "enum",
       "members": {
         "CPU_BASIC": {
@@ -222,7 +222,7 @@
       },
       "traits": {}
     },
-    "com.huggingface.webhooks#ListWebhooksResponseBodyItemJobLabelsMap": {
+    "com.huggingface.webhooks#ListWebhooksResponseBodyItemJobCase0LabelsMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
@@ -231,39 +231,42 @@
         "target": "smithy.api#String"
       },
       "traits": {
-        "smithy.api#documentation": "Labels for the job as key-value pairs. Both keys and values must be max 100 characters and contain only alphanumeric characters, dots, dashes, and underscores."
+        "smithy.api#documentation": "Labels for the job as key-value pairs. Both keys and values must be max 100 characters and contain only alphanumeric characters, dashes, and underscores."
       }
     },
-    "com.huggingface.webhooks#ListWebhooksResponseBodyItemJobSecretsList": {
+    "com.huggingface.webhooks#ListWebhooksResponseBodyItemJobCase0SecretsList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       },
       "traits": {}
     },
-    "com.huggingface.webhooks#ListWebhooksResponseBodyItemJob": {
+    "com.huggingface.webhooks#ListWebhooksResponseBodyItemJobCase0": {
       "type": "structure",
       "members": {
         "dockerImage": {
           "target": "smithy.api#String"
         },
         "spaceId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#required": {}
+          }
         },
         "environment": {
-          "target": "com.huggingface.webhooks#ListWebhooksResponseBodyItemJobEnvironmentMap",
+          "target": "com.huggingface.webhooks#ListWebhooksResponseBodyItemJobCase0EnvironmentMap",
           "traits": {
             "smithy.api#required": {}
           }
         },
         "arguments": {
-          "target": "com.huggingface.webhooks#ListWebhooksResponseBodyItemJobArgumentsList"
+          "target": "com.huggingface.webhooks#ListWebhooksResponseBodyItemJobCase0ArgumentsList"
         },
         "command": {
-          "target": "com.huggingface.webhooks#ListWebhooksResponseBodyItemJobCommandList"
+          "target": "com.huggingface.webhooks#ListWebhooksResponseBodyItemJobCase0CommandList"
         },
         "flavor": {
-          "target": "com.huggingface.webhooks#ListWebhooksResponseBodyItemJobFlavor",
+          "target": "com.huggingface.webhooks#ListWebhooksResponseBodyItemJobCase0Flavor",
           "traits": {
             "smithy.api#required": {}
           }
@@ -276,13 +279,297 @@
           }
         },
         "labels": {
-          "target": "com.huggingface.webhooks#ListWebhooksResponseBodyItemJobLabelsMap",
+          "target": "com.huggingface.webhooks#ListWebhooksResponseBodyItemJobCase0LabelsMap",
           "traits": {
-            "smithy.api#documentation": "Labels for the job as key-value pairs. Both keys and values must be max 100 characters and contain only alphanumeric characters, dots, dashes, and underscores."
+            "smithy.api#documentation": "Labels for the job as key-value pairs. Both keys and values must be max 100 characters and contain only alphanumeric characters, dashes, and underscores."
           }
         },
         "secrets": {
-          "target": "com.huggingface.webhooks#ListWebhooksResponseBodyItemJobSecretsList"
+          "target": "com.huggingface.webhooks#ListWebhooksResponseBodyItemJobCase0SecretsList"
+        }
+      },
+      "traits": {}
+    },
+    "com.huggingface.webhooks#ListWebhooksResponseBodyItemJobCase1EnvironmentMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.huggingface.webhooks#ListWebhooksResponseBodyItemJobCase1ArgumentsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.huggingface.webhooks#ListWebhooksResponseBodyItemJobCase1CommandList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.huggingface.webhooks#ListWebhooksResponseBodyItemJobCase1Flavor": {
+      "type": "enum",
+      "members": {
+        "CPU_BASIC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cpu-basic"
+          }
+        },
+        "CPU_UPGRADE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cpu-upgrade"
+          }
+        },
+        "CPU_PERFORMANCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cpu-performance"
+          }
+        },
+        "CPU_XL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cpu-xl"
+          }
+        },
+        "SPRX8": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sprx8"
+          }
+        },
+        "ZERO_A10G": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "zero-a10g"
+          }
+        },
+        "T4_SMALL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "t4-small"
+          }
+        },
+        "T4_MEDIUM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "t4-medium"
+          }
+        },
+        "L4X1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "l4x1"
+          }
+        },
+        "L4X4": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "l4x4"
+          }
+        },
+        "L40SX1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "l40sx1"
+          }
+        },
+        "L40SX4": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "l40sx4"
+          }
+        },
+        "L40SX8": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "l40sx8"
+          }
+        },
+        "A10G_SMALL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "a10g-small"
+          }
+        },
+        "A10G_LARGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "a10g-large"
+          }
+        },
+        "A10G_LARGEX2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "a10g-largex2"
+          }
+        },
+        "A10G_LARGEX4": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "a10g-largex4"
+          }
+        },
+        "A100_LARGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "a100-large"
+          }
+        },
+        "A100X4": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "a100x4"
+          }
+        },
+        "A100X8": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "a100x8"
+          }
+        },
+        "H200": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "h200"
+          }
+        },
+        "H200X2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "h200x2"
+          }
+        },
+        "H200X4": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "h200x4"
+          }
+        },
+        "H200X8": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "h200x8"
+          }
+        },
+        "RTX_PRO_6000": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rtx-pro-6000"
+          }
+        },
+        "RTX_PRO_6000X2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rtx-pro-6000x2"
+          }
+        },
+        "RTX_PRO_6000X4": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rtx-pro-6000x4"
+          }
+        },
+        "RTX_PRO_6000X8": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rtx-pro-6000x8"
+          }
+        },
+        "INF2X6": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "inf2x6"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.huggingface.webhooks#ListWebhooksResponseBodyItemJobCase1LabelsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Labels for the job as key-value pairs. Both keys and values must be max 100 characters and contain only alphanumeric characters, dashes, and underscores."
+      }
+    },
+    "com.huggingface.webhooks#ListWebhooksResponseBodyItemJobCase1SecretsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.huggingface.webhooks#ListWebhooksResponseBodyItemJobCase1": {
+      "type": "structure",
+      "members": {
+        "dockerImage": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "spaceId": {
+          "target": "smithy.api#String"
+        },
+        "environment": {
+          "target": "com.huggingface.webhooks#ListWebhooksResponseBodyItemJobCase1EnvironmentMap",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "arguments": {
+          "target": "com.huggingface.webhooks#ListWebhooksResponseBodyItemJobCase1ArgumentsList"
+        },
+        "command": {
+          "target": "com.huggingface.webhooks#ListWebhooksResponseBodyItemJobCase1CommandList"
+        },
+        "flavor": {
+          "target": "com.huggingface.webhooks#ListWebhooksResponseBodyItemJobCase1Flavor",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "timeoutSeconds": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "labels": {
+          "target": "com.huggingface.webhooks#ListWebhooksResponseBodyItemJobCase1LabelsMap",
+          "traits": {
+            "smithy.api#documentation": "Labels for the job as key-value pairs. Both keys and values must be max 100 characters and contain only alphanumeric characters, dashes, and underscores."
+          }
+        },
+        "secrets": {
+          "target": "com.huggingface.webhooks#ListWebhooksResponseBodyItemJobCase1SecretsList"
+        }
+      },
+      "traits": {}
+    },
+    "com.huggingface.webhooks#ListWebhooksResponseBodyItemJob": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.huggingface.webhooks#ListWebhooksResponseBodyItemJobCase0"
+        },
+        "Case1": {
+          "target": "com.huggingface.webhooks#ListWebhooksResponseBodyItemJobCase1"
         }
       },
       "traits": {}
@@ -294,7 +581,7 @@
           "target": "smithy.api#Boolean"
         },
         "Case1": {
-          "target": "smithy.api#Document"
+          "target": "smithy.api#String"
         }
       },
       "traits": {}
@@ -330,6 +617,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "kernel"
+          }
+        },
+        "CONTAINER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "container"
           }
         },
         "USER": {
@@ -406,6 +699,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -521,6 +815,12 @@
             "smithy.api#enumValue": "kernel"
           }
         },
+        "CONTAINER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "container"
+          }
+        },
         "USER": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -561,21 +861,21 @@
       },
       "traits": {}
     },
-    "com.huggingface.webhooks#CreateWebhookRequestJobArgumentsList": {
+    "com.huggingface.webhooks#CreateWebhookRequestJobCase0ArgumentsList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       },
       "traits": {}
     },
-    "com.huggingface.webhooks#CreateWebhookRequestJobCommandList": {
+    "com.huggingface.webhooks#CreateWebhookRequestJobCase0CommandList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       },
       "traits": {}
     },
-    "com.huggingface.webhooks#CreateWebhookRequestJobEnvironmentMap": {
+    "com.huggingface.webhooks#CreateWebhookRequestJobCase0EnvironmentMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
@@ -585,7 +885,7 @@
       },
       "traits": {}
     },
-    "com.huggingface.webhooks#CreateWebhookRequestJobSecretsMap": {
+    "com.huggingface.webhooks#CreateWebhookRequestJobCase0SecretsMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
@@ -595,7 +895,7 @@
       },
       "traits": {}
     },
-    "com.huggingface.webhooks#CreateWebhookRequestJobFlavor": {
+    "com.huggingface.webhooks#CreateWebhookRequestJobCase0Flavor": {
       "type": "enum",
       "members": {
         "CPU_BASIC": {
@@ -775,7 +1075,7 @@
       },
       "traits": {}
     },
-    "com.huggingface.webhooks#CreateWebhookRequestJobArch": {
+    "com.huggingface.webhooks#CreateWebhookRequestJobCase0Arch": {
       "type": "enum",
       "members": {
         "AMD64": {
@@ -793,7 +1093,7 @@
       },
       "traits": {}
     },
-    "com.huggingface.webhooks#CreateWebhookRequestJobLabelsMap": {
+    "com.huggingface.webhooks#CreateWebhookRequestJobCase0LabelsMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
@@ -802,10 +1102,10 @@
         "target": "smithy.api#String"
       },
       "traits": {
-        "smithy.api#documentation": "Labels for the job as key-value pairs. Both keys and values must be max 100 characters and contain only alphanumeric characters, dots, dashes, and underscores."
+        "smithy.api#documentation": "Labels for the job as key-value pairs. Both keys and values must be max 100 characters and contain only alphanumeric characters, dashes, and underscores."
       }
     },
-    "com.huggingface.webhooks#CreateWebhookRequestJobVolumesItemType": {
+    "com.huggingface.webhooks#CreateWebhookRequestJobCase0VolumesItemType": {
       "type": "enum",
       "members": {
         "BUCKET": {
@@ -835,11 +1135,11 @@
       },
       "traits": {}
     },
-    "com.huggingface.webhooks#CreateWebhookRequestJobVolumesItem": {
+    "com.huggingface.webhooks#CreateWebhookRequestJobCase0VolumesItem": {
       "type": "structure",
       "members": {
         "type": {
-          "target": "com.huggingface.webhooks#CreateWebhookRequestJobVolumesItemType",
+          "target": "com.huggingface.webhooks#CreateWebhookRequestJobCase0VolumesItemType",
           "traits": {
             "smithy.api#required": {}
           }
@@ -879,23 +1179,23 @@
       },
       "traits": {}
     },
-    "com.huggingface.webhooks#CreateWebhookRequestJobVolumesList": {
+    "com.huggingface.webhooks#CreateWebhookRequestJobCase0VolumesList": {
       "type": "list",
       "member": {
-        "target": "com.huggingface.webhooks#CreateWebhookRequestJobVolumesItem"
+        "target": "com.huggingface.webhooks#CreateWebhookRequestJobCase0VolumesItem"
       },
       "traits": {
         "smithy.api#documentation": "HuggingFace Buckets or Repos to mount as volumes in the job container."
       }
     },
-    "com.huggingface.webhooks#CreateWebhookRequestJobExposePortsList": {
+    "com.huggingface.webhooks#CreateWebhookRequestJobCase0ExposePortsList": {
       "type": "list",
       "member": {
         "target": "smithy.api#Integer"
       },
       "traits": {}
     },
-    "com.huggingface.webhooks#CreateWebhookRequestJobExposePortsPublicList": {
+    "com.huggingface.webhooks#CreateWebhookRequestJobCase0ExposePortsPublicList": {
       "type": "list",
       "member": {
         "target": "smithy.api#Integer"
@@ -904,17 +1204,17 @@
         "smithy.api#documentation": "Subset of `ports` reachable without any authentication."
       }
     },
-    "com.huggingface.webhooks#CreateWebhookRequestJobExpose": {
+    "com.huggingface.webhooks#CreateWebhookRequestJobCase0Expose": {
       "type": "structure",
       "members": {
         "ports": {
-          "target": "com.huggingface.webhooks#CreateWebhookRequestJobExposePortsList",
+          "target": "com.huggingface.webhooks#CreateWebhookRequestJobCase0ExposePortsList",
           "traits": {
             "smithy.api#required": {}
           }
         },
         "portsPublic": {
-          "target": "com.huggingface.webhooks#CreateWebhookRequestJobExposePortsPublicList",
+          "target": "com.huggingface.webhooks#CreateWebhookRequestJobCase0ExposePortsPublicList",
           "traits": {
             "smithy.api#documentation": "Subset of `ports` reachable without any authentication."
           }
@@ -924,7 +1224,7 @@
         "smithy.api#documentation": "Ports to expose publicly through the jobs proxy. Each port is reachable at `https://<job_id>--<port>.<jobs-public-domain>`. Access requires a HF token with read access to the job's namespace, except for ports also listed in `portsPublic`."
       }
     },
-    "com.huggingface.webhooks#CreateWebhookRequestJobSsh": {
+    "com.huggingface.webhooks#CreateWebhookRequestJobCase0Ssh": {
       "type": "structure",
       "members": {
         "enabled": {
@@ -935,35 +1235,68 @@
         "smithy.api#documentation": "When `enabled`, the job's container is reachable over SSH at `ssh <job_id>@ssh.hf.jobs`. Only the job's owner is allowed in, authenticated by an SSH public key registered on the Hub."
       }
     },
-    "com.huggingface.webhooks#CreateWebhookRequestJob": {
+    "com.huggingface.webhooks#CreateWebhookRequestJobCase0NetworkAliasesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Roles this job answers to. An alias names a role, not a job: several members may claim the same alias, which then resolves to all of them, and a member may claim several. Peers get the hostname by appending the alias to the `HF_NETWORK_GROUP_PREFIX` environment variable, which already ends with a separator."
+      }
+    },
+    "com.huggingface.webhooks#CreateWebhookRequestJobCase0Network": {
+      "type": "structure",
+      "members": {
+        "group": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Group name, scoped to the job's owner and resource group.",
+            "smithy.api#required": {}
+          }
+        },
+        "aliases": {
+          "target": "com.huggingface.webhooks#CreateWebhookRequestJobCase0NetworkAliasesList",
+          "traits": {
+            "smithy.api#documentation": "Roles this job answers to. An alias names a role, not a job: several members may claim the same alias, which then resolves to all of them, and a member may claim several. Peers get the hostname by appending the alias to the `HF_NETWORK_GROUP_PREFIX` environment variable, which already ends with a separator."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Opt-in network group. Jobs of the same owner and resource group sharing a group are placed together and reach each other on every port. Two environment variables are set in the container: `HF_NETWORK_GROUP_HOSTNAME`, a hostname resolving to every member of the group, and `HF_NETWORK_GROUP_PREFIX`, to which an alias is appended to get that alias' hostname."
+      }
+    },
+    "com.huggingface.webhooks#CreateWebhookRequestJobCase0": {
       "type": "structure",
       "members": {
         "spaceId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#required": {}
+          }
         },
         "dockerImage": {
           "target": "smithy.api#String"
         },
         "arguments": {
-          "target": "com.huggingface.webhooks#CreateWebhookRequestJobArgumentsList"
+          "target": "com.huggingface.webhooks#CreateWebhookRequestJobCase0ArgumentsList"
         },
         "command": {
-          "target": "com.huggingface.webhooks#CreateWebhookRequestJobCommandList"
+          "target": "com.huggingface.webhooks#CreateWebhookRequestJobCase0CommandList"
         },
         "environment": {
-          "target": "com.huggingface.webhooks#CreateWebhookRequestJobEnvironmentMap"
+          "target": "com.huggingface.webhooks#CreateWebhookRequestJobCase0EnvironmentMap"
         },
         "secrets": {
-          "target": "com.huggingface.webhooks#CreateWebhookRequestJobSecretsMap"
+          "target": "com.huggingface.webhooks#CreateWebhookRequestJobCase0SecretsMap"
         },
         "flavor": {
-          "target": "com.huggingface.webhooks#CreateWebhookRequestJobFlavor",
+          "target": "com.huggingface.webhooks#CreateWebhookRequestJobCase0Flavor",
           "traits": {
             "smithy.api#required": {}
           }
         },
         "arch": {
-          "target": "com.huggingface.webhooks#CreateWebhookRequestJobArch"
+          "target": "com.huggingface.webhooks#CreateWebhookRequestJobCase0Arch"
         },
         "timeoutSeconds": {
           "target": "smithy.api#Integer",
@@ -978,27 +1311,33 @@
           }
         },
         "labels": {
-          "target": "com.huggingface.webhooks#CreateWebhookRequestJobLabelsMap",
+          "target": "com.huggingface.webhooks#CreateWebhookRequestJobCase0LabelsMap",
           "traits": {
-            "smithy.api#documentation": "Labels for the job as key-value pairs. Both keys and values must be max 100 characters and contain only alphanumeric characters, dots, dashes, and underscores."
+            "smithy.api#documentation": "Labels for the job as key-value pairs. Both keys and values must be max 100 characters and contain only alphanumeric characters, dashes, and underscores."
           }
         },
         "volumes": {
-          "target": "com.huggingface.webhooks#CreateWebhookRequestJobVolumesList",
+          "target": "com.huggingface.webhooks#CreateWebhookRequestJobCase0VolumesList",
           "traits": {
             "smithy.api#documentation": "HuggingFace Buckets or Repos to mount as volumes in the job container."
           }
         },
         "expose": {
-          "target": "com.huggingface.webhooks#CreateWebhookRequestJobExpose",
+          "target": "com.huggingface.webhooks#CreateWebhookRequestJobCase0Expose",
           "traits": {
             "smithy.api#documentation": "Ports to expose publicly through the jobs proxy. Each port is reachable at `https://<job_id>--<port>.<jobs-public-domain>`. Access requires a HF token with read access to the job's namespace, except for ports also listed in `portsPublic`."
           }
         },
         "ssh": {
-          "target": "com.huggingface.webhooks#CreateWebhookRequestJobSsh",
+          "target": "com.huggingface.webhooks#CreateWebhookRequestJobCase0Ssh",
           "traits": {
             "smithy.api#documentation": "When `enabled`, the job's container is reachable over SSH at `ssh <job_id>@ssh.hf.jobs`. Only the job's owner is allowed in, authenticated by an SSH public key registered on the Hub."
+          }
+        },
+        "network": {
+          "target": "com.huggingface.webhooks#CreateWebhookRequestJobCase0Network",
+          "traits": {
+            "smithy.api#documentation": "Opt-in network group. Jobs of the same owner and resource group sharing a group are placed together and reach each other on every port. Two environment variables are set in the container: `HF_NETWORK_GROUP_HOSTNAME`, a hostname resolving to every member of the group, and `HF_NETWORK_GROUP_PREFIX`, to which an alias is appended to get that alias' hostname."
           }
         },
         "resourceGroupId": {
@@ -1006,6 +1345,515 @@
         }
       },
       "traits": {}
+    },
+    "com.huggingface.webhooks#CreateWebhookRequestJobCase1ArgumentsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.huggingface.webhooks#CreateWebhookRequestJobCase1CommandList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.huggingface.webhooks#CreateWebhookRequestJobCase1EnvironmentMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.huggingface.webhooks#CreateWebhookRequestJobCase1SecretsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.huggingface.webhooks#CreateWebhookRequestJobCase1Flavor": {
+      "type": "enum",
+      "members": {
+        "CPU_BASIC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cpu-basic"
+          }
+        },
+        "CPU_UPGRADE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cpu-upgrade"
+          }
+        },
+        "CPU_PERFORMANCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cpu-performance"
+          }
+        },
+        "CPU_XL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cpu-xl"
+          }
+        },
+        "SPRX8": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sprx8"
+          }
+        },
+        "ZERO_A10G": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "zero-a10g"
+          }
+        },
+        "T4_SMALL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "t4-small"
+          }
+        },
+        "T4_MEDIUM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "t4-medium"
+          }
+        },
+        "L4X1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "l4x1"
+          }
+        },
+        "L4X4": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "l4x4"
+          }
+        },
+        "L40SX1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "l40sx1"
+          }
+        },
+        "L40SX4": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "l40sx4"
+          }
+        },
+        "L40SX8": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "l40sx8"
+          }
+        },
+        "A10G_SMALL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "a10g-small"
+          }
+        },
+        "A10G_LARGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "a10g-large"
+          }
+        },
+        "A10G_LARGEX2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "a10g-largex2"
+          }
+        },
+        "A10G_LARGEX4": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "a10g-largex4"
+          }
+        },
+        "A100_LARGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "a100-large"
+          }
+        },
+        "A100X4": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "a100x4"
+          }
+        },
+        "A100X8": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "a100x8"
+          }
+        },
+        "H200": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "h200"
+          }
+        },
+        "H200X2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "h200x2"
+          }
+        },
+        "H200X4": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "h200x4"
+          }
+        },
+        "H200X8": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "h200x8"
+          }
+        },
+        "RTX_PRO_6000": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rtx-pro-6000"
+          }
+        },
+        "RTX_PRO_6000X2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rtx-pro-6000x2"
+          }
+        },
+        "RTX_PRO_6000X4": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rtx-pro-6000x4"
+          }
+        },
+        "RTX_PRO_6000X8": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rtx-pro-6000x8"
+          }
+        },
+        "INF2X6": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "inf2x6"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.huggingface.webhooks#CreateWebhookRequestJobCase1Arch": {
+      "type": "enum",
+      "members": {
+        "AMD64": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "amd64"
+          }
+        },
+        "ARM64": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "arm64"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.huggingface.webhooks#CreateWebhookRequestJobCase1LabelsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Labels for the job as key-value pairs. Both keys and values must be max 100 characters and contain only alphanumeric characters, dashes, and underscores."
+      }
+    },
+    "com.huggingface.webhooks#CreateWebhookRequestJobCase1VolumesItemType": {
+      "type": "enum",
+      "members": {
+        "BUCKET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bucket"
+          }
+        },
+        "MODEL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "model"
+          }
+        },
+        "DATASET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dataset"
+          }
+        },
+        "SPACE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "space"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.huggingface.webhooks#CreateWebhookRequestJobCase1VolumesItem": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.huggingface.webhooks#CreateWebhookRequestJobCase1VolumesItemType",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "source": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Source identifier, e.g. 'username/my-bucket' or 'username/my-model'",
+            "smithy.api#required": {}
+          }
+        },
+        "mountPath": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Mount path inside the container, e.g. '/data'",
+            "smithy.api#required": {}
+          }
+        },
+        "revision": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Git revision (only for repos, defaults to 'main')"
+          }
+        },
+        "readOnly": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Read-only mount (true for repos, false default for buckets)"
+          }
+        },
+        "path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Subfolder prefix inside the bucket/repo to mount, e.g. 'path/to/dir'"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.huggingface.webhooks#CreateWebhookRequestJobCase1VolumesList": {
+      "type": "list",
+      "member": {
+        "target": "com.huggingface.webhooks#CreateWebhookRequestJobCase1VolumesItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "HuggingFace Buckets or Repos to mount as volumes in the job container."
+      }
+    },
+    "com.huggingface.webhooks#CreateWebhookRequestJobCase1ExposePortsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Integer"
+      },
+      "traits": {}
+    },
+    "com.huggingface.webhooks#CreateWebhookRequestJobCase1ExposePortsPublicList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Integer"
+      },
+      "traits": {
+        "smithy.api#documentation": "Subset of `ports` reachable without any authentication."
+      }
+    },
+    "com.huggingface.webhooks#CreateWebhookRequestJobCase1Expose": {
+      "type": "structure",
+      "members": {
+        "ports": {
+          "target": "com.huggingface.webhooks#CreateWebhookRequestJobCase1ExposePortsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "portsPublic": {
+          "target": "com.huggingface.webhooks#CreateWebhookRequestJobCase1ExposePortsPublicList",
+          "traits": {
+            "smithy.api#documentation": "Subset of `ports` reachable without any authentication."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Ports to expose publicly through the jobs proxy. Each port is reachable at `https://<job_id>--<port>.<jobs-public-domain>`. Access requires a HF token with read access to the job's namespace, except for ports also listed in `portsPublic`."
+      }
+    },
+    "com.huggingface.webhooks#CreateWebhookRequestJobCase1Ssh": {
+      "type": "structure",
+      "members": {
+        "enabled": {
+          "target": "smithy.api#Boolean"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "When `enabled`, the job's container is reachable over SSH at `ssh <job_id>@ssh.hf.jobs`. Only the job's owner is allowed in, authenticated by an SSH public key registered on the Hub."
+      }
+    },
+    "com.huggingface.webhooks#CreateWebhookRequestJobCase1NetworkAliasesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Roles this job answers to. An alias names a role, not a job: several members may claim the same alias, which then resolves to all of them, and a member may claim several. Peers get the hostname by appending the alias to the `HF_NETWORK_GROUP_PREFIX` environment variable, which already ends with a separator."
+      }
+    },
+    "com.huggingface.webhooks#CreateWebhookRequestJobCase1Network": {
+      "type": "structure",
+      "members": {
+        "group": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Group name, scoped to the job's owner and resource group.",
+            "smithy.api#required": {}
+          }
+        },
+        "aliases": {
+          "target": "com.huggingface.webhooks#CreateWebhookRequestJobCase1NetworkAliasesList",
+          "traits": {
+            "smithy.api#documentation": "Roles this job answers to. An alias names a role, not a job: several members may claim the same alias, which then resolves to all of them, and a member may claim several. Peers get the hostname by appending the alias to the `HF_NETWORK_GROUP_PREFIX` environment variable, which already ends with a separator."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Opt-in network group. Jobs of the same owner and resource group sharing a group are placed together and reach each other on every port. Two environment variables are set in the container: `HF_NETWORK_GROUP_HOSTNAME`, a hostname resolving to every member of the group, and `HF_NETWORK_GROUP_PREFIX`, to which an alias is appended to get that alias' hostname."
+      }
+    },
+    "com.huggingface.webhooks#CreateWebhookRequestJobCase1": {
+      "type": "structure",
+      "members": {
+        "spaceId": {
+          "target": "smithy.api#String"
+        },
+        "dockerImage": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "arguments": {
+          "target": "com.huggingface.webhooks#CreateWebhookRequestJobCase1ArgumentsList"
+        },
+        "command": {
+          "target": "com.huggingface.webhooks#CreateWebhookRequestJobCase1CommandList"
+        },
+        "environment": {
+          "target": "com.huggingface.webhooks#CreateWebhookRequestJobCase1EnvironmentMap"
+        },
+        "secrets": {
+          "target": "com.huggingface.webhooks#CreateWebhookRequestJobCase1SecretsMap"
+        },
+        "flavor": {
+          "target": "com.huggingface.webhooks#CreateWebhookRequestJobCase1Flavor",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "arch": {
+          "target": "com.huggingface.webhooks#CreateWebhookRequestJobCase1Arch"
+        },
+        "timeoutSeconds": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "attempts": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Max number of attempts to make. For example, if you set this to 3, the job will be retried up to 2 times if it fails."
+          }
+        },
+        "labels": {
+          "target": "com.huggingface.webhooks#CreateWebhookRequestJobCase1LabelsMap",
+          "traits": {
+            "smithy.api#documentation": "Labels for the job as key-value pairs. Both keys and values must be max 100 characters and contain only alphanumeric characters, dashes, and underscores."
+          }
+        },
+        "volumes": {
+          "target": "com.huggingface.webhooks#CreateWebhookRequestJobCase1VolumesList",
+          "traits": {
+            "smithy.api#documentation": "HuggingFace Buckets or Repos to mount as volumes in the job container."
+          }
+        },
+        "expose": {
+          "target": "com.huggingface.webhooks#CreateWebhookRequestJobCase1Expose",
+          "traits": {
+            "smithy.api#documentation": "Ports to expose publicly through the jobs proxy. Each port is reachable at `https://<job_id>--<port>.<jobs-public-domain>`. Access requires a HF token with read access to the job's namespace, except for ports also listed in `portsPublic`."
+          }
+        },
+        "ssh": {
+          "target": "com.huggingface.webhooks#CreateWebhookRequestJobCase1Ssh",
+          "traits": {
+            "smithy.api#documentation": "When `enabled`, the job's container is reachable over SSH at `ssh <job_id>@ssh.hf.jobs`. Only the job's owner is allowed in, authenticated by an SSH public key registered on the Hub."
+          }
+        },
+        "network": {
+          "target": "com.huggingface.webhooks#CreateWebhookRequestJobCase1Network",
+          "traits": {
+            "smithy.api#documentation": "Opt-in network group. Jobs of the same owner and resource group sharing a group are placed together and reach each other on every port. Two environment variables are set in the container: `HF_NETWORK_GROUP_HOSTNAME`, a hostname resolving to every member of the group, and `HF_NETWORK_GROUP_PREFIX`, to which an alias is appended to get that alias' hostname."
+          }
+        },
+        "resourceGroupId": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.huggingface.webhooks#CreateWebhookRequestJob": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.huggingface.webhooks#CreateWebhookRequestJobCase0"
+        },
+        "Case1": {
+          "target": "com.huggingface.webhooks#CreateWebhookRequestJobCase1"
+        }
+      },
+      "traits": {}
+    },
+    "com.huggingface.webhooks#CreateWebhookRequestSecretsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Secrets of the job started by the webhook, used together with `jobSourceId`: the source job's own secrets are never copied. On update, listed keys are replaced, an empty value removes a secret, and omitted keys keep their stored value."
+      }
     },
     "com.huggingface.webhooks#CreateWebhookRequestDomainsItem": {
       "type": "enum",
@@ -1050,6 +1898,12 @@
         "jobSourceId": {
           "target": "smithy.api#String"
         },
+        "secrets": {
+          "target": "com.huggingface.webhooks#CreateWebhookRequestSecretsMap",
+          "traits": {
+            "smithy.api#documentation": "Secrets of the job started by the webhook, used together with `jobSourceId`: the source job's own secrets are never copied. On update, listed keys are replaced, an empty value removes a secret, and omitted keys keep their stored value."
+          }
+        },
         "domains": {
           "target": "com.huggingface.webhooks#CreateWebhookRequestDomainsList",
           "traits": {
@@ -1067,7 +1921,7 @@
         "smithy.api#input": {}
       }
     },
-    "com.huggingface.webhooks#CreateWebhookResponseWebhookJobEnvironmentMap": {
+    "com.huggingface.webhooks#CreateWebhookResponseWebhookJobCase0EnvironmentMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
@@ -1077,21 +1931,21 @@
       },
       "traits": {}
     },
-    "com.huggingface.webhooks#CreateWebhookResponseWebhookJobArgumentsList": {
+    "com.huggingface.webhooks#CreateWebhookResponseWebhookJobCase0ArgumentsList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       },
       "traits": {}
     },
-    "com.huggingface.webhooks#CreateWebhookResponseWebhookJobCommandList": {
+    "com.huggingface.webhooks#CreateWebhookResponseWebhookJobCase0CommandList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       },
       "traits": {}
     },
-    "com.huggingface.webhooks#CreateWebhookResponseWebhookJobFlavor": {
+    "com.huggingface.webhooks#CreateWebhookResponseWebhookJobCase0Flavor": {
       "type": "enum",
       "members": {
         "CPU_BASIC": {
@@ -1271,7 +2125,7 @@
       },
       "traits": {}
     },
-    "com.huggingface.webhooks#CreateWebhookResponseWebhookJobLabelsMap": {
+    "com.huggingface.webhooks#CreateWebhookResponseWebhookJobCase0LabelsMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
@@ -1280,39 +2134,42 @@
         "target": "smithy.api#String"
       },
       "traits": {
-        "smithy.api#documentation": "Labels for the job as key-value pairs. Both keys and values must be max 100 characters and contain only alphanumeric characters, dots, dashes, and underscores."
+        "smithy.api#documentation": "Labels for the job as key-value pairs. Both keys and values must be max 100 characters and contain only alphanumeric characters, dashes, and underscores."
       }
     },
-    "com.huggingface.webhooks#CreateWebhookResponseWebhookJobSecretsList": {
+    "com.huggingface.webhooks#CreateWebhookResponseWebhookJobCase0SecretsList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       },
       "traits": {}
     },
-    "com.huggingface.webhooks#CreateWebhookResponseWebhookJob": {
+    "com.huggingface.webhooks#CreateWebhookResponseWebhookJobCase0": {
       "type": "structure",
       "members": {
         "dockerImage": {
           "target": "smithy.api#String"
         },
         "spaceId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#required": {}
+          }
         },
         "environment": {
-          "target": "com.huggingface.webhooks#CreateWebhookResponseWebhookJobEnvironmentMap",
+          "target": "com.huggingface.webhooks#CreateWebhookResponseWebhookJobCase0EnvironmentMap",
           "traits": {
             "smithy.api#required": {}
           }
         },
         "arguments": {
-          "target": "com.huggingface.webhooks#CreateWebhookResponseWebhookJobArgumentsList"
+          "target": "com.huggingface.webhooks#CreateWebhookResponseWebhookJobCase0ArgumentsList"
         },
         "command": {
-          "target": "com.huggingface.webhooks#CreateWebhookResponseWebhookJobCommandList"
+          "target": "com.huggingface.webhooks#CreateWebhookResponseWebhookJobCase0CommandList"
         },
         "flavor": {
-          "target": "com.huggingface.webhooks#CreateWebhookResponseWebhookJobFlavor",
+          "target": "com.huggingface.webhooks#CreateWebhookResponseWebhookJobCase0Flavor",
           "traits": {
             "smithy.api#required": {}
           }
@@ -1325,13 +2182,297 @@
           }
         },
         "labels": {
-          "target": "com.huggingface.webhooks#CreateWebhookResponseWebhookJobLabelsMap",
+          "target": "com.huggingface.webhooks#CreateWebhookResponseWebhookJobCase0LabelsMap",
           "traits": {
-            "smithy.api#documentation": "Labels for the job as key-value pairs. Both keys and values must be max 100 characters and contain only alphanumeric characters, dots, dashes, and underscores."
+            "smithy.api#documentation": "Labels for the job as key-value pairs. Both keys and values must be max 100 characters and contain only alphanumeric characters, dashes, and underscores."
           }
         },
         "secrets": {
-          "target": "com.huggingface.webhooks#CreateWebhookResponseWebhookJobSecretsList"
+          "target": "com.huggingface.webhooks#CreateWebhookResponseWebhookJobCase0SecretsList"
+        }
+      },
+      "traits": {}
+    },
+    "com.huggingface.webhooks#CreateWebhookResponseWebhookJobCase1EnvironmentMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.huggingface.webhooks#CreateWebhookResponseWebhookJobCase1ArgumentsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.huggingface.webhooks#CreateWebhookResponseWebhookJobCase1CommandList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.huggingface.webhooks#CreateWebhookResponseWebhookJobCase1Flavor": {
+      "type": "enum",
+      "members": {
+        "CPU_BASIC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cpu-basic"
+          }
+        },
+        "CPU_UPGRADE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cpu-upgrade"
+          }
+        },
+        "CPU_PERFORMANCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cpu-performance"
+          }
+        },
+        "CPU_XL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cpu-xl"
+          }
+        },
+        "SPRX8": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sprx8"
+          }
+        },
+        "ZERO_A10G": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "zero-a10g"
+          }
+        },
+        "T4_SMALL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "t4-small"
+          }
+        },
+        "T4_MEDIUM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "t4-medium"
+          }
+        },
+        "L4X1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "l4x1"
+          }
+        },
+        "L4X4": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "l4x4"
+          }
+        },
+        "L40SX1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "l40sx1"
+          }
+        },
+        "L40SX4": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "l40sx4"
+          }
+        },
+        "L40SX8": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "l40sx8"
+          }
+        },
+        "A10G_SMALL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "a10g-small"
+          }
+        },
+        "A10G_LARGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "a10g-large"
+          }
+        },
+        "A10G_LARGEX2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "a10g-largex2"
+          }
+        },
+        "A10G_LARGEX4": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "a10g-largex4"
+          }
+        },
+        "A100_LARGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "a100-large"
+          }
+        },
+        "A100X4": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "a100x4"
+          }
+        },
+        "A100X8": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "a100x8"
+          }
+        },
+        "H200": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "h200"
+          }
+        },
+        "H200X2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "h200x2"
+          }
+        },
+        "H200X4": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "h200x4"
+          }
+        },
+        "H200X8": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "h200x8"
+          }
+        },
+        "RTX_PRO_6000": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rtx-pro-6000"
+          }
+        },
+        "RTX_PRO_6000X2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rtx-pro-6000x2"
+          }
+        },
+        "RTX_PRO_6000X4": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rtx-pro-6000x4"
+          }
+        },
+        "RTX_PRO_6000X8": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rtx-pro-6000x8"
+          }
+        },
+        "INF2X6": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "inf2x6"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.huggingface.webhooks#CreateWebhookResponseWebhookJobCase1LabelsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Labels for the job as key-value pairs. Both keys and values must be max 100 characters and contain only alphanumeric characters, dashes, and underscores."
+      }
+    },
+    "com.huggingface.webhooks#CreateWebhookResponseWebhookJobCase1SecretsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.huggingface.webhooks#CreateWebhookResponseWebhookJobCase1": {
+      "type": "structure",
+      "members": {
+        "dockerImage": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "spaceId": {
+          "target": "smithy.api#String"
+        },
+        "environment": {
+          "target": "com.huggingface.webhooks#CreateWebhookResponseWebhookJobCase1EnvironmentMap",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "arguments": {
+          "target": "com.huggingface.webhooks#CreateWebhookResponseWebhookJobCase1ArgumentsList"
+        },
+        "command": {
+          "target": "com.huggingface.webhooks#CreateWebhookResponseWebhookJobCase1CommandList"
+        },
+        "flavor": {
+          "target": "com.huggingface.webhooks#CreateWebhookResponseWebhookJobCase1Flavor",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "timeoutSeconds": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "labels": {
+          "target": "com.huggingface.webhooks#CreateWebhookResponseWebhookJobCase1LabelsMap",
+          "traits": {
+            "smithy.api#documentation": "Labels for the job as key-value pairs. Both keys and values must be max 100 characters and contain only alphanumeric characters, dashes, and underscores."
+          }
+        },
+        "secrets": {
+          "target": "com.huggingface.webhooks#CreateWebhookResponseWebhookJobCase1SecretsList"
+        }
+      },
+      "traits": {}
+    },
+    "com.huggingface.webhooks#CreateWebhookResponseWebhookJob": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.huggingface.webhooks#CreateWebhookResponseWebhookJobCase0"
+        },
+        "Case1": {
+          "target": "com.huggingface.webhooks#CreateWebhookResponseWebhookJobCase1"
         }
       },
       "traits": {}
@@ -1343,7 +2484,7 @@
           "target": "smithy.api#Boolean"
         },
         "Case1": {
-          "target": "smithy.api#Document"
+          "target": "smithy.api#String"
         }
       },
       "traits": {}
@@ -1379,6 +2520,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "kernel"
+          }
+        },
+        "CONTAINER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "container"
           }
         },
         "USER": {
@@ -1455,6 +2602,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -1544,7 +2692,7 @@
         "smithy.api#input": {}
       }
     },
-    "com.huggingface.webhooks#GetWebhookResponseWebhookJobEnvironmentMap": {
+    "com.huggingface.webhooks#GetWebhookResponseWebhookJobCase0EnvironmentMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
@@ -1554,21 +2702,21 @@
       },
       "traits": {}
     },
-    "com.huggingface.webhooks#GetWebhookResponseWebhookJobArgumentsList": {
+    "com.huggingface.webhooks#GetWebhookResponseWebhookJobCase0ArgumentsList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       },
       "traits": {}
     },
-    "com.huggingface.webhooks#GetWebhookResponseWebhookJobCommandList": {
+    "com.huggingface.webhooks#GetWebhookResponseWebhookJobCase0CommandList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       },
       "traits": {}
     },
-    "com.huggingface.webhooks#GetWebhookResponseWebhookJobFlavor": {
+    "com.huggingface.webhooks#GetWebhookResponseWebhookJobCase0Flavor": {
       "type": "enum",
       "members": {
         "CPU_BASIC": {
@@ -1748,7 +2896,7 @@
       },
       "traits": {}
     },
-    "com.huggingface.webhooks#GetWebhookResponseWebhookJobLabelsMap": {
+    "com.huggingface.webhooks#GetWebhookResponseWebhookJobCase0LabelsMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
@@ -1757,39 +2905,42 @@
         "target": "smithy.api#String"
       },
       "traits": {
-        "smithy.api#documentation": "Labels for the job as key-value pairs. Both keys and values must be max 100 characters and contain only alphanumeric characters, dots, dashes, and underscores."
+        "smithy.api#documentation": "Labels for the job as key-value pairs. Both keys and values must be max 100 characters and contain only alphanumeric characters, dashes, and underscores."
       }
     },
-    "com.huggingface.webhooks#GetWebhookResponseWebhookJobSecretsList": {
+    "com.huggingface.webhooks#GetWebhookResponseWebhookJobCase0SecretsList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       },
       "traits": {}
     },
-    "com.huggingface.webhooks#GetWebhookResponseWebhookJob": {
+    "com.huggingface.webhooks#GetWebhookResponseWebhookJobCase0": {
       "type": "structure",
       "members": {
         "dockerImage": {
           "target": "smithy.api#String"
         },
         "spaceId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#required": {}
+          }
         },
         "environment": {
-          "target": "com.huggingface.webhooks#GetWebhookResponseWebhookJobEnvironmentMap",
+          "target": "com.huggingface.webhooks#GetWebhookResponseWebhookJobCase0EnvironmentMap",
           "traits": {
             "smithy.api#required": {}
           }
         },
         "arguments": {
-          "target": "com.huggingface.webhooks#GetWebhookResponseWebhookJobArgumentsList"
+          "target": "com.huggingface.webhooks#GetWebhookResponseWebhookJobCase0ArgumentsList"
         },
         "command": {
-          "target": "com.huggingface.webhooks#GetWebhookResponseWebhookJobCommandList"
+          "target": "com.huggingface.webhooks#GetWebhookResponseWebhookJobCase0CommandList"
         },
         "flavor": {
-          "target": "com.huggingface.webhooks#GetWebhookResponseWebhookJobFlavor",
+          "target": "com.huggingface.webhooks#GetWebhookResponseWebhookJobCase0Flavor",
           "traits": {
             "smithy.api#required": {}
           }
@@ -1802,13 +2953,297 @@
           }
         },
         "labels": {
-          "target": "com.huggingface.webhooks#GetWebhookResponseWebhookJobLabelsMap",
+          "target": "com.huggingface.webhooks#GetWebhookResponseWebhookJobCase0LabelsMap",
           "traits": {
-            "smithy.api#documentation": "Labels for the job as key-value pairs. Both keys and values must be max 100 characters and contain only alphanumeric characters, dots, dashes, and underscores."
+            "smithy.api#documentation": "Labels for the job as key-value pairs. Both keys and values must be max 100 characters and contain only alphanumeric characters, dashes, and underscores."
           }
         },
         "secrets": {
-          "target": "com.huggingface.webhooks#GetWebhookResponseWebhookJobSecretsList"
+          "target": "com.huggingface.webhooks#GetWebhookResponseWebhookJobCase0SecretsList"
+        }
+      },
+      "traits": {}
+    },
+    "com.huggingface.webhooks#GetWebhookResponseWebhookJobCase1EnvironmentMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.huggingface.webhooks#GetWebhookResponseWebhookJobCase1ArgumentsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.huggingface.webhooks#GetWebhookResponseWebhookJobCase1CommandList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.huggingface.webhooks#GetWebhookResponseWebhookJobCase1Flavor": {
+      "type": "enum",
+      "members": {
+        "CPU_BASIC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cpu-basic"
+          }
+        },
+        "CPU_UPGRADE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cpu-upgrade"
+          }
+        },
+        "CPU_PERFORMANCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cpu-performance"
+          }
+        },
+        "CPU_XL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cpu-xl"
+          }
+        },
+        "SPRX8": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sprx8"
+          }
+        },
+        "ZERO_A10G": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "zero-a10g"
+          }
+        },
+        "T4_SMALL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "t4-small"
+          }
+        },
+        "T4_MEDIUM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "t4-medium"
+          }
+        },
+        "L4X1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "l4x1"
+          }
+        },
+        "L4X4": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "l4x4"
+          }
+        },
+        "L40SX1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "l40sx1"
+          }
+        },
+        "L40SX4": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "l40sx4"
+          }
+        },
+        "L40SX8": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "l40sx8"
+          }
+        },
+        "A10G_SMALL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "a10g-small"
+          }
+        },
+        "A10G_LARGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "a10g-large"
+          }
+        },
+        "A10G_LARGEX2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "a10g-largex2"
+          }
+        },
+        "A10G_LARGEX4": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "a10g-largex4"
+          }
+        },
+        "A100_LARGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "a100-large"
+          }
+        },
+        "A100X4": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "a100x4"
+          }
+        },
+        "A100X8": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "a100x8"
+          }
+        },
+        "H200": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "h200"
+          }
+        },
+        "H200X2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "h200x2"
+          }
+        },
+        "H200X4": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "h200x4"
+          }
+        },
+        "H200X8": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "h200x8"
+          }
+        },
+        "RTX_PRO_6000": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rtx-pro-6000"
+          }
+        },
+        "RTX_PRO_6000X2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rtx-pro-6000x2"
+          }
+        },
+        "RTX_PRO_6000X4": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rtx-pro-6000x4"
+          }
+        },
+        "RTX_PRO_6000X8": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rtx-pro-6000x8"
+          }
+        },
+        "INF2X6": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "inf2x6"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.huggingface.webhooks#GetWebhookResponseWebhookJobCase1LabelsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Labels for the job as key-value pairs. Both keys and values must be max 100 characters and contain only alphanumeric characters, dashes, and underscores."
+      }
+    },
+    "com.huggingface.webhooks#GetWebhookResponseWebhookJobCase1SecretsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.huggingface.webhooks#GetWebhookResponseWebhookJobCase1": {
+      "type": "structure",
+      "members": {
+        "dockerImage": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "spaceId": {
+          "target": "smithy.api#String"
+        },
+        "environment": {
+          "target": "com.huggingface.webhooks#GetWebhookResponseWebhookJobCase1EnvironmentMap",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "arguments": {
+          "target": "com.huggingface.webhooks#GetWebhookResponseWebhookJobCase1ArgumentsList"
+        },
+        "command": {
+          "target": "com.huggingface.webhooks#GetWebhookResponseWebhookJobCase1CommandList"
+        },
+        "flavor": {
+          "target": "com.huggingface.webhooks#GetWebhookResponseWebhookJobCase1Flavor",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "timeoutSeconds": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "labels": {
+          "target": "com.huggingface.webhooks#GetWebhookResponseWebhookJobCase1LabelsMap",
+          "traits": {
+            "smithy.api#documentation": "Labels for the job as key-value pairs. Both keys and values must be max 100 characters and contain only alphanumeric characters, dashes, and underscores."
+          }
+        },
+        "secrets": {
+          "target": "com.huggingface.webhooks#GetWebhookResponseWebhookJobCase1SecretsList"
+        }
+      },
+      "traits": {}
+    },
+    "com.huggingface.webhooks#GetWebhookResponseWebhookJob": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.huggingface.webhooks#GetWebhookResponseWebhookJobCase0"
+        },
+        "Case1": {
+          "target": "com.huggingface.webhooks#GetWebhookResponseWebhookJobCase1"
         }
       },
       "traits": {}
@@ -1820,7 +3255,7 @@
           "target": "smithy.api#Boolean"
         },
         "Case1": {
-          "target": "smithy.api#Document"
+          "target": "smithy.api#String"
         }
       },
       "traits": {}
@@ -1856,6 +3291,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "kernel"
+          }
+        },
+        "CONTAINER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "container"
           }
         },
         "USER": {
@@ -1932,6 +3373,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -2042,6 +3484,12 @@
             "smithy.api#enumValue": "kernel"
           }
         },
+        "CONTAINER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "container"
+          }
+        },
         "USER": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -2082,21 +3530,21 @@
       },
       "traits": {}
     },
-    "com.huggingface.webhooks#UpdateWebhookRequestJobArgumentsList": {
+    "com.huggingface.webhooks#UpdateWebhookRequestJobCase0ArgumentsList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       },
       "traits": {}
     },
-    "com.huggingface.webhooks#UpdateWebhookRequestJobCommandList": {
+    "com.huggingface.webhooks#UpdateWebhookRequestJobCase0CommandList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       },
       "traits": {}
     },
-    "com.huggingface.webhooks#UpdateWebhookRequestJobEnvironmentMap": {
+    "com.huggingface.webhooks#UpdateWebhookRequestJobCase0EnvironmentMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
@@ -2106,7 +3554,7 @@
       },
       "traits": {}
     },
-    "com.huggingface.webhooks#UpdateWebhookRequestJobSecretsMap": {
+    "com.huggingface.webhooks#UpdateWebhookRequestJobCase0SecretsMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
@@ -2116,7 +3564,7 @@
       },
       "traits": {}
     },
-    "com.huggingface.webhooks#UpdateWebhookRequestJobFlavor": {
+    "com.huggingface.webhooks#UpdateWebhookRequestJobCase0Flavor": {
       "type": "enum",
       "members": {
         "CPU_BASIC": {
@@ -2296,7 +3744,7 @@
       },
       "traits": {}
     },
-    "com.huggingface.webhooks#UpdateWebhookRequestJobArch": {
+    "com.huggingface.webhooks#UpdateWebhookRequestJobCase0Arch": {
       "type": "enum",
       "members": {
         "AMD64": {
@@ -2314,7 +3762,7 @@
       },
       "traits": {}
     },
-    "com.huggingface.webhooks#UpdateWebhookRequestJobLabelsMap": {
+    "com.huggingface.webhooks#UpdateWebhookRequestJobCase0LabelsMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
@@ -2323,10 +3771,10 @@
         "target": "smithy.api#String"
       },
       "traits": {
-        "smithy.api#documentation": "Labels for the job as key-value pairs. Both keys and values must be max 100 characters and contain only alphanumeric characters, dots, dashes, and underscores."
+        "smithy.api#documentation": "Labels for the job as key-value pairs. Both keys and values must be max 100 characters and contain only alphanumeric characters, dashes, and underscores."
       }
     },
-    "com.huggingface.webhooks#UpdateWebhookRequestJobVolumesItemType": {
+    "com.huggingface.webhooks#UpdateWebhookRequestJobCase0VolumesItemType": {
       "type": "enum",
       "members": {
         "BUCKET": {
@@ -2356,11 +3804,11 @@
       },
       "traits": {}
     },
-    "com.huggingface.webhooks#UpdateWebhookRequestJobVolumesItem": {
+    "com.huggingface.webhooks#UpdateWebhookRequestJobCase0VolumesItem": {
       "type": "structure",
       "members": {
         "type": {
-          "target": "com.huggingface.webhooks#UpdateWebhookRequestJobVolumesItemType",
+          "target": "com.huggingface.webhooks#UpdateWebhookRequestJobCase0VolumesItemType",
           "traits": {
             "smithy.api#required": {}
           }
@@ -2400,23 +3848,23 @@
       },
       "traits": {}
     },
-    "com.huggingface.webhooks#UpdateWebhookRequestJobVolumesList": {
+    "com.huggingface.webhooks#UpdateWebhookRequestJobCase0VolumesList": {
       "type": "list",
       "member": {
-        "target": "com.huggingface.webhooks#UpdateWebhookRequestJobVolumesItem"
+        "target": "com.huggingface.webhooks#UpdateWebhookRequestJobCase0VolumesItem"
       },
       "traits": {
         "smithy.api#documentation": "HuggingFace Buckets or Repos to mount as volumes in the job container."
       }
     },
-    "com.huggingface.webhooks#UpdateWebhookRequestJobExposePortsList": {
+    "com.huggingface.webhooks#UpdateWebhookRequestJobCase0ExposePortsList": {
       "type": "list",
       "member": {
         "target": "smithy.api#Integer"
       },
       "traits": {}
     },
-    "com.huggingface.webhooks#UpdateWebhookRequestJobExposePortsPublicList": {
+    "com.huggingface.webhooks#UpdateWebhookRequestJobCase0ExposePortsPublicList": {
       "type": "list",
       "member": {
         "target": "smithy.api#Integer"
@@ -2425,17 +3873,17 @@
         "smithy.api#documentation": "Subset of `ports` reachable without any authentication."
       }
     },
-    "com.huggingface.webhooks#UpdateWebhookRequestJobExpose": {
+    "com.huggingface.webhooks#UpdateWebhookRequestJobCase0Expose": {
       "type": "structure",
       "members": {
         "ports": {
-          "target": "com.huggingface.webhooks#UpdateWebhookRequestJobExposePortsList",
+          "target": "com.huggingface.webhooks#UpdateWebhookRequestJobCase0ExposePortsList",
           "traits": {
             "smithy.api#required": {}
           }
         },
         "portsPublic": {
-          "target": "com.huggingface.webhooks#UpdateWebhookRequestJobExposePortsPublicList",
+          "target": "com.huggingface.webhooks#UpdateWebhookRequestJobCase0ExposePortsPublicList",
           "traits": {
             "smithy.api#documentation": "Subset of `ports` reachable without any authentication."
           }
@@ -2445,7 +3893,7 @@
         "smithy.api#documentation": "Ports to expose publicly through the jobs proxy. Each port is reachable at `https://<job_id>--<port>.<jobs-public-domain>`. Access requires a HF token with read access to the job's namespace, except for ports also listed in `portsPublic`."
       }
     },
-    "com.huggingface.webhooks#UpdateWebhookRequestJobSsh": {
+    "com.huggingface.webhooks#UpdateWebhookRequestJobCase0Ssh": {
       "type": "structure",
       "members": {
         "enabled": {
@@ -2456,35 +3904,68 @@
         "smithy.api#documentation": "When `enabled`, the job's container is reachable over SSH at `ssh <job_id>@ssh.hf.jobs`. Only the job's owner is allowed in, authenticated by an SSH public key registered on the Hub."
       }
     },
-    "com.huggingface.webhooks#UpdateWebhookRequestJob": {
+    "com.huggingface.webhooks#UpdateWebhookRequestJobCase0NetworkAliasesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Roles this job answers to. An alias names a role, not a job: several members may claim the same alias, which then resolves to all of them, and a member may claim several. Peers get the hostname by appending the alias to the `HF_NETWORK_GROUP_PREFIX` environment variable, which already ends with a separator."
+      }
+    },
+    "com.huggingface.webhooks#UpdateWebhookRequestJobCase0Network": {
+      "type": "structure",
+      "members": {
+        "group": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Group name, scoped to the job's owner and resource group.",
+            "smithy.api#required": {}
+          }
+        },
+        "aliases": {
+          "target": "com.huggingface.webhooks#UpdateWebhookRequestJobCase0NetworkAliasesList",
+          "traits": {
+            "smithy.api#documentation": "Roles this job answers to. An alias names a role, not a job: several members may claim the same alias, which then resolves to all of them, and a member may claim several. Peers get the hostname by appending the alias to the `HF_NETWORK_GROUP_PREFIX` environment variable, which already ends with a separator."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Opt-in network group. Jobs of the same owner and resource group sharing a group are placed together and reach each other on every port. Two environment variables are set in the container: `HF_NETWORK_GROUP_HOSTNAME`, a hostname resolving to every member of the group, and `HF_NETWORK_GROUP_PREFIX`, to which an alias is appended to get that alias' hostname."
+      }
+    },
+    "com.huggingface.webhooks#UpdateWebhookRequestJobCase0": {
       "type": "structure",
       "members": {
         "spaceId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#required": {}
+          }
         },
         "dockerImage": {
           "target": "smithy.api#String"
         },
         "arguments": {
-          "target": "com.huggingface.webhooks#UpdateWebhookRequestJobArgumentsList"
+          "target": "com.huggingface.webhooks#UpdateWebhookRequestJobCase0ArgumentsList"
         },
         "command": {
-          "target": "com.huggingface.webhooks#UpdateWebhookRequestJobCommandList"
+          "target": "com.huggingface.webhooks#UpdateWebhookRequestJobCase0CommandList"
         },
         "environment": {
-          "target": "com.huggingface.webhooks#UpdateWebhookRequestJobEnvironmentMap"
+          "target": "com.huggingface.webhooks#UpdateWebhookRequestJobCase0EnvironmentMap"
         },
         "secrets": {
-          "target": "com.huggingface.webhooks#UpdateWebhookRequestJobSecretsMap"
+          "target": "com.huggingface.webhooks#UpdateWebhookRequestJobCase0SecretsMap"
         },
         "flavor": {
-          "target": "com.huggingface.webhooks#UpdateWebhookRequestJobFlavor",
+          "target": "com.huggingface.webhooks#UpdateWebhookRequestJobCase0Flavor",
           "traits": {
             "smithy.api#required": {}
           }
         },
         "arch": {
-          "target": "com.huggingface.webhooks#UpdateWebhookRequestJobArch"
+          "target": "com.huggingface.webhooks#UpdateWebhookRequestJobCase0Arch"
         },
         "timeoutSeconds": {
           "target": "smithy.api#Integer",
@@ -2499,27 +3980,33 @@
           }
         },
         "labels": {
-          "target": "com.huggingface.webhooks#UpdateWebhookRequestJobLabelsMap",
+          "target": "com.huggingface.webhooks#UpdateWebhookRequestJobCase0LabelsMap",
           "traits": {
-            "smithy.api#documentation": "Labels for the job as key-value pairs. Both keys and values must be max 100 characters and contain only alphanumeric characters, dots, dashes, and underscores."
+            "smithy.api#documentation": "Labels for the job as key-value pairs. Both keys and values must be max 100 characters and contain only alphanumeric characters, dashes, and underscores."
           }
         },
         "volumes": {
-          "target": "com.huggingface.webhooks#UpdateWebhookRequestJobVolumesList",
+          "target": "com.huggingface.webhooks#UpdateWebhookRequestJobCase0VolumesList",
           "traits": {
             "smithy.api#documentation": "HuggingFace Buckets or Repos to mount as volumes in the job container."
           }
         },
         "expose": {
-          "target": "com.huggingface.webhooks#UpdateWebhookRequestJobExpose",
+          "target": "com.huggingface.webhooks#UpdateWebhookRequestJobCase0Expose",
           "traits": {
             "smithy.api#documentation": "Ports to expose publicly through the jobs proxy. Each port is reachable at `https://<job_id>--<port>.<jobs-public-domain>`. Access requires a HF token with read access to the job's namespace, except for ports also listed in `portsPublic`."
           }
         },
         "ssh": {
-          "target": "com.huggingface.webhooks#UpdateWebhookRequestJobSsh",
+          "target": "com.huggingface.webhooks#UpdateWebhookRequestJobCase0Ssh",
           "traits": {
             "smithy.api#documentation": "When `enabled`, the job's container is reachable over SSH at `ssh <job_id>@ssh.hf.jobs`. Only the job's owner is allowed in, authenticated by an SSH public key registered on the Hub."
+          }
+        },
+        "network": {
+          "target": "com.huggingface.webhooks#UpdateWebhookRequestJobCase0Network",
+          "traits": {
+            "smithy.api#documentation": "Opt-in network group. Jobs of the same owner and resource group sharing a group are placed together and reach each other on every port. Two environment variables are set in the container: `HF_NETWORK_GROUP_HOSTNAME`, a hostname resolving to every member of the group, and `HF_NETWORK_GROUP_PREFIX`, to which an alias is appended to get that alias' hostname."
           }
         },
         "resourceGroupId": {
@@ -2527,6 +4014,515 @@
         }
       },
       "traits": {}
+    },
+    "com.huggingface.webhooks#UpdateWebhookRequestJobCase1ArgumentsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.huggingface.webhooks#UpdateWebhookRequestJobCase1CommandList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.huggingface.webhooks#UpdateWebhookRequestJobCase1EnvironmentMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.huggingface.webhooks#UpdateWebhookRequestJobCase1SecretsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.huggingface.webhooks#UpdateWebhookRequestJobCase1Flavor": {
+      "type": "enum",
+      "members": {
+        "CPU_BASIC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cpu-basic"
+          }
+        },
+        "CPU_UPGRADE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cpu-upgrade"
+          }
+        },
+        "CPU_PERFORMANCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cpu-performance"
+          }
+        },
+        "CPU_XL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cpu-xl"
+          }
+        },
+        "SPRX8": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sprx8"
+          }
+        },
+        "ZERO_A10G": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "zero-a10g"
+          }
+        },
+        "T4_SMALL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "t4-small"
+          }
+        },
+        "T4_MEDIUM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "t4-medium"
+          }
+        },
+        "L4X1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "l4x1"
+          }
+        },
+        "L4X4": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "l4x4"
+          }
+        },
+        "L40SX1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "l40sx1"
+          }
+        },
+        "L40SX4": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "l40sx4"
+          }
+        },
+        "L40SX8": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "l40sx8"
+          }
+        },
+        "A10G_SMALL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "a10g-small"
+          }
+        },
+        "A10G_LARGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "a10g-large"
+          }
+        },
+        "A10G_LARGEX2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "a10g-largex2"
+          }
+        },
+        "A10G_LARGEX4": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "a10g-largex4"
+          }
+        },
+        "A100_LARGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "a100-large"
+          }
+        },
+        "A100X4": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "a100x4"
+          }
+        },
+        "A100X8": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "a100x8"
+          }
+        },
+        "H200": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "h200"
+          }
+        },
+        "H200X2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "h200x2"
+          }
+        },
+        "H200X4": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "h200x4"
+          }
+        },
+        "H200X8": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "h200x8"
+          }
+        },
+        "RTX_PRO_6000": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rtx-pro-6000"
+          }
+        },
+        "RTX_PRO_6000X2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rtx-pro-6000x2"
+          }
+        },
+        "RTX_PRO_6000X4": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rtx-pro-6000x4"
+          }
+        },
+        "RTX_PRO_6000X8": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rtx-pro-6000x8"
+          }
+        },
+        "INF2X6": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "inf2x6"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.huggingface.webhooks#UpdateWebhookRequestJobCase1Arch": {
+      "type": "enum",
+      "members": {
+        "AMD64": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "amd64"
+          }
+        },
+        "ARM64": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "arm64"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.huggingface.webhooks#UpdateWebhookRequestJobCase1LabelsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Labels for the job as key-value pairs. Both keys and values must be max 100 characters and contain only alphanumeric characters, dashes, and underscores."
+      }
+    },
+    "com.huggingface.webhooks#UpdateWebhookRequestJobCase1VolumesItemType": {
+      "type": "enum",
+      "members": {
+        "BUCKET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bucket"
+          }
+        },
+        "MODEL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "model"
+          }
+        },
+        "DATASET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dataset"
+          }
+        },
+        "SPACE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "space"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.huggingface.webhooks#UpdateWebhookRequestJobCase1VolumesItem": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.huggingface.webhooks#UpdateWebhookRequestJobCase1VolumesItemType",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "source": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Source identifier, e.g. 'username/my-bucket' or 'username/my-model'",
+            "smithy.api#required": {}
+          }
+        },
+        "mountPath": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Mount path inside the container, e.g. '/data'",
+            "smithy.api#required": {}
+          }
+        },
+        "revision": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Git revision (only for repos, defaults to 'main')"
+          }
+        },
+        "readOnly": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Read-only mount (true for repos, false default for buckets)"
+          }
+        },
+        "path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Subfolder prefix inside the bucket/repo to mount, e.g. 'path/to/dir'"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.huggingface.webhooks#UpdateWebhookRequestJobCase1VolumesList": {
+      "type": "list",
+      "member": {
+        "target": "com.huggingface.webhooks#UpdateWebhookRequestJobCase1VolumesItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "HuggingFace Buckets or Repos to mount as volumes in the job container."
+      }
+    },
+    "com.huggingface.webhooks#UpdateWebhookRequestJobCase1ExposePortsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Integer"
+      },
+      "traits": {}
+    },
+    "com.huggingface.webhooks#UpdateWebhookRequestJobCase1ExposePortsPublicList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Integer"
+      },
+      "traits": {
+        "smithy.api#documentation": "Subset of `ports` reachable without any authentication."
+      }
+    },
+    "com.huggingface.webhooks#UpdateWebhookRequestJobCase1Expose": {
+      "type": "structure",
+      "members": {
+        "ports": {
+          "target": "com.huggingface.webhooks#UpdateWebhookRequestJobCase1ExposePortsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "portsPublic": {
+          "target": "com.huggingface.webhooks#UpdateWebhookRequestJobCase1ExposePortsPublicList",
+          "traits": {
+            "smithy.api#documentation": "Subset of `ports` reachable without any authentication."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Ports to expose publicly through the jobs proxy. Each port is reachable at `https://<job_id>--<port>.<jobs-public-domain>`. Access requires a HF token with read access to the job's namespace, except for ports also listed in `portsPublic`."
+      }
+    },
+    "com.huggingface.webhooks#UpdateWebhookRequestJobCase1Ssh": {
+      "type": "structure",
+      "members": {
+        "enabled": {
+          "target": "smithy.api#Boolean"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "When `enabled`, the job's container is reachable over SSH at `ssh <job_id>@ssh.hf.jobs`. Only the job's owner is allowed in, authenticated by an SSH public key registered on the Hub."
+      }
+    },
+    "com.huggingface.webhooks#UpdateWebhookRequestJobCase1NetworkAliasesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Roles this job answers to. An alias names a role, not a job: several members may claim the same alias, which then resolves to all of them, and a member may claim several. Peers get the hostname by appending the alias to the `HF_NETWORK_GROUP_PREFIX` environment variable, which already ends with a separator."
+      }
+    },
+    "com.huggingface.webhooks#UpdateWebhookRequestJobCase1Network": {
+      "type": "structure",
+      "members": {
+        "group": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Group name, scoped to the job's owner and resource group.",
+            "smithy.api#required": {}
+          }
+        },
+        "aliases": {
+          "target": "com.huggingface.webhooks#UpdateWebhookRequestJobCase1NetworkAliasesList",
+          "traits": {
+            "smithy.api#documentation": "Roles this job answers to. An alias names a role, not a job: several members may claim the same alias, which then resolves to all of them, and a member may claim several. Peers get the hostname by appending the alias to the `HF_NETWORK_GROUP_PREFIX` environment variable, which already ends with a separator."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Opt-in network group. Jobs of the same owner and resource group sharing a group are placed together and reach each other on every port. Two environment variables are set in the container: `HF_NETWORK_GROUP_HOSTNAME`, a hostname resolving to every member of the group, and `HF_NETWORK_GROUP_PREFIX`, to which an alias is appended to get that alias' hostname."
+      }
+    },
+    "com.huggingface.webhooks#UpdateWebhookRequestJobCase1": {
+      "type": "structure",
+      "members": {
+        "spaceId": {
+          "target": "smithy.api#String"
+        },
+        "dockerImage": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "arguments": {
+          "target": "com.huggingface.webhooks#UpdateWebhookRequestJobCase1ArgumentsList"
+        },
+        "command": {
+          "target": "com.huggingface.webhooks#UpdateWebhookRequestJobCase1CommandList"
+        },
+        "environment": {
+          "target": "com.huggingface.webhooks#UpdateWebhookRequestJobCase1EnvironmentMap"
+        },
+        "secrets": {
+          "target": "com.huggingface.webhooks#UpdateWebhookRequestJobCase1SecretsMap"
+        },
+        "flavor": {
+          "target": "com.huggingface.webhooks#UpdateWebhookRequestJobCase1Flavor",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "arch": {
+          "target": "com.huggingface.webhooks#UpdateWebhookRequestJobCase1Arch"
+        },
+        "timeoutSeconds": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "attempts": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Max number of attempts to make. For example, if you set this to 3, the job will be retried up to 2 times if it fails."
+          }
+        },
+        "labels": {
+          "target": "com.huggingface.webhooks#UpdateWebhookRequestJobCase1LabelsMap",
+          "traits": {
+            "smithy.api#documentation": "Labels for the job as key-value pairs. Both keys and values must be max 100 characters and contain only alphanumeric characters, dashes, and underscores."
+          }
+        },
+        "volumes": {
+          "target": "com.huggingface.webhooks#UpdateWebhookRequestJobCase1VolumesList",
+          "traits": {
+            "smithy.api#documentation": "HuggingFace Buckets or Repos to mount as volumes in the job container."
+          }
+        },
+        "expose": {
+          "target": "com.huggingface.webhooks#UpdateWebhookRequestJobCase1Expose",
+          "traits": {
+            "smithy.api#documentation": "Ports to expose publicly through the jobs proxy. Each port is reachable at `https://<job_id>--<port>.<jobs-public-domain>`. Access requires a HF token with read access to the job's namespace, except for ports also listed in `portsPublic`."
+          }
+        },
+        "ssh": {
+          "target": "com.huggingface.webhooks#UpdateWebhookRequestJobCase1Ssh",
+          "traits": {
+            "smithy.api#documentation": "When `enabled`, the job's container is reachable over SSH at `ssh <job_id>@ssh.hf.jobs`. Only the job's owner is allowed in, authenticated by an SSH public key registered on the Hub."
+          }
+        },
+        "network": {
+          "target": "com.huggingface.webhooks#UpdateWebhookRequestJobCase1Network",
+          "traits": {
+            "smithy.api#documentation": "Opt-in network group. Jobs of the same owner and resource group sharing a group are placed together and reach each other on every port. Two environment variables are set in the container: `HF_NETWORK_GROUP_HOSTNAME`, a hostname resolving to every member of the group, and `HF_NETWORK_GROUP_PREFIX`, to which an alias is appended to get that alias' hostname."
+          }
+        },
+        "resourceGroupId": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.huggingface.webhooks#UpdateWebhookRequestJob": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.huggingface.webhooks#UpdateWebhookRequestJobCase0"
+        },
+        "Case1": {
+          "target": "com.huggingface.webhooks#UpdateWebhookRequestJobCase1"
+        }
+      },
+      "traits": {}
+    },
+    "com.huggingface.webhooks#UpdateWebhookRequestSecretsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Secrets of the job started by the webhook, used together with `jobSourceId`: the source job's own secrets are never copied. On update, listed keys are replaced, an empty value removes a secret, and omitted keys keep their stored value."
+      }
     },
     "com.huggingface.webhooks#UpdateWebhookRequestDomainsItem": {
       "type": "enum",
@@ -2578,6 +4574,12 @@
         "jobSourceId": {
           "target": "smithy.api#String"
         },
+        "secrets": {
+          "target": "com.huggingface.webhooks#UpdateWebhookRequestSecretsMap",
+          "traits": {
+            "smithy.api#documentation": "Secrets of the job started by the webhook, used together with `jobSourceId`: the source job's own secrets are never copied. On update, listed keys are replaced, an empty value removes a secret, and omitted keys keep their stored value."
+          }
+        },
         "domains": {
           "target": "com.huggingface.webhooks#UpdateWebhookRequestDomainsList",
           "traits": {
@@ -2595,7 +4597,7 @@
         "smithy.api#input": {}
       }
     },
-    "com.huggingface.webhooks#UpdateWebhookResponseWebhookJobEnvironmentMap": {
+    "com.huggingface.webhooks#UpdateWebhookResponseWebhookJobCase0EnvironmentMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
@@ -2605,21 +4607,21 @@
       },
       "traits": {}
     },
-    "com.huggingface.webhooks#UpdateWebhookResponseWebhookJobArgumentsList": {
+    "com.huggingface.webhooks#UpdateWebhookResponseWebhookJobCase0ArgumentsList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       },
       "traits": {}
     },
-    "com.huggingface.webhooks#UpdateWebhookResponseWebhookJobCommandList": {
+    "com.huggingface.webhooks#UpdateWebhookResponseWebhookJobCase0CommandList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       },
       "traits": {}
     },
-    "com.huggingface.webhooks#UpdateWebhookResponseWebhookJobFlavor": {
+    "com.huggingface.webhooks#UpdateWebhookResponseWebhookJobCase0Flavor": {
       "type": "enum",
       "members": {
         "CPU_BASIC": {
@@ -2799,7 +4801,7 @@
       },
       "traits": {}
     },
-    "com.huggingface.webhooks#UpdateWebhookResponseWebhookJobLabelsMap": {
+    "com.huggingface.webhooks#UpdateWebhookResponseWebhookJobCase0LabelsMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
@@ -2808,39 +4810,42 @@
         "target": "smithy.api#String"
       },
       "traits": {
-        "smithy.api#documentation": "Labels for the job as key-value pairs. Both keys and values must be max 100 characters and contain only alphanumeric characters, dots, dashes, and underscores."
+        "smithy.api#documentation": "Labels for the job as key-value pairs. Both keys and values must be max 100 characters and contain only alphanumeric characters, dashes, and underscores."
       }
     },
-    "com.huggingface.webhooks#UpdateWebhookResponseWebhookJobSecretsList": {
+    "com.huggingface.webhooks#UpdateWebhookResponseWebhookJobCase0SecretsList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       },
       "traits": {}
     },
-    "com.huggingface.webhooks#UpdateWebhookResponseWebhookJob": {
+    "com.huggingface.webhooks#UpdateWebhookResponseWebhookJobCase0": {
       "type": "structure",
       "members": {
         "dockerImage": {
           "target": "smithy.api#String"
         },
         "spaceId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#required": {}
+          }
         },
         "environment": {
-          "target": "com.huggingface.webhooks#UpdateWebhookResponseWebhookJobEnvironmentMap",
+          "target": "com.huggingface.webhooks#UpdateWebhookResponseWebhookJobCase0EnvironmentMap",
           "traits": {
             "smithy.api#required": {}
           }
         },
         "arguments": {
-          "target": "com.huggingface.webhooks#UpdateWebhookResponseWebhookJobArgumentsList"
+          "target": "com.huggingface.webhooks#UpdateWebhookResponseWebhookJobCase0ArgumentsList"
         },
         "command": {
-          "target": "com.huggingface.webhooks#UpdateWebhookResponseWebhookJobCommandList"
+          "target": "com.huggingface.webhooks#UpdateWebhookResponseWebhookJobCase0CommandList"
         },
         "flavor": {
-          "target": "com.huggingface.webhooks#UpdateWebhookResponseWebhookJobFlavor",
+          "target": "com.huggingface.webhooks#UpdateWebhookResponseWebhookJobCase0Flavor",
           "traits": {
             "smithy.api#required": {}
           }
@@ -2853,13 +4858,297 @@
           }
         },
         "labels": {
-          "target": "com.huggingface.webhooks#UpdateWebhookResponseWebhookJobLabelsMap",
+          "target": "com.huggingface.webhooks#UpdateWebhookResponseWebhookJobCase0LabelsMap",
           "traits": {
-            "smithy.api#documentation": "Labels for the job as key-value pairs. Both keys and values must be max 100 characters and contain only alphanumeric characters, dots, dashes, and underscores."
+            "smithy.api#documentation": "Labels for the job as key-value pairs. Both keys and values must be max 100 characters and contain only alphanumeric characters, dashes, and underscores."
           }
         },
         "secrets": {
-          "target": "com.huggingface.webhooks#UpdateWebhookResponseWebhookJobSecretsList"
+          "target": "com.huggingface.webhooks#UpdateWebhookResponseWebhookJobCase0SecretsList"
+        }
+      },
+      "traits": {}
+    },
+    "com.huggingface.webhooks#UpdateWebhookResponseWebhookJobCase1EnvironmentMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.huggingface.webhooks#UpdateWebhookResponseWebhookJobCase1ArgumentsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.huggingface.webhooks#UpdateWebhookResponseWebhookJobCase1CommandList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.huggingface.webhooks#UpdateWebhookResponseWebhookJobCase1Flavor": {
+      "type": "enum",
+      "members": {
+        "CPU_BASIC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cpu-basic"
+          }
+        },
+        "CPU_UPGRADE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cpu-upgrade"
+          }
+        },
+        "CPU_PERFORMANCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cpu-performance"
+          }
+        },
+        "CPU_XL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cpu-xl"
+          }
+        },
+        "SPRX8": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sprx8"
+          }
+        },
+        "ZERO_A10G": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "zero-a10g"
+          }
+        },
+        "T4_SMALL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "t4-small"
+          }
+        },
+        "T4_MEDIUM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "t4-medium"
+          }
+        },
+        "L4X1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "l4x1"
+          }
+        },
+        "L4X4": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "l4x4"
+          }
+        },
+        "L40SX1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "l40sx1"
+          }
+        },
+        "L40SX4": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "l40sx4"
+          }
+        },
+        "L40SX8": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "l40sx8"
+          }
+        },
+        "A10G_SMALL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "a10g-small"
+          }
+        },
+        "A10G_LARGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "a10g-large"
+          }
+        },
+        "A10G_LARGEX2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "a10g-largex2"
+          }
+        },
+        "A10G_LARGEX4": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "a10g-largex4"
+          }
+        },
+        "A100_LARGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "a100-large"
+          }
+        },
+        "A100X4": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "a100x4"
+          }
+        },
+        "A100X8": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "a100x8"
+          }
+        },
+        "H200": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "h200"
+          }
+        },
+        "H200X2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "h200x2"
+          }
+        },
+        "H200X4": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "h200x4"
+          }
+        },
+        "H200X8": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "h200x8"
+          }
+        },
+        "RTX_PRO_6000": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rtx-pro-6000"
+          }
+        },
+        "RTX_PRO_6000X2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rtx-pro-6000x2"
+          }
+        },
+        "RTX_PRO_6000X4": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rtx-pro-6000x4"
+          }
+        },
+        "RTX_PRO_6000X8": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rtx-pro-6000x8"
+          }
+        },
+        "INF2X6": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "inf2x6"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.huggingface.webhooks#UpdateWebhookResponseWebhookJobCase1LabelsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Labels for the job as key-value pairs. Both keys and values must be max 100 characters and contain only alphanumeric characters, dashes, and underscores."
+      }
+    },
+    "com.huggingface.webhooks#UpdateWebhookResponseWebhookJobCase1SecretsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.huggingface.webhooks#UpdateWebhookResponseWebhookJobCase1": {
+      "type": "structure",
+      "members": {
+        "dockerImage": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "spaceId": {
+          "target": "smithy.api#String"
+        },
+        "environment": {
+          "target": "com.huggingface.webhooks#UpdateWebhookResponseWebhookJobCase1EnvironmentMap",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "arguments": {
+          "target": "com.huggingface.webhooks#UpdateWebhookResponseWebhookJobCase1ArgumentsList"
+        },
+        "command": {
+          "target": "com.huggingface.webhooks#UpdateWebhookResponseWebhookJobCase1CommandList"
+        },
+        "flavor": {
+          "target": "com.huggingface.webhooks#UpdateWebhookResponseWebhookJobCase1Flavor",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "timeoutSeconds": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "labels": {
+          "target": "com.huggingface.webhooks#UpdateWebhookResponseWebhookJobCase1LabelsMap",
+          "traits": {
+            "smithy.api#documentation": "Labels for the job as key-value pairs. Both keys and values must be max 100 characters and contain only alphanumeric characters, dashes, and underscores."
+          }
+        },
+        "secrets": {
+          "target": "com.huggingface.webhooks#UpdateWebhookResponseWebhookJobCase1SecretsList"
+        }
+      },
+      "traits": {}
+    },
+    "com.huggingface.webhooks#UpdateWebhookResponseWebhookJob": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.huggingface.webhooks#UpdateWebhookResponseWebhookJobCase0"
+        },
+        "Case1": {
+          "target": "com.huggingface.webhooks#UpdateWebhookResponseWebhookJobCase1"
         }
       },
       "traits": {}
@@ -2871,7 +5160,7 @@
           "target": "smithy.api#Boolean"
         },
         "Case1": {
-          "target": "smithy.api#Document"
+          "target": "smithy.api#String"
         }
       },
       "traits": {}
@@ -2907,6 +5196,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "kernel"
+          }
+        },
+        "CONTAINER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "container"
           }
         },
         "USER": {
@@ -2983,6 +5278,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },
@@ -3147,7 +5443,7 @@
         "smithy.api#input": {}
       }
     },
-    "com.huggingface.webhooks#EnableDisableWebhookResponseWebhookJobEnvironmentMap": {
+    "com.huggingface.webhooks#EnableDisableWebhookResponseWebhookJobCase0EnvironmentMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
@@ -3157,21 +5453,21 @@
       },
       "traits": {}
     },
-    "com.huggingface.webhooks#EnableDisableWebhookResponseWebhookJobArgumentsList": {
+    "com.huggingface.webhooks#EnableDisableWebhookResponseWebhookJobCase0ArgumentsList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       },
       "traits": {}
     },
-    "com.huggingface.webhooks#EnableDisableWebhookResponseWebhookJobCommandList": {
+    "com.huggingface.webhooks#EnableDisableWebhookResponseWebhookJobCase0CommandList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       },
       "traits": {}
     },
-    "com.huggingface.webhooks#EnableDisableWebhookResponseWebhookJobFlavor": {
+    "com.huggingface.webhooks#EnableDisableWebhookResponseWebhookJobCase0Flavor": {
       "type": "enum",
       "members": {
         "CPU_BASIC": {
@@ -3351,7 +5647,7 @@
       },
       "traits": {}
     },
-    "com.huggingface.webhooks#EnableDisableWebhookResponseWebhookJobLabelsMap": {
+    "com.huggingface.webhooks#EnableDisableWebhookResponseWebhookJobCase0LabelsMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
@@ -3360,39 +5656,42 @@
         "target": "smithy.api#String"
       },
       "traits": {
-        "smithy.api#documentation": "Labels for the job as key-value pairs. Both keys and values must be max 100 characters and contain only alphanumeric characters, dots, dashes, and underscores."
+        "smithy.api#documentation": "Labels for the job as key-value pairs. Both keys and values must be max 100 characters and contain only alphanumeric characters, dashes, and underscores."
       }
     },
-    "com.huggingface.webhooks#EnableDisableWebhookResponseWebhookJobSecretsList": {
+    "com.huggingface.webhooks#EnableDisableWebhookResponseWebhookJobCase0SecretsList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       },
       "traits": {}
     },
-    "com.huggingface.webhooks#EnableDisableWebhookResponseWebhookJob": {
+    "com.huggingface.webhooks#EnableDisableWebhookResponseWebhookJobCase0": {
       "type": "structure",
       "members": {
         "dockerImage": {
           "target": "smithy.api#String"
         },
         "spaceId": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#required": {}
+          }
         },
         "environment": {
-          "target": "com.huggingface.webhooks#EnableDisableWebhookResponseWebhookJobEnvironmentMap",
+          "target": "com.huggingface.webhooks#EnableDisableWebhookResponseWebhookJobCase0EnvironmentMap",
           "traits": {
             "smithy.api#required": {}
           }
         },
         "arguments": {
-          "target": "com.huggingface.webhooks#EnableDisableWebhookResponseWebhookJobArgumentsList"
+          "target": "com.huggingface.webhooks#EnableDisableWebhookResponseWebhookJobCase0ArgumentsList"
         },
         "command": {
-          "target": "com.huggingface.webhooks#EnableDisableWebhookResponseWebhookJobCommandList"
+          "target": "com.huggingface.webhooks#EnableDisableWebhookResponseWebhookJobCase0CommandList"
         },
         "flavor": {
-          "target": "com.huggingface.webhooks#EnableDisableWebhookResponseWebhookJobFlavor",
+          "target": "com.huggingface.webhooks#EnableDisableWebhookResponseWebhookJobCase0Flavor",
           "traits": {
             "smithy.api#required": {}
           }
@@ -3405,13 +5704,297 @@
           }
         },
         "labels": {
-          "target": "com.huggingface.webhooks#EnableDisableWebhookResponseWebhookJobLabelsMap",
+          "target": "com.huggingface.webhooks#EnableDisableWebhookResponseWebhookJobCase0LabelsMap",
           "traits": {
-            "smithy.api#documentation": "Labels for the job as key-value pairs. Both keys and values must be max 100 characters and contain only alphanumeric characters, dots, dashes, and underscores."
+            "smithy.api#documentation": "Labels for the job as key-value pairs. Both keys and values must be max 100 characters and contain only alphanumeric characters, dashes, and underscores."
           }
         },
         "secrets": {
-          "target": "com.huggingface.webhooks#EnableDisableWebhookResponseWebhookJobSecretsList"
+          "target": "com.huggingface.webhooks#EnableDisableWebhookResponseWebhookJobCase0SecretsList"
+        }
+      },
+      "traits": {}
+    },
+    "com.huggingface.webhooks#EnableDisableWebhookResponseWebhookJobCase1EnvironmentMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.huggingface.webhooks#EnableDisableWebhookResponseWebhookJobCase1ArgumentsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.huggingface.webhooks#EnableDisableWebhookResponseWebhookJobCase1CommandList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.huggingface.webhooks#EnableDisableWebhookResponseWebhookJobCase1Flavor": {
+      "type": "enum",
+      "members": {
+        "CPU_BASIC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cpu-basic"
+          }
+        },
+        "CPU_UPGRADE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cpu-upgrade"
+          }
+        },
+        "CPU_PERFORMANCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cpu-performance"
+          }
+        },
+        "CPU_XL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cpu-xl"
+          }
+        },
+        "SPRX8": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sprx8"
+          }
+        },
+        "ZERO_A10G": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "zero-a10g"
+          }
+        },
+        "T4_SMALL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "t4-small"
+          }
+        },
+        "T4_MEDIUM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "t4-medium"
+          }
+        },
+        "L4X1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "l4x1"
+          }
+        },
+        "L4X4": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "l4x4"
+          }
+        },
+        "L40SX1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "l40sx1"
+          }
+        },
+        "L40SX4": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "l40sx4"
+          }
+        },
+        "L40SX8": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "l40sx8"
+          }
+        },
+        "A10G_SMALL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "a10g-small"
+          }
+        },
+        "A10G_LARGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "a10g-large"
+          }
+        },
+        "A10G_LARGEX2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "a10g-largex2"
+          }
+        },
+        "A10G_LARGEX4": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "a10g-largex4"
+          }
+        },
+        "A100_LARGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "a100-large"
+          }
+        },
+        "A100X4": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "a100x4"
+          }
+        },
+        "A100X8": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "a100x8"
+          }
+        },
+        "H200": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "h200"
+          }
+        },
+        "H200X2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "h200x2"
+          }
+        },
+        "H200X4": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "h200x4"
+          }
+        },
+        "H200X8": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "h200x8"
+          }
+        },
+        "RTX_PRO_6000": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rtx-pro-6000"
+          }
+        },
+        "RTX_PRO_6000X2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rtx-pro-6000x2"
+          }
+        },
+        "RTX_PRO_6000X4": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rtx-pro-6000x4"
+          }
+        },
+        "RTX_PRO_6000X8": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rtx-pro-6000x8"
+          }
+        },
+        "INF2X6": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "inf2x6"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.huggingface.webhooks#EnableDisableWebhookResponseWebhookJobCase1LabelsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Labels for the job as key-value pairs. Both keys and values must be max 100 characters and contain only alphanumeric characters, dashes, and underscores."
+      }
+    },
+    "com.huggingface.webhooks#EnableDisableWebhookResponseWebhookJobCase1SecretsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.huggingface.webhooks#EnableDisableWebhookResponseWebhookJobCase1": {
+      "type": "structure",
+      "members": {
+        "dockerImage": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "spaceId": {
+          "target": "smithy.api#String"
+        },
+        "environment": {
+          "target": "com.huggingface.webhooks#EnableDisableWebhookResponseWebhookJobCase1EnvironmentMap",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "arguments": {
+          "target": "com.huggingface.webhooks#EnableDisableWebhookResponseWebhookJobCase1ArgumentsList"
+        },
+        "command": {
+          "target": "com.huggingface.webhooks#EnableDisableWebhookResponseWebhookJobCase1CommandList"
+        },
+        "flavor": {
+          "target": "com.huggingface.webhooks#EnableDisableWebhookResponseWebhookJobCase1Flavor",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "timeoutSeconds": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "labels": {
+          "target": "com.huggingface.webhooks#EnableDisableWebhookResponseWebhookJobCase1LabelsMap",
+          "traits": {
+            "smithy.api#documentation": "Labels for the job as key-value pairs. Both keys and values must be max 100 characters and contain only alphanumeric characters, dashes, and underscores."
+          }
+        },
+        "secrets": {
+          "target": "com.huggingface.webhooks#EnableDisableWebhookResponseWebhookJobCase1SecretsList"
+        }
+      },
+      "traits": {}
+    },
+    "com.huggingface.webhooks#EnableDisableWebhookResponseWebhookJob": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.huggingface.webhooks#EnableDisableWebhookResponseWebhookJobCase0"
+        },
+        "Case1": {
+          "target": "com.huggingface.webhooks#EnableDisableWebhookResponseWebhookJobCase1"
         }
       },
       "traits": {}
@@ -3423,7 +6006,7 @@
           "target": "smithy.api#Boolean"
         },
         "Case1": {
-          "target": "smithy.api#Document"
+          "target": "smithy.api#String"
         }
       },
       "traits": {}
@@ -3459,6 +6042,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "kernel"
+          }
+        },
+        "CONTAINER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "container"
           }
         },
         "USER": {
@@ -3535,6 +6124,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "A hex string of 24 characters representing an ObjectId.",
             "smithy.api#required": {}
           }
         },

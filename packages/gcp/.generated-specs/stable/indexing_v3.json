@@ -8,6 +8,32 @@
     "distilled.finalized": true
   },
   "shapes": {
+    "com.gcp.indexing_v3#UrlNotificationMetadata": {
+      "type": "structure",
+      "members": {
+        "latestUpdate": {
+          "target": "com.gcp.indexing_v3#UrlNotification",
+          "traits": {
+            "smithy.api#documentation": "Latest notification received with type `URL_UPDATED`."
+          }
+        },
+        "latestRemove": {
+          "target": "com.gcp.indexing_v3#UrlNotification",
+          "traits": {
+            "smithy.api#documentation": "Latest notification received with type `URL_REMOVED`."
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL to which this metadata refers."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Summary of the most recent Indexing API notifications successfully received, for a given URL."
+      }
+    },
     "com.gcp.indexing_v3#UrlNotification": {
       "type": "structure",
       "members": {
@@ -71,40 +97,14 @@
         "smithy.api#documentation": "Output for PublishUrlNotification"
       }
     },
-    "com.gcp.indexing_v3#UrlNotificationMetadata": {
+    "com.gcp.indexing_v3#PublishUrlNotificationsRequest": {
       "type": "structure",
       "members": {
-        "url": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "URL to which this metadata refers."
-          }
-        },
-        "latestRemove": {
+        "body": {
           "target": "com.gcp.indexing_v3#UrlNotification",
           "traits": {
-            "smithy.api#documentation": "Latest notification received with type `URL_REMOVED`."
-          }
-        },
-        "latestUpdate": {
-          "target": "com.gcp.indexing_v3#UrlNotification",
-          "traits": {
-            "smithy.api#documentation": "Latest notification received with type `URL_UPDATED`."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Summary of the most recent Indexing API notifications successfully received, for a given URL."
-      }
-    },
-    "com.gcp.indexing_v3#GetMetadataUrlNotificationsRequest": {
-      "type": "structure",
-      "members": {
-        "url": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "URL that is being queried.",
-            "smithy.api#httpQuery": "url"
+            "smithy.api#httpPayload": {},
+            "smithy.api#documentation": "Request body"
           }
         }
       }
@@ -133,42 +133,6 @@
             "status": 403
           }
         ]
-      }
-    },
-    "com.gcp.indexing_v3#GetMetadataUrlNotifications": {
-      "type": "operation",
-      "input": {
-        "target": "com.gcp.indexing_v3#GetMetadataUrlNotificationsRequest"
-      },
-      "output": {
-        "target": "com.gcp.indexing_v3#UrlNotificationMetadata"
-      },
-      "errors": [
-        {
-          "target": "com.gcp.indexing_v3#NotFound"
-        },
-        {
-          "target": "com.gcp.indexing_v3#Forbidden"
-        }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "v3/urlNotifications/metadata"
-        },
-        "smithy.api#documentation": "Gets metadata about a Web Document. This method can _only_ be used to query URLs that were previously seen in successful Indexing API notifications. Includes the latest `UrlNotification` received via this API."
-      }
-    },
-    "com.gcp.indexing_v3#PublishUrlNotificationsRequest": {
-      "type": "structure",
-      "members": {
-        "body": {
-          "target": "com.gcp.indexing_v3#UrlNotification",
-          "traits": {
-            "smithy.api#httpPayload": {},
-            "smithy.api#documentation": "Request body"
-          }
-        }
       }
     },
     "com.gcp.indexing_v3#BadRequest": {
@@ -225,6 +189,42 @@
           "uri": "v3/urlNotifications:publish"
         },
         "smithy.api#documentation": "Notifies that a URL has been updated or deleted."
+      }
+    },
+    "com.gcp.indexing_v3#GetMetadataUrlNotificationsRequest": {
+      "type": "structure",
+      "members": {
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL that is being queried.",
+            "smithy.api#httpQuery": "url"
+          }
+        }
+      }
+    },
+    "com.gcp.indexing_v3#GetMetadataUrlNotifications": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.indexing_v3#GetMetadataUrlNotificationsRequest"
+      },
+      "output": {
+        "target": "com.gcp.indexing_v3#UrlNotificationMetadata"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.indexing_v3#NotFound"
+        },
+        {
+          "target": "com.gcp.indexing_v3#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "v3/urlNotifications/metadata"
+        },
+        "smithy.api#documentation": "Gets metadata about a Web Document. This method can _only_ be used to query URLs that were previously seen in successful Indexing API notifications. Includes the latest `UrlNotification` received via this API."
       }
     }
   }

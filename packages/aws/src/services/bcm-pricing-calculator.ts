@@ -1,12 +1,12 @@
-import * as HttpClient from "effect/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "BCM Pricing Calculator",
   serviceShapeName: "AWSBCMPricingCalculator",
@@ -25,18 +25,11 @@ const rules = T.EndpointResolver((p, _) => {
     message: m as string,
   });
   const _p0 = (_0: unknown) => ({
-    authSchemes: [
-      {
-        name: "sigv4",
-        signingRegion: `${_.getAttr(_0, "implicitGlobalRegion")}`,
-      },
-    ],
+    authSchemes: [{ name: "sigv4", signingRegion: `${_.getAttr(_0, "implicitGlobalRegion")}` }],
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -65,15 +58,8 @@ const rules = T.EndpointResolver((p, _) => {
 export class ConflictException
   extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
     "ConflictException",
-    {
-      message: S.String.pipe(T.ErrorMessage()),
-      resourceId: S.String,
-      resourceType: S.String,
-    },
-    T.all(
-      T.AwsQueryError({ code: "ConflictCode", httpResponseCode: 409 }),
-      T.HttpError(409),
-    ),
+    { message: S.String.pipe(T.ErrorMessage()), resourceId: S.String, resourceType: S.String },
+    T.all(T.AwsQueryError({ code: "ConflictCode", httpResponseCode: 409 }), T.HttpError(409)),
   ).pipe(C.withConflictError) {}
 export class DataUnavailableException
   extends /*@__PURE__*/ S.TaggedError<DataUnavailableException>()(
@@ -84,11 +70,7 @@ export class DataUnavailableException
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",
-    {
-      message: S.String.pipe(T.ErrorMessage()),
-      resourceId: S.String,
-      resourceType: S.String,
-    },
+    { message: S.String.pipe(T.ErrorMessage()), resourceId: S.String, resourceType: S.String },
     T.all(
       T.AwsQueryError({ code: "ResourceNotFoundCode", httpResponseCode: 404 }),
       T.HttpError(404),
@@ -104,10 +86,7 @@ export class ServiceQuotaExceededException
       serviceCode: S.optional(S.String),
       quotaCode: S.optional(S.String),
     },
-    T.all(
-      T.AwsQueryError({ code: "ServiceQuotaCode", httpResponseCode: 402 }),
-      T.HttpError(402),
-    ),
+    T.all(T.AwsQueryError({ code: "ServiceQuotaCode", httpResponseCode: 402 }), T.HttpError(402)),
   ).pipe(C.withQuotaError) {}
 export type ResourceId = string;
 export type Key = string;
@@ -133,13 +112,8 @@ export interface AddSavingsPlanAction {
   commitment?: number;
 }
 export const AddSavingsPlanAction = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    savingsPlanOfferingId: S.optional(S.String),
-    commitment: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "AddSavingsPlanAction",
-}) as any as S.Schema<AddSavingsPlanAction>;
+  S.Struct({ savingsPlanOfferingId: S.optional(S.String), commitment: S.optional(S.Number) }),
+).annotate({ identifier: "AddSavingsPlanAction" }) as any as S.Schema<AddSavingsPlanAction>;
 export interface NegateReservedInstanceAction {
   reservedInstancesId?: string;
 }
@@ -153,9 +127,7 @@ export interface NegateSavingsPlanAction {
 }
 export const NegateSavingsPlanAction = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ savingsPlanId: S.optional(S.String) }),
-).annotate({
-  identifier: "NegateSavingsPlanAction",
-}) as any as S.Schema<NegateSavingsPlanAction>;
+).annotate({ identifier: "NegateSavingsPlanAction" }) as any as S.Schema<NegateSavingsPlanAction>;
 export type BillScenarioCommitmentModificationAction =
   | {
       addReservedInstanceAction: AddReservedInstanceAction;
@@ -193,43 +165,39 @@ export interface BatchCreateBillScenarioCommitmentModificationEntry {
   usageAccountId: string;
   commitmentAction: BillScenarioCommitmentModificationAction;
 }
-export const BatchCreateBillScenarioCommitmentModificationEntry =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      key: S.String,
-      group: S.optional(S.String),
-      usageAccountId: S.String,
-      commitmentAction: BillScenarioCommitmentModificationAction,
-    }),
-  ).annotate({
-    identifier: "BatchCreateBillScenarioCommitmentModificationEntry",
-  }) as any as S.Schema<BatchCreateBillScenarioCommitmentModificationEntry>;
+export const BatchCreateBillScenarioCommitmentModificationEntry = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    key: S.String,
+    group: S.optional(S.String),
+    usageAccountId: S.String,
+    commitmentAction: BillScenarioCommitmentModificationAction,
+  }),
+).annotate({
+  identifier: "BatchCreateBillScenarioCommitmentModificationEntry",
+}) as any as S.Schema<BatchCreateBillScenarioCommitmentModificationEntry>;
 export type BatchCreateBillScenarioCommitmentModificationEntries =
   BatchCreateBillScenarioCommitmentModificationEntry[];
-export const BatchCreateBillScenarioCommitmentModificationEntries =
-  /*@__PURE__*/ S.Array(BatchCreateBillScenarioCommitmentModificationEntry);
+export const BatchCreateBillScenarioCommitmentModificationEntries = /*@__PURE__*/ S.Array(
+  BatchCreateBillScenarioCommitmentModificationEntry,
+);
 export type ClientToken = string;
 export interface BatchCreateBillScenarioCommitmentModificationRequest {
   billScenarioId: string;
   commitmentModifications: BatchCreateBillScenarioCommitmentModificationEntry[];
   clientToken?: string;
 }
-export const BatchCreateBillScenarioCommitmentModificationRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      billScenarioId: S.String,
-      commitmentModifications:
-        BatchCreateBillScenarioCommitmentModificationEntries,
-      clientToken: S.optional(S.String).pipe(
-        T.HttpHeader("X-Amzn-Client-Token"),
-        T.IdempotencyToken(),
-      ),
-    }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+export const BatchCreateBillScenarioCommitmentModificationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    billScenarioId: S.String,
+    commitmentModifications: BatchCreateBillScenarioCommitmentModificationEntries,
+    clientToken: S.optional(S.String).pipe(
+      T.HttpHeader("X-Amzn-Client-Token"),
+      T.IdempotencyToken(),
     ),
-  ).annotate({
-    identifier: "BatchCreateBillScenarioCommitmentModificationRequest",
-  }) as any as S.Schema<BatchCreateBillScenarioCommitmentModificationRequest>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({
+  identifier: "BatchCreateBillScenarioCommitmentModificationRequest",
+}) as any as S.Schema<BatchCreateBillScenarioCommitmentModificationRequest>;
 export interface BatchCreateBillScenarioCommitmentModificationItem {
   key?: string;
   id?: string;
@@ -237,22 +205,22 @@ export interface BatchCreateBillScenarioCommitmentModificationItem {
   usageAccountId?: string;
   commitmentAction?: BillScenarioCommitmentModificationAction;
 }
-export const BatchCreateBillScenarioCommitmentModificationItem =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      key: S.optional(S.String),
-      id: S.optional(S.String),
-      group: S.optional(S.String),
-      usageAccountId: S.optional(S.String),
-      commitmentAction: S.optional(BillScenarioCommitmentModificationAction),
-    }),
-  ).annotate({
-    identifier: "BatchCreateBillScenarioCommitmentModificationItem",
-  }) as any as S.Schema<BatchCreateBillScenarioCommitmentModificationItem>;
+export const BatchCreateBillScenarioCommitmentModificationItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    key: S.optional(S.String),
+    id: S.optional(S.String),
+    group: S.optional(S.String),
+    usageAccountId: S.optional(S.String),
+    commitmentAction: S.optional(BillScenarioCommitmentModificationAction),
+  }),
+).annotate({
+  identifier: "BatchCreateBillScenarioCommitmentModificationItem",
+}) as any as S.Schema<BatchCreateBillScenarioCommitmentModificationItem>;
 export type BatchCreateBillScenarioCommitmentModificationItems =
   BatchCreateBillScenarioCommitmentModificationItem[];
-export const BatchCreateBillScenarioCommitmentModificationItems =
-  /*@__PURE__*/ S.Array(BatchCreateBillScenarioCommitmentModificationItem);
+export const BatchCreateBillScenarioCommitmentModificationItems = /*@__PURE__*/ S.Array(
+  BatchCreateBillScenarioCommitmentModificationItem,
+);
 export type BatchCreateBillScenarioCommitmentModificationErrorCode =
   | "CONFLICT"
   | "INTERNAL_SERVER_ERROR"
@@ -265,35 +233,32 @@ export interface BatchCreateBillScenarioCommitmentModificationError_ {
   errorMessage?: string;
   errorCode?: BatchCreateBillScenarioCommitmentModificationErrorCode;
 }
-export const BatchCreateBillScenarioCommitmentModificationError_ =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      key: S.optional(S.String),
-      errorMessage: S.optional(S.String),
-      errorCode: S.optional(
-        BatchCreateBillScenarioCommitmentModificationErrorCode,
-      ),
-    }),
-  ).annotate({
-    identifier: "BatchCreateBillScenarioCommitmentModificationError",
-  }) as any as S.Schema<BatchCreateBillScenarioCommitmentModificationError_>;
+export const BatchCreateBillScenarioCommitmentModificationError_ = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    key: S.optional(S.String),
+    errorMessage: S.optional(S.String),
+    errorCode: S.optional(BatchCreateBillScenarioCommitmentModificationErrorCode),
+  }),
+).annotate({
+  identifier: "BatchCreateBillScenarioCommitmentModificationError",
+}) as any as S.Schema<BatchCreateBillScenarioCommitmentModificationError_>;
 export type BatchCreateBillScenarioCommitmentModificationErrors =
   BatchCreateBillScenarioCommitmentModificationError_[];
-export const BatchCreateBillScenarioCommitmentModificationErrors =
-  /*@__PURE__*/ S.Array(BatchCreateBillScenarioCommitmentModificationError_);
+export const BatchCreateBillScenarioCommitmentModificationErrors = /*@__PURE__*/ S.Array(
+  BatchCreateBillScenarioCommitmentModificationError_,
+);
 export interface BatchCreateBillScenarioCommitmentModificationResponse {
   items?: BatchCreateBillScenarioCommitmentModificationItem[];
   errors?: BatchCreateBillScenarioCommitmentModificationError_[];
 }
-export const BatchCreateBillScenarioCommitmentModificationResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      items: S.optional(BatchCreateBillScenarioCommitmentModificationItems),
-      errors: S.optional(BatchCreateBillScenarioCommitmentModificationErrors),
-    }),
-  ).annotate({
-    identifier: "BatchCreateBillScenarioCommitmentModificationResponse",
-  }) as any as S.Schema<BatchCreateBillScenarioCommitmentModificationResponse>;
+export const BatchCreateBillScenarioCommitmentModificationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    items: S.optional(BatchCreateBillScenarioCommitmentModificationItems),
+    errors: S.optional(BatchCreateBillScenarioCommitmentModificationErrors),
+  }),
+).annotate({
+  identifier: "BatchCreateBillScenarioCommitmentModificationResponse",
+}) as any as S.Schema<BatchCreateBillScenarioCommitmentModificationResponse>;
 export type ServiceCode = string;
 export type UsageType = string;
 export type Operation = string;
@@ -303,10 +268,7 @@ export interface UsageAmount {
   amount: number;
 }
 export const UsageAmount = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    startHour: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    amount: S.Number,
-  }),
+  S.Struct({ startHour: S.Date.pipe(T.TimestampFormat("epoch-seconds")), amount: S.Number }),
 ).annotate({ identifier: "UsageAmount" }) as any as S.Schema<UsageAmount>;
 export type UsageAmounts = UsageAmount[];
 export const UsageAmounts = /*@__PURE__*/ S.Array(UsageAmount);
@@ -322,9 +284,7 @@ export const BillInterval = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "BillInterval" }) as any as S.Schema<BillInterval>;
 export type ExpressionList = Expression[];
 export const ExpressionList = /*@__PURE__*/ S.Array(
-  S.suspend((): S.Schema<Expression> => Expression).annotate({
-    identifier: "Expression",
-  }),
+  S.suspend((): S.Schema<Expression> => Expression).annotate({ identifier: "Expression" }),
 ) as any as S.Schema<ExpressionList>;
 export type StringList = string[];
 export const StringList = /*@__PURE__*/ S.Array(S.String);
@@ -339,9 +299,7 @@ export const ExpressionFilter = /*@__PURE__*/ S.suspend(() =>
     matchOptions: S.optional(StringList),
     values: S.optional(StringList),
   }),
-).annotate({
-  identifier: "ExpressionFilter",
-}) as any as S.Schema<ExpressionFilter>;
+).annotate({ identifier: "ExpressionFilter" }) as any as S.Schema<ExpressionFilter>;
 export interface Expression {
   and?: Expression[];
   or?: Expression[];
@@ -352,20 +310,10 @@ export interface Expression {
 }
 export const Expression = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    and: S.optional(
-      S.suspend(() => ExpressionList).annotate({
-        identifier: "ExpressionList",
-      }),
-    ),
-    or: S.optional(
-      S.suspend(() => ExpressionList).annotate({
-        identifier: "ExpressionList",
-      }),
-    ),
+    and: S.optional(S.suspend(() => ExpressionList).annotate({ identifier: "ExpressionList" })),
+    or: S.optional(S.suspend(() => ExpressionList).annotate({ identifier: "ExpressionList" })),
     not: S.optional(
-      S.suspend((): S.Schema<Expression> => Expression).annotate({
-        identifier: "Expression",
-      }),
+      S.suspend((): S.Schema<Expression> => Expression).annotate({ identifier: "Expression" }),
     ),
     costCategories: S.optional(ExpressionFilter),
     dimensions: S.optional(ExpressionFilter),
@@ -391,9 +339,7 @@ export const HistoricalUsageEntity = /*@__PURE__*/ S.suspend(() =>
     billInterval: BillInterval,
     filterExpression: Expression,
   }),
-).annotate({
-  identifier: "HistoricalUsageEntity",
-}) as any as S.Schema<HistoricalUsageEntity>;
+).annotate({ identifier: "HistoricalUsageEntity" }) as any as S.Schema<HistoricalUsageEntity>;
 export interface BatchCreateBillScenarioUsageModificationEntry {
   serviceCode: string;
   usageType: string;
@@ -405,46 +351,43 @@ export interface BatchCreateBillScenarioUsageModificationEntry {
   amounts?: UsageAmount[];
   historicalUsage?: HistoricalUsageEntity;
 }
-export const BatchCreateBillScenarioUsageModificationEntry =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      serviceCode: S.String,
-      usageType: S.String,
-      operation: S.String,
-      availabilityZone: S.optional(S.String),
-      key: S.String,
-      group: S.optional(S.String),
-      usageAccountId: S.String,
-      amounts: S.optional(UsageAmounts),
-      historicalUsage: S.optional(HistoricalUsageEntity),
-    }),
-  ).annotate({
-    identifier: "BatchCreateBillScenarioUsageModificationEntry",
-  }) as any as S.Schema<BatchCreateBillScenarioUsageModificationEntry>;
+export const BatchCreateBillScenarioUsageModificationEntry = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    serviceCode: S.String,
+    usageType: S.String,
+    operation: S.String,
+    availabilityZone: S.optional(S.String),
+    key: S.String,
+    group: S.optional(S.String),
+    usageAccountId: S.String,
+    amounts: S.optional(UsageAmounts),
+    historicalUsage: S.optional(HistoricalUsageEntity),
+  }),
+).annotate({
+  identifier: "BatchCreateBillScenarioUsageModificationEntry",
+}) as any as S.Schema<BatchCreateBillScenarioUsageModificationEntry>;
 export type BatchCreateBillScenarioUsageModificationEntries =
   BatchCreateBillScenarioUsageModificationEntry[];
-export const BatchCreateBillScenarioUsageModificationEntries =
-  /*@__PURE__*/ S.Array(BatchCreateBillScenarioUsageModificationEntry);
+export const BatchCreateBillScenarioUsageModificationEntries = /*@__PURE__*/ S.Array(
+  BatchCreateBillScenarioUsageModificationEntry,
+);
 export interface BatchCreateBillScenarioUsageModificationRequest {
   billScenarioId: string;
   usageModifications: BatchCreateBillScenarioUsageModificationEntry[];
   clientToken?: string;
 }
-export const BatchCreateBillScenarioUsageModificationRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      billScenarioId: S.String,
-      usageModifications: BatchCreateBillScenarioUsageModificationEntries,
-      clientToken: S.optional(S.String).pipe(
-        T.HttpHeader("X-Amzn-Client-Token"),
-        T.IdempotencyToken(),
-      ),
-    }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+export const BatchCreateBillScenarioUsageModificationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    billScenarioId: S.String,
+    usageModifications: BatchCreateBillScenarioUsageModificationEntries,
+    clientToken: S.optional(S.String).pipe(
+      T.HttpHeader("X-Amzn-Client-Token"),
+      T.IdempotencyToken(),
     ),
-  ).annotate({
-    identifier: "BatchCreateBillScenarioUsageModificationRequest",
-  }) as any as S.Schema<BatchCreateBillScenarioUsageModificationRequest>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({
+  identifier: "BatchCreateBillScenarioUsageModificationRequest",
+}) as any as S.Schema<BatchCreateBillScenarioUsageModificationRequest>;
 export interface UsageQuantity {
   startHour?: Date;
   unit?: string;
@@ -472,28 +415,28 @@ export interface BatchCreateBillScenarioUsageModificationItem {
   historicalUsage?: HistoricalUsageEntity;
   key?: string;
 }
-export const BatchCreateBillScenarioUsageModificationItem =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      serviceCode: S.String,
-      usageType: S.String,
-      operation: S.String,
-      location: S.optional(S.String),
-      availabilityZone: S.optional(S.String),
-      id: S.optional(S.String),
-      group: S.optional(S.String),
-      usageAccountId: S.optional(S.String),
-      quantities: S.optional(UsageQuantities),
-      historicalUsage: S.optional(HistoricalUsageEntity),
-      key: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "BatchCreateBillScenarioUsageModificationItem",
-  }) as any as S.Schema<BatchCreateBillScenarioUsageModificationItem>;
+export const BatchCreateBillScenarioUsageModificationItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    serviceCode: S.String,
+    usageType: S.String,
+    operation: S.String,
+    location: S.optional(S.String),
+    availabilityZone: S.optional(S.String),
+    id: S.optional(S.String),
+    group: S.optional(S.String),
+    usageAccountId: S.optional(S.String),
+    quantities: S.optional(UsageQuantities),
+    historicalUsage: S.optional(HistoricalUsageEntity),
+    key: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "BatchCreateBillScenarioUsageModificationItem",
+}) as any as S.Schema<BatchCreateBillScenarioUsageModificationItem>;
 export type BatchCreateBillScenarioUsageModificationItems =
   BatchCreateBillScenarioUsageModificationItem[];
-export const BatchCreateBillScenarioUsageModificationItems =
-  /*@__PURE__*/ S.Array(BatchCreateBillScenarioUsageModificationItem);
+export const BatchCreateBillScenarioUsageModificationItems = /*@__PURE__*/ S.Array(
+  BatchCreateBillScenarioUsageModificationItem,
+);
 export type BatchCreateBillScenarioUsageModificationErrorCode =
   | "BAD_REQUEST"
   | "NOT_FOUND"
@@ -507,33 +450,32 @@ export interface BatchCreateBillScenarioUsageModificationError_ {
   errorMessage?: string;
   errorCode?: BatchCreateBillScenarioUsageModificationErrorCode;
 }
-export const BatchCreateBillScenarioUsageModificationError_ =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      key: S.optional(S.String),
-      errorMessage: S.optional(S.String),
-      errorCode: S.optional(BatchCreateBillScenarioUsageModificationErrorCode),
-    }),
-  ).annotate({
-    identifier: "BatchCreateBillScenarioUsageModificationError",
-  }) as any as S.Schema<BatchCreateBillScenarioUsageModificationError_>;
+export const BatchCreateBillScenarioUsageModificationError_ = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    key: S.optional(S.String),
+    errorMessage: S.optional(S.String),
+    errorCode: S.optional(BatchCreateBillScenarioUsageModificationErrorCode),
+  }),
+).annotate({
+  identifier: "BatchCreateBillScenarioUsageModificationError",
+}) as any as S.Schema<BatchCreateBillScenarioUsageModificationError_>;
 export type BatchCreateBillScenarioUsageModificationErrors =
   BatchCreateBillScenarioUsageModificationError_[];
-export const BatchCreateBillScenarioUsageModificationErrors =
-  /*@__PURE__*/ S.Array(BatchCreateBillScenarioUsageModificationError_);
+export const BatchCreateBillScenarioUsageModificationErrors = /*@__PURE__*/ S.Array(
+  BatchCreateBillScenarioUsageModificationError_,
+);
 export interface BatchCreateBillScenarioUsageModificationResponse {
   items?: BatchCreateBillScenarioUsageModificationItem[];
   errors?: BatchCreateBillScenarioUsageModificationError_[];
 }
-export const BatchCreateBillScenarioUsageModificationResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      items: S.optional(BatchCreateBillScenarioUsageModificationItems),
-      errors: S.optional(BatchCreateBillScenarioUsageModificationErrors),
-    }),
-  ).annotate({
-    identifier: "BatchCreateBillScenarioUsageModificationResponse",
-  }) as any as S.Schema<BatchCreateBillScenarioUsageModificationResponse>;
+export const BatchCreateBillScenarioUsageModificationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    items: S.optional(BatchCreateBillScenarioUsageModificationItems),
+    errors: S.optional(BatchCreateBillScenarioUsageModificationErrors),
+  }),
+).annotate({
+  identifier: "BatchCreateBillScenarioUsageModificationResponse",
+}) as any as S.Schema<BatchCreateBillScenarioUsageModificationResponse>;
 export interface BatchCreateWorkloadEstimateUsageEntry {
   serviceCode: string;
   usageType: string;
@@ -544,23 +486,21 @@ export interface BatchCreateWorkloadEstimateUsageEntry {
   amount: number;
   historicalUsage?: HistoricalUsageEntity;
 }
-export const BatchCreateWorkloadEstimateUsageEntry = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      serviceCode: S.String,
-      usageType: S.String,
-      operation: S.String,
-      key: S.String,
-      group: S.optional(S.String),
-      usageAccountId: S.String,
-      amount: S.Number,
-      historicalUsage: S.optional(HistoricalUsageEntity),
-    }),
+export const BatchCreateWorkloadEstimateUsageEntry = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    serviceCode: S.String,
+    usageType: S.String,
+    operation: S.String,
+    key: S.String,
+    group: S.optional(S.String),
+    usageAccountId: S.String,
+    amount: S.Number,
+    historicalUsage: S.optional(HistoricalUsageEntity),
+  }),
 ).annotate({
   identifier: "BatchCreateWorkloadEstimateUsageEntry",
 }) as any as S.Schema<BatchCreateWorkloadEstimateUsageEntry>;
-export type BatchCreateWorkloadEstimateUsageEntries =
-  BatchCreateWorkloadEstimateUsageEntry[];
+export type BatchCreateWorkloadEstimateUsageEntries = BatchCreateWorkloadEstimateUsageEntry[];
 export const BatchCreateWorkloadEstimateUsageEntries = /*@__PURE__*/ S.Array(
   BatchCreateWorkloadEstimateUsageEntry,
 );
@@ -569,18 +509,15 @@ export interface BatchCreateWorkloadEstimateUsageRequest {
   usage: BatchCreateWorkloadEstimateUsageEntry[];
   clientToken?: string;
 }
-export const BatchCreateWorkloadEstimateUsageRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      workloadEstimateId: S.String,
-      usage: BatchCreateWorkloadEstimateUsageEntries,
-      clientToken: S.optional(S.String).pipe(
-        T.HttpHeader("X-Amzn-Client-Token"),
-        T.IdempotencyToken(),
-      ),
-    }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+export const BatchCreateWorkloadEstimateUsageRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    workloadEstimateId: S.String,
+    usage: BatchCreateWorkloadEstimateUsageEntries,
+    clientToken: S.optional(S.String).pipe(
+      T.HttpHeader("X-Amzn-Client-Token"),
+      T.IdempotencyToken(),
     ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "BatchCreateWorkloadEstimateUsageRequest",
 }) as any as S.Schema<BatchCreateWorkloadEstimateUsageRequest>;
@@ -596,11 +533,7 @@ export const WorkloadEstimateUsageQuantity = /*@__PURE__*/ S.suspend(() =>
 export type CurrencyCode = "USD" | (string & {});
 export const CurrencyCode = S.String;
 
-export type WorkloadEstimateCostStatus =
-  | "VALID"
-  | "INVALID"
-  | "STALE"
-  | (string & {});
+export type WorkloadEstimateCostStatus = "VALID" | "INVALID" | "STALE" | (string & {});
 export const WorkloadEstimateCostStatus = S.String;
 
 export interface BatchCreateWorkloadEstimateUsageItem {
@@ -618,28 +551,26 @@ export interface BatchCreateWorkloadEstimateUsageItem {
   historicalUsage?: HistoricalUsageEntity;
   key?: string;
 }
-export const BatchCreateWorkloadEstimateUsageItem = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      serviceCode: S.String,
-      usageType: S.String,
-      operation: S.String,
-      location: S.optional(S.String),
-      id: S.optional(S.String),
-      usageAccountId: S.optional(S.String),
-      group: S.optional(S.String),
-      quantity: S.optional(WorkloadEstimateUsageQuantity),
-      cost: S.optional(S.Number),
-      currency: S.optional(CurrencyCode),
-      status: S.optional(WorkloadEstimateCostStatus),
-      historicalUsage: S.optional(HistoricalUsageEntity),
-      key: S.optional(S.String),
-    }),
+export const BatchCreateWorkloadEstimateUsageItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    serviceCode: S.String,
+    usageType: S.String,
+    operation: S.String,
+    location: S.optional(S.String),
+    id: S.optional(S.String),
+    usageAccountId: S.optional(S.String),
+    group: S.optional(S.String),
+    quantity: S.optional(WorkloadEstimateUsageQuantity),
+    cost: S.optional(S.Number),
+    currency: S.optional(CurrencyCode),
+    status: S.optional(WorkloadEstimateCostStatus),
+    historicalUsage: S.optional(HistoricalUsageEntity),
+    key: S.optional(S.String),
+  }),
 ).annotate({
   identifier: "BatchCreateWorkloadEstimateUsageItem",
 }) as any as S.Schema<BatchCreateWorkloadEstimateUsageItem>;
-export type BatchCreateWorkloadEstimateUsageItems =
-  BatchCreateWorkloadEstimateUsageItem[];
+export type BatchCreateWorkloadEstimateUsageItems = BatchCreateWorkloadEstimateUsageItem[];
 export const BatchCreateWorkloadEstimateUsageItems = /*@__PURE__*/ S.Array(
   BatchCreateWorkloadEstimateUsageItem,
 );
@@ -656,18 +587,16 @@ export interface BatchCreateWorkloadEstimateUsageError_ {
   errorCode?: BatchCreateWorkloadEstimateUsageCode;
   errorMessage?: string;
 }
-export const BatchCreateWorkloadEstimateUsageError_ = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      key: S.optional(S.String),
-      errorCode: S.optional(BatchCreateWorkloadEstimateUsageCode),
-      errorMessage: S.optional(S.String),
-    }),
+export const BatchCreateWorkloadEstimateUsageError_ = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    key: S.optional(S.String),
+    errorCode: S.optional(BatchCreateWorkloadEstimateUsageCode),
+    errorMessage: S.optional(S.String),
+  }),
 ).annotate({
   identifier: "BatchCreateWorkloadEstimateUsageError",
 }) as any as S.Schema<BatchCreateWorkloadEstimateUsageError_>;
-export type BatchCreateWorkloadEstimateUsageErrors =
-  BatchCreateWorkloadEstimateUsageError_[];
+export type BatchCreateWorkloadEstimateUsageErrors = BatchCreateWorkloadEstimateUsageError_[];
 export const BatchCreateWorkloadEstimateUsageErrors = /*@__PURE__*/ S.Array(
   BatchCreateWorkloadEstimateUsageError_,
 );
@@ -675,33 +604,28 @@ export interface BatchCreateWorkloadEstimateUsageResponse {
   items?: BatchCreateWorkloadEstimateUsageItem[];
   errors?: BatchCreateWorkloadEstimateUsageError_[];
 }
-export const BatchCreateWorkloadEstimateUsageResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      items: S.optional(BatchCreateWorkloadEstimateUsageItems),
-      errors: S.optional(BatchCreateWorkloadEstimateUsageErrors),
-    }),
+export const BatchCreateWorkloadEstimateUsageResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    items: S.optional(BatchCreateWorkloadEstimateUsageItems),
+    errors: S.optional(BatchCreateWorkloadEstimateUsageErrors),
+  }),
 ).annotate({
   identifier: "BatchCreateWorkloadEstimateUsageResponse",
 }) as any as S.Schema<BatchCreateWorkloadEstimateUsageResponse>;
 export type BatchDeleteBillScenarioCommitmentModificationEntries = string[];
-export const BatchDeleteBillScenarioCommitmentModificationEntries =
-  /*@__PURE__*/ S.Array(S.String);
+export const BatchDeleteBillScenarioCommitmentModificationEntries = /*@__PURE__*/ S.Array(S.String);
 export interface BatchDeleteBillScenarioCommitmentModificationRequest {
   billScenarioId: string;
   ids: string[];
 }
-export const BatchDeleteBillScenarioCommitmentModificationRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      billScenarioId: S.String,
-      ids: BatchDeleteBillScenarioCommitmentModificationEntries,
-    }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
-  ).annotate({
-    identifier: "BatchDeleteBillScenarioCommitmentModificationRequest",
-  }) as any as S.Schema<BatchDeleteBillScenarioCommitmentModificationRequest>;
+export const BatchDeleteBillScenarioCommitmentModificationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    billScenarioId: S.String,
+    ids: BatchDeleteBillScenarioCommitmentModificationEntries,
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({
+  identifier: "BatchDeleteBillScenarioCommitmentModificationRequest",
+}) as any as S.Schema<BatchDeleteBillScenarioCommitmentModificationRequest>;
 export type BatchDeleteBillScenarioCommitmentModificationErrorCode =
   | "BAD_REQUEST"
   | "CONFLICT"
@@ -714,51 +638,41 @@ export interface BatchDeleteBillScenarioCommitmentModificationError_ {
   errorCode?: BatchDeleteBillScenarioCommitmentModificationErrorCode;
   errorMessage?: string;
 }
-export const BatchDeleteBillScenarioCommitmentModificationError_ =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      id: S.optional(S.String),
-      errorCode: S.optional(
-        BatchDeleteBillScenarioCommitmentModificationErrorCode,
-      ),
-      errorMessage: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "BatchDeleteBillScenarioCommitmentModificationError",
-  }) as any as S.Schema<BatchDeleteBillScenarioCommitmentModificationError_>;
+export const BatchDeleteBillScenarioCommitmentModificationError_ = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    errorCode: S.optional(BatchDeleteBillScenarioCommitmentModificationErrorCode),
+    errorMessage: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "BatchDeleteBillScenarioCommitmentModificationError",
+}) as any as S.Schema<BatchDeleteBillScenarioCommitmentModificationError_>;
 export type BatchDeleteBillScenarioCommitmentModificationErrors =
   BatchDeleteBillScenarioCommitmentModificationError_[];
-export const BatchDeleteBillScenarioCommitmentModificationErrors =
-  /*@__PURE__*/ S.Array(BatchDeleteBillScenarioCommitmentModificationError_);
+export const BatchDeleteBillScenarioCommitmentModificationErrors = /*@__PURE__*/ S.Array(
+  BatchDeleteBillScenarioCommitmentModificationError_,
+);
 export interface BatchDeleteBillScenarioCommitmentModificationResponse {
   errors?: BatchDeleteBillScenarioCommitmentModificationError_[];
 }
-export const BatchDeleteBillScenarioCommitmentModificationResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      errors: S.optional(BatchDeleteBillScenarioCommitmentModificationErrors),
-    }),
-  ).annotate({
-    identifier: "BatchDeleteBillScenarioCommitmentModificationResponse",
-  }) as any as S.Schema<BatchDeleteBillScenarioCommitmentModificationResponse>;
+export const BatchDeleteBillScenarioCommitmentModificationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ errors: S.optional(BatchDeleteBillScenarioCommitmentModificationErrors) }),
+).annotate({
+  identifier: "BatchDeleteBillScenarioCommitmentModificationResponse",
+}) as any as S.Schema<BatchDeleteBillScenarioCommitmentModificationResponse>;
 export type BatchDeleteBillScenarioUsageModificationEntries = string[];
-export const BatchDeleteBillScenarioUsageModificationEntries =
-  /*@__PURE__*/ S.Array(S.String);
+export const BatchDeleteBillScenarioUsageModificationEntries = /*@__PURE__*/ S.Array(S.String);
 export interface BatchDeleteBillScenarioUsageModificationRequest {
   billScenarioId: string;
   ids: string[];
 }
-export const BatchDeleteBillScenarioUsageModificationRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      billScenarioId: S.String,
-      ids: BatchDeleteBillScenarioUsageModificationEntries,
-    }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
-  ).annotate({
-    identifier: "BatchDeleteBillScenarioUsageModificationRequest",
-  }) as any as S.Schema<BatchDeleteBillScenarioUsageModificationRequest>;
+export const BatchDeleteBillScenarioUsageModificationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ billScenarioId: S.String, ids: BatchDeleteBillScenarioUsageModificationEntries }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "BatchDeleteBillScenarioUsageModificationRequest",
+}) as any as S.Schema<BatchDeleteBillScenarioUsageModificationRequest>;
 export type BatchDeleteBillScenarioUsageModificationErrorCode =
   | "BAD_REQUEST"
   | "CONFLICT"
@@ -771,47 +685,38 @@ export interface BatchDeleteBillScenarioUsageModificationError_ {
   errorMessage?: string;
   errorCode?: BatchDeleteBillScenarioUsageModificationErrorCode;
 }
-export const BatchDeleteBillScenarioUsageModificationError_ =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      id: S.optional(S.String),
-      errorMessage: S.optional(S.String),
-      errorCode: S.optional(BatchDeleteBillScenarioUsageModificationErrorCode),
-    }),
-  ).annotate({
-    identifier: "BatchDeleteBillScenarioUsageModificationError",
-  }) as any as S.Schema<BatchDeleteBillScenarioUsageModificationError_>;
+export const BatchDeleteBillScenarioUsageModificationError_ = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    errorMessage: S.optional(S.String),
+    errorCode: S.optional(BatchDeleteBillScenarioUsageModificationErrorCode),
+  }),
+).annotate({
+  identifier: "BatchDeleteBillScenarioUsageModificationError",
+}) as any as S.Schema<BatchDeleteBillScenarioUsageModificationError_>;
 export type BatchDeleteBillScenarioUsageModificationErrors =
   BatchDeleteBillScenarioUsageModificationError_[];
-export const BatchDeleteBillScenarioUsageModificationErrors =
-  /*@__PURE__*/ S.Array(BatchDeleteBillScenarioUsageModificationError_);
+export const BatchDeleteBillScenarioUsageModificationErrors = /*@__PURE__*/ S.Array(
+  BatchDeleteBillScenarioUsageModificationError_,
+);
 export interface BatchDeleteBillScenarioUsageModificationResponse {
   errors?: BatchDeleteBillScenarioUsageModificationError_[];
 }
-export const BatchDeleteBillScenarioUsageModificationResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      errors: S.optional(BatchDeleteBillScenarioUsageModificationErrors),
-    }),
-  ).annotate({
-    identifier: "BatchDeleteBillScenarioUsageModificationResponse",
-  }) as any as S.Schema<BatchDeleteBillScenarioUsageModificationResponse>;
+export const BatchDeleteBillScenarioUsageModificationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ errors: S.optional(BatchDeleteBillScenarioUsageModificationErrors) }),
+).annotate({
+  identifier: "BatchDeleteBillScenarioUsageModificationResponse",
+}) as any as S.Schema<BatchDeleteBillScenarioUsageModificationResponse>;
 export type BatchDeleteWorkloadEstimateUsageEntries = string[];
-export const BatchDeleteWorkloadEstimateUsageEntries = /*@__PURE__*/ S.Array(
-  S.String,
-);
+export const BatchDeleteWorkloadEstimateUsageEntries = /*@__PURE__*/ S.Array(S.String);
 export interface BatchDeleteWorkloadEstimateUsageRequest {
   workloadEstimateId: string;
   ids: string[];
 }
-export const BatchDeleteWorkloadEstimateUsageRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      workloadEstimateId: S.String,
-      ids: BatchDeleteWorkloadEstimateUsageEntries,
-    }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
+export const BatchDeleteWorkloadEstimateUsageRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ workloadEstimateId: S.String, ids: BatchDeleteWorkloadEstimateUsageEntries }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "BatchDeleteWorkloadEstimateUsageRequest",
 }) as any as S.Schema<BatchDeleteWorkloadEstimateUsageRequest>;
@@ -828,27 +733,24 @@ export interface BatchDeleteWorkloadEstimateUsageError_ {
   errorMessage?: string;
   errorCode?: WorkloadEstimateUpdateUsageErrorCode;
 }
-export const BatchDeleteWorkloadEstimateUsageError_ = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      id: S.optional(S.String),
-      errorMessage: S.optional(S.String),
-      errorCode: S.optional(WorkloadEstimateUpdateUsageErrorCode),
-    }),
+export const BatchDeleteWorkloadEstimateUsageError_ = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    errorMessage: S.optional(S.String),
+    errorCode: S.optional(WorkloadEstimateUpdateUsageErrorCode),
+  }),
 ).annotate({
   identifier: "BatchDeleteWorkloadEstimateUsageError",
 }) as any as S.Schema<BatchDeleteWorkloadEstimateUsageError_>;
-export type BatchDeleteWorkloadEstimateUsageErrors =
-  BatchDeleteWorkloadEstimateUsageError_[];
+export type BatchDeleteWorkloadEstimateUsageErrors = BatchDeleteWorkloadEstimateUsageError_[];
 export const BatchDeleteWorkloadEstimateUsageErrors = /*@__PURE__*/ S.Array(
   BatchDeleteWorkloadEstimateUsageError_,
 );
 export interface BatchDeleteWorkloadEstimateUsageResponse {
   errors?: BatchDeleteWorkloadEstimateUsageError_[];
 }
-export const BatchDeleteWorkloadEstimateUsageResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ errors: S.optional(BatchDeleteWorkloadEstimateUsageErrors) }),
+export const BatchDeleteWorkloadEstimateUsageResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ errors: S.optional(BatchDeleteWorkloadEstimateUsageErrors) }),
 ).annotate({
   identifier: "BatchDeleteWorkloadEstimateUsageResponse",
 }) as any as S.Schema<BatchDeleteWorkloadEstimateUsageResponse>;
@@ -856,51 +758,45 @@ export interface BatchUpdateBillScenarioCommitmentModificationEntry {
   id: string;
   group?: string;
 }
-export const BatchUpdateBillScenarioCommitmentModificationEntry =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ id: S.String, group: S.optional(S.String) }),
-  ).annotate({
-    identifier: "BatchUpdateBillScenarioCommitmentModificationEntry",
-  }) as any as S.Schema<BatchUpdateBillScenarioCommitmentModificationEntry>;
+export const BatchUpdateBillScenarioCommitmentModificationEntry = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ id: S.String, group: S.optional(S.String) }),
+).annotate({
+  identifier: "BatchUpdateBillScenarioCommitmentModificationEntry",
+}) as any as S.Schema<BatchUpdateBillScenarioCommitmentModificationEntry>;
 export type BatchUpdateBillScenarioCommitmentModificationEntries =
   BatchUpdateBillScenarioCommitmentModificationEntry[];
-export const BatchUpdateBillScenarioCommitmentModificationEntries =
-  /*@__PURE__*/ S.Array(BatchUpdateBillScenarioCommitmentModificationEntry);
+export const BatchUpdateBillScenarioCommitmentModificationEntries = /*@__PURE__*/ S.Array(
+  BatchUpdateBillScenarioCommitmentModificationEntry,
+);
 export interface BatchUpdateBillScenarioCommitmentModificationRequest {
   billScenarioId: string;
   commitmentModifications: BatchUpdateBillScenarioCommitmentModificationEntry[];
 }
-export const BatchUpdateBillScenarioCommitmentModificationRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      billScenarioId: S.String,
-      commitmentModifications:
-        BatchUpdateBillScenarioCommitmentModificationEntries,
-    }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
-  ).annotate({
-    identifier: "BatchUpdateBillScenarioCommitmentModificationRequest",
-  }) as any as S.Schema<BatchUpdateBillScenarioCommitmentModificationRequest>;
+export const BatchUpdateBillScenarioCommitmentModificationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    billScenarioId: S.String,
+    commitmentModifications: BatchUpdateBillScenarioCommitmentModificationEntries,
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({
+  identifier: "BatchUpdateBillScenarioCommitmentModificationRequest",
+}) as any as S.Schema<BatchUpdateBillScenarioCommitmentModificationRequest>;
 export interface BillScenarioCommitmentModificationItem {
   id?: string;
   usageAccountId?: string;
   group?: string;
   commitmentAction?: BillScenarioCommitmentModificationAction;
 }
-export const BillScenarioCommitmentModificationItem = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      id: S.optional(S.String),
-      usageAccountId: S.optional(S.String),
-      group: S.optional(S.String),
-      commitmentAction: S.optional(BillScenarioCommitmentModificationAction),
-    }),
+export const BillScenarioCommitmentModificationItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    usageAccountId: S.optional(S.String),
+    group: S.optional(S.String),
+    commitmentAction: S.optional(BillScenarioCommitmentModificationAction),
+  }),
 ).annotate({
   identifier: "BillScenarioCommitmentModificationItem",
 }) as any as S.Schema<BillScenarioCommitmentModificationItem>;
-export type BillScenarioCommitmentModificationItems =
-  BillScenarioCommitmentModificationItem[];
+export type BillScenarioCommitmentModificationItems = BillScenarioCommitmentModificationItem[];
 export const BillScenarioCommitmentModificationItems = /*@__PURE__*/ S.Array(
   BillScenarioCommitmentModificationItem,
 );
@@ -917,69 +813,59 @@ export interface BatchUpdateBillScenarioCommitmentModificationError_ {
   errorCode?: BatchUpdateBillScenarioCommitmentModificationErrorCode;
   errorMessage?: string;
 }
-export const BatchUpdateBillScenarioCommitmentModificationError_ =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      id: S.optional(S.String),
-      errorCode: S.optional(
-        BatchUpdateBillScenarioCommitmentModificationErrorCode,
-      ),
-      errorMessage: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "BatchUpdateBillScenarioCommitmentModificationError",
-  }) as any as S.Schema<BatchUpdateBillScenarioCommitmentModificationError_>;
+export const BatchUpdateBillScenarioCommitmentModificationError_ = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    errorCode: S.optional(BatchUpdateBillScenarioCommitmentModificationErrorCode),
+    errorMessage: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "BatchUpdateBillScenarioCommitmentModificationError",
+}) as any as S.Schema<BatchUpdateBillScenarioCommitmentModificationError_>;
 export type BatchUpdateBillScenarioCommitmentModificationErrors =
   BatchUpdateBillScenarioCommitmentModificationError_[];
-export const BatchUpdateBillScenarioCommitmentModificationErrors =
-  /*@__PURE__*/ S.Array(BatchUpdateBillScenarioCommitmentModificationError_);
+export const BatchUpdateBillScenarioCommitmentModificationErrors = /*@__PURE__*/ S.Array(
+  BatchUpdateBillScenarioCommitmentModificationError_,
+);
 export interface BatchUpdateBillScenarioCommitmentModificationResponse {
   items?: BillScenarioCommitmentModificationItem[];
   errors?: BatchUpdateBillScenarioCommitmentModificationError_[];
 }
-export const BatchUpdateBillScenarioCommitmentModificationResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      items: S.optional(BillScenarioCommitmentModificationItems),
-      errors: S.optional(BatchUpdateBillScenarioCommitmentModificationErrors),
-    }),
-  ).annotate({
-    identifier: "BatchUpdateBillScenarioCommitmentModificationResponse",
-  }) as any as S.Schema<BatchUpdateBillScenarioCommitmentModificationResponse>;
+export const BatchUpdateBillScenarioCommitmentModificationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    items: S.optional(BillScenarioCommitmentModificationItems),
+    errors: S.optional(BatchUpdateBillScenarioCommitmentModificationErrors),
+  }),
+).annotate({
+  identifier: "BatchUpdateBillScenarioCommitmentModificationResponse",
+}) as any as S.Schema<BatchUpdateBillScenarioCommitmentModificationResponse>;
 export interface BatchUpdateBillScenarioUsageModificationEntry {
   id: string;
   group?: string;
   amounts?: UsageAmount[];
 }
-export const BatchUpdateBillScenarioUsageModificationEntry =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      id: S.String,
-      group: S.optional(S.String),
-      amounts: S.optional(UsageAmounts),
-    }),
-  ).annotate({
-    identifier: "BatchUpdateBillScenarioUsageModificationEntry",
-  }) as any as S.Schema<BatchUpdateBillScenarioUsageModificationEntry>;
+export const BatchUpdateBillScenarioUsageModificationEntry = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ id: S.String, group: S.optional(S.String), amounts: S.optional(UsageAmounts) }),
+).annotate({
+  identifier: "BatchUpdateBillScenarioUsageModificationEntry",
+}) as any as S.Schema<BatchUpdateBillScenarioUsageModificationEntry>;
 export type BatchUpdateBillScenarioUsageModificationEntries =
   BatchUpdateBillScenarioUsageModificationEntry[];
-export const BatchUpdateBillScenarioUsageModificationEntries =
-  /*@__PURE__*/ S.Array(BatchUpdateBillScenarioUsageModificationEntry);
+export const BatchUpdateBillScenarioUsageModificationEntries = /*@__PURE__*/ S.Array(
+  BatchUpdateBillScenarioUsageModificationEntry,
+);
 export interface BatchUpdateBillScenarioUsageModificationRequest {
   billScenarioId: string;
   usageModifications: BatchUpdateBillScenarioUsageModificationEntry[];
 }
-export const BatchUpdateBillScenarioUsageModificationRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      billScenarioId: S.String,
-      usageModifications: BatchUpdateBillScenarioUsageModificationEntries,
-    }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
-  ).annotate({
-    identifier: "BatchUpdateBillScenarioUsageModificationRequest",
-  }) as any as S.Schema<BatchUpdateBillScenarioUsageModificationRequest>;
+export const BatchUpdateBillScenarioUsageModificationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    billScenarioId: S.String,
+    usageModifications: BatchUpdateBillScenarioUsageModificationEntries,
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({
+  identifier: "BatchUpdateBillScenarioUsageModificationRequest",
+}) as any as S.Schema<BatchUpdateBillScenarioUsageModificationRequest>;
 export interface BillScenarioUsageModificationItem {
   serviceCode: string;
   usageType: string;
@@ -1008,8 +894,7 @@ export const BillScenarioUsageModificationItem = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "BillScenarioUsageModificationItem",
 }) as any as S.Schema<BillScenarioUsageModificationItem>;
-export type BillScenarioUsageModificationItems =
-  BillScenarioUsageModificationItem[];
+export type BillScenarioUsageModificationItems = BillScenarioUsageModificationItem[];
 export const BillScenarioUsageModificationItems = /*@__PURE__*/ S.Array(
   BillScenarioUsageModificationItem,
 );
@@ -1026,50 +911,43 @@ export interface BatchUpdateBillScenarioUsageModificationError_ {
   errorMessage?: string;
   errorCode?: BatchUpdateBillScenarioUsageModificationErrorCode;
 }
-export const BatchUpdateBillScenarioUsageModificationError_ =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      id: S.optional(S.String),
-      errorMessage: S.optional(S.String),
-      errorCode: S.optional(BatchUpdateBillScenarioUsageModificationErrorCode),
-    }),
-  ).annotate({
-    identifier: "BatchUpdateBillScenarioUsageModificationError",
-  }) as any as S.Schema<BatchUpdateBillScenarioUsageModificationError_>;
+export const BatchUpdateBillScenarioUsageModificationError_ = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    errorMessage: S.optional(S.String),
+    errorCode: S.optional(BatchUpdateBillScenarioUsageModificationErrorCode),
+  }),
+).annotate({
+  identifier: "BatchUpdateBillScenarioUsageModificationError",
+}) as any as S.Schema<BatchUpdateBillScenarioUsageModificationError_>;
 export type BatchUpdateBillScenarioUsageModificationErrors =
   BatchUpdateBillScenarioUsageModificationError_[];
-export const BatchUpdateBillScenarioUsageModificationErrors =
-  /*@__PURE__*/ S.Array(BatchUpdateBillScenarioUsageModificationError_);
+export const BatchUpdateBillScenarioUsageModificationErrors = /*@__PURE__*/ S.Array(
+  BatchUpdateBillScenarioUsageModificationError_,
+);
 export interface BatchUpdateBillScenarioUsageModificationResponse {
   items?: BillScenarioUsageModificationItem[];
   errors?: BatchUpdateBillScenarioUsageModificationError_[];
 }
-export const BatchUpdateBillScenarioUsageModificationResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      items: S.optional(BillScenarioUsageModificationItems),
-      errors: S.optional(BatchUpdateBillScenarioUsageModificationErrors),
-    }),
-  ).annotate({
-    identifier: "BatchUpdateBillScenarioUsageModificationResponse",
-  }) as any as S.Schema<BatchUpdateBillScenarioUsageModificationResponse>;
+export const BatchUpdateBillScenarioUsageModificationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    items: S.optional(BillScenarioUsageModificationItems),
+    errors: S.optional(BatchUpdateBillScenarioUsageModificationErrors),
+  }),
+).annotate({
+  identifier: "BatchUpdateBillScenarioUsageModificationResponse",
+}) as any as S.Schema<BatchUpdateBillScenarioUsageModificationResponse>;
 export interface BatchUpdateWorkloadEstimateUsageEntry {
   id: string;
   group?: string;
   amount?: number;
 }
-export const BatchUpdateWorkloadEstimateUsageEntry = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      id: S.String,
-      group: S.optional(S.String),
-      amount: S.optional(S.Number),
-    }),
+export const BatchUpdateWorkloadEstimateUsageEntry = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ id: S.String, group: S.optional(S.String), amount: S.optional(S.Number) }),
 ).annotate({
   identifier: "BatchUpdateWorkloadEstimateUsageEntry",
 }) as any as S.Schema<BatchUpdateWorkloadEstimateUsageEntry>;
-export type BatchUpdateWorkloadEstimateUsageEntries =
-  BatchUpdateWorkloadEstimateUsageEntry[];
+export type BatchUpdateWorkloadEstimateUsageEntries = BatchUpdateWorkloadEstimateUsageEntry[];
 export const BatchUpdateWorkloadEstimateUsageEntries = /*@__PURE__*/ S.Array(
   BatchUpdateWorkloadEstimateUsageEntry,
 );
@@ -1077,14 +955,10 @@ export interface BatchUpdateWorkloadEstimateUsageRequest {
   workloadEstimateId: string;
   usage: BatchUpdateWorkloadEstimateUsageEntry[];
 }
-export const BatchUpdateWorkloadEstimateUsageRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      workloadEstimateId: S.String,
-      usage: BatchUpdateWorkloadEstimateUsageEntries,
-    }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
+export const BatchUpdateWorkloadEstimateUsageRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ workloadEstimateId: S.String, usage: BatchUpdateWorkloadEstimateUsageEntries }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "BatchUpdateWorkloadEstimateUsageRequest",
 }) as any as S.Schema<BatchUpdateWorkloadEstimateUsageRequest>;
@@ -1121,26 +995,22 @@ export const WorkloadEstimateUsageItem = /*@__PURE__*/ S.suspend(() =>
   identifier: "WorkloadEstimateUsageItem",
 }) as any as S.Schema<WorkloadEstimateUsageItem>;
 export type WorkloadEstimateUsageItems = WorkloadEstimateUsageItem[];
-export const WorkloadEstimateUsageItems = /*@__PURE__*/ S.Array(
-  WorkloadEstimateUsageItem,
-);
+export const WorkloadEstimateUsageItems = /*@__PURE__*/ S.Array(WorkloadEstimateUsageItem);
 export interface BatchUpdateWorkloadEstimateUsageError_ {
   id?: string;
   errorMessage?: string;
   errorCode?: WorkloadEstimateUpdateUsageErrorCode;
 }
-export const BatchUpdateWorkloadEstimateUsageError_ = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      id: S.optional(S.String),
-      errorMessage: S.optional(S.String),
-      errorCode: S.optional(WorkloadEstimateUpdateUsageErrorCode),
-    }),
+export const BatchUpdateWorkloadEstimateUsageError_ = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    errorMessage: S.optional(S.String),
+    errorCode: S.optional(WorkloadEstimateUpdateUsageErrorCode),
+  }),
 ).annotate({
   identifier: "BatchUpdateWorkloadEstimateUsageError",
 }) as any as S.Schema<BatchUpdateWorkloadEstimateUsageError_>;
-export type BatchUpdateWorkloadEstimateUsageErrors =
-  BatchUpdateWorkloadEstimateUsageError_[];
+export type BatchUpdateWorkloadEstimateUsageErrors = BatchUpdateWorkloadEstimateUsageError_[];
 export const BatchUpdateWorkloadEstimateUsageErrors = /*@__PURE__*/ S.Array(
   BatchUpdateWorkloadEstimateUsageError_,
 );
@@ -1148,12 +1018,11 @@ export interface BatchUpdateWorkloadEstimateUsageResponse {
   items?: WorkloadEstimateUsageItem[];
   errors?: BatchUpdateWorkloadEstimateUsageError_[];
 }
-export const BatchUpdateWorkloadEstimateUsageResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      items: S.optional(WorkloadEstimateUsageItems),
-      errors: S.optional(BatchUpdateWorkloadEstimateUsageErrors),
-    }),
+export const BatchUpdateWorkloadEstimateUsageResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    items: S.optional(WorkloadEstimateUsageItems),
+    errors: S.optional(BatchUpdateWorkloadEstimateUsageErrors),
+  }),
 ).annotate({
   identifier: "BatchUpdateWorkloadEstimateUsageResponse",
 }) as any as S.Schema<BatchUpdateWorkloadEstimateUsageResponse>;
@@ -1177,17 +1046,11 @@ export const CreateBillEstimateRequest = /*@__PURE__*/ S.suspend(() =>
       T.IdempotencyToken(),
     ),
     tags: S.optional(Tags),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateBillEstimateRequest",
 }) as any as S.Schema<CreateBillEstimateRequest>;
-export type BillEstimateStatus =
-  | "IN_PROGRESS"
-  | "COMPLETE"
-  | "FAILED"
-  | (string & {});
+export type BillEstimateStatus = "IN_PROGRESS" | "COMPLETE" | "FAILED" | (string & {});
 export const BillEstimateStatus = S.String;
 
 export interface CostAmount {
@@ -1195,24 +1058,16 @@ export interface CostAmount {
   currency?: CurrencyCode;
 }
 export const CostAmount = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    amount: S.optional(S.Number),
-    currency: S.optional(CurrencyCode),
-  }),
+  S.Struct({ amount: S.optional(S.Number), currency: S.optional(CurrencyCode) }),
 ).annotate({ identifier: "CostAmount" }) as any as S.Schema<CostAmount>;
 export interface CostDifference {
   historicalCost?: CostAmount;
   estimatedCost?: CostAmount;
 }
 export const CostDifference = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    historicalCost: S.optional(CostAmount),
-    estimatedCost: S.optional(CostAmount),
-  }),
+  S.Struct({ historicalCost: S.optional(CostAmount), estimatedCost: S.optional(CostAmount) }),
 ).annotate({ identifier: "CostDifference" }) as any as S.Schema<CostDifference>;
-export type ServiceCostDifferenceMap = {
-  [key: string]: CostDifference | undefined;
-};
+export type ServiceCostDifferenceMap = { [key: string]: CostDifference | undefined };
 export const ServiceCostDifferenceMap = /*@__PURE__*/ S.Record(
   S.String,
   CostDifference.pipe(S.optional),
@@ -1226,14 +1081,8 @@ export const BillEstimateCostSummary = /*@__PURE__*/ S.suspend(() =>
     totalCostDifference: S.optional(CostDifference),
     serviceCostDifferences: S.optional(ServiceCostDifferenceMap),
   }),
-).annotate({
-  identifier: "BillEstimateCostSummary",
-}) as any as S.Schema<BillEstimateCostSummary>;
-export type GroupSharingPreferenceEnum =
-  | "OPEN"
-  | "PRIORITIZED"
-  | "RESTRICTED"
-  | (string & {});
+).annotate({ identifier: "BillEstimateCostSummary" }) as any as S.Schema<BillEstimateCostSummary>;
+export type GroupSharingPreferenceEnum = "OPEN" | "PRIORITIZED" | "RESTRICTED" | (string & {});
 export const GroupSharingPreferenceEnum = S.String;
 
 export type CostCategoryArn = string;
@@ -1287,18 +1136,11 @@ export const CreateBillScenarioRequest = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(Tags),
     groupSharingPreference: S.optional(GroupSharingPreferenceEnum),
     costCategoryGroupSharingPreferenceArn: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateBillScenarioRequest",
 }) as any as S.Schema<CreateBillScenarioRequest>;
-export type BillScenarioStatus =
-  | "READY"
-  | "LOCKED"
-  | "FAILED"
-  | "STALE"
-  | (string & {});
+export type BillScenarioStatus = "READY" | "LOCKED" | "FAILED" | "STALE" | (string & {});
 export const BillScenarioStatus = S.String;
 
 export interface CreateBillScenarioResponse {
@@ -1350,9 +1192,7 @@ export const CreateWorkloadEstimateRequest = /*@__PURE__*/ S.suspend(() =>
     ),
     rateType: S.optional(WorkloadEstimateRateType),
     tags: S.optional(Tags),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateWorkloadEstimateRequest",
 }) as any as S.Schema<CreateWorkloadEstimateRequest>;
@@ -1403,9 +1243,7 @@ export const DeleteBillEstimateRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteBillEstimateRequest",
 }) as any as S.Schema<DeleteBillEstimateRequest>;
 export interface DeleteBillEstimateResponse {}
-export const DeleteBillEstimateResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteBillEstimateResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteBillEstimateResponse",
 }) as any as S.Schema<DeleteBillEstimateResponse>;
 export interface DeleteBillScenarioRequest {
@@ -1419,9 +1257,7 @@ export const DeleteBillScenarioRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteBillScenarioRequest",
 }) as any as S.Schema<DeleteBillScenarioRequest>;
 export interface DeleteBillScenarioResponse {}
-export const DeleteBillScenarioResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteBillScenarioResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteBillScenarioResponse",
 }) as any as S.Schema<DeleteBillScenarioResponse>;
 export interface DeleteWorkloadEstimateRequest {
@@ -1435,9 +1271,7 @@ export const DeleteWorkloadEstimateRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteWorkloadEstimateRequest",
 }) as any as S.Schema<DeleteWorkloadEstimateRequest>;
 export interface DeleteWorkloadEstimateResponse {}
-export const DeleteWorkloadEstimateResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteWorkloadEstimateResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteWorkloadEstimateResponse",
 }) as any as S.Schema<DeleteWorkloadEstimateResponse>;
 export interface GetBillEstimateRequest {
@@ -1447,9 +1281,7 @@ export const GetBillEstimateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ identifier: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetBillEstimateRequest",
-}) as any as S.Schema<GetBillEstimateRequest>;
+).annotate({ identifier: "GetBillEstimateRequest" }) as any as S.Schema<GetBillEstimateRequest>;
 export interface GetBillEstimateResponse {
   id: string;
   name?: string;
@@ -1479,9 +1311,7 @@ export const GetBillEstimateResponse = /*@__PURE__*/ S.suspend(() =>
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
   }),
-).annotate({
-  identifier: "GetBillEstimateResponse",
-}) as any as S.Schema<GetBillEstimateResponse>;
+).annotate({ identifier: "GetBillEstimateResponse" }) as any as S.Schema<GetBillEstimateResponse>;
 export interface GetBillScenarioRequest {
   identifier: string;
 }
@@ -1489,9 +1319,7 @@ export const GetBillScenarioRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ identifier: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetBillScenarioRequest",
-}) as any as S.Schema<GetBillScenarioRequest>;
+).annotate({ identifier: "GetBillScenarioRequest" }) as any as S.Schema<GetBillScenarioRequest>;
 export interface GetBillScenarioResponse {
   id: string;
   name?: string;
@@ -1515,17 +1343,11 @@ export const GetBillScenarioResponse = /*@__PURE__*/ S.suspend(() =>
     groupSharingPreference: S.optional(GroupSharingPreferenceEnum),
     costCategoryGroupSharingPreferenceArn: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetBillScenarioResponse",
-}) as any as S.Schema<GetBillScenarioResponse>;
+).annotate({ identifier: "GetBillScenarioResponse" }) as any as S.Schema<GetBillScenarioResponse>;
 export interface GetPreferencesRequest {}
 export const GetPreferencesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "GetPreferencesRequest",
-}) as any as S.Schema<GetPreferencesRequest>;
+  S.Struct({}).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "GetPreferencesRequest" }) as any as S.Schema<GetPreferencesRequest>;
 export type RateType =
   | "BEFORE_DISCOUNTS"
   | "AFTER_DISCOUNTS"
@@ -1546,9 +1368,7 @@ export const GetPreferencesResponse = /*@__PURE__*/ S.suspend(() =>
     memberAccountRateTypeSelections: S.optional(RateTypes),
     standaloneAccountRateTypeSelections: S.optional(RateTypes),
   }),
-).annotate({
-  identifier: "GetPreferencesResponse",
-}) as any as S.Schema<GetPreferencesResponse>;
+).annotate({ identifier: "GetPreferencesResponse" }) as any as S.Schema<GetPreferencesResponse>;
 export interface GetWorkloadEstimateRequest {
   identifier: string;
 }
@@ -1599,16 +1419,11 @@ export const ListBillEstimateCommitmentsRequest = /*@__PURE__*/ S.suspend(() =>
     billEstimateId: S.String,
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListBillEstimateCommitmentsRequest",
 }) as any as S.Schema<ListBillEstimateCommitmentsRequest>;
-export type PurchaseAgreementType =
-  | "SAVINGS_PLANS"
-  | "RESERVED_INSTANCE"
-  | (string & {});
+export type PurchaseAgreementType = "SAVINGS_PLANS" | "RESERVED_INSTANCE" | (string & {});
 export const PurchaseAgreementType = S.String;
 
 export interface BillEstimateCommitmentSummary {
@@ -1638,18 +1453,13 @@ export const BillEstimateCommitmentSummary = /*@__PURE__*/ S.suspend(() =>
   identifier: "BillEstimateCommitmentSummary",
 }) as any as S.Schema<BillEstimateCommitmentSummary>;
 export type BillEstimateCommitmentSummaries = BillEstimateCommitmentSummary[];
-export const BillEstimateCommitmentSummaries = /*@__PURE__*/ S.Array(
-  BillEstimateCommitmentSummary,
-);
+export const BillEstimateCommitmentSummaries = /*@__PURE__*/ S.Array(BillEstimateCommitmentSummary);
 export interface ListBillEstimateCommitmentsResponse {
   items?: BillEstimateCommitmentSummary[];
   nextToken?: string;
 }
 export const ListBillEstimateCommitmentsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    items: S.optional(BillEstimateCommitmentSummaries),
-    nextToken: S.optional(S.String),
-  }),
+  S.Struct({ items: S.optional(BillEstimateCommitmentSummaries), nextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListBillEstimateCommitmentsResponse",
 }) as any as S.Schema<ListBillEstimateCommitmentsResponse>;
@@ -1658,52 +1468,48 @@ export interface ListBillEstimateInputCommitmentModificationsRequest {
   nextToken?: string;
   maxResults?: number;
 }
-export const ListBillEstimateInputCommitmentModificationsRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      billEstimateId: S.String,
-      nextToken: S.optional(S.String),
-      maxResults: S.optional(S.Number),
-    }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
-  ).annotate({
-    identifier: "ListBillEstimateInputCommitmentModificationsRequest",
-  }) as any as S.Schema<ListBillEstimateInputCommitmentModificationsRequest>;
+export const ListBillEstimateInputCommitmentModificationsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    billEstimateId: S.String,
+    nextToken: S.optional(S.String),
+    maxResults: S.optional(S.Number),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({
+  identifier: "ListBillEstimateInputCommitmentModificationsRequest",
+}) as any as S.Schema<ListBillEstimateInputCommitmentModificationsRequest>;
 export interface BillEstimateInputCommitmentModificationSummary {
   id?: string;
   group?: string;
   usageAccountId?: string;
   commitmentAction?: BillScenarioCommitmentModificationAction;
 }
-export const BillEstimateInputCommitmentModificationSummary =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      id: S.optional(S.String),
-      group: S.optional(S.String),
-      usageAccountId: S.optional(S.String),
-      commitmentAction: S.optional(BillScenarioCommitmentModificationAction),
-    }),
-  ).annotate({
-    identifier: "BillEstimateInputCommitmentModificationSummary",
-  }) as any as S.Schema<BillEstimateInputCommitmentModificationSummary>;
+export const BillEstimateInputCommitmentModificationSummary = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    group: S.optional(S.String),
+    usageAccountId: S.optional(S.String),
+    commitmentAction: S.optional(BillScenarioCommitmentModificationAction),
+  }),
+).annotate({
+  identifier: "BillEstimateInputCommitmentModificationSummary",
+}) as any as S.Schema<BillEstimateInputCommitmentModificationSummary>;
 export type BillEstimateInputCommitmentModificationSummaries =
   BillEstimateInputCommitmentModificationSummary[];
-export const BillEstimateInputCommitmentModificationSummaries =
-  /*@__PURE__*/ S.Array(BillEstimateInputCommitmentModificationSummary);
+export const BillEstimateInputCommitmentModificationSummaries = /*@__PURE__*/ S.Array(
+  BillEstimateInputCommitmentModificationSummary,
+);
 export interface ListBillEstimateInputCommitmentModificationsResponse {
   items?: BillEstimateInputCommitmentModificationSummary[];
   nextToken?: string;
 }
-export const ListBillEstimateInputCommitmentModificationsResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      items: S.optional(BillEstimateInputCommitmentModificationSummaries),
-      nextToken: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "ListBillEstimateInputCommitmentModificationsResponse",
-  }) as any as S.Schema<ListBillEstimateInputCommitmentModificationsResponse>;
+export const ListBillEstimateInputCommitmentModificationsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    items: S.optional(BillEstimateInputCommitmentModificationSummaries),
+    nextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListBillEstimateInputCommitmentModificationsResponse",
+}) as any as S.Schema<ListBillEstimateInputCommitmentModificationsResponse>;
 export type ListUsageFilterName =
   | "USAGE_ACCOUNT_ID"
   | "SERVICE_CODE"
@@ -1735,9 +1541,7 @@ export const ListUsageFilter = /*@__PURE__*/ S.suspend(() =>
     values: ListUsageFilterValues,
     matchOption: S.optional(MatchOption),
   }),
-).annotate({
-  identifier: "ListUsageFilter",
-}) as any as S.Schema<ListUsageFilter>;
+).annotate({ identifier: "ListUsageFilter" }) as any as S.Schema<ListUsageFilter>;
 export type ListUsageFilters = ListUsageFilter[];
 export const ListUsageFilters = /*@__PURE__*/ S.Array(ListUsageFilter);
 export interface ListBillEstimateInputUsageModificationsRequest {
@@ -1746,19 +1550,16 @@ export interface ListBillEstimateInputUsageModificationsRequest {
   nextToken?: string;
   maxResults?: number;
 }
-export const ListBillEstimateInputUsageModificationsRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      billEstimateId: S.String,
-      filters: S.optional(ListUsageFilters),
-      nextToken: S.optional(S.String),
-      maxResults: S.optional(S.Number),
-    }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
-  ).annotate({
-    identifier: "ListBillEstimateInputUsageModificationsRequest",
-  }) as any as S.Schema<ListBillEstimateInputUsageModificationsRequest>;
+export const ListBillEstimateInputUsageModificationsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    billEstimateId: S.String,
+    filters: S.optional(ListUsageFilters),
+    nextToken: S.optional(S.String),
+    maxResults: S.optional(S.Number),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({
+  identifier: "ListBillEstimateInputUsageModificationsRequest",
+}) as any as S.Schema<ListBillEstimateInputUsageModificationsRequest>;
 export interface BillEstimateInputUsageModificationSummary {
   serviceCode: string;
   usageType: string;
@@ -1771,40 +1572,39 @@ export interface BillEstimateInputUsageModificationSummary {
   quantities?: UsageQuantity[];
   historicalUsage?: HistoricalUsageEntity;
 }
-export const BillEstimateInputUsageModificationSummary =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      serviceCode: S.String,
-      usageType: S.String,
-      operation: S.String,
-      location: S.optional(S.String),
-      availabilityZone: S.optional(S.String),
-      id: S.optional(S.String),
-      group: S.optional(S.String),
-      usageAccountId: S.optional(S.String),
-      quantities: S.optional(UsageQuantities),
-      historicalUsage: S.optional(HistoricalUsageEntity),
-    }),
-  ).annotate({
-    identifier: "BillEstimateInputUsageModificationSummary",
-  }) as any as S.Schema<BillEstimateInputUsageModificationSummary>;
+export const BillEstimateInputUsageModificationSummary = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    serviceCode: S.String,
+    usageType: S.String,
+    operation: S.String,
+    location: S.optional(S.String),
+    availabilityZone: S.optional(S.String),
+    id: S.optional(S.String),
+    group: S.optional(S.String),
+    usageAccountId: S.optional(S.String),
+    quantities: S.optional(UsageQuantities),
+    historicalUsage: S.optional(HistoricalUsageEntity),
+  }),
+).annotate({
+  identifier: "BillEstimateInputUsageModificationSummary",
+}) as any as S.Schema<BillEstimateInputUsageModificationSummary>;
 export type BillEstimateInputUsageModificationSummaries =
   BillEstimateInputUsageModificationSummary[];
-export const BillEstimateInputUsageModificationSummaries =
-  /*@__PURE__*/ S.Array(BillEstimateInputUsageModificationSummary);
+export const BillEstimateInputUsageModificationSummaries = /*@__PURE__*/ S.Array(
+  BillEstimateInputUsageModificationSummary,
+);
 export interface ListBillEstimateInputUsageModificationsResponse {
   items?: BillEstimateInputUsageModificationSummary[];
   nextToken?: string;
 }
-export const ListBillEstimateInputUsageModificationsResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      items: S.optional(BillEstimateInputUsageModificationSummaries),
-      nextToken: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "ListBillEstimateInputUsageModificationsResponse",
-  }) as any as S.Schema<ListBillEstimateInputUsageModificationsResponse>;
+export const ListBillEstimateInputUsageModificationsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    items: S.optional(BillEstimateInputUsageModificationSummaries),
+    nextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListBillEstimateInputUsageModificationsResponse",
+}) as any as S.Schema<ListBillEstimateInputUsageModificationsResponse>;
 export type ListBillEstimateLineItemsFilterName =
   | "USAGE_ACCOUNT_ID"
   | "SERVICE_CODE"
@@ -1816,9 +1616,7 @@ export type ListBillEstimateLineItemsFilterName =
 export const ListBillEstimateLineItemsFilterName = S.String;
 
 export type ListBillEstimateLineItemsFilterValues = string[];
-export const ListBillEstimateLineItemsFilterValues = /*@__PURE__*/ S.Array(
-  S.String,
-);
+export const ListBillEstimateLineItemsFilterValues = /*@__PURE__*/ S.Array(S.String);
 export interface ListBillEstimateLineItemsFilter {
   name: ListBillEstimateLineItemsFilterName;
   values: string[];
@@ -1833,8 +1631,7 @@ export const ListBillEstimateLineItemsFilter = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ListBillEstimateLineItemsFilter",
 }) as any as S.Schema<ListBillEstimateLineItemsFilter>;
-export type ListBillEstimateLineItemsFilters =
-  ListBillEstimateLineItemsFilter[];
+export type ListBillEstimateLineItemsFilters = ListBillEstimateLineItemsFilter[];
 export const ListBillEstimateLineItemsFilters = /*@__PURE__*/ S.Array(
   ListBillEstimateLineItemsFilter,
 );
@@ -1850,9 +1647,7 @@ export const ListBillEstimateLineItemsRequest = /*@__PURE__*/ S.suspend(() =>
     filters: S.optional(ListBillEstimateLineItemsFilters),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListBillEstimateLineItemsRequest",
 }) as any as S.Schema<ListBillEstimateLineItemsRequest>;
@@ -1862,9 +1657,7 @@ export interface UsageQuantityResult {
 }
 export const UsageQuantityResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ amount: S.optional(S.Number), unit: S.optional(S.String) }),
-).annotate({
-  identifier: "UsageQuantityResult",
-}) as any as S.Schema<UsageQuantityResult>;
+).annotate({ identifier: "UsageQuantityResult" }) as any as S.Schema<UsageQuantityResult>;
 export type SavingsPlanArns = string[];
 export const SavingsPlanArns = /*@__PURE__*/ S.Array(S.String);
 export interface BillEstimateLineItemSummary {
@@ -1906,18 +1699,13 @@ export const BillEstimateLineItemSummary = /*@__PURE__*/ S.suspend(() =>
   identifier: "BillEstimateLineItemSummary",
 }) as any as S.Schema<BillEstimateLineItemSummary>;
 export type BillEstimateLineItemSummaries = BillEstimateLineItemSummary[];
-export const BillEstimateLineItemSummaries = /*@__PURE__*/ S.Array(
-  BillEstimateLineItemSummary,
-);
+export const BillEstimateLineItemSummaries = /*@__PURE__*/ S.Array(BillEstimateLineItemSummary);
 export interface ListBillEstimateLineItemsResponse {
   items?: BillEstimateLineItemSummary[];
   nextToken?: string;
 }
 export const ListBillEstimateLineItemsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    items: S.optional(BillEstimateLineItemSummaries),
-    nextToken: S.optional(S.String),
-  }),
+  S.Struct({ items: S.optional(BillEstimateLineItemSummaries), nextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListBillEstimateLineItemsResponse",
 }) as any as S.Schema<ListBillEstimateLineItemsResponse>;
@@ -1937,13 +1725,9 @@ export const ListBillEstimatesFilter = /*@__PURE__*/ S.suspend(() =>
     values: ListBillEstimatesFilterValues,
     matchOption: S.optional(MatchOption),
   }),
-).annotate({
-  identifier: "ListBillEstimatesFilter",
-}) as any as S.Schema<ListBillEstimatesFilter>;
+).annotate({ identifier: "ListBillEstimatesFilter" }) as any as S.Schema<ListBillEstimatesFilter>;
 export type ListBillEstimatesFilters = ListBillEstimatesFilter[];
-export const ListBillEstimatesFilters = /*@__PURE__*/ S.Array(
-  ListBillEstimatesFilter,
-);
+export const ListBillEstimatesFilters = /*@__PURE__*/ S.Array(ListBillEstimatesFilter);
 export interface FilterTimestamp {
   afterTimestamp?: Date;
   beforeTimestamp?: Date;
@@ -1951,13 +1735,9 @@ export interface FilterTimestamp {
 export const FilterTimestamp = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     afterTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    beforeTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    beforeTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
-).annotate({
-  identifier: "FilterTimestamp",
-}) as any as S.Schema<FilterTimestamp>;
+).annotate({ identifier: "FilterTimestamp" }) as any as S.Schema<FilterTimestamp>;
 export interface ListBillEstimatesRequest {
   filters?: ListBillEstimatesFilter[];
   createdAtFilter?: FilterTimestamp;
@@ -1972,12 +1752,8 @@ export const ListBillEstimatesRequest = /*@__PURE__*/ S.suspend(() =>
     expiresAtFilter: S.optional(FilterTimestamp),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListBillEstimatesRequest",
-}) as any as S.Schema<ListBillEstimatesRequest>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "ListBillEstimatesRequest" }) as any as S.Schema<ListBillEstimatesRequest>;
 export interface BillEstimateSummary {
   id: string;
   name?: string;
@@ -1995,9 +1771,7 @@ export const BillEstimateSummary = /*@__PURE__*/ S.suspend(() =>
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     expiresAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
-).annotate({
-  identifier: "BillEstimateSummary",
-}) as any as S.Schema<BillEstimateSummary>;
+).annotate({ identifier: "BillEstimateSummary" }) as any as S.Schema<BillEstimateSummary>;
 export type BillEstimateSummaries = BillEstimateSummary[];
 export const BillEstimateSummaries = /*@__PURE__*/ S.Array(BillEstimateSummary);
 export interface ListBillEstimatesResponse {
@@ -2005,10 +1779,7 @@ export interface ListBillEstimatesResponse {
   nextToken?: string;
 }
 export const ListBillEstimatesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    items: S.optional(BillEstimateSummaries),
-    nextToken: S.optional(S.String),
-  }),
+  S.Struct({ items: S.optional(BillEstimateSummaries), nextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListBillEstimatesResponse",
 }) as any as S.Schema<ListBillEstimatesResponse>;
@@ -2017,31 +1788,27 @@ export interface ListBillScenarioCommitmentModificationsRequest {
   nextToken?: string;
   maxResults?: number;
 }
-export const ListBillScenarioCommitmentModificationsRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      billScenarioId: S.String,
-      nextToken: S.optional(S.String),
-      maxResults: S.optional(S.Number),
-    }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
-  ).annotate({
-    identifier: "ListBillScenarioCommitmentModificationsRequest",
-  }) as any as S.Schema<ListBillScenarioCommitmentModificationsRequest>;
+export const ListBillScenarioCommitmentModificationsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    billScenarioId: S.String,
+    nextToken: S.optional(S.String),
+    maxResults: S.optional(S.Number),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({
+  identifier: "ListBillScenarioCommitmentModificationsRequest",
+}) as any as S.Schema<ListBillScenarioCommitmentModificationsRequest>;
 export interface ListBillScenarioCommitmentModificationsResponse {
   items?: BillScenarioCommitmentModificationItem[];
   nextToken?: string;
 }
-export const ListBillScenarioCommitmentModificationsResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      items: S.optional(BillScenarioCommitmentModificationItems),
-      nextToken: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "ListBillScenarioCommitmentModificationsResponse",
-  }) as any as S.Schema<ListBillScenarioCommitmentModificationsResponse>;
+export const ListBillScenarioCommitmentModificationsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    items: S.optional(BillScenarioCommitmentModificationItems),
+    nextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListBillScenarioCommitmentModificationsResponse",
+}) as any as S.Schema<ListBillScenarioCommitmentModificationsResponse>;
 export type ListBillScenariosFilterName =
   | "STATUS"
   | "NAME"
@@ -2063,13 +1830,9 @@ export const ListBillScenariosFilter = /*@__PURE__*/ S.suspend(() =>
     values: ListBillScenariosFilterValues,
     matchOption: S.optional(MatchOption),
   }),
-).annotate({
-  identifier: "ListBillScenariosFilter",
-}) as any as S.Schema<ListBillScenariosFilter>;
+).annotate({ identifier: "ListBillScenariosFilter" }) as any as S.Schema<ListBillScenariosFilter>;
 export type ListBillScenariosFilters = ListBillScenariosFilter[];
-export const ListBillScenariosFilters = /*@__PURE__*/ S.Array(
-  ListBillScenariosFilter,
-);
+export const ListBillScenariosFilters = /*@__PURE__*/ S.Array(ListBillScenariosFilter);
 export interface ListBillScenariosRequest {
   filters?: ListBillScenariosFilter[];
   createdAtFilter?: FilterTimestamp;
@@ -2084,12 +1847,8 @@ export const ListBillScenariosRequest = /*@__PURE__*/ S.suspend(() =>
     expiresAtFilter: S.optional(FilterTimestamp),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListBillScenariosRequest",
-}) as any as S.Schema<ListBillScenariosRequest>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "ListBillScenariosRequest" }) as any as S.Schema<ListBillScenariosRequest>;
 export interface BillScenarioSummary {
   id: string;
   name?: string;
@@ -2113,9 +1872,7 @@ export const BillScenarioSummary = /*@__PURE__*/ S.suspend(() =>
     groupSharingPreference: S.optional(GroupSharingPreferenceEnum),
     costCategoryGroupSharingPreferenceArn: S.optional(S.String),
   }),
-).annotate({
-  identifier: "BillScenarioSummary",
-}) as any as S.Schema<BillScenarioSummary>;
+).annotate({ identifier: "BillScenarioSummary" }) as any as S.Schema<BillScenarioSummary>;
 export type BillScenarioSummaries = BillScenarioSummary[];
 export const BillScenarioSummaries = /*@__PURE__*/ S.Array(BillScenarioSummary);
 export interface ListBillScenariosResponse {
@@ -2123,10 +1880,7 @@ export interface ListBillScenariosResponse {
   nextToken?: string;
 }
 export const ListBillScenariosResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    items: S.optional(BillScenarioSummaries),
-    nextToken: S.optional(S.String),
-  }),
+  S.Struct({ items: S.optional(BillScenarioSummaries), nextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListBillScenariosResponse",
 }) as any as S.Schema<ListBillScenariosResponse>;
@@ -2136,32 +1890,28 @@ export interface ListBillScenarioUsageModificationsRequest {
   nextToken?: string;
   maxResults?: number;
 }
-export const ListBillScenarioUsageModificationsRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      billScenarioId: S.String,
-      filters: S.optional(ListUsageFilters),
-      nextToken: S.optional(S.String),
-      maxResults: S.optional(S.Number),
-    }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
-  ).annotate({
-    identifier: "ListBillScenarioUsageModificationsRequest",
-  }) as any as S.Schema<ListBillScenarioUsageModificationsRequest>;
+export const ListBillScenarioUsageModificationsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    billScenarioId: S.String,
+    filters: S.optional(ListUsageFilters),
+    nextToken: S.optional(S.String),
+    maxResults: S.optional(S.Number),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({
+  identifier: "ListBillScenarioUsageModificationsRequest",
+}) as any as S.Schema<ListBillScenarioUsageModificationsRequest>;
 export interface ListBillScenarioUsageModificationsResponse {
   items?: BillScenarioUsageModificationItem[];
   nextToken?: string;
 }
-export const ListBillScenarioUsageModificationsResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      items: S.optional(BillScenarioUsageModificationItems),
-      nextToken: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "ListBillScenarioUsageModificationsResponse",
-  }) as any as S.Schema<ListBillScenarioUsageModificationsResponse>;
+export const ListBillScenarioUsageModificationsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    items: S.optional(BillScenarioUsageModificationItems),
+    nextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListBillScenarioUsageModificationsResponse",
+}) as any as S.Schema<ListBillScenarioUsageModificationsResponse>;
 export type Arn = string;
 export interface ListTagsForResourceRequest {
   arn: string;
@@ -2185,9 +1935,7 @@ export type ListWorkloadEstimatesFilterName = "STATUS" | "NAME" | (string & {});
 export const ListWorkloadEstimatesFilterName = S.String;
 
 export type ListWorkloadEstimatesFilterValues = string[];
-export const ListWorkloadEstimatesFilterValues = /*@__PURE__*/ S.Array(
-  S.String,
-);
+export const ListWorkloadEstimatesFilterValues = /*@__PURE__*/ S.Array(S.String);
 export interface ListWorkloadEstimatesFilter {
   name: ListWorkloadEstimatesFilterName;
   values: string[];
@@ -2203,9 +1951,7 @@ export const ListWorkloadEstimatesFilter = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListWorkloadEstimatesFilter",
 }) as any as S.Schema<ListWorkloadEstimatesFilter>;
 export type ListWorkloadEstimatesFilters = ListWorkloadEstimatesFilter[];
-export const ListWorkloadEstimatesFilters = /*@__PURE__*/ S.Array(
-  ListWorkloadEstimatesFilter,
-);
+export const ListWorkloadEstimatesFilters = /*@__PURE__*/ S.Array(ListWorkloadEstimatesFilter);
 export interface ListWorkloadEstimatesRequest {
   createdAtFilter?: FilterTimestamp;
   expiresAtFilter?: FilterTimestamp;
@@ -2220,9 +1966,7 @@ export const ListWorkloadEstimatesRequest = /*@__PURE__*/ S.suspend(() =>
     filters: S.optional(ListWorkloadEstimatesFilters),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListWorkloadEstimatesRequest",
 }) as any as S.Schema<ListWorkloadEstimatesRequest>;
@@ -2251,22 +1995,15 @@ export const WorkloadEstimateSummary = /*@__PURE__*/ S.suspend(() =>
     costCurrency: S.optional(CurrencyCode),
     failureMessage: S.optional(S.String),
   }),
-).annotate({
-  identifier: "WorkloadEstimateSummary",
-}) as any as S.Schema<WorkloadEstimateSummary>;
+).annotate({ identifier: "WorkloadEstimateSummary" }) as any as S.Schema<WorkloadEstimateSummary>;
 export type WorkloadEstimateSummaries = WorkloadEstimateSummary[];
-export const WorkloadEstimateSummaries = /*@__PURE__*/ S.Array(
-  WorkloadEstimateSummary,
-);
+export const WorkloadEstimateSummaries = /*@__PURE__*/ S.Array(WorkloadEstimateSummary);
 export interface ListWorkloadEstimatesResponse {
   items?: WorkloadEstimateSummary[];
   nextToken?: string;
 }
 export const ListWorkloadEstimatesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    items: S.optional(WorkloadEstimateSummaries),
-    nextToken: S.optional(S.String),
-  }),
+  S.Struct({ items: S.optional(WorkloadEstimateSummaries), nextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListWorkloadEstimatesResponse",
 }) as any as S.Schema<ListWorkloadEstimatesResponse>;
@@ -2283,9 +2020,7 @@ export const ListWorkloadEstimateUsageRequest = /*@__PURE__*/ S.suspend(() =>
     filters: S.optional(ListUsageFilters),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListWorkloadEstimateUsageRequest",
 }) as any as S.Schema<ListWorkloadEstimateUsageRequest>;
@@ -2294,10 +2029,7 @@ export interface ListWorkloadEstimateUsageResponse {
   nextToken?: string;
 }
 export const ListWorkloadEstimateUsageResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    items: S.optional(WorkloadEstimateUsageItems),
-    nextToken: S.optional(S.String),
-  }),
+  S.Struct({ items: S.optional(WorkloadEstimateUsageItems), nextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListWorkloadEstimateUsageResponse",
 }) as any as S.Schema<ListWorkloadEstimateUsageResponse>;
@@ -2309,13 +2041,9 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ arn: S.String, tags: Tags }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
+).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export type ResourceTagKeys = string[];
@@ -2328,13 +2056,9 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ arn: S.String, tagKeys: ResourceTagKeys }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
+).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateBillEstimateRequest {
@@ -2347,9 +2071,7 @@ export const UpdateBillEstimateRequest = /*@__PURE__*/ S.suspend(() =>
     identifier: S.String,
     name: S.optional(S.String),
     expiresAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "UpdateBillEstimateRequest",
 }) as any as S.Schema<UpdateBillEstimateRequest>;
@@ -2399,9 +2121,7 @@ export const UpdateBillScenarioRequest = /*@__PURE__*/ S.suspend(() =>
     expiresAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     groupSharingPreference: S.optional(GroupSharingPreferenceEnum),
     costCategoryGroupSharingPreferenceArn: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "UpdateBillScenarioRequest",
 }) as any as S.Schema<UpdateBillScenarioRequest>;
@@ -2441,12 +2161,8 @@ export const UpdatePreferencesRequest = /*@__PURE__*/ S.suspend(() =>
     managementAccountRateTypeSelections: S.optional(RateTypes),
     memberAccountRateTypeSelections: S.optional(RateTypes),
     standaloneAccountRateTypeSelections: S.optional(RateTypes),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "UpdatePreferencesRequest",
-}) as any as S.Schema<UpdatePreferencesRequest>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "UpdatePreferencesRequest" }) as any as S.Schema<UpdatePreferencesRequest>;
 export interface UpdatePreferencesResponse {
   managementAccountRateTypeSelections?: RateType[];
   memberAccountRateTypeSelections?: RateType[];
@@ -2471,9 +2187,7 @@ export const UpdateWorkloadEstimateRequest = /*@__PURE__*/ S.suspend(() =>
     identifier: S.String,
     name: S.optional(S.String),
     expiresAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "UpdateWorkloadEstimateRequest",
 }) as any as S.Schema<UpdateWorkloadEstimateRequest>;
@@ -2523,11 +2237,7 @@ export const batchCreateBillScenarioCommitmentModification: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: BatchCreateBillScenarioCommitmentModificationRequest,
   output: BatchCreateBillScenarioCommitmentModificationResponse,
-  errors: [
-    ConflictException,
-    DataUnavailableException,
-    ResourceNotFoundException,
-  ],
+  errors: [ConflictException, DataUnavailableException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchCreateBillScenarioCommitmentModification",
@@ -2611,11 +2321,7 @@ export const batchDeleteBillScenarioCommitmentModification: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: BatchDeleteBillScenarioCommitmentModificationRequest,
   output: BatchDeleteBillScenarioCommitmentModificationResponse,
-  errors: [
-    ConflictException,
-    DataUnavailableException,
-    ResourceNotFoundException,
-  ],
+  errors: [ConflictException, DataUnavailableException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteBillScenarioCommitmentModification",
@@ -2669,11 +2375,7 @@ export const batchDeleteWorkloadEstimateUsage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: BatchDeleteWorkloadEstimateUsageRequest,
   output: BatchDeleteWorkloadEstimateUsageResponse,
-  errors: [
-    DataUnavailableException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-  ],
+  errors: [DataUnavailableException, ResourceNotFoundException, ServiceQuotaExceededException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteWorkloadEstimateUsage",
@@ -2697,11 +2399,7 @@ export const batchUpdateBillScenarioCommitmentModification: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: BatchUpdateBillScenarioCommitmentModificationRequest,
   output: BatchUpdateBillScenarioCommitmentModificationResponse,
-  errors: [
-    ConflictException,
-    DataUnavailableException,
-    ResourceNotFoundException,
-  ],
+  errors: [ConflictException, DataUnavailableException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchUpdateBillScenarioCommitmentModification",
@@ -2755,11 +2453,7 @@ export const batchUpdateWorkloadEstimateUsage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: BatchUpdateWorkloadEstimateUsageRequest,
   output: BatchUpdateWorkloadEstimateUsageResponse,
-  errors: [
-    DataUnavailableException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
-  ],
+  errors: [DataUnavailableException, ResourceNotFoundException, ServiceQuotaExceededException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchUpdateWorkloadEstimateUsage",
@@ -2781,11 +2475,7 @@ export const createBillEstimate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateBillEstimateRequest,
   output: CreateBillEstimateResponse,
-  errors: [
-    ConflictException,
-    DataUnavailableException,
-    ResourceNotFoundException,
-  ],
+  errors: [ConflictException, DataUnavailableException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBillEstimate",
@@ -2807,11 +2497,7 @@ export const createBillScenario: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateBillScenarioRequest,
   output: CreateBillScenarioResponse,
-  errors: [
-    ConflictException,
-    DataUnavailableException,
-    ServiceQuotaExceededException,
-  ],
+  errors: [ConflictException, DataUnavailableException, ServiceQuotaExceededException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBillScenario",
@@ -2833,20 +2519,13 @@ export const createWorkloadEstimate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateWorkloadEstimateRequest,
   output: CreateWorkloadEstimateResponse,
-  errors: [
-    ConflictException,
-    DataUnavailableException,
-    ServiceQuotaExceededException,
-  ],
+  errors: [ConflictException, DataUnavailableException, ServiceQuotaExceededException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWorkloadEstimate",
 }));
 
-export type DeleteBillEstimateError =
-  | ConflictException
-  | DataUnavailableException
-  | CommonErrors;
+export type DeleteBillEstimateError = ConflictException | DataUnavailableException | CommonErrors;
 /**
  * Deletes an existing bill estimate.
  */
@@ -2864,10 +2543,7 @@ export const deleteBillEstimate: API.OperationMethod<
   operationName: "DeleteBillEstimate",
 }));
 
-export type DeleteBillScenarioError =
-  | ConflictException
-  | DataUnavailableException
-  | CommonErrors;
+export type DeleteBillScenarioError = ConflictException | DataUnavailableException | CommonErrors;
 /**
  * Deletes an existing bill scenario.
  */
@@ -2885,9 +2561,7 @@ export const deleteBillScenario: API.OperationMethod<
   operationName: "DeleteBillScenario",
 }));
 
-export type DeleteWorkloadEstimateError =
-  | DataUnavailableException
-  | CommonErrors;
+export type DeleteWorkloadEstimateError = DataUnavailableException | CommonErrors;
 /**
  * Deletes an existing workload estimate.
  */
@@ -3222,9 +2896,7 @@ export const listTagsForResource: API.OperationMethod<
   operationName: "ListTagsForResource",
 }));
 
-export type ListWorkloadEstimatesError =
-  | DataUnavailableException
-  | CommonErrors;
+export type ListWorkloadEstimatesError = DataUnavailableException | CommonErrors;
 /**
  * Lists all workload estimates for the account.
  */
@@ -3332,11 +3004,7 @@ export const updateBillEstimate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateBillEstimateRequest,
   output: UpdateBillEstimateResponse,
-  errors: [
-    ConflictException,
-    DataUnavailableException,
-    ResourceNotFoundException,
-  ],
+  errors: [ConflictException, DataUnavailableException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBillEstimate",
@@ -3358,11 +3026,7 @@ export const updateBillScenario: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateBillScenarioRequest,
   output: UpdateBillScenarioResponse,
-  errors: [
-    ConflictException,
-    DataUnavailableException,
-    ResourceNotFoundException,
-  ],
+  errors: [ConflictException, DataUnavailableException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBillScenario",
@@ -3405,11 +3069,7 @@ export const updateWorkloadEstimate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateWorkloadEstimateRequest,
   output: UpdateWorkloadEstimateResponse,
-  errors: [
-    ConflictException,
-    DataUnavailableException,
-    ResourceNotFoundException,
-  ],
+  errors: [ConflictException, DataUnavailableException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWorkloadEstimate",

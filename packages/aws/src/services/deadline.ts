@@ -1,18 +1,15 @@
+import * as API from "@distilled.cloud/core/api";
+import * as S from "@distilled.cloud/core/schema";
 import * as HttpClient from "effect/http/HttpClient";
 import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
-import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
-const svc = T.AwsApiService({
-  sdkId: "deadline",
-  serviceShapeName: "Deadline",
-});
+import * as T from "../traits.ts";
+const svc = T.AwsApiService({ sdkId: "deadline", serviceShapeName: "Deadline" });
 const auth = T.AwsAuthSigv4({ name: "deadline" });
 const ver = T.ServiceVersion("2023-10-12");
 const proto = T.AwsProtocolsRestJson1();
@@ -28,14 +25,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -58,13 +51,9 @@ const rules = T.EndpointResolver((p, _) => {
         }
         if (UseFIPS === true) {
           if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            return e(
-              `https://deadline-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
+            return e(`https://deadline-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -72,13 +61,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://deadline.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://deadline.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://deadline.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -91,9 +76,7 @@ export class AccessDeniedException
     {
       message: S.String.pipe(T.ErrorMessage()),
       context: S.optional(
-        S.suspend(() => ExceptionContext).annotate({
-          identifier: "ExceptionContext",
-        }),
+        S.suspend(() => ExceptionContext).annotate({ identifier: "ExceptionContext" }),
       ),
     },
     T.HttpError(403),
@@ -109,9 +92,7 @@ export class ConflictException
       resourceId: S.String,
       resourceType: S.String,
       context: S.optional(
-        S.suspend(() => ExceptionContext).annotate({
-          identifier: "ExceptionContext",
-        }),
+        S.suspend(() => ExceptionContext).annotate({ identifier: "ExceptionContext" }),
       ),
     },
     T.HttpError(409),
@@ -126,10 +107,9 @@ export class InternalServerErrorException
     T.all(T.HttpError(500), T.Retryable()),
   ).pipe(C.withServerError, C.withRetryableError) {}
 export class InternalServerException
-  extends /*@__PURE__*/ S.TaggedError<InternalServerException>()(
-    "InternalServerException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ).pipe(C.withServerError, C.withRetryableError) {}
+  extends /*@__PURE__*/ S.TaggedError<InternalServerException>()("InternalServerException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }).pipe(C.withServerError, C.withRetryableError) {}
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",
@@ -138,9 +118,7 @@ export class ResourceNotFoundException
       resourceId: S.String,
       resourceType: S.String,
       context: S.optional(
-        S.suspend(() => ExceptionContext).annotate({
-          identifier: "ExceptionContext",
-        }),
+        S.suspend(() => ExceptionContext).annotate({ identifier: "ExceptionContext" }),
       ),
     },
     T.HttpError(404),
@@ -158,9 +136,7 @@ export class ServiceQuotaExceededException
       quotaCode: S.String,
       resourceId: S.optional(S.String),
       context: S.optional(
-        S.suspend(() => ExceptionContext).annotate({
-          identifier: "ExceptionContext",
-        }),
+        S.suspend(() => ExceptionContext).annotate({ identifier: "ExceptionContext" }),
       ),
     },
     T.HttpError(402),
@@ -174,9 +150,7 @@ export class ThrottlingException
       quotaCode: S.optional(S.String),
       retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
       context: S.optional(
-        S.suspend(() => ExceptionContext).annotate({
-          identifier: "ExceptionContext",
-        }),
+        S.suspend(() => ExceptionContext).annotate({ identifier: "ExceptionContext" }),
       ),
     },
     T.all(T.HttpError(429), T.Retryable({ throttling: true })),
@@ -195,9 +169,7 @@ export class ValidationException
         }),
       ),
       context: S.optional(
-        S.suspend(() => ExceptionContext).annotate({
-          identifier: "ExceptionContext",
-        }),
+        S.suspend(() => ExceptionContext).annotate({ identifier: "ExceptionContext" }),
       ),
     },
     T.HttpError(400),
@@ -207,12 +179,7 @@ export type DeadlinePrincipalType = "USER" | "GROUP" | (string & {});
 export const DeadlinePrincipalType = S.String;
 
 export type IdentityStoreId = string;
-export type MembershipLevel =
-  | "VIEWER"
-  | "CONTRIBUTOR"
-  | "OWNER"
-  | "MANAGER"
-  | (string & {});
+export type MembershipLevel = "VIEWER" | "CONTRIBUTOR" | "OWNER" | "MANAGER" | (string & {});
 export const MembershipLevel = S.String;
 
 export type IdentityCenterPrincipalId = string;
@@ -235,10 +202,7 @@ export const AssociateMemberToFarmRequest = /*@__PURE__*/ S.suspend(() =>
     identityCenterRegion: S.optional(S.String),
   }).pipe(
     T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/2023-10-12/farms/{farmId}/members/{principalId}",
-      }),
+      T.Http({ method: "PUT", uri: "/2023-10-12/farms/{farmId}/members/{principalId}" }),
       svc,
       auth,
       proto,
@@ -250,9 +214,7 @@ export const AssociateMemberToFarmRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "AssociateMemberToFarmRequest",
 }) as any as S.Schema<AssociateMemberToFarmRequest>;
 export interface AssociateMemberToFarmResponse {}
-export const AssociateMemberToFarmResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const AssociateMemberToFarmResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "AssociateMemberToFarmResponse",
 }) as any as S.Schema<AssociateMemberToFarmResponse>;
 export type FleetId = string;
@@ -291,9 +253,7 @@ export const AssociateMemberToFleetRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "AssociateMemberToFleetRequest",
 }) as any as S.Schema<AssociateMemberToFleetRequest>;
 export interface AssociateMemberToFleetResponse {}
-export const AssociateMemberToFleetResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const AssociateMemberToFleetResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "AssociateMemberToFleetResponse",
 }) as any as S.Schema<AssociateMemberToFleetResponse>;
 export type QueueId = string;
@@ -335,9 +295,7 @@ export const AssociateMemberToJobRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "AssociateMemberToJobRequest",
 }) as any as S.Schema<AssociateMemberToJobRequest>;
 export interface AssociateMemberToJobResponse {}
-export const AssociateMemberToJobResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const AssociateMemberToJobResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "AssociateMemberToJobResponse",
 }) as any as S.Schema<AssociateMemberToJobResponse>;
 export interface AssociateMemberToQueueRequest {
@@ -375,9 +333,7 @@ export const AssociateMemberToQueueRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "AssociateMemberToQueueRequest",
 }) as any as S.Schema<AssociateMemberToQueueRequest>;
 export interface AssociateMemberToQueueResponse {}
-export const AssociateMemberToQueueResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const AssociateMemberToQueueResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "AssociateMemberToQueueResponse",
 }) as any as S.Schema<AssociateMemberToQueueResponse>;
 export interface AssumeFleetRoleForReadRequest {
@@ -390,10 +346,7 @@ export const AssumeFleetRoleForReadRequest = /*@__PURE__*/ S.suspend(() =>
     fleetId: S.String.pipe(T.HttpLabel("fleetId")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/2023-10-12/farms/{farmId}/fleets/{fleetId}/read-roles",
-      }),
+      T.Http({ method: "GET", uri: "/2023-10-12/farms/{farmId}/fleets/{fleetId}/read-roles" }),
       svc,
       auth,
       proto,
@@ -474,10 +427,7 @@ export const AssumeQueueRoleForReadRequest = /*@__PURE__*/ S.suspend(() =>
     queueId: S.String.pipe(T.HttpLabel("queueId")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/2023-10-12/farms/{farmId}/queues/{queueId}/read-roles",
-      }),
+      T.Http({ method: "GET", uri: "/2023-10-12/farms/{farmId}/queues/{queueId}/read-roles" }),
       svc,
       auth,
       proto,
@@ -506,10 +456,7 @@ export const AssumeQueueRoleForUserRequest = /*@__PURE__*/ S.suspend(() =>
     queueId: S.String.pipe(T.HttpLabel("queueId")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/2023-10-12/farms/{farmId}/queues/{queueId}/user-roles",
-      }),
+      T.Http({ method: "GET", uri: "/2023-10-12/farms/{farmId}/queues/{queueId}/user-roles" }),
       svc,
       auth,
       proto,
@@ -571,13 +518,9 @@ export interface BatchGetJobIdentifier {
 }
 export const BatchGetJobIdentifier = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ farmId: S.String, queueId: S.String, jobId: S.String }),
-).annotate({
-  identifier: "BatchGetJobIdentifier",
-}) as any as S.Schema<BatchGetJobIdentifier>;
+).annotate({ identifier: "BatchGetJobIdentifier" }) as any as S.Schema<BatchGetJobIdentifier>;
 export type BatchGetJobIdentifiers = BatchGetJobIdentifier[];
-export const BatchGetJobIdentifiers = /*@__PURE__*/ S.Array(
-  BatchGetJobIdentifier,
-);
+export const BatchGetJobIdentifiers = /*@__PURE__*/ S.Array(BatchGetJobIdentifier);
 export interface BatchGetJobRequest {
   identifiers: BatchGetJobIdentifier[];
 }
@@ -592,9 +535,7 @@ export const BatchGetJobRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "BatchGetJobRequest",
-}) as any as S.Schema<BatchGetJobRequest>;
+).annotate({ identifier: "BatchGetJobRequest" }) as any as S.Schema<BatchGetJobRequest>;
 export type JobName = string;
 export type JobLifecycleStatus =
   | "CREATE_IN_PROGRESS"
@@ -643,10 +584,7 @@ export type JobTargetTaskRunStatus =
 export const JobTargetTaskRunStatus = S.String;
 
 export type TaskRunStatusCounts = { [key in TaskRunStatus]?: number };
-export const TaskRunStatusCounts = /*@__PURE__*/ S.Record(
-  TaskRunStatus,
-  S.Number.pipe(S.optional),
-);
+export const TaskRunStatusCounts = /*@__PURE__*/ S.Record(TaskRunStatus, S.Number.pipe(S.optional));
 export type TaskFailureRetryCount = number;
 export type StorageProfileId = string;
 export type MaxFailedTasksCount = number;
@@ -655,22 +593,207 @@ export type IntString = string;
 export type FloatString = string;
 export type ParameterString = string;
 export type PathString = string;
+export type BooleanString = string;
+export type RangeExprString = string;
+export type ParameterStringList = string[];
+export const ParameterStringList = /*@__PURE__*/ S.Array(S.String);
+export type PathStringList = string[];
+export const PathStringList = /*@__PURE__*/ S.Array(S.String);
+export type IntStringList = string[];
+export const IntStringList = /*@__PURE__*/ S.Array(S.String);
+export type FloatStringList = string[];
+export const FloatStringList = /*@__PURE__*/ S.Array(S.String);
+export type BooleanStringList = string[];
+export const BooleanStringList = /*@__PURE__*/ S.Array(S.String);
+export type NestedIntStringList = string[];
+export const NestedIntStringList = /*@__PURE__*/ S.Array(S.String);
+export type IntStringListList = string[][];
+export const IntStringListList = /*@__PURE__*/ S.Array(NestedIntStringList);
 export type JobParameter =
-  | { int: string; float?: never; string?: never; path?: never }
-  | { int?: never; float: string; string?: never; path?: never }
-  | { int?: never; float?: never; string: string; path?: never }
-  | { int?: never; float?: never; string?: never; path: string };
+  | {
+      int: string;
+      float?: never;
+      string?: never;
+      path?: never;
+      bool?: never;
+      rangeExpr?: never;
+      stringList?: never;
+      pathList?: never;
+      intList?: never;
+      floatList?: never;
+      boolList?: never;
+      intListList?: never;
+    }
+  | {
+      int?: never;
+      float: string;
+      string?: never;
+      path?: never;
+      bool?: never;
+      rangeExpr?: never;
+      stringList?: never;
+      pathList?: never;
+      intList?: never;
+      floatList?: never;
+      boolList?: never;
+      intListList?: never;
+    }
+  | {
+      int?: never;
+      float?: never;
+      string: string;
+      path?: never;
+      bool?: never;
+      rangeExpr?: never;
+      stringList?: never;
+      pathList?: never;
+      intList?: never;
+      floatList?: never;
+      boolList?: never;
+      intListList?: never;
+    }
+  | {
+      int?: never;
+      float?: never;
+      string?: never;
+      path: string;
+      bool?: never;
+      rangeExpr?: never;
+      stringList?: never;
+      pathList?: never;
+      intList?: never;
+      floatList?: never;
+      boolList?: never;
+      intListList?: never;
+    }
+  | {
+      int?: never;
+      float?: never;
+      string?: never;
+      path?: never;
+      bool: string;
+      rangeExpr?: never;
+      stringList?: never;
+      pathList?: never;
+      intList?: never;
+      floatList?: never;
+      boolList?: never;
+      intListList?: never;
+    }
+  | {
+      int?: never;
+      float?: never;
+      string?: never;
+      path?: never;
+      bool?: never;
+      rangeExpr: string;
+      stringList?: never;
+      pathList?: never;
+      intList?: never;
+      floatList?: never;
+      boolList?: never;
+      intListList?: never;
+    }
+  | {
+      int?: never;
+      float?: never;
+      string?: never;
+      path?: never;
+      bool?: never;
+      rangeExpr?: never;
+      stringList: string[];
+      pathList?: never;
+      intList?: never;
+      floatList?: never;
+      boolList?: never;
+      intListList?: never;
+    }
+  | {
+      int?: never;
+      float?: never;
+      string?: never;
+      path?: never;
+      bool?: never;
+      rangeExpr?: never;
+      stringList?: never;
+      pathList: string[];
+      intList?: never;
+      floatList?: never;
+      boolList?: never;
+      intListList?: never;
+    }
+  | {
+      int?: never;
+      float?: never;
+      string?: never;
+      path?: never;
+      bool?: never;
+      rangeExpr?: never;
+      stringList?: never;
+      pathList?: never;
+      intList: string[];
+      floatList?: never;
+      boolList?: never;
+      intListList?: never;
+    }
+  | {
+      int?: never;
+      float?: never;
+      string?: never;
+      path?: never;
+      bool?: never;
+      rangeExpr?: never;
+      stringList?: never;
+      pathList?: never;
+      intList?: never;
+      floatList: string[];
+      boolList?: never;
+      intListList?: never;
+    }
+  | {
+      int?: never;
+      float?: never;
+      string?: never;
+      path?: never;
+      bool?: never;
+      rangeExpr?: never;
+      stringList?: never;
+      pathList?: never;
+      intList?: never;
+      floatList?: never;
+      boolList: string[];
+      intListList?: never;
+    }
+  | {
+      int?: never;
+      float?: never;
+      string?: never;
+      path?: never;
+      bool?: never;
+      rangeExpr?: never;
+      stringList?: never;
+      pathList?: never;
+      intList?: never;
+      floatList?: never;
+      boolList?: never;
+      intListList: string[][];
+    };
 export const JobParameter = /*@__PURE__*/ S.Union([
   S.Struct({ int: S.String }),
   S.Struct({ float: S.String }),
   S.Struct({ string: S.String }),
   S.Struct({ path: S.String }),
+  S.Struct({ bool: S.String }),
+  S.Struct({ rangeExpr: S.String }),
+  S.Struct({ stringList: ParameterStringList }),
+  S.Struct({ pathList: PathStringList }),
+  S.Struct({ intList: IntStringList }),
+  S.Struct({ floatList: FloatStringList }),
+  S.Struct({ boolList: BooleanStringList }),
+  S.Struct({ intListList: IntStringListList }),
 ]);
 export type JobParameters = { [key: string]: JobParameter | undefined };
-export const JobParameters = /*@__PURE__*/ S.Record(
-  S.String,
-  JobParameter.pipe(S.optional),
-);
+export const JobParameters = /*@__PURE__*/ S.Record(S.String, JobParameter.pipe(S.optional));
 export type FileSystemLocationName = string;
 export type PathFormat = "windows" | "posix" | (string & {});
 export const PathFormat = S.String;
@@ -694,9 +817,7 @@ export const ManifestProperties = /*@__PURE__*/ S.suspend(() =>
     inputManifestPath: S.optional(S.String),
     inputManifestHash: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ManifestProperties",
-}) as any as S.Schema<ManifestProperties>;
+).annotate({ identifier: "ManifestProperties" }) as any as S.Schema<ManifestProperties>;
 export type ManifestPropertiesList = ManifestProperties[];
 export const ManifestPropertiesList = /*@__PURE__*/ S.Array(ManifestProperties);
 export type JobAttachmentsFileSystem = "COPIED" | "VIRTUAL" | (string & {});
@@ -707,10 +828,7 @@ export interface Attachments {
   fileSystem?: JobAttachmentsFileSystem;
 }
 export const Attachments = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    manifests: ManifestPropertiesList,
-    fileSystem: S.optional(JobAttachmentsFileSystem),
-  }),
+  S.Struct({ manifests: ManifestPropertiesList, fileSystem: S.optional(JobAttachmentsFileSystem) }),
 ).annotate({ identifier: "Attachments" }) as any as S.Schema<Attachments>;
 export type JobDescription = string | redacted.Redacted<string>;
 export type MaxWorkerCount = number;
@@ -752,13 +870,9 @@ export const BatchGetJobItem = /*@__PURE__*/ S.suspend(() =>
     priority: S.Number,
     createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     createdBy: S.String,
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     updatedBy: S.optional(S.String),
-    startedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    startedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     endedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     taskRunStatus: S.optional(TaskRunStatus),
     targetTaskRunStatus: S.optional(JobTargetTaskRunStatus),
@@ -773,9 +887,7 @@ export const BatchGetJobItem = /*@__PURE__*/ S.suspend(() =>
     maxWorkerCount: S.optional(S.Number),
     sourceJobId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "BatchGetJobItem",
-}) as any as S.Schema<BatchGetJobItem>;
+).annotate({ identifier: "BatchGetJobItem" }) as any as S.Schema<BatchGetJobItem>;
 export type BatchGetJobItems = BatchGetJobItem[];
 export const BatchGetJobItems = /*@__PURE__*/ S.Array(BatchGetJobItem);
 export type BatchGetJobErrorCode =
@@ -802,9 +914,7 @@ export const BatchGetJobError_ = /*@__PURE__*/ S.suspend(() =>
     code: BatchGetJobErrorCode,
     message: S.String,
   }),
-).annotate({
-  identifier: "BatchGetJobError",
-}) as any as S.Schema<BatchGetJobError_>;
+).annotate({ identifier: "BatchGetJobError" }) as any as S.Schema<BatchGetJobError_>;
 export type BatchGetJobErrors = BatchGetJobError_[];
 export const BatchGetJobErrors = /*@__PURE__*/ S.Array(BatchGetJobError_);
 export interface BatchGetJobResponse {
@@ -813,17 +923,13 @@ export interface BatchGetJobResponse {
 }
 export const BatchGetJobResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ jobs: BatchGetJobItems, errors: BatchGetJobErrors }),
-).annotate({
-  identifier: "BatchGetJobResponse",
-}) as any as S.Schema<BatchGetJobResponse>;
+).annotate({ identifier: "BatchGetJobResponse" }) as any as S.Schema<BatchGetJobResponse>;
 export interface JobDetailsIdentifiers {
   jobId: string;
 }
 export const JobDetailsIdentifiers = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ jobId: S.String }),
-).annotate({
-  identifier: "JobDetailsIdentifiers",
-}) as any as S.Schema<JobDetailsIdentifiers>;
+).annotate({ identifier: "JobDetailsIdentifiers" }) as any as S.Schema<JobDetailsIdentifiers>;
 export interface JobAttachmentDetailsIdentifiers {
   jobId: string;
 }
@@ -839,9 +945,7 @@ export interface StepDetailsIdentifiers {
 }
 export const StepDetailsIdentifiers = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ jobId: S.String, stepId: S.String }),
-).annotate({
-  identifier: "StepDetailsIdentifiers",
-}) as any as S.Schema<StepDetailsIdentifiers>;
+).annotate({ identifier: "StepDetailsIdentifiers" }) as any as S.Schema<StepDetailsIdentifiers>;
 export type EnvironmentId = string;
 export interface EnvironmentDetailsIdentifiers {
   jobId: string;
@@ -884,9 +988,7 @@ export const JobEntityIdentifiersUnion = /*@__PURE__*/ S.Union([
   S.Struct({ environmentDetails: EnvironmentDetailsIdentifiers }),
 ]);
 export type JobEntityIdentifiers = JobEntityIdentifiersUnion[];
-export const JobEntityIdentifiers = /*@__PURE__*/ S.Array(
-  JobEntityIdentifiersUnion,
-);
+export const JobEntityIdentifiers = /*@__PURE__*/ S.Array(JobEntityIdentifiersUnion);
 export interface BatchGetJobEntityRequest {
   farmId: string;
   fleetId: string;
@@ -912,9 +1014,7 @@ export const BatchGetJobEntityRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "BatchGetJobEntityRequest",
-}) as any as S.Schema<BatchGetJobEntityRequest>;
+).annotate({ identifier: "BatchGetJobEntityRequest" }) as any as S.Schema<BatchGetJobEntityRequest>;
 export type S3BucketName = string;
 export type S3Prefix = string;
 export interface JobDetailsJobAttachmentSettings {
@@ -940,10 +1040,7 @@ export interface WindowsUser {
 export const WindowsUser = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ user: S.String, passwordArn: S.String }),
 ).annotate({ identifier: "WindowsUser" }) as any as S.Schema<WindowsUser>;
-export type RunAs =
-  | "QUEUE_CONFIGURED_USER"
-  | "WORKER_AGENT_USER"
-  | (string & {});
+export type RunAs = "QUEUE_CONFIGURED_USER" | "WORKER_AGENT_USER" | (string & {});
 export const RunAs = S.String;
 
 export interface JobRunAsUser {
@@ -952,27 +1049,20 @@ export interface JobRunAsUser {
   runAs: RunAs;
 }
 export const JobRunAsUser = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    posix: S.optional(PosixUser),
-    windows: S.optional(WindowsUser),
-    runAs: RunAs,
-  }),
+  S.Struct({ posix: S.optional(PosixUser), windows: S.optional(WindowsUser), runAs: RunAs }),
 ).annotate({ identifier: "JobRunAsUser" }) as any as S.Schema<JobRunAsUser>;
 export type IamRoleArn = string;
+export type OpenjdExtensionName = string;
+export type OpenjdExtensionNameList = string[];
+export const OpenjdExtensionNameList = /*@__PURE__*/ S.Array(S.String);
 export interface PathMappingRule {
   sourcePathFormat: PathFormat;
   sourcePath: string;
   destinationPath: string;
 }
 export const PathMappingRule = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    sourcePathFormat: PathFormat,
-    sourcePath: S.String,
-    destinationPath: S.String,
-  }),
-).annotate({
-  identifier: "PathMappingRule",
-}) as any as S.Schema<PathMappingRule>;
+  S.Struct({ sourcePathFormat: PathFormat, sourcePath: S.String, destinationPath: S.String }),
+).annotate({ identifier: "PathMappingRule" }) as any as S.Schema<PathMappingRule>;
 export type PathMappingRules = PathMappingRule[];
 export const PathMappingRules = /*@__PURE__*/ S.Array(PathMappingRule);
 export interface JobDetailsEntity {
@@ -983,6 +1073,7 @@ export interface JobDetailsEntity {
   queueRoleArn?: string;
   parameters?: { [key: string]: JobParameter | undefined };
   schemaVersion: string;
+  extensions?: string[];
   pathMappingRules?: PathMappingRule[];
 }
 export const JobDetailsEntity = /*@__PURE__*/ S.suspend(() =>
@@ -994,11 +1085,10 @@ export const JobDetailsEntity = /*@__PURE__*/ S.suspend(() =>
     queueRoleArn: S.optional(S.String),
     parameters: S.optional(JobParameters),
     schemaVersion: S.String,
+    extensions: S.optional(OpenjdExtensionNameList),
     pathMappingRules: S.optional(PathMappingRules),
   }),
-).annotate({
-  identifier: "JobDetailsEntity",
-}) as any as S.Schema<JobDetailsEntity>;
+).annotate({ identifier: "JobDetailsEntity" }) as any as S.Schema<JobDetailsEntity>;
 export interface JobAttachmentDetailsEntity {
   jobId: string;
   attachments: Attachments;
@@ -1011,12 +1101,15 @@ export const JobAttachmentDetailsEntity = /*@__PURE__*/ S.suspend(() =>
 export type Document = unknown;
 export type DependenciesList = string[];
 export const DependenciesList = /*@__PURE__*/ S.Array(S.String);
+export type SerializedSymbolTable = string;
 export interface StepDetailsEntity {
   jobId: string;
   stepId: string;
   schemaVersion: string;
   template: any;
   dependencies: string[];
+  extensions?: string[];
+  resolvedSymbolTable?: string;
 }
 export const StepDetailsEntity = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1025,15 +1118,17 @@ export const StepDetailsEntity = /*@__PURE__*/ S.suspend(() =>
     schemaVersion: S.String,
     template: S.Any,
     dependencies: DependenciesList,
+    extensions: S.optional(OpenjdExtensionNameList),
+    resolvedSymbolTable: S.optional(S.String),
   }),
-).annotate({
-  identifier: "StepDetailsEntity",
-}) as any as S.Schema<StepDetailsEntity>;
+).annotate({ identifier: "StepDetailsEntity" }) as any as S.Schema<StepDetailsEntity>;
 export interface EnvironmentDetailsEntity {
   jobId: string;
   environmentId: string;
   schemaVersion: string;
   template: any;
+  extensions?: string[];
+  resolvedSymbolTable?: string;
 }
 export const EnvironmentDetailsEntity = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1041,10 +1136,10 @@ export const EnvironmentDetailsEntity = /*@__PURE__*/ S.suspend(() =>
     environmentId: S.String,
     schemaVersion: S.String,
     template: S.Any,
+    extensions: S.optional(OpenjdExtensionNameList),
+    resolvedSymbolTable: S.optional(S.String),
   }),
-).annotate({
-  identifier: "EnvironmentDetailsEntity",
-}) as any as S.Schema<EnvironmentDetailsEntity>;
+).annotate({ identifier: "EnvironmentDetailsEntity" }) as any as S.Schema<EnvironmentDetailsEntity>;
 export type JobEntity =
   | {
       jobDetails: JobDetailsEntity;
@@ -1095,9 +1190,7 @@ export interface JobDetailsError {
 }
 export const JobDetailsError = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ jobId: S.String, code: JobEntityErrorCode, message: S.String }),
-).annotate({
-  identifier: "JobDetailsError",
-}) as any as S.Schema<JobDetailsError>;
+).annotate({ identifier: "JobDetailsError" }) as any as S.Schema<JobDetailsError>;
 export interface JobAttachmentDetailsError {
   jobId: string;
   code: JobEntityErrorCode;
@@ -1115,15 +1208,8 @@ export interface StepDetailsError {
   message: string;
 }
 export const StepDetailsError = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    jobId: S.String,
-    stepId: S.String,
-    code: JobEntityErrorCode,
-    message: S.String,
-  }),
-).annotate({
-  identifier: "StepDetailsError",
-}) as any as S.Schema<StepDetailsError>;
+  S.Struct({ jobId: S.String, stepId: S.String, code: JobEntityErrorCode, message: S.String }),
+).annotate({ identifier: "StepDetailsError" }) as any as S.Schema<StepDetailsError>;
 export interface EnvironmentDetailsError {
   jobId: string;
   environmentId: string;
@@ -1137,9 +1223,7 @@ export const EnvironmentDetailsError = /*@__PURE__*/ S.suspend(() =>
     code: JobEntityErrorCode,
     message: S.String,
   }),
-).annotate({
-  identifier: "EnvironmentDetailsError",
-}) as any as S.Schema<EnvironmentDetailsError>;
+).annotate({ identifier: "EnvironmentDetailsError" }) as any as S.Schema<EnvironmentDetailsError>;
 export type GetJobEntityError =
   | {
       jobDetails: JobDetailsError;
@@ -1178,10 +1262,7 @@ export interface BatchGetJobEntityResponse {
   errors: GetJobEntityError[];
 }
 export const BatchGetJobEntityResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    entities: BatchGetJobEntityList,
-    errors: BatchGetJobEntityErrors,
-  }),
+  S.Struct({ entities: BatchGetJobEntityList, errors: BatchGetJobEntityErrors }),
 ).annotate({
   identifier: "BatchGetJobEntityResponse",
 }) as any as S.Schema<BatchGetJobEntityResponse>;
@@ -1193,19 +1274,12 @@ export interface BatchGetSessionIdentifier {
   sessionId: string;
 }
 export const BatchGetSessionIdentifier = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String,
-    queueId: S.String,
-    jobId: S.String,
-    sessionId: S.String,
-  }),
+  S.Struct({ farmId: S.String, queueId: S.String, jobId: S.String, sessionId: S.String }),
 ).annotate({
   identifier: "BatchGetSessionIdentifier",
 }) as any as S.Schema<BatchGetSessionIdentifier>;
 export type BatchGetSessionIdentifiers = BatchGetSessionIdentifier[];
-export const BatchGetSessionIdentifiers = /*@__PURE__*/ S.Array(
-  BatchGetSessionIdentifier,
-);
+export const BatchGetSessionIdentifiers = /*@__PURE__*/ S.Array(BatchGetSessionIdentifier);
 export interface BatchGetSessionRequest {
   identifiers: BatchGetSessionIdentifier[];
 }
@@ -1220,9 +1294,7 @@ export const BatchGetSessionRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "BatchGetSessionRequest",
-}) as any as S.Schema<BatchGetSessionRequest>;
+).annotate({ identifier: "BatchGetSessionRequest" }) as any as S.Schema<BatchGetSessionRequest>;
 export type SessionLifecycleStatus =
   | "STARTED"
   | "UPDATE_IN_PROGRESS"
@@ -1237,15 +1309,9 @@ export const SessionLifecycleTargetStatus = S.String;
 
 export type LogDriver = string;
 export type LogOptions = { [key: string]: string | undefined };
-export const LogOptions = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const LogOptions = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export type LogParameters = { [key: string]: string | undefined };
-export const LogParameters = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const LogParameters = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export type LogError = string;
 export interface LogConfiguration {
   logDriver: string;
@@ -1260,9 +1326,7 @@ export const LogConfiguration = /*@__PURE__*/ S.suspend(() =>
     parameters: S.optional(LogParameters),
     error: S.optional(S.String),
   }),
-).annotate({
-  identifier: "LogConfiguration",
-}) as any as S.Schema<LogConfiguration>;
+).annotate({ identifier: "LogConfiguration" }) as any as S.Schema<LogConfiguration>;
 export type IpV4Address = string;
 export type IpV4Addresses = string[];
 export const IpV4Addresses = /*@__PURE__*/ S.Array(S.String);
@@ -1274,10 +1338,7 @@ export interface IpAddresses {
   ipV6Addresses?: string[];
 }
 export const IpAddresses = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ipV4Addresses: S.optional(IpV4Addresses),
-    ipV6Addresses: S.optional(IpV6Addresses),
-  }),
+  S.Struct({ ipV4Addresses: S.optional(IpV4Addresses), ipV6Addresses: S.optional(IpV6Addresses) }),
 ).annotate({ identifier: "IpAddresses" }) as any as S.Schema<IpAddresses>;
 export type HostName = string;
 export type InstanceType = string;
@@ -1294,9 +1355,7 @@ export const HostPropertiesResponse = /*@__PURE__*/ S.suspend(() =>
     ec2InstanceArn: S.optional(S.String),
     ec2InstanceType: S.optional(S.String),
   }),
-).annotate({
-  identifier: "HostPropertiesResponse",
-}) as any as S.Schema<HostPropertiesResponse>;
+).annotate({ identifier: "HostPropertiesResponse" }) as any as S.Schema<HostPropertiesResponse>;
 export interface BatchGetSessionItem {
   farmId: string;
   queueId: string;
@@ -1326,17 +1385,13 @@ export const BatchGetSessionItem = /*@__PURE__*/ S.suspend(() =>
     lifecycleStatus: SessionLifecycleStatus,
     endedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     targetLifecycleStatus: S.optional(SessionLifecycleTargetStatus),
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     updatedBy: S.optional(S.String),
     log: LogConfiguration,
     hostProperties: S.optional(HostPropertiesResponse),
     workerLog: S.optional(LogConfiguration),
   }),
-).annotate({
-  identifier: "BatchGetSessionItem",
-}) as any as S.Schema<BatchGetSessionItem>;
+).annotate({ identifier: "BatchGetSessionItem" }) as any as S.Schema<BatchGetSessionItem>;
 export type BatchGetSessionItems = BatchGetSessionItem[];
 export const BatchGetSessionItems = /*@__PURE__*/ S.Array(BatchGetSessionItem);
 export type BatchGetSessionErrorCode =
@@ -1363,22 +1418,16 @@ export const BatchGetSessionError_ = /*@__PURE__*/ S.suspend(() =>
     code: BatchGetSessionErrorCode,
     message: S.String,
   }),
-).annotate({
-  identifier: "BatchGetSessionError",
-}) as any as S.Schema<BatchGetSessionError_>;
+).annotate({ identifier: "BatchGetSessionError" }) as any as S.Schema<BatchGetSessionError_>;
 export type BatchGetSessionErrors = BatchGetSessionError_[];
-export const BatchGetSessionErrors = /*@__PURE__*/ S.Array(
-  BatchGetSessionError_,
-);
+export const BatchGetSessionErrors = /*@__PURE__*/ S.Array(BatchGetSessionError_);
 export interface BatchGetSessionResponse {
   sessions: BatchGetSessionItem[];
   errors: BatchGetSessionError_[];
 }
 export const BatchGetSessionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ sessions: BatchGetSessionItems, errors: BatchGetSessionErrors }),
-).annotate({
-  identifier: "BatchGetSessionResponse",
-}) as any as S.Schema<BatchGetSessionResponse>;
+).annotate({ identifier: "BatchGetSessionResponse" }) as any as S.Schema<BatchGetSessionResponse>;
 export type SessionActionId = string;
 export interface BatchGetSessionActionIdentifier {
   farmId: string;
@@ -1387,17 +1436,11 @@ export interface BatchGetSessionActionIdentifier {
   sessionActionId: string;
 }
 export const BatchGetSessionActionIdentifier = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String,
-    queueId: S.String,
-    jobId: S.String,
-    sessionActionId: S.String,
-  }),
+  S.Struct({ farmId: S.String, queueId: S.String, jobId: S.String, sessionActionId: S.String }),
 ).annotate({
   identifier: "BatchGetSessionActionIdentifier",
 }) as any as S.Schema<BatchGetSessionActionIdentifier>;
-export type BatchGetSessionActionIdentifiers =
-  BatchGetSessionActionIdentifier[];
+export type BatchGetSessionActionIdentifiers = BatchGetSessionActionIdentifier[];
 export const BatchGetSessionActionIdentifiers = /*@__PURE__*/ S.Array(
   BatchGetSessionActionIdentifier,
 );
@@ -1439,15 +1482,11 @@ export interface TaskRunManifestPropertiesResponse {
   outputManifestHash?: string;
 }
 export const TaskRunManifestPropertiesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    outputManifestPath: S.optional(S.String),
-    outputManifestHash: S.optional(S.String),
-  }),
+  S.Struct({ outputManifestPath: S.optional(S.String), outputManifestHash: S.optional(S.String) }),
 ).annotate({
   identifier: "TaskRunManifestPropertiesResponse",
 }) as any as S.Schema<TaskRunManifestPropertiesResponse>;
-export type TaskRunManifestPropertiesListResponse =
-  TaskRunManifestPropertiesResponse[];
+export type TaskRunManifestPropertiesListResponse = TaskRunManifestPropertiesResponse[];
 export const TaskRunManifestPropertiesListResponse = /*@__PURE__*/ S.Array(
   TaskRunManifestPropertiesResponse,
 );
@@ -1467,56 +1506,26 @@ export const AcquiredLimits = /*@__PURE__*/ S.Array(AcquiredLimit);
 export interface EnvironmentEnterSessionActionDefinition {
   environmentId: string;
 }
-export const EnvironmentEnterSessionActionDefinition = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ environmentId: S.String }),
+export const EnvironmentEnterSessionActionDefinition = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ environmentId: S.String }),
 ).annotate({
   identifier: "EnvironmentEnterSessionActionDefinition",
 }) as any as S.Schema<EnvironmentEnterSessionActionDefinition>;
 export interface EnvironmentExitSessionActionDefinition {
   environmentId: string;
 }
-export const EnvironmentExitSessionActionDefinition = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ environmentId: S.String }),
+export const EnvironmentExitSessionActionDefinition = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ environmentId: S.String }),
 ).annotate({
   identifier: "EnvironmentExitSessionActionDefinition",
 }) as any as S.Schema<EnvironmentExitSessionActionDefinition>;
 export type TaskId = string;
 export type TaskParameterValue =
-  | {
-      int: string;
-      float?: never;
-      string?: never;
-      path?: never;
-      chunkInt?: never;
-    }
-  | {
-      int?: never;
-      float: string;
-      string?: never;
-      path?: never;
-      chunkInt?: never;
-    }
-  | {
-      int?: never;
-      float?: never;
-      string: string;
-      path?: never;
-      chunkInt?: never;
-    }
-  | {
-      int?: never;
-      float?: never;
-      string?: never;
-      path: string;
-      chunkInt?: never;
-    }
-  | {
-      int?: never;
-      float?: never;
-      string?: never;
-      path?: never;
-      chunkInt: string;
-    };
+  | { int: string; float?: never; string?: never; path?: never; chunkInt?: never }
+  | { int?: never; float: string; string?: never; path?: never; chunkInt?: never }
+  | { int?: never; float?: never; string: string; path?: never; chunkInt?: never }
+  | { int?: never; float?: never; string?: never; path: string; chunkInt?: never }
+  | { int?: never; float?: never; string?: never; path?: never; chunkInt: string };
 export const TaskParameterValue = /*@__PURE__*/ S.Union([
   S.Struct({ int: S.String }),
   S.Struct({ float: S.String }),
@@ -1525,33 +1534,25 @@ export const TaskParameterValue = /*@__PURE__*/ S.Union([
   S.Struct({ chunkInt: S.String }),
 ]);
 export type TaskParameters = { [key: string]: TaskParameterValue | undefined };
-export const TaskParameters = /*@__PURE__*/ S.Record(
-  S.String,
-  TaskParameterValue.pipe(S.optional),
-);
+export const TaskParameters = /*@__PURE__*/ S.Record(S.String, TaskParameterValue.pipe(S.optional));
 export interface TaskRunSessionActionDefinition {
   taskId?: string;
   stepId: string;
   parameters: { [key: string]: TaskParameterValue | undefined };
 }
 export const TaskRunSessionActionDefinition = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    taskId: S.optional(S.String),
-    stepId: S.String,
-    parameters: TaskParameters,
-  }),
+  S.Struct({ taskId: S.optional(S.String), stepId: S.String, parameters: TaskParameters }),
 ).annotate({
   identifier: "TaskRunSessionActionDefinition",
 }) as any as S.Schema<TaskRunSessionActionDefinition>;
 export interface SyncInputJobAttachmentsSessionActionDefinition {
   stepId?: string;
 }
-export const SyncInputJobAttachmentsSessionActionDefinition =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ stepId: S.optional(S.String) }),
-  ).annotate({
-    identifier: "SyncInputJobAttachmentsSessionActionDefinition",
-  }) as any as S.Schema<SyncInputJobAttachmentsSessionActionDefinition>;
+export const SyncInputJobAttachmentsSessionActionDefinition = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ stepId: S.optional(S.String) }),
+).annotate({
+  identifier: "SyncInputJobAttachmentsSessionActionDefinition",
+}) as any as S.Schema<SyncInputJobAttachmentsSessionActionDefinition>;
 export type SessionActionDefinition =
   | {
       envEnter: EnvironmentEnterSessionActionDefinition;
@@ -1581,9 +1582,7 @@ export const SessionActionDefinition = /*@__PURE__*/ S.Union([
   S.Struct({ envEnter: EnvironmentEnterSessionActionDefinition }),
   S.Struct({ envExit: EnvironmentExitSessionActionDefinition }),
   S.Struct({ taskRun: TaskRunSessionActionDefinition }),
-  S.Struct({
-    syncInputJobAttachments: SyncInputJobAttachmentsSessionActionDefinition,
-  }),
+  S.Struct({ syncInputJobAttachments: SyncInputJobAttachmentsSessionActionDefinition }),
 ]);
 export interface BatchGetSessionActionItem {
   farmId: string;
@@ -1609,13 +1608,9 @@ export const BatchGetSessionActionItem = /*@__PURE__*/ S.suspend(() =>
     jobId: S.String,
     sessionActionId: S.String,
     status: SessionActionStatus,
-    startedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    startedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     endedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-    workerUpdatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    workerUpdatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     progressPercent: S.optional(S.Number),
     manifests: S.optional(TaskRunManifestPropertiesListResponse),
     sessionId: S.String,
@@ -1628,9 +1623,7 @@ export const BatchGetSessionActionItem = /*@__PURE__*/ S.suspend(() =>
   identifier: "BatchGetSessionActionItem",
 }) as any as S.Schema<BatchGetSessionActionItem>;
 export type BatchGetSessionActionItems = BatchGetSessionActionItem[];
-export const BatchGetSessionActionItems = /*@__PURE__*/ S.Array(
-  BatchGetSessionActionItem,
-);
+export const BatchGetSessionActionItems = /*@__PURE__*/ S.Array(BatchGetSessionActionItem);
 export type BatchGetSessionActionErrorCode =
   | "InternalServerErrorException"
   | "ResourceNotFoundException"
@@ -1659,18 +1652,13 @@ export const BatchGetSessionActionError_ = /*@__PURE__*/ S.suspend(() =>
   identifier: "BatchGetSessionActionError",
 }) as any as S.Schema<BatchGetSessionActionError_>;
 export type BatchGetSessionActionErrors = BatchGetSessionActionError_[];
-export const BatchGetSessionActionErrors = /*@__PURE__*/ S.Array(
-  BatchGetSessionActionError_,
-);
+export const BatchGetSessionActionErrors = /*@__PURE__*/ S.Array(BatchGetSessionActionError_);
 export interface BatchGetSessionActionResponse {
   sessionActions: BatchGetSessionActionItem[];
   errors: BatchGetSessionActionError_[];
 }
 export const BatchGetSessionActionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    sessionActions: BatchGetSessionActionItems,
-    errors: BatchGetSessionActionErrors,
-  }),
+  S.Struct({ sessionActions: BatchGetSessionActionItems, errors: BatchGetSessionActionErrors }),
 ).annotate({
   identifier: "BatchGetSessionActionResponse",
 }) as any as S.Schema<BatchGetSessionActionResponse>;
@@ -1681,19 +1669,10 @@ export interface BatchGetStepIdentifier {
   stepId: string;
 }
 export const BatchGetStepIdentifier = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    farmId: S.String,
-    queueId: S.String,
-    jobId: S.String,
-    stepId: S.String,
-  }),
-).annotate({
-  identifier: "BatchGetStepIdentifier",
-}) as any as S.Schema<BatchGetStepIdentifier>;
+  S.Struct({ farmId: S.String, queueId: S.String, jobId: S.String, stepId: S.String }),
+).annotate({ identifier: "BatchGetStepIdentifier" }) as any as S.Schema<BatchGetStepIdentifier>;
 export type BatchGetStepIdentifiers = BatchGetStepIdentifier[];
-export const BatchGetStepIdentifiers = /*@__PURE__*/ S.Array(
-  BatchGetStepIdentifier,
-);
+export const BatchGetStepIdentifiers = /*@__PURE__*/ S.Array(BatchGetStepIdentifier);
 export interface BatchGetStepRequest {
   identifiers: BatchGetStepIdentifier[];
 }
@@ -1708,9 +1687,7 @@ export const BatchGetStepRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "BatchGetStepRequest",
-}) as any as S.Schema<BatchGetStepRequest>;
+).annotate({ identifier: "BatchGetStepRequest" }) as any as S.Schema<BatchGetStepRequest>;
 export type StepName = string;
 export type StepLifecycleStatus =
   | "CREATE_COMPLETE"
@@ -1743,9 +1720,7 @@ export const DependencyCounts = /*@__PURE__*/ S.suspend(() =>
     consumersResolved: S.Number,
     consumersUnresolved: S.Number,
   }),
-).annotate({
-  identifier: "DependencyCounts",
-}) as any as S.Schema<DependencyCounts>;
+).annotate({ identifier: "DependencyCounts" }) as any as S.Schema<DependencyCounts>;
 export type AttributeCapabilityName = string;
 export type AttributeCapabilityValue = string;
 export type ListAttributeCapabilityValue = string[];
@@ -1761,13 +1736,9 @@ export const StepAttributeCapability = /*@__PURE__*/ S.suspend(() =>
     anyOf: S.optional(ListAttributeCapabilityValue),
     allOf: S.optional(ListAttributeCapabilityValue),
   }),
-).annotate({
-  identifier: "StepAttributeCapability",
-}) as any as S.Schema<StepAttributeCapability>;
+).annotate({ identifier: "StepAttributeCapability" }) as any as S.Schema<StepAttributeCapability>;
 export type StepAttributeCapabilities = StepAttributeCapability[];
-export const StepAttributeCapabilities = /*@__PURE__*/ S.Array(
-  StepAttributeCapability,
-);
+export const StepAttributeCapabilities = /*@__PURE__*/ S.Array(StepAttributeCapability);
 export type AmountCapabilityName = string;
 export interface StepAmountCapability {
   name: string;
@@ -1782,32 +1753,18 @@ export const StepAmountCapability = /*@__PURE__*/ S.suspend(() =>
     max: S.optional(S.Number),
     value: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "StepAmountCapability",
-}) as any as S.Schema<StepAmountCapability>;
+).annotate({ identifier: "StepAmountCapability" }) as any as S.Schema<StepAmountCapability>;
 export type StepAmountCapabilities = StepAmountCapability[];
-export const StepAmountCapabilities =
-  /*@__PURE__*/ S.Array(StepAmountCapability);
+export const StepAmountCapabilities = /*@__PURE__*/ S.Array(StepAmountCapability);
 export interface StepRequiredCapabilities {
   attributes: StepAttributeCapability[];
   amounts: StepAmountCapability[];
 }
 export const StepRequiredCapabilities = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    attributes: StepAttributeCapabilities,
-    amounts: StepAmountCapabilities,
-  }),
-).annotate({
-  identifier: "StepRequiredCapabilities",
-}) as any as S.Schema<StepRequiredCapabilities>;
+  S.Struct({ attributes: StepAttributeCapabilities, amounts: StepAmountCapabilities }),
+).annotate({ identifier: "StepRequiredCapabilities" }) as any as S.Schema<StepRequiredCapabilities>;
 export type StepParameterName = string;
-export type StepParameterType =
-  | "INT"
-  | "FLOAT"
-  | "STRING"
-  | "PATH"
-  | "CHUNK_INT"
-  | (string & {});
+export type StepParameterType = "INT" | "FLOAT" | "STRING" | "PATH" | "CHUNK_INT" | (string & {});
 export const StepParameterType = S.String;
 
 export type DefaultTaskCount = number;
@@ -1826,20 +1783,14 @@ export const StepParameterChunks = /*@__PURE__*/ S.suspend(() =>
     targetRuntimeSeconds: S.optional(S.Number),
     rangeConstraint: RangeConstraint,
   }),
-).annotate({
-  identifier: "StepParameterChunks",
-}) as any as S.Schema<StepParameterChunks>;
+).annotate({ identifier: "StepParameterChunks" }) as any as S.Schema<StepParameterChunks>;
 export interface StepParameter {
   name: string;
   type: StepParameterType;
   chunks?: StepParameterChunks;
 }
 export const StepParameter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.String,
-    type: StepParameterType,
-    chunks: S.optional(StepParameterChunks),
-  }),
+  S.Struct({ name: S.String, type: StepParameterType, chunks: S.optional(StepParameterChunks) }),
 ).annotate({ identifier: "StepParameter" }) as any as S.Schema<StepParameter>;
 export type StepParameterList = StepParameter[];
 export const StepParameterList = /*@__PURE__*/ S.Array(StepParameter);
@@ -1849,10 +1800,7 @@ export interface ParameterSpace {
   combination?: string;
 }
 export const ParameterSpace = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    parameters: StepParameterList,
-    combination: S.optional(S.String),
-  }),
+  S.Struct({ parameters: StepParameterList, combination: S.optional(S.String) }),
 ).annotate({ identifier: "ParameterSpace" }) as any as S.Schema<ParameterSpace>;
 export type StepDescription = string | redacted.Redacted<string>;
 export interface BatchGetStepItem {
@@ -1893,22 +1841,16 @@ export const BatchGetStepItem = /*@__PURE__*/ S.suspend(() =>
     targetTaskRunStatus: S.optional(StepTargetTaskRunStatus),
     createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     createdBy: S.String,
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     updatedBy: S.optional(S.String),
-    startedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    startedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     endedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     dependencyCounts: S.optional(DependencyCounts),
     requiredCapabilities: S.optional(StepRequiredCapabilities),
     parameterSpace: S.optional(ParameterSpace),
     description: S.optional(SensitiveString),
   }),
-).annotate({
-  identifier: "BatchGetStepItem",
-}) as any as S.Schema<BatchGetStepItem>;
+).annotate({ identifier: "BatchGetStepItem" }) as any as S.Schema<BatchGetStepItem>;
 export type BatchGetStepItems = BatchGetStepItem[];
 export const BatchGetStepItems = /*@__PURE__*/ S.Array(BatchGetStepItem);
 export type BatchGetStepErrorCode =
@@ -1937,9 +1879,7 @@ export const BatchGetStepError_ = /*@__PURE__*/ S.suspend(() =>
     code: BatchGetStepErrorCode,
     message: S.String,
   }),
-).annotate({
-  identifier: "BatchGetStepError",
-}) as any as S.Schema<BatchGetStepError_>;
+).annotate({ identifier: "BatchGetStepError" }) as any as S.Schema<BatchGetStepError_>;
 export type BatchGetStepErrors = BatchGetStepError_[];
 export const BatchGetStepErrors = /*@__PURE__*/ S.Array(BatchGetStepError_);
 export interface BatchGetStepResponse {
@@ -1948,9 +1888,7 @@ export interface BatchGetStepResponse {
 }
 export const BatchGetStepResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ steps: BatchGetStepItems, errors: BatchGetStepErrors }),
-).annotate({
-  identifier: "BatchGetStepResponse",
-}) as any as S.Schema<BatchGetStepResponse>;
+).annotate({ identifier: "BatchGetStepResponse" }) as any as S.Schema<BatchGetStepResponse>;
 export interface BatchGetTaskIdentifier {
   farmId: string;
   queueId: string;
@@ -1966,13 +1904,9 @@ export const BatchGetTaskIdentifier = /*@__PURE__*/ S.suspend(() =>
     stepId: S.String,
     taskId: S.String,
   }),
-).annotate({
-  identifier: "BatchGetTaskIdentifier",
-}) as any as S.Schema<BatchGetTaskIdentifier>;
+).annotate({ identifier: "BatchGetTaskIdentifier" }) as any as S.Schema<BatchGetTaskIdentifier>;
 export type BatchGetTaskIdentifiers = BatchGetTaskIdentifier[];
-export const BatchGetTaskIdentifiers = /*@__PURE__*/ S.Array(
-  BatchGetTaskIdentifier,
-);
+export const BatchGetTaskIdentifiers = /*@__PURE__*/ S.Array(BatchGetTaskIdentifier);
 export interface BatchGetTaskRequest {
   identifiers: BatchGetTaskIdentifier[];
 }
@@ -1987,9 +1921,7 @@ export const BatchGetTaskRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "BatchGetTaskRequest",
-}) as any as S.Schema<BatchGetTaskRequest>;
+).annotate({ identifier: "BatchGetTaskRequest" }) as any as S.Schema<BatchGetTaskRequest>;
 export type TaskTargetRunStatus =
   | "READY"
   | "FAILED"
@@ -2031,20 +1963,14 @@ export const BatchGetTaskItem = /*@__PURE__*/ S.suspend(() =>
     runStatus: TaskRunStatus,
     targetRunStatus: S.optional(TaskTargetRunStatus),
     failureRetryCount: S.optional(S.Number),
-    startedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    startedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     endedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     updatedBy: S.optional(S.String),
     latestSessionActionId: S.optional(S.String),
     parameters: S.optional(TaskParameters),
   }),
-).annotate({
-  identifier: "BatchGetTaskItem",
-}) as any as S.Schema<BatchGetTaskItem>;
+).annotate({ identifier: "BatchGetTaskItem" }) as any as S.Schema<BatchGetTaskItem>;
 export type BatchGetTaskItems = BatchGetTaskItem[];
 export const BatchGetTaskItems = /*@__PURE__*/ S.Array(BatchGetTaskItem);
 export type BatchGetTaskErrorCode =
@@ -2075,9 +2001,7 @@ export const BatchGetTaskError_ = /*@__PURE__*/ S.suspend(() =>
     code: BatchGetTaskErrorCode,
     message: S.String,
   }),
-).annotate({
-  identifier: "BatchGetTaskError",
-}) as any as S.Schema<BatchGetTaskError_>;
+).annotate({ identifier: "BatchGetTaskError" }) as any as S.Schema<BatchGetTaskError_>;
 export type BatchGetTaskErrors = BatchGetTaskError_[];
 export const BatchGetTaskErrors = /*@__PURE__*/ S.Array(BatchGetTaskError_);
 export interface BatchGetTaskResponse {
@@ -2086,9 +2010,7 @@ export interface BatchGetTaskResponse {
 }
 export const BatchGetTaskResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ tasks: BatchGetTaskItems, errors: BatchGetTaskErrors }),
-).annotate({
-  identifier: "BatchGetTaskResponse",
-}) as any as S.Schema<BatchGetTaskResponse>;
+).annotate({ identifier: "BatchGetTaskResponse" }) as any as S.Schema<BatchGetTaskResponse>;
 export interface BatchGetWorkerIdentifier {
   farmId: string;
   fleetId: string;
@@ -2096,13 +2018,9 @@ export interface BatchGetWorkerIdentifier {
 }
 export const BatchGetWorkerIdentifier = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ farmId: S.String, fleetId: S.String, workerId: S.String }),
-).annotate({
-  identifier: "BatchGetWorkerIdentifier",
-}) as any as S.Schema<BatchGetWorkerIdentifier>;
+).annotate({ identifier: "BatchGetWorkerIdentifier" }) as any as S.Schema<BatchGetWorkerIdentifier>;
 export type BatchGetWorkerIdentifiers = BatchGetWorkerIdentifier[];
-export const BatchGetWorkerIdentifiers = /*@__PURE__*/ S.Array(
-  BatchGetWorkerIdentifier,
-);
+export const BatchGetWorkerIdentifiers = /*@__PURE__*/ S.Array(BatchGetWorkerIdentifier);
 export interface BatchGetWorkerRequest {
   identifiers: BatchGetWorkerIdentifier[];
 }
@@ -2117,9 +2035,7 @@ export const BatchGetWorkerRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "BatchGetWorkerRequest",
-}) as any as S.Schema<BatchGetWorkerRequest>;
+).annotate({ identifier: "BatchGetWorkerRequest" }) as any as S.Schema<BatchGetWorkerRequest>;
 export type WorkerStatus =
   | "CREATED"
   | "STARTED"
@@ -2154,14 +2070,10 @@ export const BatchGetWorkerItem = /*@__PURE__*/ S.suspend(() =>
     log: S.optional(LogConfiguration),
     createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     createdBy: S.String,
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     updatedBy: S.optional(S.String),
   }),
-).annotate({
-  identifier: "BatchGetWorkerItem",
-}) as any as S.Schema<BatchGetWorkerItem>;
+).annotate({ identifier: "BatchGetWorkerItem" }) as any as S.Schema<BatchGetWorkerItem>;
 export type BatchGetWorkerItems = BatchGetWorkerItem[];
 export const BatchGetWorkerItems = /*@__PURE__*/ S.Array(BatchGetWorkerItem);
 export type BatchGetWorkerErrorCode =
@@ -2186,9 +2098,7 @@ export const BatchGetWorkerError_ = /*@__PURE__*/ S.suspend(() =>
     code: BatchGetWorkerErrorCode,
     message: S.String,
   }),
-).annotate({
-  identifier: "BatchGetWorkerError",
-}) as any as S.Schema<BatchGetWorkerError_>;
+).annotate({ identifier: "BatchGetWorkerError" }) as any as S.Schema<BatchGetWorkerError_>;
 export type BatchGetWorkerErrors = BatchGetWorkerError_[];
 export const BatchGetWorkerErrors = /*@__PURE__*/ S.Array(BatchGetWorkerError_);
 export interface BatchGetWorkerResponse {
@@ -2197,9 +2107,7 @@ export interface BatchGetWorkerResponse {
 }
 export const BatchGetWorkerResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ workers: BatchGetWorkerItems, errors: BatchGetWorkerErrors }),
-).annotate({
-  identifier: "BatchGetWorkerResponse",
-}) as any as S.Schema<BatchGetWorkerResponse>;
+).annotate({ identifier: "BatchGetWorkerResponse" }) as any as S.Schema<BatchGetWorkerResponse>;
 export type ClientToken = string;
 export type UpdateJobLifecycleStatus = "ARCHIVED" | (string & {});
 export const UpdateJobLifecycleStatus = S.String;
@@ -2232,9 +2140,7 @@ export const BatchUpdateJobItem = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     description: S.optional(SensitiveString),
   }),
-).annotate({
-  identifier: "BatchUpdateJobItem",
-}) as any as S.Schema<BatchUpdateJobItem>;
+).annotate({ identifier: "BatchUpdateJobItem" }) as any as S.Schema<BatchUpdateJobItem>;
 export type BatchUpdateJobItems = BatchUpdateJobItem[];
 export const BatchUpdateJobItems = /*@__PURE__*/ S.Array(BatchUpdateJobItem);
 export interface BatchUpdateJobRequest {
@@ -2258,9 +2164,7 @@ export const BatchUpdateJobRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "BatchUpdateJobRequest",
-}) as any as S.Schema<BatchUpdateJobRequest>;
+).annotate({ identifier: "BatchUpdateJobRequest" }) as any as S.Schema<BatchUpdateJobRequest>;
 export type BatchUpdateJobErrorCode =
   | "ConflictException"
   | "InternalServerErrorException"
@@ -2286,9 +2190,7 @@ export const BatchUpdateJobError_ = /*@__PURE__*/ S.suspend(() =>
     code: BatchUpdateJobErrorCode,
     message: S.String,
   }),
-).annotate({
-  identifier: "BatchUpdateJobError",
-}) as any as S.Schema<BatchUpdateJobError_>;
+).annotate({ identifier: "BatchUpdateJobError" }) as any as S.Schema<BatchUpdateJobError_>;
 export type BatchUpdateJobErrors = BatchUpdateJobError_[];
 export const BatchUpdateJobErrors = /*@__PURE__*/ S.Array(BatchUpdateJobError_);
 export interface BatchUpdateJobResponse {
@@ -2296,9 +2198,7 @@ export interface BatchUpdateJobResponse {
 }
 export const BatchUpdateJobResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ errors: BatchUpdateJobErrors }),
-).annotate({
-  identifier: "BatchUpdateJobResponse",
-}) as any as S.Schema<BatchUpdateJobResponse>;
+).annotate({ identifier: "BatchUpdateJobResponse" }) as any as S.Schema<BatchUpdateJobResponse>;
 export interface BatchUpdateTaskItem {
   farmId: string;
   queueId: string;
@@ -2316,9 +2216,7 @@ export const BatchUpdateTaskItem = /*@__PURE__*/ S.suspend(() =>
     taskId: S.String,
     targetRunStatus: TaskTargetRunStatus,
   }),
-).annotate({
-  identifier: "BatchUpdateTaskItem",
-}) as any as S.Schema<BatchUpdateTaskItem>;
+).annotate({ identifier: "BatchUpdateTaskItem" }) as any as S.Schema<BatchUpdateTaskItem>;
 export type BatchUpdateTaskItems = BatchUpdateTaskItem[];
 export const BatchUpdateTaskItems = /*@__PURE__*/ S.Array(BatchUpdateTaskItem);
 export interface BatchUpdateTaskRequest {
@@ -2342,9 +2240,7 @@ export const BatchUpdateTaskRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "BatchUpdateTaskRequest",
-}) as any as S.Schema<BatchUpdateTaskRequest>;
+).annotate({ identifier: "BatchUpdateTaskRequest" }) as any as S.Schema<BatchUpdateTaskRequest>;
 export type BatchUpdateTaskErrorCode =
   | "ConflictException"
   | "InternalServerErrorException"
@@ -2374,21 +2270,15 @@ export const BatchUpdateTaskError_ = /*@__PURE__*/ S.suspend(() =>
     code: BatchUpdateTaskErrorCode,
     message: S.String,
   }),
-).annotate({
-  identifier: "BatchUpdateTaskError",
-}) as any as S.Schema<BatchUpdateTaskError_>;
+).annotate({ identifier: "BatchUpdateTaskError" }) as any as S.Schema<BatchUpdateTaskError_>;
 export type BatchUpdateTaskErrors = BatchUpdateTaskError_[];
-export const BatchUpdateTaskErrors = /*@__PURE__*/ S.Array(
-  BatchUpdateTaskError_,
-);
+export const BatchUpdateTaskErrors = /*@__PURE__*/ S.Array(BatchUpdateTaskError_);
 export interface BatchUpdateTaskResponse {
   errors: BatchUpdateTaskError_[];
 }
 export const BatchUpdateTaskResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ errors: BatchUpdateTaskErrors }),
-).annotate({
-  identifier: "BatchUpdateTaskResponse",
-}) as any as S.Schema<BatchUpdateTaskResponse>;
+).annotate({ identifier: "BatchUpdateTaskResponse" }) as any as S.Schema<BatchUpdateTaskResponse>;
 export type S3Key = string;
 export interface S3Location {
   bucketName: string;
@@ -2422,9 +2312,7 @@ export const CopyJobTemplateRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "CopyJobTemplateRequest",
-}) as any as S.Schema<CopyJobTemplateRequest>;
+).annotate({ identifier: "CopyJobTemplateRequest" }) as any as S.Schema<CopyJobTemplateRequest>;
 export type JobTemplateType = "JSON" | "YAML" | (string & {});
 export const JobTemplateType = S.String;
 
@@ -2433,15 +2321,11 @@ export interface CopyJobTemplateResponse {
 }
 export const CopyJobTemplateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ templateType: JobTemplateType }),
-).annotate({
-  identifier: "CopyJobTemplateResponse",
-}) as any as S.Schema<CopyJobTemplateResponse>;
+).annotate({ identifier: "CopyJobTemplateResponse" }) as any as S.Schema<CopyJobTemplateResponse>;
 export type ResourceName = string;
 export type Description = string | redacted.Redacted<string>;
 export type UsageTrackingResource = { queueId: string };
-export const UsageTrackingResource = /*@__PURE__*/ S.Union([
-  S.Struct({ queueId: S.String }),
-]);
+export const UsageTrackingResource = /*@__PURE__*/ S.Union([S.Struct({ queueId: S.String })]);
 export type ConsumedUsageLimit = number;
 export type BudgetActionType =
   | "STOP_SCHEDULING_AND_COMPLETE_TASKS"
@@ -2461,9 +2345,7 @@ export const BudgetActionToAdd = /*@__PURE__*/ S.suspend(() =>
     thresholdPercentage: S.Number,
     description: S.optional(SensitiveString),
   }),
-).annotate({
-  identifier: "BudgetActionToAdd",
-}) as any as S.Schema<BudgetActionToAdd>;
+).annotate({ identifier: "BudgetActionToAdd" }) as any as S.Schema<BudgetActionToAdd>;
 export type BudgetActionsToAdd = BudgetActionToAdd[];
 export const BudgetActionsToAdd = /*@__PURE__*/ S.Array(BudgetActionToAdd);
 export type StartsAt = Date;
@@ -2477,13 +2359,9 @@ export const FixedBudgetSchedule = /*@__PURE__*/ S.suspend(() =>
     startTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     endTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
-).annotate({
-  identifier: "FixedBudgetSchedule",
-}) as any as S.Schema<FixedBudgetSchedule>;
+).annotate({ identifier: "FixedBudgetSchedule" }) as any as S.Schema<FixedBudgetSchedule>;
 export type BudgetSchedule = { fixed: FixedBudgetSchedule };
-export const BudgetSchedule = /*@__PURE__*/ S.Union([
-  S.Struct({ fixed: FixedBudgetSchedule }),
-]);
+export const BudgetSchedule = /*@__PURE__*/ S.Union([S.Struct({ fixed: FixedBudgetSchedule })]);
 export type Tags = { [key: string]: string | undefined };
 export const Tags = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface CreateBudgetRequest {
@@ -2521,18 +2399,14 @@ export const CreateBudgetRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "CreateBudgetRequest",
-}) as any as S.Schema<CreateBudgetRequest>;
+).annotate({ identifier: "CreateBudgetRequest" }) as any as S.Schema<CreateBudgetRequest>;
 export type BudgetId = string;
 export interface CreateBudgetResponse {
   budgetId: string;
 }
 export const CreateBudgetResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ budgetId: S.String }),
-).annotate({
-  identifier: "CreateBudgetResponse",
-}) as any as S.Schema<CreateBudgetResponse>;
+).annotate({ identifier: "CreateBudgetResponse" }) as any as S.Schema<CreateBudgetResponse>;
 export type KmsKeyArn = string;
 export type CostScaleFactor = number;
 export interface CreateFarmRequest {
@@ -2555,31 +2429,17 @@ export const CreateFarmRequest = /*@__PURE__*/ S.suspend(() =>
     costScaleFactor: S.optional(S.Number),
     tags: S.optional(Tags),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/2023-10-12/farms" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/2023-10-12/farms" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "CreateFarmRequest",
-}) as any as S.Schema<CreateFarmRequest>;
+).annotate({ identifier: "CreateFarmRequest" }) as any as S.Schema<CreateFarmRequest>;
 export interface CreateFarmResponse {
   farmId: string;
 }
 export const CreateFarmResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ farmId: S.String }),
-).annotate({
-  identifier: "CreateFarmResponse",
-}) as any as S.Schema<CreateFarmResponse>;
+).annotate({ identifier: "CreateFarmResponse" }) as any as S.Schema<CreateFarmResponse>;
 export type MinZeroMaxInteger = number;
-export type AutoScalingMode =
-  | "NO_SCALING"
-  | "EVENT_BASED_AUTO_SCALING"
-  | (string & {});
+export type AutoScalingMode = "NO_SCALING" | "EVENT_BASED_AUTO_SCALING" | (string & {});
 export const AutoScalingMode = S.String;
 
 export interface CustomerManagedAutoScalingConfiguration {
@@ -2587,13 +2447,12 @@ export interface CustomerManagedAutoScalingConfiguration {
   workerIdleDurationSeconds?: number;
   scaleOutWorkersPerMinute?: number;
 }
-export const CustomerManagedAutoScalingConfiguration = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      standbyWorkerCount: S.optional(S.Number),
-      workerIdleDurationSeconds: S.optional(S.Number),
-      scaleOutWorkersPerMinute: S.optional(S.Number),
-    }),
+export const CustomerManagedAutoScalingConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    standbyWorkerCount: S.optional(S.Number),
+    workerIdleDurationSeconds: S.optional(S.Number),
+    scaleOutWorkersPerMinute: S.optional(S.Number),
+  }),
 ).annotate({
   identifier: "CustomerManagedAutoScalingConfiguration",
 }) as any as S.Schema<CustomerManagedAutoScalingConfiguration>;
@@ -2624,9 +2483,7 @@ export interface AcceleratorCountRange {
 }
 export const AcceleratorCountRange = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ min: S.Number, max: S.optional(S.Number) }),
-).annotate({
-  identifier: "AcceleratorCountRange",
-}) as any as S.Schema<AcceleratorCountRange>;
+).annotate({ identifier: "AcceleratorCountRange" }) as any as S.Schema<AcceleratorCountRange>;
 export interface AcceleratorTotalMemoryMiBRange {
   min: number;
   max?: number;
@@ -2653,13 +2510,9 @@ export interface FleetAmountCapability {
 }
 export const FleetAmountCapability = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ name: S.String, min: S.Number, max: S.optional(S.Number) }),
-).annotate({
-  identifier: "FleetAmountCapability",
-}) as any as S.Schema<FleetAmountCapability>;
+).annotate({ identifier: "FleetAmountCapability" }) as any as S.Schema<FleetAmountCapability>;
 export type CustomFleetAmountCapabilities = FleetAmountCapability[];
-export const CustomFleetAmountCapabilities = /*@__PURE__*/ S.Array(
-  FleetAmountCapability,
-);
+export const CustomFleetAmountCapabilities = /*@__PURE__*/ S.Array(FleetAmountCapability);
 export type AttributeCapabilityValuesList = string[];
 export const AttributeCapabilityValuesList = /*@__PURE__*/ S.Array(S.String);
 export interface FleetAttributeCapability {
@@ -2668,13 +2521,9 @@ export interface FleetAttributeCapability {
 }
 export const FleetAttributeCapability = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ name: S.String, values: AttributeCapabilityValuesList }),
-).annotate({
-  identifier: "FleetAttributeCapability",
-}) as any as S.Schema<FleetAttributeCapability>;
+).annotate({ identifier: "FleetAttributeCapability" }) as any as S.Schema<FleetAttributeCapability>;
 export type CustomFleetAttributeCapabilities = FleetAttributeCapability[];
-export const CustomFleetAttributeCapabilities = /*@__PURE__*/ S.Array(
-  FleetAttributeCapability,
-);
+export const CustomFleetAttributeCapabilities = /*@__PURE__*/ S.Array(FleetAttributeCapability);
 export interface CustomerManagedWorkerCapabilities {
   vCpuCount: VCpuCountRange;
   memoryMiB: MemoryMiBRange;
@@ -2717,9 +2566,7 @@ export interface CustomerManagedFleetConfiguration {
 export const CustomerManagedFleetConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     mode: AutoScalingMode,
-    autoScalingConfiguration: S.optional(
-      CustomerManagedAutoScalingConfiguration,
-    ),
+    autoScalingConfiguration: S.optional(CustomerManagedAutoScalingConfiguration),
     workerCapabilities: CustomerManagedWorkerCapabilities,
     storageProfileId: S.optional(S.String),
     tagPropagationMode: S.optional(TagPropagationMode),
@@ -2727,10 +2574,7 @@ export const CustomerManagedFleetConfiguration = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "CustomerManagedFleetConfiguration",
 }) as any as S.Schema<CustomerManagedFleetConfiguration>;
-export type ServiceManagedFleetOperatingSystemFamily =
-  | "WINDOWS"
-  | "LINUX"
-  | (string & {});
+export type ServiceManagedFleetOperatingSystemFamily = "WINDOWS" | "LINUX" | (string & {});
 export const ServiceManagedFleetOperatingSystemFamily = S.String;
 
 export type EbsIops = number;
@@ -2747,13 +2591,7 @@ export const Ec2EbsVolume = /*@__PURE__*/ S.suspend(() =>
     throughputMiB: S.optional(S.Number),
   }),
 ).annotate({ identifier: "Ec2EbsVolume" }) as any as S.Schema<Ec2EbsVolume>;
-export type AcceleratorName =
-  | "t4"
-  | "a10g"
-  | "l4"
-  | "l40s"
-  | "rtx-pro-server-6000"
-  | (string & {});
+export type AcceleratorName = "t4" | "a10g" | "l4" | "l40s" | "rtx-pro-server-6000" | (string & {});
 export const AcceleratorName = S.String;
 
 export type AcceleratorRuntime = string;
@@ -2763,26 +2601,29 @@ export interface AcceleratorSelection {
 }
 export const AcceleratorSelection = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ name: AcceleratorName, runtime: S.optional(S.String) }),
-).annotate({
-  identifier: "AcceleratorSelection",
-}) as any as S.Schema<AcceleratorSelection>;
+).annotate({ identifier: "AcceleratorSelection" }) as any as S.Schema<AcceleratorSelection>;
 export type AcceleratorSelections = AcceleratorSelection[];
-export const AcceleratorSelections =
-  /*@__PURE__*/ S.Array(AcceleratorSelection);
+export const AcceleratorSelections = /*@__PURE__*/ S.Array(AcceleratorSelection);
 export interface AcceleratorCapabilities {
   selections: AcceleratorSelection[];
   count?: AcceleratorCountRange;
 }
 export const AcceleratorCapabilities = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    selections: AcceleratorSelections,
-    count: S.optional(AcceleratorCountRange),
-  }),
-).annotate({
-  identifier: "AcceleratorCapabilities",
-}) as any as S.Schema<AcceleratorCapabilities>;
+  S.Struct({ selections: AcceleratorSelections, count: S.optional(AcceleratorCountRange) }),
+).annotate({ identifier: "AcceleratorCapabilities" }) as any as S.Schema<AcceleratorCapabilities>;
 export type InstanceTypes = string[];
 export const InstanceTypes = /*@__PURE__*/ S.Array(S.String);
+export type FleetSoftwareAddOnName = "docker" | (string & {});
+export const FleetSoftwareAddOnName = S.String;
+
+export interface FleetSoftwareAddOn {
+  name: FleetSoftwareAddOnName;
+}
+export const FleetSoftwareAddOn = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ name: FleetSoftwareAddOnName }),
+).annotate({ identifier: "FleetSoftwareAddOn" }) as any as S.Schema<FleetSoftwareAddOn>;
+export type FleetSoftwareAddOns = FleetSoftwareAddOn[];
+export const FleetSoftwareAddOns = /*@__PURE__*/ S.Array(FleetSoftwareAddOn);
 export interface ServiceManagedEc2InstanceCapabilities {
   vCpuCount: VCpuCountRange;
   memoryMiB: MemoryMiBRange;
@@ -2794,36 +2635,33 @@ export interface ServiceManagedEc2InstanceCapabilities {
   excludedInstanceTypes?: string[];
   customAmounts?: FleetAmountCapability[];
   customAttributes?: FleetAttributeCapability[];
+  softwareAddOns?: FleetSoftwareAddOn[];
 }
-export const ServiceManagedEc2InstanceCapabilities = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      vCpuCount: VCpuCountRange,
-      memoryMiB: MemoryMiBRange,
-      osFamily: ServiceManagedFleetOperatingSystemFamily,
-      cpuArchitectureType: CpuArchitectureType,
-      rootEbsVolume: S.optional(Ec2EbsVolume),
-      acceleratorCapabilities: S.optional(AcceleratorCapabilities),
-      allowedInstanceTypes: S.optional(InstanceTypes),
-      excludedInstanceTypes: S.optional(InstanceTypes),
-      customAmounts: S.optional(CustomFleetAmountCapabilities),
-      customAttributes: S.optional(CustomFleetAttributeCapabilities),
-    }),
+export const ServiceManagedEc2InstanceCapabilities = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    vCpuCount: VCpuCountRange,
+    memoryMiB: MemoryMiBRange,
+    osFamily: ServiceManagedFleetOperatingSystemFamily,
+    cpuArchitectureType: CpuArchitectureType,
+    rootEbsVolume: S.optional(Ec2EbsVolume),
+    acceleratorCapabilities: S.optional(AcceleratorCapabilities),
+    allowedInstanceTypes: S.optional(InstanceTypes),
+    excludedInstanceTypes: S.optional(InstanceTypes),
+    customAmounts: S.optional(CustomFleetAmountCapabilities),
+    customAttributes: S.optional(CustomFleetAttributeCapabilities),
+    softwareAddOns: S.optional(FleetSoftwareAddOns),
+  }),
 ).annotate({
   identifier: "ServiceManagedEc2InstanceCapabilities",
 }) as any as S.Schema<ServiceManagedEc2InstanceCapabilities>;
-export type Ec2MarketType =
-  | "on-demand"
-  | "spot"
-  | "wait-and-save"
-  | (string & {});
+export type Ec2MarketType = "on-demand" | "spot" | "wait-and-save" | (string & {});
 export const Ec2MarketType = S.String;
 
 export interface ServiceManagedEc2InstanceMarketOptions {
   type: Ec2MarketType;
 }
-export const ServiceManagedEc2InstanceMarketOptions = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ type: Ec2MarketType }),
+export const ServiceManagedEc2InstanceMarketOptions = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ type: Ec2MarketType }),
 ).annotate({
   identifier: "ServiceManagedEc2InstanceMarketOptions",
 }) as any as S.Schema<ServiceManagedEc2InstanceMarketOptions>;
@@ -2834,12 +2672,8 @@ export interface VpcConfiguration {
   resourceConfigurationArns?: string[];
 }
 export const VpcConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceConfigurationArns: S.optional(VpcResourceConfigurationArns),
-  }),
-).annotate({
-  identifier: "VpcConfiguration",
-}) as any as S.Schema<VpcConfiguration>;
+  S.Struct({ resourceConfigurationArns: S.optional(VpcResourceConfigurationArns) }),
+).annotate({ identifier: "VpcConfiguration" }) as any as S.Schema<VpcConfiguration>;
 export type PersistentVolumeSizeGiB = number;
 export type PersistentVolumeIops = number;
 export type PersistentVolumeThroughputMiB = number;
@@ -2869,16 +2703,15 @@ export interface ServiceManagedEc2AutoScalingConfiguration {
   workerIdleDurationSeconds?: number;
   scaleOutWorkersPerMinute?: number;
 }
-export const ServiceManagedEc2AutoScalingConfiguration =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      standbyWorkerCount: S.optional(S.Number),
-      workerIdleDurationSeconds: S.optional(S.Number),
-      scaleOutWorkersPerMinute: S.optional(S.Number),
-    }),
-  ).annotate({
-    identifier: "ServiceManagedEc2AutoScalingConfiguration",
-  }) as any as S.Schema<ServiceManagedEc2AutoScalingConfiguration>;
+export const ServiceManagedEc2AutoScalingConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    standbyWorkerCount: S.optional(S.Number),
+    workerIdleDurationSeconds: S.optional(S.Number),
+    scaleOutWorkersPerMinute: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "ServiceManagedEc2AutoScalingConfiguration",
+}) as any as S.Schema<ServiceManagedEc2AutoScalingConfiguration>;
 export interface ServiceManagedEc2FleetConfiguration {
   instanceCapabilities: ServiceManagedEc2InstanceCapabilities;
   instanceMarketOptions: ServiceManagedEc2InstanceMarketOptions;
@@ -2894,22 +2727,14 @@ export const ServiceManagedEc2FleetConfiguration = /*@__PURE__*/ S.suspend(() =>
     vpcConfiguration: S.optional(VpcConfiguration),
     storageProfileId: S.optional(S.String),
     persistentVolumeConfiguration: S.optional(PersistentVolumeConfiguration),
-    autoScalingConfiguration: S.optional(
-      ServiceManagedEc2AutoScalingConfiguration,
-    ),
+    autoScalingConfiguration: S.optional(ServiceManagedEc2AutoScalingConfiguration),
   }),
 ).annotate({
   identifier: "ServiceManagedEc2FleetConfiguration",
 }) as any as S.Schema<ServiceManagedEc2FleetConfiguration>;
 export type FleetConfiguration =
-  | {
-      customerManaged: CustomerManagedFleetConfiguration;
-      serviceManagedEc2?: never;
-    }
-  | {
-      customerManaged?: never;
-      serviceManagedEc2: ServiceManagedEc2FleetConfiguration;
-    };
+  | { customerManaged: CustomerManagedFleetConfiguration; serviceManagedEc2?: never }
+  | { customerManaged?: never; serviceManagedEc2: ServiceManagedEc2FleetConfiguration };
 export const FleetConfiguration = /*@__PURE__*/ S.Union([
   S.Struct({ customerManaged: CustomerManagedFleetConfiguration }),
   S.Struct({ serviceManagedEc2: ServiceManagedEc2FleetConfiguration }),
@@ -2921,13 +2746,8 @@ export interface HostConfiguration {
   scriptTimeoutSeconds?: number;
 }
 export const HostConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    scriptBody: SensitiveString,
-    scriptTimeoutSeconds: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "HostConfiguration",
-}) as any as S.Schema<HostConfiguration>;
+  S.Struct({ scriptBody: SensitiveString, scriptTimeoutSeconds: S.optional(S.Number) }),
+).annotate({ identifier: "HostConfiguration" }) as any as S.Schema<HostConfiguration>;
 export interface CreateFleetRequest {
   farmId: string;
   clientToken?: string;
@@ -2965,22 +2785,15 @@ export const CreateFleetRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "CreateFleetRequest",
-}) as any as S.Schema<CreateFleetRequest>;
+).annotate({ identifier: "CreateFleetRequest" }) as any as S.Schema<CreateFleetRequest>;
 export interface CreateFleetResponse {
   fleetId: string;
 }
 export const CreateFleetResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ fleetId: S.String }),
-).annotate({
-  identifier: "CreateFleetResponse",
-}) as any as S.Schema<CreateFleetResponse>;
+).annotate({ identifier: "CreateFleetResponse" }) as any as S.Schema<CreateFleetResponse>;
 export type JobTemplate = string | redacted.Redacted<string>;
-export type CreateJobTargetTaskRunStatus =
-  | "READY"
-  | "SUSPENDED"
-  | (string & {});
+export type CreateJobTargetTaskRunStatus = "READY" | "SUSPENDED" | (string & {});
 export const CreateJobTargetTaskRunStatus = S.String;
 
 export interface CreateJobRequest {
@@ -3026,10 +2839,7 @@ export const CreateJobRequest = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(Tags),
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/2023-10-12/farms/{farmId}/queues/{queueId}/jobs",
-      }),
+      T.Http({ method: "POST", uri: "/2023-10-12/farms/{farmId}/queues/{queueId}/jobs" }),
       svc,
       auth,
       proto,
@@ -3037,17 +2847,13 @@ export const CreateJobRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "CreateJobRequest",
-}) as any as S.Schema<CreateJobRequest>;
+).annotate({ identifier: "CreateJobRequest" }) as any as S.Schema<CreateJobRequest>;
 export interface CreateJobResponse {
   jobId: string;
 }
 export const CreateJobResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ jobId: S.String }),
-).annotate({
-  identifier: "CreateJobResponse",
-}) as any as S.Schema<CreateJobResponse>;
+).annotate({ identifier: "CreateJobResponse" }) as any as S.Schema<CreateJobResponse>;
 export type VpcId = string;
 export type SubnetId = string;
 export type SubnetIdList = string[];
@@ -3125,17 +2931,13 @@ export const CreateLimitRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "CreateLimitRequest",
-}) as any as S.Schema<CreateLimitRequest>;
+).annotate({ identifier: "CreateLimitRequest" }) as any as S.Schema<CreateLimitRequest>;
 export interface CreateLimitResponse {
   limitId: string;
 }
 export const CreateLimitResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ limitId: S.String }),
-).annotate({
-  identifier: "CreateLimitResponse",
-}) as any as S.Schema<CreateLimitResponse>;
+).annotate({ identifier: "CreateLimitResponse" }) as any as S.Schema<CreateLimitResponse>;
 export type IdentityCenterInstanceArn = string;
 export type Subdomain = string;
 export interface CreateMonitorRequest {
@@ -3160,18 +2962,9 @@ export const CreateMonitorRequest = /*@__PURE__*/ S.suspend(() =>
     roleArn: S.String,
     tags: S.optional(Tags),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/2023-10-12/monitors" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/2023-10-12/monitors" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "CreateMonitorRequest",
-}) as any as S.Schema<CreateMonitorRequest>;
+).annotate({ identifier: "CreateMonitorRequest" }) as any as S.Schema<CreateMonitorRequest>;
 export type MonitorId = string;
 export type IdentityCenterApplicationArn = string;
 export interface CreateMonitorResponse {
@@ -3180,9 +2973,7 @@ export interface CreateMonitorResponse {
 }
 export const CreateMonitorResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ monitorId: S.String, identityCenterApplicationArn: S.String }),
-).annotate({
-  identifier: "CreateMonitorResponse",
-}) as any as S.Schema<CreateMonitorResponse>;
+).annotate({ identifier: "CreateMonitorResponse" }) as any as S.Schema<CreateMonitorResponse>;
 export type DefaultQueueBudgetAction =
   | "NONE"
   | "STOP_SCHEDULING_AND_COMPLETE_TASKS"
@@ -3196,9 +2987,7 @@ export interface JobAttachmentSettings {
 }
 export const JobAttachmentSettings = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ s3BucketName: S.String, rootPrefix: S.String }),
-).annotate({
-  identifier: "JobAttachmentSettings",
-}) as any as S.Schema<JobAttachmentSettings>;
+).annotate({ identifier: "JobAttachmentSettings" }) as any as S.Schema<JobAttachmentSettings>;
 export type RequiredFileSystemLocationNames = string[];
 export const RequiredFileSystemLocationNames = /*@__PURE__*/ S.Array(S.String);
 export type AllowedStorageProfileIds = string[];
@@ -3213,8 +3002,8 @@ export type SchedulingRenderingTaskBuffer = number;
 export interface PriorityBalancedSchedulingConfiguration {
   renderingTaskBuffer?: number;
 }
-export const PriorityBalancedSchedulingConfiguration = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ renderingTaskBuffer: S.optional(S.Number) }),
+export const PriorityBalancedSchedulingConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ renderingTaskBuffer: S.optional(S.Number) }),
 ).annotate({
   identifier: "PriorityBalancedSchedulingConfiguration",
 }) as any as S.Schema<PriorityBalancedSchedulingConfiguration>;
@@ -3223,30 +3012,28 @@ export type SchedulingErrorWeight = number;
 export type SchedulingSubmissionTimeWeight = number;
 export type SchedulingRenderingTaskWeight = number;
 export interface SchedulingMaxPriorityOverrideAlwaysScheduleFirst {}
-export const SchedulingMaxPriorityOverrideAlwaysScheduleFirst =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-    identifier: "SchedulingMaxPriorityOverrideAlwaysScheduleFirst",
-  }) as any as S.Schema<SchedulingMaxPriorityOverrideAlwaysScheduleFirst>;
+export const SchedulingMaxPriorityOverrideAlwaysScheduleFirst = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "SchedulingMaxPriorityOverrideAlwaysScheduleFirst",
+}) as any as S.Schema<SchedulingMaxPriorityOverrideAlwaysScheduleFirst>;
 export type SchedulingMaxPriorityOverride = {
   alwaysScheduleFirst: SchedulingMaxPriorityOverrideAlwaysScheduleFirst;
 };
 export const SchedulingMaxPriorityOverride = /*@__PURE__*/ S.Union([
-  S.Struct({
-    alwaysScheduleFirst: SchedulingMaxPriorityOverrideAlwaysScheduleFirst,
-  }),
+  S.Struct({ alwaysScheduleFirst: SchedulingMaxPriorityOverrideAlwaysScheduleFirst }),
 ]);
 export interface SchedulingMinPriorityOverrideAlwaysScheduleLast {}
-export const SchedulingMinPriorityOverrideAlwaysScheduleLast =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-    identifier: "SchedulingMinPriorityOverrideAlwaysScheduleLast",
-  }) as any as S.Schema<SchedulingMinPriorityOverrideAlwaysScheduleLast>;
+export const SchedulingMinPriorityOverrideAlwaysScheduleLast = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "SchedulingMinPriorityOverrideAlwaysScheduleLast",
+}) as any as S.Schema<SchedulingMinPriorityOverrideAlwaysScheduleLast>;
 export type SchedulingMinPriorityOverride = {
   alwaysScheduleLast: SchedulingMinPriorityOverrideAlwaysScheduleLast;
 };
 export const SchedulingMinPriorityOverride = /*@__PURE__*/ S.Union([
-  S.Struct({
-    alwaysScheduleLast: SchedulingMinPriorityOverrideAlwaysScheduleLast,
-  }),
+  S.Struct({ alwaysScheduleLast: SchedulingMinPriorityOverrideAlwaysScheduleLast }),
 ]);
 export interface WeightedBalancedSchedulingConfiguration {
   priorityWeight?: number;
@@ -3257,17 +3044,16 @@ export interface WeightedBalancedSchedulingConfiguration {
   maxPriorityOverride?: SchedulingMaxPriorityOverride;
   minPriorityOverride?: SchedulingMinPriorityOverride;
 }
-export const WeightedBalancedSchedulingConfiguration = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      priorityWeight: S.optional(S.Number),
-      errorWeight: S.optional(S.Number),
-      submissionTimeWeight: S.optional(S.Number),
-      renderingTaskWeight: S.optional(S.Number),
-      renderingTaskBuffer: S.optional(S.Number),
-      maxPriorityOverride: S.optional(SchedulingMaxPriorityOverride),
-      minPriorityOverride: S.optional(SchedulingMinPriorityOverride),
-    }),
+export const WeightedBalancedSchedulingConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    priorityWeight: S.optional(S.Number),
+    errorWeight: S.optional(S.Number),
+    submissionTimeWeight: S.optional(S.Number),
+    renderingTaskWeight: S.optional(S.Number),
+    renderingTaskBuffer: S.optional(S.Number),
+    maxPriorityOverride: S.optional(SchedulingMaxPriorityOverride),
+    minPriorityOverride: S.optional(SchedulingMinPriorityOverride),
+  }),
 ).annotate({
   identifier: "WeightedBalancedSchedulingConfiguration",
 }) as any as S.Schema<WeightedBalancedSchedulingConfiguration>;
@@ -3319,9 +3105,7 @@ export const CreateQueueRequest = /*@__PURE__*/ S.suspend(() =>
     jobAttachmentSettings: S.optional(JobAttachmentSettings),
     roleArn: S.optional(S.String),
     jobRunAsUser: S.optional(JobRunAsUser),
-    requiredFileSystemLocationNames: S.optional(
-      RequiredFileSystemLocationNames,
-    ),
+    requiredFileSystemLocationNames: S.optional(RequiredFileSystemLocationNames),
     allowedStorageProfileIds: S.optional(AllowedStorageProfileIds),
     tags: S.optional(Tags),
     schedulingConfiguration: S.optional(SchedulingConfiguration),
@@ -3335,17 +3119,13 @@ export const CreateQueueRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "CreateQueueRequest",
-}) as any as S.Schema<CreateQueueRequest>;
+).annotate({ identifier: "CreateQueueRequest" }) as any as S.Schema<CreateQueueRequest>;
 export interface CreateQueueResponse {
   queueId: string;
 }
 export const CreateQueueResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ queueId: S.String }),
-).annotate({
-  identifier: "CreateQueueResponse",
-}) as any as S.Schema<CreateQueueResponse>;
+).annotate({ identifier: "CreateQueueResponse" }) as any as S.Schema<CreateQueueResponse>;
 export type Priority = number;
 export type EnvironmentTemplateType = "JSON" | "YAML" | (string & {});
 export const EnvironmentTemplateType = S.String;
@@ -3372,10 +3152,7 @@ export const CreateQueueEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
     template: SensitiveString,
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/2023-10-12/farms/{farmId}/queues/{queueId}/environments",
-      }),
+      T.Http({ method: "POST", uri: "/2023-10-12/farms/{farmId}/queues/{queueId}/environments" }),
       svc,
       auth,
       proto,
@@ -3407,10 +3184,7 @@ export const CreateQueueFleetAssociationRequest = /*@__PURE__*/ S.suspend(() =>
     fleetId: S.String,
   }).pipe(
     T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/2023-10-12/farms/{farmId}/queue-fleet-associations",
-      }),
+      T.Http({ method: "PUT", uri: "/2023-10-12/farms/{farmId}/queue-fleet-associations" }),
       svc,
       auth,
       proto,
@@ -3439,10 +3213,7 @@ export const CreateQueueLimitAssociationRequest = /*@__PURE__*/ S.suspend(() =>
     limitId: S.String,
   }).pipe(
     T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/2023-10-12/farms/{farmId}/queue-limit-associations",
-      }),
+      T.Http({ method: "PUT", uri: "/2023-10-12/farms/{farmId}/queue-limit-associations" }),
       svc,
       auth,
       proto,
@@ -3459,11 +3230,7 @@ export const CreateQueueLimitAssociationResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "CreateQueueLimitAssociationResponse",
 }) as any as S.Schema<CreateQueueLimitAssociationResponse>;
-export type StorageProfileOperatingSystemFamily =
-  | "WINDOWS"
-  | "LINUX"
-  | "MACOS"
-  | (string & {});
+export type StorageProfileOperatingSystemFamily = "WINDOWS" | "LINUX" | "MACOS" | (string & {});
 export const StorageProfileOperatingSystemFamily = S.String;
 
 export type FileSystemLocationType = "SHARED" | "LOCAL" | (string & {});
@@ -3476,12 +3243,9 @@ export interface FileSystemLocation {
 }
 export const FileSystemLocation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ name: S.String, path: S.String, type: FileSystemLocationType }),
-).annotate({
-  identifier: "FileSystemLocation",
-}) as any as S.Schema<FileSystemLocation>;
+).annotate({ identifier: "FileSystemLocation" }) as any as S.Schema<FileSystemLocation>;
 export type FileSystemLocationsList = FileSystemLocation[];
-export const FileSystemLocationsList =
-  /*@__PURE__*/ S.Array(FileSystemLocation);
+export const FileSystemLocationsList = /*@__PURE__*/ S.Array(FileSystemLocation);
 export interface CreateStorageProfileRequest {
   farmId: string;
   clientToken?: string;
@@ -3501,10 +3265,7 @@ export const CreateStorageProfileRequest = /*@__PURE__*/ S.suspend(() =>
     fileSystemLocations: S.optional(FileSystemLocationsList),
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/2023-10-12/farms/{farmId}/storage-profiles",
-      }),
+      T.Http({ method: "POST", uri: "/2023-10-12/farms/{farmId}/storage-profiles" }),
       svc,
       auth,
       proto,
@@ -3528,13 +3289,8 @@ export interface HostPropertiesRequest {
   hostName?: string;
 }
 export const HostPropertiesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ipAddresses: S.optional(IpAddresses),
-    hostName: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "HostPropertiesRequest",
-}) as any as S.Schema<HostPropertiesRequest>;
+  S.Struct({ ipAddresses: S.optional(IpAddresses), hostName: S.optional(S.String) }),
+).annotate({ identifier: "HostPropertiesRequest" }) as any as S.Schema<HostPropertiesRequest>;
 export interface CreateWorkerRequest {
   farmId: string;
   fleetId: string;
@@ -3554,10 +3310,7 @@ export const CreateWorkerRequest = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(Tags),
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/2023-10-12/farms/{farmId}/fleets/{fleetId}/workers",
-      }),
+      T.Http({ method: "POST", uri: "/2023-10-12/farms/{farmId}/fleets/{fleetId}/workers" }),
       svc,
       auth,
       proto,
@@ -3565,17 +3318,13 @@ export const CreateWorkerRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "CreateWorkerRequest",
-}) as any as S.Schema<CreateWorkerRequest>;
+).annotate({ identifier: "CreateWorkerRequest" }) as any as S.Schema<CreateWorkerRequest>;
 export interface CreateWorkerResponse {
   workerId: string;
 }
 export const CreateWorkerResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ workerId: S.String }),
-).annotate({
-  identifier: "CreateWorkerResponse",
-}) as any as S.Schema<CreateWorkerResponse>;
+).annotate({ identifier: "CreateWorkerResponse" }) as any as S.Schema<CreateWorkerResponse>;
 export interface DeleteBudgetRequest {
   farmId: string;
   budgetId: string;
@@ -3586,10 +3335,7 @@ export const DeleteBudgetRequest = /*@__PURE__*/ S.suspend(() =>
     budgetId: S.String.pipe(T.HttpLabel("budgetId")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/2023-10-12/farms/{farmId}/budgets/{budgetId}",
-      }),
+      T.Http({ method: "DELETE", uri: "/2023-10-12/farms/{farmId}/budgets/{budgetId}" }),
       svc,
       auth,
       proto,
@@ -3597,13 +3343,9 @@ export const DeleteBudgetRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteBudgetRequest",
-}) as any as S.Schema<DeleteBudgetRequest>;
+).annotate({ identifier: "DeleteBudgetRequest" }) as any as S.Schema<DeleteBudgetRequest>;
 export interface DeleteBudgetResponse {}
-export const DeleteBudgetResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteBudgetResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteBudgetResponse",
 }) as any as S.Schema<DeleteBudgetResponse>;
 export interface DeleteFarmRequest {
@@ -3620,13 +3362,9 @@ export const DeleteFarmRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteFarmRequest",
-}) as any as S.Schema<DeleteFarmRequest>;
+).annotate({ identifier: "DeleteFarmRequest" }) as any as S.Schema<DeleteFarmRequest>;
 export interface DeleteFarmResponse {}
-export const DeleteFarmResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteFarmResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteFarmResponse",
 }) as any as S.Schema<DeleteFarmResponse>;
 export interface DeleteFleetRequest {
@@ -3644,10 +3382,7 @@ export const DeleteFleetRequest = /*@__PURE__*/ S.suspend(() =>
     ),
   }).pipe(
     T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/2023-10-12/farms/{farmId}/fleets/{fleetId}",
-      }),
+      T.Http({ method: "DELETE", uri: "/2023-10-12/farms/{farmId}/fleets/{fleetId}" }),
       svc,
       auth,
       proto,
@@ -3655,27 +3390,18 @@ export const DeleteFleetRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteFleetRequest",
-}) as any as S.Schema<DeleteFleetRequest>;
+).annotate({ identifier: "DeleteFleetRequest" }) as any as S.Schema<DeleteFleetRequest>;
 export interface DeleteFleetResponse {}
-export const DeleteFleetResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteFleetResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteFleetResponse",
 }) as any as S.Schema<DeleteFleetResponse>;
 export interface DeleteLicenseEndpointRequest {
   licenseEndpointId: string;
 }
 export const DeleteLicenseEndpointRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    licenseEndpointId: S.String.pipe(T.HttpLabel("licenseEndpointId")),
-  }).pipe(
+  S.Struct({ licenseEndpointId: S.String.pipe(T.HttpLabel("licenseEndpointId")) }).pipe(
     T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/2023-10-12/license-endpoints/{licenseEndpointId}",
-      }),
+      T.Http({ method: "DELETE", uri: "/2023-10-12/license-endpoints/{licenseEndpointId}" }),
       svc,
       auth,
       proto,
@@ -3687,9 +3413,7 @@ export const DeleteLicenseEndpointRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteLicenseEndpointRequest",
 }) as any as S.Schema<DeleteLicenseEndpointRequest>;
 export interface DeleteLicenseEndpointResponse {}
-export const DeleteLicenseEndpointResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteLicenseEndpointResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteLicenseEndpointResponse",
 }) as any as S.Schema<DeleteLicenseEndpointResponse>;
 export interface DeleteLimitRequest {
@@ -3702,10 +3426,7 @@ export const DeleteLimitRequest = /*@__PURE__*/ S.suspend(() =>
     limitId: S.String.pipe(T.HttpLabel("limitId")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/2023-10-12/farms/{farmId}/limits/{limitId}",
-      }),
+      T.Http({ method: "DELETE", uri: "/2023-10-12/farms/{farmId}/limits/{limitId}" }),
       svc,
       auth,
       proto,
@@ -3713,13 +3434,9 @@ export const DeleteLimitRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteLimitRequest",
-}) as any as S.Schema<DeleteLimitRequest>;
+).annotate({ identifier: "DeleteLimitRequest" }) as any as S.Schema<DeleteLimitRequest>;
 export interface DeleteLimitResponse {}
-export const DeleteLimitResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteLimitResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteLimitResponse",
 }) as any as S.Schema<DeleteLimitResponse>;
 export type MeteredProductId = string;
@@ -3748,9 +3465,7 @@ export const DeleteMeteredProductRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteMeteredProductRequest",
 }) as any as S.Schema<DeleteMeteredProductRequest>;
 export interface DeleteMeteredProductResponse {}
-export const DeleteMeteredProductResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteMeteredProductResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteMeteredProductResponse",
 }) as any as S.Schema<DeleteMeteredProductResponse>;
 export interface DeleteMonitorRequest {
@@ -3767,13 +3482,9 @@ export const DeleteMonitorRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteMonitorRequest",
-}) as any as S.Schema<DeleteMonitorRequest>;
+).annotate({ identifier: "DeleteMonitorRequest" }) as any as S.Schema<DeleteMonitorRequest>;
 export interface DeleteMonitorResponse {}
-export const DeleteMonitorResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteMonitorResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteMonitorResponse",
 }) as any as S.Schema<DeleteMonitorResponse>;
 export interface DeleteQueueRequest {
@@ -3786,10 +3497,7 @@ export const DeleteQueueRequest = /*@__PURE__*/ S.suspend(() =>
     queueId: S.String.pipe(T.HttpLabel("queueId")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/2023-10-12/farms/{farmId}/queues/{queueId}",
-      }),
+      T.Http({ method: "DELETE", uri: "/2023-10-12/farms/{farmId}/queues/{queueId}" }),
       svc,
       auth,
       proto,
@@ -3797,13 +3505,9 @@ export const DeleteQueueRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteQueueRequest",
-}) as any as S.Schema<DeleteQueueRequest>;
+).annotate({ identifier: "DeleteQueueRequest" }) as any as S.Schema<DeleteQueueRequest>;
 export interface DeleteQueueResponse {}
-export const DeleteQueueResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteQueueResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteQueueResponse",
 }) as any as S.Schema<DeleteQueueResponse>;
 export interface DeleteQueueEnvironmentRequest {
@@ -3833,9 +3537,7 @@ export const DeleteQueueEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteQueueEnvironmentRequest",
 }) as any as S.Schema<DeleteQueueEnvironmentRequest>;
 export interface DeleteQueueEnvironmentResponse {}
-export const DeleteQueueEnvironmentResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteQueueEnvironmentResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteQueueEnvironmentResponse",
 }) as any as S.Schema<DeleteQueueEnvironmentResponse>;
 export interface DeleteQueueFleetAssociationRequest {
@@ -3927,9 +3629,7 @@ export const DeleteStorageProfileRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteStorageProfileRequest",
 }) as any as S.Schema<DeleteStorageProfileRequest>;
 export interface DeleteStorageProfileResponse {}
-export const DeleteStorageProfileResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteStorageProfileResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteStorageProfileResponse",
 }) as any as S.Schema<DeleteStorageProfileResponse>;
 export type VolumeId = string;
@@ -3956,13 +3656,9 @@ export const DeleteVolumeRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteVolumeRequest",
-}) as any as S.Schema<DeleteVolumeRequest>;
+).annotate({ identifier: "DeleteVolumeRequest" }) as any as S.Schema<DeleteVolumeRequest>;
 export interface DeleteVolumeResponse {}
-export const DeleteVolumeResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteVolumeResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteVolumeResponse",
 }) as any as S.Schema<DeleteVolumeResponse>;
 export interface DeleteWorkerRequest {
@@ -3988,13 +3684,9 @@ export const DeleteWorkerRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteWorkerRequest",
-}) as any as S.Schema<DeleteWorkerRequest>;
+).annotate({ identifier: "DeleteWorkerRequest" }) as any as S.Schema<DeleteWorkerRequest>;
 export interface DeleteWorkerResponse {}
-export const DeleteWorkerResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteWorkerResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteWorkerResponse",
 }) as any as S.Schema<DeleteWorkerResponse>;
 export interface DisassociateMemberFromFarmRequest {
@@ -4007,10 +3699,7 @@ export const DisassociateMemberFromFarmRequest = /*@__PURE__*/ S.suspend(() =>
     principalId: S.String.pipe(T.HttpLabel("principalId")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/2023-10-12/farms/{farmId}/members/{principalId}",
-      }),
+      T.Http({ method: "DELETE", uri: "/2023-10-12/farms/{farmId}/members/{principalId}" }),
       svc,
       auth,
       proto,
@@ -4135,10 +3824,7 @@ export const GetBudgetRequest = /*@__PURE__*/ S.suspend(() =>
     budgetId: S.String.pipe(T.HttpLabel("budgetId")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/2023-10-12/farms/{farmId}/budgets/{budgetId}",
-      }),
+      T.Http({ method: "GET", uri: "/2023-10-12/farms/{farmId}/budgets/{budgetId}" }),
       svc,
       auth,
       proto,
@@ -4146,9 +3832,7 @@ export const GetBudgetRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetBudgetRequest",
-}) as any as S.Schema<GetBudgetRequest>;
+).annotate({ identifier: "GetBudgetRequest" }) as any as S.Schema<GetBudgetRequest>;
 export type BudgetStatus = "ACTIVE" | "INACTIVE" | (string & {});
 export const BudgetStatus = S.String;
 
@@ -4169,12 +3853,9 @@ export const ResponseBudgetAction = /*@__PURE__*/ S.suspend(() =>
     thresholdPercentage: S.Number,
     description: S.optional(SensitiveString),
   }),
-).annotate({
-  identifier: "ResponseBudgetAction",
-}) as any as S.Schema<ResponseBudgetAction>;
+).annotate({ identifier: "ResponseBudgetAction" }) as any as S.Schema<ResponseBudgetAction>;
 export type ResponseBudgetActionList = ResponseBudgetAction[];
-export const ResponseBudgetActionList =
-  /*@__PURE__*/ S.Array(ResponseBudgetAction);
+export const ResponseBudgetActionList = /*@__PURE__*/ S.Array(ResponseBudgetAction);
 export interface GetBudgetResponse {
   budgetId: string;
   usageTrackingResource: UsageTrackingResource;
@@ -4202,19 +3883,13 @@ export const GetBudgetResponse = /*@__PURE__*/ S.suspend(() =>
     createdBy: S.String,
     createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     updatedBy: S.optional(S.String),
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     description: S.optional(SensitiveString),
     actions: ResponseBudgetActionList,
     schedule: BudgetSchedule,
-    queueStoppedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    queueStoppedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
-).annotate({
-  identifier: "GetBudgetResponse",
-}) as any as S.Schema<GetBudgetResponse>;
+).annotate({ identifier: "GetBudgetResponse" }) as any as S.Schema<GetBudgetResponse>;
 export interface GetFarmRequest {
   farmId: string;
 }
@@ -4248,16 +3923,12 @@ export const GetFarmResponse = /*@__PURE__*/ S.suspend(() =>
     kmsKeyArn: S.optional(S.String),
     createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     createdBy: S.String,
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     updatedBy: S.optional(S.String),
     description: S.optional(SensitiveString),
     costScaleFactor: S.Number,
   }),
-).annotate({
-  identifier: "GetFarmResponse",
-}) as any as S.Schema<GetFarmResponse>;
+).annotate({ identifier: "GetFarmResponse" }) as any as S.Schema<GetFarmResponse>;
 export interface GetFleetRequest {
   farmId: string;
   fleetId: string;
@@ -4268,10 +3939,7 @@ export const GetFleetRequest = /*@__PURE__*/ S.suspend(() =>
     fleetId: S.String.pipe(T.HttpLabel("fleetId")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/2023-10-12/farms/{farmId}/fleets/{fleetId}",
-      }),
+      T.Http({ method: "GET", uri: "/2023-10-12/farms/{farmId}/fleets/{fleetId}" }),
       svc,
       auth,
       proto,
@@ -4279,9 +3947,7 @@ export const GetFleetRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetFleetRequest",
-}) as any as S.Schema<GetFleetRequest>;
+).annotate({ identifier: "GetFleetRequest" }) as any as S.Schema<GetFleetRequest>;
 export type FleetStatus =
   | "ACTIVE"
   | "CREATE_IN_PROGRESS"
@@ -4292,21 +3958,13 @@ export type FleetStatus =
   | (string & {});
 export const FleetStatus = S.String;
 
-export type AutoScalingStatus =
-  | "GROWING"
-  | "STEADY"
-  | "SHRINKING"
-  | (string & {});
+export type AutoScalingStatus = "GROWING" | "STEADY" | "SHRINKING" | (string & {});
 export const AutoScalingStatus = S.String;
 
 export type FleetAmountCapabilities = FleetAmountCapability[];
-export const FleetAmountCapabilities = /*@__PURE__*/ S.Array(
-  FleetAmountCapability,
-);
+export const FleetAmountCapabilities = /*@__PURE__*/ S.Array(FleetAmountCapability);
 export type FleetAttributeCapabilities = FleetAttributeCapability[];
-export const FleetAttributeCapabilities = /*@__PURE__*/ S.Array(
-  FleetAttributeCapability,
-);
+export const FleetAttributeCapabilities = /*@__PURE__*/ S.Array(FleetAttributeCapability);
 export interface FleetCapabilities {
   amounts?: FleetAmountCapability[];
   attributes?: FleetAttributeCapability[];
@@ -4316,9 +3974,7 @@ export const FleetCapabilities = /*@__PURE__*/ S.suspend(() =>
     amounts: S.optional(FleetAmountCapabilities),
     attributes: S.optional(FleetAttributeCapabilities),
   }),
-).annotate({
-  identifier: "FleetCapabilities",
-}) as any as S.Schema<FleetCapabilities>;
+).annotate({ identifier: "FleetCapabilities" }) as any as S.Schema<FleetCapabilities>;
 export interface GetFleetResponse {
   fleetId: string;
   farmId: string;
@@ -4355,18 +4011,14 @@ export const GetFleetResponse = /*@__PURE__*/ S.suspend(() =>
     configuration: FleetConfiguration,
     createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     createdBy: S.String,
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     updatedBy: S.optional(S.String),
     description: S.optional(SensitiveString),
     hostConfiguration: S.optional(HostConfiguration),
     capabilities: S.optional(FleetCapabilities),
     roleArn: S.String,
   }),
-).annotate({
-  identifier: "GetFleetResponse",
-}) as any as S.Schema<GetFleetResponse>;
+).annotate({ identifier: "GetFleetResponse" }) as any as S.Schema<GetFleetResponse>;
 export interface GetJobRequest {
   farmId: string;
   queueId: string;
@@ -4379,10 +4031,7 @@ export const GetJobRequest = /*@__PURE__*/ S.suspend(() =>
     jobId: S.String.pipe(T.HttpLabel("jobId")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/2023-10-12/farms/{farmId}/queues/{queueId}/jobs/{jobId}",
-      }),
+      T.Http({ method: "GET", uri: "/2023-10-12/farms/{farmId}/queues/{queueId}/jobs/{jobId}" }),
       svc,
       auth,
       proto,
@@ -4425,13 +4074,9 @@ export const GetJobResponse = /*@__PURE__*/ S.suspend(() =>
     priority: S.Number,
     createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     createdBy: S.String,
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     updatedBy: S.optional(S.String),
-    startedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    startedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     endedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     taskRunStatus: S.optional(TaskRunStatus),
     targetTaskRunStatus: S.optional(JobTargetTaskRunStatus),
@@ -4451,14 +4096,9 @@ export interface GetLicenseEndpointRequest {
   licenseEndpointId: string;
 }
 export const GetLicenseEndpointRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    licenseEndpointId: S.String.pipe(T.HttpLabel("licenseEndpointId")),
-  }).pipe(
+  S.Struct({ licenseEndpointId: S.String.pipe(T.HttpLabel("licenseEndpointId")) }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/2023-10-12/license-endpoints/{licenseEndpointId}",
-      }),
+      T.Http({ method: "GET", uri: "/2023-10-12/license-endpoints/{licenseEndpointId}" }),
       svc,
       auth,
       proto,
@@ -4511,10 +4151,7 @@ export const GetLimitRequest = /*@__PURE__*/ S.suspend(() =>
     limitId: S.String.pipe(T.HttpLabel("limitId")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/2023-10-12/farms/{farmId}/limits/{limitId}",
-      }),
+      T.Http({ method: "GET", uri: "/2023-10-12/farms/{farmId}/limits/{limitId}" }),
       svc,
       auth,
       proto,
@@ -4522,9 +4159,7 @@ export const GetLimitRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetLimitRequest",
-}) as any as S.Schema<GetLimitRequest>;
+).annotate({ identifier: "GetLimitRequest" }) as any as S.Schema<GetLimitRequest>;
 export interface GetLimitResponse {
   farmId: string;
   limitId: string;
@@ -4545,18 +4180,14 @@ export const GetLimitResponse = /*@__PURE__*/ S.suspend(() =>
     currentCount: S.Number,
     createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     createdBy: S.String,
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     updatedBy: S.optional(S.String),
     displayName: S.String,
     amountRequirementName: S.String,
     maxCount: S.Number,
     description: S.optional(SensitiveString),
   }),
-).annotate({
-  identifier: "GetLimitResponse",
-}) as any as S.Schema<GetLimitResponse>;
+).annotate({ identifier: "GetLimitResponse" }) as any as S.Schema<GetLimitResponse>;
 export interface GetMonitorRequest {
   monitorId: string;
 }
@@ -4571,9 +4202,7 @@ export const GetMonitorRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetMonitorRequest",
-}) as any as S.Schema<GetMonitorRequest>;
+).annotate({ identifier: "GetMonitorRequest" }) as any as S.Schema<GetMonitorRequest>;
 export type Url = string;
 export interface GetMonitorResponse {
   monitorId: string;
@@ -4601,24 +4230,17 @@ export const GetMonitorResponse = /*@__PURE__*/ S.suspend(() =>
     identityCenterApplicationArn: S.String,
     createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     createdBy: S.String,
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     updatedBy: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetMonitorResponse",
-}) as any as S.Schema<GetMonitorResponse>;
+).annotate({ identifier: "GetMonitorResponse" }) as any as S.Schema<GetMonitorResponse>;
 export interface GetMonitorSettingsRequest {
   monitorId: string;
 }
 export const GetMonitorSettingsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ monitorId: S.String.pipe(T.HttpLabel("monitorId")) }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/2023-10-12/monitors/{monitorId}/settings",
-      }),
+      T.Http({ method: "GET", uri: "/2023-10-12/monitors/{monitorId}/settings" }),
       svc,
       auth,
       proto,
@@ -4632,10 +4254,7 @@ export const GetMonitorSettingsRequest = /*@__PURE__*/ S.suspend(() =>
 export type SettingKey = string;
 export type SettingValue = string;
 export type SettingsMap = { [key: string]: string | undefined };
-export const SettingsMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const SettingsMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface GetMonitorSettingsResponse {
   settings: { [key: string]: string | undefined };
 }
@@ -4654,10 +4273,7 @@ export const GetQueueRequest = /*@__PURE__*/ S.suspend(() =>
     queueId: S.String.pipe(T.HttpLabel("queueId")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/2023-10-12/farms/{farmId}/queues/{queueId}",
-      }),
+      T.Http({ method: "GET", uri: "/2023-10-12/farms/{farmId}/queues/{queueId}" }),
       svc,
       auth,
       proto,
@@ -4665,14 +4281,8 @@ export const GetQueueRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetQueueRequest",
-}) as any as S.Schema<GetQueueRequest>;
-export type QueueStatus =
-  | "IDLE"
-  | "SCHEDULING"
-  | "SCHEDULING_BLOCKED"
-  | (string & {});
+).annotate({ identifier: "GetQueueRequest" }) as any as S.Schema<GetQueueRequest>;
+export type QueueStatus = "IDLE" | "SCHEDULING" | "SCHEDULING_BLOCKED" | (string & {});
 export const QueueStatus = S.String;
 
 export type QueueBlockedReason =
@@ -4710,23 +4320,17 @@ export const GetQueueResponse = /*@__PURE__*/ S.suspend(() =>
     blockedReason: S.optional(QueueBlockedReason),
     createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     createdBy: S.String,
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     updatedBy: S.optional(S.String),
     description: S.optional(SensitiveString),
     jobAttachmentSettings: S.optional(JobAttachmentSettings),
     roleArn: S.optional(S.String),
-    requiredFileSystemLocationNames: S.optional(
-      RequiredFileSystemLocationNames,
-    ),
+    requiredFileSystemLocationNames: S.optional(RequiredFileSystemLocationNames),
     allowedStorageProfileIds: S.optional(AllowedStorageProfileIds),
     jobRunAsUser: S.optional(JobRunAsUser),
     schedulingConfiguration: S.optional(SchedulingConfiguration),
   }),
-).annotate({
-  identifier: "GetQueueResponse",
-}) as any as S.Schema<GetQueueResponse>;
+).annotate({ identifier: "GetQueueResponse" }) as any as S.Schema<GetQueueResponse>;
 export interface GetQueueEnvironmentRequest {
   farmId: string;
   queueId: string;
@@ -4774,9 +4378,7 @@ export const GetQueueEnvironmentResponse = /*@__PURE__*/ S.suspend(() =>
     template: SensitiveString,
     createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     createdBy: S.String,
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     updatedBy: S.optional(S.String),
   }),
 ).annotate({
@@ -4832,9 +4434,7 @@ export const GetQueueFleetAssociationResponse = /*@__PURE__*/ S.suspend(() =>
     status: QueueFleetAssociationStatus,
     createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     createdBy: S.String,
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     updatedBy: S.optional(S.String),
   }),
 ).annotate({
@@ -4890,9 +4490,7 @@ export const GetQueueLimitAssociationResponse = /*@__PURE__*/ S.suspend(() =>
     status: QueueLimitAssociationStatus,
     createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     createdBy: S.String,
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     updatedBy: S.optional(S.String),
   }),
 ).annotate({
@@ -4923,9 +4521,7 @@ export const GetSessionRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetSessionRequest",
-}) as any as S.Schema<GetSessionRequest>;
+).annotate({ identifier: "GetSessionRequest" }) as any as S.Schema<GetSessionRequest>;
 export interface GetSessionResponse {
   sessionId: string;
   fleetId: string;
@@ -4949,17 +4545,13 @@ export const GetSessionResponse = /*@__PURE__*/ S.suspend(() =>
     lifecycleStatus: SessionLifecycleStatus,
     endedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     targetLifecycleStatus: S.optional(SessionLifecycleTargetStatus),
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     updatedBy: S.optional(S.String),
     log: LogConfiguration,
     hostProperties: S.optional(HostPropertiesResponse),
     workerLog: S.optional(LogConfiguration),
   }),
-).annotate({
-  identifier: "GetSessionResponse",
-}) as any as S.Schema<GetSessionResponse>;
+).annotate({ identifier: "GetSessionResponse" }) as any as S.Schema<GetSessionResponse>;
 export interface GetSessionActionRequest {
   farmId: string;
   queueId: string;
@@ -4985,9 +4577,7 @@ export const GetSessionActionRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetSessionActionRequest",
-}) as any as S.Schema<GetSessionActionRequest>;
+).annotate({ identifier: "GetSessionActionRequest" }) as any as S.Schema<GetSessionActionRequest>;
 export interface GetSessionActionResponse {
   sessionActionId: string;
   status: SessionActionStatus;
@@ -5006,13 +4596,9 @@ export const GetSessionActionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     sessionActionId: S.String,
     status: SessionActionStatus,
-    startedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    startedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     endedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-    workerUpdatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    workerUpdatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     progressPercent: S.optional(S.Number),
     manifests: S.optional(TaskRunManifestPropertiesListResponse),
     sessionId: S.String,
@@ -5021,9 +4607,7 @@ export const GetSessionActionResponse = /*@__PURE__*/ S.suspend(() =>
     acquiredLimits: S.optional(AcquiredLimits),
     definition: SessionActionDefinition,
   }),
-).annotate({
-  identifier: "GetSessionActionResponse",
-}) as any as S.Schema<GetSessionActionResponse>;
+).annotate({ identifier: "GetSessionActionResponse" }) as any as S.Schema<GetSessionActionResponse>;
 export type NextToken = string;
 export type MaxResults = number;
 export type AggregationId = string;
@@ -5033,35 +4617,27 @@ export interface GetSessionsStatisticsAggregationRequest {
   maxResults?: number;
   aggregationId: string;
 }
-export const GetSessionsStatisticsAggregationRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      farmId: S.String.pipe(T.HttpLabel("farmId")),
-      nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-      maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-      aggregationId: S.String.pipe(T.HttpQuery("aggregationId")),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "GET",
-          uri: "/2023-10-12/farms/{farmId}/sessions-statistics-aggregation",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const GetSessionsStatisticsAggregationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    farmId: S.String.pipe(T.HttpLabel("farmId")),
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    aggregationId: S.String.pipe(T.HttpQuery("aggregationId")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/2023-10-12/farms/{farmId}/sessions-statistics-aggregation" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "GetSessionsStatisticsAggregationRequest",
 }) as any as S.Schema<GetSessionsStatisticsAggregationRequest>;
 export type UserId = string;
-export type UsageType =
-  | "COMPUTE"
-  | "LICENSE"
-  | "PERSISTENT_VOLUME"
-  | (string & {});
+export type UsageType = "COMPUTE" | "LICENSE" | "PERSISTENT_VOLUME" | (string & {});
 export const UsageType = S.String;
 
 export type LicenseProduct = string;
@@ -5107,12 +4683,8 @@ export const Statistics = /*@__PURE__*/ S.suspend(() =>
     count: S.Number,
     costInUsd: Stats,
     runtimeInSeconds: Stats,
-    aggregationStartTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    aggregationEndTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    aggregationStartTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    aggregationEndTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotate({ identifier: "Statistics" }) as any as S.Schema<Statistics>;
 export type StatisticsList = Statistics[];
@@ -5131,14 +4703,13 @@ export interface GetSessionsStatisticsAggregationResponse {
   statusMessage?: string;
   nextToken?: string;
 }
-export const GetSessionsStatisticsAggregationResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      statistics: S.optional(StatisticsList),
-      status: SessionsStatisticsAggregationStatus,
-      statusMessage: S.optional(S.String),
-      nextToken: S.optional(S.String),
-    }),
+export const GetSessionsStatisticsAggregationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    statistics: S.optional(StatisticsList),
+    status: SessionsStatisticsAggregationStatus,
+    statusMessage: S.optional(S.String),
+    nextToken: S.optional(S.String),
+  }),
 ).annotate({
   identifier: "GetSessionsStatisticsAggregationResponse",
 }) as any as S.Schema<GetSessionsStatisticsAggregationResponse>;
@@ -5200,22 +4771,16 @@ export const GetStepResponse = /*@__PURE__*/ S.suspend(() =>
     targetTaskRunStatus: S.optional(StepTargetTaskRunStatus),
     createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     createdBy: S.String,
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     updatedBy: S.optional(S.String),
-    startedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    startedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     endedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     dependencyCounts: S.optional(DependencyCounts),
     requiredCapabilities: S.optional(StepRequiredCapabilities),
     parameterSpace: S.optional(ParameterSpace),
     description: S.optional(SensitiveString),
   }),
-).annotate({
-  identifier: "GetStepResponse",
-}) as any as S.Schema<GetStepResponse>;
+).annotate({ identifier: "GetStepResponse" }) as any as S.Schema<GetStepResponse>;
 export interface GetStorageProfileRequest {
   farmId: string;
   storageProfileId: string;
@@ -5237,9 +4802,7 @@ export const GetStorageProfileRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetStorageProfileRequest",
-}) as any as S.Schema<GetStorageProfileRequest>;
+).annotate({ identifier: "GetStorageProfileRequest" }) as any as S.Schema<GetStorageProfileRequest>;
 export interface GetStorageProfileResponse {
   storageProfileId: string;
   displayName: string;
@@ -5257,9 +4820,7 @@ export const GetStorageProfileResponse = /*@__PURE__*/ S.suspend(() =>
     osFamily: StorageProfileOperatingSystemFamily,
     createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     createdBy: S.String,
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     updatedBy: S.optional(S.String),
     fileSystemLocations: S.optional(FileSystemLocationsList),
   }),
@@ -5358,20 +4919,14 @@ export const GetTaskResponse = /*@__PURE__*/ S.suspend(() =>
     runStatus: TaskRunStatus,
     targetRunStatus: S.optional(TaskTargetRunStatus),
     failureRetryCount: S.optional(S.Number),
-    startedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    startedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     endedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     updatedBy: S.optional(S.String),
     latestSessionActionId: S.optional(S.String),
     parameters: S.optional(TaskParameters),
   }),
-).annotate({
-  identifier: "GetTaskResponse",
-}) as any as S.Schema<GetTaskResponse>;
+).annotate({ identifier: "GetTaskResponse" }) as any as S.Schema<GetTaskResponse>;
 export interface GetVolumeRequest {
   farmId: string;
   fleetId: string;
@@ -5395,9 +4950,7 @@ export const GetVolumeRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetVolumeRequest",
-}) as any as S.Schema<GetVolumeRequest>;
+).annotate({ identifier: "GetVolumeRequest" }) as any as S.Schema<GetVolumeRequest>;
 export type VolumeState =
   | "PENDING_CREATION"
   | "PENDING_ATTACHMENT"
@@ -5439,19 +4992,11 @@ export const GetVolumeResponse = /*@__PURE__*/ S.suspend(() =>
     iops: S.optional(S.Number),
     throughputMiB: S.optional(S.Number),
     createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    lastAssignedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    lastReleasedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    expiresAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    lastAssignedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    lastReleasedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    expiresAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
-).annotate({
-  identifier: "GetVolumeResponse",
-}) as any as S.Schema<GetVolumeResponse>;
+).annotate({ identifier: "GetVolumeResponse" }) as any as S.Schema<GetVolumeResponse>;
 export interface GetWorkerRequest {
   farmId: string;
   fleetId: string;
@@ -5475,9 +5020,7 @@ export const GetWorkerRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetWorkerRequest",
-}) as any as S.Schema<GetWorkerRequest>;
+).annotate({ identifier: "GetWorkerRequest" }) as any as S.Schema<GetWorkerRequest>;
 export interface GetWorkerResponse {
   farmId: string;
   fleetId: string;
@@ -5500,14 +5043,10 @@ export const GetWorkerResponse = /*@__PURE__*/ S.suspend(() =>
     log: S.optional(LogConfiguration),
     createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     createdBy: S.String,
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     updatedBy: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetWorkerResponse",
-}) as any as S.Schema<GetWorkerResponse>;
+).annotate({ identifier: "GetWorkerResponse" }) as any as S.Schema<GetWorkerResponse>;
 export interface ListAvailableMeteredProductsRequest {
   nextToken?: string;
   maxResults?: number;
@@ -5538,29 +5077,16 @@ export interface MeteredProductSummary {
   port: number;
 }
 export const MeteredProductSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    productId: S.String,
-    family: S.String,
-    vendor: S.String,
-    port: S.Number,
-  }),
-).annotate({
-  identifier: "MeteredProductSummary",
-}) as any as S.Schema<MeteredProductSummary>;
+  S.Struct({ productId: S.String, family: S.String, vendor: S.String, port: S.Number }),
+).annotate({ identifier: "MeteredProductSummary" }) as any as S.Schema<MeteredProductSummary>;
 export type MeteredProductSummaryList = MeteredProductSummary[];
-export const MeteredProductSummaryList = /*@__PURE__*/ S.Array(
-  MeteredProductSummary,
-);
+export const MeteredProductSummaryList = /*@__PURE__*/ S.Array(MeteredProductSummary);
 export interface ListAvailableMeteredProductsResponse {
   meteredProducts: MeteredProductSummary[];
   nextToken?: string;
 }
-export const ListAvailableMeteredProductsResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      meteredProducts: MeteredProductSummaryList,
-      nextToken: S.optional(S.String),
-    }),
+export const ListAvailableMeteredProductsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ meteredProducts: MeteredProductSummaryList, nextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListAvailableMeteredProductsResponse",
 }) as any as S.Schema<ListAvailableMeteredProductsResponse>;
@@ -5586,9 +5112,7 @@ export const ListBudgetsRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "ListBudgetsRequest",
-}) as any as S.Schema<ListBudgetsRequest>;
+).annotate({ identifier: "ListBudgetsRequest" }) as any as S.Schema<ListBudgetsRequest>;
 export interface BudgetSummary {
   budgetId: string;
   usageTrackingResource: UsageTrackingResource;
@@ -5613,9 +5137,7 @@ export const BudgetSummary = /*@__PURE__*/ S.suspend(() =>
     createdBy: S.String,
     createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     updatedBy: S.optional(S.String),
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     description: S.optional(SensitiveString),
   }),
 ).annotate({ identifier: "BudgetSummary" }) as any as S.Schema<BudgetSummary>;
@@ -5627,9 +5149,7 @@ export interface ListBudgetsResponse {
 }
 export const ListBudgetsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ budgets: BudgetSummaries, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListBudgetsResponse",
-}) as any as S.Schema<ListBudgetsResponse>;
+).annotate({ identifier: "ListBudgetsResponse" }) as any as S.Schema<ListBudgetsResponse>;
 export interface ListFarmMembersRequest {
   farmId: string;
   nextToken?: string;
@@ -5650,9 +5170,7 @@ export const ListFarmMembersRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "ListFarmMembersRequest",
-}) as any as S.Schema<ListFarmMembersRequest>;
+).annotate({ identifier: "ListFarmMembersRequest" }) as any as S.Schema<ListFarmMembersRequest>;
 export interface FarmMember {
   farmId: string;
   principalId: string;
@@ -5677,9 +5195,7 @@ export interface ListFarmMembersResponse {
 }
 export const ListFarmMembersResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ members: FarmMembers, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListFarmMembersResponse",
-}) as any as S.Schema<ListFarmMembersResponse>;
+).annotate({ identifier: "ListFarmMembersResponse" }) as any as S.Schema<ListFarmMembersResponse>;
 export interface ListFarmsRequest {
   nextToken?: string;
   maxResults?: number;
@@ -5690,19 +5206,8 @@ export const ListFarmsRequest = /*@__PURE__*/ S.suspend(() =>
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     principalId: S.optional(S.String).pipe(T.HttpQuery("principalId")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/2023-10-12/farms" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListFarmsRequest",
-}) as any as S.Schema<ListFarmsRequest>;
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/2023-10-12/farms" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "ListFarmsRequest" }) as any as S.Schema<ListFarmsRequest>;
 export interface FarmSummary {
   farmId: string;
   displayName: string;
@@ -5719,9 +5224,7 @@ export const FarmSummary = /*@__PURE__*/ S.suspend(() =>
     kmsKeyArn: S.optional(S.String),
     createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     createdBy: S.String,
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     updatedBy: S.optional(S.String),
   }),
 ).annotate({ identifier: "FarmSummary" }) as any as S.Schema<FarmSummary>;
@@ -5733,9 +5236,7 @@ export interface ListFarmsResponse {
 }
 export const ListFarmsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ farms: FarmSummaries, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListFarmsResponse",
-}) as any as S.Schema<ListFarmsResponse>;
+).annotate({ identifier: "ListFarmsResponse" }) as any as S.Schema<ListFarmsResponse>;
 export interface ListFleetMembersRequest {
   farmId: string;
   fleetId: string;
@@ -5750,10 +5251,7 @@ export const ListFleetMembersRequest = /*@__PURE__*/ S.suspend(() =>
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/2023-10-12/farms/{farmId}/fleets/{fleetId}/members",
-      }),
+      T.Http({ method: "GET", uri: "/2023-10-12/farms/{farmId}/fleets/{fleetId}/members" }),
       svc,
       auth,
       proto,
@@ -5761,9 +5259,7 @@ export const ListFleetMembersRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "ListFleetMembersRequest",
-}) as any as S.Schema<ListFleetMembersRequest>;
+).annotate({ identifier: "ListFleetMembersRequest" }) as any as S.Schema<ListFleetMembersRequest>;
 export interface FleetMember {
   farmId: string;
   fleetId: string;
@@ -5790,9 +5286,7 @@ export interface ListFleetMembersResponse {
 }
 export const ListFleetMembersResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ members: FleetMembers, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListFleetMembersResponse",
-}) as any as S.Schema<ListFleetMembersResponse>;
+).annotate({ identifier: "ListFleetMembersResponse" }) as any as S.Schema<ListFleetMembersResponse>;
 export interface ListFleetsRequest {
   farmId: string;
   nextToken?: string;
@@ -5819,9 +5313,7 @@ export const ListFleetsRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "ListFleetsRequest",
-}) as any as S.Schema<ListFleetsRequest>;
+).annotate({ identifier: "ListFleetsRequest" }) as any as S.Schema<ListFleetsRequest>;
 export interface FleetSummary {
   fleetId: string;
   farmId: string;
@@ -5854,9 +5346,7 @@ export const FleetSummary = /*@__PURE__*/ S.suspend(() =>
     configuration: FleetConfiguration,
     createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     createdBy: S.String,
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     updatedBy: S.optional(S.String),
   }),
 ).annotate({ identifier: "FleetSummary" }) as any as S.Schema<FleetSummary>;
@@ -5868,9 +5358,7 @@ export interface ListFleetsResponse {
 }
 export const ListFleetsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ fleets: FleetSummaries, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListFleetsResponse",
-}) as any as S.Schema<ListFleetsResponse>;
+).annotate({ identifier: "ListFleetsResponse" }) as any as S.Schema<ListFleetsResponse>;
 export interface ListJobMembersRequest {
   farmId: string;
   queueId: string;
@@ -5898,9 +5386,7 @@ export const ListJobMembersRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "ListJobMembersRequest",
-}) as any as S.Schema<ListJobMembersRequest>;
+).annotate({ identifier: "ListJobMembersRequest" }) as any as S.Schema<ListJobMembersRequest>;
 export interface JobMember {
   farmId: string;
   queueId: string;
@@ -5929,9 +5415,7 @@ export interface ListJobMembersResponse {
 }
 export const ListJobMembersResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ members: JobMembers, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListJobMembersResponse",
-}) as any as S.Schema<ListJobMembersResponse>;
+).annotate({ identifier: "ListJobMembersResponse" }) as any as S.Schema<ListJobMembersResponse>;
 export interface ListJobParameterDefinitionsRequest {
   farmId: string;
   queueId: string;
@@ -5970,10 +5454,7 @@ export interface ListJobParameterDefinitionsResponse {
   nextToken?: string;
 }
 export const ListJobParameterDefinitionsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    jobParameterDefinitions: JobParameterDefinitions,
-    nextToken: S.optional(S.String),
-  }),
+  S.Struct({ jobParameterDefinitions: JobParameterDefinitions, nextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListJobParameterDefinitionsResponse",
 }) as any as S.Schema<ListJobParameterDefinitionsResponse>;
@@ -5993,10 +5474,7 @@ export const ListJobsRequest = /*@__PURE__*/ S.suspend(() =>
     principalId: S.optional(S.String).pipe(T.HttpQuery("principalId")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/2023-10-12/farms/{farmId}/queues/{queueId}/jobs",
-      }),
+      T.Http({ method: "GET", uri: "/2023-10-12/farms/{farmId}/queues/{queueId}/jobs" }),
       svc,
       auth,
       proto,
@@ -6004,9 +5482,7 @@ export const ListJobsRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "ListJobsRequest",
-}) as any as S.Schema<ListJobsRequest>;
+).annotate({ identifier: "ListJobsRequest" }) as any as S.Schema<ListJobsRequest>;
 export interface JobSummary {
   jobId: string;
   name: string;
@@ -6037,13 +5513,9 @@ export const JobSummary = /*@__PURE__*/ S.suspend(() =>
     priority: S.Number,
     createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     createdBy: S.String,
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     updatedBy: S.optional(S.String),
-    startedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    startedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     endedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     taskRunStatus: S.optional(TaskRunStatus),
     targetTaskRunStatus: S.optional(JobTargetTaskRunStatus),
@@ -6063,9 +5535,7 @@ export interface ListJobsResponse {
 }
 export const ListJobsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ jobs: JobSummaries, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListJobsResponse",
-}) as any as S.Schema<ListJobsResponse>;
+).annotate({ identifier: "ListJobsResponse" }) as any as S.Schema<ListJobsResponse>;
 export interface ListLicenseEndpointsRequest {
   nextToken?: string;
   maxResults?: number;
@@ -6100,22 +5570,15 @@ export const LicenseEndpointSummary = /*@__PURE__*/ S.suspend(() =>
     statusMessage: S.optional(S.String),
     vpcId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "LicenseEndpointSummary",
-}) as any as S.Schema<LicenseEndpointSummary>;
+).annotate({ identifier: "LicenseEndpointSummary" }) as any as S.Schema<LicenseEndpointSummary>;
 export type LicenseEndpointSummaries = LicenseEndpointSummary[];
-export const LicenseEndpointSummaries = /*@__PURE__*/ S.Array(
-  LicenseEndpointSummary,
-);
+export const LicenseEndpointSummaries = /*@__PURE__*/ S.Array(LicenseEndpointSummary);
 export interface ListLicenseEndpointsResponse {
   licenseEndpoints: LicenseEndpointSummary[];
   nextToken?: string;
 }
 export const ListLicenseEndpointsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    licenseEndpoints: LicenseEndpointSummaries,
-    nextToken: S.optional(S.String),
-  }),
+  S.Struct({ licenseEndpoints: LicenseEndpointSummaries, nextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListLicenseEndpointsResponse",
 }) as any as S.Schema<ListLicenseEndpointsResponse>;
@@ -6139,9 +5602,7 @@ export const ListLimitsRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "ListLimitsRequest",
-}) as any as S.Schema<ListLimitsRequest>;
+).annotate({ identifier: "ListLimitsRequest" }) as any as S.Schema<ListLimitsRequest>;
 export interface LimitSummary {
   farmId: string;
   limitId: string;
@@ -6161,9 +5622,7 @@ export const LimitSummary = /*@__PURE__*/ S.suspend(() =>
     currentCount: S.Number,
     createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     createdBy: S.String,
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     updatedBy: S.optional(S.String),
     displayName: S.String,
     amountRequirementName: S.String,
@@ -6178,9 +5637,7 @@ export interface ListLimitsResponse {
 }
 export const ListLimitsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ limits: LimitSummaries, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListLimitsResponse",
-}) as any as S.Schema<ListLimitsResponse>;
+).annotate({ identifier: "ListLimitsResponse" }) as any as S.Schema<ListLimitsResponse>;
 export interface ListMeteredProductsRequest {
   licenseEndpointId: string;
   nextToken?: string;
@@ -6212,10 +5669,7 @@ export interface ListMeteredProductsResponse {
   nextToken?: string;
 }
 export const ListMeteredProductsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    meteredProducts: MeteredProductSummaryList,
-    nextToken: S.optional(S.String),
-  }),
+  S.Struct({ meteredProducts: MeteredProductSummaryList, nextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListMeteredProductsResponse",
 }) as any as S.Schema<ListMeteredProductsResponse>;
@@ -6228,18 +5682,9 @@ export const ListMonitorsRequest = /*@__PURE__*/ S.suspend(() =>
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/2023-10-12/monitors" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/2023-10-12/monitors" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "ListMonitorsRequest",
-}) as any as S.Schema<ListMonitorsRequest>;
+).annotate({ identifier: "ListMonitorsRequest" }) as any as S.Schema<ListMonitorsRequest>;
 export interface MonitorSummary {
   monitorId: string;
   displayName: string;
@@ -6266,9 +5711,7 @@ export const MonitorSummary = /*@__PURE__*/ S.suspend(() =>
     identityCenterApplicationArn: S.String,
     createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     createdBy: S.String,
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     updatedBy: S.optional(S.String),
   }),
 ).annotate({ identifier: "MonitorSummary" }) as any as S.Schema<MonitorSummary>;
@@ -6280,9 +5723,7 @@ export interface ListMonitorsResponse {
 }
 export const ListMonitorsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ monitors: MonitorSummaries, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListMonitorsResponse",
-}) as any as S.Schema<ListMonitorsResponse>;
+).annotate({ identifier: "ListMonitorsResponse" }) as any as S.Schema<ListMonitorsResponse>;
 export interface ListQueueEnvironmentsRequest {
   farmId: string;
   queueId: string;
@@ -6297,10 +5738,7 @@ export const ListQueueEnvironmentsRequest = /*@__PURE__*/ S.suspend(() =>
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/2023-10-12/farms/{farmId}/queues/{queueId}/environments",
-      }),
+      T.Http({ method: "GET", uri: "/2023-10-12/farms/{farmId}/queues/{queueId}/environments" }),
       svc,
       auth,
       proto,
@@ -6317,27 +5755,16 @@ export interface QueueEnvironmentSummary {
   priority: number;
 }
 export const QueueEnvironmentSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    queueEnvironmentId: S.String,
-    name: S.String,
-    priority: S.Number,
-  }),
-).annotate({
-  identifier: "QueueEnvironmentSummary",
-}) as any as S.Schema<QueueEnvironmentSummary>;
+  S.Struct({ queueEnvironmentId: S.String, name: S.String, priority: S.Number }),
+).annotate({ identifier: "QueueEnvironmentSummary" }) as any as S.Schema<QueueEnvironmentSummary>;
 export type QueueEnvironmentSummaries = QueueEnvironmentSummary[];
-export const QueueEnvironmentSummaries = /*@__PURE__*/ S.Array(
-  QueueEnvironmentSummary,
-);
+export const QueueEnvironmentSummaries = /*@__PURE__*/ S.Array(QueueEnvironmentSummary);
 export interface ListQueueEnvironmentsResponse {
   environments: QueueEnvironmentSummary[];
   nextToken?: string;
 }
 export const ListQueueEnvironmentsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    environments: QueueEnvironmentSummaries,
-    nextToken: S.optional(S.String),
-  }),
+  S.Struct({ environments: QueueEnvironmentSummaries, nextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListQueueEnvironmentsResponse",
 }) as any as S.Schema<ListQueueEnvironmentsResponse>;
@@ -6357,10 +5784,7 @@ export const ListQueueFleetAssociationsRequest = /*@__PURE__*/ S.suspend(() =>
     fleetId: S.optional(S.String).pipe(T.HttpQuery("fleetId")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/2023-10-12/farms/{farmId}/queue-fleet-associations",
-      }),
+      T.Http({ method: "GET", uri: "/2023-10-12/farms/{farmId}/queue-fleet-associations" }),
       svc,
       auth,
       proto,
@@ -6387,18 +5811,14 @@ export const QueueFleetAssociationSummary = /*@__PURE__*/ S.suspend(() =>
     status: QueueFleetAssociationStatus,
     createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     createdBy: S.String,
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     updatedBy: S.optional(S.String),
   }),
 ).annotate({
   identifier: "QueueFleetAssociationSummary",
 }) as any as S.Schema<QueueFleetAssociationSummary>;
 export type QueueFleetAssociationSummaries = QueueFleetAssociationSummary[];
-export const QueueFleetAssociationSummaries = /*@__PURE__*/ S.Array(
-  QueueFleetAssociationSummary,
-);
+export const QueueFleetAssociationSummaries = /*@__PURE__*/ S.Array(QueueFleetAssociationSummary);
 export interface ListQueueFleetAssociationsResponse {
   queueFleetAssociations: QueueFleetAssociationSummary[];
   nextToken?: string;
@@ -6427,10 +5847,7 @@ export const ListQueueLimitAssociationsRequest = /*@__PURE__*/ S.suspend(() =>
     limitId: S.optional(S.String).pipe(T.HttpQuery("limitId")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/2023-10-12/farms/{farmId}/queue-limit-associations",
-      }),
+      T.Http({ method: "GET", uri: "/2023-10-12/farms/{farmId}/queue-limit-associations" }),
       svc,
       auth,
       proto,
@@ -6457,18 +5874,14 @@ export const QueueLimitAssociationSummary = /*@__PURE__*/ S.suspend(() =>
     status: QueueLimitAssociationStatus,
     createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     createdBy: S.String,
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     updatedBy: S.optional(S.String),
   }),
 ).annotate({
   identifier: "QueueLimitAssociationSummary",
 }) as any as S.Schema<QueueLimitAssociationSummary>;
 export type QueueLimitAssociationSummaries = QueueLimitAssociationSummary[];
-export const QueueLimitAssociationSummaries = /*@__PURE__*/ S.Array(
-  QueueLimitAssociationSummary,
-);
+export const QueueLimitAssociationSummaries = /*@__PURE__*/ S.Array(QueueLimitAssociationSummary);
 export interface ListQueueLimitAssociationsResponse {
   queueLimitAssociations: QueueLimitAssociationSummary[];
   nextToken?: string;
@@ -6495,10 +5908,7 @@ export const ListQueueMembersRequest = /*@__PURE__*/ S.suspend(() =>
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/2023-10-12/farms/{farmId}/queues/{queueId}/members",
-      }),
+      T.Http({ method: "GET", uri: "/2023-10-12/farms/{farmId}/queues/{queueId}/members" }),
       svc,
       auth,
       proto,
@@ -6506,9 +5916,7 @@ export const ListQueueMembersRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "ListQueueMembersRequest",
-}) as any as S.Schema<ListQueueMembersRequest>;
+).annotate({ identifier: "ListQueueMembersRequest" }) as any as S.Schema<ListQueueMembersRequest>;
 export interface QueueMember {
   farmId: string;
   queueId: string;
@@ -6535,9 +5943,7 @@ export interface ListQueueMembersResponse {
 }
 export const ListQueueMembersResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ members: QueueMemberList, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListQueueMembersResponse",
-}) as any as S.Schema<ListQueueMembersResponse>;
+).annotate({ identifier: "ListQueueMembersResponse" }) as any as S.Schema<ListQueueMembersResponse>;
 export interface ListQueuesRequest {
   farmId: string;
   nextToken?: string;
@@ -6562,9 +5968,7 @@ export const ListQueuesRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "ListQueuesRequest",
-}) as any as S.Schema<ListQueuesRequest>;
+).annotate({ identifier: "ListQueuesRequest" }) as any as S.Schema<ListQueuesRequest>;
 export interface QueueSummary {
   farmId: string;
   queueId: string;
@@ -6587,9 +5991,7 @@ export const QueueSummary = /*@__PURE__*/ S.suspend(() =>
     blockedReason: S.optional(QueueBlockedReason),
     createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     createdBy: S.String,
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     updatedBy: S.optional(S.String),
   }),
 ).annotate({ identifier: "QueueSummary" }) as any as S.Schema<QueueSummary>;
@@ -6601,9 +6003,7 @@ export interface ListQueuesResponse {
 }
 export const ListQueuesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ queues: QueueSummaries, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListQueuesResponse",
-}) as any as S.Schema<ListQueuesResponse>;
+).annotate({ identifier: "ListQueuesResponse" }) as any as S.Schema<ListQueuesResponse>;
 export interface ListSessionActionsRequest {
   farmId: string;
   queueId: string;
@@ -6641,41 +6041,41 @@ export const ListSessionActionsRequest = /*@__PURE__*/ S.suspend(() =>
 export interface EnvironmentEnterSessionActionDefinitionSummary {
   environmentId: string;
 }
-export const EnvironmentEnterSessionActionDefinitionSummary =
-  /*@__PURE__*/ S.suspend(() => S.Struct({ environmentId: S.String })).annotate(
-    { identifier: "EnvironmentEnterSessionActionDefinitionSummary" },
-  ) as any as S.Schema<EnvironmentEnterSessionActionDefinitionSummary>;
+export const EnvironmentEnterSessionActionDefinitionSummary = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ environmentId: S.String }),
+).annotate({
+  identifier: "EnvironmentEnterSessionActionDefinitionSummary",
+}) as any as S.Schema<EnvironmentEnterSessionActionDefinitionSummary>;
 export interface EnvironmentExitSessionActionDefinitionSummary {
   environmentId: string;
 }
-export const EnvironmentExitSessionActionDefinitionSummary =
-  /*@__PURE__*/ S.suspend(() => S.Struct({ environmentId: S.String })).annotate(
-    { identifier: "EnvironmentExitSessionActionDefinitionSummary" },
-  ) as any as S.Schema<EnvironmentExitSessionActionDefinitionSummary>;
+export const EnvironmentExitSessionActionDefinitionSummary = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ environmentId: S.String }),
+).annotate({
+  identifier: "EnvironmentExitSessionActionDefinitionSummary",
+}) as any as S.Schema<EnvironmentExitSessionActionDefinitionSummary>;
 export interface TaskRunSessionActionDefinitionSummary {
   taskId?: string;
   stepId: string;
   parameters?: { [key: string]: TaskParameterValue | undefined };
 }
-export const TaskRunSessionActionDefinitionSummary = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      taskId: S.optional(S.String),
-      stepId: S.String,
-      parameters: S.optional(TaskParameters),
-    }),
+export const TaskRunSessionActionDefinitionSummary = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    taskId: S.optional(S.String),
+    stepId: S.String,
+    parameters: S.optional(TaskParameters),
+  }),
 ).annotate({
   identifier: "TaskRunSessionActionDefinitionSummary",
 }) as any as S.Schema<TaskRunSessionActionDefinitionSummary>;
 export interface SyncInputJobAttachmentsSessionActionDefinitionSummary {
   stepId?: string;
 }
-export const SyncInputJobAttachmentsSessionActionDefinitionSummary =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ stepId: S.optional(S.String) }),
-  ).annotate({
-    identifier: "SyncInputJobAttachmentsSessionActionDefinitionSummary",
-  }) as any as S.Schema<SyncInputJobAttachmentsSessionActionDefinitionSummary>;
+export const SyncInputJobAttachmentsSessionActionDefinitionSummary = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ stepId: S.optional(S.String) }),
+).annotate({
+  identifier: "SyncInputJobAttachmentsSessionActionDefinitionSummary",
+}) as any as S.Schema<SyncInputJobAttachmentsSessionActionDefinitionSummary>;
 export type SessionActionDefinitionSummary =
   | {
       envEnter: EnvironmentEnterSessionActionDefinitionSummary;
@@ -6705,10 +6105,7 @@ export const SessionActionDefinitionSummary = /*@__PURE__*/ S.Union([
   S.Struct({ envEnter: EnvironmentEnterSessionActionDefinitionSummary }),
   S.Struct({ envExit: EnvironmentExitSessionActionDefinitionSummary }),
   S.Struct({ taskRun: TaskRunSessionActionDefinitionSummary }),
-  S.Struct({
-    syncInputJobAttachments:
-      SyncInputJobAttachmentsSessionActionDefinitionSummary,
-  }),
+  S.Struct({ syncInputJobAttachments: SyncInputJobAttachmentsSessionActionDefinitionSummary }),
 ]);
 export interface SessionActionSummary {
   sessionActionId: string;
@@ -6724,32 +6121,22 @@ export const SessionActionSummary = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     sessionActionId: S.String,
     status: SessionActionStatus,
-    startedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    startedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     endedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-    workerUpdatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    workerUpdatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     progressPercent: S.optional(S.Number),
     manifests: S.optional(TaskRunManifestPropertiesListResponse),
     definition: SessionActionDefinitionSummary,
   }),
-).annotate({
-  identifier: "SessionActionSummary",
-}) as any as S.Schema<SessionActionSummary>;
+).annotate({ identifier: "SessionActionSummary" }) as any as S.Schema<SessionActionSummary>;
 export type SessionActionSummaries = SessionActionSummary[];
-export const SessionActionSummaries =
-  /*@__PURE__*/ S.Array(SessionActionSummary);
+export const SessionActionSummaries = /*@__PURE__*/ S.Array(SessionActionSummary);
 export interface ListSessionActionsResponse {
   sessionActions: SessionActionSummary[];
   nextToken?: string;
 }
 export const ListSessionActionsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    sessionActions: SessionActionSummaries,
-    nextToken: S.optional(S.String),
-  }),
+  S.Struct({ sessionActions: SessionActionSummaries, nextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListSessionActionsResponse",
 }) as any as S.Schema<ListSessionActionsResponse>;
@@ -6780,9 +6167,7 @@ export const ListSessionsRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "ListSessionsRequest",
-}) as any as S.Schema<ListSessionsRequest>;
+).annotate({ identifier: "ListSessionsRequest" }) as any as S.Schema<ListSessionsRequest>;
 export interface SessionSummary {
   sessionId: string;
   fleetId: string;
@@ -6803,9 +6188,7 @@ export const SessionSummary = /*@__PURE__*/ S.suspend(() =>
     lifecycleStatus: SessionLifecycleStatus,
     endedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     targetLifecycleStatus: S.optional(SessionLifecycleTargetStatus),
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     updatedBy: S.optional(S.String),
   }),
 ).annotate({ identifier: "SessionSummary" }) as any as S.Schema<SessionSummary>;
@@ -6817,9 +6200,7 @@ export interface ListSessionsResponse {
 }
 export const ListSessionsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ sessions: SessionSummaries, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListSessionsResponse",
-}) as any as S.Schema<ListSessionsResponse>;
+).annotate({ identifier: "ListSessionsResponse" }) as any as S.Schema<ListSessionsResponse>;
 export interface ListSessionsForWorkerRequest {
   farmId: string;
   fleetId: string;
@@ -6869,21 +6250,15 @@ export const WorkerSessionSummary = /*@__PURE__*/ S.suspend(() =>
     endedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     targetLifecycleStatus: S.optional(SessionLifecycleTargetStatus),
   }),
-).annotate({
-  identifier: "WorkerSessionSummary",
-}) as any as S.Schema<WorkerSessionSummary>;
+).annotate({ identifier: "WorkerSessionSummary" }) as any as S.Schema<WorkerSessionSummary>;
 export type ListSessionsForWorkerSummaries = WorkerSessionSummary[];
-export const ListSessionsForWorkerSummaries =
-  /*@__PURE__*/ S.Array(WorkerSessionSummary);
+export const ListSessionsForWorkerSummaries = /*@__PURE__*/ S.Array(WorkerSessionSummary);
 export interface ListSessionsForWorkerResponse {
   sessions: WorkerSessionSummary[];
   nextToken?: string;
 }
 export const ListSessionsForWorkerResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    sessions: ListSessionsForWorkerSummaries,
-    nextToken: S.optional(S.String),
-  }),
+  S.Struct({ sessions: ListSessionsForWorkerSummaries, nextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListSessionsForWorkerResponse",
 }) as any as S.Schema<ListSessionsForWorkerResponse>;
@@ -6916,13 +6291,8 @@ export const ListStepConsumersRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "ListStepConsumersRequest",
-}) as any as S.Schema<ListStepConsumersRequest>;
-export type DependencyConsumerResolutionStatus =
-  | "RESOLVED"
-  | "UNRESOLVED"
-  | (string & {});
+).annotate({ identifier: "ListStepConsumersRequest" }) as any as S.Schema<ListStepConsumersRequest>;
+export type DependencyConsumerResolutionStatus = "RESOLVED" | "UNRESOLVED" | (string & {});
 export const DependencyConsumerResolutionStatus = S.String;
 
 export interface StepConsumer {
@@ -7020,9 +6390,7 @@ export const ListStepsRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "ListStepsRequest",
-}) as any as S.Schema<ListStepsRequest>;
+).annotate({ identifier: "ListStepsRequest" }) as any as S.Schema<ListStepsRequest>;
 export interface StepSummary {
   stepId: string;
   name: string;
@@ -7052,13 +6420,9 @@ export const StepSummary = /*@__PURE__*/ S.suspend(() =>
     targetTaskRunStatus: S.optional(StepTargetTaskRunStatus),
     createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     createdBy: S.String,
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     updatedBy: S.optional(S.String),
-    startedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    startedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     endedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     dependencyCounts: S.optional(DependencyCounts),
   }),
@@ -7071,9 +6435,7 @@ export interface ListStepsResponse {
 }
 export const ListStepsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ steps: StepSummaries, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListStepsResponse",
-}) as any as S.Schema<ListStepsResponse>;
+).annotate({ identifier: "ListStepsResponse" }) as any as S.Schema<ListStepsResponse>;
 export interface ListStorageProfilesRequest {
   farmId: string;
   nextToken?: string;
@@ -7086,10 +6448,7 @@ export const ListStorageProfilesRequest = /*@__PURE__*/ S.suspend(() =>
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/2023-10-12/farms/{farmId}/storage-profiles",
-      }),
+      T.Http({ method: "GET", uri: "/2023-10-12/farms/{farmId}/storage-profiles" }),
       svc,
       auth,
       proto,
@@ -7111,22 +6470,15 @@ export const StorageProfileSummary = /*@__PURE__*/ S.suspend(() =>
     displayName: S.String,
     osFamily: StorageProfileOperatingSystemFamily,
   }),
-).annotate({
-  identifier: "StorageProfileSummary",
-}) as any as S.Schema<StorageProfileSummary>;
+).annotate({ identifier: "StorageProfileSummary" }) as any as S.Schema<StorageProfileSummary>;
 export type StorageProfileSummaries = StorageProfileSummary[];
-export const StorageProfileSummaries = /*@__PURE__*/ S.Array(
-  StorageProfileSummary,
-);
+export const StorageProfileSummaries = /*@__PURE__*/ S.Array(StorageProfileSummary);
 export interface ListStorageProfilesResponse {
   storageProfiles: StorageProfileSummary[];
   nextToken?: string;
 }
 export const ListStorageProfilesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    storageProfiles: StorageProfileSummaries,
-    nextToken: S.optional(S.String),
-  }),
+  S.Struct({ storageProfiles: StorageProfileSummaries, nextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListStorageProfilesResponse",
 }) as any as S.Schema<ListStorageProfilesResponse>;
@@ -7163,10 +6515,7 @@ export interface ListStorageProfilesForQueueResponse {
   nextToken?: string;
 }
 export const ListStorageProfilesForQueueResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    storageProfiles: StorageProfileSummaries,
-    nextToken: S.optional(S.String),
-  }),
+  S.Struct({ storageProfiles: StorageProfileSummaries, nextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListStorageProfilesForQueueResponse",
 }) as any as S.Schema<ListStorageProfilesForQueueResponse>;
@@ -7224,9 +6573,7 @@ export const ListTasksRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "ListTasksRequest",
-}) as any as S.Schema<ListTasksRequest>;
+).annotate({ identifier: "ListTasksRequest" }) as any as S.Schema<ListTasksRequest>;
 export interface TaskSummary {
   taskId: string;
   createdAt: Date;
@@ -7249,13 +6596,9 @@ export const TaskSummary = /*@__PURE__*/ S.suspend(() =>
     runStatus: TaskRunStatus,
     targetRunStatus: S.optional(TaskTargetRunStatus),
     failureRetryCount: S.optional(S.Number),
-    startedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    startedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     endedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     updatedBy: S.optional(S.String),
     latestSessionActionId: S.optional(S.String),
     parameters: S.optional(TaskParameters),
@@ -7269,9 +6612,7 @@ export interface ListTasksResponse {
 }
 export const ListTasksResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ tasks: TaskSummaries, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListTasksResponse",
-}) as any as S.Schema<ListTasksResponse>;
+).annotate({ identifier: "ListTasksResponse" }) as any as S.Schema<ListTasksResponse>;
 export interface ListVolumesRequest {
   farmId: string;
   fleetId: string;
@@ -7286,10 +6627,7 @@ export const ListVolumesRequest = /*@__PURE__*/ S.suspend(() =>
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/2023-10-12/farms/{farmId}/fleets/{fleetId}/volumes",
-      }),
+      T.Http({ method: "GET", uri: "/2023-10-12/farms/{farmId}/fleets/{fleetId}/volumes" }),
       svc,
       auth,
       proto,
@@ -7297,9 +6635,7 @@ export const ListVolumesRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "ListVolumesRequest",
-}) as any as S.Schema<ListVolumesRequest>;
+).annotate({ identifier: "ListVolumesRequest" }) as any as S.Schema<ListVolumesRequest>;
 export interface VolumeSummary {
   volumeId: string;
   farmId: string;
@@ -7328,9 +6664,7 @@ export interface ListVolumesResponse {
 }
 export const ListVolumesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ volumes: VolumeSummaries, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListVolumesResponse",
-}) as any as S.Schema<ListVolumesResponse>;
+).annotate({ identifier: "ListVolumesResponse" }) as any as S.Schema<ListVolumesResponse>;
 export interface ListWorkersRequest {
   farmId: string;
   fleetId: string;
@@ -7345,10 +6679,7 @@ export const ListWorkersRequest = /*@__PURE__*/ S.suspend(() =>
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/2023-10-12/farms/{farmId}/fleets/{fleetId}/workers",
-      }),
+      T.Http({ method: "GET", uri: "/2023-10-12/farms/{farmId}/fleets/{fleetId}/workers" }),
       svc,
       auth,
       proto,
@@ -7356,9 +6687,7 @@ export const ListWorkersRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "ListWorkersRequest",
-}) as any as S.Schema<ListWorkersRequest>;
+).annotate({ identifier: "ListWorkersRequest" }) as any as S.Schema<ListWorkersRequest>;
 export interface WorkerSummary {
   farmId: string;
   fleetId: string;
@@ -7381,9 +6710,7 @@ export const WorkerSummary = /*@__PURE__*/ S.suspend(() =>
     log: S.optional(LogConfiguration),
     createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     createdBy: S.String,
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     updatedBy: S.optional(S.String),
   }),
 ).annotate({ identifier: "WorkerSummary" }) as any as S.Schema<WorkerSummary>;
@@ -7395,9 +6722,7 @@ export interface ListWorkersResponse {
 }
 export const ListWorkersResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ workers: WorkerSummaries, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListWorkersResponse",
-}) as any as S.Schema<ListWorkersResponse>;
+).annotate({ identifier: "ListWorkersResponse" }) as any as S.Schema<ListWorkersResponse>;
 export interface PutMeteredProductRequest {
   licenseEndpointId: string;
   productId: string;
@@ -7419,13 +6744,9 @@ export const PutMeteredProductRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "PutMeteredProductRequest",
-}) as any as S.Schema<PutMeteredProductRequest>;
+).annotate({ identifier: "PutMeteredProductRequest" }) as any as S.Schema<PutMeteredProductRequest>;
 export interface PutMeteredProductResponse {}
-export const PutMeteredProductResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const PutMeteredProductResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "PutMeteredProductResponse",
 }) as any as S.Schema<PutMeteredProductResponse>;
 export type ComparisonOperator =
@@ -7451,9 +6772,7 @@ export const DateTimeFilterExpression = /*@__PURE__*/ S.suspend(() =>
     operator: ComparisonOperator,
     dateTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
-).annotate({
-  identifier: "DateTimeFilterExpression",
-}) as any as S.Schema<DateTimeFilterExpression>;
+).annotate({ identifier: "DateTimeFilterExpression" }) as any as S.Schema<DateTimeFilterExpression>;
 export type ParameterValue = string;
 export interface ParameterFilterExpression {
   name: string;
@@ -7474,10 +6793,7 @@ export interface SearchTermFilterExpression {
   matchType?: SearchTermMatchingType;
 }
 export const SearchTermFilterExpression = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    searchTerm: S.String,
-    matchType: S.optional(SearchTermMatchingType),
-  }),
+  S.Struct({ searchTerm: S.String, matchType: S.optional(SearchTermMatchingType) }),
 ).annotate({
   identifier: "SearchTermFilterExpression",
 }) as any as S.Schema<SearchTermFilterExpression>;
@@ -7489,9 +6805,7 @@ export interface StringFilterExpression {
 }
 export const StringFilterExpression = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ name: S.String, operator: ComparisonOperator, value: S.String }),
-).annotate({
-  identifier: "StringFilterExpression",
-}) as any as S.Schema<StringFilterExpression>;
+).annotate({ identifier: "StringFilterExpression" }) as any as S.Schema<StringFilterExpression>;
 export type StringFilterList = string[];
 export const StringFilterList = /*@__PURE__*/ S.Array(S.String);
 export interface StringListFilterExpression {
@@ -7500,11 +6814,7 @@ export interface StringListFilterExpression {
   values: string[];
 }
 export const StringListFilterExpression = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.String,
-    operator: ComparisonOperator,
-    values: StringFilterList,
-  }),
+  S.Struct({ name: S.String, operator: ComparisonOperator, values: StringFilterList }),
 ).annotate({
   identifier: "StringListFilterExpression",
 }) as any as S.Schema<StringListFilterExpression>;
@@ -7565,16 +6875,13 @@ export const SearchFilterExpression = /*@__PURE__*/ S.Union([
   S.Struct({ stringListFilter: StringListFilterExpression }),
   S.Struct({
     groupFilter: S.suspend(
-      (): S.Schema<SearchGroupedFilterExpressions> =>
-        SearchGroupedFilterExpressions,
+      (): S.Schema<SearchGroupedFilterExpressions> => SearchGroupedFilterExpressions,
     ).annotate({ identifier: "SearchGroupedFilterExpressions" }),
   }),
 ]) as any as S.Schema<SearchFilterExpression>;
 export type SearchFilterExpressions = SearchFilterExpression[];
 export const SearchFilterExpressions = /*@__PURE__*/ S.Array(
-  S.suspend(() => SearchFilterExpression).annotate({
-    identifier: "SearchFilterExpression",
-  }),
+  S.suspend(() => SearchFilterExpression).annotate({ identifier: "SearchFilterExpression" }),
 ) as any as S.Schema<SearchFilterExpressions>;
 export type LogicalOperator = "AND" | "OR" | (string & {});
 export const LogicalOperator = S.String;
@@ -7608,38 +6915,25 @@ export interface FieldSortExpression {
 }
 export const FieldSortExpression = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ sortOrder: SortOrder, name: S.String }),
-).annotate({
-  identifier: "FieldSortExpression",
-}) as any as S.Schema<FieldSortExpression>;
+).annotate({ identifier: "FieldSortExpression" }) as any as S.Schema<FieldSortExpression>;
 export interface ParameterSortExpression {
   sortOrder: SortOrder;
   name: string;
 }
 export const ParameterSortExpression = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ sortOrder: SortOrder, name: S.String }),
-).annotate({
-  identifier: "ParameterSortExpression",
-}) as any as S.Schema<ParameterSortExpression>;
+).annotate({ identifier: "ParameterSortExpression" }) as any as S.Schema<ParameterSortExpression>;
 export type SearchSortExpression =
   | { userJobsFirst: UserJobsFirst; fieldSort?: never; parameterSort?: never }
-  | {
-      userJobsFirst?: never;
-      fieldSort: FieldSortExpression;
-      parameterSort?: never;
-    }
-  | {
-      userJobsFirst?: never;
-      fieldSort?: never;
-      parameterSort: ParameterSortExpression;
-    };
+  | { userJobsFirst?: never; fieldSort: FieldSortExpression; parameterSort?: never }
+  | { userJobsFirst?: never; fieldSort?: never; parameterSort: ParameterSortExpression };
 export const SearchSortExpression = /*@__PURE__*/ S.Union([
   S.Struct({ userJobsFirst: UserJobsFirst }),
   S.Struct({ fieldSort: FieldSortExpression }),
   S.Struct({ parameterSort: ParameterSortExpression }),
 ]);
 export type SearchSortExpressions = SearchSortExpression[];
-export const SearchSortExpressions =
-  /*@__PURE__*/ S.Array(SearchSortExpression);
+export const SearchSortExpressions = /*@__PURE__*/ S.Array(SearchSortExpression);
 export type QueueIds = string[];
 export const QueueIds = /*@__PURE__*/ S.Array(S.String);
 export interface SearchJobsRequest {
@@ -7668,9 +6962,7 @@ export const SearchJobsRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "SearchJobsRequest",
-}) as any as S.Schema<SearchJobsRequest>;
+).annotate({ identifier: "SearchJobsRequest" }) as any as S.Schema<SearchJobsRequest>;
 export interface JobSearchSummary {
   jobId?: string;
   queueId?: string;
@@ -7709,24 +7001,16 @@ export const JobSearchSummary = /*@__PURE__*/ S.suspend(() =>
     maxFailedTasksCount: S.optional(S.Number),
     maxRetriesPerTask: S.optional(S.Number),
     createdBy: S.optional(S.String),
-    createdAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    createdAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     endedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-    startedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    startedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     updatedBy: S.optional(S.String),
     jobParameters: S.optional(JobParameters),
     maxWorkerCount: S.optional(S.Number),
     sourceJobId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "JobSearchSummary",
-}) as any as S.Schema<JobSearchSummary>;
+).annotate({ identifier: "JobSearchSummary" }) as any as S.Schema<JobSearchSummary>;
 export type JobSearchSummaries = JobSearchSummary[];
 export const JobSearchSummaries = /*@__PURE__*/ S.Array(JobSearchSummary);
 export type NextItemOffset = number;
@@ -7742,9 +7026,7 @@ export const SearchJobsResponse = /*@__PURE__*/ S.suspend(() =>
     nextItemOffset: S.optional(S.Number),
     totalResults: S.Number,
   }),
-).annotate({
-  identifier: "SearchJobsResponse",
-}) as any as S.Schema<SearchJobsResponse>;
+).annotate({ identifier: "SearchJobsResponse" }) as any as S.Schema<SearchJobsResponse>;
 export interface SearchStepsRequest {
   farmId: string;
   filterExpressions?: SearchGroupedFilterExpressions;
@@ -7765,10 +7047,7 @@ export const SearchStepsRequest = /*@__PURE__*/ S.suspend(() =>
     jobId: S.optional(S.String),
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/2023-10-12/farms/{farmId}/search/steps",
-      }),
+      T.Http({ method: "POST", uri: "/2023-10-12/farms/{farmId}/search/steps" }),
       svc,
       auth,
       proto,
@@ -7776,9 +7055,7 @@ export const SearchStepsRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "SearchStepsRequest",
-}) as any as S.Schema<SearchStepsRequest>;
+).annotate({ identifier: "SearchStepsRequest" }) as any as S.Schema<SearchStepsRequest>;
 export interface StepSearchSummary {
   stepId?: string;
   jobId?: string;
@@ -7810,23 +7087,15 @@ export const StepSearchSummary = /*@__PURE__*/ S.suspend(() =>
     targetTaskRunStatus: S.optional(StepTargetTaskRunStatus),
     taskRunStatusCounts: S.optional(TaskRunStatusCounts),
     taskFailureRetryCount: S.optional(S.Number),
-    createdAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    createdAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     createdBy: S.optional(S.String),
-    startedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    startedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     endedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     updatedBy: S.optional(S.String),
     parameterSpace: S.optional(ParameterSpace),
   }),
-).annotate({
-  identifier: "StepSearchSummary",
-}) as any as S.Schema<StepSearchSummary>;
+).annotate({ identifier: "StepSearchSummary" }) as any as S.Schema<StepSearchSummary>;
 export type StepSearchSummaries = StepSearchSummary[];
 export const StepSearchSummaries = /*@__PURE__*/ S.Array(StepSearchSummary);
 export interface SearchStepsResponse {
@@ -7840,9 +7109,7 @@ export const SearchStepsResponse = /*@__PURE__*/ S.suspend(() =>
     nextItemOffset: S.optional(S.Number),
     totalResults: S.Number,
   }),
-).annotate({
-  identifier: "SearchStepsResponse",
-}) as any as S.Schema<SearchStepsResponse>;
+).annotate({ identifier: "SearchStepsResponse" }) as any as S.Schema<SearchStepsResponse>;
 export interface SearchTasksRequest {
   farmId: string;
   filterExpressions?: SearchGroupedFilterExpressions;
@@ -7863,10 +7130,7 @@ export const SearchTasksRequest = /*@__PURE__*/ S.suspend(() =>
     jobId: S.optional(S.String),
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/2023-10-12/farms/{farmId}/search/tasks",
-      }),
+      T.Http({ method: "POST", uri: "/2023-10-12/farms/{farmId}/search/tasks" }),
       svc,
       auth,
       proto,
@@ -7874,9 +7138,7 @@ export const SearchTasksRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "SearchTasksRequest",
-}) as any as S.Schema<SearchTasksRequest>;
+).annotate({ identifier: "SearchTasksRequest" }) as any as S.Schema<SearchTasksRequest>;
 export interface TaskSearchSummary {
   taskId?: string;
   stepId?: string;
@@ -7902,19 +7164,13 @@ export const TaskSearchSummary = /*@__PURE__*/ S.suspend(() =>
     targetRunStatus: S.optional(TaskTargetRunStatus),
     parameters: S.optional(TaskParameters),
     failureRetryCount: S.optional(S.Number),
-    startedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    startedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     endedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     updatedBy: S.optional(S.String),
     latestSessionActionId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TaskSearchSummary",
-}) as any as S.Schema<TaskSearchSummary>;
+).annotate({ identifier: "TaskSearchSummary" }) as any as S.Schema<TaskSearchSummary>;
 export type TaskSearchSummaries = TaskSearchSummary[];
 export const TaskSearchSummaries = /*@__PURE__*/ S.Array(TaskSearchSummary);
 export interface SearchTasksResponse {
@@ -7928,9 +7184,7 @@ export const SearchTasksResponse = /*@__PURE__*/ S.suspend(() =>
     nextItemOffset: S.optional(S.Number),
     totalResults: S.Number,
   }),
-).annotate({
-  identifier: "SearchTasksResponse",
-}) as any as S.Schema<SearchTasksResponse>;
+).annotate({ identifier: "SearchTasksResponse" }) as any as S.Schema<SearchTasksResponse>;
 export type FleetIds = string[];
 export const FleetIds = /*@__PURE__*/ S.Array(S.String);
 export interface SearchWorkersRequest {
@@ -7951,10 +7205,7 @@ export const SearchWorkersRequest = /*@__PURE__*/ S.suspend(() =>
     fleetIds: FleetIds,
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/2023-10-12/farms/{farmId}/search/workers",
-      }),
+      T.Http({ method: "POST", uri: "/2023-10-12/farms/{farmId}/search/workers" }),
       svc,
       auth,
       proto,
@@ -7962,9 +7213,7 @@ export const SearchWorkersRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "SearchWorkersRequest",
-}) as any as S.Schema<SearchWorkersRequest>;
+).annotate({ identifier: "SearchWorkersRequest" }) as any as S.Schema<SearchWorkersRequest>;
 export interface WorkerSearchSummary {
   fleetId?: string;
   workerId?: string;
@@ -7982,17 +7231,11 @@ export const WorkerSearchSummary = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(WorkerStatus),
     hostProperties: S.optional(HostPropertiesResponse),
     createdBy: S.optional(S.String),
-    createdAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    createdAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     updatedBy: S.optional(S.String),
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
-).annotate({
-  identifier: "WorkerSearchSummary",
-}) as any as S.Schema<WorkerSearchSummary>;
+).annotate({ identifier: "WorkerSearchSummary" }) as any as S.Schema<WorkerSearchSummary>;
 export type WorkerSearchSummaries = WorkerSearchSummary[];
 export const WorkerSearchSummaries = /*@__PURE__*/ S.Array(WorkerSearchSummary);
 export interface SearchWorkersResponse {
@@ -8006,9 +7249,7 @@ export const SearchWorkersResponse = /*@__PURE__*/ S.suspend(() =>
     nextItemOffset: S.optional(S.Number),
     totalResults: S.Number,
   }),
-).annotate({
-  identifier: "SearchWorkersResponse",
-}) as any as S.Schema<SearchWorkersResponse>;
+).annotate({ identifier: "SearchWorkersResponse" }) as any as S.Schema<SearchWorkersResponse>;
 export type SessionsStatisticsResources =
   | { queueIds: string[]; fleetIds?: never }
   | { queueIds?: never; fleetIds: string[] };
@@ -8048,49 +7289,43 @@ export interface StartSessionsStatisticsAggregationRequest {
   groupBy: UsageGroupByField[];
   statistics: UsageStatistic[];
 }
-export const StartSessionsStatisticsAggregationRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      farmId: S.String.pipe(T.HttpLabel("farmId")),
-      resourceIds: SessionsStatisticsResources,
-      startTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-      endTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-      timezone: S.optional(S.String),
-      period: S.optional(Period),
-      groupBy: UsageGroupBy,
-      statistics: UsageStatistics,
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "POST",
-          uri: "/2023-10-12/farms/{farmId}/sessions-statistics-aggregation",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const StartSessionsStatisticsAggregationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    farmId: S.String.pipe(T.HttpLabel("farmId")),
+    resourceIds: SessionsStatisticsResources,
+    startTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    endTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    timezone: S.optional(S.String),
+    period: S.optional(Period),
+    groupBy: UsageGroupBy,
+    statistics: UsageStatistics,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/2023-10-12/farms/{farmId}/sessions-statistics-aggregation" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
-  ).annotate({
-    identifier: "StartSessionsStatisticsAggregationRequest",
-  }) as any as S.Schema<StartSessionsStatisticsAggregationRequest>;
+  ),
+).annotate({
+  identifier: "StartSessionsStatisticsAggregationRequest",
+}) as any as S.Schema<StartSessionsStatisticsAggregationRequest>;
 export interface StartSessionsStatisticsAggregationResponse {
   aggregationId: string;
 }
-export const StartSessionsStatisticsAggregationResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({ aggregationId: S.String })).annotate(
-    { identifier: "StartSessionsStatisticsAggregationResponse" },
-  ) as any as S.Schema<StartSessionsStatisticsAggregationResponse>;
+export const StartSessionsStatisticsAggregationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ aggregationId: S.String }),
+).annotate({
+  identifier: "StartSessionsStatisticsAggregationResponse",
+}) as any as S.Schema<StartSessionsStatisticsAggregationResponse>;
 export interface TagResourceRequest {
   resourceArn: string;
   tags?: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-    tags: S.optional(Tags),
-  }).pipe(
+  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tags: S.optional(Tags) }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/2023-10-12/tags/{resourceArn}" }),
       svc,
@@ -8100,13 +7335,9 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
+).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export type StringList = string[];
@@ -8129,13 +7360,9 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
+).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface BudgetActionToRemove {
@@ -8144,12 +7371,9 @@ export interface BudgetActionToRemove {
 }
 export const BudgetActionToRemove = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ type: BudgetActionType, thresholdPercentage: S.Number }),
-).annotate({
-  identifier: "BudgetActionToRemove",
-}) as any as S.Schema<BudgetActionToRemove>;
+).annotate({ identifier: "BudgetActionToRemove" }) as any as S.Schema<BudgetActionToRemove>;
 export type BudgetActionsToRemove = BudgetActionToRemove[];
-export const BudgetActionsToRemove =
-  /*@__PURE__*/ S.Array(BudgetActionToRemove);
+export const BudgetActionsToRemove = /*@__PURE__*/ S.Array(BudgetActionToRemove);
 export interface UpdateBudgetRequest {
   farmId: string;
   budgetId: string;
@@ -8179,10 +7403,7 @@ export const UpdateBudgetRequest = /*@__PURE__*/ S.suspend(() =>
     schedule: S.optional(BudgetSchedule),
   }).pipe(
     T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/2023-10-12/farms/{farmId}/budgets/{budgetId}",
-      }),
+      T.Http({ method: "PATCH", uri: "/2023-10-12/farms/{farmId}/budgets/{budgetId}" }),
       svc,
       auth,
       proto,
@@ -8190,13 +7411,9 @@ export const UpdateBudgetRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "UpdateBudgetRequest",
-}) as any as S.Schema<UpdateBudgetRequest>;
+).annotate({ identifier: "UpdateBudgetRequest" }) as any as S.Schema<UpdateBudgetRequest>;
 export interface UpdateBudgetResponse {}
-export const UpdateBudgetResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UpdateBudgetResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UpdateBudgetResponse",
 }) as any as S.Schema<UpdateBudgetResponse>;
 export interface UpdateFarmRequest {
@@ -8221,13 +7438,9 @@ export const UpdateFarmRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "UpdateFarmRequest",
-}) as any as S.Schema<UpdateFarmRequest>;
+).annotate({ identifier: "UpdateFarmRequest" }) as any as S.Schema<UpdateFarmRequest>;
 export interface UpdateFarmResponse {}
-export const UpdateFarmResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UpdateFarmResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UpdateFarmResponse",
 }) as any as S.Schema<UpdateFarmResponse>;
 export interface UpdateFleetRequest {
@@ -8259,10 +7472,7 @@ export const UpdateFleetRequest = /*@__PURE__*/ S.suspend(() =>
     hostConfiguration: S.optional(HostConfiguration),
   }).pipe(
     T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/2023-10-12/farms/{farmId}/fleets/{fleetId}",
-      }),
+      T.Http({ method: "PATCH", uri: "/2023-10-12/farms/{farmId}/fleets/{fleetId}" }),
       svc,
       auth,
       proto,
@@ -8270,13 +7480,9 @@ export const UpdateFleetRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "UpdateFleetRequest",
-}) as any as S.Schema<UpdateFleetRequest>;
+).annotate({ identifier: "UpdateFleetRequest" }) as any as S.Schema<UpdateFleetRequest>;
 export interface UpdateFleetResponse {}
-export const UpdateFleetResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UpdateFleetResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UpdateFleetResponse",
 }) as any as S.Schema<UpdateFleetResponse>;
 export interface UpdateJobRequest {
@@ -8312,10 +7518,7 @@ export const UpdateJobRequest = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(SensitiveString),
   }).pipe(
     T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/2023-10-12/farms/{farmId}/queues/{queueId}/jobs/{jobId}",
-      }),
+      T.Http({ method: "PATCH", uri: "/2023-10-12/farms/{farmId}/queues/{queueId}/jobs/{jobId}" }),
       svc,
       auth,
       proto,
@@ -8323,13 +7526,9 @@ export const UpdateJobRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "UpdateJobRequest",
-}) as any as S.Schema<UpdateJobRequest>;
+).annotate({ identifier: "UpdateJobRequest" }) as any as S.Schema<UpdateJobRequest>;
 export interface UpdateJobResponse {}
-export const UpdateJobResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UpdateJobResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UpdateJobResponse",
 }) as any as S.Schema<UpdateJobResponse>;
 export interface UpdateLimitRequest {
@@ -8348,10 +7547,7 @@ export const UpdateLimitRequest = /*@__PURE__*/ S.suspend(() =>
     maxCount: S.optional(S.Number),
   }).pipe(
     T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/2023-10-12/farms/{farmId}/limits/{limitId}",
-      }),
+      T.Http({ method: "PATCH", uri: "/2023-10-12/farms/{farmId}/limits/{limitId}" }),
       svc,
       auth,
       proto,
@@ -8359,13 +7555,9 @@ export const UpdateLimitRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "UpdateLimitRequest",
-}) as any as S.Schema<UpdateLimitRequest>;
+).annotate({ identifier: "UpdateLimitRequest" }) as any as S.Schema<UpdateLimitRequest>;
 export interface UpdateLimitResponse {}
-export const UpdateLimitResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UpdateLimitResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UpdateLimitResponse",
 }) as any as S.Schema<UpdateLimitResponse>;
 export interface UpdateMonitorRequest {
@@ -8390,13 +7582,9 @@ export const UpdateMonitorRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "UpdateMonitorRequest",
-}) as any as S.Schema<UpdateMonitorRequest>;
+).annotate({ identifier: "UpdateMonitorRequest" }) as any as S.Schema<UpdateMonitorRequest>;
 export interface UpdateMonitorResponse {}
-export const UpdateMonitorResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UpdateMonitorResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UpdateMonitorResponse",
 }) as any as S.Schema<UpdateMonitorResponse>;
 export interface UpdateMonitorSettingsRequest {
@@ -8404,15 +7592,9 @@ export interface UpdateMonitorSettingsRequest {
   settings: { [key: string]: string | undefined };
 }
 export const UpdateMonitorSettingsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    monitorId: S.String.pipe(T.HttpLabel("monitorId")),
-    settings: SettingsMap,
-  }).pipe(
+  S.Struct({ monitorId: S.String.pipe(T.HttpLabel("monitorId")), settings: SettingsMap }).pipe(
     T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/2023-10-12/monitors/{monitorId}/settings",
-      }),
+      T.Http({ method: "PATCH", uri: "/2023-10-12/monitors/{monitorId}/settings" }),
       svc,
       auth,
       proto,
@@ -8424,9 +7606,7 @@ export const UpdateMonitorSettingsRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "UpdateMonitorSettingsRequest",
 }) as any as S.Schema<UpdateMonitorSettingsRequest>;
 export interface UpdateMonitorSettingsResponse {}
-export const UpdateMonitorSettingsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UpdateMonitorSettingsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UpdateMonitorSettingsResponse",
 }) as any as S.Schema<UpdateMonitorSettingsResponse>;
 export interface UpdateQueueRequest {
@@ -8459,21 +7639,14 @@ export const UpdateQueueRequest = /*@__PURE__*/ S.suspend(() =>
     jobAttachmentSettings: S.optional(JobAttachmentSettings),
     roleArn: S.optional(S.String),
     jobRunAsUser: S.optional(JobRunAsUser),
-    requiredFileSystemLocationNamesToAdd: S.optional(
-      RequiredFileSystemLocationNames,
-    ),
-    requiredFileSystemLocationNamesToRemove: S.optional(
-      RequiredFileSystemLocationNames,
-    ),
+    requiredFileSystemLocationNamesToAdd: S.optional(RequiredFileSystemLocationNames),
+    requiredFileSystemLocationNamesToRemove: S.optional(RequiredFileSystemLocationNames),
     allowedStorageProfileIdsToAdd: S.optional(AllowedStorageProfileIds),
     allowedStorageProfileIdsToRemove: S.optional(AllowedStorageProfileIds),
     schedulingConfiguration: S.optional(SchedulingConfiguration),
   }).pipe(
     T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/2023-10-12/farms/{farmId}/queues/{queueId}",
-      }),
+      T.Http({ method: "PATCH", uri: "/2023-10-12/farms/{farmId}/queues/{queueId}" }),
       svc,
       auth,
       proto,
@@ -8481,13 +7654,9 @@ export const UpdateQueueRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "UpdateQueueRequest",
-}) as any as S.Schema<UpdateQueueRequest>;
+).annotate({ identifier: "UpdateQueueRequest" }) as any as S.Schema<UpdateQueueRequest>;
 export interface UpdateQueueResponse {}
-export const UpdateQueueResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UpdateQueueResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UpdateQueueResponse",
 }) as any as S.Schema<UpdateQueueResponse>;
 export interface UpdateQueueEnvironmentRequest {
@@ -8528,9 +7697,7 @@ export const UpdateQueueEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "UpdateQueueEnvironmentRequest",
 }) as any as S.Schema<UpdateQueueEnvironmentRequest>;
 export interface UpdateQueueEnvironmentResponse {}
-export const UpdateQueueEnvironmentResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UpdateQueueEnvironmentResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UpdateQueueEnvironmentResponse",
 }) as any as S.Schema<UpdateQueueEnvironmentResponse>;
 export type UpdateQueueFleetAssociationStatus =
@@ -8647,13 +7814,9 @@ export const UpdateSessionRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "UpdateSessionRequest",
-}) as any as S.Schema<UpdateSessionRequest>;
+).annotate({ identifier: "UpdateSessionRequest" }) as any as S.Schema<UpdateSessionRequest>;
 export interface UpdateSessionResponse {}
-export const UpdateSessionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UpdateSessionResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UpdateSessionResponse",
 }) as any as S.Schema<UpdateSessionResponse>;
 export interface UpdateStepRequest {
@@ -8688,13 +7851,9 @@ export const UpdateStepRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "UpdateStepRequest",
-}) as any as S.Schema<UpdateStepRequest>;
+).annotate({ identifier: "UpdateStepRequest" }) as any as S.Schema<UpdateStepRequest>;
 export interface UpdateStepResponse {}
-export const UpdateStepResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UpdateStepResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UpdateStepResponse",
 }) as any as S.Schema<UpdateStepResponse>;
 export interface UpdateStorageProfileRequest {
@@ -8735,9 +7894,7 @@ export const UpdateStorageProfileRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "UpdateStorageProfileRequest",
 }) as any as S.Schema<UpdateStorageProfileRequest>;
 export interface UpdateStorageProfileResponse {}
-export const UpdateStorageProfileResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UpdateStorageProfileResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UpdateStorageProfileResponse",
 }) as any as S.Schema<UpdateStorageProfileResponse>;
 export interface UpdateTaskRequest {
@@ -8774,20 +7931,12 @@ export const UpdateTaskRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "UpdateTaskRequest",
-}) as any as S.Schema<UpdateTaskRequest>;
+).annotate({ identifier: "UpdateTaskRequest" }) as any as S.Schema<UpdateTaskRequest>;
 export interface UpdateTaskResponse {}
-export const UpdateTaskResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UpdateTaskResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UpdateTaskResponse",
 }) as any as S.Schema<UpdateTaskResponse>;
-export type UpdatedWorkerStatus =
-  | "STARTED"
-  | "STOPPING"
-  | "STOPPED"
-  | (string & {});
+export type UpdatedWorkerStatus = "STARTED" | "STOPPING" | "STOPPED" | (string & {});
 export const UpdatedWorkerStatus = S.String;
 
 export interface WorkerAmountCapability {
@@ -8796,13 +7945,9 @@ export interface WorkerAmountCapability {
 }
 export const WorkerAmountCapability = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ name: S.String, value: S.Number }),
-).annotate({
-  identifier: "WorkerAmountCapability",
-}) as any as S.Schema<WorkerAmountCapability>;
+).annotate({ identifier: "WorkerAmountCapability" }) as any as S.Schema<WorkerAmountCapability>;
 export type WorkerAmountCapabilityList = WorkerAmountCapability[];
-export const WorkerAmountCapabilityList = /*@__PURE__*/ S.Array(
-  WorkerAmountCapability,
-);
+export const WorkerAmountCapabilityList = /*@__PURE__*/ S.Array(WorkerAmountCapability);
 export interface WorkerAttributeCapability {
   name: string;
   values: string[];
@@ -8813,21 +7958,14 @@ export const WorkerAttributeCapability = /*@__PURE__*/ S.suspend(() =>
   identifier: "WorkerAttributeCapability",
 }) as any as S.Schema<WorkerAttributeCapability>;
 export type WorkerAttributeCapabilityList = WorkerAttributeCapability[];
-export const WorkerAttributeCapabilityList = /*@__PURE__*/ S.Array(
-  WorkerAttributeCapability,
-);
+export const WorkerAttributeCapabilityList = /*@__PURE__*/ S.Array(WorkerAttributeCapability);
 export interface WorkerCapabilities {
   amounts: WorkerAmountCapability[];
   attributes: WorkerAttributeCapability[];
 }
 export const WorkerCapabilities = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    amounts: WorkerAmountCapabilityList,
-    attributes: WorkerAttributeCapabilityList,
-  }),
-).annotate({
-  identifier: "WorkerCapabilities",
-}) as any as S.Schema<WorkerCapabilities>;
+  S.Struct({ amounts: WorkerAmountCapabilityList, attributes: WorkerAttributeCapabilityList }),
+).annotate({ identifier: "WorkerCapabilities" }) as any as S.Schema<WorkerCapabilities>;
 export interface UpdateWorkerRequest {
   farmId: string;
   fleetId: string;
@@ -8857,21 +7995,14 @@ export const UpdateWorkerRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "UpdateWorkerRequest",
-}) as any as S.Schema<UpdateWorkerRequest>;
+).annotate({ identifier: "UpdateWorkerRequest" }) as any as S.Schema<UpdateWorkerRequest>;
 export interface UpdateWorkerResponse {
   log?: LogConfiguration;
   hostConfiguration?: HostConfiguration;
 }
 export const UpdateWorkerResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    log: S.optional(LogConfiguration),
-    hostConfiguration: S.optional(HostConfiguration),
-  }),
-).annotate({
-  identifier: "UpdateWorkerResponse",
-}) as any as S.Schema<UpdateWorkerResponse>;
+  S.Struct({ log: S.optional(LogConfiguration), hostConfiguration: S.optional(HostConfiguration) }),
+).annotate({ identifier: "UpdateWorkerResponse" }) as any as S.Schema<UpdateWorkerResponse>;
 export type CompletedStatus =
   | "SUCCEEDED"
   | "FAILED"
@@ -8886,15 +8017,11 @@ export interface TaskRunManifestPropertiesRequest {
   outputManifestHash?: string;
 }
 export const TaskRunManifestPropertiesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    outputManifestPath: S.optional(S.String),
-    outputManifestHash: S.optional(S.String),
-  }),
+  S.Struct({ outputManifestPath: S.optional(S.String), outputManifestHash: S.optional(S.String) }),
 ).annotate({
   identifier: "TaskRunManifestPropertiesRequest",
 }) as any as S.Schema<TaskRunManifestPropertiesRequest>;
-export type TaskRunManifestPropertiesListRequest =
-  TaskRunManifestPropertiesRequest[];
+export type TaskRunManifestPropertiesListRequest = TaskRunManifestPropertiesRequest[];
 export const TaskRunManifestPropertiesListRequest = /*@__PURE__*/ S.Array(
   TaskRunManifestPropertiesRequest,
 );
@@ -8913,22 +8040,14 @@ export const UpdatedSessionActionInfo = /*@__PURE__*/ S.suspend(() =>
     completedStatus: S.optional(CompletedStatus),
     processExitCode: S.optional(S.Number),
     progressMessage: S.optional(SensitiveString),
-    startedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    startedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     endedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     progressPercent: S.optional(S.Number),
     manifests: S.optional(TaskRunManifestPropertiesListRequest),
   }),
-).annotate({
-  identifier: "UpdatedSessionActionInfo",
-}) as any as S.Schema<UpdatedSessionActionInfo>;
-export type UpdatedSessionActions = {
-  [key: string]: UpdatedSessionActionInfo | undefined;
-};
+).annotate({ identifier: "UpdatedSessionActionInfo" }) as any as S.Schema<UpdatedSessionActionInfo>;
+export type UpdatedSessionActions = { [key: string]: UpdatedSessionActionInfo | undefined };
 export const UpdatedSessionActions = /*@__PURE__*/ S.Record(
   S.String,
   UpdatedSessionActionInfo.pipe(S.optional),
@@ -8937,9 +8056,7 @@ export interface UpdateWorkerScheduleRequest {
   farmId: string;
   fleetId: string;
   workerId: string;
-  updatedSessionActions?: {
-    [key: string]: UpdatedSessionActionInfo | undefined;
-  };
+  updatedSessionActions?: { [key: string]: UpdatedSessionActionInfo | undefined };
 }
 export const UpdateWorkerScheduleRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -8966,41 +8083,37 @@ export const UpdateWorkerScheduleRequest = /*@__PURE__*/ S.suspend(() =>
 export interface AssignedEnvironmentEnterSessionActionDefinition {
   environmentId: string;
 }
-export const AssignedEnvironmentEnterSessionActionDefinition =
-  /*@__PURE__*/ S.suspend(() => S.Struct({ environmentId: S.String })).annotate(
-    { identifier: "AssignedEnvironmentEnterSessionActionDefinition" },
-  ) as any as S.Schema<AssignedEnvironmentEnterSessionActionDefinition>;
+export const AssignedEnvironmentEnterSessionActionDefinition = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ environmentId: S.String }),
+).annotate({
+  identifier: "AssignedEnvironmentEnterSessionActionDefinition",
+}) as any as S.Schema<AssignedEnvironmentEnterSessionActionDefinition>;
 export interface AssignedEnvironmentExitSessionActionDefinition {
   environmentId: string;
 }
-export const AssignedEnvironmentExitSessionActionDefinition =
-  /*@__PURE__*/ S.suspend(() => S.Struct({ environmentId: S.String })).annotate(
-    { identifier: "AssignedEnvironmentExitSessionActionDefinition" },
-  ) as any as S.Schema<AssignedEnvironmentExitSessionActionDefinition>;
+export const AssignedEnvironmentExitSessionActionDefinition = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ environmentId: S.String }),
+).annotate({
+  identifier: "AssignedEnvironmentExitSessionActionDefinition",
+}) as any as S.Schema<AssignedEnvironmentExitSessionActionDefinition>;
 export interface AssignedTaskRunSessionActionDefinition {
   taskId?: string;
   stepId: string;
   parameters: { [key: string]: TaskParameterValue | undefined };
 }
-export const AssignedTaskRunSessionActionDefinition = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      taskId: S.optional(S.String),
-      stepId: S.String,
-      parameters: TaskParameters,
-    }),
+export const AssignedTaskRunSessionActionDefinition = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ taskId: S.optional(S.String), stepId: S.String, parameters: TaskParameters }),
 ).annotate({
   identifier: "AssignedTaskRunSessionActionDefinition",
 }) as any as S.Schema<AssignedTaskRunSessionActionDefinition>;
 export interface AssignedSyncInputJobAttachmentsSessionActionDefinition {
   stepId?: string;
 }
-export const AssignedSyncInputJobAttachmentsSessionActionDefinition =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ stepId: S.optional(S.String) }),
-  ).annotate({
-    identifier: "AssignedSyncInputJobAttachmentsSessionActionDefinition",
-  }) as any as S.Schema<AssignedSyncInputJobAttachmentsSessionActionDefinition>;
+export const AssignedSyncInputJobAttachmentsSessionActionDefinition = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ stepId: S.optional(S.String) }),
+).annotate({
+  identifier: "AssignedSyncInputJobAttachmentsSessionActionDefinition",
+}) as any as S.Schema<AssignedSyncInputJobAttachmentsSessionActionDefinition>;
 export type AssignedSessionActionDefinition =
   | {
       envEnter: AssignedEnvironmentEnterSessionActionDefinition;
@@ -9030,32 +8143,27 @@ export const AssignedSessionActionDefinition = /*@__PURE__*/ S.Union([
   S.Struct({ envEnter: AssignedEnvironmentEnterSessionActionDefinition }),
   S.Struct({ envExit: AssignedEnvironmentExitSessionActionDefinition }),
   S.Struct({ taskRun: AssignedTaskRunSessionActionDefinition }),
-  S.Struct({
-    syncInputJobAttachments:
-      AssignedSyncInputJobAttachmentsSessionActionDefinition,
-  }),
+  S.Struct({ syncInputJobAttachments: AssignedSyncInputJobAttachmentsSessionActionDefinition }),
 ]);
 export interface AssignedSessionAction {
   sessionActionId: string;
   definition: AssignedSessionActionDefinition;
 }
 export const AssignedSessionAction = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    sessionActionId: S.String,
-    definition: AssignedSessionActionDefinition,
-  }),
-).annotate({
-  identifier: "AssignedSessionAction",
-}) as any as S.Schema<AssignedSessionAction>;
+  S.Struct({ sessionActionId: S.String, definition: AssignedSessionActionDefinition }),
+).annotate({ identifier: "AssignedSessionAction" }) as any as S.Schema<AssignedSessionAction>;
 export type AssignedSessionActions = AssignedSessionAction[];
-export const AssignedSessionActions = /*@__PURE__*/ S.Array(
-  AssignedSessionAction,
-);
+export const AssignedSessionActions = /*@__PURE__*/ S.Array(AssignedSessionAction);
+export type SessionMetadataKey = string;
+export type SessionMetadataValue = string;
+export type SessionMetadata = { [key: string]: string | undefined };
+export const SessionMetadata = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface AssignedSession {
   queueId: string;
   jobId: string;
   sessionActions: AssignedSessionAction[];
   logConfiguration: LogConfiguration;
+  metadata?: { [key: string]: string | undefined };
 }
 export const AssignedSession = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -9063,15 +8171,11 @@ export const AssignedSession = /*@__PURE__*/ S.suspend(() =>
     jobId: S.String,
     sessionActions: AssignedSessionActions,
     logConfiguration: LogConfiguration,
+    metadata: S.optional(SessionMetadata),
   }),
-).annotate({
-  identifier: "AssignedSession",
-}) as any as S.Schema<AssignedSession>;
+).annotate({ identifier: "AssignedSession" }) as any as S.Schema<AssignedSession>;
 export type AssignedSessions = { [key: string]: AssignedSession | undefined };
-export const AssignedSessions = /*@__PURE__*/ S.Record(
-  S.String,
-  AssignedSession.pipe(S.optional),
-);
+export const AssignedSessions = /*@__PURE__*/ S.Record(S.String, AssignedSession.pipe(S.optional));
 export type SessionActionIdList = string[];
 export const SessionActionIdList = /*@__PURE__*/ S.Array(S.String);
 export type CancelSessionActions = { [key: string]: string[] | undefined };
@@ -9100,10 +8204,7 @@ export const UpdateWorkerScheduleResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "UpdateWorkerScheduleResponse",
 }) as any as S.Schema<UpdateWorkerScheduleResponse>;
 export type ExceptionContext = { [key: string]: string | undefined };
-export const ExceptionContext = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const ExceptionContext = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export type ServiceQuotaExceededExceptionReason =
   | "SERVICE_QUOTA_EXCEEDED_EXCEPTION"
   | "KMS_KEY_LIMIT_EXCEEDED"
@@ -9125,13 +8226,9 @@ export interface ValidationExceptionField {
 }
 export const ValidationExceptionField = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ name: S.String, message: S.String }),
-).annotate({
-  identifier: "ValidationExceptionField",
-}) as any as S.Schema<ValidationExceptionField>;
+).annotate({ identifier: "ValidationExceptionField" }) as any as S.Schema<ValidationExceptionField>;
 export type ValidationExceptionFieldList = ValidationExceptionField[];
-export const ValidationExceptionFieldList = /*@__PURE__*/ S.Array(
-  ValidationExceptionField,
-);
+export const ValidationExceptionFieldList = /*@__PURE__*/ S.Array(ValidationExceptionField);
 export type ConflictExceptionReason =
   | "CONFLICT_EXCEPTION"
   | "CONCURRENT_MODIFICATION"
@@ -12869,6 +11966,8 @@ export type UpdateFleetError =
   | CommonErrors;
 /**
  * Updates a fleet.
+ *
+ * Workers that are running when you call `UpdateFleet` keep the instance type and capabilities that they launched with until they scale in. Deadline Cloud can schedule jobs that you submit after the update on these existing workers, so the new configuration might not take effect immediately. To make sure that all workers use the new configuration, set `maxWorkerCount` to 0, use the `ListWorkers` operation to confirm that the fleet has no workers, and then restore `maxWorkerCount`.
  */
 export const updateFleet: API.OperationMethod<
   UpdateFleetRequest,
@@ -13030,6 +12129,7 @@ export type UpdateQueueError =
   | ResourceNotFoundException
   | ThrottlingException
   | ValidationException
+  | ConflictException
   | CommonErrors;
 /**
  * Updates a queue.
@@ -13048,6 +12148,7 @@ export const updateQueue: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
+    ConflictException,
   ],
   protocol: AwsProtocol,
   retry: Retry,

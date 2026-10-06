@@ -481,6 +481,14 @@
             "smithy.api#required": {}
           }
         },
+        "github_link": {
+          "target": "com.posthog.feature_requests#FeatureRequestGitHubLink",
+          "traits": {
+            "smithy.api#documentation": "Linked GitHub issue, or null when no issue is linked.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
         "created_by": {
           "target": "smithy.api#Integer",
           "traits": {
@@ -813,6 +821,89 @@
       },
       "traits": {
         "smithy.api#documentation": "Product areas affected by this request."
+      }
+    },
+    "com.posthog.feature_requests#FeatureRequestGitHubLink": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Stable GitHub link ID.",
+            "smithy.api#required": {}
+          }
+        },
+        "issue_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Canonical GitHub issue URL.",
+            "smithy.api#required": {}
+          }
+        },
+        "repository": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Canonical owner and repository name.",
+            "smithy.api#required": {}
+          }
+        },
+        "issue_number": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "GitHub issue number.",
+            "smithy.api#required": {}
+          }
+        },
+        "issue_title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Latest GitHub issue title.",
+            "smithy.api#required": {}
+          }
+        },
+        "issue_state": {
+          "target": "com.posthog.feature_requests#IssueStateEnum",
+          "traits": {
+            "smithy.api#documentation": "Latest GitHub issue state.\n\n* `open` - open\n* `closed` - closed",
+            "smithy.api#required": {}
+          }
+        },
+        "sync_enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether GitHub issue changes update this request.",
+            "smithy.api#required": {}
+          }
+        },
+        "last_synced_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When GitHub last updated this link.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.feature_requests#IssueStateEnum": {
+      "type": "enum",
+      "members": {
+        "OPEN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "open"
+          }
+        },
+        "CLOSED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "closed"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `open` - open\n* `closed` - closed"
       }
     },
     "com.posthog.feature_requests#PaginatedFeatureRequestListResultsList": {
@@ -1481,7 +1572,7 @@
         "change_source": {
           "target": "com.posthog.feature_requests#FeatureRequestHistorySourceEnum",
           "traits": {
-            "smithy.api#documentation": "System that recorded the request change.\n\n* `manual` - Manual",
+            "smithy.api#documentation": "System that recorded the request change.\n\n* `manual` - Manual\n* `github` - GitHub",
             "smithy.api#required": {}
           }
         },
@@ -1517,7 +1608,7 @@
         "field": {
           "target": "com.posthog.feature_requests#FeatureRequestHistoryChangeFieldEnum",
           "traits": {
-            "smithy.api#documentation": "Request field represented by this change.\n\n* `status` - Status\n* `priority` - Priority\n* `account` - Account\n* `accounts` - Accounts\n* `evidence` - Evidence\n* `product_areas` - Product areas",
+            "smithy.api#documentation": "Request field represented by this change.\n\n* `status` - Status\n* `priority` - Priority\n* `account` - Account\n* `accounts` - Accounts\n* `evidence` - Evidence\n* `product_areas` - Product areas\n* `github_link` - GitHub link\n* `github_sync` - GitHub sync",
             "smithy.api#required": {}
           }
         },
@@ -1578,13 +1669,91 @@
           "traits": {
             "smithy.api#enumValue": "product_areas"
           }
+        },
+        "GITHUB_LINK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "github_link"
+          }
+        },
+        "GITHUB_SYNC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "github_sync"
+          }
         }
       },
       "traits": {
-        "smithy.api#documentation": "* `status` - Status\n* `priority` - Priority\n* `account` - Account\n* `accounts` - Accounts\n* `evidence` - Evidence\n* `product_areas` - Product areas"
+        "smithy.api#documentation": "* `status` - Status\n* `priority` - Priority\n* `account` - Account\n* `accounts` - Accounts\n* `evidence` - Evidence\n* `product_areas` - Product areas\n* `github_link` - GitHub link\n* `github_sync` - GitHub sync"
       }
     },
-    "com.posthog.feature_requests#FeatureRequestHistoryChangeBeforeCase1": {
+    "com.posthog.feature_requests#FeatureRequestHistoryChangeBeforeCase2IssueState": {
+      "type": "enum",
+      "members": {
+        "OPEN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "open"
+          }
+        },
+        "CLOSED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "closed"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.feature_requests#FeatureRequestHistoryChangeBeforeCase2": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "issue_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "repository": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "issue_number": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "issue_title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "issue_state": {
+          "target": "com.posthog.feature_requests#FeatureRequestHistoryChangeBeforeCase2IssueState",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "sync_enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.feature_requests#FeatureRequestHistoryChangeBeforeCase3": {
       "type": "structure",
       "members": {
         "id": {
@@ -1603,7 +1772,7 @@
       },
       "traits": {}
     },
-    "com.posthog.feature_requests#FeatureRequestHistoryChangeBeforeCase2Item": {
+    "com.posthog.feature_requests#FeatureRequestHistoryChangeBeforeCase4Item": {
       "type": "structure",
       "members": {
         "id": {
@@ -1621,14 +1790,14 @@
       },
       "traits": {}
     },
-    "com.posthog.feature_requests#FeatureRequestHistoryChangeBeforeCase2List": {
+    "com.posthog.feature_requests#FeatureRequestHistoryChangeBeforeCase4List": {
       "type": "list",
       "member": {
-        "target": "com.posthog.feature_requests#FeatureRequestHistoryChangeBeforeCase2Item"
+        "target": "com.posthog.feature_requests#FeatureRequestHistoryChangeBeforeCase4Item"
       },
       "traits": {}
     },
-    "com.posthog.feature_requests#FeatureRequestHistoryChangeBeforeCase3Account": {
+    "com.posthog.feature_requests#FeatureRequestHistoryChangeBeforeCase5Account": {
       "type": "structure",
       "members": {
         "id": {
@@ -1646,14 +1815,14 @@
       },
       "traits": {}
     },
-    "com.posthog.feature_requests#FeatureRequestHistoryChangeBeforeCase3ImageIdsList": {
+    "com.posthog.feature_requests#FeatureRequestHistoryChangeBeforeCase5ImageIdsList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       },
       "traits": {}
     },
-    "com.posthog.feature_requests#FeatureRequestHistoryChangeBeforeCase3": {
+    "com.posthog.feature_requests#FeatureRequestHistoryChangeBeforeCase5": {
       "type": "structure",
       "members": {
         "id": {
@@ -1663,7 +1832,7 @@
           }
         },
         "account": {
-          "target": "com.posthog.feature_requests#FeatureRequestHistoryChangeBeforeCase3Account",
+          "target": "com.posthog.feature_requests#FeatureRequestHistoryChangeBeforeCase5Account",
           "traits": {
             "smithy.api#required": {}
           }
@@ -1700,7 +1869,7 @@
           }
         },
         "image_ids": {
-          "target": "com.posthog.feature_requests#FeatureRequestHistoryChangeBeforeCase3ImageIdsList"
+          "target": "com.posthog.feature_requests#FeatureRequestHistoryChangeBeforeCase5ImageIdsList"
         }
       },
       "traits": {}
@@ -1712,20 +1881,92 @@
           "target": "smithy.api#String"
         },
         "Case1": {
-          "target": "com.posthog.feature_requests#FeatureRequestHistoryChangeBeforeCase1"
+          "target": "smithy.api#Boolean"
         },
         "Case2": {
-          "target": "com.posthog.feature_requests#FeatureRequestHistoryChangeBeforeCase2List"
+          "target": "com.posthog.feature_requests#FeatureRequestHistoryChangeBeforeCase2"
         },
         "Case3": {
           "target": "com.posthog.feature_requests#FeatureRequestHistoryChangeBeforeCase3"
+        },
+        "Case4": {
+          "target": "com.posthog.feature_requests#FeatureRequestHistoryChangeBeforeCase4List"
+        },
+        "Case5": {
+          "target": "com.posthog.feature_requests#FeatureRequestHistoryChangeBeforeCase5"
         }
       },
       "traits": {
         "smithy.api#documentation": "Value before the update, including relation snapshots."
       }
     },
-    "com.posthog.feature_requests#FeatureRequestHistoryChangeAfterCase1": {
+    "com.posthog.feature_requests#FeatureRequestHistoryChangeAfterCase2IssueState": {
+      "type": "enum",
+      "members": {
+        "OPEN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "open"
+          }
+        },
+        "CLOSED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "closed"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.feature_requests#FeatureRequestHistoryChangeAfterCase2": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "issue_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "repository": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "issue_number": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "issue_title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "issue_state": {
+          "target": "com.posthog.feature_requests#FeatureRequestHistoryChangeAfterCase2IssueState",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "sync_enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.feature_requests#FeatureRequestHistoryChangeAfterCase3": {
       "type": "structure",
       "members": {
         "id": {
@@ -1744,7 +1985,7 @@
       },
       "traits": {}
     },
-    "com.posthog.feature_requests#FeatureRequestHistoryChangeAfterCase2Item": {
+    "com.posthog.feature_requests#FeatureRequestHistoryChangeAfterCase4Item": {
       "type": "structure",
       "members": {
         "id": {
@@ -1762,14 +2003,14 @@
       },
       "traits": {}
     },
-    "com.posthog.feature_requests#FeatureRequestHistoryChangeAfterCase2List": {
+    "com.posthog.feature_requests#FeatureRequestHistoryChangeAfterCase4List": {
       "type": "list",
       "member": {
-        "target": "com.posthog.feature_requests#FeatureRequestHistoryChangeAfterCase2Item"
+        "target": "com.posthog.feature_requests#FeatureRequestHistoryChangeAfterCase4Item"
       },
       "traits": {}
     },
-    "com.posthog.feature_requests#FeatureRequestHistoryChangeAfterCase3Account": {
+    "com.posthog.feature_requests#FeatureRequestHistoryChangeAfterCase5Account": {
       "type": "structure",
       "members": {
         "id": {
@@ -1787,14 +2028,14 @@
       },
       "traits": {}
     },
-    "com.posthog.feature_requests#FeatureRequestHistoryChangeAfterCase3ImageIdsList": {
+    "com.posthog.feature_requests#FeatureRequestHistoryChangeAfterCase5ImageIdsList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       },
       "traits": {}
     },
-    "com.posthog.feature_requests#FeatureRequestHistoryChangeAfterCase3": {
+    "com.posthog.feature_requests#FeatureRequestHistoryChangeAfterCase5": {
       "type": "structure",
       "members": {
         "id": {
@@ -1804,7 +2045,7 @@
           }
         },
         "account": {
-          "target": "com.posthog.feature_requests#FeatureRequestHistoryChangeAfterCase3Account",
+          "target": "com.posthog.feature_requests#FeatureRequestHistoryChangeAfterCase5Account",
           "traits": {
             "smithy.api#required": {}
           }
@@ -1841,7 +2082,7 @@
           }
         },
         "image_ids": {
-          "target": "com.posthog.feature_requests#FeatureRequestHistoryChangeAfterCase3ImageIdsList"
+          "target": "com.posthog.feature_requests#FeatureRequestHistoryChangeAfterCase5ImageIdsList"
         }
       },
       "traits": {}
@@ -1853,13 +2094,19 @@
           "target": "smithy.api#String"
         },
         "Case1": {
-          "target": "com.posthog.feature_requests#FeatureRequestHistoryChangeAfterCase1"
+          "target": "smithy.api#Boolean"
         },
         "Case2": {
-          "target": "com.posthog.feature_requests#FeatureRequestHistoryChangeAfterCase2List"
+          "target": "com.posthog.feature_requests#FeatureRequestHistoryChangeAfterCase2"
         },
         "Case3": {
           "target": "com.posthog.feature_requests#FeatureRequestHistoryChangeAfterCase3"
+        },
+        "Case4": {
+          "target": "com.posthog.feature_requests#FeatureRequestHistoryChangeAfterCase4List"
+        },
+        "Case5": {
+          "target": "com.posthog.feature_requests#FeatureRequestHistoryChangeAfterCase5"
         }
       },
       "traits": {
@@ -1883,10 +2130,16 @@
           "traits": {
             "smithy.api#enumValue": "manual"
           }
+        },
+        "GITHUB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "github"
+          }
         }
       },
       "traits": {
-        "smithy.api#documentation": "* `manual` - Manual"
+        "smithy.api#documentation": "* `manual` - Manual\n* `github` - GitHub"
       }
     },
     "com.posthog.feature_requests#ListFeatureRequestsHistoryResponseBodyList": {
@@ -1923,6 +2176,112 @@
         "smithy.api#http": {
           "method": "GET",
           "uri": "/api/projects/{project_id}/feature_requests/{id}/history/",
+          "code": 200
+        }
+      }
+    },
+    "com.posthog.feature_requests#CreateFeatureRequestsLinkGithubRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "integration_id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "GitHub integration ID connected to this project.",
+            "smithy.api#required": {}
+          }
+        },
+        "issue_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "GitHub issue URL. Pull request URLs are not supported.",
+            "smithy.api#required": {}
+          }
+        },
+        "expected_version": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Request version loaded by the editor. Stale versions return 409 Conflict.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.feature_requests#CreateFeatureRequestsLinkGithub": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.feature_requests#CreateFeatureRequestsLinkGithubRequest"
+      },
+      "output": {
+        "target": "com.posthog.feature_requests#FeatureRequest"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/feature_requests/{id}/link_github/",
+          "code": 200
+        }
+      }
+    },
+    "com.posthog.feature_requests#CreateFeatureRequestsPauseGithubRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "expected_version": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Request version loaded by the editor. Stale versions return 409 Conflict.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.feature_requests#CreateFeatureRequestsPauseGithub": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.feature_requests#CreateFeatureRequestsPauseGithubRequest"
+      },
+      "output": {
+        "target": "com.posthog.feature_requests#FeatureRequest"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/feature_requests/{id}/pause_github/",
           "code": 200
         }
       }
@@ -2026,6 +2385,52 @@
         }
       }
     },
+    "com.posthog.feature_requests#FeatureRequestsResumeGithubCreateRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "expected_version": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Request version loaded by the editor. Stale versions return 409 Conflict.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.feature_requests#FeatureRequestsResumeGithubCreate": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.feature_requests#FeatureRequestsResumeGithubCreateRequest"
+      },
+      "output": {
+        "target": "com.posthog.feature_requests#FeatureRequest"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/feature_requests/{id}/resume_github/",
+          "code": 200
+        }
+      }
+    },
     "com.posthog.feature_requests#ListFeatureRequestsStatusHistoryRequest": {
       "type": "structure",
       "members": {
@@ -2077,7 +2482,7 @@
         "change_source": {
           "target": "com.posthog.feature_requests#FeatureRequestHistorySourceEnum",
           "traits": {
-            "smithy.api#documentation": "System that recorded the status change.\n\n* `manual` - Manual",
+            "smithy.api#documentation": "System that recorded the status change.\n\n* `manual` - Manual\n* `github` - GitHub",
             "smithy.api#required": {}
           }
         },
@@ -2141,6 +2546,52 @@
         "smithy.api#http": {
           "method": "GET",
           "uri": "/api/projects/{project_id}/feature_requests/{id}/status_history/",
+          "code": 200
+        }
+      }
+    },
+    "com.posthog.feature_requests#FeatureRequestsUnlinkGithubCreateRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "expected_version": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Request version loaded by the editor. Stale versions return 409 Conflict.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.feature_requests#FeatureRequestsUnlinkGithubCreate": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.feature_requests#FeatureRequestsUnlinkGithubCreateRequest"
+      },
+      "output": {
+        "target": "com.posthog.feature_requests#FeatureRequest"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/feature_requests/{id}/unlink_github/",
           "code": 200
         }
       }
@@ -2277,13 +2728,25 @@
           "target": "com.posthog.feature_requests#ListFeatureRequestsHistory"
         },
         {
+          "target": "com.posthog.feature_requests#CreateFeatureRequestsLinkGithub"
+        },
+        {
+          "target": "com.posthog.feature_requests#CreateFeatureRequestsPauseGithub"
+        },
+        {
           "target": "com.posthog.feature_requests#FeatureRequestsRemoveEvidenceCreate"
         },
         {
           "target": "com.posthog.feature_requests#FeatureRequestsRestoreCreate"
         },
         {
+          "target": "com.posthog.feature_requests#FeatureRequestsResumeGithubCreate"
+        },
+        {
           "target": "com.posthog.feature_requests#ListFeatureRequestsStatusHistory"
+        },
+        {
+          "target": "com.posthog.feature_requests#FeatureRequestsUnlinkGithubCreate"
         },
         {
           "target": "com.posthog.feature_requests#FeatureRequestsUpdateEvidenceCreate"

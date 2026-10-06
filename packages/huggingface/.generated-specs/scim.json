@@ -400,7 +400,7 @@
           "uri": "/api/organizations/{name}/scim/v2/ResourceTypes",
           "code": 200
         },
-        "smithy.api#documentation": "Get SCIM Resource Types\n\nReturns the list of SCIM 2.0 resource types supported by this server (User and Group)."
+        "smithy.api#documentation": "SCIM resource types\n\nReturns the list of SCIM 2.0 resource types supported by this server (User and Group)."
       }
     },
     "com.huggingface.scim#GetScimSchemasRequest": {
@@ -531,7 +531,7 @@
         "smithy.api#documentation": "Get SCIM Schemas\n\nReturns the SCIM 2.0 schema definitions for User and Group resources."
       }
     },
-    "com.huggingface.scim#GetScimSchemaByIdRequest": {
+    "com.huggingface.scim#GetScimSchemaRequest": {
       "type": "structure",
       "members": {
         "name": {
@@ -553,21 +553,21 @@
         "smithy.api#input": {}
       }
     },
-    "com.huggingface.scim#GetScimSchemaByIdResponseSchemasList": {
+    "com.huggingface.scim#GetScimSchemaResponseSchemasList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       },
       "traits": {}
     },
-    "com.huggingface.scim#GetScimSchemaByIdResponseAttributesList": {
+    "com.huggingface.scim#GetScimSchemaResponseAttributesList": {
       "type": "list",
       "member": {
         "target": "smithy.api#Document"
       },
       "traits": {}
     },
-    "com.huggingface.scim#GetScimSchemaByIdResponseMeta": {
+    "com.huggingface.scim#GetScimSchemaResponseMeta": {
       "type": "structure",
       "members": {
         "resourceType": {
@@ -585,11 +585,11 @@
       },
       "traits": {}
     },
-    "com.huggingface.scim#GetScimSchemaByIdResponse": {
+    "com.huggingface.scim#GetScimSchemaResponse": {
       "type": "structure",
       "members": {
         "schemas": {
-          "target": "com.huggingface.scim#GetScimSchemaByIdResponseSchemasList",
+          "target": "com.huggingface.scim#GetScimSchemaResponseSchemasList",
           "traits": {
             "smithy.api#required": {}
           }
@@ -613,13 +613,13 @@
           }
         },
         "attributes": {
-          "target": "com.huggingface.scim#GetScimSchemaByIdResponseAttributesList",
+          "target": "com.huggingface.scim#GetScimSchemaResponseAttributesList",
           "traits": {
             "smithy.api#required": {}
           }
         },
         "meta": {
-          "target": "com.huggingface.scim#GetScimSchemaByIdResponseMeta",
+          "target": "com.huggingface.scim#GetScimSchemaResponseMeta",
           "traits": {
             "smithy.api#required": {}
           }
@@ -629,13 +629,13 @@
         "smithy.api#output": {}
       }
     },
-    "com.huggingface.scim#GetScimSchemaById": {
+    "com.huggingface.scim#GetScimSchema": {
       "type": "operation",
       "input": {
-        "target": "com.huggingface.scim#GetScimSchemaByIdRequest"
+        "target": "com.huggingface.scim#GetScimSchemaRequest"
       },
       "output": {
-        "target": "com.huggingface.scim#GetScimSchemaByIdResponse"
+        "target": "com.huggingface.scim#GetScimSchemaResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -643,7 +643,7 @@
           "uri": "/api/organizations/{name}/scim/v2/Schemas/{schemaId}",
           "code": 200
         },
-        "smithy.api#documentation": "Get SCIM Schema by ID\n\nReturns a single SCIM 2.0 schema definition by its schema URI."
+        "smithy.api#documentation": "Get SCIM schema\n\nReturns a single SCIM 2.0 schema definition by its schema URI."
       }
     },
     "com.huggingface.scim#ListScimUsersRequest": {
@@ -1227,7 +1227,7 @@
           "uri": "/api/organizations/{name}/scim/v2/Users",
           "code": 200
         },
-        "smithy.api#documentation": "Create a SCIM user\n\nCreates a new user in the organization. If the user already exists, only `active` field will be updated to provision the user."
+        "smithy.api#documentation": "Create SCIM user\n\nCreates a new user in the organization. If the user already exists, only `active` field will be updated to provision the user."
       }
     },
     "com.huggingface.scim#GetScimUserRequest": {
@@ -1447,7 +1447,7 @@
           "uri": "/api/organizations/{name}/scim/v2/Users/{userId}",
           "code": 200
         },
-        "smithy.api#documentation": "Get a SCIM user\n\nRetrieves a SCIM user by their ID."
+        "smithy.api#documentation": "Get SCIM user\n\nRetrieves a SCIM user by their ID."
       }
     },
     "com.huggingface.scim#ReplaceScimUserRequestSchemasList": {
@@ -1744,13 +1744,13 @@
           "uri": "/api/organizations/{name}/scim/v2/Users/{userId}",
           "code": 200
         },
-        "smithy.api#documentation": "Update a SCIM user\n\nUpdates a provisioned user, you'll need to provide all their information fresh - just like setting them up for the first time. Any details you don't include will be automatically removed, so make sure to include everything they need to keep their account running smoothly. Setting `active` to `false` will deprovision the user from the organization."
+        "smithy.api#documentation": "Update SCIM user\n\nUpdates a provisioned user, you'll need to provide all their information fresh - just like setting them up for the first time. Any details you don't include will be automatically removed, so make sure to include everything they need to keep their account running smoothly. Setting `active` to `false` will deprovision the user from the organization."
       }
     },
     "com.huggingface.scim#UpdateScimUserRequestSchemasList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#Document"
+        "target": "smithy.api#String"
       },
       "traits": {}
     },
@@ -2112,7 +2112,7 @@
           "uri": "/api/organizations/{name}/scim/v2/Users/{userId}",
           "code": 200
         },
-        "smithy.api#documentation": "Delete a SCIM user"
+        "smithy.api#documentation": "Delete SCIM user"
       }
     },
     "com.huggingface.scim#ListScimGroupsRequest": {
@@ -2144,7 +2144,7 @@
           }
         },
         "excludedAttributes": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "excludedAttributes"
           }
@@ -2525,7 +2525,7 @@
           "uri": "/api/organizations/{name}/scim/v2/Groups",
           "code": 200
         },
-        "smithy.api#documentation": "Create a SCIM group\n\nCreates a new group in the organization. The group name must be unique within the organization."
+        "smithy.api#documentation": "Create SCIM group\n\nCreates a new group in the organization. The group name must be unique within the organization."
       }
     },
     "com.huggingface.scim#GetScimGroupRequest": {
@@ -2546,7 +2546,7 @@
           }
         },
         "excludedAttributes": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "excludedAttributes"
           }
@@ -2679,13 +2679,13 @@
           "uri": "/api/organizations/{name}/scim/v2/Groups/{groupId}",
           "code": 200
         },
-        "smithy.api#documentation": "Get a SCIM group\n\nRetrieves a group by its ID. If you provide the `excludedAttributes` parameter, the `members` attribute is not returned."
+        "smithy.api#documentation": "Get SCIM group\n\nRetrieves a group by its ID. If you provide the `excludedAttributes` parameter, the `members` attribute is not returned."
       }
     },
     "com.huggingface.scim#ReplaceScimGroupRequestSchemasList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#Document"
+        "target": "smithy.api#String"
       },
       "traits": {}
     },
@@ -2877,13 +2877,13 @@
           "uri": "/api/organizations/{name}/scim/v2/Groups/{groupId}",
           "code": 200
         },
-        "smithy.api#documentation": "Update a SCIM group\n\nUpdates a group by its ID. The group name must be unique within the organization."
+        "smithy.api#documentation": "Update SCIM group\n\nUpdates a group by its ID. The group name must be unique within the organization."
       }
     },
     "com.huggingface.scim#UpdateScimGroupRequestSchemasList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#Document"
+        "target": "smithy.api#String"
       },
       "traits": {}
     },
@@ -3181,7 +3181,7 @@
           "uri": "/api/organizations/{name}/scim/v2/Groups/{groupId}",
           "code": 200
         },
-        "smithy.api#documentation": "Delete a SCIM group"
+        "smithy.api#documentation": "Delete SCIM group"
       }
     },
     "com.huggingface.scim#ListScimManagedUsersRequest": {
@@ -3962,7 +3962,7 @@
           "uri": "/api/organizations/{name}/scim-provisioning/v2/Users/{userId}",
           "code": 200
         },
-        "smithy.api#documentation": "Get a SCIM provisioning user\n\nRetrieves a SCIM user by their ID for non-managed organizations."
+        "smithy.api#documentation": "SCIM provisioning user\n\nRetrieves a SCIM user by their ID for non-managed organizations."
       }
     },
     "com.huggingface.scim#ReplaceScimProvisioningUserRequestSchemasList": {
@@ -4209,13 +4209,13 @@
           "uri": "/api/organizations/{name}/scim-provisioning/v2/Users/{userId}",
           "code": 200
         },
-        "smithy.api#documentation": "Update a SCIM user\n\nUpdates a provisioned user's invitation for non-managed organizations. User profile fields are not editable via SCIM for non-managed organizations."
+        "smithy.api#documentation": "Update SCIM user\n\nUpdates a provisioned user's invitation for non-managed organizations. User profile fields are not editable via SCIM for non-managed organizations."
       }
     },
     "com.huggingface.scim#UpdateScimProvisioningUserRequestSchemasList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#Document"
+        "target": "smithy.api#String"
       },
       "traits": {}
     },
@@ -4636,7 +4636,7 @@
           }
         },
         "excludedAttributes": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "excludedAttributes"
           }
@@ -5017,7 +5017,7 @@
           "uri": "/api/organizations/{name}/scim-provisioning/v2/Groups",
           "code": 200
         },
-        "smithy.api#documentation": "Create a SCIM group\n\nCreates a new group in the organization. The group name must be unique within the organization."
+        "smithy.api#documentation": "Create SCIM group\n\nCreates a new group in the organization. The group name must be unique within the organization."
       }
     },
     "com.huggingface.scim#GetScimProvisioningGroupRequest": {
@@ -5038,7 +5038,7 @@
           }
         },
         "excludedAttributes": {
-          "target": "smithy.api#Document",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "excludedAttributes"
           }
@@ -5171,13 +5171,13 @@
           "uri": "/api/organizations/{name}/scim-provisioning/v2/Groups/{groupId}",
           "code": 200
         },
-        "smithy.api#documentation": "Get a SCIM group\n\nRetrieves a group by its ID. If you provide the `excludedAttributes` parameter, the `members` attribute is not returned."
+        "smithy.api#documentation": "Get SCIM group\n\nRetrieves a group by its ID. If you provide the `excludedAttributes` parameter, the `members` attribute is not returned."
       }
     },
     "com.huggingface.scim#ReplaceScimProvisioningGroupRequestSchemasList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#Document"
+        "target": "smithy.api#String"
       },
       "traits": {}
     },
@@ -5369,13 +5369,13 @@
           "uri": "/api/organizations/{name}/scim-provisioning/v2/Groups/{groupId}",
           "code": 200
         },
-        "smithy.api#documentation": "Update a SCIM group\n\nUpdates a group by its ID. The group name must be unique within the organization."
+        "smithy.api#documentation": "Update SCIM group\n\nUpdates a group by its ID. The group name must be unique within the organization."
       }
     },
     "com.huggingface.scim#UpdateScimProvisioningGroupRequestSchemasList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#Document"
+        "target": "smithy.api#String"
       },
       "traits": {}
     },
@@ -5673,7 +5673,7 @@
           "uri": "/api/organizations/{name}/scim-provisioning/v2/Groups/{groupId}",
           "code": 200
         },
-        "smithy.api#documentation": "Delete a SCIM group"
+        "smithy.api#documentation": "Delete SCIM group"
       }
     },
     "com.huggingface.scim#Conflict": {
@@ -5716,7 +5716,7 @@
           "target": "com.huggingface.scim#GetScimSchemas"
         },
         {
-          "target": "com.huggingface.scim#GetScimSchemaById"
+          "target": "com.huggingface.scim#GetScimSchema"
         },
         {
           "target": "com.huggingface.scim#ListScimUsers"

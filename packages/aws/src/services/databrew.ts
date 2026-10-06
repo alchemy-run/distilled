@@ -1,18 +1,15 @@
+import * as API from "@distilled.cloud/core/api";
+import * as S from "@distilled.cloud/core/schema";
 import * as HttpClient from "effect/http/HttpClient";
 import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
-import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
-const svc = T.AwsApiService({
-  sdkId: "DataBrew",
-  serviceShapeName: "AWSGlueDataBrew",
-});
+import * as T from "../traits.ts";
+const svc = T.AwsApiService({ sdkId: "DataBrew", serviceShapeName: "AWSGlueDataBrew" });
 const auth = T.AwsAuthSigv4({ name: "databrew" });
 const ver = T.ServiceVersion("2017-07-25");
 const proto = T.AwsProtocolsRestJson1();
@@ -28,14 +25,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -61,13 +54,9 @@ const rules = T.EndpointResolver((p, _) => {
             if (Region === "us-gov-west-1") {
               return e("https://databrew.us-gov-west-1.amazonaws.com");
             }
-            return e(
-              `https://databrew-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
+            return e(`https://databrew-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -75,13 +64,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://databrew.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://databrew.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://databrew.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -128,10 +113,9 @@ export class ServiceQuotaExceededException
     T.HttpError(402),
   ).pipe(C.withQuotaError) {}
 export class TooManyRequestsException
-  extends /*@__PURE__*/ S.TaggedError<TooManyRequestsException>()(
-    "TooManyRequestsException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ).pipe(C.withThrottlingError, C.withRetryableError) {}
+  extends /*@__PURE__*/ S.TaggedError<TooManyRequestsException>()("TooManyRequestsException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class ValidationException
   extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
     "ValidationException",
@@ -147,15 +131,9 @@ export interface BatchDeleteRecipeVersionRequest {
   RecipeVersions: string[];
 }
 export const BatchDeleteRecipeVersionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.String.pipe(T.HttpLabel("Name")),
-    RecipeVersions: RecipeVersionList,
-  }).pipe(
+  S.Struct({ Name: S.String.pipe(T.HttpLabel("Name")), RecipeVersions: RecipeVersionList }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/recipes/{Name}/batchDeleteRecipeVersion",
-      }),
+      T.Http({ method: "POST", uri: "/recipes/{Name}/batchDeleteRecipeVersion" }),
       svc,
       auth,
       proto,
@@ -179,9 +157,7 @@ export const RecipeVersionErrorDetail = /*@__PURE__*/ S.suspend(() =>
     ErrorMessage: S.optional(S.String),
     RecipeVersion: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RecipeVersionErrorDetail",
-}) as any as S.Schema<RecipeVersionErrorDetail>;
+).annotate({ identifier: "RecipeVersionErrorDetail" }) as any as S.Schema<RecipeVersionErrorDetail>;
 export type RecipeErrorList = RecipeVersionErrorDetail[];
 export const RecipeErrorList = /*@__PURE__*/ S.Array(RecipeVersionErrorDetail);
 export interface BatchDeleteRecipeVersionResponse {
@@ -194,13 +170,7 @@ export const BatchDeleteRecipeVersionResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "BatchDeleteRecipeVersionResponse",
 }) as any as S.Schema<BatchDeleteRecipeVersionResponse>;
 export type DatasetName = string;
-export type InputFormat =
-  | "CSV"
-  | "JSON"
-  | "PARQUET"
-  | "EXCEL"
-  | "ORC"
-  | (string & {});
+export type InputFormat = "CSV" | "JSON" | "PARQUET" | "EXCEL" | "ORC" | (string & {});
 export const InputFormat = S.String;
 
 export type MultiLine = boolean;
@@ -235,10 +205,7 @@ export interface CsvOptions {
   HeaderRow?: boolean;
 }
 export const CsvOptions = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Delimiter: S.optional(S.String),
-    HeaderRow: S.optional(S.Boolean),
-  }),
+  S.Struct({ Delimiter: S.optional(S.String), HeaderRow: S.optional(S.Boolean) }),
 ).annotate({ identifier: "CsvOptions" }) as any as S.Schema<CsvOptions>;
 export interface FormatOptions {
   Json?: JsonOptions;
@@ -261,11 +228,7 @@ export interface S3Location {
   BucketOwner?: string;
 }
 export const S3Location = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Bucket: S.String,
-    Key: S.optional(S.String),
-    BucketOwner: S.optional(S.String),
-  }),
+  S.Struct({ Bucket: S.String, Key: S.optional(S.String), BucketOwner: S.optional(S.String) }),
 ).annotate({ identifier: "S3Location" }) as any as S.Schema<S3Location>;
 export type CatalogId = string;
 export type DatabaseName = string;
@@ -302,9 +265,7 @@ export const DatabaseInputDefinition = /*@__PURE__*/ S.suspend(() =>
     TempDirectory: S.optional(S3Location),
     QueryString: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DatabaseInputDefinition",
-}) as any as S.Schema<DatabaseInputDefinition>;
+).annotate({ identifier: "DatabaseInputDefinition" }) as any as S.Schema<DatabaseInputDefinition>;
 export type Arn = string;
 export interface Metadata {
   SourceArn?: string;
@@ -330,19 +291,14 @@ export type Expression = string;
 export type ValueReference = string;
 export type ConditionValue = string;
 export type ValuesMap = { [key: string]: string | undefined };
-export const ValuesMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const ValuesMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface FilterExpression {
   Expression: string;
   ValuesMap: { [key: string]: string | undefined };
 }
 export const FilterExpression = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Expression: S.String, ValuesMap: ValuesMap }),
-).annotate({
-  identifier: "FilterExpression",
-}) as any as S.Schema<FilterExpression>;
+).annotate({ identifier: "FilterExpression" }) as any as S.Schema<FilterExpression>;
 export type MaxFiles = number;
 export type OrderedBy = "LAST_MODIFIED_DATE" | (string & {});
 export const OrderedBy = S.String;
@@ -356,11 +312,7 @@ export interface FilesLimit {
   Order?: Order;
 }
 export const FilesLimit = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaxFiles: S.Number,
-    OrderedBy: S.optional(OrderedBy),
-    Order: S.optional(Order),
-  }),
+  S.Struct({ MaxFiles: S.Number, OrderedBy: S.optional(OrderedBy), Order: S.optional(Order) }),
 ).annotate({ identifier: "FilesLimit" }) as any as S.Schema<FilesLimit>;
 export type PathParameterName = string;
 export type ParameterType = "Datetime" | "Number" | "String" | (string & {});
@@ -380,9 +332,7 @@ export const DatetimeOptions = /*@__PURE__*/ S.suspend(() =>
     TimezoneOffset: S.optional(S.String),
     LocaleCode: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DatetimeOptions",
-}) as any as S.Schema<DatetimeOptions>;
+).annotate({ identifier: "DatetimeOptions" }) as any as S.Schema<DatetimeOptions>;
 export type CreateColumn = boolean;
 export interface DatasetParameter {
   Name: string;
@@ -399,9 +349,7 @@ export const DatasetParameter = /*@__PURE__*/ S.suspend(() =>
     CreateColumn: S.optional(S.Boolean),
     Filter: S.optional(FilterExpression),
   }),
-).annotate({
-  identifier: "DatasetParameter",
-}) as any as S.Schema<DatasetParameter>;
+).annotate({ identifier: "DatasetParameter" }) as any as S.Schema<DatasetParameter>;
 export type PathParametersMap = { [key: string]: DatasetParameter | undefined };
 export const PathParametersMap = /*@__PURE__*/ S.Record(
   S.String,
@@ -422,10 +370,7 @@ export const PathOptions = /*@__PURE__*/ S.suspend(() =>
 export type TagKey = string;
 export type TagValue = string;
 export type TagMap = { [key: string]: string | undefined };
-export const TagMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const TagMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface CreateDatasetRequest {
   Name: string;
   Format?: InputFormat;
@@ -442,27 +387,14 @@ export const CreateDatasetRequest = /*@__PURE__*/ S.suspend(() =>
     Input: Input,
     PathOptions: S.optional(PathOptions),
     Tags: S.optional(TagMap),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/datasets" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateDatasetRequest",
-}) as any as S.Schema<CreateDatasetRequest>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/datasets" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "CreateDatasetRequest" }) as any as S.Schema<CreateDatasetRequest>;
 export interface CreateDatasetResponse {
   Name: string;
 }
 export const CreateDatasetResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Name: S.String }),
-).annotate({
-  identifier: "CreateDatasetResponse",
-}) as any as S.Schema<CreateDatasetResponse>;
+).annotate({ identifier: "CreateDatasetResponse" }) as any as S.Schema<CreateDatasetResponse>;
 export type EncryptionKeyArn = string;
 export type EncryptionMode = "SSE-KMS" | "SSE-S3" | (string & {});
 export const EncryptionMode = S.String;
@@ -479,19 +411,14 @@ export const StatisticList = /*@__PURE__*/ S.Array(S.String);
 export type ParameterName = string;
 export type ParameterValue = string;
 export type ParameterMap = { [key: string]: string | undefined };
-export const ParameterMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const ParameterMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface StatisticOverride {
   Statistic: string;
   Parameters: { [key: string]: string | undefined };
 }
 export const StatisticOverride = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Statistic: S.String, Parameters: ParameterMap }),
-).annotate({
-  identifier: "StatisticOverride",
-}) as any as S.Schema<StatisticOverride>;
+).annotate({ identifier: "StatisticOverride" }) as any as S.Schema<StatisticOverride>;
 export type StatisticOverrideList = StatisticOverride[];
 export const StatisticOverrideList = /*@__PURE__*/ S.Array(StatisticOverride);
 export interface StatisticsConfiguration {
@@ -503,9 +430,7 @@ export const StatisticsConfiguration = /*@__PURE__*/ S.suspend(() =>
     IncludedStatistics: S.optional(StatisticList),
     Overrides: S.optional(StatisticOverrideList),
   }),
-).annotate({
-  identifier: "StatisticsConfiguration",
-}) as any as S.Schema<StatisticsConfiguration>;
+).annotate({ identifier: "StatisticsConfiguration" }) as any as S.Schema<StatisticsConfiguration>;
 export type ColumnName = string;
 export interface ColumnSelector {
   Regex?: string;
@@ -521,10 +446,7 @@ export interface ColumnStatisticsConfiguration {
   Statistics: StatisticsConfiguration;
 }
 export const ColumnStatisticsConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Selectors: S.optional(ColumnSelectorList),
-    Statistics: StatisticsConfiguration,
-  }),
+  S.Struct({ Selectors: S.optional(ColumnSelectorList), Statistics: StatisticsConfiguration }),
 ).annotate({
   identifier: "ColumnStatisticsConfiguration",
 }) as any as S.Schema<ColumnStatisticsConfiguration>;
@@ -540,9 +462,7 @@ export interface AllowedStatistics {
 }
 export const AllowedStatistics = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Statistics: StatisticList }),
-).annotate({
-  identifier: "AllowedStatistics",
-}) as any as S.Schema<AllowedStatistics>;
+).annotate({ identifier: "AllowedStatistics" }) as any as S.Schema<AllowedStatistics>;
 export type AllowedStatisticList = AllowedStatistics[];
 export const AllowedStatisticList = /*@__PURE__*/ S.Array(AllowedStatistics);
 export interface EntityDetectorConfiguration {
@@ -550,10 +470,7 @@ export interface EntityDetectorConfiguration {
   AllowedStatistics?: AllowedStatistics[];
 }
 export const EntityDetectorConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    EntityTypes: EntityTypeList,
-    AllowedStatistics: S.optional(AllowedStatisticList),
-  }),
+  S.Struct({ EntityTypes: EntityTypeList, AllowedStatistics: S.optional(AllowedStatisticList) }),
 ).annotate({
   identifier: "EntityDetectorConfiguration",
 }) as any as S.Schema<EntityDetectorConfiguration>;
@@ -567,14 +484,10 @@ export const ProfileConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     DatasetStatisticsConfiguration: S.optional(StatisticsConfiguration),
     ProfileColumns: S.optional(ColumnSelectorList),
-    ColumnStatisticsConfigurations: S.optional(
-      ColumnStatisticsConfigurationList,
-    ),
+    ColumnStatisticsConfigurations: S.optional(ColumnStatisticsConfigurationList),
     EntityDetectorConfiguration: S.optional(EntityDetectorConfiguration),
   }),
-).annotate({
-  identifier: "ProfileConfiguration",
-}) as any as S.Schema<ProfileConfiguration>;
+).annotate({ identifier: "ProfileConfiguration" }) as any as S.Schema<ProfileConfiguration>;
 export type ValidationMode = "CHECK_ALL" | (string & {});
 export const ValidationMode = S.String;
 
@@ -583,17 +496,10 @@ export interface ValidationConfiguration {
   ValidationMode?: ValidationMode;
 }
 export const ValidationConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RulesetArn: S.String,
-    ValidationMode: S.optional(ValidationMode),
-  }),
-).annotate({
-  identifier: "ValidationConfiguration",
-}) as any as S.Schema<ValidationConfiguration>;
+  S.Struct({ RulesetArn: S.String, ValidationMode: S.optional(ValidationMode) }),
+).annotate({ identifier: "ValidationConfiguration" }) as any as S.Schema<ValidationConfiguration>;
 export type ValidationConfigurationList = ValidationConfiguration[];
-export const ValidationConfigurationList = /*@__PURE__*/ S.Array(
-  ValidationConfiguration,
-);
+export const ValidationConfigurationList = /*@__PURE__*/ S.Array(ValidationConfiguration);
 export type Timeout = number;
 export type SampleMode = "FULL_DATASET" | "CUSTOM_ROWS" | (string & {});
 export const SampleMode = S.String;
@@ -638,27 +544,14 @@ export const CreateProfileJobRequest = /*@__PURE__*/ S.suspend(() =>
     Tags: S.optional(TagMap),
     Timeout: S.optional(S.Number),
     JobSample: S.optional(JobSample),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/profileJobs" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateProfileJobRequest",
-}) as any as S.Schema<CreateProfileJobRequest>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/profileJobs" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "CreateProfileJobRequest" }) as any as S.Schema<CreateProfileJobRequest>;
 export interface CreateProfileJobResponse {
   Name: string;
 }
 export const CreateProfileJobResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Name: S.String }),
-).annotate({
-  identifier: "CreateProfileJobResponse",
-}) as any as S.Schema<CreateProfileJobResponse>;
+).annotate({ identifier: "CreateProfileJobResponse" }) as any as S.Schema<CreateProfileJobResponse>;
 export type ProjectName = string;
 export type SampleSize = number;
 export type SampleType = "FIRST_N" | "LAST_N" | "RANDOM" | (string & {});
@@ -687,27 +580,14 @@ export const CreateProjectRequest = /*@__PURE__*/ S.suspend(() =>
     Sample: S.optional(Sample),
     RoleArn: S.String,
     Tags: S.optional(TagMap),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/projects" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateProjectRequest",
-}) as any as S.Schema<CreateProjectRequest>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/projects" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "CreateProjectRequest" }) as any as S.Schema<CreateProjectRequest>;
 export interface CreateProjectResponse {
   Name: string;
 }
 export const CreateProjectResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Name: S.String }),
-).annotate({
-  identifier: "CreateProjectResponse",
-}) as any as S.Schema<CreateProjectResponse>;
+).annotate({ identifier: "CreateProjectResponse" }) as any as S.Schema<CreateProjectResponse>;
 export type RecipeDescription = string;
 export type Operation = string;
 export interface RecipeAction {
@@ -725,26 +605,16 @@ export interface ConditionExpression {
   TargetColumn: string;
 }
 export const ConditionExpression = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Condition: S.String,
-    Value: S.optional(S.String),
-    TargetColumn: S.String,
-  }),
-).annotate({
-  identifier: "ConditionExpression",
-}) as any as S.Schema<ConditionExpression>;
+  S.Struct({ Condition: S.String, Value: S.optional(S.String), TargetColumn: S.String }),
+).annotate({ identifier: "ConditionExpression" }) as any as S.Schema<ConditionExpression>;
 export type ConditionExpressionList = ConditionExpression[];
-export const ConditionExpressionList =
-  /*@__PURE__*/ S.Array(ConditionExpression);
+export const ConditionExpressionList = /*@__PURE__*/ S.Array(ConditionExpression);
 export interface RecipeStep {
   Action: RecipeAction;
   ConditionExpressions?: ConditionExpression[];
 }
 export const RecipeStep = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Action: RecipeAction,
-    ConditionExpressions: S.optional(ConditionExpressionList),
-  }),
+  S.Struct({ Action: RecipeAction, ConditionExpressions: S.optional(ConditionExpressionList) }),
 ).annotate({ identifier: "RecipeStep" }) as any as S.Schema<RecipeStep>;
 export type RecipeStepList = RecipeStep[];
 export const RecipeStepList = /*@__PURE__*/ S.Array(RecipeStep);
@@ -760,27 +630,14 @@ export const CreateRecipeRequest = /*@__PURE__*/ S.suspend(() =>
     Name: S.String,
     Steps: RecipeStepList,
     Tags: S.optional(TagMap),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/recipes" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateRecipeRequest",
-}) as any as S.Schema<CreateRecipeRequest>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/recipes" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "CreateRecipeRequest" }) as any as S.Schema<CreateRecipeRequest>;
 export interface CreateRecipeResponse {
   Name: string;
 }
 export const CreateRecipeResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Name: S.String }),
-).annotate({
-  identifier: "CreateRecipeResponse",
-}) as any as S.Schema<CreateRecipeResponse>;
+).annotate({ identifier: "CreateRecipeResponse" }) as any as S.Schema<CreateRecipeResponse>;
 export type CompressionFormat =
   | "GZIP"
   | "LZ4"
@@ -814,17 +671,13 @@ export interface CsvOutputOptions {
 }
 export const CsvOutputOptions = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Delimiter: S.optional(S.String) }),
-).annotate({
-  identifier: "CsvOutputOptions",
-}) as any as S.Schema<CsvOutputOptions>;
+).annotate({ identifier: "CsvOutputOptions" }) as any as S.Schema<CsvOutputOptions>;
 export interface OutputFormatOptions {
   Csv?: CsvOutputOptions;
 }
 export const OutputFormatOptions = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Csv: S.optional(CsvOutputOptions) }),
-).annotate({
-  identifier: "OutputFormatOptions",
-}) as any as S.Schema<OutputFormatOptions>;
+).annotate({ identifier: "OutputFormatOptions" }) as any as S.Schema<OutputFormatOptions>;
 export type MaxOutputFiles = number;
 export interface Output {
   CompressionFormat?: CompressionFormat;
@@ -853,9 +706,7 @@ export interface S3TableOutputOptions {
 }
 export const S3TableOutputOptions = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Location: S3Location }),
-).annotate({
-  identifier: "S3TableOutputOptions",
-}) as any as S.Schema<S3TableOutputOptions>;
+).annotate({ identifier: "S3TableOutputOptions" }) as any as S.Schema<S3TableOutputOptions>;
 export interface DatabaseTableOutputOptions {
   TempDirectory?: S3Location;
   TableName: string;
@@ -882,9 +733,7 @@ export const DataCatalogOutput = /*@__PURE__*/ S.suspend(() =>
     DatabaseOptions: S.optional(DatabaseTableOutputOptions),
     Overwrite: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "DataCatalogOutput",
-}) as any as S.Schema<DataCatalogOutput>;
+).annotate({ identifier: "DataCatalogOutput" }) as any as S.Schema<DataCatalogOutput>;
 export type DataCatalogOutputList = DataCatalogOutput[];
 export const DataCatalogOutputList = /*@__PURE__*/ S.Array(DataCatalogOutput);
 export type DatabaseOutputMode = "NEW_TABLE" | (string & {});
@@ -910,9 +759,7 @@ export interface RecipeReference {
 }
 export const RecipeReference = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Name: S.String, RecipeVersion: S.optional(S.String) }),
-).annotate({
-  identifier: "RecipeReference",
-}) as any as S.Schema<RecipeReference>;
+).annotate({ identifier: "RecipeReference" }) as any as S.Schema<RecipeReference>;
 export interface CreateRecipeJobRequest {
   DatasetName?: string;
   EncryptionKeyArn?: string;
@@ -947,27 +794,14 @@ export const CreateRecipeJobRequest = /*@__PURE__*/ S.suspend(() =>
     RoleArn: S.String,
     Tags: S.optional(TagMap),
     Timeout: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/recipeJobs" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateRecipeJobRequest",
-}) as any as S.Schema<CreateRecipeJobRequest>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/recipeJobs" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "CreateRecipeJobRequest" }) as any as S.Schema<CreateRecipeJobRequest>;
 export interface CreateRecipeJobResponse {
   Name: string;
 }
 export const CreateRecipeJobResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Name: S.String }),
-).annotate({
-  identifier: "CreateRecipeJobResponse",
-}) as any as S.Schema<CreateRecipeJobResponse>;
+).annotate({ identifier: "CreateRecipeJobResponse" }) as any as S.Schema<CreateRecipeJobResponse>;
 export type RulesetName = string;
 export type RulesetDescription = string;
 export type RuleName = string;
@@ -990,11 +824,7 @@ export interface Threshold {
   Unit?: ThresholdUnit;
 }
 export const Threshold = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Value: S.Number,
-    Type: S.optional(ThresholdType),
-    Unit: S.optional(ThresholdUnit),
-  }),
+  S.Struct({ Value: S.Number, Type: S.optional(ThresholdType), Unit: S.optional(ThresholdUnit) }),
 ).annotate({ identifier: "Threshold" }) as any as S.Schema<Threshold>;
 export interface Rule {
   Name: string;
@@ -1030,27 +860,14 @@ export const CreateRulesetRequest = /*@__PURE__*/ S.suspend(() =>
     TargetArn: S.String,
     Rules: RuleList,
     Tags: S.optional(TagMap),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/rulesets" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateRulesetRequest",
-}) as any as S.Schema<CreateRulesetRequest>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/rulesets" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "CreateRulesetRequest" }) as any as S.Schema<CreateRulesetRequest>;
 export interface CreateRulesetResponse {
   Name: string;
 }
 export const CreateRulesetResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Name: S.String }),
-).annotate({
-  identifier: "CreateRulesetResponse",
-}) as any as S.Schema<CreateRulesetResponse>;
+).annotate({ identifier: "CreateRulesetResponse" }) as any as S.Schema<CreateRulesetResponse>;
 export type JobNameList = string[];
 export const JobNameList = /*@__PURE__*/ S.Array(S.String);
 export type CronExpression = string;
@@ -1067,102 +884,56 @@ export const CreateScheduleRequest = /*@__PURE__*/ S.suspend(() =>
     CronExpression: S.String,
     Tags: S.optional(TagMap),
     Name: S.String,
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/schedules" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateScheduleRequest",
-}) as any as S.Schema<CreateScheduleRequest>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/schedules" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "CreateScheduleRequest" }) as any as S.Schema<CreateScheduleRequest>;
 export interface CreateScheduleResponse {
   Name: string;
 }
 export const CreateScheduleResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Name: S.String }),
-).annotate({
-  identifier: "CreateScheduleResponse",
-}) as any as S.Schema<CreateScheduleResponse>;
+).annotate({ identifier: "CreateScheduleResponse" }) as any as S.Schema<CreateScheduleResponse>;
 export interface DeleteDatasetRequest {
   Name: string;
 }
 export const DeleteDatasetRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Name: S.String.pipe(T.HttpLabel("Name")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/datasets/{Name}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/datasets/{Name}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteDatasetRequest",
-}) as any as S.Schema<DeleteDatasetRequest>;
+).annotate({ identifier: "DeleteDatasetRequest" }) as any as S.Schema<DeleteDatasetRequest>;
 export interface DeleteDatasetResponse {
   Name: string;
 }
 export const DeleteDatasetResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Name: S.String }),
-).annotate({
-  identifier: "DeleteDatasetResponse",
-}) as any as S.Schema<DeleteDatasetResponse>;
+).annotate({ identifier: "DeleteDatasetResponse" }) as any as S.Schema<DeleteDatasetResponse>;
 export interface DeleteJobRequest {
   Name: string;
 }
 export const DeleteJobRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Name: S.String.pipe(T.HttpLabel("Name")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/jobs/{Name}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/jobs/{Name}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteJobRequest",
-}) as any as S.Schema<DeleteJobRequest>;
+).annotate({ identifier: "DeleteJobRequest" }) as any as S.Schema<DeleteJobRequest>;
 export interface DeleteJobResponse {
   Name: string;
 }
 export const DeleteJobResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Name: S.String }),
-).annotate({
-  identifier: "DeleteJobResponse",
-}) as any as S.Schema<DeleteJobResponse>;
+).annotate({ identifier: "DeleteJobResponse" }) as any as S.Schema<DeleteJobResponse>;
 export interface DeleteProjectRequest {
   Name: string;
 }
 export const DeleteProjectRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Name: S.String.pipe(T.HttpLabel("Name")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/projects/{Name}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/projects/{Name}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteProjectRequest",
-}) as any as S.Schema<DeleteProjectRequest>;
+).annotate({ identifier: "DeleteProjectRequest" }) as any as S.Schema<DeleteProjectRequest>;
 export interface DeleteProjectResponse {
   Name: string;
 }
 export const DeleteProjectResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Name: S.String }),
-).annotate({
-  identifier: "DeleteProjectResponse",
-}) as any as S.Schema<DeleteProjectResponse>;
+).annotate({ identifier: "DeleteProjectResponse" }) as any as S.Schema<DeleteProjectResponse>;
 export interface DeleteRecipeVersionRequest {
   Name: string;
   RecipeVersion: string;
@@ -1173,10 +944,7 @@ export const DeleteRecipeVersionRequest = /*@__PURE__*/ S.suspend(() =>
     RecipeVersion: S.String.pipe(T.HttpLabel("RecipeVersion")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/recipes/{Name}/recipeVersion/{RecipeVersion}",
-      }),
+      T.Http({ method: "DELETE", uri: "/recipes/{Name}/recipeVersion/{RecipeVersion}" }),
       svc,
       auth,
       proto,
@@ -1201,68 +969,37 @@ export interface DeleteRulesetRequest {
 }
 export const DeleteRulesetRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Name: S.String.pipe(T.HttpLabel("Name")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/rulesets/{Name}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/rulesets/{Name}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteRulesetRequest",
-}) as any as S.Schema<DeleteRulesetRequest>;
+).annotate({ identifier: "DeleteRulesetRequest" }) as any as S.Schema<DeleteRulesetRequest>;
 export interface DeleteRulesetResponse {
   Name: string;
 }
 export const DeleteRulesetResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Name: S.String }),
-).annotate({
-  identifier: "DeleteRulesetResponse",
-}) as any as S.Schema<DeleteRulesetResponse>;
+).annotate({ identifier: "DeleteRulesetResponse" }) as any as S.Schema<DeleteRulesetResponse>;
 export interface DeleteScheduleRequest {
   Name: string;
 }
 export const DeleteScheduleRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Name: S.String.pipe(T.HttpLabel("Name")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/schedules/{Name}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/schedules/{Name}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteScheduleRequest",
-}) as any as S.Schema<DeleteScheduleRequest>;
+).annotate({ identifier: "DeleteScheduleRequest" }) as any as S.Schema<DeleteScheduleRequest>;
 export interface DeleteScheduleResponse {
   Name: string;
 }
 export const DeleteScheduleResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Name: S.String }),
-).annotate({
-  identifier: "DeleteScheduleResponse",
-}) as any as S.Schema<DeleteScheduleResponse>;
+).annotate({ identifier: "DeleteScheduleResponse" }) as any as S.Schema<DeleteScheduleResponse>;
 export interface DescribeDatasetRequest {
   Name: string;
 }
 export const DescribeDatasetRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Name: S.String.pipe(T.HttpLabel("Name")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/datasets/{Name}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/datasets/{Name}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DescribeDatasetRequest",
-}) as any as S.Schema<DescribeDatasetRequest>;
+).annotate({ identifier: "DescribeDatasetRequest" }) as any as S.Schema<DescribeDatasetRequest>;
 export type CreatedBy = string;
 export type LastModifiedBy = string;
 export type Source = "S3" | "DATA-CATALOG" | "DATABASE" | (string & {});
@@ -1290,35 +1027,22 @@ export const DescribeDatasetResponse = /*@__PURE__*/ S.suspend(() =>
     Format: S.optional(InputFormat),
     FormatOptions: S.optional(FormatOptions),
     Input: Input,
-    LastModifiedDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LastModifiedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LastModifiedBy: S.optional(S.String),
     Source: S.optional(Source),
     PathOptions: S.optional(PathOptions),
     Tags: S.optional(TagMap),
     ResourceArn: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DescribeDatasetResponse",
-}) as any as S.Schema<DescribeDatasetResponse>;
+).annotate({ identifier: "DescribeDatasetResponse" }) as any as S.Schema<DescribeDatasetResponse>;
 export interface DescribeJobRequest {
   Name: string;
 }
 export const DescribeJobRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Name: S.String.pipe(T.HttpLabel("Name")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/jobs/{Name}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/jobs/{Name}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DescribeJobRequest",
-}) as any as S.Schema<DescribeJobRequest>;
+).annotate({ identifier: "DescribeJobRequest" }) as any as S.Schema<DescribeJobRequest>;
 export type JobType = "PROFILE" | "RECIPE" | (string & {});
 export const JobType = S.String;
 
@@ -1358,9 +1082,7 @@ export const DescribeJobResponse = /*@__PURE__*/ S.suspend(() =>
     Name: S.String,
     Type: S.optional(JobType),
     LastModifiedBy: S.optional(S.String),
-    LastModifiedDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LastModifiedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LogSubscription: S.optional(LogSubscription),
     MaxCapacity: S.optional(S.Number),
     MaxRetries: S.optional(S.Number),
@@ -1377,9 +1099,7 @@ export const DescribeJobResponse = /*@__PURE__*/ S.suspend(() =>
     Timeout: S.optional(S.Number),
     JobSample: S.optional(JobSample),
   }),
-).annotate({
-  identifier: "DescribeJobResponse",
-}) as any as S.Schema<DescribeJobResponse>;
+).annotate({ identifier: "DescribeJobResponse" }) as any as S.Schema<DescribeJobResponse>;
 export type JobRunId = string;
 export interface DescribeJobRunRequest {
   Name: string;
@@ -1399,9 +1119,7 @@ export const DescribeJobRunRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DescribeJobRunRequest",
-}) as any as S.Schema<DescribeJobRunRequest>;
+).annotate({ identifier: "DescribeJobRunRequest" }) as any as S.Schema<DescribeJobRunRequest>;
 export type Attempt = number;
 export type JobRunErrorMessage = string;
 export type ExecutionTime = number;
@@ -1461,26 +1179,15 @@ export const DescribeJobRunResponse = /*@__PURE__*/ S.suspend(() =>
     StartedOn: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     JobSample: S.optional(JobSample),
   }),
-).annotate({
-  identifier: "DescribeJobRunResponse",
-}) as any as S.Schema<DescribeJobRunResponse>;
+).annotate({ identifier: "DescribeJobRunResponse" }) as any as S.Schema<DescribeJobRunResponse>;
 export interface DescribeProjectRequest {
   Name: string;
 }
 export const DescribeProjectRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Name: S.String.pipe(T.HttpLabel("Name")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/projects/{Name}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/projects/{Name}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DescribeProjectRequest",
-}) as any as S.Schema<DescribeProjectRequest>;
+).annotate({ identifier: "DescribeProjectRequest" }) as any as S.Schema<DescribeProjectRequest>;
 export type SessionStatus =
   | "ASSIGNED"
   | "FAILED"
@@ -1517,9 +1224,7 @@ export const DescribeProjectResponse = /*@__PURE__*/ S.suspend(() =>
     CreateDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     CreatedBy: S.optional(S.String),
     DatasetName: S.optional(S.String),
-    LastModifiedDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LastModifiedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LastModifiedBy: S.optional(S.String),
     Name: S.String,
     RecipeName: S.optional(S.String),
@@ -1531,9 +1236,7 @@ export const DescribeProjectResponse = /*@__PURE__*/ S.suspend(() =>
     OpenedBy: S.optional(S.String),
     OpenDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
-).annotate({
-  identifier: "DescribeProjectResponse",
-}) as any as S.Schema<DescribeProjectResponse>;
+).annotate({ identifier: "DescribeProjectResponse" }) as any as S.Schema<DescribeProjectResponse>;
 export interface DescribeRecipeRequest {
   Name: string;
   RecipeVersion?: string;
@@ -1542,19 +1245,8 @@ export const DescribeRecipeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     Name: S.String.pipe(T.HttpLabel("Name")),
     RecipeVersion: S.optional(S.String).pipe(T.HttpQuery("recipeVersion")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/recipes/{Name}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeRecipeRequest",
-}) as any as S.Schema<DescribeRecipeRequest>;
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/recipes/{Name}" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "DescribeRecipeRequest" }) as any as S.Schema<DescribeRecipeRequest>;
 export type PublishedBy = string;
 export interface DescribeRecipeResponse {
   CreatedBy?: string;
@@ -1576,9 +1268,7 @@ export const DescribeRecipeResponse = /*@__PURE__*/ S.suspend(() =>
     CreatedBy: S.optional(S.String),
     CreateDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LastModifiedBy: S.optional(S.String),
-    LastModifiedDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LastModifiedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     ProjectName: S.optional(S.String),
     PublishedBy: S.optional(S.String),
     PublishedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -1589,26 +1279,15 @@ export const DescribeRecipeResponse = /*@__PURE__*/ S.suspend(() =>
     ResourceArn: S.optional(S.String),
     RecipeVersion: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DescribeRecipeResponse",
-}) as any as S.Schema<DescribeRecipeResponse>;
+).annotate({ identifier: "DescribeRecipeResponse" }) as any as S.Schema<DescribeRecipeResponse>;
 export interface DescribeRulesetRequest {
   Name: string;
 }
 export const DescribeRulesetRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Name: S.String.pipe(T.HttpLabel("Name")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/rulesets/{Name}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/rulesets/{Name}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DescribeRulesetRequest",
-}) as any as S.Schema<DescribeRulesetRequest>;
+).annotate({ identifier: "DescribeRulesetRequest" }) as any as S.Schema<DescribeRulesetRequest>;
 export interface DescribeRulesetResponse {
   Name: string;
   Description?: string;
@@ -1630,32 +1309,19 @@ export const DescribeRulesetResponse = /*@__PURE__*/ S.suspend(() =>
     CreateDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     CreatedBy: S.optional(S.String),
     LastModifiedBy: S.optional(S.String),
-    LastModifiedDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LastModifiedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     ResourceArn: S.optional(S.String),
     Tags: S.optional(TagMap),
   }),
-).annotate({
-  identifier: "DescribeRulesetResponse",
-}) as any as S.Schema<DescribeRulesetResponse>;
+).annotate({ identifier: "DescribeRulesetResponse" }) as any as S.Schema<DescribeRulesetResponse>;
 export interface DescribeScheduleRequest {
   Name: string;
 }
 export const DescribeScheduleRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Name: S.String.pipe(T.HttpLabel("Name")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/schedules/{Name}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/schedules/{Name}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DescribeScheduleRequest",
-}) as any as S.Schema<DescribeScheduleRequest>;
+).annotate({ identifier: "DescribeScheduleRequest" }) as any as S.Schema<DescribeScheduleRequest>;
 export interface DescribeScheduleResponse {
   CreateDate?: Date;
   CreatedBy?: string;
@@ -1673,17 +1339,13 @@ export const DescribeScheduleResponse = /*@__PURE__*/ S.suspend(() =>
     CreatedBy: S.optional(S.String),
     JobNames: S.optional(JobNameList),
     LastModifiedBy: S.optional(S.String),
-    LastModifiedDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LastModifiedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     ResourceArn: S.optional(S.String),
     CronExpression: S.optional(S.String),
     Tags: S.optional(TagMap),
     Name: S.String,
   }),
-).annotate({
-  identifier: "DescribeScheduleResponse",
-}) as any as S.Schema<DescribeScheduleResponse>;
+).annotate({ identifier: "DescribeScheduleResponse" }) as any as S.Schema<DescribeScheduleResponse>;
 export type MaxResults100 = number;
 export type NextToken = string;
 export interface ListDatasetsRequest {
@@ -1694,19 +1356,8 @@ export const ListDatasetsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/datasets" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListDatasetsRequest",
-}) as any as S.Schema<ListDatasetsRequest>;
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/datasets" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "ListDatasetsRequest" }) as any as S.Schema<ListDatasetsRequest>;
 export type AccountId = string;
 export interface Dataset {
   AccountId?: string;
@@ -1732,9 +1383,7 @@ export const Dataset = /*@__PURE__*/ S.suspend(() =>
     Format: S.optional(InputFormat),
     FormatOptions: S.optional(FormatOptions),
     Input: Input,
-    LastModifiedDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LastModifiedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LastModifiedBy: S.optional(S.String),
     Source: S.optional(Source),
     PathOptions: S.optional(PathOptions),
@@ -1750,9 +1399,7 @@ export interface ListDatasetsResponse {
 }
 export const ListDatasetsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Datasets: DatasetList, NextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListDatasetsResponse",
-}) as any as S.Schema<ListDatasetsResponse>;
+).annotate({ identifier: "ListDatasetsResponse" }) as any as S.Schema<ListDatasetsResponse>;
 export interface ListJobRunsRequest {
   Name: string;
   MaxResults?: number;
@@ -1764,18 +1411,9 @@ export const ListJobRunsRequest = /*@__PURE__*/ S.suspend(() =>
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/jobs/{Name}/jobRuns" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/jobs/{Name}/jobRuns" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "ListJobRunsRequest",
-}) as any as S.Schema<ListJobRunsRequest>;
+).annotate({ identifier: "ListJobRunsRequest" }) as any as S.Schema<ListJobRunsRequest>;
 export interface JobRun {
   Attempt?: number;
   CompletedOn?: Date;
@@ -1826,9 +1464,7 @@ export interface ListJobRunsResponse {
 }
 export const ListJobRunsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ JobRuns: JobRunList, NextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListJobRunsResponse",
-}) as any as S.Schema<ListJobRunsResponse>;
+).annotate({ identifier: "ListJobRunsResponse" }) as any as S.Schema<ListJobRunsResponse>;
 export interface ListJobsRequest {
   DatasetName?: string;
   MaxResults?: number;
@@ -1841,19 +1477,8 @@ export const ListJobsRequest = /*@__PURE__*/ S.suspend(() =>
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     ProjectName: S.optional(S.String).pipe(T.HttpQuery("projectName")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/jobs" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListJobsRequest",
-}) as any as S.Schema<ListJobsRequest>;
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/jobs" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "ListJobsRequest" }) as any as S.Schema<ListJobsRequest>;
 export interface Job {
   AccountId?: string;
   CreatedBy?: string;
@@ -1891,9 +1516,7 @@ export const Job = /*@__PURE__*/ S.suspend(() =>
     Name: S.String,
     Type: S.optional(JobType),
     LastModifiedBy: S.optional(S.String),
-    LastModifiedDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LastModifiedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LogSubscription: S.optional(LogSubscription),
     MaxCapacity: S.optional(S.Number),
     MaxRetries: S.optional(S.Number),
@@ -1918,9 +1541,7 @@ export interface ListJobsResponse {
 }
 export const ListJobsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Jobs: JobList, NextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListJobsResponse",
-}) as any as S.Schema<ListJobsResponse>;
+).annotate({ identifier: "ListJobsResponse" }) as any as S.Schema<ListJobsResponse>;
 export interface ListProjectsRequest {
   NextToken?: string;
   MaxResults?: number;
@@ -1929,19 +1550,8 @@ export const ListProjectsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/projects" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListProjectsRequest",
-}) as any as S.Schema<ListProjectsRequest>;
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/projects" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "ListProjectsRequest" }) as any as S.Schema<ListProjectsRequest>;
 export interface Project {
   AccountId?: string;
   CreateDate?: Date;
@@ -1964,9 +1574,7 @@ export const Project = /*@__PURE__*/ S.suspend(() =>
     CreateDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     CreatedBy: S.optional(S.String),
     DatasetName: S.optional(S.String),
-    LastModifiedDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LastModifiedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LastModifiedBy: S.optional(S.String),
     Name: S.String,
     RecipeName: S.String,
@@ -1986,9 +1594,7 @@ export interface ListProjectsResponse {
 }
 export const ListProjectsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Projects: ProjectList, NextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListProjectsResponse",
-}) as any as S.Schema<ListProjectsResponse>;
+).annotate({ identifier: "ListProjectsResponse" }) as any as S.Schema<ListProjectsResponse>;
 export interface ListRecipesRequest {
   MaxResults?: number;
   NextToken?: string;
@@ -1999,19 +1605,8 @@ export const ListRecipesRequest = /*@__PURE__*/ S.suspend(() =>
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     RecipeVersion: S.optional(S.String).pipe(T.HttpQuery("recipeVersion")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/recipes" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListRecipesRequest",
-}) as any as S.Schema<ListRecipesRequest>;
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/recipes" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "ListRecipesRequest" }) as any as S.Schema<ListRecipesRequest>;
 export interface Recipe {
   CreatedBy?: string;
   CreateDate?: Date;
@@ -2032,9 +1627,7 @@ export const Recipe = /*@__PURE__*/ S.suspend(() =>
     CreatedBy: S.optional(S.String),
     CreateDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LastModifiedBy: S.optional(S.String),
-    LastModifiedDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LastModifiedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     ProjectName: S.optional(S.String),
     PublishedBy: S.optional(S.String),
     PublishedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -2054,9 +1647,7 @@ export interface ListRecipesResponse {
 }
 export const ListRecipesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Recipes: RecipeList, NextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListRecipesResponse",
-}) as any as S.Schema<ListRecipesResponse>;
+).annotate({ identifier: "ListRecipesResponse" }) as any as S.Schema<ListRecipesResponse>;
 export interface ListRecipeVersionsRequest {
   MaxResults?: number;
   NextToken?: string;
@@ -2067,16 +1658,7 @@ export const ListRecipeVersionsRequest = /*@__PURE__*/ S.suspend(() =>
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     Name: S.String.pipe(T.HttpQuery("name")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/recipeVersions" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/recipeVersions" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListRecipeVersionsRequest",
 }) as any as S.Schema<ListRecipeVersionsRequest>;
@@ -2099,19 +1681,8 @@ export const ListRulesetsRequest = /*@__PURE__*/ S.suspend(() =>
     TargetArn: S.optional(S.String).pipe(T.HttpQuery("targetArn")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/rulesets" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListRulesetsRequest",
-}) as any as S.Schema<ListRulesetsRequest>;
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/rulesets" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "ListRulesetsRequest" }) as any as S.Schema<ListRulesetsRequest>;
 export type RuleCount = number;
 export interface RulesetItem {
   AccountId?: string;
@@ -2133,9 +1704,7 @@ export const RulesetItem = /*@__PURE__*/ S.suspend(() =>
     CreateDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     Description: S.optional(S.String),
     LastModifiedBy: S.optional(S.String),
-    LastModifiedDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LastModifiedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     Name: S.String,
     ResourceArn: S.optional(S.String),
     RuleCount: S.optional(S.Number),
@@ -2151,9 +1720,7 @@ export interface ListRulesetsResponse {
 }
 export const ListRulesetsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Rulesets: RulesetItemList, NextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListRulesetsResponse",
-}) as any as S.Schema<ListRulesetsResponse>;
+).annotate({ identifier: "ListRulesetsResponse" }) as any as S.Schema<ListRulesetsResponse>;
 export interface ListSchedulesRequest {
   JobName?: string;
   MaxResults?: number;
@@ -2164,19 +1731,8 @@ export const ListSchedulesRequest = /*@__PURE__*/ S.suspend(() =>
     JobName: S.optional(S.String).pipe(T.HttpQuery("jobName")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/schedules" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListSchedulesRequest",
-}) as any as S.Schema<ListSchedulesRequest>;
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/schedules" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "ListSchedulesRequest" }) as any as S.Schema<ListSchedulesRequest>;
 export interface Schedule {
   AccountId?: string;
   CreatedBy?: string;
@@ -2196,9 +1752,7 @@ export const Schedule = /*@__PURE__*/ S.suspend(() =>
     CreateDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     JobNames: S.optional(JobNameList),
     LastModifiedBy: S.optional(S.String),
-    LastModifiedDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LastModifiedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     ResourceArn: S.optional(S.String),
     CronExpression: S.optional(S.String),
     Tags: S.optional(TagMap),
@@ -2213,22 +1767,13 @@ export interface ListSchedulesResponse {
 }
 export const ListSchedulesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Schedules: ScheduleList, NextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListSchedulesResponse",
-}) as any as S.Schema<ListSchedulesResponse>;
+).annotate({ identifier: "ListSchedulesResponse" }) as any as S.Schema<ListSchedulesResponse>;
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
 }
 export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListTagsForResourceRequest",
@@ -2246,10 +1791,7 @@ export interface PublishRecipeRequest {
   Name: string;
 }
 export const PublishRecipeRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Description: S.optional(S.String),
-    Name: S.String.pipe(T.HttpLabel("Name")),
-  }).pipe(
+  S.Struct({ Description: S.optional(S.String), Name: S.String.pipe(T.HttpLabel("Name")) }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/recipes/{Name}/publishRecipe" }),
       svc,
@@ -2259,17 +1801,13 @@ export const PublishRecipeRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "PublishRecipeRequest",
-}) as any as S.Schema<PublishRecipeRequest>;
+).annotate({ identifier: "PublishRecipeRequest" }) as any as S.Schema<PublishRecipeRequest>;
 export interface PublishRecipeResponse {
   Name: string;
 }
 export const PublishRecipeResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Name: S.String }),
-).annotate({
-  identifier: "PublishRecipeResponse",
-}) as any as S.Schema<PublishRecipeResponse>;
+).annotate({ identifier: "PublishRecipeResponse" }) as any as S.Schema<PublishRecipeResponse>;
 export type Preview = boolean;
 export type StepIndex = number;
 export type ClientSessionId = string | redacted.Redacted<string>;
@@ -2318,10 +1856,7 @@ export const SendProjectSessionActionRequest = /*@__PURE__*/ S.suspend(() =>
     ViewFrame: S.optional(ViewFrame),
   }).pipe(
     T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/projects/{Name}/sendProjectSessionAction",
-      }),
+      T.Http({ method: "PUT", uri: "/projects/{Name}/sendProjectSessionAction" }),
       svc,
       auth,
       proto,
@@ -2340,11 +1875,7 @@ export interface SendProjectSessionActionResponse {
   ActionId?: number;
 }
 export const SendProjectSessionActionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Result: S.optional(S.String),
-    Name: S.String,
-    ActionId: S.optional(S.Number),
-  }),
+  S.Struct({ Result: S.optional(S.String), Name: S.String, ActionId: S.optional(S.Number) }),
 ).annotate({
   identifier: "SendProjectSessionActionResponse",
 }) as any as S.Schema<SendProjectSessionActionResponse>;
@@ -2362,27 +1893,20 @@ export const StartJobRunRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "StartJobRunRequest",
-}) as any as S.Schema<StartJobRunRequest>;
+).annotate({ identifier: "StartJobRunRequest" }) as any as S.Schema<StartJobRunRequest>;
 export interface StartJobRunResponse {
   RunId: string;
 }
 export const StartJobRunResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ RunId: S.String }),
-).annotate({
-  identifier: "StartJobRunResponse",
-}) as any as S.Schema<StartJobRunResponse>;
+).annotate({ identifier: "StartJobRunResponse" }) as any as S.Schema<StartJobRunResponse>;
 export type AssumeControl = boolean;
 export interface StartProjectSessionRequest {
   Name: string;
   AssumeControl?: boolean;
 }
 export const StartProjectSessionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.String.pipe(T.HttpLabel("Name")),
-    AssumeControl: S.optional(S.Boolean),
-  }).pipe(
+  S.Struct({ Name: S.String.pipe(T.HttpLabel("Name")), AssumeControl: S.optional(S.Boolean) }).pipe(
     T.all(
       T.Http({ method: "PUT", uri: "/projects/{Name}/startProjectSession" }),
       svc,
@@ -2422,42 +1946,24 @@ export const StopJobRunRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "StopJobRunRequest",
-}) as any as S.Schema<StopJobRunRequest>;
+).annotate({ identifier: "StopJobRunRequest" }) as any as S.Schema<StopJobRunRequest>;
 export interface StopJobRunResponse {
   RunId: string;
 }
 export const StopJobRunResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ RunId: S.String }),
-).annotate({
-  identifier: "StopJobRunResponse",
-}) as any as S.Schema<StopJobRunResponse>;
+).annotate({ identifier: "StopJobRunResponse" }) as any as S.Schema<StopJobRunResponse>;
 export interface TagResourceRequest {
   ResourceArn: string;
   Tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
-    Tags: TagMap,
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+  S.Struct({ ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")), Tags: TagMap }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
+).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = string[];
@@ -2471,22 +1977,11 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
     ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     TagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
   }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
+).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateDatasetRequest {
@@ -2503,27 +1998,14 @@ export const UpdateDatasetRequest = /*@__PURE__*/ S.suspend(() =>
     FormatOptions: S.optional(FormatOptions),
     Input: Input,
     PathOptions: S.optional(PathOptions),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/datasets/{Name}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateDatasetRequest",
-}) as any as S.Schema<UpdateDatasetRequest>;
+  }).pipe(T.all(T.Http({ method: "PUT", uri: "/datasets/{Name}" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "UpdateDatasetRequest" }) as any as S.Schema<UpdateDatasetRequest>;
 export interface UpdateDatasetResponse {
   Name: string;
 }
 export const UpdateDatasetResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Name: S.String }),
-).annotate({
-  identifier: "UpdateDatasetResponse",
-}) as any as S.Schema<UpdateDatasetResponse>;
+).annotate({ identifier: "UpdateDatasetResponse" }) as any as S.Schema<UpdateDatasetResponse>;
 export interface UpdateProfileJobRequest {
   Configuration?: ProfileConfiguration;
   EncryptionKeyArn?: string;
@@ -2553,26 +2035,15 @@ export const UpdateProfileJobRequest = /*@__PURE__*/ S.suspend(() =>
     Timeout: S.optional(S.Number),
     JobSample: S.optional(JobSample),
   }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/profileJobs/{Name}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "PUT", uri: "/profileJobs/{Name}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UpdateProfileJobRequest",
-}) as any as S.Schema<UpdateProfileJobRequest>;
+).annotate({ identifier: "UpdateProfileJobRequest" }) as any as S.Schema<UpdateProfileJobRequest>;
 export interface UpdateProfileJobResponse {
   Name: string;
 }
 export const UpdateProfileJobResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Name: S.String }),
-).annotate({
-  identifier: "UpdateProfileJobResponse",
-}) as any as S.Schema<UpdateProfileJobResponse>;
+).annotate({ identifier: "UpdateProfileJobResponse" }) as any as S.Schema<UpdateProfileJobResponse>;
 export interface UpdateProjectRequest {
   Sample?: Sample;
   RoleArn: string;
@@ -2583,33 +2054,18 @@ export const UpdateProjectRequest = /*@__PURE__*/ S.suspend(() =>
     Sample: S.optional(Sample),
     RoleArn: S.String,
     Name: S.String.pipe(T.HttpLabel("Name")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/projects/{Name}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateProjectRequest",
-}) as any as S.Schema<UpdateProjectRequest>;
+  }).pipe(T.all(T.Http({ method: "PUT", uri: "/projects/{Name}" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "UpdateProjectRequest" }) as any as S.Schema<UpdateProjectRequest>;
 export interface UpdateProjectResponse {
   LastModifiedDate?: Date;
   Name: string;
 }
 export const UpdateProjectResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    LastModifiedDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LastModifiedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     Name: S.String,
   }),
-).annotate({
-  identifier: "UpdateProjectResponse",
-}) as any as S.Schema<UpdateProjectResponse>;
+).annotate({ identifier: "UpdateProjectResponse" }) as any as S.Schema<UpdateProjectResponse>;
 export interface UpdateRecipeRequest {
   Description?: string;
   Name: string;
@@ -2620,27 +2076,14 @@ export const UpdateRecipeRequest = /*@__PURE__*/ S.suspend(() =>
     Description: S.optional(S.String),
     Name: S.String.pipe(T.HttpLabel("Name")),
     Steps: S.optional(RecipeStepList),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/recipes/{Name}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateRecipeRequest",
-}) as any as S.Schema<UpdateRecipeRequest>;
+  }).pipe(T.all(T.Http({ method: "PUT", uri: "/recipes/{Name}" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "UpdateRecipeRequest" }) as any as S.Schema<UpdateRecipeRequest>;
 export interface UpdateRecipeResponse {
   Name: string;
 }
 export const UpdateRecipeResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Name: S.String }),
-).annotate({
-  identifier: "UpdateRecipeResponse",
-}) as any as S.Schema<UpdateRecipeResponse>;
+).annotate({ identifier: "UpdateRecipeResponse" }) as any as S.Schema<UpdateRecipeResponse>;
 export interface UpdateRecipeJobRequest {
   EncryptionKeyArn?: string;
   EncryptionMode?: EncryptionMode;
@@ -2668,26 +2111,15 @@ export const UpdateRecipeJobRequest = /*@__PURE__*/ S.suspend(() =>
     RoleArn: S.String,
     Timeout: S.optional(S.Number),
   }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/recipeJobs/{Name}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "PUT", uri: "/recipeJobs/{Name}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UpdateRecipeJobRequest",
-}) as any as S.Schema<UpdateRecipeJobRequest>;
+).annotate({ identifier: "UpdateRecipeJobRequest" }) as any as S.Schema<UpdateRecipeJobRequest>;
 export interface UpdateRecipeJobResponse {
   Name: string;
 }
 export const UpdateRecipeJobResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Name: S.String }),
-).annotate({
-  identifier: "UpdateRecipeJobResponse",
-}) as any as S.Schema<UpdateRecipeJobResponse>;
+).annotate({ identifier: "UpdateRecipeJobResponse" }) as any as S.Schema<UpdateRecipeJobResponse>;
 export interface UpdateRulesetRequest {
   Name: string;
   Description?: string;
@@ -2698,27 +2130,14 @@ export const UpdateRulesetRequest = /*@__PURE__*/ S.suspend(() =>
     Name: S.String.pipe(T.HttpLabel("Name")),
     Description: S.optional(S.String),
     Rules: RuleList,
-  }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/rulesets/{Name}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateRulesetRequest",
-}) as any as S.Schema<UpdateRulesetRequest>;
+  }).pipe(T.all(T.Http({ method: "PUT", uri: "/rulesets/{Name}" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "UpdateRulesetRequest" }) as any as S.Schema<UpdateRulesetRequest>;
 export interface UpdateRulesetResponse {
   Name: string;
 }
 export const UpdateRulesetResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Name: S.String }),
-).annotate({
-  identifier: "UpdateRulesetResponse",
-}) as any as S.Schema<UpdateRulesetResponse>;
+).annotate({ identifier: "UpdateRulesetResponse" }) as any as S.Schema<UpdateRulesetResponse>;
 export interface UpdateScheduleRequest {
   JobNames?: string[];
   CronExpression: string;
@@ -2729,27 +2148,14 @@ export const UpdateScheduleRequest = /*@__PURE__*/ S.suspend(() =>
     JobNames: S.optional(JobNameList),
     CronExpression: S.String,
     Name: S.String.pipe(T.HttpLabel("Name")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/schedules/{Name}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateScheduleRequest",
-}) as any as S.Schema<UpdateScheduleRequest>;
+  }).pipe(T.all(T.Http({ method: "PUT", uri: "/schedules/{Name}" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "UpdateScheduleRequest" }) as any as S.Schema<UpdateScheduleRequest>;
 export interface UpdateScheduleResponse {
   Name: string;
 }
 export const UpdateScheduleResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Name: S.String }),
-).annotate({
-  identifier: "UpdateScheduleResponse",
-}) as any as S.Schema<UpdateScheduleResponse>;
+).annotate({ identifier: "UpdateScheduleResponse" }) as any as S.Schema<UpdateScheduleResponse>;
 export type Message = string;
 export type BatchDeleteRecipeVersionError =
   | ConflictException
@@ -3179,11 +2585,7 @@ export const deleteSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteScheduleRequest,
   output: DeleteScheduleResponse,
-  errors: [
-    ResourceNotFoundException,
-    ValidationException,
-    TooManyRequestsException,
-  ],
+  errors: [ResourceNotFoundException, ValidationException, TooManyRequestsException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSchedule",
@@ -3205,11 +2607,7 @@ export const describeDataset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DescribeDatasetRequest,
   output: DescribeDatasetResponse,
-  errors: [
-    ResourceNotFoundException,
-    ValidationException,
-    TooManyRequestsException,
-  ],
+  errors: [ResourceNotFoundException, ValidationException, TooManyRequestsException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDataset",
@@ -3231,11 +2629,7 @@ export const describeJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DescribeJobRequest,
   output: DescribeJobResponse,
-  errors: [
-    ResourceNotFoundException,
-    ValidationException,
-    TooManyRequestsException,
-  ],
+  errors: [ResourceNotFoundException, ValidationException, TooManyRequestsException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeJob",
@@ -3257,11 +2651,7 @@ export const describeJobRun: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DescribeJobRunRequest,
   output: DescribeJobRunResponse,
-  errors: [
-    ResourceNotFoundException,
-    ValidationException,
-    TooManyRequestsException,
-  ],
+  errors: [ResourceNotFoundException, ValidationException, TooManyRequestsException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeJobRun",
@@ -3283,11 +2673,7 @@ export const describeProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DescribeProjectRequest,
   output: DescribeProjectResponse,
-  errors: [
-    ResourceNotFoundException,
-    ValidationException,
-    TooManyRequestsException,
-  ],
+  errors: [ResourceNotFoundException, ValidationException, TooManyRequestsException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeProject",
@@ -3310,11 +2696,7 @@ export const describeRecipe: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DescribeRecipeRequest,
   output: DescribeRecipeResponse,
-  errors: [
-    ResourceNotFoundException,
-    ValidationException,
-    TooManyRequestsException,
-  ],
+  errors: [ResourceNotFoundException, ValidationException, TooManyRequestsException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeRecipe",
@@ -3336,11 +2718,7 @@ export const describeRuleset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DescribeRulesetRequest,
   output: DescribeRulesetResponse,
-  errors: [
-    ResourceNotFoundException,
-    ValidationException,
-    TooManyRequestsException,
-  ],
+  errors: [ResourceNotFoundException, ValidationException, TooManyRequestsException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeRuleset",
@@ -3362,20 +2740,13 @@ export const describeSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DescribeScheduleRequest,
   output: DescribeScheduleResponse,
-  errors: [
-    ResourceNotFoundException,
-    ValidationException,
-    TooManyRequestsException,
-  ],
+  errors: [ResourceNotFoundException, ValidationException, TooManyRequestsException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSchedule",
 }));
 
-export type ListDatasetsError =
-  | ValidationException
-  | TooManyRequestsException
-  | CommonErrors;
+export type ListDatasetsError = ValidationException | TooManyRequestsException | CommonErrors;
 /**
  * Lists all of the DataBrew datasets.
  */
@@ -3417,11 +2788,7 @@ export const listJobRuns: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListJobRunsRequest,
   output: ListJobRunsResponse,
-  errors: [
-    ResourceNotFoundException,
-    ValidationException,
-    TooManyRequestsException,
-  ],
+  errors: [ResourceNotFoundException, ValidationException, TooManyRequestsException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListJobRuns",
@@ -3433,10 +2800,7 @@ export const listJobRuns: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListJobsError =
-  | ValidationException
-  | TooManyRequestsException
-  | CommonErrors;
+export type ListJobsError = ValidationException | TooManyRequestsException | CommonErrors;
 /**
  * Lists all of the DataBrew jobs that are defined.
  */
@@ -3461,10 +2825,7 @@ export const listJobs: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListProjectsError =
-  | ValidationException
-  | TooManyRequestsException
-  | CommonErrors;
+export type ListProjectsError = ValidationException | TooManyRequestsException | CommonErrors;
 /**
  * Lists all of the DataBrew projects that are defined.
  */
@@ -3489,10 +2850,7 @@ export const listProjects: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListRecipesError =
-  | ValidationException
-  | TooManyRequestsException
-  | CommonErrors;
+export type ListRecipesError = ValidationException | TooManyRequestsException | CommonErrors;
 /**
  * Lists all of the DataBrew recipes that are defined.
  */
@@ -3535,11 +2893,7 @@ export const listRecipeVersions: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListRecipeVersionsRequest,
   output: ListRecipeVersionsResponse,
-  errors: [
-    ValidationException,
-    TooManyRequestsException,
-    ResourceNotFoundException,
-  ],
+  errors: [ValidationException, TooManyRequestsException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListRecipeVersions",
@@ -3569,11 +2923,7 @@ export const listRulesets: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListRulesetsRequest,
   output: ListRulesetsResponse,
-  errors: [
-    ResourceNotFoundException,
-    ValidationException,
-    TooManyRequestsException,
-  ],
+  errors: [ResourceNotFoundException, ValidationException, TooManyRequestsException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListRulesets",
@@ -3585,10 +2935,7 @@ export const listRulesets: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListSchedulesError =
-  | ValidationException
-  | TooManyRequestsException
-  | CommonErrors;
+export type ListSchedulesError = ValidationException | TooManyRequestsException | CommonErrors;
 /**
  * Lists the DataBrew schedules that are defined.
  */
@@ -3767,11 +3114,7 @@ export const stopJobRun: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: StopJobRunRequest,
   output: StopJobRunResponse,
-  errors: [
-    ResourceNotFoundException,
-    ValidationException,
-    TooManyRequestsException,
-  ],
+  errors: [ResourceNotFoundException, ValidationException, TooManyRequestsException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopJobRun",
@@ -3937,11 +3280,7 @@ export const updateRecipe: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateRecipeRequest,
   output: UpdateRecipeResponse,
-  errors: [
-    ResourceNotFoundException,
-    ValidationException,
-    TooManyRequestsException,
-  ],
+  errors: [ResourceNotFoundException, ValidationException, TooManyRequestsException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRecipe",
@@ -3993,11 +3332,7 @@ export const updateRuleset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateRulesetRequest,
   output: UpdateRulesetResponse,
-  errors: [
-    ResourceNotFoundException,
-    ValidationException,
-    TooManyRequestsException,
-  ],
+  errors: [ResourceNotFoundException, ValidationException, TooManyRequestsException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRuleset",

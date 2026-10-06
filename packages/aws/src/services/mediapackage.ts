@@ -1,18 +1,15 @@
+import * as API from "@distilled.cloud/core/api";
+import * as S from "@distilled.cloud/core/schema";
 import * as HttpClient from "effect/http/HttpClient";
 import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
-import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
-const svc = T.AwsApiService({
-  sdkId: "MediaPackage",
-  serviceShapeName: "MediaPackage",
-});
+import * as T from "../traits.ts";
+const svc = T.AwsApiService({ sdkId: "MediaPackage", serviceShapeName: "MediaPackage" });
 const auth = T.AwsAuthSigv4({ name: "mediapackage" });
 const ver = T.ServiceVersion("2017-10-12");
 const proto = T.AwsProtocolsRestJson1();
@@ -28,14 +25,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -62,9 +55,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://mediapackage-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -72,13 +63,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://mediapackage.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://mediapackage.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://mediapackage.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -128,9 +115,7 @@ export const EgressAccessLogs = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ LogGroupName: S.optional(S.String) }).pipe(
     S.encodeKeys({ LogGroupName: "logGroupName" }),
   ),
-).annotate({
-  identifier: "EgressAccessLogs",
-}) as any as S.Schema<EgressAccessLogs>;
+).annotate({ identifier: "EgressAccessLogs" }) as any as S.Schema<EgressAccessLogs>;
 export interface IngressAccessLogs {
   LogGroupName?: string;
 }
@@ -138,9 +123,7 @@ export const IngressAccessLogs = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ LogGroupName: S.optional(S.String) }).pipe(
     S.encodeKeys({ LogGroupName: "logGroupName" }),
   ),
-).annotate({
-  identifier: "IngressAccessLogs",
-}) as any as S.Schema<IngressAccessLogs>;
+).annotate({ identifier: "IngressAccessLogs" }) as any as S.Schema<IngressAccessLogs>;
 export interface ConfigureLogsRequest {
   EgressAccessLogs?: EgressAccessLogs;
   Id: string;
@@ -168,9 +151,7 @@ export const ConfigureLogsRequest = /*@__PURE__*/ S.suspend(() =>
         rules,
       ),
     ),
-).annotate({
-  identifier: "ConfigureLogsRequest",
-}) as any as S.Schema<ConfigureLogsRequest>;
+).annotate({ identifier: "ConfigureLogsRequest" }) as any as S.Schema<ConfigureLogsRequest>;
 export type SensitiveString = string | redacted.Redacted<string>;
 export interface IngestEndpoint {
   Id?: string;
@@ -184,14 +165,7 @@ export const IngestEndpoint = /*@__PURE__*/ S.suspend(() =>
     Password: S.optional(SensitiveString),
     Url: S.optional(S.String),
     Username: S.optional(SensitiveString),
-  }).pipe(
-    S.encodeKeys({
-      Id: "id",
-      Password: "password",
-      Url: "url",
-      Username: "username",
-    }),
-  ),
+  }).pipe(S.encodeKeys({ Id: "id", Password: "password", Url: "url", Username: "username" })),
 ).annotate({ identifier: "IngestEndpoint" }) as any as S.Schema<IngestEndpoint>;
 export type __listOfIngestEndpoint = IngestEndpoint[];
 export const __listOfIngestEndpoint = /*@__PURE__*/ S.Array(IngestEndpoint);
@@ -237,34 +211,17 @@ export const ConfigureLogsResponse = /*@__PURE__*/ S.suspend(() =>
       Tags: "tags",
     }),
   ),
-).annotate({
-  identifier: "ConfigureLogsResponse",
-}) as any as S.Schema<ConfigureLogsResponse>;
+).annotate({ identifier: "ConfigureLogsResponse" }) as any as S.Schema<ConfigureLogsResponse>;
 export interface CreateChannelRequest {
   Description?: string;
   Id?: string;
   Tags?: { [key: string]: string | undefined };
 }
 export const CreateChannelRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Description: S.optional(S.String),
-    Id: S.optional(S.String),
-    Tags: S.optional(Tags),
-  })
+  S.Struct({ Description: S.optional(S.String), Id: S.optional(S.String), Tags: S.optional(Tags) })
     .pipe(S.encodeKeys({ Description: "description", Id: "id", Tags: "tags" }))
-    .pipe(
-      T.all(
-        T.Http({ method: "POST", uri: "/channels" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "CreateChannelRequest",
-}) as any as S.Schema<CreateChannelRequest>;
+    .pipe(T.all(T.Http({ method: "POST", uri: "/channels" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "CreateChannelRequest" }) as any as S.Schema<CreateChannelRequest>;
 export interface CreateChannelResponse {
   Arn?: string;
   CreatedAt?: string;
@@ -297,9 +254,7 @@ export const CreateChannelResponse = /*@__PURE__*/ S.suspend(() =>
       Tags: "tags",
     }),
   ),
-).annotate({
-  identifier: "CreateChannelResponse",
-}) as any as S.Schema<CreateChannelResponse>;
+).annotate({ identifier: "CreateChannelResponse" }) as any as S.Schema<CreateChannelResponse>;
 export interface S3Destination {
   BucketName?: string;
   ManifestKey?: string;
@@ -311,11 +266,7 @@ export const S3Destination = /*@__PURE__*/ S.suspend(() =>
     ManifestKey: S.optional(S.String),
     RoleArn: S.optional(S.String),
   }).pipe(
-    S.encodeKeys({
-      BucketName: "bucketName",
-      ManifestKey: "manifestKey",
-      RoleArn: "roleArn",
-    }),
+    S.encodeKeys({ BucketName: "bucketName", ManifestKey: "manifestKey", RoleArn: "roleArn" }),
   ),
 ).annotate({ identifier: "S3Destination" }) as any as S.Schema<S3Destination>;
 export interface CreateHarvestJobRequest {
@@ -342,19 +293,8 @@ export const CreateHarvestJobRequest = /*@__PURE__*/ S.suspend(() =>
         StartTime: "startTime",
       }),
     )
-    .pipe(
-      T.all(
-        T.Http({ method: "POST", uri: "/harvest_jobs" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "CreateHarvestJobRequest",
-}) as any as S.Schema<CreateHarvestJobRequest>;
+    .pipe(T.all(T.Http({ method: "POST", uri: "/harvest_jobs" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "CreateHarvestJobRequest" }) as any as S.Schema<CreateHarvestJobRequest>;
 export type Status = "IN_PROGRESS" | "SUCCEEDED" | "FAILED" | (string & {});
 export const Status = S.String;
 
@@ -365,11 +305,7 @@ export interface CreateHarvestJobResponse {
   EndTime?: string;
   Id?: string;
   OriginEndpointId?: string;
-  S3Destination?: S3Destination & {
-    BucketName: string;
-    ManifestKey: string;
-    RoleArn: string;
-  };
+  S3Destination?: S3Destination & { BucketName: string; ManifestKey: string; RoleArn: string };
   StartTime?: string;
   Status?: Status;
 }
@@ -397,9 +333,7 @@ export const CreateHarvestJobResponse = /*@__PURE__*/ S.suspend(() =>
       Status: "status",
     }),
   ),
-).annotate({
-  identifier: "CreateHarvestJobResponse",
-}) as any as S.Schema<CreateHarvestJobResponse>;
+).annotate({ identifier: "CreateHarvestJobResponse" }) as any as S.Schema<CreateHarvestJobResponse>;
 export interface Authorization {
   CdnIdentifierSecret?: string;
   SecretsRoleArn?: string;
@@ -409,10 +343,7 @@ export const Authorization = /*@__PURE__*/ S.suspend(() =>
     CdnIdentifierSecret: S.optional(S.String),
     SecretsRoleArn: S.optional(S.String),
   }).pipe(
-    S.encodeKeys({
-      CdnIdentifierSecret: "cdnIdentifierSecret",
-      SecretsRoleArn: "secretsRoleArn",
-    }),
+    S.encodeKeys({ CdnIdentifierSecret: "cdnIdentifierSecret", SecretsRoleArn: "secretsRoleArn" }),
   ),
 ).annotate({ identifier: "Authorization" }) as any as S.Schema<Authorization>;
 export type CmafEncryptionMethod = "SAMPLE_AES" | "AES_CTR" | (string & {});
@@ -471,9 +402,7 @@ export interface SpekeKeyProvider {
 export const SpekeKeyProvider = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     CertificateArn: S.optional(S.String),
-    EncryptionContractConfiguration: S.optional(
-      EncryptionContractConfiguration,
-    ),
+    EncryptionContractConfiguration: S.optional(EncryptionContractConfiguration),
     ResourceId: S.optional(S.String),
     RoleArn: S.optional(S.String),
     SystemIds: S.optional(__listOf__string),
@@ -488,9 +417,7 @@ export const SpekeKeyProvider = /*@__PURE__*/ S.suspend(() =>
       Url: "url",
     }),
   ),
-).annotate({
-  identifier: "SpekeKeyProvider",
-}) as any as S.Schema<SpekeKeyProvider>;
+).annotate({ identifier: "SpekeKeyProvider" }) as any as S.Schema<SpekeKeyProvider>;
 export interface CmafEncryption {
   ConstantInitializationVector?: string;
   EncryptionMethod?: CmafEncryptionMethod;
@@ -512,12 +439,7 @@ export const CmafEncryption = /*@__PURE__*/ S.suspend(() =>
     }),
   ),
 ).annotate({ identifier: "CmafEncryption" }) as any as S.Schema<CmafEncryption>;
-export type AdMarkers =
-  | "NONE"
-  | "SCTE35_ENHANCED"
-  | "PASSTHROUGH"
-  | "DATERANGE"
-  | (string & {});
+export type AdMarkers = "NONE" | "SCTE35_ENHANCED" | "PASSTHROUGH" | "DATERANGE" | (string & {});
 export const AdMarkers = S.String;
 
 export type __AdTriggersElement =
@@ -583,10 +505,10 @@ export const HlsManifestCreateOrUpdateParameters = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "HlsManifestCreateOrUpdateParameters",
 }) as any as S.Schema<HlsManifestCreateOrUpdateParameters>;
-export type __listOfHlsManifestCreateOrUpdateParameters =
-  HlsManifestCreateOrUpdateParameters[];
-export const __listOfHlsManifestCreateOrUpdateParameters =
-  /*@__PURE__*/ S.Array(HlsManifestCreateOrUpdateParameters);
+export type __listOfHlsManifestCreateOrUpdateParameters = HlsManifestCreateOrUpdateParameters[];
+export const __listOfHlsManifestCreateOrUpdateParameters = /*@__PURE__*/ S.Array(
+  HlsManifestCreateOrUpdateParameters,
+);
 export type StreamOrder =
   | "ORIGINAL"
   | "VIDEO_BITRATE_ASCENDING"
@@ -611,9 +533,7 @@ export const StreamSelection = /*@__PURE__*/ S.suspend(() =>
       StreamOrder: "streamOrder",
     }),
   ),
-).annotate({
-  identifier: "StreamSelection",
-}) as any as S.Schema<StreamSelection>;
+).annotate({ identifier: "StreamSelection" }) as any as S.Schema<StreamSelection>;
 export interface CmafPackageCreateOrUpdateParameters {
   Encryption?: CmafEncryption;
   HlsManifests?: HlsManifestCreateOrUpdateParameters[];
@@ -655,26 +575,15 @@ export const DashEncryption = /*@__PURE__*/ S.suspend(() =>
     }),
   ),
 ).annotate({ identifier: "DashEncryption" }) as any as S.Schema<DashEncryption>;
-export type ManifestLayout =
-  | "FULL"
-  | "COMPACT"
-  | "DRM_TOP_LEVEL_COMPACT"
-  | (string & {});
+export type ManifestLayout = "FULL" | "COMPACT" | "DRM_TOP_LEVEL_COMPACT" | (string & {});
 export const ManifestLayout = S.String;
 
 export type __PeriodTriggersElement = "ADS" | (string & {});
 export const __PeriodTriggersElement = S.String;
 
 export type __listOf__PeriodTriggersElement = __PeriodTriggersElement[];
-export const __listOf__PeriodTriggersElement = /*@__PURE__*/ S.Array(
-  __PeriodTriggersElement,
-);
-export type Profile =
-  | "NONE"
-  | "HBBTV_1_5"
-  | "HYBRIDCAST"
-  | "DVB_DASH_2014"
-  | (string & {});
+export const __listOf__PeriodTriggersElement = /*@__PURE__*/ S.Array(__PeriodTriggersElement);
+export type Profile = "NONE" | "HBBTV_1_5" | "HYBRIDCAST" | "DVB_DASH_2014" | (string & {});
 export const Profile = S.String;
 
 export type SegmentTemplateFormat =
@@ -684,12 +593,7 @@ export type SegmentTemplateFormat =
   | (string & {});
 export const SegmentTemplateFormat = S.String;
 
-export type UtcTiming =
-  | "NONE"
-  | "HTTP-HEAD"
-  | "HTTP-ISO"
-  | "HTTP-XSDATE"
-  | (string & {});
+export type UtcTiming = "NONE" | "HTTP-HEAD" | "HTTP-ISO" | "HTTP-XSDATE" | (string & {});
 export const UtcTiming = S.String;
 
 export interface DashPackage {
@@ -905,14 +809,7 @@ export const CreateOriginEndpointRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(
-      T.all(
-        T.Http({ method: "POST", uri: "/origin_endpoints" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+      T.all(T.Http({ method: "POST", uri: "/origin_endpoints" }), svc, auth, proto, ver, rules),
     ),
 ).annotate({
   identifier: "CreateOriginEndpointRequest",
@@ -984,10 +881,7 @@ export const CmafPackage = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "CmafPackage" }) as any as S.Schema<CmafPackage>;
 export interface CreateOriginEndpointResponse {
   Arn?: string;
-  Authorization?: Authorization & {
-    CdnIdentifierSecret: string;
-    SecretsRoleArn: string;
-  };
+  Authorization?: Authorization & { CdnIdentifierSecret: string; SecretsRoleArn: string };
   ChannelId?: string;
   CmafPackage?: CmafPackage & {
     Encryption: CmafEncryption & {
@@ -1105,22 +999,11 @@ export interface DeleteChannelRequest {
 }
 export const DeleteChannelRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Id: S.String.pipe(T.HttpLabel("Id")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/channels/{Id}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/channels/{Id}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteChannelRequest",
-}) as any as S.Schema<DeleteChannelRequest>;
+).annotate({ identifier: "DeleteChannelRequest" }) as any as S.Schema<DeleteChannelRequest>;
 export interface DeleteChannelResponse {}
-export const DeleteChannelResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteChannelResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteChannelResponse",
 }) as any as S.Schema<DeleteChannelResponse>;
 export interface DeleteOriginEndpointRequest {
@@ -1141,9 +1024,7 @@ export const DeleteOriginEndpointRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteOriginEndpointRequest",
 }) as any as S.Schema<DeleteOriginEndpointRequest>;
 export interface DeleteOriginEndpointResponse {}
-export const DeleteOriginEndpointResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteOriginEndpointResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteOriginEndpointResponse",
 }) as any as S.Schema<DeleteOriginEndpointResponse>;
 export interface DescribeChannelRequest {
@@ -1151,18 +1032,9 @@ export interface DescribeChannelRequest {
 }
 export const DescribeChannelRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Id: S.String.pipe(T.HttpLabel("Id")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/channels/{Id}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/channels/{Id}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DescribeChannelRequest",
-}) as any as S.Schema<DescribeChannelRequest>;
+).annotate({ identifier: "DescribeChannelRequest" }) as any as S.Schema<DescribeChannelRequest>;
 export interface DescribeChannelResponse {
   Arn?: string;
   CreatedAt?: string;
@@ -1195,22 +1067,13 @@ export const DescribeChannelResponse = /*@__PURE__*/ S.suspend(() =>
       Tags: "tags",
     }),
   ),
-).annotate({
-  identifier: "DescribeChannelResponse",
-}) as any as S.Schema<DescribeChannelResponse>;
+).annotate({ identifier: "DescribeChannelResponse" }) as any as S.Schema<DescribeChannelResponse>;
 export interface DescribeHarvestJobRequest {
   Id: string;
 }
 export const DescribeHarvestJobRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Id: S.String.pipe(T.HttpLabel("Id")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/harvest_jobs/{Id}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/harvest_jobs/{Id}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DescribeHarvestJobRequest",
@@ -1222,11 +1085,7 @@ export interface DescribeHarvestJobResponse {
   EndTime?: string;
   Id?: string;
   OriginEndpointId?: string;
-  S3Destination?: S3Destination & {
-    BucketName: string;
-    ManifestKey: string;
-    RoleArn: string;
-  };
+  S3Destination?: S3Destination & { BucketName: string; ManifestKey: string; RoleArn: string };
   StartTime?: string;
   Status?: Status;
 }
@@ -1262,24 +1121,14 @@ export interface DescribeOriginEndpointRequest {
 }
 export const DescribeOriginEndpointRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Id: S.String.pipe(T.HttpLabel("Id")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/origin_endpoints/{Id}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/origin_endpoints/{Id}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DescribeOriginEndpointRequest",
 }) as any as S.Schema<DescribeOriginEndpointRequest>;
 export interface DescribeOriginEndpointResponse {
   Arn?: string;
-  Authorization?: Authorization & {
-    CdnIdentifierSecret: string;
-    SecretsRoleArn: string;
-  };
+  Authorization?: Authorization & { CdnIdentifierSecret: string; SecretsRoleArn: string };
   ChannelId?: string;
   CmafPackage?: CmafPackage & {
     Encryption: CmafEncryption & {
@@ -1401,19 +1250,8 @@ export const ListChannelsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/channels" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListChannelsRequest",
-}) as any as S.Schema<ListChannelsRequest>;
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/channels" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "ListChannelsRequest" }) as any as S.Schema<ListChannelsRequest>;
 export interface Channel {
   Arn?: string;
   CreatedAt?: string;
@@ -1454,13 +1292,10 @@ export interface ListChannelsResponse {
   NextToken?: string;
 }
 export const ListChannelsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Channels: S.optional(__listOfChannel),
-    NextToken: S.optional(S.String),
-  }).pipe(S.encodeKeys({ Channels: "channels", NextToken: "nextToken" })),
-).annotate({
-  identifier: "ListChannelsResponse",
-}) as any as S.Schema<ListChannelsResponse>;
+  S.Struct({ Channels: S.optional(__listOfChannel), NextToken: S.optional(S.String) }).pipe(
+    S.encodeKeys({ Channels: "channels", NextToken: "nextToken" }),
+  ),
+).annotate({ identifier: "ListChannelsResponse" }) as any as S.Schema<ListChannelsResponse>;
 export interface ListHarvestJobsRequest {
   IncludeChannelId?: string;
   IncludeStatus?: string;
@@ -1469,25 +1304,12 @@ export interface ListHarvestJobsRequest {
 }
 export const ListHarvestJobsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    IncludeChannelId: S.optional(S.String).pipe(
-      T.HttpQuery("includeChannelId"),
-    ),
+    IncludeChannelId: S.optional(S.String).pipe(T.HttpQuery("includeChannelId")),
     IncludeStatus: S.optional(S.String).pipe(T.HttpQuery("includeStatus")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/harvest_jobs" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListHarvestJobsRequest",
-}) as any as S.Schema<ListHarvestJobsRequest>;
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/harvest_jobs" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "ListHarvestJobsRequest" }) as any as S.Schema<ListHarvestJobsRequest>;
 export interface HarvestJob {
   Arn?: string;
   ChannelId?: string;
@@ -1528,22 +1350,15 @@ export type __listOfHarvestJob = HarvestJob[];
 export const __listOfHarvestJob = /*@__PURE__*/ S.Array(HarvestJob);
 export interface ListHarvestJobsResponse {
   HarvestJobs?: (HarvestJob & {
-    S3Destination: S3Destination & {
-      BucketName: string;
-      ManifestKey: string;
-      RoleArn: string;
-    };
+    S3Destination: S3Destination & { BucketName: string; ManifestKey: string; RoleArn: string };
   })[];
   NextToken?: string;
 }
 export const ListHarvestJobsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    HarvestJobs: S.optional(__listOfHarvestJob),
-    NextToken: S.optional(S.String),
-  }).pipe(S.encodeKeys({ HarvestJobs: "harvestJobs", NextToken: "nextToken" })),
-).annotate({
-  identifier: "ListHarvestJobsResponse",
-}) as any as S.Schema<ListHarvestJobsResponse>;
+  S.Struct({ HarvestJobs: S.optional(__listOfHarvestJob), NextToken: S.optional(S.String) }).pipe(
+    S.encodeKeys({ HarvestJobs: "harvestJobs", NextToken: "nextToken" }),
+  ),
+).annotate({ identifier: "ListHarvestJobsResponse" }) as any as S.Schema<ListHarvestJobsResponse>;
 export interface ListOriginEndpointsRequest {
   ChannelId?: string;
   MaxResults?: number;
@@ -1554,16 +1369,7 @@ export const ListOriginEndpointsRequest = /*@__PURE__*/ S.suspend(() =>
     ChannelId: S.optional(S.String).pipe(T.HttpQuery("channelId")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/origin_endpoints" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/origin_endpoints" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListOriginEndpointsRequest",
 }) as any as S.Schema<ListOriginEndpointsRequest>;
@@ -1632,10 +1438,7 @@ export const __listOfOriginEndpoint = /*@__PURE__*/ S.Array(OriginEndpoint);
 export interface ListOriginEndpointsResponse {
   NextToken?: string;
   OriginEndpoints?: (OriginEndpoint & {
-    Authorization: Authorization & {
-      CdnIdentifierSecret: string;
-      SecretsRoleArn: string;
-    };
+    Authorization: Authorization & { CdnIdentifierSecret: string; SecretsRoleArn: string };
     CmafPackage: CmafPackage & {
       Encryption: CmafEncryption & {
         SpekeKeyProvider: SpekeKeyProvider & {
@@ -1699,12 +1502,7 @@ export const ListOriginEndpointsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     NextToken: S.optional(S.String),
     OriginEndpoints: S.optional(__listOfOriginEndpoint),
-  }).pipe(
-    S.encodeKeys({
-      NextToken: "nextToken",
-      OriginEndpoints: "originEndpoints",
-    }),
-  ),
+  }).pipe(S.encodeKeys({ NextToken: "nextToken", OriginEndpoints: "originEndpoints" })),
 ).annotate({
   identifier: "ListOriginEndpointsResponse",
 }) as any as S.Schema<ListOriginEndpointsResponse>;
@@ -1713,30 +1511,18 @@ export interface ListTagsForResourceRequest {
 }
 export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListTagsForResourceRequest",
 }) as any as S.Schema<ListTagsForResourceRequest>;
 export type __mapOf__string = { [key: string]: string | undefined };
-export const __mapOf__string = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const __mapOf__string = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface ListTagsForResourceResponse {
   Tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Tags: S.optional(__mapOf__string) }).pipe(
-    S.encodeKeys({ Tags: "tags" }),
-  ),
+  S.Struct({ Tags: S.optional(__mapOf__string) }).pipe(S.encodeKeys({ Tags: "tags" })),
 ).annotate({
   identifier: "ListTagsForResourceResponse",
 }) as any as S.Schema<ListTagsForResourceResponse>;
@@ -1796,24 +1582,23 @@ export interface RotateIngestEndpointCredentialsRequest {
   Id: string;
   IngestEndpointId: string;
 }
-export const RotateIngestEndpointCredentialsRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Id: S.String.pipe(T.HttpLabel("Id")),
-      IngestEndpointId: S.String.pipe(T.HttpLabel("IngestEndpointId")),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "PUT",
-          uri: "/channels/{Id}/ingest_endpoints/{IngestEndpointId}/credentials",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const RotateIngestEndpointCredentialsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Id: S.String.pipe(T.HttpLabel("Id")),
+    IngestEndpointId: S.String.pipe(T.HttpLabel("IngestEndpointId")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/channels/{Id}/ingest_endpoints/{IngestEndpointId}/credentials",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "RotateIngestEndpointCredentialsRequest",
 }) as any as S.Schema<RotateIngestEndpointCredentialsRequest>;
@@ -1827,29 +1612,28 @@ export interface RotateIngestEndpointCredentialsResponse {
   IngressAccessLogs?: IngressAccessLogs;
   Tags?: { [key: string]: string | undefined };
 }
-export const RotateIngestEndpointCredentialsResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Arn: S.optional(S.String),
-      CreatedAt: S.optional(S.String),
-      Description: S.optional(S.String),
-      EgressAccessLogs: S.optional(EgressAccessLogs),
-      HlsIngest: S.optional(HlsIngest),
-      Id: S.optional(S.String),
-      IngressAccessLogs: S.optional(IngressAccessLogs),
-      Tags: S.optional(Tags),
-    }).pipe(
-      S.encodeKeys({
-        Arn: "arn",
-        CreatedAt: "createdAt",
-        Description: "description",
-        EgressAccessLogs: "egressAccessLogs",
-        HlsIngest: "hlsIngest",
-        Id: "id",
-        IngressAccessLogs: "ingressAccessLogs",
-        Tags: "tags",
-      }),
-    ),
+export const RotateIngestEndpointCredentialsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Arn: S.optional(S.String),
+    CreatedAt: S.optional(S.String),
+    Description: S.optional(S.String),
+    EgressAccessLogs: S.optional(EgressAccessLogs),
+    HlsIngest: S.optional(HlsIngest),
+    Id: S.optional(S.String),
+    IngressAccessLogs: S.optional(IngressAccessLogs),
+    Tags: S.optional(Tags),
+  }).pipe(
+    S.encodeKeys({
+      Arn: "arn",
+      CreatedAt: "createdAt",
+      Description: "description",
+      EgressAccessLogs: "egressAccessLogs",
+      HlsIngest: "hlsIngest",
+      Id: "id",
+      IngressAccessLogs: "ingressAccessLogs",
+      Tags: "tags",
+    }),
+  ),
 ).annotate({
   identifier: "RotateIngestEndpointCredentialsResponse",
 }) as any as S.Schema<RotateIngestEndpointCredentialsResponse>;
@@ -1864,22 +1648,11 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   })
     .pipe(S.encodeKeys({ Tags: "tags" }))
     .pipe(
-      T.all(
-        T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+      T.all(T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }), svc, auth, proto, ver, rules),
     ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
+).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
@@ -1891,22 +1664,11 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
     ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     TagKeys: S.optional(__listOf__string).pipe(T.HttpQuery("tagKeys")),
   }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
+).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateChannelRequest {
@@ -1914,24 +1676,10 @@ export interface UpdateChannelRequest {
   Id: string;
 }
 export const UpdateChannelRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Description: S.optional(S.String),
-    Id: S.String.pipe(T.HttpLabel("Id")),
-  })
+  S.Struct({ Description: S.optional(S.String), Id: S.String.pipe(T.HttpLabel("Id")) })
     .pipe(S.encodeKeys({ Description: "description" }))
-    .pipe(
-      T.all(
-        T.Http({ method: "PUT", uri: "/channels/{Id}" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "UpdateChannelRequest",
-}) as any as S.Schema<UpdateChannelRequest>;
+    .pipe(T.all(T.Http({ method: "PUT", uri: "/channels/{Id}" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "UpdateChannelRequest" }) as any as S.Schema<UpdateChannelRequest>;
 export interface UpdateChannelResponse {
   Arn?: string;
   CreatedAt?: string;
@@ -1964,9 +1712,7 @@ export const UpdateChannelResponse = /*@__PURE__*/ S.suspend(() =>
       Tags: "tags",
     }),
   ),
-).annotate({
-  identifier: "UpdateChannelResponse",
-}) as any as S.Schema<UpdateChannelResponse>;
+).annotate({ identifier: "UpdateChannelResponse" }) as any as S.Schema<UpdateChannelResponse>;
 export interface UpdateOriginEndpointRequest {
   Authorization?: Authorization;
   CmafPackage?: CmafPackageCreateOrUpdateParameters;
@@ -2012,24 +1758,14 @@ export const UpdateOriginEndpointRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(
-      T.all(
-        T.Http({ method: "PUT", uri: "/origin_endpoints/{Id}" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+      T.all(T.Http({ method: "PUT", uri: "/origin_endpoints/{Id}" }), svc, auth, proto, ver, rules),
     ),
 ).annotate({
   identifier: "UpdateOriginEndpointRequest",
 }) as any as S.Schema<UpdateOriginEndpointRequest>;
 export interface UpdateOriginEndpointResponse {
   Arn?: string;
-  Authorization?: Authorization & {
-    CdnIdentifierSecret: string;
-    SecretsRoleArn: string;
-  };
+  Authorization?: Authorization & { CdnIdentifierSecret: string; SecretsRoleArn: string };
   ChannelId?: string;
   CmafPackage?: CmafPackage & {
     Encryption: CmafEncryption & {

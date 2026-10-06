@@ -132,8 +132,8 @@ live in [`patches/graphql/`](patches/graphql/README.md).
 ## Generate
 
 ```sh
-bun scripts/convert.ts
-bun scripts/generate.ts
+node --conditions=bun scripts/convert.ts
+node --conditions=bun scripts/generate.ts
 pnpm exec oxfmt src/graphql.ts
 ```
 

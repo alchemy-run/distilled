@@ -1,11 +1,11 @@
-import * as HttpClient from "effect/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
+import * as S from "@distilled.cloud/core/schema";
+import * as HttpClient from "effect/http/HttpClient";
+import type { Credentials } from "../credentials.ts";
+import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
-import type { Credentials } from "../credentials.ts";
-import type { CommonErrors } from "../errors.ts";
 const svc = T.AwsApiService({
   sdkId: "Resource Groups Tagging API",
   serviceShapeName: "ResourceGroupsTaggingAPI_20170126",
@@ -25,14 +25,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -55,13 +51,9 @@ const rules = T.EndpointResolver((p, _) => {
         }
         if (UseFIPS === true) {
           if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            return e(
-              `https://tagging-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
+            return e(`https://tagging-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -69,13 +61,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://tagging.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://tagging.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://tagging.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -93,36 +81,26 @@ export class ConstraintViolationException
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
   ) {}
 export class InternalServiceException
-  extends /*@__PURE__*/ S.TaggedError<InternalServiceException>()(
-    "InternalServiceException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<InternalServiceException>()("InternalServiceException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class InvalidParameterException
-  extends /*@__PURE__*/ S.TaggedError<InvalidParameterException>()(
-    "InvalidParameterException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<InvalidParameterException>()("InvalidParameterException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class PaginationTokenExpiredException
   extends /*@__PURE__*/ S.TaggedError<PaginationTokenExpiredException>()(
     "PaginationTokenExpiredException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
   ) {}
 export class ThrottledException
-  extends /*@__PURE__*/ S.TaggedError<ThrottledException>()(
-    "ThrottledException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<ThrottledException>()("ThrottledException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export interface DescribeReportCreationInput {}
 export const DescribeReportCreationInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/DescribeReportCreation" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/DescribeReportCreation" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DescribeReportCreationInput",
@@ -159,11 +137,7 @@ export const ResourceTypeFilterList = /*@__PURE__*/ S.Array(S.String);
 export type TagKey = string;
 export type TagKeyFilterList = string[];
 export const TagKeyFilterList = /*@__PURE__*/ S.Array(S.String);
-export type GroupByAttribute =
-  | "TARGET_ID"
-  | "REGION"
-  | "RESOURCE_TYPE"
-  | (string & {});
+export type GroupByAttribute = "TARGET_ID" | "REGION" | "RESOURCE_TYPE" | (string & {});
 export const GroupByAttribute = S.String;
 
 export type GroupBy = GroupByAttribute[];
@@ -189,14 +163,7 @@ export const GetComplianceSummaryInput = /*@__PURE__*/ S.suspend(() =>
     MaxResults: S.optional(S.Number),
     PaginationToken: S.optional(S.String),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/GetComplianceSummary" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/GetComplianceSummary" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetComplianceSummaryInput",
@@ -231,10 +198,7 @@ export interface GetComplianceSummaryOutput {
   PaginationToken?: string;
 }
 export const GetComplianceSummaryOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SummaryList: S.optional(SummaryList),
-    PaginationToken: S.optional(S.String),
-  }),
+  S.Struct({ SummaryList: S.optional(SummaryList), PaginationToken: S.optional(S.String) }),
 ).annotate({
   identifier: "GetComplianceSummaryOutput",
 }) as any as S.Schema<GetComplianceSummaryOutput>;
@@ -277,19 +241,8 @@ export const GetResourcesInput = /*@__PURE__*/ S.suspend(() =>
     IncludeComplianceDetails: S.optional(S.Boolean),
     ExcludeCompliantResources: S.optional(S.Boolean),
     ResourceARNList: S.optional(ResourceARNListForGet),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/GetResources" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetResourcesInput",
-}) as any as S.Schema<GetResourcesInput>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/GetResources" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "GetResourcesInput" }) as any as S.Schema<GetResourcesInput>;
 export interface Tag {
   Key: string;
   Value: string;
@@ -315,9 +268,7 @@ export const ComplianceDetails = /*@__PURE__*/ S.suspend(() =>
     MissingTagKeys: S.optional(TagKeyList),
     ComplianceStatus: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "ComplianceDetails",
-}) as any as S.Schema<ComplianceDetails>;
+).annotate({ identifier: "ComplianceDetails" }) as any as S.Schema<ComplianceDetails>;
 export interface ResourceTagMapping {
   ResourceARN?: string;
   Tags?: Tag[];
@@ -329,9 +280,7 @@ export const ResourceTagMapping = /*@__PURE__*/ S.suspend(() =>
     Tags: S.optional(TagList),
     ComplianceDetails: S.optional(ComplianceDetails),
   }),
-).annotate({
-  identifier: "ResourceTagMapping",
-}) as any as S.Schema<ResourceTagMapping>;
+).annotate({ identifier: "ResourceTagMapping" }) as any as S.Schema<ResourceTagMapping>;
 export type ResourceTagMappingList = ResourceTagMapping[];
 export const ResourceTagMappingList = /*@__PURE__*/ S.Array(ResourceTagMapping);
 export interface GetResourcesOutput {
@@ -343,56 +292,31 @@ export const GetResourcesOutput = /*@__PURE__*/ S.suspend(() =>
     PaginationToken: S.optional(S.String),
     ResourceTagMappingList: S.optional(ResourceTagMappingList),
   }),
-).annotate({
-  identifier: "GetResourcesOutput",
-}) as any as S.Schema<GetResourcesOutput>;
+).annotate({ identifier: "GetResourcesOutput" }) as any as S.Schema<GetResourcesOutput>;
 export interface GetTagKeysInput {
   PaginationToken?: string;
 }
 export const GetTagKeysInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ PaginationToken: S.optional(S.String) }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/GetTagKeys" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/GetTagKeys" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetTagKeysInput",
-}) as any as S.Schema<GetTagKeysInput>;
+).annotate({ identifier: "GetTagKeysInput" }) as any as S.Schema<GetTagKeysInput>;
 export interface GetTagKeysOutput {
   PaginationToken?: string;
   TagKeys?: string[];
 }
 export const GetTagKeysOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PaginationToken: S.optional(S.String),
-    TagKeys: S.optional(TagKeyList),
-  }),
-).annotate({
-  identifier: "GetTagKeysOutput",
-}) as any as S.Schema<GetTagKeysOutput>;
+  S.Struct({ PaginationToken: S.optional(S.String), TagKeys: S.optional(TagKeyList) }),
+).annotate({ identifier: "GetTagKeysOutput" }) as any as S.Schema<GetTagKeysOutput>;
 export interface GetTagValuesInput {
   PaginationToken?: string;
   Key: string;
 }
 export const GetTagValuesInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ PaginationToken: S.optional(S.String), Key: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/GetTagValues" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/GetTagValues" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetTagValuesInput",
-}) as any as S.Schema<GetTagValuesInput>;
+).annotate({ identifier: "GetTagValuesInput" }) as any as S.Schema<GetTagValuesInput>;
 export type TagValuesOutputList = string[];
 export const TagValuesOutputList = /*@__PURE__*/ S.Array(S.String);
 export interface GetTagValuesOutput {
@@ -400,35 +324,18 @@ export interface GetTagValuesOutput {
   TagValues?: string[];
 }
 export const GetTagValuesOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PaginationToken: S.optional(S.String),
-    TagValues: S.optional(TagValuesOutputList),
-  }),
-).annotate({
-  identifier: "GetTagValuesOutput",
-}) as any as S.Schema<GetTagValuesOutput>;
+  S.Struct({ PaginationToken: S.optional(S.String), TagValues: S.optional(TagValuesOutputList) }),
+).annotate({ identifier: "GetTagValuesOutput" }) as any as S.Schema<GetTagValuesOutput>;
 export type MaxResultsForListRequiredTags = number;
 export interface ListRequiredTagsInput {
   NextToken?: string;
   MaxResults?: number;
 }
 export const ListRequiredTagsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/ListRequiredTags" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+  S.Struct({ NextToken: S.optional(S.String), MaxResults: S.optional(S.Number) }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/ListRequiredTags" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "ListRequiredTagsInput",
-}) as any as S.Schema<ListRequiredTagsInput>;
+).annotate({ identifier: "ListRequiredTagsInput" }) as any as S.Schema<ListRequiredTagsInput>;
 export type ResourceType = string;
 export type CloudFormationResourceType = string;
 export type CloudFormationResourceTypes = string[];
@@ -448,8 +355,7 @@ export const RequiredTag = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "RequiredTag" }) as any as S.Schema<RequiredTag>;
 export type RequiredTagsForListRequiredTags = RequiredTag[];
-export const RequiredTagsForListRequiredTags =
-  /*@__PURE__*/ S.Array(RequiredTag);
+export const RequiredTagsForListRequiredTags = /*@__PURE__*/ S.Array(RequiredTag);
 export interface ListRequiredTagsOutput {
   RequiredTags?: RequiredTag[];
   NextToken?: string;
@@ -459,63 +365,35 @@ export const ListRequiredTagsOutput = /*@__PURE__*/ S.suspend(() =>
     RequiredTags: S.optional(RequiredTagsForListRequiredTags),
     NextToken: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListRequiredTagsOutput",
-}) as any as S.Schema<ListRequiredTagsOutput>;
+).annotate({ identifier: "ListRequiredTagsOutput" }) as any as S.Schema<ListRequiredTagsOutput>;
 export type S3Bucket = string;
 export interface StartReportCreationInput {
   S3Bucket: string;
 }
 export const StartReportCreationInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ S3Bucket: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/StartReportCreation" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/StartReportCreation" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "StartReportCreationInput",
-}) as any as S.Schema<StartReportCreationInput>;
+).annotate({ identifier: "StartReportCreationInput" }) as any as S.Schema<StartReportCreationInput>;
 export interface StartReportCreationOutput {}
-export const StartReportCreationOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const StartReportCreationOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "StartReportCreationOutput",
 }) as any as S.Schema<StartReportCreationOutput>;
 export type ResourceARNListForTagUntag = string[];
 export const ResourceARNListForTagUntag = /*@__PURE__*/ S.Array(S.String);
 export type TagMap = { [key: string]: string | undefined };
-export const TagMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const TagMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface TagResourcesInput {
   ResourceARNList: string[];
   Tags: { [key: string]: string | undefined };
 }
 export const TagResourcesInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceARNList: ResourceARNListForTagUntag, Tags: TagMap }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/TagResources" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/TagResources" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "TagResourcesInput",
-}) as any as S.Schema<TagResourcesInput>;
+).annotate({ identifier: "TagResourcesInput" }) as any as S.Schema<TagResourcesInput>;
 export type StatusCode = number;
-export type ErrorCode =
-  | "InternalServiceException"
-  | "InvalidParameterException"
-  | (string & {});
+export type ErrorCode = "InternalServiceException" | "InvalidParameterException" | (string & {});
 export const ErrorCode = S.String;
 
 export interface FailureInfo {
@@ -531,18 +409,13 @@ export const FailureInfo = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "FailureInfo" }) as any as S.Schema<FailureInfo>;
 export type FailedResourcesMap = { [key: string]: FailureInfo | undefined };
-export const FailedResourcesMap = /*@__PURE__*/ S.Record(
-  S.String,
-  FailureInfo.pipe(S.optional),
-);
+export const FailedResourcesMap = /*@__PURE__*/ S.Record(S.String, FailureInfo.pipe(S.optional));
 export interface TagResourcesOutput {
   FailedResourcesMap?: { [key: string]: FailureInfo | undefined };
 }
 export const TagResourcesOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ FailedResourcesMap: S.optional(FailedResourcesMap) }),
-).annotate({
-  identifier: "TagResourcesOutput",
-}) as any as S.Schema<TagResourcesOutput>;
+).annotate({ identifier: "TagResourcesOutput" }) as any as S.Schema<TagResourcesOutput>;
 export type TagKeyListForUntag = string[];
 export const TagKeyListForUntag = /*@__PURE__*/ S.Array(S.String);
 export interface UntagResourcesInput {
@@ -550,30 +423,16 @@ export interface UntagResourcesInput {
   TagKeys: string[];
 }
 export const UntagResourcesInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceARNList: ResourceARNListForTagUntag,
-    TagKeys: TagKeyListForUntag,
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/UntagResources" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+  S.Struct({ ResourceARNList: ResourceARNListForTagUntag, TagKeys: TagKeyListForUntag }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/UntagResources" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UntagResourcesInput",
-}) as any as S.Schema<UntagResourcesInput>;
+).annotate({ identifier: "UntagResourcesInput" }) as any as S.Schema<UntagResourcesInput>;
 export interface UntagResourcesOutput {
   FailedResourcesMap?: { [key: string]: FailureInfo | undefined };
 }
 export const UntagResourcesOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ FailedResourcesMap: S.optional(FailedResourcesMap) }),
-).annotate({
-  identifier: "UntagResourcesOutput",
-}) as any as S.Schema<UntagResourcesOutput>;
+).annotate({ identifier: "UntagResourcesOutput" }) as any as S.Schema<UntagResourcesOutput>;
 export type ExceptionMessage = string;
 export type DescribeReportCreationError =
   | ConstraintViolationException
@@ -948,11 +807,7 @@ export const tagResources: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: TagResourcesInput,
   output: TagResourcesOutput,
-  errors: [
-    InternalServiceException,
-    InvalidParameterException,
-    ThrottledException,
-  ],
+  errors: [InternalServiceException, InvalidParameterException, ThrottledException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResources",
@@ -1003,11 +858,7 @@ export const untagResources: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UntagResourcesInput,
   output: UntagResourcesOutput,
-  errors: [
-    InternalServiceException,
-    InvalidParameterException,
-    ThrottledException,
-  ],
+  errors: [InternalServiceException, InvalidParameterException, ThrottledException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResources",

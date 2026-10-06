@@ -1,3 +1,4 @@
+import { readFile, writeFile } from "node:fs/promises";
 /**
  * A minimal Node `FileSystem` — just what the Node providers and `Auth`
  * read and write under `~/.aws`.
@@ -5,7 +6,6 @@
 import * as Effect from "effect/Effect";
 import * as FileSystem from "effect/FileSystem";
 import * as PlatformError from "effect/PlatformError";
-import { readFile, writeFile } from "node:fs/promises";
 
 const systemError =
   (method: string, path: string) =>
@@ -31,5 +31,4 @@ export const nodeFileSystem = FileSystem.makeNoop({
     }),
 });
 
-export const readFileString = (path: string) =>
-  nodeFileSystem.readFileString(path);
+export const readFileString = (path: string) => nodeFileSystem.readFileString(path);

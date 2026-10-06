@@ -1,11 +1,11 @@
-import * as HttpClient from "effect/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
+import * as S from "@distilled.cloud/core/schema";
+import * as HttpClient from "effect/http/HttpClient";
+import type { Credentials } from "../credentials.ts";
+import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
-import type { Credentials } from "../credentials.ts";
-import type { CommonErrors } from "../errors.ts";
 const ns = T.XmlNamespace("http://dynamodb.amazonaws.com/doc/2012-08-10/");
 const svc = T.AwsApiService({
   sdkId: "DynamoDB Streams",
@@ -26,14 +26,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -100,9 +96,7 @@ const rules = T.EndpointResolver((p, _) => {
           UseFIPS === true &&
           UseDualStack === false
         ) {
-          return e(
-            `https://streams.dynamodb.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-          );
+          return e(`https://streams.dynamodb.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
         }
         if (UseFIPS === true && UseDualStack === true) {
           if (
@@ -123,9 +117,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://streams.dynamodb-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseFIPS === false && UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -133,13 +125,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://streams.dynamodb.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://streams.dynamodb.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://streams.dynamodb.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -147,30 +135,25 @@ const rules = T.EndpointResolver((p, _) => {
 });
 
 export class ExpiredIteratorException
-  extends /*@__PURE__*/ S.TaggedError<ExpiredIteratorException>()(
-    "ExpiredIteratorException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<ExpiredIteratorException>()("ExpiredIteratorException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class InternalServerError
-  extends /*@__PURE__*/ S.TaggedError<InternalServerError>()(
-    "InternalServerError",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<InternalServerError>()("InternalServerError", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class LimitExceededException
-  extends /*@__PURE__*/ S.TaggedError<LimitExceededException>()(
-    "LimitExceededException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<LimitExceededException>()("LimitExceededException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class ResourceNotFoundException
-  extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
-    "ResourceNotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()("ResourceNotFoundException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class TrimmedDataAccessException
-  extends /*@__PURE__*/ S.TaggedError<TrimmedDataAccessException>()(
-    "TrimmedDataAccessException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<TrimmedDataAccessException>()("TrimmedDataAccessException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export type StreamArn = string;
 export type PositiveIntegerObject = number;
 export type ShardId = string;
@@ -182,10 +165,7 @@ export interface ShardFilter {
   ShardId?: string;
 }
 export const ShardFilter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Type: S.optional(ShardFilterType),
-    ShardId: S.optional(S.String),
-  }),
+  S.Struct({ Type: S.optional(ShardFilterType), ShardId: S.optional(S.String) }),
 ).annotate({ identifier: "ShardFilter" }) as any as S.Schema<ShardFilter>;
 export interface DescribeStreamInput {
   StreamArn: string;
@@ -199,26 +179,9 @@ export const DescribeStreamInput = /*@__PURE__*/ S.suspend(() =>
     Limit: S.optional(S.Number),
     ExclusiveStartShardId: S.optional(S.String),
     ShardFilter: S.optional(ShardFilter),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeStreamInput",
-}) as any as S.Schema<DescribeStreamInput>;
-export type StreamStatus =
-  | "ENABLING"
-  | "ENABLED"
-  | "DISABLING"
-  | "DISABLED"
-  | (string & {});
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "DescribeStreamInput" }) as any as S.Schema<DescribeStreamInput>;
+export type StreamStatus = "ENABLING" | "ENABLED" | "DISABLING" | "DISABLED" | (string & {});
 export const StreamStatus = S.String;
 
 export type StreamViewType =
@@ -240,9 +203,7 @@ export interface KeySchemaElement {
 }
 export const KeySchemaElement = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ AttributeName: S.String, KeyType: KeyType }),
-).annotate({
-  identifier: "KeySchemaElement",
-}) as any as S.Schema<KeySchemaElement>;
+).annotate({ identifier: "KeySchemaElement" }) as any as S.Schema<KeySchemaElement>;
 export type KeySchema = KeySchemaElement[];
 export const KeySchema = /*@__PURE__*/ S.Array(KeySchemaElement);
 export type SequenceNumber = string;
@@ -255,9 +216,7 @@ export const SequenceNumberRange = /*@__PURE__*/ S.suspend(() =>
     StartingSequenceNumber: S.optional(S.String),
     EndingSequenceNumber: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SequenceNumberRange",
-}) as any as S.Schema<SequenceNumberRange>;
+).annotate({ identifier: "SequenceNumberRange" }) as any as S.Schema<SequenceNumberRange>;
 export interface Shard {
   ShardId?: string;
   SequenceNumberRange?: SequenceNumberRange;
@@ -289,25 +248,19 @@ export const StreamDescription = /*@__PURE__*/ S.suspend(() =>
     StreamLabel: S.optional(S.String),
     StreamStatus: S.optional(StreamStatus),
     StreamViewType: S.optional(StreamViewType),
-    CreationRequestDateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    CreationRequestDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     TableName: S.optional(S.String),
     KeySchema: S.optional(KeySchema),
     Shards: S.optional(ShardDescriptionList),
     LastEvaluatedShardId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "StreamDescription",
-}) as any as S.Schema<StreamDescription>;
+).annotate({ identifier: "StreamDescription" }) as any as S.Schema<StreamDescription>;
 export interface DescribeStreamOutput {
   StreamDescription?: StreamDescription;
 }
 export const DescribeStreamOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ StreamDescription: S.optional(StreamDescription) }).pipe(ns),
-).annotate({
-  identifier: "DescribeStreamOutput",
-}) as any as S.Schema<DescribeStreamOutput>;
+).annotate({ identifier: "DescribeStreamOutput" }) as any as S.Schema<DescribeStreamOutput>;
 export type ShardIterator = string;
 export interface GetRecordsInput {
   ShardIterator: string;
@@ -315,19 +268,9 @@ export interface GetRecordsInput {
 }
 export const GetRecordsInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ShardIterator: S.String, Limit: S.optional(S.Number) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetRecordsInput",
-}) as any as S.Schema<GetRecordsInput>;
+).annotate({ identifier: "GetRecordsInput" }) as any as S.Schema<GetRecordsInput>;
 export type OperationType = "INSERT" | "MODIFY" | "REMOVE" | (string & {});
 export const OperationType = S.String;
 
@@ -482,15 +425,9 @@ export const AttributeValue = /*@__PURE__*/ S.Union([
   S.Struct({ SS: StringSetAttributeValue }),
   S.Struct({ NS: NumberSetAttributeValue }),
   S.Struct({ BS: BinarySetAttributeValue }),
+  S.Struct({ M: S.suspend(() => MapAttributeValue).annotate({ identifier: "MapAttributeValue" }) }),
   S.Struct({
-    M: S.suspend(() => MapAttributeValue).annotate({
-      identifier: "MapAttributeValue",
-    }),
-  }),
-  S.Struct({
-    L: S.suspend(() => ListAttributeValue).annotate({
-      identifier: "ListAttributeValue",
-    }),
+    L: S.suspend(() => ListAttributeValue).annotate({ identifier: "ListAttributeValue" }),
   }),
   S.Struct({ NULL: S.Boolean }),
   S.Struct({ BOOL: S.Boolean }),
@@ -514,9 +451,7 @@ export interface StreamRecord {
 }
 export const StreamRecord = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    ApproximateCreationDateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    ApproximateCreationDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     Keys: S.optional(AttributeMap),
     NewImage: S.optional(AttributeMap),
     OldImage: S.optional(AttributeMap),
@@ -559,13 +494,8 @@ export interface GetRecordsOutput {
   NextShardIterator?: string;
 }
 export const GetRecordsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Records: S.optional(RecordList),
-    NextShardIterator: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetRecordsOutput",
-}) as any as S.Schema<GetRecordsOutput>;
+  S.Struct({ Records: S.optional(RecordList), NextShardIterator: S.optional(S.String) }).pipe(ns),
+).annotate({ identifier: "GetRecordsOutput" }) as any as S.Schema<GetRecordsOutput>;
 export type ShardIteratorType =
   | "TRIM_HORIZON"
   | "LATEST"
@@ -586,28 +516,14 @@ export const GetShardIteratorInput = /*@__PURE__*/ S.suspend(() =>
     ShardId: S.String,
     ShardIteratorType: ShardIteratorType,
     SequenceNumber: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetShardIteratorInput",
-}) as any as S.Schema<GetShardIteratorInput>;
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "GetShardIteratorInput" }) as any as S.Schema<GetShardIteratorInput>;
 export interface GetShardIteratorOutput {
   ShardIterator?: string;
 }
 export const GetShardIteratorOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ShardIterator: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "GetShardIteratorOutput",
-}) as any as S.Schema<GetShardIteratorOutput>;
+).annotate({ identifier: "GetShardIteratorOutput" }) as any as S.Schema<GetShardIteratorOutput>;
 export interface ListStreamsInput {
   TableName?: string;
   Limit?: number;
@@ -618,20 +534,8 @@ export const ListStreamsInput = /*@__PURE__*/ S.suspend(() =>
     TableName: S.optional(S.String),
     Limit: S.optional(S.Number),
     ExclusiveStartStreamArn: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListStreamsInput",
-}) as any as S.Schema<ListStreamsInput>;
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "ListStreamsInput" }) as any as S.Schema<ListStreamsInput>;
 export interface Stream {
   StreamArn?: string;
   TableName?: string;
@@ -651,18 +555,12 @@ export interface ListStreamsOutput {
   LastEvaluatedStreamArn?: string;
 }
 export const ListStreamsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Streams: S.optional(StreamList),
-    LastEvaluatedStreamArn: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListStreamsOutput",
-}) as any as S.Schema<ListStreamsOutput>;
+  S.Struct({ Streams: S.optional(StreamList), LastEvaluatedStreamArn: S.optional(S.String) }).pipe(
+    ns,
+  ),
+).annotate({ identifier: "ListStreamsOutput" }) as any as S.Schema<ListStreamsOutput>;
 export type ErrorMessage = string;
-export type DescribeStreamError =
-  | InternalServerError
-  | ResourceNotFoundException
-  | CommonErrors;
+export type DescribeStreamError = InternalServerError | ResourceNotFoundException | CommonErrors;
 /**
  * Returns information about a stream, including the current status of the stream, its Amazon Resource Name (ARN), the composition of its shards, and its corresponding DynamoDB table.
  *
@@ -749,20 +647,13 @@ export const getShardIterator: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetShardIteratorInput,
   output: GetShardIteratorOutput,
-  errors: [
-    InternalServerError,
-    ResourceNotFoundException,
-    TrimmedDataAccessException,
-  ],
+  errors: [InternalServerError, ResourceNotFoundException, TrimmedDataAccessException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetShardIterator",
 }));
 
-export type ListStreamsError =
-  | InternalServerError
-  | ResourceNotFoundException
-  | CommonErrors;
+export type ListStreamsError = InternalServerError | ResourceNotFoundException | CommonErrors;
 /**
  * Returns an array of stream ARNs associated with the current account and endpoint. If the
  * `TableName` parameter is present, then `ListStreams` will return only the

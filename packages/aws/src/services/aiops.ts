@@ -1,14 +1,14 @@
+import * as API from "@distilled.cloud/core/api";
+import * as S from "@distilled.cloud/core/schema";
 import * as HttpClient from "effect/http/HttpClient";
 import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
-import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({ sdkId: "AIOps", serviceShapeName: "AIOps" });
 const auth = T.AwsAuthSigv4({ name: "aiops" });
 const ver = T.ServiceVersion("2018-05-10");
@@ -25,14 +25,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -55,27 +51,17 @@ const rules = T.EndpointResolver((p, _) => {
         }
         if (UseFIPS === true) {
           if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            return e(
-              `https://aiops-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
+            return e(`https://aiops-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
-            return e(
-              `https://aiops.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
+            return e(`https://aiops.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`);
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://aiops.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://aiops.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -125,10 +111,9 @@ export class ThrottlingException
     T.HttpError(429),
   ).pipe(C.withThrottlingError) {}
 export class UnauthorizedException
-  extends /*@__PURE__*/ S.TaggedError<UnauthorizedException>()(
-    "UnauthorizedException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ).pipe(C.withAuthError) {}
+  extends /*@__PURE__*/ S.TaggedError<UnauthorizedException>()("UnauthorizedException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }).pipe(C.withAuthError) {}
 export class ValidationException
   extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
     "ValidationException",
@@ -149,13 +134,8 @@ export interface EncryptionConfiguration {
   kmsKeyId?: string;
 }
 export const EncryptionConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.optional(EncryptionConfigurationType),
-    kmsKeyId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "EncryptionConfiguration",
-}) as any as S.Schema<EncryptionConfiguration>;
+  S.Struct({ type: S.optional(EncryptionConfigurationType), kmsKeyId: S.optional(S.String) }),
+).annotate({ identifier: "EncryptionConfiguration" }) as any as S.Schema<EncryptionConfiguration>;
 export type Retention = number;
 export type TagKey = string;
 export type TagValue = string;
@@ -167,9 +147,7 @@ export type SNSTopicArn = string;
 export type ChatConfigurationArn = string;
 export type ChatConfigurationArns = string[];
 export const ChatConfigurationArns = /*@__PURE__*/ S.Array(S.String);
-export type ChatbotNotificationChannel = {
-  [key: string]: string[] | undefined;
-};
+export type ChatbotNotificationChannel = { [key: string]: string[] | undefined };
 export const ChatbotNotificationChannel = /*@__PURE__*/ S.Record(
   S.String,
   ChatConfigurationArns.pipe(S.optional),
@@ -183,9 +161,7 @@ export const CrossAccountConfiguration = /*@__PURE__*/ S.suspend(() =>
   identifier: "CrossAccountConfiguration",
 }) as any as S.Schema<CrossAccountConfiguration>;
 export type CrossAccountConfigurations = CrossAccountConfiguration[];
-export const CrossAccountConfigurations = /*@__PURE__*/ S.Array(
-  CrossAccountConfiguration,
-);
+export const CrossAccountConfigurations = /*@__PURE__*/ S.Array(CrossAccountConfiguration);
 export interface CreateInvestigationGroupInput {
   name: string;
   roleArn: string;
@@ -209,14 +185,7 @@ export const CreateInvestigationGroupInput = /*@__PURE__*/ S.suspend(() =>
     isCloudTrailEventHistoryEnabled: S.optional(S.Boolean),
     crossAccountConfigurations: S.optional(CrossAccountConfigurations),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/investigationGroups" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/investigationGroups" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "CreateInvestigationGroupInput",
@@ -257,27 +226,23 @@ export const DeleteInvestigationGroupResponse = /*@__PURE__*/ S.suspend(() =>
 export interface DeleteInvestigationGroupPolicyRequest {
   identifier: string;
 }
-export const DeleteInvestigationGroupPolicyRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ identifier: S.String.pipe(T.HttpLabel("identifier")) }).pipe(
-      T.all(
-        T.Http({
-          method: "DELETE",
-          uri: "/investigationGroups/{identifier}/policy",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const DeleteInvestigationGroupPolicyRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ identifier: S.String.pipe(T.HttpLabel("identifier")) }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/investigationGroups/{identifier}/policy" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "DeleteInvestigationGroupPolicyRequest",
 }) as any as S.Schema<DeleteInvestigationGroupPolicyRequest>;
 export interface DeleteInvestigationGroupPolicyOutput {}
-export const DeleteInvestigationGroupPolicyOutput = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+export const DeleteInvestigationGroupPolicyOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
 ).annotate({
   identifier: "DeleteInvestigationGroupPolicyOutput",
 }) as any as S.Schema<DeleteInvestigationGroupPolicyOutput>;
@@ -339,10 +304,7 @@ export interface GetInvestigationGroupPolicyRequest {
 export const GetInvestigationGroupPolicyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ identifier: S.String.pipe(T.HttpLabel("identifier")) }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/investigationGroups/{identifier}/policy",
-      }),
+      T.Http({ method: "GET", uri: "/investigationGroups/{identifier}/policy" }),
       svc,
       auth,
       proto,
@@ -359,16 +321,11 @@ export interface GetInvestigationGroupPolicyResponse {
   policy?: string;
 }
 export const GetInvestigationGroupPolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    investigationGroupArn: S.optional(S.String),
-    policy: S.optional(S.String),
-  }),
+  S.Struct({ investigationGroupArn: S.optional(S.String), policy: S.optional(S.String) }),
 ).annotate({
   identifier: "GetInvestigationGroupPolicyResponse",
 }) as any as S.Schema<GetInvestigationGroupPolicyResponse>;
-export type SensitiveStringWithLengthLimits =
-  | string
-  | redacted.Redacted<string>;
+export type SensitiveStringWithLengthLimits = string | redacted.Redacted<string>;
 export interface ListInvestigationGroupsInput {
   nextToken?: string | redacted.Redacted<string>;
   maxResults?: number;
@@ -378,14 +335,7 @@ export const ListInvestigationGroupsInput = /*@__PURE__*/ S.suspend(() =>
     nextToken: S.optional(SensitiveString).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/investigationGroups" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/investigationGroups" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListInvestigationGroupsInput",
@@ -400,9 +350,7 @@ export const ListInvestigationGroupsModel = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListInvestigationGroupsModel",
 }) as any as S.Schema<ListInvestigationGroupsModel>;
 export type InvestigationGroups = ListInvestigationGroupsModel[];
-export const InvestigationGroups = /*@__PURE__*/ S.Array(
-  ListInvestigationGroupsModel,
-);
+export const InvestigationGroups = /*@__PURE__*/ S.Array(ListInvestigationGroupsModel);
 export interface ListInvestigationGroupsOutput {
   nextToken?: string | redacted.Redacted<string>;
   investigationGroups?: ListInvestigationGroupsModel[];
@@ -420,14 +368,7 @@ export interface ListTagsForResourceRequest {
 }
 export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListTagsForResourceRequest",
@@ -445,15 +386,9 @@ export interface PutInvestigationGroupPolicyRequest {
   policy: string;
 }
 export const PutInvestigationGroupPolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    identifier: S.String.pipe(T.HttpLabel("identifier")),
-    policy: S.String,
-  }).pipe(
+  S.Struct({ identifier: S.String.pipe(T.HttpLabel("identifier")), policy: S.String }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/investigationGroups/{identifier}/policy",
-      }),
+      T.Http({ method: "POST", uri: "/investigationGroups/{identifier}/policy" }),
       svc,
       auth,
       proto,
@@ -477,26 +412,12 @@ export interface TagResourceRequest {
   tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-    tags: Tags,
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tags: Tags }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
+).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export type TagKeys = string[];
@@ -510,22 +431,11 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeys.pipe(T.HttpQuery("tagKeys")),
   }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
+).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateInvestigationGroupRequest {
@@ -560,9 +470,7 @@ export const UpdateInvestigationGroupRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "UpdateInvestigationGroupRequest",
 }) as any as S.Schema<UpdateInvestigationGroupRequest>;
 export interface UpdateInvestigationGroupOutput {}
-export const UpdateInvestigationGroupOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UpdateInvestigationGroupOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UpdateInvestigationGroupOutput",
 }) as any as S.Schema<UpdateInvestigationGroupOutput>;
 export type CreateInvestigationGroupError =

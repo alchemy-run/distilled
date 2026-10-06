@@ -1,3 +1,4 @@
+import { ConfigError } from "@distilled.cloud/core/errors";
 /**
  * Redis Cloud credentials — hand-written.
  *
@@ -18,7 +19,6 @@ import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { ConfigError } from "@distilled.cloud/core/errors";
 
 /**
  * Redis Cloud API root. Operation paths already include `/v1/…`, so the
@@ -33,10 +33,9 @@ export interface Config {
   readonly apiBaseUrl: string;
 }
 
-export class Credentials extends Context.Service<
-  Credentials,
-  Effect.Effect<Config>
->()("RedisCloudCredentials") {}
+export class Credentials extends Context.Service<Credentials, Effect.Effect<Config>>()(
+  "RedisCloudCredentials",
+) {}
 
 /** Auth headers for a resolved credentials config. */
 export const formatHeaders = (config: Config): Record<string, string> => {
@@ -50,22 +49,19 @@ export const formatHeaders = (config: Config): Record<string, string> => {
   return headers;
 };
 
-/** Layer from a plain account key + user secret + optional base URL. */
+/** Layer from a redacted account key + user secret + optional base URL. */
 export const fromApiKey = (config: {
-  readonly apiKey: string;
-  readonly apiSecretKey: string;
-  readonly authToken?: string;
+  readonly apiKey: Redacted.Redacted<string>;
+  readonly apiSecretKey: Redacted.Redacted<string>;
+  readonly authToken?: Redacted.Redacted<string>;
   readonly apiBaseUrl?: string;
 }): Layer.Layer<Credentials> =>
   Layer.succeed(
     Credentials,
     Effect.succeed({
-      apiKey: Redacted.make(config.apiKey),
-      apiSecretKey: Redacted.make(config.apiSecretKey),
-      authToken:
-        config.authToken !== undefined
-          ? Redacted.make(config.authToken)
-          : undefined,
+      apiKey: config.apiKey,
+      apiSecretKey: config.apiSecretKey,
+      authToken: config.authToken !== undefined ? config.authToken : undefined,
       apiBaseUrl: config.apiBaseUrl ?? DEFAULT_API_BASE_URL,
     }),
   );

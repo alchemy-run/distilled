@@ -1,14 +1,14 @@
+import * as API from "@distilled.cloud/core/api";
+import * as S from "@distilled.cloud/core/schema";
 import * as HttpClient from "effect/http/HttpClient";
 import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
-import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "codestar notifications",
   serviceShapeName: "CodeStarNotifications_20191015",
@@ -28,14 +28,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -62,9 +58,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://codestar-notifications-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -72,9 +66,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://codestar-notifications.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
         return e(
           `https://codestar-notifications.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
@@ -145,10 +137,7 @@ export interface Target {
   TargetAddress?: string | redacted.Redacted<string>;
 }
 export const Target = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TargetType: S.optional(S.String),
-    TargetAddress: S.optional(SensitiveString),
-  }),
+  S.Struct({ TargetType: S.optional(S.String), TargetAddress: S.optional(SensitiveString) }),
 ).annotate({ identifier: "Target" }) as any as S.Schema<Target>;
 export type Targets = Target[];
 export const Targets = /*@__PURE__*/ S.Array(Target);
@@ -184,14 +173,7 @@ export const CreateNotificationRuleRequest = /*@__PURE__*/ S.suspend(() =>
     Tags: S.optional(Tags),
     Status: S.optional(NotificationRuleStatus),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/createNotificationRule" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/createNotificationRule" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "CreateNotificationRuleRequest",
@@ -210,14 +192,7 @@ export interface DeleteNotificationRuleRequest {
 }
 export const DeleteNotificationRuleRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Arn: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/deleteNotificationRule" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/deleteNotificationRule" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DeleteNotificationRuleRequest",
@@ -236,26 +211,12 @@ export interface DeleteTargetRequest {
   ForceUnsubscribeAll?: boolean;
 }
 export const DeleteTargetRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TargetAddress: SensitiveString,
-    ForceUnsubscribeAll: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/deleteTarget" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+  S.Struct({ TargetAddress: SensitiveString, ForceUnsubscribeAll: S.optional(S.Boolean) }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/deleteTarget" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteTargetRequest",
-}) as any as S.Schema<DeleteTargetRequest>;
+).annotate({ identifier: "DeleteTargetRequest" }) as any as S.Schema<DeleteTargetRequest>;
 export interface DeleteTargetResult {}
-export const DeleteTargetResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteTargetResult = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteTargetResult",
 }) as any as S.Schema<DeleteTargetResult>;
 export interface DescribeNotificationRuleRequest {
@@ -291,9 +252,7 @@ export const EventTypeSummary = /*@__PURE__*/ S.suspend(() =>
     EventTypeName: S.optional(S.String),
     ResourceType: S.optional(S.String),
   }),
-).annotate({
-  identifier: "EventTypeSummary",
-}) as any as S.Schema<EventTypeSummary>;
+).annotate({ identifier: "EventTypeSummary" }) as any as S.Schema<EventTypeSummary>;
 export type EventTypeBatch = EventTypeSummary[];
 export const EventTypeBatch = /*@__PURE__*/ S.Array(EventTypeSummary);
 export type TargetStatus =
@@ -345,21 +304,14 @@ export const DescribeNotificationRuleResult = /*@__PURE__*/ S.suspend(() =>
     DetailType: S.optional(DetailType),
     CreatedBy: S.optional(S.String),
     Status: S.optional(NotificationRuleStatus),
-    CreatedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    LastModifiedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    CreatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastModifiedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     Tags: S.optional(Tags),
   }),
 ).annotate({
   identifier: "DescribeNotificationRuleResult",
 }) as any as S.Schema<DescribeNotificationRuleResult>;
-export type ListEventTypesFilterName =
-  | "RESOURCE_TYPE"
-  | "SERVICE_NAME"
-  | (string & {});
+export type ListEventTypesFilterName = "RESOURCE_TYPE" | "SERVICE_NAME" | (string & {});
 export const ListEventTypesFilterName = S.String;
 
 export type ListEventTypesFilterValue = string;
@@ -369,12 +321,9 @@ export interface ListEventTypesFilter {
 }
 export const ListEventTypesFilter = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Name: ListEventTypesFilterName, Value: S.String }),
-).annotate({
-  identifier: "ListEventTypesFilter",
-}) as any as S.Schema<ListEventTypesFilter>;
+).annotate({ identifier: "ListEventTypesFilter" }) as any as S.Schema<ListEventTypesFilter>;
 export type ListEventTypesFilters = ListEventTypesFilter[];
-export const ListEventTypesFilters =
-  /*@__PURE__*/ S.Array(ListEventTypesFilter);
+export const ListEventTypesFilters = /*@__PURE__*/ S.Array(ListEventTypesFilter);
 export type NextToken = string;
 export type MaxResults = number;
 export interface ListEventTypesRequest {
@@ -387,31 +336,15 @@ export const ListEventTypesRequest = /*@__PURE__*/ S.suspend(() =>
     Filters: S.optional(ListEventTypesFilters),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/listEventTypes" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListEventTypesRequest",
-}) as any as S.Schema<ListEventTypesRequest>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/listEventTypes" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "ListEventTypesRequest" }) as any as S.Schema<ListEventTypesRequest>;
 export interface ListEventTypesResult {
   EventTypes?: EventTypeSummary[];
   NextToken?: string;
 }
 export const ListEventTypesResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    EventTypes: S.optional(EventTypeBatch),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListEventTypesResult",
-}) as any as S.Schema<ListEventTypesResult>;
+  S.Struct({ EventTypes: S.optional(EventTypeBatch), NextToken: S.optional(S.String) }),
+).annotate({ identifier: "ListEventTypesResult" }) as any as S.Schema<ListEventTypesResult>;
 export type ListNotificationRulesFilterName =
   | "EVENT_TYPE_ID"
   | "CREATED_BY"
@@ -431,9 +364,7 @@ export const ListNotificationRulesFilter = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListNotificationRulesFilter",
 }) as any as S.Schema<ListNotificationRulesFilter>;
 export type ListNotificationRulesFilters = ListNotificationRulesFilter[];
-export const ListNotificationRulesFilters = /*@__PURE__*/ S.Array(
-  ListNotificationRulesFilter,
-);
+export const ListNotificationRulesFilters = /*@__PURE__*/ S.Array(ListNotificationRulesFilter);
 export interface ListNotificationRulesRequest {
   Filters?: ListNotificationRulesFilter[];
   NextToken?: string;
@@ -445,14 +376,7 @@ export const ListNotificationRulesRequest = /*@__PURE__*/ S.suspend(() =>
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/listNotificationRules" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/listNotificationRules" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListNotificationRulesRequest",
@@ -464,13 +388,9 @@ export interface NotificationRuleSummary {
 }
 export const NotificationRuleSummary = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Id: S.optional(S.String), Arn: S.optional(S.String) }),
-).annotate({
-  identifier: "NotificationRuleSummary",
-}) as any as S.Schema<NotificationRuleSummary>;
+).annotate({ identifier: "NotificationRuleSummary" }) as any as S.Schema<NotificationRuleSummary>;
 export type NotificationRuleBatch = NotificationRuleSummary[];
-export const NotificationRuleBatch = /*@__PURE__*/ S.Array(
-  NotificationRuleSummary,
-);
+export const NotificationRuleBatch = /*@__PURE__*/ S.Array(NotificationRuleSummary);
 export interface ListNotificationRulesResult {
   NextToken?: string;
   NotificationRules?: NotificationRuleSummary[];
@@ -488,14 +408,7 @@ export interface ListTagsForResourceRequest {
 }
 export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Arn: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/listTagsForResource" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/listTagsForResource" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListTagsForResourceRequest",
@@ -522,9 +435,7 @@ export interface ListTargetsFilter {
 }
 export const ListTargetsFilter = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Name: ListTargetsFilterName, Value: S.String }),
-).annotate({
-  identifier: "ListTargetsFilter",
-}) as any as S.Schema<ListTargetsFilter>;
+).annotate({ identifier: "ListTargetsFilter" }) as any as S.Schema<ListTargetsFilter>;
 export type ListTargetsFilters = ListTargetsFilter[];
 export const ListTargetsFilters = /*@__PURE__*/ S.Array(ListTargetsFilter);
 export interface ListTargetsRequest {
@@ -537,114 +448,61 @@ export const ListTargetsRequest = /*@__PURE__*/ S.suspend(() =>
     Filters: S.optional(ListTargetsFilters),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/listTargets" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListTargetsRequest",
-}) as any as S.Schema<ListTargetsRequest>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/listTargets" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "ListTargetsRequest" }) as any as S.Schema<ListTargetsRequest>;
 export interface ListTargetsResult {
   Targets?: TargetSummary[];
   NextToken?: string;
 }
 export const ListTargetsResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Targets: S.optional(TargetsBatch),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListTargetsResult",
-}) as any as S.Schema<ListTargetsResult>;
+  S.Struct({ Targets: S.optional(TargetsBatch), NextToken: S.optional(S.String) }),
+).annotate({ identifier: "ListTargetsResult" }) as any as S.Schema<ListTargetsResult>;
 export interface SubscribeRequest {
   Arn: string;
   Target: Target;
   ClientRequestToken?: string;
 }
 export const SubscribeRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Arn: S.String,
-    Target: Target,
-    ClientRequestToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/subscribe" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+  S.Struct({ Arn: S.String, Target: Target, ClientRequestToken: S.optional(S.String) }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/subscribe" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "SubscribeRequest",
-}) as any as S.Schema<SubscribeRequest>;
+).annotate({ identifier: "SubscribeRequest" }) as any as S.Schema<SubscribeRequest>;
 export interface SubscribeResult {
   Arn?: string;
 }
 export const SubscribeResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Arn: S.optional(S.String) }),
-).annotate({
-  identifier: "SubscribeResult",
-}) as any as S.Schema<SubscribeResult>;
+).annotate({ identifier: "SubscribeResult" }) as any as S.Schema<SubscribeResult>;
 export interface TagResourceRequest {
   Arn: string;
   Tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Arn: S.String, Tags: Tags }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/tagResource" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/tagResource" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
+).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResult {
   Tags?: { [key: string]: string | undefined };
 }
 export const TagResourceResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Tags: S.optional(Tags) }),
-).annotate({
-  identifier: "TagResourceResult",
-}) as any as S.Schema<TagResourceResult>;
+).annotate({ identifier: "TagResourceResult" }) as any as S.Schema<TagResourceResult>;
 export interface UnsubscribeRequest {
   Arn: string;
   TargetAddress: string | redacted.Redacted<string>;
 }
 export const UnsubscribeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Arn: S.String, TargetAddress: SensitiveString }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/unsubscribe" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/unsubscribe" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UnsubscribeRequest",
-}) as any as S.Schema<UnsubscribeRequest>;
+).annotate({ identifier: "UnsubscribeRequest" }) as any as S.Schema<UnsubscribeRequest>;
 export interface UnsubscribeResult {
   Arn: string;
 }
 export const UnsubscribeResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Arn: S.String }),
-).annotate({
-  identifier: "UnsubscribeResult",
-}) as any as S.Schema<UnsubscribeResult>;
+).annotate({ identifier: "UnsubscribeResult" }) as any as S.Schema<UnsubscribeResult>;
 export type TagKeys = string[];
 export const TagKeys = /*@__PURE__*/ S.Array(S.String);
 export interface UntagResourceRequest {
@@ -656,22 +514,11 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
     Arn: S.String.pipe(T.HttpLabel("Arn")),
     TagKeys: TagKeys.pipe(T.HttpQuery("tagKeys")),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/untagResource/{Arn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/untagResource/{Arn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
+).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResult {}
-export const UntagResourceResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UntagResourceResult = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResult",
 }) as any as S.Schema<UntagResourceResult>;
 export interface UpdateNotificationRuleRequest {
@@ -691,22 +538,13 @@ export const UpdateNotificationRuleRequest = /*@__PURE__*/ S.suspend(() =>
     Targets: S.optional(Targets),
     DetailType: S.optional(DetailType),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/updateNotificationRule" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/updateNotificationRule" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "UpdateNotificationRuleRequest",
 }) as any as S.Schema<UpdateNotificationRuleRequest>;
 export interface UpdateNotificationRuleResult {}
-export const UpdateNotificationRuleResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UpdateNotificationRuleResult = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UpdateNotificationRuleResult",
 }) as any as S.Schema<UpdateNotificationRuleResult>;
 export type Message = string;
@@ -760,11 +598,7 @@ export const deleteNotificationRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteNotificationRuleRequest,
   output: DeleteNotificationRuleResult,
-  errors: [
-    ConcurrentModificationException,
-    LimitExceededException,
-    ValidationException,
-  ],
+  errors: [ConcurrentModificationException, LimitExceededException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteNotificationRule",
@@ -809,10 +643,7 @@ export const describeNotificationRule: API.OperationMethod<
   operationName: "DescribeNotificationRule",
 }));
 
-export type ListEventTypesError =
-  | InvalidNextTokenException
-  | ValidationException
-  | CommonErrors;
+export type ListEventTypesError = InvalidNextTokenException | ValidationException | CommonErrors;
 /**
  * Returns information about the event types available for configuring notifications.
  */
@@ -886,10 +717,7 @@ export const listTagsForResource: API.OperationMethod<
   operationName: "ListTagsForResource",
 }));
 
-export type ListTargetsError =
-  | InvalidNextTokenException
-  | ValidationException
-  | CommonErrors;
+export type ListTargetsError = InvalidNextTokenException | ValidationException | CommonErrors;
 /**
  * Returns a list of the notification rule targets for an Amazon Web Services account.
  */
@@ -932,11 +760,7 @@ export const subscribe: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: SubscribeRequest,
   output: SubscribeResult,
-  errors: [
-    ConfigurationException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [ConfigurationException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "Subscribe",
@@ -1039,11 +863,7 @@ export const updateNotificationRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateNotificationRuleRequest,
   output: UpdateNotificationRuleResult,
-  errors: [
-    ConfigurationException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [ConfigurationException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateNotificationRule",

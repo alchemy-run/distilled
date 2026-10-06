@@ -287,6 +287,9 @@
           "traits": {
             "smithy.api#documentation": "r2_latency_ms"
           }
+        },
+        "blobUploadResults": {
+          "target": "com.modal.attempt#BlobUploadResultList"
         }
       }
     },
@@ -314,6 +317,52 @@
             "smithy.api#documentation": "For args_oneof."
           }
         }
+      }
+    },
+    "com.modal.attempt#BlobUploadResult": {
+      "type": "structure",
+      "members": {
+        "blobId": {
+          "target": "smithy.api#String"
+        },
+        "outcome": {
+          "target": "com.modal.attempt#BlobUploadResultOutcome",
+          "traits": {
+            "smithy.api#documentation": "The blob id (from BlobCreateResponse) that this upload attempt targeted."
+          }
+        },
+        "throughputBytesS": {
+          "target": "smithy.api#String"
+        }
+      }
+    },
+    "com.modal.attempt#BlobUploadResultOutcome": {
+      "type": "enum",
+      "members": {
+        "OUTCOME_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OUTCOME_UNSPECIFIED"
+          }
+        },
+        "OUTCOME_SUCCESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OUTCOME_SUCCESS"
+          }
+        },
+        "OUTCOME_FAILURE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OUTCOME_FAILURE"
+          }
+        }
+      }
+    },
+    "com.modal.attempt#BlobUploadResultList": {
+      "type": "list",
+      "member": {
+        "target": "com.modal.attempt#BlobUploadResult"
       }
     },
     "com.modal.attempt#RetryAttemptRequest": {

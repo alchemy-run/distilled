@@ -1,18 +1,15 @@
+import * as API from "@distilled.cloud/core/api";
+import * as S from "@distilled.cloud/core/schema";
 import * as HttpClient from "effect/http/HttpClient";
 import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
-import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
-const svc = T.AwsApiService({
-  sdkId: "identitystore",
-  serviceShapeName: "AWSIdentityStore",
-});
+import * as T from "../traits.ts";
+const svc = T.AwsApiService({ sdkId: "identitystore", serviceShapeName: "AWSIdentityStore" });
 const auth = T.AwsAuthSigv4({ name: "identitystore" });
 const ver = T.ServiceVersion("2020-06-15");
 const proto = T.AwsProtocolsAwsJson1_1();
@@ -28,14 +25,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -65,9 +58,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://identitystore-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -75,13 +66,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://identitystore.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://identitystore.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://identitystore.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -123,10 +110,7 @@ export class ResourceNotFoundException
 export class ServiceQuotaExceededException
   extends /*@__PURE__*/ S.TaggedError<ServiceQuotaExceededException>()(
     "ServiceQuotaExceededException",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      RequestId: S.optional(S.String),
-    },
+    { message: S.optional(S.String).pipe(T.ErrorMessage()), RequestId: S.optional(S.String) },
     T.HttpError(402),
   ).pipe(C.withQuotaError) {}
 export class ValidationException
@@ -156,22 +140,25 @@ export const CreateGroupRequest = /*@__PURE__*/ S.suspend(() =>
     IdentityStoreId: S.String,
     DisplayName: S.optional(SensitiveString),
     Description: S.optional(SensitiveString),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "CreateGroupRequest",
-}) as any as S.Schema<CreateGroupRequest>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "CreateGroupRequest" }) as any as S.Schema<CreateGroupRequest>;
 export type ResourceId = string;
+export type ResourceArn = string;
+export type ResourceRevision = string;
 export interface CreateGroupResponse {
-  GroupId: string;
   IdentityStoreId: string;
+  GroupId: string;
+  GroupArn: string;
+  Revision: string;
 }
 export const CreateGroupResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GroupId: S.String, IdentityStoreId: S.String }),
-).annotate({
-  identifier: "CreateGroupResponse",
-}) as any as S.Schema<CreateGroupResponse>;
+  S.Struct({
+    IdentityStoreId: S.String,
+    GroupId: S.String,
+    GroupArn: S.String,
+    Revision: S.String,
+  }),
+).annotate({ identifier: "CreateGroupResponse" }) as any as S.Schema<CreateGroupResponse>;
 export type MemberId = { UserId: string };
 export const MemberId = /*@__PURE__*/ S.Union([S.Struct({ UserId: S.String })]);
 export interface CreateGroupMembershipRequest {
@@ -180,22 +167,19 @@ export interface CreateGroupMembershipRequest {
   MemberId: MemberId;
 }
 export const CreateGroupMembershipRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    IdentityStoreId: S.String,
-    GroupId: S.String,
-    MemberId: MemberId,
-  }).pipe(
+  S.Struct({ IdentityStoreId: S.String, GroupId: S.String, MemberId: MemberId }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "CreateGroupMembershipRequest",
 }) as any as S.Schema<CreateGroupMembershipRequest>;
 export interface CreateGroupMembershipResponse {
-  MembershipId: string;
   IdentityStoreId: string;
+  MembershipId: string;
+  MembershipArn: string;
 }
 export const CreateGroupMembershipResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ MembershipId: S.String, IdentityStoreId: S.String }),
+  S.Struct({ IdentityStoreId: S.String, MembershipId: S.String, MembershipArn: S.String }),
 ).annotate({
   identifier: "CreateGroupMembershipResponse",
 }) as any as S.Schema<CreateGroupMembershipResponse>;
@@ -303,10 +287,7 @@ export const Roles = /*@__PURE__*/ S.Array(Role);
 export type ExtensionName = string;
 export type AttributeValue = unknown;
 export type Extensions = { [key: string]: any | undefined };
-export const Extensions = /*@__PURE__*/ S.Record(
-  S.String,
-  S.Any.pipe(S.optional),
-);
+export const Extensions = /*@__PURE__*/ S.Record(S.String, S.Any.pipe(S.optional));
 export interface CreateUserRequest {
   IdentityStoreId: string;
   UserName?: string | redacted.Redacted<string>;
@@ -349,36 +330,29 @@ export const CreateUserRequest = /*@__PURE__*/ S.suspend(() =>
     Birthdate: S.optional(SensitiveString),
     Roles: S.optional(Roles),
     Extensions: S.optional(Extensions),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "CreateUserRequest",
-}) as any as S.Schema<CreateUserRequest>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "CreateUserRequest" }) as any as S.Schema<CreateUserRequest>;
 export interface CreateUserResponse {
   IdentityStoreId: string;
   UserId: string;
+  UserArn: string;
+  Revision: string;
 }
 export const CreateUserResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ IdentityStoreId: S.String, UserId: S.String }),
-).annotate({
-  identifier: "CreateUserResponse",
-}) as any as S.Schema<CreateUserResponse>;
+  S.Struct({ IdentityStoreId: S.String, UserId: S.String, UserArn: S.String, Revision: S.String }),
+).annotate({ identifier: "CreateUserResponse" }) as any as S.Schema<CreateUserResponse>;
 export interface DeleteGroupRequest {
   IdentityStoreId: string;
   GroupId: string;
+  Revision?: string;
 }
 export const DeleteGroupRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ IdentityStoreId: S.String, GroupId: S.String }).pipe(
+  S.Struct({ IdentityStoreId: S.String, GroupId: S.String, Revision: S.optional(S.String) }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteGroupRequest",
-}) as any as S.Schema<DeleteGroupRequest>;
+).annotate({ identifier: "DeleteGroupRequest" }) as any as S.Schema<DeleteGroupRequest>;
 export interface DeleteGroupResponse {}
-export const DeleteGroupResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteGroupResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteGroupResponse",
 }) as any as S.Schema<DeleteGroupResponse>;
 export interface DeleteGroupMembershipRequest {
@@ -393,26 +367,21 @@ export const DeleteGroupMembershipRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteGroupMembershipRequest",
 }) as any as S.Schema<DeleteGroupMembershipRequest>;
 export interface DeleteGroupMembershipResponse {}
-export const DeleteGroupMembershipResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteGroupMembershipResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteGroupMembershipResponse",
 }) as any as S.Schema<DeleteGroupMembershipResponse>;
 export interface DeleteUserRequest {
   IdentityStoreId: string;
   UserId: string;
+  Revision?: string;
 }
 export const DeleteUserRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ IdentityStoreId: S.String, UserId: S.String }).pipe(
+  S.Struct({ IdentityStoreId: S.String, UserId: S.String, Revision: S.optional(S.String) }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteUserRequest",
-}) as any as S.Schema<DeleteUserRequest>;
+).annotate({ identifier: "DeleteUserRequest" }) as any as S.Schema<DeleteUserRequest>;
 export interface DeleteUserResponse {}
-export const DeleteUserResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteUserResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteUserResponse",
 }) as any as S.Schema<DeleteUserResponse>;
 export interface DescribeGroupRequest {
@@ -423,9 +392,7 @@ export const DescribeGroupRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ IdentityStoreId: S.String, GroupId: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DescribeGroupRequest",
-}) as any as S.Schema<DescribeGroupRequest>;
+).annotate({ identifier: "DescribeGroupRequest" }) as any as S.Schema<DescribeGroupRequest>;
 export type ExternalIdIssuer = string | redacted.Redacted<string>;
 export type ExternalIdIdentifier = string | redacted.Redacted<string>;
 export interface ExternalId {
@@ -439,7 +406,10 @@ export type ExternalIds = ExternalId[];
 export const ExternalIds = /*@__PURE__*/ S.Array(ExternalId);
 export type StringType = string;
 export interface DescribeGroupResponse {
+  IdentityStoreId: string;
   GroupId: string;
+  GroupArn: string;
+  Revision: string;
   DisplayName?: string | redacted.Redacted<string>;
   ExternalIds?: ExternalId[];
   Description?: string | redacted.Redacted<string>;
@@ -447,11 +417,13 @@ export interface DescribeGroupResponse {
   UpdatedAt?: Date;
   CreatedBy?: string;
   UpdatedBy?: string;
-  IdentityStoreId: string;
 }
 export const DescribeGroupResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    IdentityStoreId: S.String,
     GroupId: S.String,
+    GroupArn: S.String,
+    Revision: S.String,
     DisplayName: S.optional(SensitiveString),
     ExternalIds: S.optional(ExternalIds),
     Description: S.optional(SensitiveString),
@@ -459,11 +431,8 @@ export const DescribeGroupResponse = /*@__PURE__*/ S.suspend(() =>
     UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     CreatedBy: S.optional(S.String),
     UpdatedBy: S.optional(S.String),
-    IdentityStoreId: S.String,
   }),
-).annotate({
-  identifier: "DescribeGroupResponse",
-}) as any as S.Schema<DescribeGroupResponse>;
+).annotate({ identifier: "DescribeGroupResponse" }) as any as S.Schema<DescribeGroupResponse>;
 export interface DescribeGroupMembershipRequest {
   IdentityStoreId: string;
   MembershipId: string;
@@ -478,6 +447,7 @@ export const DescribeGroupMembershipRequest = /*@__PURE__*/ S.suspend(() =>
 export interface DescribeGroupMembershipResponse {
   IdentityStoreId: string;
   MembershipId: string;
+  MembershipArn: string;
   GroupId: string;
   MemberId: MemberId;
   CreatedAt?: Date;
@@ -489,6 +459,7 @@ export const DescribeGroupMembershipResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     IdentityStoreId: S.String,
     MembershipId: S.String,
+    MembershipArn: S.String,
     GroupId: S.String,
     MemberId: MemberId,
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -499,6 +470,53 @@ export const DescribeGroupMembershipResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "DescribeGroupMembershipResponse",
 }) as any as S.Schema<DescribeGroupMembershipResponse>;
+export interface DescribeIdentityStoreRequest {
+  IdentityStoreId: string;
+}
+export const DescribeIdentityStoreRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ IdentityStoreId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "DescribeIdentityStoreRequest",
+}) as any as S.Schema<DescribeIdentityStoreRequest>;
+export type IdentityStoreArn = string;
+export type VpcIdType = string;
+export type VpcIdList = string[];
+export const VpcIdList = /*@__PURE__*/ S.Array(S.String);
+export type IpCidrType = string;
+export type IpCidrList = string[];
+export const IpCidrList = /*@__PURE__*/ S.Array(S.String);
+export interface NetworkConfigurationDetails {
+  VpceAccessRequired: boolean;
+  ApiRestrictSourceVpcs?: string[];
+  ApiAllowSourceIps?: string[];
+  ScimAllowSourceIps?: string[];
+}
+export const NetworkConfigurationDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    VpceAccessRequired: S.Boolean,
+    ApiRestrictSourceVpcs: S.optional(VpcIdList),
+    ApiAllowSourceIps: S.optional(IpCidrList),
+    ScimAllowSourceIps: S.optional(IpCidrList),
+  }),
+).annotate({
+  identifier: "NetworkConfigurationDetails",
+}) as any as S.Schema<NetworkConfigurationDetails>;
+export interface DescribeIdentityStoreResponse {
+  IdentityStoreId: string;
+  IdentityStoreArn: string;
+  NetworkConfiguration?: NetworkConfigurationDetails;
+}
+export const DescribeIdentityStoreResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    IdentityStoreId: S.String,
+    IdentityStoreArn: S.String,
+    NetworkConfiguration: S.optional(NetworkConfigurationDetails),
+  }),
+).annotate({
+  identifier: "DescribeIdentityStoreResponse",
+}) as any as S.Schema<DescribeIdentityStoreResponse>;
 export type ExtensionNames = string[];
 export const ExtensionNames = /*@__PURE__*/ S.Array(S.String);
 export interface DescribeUserRequest {
@@ -511,18 +529,16 @@ export const DescribeUserRequest = /*@__PURE__*/ S.suspend(() =>
     IdentityStoreId: S.String,
     UserId: S.String,
     Extensions: S.optional(ExtensionNames),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DescribeUserRequest",
-}) as any as S.Schema<DescribeUserRequest>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "DescribeUserRequest" }) as any as S.Schema<DescribeUserRequest>;
 export type UserStatus = "ENABLED" | "DISABLED" | (string & {});
 export const UserStatus = S.String;
 
 export interface DescribeUserResponse {
   IdentityStoreId: string;
   UserId: string;
+  UserArn: string;
+  Revision: string;
   UserName?: string | redacted.Redacted<string>;
   ExternalIds?: ExternalId[];
   Name?: Name;
@@ -552,6 +568,8 @@ export const DescribeUserResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     IdentityStoreId: S.String,
     UserId: S.String,
+    UserArn: S.String,
+    Revision: S.String,
     UserName: S.optional(SensitiveString),
     ExternalIds: S.optional(ExternalIds),
     Name: S.optional(Name),
@@ -577,9 +595,7 @@ export const DescribeUserResponse = /*@__PURE__*/ S.suspend(() =>
     UpdatedBy: S.optional(S.String),
     Extensions: S.optional(Extensions),
   }),
-).annotate({
-  identifier: "DescribeUserResponse",
-}) as any as S.Schema<DescribeUserResponse>;
+).annotate({ identifier: "DescribeUserResponse" }) as any as S.Schema<DescribeUserResponse>;
 export type AttributePath = string;
 export interface UniqueAttribute {
   AttributePath: string;
@@ -587,9 +603,7 @@ export interface UniqueAttribute {
 }
 export const UniqueAttribute = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ AttributePath: S.String, AttributeValue: S.Any }),
-).annotate({
-  identifier: "UniqueAttribute",
-}) as any as S.Schema<UniqueAttribute>;
+).annotate({ identifier: "UniqueAttribute" }) as any as S.Schema<UniqueAttribute>;
 export type AlternateIdentifier =
   | { ExternalId: ExternalId; UniqueAttribute?: never }
   | { ExternalId?: never; UniqueAttribute: UniqueAttribute };
@@ -602,46 +616,37 @@ export interface GetGroupIdRequest {
   AlternateIdentifier: AlternateIdentifier;
 }
 export const GetGroupIdRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    IdentityStoreId: S.String,
-    AlternateIdentifier: AlternateIdentifier,
-  }).pipe(
+  S.Struct({ IdentityStoreId: S.String, AlternateIdentifier: AlternateIdentifier }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetGroupIdRequest",
-}) as any as S.Schema<GetGroupIdRequest>;
+).annotate({ identifier: "GetGroupIdRequest" }) as any as S.Schema<GetGroupIdRequest>;
 export interface GetGroupIdResponse {
-  GroupId: string;
   IdentityStoreId: string;
+  GroupId: string;
+  GroupArn: string;
 }
 export const GetGroupIdResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GroupId: S.String, IdentityStoreId: S.String }),
-).annotate({
-  identifier: "GetGroupIdResponse",
-}) as any as S.Schema<GetGroupIdResponse>;
+  S.Struct({ IdentityStoreId: S.String, GroupId: S.String, GroupArn: S.String }),
+).annotate({ identifier: "GetGroupIdResponse" }) as any as S.Schema<GetGroupIdResponse>;
 export interface GetGroupMembershipIdRequest {
   IdentityStoreId: string;
   GroupId: string;
   MemberId: MemberId;
 }
 export const GetGroupMembershipIdRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    IdentityStoreId: S.String,
-    GroupId: S.String,
-    MemberId: MemberId,
-  }).pipe(
+  S.Struct({ IdentityStoreId: S.String, GroupId: S.String, MemberId: MemberId }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetGroupMembershipIdRequest",
 }) as any as S.Schema<GetGroupMembershipIdRequest>;
 export interface GetGroupMembershipIdResponse {
-  MembershipId: string;
   IdentityStoreId: string;
+  MembershipId: string;
+  MembershipArn: string;
 }
 export const GetGroupMembershipIdResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ MembershipId: S.String, IdentityStoreId: S.String }),
+  S.Struct({ IdentityStoreId: S.String, MembershipId: S.String, MembershipArn: S.String }),
 ).annotate({
   identifier: "GetGroupMembershipIdResponse",
 }) as any as S.Schema<GetGroupMembershipIdResponse>;
@@ -650,24 +655,18 @@ export interface GetUserIdRequest {
   AlternateIdentifier: AlternateIdentifier;
 }
 export const GetUserIdRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    IdentityStoreId: S.String,
-    AlternateIdentifier: AlternateIdentifier,
-  }).pipe(
+  S.Struct({ IdentityStoreId: S.String, AlternateIdentifier: AlternateIdentifier }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetUserIdRequest",
-}) as any as S.Schema<GetUserIdRequest>;
+).annotate({ identifier: "GetUserIdRequest" }) as any as S.Schema<GetUserIdRequest>;
 export interface GetUserIdResponse {
   IdentityStoreId: string;
   UserId: string;
+  UserArn: string;
 }
 export const GetUserIdResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ IdentityStoreId: S.String, UserId: S.String }),
-).annotate({
-  identifier: "GetUserIdResponse",
-}) as any as S.Schema<GetUserIdResponse>;
+  S.Struct({ IdentityStoreId: S.String, UserId: S.String, UserArn: S.String }),
+).annotate({ identifier: "GetUserIdResponse" }) as any as S.Schema<GetUserIdResponse>;
 export type GroupIds = string[];
 export const GroupIds = /*@__PURE__*/ S.Array(S.String);
 export interface IsMemberInGroupsRequest {
@@ -676,16 +675,10 @@ export interface IsMemberInGroupsRequest {
   GroupIds: string[];
 }
 export const IsMemberInGroupsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    IdentityStoreId: S.String,
-    MemberId: MemberId,
-    GroupIds: GroupIds,
-  }).pipe(
+  S.Struct({ IdentityStoreId: S.String, MemberId: MemberId, GroupIds: GroupIds }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "IsMemberInGroupsRequest",
-}) as any as S.Schema<IsMemberInGroupsRequest>;
+).annotate({ identifier: "IsMemberInGroupsRequest" }) as any as S.Schema<IsMemberInGroupsRequest>;
 export interface GroupMembershipExistenceResult {
   GroupId?: string;
   MemberId?: MemberId;
@@ -709,9 +702,7 @@ export interface IsMemberInGroupsResponse {
 }
 export const IsMemberInGroupsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Results: GroupMembershipExistenceResults }),
-).annotate({
-  identifier: "IsMemberInGroupsResponse",
-}) as any as S.Schema<IsMemberInGroupsResponse>;
+).annotate({ identifier: "IsMemberInGroupsResponse" }) as any as S.Schema<IsMemberInGroupsResponse>;
 export type MaxResults = number;
 export type NextToken = string;
 export interface ListGroupMembershipsRequest {
@@ -726,15 +717,14 @@ export const ListGroupMembershipsRequest = /*@__PURE__*/ S.suspend(() =>
     GroupId: S.String,
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListGroupMembershipsRequest",
 }) as any as S.Schema<ListGroupMembershipsRequest>;
 export interface GroupMembership {
   IdentityStoreId: string;
-  MembershipId?: string;
+  MembershipId: string;
+  MembershipArn: string;
   GroupId?: string;
   MemberId?: MemberId;
   CreatedAt?: Date;
@@ -745,7 +735,8 @@ export interface GroupMembership {
 export const GroupMembership = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     IdentityStoreId: S.String,
-    MembershipId: S.optional(S.String),
+    MembershipId: S.String,
+    MembershipArn: S.String,
     GroupId: S.optional(S.String),
     MemberId: S.optional(MemberId),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -753,9 +744,7 @@ export const GroupMembership = /*@__PURE__*/ S.suspend(() =>
     CreatedBy: S.optional(S.String),
     UpdatedBy: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GroupMembership",
-}) as any as S.Schema<GroupMembership>;
+).annotate({ identifier: "GroupMembership" }) as any as S.Schema<GroupMembership>;
 export type GroupMemberships = GroupMembership[];
 export const GroupMemberships = /*@__PURE__*/ S.Array(GroupMembership);
 export interface ListGroupMembershipsResponse {
@@ -763,10 +752,7 @@ export interface ListGroupMembershipsResponse {
   NextToken?: string;
 }
 export const ListGroupMembershipsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GroupMemberships: GroupMemberships,
-    NextToken: S.optional(S.String),
-  }),
+  S.Struct({ GroupMemberships: GroupMemberships, NextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListGroupMembershipsResponse",
 }) as any as S.Schema<ListGroupMembershipsResponse>;
@@ -776,16 +762,13 @@ export interface ListGroupMembershipsForMemberRequest {
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListGroupMembershipsForMemberRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      IdentityStoreId: S.String,
-      MemberId: MemberId,
-      MaxResults: S.optional(S.Number),
-      NextToken: S.optional(S.String),
-    }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
+export const ListGroupMembershipsForMemberRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    IdentityStoreId: S.String,
+    MemberId: MemberId,
+    MaxResults: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListGroupMembershipsForMemberRequest",
 }) as any as S.Schema<ListGroupMembershipsForMemberRequest>;
@@ -793,12 +776,8 @@ export interface ListGroupMembershipsForMemberResponse {
   GroupMemberships: GroupMembership[];
   NextToken?: string;
 }
-export const ListGroupMembershipsForMemberResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      GroupMemberships: GroupMemberships,
-      NextToken: S.optional(S.String),
-    }),
+export const ListGroupMembershipsForMemberResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ GroupMemberships: GroupMemberships, NextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListGroupMembershipsForMemberResponse",
 }) as any as S.Schema<ListGroupMembershipsForMemberResponse>;
@@ -823,14 +802,13 @@ export const ListGroupsRequest = /*@__PURE__*/ S.suspend(() =>
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
     Filters: S.optional(Filters),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListGroupsRequest",
-}) as any as S.Schema<ListGroupsRequest>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "ListGroupsRequest" }) as any as S.Schema<ListGroupsRequest>;
 export interface Group {
+  IdentityStoreId: string;
   GroupId: string;
+  GroupArn: string;
+  Revision: string;
   DisplayName?: string | redacted.Redacted<string>;
   ExternalIds?: ExternalId[];
   Description?: string | redacted.Redacted<string>;
@@ -838,11 +816,13 @@ export interface Group {
   UpdatedAt?: Date;
   CreatedBy?: string;
   UpdatedBy?: string;
-  IdentityStoreId: string;
 }
 export const Group = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    IdentityStoreId: S.String,
     GroupId: S.String,
+    GroupArn: S.String,
+    Revision: S.String,
     DisplayName: S.optional(SensitiveString),
     ExternalIds: S.optional(ExternalIds),
     Description: S.optional(SensitiveString),
@@ -850,7 +830,6 @@ export const Group = /*@__PURE__*/ S.suspend(() =>
     UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     CreatedBy: S.optional(S.String),
     UpdatedBy: S.optional(S.String),
-    IdentityStoreId: S.String,
   }),
 ).annotate({ identifier: "Group" }) as any as S.Schema<Group>;
 export type Groups = Group[];
@@ -861,9 +840,36 @@ export interface ListGroupsResponse {
 }
 export const ListGroupsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Groups: Groups, NextToken: S.optional(S.String) }),
+).annotate({ identifier: "ListGroupsResponse" }) as any as S.Schema<ListGroupsResponse>;
+export interface ListIdentityStoresRequest {
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListIdentityStoresRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ MaxResults: S.optional(S.Number), NextToken: S.optional(S.String) }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
-  identifier: "ListGroupsResponse",
-}) as any as S.Schema<ListGroupsResponse>;
+  identifier: "ListIdentityStoresRequest",
+}) as any as S.Schema<ListIdentityStoresRequest>;
+export interface IdentityStore {
+  IdentityStoreId: string;
+  IdentityStoreArn: string;
+}
+export const IdentityStore = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ IdentityStoreId: S.String, IdentityStoreArn: S.String }),
+).annotate({ identifier: "IdentityStore" }) as any as S.Schema<IdentityStore>;
+export type IdentityStores = IdentityStore[];
+export const IdentityStores = /*@__PURE__*/ S.Array(IdentityStore);
+export interface ListIdentityStoresResponse {
+  IdentityStores: IdentityStore[];
+  NextToken?: string;
+}
+export const ListIdentityStoresResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ IdentityStores: IdentityStores, NextToken: S.optional(S.String) }),
+).annotate({
+  identifier: "ListIdentityStoresResponse",
+}) as any as S.Schema<ListIdentityStoresResponse>;
 export interface ListUsersRequest {
   IdentityStoreId: string;
   Extensions?: string[];
@@ -878,15 +884,13 @@ export const ListUsersRequest = /*@__PURE__*/ S.suspend(() =>
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
     Filters: S.optional(Filters),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListUsersRequest",
-}) as any as S.Schema<ListUsersRequest>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "ListUsersRequest" }) as any as S.Schema<ListUsersRequest>;
 export interface User {
   IdentityStoreId: string;
   UserId: string;
+  UserArn: string;
+  Revision: string;
   UserName?: string | redacted.Redacted<string>;
   ExternalIds?: ExternalId[];
   Name?: Name;
@@ -916,6 +920,8 @@ export const User = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     IdentityStoreId: S.String,
     UserId: S.String,
+    UserArn: S.String,
+    Revision: S.String,
     UserName: S.optional(SensitiveString),
     ExternalIds: S.optional(ExternalIds),
     Name: S.optional(Name),
@@ -950,64 +956,102 @@ export interface ListUsersResponse {
 }
 export const ListUsersResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Users: Users, NextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListUsersResponse",
-}) as any as S.Schema<ListUsersResponse>;
+).annotate({ identifier: "ListUsersResponse" }) as any as S.Schema<ListUsersResponse>;
 export interface AttributeOperation {
   AttributePath: string;
   AttributeValue?: any;
 }
 export const AttributeOperation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ AttributePath: S.String, AttributeValue: S.optional(S.Any) }),
-).annotate({
-  identifier: "AttributeOperation",
-}) as any as S.Schema<AttributeOperation>;
+).annotate({ identifier: "AttributeOperation" }) as any as S.Schema<AttributeOperation>;
 export type AttributeOperations = AttributeOperation[];
 export const AttributeOperations = /*@__PURE__*/ S.Array(AttributeOperation);
 export interface UpdateGroupRequest {
   IdentityStoreId: string;
   GroupId: string;
   Operations: AttributeOperation[];
+  Revision?: string;
 }
 export const UpdateGroupRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     IdentityStoreId: S.String,
     GroupId: S.String,
     Operations: AttributeOperations,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "UpdateGroupRequest",
-}) as any as S.Schema<UpdateGroupRequest>;
-export interface UpdateGroupResponse {}
+    Revision: S.optional(S.String),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "UpdateGroupRequest" }) as any as S.Schema<UpdateGroupRequest>;
+export interface UpdateGroupResponse {
+  IdentityStoreId: string;
+  GroupId: string;
+  GroupArn: string;
+  Revision: string;
+}
 export const UpdateGroupResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    IdentityStoreId: S.String,
+    GroupId: S.String,
+    GroupArn: S.String,
+    Revision: S.String,
+  }),
+).annotate({ identifier: "UpdateGroupResponse" }) as any as S.Schema<UpdateGroupResponse>;
+export interface NetworkConfiguration {
+  VpceAccessRequired: boolean;
+  ApiRestrictSourceVpcs?: string[];
+  ApiAllowSourceIps?: string[];
+  ScimAllowSourceIps?: string[];
+}
+export const NetworkConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    VpceAccessRequired: S.Boolean,
+    ApiRestrictSourceVpcs: S.optional(VpcIdList),
+    ApiAllowSourceIps: S.optional(IpCidrList),
+    ScimAllowSourceIps: S.optional(IpCidrList),
+  }),
+).annotate({ identifier: "NetworkConfiguration" }) as any as S.Schema<NetworkConfiguration>;
+export interface UpdateIdentityStoreRequest {
+  IdentityStoreId: string;
+  NetworkConfiguration?: NetworkConfiguration;
+}
+export const UpdateIdentityStoreRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    IdentityStoreId: S.String,
+    NetworkConfiguration: S.optional(NetworkConfiguration),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
-  identifier: "UpdateGroupResponse",
-}) as any as S.Schema<UpdateGroupResponse>;
+  identifier: "UpdateIdentityStoreRequest",
+}) as any as S.Schema<UpdateIdentityStoreRequest>;
+export interface UpdateIdentityStoreResponse {
+  IdentityStoreId: string;
+  IdentityStoreArn: string;
+}
+export const UpdateIdentityStoreResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ IdentityStoreId: S.String, IdentityStoreArn: S.String }),
+).annotate({
+  identifier: "UpdateIdentityStoreResponse",
+}) as any as S.Schema<UpdateIdentityStoreResponse>;
 export interface UpdateUserRequest {
   IdentityStoreId: string;
   UserId: string;
   Operations: AttributeOperation[];
+  Revision?: string;
 }
 export const UpdateUserRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     IdentityStoreId: S.String,
     UserId: S.String,
     Operations: AttributeOperations,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "UpdateUserRequest",
-}) as any as S.Schema<UpdateUserRequest>;
-export interface UpdateUserResponse {}
+    Revision: S.optional(S.String),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "UpdateUserRequest" }) as any as S.Schema<UpdateUserRequest>;
+export interface UpdateUserResponse {
+  IdentityStoreId: string;
+  UserId: string;
+  UserArn: string;
+  Revision: string;
+}
 export const UpdateUserResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "UpdateUserResponse",
-}) as any as S.Schema<UpdateUserResponse>;
+  S.Struct({ IdentityStoreId: S.String, UserId: S.String, UserArn: S.String, Revision: S.String }),
+).annotate({ identifier: "UpdateUserResponse" }) as any as S.Schema<UpdateUserResponse>;
 export type ExceptionMessage = string;
 export type RequestId = string;
 export type ConflictExceptionReason =
@@ -1025,9 +1069,7 @@ export type ResourceType =
   | (string & {});
 export const ResourceType = S.String;
 
-export type ResourceNotFoundExceptionReason =
-  | "KMS_KEY_NOT_FOUND"
-  | (string & {});
+export type ResourceNotFoundExceptionReason = "KMS_KEY_NOT_FOUND" | (string & {});
 export const ResourceNotFoundExceptionReason = S.String;
 
 export type ValidationExceptionReason =
@@ -1188,10 +1230,7 @@ export const deleteUser: API.OperationMethod<
   operationName: "DeleteUser",
 }));
 
-export type DescribeGroupError =
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors;
+export type DescribeGroupError = ResourceNotFoundException | ValidationException | CommonErrors;
 /**
  * Retrieves the group metadata and attributes from `GroupId` in an identity store.
  *
@@ -1234,10 +1273,28 @@ export const describeGroupMembership: API.OperationMethod<
   operationName: "DescribeGroupMembership",
 }));
 
-export type DescribeUserError =
+export type DescribeIdentityStoreError =
   | ResourceNotFoundException
   | ValidationException
   | CommonErrors;
+/**
+ * Retrieves details about the specified identity store, including its Amazon Resource Name (ARN) and network configuration.
+ */
+export const describeIdentityStore: API.OperationMethod<
+  DescribeIdentityStoreRequest,
+  DescribeIdentityStoreResponse,
+  DescribeIdentityStoreError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: DescribeIdentityStoreRequest,
+  output: DescribeIdentityStoreResponse,
+  errors: [ResourceNotFoundException, ValidationException],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "DescribeIdentityStore",
+}));
+
+export type DescribeUserError = ResourceNotFoundException | ValidationException | CommonErrors;
 /**
  * Retrieves the user metadata and attributes from the `UserId` in an identity store.
  *
@@ -1257,10 +1314,7 @@ export const describeUser: API.OperationMethod<
   operationName: "DescribeUser",
 }));
 
-export type GetGroupIdError =
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors;
+export type GetGroupIdError = ResourceNotFoundException | ValidationException | CommonErrors;
 /**
  * Retrieves `GroupId` in an identity store.
  *
@@ -1303,10 +1357,7 @@ export const getGroupMembershipId: API.OperationMethod<
   operationName: "GetGroupMembershipId",
 }));
 
-export type GetUserIdError =
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors;
+export type GetUserIdError = ResourceNotFoundException | ValidationException | CommonErrors;
 /**
  * Retrieves the `UserId` in an identity store.
  *
@@ -1326,10 +1377,7 @@ export const getUserId: API.OperationMethod<
   operationName: "GetUserId",
 }));
 
-export type IsMemberInGroupsError =
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors;
+export type IsMemberInGroupsError = ResourceNotFoundException | ValidationException | CommonErrors;
 /**
  * Checks the user's membership in all requested groups and returns if the member exists in all queried groups.
  *
@@ -1409,10 +1457,7 @@ export const listGroupMembershipsForMember: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListGroupsError =
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors;
+export type ListGroupsError = ResourceNotFoundException | ValidationException | CommonErrors;
 /**
  * Lists all groups in the identity store. Returns a paginated list of complete `Group` objects. Filtering for a `Group` by the `DisplayName` attribute is deprecated. Instead, use the `GetGroupId` API action.
  *
@@ -1439,10 +1484,34 @@ export const listGroups: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListUsersError =
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors;
+export type ListIdentityStoresError = ValidationException | CommonErrors;
+/**
+ * Lists the identity stores that you have access to. This operation returns only the identity store ID and Amazon Resource Name (ARN) of each identity store. To obtain additional information about an identity store, call `DescribeIdentityStore`.
+ *
+ * This operation returns results in paginated form. Use the `NextToken` parameter to retrieve additional pages of results.
+ */
+export const listIdentityStores: API.PaginatedOperationMethod<
+  ListIdentityStoresRequest,
+  ListIdentityStoresResponse,
+  ListIdentityStoresError,
+  Credentials | HttpClient.HttpClient,
+  IdentityStore
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: ListIdentityStoresRequest,
+  output: ListIdentityStoresResponse,
+  errors: [ValidationException],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ListIdentityStores",
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "IdentityStores",
+    pageSize: "MaxResults",
+  } as const,
+})) as any;
+
+export type ListUsersError = ResourceNotFoundException | ValidationException | CommonErrors;
 /**
  * Lists all users in the identity store. Returns a paginated list of complete `User` objects. Filtering for a `User` by the `UserName` attribute is deprecated. Instead, use the `GetUserId` API action.
  *
@@ -1495,6 +1564,28 @@ export const updateGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGroup",
+}));
+
+export type UpdateIdentityStoreError =
+  | ConflictException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Updates the configuration of the specified identity store, including its network configuration.
+ */
+export const updateIdentityStore: API.OperationMethod<
+  UpdateIdentityStoreRequest,
+  UpdateIdentityStoreResponse,
+  UpdateIdentityStoreError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateIdentityStoreRequest,
+  output: UpdateIdentityStoreResponse,
+  errors: [ConflictException, ResourceNotFoundException, ValidationException],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "UpdateIdentityStore",
 }));
 
 export type UpdateUserError =

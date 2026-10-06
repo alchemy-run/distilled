@@ -1,3 +1,4 @@
+import * as Pagination from "@distilled.cloud/core/pagination";
 /**
  * Cloudflare pagination — hand-written.
  *
@@ -9,7 +10,6 @@
 import * as Effect from "effect/Effect";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
-import * as Pagination from "@distilled.cloud/core/pagination";
 
 // =============================================================================
 // ResultInfo — the envelope's `result_info`, shared by every paginated op
@@ -65,21 +65,14 @@ export const ResultInfo: S.Schema<ResultInfo> = S.Struct({
  * page 1 forever): if the server reports a page other than the one
  * requested, stop without re-emitting the duplicate page.
  */
-const paginatePageByItems: Pagination.PaginationStrategy = (
-  operation,
-  input,
-  pagination,
-) => {
+const paginatePageByItems: Pagination.PaginationStrategy = (operation, input, pagination) => {
   const inputToken = pagination.inputToken;
   if (!inputToken) {
-    return Stream.die(
-      new Error("Cloudflare page pagination requires an inputToken"),
-    );
+    return Stream.die(new Error("Cloudflare page pagination requires an inputToken"));
   }
 
   type State = { page: number; done: boolean };
-  const startPage =
-    typeof input[inputToken] === "number" ? (input[inputToken] as number) : 1;
+  const startPage = typeof input[inputToken] === "number" ? (input[inputToken] as number) : 1;
 
   return Stream.unfold({ page: startPage, done: false } as State, (state) =>
     Effect.gen(function* () {
@@ -87,10 +80,9 @@ const paginatePageByItems: Pagination.PaginationStrategy = (
 
       const requestPayload = { ...input, [inputToken]: state.page };
       const response = yield* operation(requestPayload);
-      const items = Pagination.getPath(
-        response,
-        pagination.items ?? "result",
-      ) as readonly unknown[] | undefined;
+      const items = Pagination.getPath(response, pagination.items ?? "result") as
+        | readonly unknown[]
+        | undefined;
 
       const reportedPage = Pagination.getPath(response, "resultInfo.page") as
         | number
@@ -104,20 +96,13 @@ const paginatePageByItems: Pagination.PaginationStrategy = (
         return undefined;
       }
 
-      return [
-        response,
-        { page: state.page + 1, done: (items ?? []).length === 0 },
-      ] as const;
+      return [response, { page: state.page + 1, done: (items ?? []).length === 0 }] as const;
     }),
   );
 };
 
 /** Dispatch on the operation's pagination mode, Cloudflare-style. */
-export const cloudflarePaginate: Pagination.PaginationStrategy = (
-  operation,
-  input,
-  pagination,
-) => {
+export const cloudflarePaginate: Pagination.PaginationStrategy = (operation, input, pagination) => {
   switch (pagination.mode) {
     case "single":
       return Pagination.paginateSingle(operation, input, pagination);

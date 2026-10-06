@@ -402,6 +402,12 @@
           "traits": {
             "smithy.api#documentation": "<p>Number of threads per CPU core.</p>"
           }
+        },
+        "NestedVirtualization": {
+          "target": "com.amazonaws.workspacesinstances#NestedVirtualizationEnum",
+          "traits": {
+            "smithy.api#documentation": "<p>Specifies whether to enable or disable nested virtualization.</p>"
+          }
         }
       },
       "traits": {
@@ -981,12 +987,7 @@
             "externalDocumentation": "${DocHomeURL}IAM/latest/UserGuide/reference_policies_condition-keys.html#condition-keys-tagkeys"
           }
         },
-        "aws.iam#supportedPrincipalTypes": [
-          "Root",
-          "IAMUser",
-          "IAMRole",
-          "FederatedUser"
-        ],
+        "aws.iam#supportedPrincipalTypes": ["Root", "IAMUser", "IAMRole", "FederatedUser"],
         "aws.protocols#awsJson1_0": {},
         "smithy.api#documentation": "<p>Amazon WorkSpaces Instances provides an API framework for managing virtual workspace environments across multiple AWS regions, enabling programmatic creation and configuration of desktop infrastructure.</p>",
         "smithy.api#title": "Amazon Workspaces Instances",
@@ -2715,6 +2716,23 @@
         "smithy.api#range": {
           "min": 1,
           "max": 25
+        }
+      }
+    },
+    "com.amazonaws.workspacesinstances#NestedVirtualizationEnum": {
+      "type": "enum",
+      "members": {
+        "ENABLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "enabled"
+          }
+        },
+        "DISABLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "disabled"
+          }
         }
       }
     },

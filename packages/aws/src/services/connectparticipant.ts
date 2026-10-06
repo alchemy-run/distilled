@@ -1,14 +1,14 @@
+import * as API from "@distilled.cloud/core/api";
+import * as S from "@distilled.cloud/core/schema";
 import * as HttpClient from "effect/http/HttpClient";
 import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
-import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "ConnectParticipant",
   serviceShapeName: "AmazonConnectParticipantServiceLambda",
@@ -28,14 +28,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -65,9 +61,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://participant.connect-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -75,9 +69,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://participant.connect.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
         return e(
           `https://participant.connect.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
@@ -142,27 +134,26 @@ export interface CancelParticipantAuthenticationRequest {
   SessionId: string;
   ConnectionToken: string;
 }
-export const CancelParticipantAuthenticationRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      SessionId: S.String,
-      ConnectionToken: S.String.pipe(T.HttpHeader("X-Amz-Bearer")),
-    }).pipe(
-      T.all(
-        T.Http({ method: "POST", uri: "/participant/cancel-authentication" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const CancelParticipantAuthenticationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    SessionId: S.String,
+    ConnectionToken: S.String.pipe(T.HttpHeader("X-Amz-Bearer")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/participant/cancel-authentication" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "CancelParticipantAuthenticationRequest",
 }) as any as S.Schema<CancelParticipantAuthenticationRequest>;
 export interface CancelParticipantAuthenticationResponse {}
-export const CancelParticipantAuthenticationResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+export const CancelParticipantAuthenticationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
 ).annotate({
   identifier: "CancelParticipantAuthenticationResponse",
 }) as any as S.Schema<CancelParticipantAuthenticationResponse>;
@@ -182,10 +173,7 @@ export const CompleteAttachmentUploadRequest = /*@__PURE__*/ S.suspend(() =>
     ConnectionToken: S.String.pipe(T.HttpHeader("X-Amz-Bearer")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/participant/complete-attachment-upload",
-      }),
+      T.Http({ method: "POST", uri: "/participant/complete-attachment-upload" }),
       svc,
       auth,
       proto,
@@ -222,14 +210,7 @@ export const CreateParticipantConnectionRequest = /*@__PURE__*/ S.suspend(() =>
     ParticipantToken: S.String.pipe(T.HttpHeader("X-Amz-Bearer")),
     ConnectParticipant: S.optional(S.Boolean),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/participant/connection" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/participant/connection" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "CreateParticipantConnectionRequest",
@@ -241,23 +222,15 @@ export interface Websocket {
   ConnectionExpiry?: string;
 }
 export const Websocket = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Url: S.optional(S.String),
-    ConnectionExpiry: S.optional(S.String),
-  }),
+  S.Struct({ Url: S.optional(S.String), ConnectionExpiry: S.optional(S.String) }),
 ).annotate({ identifier: "Websocket" }) as any as S.Schema<Websocket>;
 export interface ConnectionCredentials {
   ConnectionToken?: string;
   Expiry?: string;
 }
 export const ConnectionCredentials = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ConnectionToken: S.optional(S.String),
-    Expiry: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ConnectionCredentials",
-}) as any as S.Schema<ConnectionCredentials>;
+  S.Struct({ ConnectionToken: S.optional(S.String), Expiry: S.optional(S.String) }),
+).annotate({ identifier: "ConnectionCredentials" }) as any as S.Schema<ConnectionCredentials>;
 export type AttendeeId = string;
 export type JoinToken = string | redacted.Redacted<string>;
 export interface Attendee {
@@ -265,10 +238,7 @@ export interface Attendee {
   JoinToken?: string | redacted.Redacted<string>;
 }
 export const Attendee = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AttendeeId: S.optional(S.String),
-    JoinToken: S.optional(SensitiveString),
-  }),
+  S.Struct({ AttendeeId: S.optional(S.String), JoinToken: S.optional(SensitiveString) }),
 ).annotate({ identifier: "Attendee" }) as any as S.Schema<Attendee>;
 export type URI = string;
 export interface WebRTCMediaPlacement {
@@ -284,9 +254,7 @@ export const WebRTCMediaPlacement = /*@__PURE__*/ S.suspend(() =>
     SignalingUrl: S.optional(S.String),
     EventIngestionUrl: S.optional(S.String),
   }),
-).annotate({
-  identifier: "WebRTCMediaPlacement",
-}) as any as S.Schema<WebRTCMediaPlacement>;
+).annotate({ identifier: "WebRTCMediaPlacement" }) as any as S.Schema<WebRTCMediaPlacement>;
 export type MeetingFeatureStatus = "AVAILABLE" | "UNAVAILABLE" | (string & {});
 export const MeetingFeatureStatus = S.String;
 
@@ -322,13 +290,8 @@ export interface WebRTCConnection {
   Meeting?: WebRTCMeeting;
 }
 export const WebRTCConnection = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Attendee: S.optional(Attendee),
-    Meeting: S.optional(WebRTCMeeting),
-  }),
-).annotate({
-  identifier: "WebRTCConnection",
-}) as any as S.Schema<WebRTCConnection>;
+  S.Struct({ Attendee: S.optional(Attendee), Meeting: S.optional(WebRTCMeeting) }),
+).annotate({ identifier: "WebRTCConnection" }) as any as S.Schema<WebRTCConnection>;
 export interface CreateParticipantConnectionResponse {
   Websocket?: Websocket;
   ConnectionCredentials?: ConnectionCredentials;
@@ -362,9 +325,7 @@ export const DescribeViewRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DescribeViewRequest",
-}) as any as S.Schema<DescribeViewRequest>;
+).annotate({ identifier: "DescribeViewRequest" }) as any as S.Schema<DescribeViewRequest>;
 export type ViewId = string;
 export type ARN = string;
 export type ViewName = string | redacted.Redacted<string>;
@@ -407,9 +368,7 @@ export interface DescribeViewResponse {
 }
 export const DescribeViewResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ View: S.optional(View) }),
-).annotate({
-  identifier: "DescribeViewResponse",
-}) as any as S.Schema<DescribeViewResponse>;
+).annotate({ identifier: "DescribeViewResponse" }) as any as S.Schema<DescribeViewResponse>;
 export type ClientToken = string;
 export interface DisconnectParticipantRequest {
   ClientToken?: string;
@@ -420,22 +379,13 @@ export const DisconnectParticipantRequest = /*@__PURE__*/ S.suspend(() =>
     ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
     ConnectionToken: S.String.pipe(T.HttpHeader("X-Amz-Bearer")),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/participant/disconnect" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/participant/disconnect" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DisconnectParticipantRequest",
 }) as any as S.Schema<DisconnectParticipantRequest>;
 export interface DisconnectParticipantResponse {}
-export const DisconnectParticipantResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DisconnectParticipantResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DisconnectParticipantResponse",
 }) as any as S.Schema<DisconnectParticipantResponse>;
 export type URLExpiryInSeconds = number;
@@ -450,18 +400,9 @@ export const GetAttachmentRequest = /*@__PURE__*/ S.suspend(() =>
     ConnectionToken: S.String.pipe(T.HttpHeader("X-Amz-Bearer")),
     UrlExpiryInSeconds: S.optional(S.Number),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/participant/attachment" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/participant/attachment" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetAttachmentRequest",
-}) as any as S.Schema<GetAttachmentRequest>;
+).annotate({ identifier: "GetAttachmentRequest" }) as any as S.Schema<GetAttachmentRequest>;
 export type PreSignedAttachmentUrl = string;
 export type AttachmentSizeInBytes = number;
 export interface GetAttachmentResponse {
@@ -475,9 +416,7 @@ export const GetAttachmentResponse = /*@__PURE__*/ S.suspend(() =>
     UrlExpiry: S.optional(S.String),
     AttachmentSizeInBytes: S.Number,
   }),
-).annotate({
-  identifier: "GetAttachmentResponse",
-}) as any as S.Schema<GetAttachmentResponse>;
+).annotate({ identifier: "GetAttachmentResponse" }) as any as S.Schema<GetAttachmentResponse>;
 export type RedirectURI = string;
 export interface GetAuthenticationUrlRequest {
   SessionId: string;
@@ -554,18 +493,9 @@ export const GetTranscriptRequest = /*@__PURE__*/ S.suspend(() =>
     StartPosition: S.optional(StartPosition),
     ConnectionToken: S.String.pipe(T.HttpHeader("X-Amz-Bearer")),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/participant/transcript" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/participant/transcript" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetTranscriptRequest",
-}) as any as S.Schema<GetTranscriptRequest>;
+).annotate({ identifier: "GetTranscriptRequest" }) as any as S.Schema<GetTranscriptRequest>;
 export type ChatContent = string;
 export type ChatContentType = string;
 export type ChatItemType =
@@ -597,11 +527,7 @@ export const ParticipantRole = S.String;
 
 export type ContentType = string;
 export type AttachmentName = string;
-export type ArtifactStatus =
-  | "APPROVED"
-  | "REJECTED"
-  | "IN_PROGRESS"
-  | (string & {});
+export type ArtifactStatus = "APPROVED" | "REJECTED" | "IN_PROGRESS" | (string & {});
 export const ArtifactStatus = S.String;
 
 export interface AttachmentItem {
@@ -634,11 +560,7 @@ export const Receipt = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "Receipt" }) as any as S.Schema<Receipt>;
 export type Receipts = Receipt[];
 export const Receipts = /*@__PURE__*/ S.Array(Receipt);
-export type MessageProcessingStatus =
-  | "PROCESSING"
-  | "FAILED"
-  | "REJECTED"
-  | (string & {});
+export type MessageProcessingStatus = "PROCESSING" | "FAILED" | "REJECTED" | (string & {});
 export const MessageProcessingStatus = S.String;
 
 export interface MessageMetadata {
@@ -652,9 +574,7 @@ export const MessageMetadata = /*@__PURE__*/ S.suspend(() =>
     Receipts: S.optional(Receipts),
     MessageProcessingStatus: S.optional(MessageProcessingStatus),
   }),
-).annotate({
-  identifier: "MessageMetadata",
-}) as any as S.Schema<MessageMetadata>;
+).annotate({ identifier: "MessageMetadata" }) as any as S.Schema<MessageMetadata>;
 export interface Item {
   AbsoluteTime?: string;
   Content?: string;
@@ -698,9 +618,7 @@ export const GetTranscriptResponse = /*@__PURE__*/ S.suspend(() =>
     Transcript: S.optional(Transcript),
     NextToken: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetTranscriptResponse",
-}) as any as S.Schema<GetTranscriptResponse>;
+).annotate({ identifier: "GetTranscriptResponse" }) as any as S.Schema<GetTranscriptResponse>;
 export interface SendEventRequest {
   ContentType: string;
   Content?: string;
@@ -714,27 +632,16 @@ export const SendEventRequest = /*@__PURE__*/ S.suspend(() =>
     ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
     ConnectionToken: S.String.pipe(T.HttpHeader("X-Amz-Bearer")),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/participant/event" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/participant/event" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "SendEventRequest",
-}) as any as S.Schema<SendEventRequest>;
+).annotate({ identifier: "SendEventRequest" }) as any as S.Schema<SendEventRequest>;
 export interface SendEventResponse {
   Id?: string;
   AbsoluteTime?: string;
 }
 export const SendEventResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Id: S.optional(S.String), AbsoluteTime: S.optional(S.String) }),
-).annotate({
-  identifier: "SendEventResponse",
-}) as any as S.Schema<SendEventResponse>;
+).annotate({ identifier: "SendEventResponse" }) as any as S.Schema<SendEventResponse>;
 export interface SendMessageRequest {
   ContentType: string;
   Content: string;
@@ -748,18 +655,9 @@ export const SendMessageRequest = /*@__PURE__*/ S.suspend(() =>
     ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
     ConnectionToken: S.String.pipe(T.HttpHeader("X-Amz-Bearer")),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/participant/message" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/participant/message" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "SendMessageRequest",
-}) as any as S.Schema<SendMessageRequest>;
+).annotate({ identifier: "SendMessageRequest" }) as any as S.Schema<SendMessageRequest>;
 export interface MessageProcessingMetadata {
   MessageProcessingStatus?: MessageProcessingStatus;
 }
@@ -779,9 +677,7 @@ export const SendMessageResponse = /*@__PURE__*/ S.suspend(() =>
     AbsoluteTime: S.optional(S.String),
     MessageMetadata: S.optional(MessageProcessingMetadata),
   }),
-).annotate({
-  identifier: "SendMessageResponse",
-}) as any as S.Schema<SendMessageResponse>;
+).annotate({ identifier: "SendMessageResponse" }) as any as S.Schema<SendMessageResponse>;
 export interface StartAttachmentUploadRequest {
   ContentType: string;
   AttachmentSizeInBytes: number;
@@ -834,10 +730,7 @@ export interface StartAttachmentUploadResponse {
   UploadMetadata?: UploadMetadata;
 }
 export const StartAttachmentUploadResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AttachmentId: S.optional(S.String),
-    UploadMetadata: S.optional(UploadMetadata),
-  }),
+  S.Struct({ AttachmentId: S.optional(S.String), UploadMetadata: S.optional(UploadMetadata) }),
 ).annotate({
   identifier: "StartAttachmentUploadResponse",
 }) as any as S.Schema<StartAttachmentUploadResponse>;

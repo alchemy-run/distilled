@@ -24,7 +24,7 @@
     },
     {
       "op": "add",
-      "path": "/shapes/com.gcp.tagmanager_v2#BulkUpdateAccountsContainersWorkspaces/errors/-",
+      "path": "/shapes/com.gcp.tagmanager_v2#Bulk_updateAccountsContainersWorkspaces/errors/-",
       "value": {
         "target": "com.gcp.tagmanager_v2#InsufficientScopes"
       }
@@ -136,7 +136,7 @@
     },
     {
       "op": "add",
-      "path": "/shapes/com.gcp.tagmanager_v2#CreateVersionAccountsContainersWorkspaces/errors/-",
+      "path": "/shapes/com.gcp.tagmanager_v2#Create_versionAccountsContainersWorkspaces/errors/-",
       "value": {
         "target": "com.gcp.tagmanager_v2#InsufficientScopes"
       }
@@ -374,7 +374,7 @@
     },
     {
       "op": "add",
-      "path": "/shapes/com.gcp.tagmanager_v2#ImportFromGalleryAccountsContainersWorkspacesTemplates/errors/-",
+      "path": "/shapes/com.gcp.tagmanager_v2#Import_from_galleryAccountsContainersWorkspacesTemplates/errors/-",
       "value": {
         "target": "com.gcp.tagmanager_v2#InsufficientScopes"
       }
@@ -528,21 +528,21 @@
     },
     {
       "op": "add",
-      "path": "/shapes/com.gcp.tagmanager_v2#MoveEntitiesToFolderAccountsContainersWorkspacesFolders/errors/-",
+      "path": "/shapes/com.gcp.tagmanager_v2#Move_entities_to_folderAccountsContainersWorkspacesFolders/errors/-",
       "value": {
         "target": "com.gcp.tagmanager_v2#InsufficientScopes"
       }
     },
     {
       "op": "add",
-      "path": "/shapes/com.gcp.tagmanager_v2#MoveTagIdAccountsContainers/errors/-",
+      "path": "/shapes/com.gcp.tagmanager_v2#Move_tag_idAccountsContainers/errors/-",
       "value": {
         "target": "com.gcp.tagmanager_v2#InsufficientScopes"
       }
     },
     {
       "op": "add",
-      "path": "/shapes/com.gcp.tagmanager_v2#PreviewQuickAccountsContainersWorkspaces/errors/-",
+      "path": "/shapes/com.gcp.tagmanager_v2#Quick_previewAccountsContainersWorkspaces/errors/-",
       "value": {
         "target": "com.gcp.tagmanager_v2#InsufficientScopes"
       }

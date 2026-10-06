@@ -1,0 +1,45 @@
+{
+  "description": "AssetReferenceBase is polymorphic on `referenceType`; add the Id/DataPath/OutputPath members stripped by the base shape.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.machinelearningservices#AssetReferenceBase/members/assetId",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Id: ARM resource ID of the asset."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.machinelearningservices#AssetReferenceBase/members/datastoreId",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "DataPath: ARM resource ID of the datastore."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.machinelearningservices#AssetReferenceBase/members/path",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "DataPath/OutputPath: the path."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.machinelearningservices#AssetReferenceBase/members/jobId",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "OutputPath: ARM resource ID of the job."
+        }
+      }
+    }
+  ]
+}

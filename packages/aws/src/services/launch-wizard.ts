@@ -1,16 +1,13 @@
-import * as HttpClient from "effect/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
-const svc = T.AwsApiService({
-  sdkId: "Launch Wizard",
-  serviceShapeName: "LaunchWizard",
-});
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
+import * as T from "../traits.ts";
+const svc = T.AwsApiService({ sdkId: "Launch Wizard", serviceShapeName: "LaunchWizard" });
 const auth = T.AwsAuthSigv4({ name: "launchwizard" });
 const ver = T.ServiceVersion("2018-05-10");
 const proto = T.AwsProtocolsRestJson1();
@@ -26,14 +23,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -60,9 +53,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://launchwizard-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -70,13 +61,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://launchwizard.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://launchwizard.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://launchwizard.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -113,10 +100,7 @@ export type DeploymentName = string;
 export type KeyString = string;
 export type ValueString = string;
 export type DeploymentSpecifications = { [key: string]: string | undefined };
-export const DeploymentSpecifications = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const DeploymentSpecifications = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export type TagKey = string;
 export type TagValue = string;
 export type Tags = { [key: string]: string | undefined };
@@ -138,44 +122,24 @@ export const CreateDeploymentInput = /*@__PURE__*/ S.suspend(() =>
     dryRun: S.optional(S.Boolean),
     tags: S.optional(Tags),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/createDeployment" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/createDeployment" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "CreateDeploymentInput",
-}) as any as S.Schema<CreateDeploymentInput>;
+).annotate({ identifier: "CreateDeploymentInput" }) as any as S.Schema<CreateDeploymentInput>;
 export type DeploymentId = string;
 export interface CreateDeploymentOutput {
   deploymentId?: string;
 }
 export const CreateDeploymentOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ deploymentId: S.optional(S.String) }),
-).annotate({
-  identifier: "CreateDeploymentOutput",
-}) as any as S.Schema<CreateDeploymentOutput>;
+).annotate({ identifier: "CreateDeploymentOutput" }) as any as S.Schema<CreateDeploymentOutput>;
 export interface DeleteDeploymentInput {
   deploymentId: string;
 }
 export const DeleteDeploymentInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ deploymentId: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/deleteDeployment" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/deleteDeployment" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteDeploymentInput",
-}) as any as S.Schema<DeleteDeploymentInput>;
+).annotate({ identifier: "DeleteDeploymentInput" }) as any as S.Schema<DeleteDeploymentInput>;
 export type DeploymentStatus =
   | "COMPLETED"
   | "CREATING"
@@ -199,30 +163,16 @@ export interface DeleteDeploymentOutput {
   statusReason?: string;
 }
 export const DeleteDeploymentOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    status: S.optional(DeploymentStatus),
-    statusReason: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DeleteDeploymentOutput",
-}) as any as S.Schema<DeleteDeploymentOutput>;
+  S.Struct({ status: S.optional(DeploymentStatus), statusReason: S.optional(S.String) }),
+).annotate({ identifier: "DeleteDeploymentOutput" }) as any as S.Schema<DeleteDeploymentOutput>;
 export interface GetDeploymentInput {
   deploymentId: string;
 }
 export const GetDeploymentInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ deploymentId: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/getDeployment" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/getDeployment" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetDeploymentInput",
-}) as any as S.Schema<GetDeploymentInput>;
+).annotate({ identifier: "GetDeploymentInput" }) as any as S.Schema<GetDeploymentInput>;
 export interface DeploymentData {
   name?: string;
   id?: string;
@@ -258,9 +208,7 @@ export interface GetDeploymentOutput {
 }
 export const GetDeploymentOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ deployment: S.optional(DeploymentData) }),
-).annotate({
-  identifier: "GetDeploymentOutput",
-}) as any as S.Schema<GetDeploymentOutput>;
+).annotate({ identifier: "GetDeploymentOutput" }) as any as S.Schema<GetDeploymentOutput>;
 export type DeploymentPatternVersionName = string;
 export interface GetDeploymentPatternVersionInput {
   workloadName: string;
@@ -307,9 +255,7 @@ export interface GetDeploymentPatternVersionOutput {
   deploymentPatternVersion?: DeploymentPatternVersionDataSummary;
 }
 export const GetDeploymentPatternVersionOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    deploymentPatternVersion: S.optional(DeploymentPatternVersionDataSummary),
-  }),
+  S.Struct({ deploymentPatternVersion: S.optional(DeploymentPatternVersionDataSummary) }),
 ).annotate({
   identifier: "GetDeploymentPatternVersionOutput",
 }) as any as S.Schema<GetDeploymentPatternVersionOutput>;
@@ -318,30 +264,14 @@ export interface GetWorkloadInput {
 }
 export const GetWorkloadInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ workloadName: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/getWorkload" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/getWorkload" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetWorkloadInput",
-}) as any as S.Schema<GetWorkloadInput>;
-export type WorkloadStatus =
-  | "ACTIVE"
-  | "INACTIVE"
-  | "DISABLED"
-  | "DELETED"
-  | (string & {});
+).annotate({ identifier: "GetWorkloadInput" }) as any as S.Schema<GetWorkloadInput>;
+export type WorkloadStatus = "ACTIVE" | "INACTIVE" | "DISABLED" | "DELETED" | (string & {});
 export const WorkloadStatus = S.String;
 
 export interface ManagementAccountConstraint {}
-export const ManagementAccountConstraint = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const ManagementAccountConstraint = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "ManagementAccountConstraint",
 }) as any as S.Schema<ManagementAccountConstraint>;
 export type ServicePrincipalType = string;
@@ -350,9 +280,7 @@ export interface DelegatedAdminConstraint {
 }
 export const DelegatedAdminConstraint = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ servicePrincipal: S.String }),
-).annotate({
-  identifier: "DelegatedAdminConstraint",
-}) as any as S.Schema<DelegatedAdminConstraint>;
+).annotate({ identifier: "DelegatedAdminConstraint" }) as any as S.Schema<DelegatedAdminConstraint>;
 export type AccountConstraint =
   | { managementAccount: ManagementAccountConstraint; delegatedAdmin?: never }
   | { managementAccount?: never; delegatedAdmin: DelegatedAdminConstraint };
@@ -389,9 +317,7 @@ export interface GetWorkloadOutput {
 }
 export const GetWorkloadOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ workload: S.optional(WorkloadData) }),
-).annotate({
-  identifier: "GetWorkloadOutput",
-}) as any as S.Schema<GetWorkloadOutput>;
+).annotate({ identifier: "GetWorkloadOutput" }) as any as S.Schema<GetWorkloadOutput>;
 export interface GetWorkloadDeploymentPatternInput {
   workloadName: string;
   deploymentPatternName: string;
@@ -436,9 +362,7 @@ export const DeploymentConditionalField = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeploymentConditionalField",
 }) as any as S.Schema<DeploymentConditionalField>;
 export type SpecificationsConditionalData = DeploymentConditionalField[];
-export const SpecificationsConditionalData = /*@__PURE__*/ S.Array(
-  DeploymentConditionalField,
-);
+export const SpecificationsConditionalData = /*@__PURE__*/ S.Array(DeploymentConditionalField);
 export interface DeploymentSpecificationsField {
   name?: string;
   description?: string;
@@ -458,9 +382,7 @@ export const DeploymentSpecificationsField = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeploymentSpecificationsField",
 }) as any as S.Schema<DeploymentSpecificationsField>;
 export type DeploymentSpecificationsData = DeploymentSpecificationsField[];
-export const DeploymentSpecificationsData = /*@__PURE__*/ S.Array(
-  DeploymentSpecificationsField,
-);
+export const DeploymentSpecificationsData = /*@__PURE__*/ S.Array(DeploymentSpecificationsField);
 export interface WorkloadDeploymentPatternData {
   workloadName?: string;
   deploymentPatternName?: string;
@@ -493,9 +415,7 @@ export interface GetWorkloadDeploymentPatternOutput {
   workloadDeploymentPattern?: WorkloadDeploymentPatternData;
 }
 export const GetWorkloadDeploymentPatternOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    workloadDeploymentPattern: S.optional(WorkloadDeploymentPatternData),
-  }),
+  S.Struct({ workloadDeploymentPattern: S.optional(WorkloadDeploymentPatternData) }),
 ).annotate({
   identifier: "GetWorkloadDeploymentPatternOutput",
 }) as any as S.Schema<GetWorkloadDeploymentPatternOutput>;
@@ -512,14 +432,7 @@ export const ListDeploymentEventsInput = /*@__PURE__*/ S.suspend(() =>
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/listDeploymentEvents" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/listDeploymentEvents" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListDeploymentEventsInput",
@@ -539,10 +452,7 @@ export const EventStatus = S.String;
 export type DeploymentEventMetadataKey = string;
 export type DeploymentEventMetadataValue = string;
 export type DeploymentEventMetadata = { [key: string]: string | undefined };
-export const DeploymentEventMetadata = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const DeploymentEventMetadata = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface DeploymentEventDataSummary {
   name?: string;
   description?: string;
@@ -564,9 +474,7 @@ export const DeploymentEventDataSummary = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeploymentEventDataSummary",
 }) as any as S.Schema<DeploymentEventDataSummary>;
 export type DeploymentEventDataSummaryList = DeploymentEventDataSummary[];
-export const DeploymentEventDataSummaryList = /*@__PURE__*/ S.Array(
-  DeploymentEventDataSummary,
-);
+export const DeploymentEventDataSummaryList = /*@__PURE__*/ S.Array(DeploymentEventDataSummary);
 export interface ListDeploymentEventsOutput {
   deploymentEvents?: DeploymentEventDataSummary[];
   nextToken?: string;
@@ -580,16 +488,12 @@ export const ListDeploymentEventsOutput = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListDeploymentEventsOutput",
 }) as any as S.Schema<ListDeploymentEventsOutput>;
 export type MaxWorkloadResults = number;
-export type DeploymentPatternVersionFilterKey =
-  | "updateFromVersion"
-  | (string & {});
+export type DeploymentPatternVersionFilterKey = "updateFromVersion" | (string & {});
 export const DeploymentPatternVersionFilterKey = S.String;
 
 export type DeploymentPatternVersionFilterValue = string;
 export type DeploymentPatternVersionFilterValues = string[];
-export const DeploymentPatternVersionFilterValues = /*@__PURE__*/ S.Array(
-  S.String,
-);
+export const DeploymentPatternVersionFilterValues = /*@__PURE__*/ S.Array(S.String);
 export interface DeploymentPatternVersionFilter {
   name: DeploymentPatternVersionFilterKey;
   values: string[];
@@ -631,8 +535,7 @@ export const ListDeploymentPatternVersionsInput = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ListDeploymentPatternVersionsInput",
 }) as any as S.Schema<ListDeploymentPatternVersionsInput>;
-export type DeploymentPatternVersionDataSummaryList =
-  DeploymentPatternVersionDataSummary[];
+export type DeploymentPatternVersionDataSummaryList = DeploymentPatternVersionDataSummary[];
 export const DeploymentPatternVersionDataSummaryList = /*@__PURE__*/ S.Array(
   DeploymentPatternVersionDataSummary,
 );
@@ -642,18 +545,13 @@ export interface ListDeploymentPatternVersionsOutput {
 }
 export const ListDeploymentPatternVersionsOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    deploymentPatternVersions: S.optional(
-      DeploymentPatternVersionDataSummaryList,
-    ),
+    deploymentPatternVersions: S.optional(DeploymentPatternVersionDataSummaryList),
     nextToken: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ListDeploymentPatternVersionsOutput",
 }) as any as S.Schema<ListDeploymentPatternVersionsOutput>;
-export type DeploymentFilterKey =
-  | "WORKLOAD_NAME"
-  | "DEPLOYMENT_STATUS"
-  | (string & {});
+export type DeploymentFilterKey = "WORKLOAD_NAME" | "DEPLOYMENT_STATUS" | (string & {});
 export const DeploymentFilterKey = S.String;
 
 export type DeploymentFilterValue = string;
@@ -664,13 +562,8 @@ export interface DeploymentFilter {
   values?: string[];
 }
 export const DeploymentFilter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(DeploymentFilterKey),
-    values: S.optional(DeploymentFilterValues),
-  }),
-).annotate({
-  identifier: "DeploymentFilter",
-}) as any as S.Schema<DeploymentFilter>;
+  S.Struct({ name: S.optional(DeploymentFilterKey), values: S.optional(DeploymentFilterValues) }),
+).annotate({ identifier: "DeploymentFilter" }) as any as S.Schema<DeploymentFilter>;
 export type DeploymentFilterList = DeploymentFilter[];
 export const DeploymentFilterList = /*@__PURE__*/ S.Array(DeploymentFilter);
 export type MaxDeploymentResults = number;
@@ -684,19 +577,8 @@ export const ListDeploymentsInput = /*@__PURE__*/ S.suspend(() =>
     filters: S.optional(DeploymentFilterList),
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/listDeployments" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListDeploymentsInput",
-}) as any as S.Schema<ListDeploymentsInput>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/listDeployments" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "ListDeploymentsInput" }) as any as S.Schema<ListDeploymentsInput>;
 export interface DeploymentDataSummary {
   name?: string;
   id?: string;
@@ -716,42 +598,24 @@ export const DeploymentDataSummary = /*@__PURE__*/ S.suspend(() =>
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     modifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
-).annotate({
-  identifier: "DeploymentDataSummary",
-}) as any as S.Schema<DeploymentDataSummary>;
+).annotate({ identifier: "DeploymentDataSummary" }) as any as S.Schema<DeploymentDataSummary>;
 export type DeploymentDataSummaryList = DeploymentDataSummary[];
-export const DeploymentDataSummaryList = /*@__PURE__*/ S.Array(
-  DeploymentDataSummary,
-);
+export const DeploymentDataSummaryList = /*@__PURE__*/ S.Array(DeploymentDataSummary);
 export interface ListDeploymentsOutput {
   deployments?: DeploymentDataSummary[];
   nextToken?: string;
 }
 export const ListDeploymentsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    deployments: S.optional(DeploymentDataSummaryList),
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListDeploymentsOutput",
-}) as any as S.Schema<ListDeploymentsOutput>;
+  S.Struct({ deployments: S.optional(DeploymentDataSummaryList), nextToken: S.optional(S.String) }),
+).annotate({ identifier: "ListDeploymentsOutput" }) as any as S.Schema<ListDeploymentsOutput>;
 export interface ListTagsForResourceInput {
   resourceArn: string;
 }
 export const ListTagsForResourceInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "ListTagsForResourceInput",
-}) as any as S.Schema<ListTagsForResourceInput>;
+).annotate({ identifier: "ListTagsForResourceInput" }) as any as S.Schema<ListTagsForResourceInput>;
 export interface ListTagsForResourceOutput {
   tags?: { [key: string]: string | undefined };
 }
@@ -795,24 +659,22 @@ export interface WorkloadDeploymentPatternDataSummary {
   statusMessage?: string;
   accountConstraints?: AccountConstraint[];
 }
-export const WorkloadDeploymentPatternDataSummary = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      workloadName: S.optional(S.String),
-      deploymentPatternName: S.optional(S.String),
-      workloadVersionName: S.optional(S.String),
-      deploymentPatternVersionName: S.optional(S.String),
-      displayName: S.optional(S.String),
-      description: S.optional(S.String),
-      status: S.optional(WorkloadDeploymentPatternStatus),
-      statusMessage: S.optional(S.String),
-      accountConstraints: S.optional(AccountConstraintsList),
-    }),
+export const WorkloadDeploymentPatternDataSummary = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    workloadName: S.optional(S.String),
+    deploymentPatternName: S.optional(S.String),
+    workloadVersionName: S.optional(S.String),
+    deploymentPatternVersionName: S.optional(S.String),
+    displayName: S.optional(S.String),
+    description: S.optional(S.String),
+    status: S.optional(WorkloadDeploymentPatternStatus),
+    statusMessage: S.optional(S.String),
+    accountConstraints: S.optional(AccountConstraintsList),
+  }),
 ).annotate({
   identifier: "WorkloadDeploymentPatternDataSummary",
 }) as any as S.Schema<WorkloadDeploymentPatternDataSummary>;
-export type WorkloadDeploymentPatternDataSummaryList =
-  WorkloadDeploymentPatternDataSummary[];
+export type WorkloadDeploymentPatternDataSummaryList = WorkloadDeploymentPatternDataSummary[];
 export const WorkloadDeploymentPatternDataSummaryList = /*@__PURE__*/ S.Array(
   WorkloadDeploymentPatternDataSummary,
 );
@@ -820,14 +682,11 @@ export interface ListWorkloadDeploymentPatternsOutput {
   workloadDeploymentPatterns?: WorkloadDeploymentPatternDataSummary[];
   nextToken?: string;
 }
-export const ListWorkloadDeploymentPatternsOutput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      workloadDeploymentPatterns: S.optional(
-        WorkloadDeploymentPatternDataSummaryList,
-      ),
-      nextToken: S.optional(S.String),
-    }),
+export const ListWorkloadDeploymentPatternsOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    workloadDeploymentPatterns: S.optional(WorkloadDeploymentPatternDataSummaryList),
+    nextToken: S.optional(S.String),
+  }),
 ).annotate({
   identifier: "ListWorkloadDeploymentPatternsOutput",
 }) as any as S.Schema<ListWorkloadDeploymentPatternsOutput>;
@@ -836,22 +695,10 @@ export interface ListWorkloadsInput {
   nextToken?: string;
 }
 export const ListWorkloadsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    maxResults: S.optional(S.Number),
-    nextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/listWorkloads" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+  S.Struct({ maxResults: S.optional(S.Number), nextToken: S.optional(S.String) }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/listWorkloads" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "ListWorkloadsInput",
-}) as any as S.Schema<ListWorkloadsInput>;
+).annotate({ identifier: "ListWorkloadsInput" }) as any as S.Schema<ListWorkloadsInput>;
 export interface WorkloadDataSummary {
   workloadName?: string;
   displayName?: string;
@@ -865,49 +712,27 @@ export const WorkloadDataSummary = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(WorkloadStatus),
     accountConstraints: S.optional(AccountConstraintsList),
   }),
-).annotate({
-  identifier: "WorkloadDataSummary",
-}) as any as S.Schema<WorkloadDataSummary>;
+).annotate({ identifier: "WorkloadDataSummary" }) as any as S.Schema<WorkloadDataSummary>;
 export type WorkloadDataSummaryList = WorkloadDataSummary[];
-export const WorkloadDataSummaryList =
-  /*@__PURE__*/ S.Array(WorkloadDataSummary);
+export const WorkloadDataSummaryList = /*@__PURE__*/ S.Array(WorkloadDataSummary);
 export interface ListWorkloadsOutput {
   workloads?: WorkloadDataSummary[];
   nextToken?: string;
 }
 export const ListWorkloadsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    workloads: S.optional(WorkloadDataSummaryList),
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListWorkloadsOutput",
-}) as any as S.Schema<ListWorkloadsOutput>;
+  S.Struct({ workloads: S.optional(WorkloadDataSummaryList), nextToken: S.optional(S.String) }),
+).annotate({ identifier: "ListWorkloadsOutput" }) as any as S.Schema<ListWorkloadsOutput>;
 export interface TagResourceInput {
   resourceArn: string;
   tags: { [key: string]: string | undefined };
 }
 export const TagResourceInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-    tags: Tags,
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tags: Tags }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "TagResourceInput",
-}) as any as S.Schema<TagResourceInput>;
+).annotate({ identifier: "TagResourceInput" }) as any as S.Schema<TagResourceInput>;
 export interface TagResourceOutput {}
-export const TagResourceOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const TagResourceOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceOutput",
 }) as any as S.Schema<TagResourceOutput>;
 export type TagKeyList = string[];
@@ -921,22 +746,11 @@ export const UntagResourceInput = /*@__PURE__*/ S.suspend(() =>
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
   }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UntagResourceInput",
-}) as any as S.Schema<UntagResourceInput>;
+).annotate({ identifier: "UntagResourceInput" }) as any as S.Schema<UntagResourceInput>;
 export interface UntagResourceOutput {}
-export const UntagResourceOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UntagResourceOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceOutput",
 }) as any as S.Schema<UntagResourceOutput>;
 export interface UpdateDeploymentInput {
@@ -956,26 +770,15 @@ export const UpdateDeploymentInput = /*@__PURE__*/ S.suspend(() =>
     dryRun: S.optional(S.Boolean),
     force: S.optional(S.Boolean),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/updateDeployment" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/updateDeployment" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UpdateDeploymentInput",
-}) as any as S.Schema<UpdateDeploymentInput>;
+).annotate({ identifier: "UpdateDeploymentInput" }) as any as S.Schema<UpdateDeploymentInput>;
 export interface UpdateDeploymentOutput {
   deployment?: DeploymentDataSummary;
 }
 export const UpdateDeploymentOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ deployment: S.optional(DeploymentDataSummary) }),
-).annotate({
-  identifier: "UpdateDeploymentOutput",
-}) as any as S.Schema<UpdateDeploymentOutput>;
+).annotate({ identifier: "UpdateDeploymentOutput" }) as any as S.Schema<UpdateDeploymentOutput>;
 export type CreateDeploymentError =
   | InternalServerException
   | ResourceLimitException
@@ -1048,11 +851,7 @@ export const getDeployment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetDeploymentInput,
   output: GetDeploymentOutput,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDeployment",
@@ -1095,11 +894,7 @@ export const getWorkload: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetWorkloadInput,
   output: GetWorkloadOutput,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWorkload",
@@ -1121,11 +916,7 @@ export const getWorkloadDeploymentPattern: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetWorkloadDeploymentPatternInput,
   output: GetWorkloadDeploymentPatternOutput,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWorkloadDeploymentPattern",
@@ -1148,11 +939,7 @@ export const listDeploymentEvents: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListDeploymentEventsInput,
   output: ListDeploymentEventsOutput,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDeploymentEvents",
@@ -1181,11 +968,7 @@ export const listDeploymentPatternVersions: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListDeploymentPatternVersionsInput,
   output: ListDeploymentPatternVersionsOutput,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDeploymentPatternVersions",
@@ -1197,10 +980,7 @@ export const listDeploymentPatternVersions: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListDeploymentsError =
-  | InternalServerException
-  | ValidationException
-  | CommonErrors;
+export type ListDeploymentsError = InternalServerException | ValidationException | CommonErrors;
 /**
  * Lists the deployments that have been created.
  */
@@ -1241,11 +1021,7 @@ export const listTagsForResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListTagsForResourceInput,
   output: ListTagsForResourceOutput,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
@@ -1268,11 +1044,7 @@ export const listWorkloadDeploymentPatterns: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListWorkloadDeploymentPatternsInput,
   output: ListWorkloadDeploymentPatternsOutput,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListWorkloadDeploymentPatterns",
@@ -1284,10 +1056,7 @@ export const listWorkloadDeploymentPatterns: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListWorkloadsError =
-  | InternalServerException
-  | ValidationException
-  | CommonErrors;
+export type ListWorkloadsError = InternalServerException | ValidationException | CommonErrors;
 /**
  * Lists the available workload names. You can use the ListWorkloadDeploymentPatterns operation to discover the available deployment patterns for a given workload.
  */
@@ -1328,11 +1097,7 @@ export const tagResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: TagResourceInput,
   output: TagResourceOutput,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
@@ -1354,11 +1119,7 @@ export const untagResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UntagResourceInput,
   output: UntagResourceOutput,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",

@@ -1,5 +1,18 @@
-import type { ParsedIniData } from "@smithy/types";
-import { IniSectionType } from "@smithy/types";
+/** Section prefixes the shared config files use (`[profile x]`, `[sso-session x]`, `[services x]`). */
+export const IniSectionType = {
+  PROFILE: "profile",
+  SSO_SESSION: "sso-session",
+  SERVICES: "services",
+} as const;
+export type IniSectionType = (typeof IniSectionType)[keyof typeof IniSectionType];
+
+export type IniSection = Record<string, string | undefined>;
+export type ParsedIniData = Record<string, IniSection>;
+
+export interface SharedConfigFiles {
+  credentialsFile: ParsedIniData;
+  configFile: ParsedIniData;
+}
 
 const separator = ".";
 
@@ -53,9 +66,7 @@ export const parseIni = (iniData: string): ParsedIniData => {
             currentSubSection = undefined;
           }
           map[currentSection] = map[currentSection] || {};
-          const key = currentSubSection
-            ? [currentSubSection, name].join(separator)
-            : name;
+          const key = currentSubSection ? [currentSubSection, name].join(separator) : name;
           map[currentSection][key] = value;
         }
       }

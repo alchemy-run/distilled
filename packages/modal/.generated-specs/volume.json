@@ -354,6 +354,12 @@
         },
         "len": {
           "target": "smithy.api#String"
+        },
+        "clientPadsBlocks": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "0 is interpreted as 'read to end' The client extends each block body it downloads with zero bytes up to the block's expected length, so responses may omit trailing zero bytes."
+          }
         }
       },
       "traits": {

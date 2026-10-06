@@ -472,7 +472,13 @@
         "filter": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Optional Logpush filter predicate to restrict which events are ingested. If provided, replaces the dataset's default filter entirely. See [Logpush filters](https://developers.cloudflare.com/logs/reference/filters/) for syntax and examples."
+            "smithy.api#documentation": "Optional Logpush filter predicate to restrict which events are ingested. See [Logpush filters](https://developers.cloudflare.com/logs/reference/filters/) for syntax and examples."
+          }
+        },
+        "filter_attack_traffic": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether to filter attack traffic from the Logpush job. Defaults to `true` for supported datasets when omitted. Supported datasets are `http_requests`, `firewall_events`, and `network_analytics_logs`."
           }
         }
       },
@@ -524,7 +530,13 @@
         "filter": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Optional Logpush filter predicate to restrict which events are ingested. If provided, replaces the dataset's default filter entirely. See [Logpush filters](https://developers.cloudflare.com/logs/reference/filters/) for syntax and examples."
+            "smithy.api#documentation": "Optional Logpush filter predicate to restrict which events are ingested. See [Logpush filters](https://developers.cloudflare.com/logs/reference/filters/) for syntax and examples."
+          }
+        },
+        "filter_attack_traffic": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether to filter attack traffic from the Logpush job. Defaults to `true` for supported datasets when omitted. Supported datasets are `http_requests`, `firewall_events`, and `network_analytics_logs`."
           }
         }
       },
@@ -1292,6 +1304,12 @@
           "traits": {
             "smithy.api#documentation": "Optional Logpush filter predicate to restrict which events are ingested. If omitted, the existing filter is left unchanged. Set to an empty string (`\"\"`) to clear the filter. Otherwise, replaces the dataset's filter entirely. See [Logpush filters](https://developers.cloudflare.com/logs/reference/filters/) for syntax and examples."
           }
+        },
+        "filter_attack_traffic": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether to filter attack traffic from the Logpush job. If omitted, the existing setting is left unchanged. Supported datasets are `http_requests`, `firewall_events`, and `network_analytics_logs`."
+          }
         }
       },
       "traits": {
@@ -1357,6 +1375,12 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "Optional Logpush filter predicate to restrict which events are ingested. If omitted, the existing filter is left unchanged. Set to an empty string (`\"\"`) to clear the filter. Otherwise, replaces the dataset's filter entirely. See [Logpush filters](https://developers.cloudflare.com/logs/reference/filters/) for syntax and examples."
+          }
+        },
+        "filter_attack_traffic": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether to filter attack traffic from the Logpush job. If omitted, the existing setting is left unchanged. Supported datasets are `http_requests`, `firewall_events`, and `network_analytics_logs`."
           }
         }
       },
@@ -1803,6 +1827,12 @@
           "traits": {
             "smithy.api#documentation": "The Logpush filter predicate applied to this dataset. Omitted when no filter is set."
           }
+        },
+        "filter_attack_traffic": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the Logpush job filters attack traffic. Omitted for datasets that do not support this option."
+          }
         }
       },
       "traits": {
@@ -1896,6 +1926,12 @@
           "traits": {
             "smithy.api#documentation": "The Logpush filter predicate applied to this dataset. Omitted when no filter is set."
           }
+        },
+        "filter_attack_traffic": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the Logpush job filters attack traffic. Omitted for datasets that do not support this option."
+          }
         }
       },
       "traits": {
@@ -1973,6 +2009,12 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The Logpush filter predicate applied to this dataset. Omitted when no filter is set."
+          }
+        },
+        "filter_attack_traffic": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the Logpush job filters attack traffic. Omitted for datasets that do not support this option."
           }
         }
       },
@@ -2090,6 +2132,12 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The Logpush filter predicate applied to this dataset. Omitted when no filter is set."
+          }
+        },
+        "filter_attack_traffic": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the Logpush job filters attack traffic. Omitted for datasets that do not support this option."
           }
         }
       },

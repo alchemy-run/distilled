@@ -1,16 +1,13 @@
-import * as HttpClient from "effect/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
-const svc = T.AwsApiService({
-  sdkId: "Lambda Core",
-  serviceShapeName: "LambdaCoreApiService",
-});
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
+import * as T from "../traits.ts";
+const svc = T.AwsApiService({ sdkId: "Lambda Core", serviceShapeName: "LambdaCoreApiService" });
 const auth = T.AwsAuthSigv4({ name: "lambda" });
 const ver = T.ServiceVersion("2026-04-30");
 const proto = T.AwsProtocolsRestJson1();
@@ -26,14 +23,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -56,13 +49,9 @@ const rules = T.EndpointResolver((p, _) => {
         }
         if (UseFIPS === true) {
           if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            return e(
-              `https://lambda-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
+            return e(`https://lambda-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -70,13 +59,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://lambda.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://lambda.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://lambda.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -86,46 +71,31 @@ const rules = T.EndpointResolver((p, _) => {
 export class InvalidParameterValueException
   extends /*@__PURE__*/ S.TaggedError<InvalidParameterValueException>()(
     "InvalidParameterValueException",
-    {
-      Type: S.optional(S.String),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
+    { Type: S.optional(S.String), message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export class NetworkConnectorLimitExceededException
   extends /*@__PURE__*/ S.TaggedError<NetworkConnectorLimitExceededException>()(
     "NetworkConnectorLimitExceededException",
-    {
-      Type: S.optional(S.String),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
+    { Type: S.optional(S.String), message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export class ResourceConflictException
   extends /*@__PURE__*/ S.TaggedError<ResourceConflictException>()(
     "ResourceConflictException",
-    {
-      Type: S.optional(S.String),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
+    { Type: S.optional(S.String), message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.HttpError(409),
   ).pipe(C.withConflictError) {}
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",
-    {
-      Type: S.optional(S.String),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
+    { Type: S.optional(S.String), message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.HttpError(404),
   ).pipe(C.withBadRequestError) {}
 export class ServiceException
   extends /*@__PURE__*/ S.TaggedError<ServiceException>()(
     "ServiceException",
-    {
-      Type: S.optional(S.String),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
+    { Type: S.optional(S.String), message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.HttpError(500),
   ).pipe(C.withServerError) {}
 export class TooManyRequestsException
@@ -136,9 +106,7 @@ export class TooManyRequestsException
       Type: S.optional(S.String),
       message: S.optional(S.String).pipe(T.ErrorMessage()),
       Reason: S.optional(
-        S.suspend(() => ThrottleReason).annotate({
-          identifier: "ThrottleReason",
-        }),
+        S.suspend(() => ThrottleReason).annotate({ identifier: "ThrottleReason" }),
       ),
     },
     T.HttpError(429),
@@ -157,24 +125,20 @@ export type ComputeResourceType = "MicroVm" | (string & {});
 export const ComputeResourceType = S.String;
 
 export type AssociatedComputeResourceTypesList = ComputeResourceType[];
-export const AssociatedComputeResourceTypesList =
-  /*@__PURE__*/ S.Array(ComputeResourceType);
+export const AssociatedComputeResourceTypesList = /*@__PURE__*/ S.Array(ComputeResourceType);
 export interface NetworkConnectorVpcEgressConfiguration {
   SubnetIds?: string[];
   SecurityGroupIds?: string[];
   NetworkProtocol?: NetworkProtocol;
   AssociatedComputeResourceTypes?: ComputeResourceType[];
 }
-export const NetworkConnectorVpcEgressConfiguration = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      SubnetIds: S.optional(NetworkConnectorSubnetIds),
-      SecurityGroupIds: S.optional(NetworkConnectorSecurityGroupIds),
-      NetworkProtocol: S.optional(NetworkProtocol),
-      AssociatedComputeResourceTypes: S.optional(
-        AssociatedComputeResourceTypesList,
-      ),
-    }),
+export const NetworkConnectorVpcEgressConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    SubnetIds: S.optional(NetworkConnectorSubnetIds),
+    SecurityGroupIds: S.optional(NetworkConnectorSecurityGroupIds),
+    NetworkProtocol: S.optional(NetworkProtocol),
+    AssociatedComputeResourceTypes: S.optional(AssociatedComputeResourceTypesList),
+  }),
 ).annotate({
   identifier: "NetworkConnectorVpcEgressConfiguration",
 }) as any as S.Schema<NetworkConnectorVpcEgressConfiguration>;
@@ -189,10 +153,7 @@ export type ClientTokenString = string;
 export type NetworkConnectorTagKey = string;
 export type NetworkConnectorTagValue = string;
 export type NetworkConnectorTags = { [key: string]: string | undefined };
-export const NetworkConnectorTags = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const NetworkConnectorTags = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface CreateNetworkConnectorRequest {
   Name: string;
   Configuration: NetworkConnectorConfiguration;
@@ -259,10 +220,7 @@ export interface DeleteNetworkConnectorRequest {
 export const DeleteNetworkConnectorRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Identifier: S.String.pipe(T.HttpLabel("Identifier")) }).pipe(
     T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/2026-04-04/network-connectors/{Identifier}",
-      }),
+      T.Http({ method: "DELETE", uri: "/2026-04-04/network-connectors/{Identifier}" }),
       svc,
       auth,
       proto,
@@ -299,10 +257,7 @@ export interface GetNetworkConnectorRequest {
 export const GetNetworkConnectorRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Identifier: S.String.pipe(T.HttpLabel("Identifier")) }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/2026-04-04/network-connectors/{Identifier}",
-      }),
+      T.Http({ method: "GET", uri: "/2026-04-04/network-connectors/{Identifier}" }),
       svc,
       auth,
       proto,
@@ -373,12 +328,8 @@ export const GetNetworkConnectorResponse = /*@__PURE__*/ S.suspend(() =>
     StateReasonCode: S.optional(NetworkConnectorStateReasonCode),
     LastUpdateStatus: S.optional(NetworkConnectorLastUpdateStatus),
     LastUpdateStatusReason: S.optional(S.String),
-    LastUpdateStatusReasonCode: S.optional(
-      NetworkConnectorLastUpdateStatusReasonCode,
-    ),
-    LastModified: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    LastUpdateStatusReasonCode: S.optional(NetworkConnectorLastUpdateStatusReasonCode),
+    LastModified: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotate({
   identifier: "GetNetworkConnectorResponse",
@@ -425,26 +376,17 @@ export const NetworkConnectorSummary = /*@__PURE__*/ S.suspend(() =>
     Id: S.String,
     Type: NetworkConnectorType,
     State: S.optional(NetworkConnectorState),
-    LastModified: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    LastModified: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
-).annotate({
-  identifier: "NetworkConnectorSummary",
-}) as any as S.Schema<NetworkConnectorSummary>;
+).annotate({ identifier: "NetworkConnectorSummary" }) as any as S.Schema<NetworkConnectorSummary>;
 export type NetworkConnectorsList = NetworkConnectorSummary[];
-export const NetworkConnectorsList = /*@__PURE__*/ S.Array(
-  NetworkConnectorSummary,
-);
+export const NetworkConnectorsList = /*@__PURE__*/ S.Array(NetworkConnectorSummary);
 export interface ListNetworkConnectorsResponse {
   NetworkConnectors: NetworkConnectorSummary[];
   NextMarker?: string;
 }
 export const ListNetworkConnectorsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NetworkConnectors: NetworkConnectorsList,
-    NextMarker: S.optional(S.String),
-  }),
+  S.Struct({ NetworkConnectors: NetworkConnectorsList, NextMarker: S.optional(S.String) }),
 ).annotate({
   identifier: "ListNetworkConnectorsResponse",
 }) as any as S.Schema<ListNetworkConnectorsResponse>;
@@ -462,10 +404,7 @@ export const UpdateNetworkConnectorRequest = /*@__PURE__*/ S.suspend(() =>
     ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
   }).pipe(
     T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/2026-04-04/network-connectors/{Identifier}",
-      }),
+      T.Http({ method: "PUT", uri: "/2026-04-04/network-connectors/{Identifier}" }),
       svc,
       auth,
       proto,
@@ -497,9 +436,7 @@ export const UpdateNetworkConnectorResponse = /*@__PURE__*/ S.suspend(() =>
     State: S.optional(NetworkConnectorState),
     LastUpdateStatus: S.optional(NetworkConnectorLastUpdateStatus),
     LastUpdateStatusReason: S.optional(S.String),
-    LastModified: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    LastModified: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotate({
   identifier: "UpdateNetworkConnectorResponse",
@@ -629,11 +566,7 @@ export const listNetworkConnectors: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListNetworkConnectorsRequest,
   output: ListNetworkConnectorsResponse,
-  errors: [
-    InvalidParameterValueException,
-    ServiceException,
-    TooManyRequestsException,
-  ],
+  errors: [InvalidParameterValueException, ServiceException, TooManyRequestsException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListNetworkConnectors",

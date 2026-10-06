@@ -87,6 +87,12 @@
       "path": "./packages/huggingface/tsconfig.scripts.json"
     },
     {
+      "path": "./packages/iceberg/tsconfig.json"
+    },
+    {
+      "path": "./packages/iceberg/tsconfig.scripts.json"
+    },
+    {
       "path": "./packages/kubernetes/tsconfig.json"
     },
     {

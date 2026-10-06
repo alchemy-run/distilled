@@ -1,0 +1,290 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.posthog.desktop_feedback#DesktopFeedbackSourceEnum": {
+      "type": "enum",
+      "members": {
+        "GENERIC_LEAVE_FEEDBACK_BUTTON": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Generic (Leave feedback button)"
+          }
+        },
+        "VISITING_POSTHOG_WEB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Visiting PostHog web"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `Generic (Leave feedback button)` - Leave Feedback\n* `Visiting PostHog web` - Posthog Web"
+      }
+    },
+    "com.posthog.desktop_feedback#DesktopFeedbackTypeEnum": {
+      "type": "enum",
+      "members": {
+        "BUG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bug"
+          }
+        },
+        "FEATURE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "feature"
+          }
+        },
+        "GENERAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "general"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `bug` - Bug\n* `feature` - Feature\n* `general` - General"
+      }
+    },
+    "com.posthog.desktop_feedback#CreateDesktopFeedbackRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "response": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Feedback text entered by the user.",
+            "smithy.api#required": {}
+          }
+        },
+        "source": {
+          "target": "com.posthog.desktop_feedback#DesktopFeedbackSourceEnum",
+          "traits": {
+            "smithy.api#documentation": "Desktop surface that opened the feedback form.\n\n* `Generic (Leave feedback button)` - Leave Feedback\n* `Visiting PostHog web` - Posthog Web",
+            "smithy.api#required": {}
+          }
+        },
+        "feedback_view": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Desktop view that was active when the feedback form opened.",
+            "smithy.api#required": {}
+          }
+        },
+        "feedback_type": {
+          "target": "com.posthog.desktop_feedback#DesktopFeedbackTypeEnum",
+          "traits": {
+            "smithy.api#documentation": "Feedback type selected by the user: bug, feature, or general.\n\n* `bug` - Bug\n* `feature` - Feature\n* `general` - General"
+          }
+        },
+        "feedback_task_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Task that was active when the feedback form opened."
+          }
+        },
+        "feedback_folder_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Folder that was active when the feedback form opened."
+          }
+        },
+        "feedback_app_logs": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Recent Desktop logs that the user chose to include."
+          }
+        },
+        "app_version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Version of PostHog Desktop that submitted the feedback."
+          }
+        },
+        "session_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "PostHog session recording identifier for the Desktop session."
+          }
+        },
+        "screenshot": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Screenshot that the user chose to include."
+          }
+        },
+        "image_1": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "First image that the user attached."
+          }
+        },
+        "image_2": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Second image that the user attached."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.desktop_feedback#DesktopFeedbackResponse": {
+      "type": "structure",
+      "members": {
+        "accepted": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the feedback response was accepted.",
+            "smithy.api#required": {}
+          }
+        },
+        "response_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier of the survey response event.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.desktop_feedback#CreateDesktopFeedback": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.desktop_feedback#CreateDesktopFeedbackRequest"
+      },
+      "output": {
+        "target": "com.posthog.desktop_feedback#DesktopFeedbackResponse"
+      },
+      "errors": [
+        {
+          "target": "com.posthog.desktop_feedback#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/desktop_feedback/",
+          "code": 200,
+          "contentType": "form-urlencoded"
+        },
+        "smithy.api#documentation": "Submit Desktop feedback\n\nStores selected attachments and submits one response to the PostHog Desktop feedback survey.",
+        "com.distilled.openapi#contentType": "form-urlencoded"
+      }
+    },
+    "com.posthog.desktop_feedback#GetDesktopFeedbackAttachmentRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "media_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Feedback attachment identifier."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.desktop_feedback#GetDesktopFeedbackAttachment": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.desktop_feedback#GetDesktopFeedbackAttachmentRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.posthog.desktop_feedback#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/desktop_feedback/attachments/{media_id}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Download a Desktop feedback attachment\n\nReturns an unexpired attachment to a user with access to the internal feedback project."
+      }
+    },
+    "com.posthog.desktop_feedback#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.posthog.desktop_feedback#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.posthog.desktop_feedback#DesktopFeedback": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.posthog.desktop_feedback#CreateDesktopFeedback"
+        },
+        {
+          "target": "com.posthog.desktop_feedback#GetDesktopFeedbackAttachment"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "PostHog API"
+      }
+    }
+  }
+}

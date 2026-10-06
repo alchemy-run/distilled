@@ -28,10 +28,7 @@ export const readPackages = async (packagesDir: string): Promise<Pkg[]> => {
       continue;
     }
     if (pkg.private === true) continue;
-    if (
-      typeof pkg.name !== "string" ||
-      !pkg.name.startsWith("@distilled.cloud/")
-    ) {
+    if (typeof pkg.name !== "string" || !pkg.name.startsWith("@distilled.cloud/")) {
       continue;
     }
     packages.push({
@@ -52,17 +49,7 @@ export const readPackages = async (packagesDir: string): Promise<Pkg[]> => {
 export const GROUPS: ReadonlyArray<readonly [string, ReadonlyArray<string>]> = [
   [
     "Clouds",
-    [
-      "aws",
-      "azure",
-      "gcp",
-      "cloudflare",
-      "digitalocean",
-      "hetzner",
-      "ovh",
-      "hostinger",
-      "stackit",
-    ],
+    ["aws", "azure", "gcp", "cloudflare", "digitalocean", "hetzner", "ovh", "hostinger", "stackit"],
   ],
   [
     "Platforms",
@@ -91,6 +78,7 @@ export const GROUPS: ReadonlyArray<readonly [string, ReadonlyArray<string>]> = [
       "planetscale",
       "prisma",
       "s2",
+      "iceberg",
       "turso",
       "xata",
       "mongodb-atlas",
@@ -105,23 +93,10 @@ export const GROUPS: ReadonlyArray<readonly [string, ReadonlyArray<string>]> = [
     ],
   ],
   ["Identity", ["auth0", "better-auth", "clerk", "workos", "okta"]],
-  [
-    "Secrets & certificates",
-    ["onepassword", "doppler", "infisical", "unkey", "acme", "zerossl"],
-  ],
+  ["Secrets & certificates", ["onepassword", "doppler", "infisical", "unkey", "acme", "zerossl"]],
   [
     "Payments",
-    [
-      "stripe",
-      "adyen",
-      "paypal",
-      "plaid",
-      "coinbase",
-      "mercury",
-      "polar",
-      "whop",
-      "gusto",
-    ],
+    ["stripe", "adyen", "paypal", "plaid", "coinbase", "mercury", "polar", "whop", "gusto"],
   ],
   [
     "Observability",
@@ -137,10 +112,7 @@ export const GROUPS: ReadonlyArray<readonly [string, ReadonlyArray<string>]> = [
       "vanta",
     ],
   ],
-  [
-    "Messaging & support",
-    ["slack", "discord", "resend", "intercom", "zendesk", "customerio"],
-  ],
+  ["Messaging & support", ["slack", "discord", "resend", "intercom", "zendesk", "customerio"]],
   [
     "Developer tools",
     [
@@ -156,13 +128,7 @@ export const GROUPS: ReadonlyArray<readonly [string, ReadonlyArray<string>]> = [
   ],
   [
     "Business & analytics",
-    [
-      "google-workspace",
-      "squarespace",
-      "porkbun",
-      "metabase",
-      "apache-superset",
-    ],
+    ["google-workspace", "squarespace", "porkbun", "metabase", "apache-superset"],
   ],
 ];
 
@@ -173,6 +139,7 @@ export const SEARCH_HINTS: Record<string, string> = {
   planetscale: "mysql postgres",
   prisma: "postgres",
   s2: "streams durable log",
+  iceberg: "apache rest catalog lakehouse tables basin polaris",
   turso: "sqlite libsql",
   xata: "postgres",
   "redis-cloud": "redis cache",

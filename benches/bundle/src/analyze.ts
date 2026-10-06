@@ -20,12 +20,7 @@ export interface RetainedDecl {
   readonly head: string;
 }
 
-export type DeclKind =
-  | "endpoint-rules"
-  | "error-class"
-  | "operation"
-  | "schema"
-  | "other";
+export type DeclKind = "endpoint-rules" | "error-class" | "operation" | "schema" | "other";
 
 export interface ModuleAnalysis {
   readonly id: string;
@@ -43,14 +38,11 @@ export interface ModuleAnalysis {
   readonly largestUnreferenced: RetainedDecl[];
 }
 
-const DECL_RE =
-  /^(\s*)(?:export\s+)?(?:(?:const|let|var)\s+)?([A-Za-z_$][\w$]*)\s*=\s/;
+const DECL_RE = /^(\s*)(?:export\s+)?(?:(?:const|let|var)\s+)?([A-Za-z_$][\w$]*)\s*=\s/;
 
 const classify = (name: string, head: string): DeclKind => {
-  if (/\bEndpointResolver\(/.test(head) || name === "rules")
-    return "endpoint-rules";
-  if (/^class\s|=\s*class\s/.test(head) || /\bclass extends\b/.test(head))
-    return "error-class";
+  if (/\bEndpointResolver\(/.test(head) || name === "rules") return "endpoint-rules";
+  if (/^class\s|=\s*class\s/.test(head) || /\bclass extends\b/.test(head)) return "error-class";
   if (/\b(?:make|makePaginated)\(/.test(head)) return "operation";
   if (
     /\b(?:suspend|Struct|Array\$?\d*|Union|String\$?\d*|Number\$?\d*|Boolean\$?\d*|Literals?|Record|optional|EventStream|Date\$?\d*|Blob\$?\d*|Unknown|Any)\b/.test(
@@ -103,10 +95,7 @@ export function analyzeModule(
 
   const decls: RetainedDecl[] = [];
   for (const seg of segments) {
-    const re = new RegExp(
-      `(?<![\\w$])${seg.name.replace(/\$/g, "\\$")}(?![\\w$])`,
-      "g",
-    );
+    const re = new RegExp(`(?<![\\w$])${seg.name.replace(/\$/g, "\\$")}(?![\\w$])`, "g");
     const total = code.match(re)?.length ?? 0;
     // Hits inside its own segment + 1 for the hoisted `var …` list (if any).
     const own = (seg.text.match(re)?.length ?? 0) + (hoisted ? 1 : 0);
@@ -145,10 +134,7 @@ export function analyzeModule(
     countByKind,
     unreferencedByKind,
     unreferencedBytesByKind,
-    unreferencedBytes: decls.reduce(
-      (n, d) => n + (d.unreferenced ? d.bytes : 0),
-      0,
-    ),
+    unreferencedBytes: decls.reduce((n, d) => n + (d.unreferenced ? d.bytes : 0), 0),
     largest: bySize.slice(0, top),
     largestUnreferenced: bySize.filter((d) => d.unreferenced).slice(0, top),
   };

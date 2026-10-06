@@ -119,7 +119,7 @@
           "target": "com.posthog.advanced_activity_logs#ListAdvancedActivityLogsRequestClientsList",
           "traits": {
             "smithy.api#httpQuery": "clients",
-            "smithy.api#documentation": "Filter by API clients that generated the activity (from x-posthog-client header)."
+            "smithy.api#documentation": "Filter by API clients that generated the activity (the x-posthog-client header, or 'scout:<skill_name>' for a scout run)."
           }
         },
         "detail_filters": {
@@ -585,7 +585,7 @@
         "clients": {
           "target": "com.posthog.advanced_activity_logs#StaticFiltersClientsList",
           "traits": {
-            "smithy.api#documentation": "API clients that have generated activity (from x-posthog-client header)."
+            "smithy.api#documentation": "API clients that have generated activity (the x-posthog-client header, or 'scout:<skill_name>' for a scout run)."
           }
         }
       },
@@ -664,7 +664,7 @@
         "target": "com.posthog.advanced_activity_logs#StaticFiltersClientsItemMap"
       },
       "traits": {
-        "smithy.api#documentation": "API clients that have generated activity (from x-posthog-client header)."
+        "smithy.api#documentation": "API clients that have generated activity (the x-posthog-client header, or 'scout:<skill_name>' for a scout run)."
       }
     },
     "com.posthog.advanced_activity_logs#AvailableFiltersResponseDetailFieldsMap": {

@@ -1,16 +1,13 @@
-import * as HttpClient from "effect/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
-const svc = T.AwsApiService({
-  sdkId: "Signer Data",
-  serviceShapeName: "SignerDataPlane",
-});
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
+import * as T from "../traits.ts";
+const svc = T.AwsApiService({ sdkId: "Signer Data", serviceShapeName: "SignerDataPlane" });
 const auth = T.AwsAuthSigv4({ name: "signer" });
 const ver = T.ServiceVersion("2017-08-25");
 const proto = T.AwsProtocolsRestJson1();
@@ -36,18 +33,14 @@ const rules = T.EndpointResolver((p, _) => {
         );
       }
       if (UseFIPS === true) {
-        return e(
-          `https://data-signer-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://data-signer-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
       if (UseDualStack === true) {
         return e(
           `https://data-signer.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
         );
       }
-      return e(
-        `https://data-signer.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-      );
+      return e(`https://data-signer.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
     }
   }
   return err("No matching endpoint rule");
@@ -56,37 +49,25 @@ const rules = T.EndpointResolver((p, _) => {
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
     "AccessDeniedException",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      code: S.optional(S.String),
-    },
+    { message: S.optional(S.String).pipe(T.ErrorMessage()), code: S.optional(S.String) },
     T.HttpError(403),
   ).pipe(C.withAuthError) {}
 export class InternalServiceErrorException
   extends /*@__PURE__*/ S.TaggedError<InternalServiceErrorException>()(
     "InternalServiceErrorException",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      code: S.optional(S.String),
-    },
+    { message: S.optional(S.String).pipe(T.ErrorMessage()), code: S.optional(S.String) },
     T.HttpError(500),
   ).pipe(C.withServerError) {}
 export class TooManyRequestsException
   extends /*@__PURE__*/ S.TaggedError<TooManyRequestsException>()(
     "TooManyRequestsException",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      code: S.optional(S.String),
-    },
+    { message: S.optional(S.String).pipe(T.ErrorMessage()), code: S.optional(S.String) },
     T.HttpError(429),
   ).pipe(C.withThrottlingError) {}
 export class ValidationException
   extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
     "ValidationException",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      code: S.optional(S.String),
-    },
+    { message: S.optional(S.String).pipe(T.ErrorMessage()), code: S.optional(S.String) },
     T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export type PlatformId = string;
@@ -110,16 +91,7 @@ export const GetRevocationStatusRequest = /*@__PURE__*/ S.suspend(() =>
     profileVersionArn: S.String.pipe(T.HttpQuery("profileVersionArn")),
     jobArn: S.String.pipe(T.HttpQuery("jobArn")),
     certificateHashes: CertificateHashes.pipe(T.HttpQuery("certificateHashes")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/revocations" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/revocations" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "GetRevocationStatusRequest",
 }) as any as S.Schema<GetRevocationStatusRequest>;

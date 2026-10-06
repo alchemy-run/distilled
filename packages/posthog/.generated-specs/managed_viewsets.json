@@ -61,14 +61,83 @@
         "smithy.api#input": {}
       }
     },
+    "com.posthog.managed_viewsets#DataWarehouseManagedViewSetResponse": {
+      "type": "structure",
+      "members": {
+        "views": {
+          "target": "com.posthog.managed_viewsets#DataWarehouseManagedViewSetResponseViewsList",
+          "traits": {
+            "smithy.api#documentation": "Saved queries in the managed viewset.",
+            "smithy.api#required": {}
+          }
+        },
+        "count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of saved queries returned.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.managed_viewsets#DataWarehouseManagedView": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Saved query the managed viewset owns.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the saved query.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the saved query was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_by_id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "User who created the saved query, or null when the sync did.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.managed_viewsets#DataWarehouseManagedViewSetResponseViewsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.managed_viewsets#DataWarehouseManagedView"
+      },
+      "traits": {
+        "smithy.api#documentation": "Saved queries in the managed viewset."
+      }
+    },
     "com.posthog.managed_viewsets#GetManagedViewset": {
       "type": "operation",
       "input": {
         "target": "com.posthog.managed_viewsets#GetManagedViewsetRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.posthog.managed_viewsets#DataWarehouseManagedViewSetResponse"
       },
+      "errors": [
+        {
+          "target": "com.posthog.managed_viewsets#BadRequest"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -115,10 +184,57 @@
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the managed viewset should exist.",
+            "smithy.api#required": {}
+          }
         }
       },
       "traits": {
         "smithy.api#input": {}
+      }
+    },
+    "com.posthog.managed_viewsets#DataWarehouseManagedViewSetUpdateResponse": {
+      "type": "structure",
+      "members": {
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "State the managed viewset is now in.",
+            "smithy.api#required": {}
+          }
+        },
+        "kind": {
+          "target": "com.posthog.managed_viewsets#DataWarehouseManagedViewSetKindEnum",
+          "traits": {
+            "smithy.api#documentation": "Managed viewset that was toggled.\n\n* `revenue_analytics` - Revenue Analytics\n* `engineering_analytics` - Engineering Analytics",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.managed_viewsets#DataWarehouseManagedViewSetKindEnum": {
+      "type": "enum",
+      "members": {
+        "REVENUE_ANALYTICS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "revenue_analytics"
+          }
+        },
+        "ENGINEERING_ANALYTICS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "engineering_analytics"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `revenue_analytics` - Revenue Analytics\n* `engineering_analytics` - Engineering Analytics"
       }
     },
     "com.posthog.managed_viewsets#UpdateManagedViewset": {
@@ -127,8 +243,13 @@
         "target": "com.posthog.managed_viewsets#UpdateManagedViewsetRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.posthog.managed_viewsets#DataWarehouseManagedViewSetUpdateResponse"
       },
+      "errors": [
+        {
+          "target": "com.posthog.managed_viewsets#BadRequest"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "PUT",
@@ -136,6 +257,19 @@
           "code": 200
         },
         "smithy.api#documentation": "Enable or disable a managed viewset by kind.\nPUT /api/environments/{team_id}/managed_viewsets/{kind}/ with body {\"enabled\": true/false}"
+      }
+    },
+    "com.posthog.managed_viewsets#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
       }
     },
     "com.posthog.managed_viewsets#ManagedViewsets": {

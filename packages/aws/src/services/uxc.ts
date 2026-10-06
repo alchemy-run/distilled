@@ -1,16 +1,13 @@
-import * as HttpClient from "effect/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
-const svc = T.AwsApiService({
-  sdkId: "uxc",
-  serviceShapeName: "AWSAccountUXSetting",
-});
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
+import * as T from "../traits.ts";
+const svc = T.AwsApiService({ sdkId: "uxc", serviceShapeName: "AWSAccountUXSetting" });
 const auth = T.AwsAuthSigv4({ name: "uxc" });
 const ver = T.ServiceVersion("2024-07-01");
 const proto = T.AwsProtocolsRestJson1();
@@ -26,9 +23,7 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -41,9 +36,7 @@ const rules = T.EndpointResolver((p, _) => {
             `https://uxc-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
           );
         }
-        return e(
-          `https://uxc.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-        );
+        return e(`https://uxc.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`);
       }
     }
   }
@@ -69,17 +62,14 @@ export class ThrottlingException
     T.HttpError(429),
   ).pipe(C.withThrottlingError) {}
 export class ValidationException
-  extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
-    "ValidationException",
-    {
-      message: S.String.pipe(T.ErrorMessage()),
-      fieldList: S.optional(
-        S.suspend(() => ValidationExceptionFieldList).annotate({
-          identifier: "ValidationExceptionFieldList",
-        }),
-      ),
-    },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<ValidationException>()("ValidationException", {
+    message: S.String.pipe(T.ErrorMessage()),
+    fieldList: S.optional(
+      S.suspend(() => ValidationExceptionFieldList).annotate({
+        identifier: "ValidationExceptionFieldList",
+      }),
+    ),
+  }) {}
 export interface GetAccountCustomizationsInput {}
 export const GetAccountCustomizationsInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
@@ -139,31 +129,15 @@ export const ListServicesInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/v1/services" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListServicesInput",
-}) as any as S.Schema<ListServicesInput>;
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/v1/services" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "ListServicesInput" }) as any as S.Schema<ListServicesInput>;
 export interface ListServicesOutput {
   nextToken?: string;
   services?: string[];
 }
 export const ListServicesOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    nextToken: S.optional(S.String),
-    services: S.optional(ServiceList),
-  }),
-).annotate({
-  identifier: "ListServicesOutput",
-}) as any as S.Schema<ListServicesOutput>;
+  S.Struct({ nextToken: S.optional(S.String), services: S.optional(ServiceList) }),
+).annotate({ identifier: "ListServicesOutput" }) as any as S.Schema<ListServicesOutput>;
 export interface UpdateAccountCustomizationsInput {
   accountColor?: AccountColor;
   visibleServices?: string[];
@@ -207,13 +181,9 @@ export interface ValidationExceptionField {
 }
 export const ValidationExceptionField = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ path: S.String, message: S.String }),
-).annotate({
-  identifier: "ValidationExceptionField",
-}) as any as S.Schema<ValidationExceptionField>;
+).annotate({ identifier: "ValidationExceptionField" }) as any as S.Schema<ValidationExceptionField>;
 export type ValidationExceptionFieldList = ValidationExceptionField[];
-export const ValidationExceptionFieldList = /*@__PURE__*/ S.Array(
-  ValidationExceptionField,
-);
+export const ValidationExceptionFieldList = /*@__PURE__*/ S.Array(ValidationExceptionField);
 export type GetAccountCustomizationsError =
   | AccessDeniedException
   | InternalServerException
@@ -273,11 +243,7 @@ export const listServices: API.PaginatedOperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListServices",
-  pagination: {
-    inputToken: "nextToken",
-    outputToken: "nextToken",
-    items: "services",
-  } as const,
+  pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "services" } as const,
 })) as any;
 
 export type UpdateAccountCustomizationsError =

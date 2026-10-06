@@ -81,7 +81,7 @@
           "uri": "/v1/billing/charges",
           "code": 200
         },
-        "smithy.api#documentation": "List FOCUS billing charges\n\nReturns the billing charge data in FOCUS v1.3 JSONL format for a specified Vercel team, within a date range specified by `from` and `to` query parameters. Supports 1-day granularity with a maximum date range of 1 year. The response is streamed as newline-delimited JSON (JSONL) and can be optionally compressed with gzip if the `Accept-Encoding: gzip` header is provided. This is only available for Owner, Member, Developer, Security, Billing, and Enterprise Viewer roles for the supplied team."
+        "smithy.api#documentation": "List FOCUS billing charges\n\nReturns the billing charge data in FOCUS v1.3 JSONL format for a specified Vercel team, within a date range specified by `from` and `to` query parameters. Supports 1-day granularity with a maximum date range of 1 year. The response is streamed as newline-delimited JSON (JSONL) and can be optionally compressed with gzip if the `Accept-Encoding: gzip` header is provided. `SkuId` is the stable product ID. For unmapped items, it is derived from the item identifier. This is only available for Owner, Member, Developer, Security, Billing, and Enterprise Viewer roles for the supplied team."
       }
     },
     "com.vercel.billing#ListContractCommitmentsRequest": {
@@ -545,19 +545,6 @@
     "com.vercel.billing#BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase2Options": {
       "type": "structure",
       "members": {
-        "effectiveDate": {
-          "target": "com.vercel.billing#BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase2OptionsEffectiveDate",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "orbSubscriptionId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The ID of the Orb subscription to change",
-            "smithy.api#required": {}
-          }
-        },
         "alignBillingWithPlanChangeDate": {
           "target": "smithy.api#Boolean",
           "traits": {
@@ -570,10 +557,23 @@
             "smithy.api#documentation": "The coupon redemption code to apply to the plan change"
           }
         },
+        "effectiveDate": {
+          "target": "com.vercel.billing#BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase2OptionsEffectiveDate",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
         "externalPlanId": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The ID of the external plan to change to"
+          }
+        },
+        "orbSubscriptionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the Orb subscription to change",
+            "smithy.api#required": {}
           }
         },
         "replacePrices": {
@@ -636,6 +636,85 @@
         "smithy.api#documentation": "The configuration for a credit purchase"
       }
     },
+    "com.vercel.billing#BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase3OptionsAddList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "The price intervals to add to the subscription"
+      }
+    },
+    "com.vercel.billing#BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase3OptionsAddAdjustmentsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "The adjustment intervals to add to the subscription"
+      }
+    },
+    "com.vercel.billing#BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase3OptionsEditList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "The price intervals to edit on the subscription"
+      }
+    },
+    "com.vercel.billing#BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase3OptionsEditAdjustmentsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "The adjustment intervals to edit on the subscription"
+      }
+    },
+    "com.vercel.billing#BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase3Options": {
+      "type": "structure",
+      "members": {
+        "add": {
+          "target": "com.vercel.billing#BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase3OptionsAddList",
+          "traits": {
+            "smithy.api#documentation": "The price intervals to add to the subscription"
+          }
+        },
+        "addAdjustments": {
+          "target": "com.vercel.billing#BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase3OptionsAddAdjustmentsList",
+          "traits": {
+            "smithy.api#documentation": "The adjustment intervals to add to the subscription"
+          }
+        },
+        "allowInvoiceCreditOrVoid": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether to allow invoice credit or void"
+          }
+        },
+        "edit": {
+          "target": "com.vercel.billing#BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase3OptionsEditList",
+          "traits": {
+            "smithy.api#documentation": "The price intervals to edit on the subscription"
+          }
+        },
+        "editAdjustments": {
+          "target": "com.vercel.billing#BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase3OptionsEditAdjustmentsList",
+          "traits": {
+            "smithy.api#documentation": "The adjustment intervals to edit on the subscription"
+          }
+        },
+        "orbSubscriptionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the Orb subscription to modify price intervals for",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.vercel.billing#BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase3Output": {
       "type": "structure",
       "members": {
@@ -665,7 +744,7 @@
       "type": "structure",
       "members": {
         "options": {
-          "target": "smithy.api#Document",
+          "target": "com.vercel.billing#BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase3Options",
           "traits": {
             "smithy.api#required": {}
           }
@@ -796,13 +875,6 @@
     "com.vercel.billing#BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase4Options": {
       "type": "structure",
       "members": {
-        "externalPlanId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The external plan ID of the Orb plan to subscribe to",
-            "smithy.api#required": {}
-          }
-        },
         "addPrices": {
           "target": "com.vercel.billing#BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase4OptionsAddPricesList",
           "traits": {
@@ -819,6 +891,13 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The coupon redemption code to apply to the subscription"
+          }
+        },
+        "externalPlanId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The external plan ID of the Orb plan to subscribe to",
+            "smithy.api#required": {}
           }
         },
         "initialPhaseOrder": {
@@ -920,13 +999,6 @@
     "com.vercel.billing#BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase5OptionsLineItemsItem": {
       "type": "structure",
       "members": {
-        "id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The ID of the line item",
-            "smithy.api#required": {}
-          }
-        },
         "description": {
           "target": "smithy.api#String",
           "traits": {
@@ -934,11 +1006,30 @@
             "smithy.api#required": {}
           }
         },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the line item",
+            "smithy.api#required": {}
+          }
+        },
+        "metadata": {
+          "target": "com.vercel.billing#BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase5OptionsLineItemsItemMetadataMap",
+          "traits": {
+            "smithy.api#documentation": "Optional metadata for the line item"
+          }
+        },
         "name": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The name of the line item",
             "smithy.api#required": {}
+          }
+        },
+        "productAlias": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The alias of the product being purchased"
           }
         },
         "productId": {
@@ -955,29 +1046,17 @@
             "smithy.api#required": {}
           }
         },
+        "refund": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The amount of the line item that has been refunded"
+          }
+        },
         "unitAmount": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The unit amount of the line item",
             "smithy.api#required": {}
-          }
-        },
-        "metadata": {
-          "target": "com.vercel.billing#BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase5OptionsLineItemsItemMetadataMap",
-          "traits": {
-            "smithy.api#documentation": "Optional metadata for the line item"
-          }
-        },
-        "productAlias": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The alias of the product being purchased"
-          }
-        },
-        "refund": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The amount of the line item that has been refunded"
           }
         }
       },
@@ -997,6 +1076,12 @@
     "com.vercel.billing#BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase5Options": {
       "type": "structure",
       "members": {
+        "lineItems": {
+          "target": "com.vercel.billing#BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase5OptionsLineItemsList",
+          "traits": {
+            "smithy.api#documentation": "The line items that make up the Purchase Intent."
+          }
+        },
         "orbCustomerId": {
           "target": "smithy.api#String",
           "traits": {
@@ -1018,6 +1103,12 @@
             "smithy.api#required": {}
           }
         },
+        "orbPendingSubscriptionChangeId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the pending subscription change"
+          }
+        },
         "orbPlanId": {
           "target": "smithy.api#String",
           "traits": {
@@ -1030,18 +1121,6 @@
           "traits": {
             "smithy.api#documentation": "The ID of the Orb subscription to create",
             "smithy.api#required": {}
-          }
-        },
-        "lineItems": {
-          "target": "com.vercel.billing#BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase5OptionsLineItemsList",
-          "traits": {
-            "smithy.api#documentation": "The line items that make up the Purchase Intent."
-          }
-        },
-        "orbPendingSubscriptionChangeId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The ID of the pending subscription change"
           }
         }
       },
@@ -1233,17 +1312,17 @@
     "com.vercel.billing#BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6Options": {
       "type": "structure",
       "members": {
+        "fromPlan": {
+          "target": "com.vercel.billing#BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsFromPlan",
+          "traits": {
+            "smithy.api#documentation": "The current plan being replaced by this purchase"
+          }
+        },
         "planId": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The ID of the plan to subscribe to",
             "smithy.api#required": {}
-          }
-        },
-        "fromPlan": {
-          "target": "com.vercel.billing#BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsFromPlan",
-          "traits": {
-            "smithy.api#documentation": "The current plan being replaced by this purchase"
           }
         },
         "planItemQuantities": {
@@ -1361,6 +1440,172 @@
         "smithy.api#documentation": "The currency for the purchase intent"
       }
     },
+    "com.vercel.billing#BuyCreditsResponseBodyCase1PurchaseIntentDispute": {
+      "type": "structure",
+      "members": {
+        "amount": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The disputed amount.",
+            "smithy.api#required": {}
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the dispute was first recorded.",
+            "smithy.api#required": {}
+          }
+        },
+        "currency": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The dispute currency.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique ID of the dispute entity.",
+            "smithy.api#required": {}
+          }
+        },
+        "providerId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The external provider dispute ID (e.g. Stripe dispute ID).",
+            "smithy.api#required": {}
+          }
+        },
+        "reason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The dispute reason.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "status": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The dispute status.",
+            "smithy.api#required": {}
+          }
+        },
+        "updatedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the dispute was last updated.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The dispute details, if any."
+      }
+    },
+    "com.vercel.billing#BuyCreditsResponseBodyCase1PurchaseIntentLineItemsItemMetadataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Optional metadata for the line item"
+      }
+    },
+    "com.vercel.billing#BuyCreditsResponseBodyCase1PurchaseIntentLineItemsItem": {
+      "type": "structure",
+      "members": {
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The description of the line item",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the line item",
+            "smithy.api#required": {}
+          }
+        },
+        "metadata": {
+          "target": "com.vercel.billing#BuyCreditsResponseBodyCase1PurchaseIntentLineItemsItemMetadataMap",
+          "traits": {
+            "smithy.api#documentation": "Optional metadata for the line item"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the line item",
+            "smithy.api#required": {}
+          }
+        },
+        "productAlias": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The alias of the product being purchased"
+          }
+        },
+        "productId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the product being purchased",
+            "smithy.api#required": {}
+          }
+        },
+        "quantity": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The quantity of the line item",
+            "smithy.api#required": {}
+          }
+        },
+        "refund": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The amount of the line item that has been refunded"
+          }
+        },
+        "unitAmount": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unit amount of the line item",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The line items that make up the Purchase Intent."
+      }
+    },
+    "com.vercel.billing#BuyCreditsResponseBodyCase1PurchaseIntentLineItemsList": {
+      "type": "list",
+      "member": {
+        "target": "com.vercel.billing#BuyCreditsResponseBodyCase1PurchaseIntentLineItemsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "The line items that make up the Purchase Intent."
+      }
+    },
+    "com.vercel.billing#BuyCreditsResponseBodyCase1PurchaseIntentMetadataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Optional metadata associated with the purchase intent"
+      }
+    },
     "com.vercel.billing#BuyCreditsResponseBodyCase1PurchaseIntentProviderType": {
       "type": "enum",
       "members": {
@@ -1420,6 +1665,12 @@
     "com.vercel.billing#BuyCreditsResponseBodyCase1PurchaseIntentProvider": {
       "type": "structure",
       "members": {
+        "currencyConversionRate": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The currency conversion rate used by the provider"
+          }
+        },
         "resourceId": {
           "target": "smithy.api#String",
           "traits": {
@@ -1427,23 +1678,17 @@
             "smithy.api#required": {}
           }
         },
+        "stripeSharedPaymentTokenUsed": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether a Stripe Shared Payment Token was used for this purchase. Only applicable when type is stripe_invoice_immediate."
+          }
+        },
         "type": {
           "target": "com.vercel.billing#BuyCreditsResponseBodyCase1PurchaseIntentProviderType",
           "traits": {
             "smithy.api#documentation": "The type of the purchase provider",
             "smithy.api#required": {}
-          }
-        },
-        "currencyConversionRate": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The currency conversion rate used by the provider"
-          }
-        },
-        "stripeSharedPaymentTokenUsed": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "Whether a Stripe Shared Payment Token was used for this purchase. Only applicable when type is stripe_invoice_immediate."
           }
         }
       },
@@ -1475,182 +1720,9 @@
         "smithy.api#documentation": "The status of the Purchase Intent."
       }
     },
-    "com.vercel.billing#BuyCreditsResponseBodyCase1PurchaseIntentDispute": {
-      "type": "structure",
-      "members": {
-        "id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The unique ID of the dispute entity.",
-            "smithy.api#required": {}
-          }
-        },
-        "amount": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The disputed amount.",
-            "smithy.api#required": {}
-          }
-        },
-        "createdAt": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "When the dispute was first recorded.",
-            "smithy.api#required": {}
-          }
-        },
-        "currency": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The dispute currency.",
-            "smithy.api#required": {}
-          }
-        },
-        "providerId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The external provider dispute ID (e.g. Stripe dispute ID).",
-            "smithy.api#required": {}
-          }
-        },
-        "reason": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The dispute reason.",
-            "smithy.api#required": {},
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "status": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The dispute status.",
-            "smithy.api#required": {}
-          }
-        },
-        "updatedAt": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "When the dispute was last updated.",
-            "smithy.api#required": {}
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "The dispute details, if any."
-      }
-    },
-    "com.vercel.billing#BuyCreditsResponseBodyCase1PurchaseIntentLineItemsItemMetadataMap": {
-      "type": "map",
-      "key": {
-        "target": "smithy.api#String"
-      },
-      "value": {
-        "target": "smithy.api#String"
-      },
-      "traits": {
-        "smithy.api#documentation": "Optional metadata for the line item"
-      }
-    },
-    "com.vercel.billing#BuyCreditsResponseBodyCase1PurchaseIntentLineItemsItem": {
-      "type": "structure",
-      "members": {
-        "id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The ID of the line item",
-            "smithy.api#required": {}
-          }
-        },
-        "description": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The description of the line item",
-            "smithy.api#required": {}
-          }
-        },
-        "name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The name of the line item",
-            "smithy.api#required": {}
-          }
-        },
-        "productId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The ID of the product being purchased",
-            "smithy.api#required": {}
-          }
-        },
-        "quantity": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The quantity of the line item",
-            "smithy.api#required": {}
-          }
-        },
-        "unitAmount": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The unit amount of the line item",
-            "smithy.api#required": {}
-          }
-        },
-        "metadata": {
-          "target": "com.vercel.billing#BuyCreditsResponseBodyCase1PurchaseIntentLineItemsItemMetadataMap",
-          "traits": {
-            "smithy.api#documentation": "Optional metadata for the line item"
-          }
-        },
-        "productAlias": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The alias of the product being purchased"
-          }
-        },
-        "refund": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The amount of the line item that has been refunded"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "The line items that make up the Purchase Intent."
-      }
-    },
-    "com.vercel.billing#BuyCreditsResponseBodyCase1PurchaseIntentLineItemsList": {
-      "type": "list",
-      "member": {
-        "target": "com.vercel.billing#BuyCreditsResponseBodyCase1PurchaseIntentLineItemsItem"
-      },
-      "traits": {
-        "smithy.api#documentation": "The line items that make up the Purchase Intent."
-      }
-    },
-    "com.vercel.billing#BuyCreditsResponseBodyCase1PurchaseIntentMetadataMap": {
-      "type": "map",
-      "key": {
-        "target": "smithy.api#String"
-      },
-      "value": {
-        "target": "smithy.api#String"
-      },
-      "traits": {
-        "smithy.api#documentation": "Optional metadata associated with the purchase intent"
-      }
-    },
     "com.vercel.billing#BuyCreditsResponseBodyCase1PurchaseIntent": {
       "type": "structure",
       "members": {
-        "id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The unique ID of a Purchase Intent. Uses the format `pur_*`",
-            "smithy.api#required": {}
-          }
-        },
         "configuration": {
           "target": "com.vercel.billing#BuyCreditsResponseBodyCase1PurchaseIntentConfiguration",
           "traits": {
@@ -1671,6 +1743,31 @@
             "smithy.api#required": {}
           }
         },
+        "dispute": {
+          "target": "com.vercel.billing#BuyCreditsResponseBodyCase1PurchaseIntentDispute",
+          "traits": {
+            "smithy.api#documentation": "The dispute details, if any."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique ID of a Purchase Intent. Uses the format `pur_*`",
+            "smithy.api#required": {}
+          }
+        },
+        "lineItems": {
+          "target": "com.vercel.billing#BuyCreditsResponseBodyCase1PurchaseIntentLineItemsList",
+          "traits": {
+            "smithy.api#documentation": "The line items that make up the Purchase Intent."
+          }
+        },
+        "metadata": {
+          "target": "com.vercel.billing#BuyCreditsResponseBodyCase1PurchaseIntentMetadataMap",
+          "traits": {
+            "smithy.api#documentation": "Optional metadata associated with the purchase intent"
+          }
+        },
         "ownerId": {
           "target": "smithy.api#String",
           "traits": {
@@ -1682,6 +1779,18 @@
           "target": "com.vercel.billing#BuyCreditsResponseBodyCase1PurchaseIntentProvider",
           "traits": {
             "smithy.api#required": {}
+          }
+        },
+        "refund": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The amount of the purchase intent that has been refunded"
+          }
+        },
+        "returnUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The URL to redirect to after the purchase is complete"
           }
         },
         "status": {
@@ -1717,36 +1826,6 @@
           "traits": {
             "smithy.api#documentation": "The datetime when the Purchase Intent was last updated.",
             "smithy.api#required": {}
-          }
-        },
-        "dispute": {
-          "target": "com.vercel.billing#BuyCreditsResponseBodyCase1PurchaseIntentDispute",
-          "traits": {
-            "smithy.api#documentation": "The dispute details, if any."
-          }
-        },
-        "lineItems": {
-          "target": "com.vercel.billing#BuyCreditsResponseBodyCase1PurchaseIntentLineItemsList",
-          "traits": {
-            "smithy.api#documentation": "The line items that make up the Purchase Intent."
-          }
-        },
-        "metadata": {
-          "target": "com.vercel.billing#BuyCreditsResponseBodyCase1PurchaseIntentMetadataMap",
-          "traits": {
-            "smithy.api#documentation": "Optional metadata associated with the purchase intent"
-          }
-        },
-        "refund": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The amount of the purchase intent that has been refunded"
-          }
-        },
-        "returnUrl": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The URL to redirect to after the purchase is complete"
           }
         }
       },
@@ -1804,46 +1883,6 @@
         "smithy.api#documentation": "Configuration input options for setting plan item quantity."
       }
     },
-    "com.vercel.billing#BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0OutputEffectiveBehavior": {
-      "type": "enum",
-      "members": {
-        "END_OF_TERM": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "end_of_term"
-          }
-        },
-        "IMMEDIATE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "immediate"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "When the subscription change should take effect."
-      }
-    },
-    "com.vercel.billing#BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0OutputPricingSource": {
-      "type": "enum",
-      "members": {
-        "COPPER": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "copper"
-          }
-        },
-        "ORB": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "orb"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "The source used as the authoritative price for this intent."
-      }
-    },
     "com.vercel.billing#BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0OutputChangedResourcesItemAddedResourceIdsList": {
       "type": "list",
       "member": {
@@ -1874,6 +1913,18 @@
     "com.vercel.billing#BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0OutputChangedResourcesItem": {
       "type": "structure",
       "members": {
+        "addedResourceIds": {
+          "target": "com.vercel.billing#BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0OutputChangedResourcesItemAddedResourceIdsList",
+          "traits": {
+            "smithy.api#documentation": "Resource IDs that were added."
+          }
+        },
+        "effectiveAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When this resource change should take effect for downstream consumers."
+          }
+        },
         "productAlias": {
           "target": "smithy.api#String",
           "traits": {
@@ -1893,18 +1944,6 @@
           "traits": {
             "smithy.api#documentation": "The resulting quantity after this change.",
             "smithy.api#required": {}
-          }
-        },
-        "addedResourceIds": {
-          "target": "com.vercel.billing#BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0OutputChangedResourcesItemAddedResourceIdsList",
-          "traits": {
-            "smithy.api#documentation": "Resource IDs that were added."
-          }
-        },
-        "effectiveAt": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "When this resource change should take effect for downstream consumers."
           }
         },
         "removedResourceIds": {
@@ -1933,6 +1972,26 @@
         "smithy.api#documentation": "Resources that were changed as part of this intent. Tracks all logical changes including the primary change and any side effects."
       }
     },
+    "com.vercel.billing#BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0OutputEffectiveBehavior": {
+      "type": "enum",
+      "members": {
+        "END_OF_TERM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "end_of_term"
+          }
+        },
+        "IMMEDIATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "immediate"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "When the subscription change should take effect."
+      }
+    },
     "com.vercel.billing#BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0OutputMetadataMap": {
       "type": "map",
       "key": {
@@ -1945,9 +2004,63 @@
         "smithy.api#documentation": "Optional metadata associated with the intent to update the Orb subscription with."
       }
     },
+    "com.vercel.billing#BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0OutputPricingSource": {
+      "type": "enum",
+      "members": {
+        "COPPER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "copper"
+          }
+        },
+        "ORB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "orb"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The source used as the authoritative price for this intent."
+      }
+    },
+    "com.vercel.billing#BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0OutputReferenceBillingPeriod": {
+      "type": "structure",
+      "members": {
+        "endDate": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The exclusive end of the reference billing period.",
+            "smithy.api#required": {}
+          }
+        },
+        "startDate": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The inclusive start of the reference billing period.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The canonical reference-product billing period at intent creation. Omitted for historical intents."
+      }
+    },
     "com.vercel.billing#BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0Output": {
       "type": "structure",
       "members": {
+        "changedResources": {
+          "target": "com.vercel.billing#BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0OutputChangedResourcesList",
+          "traits": {
+            "smithy.api#documentation": "Resources that were changed as part of this intent. Tracks all logical changes including the primary change and any side effects."
+          }
+        },
+        "customerTimezone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The Orb customer's timezone when the intent was created. Omitted for legacy intents."
+          }
+        },
         "effectiveBehavior": {
           "target": "com.vercel.billing#BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0OutputEffectiveBehavior",
           "traits": {
@@ -1955,11 +2068,23 @@
             "smithy.api#required": {}
           }
         },
+        "metadata": {
+          "target": "com.vercel.billing#BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0OutputMetadataMap",
+          "traits": {
+            "smithy.api#documentation": "Optional metadata associated with the intent to update the Orb subscription with."
+          }
+        },
         "orbPriceId": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The Orb price ID for the subscription item being modified.",
             "smithy.api#required": {}
+          }
+        },
+        "pendingSubscriptionChangeId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the pending subscription change if there is one."
           }
         },
         "pricingSource": {
@@ -1976,22 +2101,10 @@
             "smithy.api#required": {}
           }
         },
-        "changedResources": {
-          "target": "com.vercel.billing#BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0OutputChangedResourcesList",
+        "referenceBillingPeriod": {
+          "target": "com.vercel.billing#BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0OutputReferenceBillingPeriod",
           "traits": {
-            "smithy.api#documentation": "Resources that were changed as part of this intent. Tracks all logical changes including the primary change and any side effects."
-          }
-        },
-        "metadata": {
-          "target": "com.vercel.billing#BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0OutputMetadataMap",
-          "traits": {
-            "smithy.api#documentation": "Optional metadata associated with the intent to update the Orb subscription with."
-          }
-        },
-        "pendingSubscriptionChangeId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The ID of the pending subscription change if there is one."
+            "smithy.api#documentation": "The canonical reference-product billing period at intent creation. Omitted for historical intents."
           }
         }
       },
@@ -2070,46 +2183,6 @@
         "smithy.api#documentation": "Configuration input options for increasing plan item quantity."
       }
     },
-    "com.vercel.billing#BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase1OutputEffectiveBehavior": {
-      "type": "enum",
-      "members": {
-        "END_OF_TERM": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "end_of_term"
-          }
-        },
-        "IMMEDIATE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "immediate"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "When the subscription change should take effect."
-      }
-    },
-    "com.vercel.billing#BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase1OutputPricingSource": {
-      "type": "enum",
-      "members": {
-        "COPPER": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "copper"
-          }
-        },
-        "ORB": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "orb"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "The source used as the authoritative price for this intent."
-      }
-    },
     "com.vercel.billing#BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase1OutputChangedResourcesItemAddedResourceIdsList": {
       "type": "list",
       "member": {
@@ -2140,6 +2213,18 @@
     "com.vercel.billing#BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase1OutputChangedResourcesItem": {
       "type": "structure",
       "members": {
+        "addedResourceIds": {
+          "target": "com.vercel.billing#BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase1OutputChangedResourcesItemAddedResourceIdsList",
+          "traits": {
+            "smithy.api#documentation": "Resource IDs that were added."
+          }
+        },
+        "effectiveAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When this resource change should take effect for downstream consumers."
+          }
+        },
         "productAlias": {
           "target": "smithy.api#String",
           "traits": {
@@ -2159,18 +2244,6 @@
           "traits": {
             "smithy.api#documentation": "The resulting quantity after this change.",
             "smithy.api#required": {}
-          }
-        },
-        "addedResourceIds": {
-          "target": "com.vercel.billing#BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase1OutputChangedResourcesItemAddedResourceIdsList",
-          "traits": {
-            "smithy.api#documentation": "Resource IDs that were added."
-          }
-        },
-        "effectiveAt": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "When this resource change should take effect for downstream consumers."
           }
         },
         "removedResourceIds": {
@@ -2199,6 +2272,26 @@
         "smithy.api#documentation": "Resources that were changed as part of this intent. Tracks all logical changes including the primary change and any side effects."
       }
     },
+    "com.vercel.billing#BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase1OutputEffectiveBehavior": {
+      "type": "enum",
+      "members": {
+        "END_OF_TERM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "end_of_term"
+          }
+        },
+        "IMMEDIATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "immediate"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "When the subscription change should take effect."
+      }
+    },
     "com.vercel.billing#BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase1OutputMetadataMap": {
       "type": "map",
       "key": {
@@ -2211,9 +2304,63 @@
         "smithy.api#documentation": "Optional metadata associated with the intent to update the Orb subscription with."
       }
     },
+    "com.vercel.billing#BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase1OutputPricingSource": {
+      "type": "enum",
+      "members": {
+        "COPPER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "copper"
+          }
+        },
+        "ORB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "orb"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The source used as the authoritative price for this intent."
+      }
+    },
+    "com.vercel.billing#BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase1OutputReferenceBillingPeriod": {
+      "type": "structure",
+      "members": {
+        "endDate": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The exclusive end of the reference billing period.",
+            "smithy.api#required": {}
+          }
+        },
+        "startDate": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The inclusive start of the reference billing period.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The canonical reference-product billing period at intent creation. Omitted for historical intents."
+      }
+    },
     "com.vercel.billing#BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase1Output": {
       "type": "structure",
       "members": {
+        "changedResources": {
+          "target": "com.vercel.billing#BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase1OutputChangedResourcesList",
+          "traits": {
+            "smithy.api#documentation": "Resources that were changed as part of this intent. Tracks all logical changes including the primary change and any side effects."
+          }
+        },
+        "customerTimezone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The Orb customer's timezone when the intent was created. Omitted for legacy intents."
+          }
+        },
         "effectiveBehavior": {
           "target": "com.vercel.billing#BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase1OutputEffectiveBehavior",
           "traits": {
@@ -2221,11 +2368,23 @@
             "smithy.api#required": {}
           }
         },
+        "metadata": {
+          "target": "com.vercel.billing#BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase1OutputMetadataMap",
+          "traits": {
+            "smithy.api#documentation": "Optional metadata associated with the intent to update the Orb subscription with."
+          }
+        },
         "orbPriceId": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The Orb price ID for the subscription item being modified.",
             "smithy.api#required": {}
+          }
+        },
+        "pendingSubscriptionChangeId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the pending subscription change if there is one."
           }
         },
         "pricingSource": {
@@ -2242,22 +2401,10 @@
             "smithy.api#required": {}
           }
         },
-        "changedResources": {
-          "target": "com.vercel.billing#BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase1OutputChangedResourcesList",
+        "referenceBillingPeriod": {
+          "target": "com.vercel.billing#BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase1OutputReferenceBillingPeriod",
           "traits": {
-            "smithy.api#documentation": "Resources that were changed as part of this intent. Tracks all logical changes including the primary change and any side effects."
-          }
-        },
-        "metadata": {
-          "target": "com.vercel.billing#BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase1OutputMetadataMap",
-          "traits": {
-            "smithy.api#documentation": "Optional metadata associated with the intent to update the Orb subscription with."
-          }
-        },
-        "pendingSubscriptionChangeId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The ID of the pending subscription change if there is one."
+            "smithy.api#documentation": "The canonical reference-product billing period at intent creation. Omitted for historical intents."
           }
         }
       },
@@ -2336,46 +2483,6 @@
         "smithy.api#documentation": "Configuration input options for decreasing plan item quantity."
       }
     },
-    "com.vercel.billing#BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase2OutputEffectiveBehavior": {
-      "type": "enum",
-      "members": {
-        "END_OF_TERM": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "end_of_term"
-          }
-        },
-        "IMMEDIATE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "immediate"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "When the subscription change should take effect."
-      }
-    },
-    "com.vercel.billing#BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase2OutputPricingSource": {
-      "type": "enum",
-      "members": {
-        "COPPER": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "copper"
-          }
-        },
-        "ORB": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "orb"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "The source used as the authoritative price for this intent."
-      }
-    },
     "com.vercel.billing#BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase2OutputChangedResourcesItemAddedResourceIdsList": {
       "type": "list",
       "member": {
@@ -2406,6 +2513,18 @@
     "com.vercel.billing#BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase2OutputChangedResourcesItem": {
       "type": "structure",
       "members": {
+        "addedResourceIds": {
+          "target": "com.vercel.billing#BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase2OutputChangedResourcesItemAddedResourceIdsList",
+          "traits": {
+            "smithy.api#documentation": "Resource IDs that were added."
+          }
+        },
+        "effectiveAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When this resource change should take effect for downstream consumers."
+          }
+        },
         "productAlias": {
           "target": "smithy.api#String",
           "traits": {
@@ -2425,18 +2544,6 @@
           "traits": {
             "smithy.api#documentation": "The resulting quantity after this change.",
             "smithy.api#required": {}
-          }
-        },
-        "addedResourceIds": {
-          "target": "com.vercel.billing#BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase2OutputChangedResourcesItemAddedResourceIdsList",
-          "traits": {
-            "smithy.api#documentation": "Resource IDs that were added."
-          }
-        },
-        "effectiveAt": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "When this resource change should take effect for downstream consumers."
           }
         },
         "removedResourceIds": {
@@ -2465,6 +2572,26 @@
         "smithy.api#documentation": "Resources that were changed as part of this intent. Tracks all logical changes including the primary change and any side effects."
       }
     },
+    "com.vercel.billing#BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase2OutputEffectiveBehavior": {
+      "type": "enum",
+      "members": {
+        "END_OF_TERM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "end_of_term"
+          }
+        },
+        "IMMEDIATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "immediate"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "When the subscription change should take effect."
+      }
+    },
     "com.vercel.billing#BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase2OutputMetadataMap": {
       "type": "map",
       "key": {
@@ -2477,9 +2604,63 @@
         "smithy.api#documentation": "Optional metadata associated with the intent to update the Orb subscription with."
       }
     },
+    "com.vercel.billing#BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase2OutputPricingSource": {
+      "type": "enum",
+      "members": {
+        "COPPER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "copper"
+          }
+        },
+        "ORB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "orb"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The source used as the authoritative price for this intent."
+      }
+    },
+    "com.vercel.billing#BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase2OutputReferenceBillingPeriod": {
+      "type": "structure",
+      "members": {
+        "endDate": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The exclusive end of the reference billing period.",
+            "smithy.api#required": {}
+          }
+        },
+        "startDate": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The inclusive start of the reference billing period.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The canonical reference-product billing period at intent creation. Omitted for historical intents."
+      }
+    },
     "com.vercel.billing#BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase2Output": {
       "type": "structure",
       "members": {
+        "changedResources": {
+          "target": "com.vercel.billing#BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase2OutputChangedResourcesList",
+          "traits": {
+            "smithy.api#documentation": "Resources that were changed as part of this intent. Tracks all logical changes including the primary change and any side effects."
+          }
+        },
+        "customerTimezone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The Orb customer's timezone when the intent was created. Omitted for legacy intents."
+          }
+        },
         "effectiveBehavior": {
           "target": "com.vercel.billing#BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase2OutputEffectiveBehavior",
           "traits": {
@@ -2487,11 +2668,23 @@
             "smithy.api#required": {}
           }
         },
+        "metadata": {
+          "target": "com.vercel.billing#BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase2OutputMetadataMap",
+          "traits": {
+            "smithy.api#documentation": "Optional metadata associated with the intent to update the Orb subscription with."
+          }
+        },
         "orbPriceId": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The Orb price ID for the subscription item being modified.",
             "smithy.api#required": {}
+          }
+        },
+        "pendingSubscriptionChangeId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the pending subscription change if there is one."
           }
         },
         "pricingSource": {
@@ -2508,22 +2701,10 @@
             "smithy.api#required": {}
           }
         },
-        "changedResources": {
-          "target": "com.vercel.billing#BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase2OutputChangedResourcesList",
+        "referenceBillingPeriod": {
+          "target": "com.vercel.billing#BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase2OutputReferenceBillingPeriod",
           "traits": {
-            "smithy.api#documentation": "Resources that were changed as part of this intent. Tracks all logical changes including the primary change and any side effects."
-          }
-        },
-        "metadata": {
-          "target": "com.vercel.billing#BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase2OutputMetadataMap",
-          "traits": {
-            "smithy.api#documentation": "Optional metadata associated with the intent to update the Orb subscription with."
-          }
-        },
-        "pendingSubscriptionChangeId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The ID of the pending subscription change if there is one."
+            "smithy.api#documentation": "The canonical reference-product billing period at intent creation. Omitted for historical intents."
           }
         }
       },
@@ -2618,46 +2799,6 @@
         "smithy.api#documentation": "Configuration input options for adjusting plan item quantity."
       }
     },
-    "com.vercel.billing#BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase3OutputEffectiveBehavior": {
-      "type": "enum",
-      "members": {
-        "END_OF_TERM": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "end_of_term"
-          }
-        },
-        "IMMEDIATE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "immediate"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "When the subscription change should take effect."
-      }
-    },
-    "com.vercel.billing#BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase3OutputPricingSource": {
-      "type": "enum",
-      "members": {
-        "COPPER": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "copper"
-          }
-        },
-        "ORB": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "orb"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "The source used as the authoritative price for this intent."
-      }
-    },
     "com.vercel.billing#BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase3OutputChangedResourcesItemAddedResourceIdsList": {
       "type": "list",
       "member": {
@@ -2688,6 +2829,18 @@
     "com.vercel.billing#BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase3OutputChangedResourcesItem": {
       "type": "structure",
       "members": {
+        "addedResourceIds": {
+          "target": "com.vercel.billing#BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase3OutputChangedResourcesItemAddedResourceIdsList",
+          "traits": {
+            "smithy.api#documentation": "Resource IDs that were added."
+          }
+        },
+        "effectiveAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When this resource change should take effect for downstream consumers."
+          }
+        },
         "productAlias": {
           "target": "smithy.api#String",
           "traits": {
@@ -2707,18 +2860,6 @@
           "traits": {
             "smithy.api#documentation": "The resulting quantity after this change.",
             "smithy.api#required": {}
-          }
-        },
-        "addedResourceIds": {
-          "target": "com.vercel.billing#BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase3OutputChangedResourcesItemAddedResourceIdsList",
-          "traits": {
-            "smithy.api#documentation": "Resource IDs that were added."
-          }
-        },
-        "effectiveAt": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "When this resource change should take effect for downstream consumers."
           }
         },
         "removedResourceIds": {
@@ -2747,6 +2888,26 @@
         "smithy.api#documentation": "Resources that were changed as part of this intent. Tracks all logical changes including the primary change and any side effects."
       }
     },
+    "com.vercel.billing#BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase3OutputEffectiveBehavior": {
+      "type": "enum",
+      "members": {
+        "END_OF_TERM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "end_of_term"
+          }
+        },
+        "IMMEDIATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "immediate"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "When the subscription change should take effect."
+      }
+    },
     "com.vercel.billing#BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase3OutputMetadataMap": {
       "type": "map",
       "key": {
@@ -2759,9 +2920,63 @@
         "smithy.api#documentation": "Optional metadata associated with the intent to update the Orb subscription with."
       }
     },
+    "com.vercel.billing#BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase3OutputPricingSource": {
+      "type": "enum",
+      "members": {
+        "COPPER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "copper"
+          }
+        },
+        "ORB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "orb"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The source used as the authoritative price for this intent."
+      }
+    },
+    "com.vercel.billing#BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase3OutputReferenceBillingPeriod": {
+      "type": "structure",
+      "members": {
+        "endDate": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The exclusive end of the reference billing period.",
+            "smithy.api#required": {}
+          }
+        },
+        "startDate": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The inclusive start of the reference billing period.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The canonical reference-product billing period at intent creation. Omitted for historical intents."
+      }
+    },
     "com.vercel.billing#BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase3Output": {
       "type": "structure",
       "members": {
+        "changedResources": {
+          "target": "com.vercel.billing#BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase3OutputChangedResourcesList",
+          "traits": {
+            "smithy.api#documentation": "Resources that were changed as part of this intent. Tracks all logical changes including the primary change and any side effects."
+          }
+        },
+        "customerTimezone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The Orb customer's timezone when the intent was created. Omitted for legacy intents."
+          }
+        },
         "effectiveBehavior": {
           "target": "com.vercel.billing#BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase3OutputEffectiveBehavior",
           "traits": {
@@ -2769,11 +2984,23 @@
             "smithy.api#required": {}
           }
         },
+        "metadata": {
+          "target": "com.vercel.billing#BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase3OutputMetadataMap",
+          "traits": {
+            "smithy.api#documentation": "Optional metadata associated with the intent to update the Orb subscription with."
+          }
+        },
         "orbPriceId": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The Orb price ID for the subscription item being modified.",
             "smithy.api#required": {}
+          }
+        },
+        "pendingSubscriptionChangeId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the pending subscription change if there is one."
           }
         },
         "pricingSource": {
@@ -2790,22 +3017,10 @@
             "smithy.api#required": {}
           }
         },
-        "changedResources": {
-          "target": "com.vercel.billing#BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase3OutputChangedResourcesList",
+        "referenceBillingPeriod": {
+          "target": "com.vercel.billing#BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase3OutputReferenceBillingPeriod",
           "traits": {
-            "smithy.api#documentation": "Resources that were changed as part of this intent. Tracks all logical changes including the primary change and any side effects."
-          }
-        },
-        "metadata": {
-          "target": "com.vercel.billing#BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase3OutputMetadataMap",
-          "traits": {
-            "smithy.api#documentation": "Optional metadata associated with the intent to update the Orb subscription with."
-          }
-        },
-        "pendingSubscriptionChangeId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The ID of the pending subscription change if there is one."
+            "smithy.api#documentation": "The canonical reference-product billing period at intent creation. Omitted for historical intents."
           }
         }
       },
@@ -3054,13 +3269,6 @@
     "com.vercel.billing#BuyCreditsResponseBodyCase2OrbSubscriptionIntent": {
       "type": "structure",
       "members": {
-        "id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The ID of the Orb subscription intent with the format `orbsubint_`.",
-            "smithy.api#required": {}
-          }
-        },
         "configuration": {
           "target": "com.vercel.billing#BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfiguration",
           "traits": {
@@ -3071,6 +3279,13 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The ISO 8601 date-time that the intent was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the Orb subscription intent with the format `orbsubint_`.",
             "smithy.api#required": {}
           }
         },
@@ -3094,6 +3309,12 @@
             "smithy.api#required": {}
           }
         },
+        "purchaseIntentId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional purchase intent ID if this is associated with a purchase."
+          }
+        },
         "status": {
           "target": "com.vercel.billing#BuyCreditsResponseBodyCase2OrbSubscriptionIntentStatus",
           "traits": {
@@ -3106,12 +3327,6 @@
           "traits": {
             "smithy.api#documentation": "The ISO 8601 date-time that the intent was last updated.",
             "smithy.api#required": {}
-          }
-        },
-        "purchaseIntentId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Optional purchase intent ID if this is associated with a purchase."
           }
         }
       },

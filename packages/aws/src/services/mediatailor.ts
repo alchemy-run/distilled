@@ -1,16 +1,13 @@
-import * as HttpClient from "effect/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
-const svc = T.AwsApiService({
-  sdkId: "MediaTailor",
-  serviceShapeName: "MediaTailor",
-});
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
+import * as T from "../traits.ts";
+const svc = T.AwsApiService({ sdkId: "MediaTailor", serviceShapeName: "MediaTailor" });
 const auth = T.AwsAuthSigv4({ name: "mediatailor" });
 const ver = T.ServiceVersion("2018-04-23");
 const proto = T.AwsProtocolsRestJson1();
@@ -26,14 +23,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -69,9 +62,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://api.mediatailor-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseFIPS === false && UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -79,13 +70,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://api.mediatailor.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://api.mediatailor.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://api.mediatailor.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -108,10 +95,7 @@ export class PlaybackConfigurationNotFound
   extends /*@__PURE__*/ S.TaggedError<PlaybackConfigurationNotFound>()(
     "PlaybackConfigurationNotFound",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.SyntheticError({
-      from: "NotFoundException",
-      message: { includes: "not found" },
-    }),
+    T.SyntheticError({ from: "NotFoundException", message: { includes: "not found" } }),
   ).pipe(C.withNotFoundError) {}
 export class PrefetchScheduleNotFound
   extends /*@__PURE__*/ S.TaggedError<PrefetchScheduleNotFound>()(
@@ -136,14 +120,7 @@ export interface ConfigureLogsForChannelRequest {
 }
 export const ConfigureLogsForChannelRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ChannelName: S.String, LogTypes: LogTypes }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/configureLogs/channel" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "PUT", uri: "/configureLogs/channel" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ConfigureLogsForChannelRequest",
@@ -153,17 +130,11 @@ export interface ConfigureLogsForChannelResponse {
   LogTypes?: LogType[];
 }
 export const ConfigureLogsForChannelResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ChannelName: S.optional(S.String),
-    LogTypes: S.optional(LogTypes),
-  }),
+  S.Struct({ ChannelName: S.optional(S.String), LogTypes: S.optional(LogTypes) }),
 ).annotate({
   identifier: "ConfigureLogsForChannelResponse",
 }) as any as S.Schema<ConfigureLogsForChannelResponse>;
-export type LoggingStrategy =
-  | "VENDED_LOGS"
-  | "LEGACY_CLOUDWATCH"
-  | (string & {});
+export type LoggingStrategy = "VENDED_LOGS" | "LEGACY_CLOUDWATCH" | (string & {});
 export const LoggingStrategy = S.String;
 
 export type __listOfLoggingStrategies = LoggingStrategy[];
@@ -171,13 +142,18 @@ export const __listOfLoggingStrategies = /*@__PURE__*/ S.Array(LoggingStrategy);
 export type AdsInteractionPublishOptInEventType =
   | "RAW_ADS_RESPONSE"
   | "RAW_ADS_REQUEST"
+  | "RAW_BID_REQUEST"
+  | "RAW_BID_RESPONSE"
   | "PRE_ADS_REQUEST_HOOK_SUMMARY"
   | "PRE_ADS_REQUEST_FUNCTION_COMPLETED"
+  | "POST_ADS_RESPONSE_HOOK_SUMMARY"
+  | "POST_ADS_RESPONSE_FUNCTION_COMPLETED"
+  | "PRE_MANIFEST_INSERTION_HOOK_SUMMARY"
+  | "PRE_MANIFEST_INSERTION_FUNCTION_COMPLETED"
   | (string & {});
 export const AdsInteractionPublishOptInEventType = S.String;
 
-export type __adsInteractionPublishOptInEventTypesList =
-  AdsInteractionPublishOptInEventType[];
+export type __adsInteractionPublishOptInEventTypesList = AdsInteractionPublishOptInEventType[];
 export const __adsInteractionPublishOptInEventTypesList = /*@__PURE__*/ S.Array(
   AdsInteractionPublishOptInEventType,
 );
@@ -225,11 +201,15 @@ export type AdsInteractionExcludeEventType =
   | "INTERSTITIAL_VOD_FAILURE"
   | "PRE_ADS_REQUEST_HOOK_ERROR"
   | "PRE_ADS_REQUEST_FUNCTION_ERROR"
+  | "BEACON_RECEIVED"
+  | "POST_ADS_RESPONSE_HOOK_ERROR"
+  | "POST_ADS_RESPONSE_FUNCTION_ERROR"
+  | "PRE_MANIFEST_INSERTION_HOOK_ERROR"
+  | "PRE_MANIFEST_INSERTION_FUNCTION_ERROR"
   | (string & {});
 export const AdsInteractionExcludeEventType = S.String;
 
-export type __adsInteractionExcludeEventTypesList =
-  AdsInteractionExcludeEventType[];
+export type __adsInteractionExcludeEventTypesList = AdsInteractionExcludeEventType[];
 export const __adsInteractionExcludeEventTypesList = /*@__PURE__*/ S.Array(
   AdsInteractionExcludeEventType,
 );
@@ -239,24 +219,20 @@ export interface AdsInteractionLog {
 }
 export const AdsInteractionLog = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    PublishOptInEventTypes: S.optional(
-      __adsInteractionPublishOptInEventTypesList,
-    ),
+    PublishOptInEventTypes: S.optional(__adsInteractionPublishOptInEventTypesList),
     ExcludeEventTypes: S.optional(__adsInteractionExcludeEventTypesList),
   }),
-).annotate({
-  identifier: "AdsInteractionLog",
-}) as any as S.Schema<AdsInteractionLog>;
+).annotate({ identifier: "AdsInteractionLog" }) as any as S.Schema<AdsInteractionLog>;
 export type ManifestServicePublishOptInEventType =
   | "PRE_SESSION_INIT_HOOK_SUMMARY"
   | "PRE_SESSION_INIT_FUNCTION_COMPLETED"
   | (string & {});
 export const ManifestServicePublishOptInEventType = S.String;
 
-export type __manifestServicePublishOptInEventTypesList =
-  ManifestServicePublishOptInEventType[];
-export const __manifestServicePublishOptInEventTypesList =
-  /*@__PURE__*/ S.Array(ManifestServicePublishOptInEventType);
+export type __manifestServicePublishOptInEventTypesList = ManifestServicePublishOptInEventType[];
+export const __manifestServicePublishOptInEventTypesList = /*@__PURE__*/ S.Array(
+  ManifestServicePublishOptInEventType,
+);
 export type ManifestServiceExcludeEventType =
   | "GENERATED_MANIFEST"
   | "ORIGIN_MANIFEST"
@@ -295,8 +271,7 @@ export type ManifestServiceExcludeEventType =
   | (string & {});
 export const ManifestServiceExcludeEventType = S.String;
 
-export type __manifestServiceExcludeEventTypesList =
-  ManifestServiceExcludeEventType[];
+export type __manifestServiceExcludeEventTypesList = ManifestServiceExcludeEventType[];
 export const __manifestServiceExcludeEventTypesList = /*@__PURE__*/ S.Array(
   ManifestServiceExcludeEventType,
 );
@@ -306,9 +281,7 @@ export interface ManifestServiceInteractionLog {
 }
 export const ManifestServiceInteractionLog = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    PublishOptInEventTypes: S.optional(
-      __manifestServicePublishOptInEventTypesList,
-    ),
+    PublishOptInEventTypes: S.optional(__manifestServicePublishOptInEventTypesList),
     ExcludeEventTypes: S.optional(__manifestServiceExcludeEventTypesList),
   }),
 ).annotate({
@@ -321,27 +294,26 @@ export interface ConfigureLogsForPlaybackConfigurationRequest {
   AdsInteractionLog?: AdsInteractionLog;
   ManifestServiceInteractionLog?: ManifestServiceInteractionLog;
 }
-export const ConfigureLogsForPlaybackConfigurationRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      PercentEnabled: S.Number,
-      PlaybackConfigurationName: S.String,
-      EnabledLoggingStrategies: S.optional(__listOfLoggingStrategies),
-      AdsInteractionLog: S.optional(AdsInteractionLog),
-      ManifestServiceInteractionLog: S.optional(ManifestServiceInteractionLog),
-    }).pipe(
-      T.all(
-        T.Http({ method: "PUT", uri: "/configureLogs/playbackConfiguration" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const ConfigureLogsForPlaybackConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    PercentEnabled: S.Number,
+    PlaybackConfigurationName: S.String,
+    EnabledLoggingStrategies: S.optional(__listOfLoggingStrategies),
+    AdsInteractionLog: S.optional(AdsInteractionLog),
+    ManifestServiceInteractionLog: S.optional(ManifestServiceInteractionLog),
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/configureLogs/playbackConfiguration" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
-  ).annotate({
-    identifier: "ConfigureLogsForPlaybackConfigurationRequest",
-  }) as any as S.Schema<ConfigureLogsForPlaybackConfigurationRequest>;
+  ),
+).annotate({
+  identifier: "ConfigureLogsForPlaybackConfigurationRequest",
+}) as any as S.Schema<ConfigureLogsForPlaybackConfigurationRequest>;
 export interface ConfigureLogsForPlaybackConfigurationResponse {
   PercentEnabled: number;
   PlaybackConfigurationName?: string;
@@ -349,27 +321,23 @@ export interface ConfigureLogsForPlaybackConfigurationResponse {
   AdsInteractionLog?: AdsInteractionLog;
   ManifestServiceInteractionLog?: ManifestServiceInteractionLog;
 }
-export const ConfigureLogsForPlaybackConfigurationResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      PercentEnabled: S.Number,
-      PlaybackConfigurationName: S.optional(S.String),
-      EnabledLoggingStrategies: S.optional(__listOfLoggingStrategies),
-      AdsInteractionLog: S.optional(AdsInteractionLog),
-      ManifestServiceInteractionLog: S.optional(ManifestServiceInteractionLog),
-    }),
-  ).annotate({
-    identifier: "ConfigureLogsForPlaybackConfigurationResponse",
-  }) as any as S.Schema<ConfigureLogsForPlaybackConfigurationResponse>;
+export const ConfigureLogsForPlaybackConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    PercentEnabled: S.Number,
+    PlaybackConfigurationName: S.optional(S.String),
+    EnabledLoggingStrategies: S.optional(__listOfLoggingStrategies),
+    AdsInteractionLog: S.optional(AdsInteractionLog),
+    ManifestServiceInteractionLog: S.optional(ManifestServiceInteractionLog),
+  }),
+).annotate({
+  identifier: "ConfigureLogsForPlaybackConfigurationResponse",
+}) as any as S.Schema<ConfigureLogsForPlaybackConfigurationResponse>;
 export interface SlateSource {
   SourceLocationName?: string;
   VodSourceName?: string;
 }
 export const SlateSource = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SourceLocationName: S.optional(S.String),
-    VodSourceName: S.optional(S.String),
-  }),
+  S.Struct({ SourceLocationName: S.optional(S.String), VodSourceName: S.optional(S.String) }),
 ).annotate({ identifier: "SlateSource" }) as any as S.Schema<SlateSource>;
 export interface DashPlaylistSettings {
   ManifestWindowSeconds?: number;
@@ -384,9 +352,7 @@ export const DashPlaylistSettings = /*@__PURE__*/ S.suspend(() =>
     MinUpdatePeriodSeconds: S.optional(S.Number),
     SuggestedPresentationDelaySeconds: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "DashPlaylistSettings",
-}) as any as S.Schema<DashPlaylistSettings>;
+).annotate({ identifier: "DashPlaylistSettings" }) as any as S.Schema<DashPlaylistSettings>;
 export type AdMarkupType = "DATERANGE" | "SCTE35_ENHANCED" | (string & {});
 export const AdMarkupType = S.String;
 
@@ -401,9 +367,7 @@ export const HlsPlaylistSettings = /*@__PURE__*/ S.suspend(() =>
     ManifestWindowSeconds: S.optional(S.Number),
     AdMarkupType: S.optional(AdMarkupTypes),
   }),
-).annotate({
-  identifier: "HlsPlaylistSettings",
-}) as any as S.Schema<HlsPlaylistSettings>;
+).annotate({ identifier: "HlsPlaylistSettings" }) as any as S.Schema<HlsPlaylistSettings>;
 export interface RequestOutputItem {
   DashPlaylistSettings?: DashPlaylistSettings;
   HlsPlaylistSettings?: HlsPlaylistSettings;
@@ -417,19 +381,14 @@ export const RequestOutputItem = /*@__PURE__*/ S.suspend(() =>
     ManifestName: S.String,
     SourceGroup: S.String,
   }),
-).annotate({
-  identifier: "RequestOutputItem",
-}) as any as S.Schema<RequestOutputItem>;
+).annotate({ identifier: "RequestOutputItem" }) as any as S.Schema<RequestOutputItem>;
 export type RequestOutputs = RequestOutputItem[];
 export const RequestOutputs = /*@__PURE__*/ S.Array(RequestOutputItem);
 export type PlaybackMode = "LOOP" | "LINEAR" | (string & {});
 export const PlaybackMode = S.String;
 
 export type __mapOf__string = { [key: string]: string | undefined };
-export const __mapOf__string = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const __mapOf__string = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export type Tier = "BASIC" | "STANDARD" | (string & {});
 export const Tier = S.String;
 
@@ -438,9 +397,7 @@ export interface TimeShiftConfiguration {
 }
 export const TimeShiftConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ MaxTimeDelaySeconds: S.Number }),
-).annotate({
-  identifier: "TimeShiftConfiguration",
-}) as any as S.Schema<TimeShiftConfiguration>;
+).annotate({ identifier: "TimeShiftConfiguration" }) as any as S.Schema<TimeShiftConfiguration>;
 export type Audiences = string[];
 export const Audiences = /*@__PURE__*/ S.Array(S.String);
 export interface CreateChannelRequest {
@@ -475,9 +432,7 @@ export const CreateChannelRequest = /*@__PURE__*/ S.suspend(() =>
         rules,
       ),
     ),
-).annotate({
-  identifier: "CreateChannelRequest",
-}) as any as S.Schema<CreateChannelRequest>;
+).annotate({ identifier: "CreateChannelRequest" }) as any as S.Schema<CreateChannelRequest>;
 export type ChannelState = "RUNNING" | "STOPPED" | (string & {});
 export const ChannelState = S.String;
 
@@ -499,9 +454,7 @@ export const ResponseOutputItem = /*@__PURE__*/ S.suspend(() =>
     DualStackPlaybackUrl: S.optional(S.String),
     SourceGroup: S.String,
   }),
-).annotate({
-  identifier: "ResponseOutputItem",
-}) as any as S.Schema<ResponseOutputItem>;
+).annotate({ identifier: "ResponseOutputItem" }) as any as S.Schema<ResponseOutputItem>;
 export type ResponseOutputs = ResponseOutputItem[];
 export const ResponseOutputs = /*@__PURE__*/ S.Array(ResponseOutputItem);
 export interface CreateChannelResponse {
@@ -525,9 +478,7 @@ export const CreateChannelResponse = /*@__PURE__*/ S.suspend(() =>
     ChannelState: S.optional(ChannelState),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     FillerSlate: S.optional(SlateSource),
-    LastModifiedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     Outputs: S.optional(ResponseOutputs),
     PlaybackMode: S.optional(S.String),
     Tags: S.optional(__mapOf__string),
@@ -535,9 +486,7 @@ export const CreateChannelResponse = /*@__PURE__*/ S.suspend(() =>
     TimeShiftConfiguration: S.optional(TimeShiftConfiguration),
     Audiences: S.optional(Audiences),
   }).pipe(S.encodeKeys({ Tags: "tags" })),
-).annotate({
-  identifier: "CreateChannelResponse",
-}) as any as S.Schema<CreateChannelResponse>;
+).annotate({ identifier: "CreateChannelResponse" }) as any as S.Schema<CreateChannelResponse>;
 export type Type = "DASH" | "HLS" | (string & {});
 export const Type = S.String;
 
@@ -548,13 +497,9 @@ export interface HttpPackageConfiguration {
 }
 export const HttpPackageConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Path: S.String, SourceGroup: S.String, Type: Type }),
-).annotate({
-  identifier: "HttpPackageConfiguration",
-}) as any as S.Schema<HttpPackageConfiguration>;
+).annotate({ identifier: "HttpPackageConfiguration" }) as any as S.Schema<HttpPackageConfiguration>;
 export type HttpPackageConfigurations = HttpPackageConfiguration[];
-export const HttpPackageConfigurations = /*@__PURE__*/ S.Array(
-  HttpPackageConfiguration,
-);
+export const HttpPackageConfigurations = /*@__PURE__*/ S.Array(HttpPackageConfiguration);
 export interface CreateLiveSourceRequest {
   HttpPackageConfigurations: HttpPackageConfiguration[];
   LiveSourceName: string;
@@ -582,9 +527,7 @@ export const CreateLiveSourceRequest = /*@__PURE__*/ S.suspend(() =>
         rules,
       ),
     ),
-).annotate({
-  identifier: "CreateLiveSourceRequest",
-}) as any as S.Schema<CreateLiveSourceRequest>;
+).annotate({ identifier: "CreateLiveSourceRequest" }) as any as S.Schema<CreateLiveSourceRequest>;
 export interface CreateLiveSourceResponse {
   Arn?: string;
   CreationTime?: Date;
@@ -599,16 +542,12 @@ export const CreateLiveSourceResponse = /*@__PURE__*/ S.suspend(() =>
     Arn: S.optional(S.String),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     HttpPackageConfigurations: S.optional(HttpPackageConfigurations),
-    LastModifiedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LiveSourceName: S.optional(S.String),
     SourceLocationName: S.optional(S.String),
     Tags: S.optional(__mapOf__string),
   }).pipe(S.encodeKeys({ Tags: "tags" })),
-).annotate({
-  identifier: "CreateLiveSourceResponse",
-}) as any as S.Schema<CreateLiveSourceResponse>;
+).annotate({ identifier: "CreateLiveSourceResponse" }) as any as S.Schema<CreateLiveSourceResponse>;
 export type Operator = "EQUALS" | (string & {});
 export const Operator = S.String;
 
@@ -618,13 +557,9 @@ export interface AvailMatchingCriteria {
 }
 export const AvailMatchingCriteria = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ DynamicVariable: S.String, Operator: Operator }),
-).annotate({
-  identifier: "AvailMatchingCriteria",
-}) as any as S.Schema<AvailMatchingCriteria>;
+).annotate({ identifier: "AvailMatchingCriteria" }) as any as S.Schema<AvailMatchingCriteria>;
 export type __listOfAvailMatchingCriteria = AvailMatchingCriteria[];
-export const __listOfAvailMatchingCriteria = /*@__PURE__*/ S.Array(
-  AvailMatchingCriteria,
-);
+export const __listOfAvailMatchingCriteria = /*@__PURE__*/ S.Array(AvailMatchingCriteria);
 export interface PrefetchConsumption {
   AvailMatchingCriteria?: AvailMatchingCriteria[];
   EndTime: Date;
@@ -636,9 +571,7 @@ export const PrefetchConsumption = /*@__PURE__*/ S.suspend(() =>
     EndTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
-).annotate({
-  identifier: "PrefetchConsumption",
-}) as any as S.Schema<PrefetchConsumption>;
+).annotate({ identifier: "PrefetchConsumption" }) as any as S.Schema<PrefetchConsumption>;
 export type TrafficShapingType = "RETRIEVAL_WINDOW" | "TPS" | (string & {});
 export const TrafficShapingType = S.String;
 
@@ -655,10 +588,7 @@ export interface TrafficShapingTpsConfiguration {
   PeakConcurrentUsers?: number;
 }
 export const TrafficShapingTpsConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PeakTps: S.optional(S.Number),
-    PeakConcurrentUsers: S.optional(S.Number),
-  }),
+  S.Struct({ PeakTps: S.optional(S.Number), PeakConcurrentUsers: S.optional(S.Number) }),
 ).annotate({
   identifier: "TrafficShapingTpsConfiguration",
 }) as any as S.Schema<TrafficShapingTpsConfiguration>;
@@ -679,9 +609,7 @@ export const PrefetchRetrieval = /*@__PURE__*/ S.suspend(() =>
     TrafficShapingRetrievalWindow: S.optional(TrafficShapingRetrievalWindow),
     TrafficShapingTpsConfiguration: S.optional(TrafficShapingTpsConfiguration),
   }),
-).annotate({
-  identifier: "PrefetchRetrieval",
-}) as any as S.Schema<PrefetchRetrieval>;
+).annotate({ identifier: "PrefetchRetrieval" }) as any as S.Schema<PrefetchRetrieval>;
 export interface RecurringConsumption {
   RetrievedAdExpirationSeconds?: number;
   AvailMatchingCriteria?: AvailMatchingCriteria[];
@@ -691,9 +619,7 @@ export const RecurringConsumption = /*@__PURE__*/ S.suspend(() =>
     RetrievedAdExpirationSeconds: S.optional(S.Number),
     AvailMatchingCriteria: S.optional(__listOfAvailMatchingCriteria),
   }),
-).annotate({
-  identifier: "RecurringConsumption",
-}) as any as S.Schema<RecurringConsumption>;
+).annotate({ identifier: "RecurringConsumption" }) as any as S.Schema<RecurringConsumption>;
 export interface RecurringRetrieval {
   DynamicVariables?: { [key: string]: string | undefined };
   DelayAfterAvailEndSeconds?: number;
@@ -709,9 +635,7 @@ export const RecurringRetrieval = /*@__PURE__*/ S.suspend(() =>
     TrafficShapingRetrievalWindow: S.optional(TrafficShapingRetrievalWindow),
     TrafficShapingTpsConfiguration: S.optional(TrafficShapingTpsConfiguration),
   }),
-).annotate({
-  identifier: "RecurringRetrieval",
-}) as any as S.Schema<RecurringRetrieval>;
+).annotate({ identifier: "RecurringRetrieval" }) as any as S.Schema<RecurringRetrieval>;
 export interface RecurringPrefetchConfiguration {
   StartTime?: Date;
   EndTime: Date;
@@ -745,9 +669,7 @@ export const CreatePrefetchScheduleRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     Consumption: S.optional(PrefetchConsumption),
     Name: S.String.pipe(T.HttpLabel("Name")),
-    PlaybackConfigurationName: S.String.pipe(
-      T.HttpLabel("PlaybackConfigurationName"),
-    ),
+    PlaybackConfigurationName: S.String.pipe(T.HttpLabel("PlaybackConfigurationName")),
     Retrieval: S.optional(PrefetchRetrieval),
     RecurringPrefetchConfiguration: S.optional(RecurringPrefetchConfiguration),
     ScheduleType: S.optional(PrefetchScheduleType),
@@ -757,10 +679,7 @@ export const CreatePrefetchScheduleRequest = /*@__PURE__*/ S.suspend(() =>
     .pipe(S.encodeKeys({ Tags: "tags" }))
     .pipe(
       T.all(
-        T.Http({
-          method: "POST",
-          uri: "/prefetchSchedule/{PlaybackConfigurationName}/{Name}",
-        }),
+        T.Http({ method: "POST", uri: "/prefetchSchedule/{PlaybackConfigurationName}/{Name}" }),
         svc,
         auth,
         proto,
@@ -813,9 +732,7 @@ export const SpliceInsertMessage = /*@__PURE__*/ S.suspend(() =>
     SpliceEventId: S.optional(S.Number),
     UniqueProgramId: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "SpliceInsertMessage",
-}) as any as S.Schema<SpliceInsertMessage>;
+).annotate({ identifier: "SpliceInsertMessage" }) as any as S.Schema<SpliceInsertMessage>;
 export interface SegmentationDescriptor {
   SegmentationEventId?: number;
   SegmentationUpidType?: number;
@@ -837,21 +754,15 @@ export const SegmentationDescriptor = /*@__PURE__*/ S.suspend(() =>
     SubSegmentNum: S.optional(S.Number),
     SubSegmentsExpected: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "SegmentationDescriptor",
-}) as any as S.Schema<SegmentationDescriptor>;
+).annotate({ identifier: "SegmentationDescriptor" }) as any as S.Schema<SegmentationDescriptor>;
 export type SegmentationDescriptorList = SegmentationDescriptor[];
-export const SegmentationDescriptorList = /*@__PURE__*/ S.Array(
-  SegmentationDescriptor,
-);
+export const SegmentationDescriptorList = /*@__PURE__*/ S.Array(SegmentationDescriptor);
 export interface TimeSignalMessage {
   SegmentationDescriptors?: SegmentationDescriptor[];
 }
 export const TimeSignalMessage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ SegmentationDescriptors: S.optional(SegmentationDescriptorList) }),
-).annotate({
-  identifier: "TimeSignalMessage",
-}) as any as S.Schema<TimeSignalMessage>;
+).annotate({ identifier: "TimeSignalMessage" }) as any as S.Schema<TimeSignalMessage>;
 export interface KeyValuePair {
   Key: string;
   Value: string;
@@ -881,10 +792,7 @@ export const AdBreak = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "AdBreak" }) as any as S.Schema<AdBreak>;
 export type __listOfAdBreak = AdBreak[];
 export const __listOfAdBreak = /*@__PURE__*/ S.Array(AdBreak);
-export type RelativePosition =
-  | "BEFORE_PROGRAM"
-  | "AFTER_PROGRAM"
-  | (string & {});
+export type RelativePosition = "BEFORE_PROGRAM" | "AFTER_PROGRAM" | (string & {});
 export const RelativePosition = S.String;
 
 export interface Transition {
@@ -908,10 +816,7 @@ export interface ClipRange {
   StartOffsetMillis?: number;
 }
 export const ClipRange = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    EndOffsetMillis: S.optional(S.Number),
-    StartOffsetMillis: S.optional(S.Number),
-  }),
+  S.Struct({ EndOffsetMillis: S.optional(S.Number), StartOffsetMillis: S.optional(S.Number) }),
 ).annotate({ identifier: "ClipRange" }) as any as S.Schema<ClipRange>;
 export interface ScheduleConfiguration {
   Transition: Transition;
@@ -919,9 +824,7 @@ export interface ScheduleConfiguration {
 }
 export const ScheduleConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Transition: Transition, ClipRange: S.optional(ClipRange) }),
-).annotate({
-  identifier: "ScheduleConfiguration",
-}) as any as S.Schema<ScheduleConfiguration>;
+).annotate({ identifier: "ScheduleConfiguration" }) as any as S.Schema<ScheduleConfiguration>;
 export interface AlternateMedia {
   SourceLocationName?: string;
   LiveSourceName?: string;
@@ -949,10 +852,7 @@ export interface AudienceMedia {
   AlternateMedia?: AlternateMedia[];
 }
 export const AudienceMedia = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Audience: S.optional(S.String),
-    AlternateMedia: S.optional(__listOfAlternateMedia),
-  }),
+  S.Struct({ Audience: S.optional(S.String), AlternateMedia: S.optional(__listOfAlternateMedia) }),
 ).annotate({ identifier: "AudienceMedia" }) as any as S.Schema<AudienceMedia>;
 export type __listOfAudienceMedia = AudienceMedia[];
 export const __listOfAudienceMedia = /*@__PURE__*/ S.Array(AudienceMedia);
@@ -982,10 +882,7 @@ export const CreateProgramRequest = /*@__PURE__*/ S.suspend(() =>
     .pipe(S.encodeKeys({ Tags: "tags" }))
     .pipe(
       T.all(
-        T.Http({
-          method: "POST",
-          uri: "/channel/{ChannelName}/program/{ProgramName}",
-        }),
+        T.Http({ method: "POST", uri: "/channel/{ChannelName}/program/{ProgramName}" }),
         svc,
         auth,
         proto,
@@ -993,9 +890,7 @@ export const CreateProgramRequest = /*@__PURE__*/ S.suspend(() =>
         rules,
       ),
     ),
-).annotate({
-  identifier: "CreateProgramRequest",
-}) as any as S.Schema<CreateProgramRequest>;
+).annotate({ identifier: "CreateProgramRequest" }) as any as S.Schema<CreateProgramRequest>;
 export interface CreateProgramResponse {
   AdBreaks?: AdBreak[];
   Arn?: string;
@@ -1019,9 +914,7 @@ export const CreateProgramResponse = /*@__PURE__*/ S.suspend(() =>
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LiveSourceName: S.optional(S.String),
     ProgramName: S.optional(S.String),
-    ScheduledStartTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    ScheduledStartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     SourceLocationName: S.optional(S.String),
     VodSourceName: S.optional(S.String),
     ClipRange: S.optional(ClipRange),
@@ -1029,9 +922,7 @@ export const CreateProgramResponse = /*@__PURE__*/ S.suspend(() =>
     AudienceMedia: S.optional(__listOfAudienceMedia),
     Tags: S.optional(__mapOf__string),
   }).pipe(S.encodeKeys({ Tags: "tags" })),
-).annotate({
-  identifier: "CreateProgramResponse",
-}) as any as S.Schema<CreateProgramResponse>;
+).annotate({ identifier: "CreateProgramResponse" }) as any as S.Schema<CreateProgramResponse>;
 export type AccessType =
   | "S3_SIGV4"
   | "SECRETS_MANAGER_ACCESS_TOKEN"
@@ -1044,13 +935,12 @@ export interface SecretsManagerAccessTokenConfiguration {
   SecretArn?: string;
   SecretStringKey?: string;
 }
-export const SecretsManagerAccessTokenConfiguration = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      HeaderName: S.optional(S.String),
-      SecretArn: S.optional(S.String),
-      SecretStringKey: S.optional(S.String),
-    }),
+export const SecretsManagerAccessTokenConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    HeaderName: S.optional(S.String),
+    SecretArn: S.optional(S.String),
+    SecretStringKey: S.optional(S.String),
+  }),
 ).annotate({
   identifier: "SecretsManagerAccessTokenConfiguration",
 }) as any as S.Schema<SecretsManagerAccessTokenConfiguration>;
@@ -1061,13 +951,9 @@ export interface AccessConfiguration {
 export const AccessConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     AccessType: S.optional(AccessType),
-    SecretsManagerAccessTokenConfiguration: S.optional(
-      SecretsManagerAccessTokenConfiguration,
-    ),
+    SecretsManagerAccessTokenConfiguration: S.optional(SecretsManagerAccessTokenConfiguration),
   }),
-).annotate({
-  identifier: "AccessConfiguration",
-}) as any as S.Schema<AccessConfiguration>;
+).annotate({ identifier: "AccessConfiguration" }) as any as S.Schema<AccessConfiguration>;
 export interface DefaultSegmentDeliveryConfiguration {
   BaseUrl?: string;
 }
@@ -1081,9 +967,7 @@ export interface HttpConfiguration {
 }
 export const HttpConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ BaseUrl: S.String }),
-).annotate({
-  identifier: "HttpConfiguration",
-}) as any as S.Schema<HttpConfiguration>;
+).annotate({ identifier: "HttpConfiguration" }) as any as S.Schema<HttpConfiguration>;
 export interface SegmentDeliveryConfiguration {
   BaseUrl?: string;
   Name?: string;
@@ -1093,8 +977,7 @@ export const SegmentDeliveryConfiguration = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "SegmentDeliveryConfiguration",
 }) as any as S.Schema<SegmentDeliveryConfiguration>;
-export type __listOfSegmentDeliveryConfiguration =
-  SegmentDeliveryConfiguration[];
+export type __listOfSegmentDeliveryConfiguration = SegmentDeliveryConfiguration[];
 export const __listOfSegmentDeliveryConfiguration = /*@__PURE__*/ S.Array(
   SegmentDeliveryConfiguration,
 );
@@ -1109,13 +992,9 @@ export interface CreateSourceLocationRequest {
 export const CreateSourceLocationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     AccessConfiguration: S.optional(AccessConfiguration),
-    DefaultSegmentDeliveryConfiguration: S.optional(
-      DefaultSegmentDeliveryConfiguration,
-    ),
+    DefaultSegmentDeliveryConfiguration: S.optional(DefaultSegmentDeliveryConfiguration),
     HttpConfiguration: HttpConfiguration,
-    SegmentDeliveryConfigurations: S.optional(
-      __listOfSegmentDeliveryConfiguration,
-    ),
+    SegmentDeliveryConfigurations: S.optional(__listOfSegmentDeliveryConfiguration),
     SourceLocationName: S.String.pipe(T.HttpLabel("SourceLocationName")),
     Tags: S.optional(__mapOf__string),
   })
@@ -1149,16 +1028,10 @@ export const CreateSourceLocationResponse = /*@__PURE__*/ S.suspend(() =>
     AccessConfiguration: S.optional(AccessConfiguration),
     Arn: S.optional(S.String),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    DefaultSegmentDeliveryConfiguration: S.optional(
-      DefaultSegmentDeliveryConfiguration,
-    ),
+    DefaultSegmentDeliveryConfiguration: S.optional(DefaultSegmentDeliveryConfiguration),
     HttpConfiguration: S.optional(HttpConfiguration),
-    LastModifiedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    SegmentDeliveryConfigurations: S.optional(
-      __listOfSegmentDeliveryConfiguration,
-    ),
+    LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    SegmentDeliveryConfigurations: S.optional(__listOfSegmentDeliveryConfiguration),
     SourceLocationName: S.optional(S.String),
     Tags: S.optional(__mapOf__string),
   }).pipe(S.encodeKeys({ Tags: "tags" })),
@@ -1192,9 +1065,7 @@ export const CreateVodSourceRequest = /*@__PURE__*/ S.suspend(() =>
         rules,
       ),
     ),
-).annotate({
-  identifier: "CreateVodSourceRequest",
-}) as any as S.Schema<CreateVodSourceRequest>;
+).annotate({ identifier: "CreateVodSourceRequest" }) as any as S.Schema<CreateVodSourceRequest>;
 export interface CreateVodSourceResponse {
   Arn?: string;
   CreationTime?: Date;
@@ -1209,16 +1080,12 @@ export const CreateVodSourceResponse = /*@__PURE__*/ S.suspend(() =>
     Arn: S.optional(S.String),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     HttpPackageConfigurations: S.optional(HttpPackageConfigurations),
-    LastModifiedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     SourceLocationName: S.optional(S.String),
     Tags: S.optional(__mapOf__string),
     VodSourceName: S.optional(S.String),
   }).pipe(S.encodeKeys({ Tags: "tags" })),
-).annotate({
-  identifier: "CreateVodSourceResponse",
-}) as any as S.Schema<CreateVodSourceResponse>;
+).annotate({ identifier: "CreateVodSourceResponse" }) as any as S.Schema<CreateVodSourceResponse>;
 export interface DeleteChannelRequest {
   ChannelName: string;
 }
@@ -1233,13 +1100,9 @@ export const DeleteChannelRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteChannelRequest",
-}) as any as S.Schema<DeleteChannelRequest>;
+).annotate({ identifier: "DeleteChannelRequest" }) as any as S.Schema<DeleteChannelRequest>;
 export interface DeleteChannelResponse {}
-export const DeleteChannelResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteChannelResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteChannelResponse",
 }) as any as S.Schema<DeleteChannelResponse>;
 export interface DeleteChannelPolicyRequest {
@@ -1260,9 +1123,7 @@ export const DeleteChannelPolicyRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteChannelPolicyRequest",
 }) as any as S.Schema<DeleteChannelPolicyRequest>;
 export interface DeleteChannelPolicyResponse {}
-export const DeleteChannelPolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteChannelPolicyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteChannelPolicyResponse",
 }) as any as S.Schema<DeleteChannelPolicyResponse>;
 export interface DeleteFunctionRequest {
@@ -1279,13 +1140,9 @@ export const DeleteFunctionRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteFunctionRequest",
-}) as any as S.Schema<DeleteFunctionRequest>;
+).annotate({ identifier: "DeleteFunctionRequest" }) as any as S.Schema<DeleteFunctionRequest>;
 export interface DeleteFunctionResponse {}
-export const DeleteFunctionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteFunctionResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteFunctionResponse",
 }) as any as S.Schema<DeleteFunctionResponse>;
 export interface DeleteLiveSourceRequest {
@@ -1309,13 +1166,9 @@ export const DeleteLiveSourceRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteLiveSourceRequest",
-}) as any as S.Schema<DeleteLiveSourceRequest>;
+).annotate({ identifier: "DeleteLiveSourceRequest" }) as any as S.Schema<DeleteLiveSourceRequest>;
 export interface DeleteLiveSourceResponse {}
-export const DeleteLiveSourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteLiveSourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteLiveSourceResponse",
 }) as any as S.Schema<DeleteLiveSourceResponse>;
 export interface DeletePlaybackConfigurationRequest {
@@ -1348,15 +1201,10 @@ export interface DeletePrefetchScheduleRequest {
 export const DeletePrefetchScheduleRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     Name: S.String.pipe(T.HttpLabel("Name")),
-    PlaybackConfigurationName: S.String.pipe(
-      T.HttpLabel("PlaybackConfigurationName"),
-    ),
+    PlaybackConfigurationName: S.String.pipe(T.HttpLabel("PlaybackConfigurationName")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/prefetchSchedule/{PlaybackConfigurationName}/{Name}",
-      }),
+      T.Http({ method: "DELETE", uri: "/prefetchSchedule/{PlaybackConfigurationName}/{Name}" }),
       svc,
       auth,
       proto,
@@ -1368,9 +1216,7 @@ export const DeletePrefetchScheduleRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeletePrefetchScheduleRequest",
 }) as any as S.Schema<DeletePrefetchScheduleRequest>;
 export interface DeletePrefetchScheduleResponse {}
-export const DeletePrefetchScheduleResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeletePrefetchScheduleResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeletePrefetchScheduleResponse",
 }) as any as S.Schema<DeletePrefetchScheduleResponse>;
 export interface DeleteProgramRequest {
@@ -1383,10 +1229,7 @@ export const DeleteProgramRequest = /*@__PURE__*/ S.suspend(() =>
     ProgramName: S.String.pipe(T.HttpLabel("ProgramName")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/channel/{ChannelName}/program/{ProgramName}",
-      }),
+      T.Http({ method: "DELETE", uri: "/channel/{ChannelName}/program/{ProgramName}" }),
       svc,
       auth,
       proto,
@@ -1394,22 +1237,16 @@ export const DeleteProgramRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteProgramRequest",
-}) as any as S.Schema<DeleteProgramRequest>;
+).annotate({ identifier: "DeleteProgramRequest" }) as any as S.Schema<DeleteProgramRequest>;
 export interface DeleteProgramResponse {}
-export const DeleteProgramResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteProgramResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteProgramResponse",
 }) as any as S.Schema<DeleteProgramResponse>;
 export interface DeleteSourceLocationRequest {
   SourceLocationName: string;
 }
 export const DeleteSourceLocationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SourceLocationName: S.String.pipe(T.HttpLabel("SourceLocationName")),
-  }).pipe(
+  S.Struct({ SourceLocationName: S.String.pipe(T.HttpLabel("SourceLocationName")) }).pipe(
     T.all(
       T.Http({ method: "DELETE", uri: "/sourceLocation/{SourceLocationName}" }),
       svc,
@@ -1423,9 +1260,7 @@ export const DeleteSourceLocationRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteSourceLocationRequest",
 }) as any as S.Schema<DeleteSourceLocationRequest>;
 export interface DeleteSourceLocationResponse {}
-export const DeleteSourceLocationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteSourceLocationResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteSourceLocationResponse",
 }) as any as S.Schema<DeleteSourceLocationResponse>;
 export interface DeleteVodSourceRequest {
@@ -1449,13 +1284,9 @@ export const DeleteVodSourceRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteVodSourceRequest",
-}) as any as S.Schema<DeleteVodSourceRequest>;
+).annotate({ identifier: "DeleteVodSourceRequest" }) as any as S.Schema<DeleteVodSourceRequest>;
 export interface DeleteVodSourceResponse {}
-export const DeleteVodSourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteVodSourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteVodSourceResponse",
 }) as any as S.Schema<DeleteVodSourceResponse>;
 export interface DescribeChannelRequest {
@@ -1463,18 +1294,9 @@ export interface DescribeChannelRequest {
 }
 export const DescribeChannelRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ChannelName: S.String.pipe(T.HttpLabel("ChannelName")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/channel/{ChannelName}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/channel/{ChannelName}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DescribeChannelRequest",
-}) as any as S.Schema<DescribeChannelRequest>;
+).annotate({ identifier: "DescribeChannelRequest" }) as any as S.Schema<DescribeChannelRequest>;
 export interface LogConfigurationForChannel {
   LogTypes?: LogType[];
 }
@@ -1505,9 +1327,7 @@ export const DescribeChannelResponse = /*@__PURE__*/ S.suspend(() =>
     ChannelState: S.optional(ChannelState),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     FillerSlate: S.optional(SlateSource),
-    LastModifiedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     Outputs: S.optional(ResponseOutputs),
     PlaybackMode: S.optional(S.String),
     Tags: S.optional(__mapOf__string),
@@ -1516,9 +1336,7 @@ export const DescribeChannelResponse = /*@__PURE__*/ S.suspend(() =>
     TimeShiftConfiguration: S.optional(TimeShiftConfiguration),
     Audiences: S.optional(Audiences),
   }).pipe(S.encodeKeys({ Tags: "tags" })),
-).annotate({
-  identifier: "DescribeChannelResponse",
-}) as any as S.Schema<DescribeChannelResponse>;
+).annotate({ identifier: "DescribeChannelResponse" }) as any as S.Schema<DescribeChannelResponse>;
 export interface DescribeLiveSourceRequest {
   LiveSourceName: string;
   SourceLocationName: string;
@@ -1557,9 +1375,7 @@ export const DescribeLiveSourceResponse = /*@__PURE__*/ S.suspend(() =>
     Arn: S.optional(S.String),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     HttpPackageConfigurations: S.optional(HttpPackageConfigurations),
-    LastModifiedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LiveSourceName: S.optional(S.String),
     SourceLocationName: S.optional(S.String),
     Tags: S.optional(__mapOf__string),
@@ -1577,10 +1393,7 @@ export const DescribeProgramRequest = /*@__PURE__*/ S.suspend(() =>
     ProgramName: S.String.pipe(T.HttpLabel("ProgramName")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/channel/{ChannelName}/program/{ProgramName}",
-      }),
+      T.Http({ method: "GET", uri: "/channel/{ChannelName}/program/{ProgramName}" }),
       svc,
       auth,
       proto,
@@ -1588,9 +1401,7 @@ export const DescribeProgramRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DescribeProgramRequest",
-}) as any as S.Schema<DescribeProgramRequest>;
+).annotate({ identifier: "DescribeProgramRequest" }) as any as S.Schema<DescribeProgramRequest>;
 export interface DescribeProgramResponse {
   AdBreaks?: AdBreak[];
   Arn?: string;
@@ -1614,9 +1425,7 @@ export const DescribeProgramResponse = /*@__PURE__*/ S.suspend(() =>
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LiveSourceName: S.optional(S.String),
     ProgramName: S.optional(S.String),
-    ScheduledStartTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    ScheduledStartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     SourceLocationName: S.optional(S.String),
     VodSourceName: S.optional(S.String),
     ClipRange: S.optional(ClipRange),
@@ -1624,16 +1433,12 @@ export const DescribeProgramResponse = /*@__PURE__*/ S.suspend(() =>
     AudienceMedia: S.optional(__listOfAudienceMedia),
     Tags: S.optional(__mapOf__string),
   }).pipe(S.encodeKeys({ Tags: "tags" })),
-).annotate({
-  identifier: "DescribeProgramResponse",
-}) as any as S.Schema<DescribeProgramResponse>;
+).annotate({ identifier: "DescribeProgramResponse" }) as any as S.Schema<DescribeProgramResponse>;
 export interface DescribeSourceLocationRequest {
   SourceLocationName: string;
 }
 export const DescribeSourceLocationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SourceLocationName: S.String.pipe(T.HttpLabel("SourceLocationName")),
-  }).pipe(
+  S.Struct({ SourceLocationName: S.String.pipe(T.HttpLabel("SourceLocationName")) }).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/sourceLocation/{SourceLocationName}" }),
       svc,
@@ -1662,16 +1467,10 @@ export const DescribeSourceLocationResponse = /*@__PURE__*/ S.suspend(() =>
     AccessConfiguration: S.optional(AccessConfiguration),
     Arn: S.optional(S.String),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    DefaultSegmentDeliveryConfiguration: S.optional(
-      DefaultSegmentDeliveryConfiguration,
-    ),
+    DefaultSegmentDeliveryConfiguration: S.optional(DefaultSegmentDeliveryConfiguration),
     HttpConfiguration: S.optional(HttpConfiguration),
-    LastModifiedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    SegmentDeliveryConfigurations: S.optional(
-      __listOfSegmentDeliveryConfiguration,
-    ),
+    LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    SegmentDeliveryConfigurations: S.optional(__listOfSegmentDeliveryConfiguration),
     SourceLocationName: S.optional(S.String),
     Tags: S.optional(__mapOf__string),
   }).pipe(S.encodeKeys({ Tags: "tags" })),
@@ -1699,17 +1498,13 @@ export const DescribeVodSourceRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DescribeVodSourceRequest",
-}) as any as S.Schema<DescribeVodSourceRequest>;
+).annotate({ identifier: "DescribeVodSourceRequest" }) as any as S.Schema<DescribeVodSourceRequest>;
 export interface AdBreakOpportunity {
   OffsetMillis: number;
 }
 export const AdBreakOpportunity = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ OffsetMillis: S.Number }),
-).annotate({
-  identifier: "AdBreakOpportunity",
-}) as any as S.Schema<AdBreakOpportunity>;
+).annotate({ identifier: "AdBreakOpportunity" }) as any as S.Schema<AdBreakOpportunity>;
 export type AdBreakOpportunities = AdBreakOpportunity[];
 export const AdBreakOpportunities = /*@__PURE__*/ S.Array(AdBreakOpportunity);
 export interface DescribeVodSourceResponse {
@@ -1728,9 +1523,7 @@ export const DescribeVodSourceResponse = /*@__PURE__*/ S.suspend(() =>
     Arn: S.optional(S.String),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     HttpPackageConfigurations: S.optional(HttpPackageConfigurations),
-    LastModifiedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     SourceLocationName: S.optional(S.String),
     Tags: S.optional(__mapOf__string),
     VodSourceName: S.optional(S.String),
@@ -1752,17 +1545,13 @@ export const GetChannelPolicyRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetChannelPolicyRequest",
-}) as any as S.Schema<GetChannelPolicyRequest>;
+).annotate({ identifier: "GetChannelPolicyRequest" }) as any as S.Schema<GetChannelPolicyRequest>;
 export interface GetChannelPolicyResponse {
   Policy?: string;
 }
 export const GetChannelPolicyResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Policy: S.optional(S.String) }),
-).annotate({
-  identifier: "GetChannelPolicyResponse",
-}) as any as S.Schema<GetChannelPolicyResponse>;
+).annotate({ identifier: "GetChannelPolicyResponse" }) as any as S.Schema<GetChannelPolicyResponse>;
 export type MaxResults = number;
 export interface GetChannelScheduleRequest {
   ChannelName: string;
@@ -1800,22 +1589,14 @@ export interface ScheduleAdBreak {
 export const ScheduleAdBreak = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ApproximateDurationSeconds: S.optional(S.Number),
-    ApproximateStartTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    ApproximateStartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     SourceLocationName: S.optional(S.String),
     VodSourceName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ScheduleAdBreak",
-}) as any as S.Schema<ScheduleAdBreak>;
+).annotate({ identifier: "ScheduleAdBreak" }) as any as S.Schema<ScheduleAdBreak>;
 export type __listOfScheduleAdBreak = ScheduleAdBreak[];
 export const __listOfScheduleAdBreak = /*@__PURE__*/ S.Array(ScheduleAdBreak);
-export type ScheduleEntryType =
-  | "PROGRAM"
-  | "FILLER_SLATE"
-  | "ALTERNATE_MEDIA"
-  | (string & {});
+export type ScheduleEntryType = "PROGRAM" | "FILLER_SLATE" | "ALTERNATE_MEDIA" | (string & {});
 export const ScheduleEntryType = S.String;
 
 export interface ScheduleEntry {
@@ -1834,9 +1615,7 @@ export interface ScheduleEntry {
 export const ScheduleEntry = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ApproximateDurationSeconds: S.optional(S.Number),
-    ApproximateStartTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    ApproximateStartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     Arn: S.String,
     ChannelName: S.String,
     LiveSourceName: S.optional(S.String),
@@ -1855,10 +1634,7 @@ export interface GetChannelScheduleResponse {
   NextToken?: string;
 }
 export const GetChannelScheduleResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Items: S.optional(__listOfScheduleEntry),
-    NextToken: S.optional(S.String),
-  }),
+  S.Struct({ Items: S.optional(__listOfScheduleEntry), NextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "GetChannelScheduleResponse",
 }) as any as S.Schema<GetChannelScheduleResponse>;
@@ -1867,23 +1643,16 @@ export interface GetFunctionRequest {
 }
 export const GetFunctionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ FunctionId: S.String.pipe(T.HttpLabel("FunctionId")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/function/{FunctionId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/function/{FunctionId}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetFunctionRequest",
-}) as any as S.Schema<GetFunctionRequest>;
+).annotate({ identifier: "GetFunctionRequest" }) as any as S.Schema<GetFunctionRequest>;
 export type FunctionType =
   | "HTTP_REQUEST"
+  | "AWS_SERVICE_REQUEST"
   | "CUSTOM_OUTPUT"
   | "CONCURRENT_EXECUTOR"
   | "SEQUENTIAL_EXECUTOR"
+  | "VAST_REQUEST"
   | (string & {});
 export const FunctionType = S.String;
 
@@ -1912,9 +1681,34 @@ export const HttpRequestConfiguration = /*@__PURE__*/ S.suspend(() =>
     Body: S.optional(S.String),
     Headers: S.optional(__mapOf__string),
   }),
+).annotate({ identifier: "HttpRequestConfiguration" }) as any as S.Schema<HttpRequestConfiguration>;
+export type AwsTargetService = string;
+export interface AwsServiceRequestConfiguration {
+  Runtime: RuntimeType;
+  Output?: { [key: string]: string | undefined };
+  MethodType: MethodType;
+  RequestTimeoutMilliseconds: number;
+  Url: string;
+  Body?: string;
+  Headers?: { [key: string]: string | undefined };
+  TargetService: string;
+  TargetRegion: string;
+}
+export const AwsServiceRequestConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Runtime: RuntimeType,
+    Output: S.optional(__mapOf__string),
+    MethodType: MethodType,
+    RequestTimeoutMilliseconds: S.Number,
+    Url: S.String,
+    Body: S.optional(S.String),
+    Headers: S.optional(__mapOf__string),
+    TargetService: S.String,
+    TargetRegion: S.String,
+  }),
 ).annotate({
-  identifier: "HttpRequestConfiguration",
-}) as any as S.Schema<HttpRequestConfiguration>;
+  identifier: "AwsServiceRequestConfiguration",
+}) as any as S.Schema<AwsServiceRequestConfiguration>;
 export interface CustomOutputConfiguration {
   Runtime: RuntimeType;
   Output?: { [key: string]: string | undefined };
@@ -1972,14 +1766,36 @@ export const SequentialExecutorConfiguration = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "SequentialExecutorConfiguration",
 }) as any as S.Schema<SequentialExecutorConfiguration>;
+export interface VastRequestConfiguration {
+  Runtime: RuntimeType;
+  Output?: { [key: string]: string | undefined };
+  MethodType: MethodType;
+  RequestTimeoutMilliseconds: number;
+  Url: string;
+  Body?: string;
+  Headers?: { [key: string]: string | undefined };
+}
+export const VastRequestConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Runtime: RuntimeType,
+    Output: S.optional(__mapOf__string),
+    MethodType: MethodType,
+    RequestTimeoutMilliseconds: S.Number,
+    Url: S.String,
+    Body: S.optional(S.String),
+    Headers: S.optional(__mapOf__string),
+  }),
+).annotate({ identifier: "VastRequestConfiguration" }) as any as S.Schema<VastRequestConfiguration>;
 export interface GetFunctionResponse {
   FunctionId: string;
   FunctionType: FunctionType;
   Description?: string;
   HttpRequestConfiguration?: HttpRequestConfiguration;
+  AwsServiceRequestConfiguration?: AwsServiceRequestConfiguration;
   CustomOutputConfiguration?: CustomOutputConfiguration;
   ConcurrentExecutorConfiguration?: ConcurrentExecutorConfiguration;
   SequentialExecutorConfiguration?: SequentialExecutorConfiguration;
+  VastRequestConfiguration?: VastRequestConfiguration;
   Tags?: { [key: string]: string | undefined };
   Arn?: string;
 }
@@ -1989,19 +1805,15 @@ export const GetFunctionResponse = /*@__PURE__*/ S.suspend(() =>
     FunctionType: FunctionType,
     Description: S.optional(S.String),
     HttpRequestConfiguration: S.optional(HttpRequestConfiguration),
+    AwsServiceRequestConfiguration: S.optional(AwsServiceRequestConfiguration),
     CustomOutputConfiguration: S.optional(CustomOutputConfiguration),
-    ConcurrentExecutorConfiguration: S.optional(
-      ConcurrentExecutorConfiguration,
-    ),
-    SequentialExecutorConfiguration: S.optional(
-      SequentialExecutorConfiguration,
-    ),
+    ConcurrentExecutorConfiguration: S.optional(ConcurrentExecutorConfiguration),
+    SequentialExecutorConfiguration: S.optional(SequentialExecutorConfiguration),
+    VastRequestConfiguration: S.optional(VastRequestConfiguration),
     Tags: S.optional(__mapOf__string),
     Arn: S.optional(S.String),
   }).pipe(S.encodeKeys({ Tags: "tags" })),
-).annotate({
-  identifier: "GetFunctionResponse",
-}) as any as S.Schema<GetFunctionResponse>;
+).annotate({ identifier: "GetFunctionResponse" }) as any as S.Schema<GetFunctionResponse>;
 export interface GetPlaybackConfigurationRequest {
   Name: string;
 }
@@ -2019,11 +1831,7 @@ export const GetPlaybackConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "GetPlaybackConfigurationRequest",
 }) as any as S.Schema<GetPlaybackConfigurationRequest>;
-export type Mode =
-  | "OFF"
-  | "BEHIND_LIVE_EDGE"
-  | "AFTER_LIVE_EDGE"
-  | (string & {});
+export type Mode = "OFF" | "BEHIND_LIVE_EDGE" | "AFTER_LIVE_EDGE" | (string & {});
 export const Mode = S.String;
 
 export type FillPolicy = "FULL_AVAIL_ONLY" | "PARTIAL_AVAIL" | (string & {});
@@ -2040,9 +1848,7 @@ export const AvailSuppression = /*@__PURE__*/ S.suspend(() =>
     Value: S.optional(S.String),
     FillPolicy: S.optional(FillPolicy),
   }),
-).annotate({
-  identifier: "AvailSuppression",
-}) as any as S.Schema<AvailSuppression>;
+).annotate({ identifier: "AvailSuppression" }) as any as S.Schema<AvailSuppression>;
 export interface Bumper {
   EndUrl?: string;
   StartUrl?: string;
@@ -2059,9 +1865,7 @@ export const CdnConfiguration = /*@__PURE__*/ S.suspend(() =>
     AdSegmentUrlPrefix: S.optional(S.String),
     ContentSegmentUrlPrefix: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CdnConfiguration",
-}) as any as S.Schema<CdnConfiguration>;
+).annotate({ identifier: "CdnConfiguration" }) as any as S.Schema<CdnConfiguration>;
 export type ConfigurationAliasesResponse = {
   [key: string]: { [key: string]: string | undefined } | undefined;
 };
@@ -2069,10 +1873,7 @@ export const ConfigurationAliasesResponse = /*@__PURE__*/ S.Record(
   S.String,
   __mapOf__string.pipe(S.optional),
 );
-export type OriginManifestType =
-  | "SINGLE_PERIOD"
-  | "MULTI_PERIOD"
-  | (string & {});
+export type OriginManifestType = "SINGLE_PERIOD" | "MULTI_PERIOD" | (string & {});
 export const OriginManifestType = S.String;
 
 export interface DashConfiguration {
@@ -2088,9 +1889,7 @@ export const DashConfiguration = /*@__PURE__*/ S.suspend(() =>
     MpdLocation: S.optional(S.String),
     OriginManifestType: S.optional(OriginManifestType),
   }),
-).annotate({
-  identifier: "DashConfiguration",
-}) as any as S.Schema<DashConfiguration>;
+).annotate({ identifier: "DashConfiguration" }) as any as S.Schema<DashConfiguration>;
 export interface HlsConfiguration {
   ManifestEndpointPrefix?: string;
   DualStackManifestEndpointPrefix?: string;
@@ -2100,16 +1899,11 @@ export const HlsConfiguration = /*@__PURE__*/ S.suspend(() =>
     ManifestEndpointPrefix: S.optional(S.String),
     DualStackManifestEndpointPrefix: S.optional(S.String),
   }),
-).annotate({
-  identifier: "HlsConfiguration",
-}) as any as S.Schema<HlsConfiguration>;
+).annotate({ identifier: "HlsConfiguration" }) as any as S.Schema<HlsConfiguration>;
 export type InsertionMode = "STITCHED_ONLY" | "PLAYER_SELECT" | (string & {});
 export const InsertionMode = S.String;
 
-export type PreRollAdSequencingMode =
-  | "FOLLOW_AD_SEQUENCE"
-  | "IGNORE_AD_SEQUENCE"
-  | (string & {});
+export type PreRollAdSequencingMode = "FOLLOW_AD_SEQUENCE" | "IGNORE_AD_SEQUENCE" | (string & {});
 export const PreRollAdSequencingMode = S.String;
 
 export interface PreRollVastResponse {
@@ -2117,14 +1911,12 @@ export interface PreRollVastResponse {
 }
 export const PreRollVastResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ AdSequencingMode: S.optional(PreRollAdSequencingMode) }),
-).annotate({
-  identifier: "PreRollVastResponse",
-}) as any as S.Schema<PreRollVastResponse>;
+).annotate({ identifier: "PreRollVastResponse" }) as any as S.Schema<PreRollVastResponse>;
 export interface PreRollAdDecisionServerConfiguration {
   VastResponse?: PreRollVastResponse;
 }
-export const PreRollAdDecisionServerConfiguration = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ VastResponse: S.optional(PreRollVastResponse) }),
+export const PreRollAdDecisionServerConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ VastResponse: S.optional(PreRollVastResponse) }),
 ).annotate({
   identifier: "PreRollAdDecisionServerConfiguration",
 }) as any as S.Schema<PreRollAdDecisionServerConfiguration>;
@@ -2137,13 +1929,9 @@ export const LivePreRollConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     AdDecisionServerUrl: S.optional(S.String),
     MaxDurationSeconds: S.optional(S.Number),
-    AdDecisionServerConfiguration: S.optional(
-      PreRollAdDecisionServerConfiguration,
-    ),
+    AdDecisionServerConfiguration: S.optional(PreRollAdDecisionServerConfiguration),
   }),
-).annotate({
-  identifier: "LivePreRollConfiguration",
-}) as any as S.Schema<LivePreRollConfiguration>;
+).annotate({ identifier: "LivePreRollConfiguration" }) as any as S.Schema<LivePreRollConfiguration>;
 export interface LogConfiguration {
   PercentEnabled: number;
   EnabledLoggingStrategies?: LoggingStrategy[];
@@ -2157,30 +1945,21 @@ export const LogConfiguration = /*@__PURE__*/ S.suspend(() =>
     AdsInteractionLog: S.optional(AdsInteractionLog),
     ManifestServiceInteractionLog: S.optional(ManifestServiceInteractionLog),
   }),
-).annotate({
-  identifier: "LogConfiguration",
-}) as any as S.Schema<LogConfiguration>;
+).annotate({ identifier: "LogConfiguration" }) as any as S.Schema<LogConfiguration>;
 export interface AdMarkerPassthrough {
   Enabled?: boolean;
 }
 export const AdMarkerPassthrough = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Enabled: S.optional(S.Boolean) }),
-).annotate({
-  identifier: "AdMarkerPassthrough",
-}) as any as S.Schema<AdMarkerPassthrough>;
+).annotate({ identifier: "AdMarkerPassthrough" }) as any as S.Schema<AdMarkerPassthrough>;
 export interface ManifestProcessingRules {
   AdMarkerPassthrough?: AdMarkerPassthrough;
 }
 export const ManifestProcessingRules = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ AdMarkerPassthrough: S.optional(AdMarkerPassthrough) }),
-).annotate({
-  identifier: "ManifestProcessingRules",
-}) as any as S.Schema<ManifestProcessingRules>;
+).annotate({ identifier: "ManifestProcessingRules" }) as any as S.Schema<ManifestProcessingRules>;
 export type __integerMin1 = number;
-export type StreamingMediaFileConditioning =
-  | "TRANSCODE"
-  | "NONE"
-  | (string & {});
+export type StreamingMediaFileConditioning = "TRANSCODE" | "NONE" | (string & {});
 export const StreamingMediaFileConditioning = S.String;
 
 export interface AdConditioningConfiguration {
@@ -2195,10 +1974,7 @@ export type Method = "GET" | "POST" | (string & {});
 export const Method = S.String;
 
 export type StringMap = { [key: string]: string | undefined };
-export const StringMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const StringMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export type CompressionMethod = "NONE" | "GZIP" | (string & {});
 export const CompressionMethod = S.String;
 
@@ -2235,24 +2011,42 @@ export interface AdDecisionServerConfiguration {
   VastResponse?: VastResponse;
 }
 export const AdDecisionServerConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    HttpRequest: S.optional(HttpRequest),
-    VastResponse: S.optional(VastResponse),
-  }),
+  S.Struct({ HttpRequest: S.optional(HttpRequest), VastResponse: S.optional(VastResponse) }),
 ).annotate({
   identifier: "AdDecisionServerConfiguration",
 }) as any as S.Schema<AdDecisionServerConfiguration>;
+export type MinimumUnfilledDurationSeconds = number;
+export type ApsPublisherId = string;
+export type ApsRegion = "AMERICAS" | "EUROPE" | "ASIA_PACIFIC" | (string & {});
+export const ApsRegion = S.String;
+
+export type OpenRtbTemplateString = string;
+export interface YieldOptimizationConfiguration {
+  MinimumUnfilledDuration: number;
+  PublisherId: string;
+  Region: ApsRegion;
+  OpenRtbTemplate: string;
+}
+export const YieldOptimizationConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    MinimumUnfilledDuration: S.Number,
+    PublisherId: S.String,
+    Region: ApsRegion,
+    OpenRtbTemplate: S.String,
+  }),
+).annotate({
+  identifier: "YieldOptimizationConfiguration",
+}) as any as S.Schema<YieldOptimizationConfiguration>;
 export type EventName =
   | "PRE_SESSION_INITIALIZATION"
   | "PRE_ADS_REQUEST"
+  | "POST_ADS_RESPONSE"
+  | "PRE_MANIFEST_INSERTION"
   | (string & {});
 export const EventName = S.String;
 
 export type FunctionMapping = { [key in EventName]?: string };
-export const FunctionMapping = /*@__PURE__*/ S.Record(
-  EventName,
-  S.String.pipe(S.optional),
-);
+export const FunctionMapping = /*@__PURE__*/ S.Record(EventName, S.String.pipe(S.optional));
 export interface AdsPersonalizationTimeouts {
   AdsRequestTimeoutMilliseconds?: number;
   LiveMaximumAdsPersonalizationTimeMilliseconds?: number;
@@ -2283,21 +2077,43 @@ export const AdsPersonalizationConcurrency = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "AdsPersonalizationConcurrency",
 }) as any as S.Schema<AdsPersonalizationConcurrency>;
+export type ClientSideBeaconingMode = "DISABLED" | "INSIGHTS" | (string & {});
+export const ClientSideBeaconingMode = S.String;
+
+export type BeaconEventType = "MUTE" | "UNMUTE" | "PAUSE" | "SKIP" | (string & {});
+export const BeaconEventType = S.String;
+
+export type BeaconEventTypeList = BeaconEventType[];
+export const BeaconEventTypeList = /*@__PURE__*/ S.Array(BeaconEventType);
+export interface ClientSideBeaconingConfiguration {
+  ReportingMode: ClientSideBeaconingMode;
+  AdditionalEventTypes?: BeaconEventType[];
+}
+export const ClientSideBeaconingConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ReportingMode: ClientSideBeaconingMode,
+    AdditionalEventTypes: S.optional(BeaconEventTypeList),
+  }),
+).annotate({
+  identifier: "ClientSideBeaconingConfiguration",
+}) as any as S.Schema<ClientSideBeaconingConfiguration>;
+export interface BeaconingConfiguration {
+  ClientSide?: ClientSideBeaconingConfiguration;
+}
+export const BeaconingConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ ClientSide: S.optional(ClientSideBeaconingConfiguration) }),
+).annotate({ identifier: "BeaconingConfiguration" }) as any as S.Schema<BeaconingConfiguration>;
 export interface GetPlaybackConfigurationResponse {
   AdDecisionServerUrl?: string;
   AvailSuppression?: AvailSuppression;
   Bumper?: Bumper;
   CdnConfiguration?: CdnConfiguration;
-  ConfigurationAliases?: {
-    [key: string]: { [key: string]: string | undefined } | undefined;
-  };
+  ConfigurationAliases?: { [key: string]: { [key: string]: string | undefined } | undefined };
   DashConfiguration?: DashConfiguration;
   HlsConfiguration?: HlsConfiguration;
   InsertionMode?: InsertionMode;
   LivePreRollConfiguration?: LivePreRollConfiguration;
-  LogConfiguration?: LogConfiguration & {
-    EnabledLoggingStrategies: __listOfLoggingStrategies;
-  };
+  LogConfiguration?: LogConfiguration & { EnabledLoggingStrategies: __listOfLoggingStrategies };
   ManifestProcessingRules?: ManifestProcessingRules;
   Name?: string;
   PersonalizationThresholdSeconds?: number;
@@ -2312,9 +2128,11 @@ export interface GetPlaybackConfigurationResponse {
   VideoContentSourceUrl?: string;
   AdConditioningConfiguration?: AdConditioningConfiguration;
   AdDecisionServerConfiguration?: AdDecisionServerConfiguration;
+  YieldOptimizationConfiguration?: YieldOptimizationConfiguration;
   FunctionMapping?: { [key: string]: string | undefined };
   AdsPersonalizationTimeouts?: AdsPersonalizationTimeouts;
   AdsPersonalizationConcurrency?: AdsPersonalizationConcurrency;
+  BeaconingConfiguration?: BeaconingConfiguration;
 }
 export const GetPlaybackConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2342,9 +2160,11 @@ export const GetPlaybackConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
     VideoContentSourceUrl: S.optional(S.String),
     AdConditioningConfiguration: S.optional(AdConditioningConfiguration),
     AdDecisionServerConfiguration: S.optional(AdDecisionServerConfiguration),
+    YieldOptimizationConfiguration: S.optional(YieldOptimizationConfiguration),
     FunctionMapping: S.optional(FunctionMapping),
     AdsPersonalizationTimeouts: S.optional(AdsPersonalizationTimeouts),
     AdsPersonalizationConcurrency: S.optional(AdsPersonalizationConcurrency),
+    BeaconingConfiguration: S.optional(BeaconingConfiguration),
   }).pipe(S.encodeKeys({ Tags: "tags" })),
 ).annotate({
   identifier: "GetPlaybackConfigurationResponse",
@@ -2356,15 +2176,10 @@ export interface GetPrefetchScheduleRequest {
 export const GetPrefetchScheduleRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     Name: S.String.pipe(T.HttpLabel("Name")),
-    PlaybackConfigurationName: S.String.pipe(
-      T.HttpLabel("PlaybackConfigurationName"),
-    ),
+    PlaybackConfigurationName: S.String.pipe(T.HttpLabel("PlaybackConfigurationName")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/prefetchSchedule/{PlaybackConfigurationName}/{Name}",
-      }),
+      T.Http({ method: "GET", uri: "/prefetchSchedule/{PlaybackConfigurationName}/{Name}" }),
       svc,
       auth,
       proto,
@@ -2411,26 +2226,11 @@ export const ListAlertsRequest = /*@__PURE__*/ S.suspend(() =>
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     ResourceArn: S.String.pipe(T.HttpQuery("resourceArn")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/alerts" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListAlertsRequest",
-}) as any as S.Schema<ListAlertsRequest>;
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/alerts" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "ListAlertsRequest" }) as any as S.Schema<ListAlertsRequest>;
 export type __listOf__string = string[];
 export const __listOf__string = /*@__PURE__*/ S.Array(S.String);
-export type AlertCategory =
-  | "SCHEDULING_ERROR"
-  | "PLAYBACK_WARNING"
-  | "INFO"
-  | (string & {});
+export type AlertCategory = "SCHEDULING_ERROR" | "PLAYBACK_WARNING" | "INFO" | (string & {});
 export const AlertCategory = S.String;
 
 export interface Alert {
@@ -2458,13 +2258,8 @@ export interface ListAlertsResponse {
   NextToken?: string;
 }
 export const ListAlertsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Items: S.optional(__listOfAlert),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListAlertsResponse",
-}) as any as S.Schema<ListAlertsResponse>;
+  S.Struct({ Items: S.optional(__listOfAlert), NextToken: S.optional(S.String) }),
+).annotate({ identifier: "ListAlertsResponse" }) as any as S.Schema<ListAlertsResponse>;
 export interface ListChannelsRequest {
   MaxResults?: number;
   NextToken?: string;
@@ -2473,19 +2268,8 @@ export const ListChannelsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/channels" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListChannelsRequest",
-}) as any as S.Schema<ListChannelsRequest>;
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/channels" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "ListChannelsRequest" }) as any as S.Schema<ListChannelsRequest>;
 export interface Channel {
   Arn: string;
   ChannelName: string;
@@ -2507,9 +2291,7 @@ export const Channel = /*@__PURE__*/ S.suspend(() =>
     ChannelState: S.String,
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     FillerSlate: S.optional(SlateSource),
-    LastModifiedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     Outputs: ResponseOutputs,
     PlaybackMode: S.String,
     Tags: S.optional(__mapOf__string),
@@ -2525,13 +2307,8 @@ export interface ListChannelsResponse {
   NextToken?: string;
 }
 export const ListChannelsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Items: S.optional(__listOfChannel),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListChannelsResponse",
-}) as any as S.Schema<ListChannelsResponse>;
+  S.Struct({ Items: S.optional(__listOfChannel), NextToken: S.optional(S.String) }),
+).annotate({ identifier: "ListChannelsResponse" }) as any as S.Schema<ListChannelsResponse>;
 export interface ListFunctionsRequest {
   MaxResults?: number;
   NextToken?: string;
@@ -2540,27 +2317,18 @@ export const ListFunctionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/functions" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListFunctionsRequest",
-}) as any as S.Schema<ListFunctionsRequest>;
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/functions" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "ListFunctionsRequest" }) as any as S.Schema<ListFunctionsRequest>;
 export interface Function {
   FunctionId: string;
   FunctionType: FunctionType;
   Description?: string;
   HttpRequestConfiguration?: HttpRequestConfiguration;
+  AwsServiceRequestConfiguration?: AwsServiceRequestConfiguration;
   CustomOutputConfiguration?: CustomOutputConfiguration;
   ConcurrentExecutorConfiguration?: ConcurrentExecutorConfiguration;
   SequentialExecutorConfiguration?: SequentialExecutorConfiguration;
+  VastRequestConfiguration?: VastRequestConfiguration;
   Tags?: { [key: string]: string | undefined };
   Arn?: string;
 }
@@ -2570,13 +2338,11 @@ export const Function = /*@__PURE__*/ S.suspend(() =>
     FunctionType: FunctionType,
     Description: S.optional(S.String),
     HttpRequestConfiguration: S.optional(HttpRequestConfiguration),
+    AwsServiceRequestConfiguration: S.optional(AwsServiceRequestConfiguration),
     CustomOutputConfiguration: S.optional(CustomOutputConfiguration),
-    ConcurrentExecutorConfiguration: S.optional(
-      ConcurrentExecutorConfiguration,
-    ),
-    SequentialExecutorConfiguration: S.optional(
-      SequentialExecutorConfiguration,
-    ),
+    ConcurrentExecutorConfiguration: S.optional(ConcurrentExecutorConfiguration),
+    SequentialExecutorConfiguration: S.optional(SequentialExecutorConfiguration),
+    VastRequestConfiguration: S.optional(VastRequestConfiguration),
     Tags: S.optional(__mapOf__string),
     Arn: S.optional(S.String),
   }).pipe(S.encodeKeys({ Tags: "tags" })),
@@ -2588,13 +2354,8 @@ export interface ListFunctionsResponse {
   NextToken?: string;
 }
 export const ListFunctionsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Items: S.optional(__listOfFunctionsResponse),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListFunctionsResponse",
-}) as any as S.Schema<ListFunctionsResponse>;
+  S.Struct({ Items: S.optional(__listOfFunctionsResponse), NextToken: S.optional(S.String) }),
+).annotate({ identifier: "ListFunctionsResponse" }) as any as S.Schema<ListFunctionsResponse>;
 export interface ListLiveSourcesRequest {
   MaxResults?: number;
   NextToken?: string;
@@ -2607,10 +2368,7 @@ export const ListLiveSourcesRequest = /*@__PURE__*/ S.suspend(() =>
     SourceLocationName: S.String.pipe(T.HttpLabel("SourceLocationName")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/sourceLocation/{SourceLocationName}/liveSources",
-      }),
+      T.Http({ method: "GET", uri: "/sourceLocation/{SourceLocationName}/liveSources" }),
       svc,
       auth,
       proto,
@@ -2618,9 +2376,7 @@ export const ListLiveSourcesRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "ListLiveSourcesRequest",
-}) as any as S.Schema<ListLiveSourcesRequest>;
+).annotate({ identifier: "ListLiveSourcesRequest" }) as any as S.Schema<ListLiveSourcesRequest>;
 export interface LiveSource {
   Arn: string;
   CreationTime?: Date;
@@ -2635,9 +2391,7 @@ export const LiveSource = /*@__PURE__*/ S.suspend(() =>
     Arn: S.String,
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     HttpPackageConfigurations: HttpPackageConfigurations,
-    LastModifiedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LiveSourceName: S.String,
     SourceLocationName: S.String,
     Tags: S.optional(__mapOf__string),
@@ -2650,13 +2404,8 @@ export interface ListLiveSourcesResponse {
   NextToken?: string;
 }
 export const ListLiveSourcesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Items: S.optional(__listOfLiveSource),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListLiveSourcesResponse",
-}) as any as S.Schema<ListLiveSourcesResponse>;
+  S.Struct({ Items: S.optional(__listOfLiveSource), NextToken: S.optional(S.String) }),
+).annotate({ identifier: "ListLiveSourcesResponse" }) as any as S.Schema<ListLiveSourcesResponse>;
 export interface ListPlaybackConfigurationsRequest {
   MaxResults?: number;
   NextToken?: string;
@@ -2666,14 +2415,7 @@ export const ListPlaybackConfigurationsRequest = /*@__PURE__*/ S.suspend(() =>
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
   }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/playbackConfigurations" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/playbackConfigurations" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListPlaybackConfigurationsRequest",
@@ -2683,9 +2425,7 @@ export interface PlaybackConfiguration {
   AvailSuppression?: AvailSuppression;
   Bumper?: Bumper;
   CdnConfiguration?: CdnConfiguration;
-  ConfigurationAliases?: {
-    [key: string]: { [key: string]: string | undefined } | undefined;
-  };
+  ConfigurationAliases?: { [key: string]: { [key: string]: string | undefined } | undefined };
   DashConfiguration?: DashConfiguration;
   HlsConfiguration?: HlsConfiguration;
   InsertionMode?: InsertionMode;
@@ -2705,9 +2445,11 @@ export interface PlaybackConfiguration {
   VideoContentSourceUrl?: string;
   AdConditioningConfiguration?: AdConditioningConfiguration;
   AdDecisionServerConfiguration?: AdDecisionServerConfiguration;
+  YieldOptimizationConfiguration?: YieldOptimizationConfiguration;
   FunctionMapping?: { [key: string]: string | undefined };
   AdsPersonalizationTimeouts?: AdsPersonalizationTimeouts;
   AdsPersonalizationConcurrency?: AdsPersonalizationConcurrency;
+  BeaconingConfiguration?: BeaconingConfiguration;
 }
 export const PlaybackConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2735,39 +2477,28 @@ export const PlaybackConfiguration = /*@__PURE__*/ S.suspend(() =>
     VideoContentSourceUrl: S.optional(S.String),
     AdConditioningConfiguration: S.optional(AdConditioningConfiguration),
     AdDecisionServerConfiguration: S.optional(AdDecisionServerConfiguration),
+    YieldOptimizationConfiguration: S.optional(YieldOptimizationConfiguration),
     FunctionMapping: S.optional(FunctionMapping),
     AdsPersonalizationTimeouts: S.optional(AdsPersonalizationTimeouts),
     AdsPersonalizationConcurrency: S.optional(AdsPersonalizationConcurrency),
+    BeaconingConfiguration: S.optional(BeaconingConfiguration),
   }).pipe(S.encodeKeys({ Tags: "tags" })),
-).annotate({
-  identifier: "PlaybackConfiguration",
-}) as any as S.Schema<PlaybackConfiguration>;
+).annotate({ identifier: "PlaybackConfiguration" }) as any as S.Schema<PlaybackConfiguration>;
 export type __listOfPlaybackConfiguration = PlaybackConfiguration[];
-export const __listOfPlaybackConfiguration = /*@__PURE__*/ S.Array(
-  PlaybackConfiguration,
-);
+export const __listOfPlaybackConfiguration = /*@__PURE__*/ S.Array(PlaybackConfiguration);
 export interface ListPlaybackConfigurationsResponse {
   Items?: (PlaybackConfiguration & {
-    LogConfiguration: LogConfiguration & {
-      EnabledLoggingStrategies: __listOfLoggingStrategies;
-    };
+    LogConfiguration: LogConfiguration & { EnabledLoggingStrategies: __listOfLoggingStrategies };
   })[];
   NextToken?: string;
 }
 export const ListPlaybackConfigurationsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Items: S.optional(__listOfPlaybackConfiguration),
-    NextToken: S.optional(S.String),
-  }),
+  S.Struct({ Items: S.optional(__listOfPlaybackConfiguration), NextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListPlaybackConfigurationsResponse",
 }) as any as S.Schema<ListPlaybackConfigurationsResponse>;
 export type __integerMin1Max100 = number;
-export type ListPrefetchScheduleType =
-  | "SINGLE"
-  | "RECURRING"
-  | "ALL"
-  | (string & {});
+export type ListPrefetchScheduleType = "SINGLE" | "RECURRING" | "ALL" | (string & {});
 export const ListPrefetchScheduleType = S.String;
 
 export interface ListPrefetchSchedulesRequest {
@@ -2781,17 +2512,12 @@ export const ListPrefetchSchedulesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-    PlaybackConfigurationName: S.String.pipe(
-      T.HttpLabel("PlaybackConfigurationName"),
-    ),
+    PlaybackConfigurationName: S.String.pipe(T.HttpLabel("PlaybackConfigurationName")),
     ScheduleType: S.optional(ListPrefetchScheduleType),
     StreamId: S.optional(S.String),
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/prefetchSchedule/{PlaybackConfigurationName}",
-      }),
+      T.Http({ method: "POST", uri: "/prefetchSchedule/{PlaybackConfigurationName}" }),
       svc,
       auth,
       proto,
@@ -2825,9 +2551,7 @@ export const PrefetchSchedule = /*@__PURE__*/ S.suspend(() =>
     StreamId: S.optional(S.String),
     Tags: S.optional(__mapOf__string),
   }).pipe(S.encodeKeys({ Tags: "tags" })),
-).annotate({
-  identifier: "PrefetchSchedule",
-}) as any as S.Schema<PrefetchSchedule>;
+).annotate({ identifier: "PrefetchSchedule" }) as any as S.Schema<PrefetchSchedule>;
 export type __listOfPrefetchSchedule = PrefetchSchedule[];
 export const __listOfPrefetchSchedule = /*@__PURE__*/ S.Array(PrefetchSchedule);
 export interface ListPrefetchSchedulesResponse {
@@ -2835,10 +2559,7 @@ export interface ListPrefetchSchedulesResponse {
   NextToken?: string;
 }
 export const ListPrefetchSchedulesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Items: S.optional(__listOfPrefetchSchedule),
-    NextToken: S.optional(S.String),
-  }),
+  S.Struct({ Items: S.optional(__listOfPrefetchSchedule), NextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListPrefetchSchedulesResponse",
 }) as any as S.Schema<ListPrefetchSchedulesResponse>;
@@ -2850,16 +2571,7 @@ export const ListSourceLocationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/sourceLocations" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/sourceLocations" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListSourceLocationsRequest",
 }) as any as S.Schema<ListSourceLocationsRequest>;
@@ -2879,16 +2591,10 @@ export const SourceLocation = /*@__PURE__*/ S.suspend(() =>
     AccessConfiguration: S.optional(AccessConfiguration),
     Arn: S.String,
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    DefaultSegmentDeliveryConfiguration: S.optional(
-      DefaultSegmentDeliveryConfiguration,
-    ),
+    DefaultSegmentDeliveryConfiguration: S.optional(DefaultSegmentDeliveryConfiguration),
     HttpConfiguration: HttpConfiguration,
-    LastModifiedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    SegmentDeliveryConfigurations: S.optional(
-      __listOfSegmentDeliveryConfiguration,
-    ),
+    LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    SegmentDeliveryConfigurations: S.optional(__listOfSegmentDeliveryConfiguration),
     SourceLocationName: S.String,
     Tags: S.optional(__mapOf__string),
   }).pipe(S.encodeKeys({ Tags: "tags" })),
@@ -2900,10 +2606,7 @@ export interface ListSourceLocationsResponse {
   NextToken?: string;
 }
 export const ListSourceLocationsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Items: S.optional(__listOfSourceLocation),
-    NextToken: S.optional(S.String),
-  }),
+  S.Struct({ Items: S.optional(__listOfSourceLocation), NextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListSourceLocationsResponse",
 }) as any as S.Schema<ListSourceLocationsResponse>;
@@ -2912,14 +2615,7 @@ export interface ListTagsForResourceRequest {
 }
 export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListTagsForResourceRequest",
@@ -2928,9 +2624,7 @@ export interface ListTagsForResourceResponse {
   Tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Tags: S.optional(__mapOf__string) }).pipe(
-    S.encodeKeys({ Tags: "tags" }),
-  ),
+  S.Struct({ Tags: S.optional(__mapOf__string) }).pipe(S.encodeKeys({ Tags: "tags" })),
 ).annotate({
   identifier: "ListTagsForResourceResponse",
 }) as any as S.Schema<ListTagsForResourceResponse>;
@@ -2946,10 +2640,7 @@ export const ListVodSourcesRequest = /*@__PURE__*/ S.suspend(() =>
     SourceLocationName: S.String.pipe(T.HttpLabel("SourceLocationName")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/sourceLocation/{SourceLocationName}/vodSources",
-      }),
+      T.Http({ method: "GET", uri: "/sourceLocation/{SourceLocationName}/vodSources" }),
       svc,
       auth,
       proto,
@@ -2957,9 +2648,7 @@ export const ListVodSourcesRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "ListVodSourcesRequest",
-}) as any as S.Schema<ListVodSourcesRequest>;
+).annotate({ identifier: "ListVodSourcesRequest" }) as any as S.Schema<ListVodSourcesRequest>;
 export interface VodSource {
   Arn: string;
   CreationTime?: Date;
@@ -2974,9 +2663,7 @@ export const VodSource = /*@__PURE__*/ S.suspend(() =>
     Arn: S.String,
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     HttpPackageConfigurations: HttpPackageConfigurations,
-    LastModifiedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     SourceLocationName: S.String,
     Tags: S.optional(__mapOf__string),
     VodSourceName: S.String,
@@ -2989,22 +2676,14 @@ export interface ListVodSourcesResponse {
   NextToken?: string;
 }
 export const ListVodSourcesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Items: S.optional(__listOfVodSource),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListVodSourcesResponse",
-}) as any as S.Schema<ListVodSourcesResponse>;
+  S.Struct({ Items: S.optional(__listOfVodSource), NextToken: S.optional(S.String) }),
+).annotate({ identifier: "ListVodSourcesResponse" }) as any as S.Schema<ListVodSourcesResponse>;
 export interface PutChannelPolicyRequest {
   ChannelName: string;
   Policy: string;
 }
 export const PutChannelPolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ChannelName: S.String.pipe(T.HttpLabel("ChannelName")),
-    Policy: S.String,
-  }).pipe(
+  S.Struct({ ChannelName: S.String.pipe(T.HttpLabel("ChannelName")), Policy: S.String }).pipe(
     T.all(
       T.Http({ method: "PUT", uri: "/channel/{ChannelName}/policy" }),
       svc,
@@ -3014,13 +2693,9 @@ export const PutChannelPolicyRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "PutChannelPolicyRequest",
-}) as any as S.Schema<PutChannelPolicyRequest>;
+).annotate({ identifier: "PutChannelPolicyRequest" }) as any as S.Schema<PutChannelPolicyRequest>;
 export interface PutChannelPolicyResponse {}
-export const PutChannelPolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const PutChannelPolicyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "PutChannelPolicyResponse",
 }) as any as S.Schema<PutChannelPolicyResponse>;
 export interface PutFunctionRequest {
@@ -3028,9 +2703,11 @@ export interface PutFunctionRequest {
   FunctionType: FunctionType;
   Description?: string;
   HttpRequestConfiguration?: HttpRequestConfiguration;
+  AwsServiceRequestConfiguration?: AwsServiceRequestConfiguration;
   CustomOutputConfiguration?: CustomOutputConfiguration;
   ConcurrentExecutorConfiguration?: ConcurrentExecutorConfiguration;
   SequentialExecutorConfiguration?: SequentialExecutorConfiguration;
+  VastRequestConfiguration?: VastRequestConfiguration;
   Tags?: { [key: string]: string | undefined };
 }
 export const PutFunctionRequest = /*@__PURE__*/ S.suspend(() =>
@@ -3039,37 +2716,28 @@ export const PutFunctionRequest = /*@__PURE__*/ S.suspend(() =>
     FunctionType: FunctionType,
     Description: S.optional(S.String),
     HttpRequestConfiguration: S.optional(HttpRequestConfiguration),
+    AwsServiceRequestConfiguration: S.optional(AwsServiceRequestConfiguration),
     CustomOutputConfiguration: S.optional(CustomOutputConfiguration),
-    ConcurrentExecutorConfiguration: S.optional(
-      ConcurrentExecutorConfiguration,
-    ),
-    SequentialExecutorConfiguration: S.optional(
-      SequentialExecutorConfiguration,
-    ),
+    ConcurrentExecutorConfiguration: S.optional(ConcurrentExecutorConfiguration),
+    SequentialExecutorConfiguration: S.optional(SequentialExecutorConfiguration),
+    VastRequestConfiguration: S.optional(VastRequestConfiguration),
     Tags: S.optional(__mapOf__string),
   })
     .pipe(S.encodeKeys({ Tags: "tags" }))
     .pipe(
-      T.all(
-        T.Http({ method: "PUT", uri: "/function/{FunctionId}" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+      T.all(T.Http({ method: "PUT", uri: "/function/{FunctionId}" }), svc, auth, proto, ver, rules),
     ),
-).annotate({
-  identifier: "PutFunctionRequest",
-}) as any as S.Schema<PutFunctionRequest>;
+).annotate({ identifier: "PutFunctionRequest" }) as any as S.Schema<PutFunctionRequest>;
 export interface PutFunctionResponse {
   FunctionId: string;
   FunctionType: FunctionType;
   Description?: string;
   HttpRequestConfiguration?: HttpRequestConfiguration;
+  AwsServiceRequestConfiguration?: AwsServiceRequestConfiguration;
   CustomOutputConfiguration?: CustomOutputConfiguration;
   ConcurrentExecutorConfiguration?: ConcurrentExecutorConfiguration;
   SequentialExecutorConfiguration?: SequentialExecutorConfiguration;
+  VastRequestConfiguration?: VastRequestConfiguration;
   Tags?: { [key: string]: string | undefined };
   Arn?: string;
 }
@@ -3079,19 +2747,15 @@ export const PutFunctionResponse = /*@__PURE__*/ S.suspend(() =>
     FunctionType: FunctionType,
     Description: S.optional(S.String),
     HttpRequestConfiguration: S.optional(HttpRequestConfiguration),
+    AwsServiceRequestConfiguration: S.optional(AwsServiceRequestConfiguration),
     CustomOutputConfiguration: S.optional(CustomOutputConfiguration),
-    ConcurrentExecutorConfiguration: S.optional(
-      ConcurrentExecutorConfiguration,
-    ),
-    SequentialExecutorConfiguration: S.optional(
-      SequentialExecutorConfiguration,
-    ),
+    ConcurrentExecutorConfiguration: S.optional(ConcurrentExecutorConfiguration),
+    SequentialExecutorConfiguration: S.optional(SequentialExecutorConfiguration),
+    VastRequestConfiguration: S.optional(VastRequestConfiguration),
     Tags: S.optional(__mapOf__string),
     Arn: S.optional(S.String),
   }).pipe(S.encodeKeys({ Tags: "tags" })),
-).annotate({
-  identifier: "PutFunctionResponse",
-}) as any as S.Schema<PutFunctionResponse>;
+).annotate({ identifier: "PutFunctionResponse" }) as any as S.Schema<PutFunctionResponse>;
 export type ConfigurationAliasesRequest = {
   [key: string]: { [key: string]: string | undefined } | undefined;
 };
@@ -3108,17 +2772,13 @@ export const DashConfigurationForPut = /*@__PURE__*/ S.suspend(() =>
     MpdLocation: S.optional(S.String),
     OriginManifestType: S.optional(OriginManifestType),
   }),
-).annotate({
-  identifier: "DashConfigurationForPut",
-}) as any as S.Schema<DashConfigurationForPut>;
+).annotate({ identifier: "DashConfigurationForPut" }) as any as S.Schema<DashConfigurationForPut>;
 export interface PutPlaybackConfigurationRequest {
   AdDecisionServerUrl?: string;
   AvailSuppression?: AvailSuppression;
   Bumper?: Bumper;
   CdnConfiguration?: CdnConfiguration;
-  ConfigurationAliases?: {
-    [key: string]: { [key: string]: string | undefined } | undefined;
-  };
+  ConfigurationAliases?: { [key: string]: { [key: string]: string | undefined } | undefined };
   DashConfiguration?: DashConfigurationForPut;
   InsertionMode?: InsertionMode;
   LivePreRollConfiguration?: LivePreRollConfiguration;
@@ -3131,9 +2791,11 @@ export interface PutPlaybackConfigurationRequest {
   VideoContentSourceUrl?: string;
   AdConditioningConfiguration?: AdConditioningConfiguration;
   AdDecisionServerConfiguration?: AdDecisionServerConfiguration;
+  YieldOptimizationConfiguration?: YieldOptimizationConfiguration;
   FunctionMapping?: { [key: string]: string | undefined };
   AdsPersonalizationTimeouts?: AdsPersonalizationTimeouts;
   AdsPersonalizationConcurrency?: AdsPersonalizationConcurrency;
+  BeaconingConfiguration?: BeaconingConfiguration;
 }
 export const PutPlaybackConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -3154,20 +2816,15 @@ export const PutPlaybackConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
     VideoContentSourceUrl: S.optional(S.String),
     AdConditioningConfiguration: S.optional(AdConditioningConfiguration),
     AdDecisionServerConfiguration: S.optional(AdDecisionServerConfiguration),
+    YieldOptimizationConfiguration: S.optional(YieldOptimizationConfiguration),
     FunctionMapping: S.optional(FunctionMapping),
     AdsPersonalizationTimeouts: S.optional(AdsPersonalizationTimeouts),
     AdsPersonalizationConcurrency: S.optional(AdsPersonalizationConcurrency),
+    BeaconingConfiguration: S.optional(BeaconingConfiguration),
   })
     .pipe(S.encodeKeys({ Tags: "tags" }))
     .pipe(
-      T.all(
-        T.Http({ method: "PUT", uri: "/playbackConfiguration" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+      T.all(T.Http({ method: "PUT", uri: "/playbackConfiguration" }), svc, auth, proto, ver, rules),
     ),
 ).annotate({
   identifier: "PutPlaybackConfigurationRequest",
@@ -3177,16 +2834,12 @@ export interface PutPlaybackConfigurationResponse {
   AvailSuppression?: AvailSuppression;
   Bumper?: Bumper;
   CdnConfiguration?: CdnConfiguration;
-  ConfigurationAliases?: {
-    [key: string]: { [key: string]: string | undefined } | undefined;
-  };
+  ConfigurationAliases?: { [key: string]: { [key: string]: string | undefined } | undefined };
   DashConfiguration?: DashConfiguration;
   HlsConfiguration?: HlsConfiguration;
   InsertionMode?: InsertionMode;
   LivePreRollConfiguration?: LivePreRollConfiguration;
-  LogConfiguration?: LogConfiguration & {
-    EnabledLoggingStrategies: __listOfLoggingStrategies;
-  };
+  LogConfiguration?: LogConfiguration & { EnabledLoggingStrategies: __listOfLoggingStrategies };
   ManifestProcessingRules?: ManifestProcessingRules;
   Name?: string;
   PersonalizationThresholdSeconds?: number;
@@ -3201,9 +2854,11 @@ export interface PutPlaybackConfigurationResponse {
   VideoContentSourceUrl?: string;
   AdConditioningConfiguration?: AdConditioningConfiguration;
   AdDecisionServerConfiguration?: AdDecisionServerConfiguration;
+  YieldOptimizationConfiguration?: YieldOptimizationConfiguration;
   FunctionMapping?: { [key: string]: string | undefined };
   AdsPersonalizationTimeouts?: AdsPersonalizationTimeouts;
   AdsPersonalizationConcurrency?: AdsPersonalizationConcurrency;
+  BeaconingConfiguration?: BeaconingConfiguration;
 }
 export const PutPlaybackConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -3231,9 +2886,11 @@ export const PutPlaybackConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
     VideoContentSourceUrl: S.optional(S.String),
     AdConditioningConfiguration: S.optional(AdConditioningConfiguration),
     AdDecisionServerConfiguration: S.optional(AdDecisionServerConfiguration),
+    YieldOptimizationConfiguration: S.optional(YieldOptimizationConfiguration),
     FunctionMapping: S.optional(FunctionMapping),
     AdsPersonalizationTimeouts: S.optional(AdsPersonalizationTimeouts),
     AdsPersonalizationConcurrency: S.optional(AdsPersonalizationConcurrency),
+    BeaconingConfiguration: S.optional(BeaconingConfiguration),
   }).pipe(S.encodeKeys({ Tags: "tags" })),
 ).annotate({
   identifier: "PutPlaybackConfigurationResponse",
@@ -3252,13 +2909,9 @@ export const StartChannelRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "StartChannelRequest",
-}) as any as S.Schema<StartChannelRequest>;
+).annotate({ identifier: "StartChannelRequest" }) as any as S.Schema<StartChannelRequest>;
 export interface StartChannelResponse {}
-export const StartChannelResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const StartChannelResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "StartChannelResponse",
 }) as any as S.Schema<StartChannelResponse>;
 export interface StopChannelRequest {
@@ -3275,13 +2928,9 @@ export const StopChannelRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "StopChannelRequest",
-}) as any as S.Schema<StopChannelRequest>;
+).annotate({ identifier: "StopChannelRequest" }) as any as S.Schema<StopChannelRequest>;
 export interface StopChannelResponse {}
-export const StopChannelResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const StopChannelResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "StopChannelResponse",
 }) as any as S.Schema<StopChannelResponse>;
 export interface TagResourceRequest {
@@ -3289,28 +2938,14 @@ export interface TagResourceRequest {
   Tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
-    Tags: __mapOf__string,
-  })
+  S.Struct({ ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")), Tags: __mapOf__string })
     .pipe(S.encodeKeys({ Tags: "tags" }))
     .pipe(
-      T.all(
-        T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+      T.all(T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }), svc, auth, proto, ver, rules),
     ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
+).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
@@ -3322,22 +2957,11 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
     ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     TagKeys: __listOf__string.pipe(T.HttpQuery("tagKeys")),
   }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
+).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateChannelRequest {
@@ -3355,18 +2979,9 @@ export const UpdateChannelRequest = /*@__PURE__*/ S.suspend(() =>
     TimeShiftConfiguration: S.optional(TimeShiftConfiguration),
     Audiences: S.optional(Audiences),
   }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/channel/{ChannelName}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "PUT", uri: "/channel/{ChannelName}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UpdateChannelRequest",
-}) as any as S.Schema<UpdateChannelRequest>;
+).annotate({ identifier: "UpdateChannelRequest" }) as any as S.Schema<UpdateChannelRequest>;
 export interface UpdateChannelResponse {
   Arn?: string;
   ChannelName?: string;
@@ -3388,9 +3003,7 @@ export const UpdateChannelResponse = /*@__PURE__*/ S.suspend(() =>
     ChannelState: S.optional(ChannelState),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     FillerSlate: S.optional(SlateSource),
-    LastModifiedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     Outputs: S.optional(ResponseOutputs),
     PlaybackMode: S.optional(S.String),
     Tags: S.optional(__mapOf__string),
@@ -3398,9 +3011,7 @@ export const UpdateChannelResponse = /*@__PURE__*/ S.suspend(() =>
     TimeShiftConfiguration: S.optional(TimeShiftConfiguration),
     Audiences: S.optional(Audiences),
   }).pipe(S.encodeKeys({ Tags: "tags" })),
-).annotate({
-  identifier: "UpdateChannelResponse",
-}) as any as S.Schema<UpdateChannelResponse>;
+).annotate({ identifier: "UpdateChannelResponse" }) as any as S.Schema<UpdateChannelResponse>;
 export interface UpdateLiveSourceRequest {
   HttpPackageConfigurations: HttpPackageConfiguration[];
   LiveSourceName: string;
@@ -3424,9 +3035,7 @@ export const UpdateLiveSourceRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "UpdateLiveSourceRequest",
-}) as any as S.Schema<UpdateLiveSourceRequest>;
+).annotate({ identifier: "UpdateLiveSourceRequest" }) as any as S.Schema<UpdateLiveSourceRequest>;
 export interface UpdateLiveSourceResponse {
   Arn?: string;
   CreationTime?: Date;
@@ -3441,16 +3050,12 @@ export const UpdateLiveSourceResponse = /*@__PURE__*/ S.suspend(() =>
     Arn: S.optional(S.String),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     HttpPackageConfigurations: S.optional(HttpPackageConfigurations),
-    LastModifiedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LiveSourceName: S.optional(S.String),
     SourceLocationName: S.optional(S.String),
     Tags: S.optional(__mapOf__string),
   }).pipe(S.encodeKeys({ Tags: "tags" })),
-).annotate({
-  identifier: "UpdateLiveSourceResponse",
-}) as any as S.Schema<UpdateLiveSourceResponse>;
+).annotate({ identifier: "UpdateLiveSourceResponse" }) as any as S.Schema<UpdateLiveSourceResponse>;
 export interface UpdateProgramTransition {
   ScheduledStartTimeMillis?: number;
   DurationMillis?: number;
@@ -3460,18 +3065,13 @@ export const UpdateProgramTransition = /*@__PURE__*/ S.suspend(() =>
     ScheduledStartTimeMillis: S.optional(S.Number),
     DurationMillis: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "UpdateProgramTransition",
-}) as any as S.Schema<UpdateProgramTransition>;
+).annotate({ identifier: "UpdateProgramTransition" }) as any as S.Schema<UpdateProgramTransition>;
 export interface UpdateProgramScheduleConfiguration {
   Transition?: UpdateProgramTransition;
   ClipRange?: ClipRange;
 }
 export const UpdateProgramScheduleConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Transition: S.optional(UpdateProgramTransition),
-    ClipRange: S.optional(ClipRange),
-  }),
+  S.Struct({ Transition: S.optional(UpdateProgramTransition), ClipRange: S.optional(ClipRange) }),
 ).annotate({
   identifier: "UpdateProgramScheduleConfiguration",
 }) as any as S.Schema<UpdateProgramScheduleConfiguration>;
@@ -3491,10 +3091,7 @@ export const UpdateProgramRequest = /*@__PURE__*/ S.suspend(() =>
     AudienceMedia: S.optional(__listOfAudienceMedia),
   }).pipe(
     T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/channel/{ChannelName}/program/{ProgramName}",
-      }),
+      T.Http({ method: "PUT", uri: "/channel/{ChannelName}/program/{ProgramName}" }),
       svc,
       auth,
       proto,
@@ -3502,9 +3099,7 @@ export const UpdateProgramRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "UpdateProgramRequest",
-}) as any as S.Schema<UpdateProgramRequest>;
+).annotate({ identifier: "UpdateProgramRequest" }) as any as S.Schema<UpdateProgramRequest>;
 export interface UpdateProgramResponse {
   AdBreaks?: AdBreak[];
   Arn?: string;
@@ -3532,15 +3127,11 @@ export const UpdateProgramResponse = /*@__PURE__*/ S.suspend(() =>
     LiveSourceName: S.optional(S.String),
     ClipRange: S.optional(ClipRange),
     DurationMillis: S.optional(S.Number),
-    ScheduledStartTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    ScheduledStartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     AudienceMedia: S.optional(__listOfAudienceMedia),
     Tags: S.optional(__mapOf__string),
   }).pipe(S.encodeKeys({ Tags: "tags" })),
-).annotate({
-  identifier: "UpdateProgramResponse",
-}) as any as S.Schema<UpdateProgramResponse>;
+).annotate({ identifier: "UpdateProgramResponse" }) as any as S.Schema<UpdateProgramResponse>;
 export interface UpdateSourceLocationRequest {
   AccessConfiguration?: AccessConfiguration;
   DefaultSegmentDeliveryConfiguration?: DefaultSegmentDeliveryConfiguration;
@@ -3551,13 +3142,9 @@ export interface UpdateSourceLocationRequest {
 export const UpdateSourceLocationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     AccessConfiguration: S.optional(AccessConfiguration),
-    DefaultSegmentDeliveryConfiguration: S.optional(
-      DefaultSegmentDeliveryConfiguration,
-    ),
+    DefaultSegmentDeliveryConfiguration: S.optional(DefaultSegmentDeliveryConfiguration),
     HttpConfiguration: HttpConfiguration,
-    SegmentDeliveryConfigurations: S.optional(
-      __listOfSegmentDeliveryConfiguration,
-    ),
+    SegmentDeliveryConfigurations: S.optional(__listOfSegmentDeliveryConfiguration),
     SourceLocationName: S.String.pipe(T.HttpLabel("SourceLocationName")),
   }).pipe(
     T.all(
@@ -3588,16 +3175,10 @@ export const UpdateSourceLocationResponse = /*@__PURE__*/ S.suspend(() =>
     AccessConfiguration: S.optional(AccessConfiguration),
     Arn: S.optional(S.String),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    DefaultSegmentDeliveryConfiguration: S.optional(
-      DefaultSegmentDeliveryConfiguration,
-    ),
+    DefaultSegmentDeliveryConfiguration: S.optional(DefaultSegmentDeliveryConfiguration),
     HttpConfiguration: S.optional(HttpConfiguration),
-    LastModifiedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    SegmentDeliveryConfigurations: S.optional(
-      __listOfSegmentDeliveryConfiguration,
-    ),
+    LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    SegmentDeliveryConfigurations: S.optional(__listOfSegmentDeliveryConfiguration),
     SourceLocationName: S.optional(S.String),
     Tags: S.optional(__mapOf__string),
   }).pipe(S.encodeKeys({ Tags: "tags" })),
@@ -3627,9 +3208,7 @@ export const UpdateVodSourceRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "UpdateVodSourceRequest",
-}) as any as S.Schema<UpdateVodSourceRequest>;
+).annotate({ identifier: "UpdateVodSourceRequest" }) as any as S.Schema<UpdateVodSourceRequest>;
 export interface UpdateVodSourceResponse {
   Arn?: string;
   CreationTime?: Date;
@@ -3644,16 +3223,12 @@ export const UpdateVodSourceResponse = /*@__PURE__*/ S.suspend(() =>
     Arn: S.optional(S.String),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     HttpPackageConfigurations: S.optional(HttpPackageConfigurations),
-    LastModifiedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     SourceLocationName: S.optional(S.String),
     Tags: S.optional(__mapOf__string),
     VodSourceName: S.optional(S.String),
   }).pipe(S.encodeKeys({ Tags: "tags" })),
-).annotate({
-  identifier: "UpdateVodSourceResponse",
-}) as any as S.Schema<UpdateVodSourceResponse>;
+).annotate({ identifier: "UpdateVodSourceResponse" }) as any as S.Schema<UpdateVodSourceResponse>;
 export type ConfigureLogsForChannelError = CommonErrors;
 /**
  * Configures Amazon CloudWatch log settings for a channel.
@@ -3747,10 +3322,7 @@ export const createPrefetchSchedule: API.OperationMethod<
   operationName: "CreatePrefetchSchedule",
 }));
 
-export type CreateProgramError =
-  | BadRequestException
-  | ChannelNotFound
-  | CommonErrors;
+export type CreateProgramError = BadRequestException | ChannelNotFound | CommonErrors;
 /**
  * Creates a program within a channel. For information about programs, see Working with programs in the *MediaTailor User Guide*.
  */
@@ -3915,10 +3487,7 @@ export const deletePrefetchSchedule: API.OperationMethod<
   operationName: "DeletePrefetchSchedule",
 }));
 
-export type DeleteProgramError =
-  | BadRequestException
-  | ProgramNotFound
-  | CommonErrors;
+export type DeleteProgramError = BadRequestException | ProgramNotFound | CommonErrors;
 /**
  * Deletes a program within a channel. For information about programs, see Working with programs in the *MediaTailor User Guide*.
  */
@@ -4008,10 +3577,7 @@ export const describeLiveSource: API.OperationMethod<
   operationName: "DescribeLiveSource",
 }));
 
-export type DescribeProgramError =
-  | BadRequestException
-  | ProgramNotFound
-  | CommonErrors;
+export type DescribeProgramError = BadRequestException | ProgramNotFound | CommonErrors;
 /**
  * Describes a program within a channel. For information about programs, see Working with programs in the *MediaTailor User Guide*.
  */
@@ -4083,10 +3649,7 @@ export const getChannelPolicy: API.OperationMethod<
   operationName: "GetChannelPolicy",
 }));
 
-export type GetChannelScheduleError =
-  | BadRequestException
-  | ChannelNotFound
-  | CommonErrors;
+export type GetChannelScheduleError = BadRequestException | ChannelNotFound | CommonErrors;
 /**
  * Retrieves information about your channel's schedule.
  */
@@ -4129,9 +3692,7 @@ export const getFunction: API.OperationMethod<
   operationName: "GetFunction",
 }));
 
-export type GetPlaybackConfigurationError =
-  | PlaybackConfigurationNotFound
-  | CommonErrors;
+export type GetPlaybackConfigurationError = PlaybackConfigurationNotFound | CommonErrors;
 /**
  * Retrieves a playback configuration. For information about MediaTailor configurations, see Working with configurations in AWS Elemental MediaTailor.
  */
@@ -4445,10 +4006,7 @@ export const putPlaybackConfiguration: API.OperationMethod<
   operationName: "PutPlaybackConfiguration",
 }));
 
-export type StartChannelError =
-  | BadRequestException
-  | ChannelNotFound
-  | CommonErrors;
+export type StartChannelError = BadRequestException | ChannelNotFound | CommonErrors;
 /**
  * Starts a channel. For information about MediaTailor channels, see Working with channels in the *MediaTailor User Guide*.
  */
@@ -4466,10 +4024,7 @@ export const startChannel: API.OperationMethod<
   operationName: "StartChannel",
 }));
 
-export type StopChannelError =
-  | BadRequestException
-  | ChannelNotFound
-  | CommonErrors;
+export type StopChannelError = BadRequestException | ChannelNotFound | CommonErrors;
 /**
  * Stops a channel. For information about MediaTailor channels, see Working with channels in the *MediaTailor User Guide*.
  */
@@ -4559,10 +4114,7 @@ export const updateLiveSource: API.OperationMethod<
   operationName: "UpdateLiveSource",
 }));
 
-export type UpdateProgramError =
-  | BadRequestException
-  | ProgramNotFound
-  | CommonErrors;
+export type UpdateProgramError = BadRequestException | ProgramNotFound | CommonErrors;
 /**
  * Updates a program within a channel.
  */

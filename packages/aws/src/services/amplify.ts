@@ -1,14 +1,14 @@
+import * as API from "@distilled.cloud/core/api";
+import * as S from "@distilled.cloud/core/schema";
 import * as HttpClient from "effect/http/HttpClient";
 import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
-import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
+import * as T from "../traits.ts";
 const ns = T.XmlNamespace("http://amplify.amazonaws.com");
 const svc = T.AwsApiService({ sdkId: "Amplify", serviceShapeName: "Amplify" });
 const auth = T.AwsAuthSigv4({ name: "amplify" });
@@ -26,14 +26,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -56,13 +52,9 @@ const rules = T.EndpointResolver((p, _) => {
         }
         if (UseFIPS === true) {
           if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            return e(
-              `https://amplify-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
+            return e(`https://amplify-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -70,13 +62,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://amplify.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://amplify.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://amplify.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -142,10 +130,7 @@ export type AccessToken = string | redacted.Redacted<string>;
 export type EnvKey = string;
 export type EnvValue = string;
 export type EnvironmentVariables = { [key: string]: string | undefined };
-export const EnvironmentVariables = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const EnvironmentVariables = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export type EnableBranchAutoBuild = boolean;
 export type EnableBranchAutoDeletion = boolean;
 export type EnableBasicAuth = boolean;
@@ -173,10 +158,7 @@ export const CustomRules = /*@__PURE__*/ S.Array(CustomRule);
 export type TagKey = string;
 export type TagValue = string;
 export type TagMap = { [key: string]: string | undefined };
-export const TagMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const TagMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export type BuildSpec = string | redacted.Redacted<string>;
 export type CustomHeaders = string;
 export type EnableAutoBranchCreation = boolean;
@@ -222,14 +204,8 @@ export const AutoBranchCreationConfig = /*@__PURE__*/ S.suspend(() =>
     enablePullRequestPreview: S.optional(S.Boolean),
     pullRequestEnvironmentName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AutoBranchCreationConfig",
-}) as any as S.Schema<AutoBranchCreationConfig>;
-export type BuildComputeType =
-  | "STANDARD_8GB"
-  | "LARGE_16GB"
-  | "XLARGE_72GB"
-  | (string & {});
+).annotate({ identifier: "AutoBranchCreationConfig" }) as any as S.Schema<AutoBranchCreationConfig>;
+export type BuildComputeType = "STANDARD_8GB" | "LARGE_16GB" | "XLARGE_72GB" | (string & {});
 export const BuildComputeType = S.String;
 
 export interface JobConfig {
@@ -238,10 +214,7 @@ export interface JobConfig {
 export const JobConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ buildComputeType: BuildComputeType }),
 ).annotate({ identifier: "JobConfig" }) as any as S.Schema<JobConfig>;
-export type CacheConfigType =
-  | "AMPLIFY_MANAGED"
-  | "AMPLIFY_MANAGED_NO_COOKIES"
-  | (string & {});
+export type CacheConfigType = "AMPLIFY_MANAGED" | "AMPLIFY_MANAGED_NO_COOKIES" | (string & {});
 export const CacheConfigType = S.String;
 
 export interface CacheConfig {
@@ -298,20 +271,8 @@ export const CreateAppRequest = /*@__PURE__*/ S.suspend(() =>
     autoBranchCreationConfig: S.optional(AutoBranchCreationConfig),
     jobConfig: S.optional(JobConfig),
     cacheConfig: S.optional(CacheConfig),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/apps" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateAppRequest",
-}) as any as S.Schema<CreateAppRequest>;
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/apps" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "CreateAppRequest" }) as any as S.Schema<CreateAppRequest>;
 export type AppId = string;
 export type AppArn = string;
 export type CreateTime = Date;
@@ -333,9 +294,7 @@ export const ProductionBranch = /*@__PURE__*/ S.suspend(() =>
     thumbnailUrl: S.optional(S.String),
     branchName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ProductionBranch",
-}) as any as S.Schema<ProductionBranch>;
+).annotate({ identifier: "ProductionBranch" }) as any as S.Schema<ProductionBranch>;
 export type RepositoryCloneMethod = "SSH" | "TOKEN" | "SIGV4" | (string & {});
 export const RepositoryCloneMethod = S.String;
 
@@ -362,9 +321,7 @@ export const WafConfiguration = /*@__PURE__*/ S.suspend(() =>
     wafStatus: S.optional(WafStatus),
     statusReason: S.optional(S.String),
   }),
-).annotate({
-  identifier: "WafConfiguration",
-}) as any as S.Schema<WafConfiguration>;
+).annotate({ identifier: "WafConfiguration" }) as any as S.Schema<WafConfiguration>;
 export interface App {
   appId: string;
   appArn: string;
@@ -424,9 +381,7 @@ export const App = /*@__PURE__*/ S.suspend(() =>
     autoBranchCreationConfig: S.optional(AutoBranchCreationConfig),
     repositoryCloneMethod: S.optional(RepositoryCloneMethod),
     cacheConfig: S.optional(CacheConfig),
-    webhookCreateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    webhookCreateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     wafConfiguration: S.optional(WafConfiguration),
     jobConfig: S.optional(JobConfig),
   }),
@@ -436,9 +391,7 @@ export interface CreateAppResult {
 }
 export const CreateAppResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ app: App }).pipe(ns),
-).annotate({
-  identifier: "CreateAppResult",
-}) as any as S.Schema<CreateAppResult>;
+).annotate({ identifier: "CreateAppResult" }) as any as S.Schema<CreateAppResult>;
 export type EnvironmentName = string;
 export type StackName = string;
 export type DeploymentArtifacts = string;
@@ -486,9 +439,7 @@ export const BackendEnvironment = /*@__PURE__*/ S.suspend(() =>
     createTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     updateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
   }),
-).annotate({
-  identifier: "BackendEnvironment",
-}) as any as S.Schema<BackendEnvironment>;
+).annotate({ identifier: "BackendEnvironment" }) as any as S.Schema<BackendEnvironment>;
 export interface CreateBackendEnvironmentResult {
   backendEnvironment: BackendEnvironment;
 }
@@ -565,9 +516,7 @@ export const CreateBranchRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "CreateBranchRequest",
-}) as any as S.Schema<CreateBranchRequest>;
+).annotate({ identifier: "CreateBranchRequest" }) as any as S.Schema<CreateBranchRequest>;
 export type BranchArn = string;
 export type CustomDomain = string;
 export type CustomDomains = string[];
@@ -648,16 +597,11 @@ export interface CreateBranchResult {
 }
 export const CreateBranchResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ branch: Branch }).pipe(ns),
-).annotate({
-  identifier: "CreateBranchResult",
-}) as any as S.Schema<CreateBranchResult>;
+).annotate({ identifier: "CreateBranchResult" }) as any as S.Schema<CreateBranchResult>;
 export type FileName = string;
 export type MD5Hash = string;
 export type FileMap = { [key: string]: string | undefined };
-export const FileMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const FileMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface CreateDeploymentRequest {
   appId: string;
   branchName: string;
@@ -671,10 +615,7 @@ export const CreateDeploymentRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(
       ns,
-      T.Http({
-        method: "POST",
-        uri: "/apps/{appId}/branches/{branchName}/deployments",
-      }),
+      T.Http({ method: "POST", uri: "/apps/{appId}/branches/{branchName}/deployments" }),
       svc,
       auth,
       proto,
@@ -682,16 +623,11 @@ export const CreateDeploymentRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "CreateDeploymentRequest",
-}) as any as S.Schema<CreateDeploymentRequest>;
+).annotate({ identifier: "CreateDeploymentRequest" }) as any as S.Schema<CreateDeploymentRequest>;
 export type JobId = string;
 export type UploadUrl = string;
 export type FileUploadUrls = { [key: string]: string | undefined };
-export const FileUploadUrls = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const FileUploadUrls = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface CreateDeploymentResult {
   jobId?: string;
   fileUploadUrls?: { [key: string]: string | undefined };
@@ -703,9 +639,7 @@ export const CreateDeploymentResult = /*@__PURE__*/ S.suspend(() =>
     fileUploadUrls: S.optional(FileUploadUrls),
     zipUploadUrl: S.String,
   }).pipe(ns),
-).annotate({
-  identifier: "CreateDeploymentResult",
-}) as any as S.Schema<CreateDeploymentResult>;
+).annotate({ identifier: "CreateDeploymentResult" }) as any as S.Schema<CreateDeploymentResult>;
 export type DomainName = string;
 export type EnableAutoSubDomain = boolean;
 export type DomainPrefix = string;
@@ -715,9 +649,7 @@ export interface SubDomainSetting {
 }
 export const SubDomainSetting = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ prefix: S.String, branchName: S.String }),
-).annotate({
-  identifier: "SubDomainSetting",
-}) as any as S.Schema<SubDomainSetting>;
+).annotate({ identifier: "SubDomainSetting" }) as any as S.Schema<SubDomainSetting>;
 export type SubDomainSettings = SubDomainSetting[];
 export const SubDomainSettings = /*@__PURE__*/ S.Array(SubDomainSetting);
 export type AutoSubDomainCreationPattern = string;
@@ -733,13 +665,8 @@ export interface CertificateSettings {
   customCertificateArn?: string;
 }
 export const CertificateSettings = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: CertificateType,
-    customCertificateArn: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CertificateSettings",
-}) as any as S.Schema<CertificateSettings>;
+  S.Struct({ type: CertificateType, customCertificateArn: S.optional(S.String) }),
+).annotate({ identifier: "CertificateSettings" }) as any as S.Schema<CertificateSettings>;
 export interface CreateDomainAssociationRequest {
   appId: string;
   domainName: string;
@@ -807,11 +734,7 @@ export interface SubDomain {
   dnsRecord: string;
 }
 export const SubDomain = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    subDomainSetting: SubDomainSetting,
-    verified: S.Boolean,
-    dnsRecord: S.String,
-  }),
+  S.Struct({ subDomainSetting: SubDomainSetting, verified: S.Boolean, dnsRecord: S.String }),
 ).annotate({ identifier: "SubDomain" }) as any as S.Schema<SubDomain>;
 export type SubDomains = SubDomain[];
 export const SubDomains = /*@__PURE__*/ S.Array(SubDomain);
@@ -854,9 +777,7 @@ export const DomainAssociation = /*@__PURE__*/ S.suspend(() =>
     subDomains: SubDomains,
     certificate: S.optional(Certificate),
   }),
-).annotate({
-  identifier: "DomainAssociation",
-}) as any as S.Schema<DomainAssociation>;
+).annotate({ identifier: "DomainAssociation" }) as any as S.Schema<DomainAssociation>;
 export interface CreateDomainAssociationResult {
   domainAssociation: DomainAssociation;
 }
@@ -886,9 +807,7 @@ export const CreateWebhookRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "CreateWebhookRequest",
-}) as any as S.Schema<CreateWebhookRequest>;
+).annotate({ identifier: "CreateWebhookRequest" }) as any as S.Schema<CreateWebhookRequest>;
 export type WebhookArn = string;
 export type WebhookId = string;
 export type WebhookUrl = string;
@@ -919,35 +838,21 @@ export interface CreateWebhookResult {
 }
 export const CreateWebhookResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ webhook: Webhook }).pipe(ns),
-).annotate({
-  identifier: "CreateWebhookResult",
-}) as any as S.Schema<CreateWebhookResult>;
+).annotate({ identifier: "CreateWebhookResult" }) as any as S.Schema<CreateWebhookResult>;
 export interface DeleteAppRequest {
   appId: string;
 }
 export const DeleteAppRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ appId: S.String.pipe(T.HttpLabel("appId")) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "DELETE", uri: "/apps/{appId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "DELETE", uri: "/apps/{appId}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteAppRequest",
-}) as any as S.Schema<DeleteAppRequest>;
+).annotate({ identifier: "DeleteAppRequest" }) as any as S.Schema<DeleteAppRequest>;
 export interface DeleteAppResult {
   app: App;
 }
 export const DeleteAppResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ app: App }).pipe(ns),
-).annotate({
-  identifier: "DeleteAppResult",
-}) as any as S.Schema<DeleteAppResult>;
+).annotate({ identifier: "DeleteAppResult" }) as any as S.Schema<DeleteAppResult>;
 export interface DeleteBackendEnvironmentRequest {
   appId: string;
   environmentName: string;
@@ -959,10 +864,7 @@ export const DeleteBackendEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(
       ns,
-      T.Http({
-        method: "DELETE",
-        uri: "/apps/{appId}/backendenvironments/{environmentName}",
-      }),
+      T.Http({ method: "DELETE", uri: "/apps/{appId}/backendenvironments/{environmentName}" }),
       svc,
       auth,
       proto,
@@ -1000,17 +902,13 @@ export const DeleteBranchRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteBranchRequest",
-}) as any as S.Schema<DeleteBranchRequest>;
+).annotate({ identifier: "DeleteBranchRequest" }) as any as S.Schema<DeleteBranchRequest>;
 export interface DeleteBranchResult {
   branch: Branch;
 }
 export const DeleteBranchResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ branch: Branch }).pipe(ns),
-).annotate({
-  identifier: "DeleteBranchResult",
-}) as any as S.Schema<DeleteBranchResult>;
+).annotate({ identifier: "DeleteBranchResult" }) as any as S.Schema<DeleteBranchResult>;
 export interface DeleteDomainAssociationRequest {
   appId: string;
   domainName: string;
@@ -1054,10 +952,7 @@ export const DeleteJobRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(
       ns,
-      T.Http({
-        method: "DELETE",
-        uri: "/apps/{appId}/branches/{branchName}/jobs/{jobId}",
-      }),
+      T.Http({ method: "DELETE", uri: "/apps/{appId}/branches/{branchName}/jobs/{jobId}" }),
       svc,
       auth,
       proto,
@@ -1065,9 +960,7 @@ export const DeleteJobRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteJobRequest",
-}) as any as S.Schema<DeleteJobRequest>;
+).annotate({ identifier: "DeleteJobRequest" }) as any as S.Schema<DeleteJobRequest>;
 export type JobArn = string;
 export type CommitId = string;
 export type CommitMessage = string;
@@ -1086,12 +979,7 @@ export type JobStatus =
 export const JobStatus = S.String;
 
 export type EndTime = Date;
-export type JobType =
-  | "RELEASE"
-  | "RETRY"
-  | "MANUAL"
-  | "WEB_HOOK"
-  | (string & {});
+export type JobType = "RELEASE" | "RETRY" | "MANUAL" | "WEB_HOOK" | (string & {});
 export const JobType = S.String;
 
 export type SourceUrl = string;
@@ -1131,9 +1019,7 @@ export interface DeleteJobResult {
 }
 export const DeleteJobResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ jobSummary: JobSummary }).pipe(ns),
-).annotate({
-  identifier: "DeleteJobResult",
-}) as any as S.Schema<DeleteJobResult>;
+).annotate({ identifier: "DeleteJobResult" }) as any as S.Schema<DeleteJobResult>;
 export interface DeleteWebhookRequest {
   webhookId: string;
 }
@@ -1149,17 +1035,13 @@ export const DeleteWebhookRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteWebhookRequest",
-}) as any as S.Schema<DeleteWebhookRequest>;
+).annotate({ identifier: "DeleteWebhookRequest" }) as any as S.Schema<DeleteWebhookRequest>;
 export interface DeleteWebhookResult {
   webhook: Webhook;
 }
 export const DeleteWebhookResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ webhook: Webhook }).pipe(ns),
-).annotate({
-  identifier: "DeleteWebhookResult",
-}) as any as S.Schema<DeleteWebhookResult>;
+).annotate({ identifier: "DeleteWebhookResult" }) as any as S.Schema<DeleteWebhookResult>;
 export interface GenerateAccessLogsRequest {
   startTime?: Date;
   endTime?: Date;
@@ -1192,31 +1074,21 @@ export interface GenerateAccessLogsResult {
 }
 export const GenerateAccessLogsResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ logUrl: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "GenerateAccessLogsResult",
-}) as any as S.Schema<GenerateAccessLogsResult>;
+).annotate({ identifier: "GenerateAccessLogsResult" }) as any as S.Schema<GenerateAccessLogsResult>;
 export interface GetAppRequest {
   appId: string;
 }
 export const GetAppRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ appId: S.String.pipe(T.HttpLabel("appId")) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/apps/{appId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "GET", uri: "/apps/{appId}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({ identifier: "GetAppRequest" }) as any as S.Schema<GetAppRequest>;
 export interface GetAppResult {
   app: App;
 }
-export const GetAppResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ app: App }).pipe(ns),
-).annotate({ identifier: "GetAppResult" }) as any as S.Schema<GetAppResult>;
+export const GetAppResult = /*@__PURE__*/ S.suspend(() => S.Struct({ app: App }).pipe(ns)).annotate(
+  { identifier: "GetAppResult" },
+) as any as S.Schema<GetAppResult>;
 export type ArtifactId = string;
 export interface GetArtifactUrlRequest {
   artifactId: string;
@@ -1233,9 +1105,7 @@ export const GetArtifactUrlRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetArtifactUrlRequest",
-}) as any as S.Schema<GetArtifactUrlRequest>;
+).annotate({ identifier: "GetArtifactUrlRequest" }) as any as S.Schema<GetArtifactUrlRequest>;
 export type ArtifactUrl = string;
 export interface GetArtifactUrlResult {
   artifactId: string;
@@ -1243,9 +1113,7 @@ export interface GetArtifactUrlResult {
 }
 export const GetArtifactUrlResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ artifactId: S.String, artifactUrl: S.String }).pipe(ns),
-).annotate({
-  identifier: "GetArtifactUrlResult",
-}) as any as S.Schema<GetArtifactUrlResult>;
+).annotate({ identifier: "GetArtifactUrlResult" }) as any as S.Schema<GetArtifactUrlResult>;
 export interface GetBackendEnvironmentRequest {
   appId: string;
   environmentName: string;
@@ -1257,10 +1125,7 @@ export const GetBackendEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(
       ns,
-      T.Http({
-        method: "GET",
-        uri: "/apps/{appId}/backendenvironments/{environmentName}",
-      }),
+      T.Http({ method: "GET", uri: "/apps/{appId}/backendenvironments/{environmentName}" }),
       svc,
       auth,
       proto,
@@ -1298,17 +1163,13 @@ export const GetBranchRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetBranchRequest",
-}) as any as S.Schema<GetBranchRequest>;
+).annotate({ identifier: "GetBranchRequest" }) as any as S.Schema<GetBranchRequest>;
 export interface GetBranchResult {
   branch: Branch;
 }
 export const GetBranchResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ branch: Branch }).pipe(ns),
-).annotate({
-  identifier: "GetBranchResult",
-}) as any as S.Schema<GetBranchResult>;
+).annotate({ identifier: "GetBranchResult" }) as any as S.Schema<GetBranchResult>;
 export interface GetDomainAssociationRequest {
   appId: string;
   domainName: string;
@@ -1352,10 +1213,7 @@ export const GetJobRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(
       ns,
-      T.Http({
-        method: "GET",
-        uri: "/apps/{appId}/branches/{branchName}/jobs/{jobId}",
-      }),
+      T.Http({ method: "GET", uri: "/apps/{appId}/branches/{branchName}/jobs/{jobId}" }),
       svc,
       auth,
       proto,
@@ -1370,10 +1228,7 @@ export type TestArtifactsUrl = string;
 export type TestConfigUrl = string;
 export type ThumbnailName = string;
 export type Screenshots = { [key: string]: string | undefined };
-export const Screenshots = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const Screenshots = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export type Context = string;
 export interface Step {
   stepName: string;
@@ -1415,9 +1270,9 @@ export const Job = /*@__PURE__*/ S.suspend(() =>
 export interface GetJobResult {
   job: Job;
 }
-export const GetJobResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ job: Job }).pipe(ns),
-).annotate({ identifier: "GetJobResult" }) as any as S.Schema<GetJobResult>;
+export const GetJobResult = /*@__PURE__*/ S.suspend(() => S.Struct({ job: Job }).pipe(ns)).annotate(
+  { identifier: "GetJobResult" },
+) as any as S.Schema<GetJobResult>;
 export interface GetWebhookRequest {
   webhookId: string;
 }
@@ -1433,17 +1288,13 @@ export const GetWebhookRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetWebhookRequest",
-}) as any as S.Schema<GetWebhookRequest>;
+).annotate({ identifier: "GetWebhookRequest" }) as any as S.Schema<GetWebhookRequest>;
 export interface GetWebhookResult {
   webhook: Webhook;
 }
 export const GetWebhookResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ webhook: Webhook }).pipe(ns),
-).annotate({
-  identifier: "GetWebhookResult",
-}) as any as S.Schema<GetWebhookResult>;
+).annotate({ identifier: "GetWebhookResult" }) as any as S.Schema<GetWebhookResult>;
 export type NextToken = string;
 export type MaxResultsForListApps = number;
 export interface ListAppsRequest {
@@ -1454,20 +1305,8 @@ export const ListAppsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/apps" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListAppsRequest",
-}) as any as S.Schema<ListAppsRequest>;
+  }).pipe(T.all(ns, T.Http({ method: "GET", uri: "/apps" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "ListAppsRequest" }) as any as S.Schema<ListAppsRequest>;
 export type Apps = App[];
 export const Apps = /*@__PURE__*/ S.Array(App);
 export interface ListAppsResult {
@@ -1495,10 +1334,7 @@ export const ListArtifactsRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(
       ns,
-      T.Http({
-        method: "GET",
-        uri: "/apps/{appId}/branches/{branchName}/jobs/{jobId}/artifacts",
-      }),
+      T.Http({ method: "GET", uri: "/apps/{appId}/branches/{branchName}/jobs/{jobId}/artifacts" }),
       svc,
       auth,
       proto,
@@ -1506,9 +1342,7 @@ export const ListArtifactsRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "ListArtifactsRequest",
-}) as any as S.Schema<ListArtifactsRequest>;
+).annotate({ identifier: "ListArtifactsRequest" }) as any as S.Schema<ListArtifactsRequest>;
 export type ArtifactFileName = string;
 export interface Artifact {
   artifactFileName: string;
@@ -1525,9 +1359,7 @@ export interface ListArtifactsResult {
 }
 export const ListArtifactsResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ artifacts: Artifacts, nextToken: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "ListArtifactsResult",
-}) as any as S.Schema<ListArtifactsResult>;
+).annotate({ identifier: "ListArtifactsResult" }) as any as S.Schema<ListArtifactsResult>;
 export interface ListBackendEnvironmentsRequest {
   appId: string;
   environmentName?: string;
@@ -1561,10 +1393,7 @@ export interface ListBackendEnvironmentsResult {
   nextToken?: string;
 }
 export const ListBackendEnvironmentsResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    backendEnvironments: BackendEnvironments,
-    nextToken: S.optional(S.String),
-  }).pipe(ns),
+  S.Struct({ backendEnvironments: BackendEnvironments, nextToken: S.optional(S.String) }).pipe(ns),
 ).annotate({
   identifier: "ListBackendEnvironmentsResult",
 }) as any as S.Schema<ListBackendEnvironmentsResult>;
@@ -1589,9 +1418,7 @@ export const ListBranchesRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "ListBranchesRequest",
-}) as any as S.Schema<ListBranchesRequest>;
+).annotate({ identifier: "ListBranchesRequest" }) as any as S.Schema<ListBranchesRequest>;
 export type Branches = Branch[];
 export const Branches = /*@__PURE__*/ S.Array(Branch);
 export interface ListBranchesResult {
@@ -1600,9 +1427,7 @@ export interface ListBranchesResult {
 }
 export const ListBranchesResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ branches: Branches, nextToken: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "ListBranchesResult",
-}) as any as S.Schema<ListBranchesResult>;
+).annotate({ identifier: "ListBranchesResult" }) as any as S.Schema<ListBranchesResult>;
 export interface ListDomainAssociationsRequest {
   appId: string;
   nextToken?: string;
@@ -1634,10 +1459,7 @@ export interface ListDomainAssociationsResult {
   nextToken?: string;
 }
 export const ListDomainAssociationsResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainAssociations: DomainAssociations,
-    nextToken: S.optional(S.String),
-  }).pipe(ns),
+  S.Struct({ domainAssociations: DomainAssociations, nextToken: S.optional(S.String) }).pipe(ns),
 ).annotate({
   identifier: "ListDomainAssociationsResult",
 }) as any as S.Schema<ListDomainAssociationsResult>;
@@ -1656,10 +1478,7 @@ export const ListJobsRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(
       ns,
-      T.Http({
-        method: "GET",
-        uri: "/apps/{appId}/branches/{branchName}/jobs",
-      }),
+      T.Http({ method: "GET", uri: "/apps/{appId}/branches/{branchName}/jobs" }),
       svc,
       auth,
       proto,
@@ -1667,9 +1486,7 @@ export const ListJobsRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "ListJobsRequest",
-}) as any as S.Schema<ListJobsRequest>;
+).annotate({ identifier: "ListJobsRequest" }) as any as S.Schema<ListJobsRequest>;
 export type JobSummaries = JobSummary[];
 export const JobSummaries = /*@__PURE__*/ S.Array(JobSummary);
 export interface ListJobsResult {
@@ -1677,10 +1494,7 @@ export interface ListJobsResult {
   nextToken?: string;
 }
 export const ListJobsResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    jobSummaries: JobSummaries,
-    nextToken: S.optional(S.String),
-  }).pipe(ns),
+  S.Struct({ jobSummaries: JobSummaries, nextToken: S.optional(S.String) }).pipe(ns),
 ).annotate({ identifier: "ListJobsResult" }) as any as S.Schema<ListJobsResult>;
 export type ResourceArn = string;
 export interface ListTagsForResourceRequest {
@@ -1688,15 +1502,7 @@ export interface ListTagsForResourceRequest {
 }
 export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "GET", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListTagsForResourceRequest",
@@ -1730,9 +1536,7 @@ export const ListWebhooksRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "ListWebhooksRequest",
-}) as any as S.Schema<ListWebhooksRequest>;
+).annotate({ identifier: "ListWebhooksRequest" }) as any as S.Schema<ListWebhooksRequest>;
 export type Webhooks = Webhook[];
 export const Webhooks = /*@__PURE__*/ S.Array(Webhook);
 export interface ListWebhooksResult {
@@ -1741,9 +1545,7 @@ export interface ListWebhooksResult {
 }
 export const ListWebhooksResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ webhooks: Webhooks, nextToken: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "ListWebhooksResult",
-}) as any as S.Schema<ListWebhooksResult>;
+).annotate({ identifier: "ListWebhooksResult" }) as any as S.Schema<ListWebhooksResult>;
 export interface StartDeploymentRequest {
   appId: string;
   branchName: string;
@@ -1761,10 +1563,7 @@ export const StartDeploymentRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(
       ns,
-      T.Http({
-        method: "POST",
-        uri: "/apps/{appId}/branches/{branchName}/deployments/start",
-      }),
+      T.Http({ method: "POST", uri: "/apps/{appId}/branches/{branchName}/deployments/start" }),
       svc,
       auth,
       proto,
@@ -1772,17 +1571,13 @@ export const StartDeploymentRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "StartDeploymentRequest",
-}) as any as S.Schema<StartDeploymentRequest>;
+).annotate({ identifier: "StartDeploymentRequest" }) as any as S.Schema<StartDeploymentRequest>;
 export interface StartDeploymentResult {
   jobSummary: JobSummary;
 }
 export const StartDeploymentResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ jobSummary: JobSummary }).pipe(ns),
-).annotate({
-  identifier: "StartDeploymentResult",
-}) as any as S.Schema<StartDeploymentResult>;
+).annotate({ identifier: "StartDeploymentResult" }) as any as S.Schema<StartDeploymentResult>;
 export type JobReason = string;
 export interface StartJobRequest {
   appId: string;
@@ -1807,10 +1602,7 @@ export const StartJobRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(
       ns,
-      T.Http({
-        method: "POST",
-        uri: "/apps/{appId}/branches/{branchName}/jobs",
-      }),
+      T.Http({ method: "POST", uri: "/apps/{appId}/branches/{branchName}/jobs" }),
       svc,
       auth,
       proto,
@@ -1818,9 +1610,7 @@ export const StartJobRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "StartJobRequest",
-}) as any as S.Schema<StartJobRequest>;
+).annotate({ identifier: "StartJobRequest" }) as any as S.Schema<StartJobRequest>;
 export interface StartJobResult {
   jobSummary: JobSummary;
 }
@@ -1840,10 +1630,7 @@ export const StopJobRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(
       ns,
-      T.Http({
-        method: "DELETE",
-        uri: "/apps/{appId}/branches/{branchName}/jobs/{jobId}/stop",
-      }),
+      T.Http({ method: "DELETE", uri: "/apps/{appId}/branches/{branchName}/jobs/{jobId}/stop" }),
       svc,
       auth,
       proto,
@@ -1863,27 +1650,12 @@ export interface TagResourceRequest {
   tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-    tags: TagMap,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tags: TagMap }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
+).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
+export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = string[];
@@ -1907,13 +1679,9 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
+).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateAppRequest {
@@ -1965,27 +1733,15 @@ export const UpdateAppRequest = /*@__PURE__*/ S.suspend(() =>
     jobConfig: S.optional(JobConfig),
     cacheConfig: S.optional(CacheConfig),
   }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/apps/{appId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/apps/{appId}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UpdateAppRequest",
-}) as any as S.Schema<UpdateAppRequest>;
+).annotate({ identifier: "UpdateAppRequest" }) as any as S.Schema<UpdateAppRequest>;
 export interface UpdateAppResult {
   app: App;
 }
 export const UpdateAppResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ app: App }).pipe(ns),
-).annotate({
-  identifier: "UpdateAppResult",
-}) as any as S.Schema<UpdateAppResult>;
+).annotate({ identifier: "UpdateAppResult" }) as any as S.Schema<UpdateAppResult>;
 export interface UpdateBranchRequest {
   appId: string;
   branchName: string;
@@ -2041,17 +1797,13 @@ export const UpdateBranchRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "UpdateBranchRequest",
-}) as any as S.Schema<UpdateBranchRequest>;
+).annotate({ identifier: "UpdateBranchRequest" }) as any as S.Schema<UpdateBranchRequest>;
 export interface UpdateBranchResult {
   branch: Branch;
 }
 export const UpdateBranchResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ branch: Branch }).pipe(ns),
-).annotate({
-  identifier: "UpdateBranchResult",
-}) as any as S.Schema<UpdateBranchResult>;
+).annotate({ identifier: "UpdateBranchResult" }) as any as S.Schema<UpdateBranchResult>;
 export interface UpdateDomainAssociationRequest {
   appId: string;
   domainName: string;
@@ -2113,17 +1865,13 @@ export const UpdateWebhookRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "UpdateWebhookRequest",
-}) as any as S.Schema<UpdateWebhookRequest>;
+).annotate({ identifier: "UpdateWebhookRequest" }) as any as S.Schema<UpdateWebhookRequest>;
 export interface UpdateWebhookResult {
   webhook: Webhook;
 }
 export const UpdateWebhookResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ webhook: Webhook }).pipe(ns),
-).annotate({
-  identifier: "UpdateWebhookResult",
-}) as any as S.Schema<UpdateWebhookResult>;
+).annotate({ identifier: "UpdateWebhookResult" }) as any as S.Schema<UpdateWebhookResult>;
 export type ErrorMessage = string;
 export type Code = string;
 export type CreateAppError =
@@ -2803,12 +2551,7 @@ export const listApps: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListAppsRequest,
   output: ListAppsResult,
-  errors: [
-    BadRequestException,
-    InternalFailureException,
-    UnauthorizedException,
-    TimeoutException,
-  ],
+  errors: [BadRequestException, InternalFailureException, UnauthorizedException, TimeoutException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListApps",
@@ -2880,12 +2623,7 @@ export const listBackendEnvironments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListBackendEnvironmentsRequest,
   output: ListBackendEnvironmentsResult,
-  errors: [
-    BadRequestException,
-    InternalFailureException,
-    UnauthorizedException,
-    TimeoutException,
-  ],
+  errors: [BadRequestException, InternalFailureException, UnauthorizedException, TimeoutException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListBackendEnvironments",
@@ -2909,12 +2647,7 @@ export const listBranches: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListBranchesRequest,
   output: ListBranchesResult,
-  errors: [
-    BadRequestException,
-    InternalFailureException,
-    UnauthorizedException,
-    TimeoutException,
-  ],
+  errors: [BadRequestException, InternalFailureException, UnauthorizedException, TimeoutException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListBranches",
@@ -2944,12 +2677,7 @@ export const listDomainAssociations: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListDomainAssociationsRequest,
   output: ListDomainAssociationsResult,
-  errors: [
-    BadRequestException,
-    InternalFailureException,
-    UnauthorizedException,
-    TimeoutException,
-  ],
+  errors: [BadRequestException, InternalFailureException, UnauthorizedException, TimeoutException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDomainAssociations",

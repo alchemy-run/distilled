@@ -1,18 +1,15 @@
+import * as API from "@distilled.cloud/core/api";
+import * as S from "@distilled.cloud/core/schema";
 import * as HttpClient from "effect/http/HttpClient";
 import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
-import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
-const svc = T.AwsApiService({
-  sdkId: "MediaConvert",
-  serviceShapeName: "MediaConvert",
-});
+import * as T from "../traits.ts";
+const svc = T.AwsApiService({ sdkId: "MediaConvert", serviceShapeName: "MediaConvert" });
 const auth = T.AwsAuthSigv4({ name: "mediaconvert" });
 const ver = T.ServiceVersion("2017-08-29");
 const proto = T.AwsProtocolsRestJson1();
@@ -28,14 +25,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -65,9 +58,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://mediaconvert-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -75,18 +66,12 @@ const rules = T.EndpointResolver((p, _) => {
               `https://mediaconvert.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
         if (Region === "cn-northwest-1") {
-          return e(
-            "https://subscribe.mediaconvert.cn-northwest-1.amazonaws.com.cn",
-          );
+          return e("https://subscribe.mediaconvert.cn-northwest-1.amazonaws.com.cn");
         }
-        return e(
-          `https://mediaconvert.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://mediaconvert.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -135,6 +120,12 @@ export class TooManyRequestsException
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.HttpError(429),
   ).pipe(C.withThrottlingError) {}
+export class UnprocessableEntityException
+  extends /*@__PURE__*/ S.TaggedError<UnprocessableEntityException>()(
+    "UnprocessableEntityException",
+    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
+    T.HttpError(422),
+  ).pipe(C.withBadRequestError) {}
 export interface AssociateCertificateRequest {
   Arn?: string;
 }
@@ -155,9 +146,7 @@ export const AssociateCertificateRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "AssociateCertificateRequest",
 }) as any as S.Schema<AssociateCertificateRequest>;
 export interface AssociateCertificateResponse {}
-export const AssociateCertificateResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const AssociateCertificateResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "AssociateCertificateResponse",
 }) as any as S.Schema<AssociateCertificateResponse>;
 export interface CancelJobRequest {
@@ -165,47 +154,23 @@ export interface CancelJobRequest {
 }
 export const CancelJobRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Id: S.String.pipe(T.HttpLabel("Id")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/2017-08-29/jobs/{Id}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/2017-08-29/jobs/{Id}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "CancelJobRequest",
-}) as any as S.Schema<CancelJobRequest>;
+).annotate({ identifier: "CancelJobRequest" }) as any as S.Schema<CancelJobRequest>;
 export interface CancelJobResponse {}
-export const CancelJobResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const CancelJobResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "CancelJobResponse",
 }) as any as S.Schema<CancelJobResponse>;
-export type AccelerationMode =
-  | "DISABLED"
-  | "ENABLED"
-  | "PREFERRED"
-  | (string & {});
+export type AccelerationMode = "DISABLED" | "ENABLED" | "PREFERRED" | (string & {});
 export const AccelerationMode = S.String;
 
 export interface AccelerationSettings {
   Mode?: AccelerationMode;
 }
 export const AccelerationSettings = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Mode: S.optional(AccelerationMode) }).pipe(
-    S.encodeKeys({ Mode: "mode" }),
-  ),
-).annotate({
-  identifier: "AccelerationSettings",
-}) as any as S.Schema<AccelerationSettings>;
-export type BillingTagsSource =
-  | "QUEUE"
-  | "PRESET"
-  | "JOB_TEMPLATE"
-  | "JOB"
-  | (string & {});
+  S.Struct({ Mode: S.optional(AccelerationMode) }).pipe(S.encodeKeys({ Mode: "mode" })),
+).annotate({ identifier: "AccelerationSettings" }) as any as S.Schema<AccelerationSettings>;
+export type BillingTagsSource = "QUEUE" | "PRESET" | "JOB_TEMPLATE" | "JOB" | (string & {});
 export const BillingTagsSource = S.String;
 
 export type __integerMinNegative50Max50 = number;
@@ -219,13 +184,7 @@ export const HopDestination = /*@__PURE__*/ S.suspend(() =>
     Priority: S.optional(S.Number),
     Queue: S.optional(S.String),
     WaitMinutes: S.optional(S.Number),
-  }).pipe(
-    S.encodeKeys({
-      Priority: "priority",
-      Queue: "queue",
-      WaitMinutes: "waitMinutes",
-    }),
-  ),
+  }).pipe(S.encodeKeys({ Priority: "priority", Queue: "queue", WaitMinutes: "waitMinutes" })),
 ).annotate({ identifier: "HopDestination" }) as any as S.Schema<HopDestination>;
 export type __listOfHopDestination = HopDestination[];
 export const __listOfHopDestination = /*@__PURE__*/ S.Array(HopDestination);
@@ -287,11 +246,8 @@ export type __stringPatternSNManifestConfirmConditionNotificationNS = string;
 export interface EsamManifestConfirmConditionNotification {
   MccXml?: string;
 }
-export const EsamManifestConfirmConditionNotification = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ MccXml: S.optional(S.String) }).pipe(
-      S.encodeKeys({ MccXml: "mccXml" }),
-    ),
+export const EsamManifestConfirmConditionNotification = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ MccXml: S.optional(S.String) }).pipe(S.encodeKeys({ MccXml: "mccXml" })),
 ).annotate({
   identifier: "EsamManifestConfirmConditionNotification",
 }) as any as S.Schema<EsamManifestConfirmConditionNotification>;
@@ -301,9 +257,7 @@ export interface EsamSignalProcessingNotification {
   SccXml?: string;
 }
 export const EsamSignalProcessingNotification = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ SccXml: S.optional(S.String) }).pipe(
-    S.encodeKeys({ SccXml: "sccXml" }),
-  ),
+  S.Struct({ SccXml: S.optional(S.String) }).pipe(S.encodeKeys({ SccXml: "sccXml" })),
 ).annotate({
   identifier: "EsamSignalProcessingNotification",
 }) as any as S.Schema<EsamSignalProcessingNotification>;
@@ -314,15 +268,12 @@ export interface EsamSettings {
 }
 export const EsamSettings = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    ManifestConfirmConditionNotification: S.optional(
-      EsamManifestConfirmConditionNotification,
-    ),
+    ManifestConfirmConditionNotification: S.optional(EsamManifestConfirmConditionNotification),
     ResponseSignalPreroll: S.optional(S.Number),
     SignalProcessingNotification: S.optional(EsamSignalProcessingNotification),
   }).pipe(
     S.encodeKeys({
-      ManifestConfirmConditionNotification:
-        "manifestConfirmConditionNotification",
+      ManifestConfirmConditionNotification: "manifestConfirmConditionNotification",
       ResponseSignalPreroll: "responseSignalPreroll",
       SignalProcessingNotification: "signalProcessingNotification",
     }),
@@ -343,22 +294,14 @@ export const ExtendedDataServices = /*@__PURE__*/ S.suspend(() =>
     CopyProtectionAction: S.optional(CopyProtectionAction),
     VchipAction: S.optional(VchipAction),
   }).pipe(
-    S.encodeKeys({
-      CopyProtectionAction: "copyProtectionAction",
-      VchipAction: "vchipAction",
-    }),
+    S.encodeKeys({ CopyProtectionAction: "copyProtectionAction", VchipAction: "vchipAction" }),
   ),
-).annotate({
-  identifier: "ExtendedDataServices",
-}) as any as S.Schema<ExtendedDataServices>;
+).annotate({ identifier: "ExtendedDataServices" }) as any as S.Schema<ExtendedDataServices>;
 export type __integerMin1Max150 = number;
 export type AdvancedInputFilter = "ENABLED" | "DISABLED" | (string & {});
 export const AdvancedInputFilter = S.String;
 
-export type AdvancedInputFilterAddTexture =
-  | "ENABLED"
-  | "DISABLED"
-  | (string & {});
+export type AdvancedInputFilterAddTexture = "ENABLED" | "DISABLED" | (string & {});
 export const AdvancedInputFilterAddTexture = S.String;
 
 export type AdvancedInputFilterSharpen = "OFF" | "LOW" | "HIGH" | (string & {});
@@ -386,12 +329,8 @@ export const AudioSelectorGroup = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ AudioSelectorNames: S.optional(__listOf__stringMin1) }).pipe(
     S.encodeKeys({ AudioSelectorNames: "audioSelectorNames" }),
   ),
-).annotate({
-  identifier: "AudioSelectorGroup",
-}) as any as S.Schema<AudioSelectorGroup>;
-export type __mapOfAudioSelectorGroup = {
-  [key: string]: AudioSelectorGroup | undefined;
-};
+).annotate({ identifier: "AudioSelectorGroup" }) as any as S.Schema<AudioSelectorGroup>;
+export type __mapOfAudioSelectorGroup = { [key: string]: AudioSelectorGroup | undefined };
 export const __mapOfAudioSelectorGroup = /*@__PURE__*/ S.Record(
   S.String,
   AudioSelectorGroup.pipe(S.optional),
@@ -629,21 +568,15 @@ export const HlsRenditionGroupSettings = /*@__PURE__*/ S.suspend(() =>
 export type __integerMinNegative2147483648Max2147483647 = number;
 export type __integerMin1Max2147483647 = number;
 export type __listOf__integerMin1Max2147483647 = number[];
-export const __listOf__integerMin1Max2147483647 = /*@__PURE__*/ S.Array(
-  S.Number,
-);
+export const __listOf__integerMin1Max2147483647 = /*@__PURE__*/ S.Array(S.Number);
 export type __integerMin0Max8 = number;
 export type __integerMin1Max64 = number;
 export type __integerMinNegative60Max6 = number;
 export type __listOf__integerMinNegative60Max6 = number[];
-export const __listOf__integerMinNegative60Max6 = /*@__PURE__*/ S.Array(
-  S.Number,
-);
+export const __listOf__integerMinNegative60Max6 = /*@__PURE__*/ S.Array(S.Number);
 export type __doubleMinNegative60Max6 = number;
 export type __listOf__doubleMinNegative60Max6 = number[];
-export const __listOf__doubleMinNegative60Max6 = /*@__PURE__*/ S.Array(
-  S.Number,
-);
+export const __listOf__doubleMinNegative60Max6 = /*@__PURE__*/ S.Array(S.Number);
 export interface OutputChannelMapping {
   InputChannels?: number[];
   InputChannelsFineTune?: number[];
@@ -658,12 +591,9 @@ export const OutputChannelMapping = /*@__PURE__*/ S.suspend(() =>
       InputChannelsFineTune: "inputChannelsFineTune",
     }),
   ),
-).annotate({
-  identifier: "OutputChannelMapping",
-}) as any as S.Schema<OutputChannelMapping>;
+).annotate({ identifier: "OutputChannelMapping" }) as any as S.Schema<OutputChannelMapping>;
 export type __listOfOutputChannelMapping = OutputChannelMapping[];
-export const __listOfOutputChannelMapping =
-  /*@__PURE__*/ S.Array(OutputChannelMapping);
+export const __listOfOutputChannelMapping = /*@__PURE__*/ S.Array(OutputChannelMapping);
 export interface ChannelMapping {
   OutputChannels?: OutputChannelMapping[];
 }
@@ -706,6 +636,9 @@ export type AudioSelectorType =
   | (string & {});
 export const AudioSelectorType = S.String;
 
+export type AudioSmpte337Passthrough = "ENABLED" | "DISABLED" | (string & {});
+export const AudioSmpte337Passthrough = S.String;
+
 export interface AudioSelector {
   AudioDurationCorrection?: AudioDurationCorrection;
   CustomLanguageCode?: string;
@@ -718,6 +651,7 @@ export interface AudioSelector {
   ProgramSelection?: number;
   RemixSettings?: RemixSettings;
   SelectorType?: AudioSelectorType;
+  Smpte337Passthrough?: AudioSmpte337Passthrough;
   Streams?: number[];
   Tracks?: number[];
 }
@@ -734,6 +668,7 @@ export const AudioSelector = /*@__PURE__*/ S.suspend(() =>
     ProgramSelection: S.optional(S.Number),
     RemixSettings: S.optional(RemixSettings),
     SelectorType: S.optional(AudioSelectorType),
+    Smpte337Passthrough: S.optional(AudioSmpte337Passthrough),
     Streams: S.optional(__listOf__integerMin1Max2147483647),
     Tracks: S.optional(__listOf__integerMin1Max2147483647),
   }).pipe(
@@ -749,6 +684,7 @@ export const AudioSelector = /*@__PURE__*/ S.suspend(() =>
       ProgramSelection: "programSelection",
       RemixSettings: "remixSettings",
       SelectorType: "selectorType",
+      Smpte337Passthrough: "smpte337Passthrough",
       Streams: "streams",
       Tracks: "tracks",
     }),
@@ -763,10 +699,7 @@ export type AncillaryConvert608To708 = "UPCONVERT" | "DISABLED" | (string & {});
 export const AncillaryConvert608To708 = S.String;
 
 export type __integerMin1Max4 = number;
-export type AncillaryTerminateCaptions =
-  | "END_OF_INPUT"
-  | "DISABLED"
-  | (string & {});
+export type AncillaryTerminateCaptions = "END_OF_INPUT" | "DISABLED" | (string & {});
 export const AncillaryTerminateCaptions = S.String;
 
 export interface AncillarySourceSettings {
@@ -786,25 +719,18 @@ export const AncillarySourceSettings = /*@__PURE__*/ S.suspend(() =>
       TerminateCaptions: "terminateCaptions",
     }),
   ),
-).annotate({
-  identifier: "AncillarySourceSettings",
-}) as any as S.Schema<AncillarySourceSettings>;
+).annotate({ identifier: "AncillarySourceSettings" }) as any as S.Schema<AncillarySourceSettings>;
 export interface DvbSubSourceSettings {
   Pid?: number;
 }
 export const DvbSubSourceSettings = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Pid: S.optional(S.Number) }).pipe(S.encodeKeys({ Pid: "pid" })),
-).annotate({
-  identifier: "DvbSubSourceSettings",
-}) as any as S.Schema<DvbSubSourceSettings>;
+).annotate({ identifier: "DvbSubSourceSettings" }) as any as S.Schema<DvbSubSourceSettings>;
 export type EmbeddedConvert608To708 = "UPCONVERT" | "DISABLED" | (string & {});
 export const EmbeddedConvert608To708 = S.String;
 
 export type __integerMin1Max1 = number;
-export type EmbeddedTerminateCaptions =
-  | "END_OF_INPUT"
-  | "DISABLED"
-  | (string & {});
+export type EmbeddedTerminateCaptions = "END_OF_INPUT" | "DISABLED" | (string & {});
 export const EmbeddedTerminateCaptions = S.String;
 
 export interface EmbeddedSourceSettings {
@@ -827,22 +753,14 @@ export const EmbeddedSourceSettings = /*@__PURE__*/ S.suspend(() =>
       TerminateCaptions: "terminateCaptions",
     }),
   ),
-).annotate({
-  identifier: "EmbeddedSourceSettings",
-}) as any as S.Schema<EmbeddedSourceSettings>;
+).annotate({ identifier: "EmbeddedSourceSettings" }) as any as S.Schema<EmbeddedSourceSettings>;
 export type CaptionSourceByteRateLimit = "ENABLED" | "DISABLED" | (string & {});
 export const CaptionSourceByteRateLimit = S.String;
 
-export type FileSourceConvert608To708 =
-  | "UPCONVERT"
-  | "DISABLED"
-  | (string & {});
+export type FileSourceConvert608To708 = "UPCONVERT" | "DISABLED" | (string & {});
 export const FileSourceConvert608To708 = S.String;
 
-export type CaptionSourceConvertPaintOnToPopOn =
-  | "ENABLED"
-  | "DISABLED"
-  | (string & {});
+export type CaptionSourceConvertPaintOnToPopOn = "ENABLED" | "DISABLED" | (string & {});
 export const CaptionSourceConvertPaintOnToPopOn = S.String;
 
 export type __integerMin1Max1001 = number;
@@ -861,21 +779,13 @@ export const CaptionSourceFramerate = /*@__PURE__*/ S.suspend(() =>
       FramerateNumerator: "framerateNumerator",
     }),
   ),
-).annotate({
-  identifier: "CaptionSourceFramerate",
-}) as any as S.Schema<CaptionSourceFramerate>;
+).annotate({ identifier: "CaptionSourceFramerate" }) as any as S.Schema<CaptionSourceFramerate>;
 export type __stringMin14PatternS3SccSCCTtmlTTMLDfxpDFXPStlSTLSrtSRTXmlXMLSmiSMIVttVTTWebvttWEBVTTHttpsSccSCCTtmlTTMLDfxpDFXPStlSTLSrtSRTXmlXMLSmiSMIVttVTTWebvttWEBVTT =
   string;
-export type FileSourceTimeDeltaUnits =
-  | "SECONDS"
-  | "MILLISECONDS"
-  | (string & {});
+export type FileSourceTimeDeltaUnits = "SECONDS" | "MILLISECONDS" | (string & {});
 export const FileSourceTimeDeltaUnits = S.String;
 
-export type CaptionSourceUpconvertSTLToTeletext =
-  | "UPCONVERT"
-  | "DISABLED"
-  | (string & {});
+export type CaptionSourceUpconvertSTLToTeletext = "UPCONVERT" | "DISABLED" | (string & {});
 export const CaptionSourceUpconvertSTLToTeletext = S.String;
 
 export interface FileSourceSettings {
@@ -910,9 +820,7 @@ export const FileSourceSettings = /*@__PURE__*/ S.suspend(() =>
       UpconvertSTLToTeletext: "upconvertSTLToTeletext",
     }),
   ),
-).annotate({
-  identifier: "FileSourceSettings",
-}) as any as S.Schema<FileSourceSettings>;
+).annotate({ identifier: "FileSourceSettings" }) as any as S.Schema<FileSourceSettings>;
 export type CaptionSourceType =
   | "ANCILLARY"
   | "DVB_SUB"
@@ -937,26 +845,17 @@ export interface TeletextSourceSettings {
   PageNumber?: string;
 }
 export const TeletextSourceSettings = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ PageNumber: S.optional(S.String) }).pipe(
-    S.encodeKeys({ PageNumber: "pageNumber" }),
-  ),
-).annotate({
-  identifier: "TeletextSourceSettings",
-}) as any as S.Schema<TeletextSourceSettings>;
+  S.Struct({ PageNumber: S.optional(S.String) }).pipe(S.encodeKeys({ PageNumber: "pageNumber" })),
+).annotate({ identifier: "TeletextSourceSettings" }) as any as S.Schema<TeletextSourceSettings>;
 export interface TrackSourceSettings {
   StreamNumber?: number;
   TrackNumber?: number;
 }
 export const TrackSourceSettings = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    StreamNumber: S.optional(S.Number),
-    TrackNumber: S.optional(S.Number),
-  }).pipe(
+  S.Struct({ StreamNumber: S.optional(S.Number), TrackNumber: S.optional(S.Number) }).pipe(
     S.encodeKeys({ StreamNumber: "streamNumber", TrackNumber: "trackNumber" }),
   ),
-).annotate({
-  identifier: "TrackSourceSettings",
-}) as any as S.Schema<TrackSourceSettings>;
+).annotate({ identifier: "TrackSourceSettings" }) as any as S.Schema<TrackSourceSettings>;
 export interface WebvttHlsSourceSettings {
   RenditionGroupId?: string;
   RenditionLanguageCode?: LanguageCode;
@@ -974,9 +873,7 @@ export const WebvttHlsSourceSettings = /*@__PURE__*/ S.suspend(() =>
       RenditionName: "renditionName",
     }),
   ),
-).annotate({
-  identifier: "WebvttHlsSourceSettings",
-}) as any as S.Schema<WebvttHlsSourceSettings>;
+).annotate({ identifier: "WebvttHlsSourceSettings" }) as any as S.Schema<WebvttHlsSourceSettings>;
 export interface CaptionSourceSettings {
   AncillarySourceSettings?: AncillarySourceSettings;
   DvbSubSourceSettings?: DvbSubSourceSettings;
@@ -1009,9 +906,7 @@ export const CaptionSourceSettings = /*@__PURE__*/ S.suspend(() =>
       WebvttHlsSourceSettings: "webvttHlsSourceSettings",
     }),
   ),
-).annotate({
-  identifier: "CaptionSourceSettings",
-}) as any as S.Schema<CaptionSourceSettings>;
+).annotate({ identifier: "CaptionSourceSettings" }) as any as S.Schema<CaptionSourceSettings>;
 export interface CaptionSelector {
   CustomLanguageCode?: string;
   LanguageCode?: LanguageCode;
@@ -1029,12 +924,8 @@ export const CaptionSelector = /*@__PURE__*/ S.suspend(() =>
       SourceSettings: "sourceSettings",
     }),
   ),
-).annotate({
-  identifier: "CaptionSelector",
-}) as any as S.Schema<CaptionSelector>;
-export type __mapOfCaptionSelector = {
-  [key: string]: CaptionSelector | undefined;
-};
+).annotate({ identifier: "CaptionSelector" }) as any as S.Schema<CaptionSelector>;
+export type __mapOfCaptionSelector = { [key: string]: CaptionSelector | undefined };
 export const __mapOfCaptionSelector = /*@__PURE__*/ S.Record(
   S.String,
   CaptionSelector.pipe(S.optional),
@@ -1062,8 +953,7 @@ export const DecryptionMode = S.String;
 
 export type __stringMin24Max512PatternAZaZ0902 = string;
 export type __stringMin16Max24PatternAZaZ0922AZaZ0916 = string;
-export type __stringMin9Max19PatternAZ26EastWestCentralNorthSouthEastWest1912 =
-  string;
+export type __stringMin9Max19PatternAZ26EastWestCentralNorthSouthEastWest1912 = string;
 export interface InputDecryptionSettings {
   DecryptionMode?: DecryptionMode;
   EncryptedDecryptionKey?: string;
@@ -1084,17 +974,12 @@ export const InputDecryptionSettings = /*@__PURE__*/ S.suspend(() =>
       KmsKeyRegion: "kmsKeyRegion",
     }),
   ),
-).annotate({
-  identifier: "InputDecryptionSettings",
-}) as any as S.Schema<InputDecryptionSettings>;
+).annotate({ identifier: "InputDecryptionSettings" }) as any as S.Schema<InputDecryptionSettings>;
 export type InputDenoiseFilter = "ENABLED" | "DISABLED" | (string & {});
 export const InputDenoiseFilter = S.String;
 
 export type __stringMin14PatternS3XmlXMLHttpsXmlXML = string;
-export type DynamicAudioSelectorType =
-  | "ALL_TRACKS"
-  | "LANGUAGE_CODE"
-  | (string & {});
+export type DynamicAudioSelectorType = "ALL_TRACKS" | "LANGUAGE_CODE" | (string & {});
 export const DynamicAudioSelectorType = S.String;
 
 export interface DynamicAudioSelector {
@@ -1120,12 +1005,8 @@ export const DynamicAudioSelector = /*@__PURE__*/ S.suspend(() =>
       SelectorType: "selectorType",
     }),
   ),
-).annotate({
-  identifier: "DynamicAudioSelector",
-}) as any as S.Schema<DynamicAudioSelector>;
-export type __mapOfDynamicAudioSelector = {
-  [key: string]: DynamicAudioSelector | undefined;
-};
+).annotate({ identifier: "DynamicAudioSelector" }) as any as S.Schema<DynamicAudioSelector>;
+export type __mapOfDynamicAudioSelector = { [key: string]: DynamicAudioSelector | undefined };
 export const __mapOfDynamicAudioSelector = /*@__PURE__*/ S.Record(
   S.String,
   DynamicAudioSelector.pipe(S.optional),
@@ -1135,8 +1016,7 @@ export type InputFilterEnable = "AUTO" | "DISABLE" | "FORCE" | (string & {});
 export const InputFilterEnable = S.String;
 
 export type __integerMin0Max5 = number;
-export type __stringMin14PatternS3BmpBMPPngPNGTgaTGAHttpsBmpBMPPngPNGTgaTGA =
-  string;
+export type __stringMin14PatternS3BmpBMPPngPNGTgaTGAHttpsBmpBMPPngPNGTgaTGA = string;
 export type __integerMin0Max99 = number;
 export type __integerMin0Max100 = number;
 export type __stringPattern01D20305D205D = string;
@@ -1181,9 +1061,7 @@ export const InsertableImage = /*@__PURE__*/ S.suspend(() =>
       Width: "width",
     }),
   ),
-).annotate({
-  identifier: "InsertableImage",
-}) as any as S.Schema<InsertableImage>;
+).annotate({ identifier: "InsertableImage" }) as any as S.Schema<InsertableImage>;
 export type __listOfInsertableImage = InsertableImage[];
 export const __listOfInsertableImage = /*@__PURE__*/ S.Array(InsertableImage);
 export type __integerMin100Max1000 = number;
@@ -1208,14 +1086,8 @@ export interface InputClipping {
   StartTimecode?: string;
 }
 export const InputClipping = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    EndTimecode: S.optional(S.String),
-    StartTimecode: S.optional(S.String),
-  }).pipe(
-    S.encodeKeys({
-      EndTimecode: "endTimecode",
-      StartTimecode: "startTimecode",
-    }),
+  S.Struct({ EndTimecode: S.optional(S.String), StartTimecode: S.optional(S.String) }).pipe(
+    S.encodeKeys({ EndTimecode: "endTimecode", StartTimecode: "startTimecode" }),
   ),
 ).annotate({ identifier: "InputClipping" }) as any as S.Schema<InputClipping>;
 export type __listOfInputClipping = InputClipping[];
@@ -1227,38 +1099,24 @@ export interface MultiViewInput {
   FileInput?: string;
 }
 export const MultiViewInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ FileInput: S.optional(S.String) }).pipe(
-    S.encodeKeys({ FileInput: "fileInput" }),
-  ),
+  S.Struct({ FileInput: S.optional(S.String) }).pipe(S.encodeKeys({ FileInput: "fileInput" })),
 ).annotate({ identifier: "MultiViewInput" }) as any as S.Schema<MultiViewInput>;
 export interface MultiViewSettings {
   Input?: MultiViewInput;
 }
 export const MultiViewSettings = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Input: S.optional(MultiViewInput) }).pipe(
-    S.encodeKeys({ Input: "input" }),
-  ),
-).annotate({
-  identifier: "MultiViewSettings",
-}) as any as S.Schema<MultiViewSettings>;
+  S.Struct({ Input: S.optional(MultiViewInput) }).pipe(S.encodeKeys({ Input: "input" })),
+).annotate({ identifier: "MultiViewSettings" }) as any as S.Schema<MultiViewSettings>;
 export type __listOfMultiViewSettings = MultiViewSettings[];
-export const __listOfMultiViewSettings =
-  /*@__PURE__*/ S.Array(MultiViewSettings);
+export const __listOfMultiViewSettings = /*@__PURE__*/ S.Array(MultiViewSettings);
 export type InputPsiControl = "IGNORE_PSI" | "USE_PSI" | (string & {});
 export const InputPsiControl = S.String;
 
 export type __stringPatternS3ASSETMAPXml = string;
 export type __listOf__stringPatternS3ASSETMAPXml = string[];
-export const __listOf__stringPatternS3ASSETMAPXml = /*@__PURE__*/ S.Array(
-  S.String,
-);
-export type __stringPatternArnAwsAZ09EventsAZ090912ConnectionAZAZ09AF0936 =
-  string;
-export type TamsGapHandling =
-  | "SKIP_GAPS"
-  | "FILL_WITH_BLACK"
-  | "HOLD_LAST_FRAME"
-  | (string & {});
+export const __listOf__stringPatternS3ASSETMAPXml = /*@__PURE__*/ S.Array(S.String);
+export type __stringPatternArnAwsAZ09EventsAZ090912ConnectionAZAZ09AF0936 = string;
+export type TamsGapHandling = "SKIP_GAPS" | "FILL_WITH_BLACK" | "HOLD_LAST_FRAME" | (string & {});
 export const TamsGapHandling = S.String;
 
 export type __stringPattern019090190908019090190908 = string;
@@ -1282,14 +1140,8 @@ export const InputTamsSettings = /*@__PURE__*/ S.suspend(() =>
       Timerange: "timerange",
     }),
   ),
-).annotate({
-  identifier: "InputTamsSettings",
-}) as any as S.Schema<InputTamsSettings>;
-export type InputTimecodeSource =
-  | "EMBEDDED"
-  | "ZEROBASED"
-  | "SPECIFIEDSTART"
-  | (string & {});
+).annotate({ identifier: "InputTamsSettings" }) as any as S.Schema<InputTamsSettings>;
+export type InputTimecodeSource = "EMBEDDED" | "ZEROBASED" | "SPECIFIEDSTART" | (string & {});
 export const InputTimecodeSource = S.String;
 
 export type __stringMin11Max11Pattern01D20305D205D = string;
@@ -1329,9 +1181,7 @@ export const InputVideoGenerator = /*@__PURE__*/ S.suspend(() =>
       Width: "width",
     }),
   ),
-).annotate({
-  identifier: "InputVideoGenerator",
-}) as any as S.Schema<InputVideoGenerator>;
+).annotate({ identifier: "InputVideoGenerator" }) as any as S.Schema<InputVideoGenerator>;
 export type VideoOverlayUnit = "PIXELS" | "PERCENTAGE" | (string & {});
 export const VideoOverlayUnit = S.String;
 
@@ -1349,18 +1199,8 @@ export const VideoOverlayCrop = /*@__PURE__*/ S.suspend(() =>
     Width: S.optional(S.Number),
     X: S.optional(S.Number),
     Y: S.optional(S.Number),
-  }).pipe(
-    S.encodeKeys({
-      Height: "height",
-      Unit: "unit",
-      Width: "width",
-      X: "x",
-      Y: "y",
-    }),
-  ),
-).annotate({
-  identifier: "VideoOverlayCrop",
-}) as any as S.Schema<VideoOverlayCrop>;
+  }).pipe(S.encodeKeys({ Height: "height", Unit: "unit", Width: "width", X: "x", Y: "y" })),
+).annotate({ identifier: "VideoOverlayCrop" }) as any as S.Schema<VideoOverlayCrop>;
 export type __stringPattern010920405090509092 = string;
 export type __integerMinNegative1Max2147483647 = number;
 export interface VideoOverlayPosition {
@@ -1389,30 +1229,20 @@ export const VideoOverlayPosition = /*@__PURE__*/ S.suspend(() =>
       YPosition: "yPosition",
     }),
   ),
-).annotate({
-  identifier: "VideoOverlayPosition",
-}) as any as S.Schema<VideoOverlayPosition>;
+).annotate({ identifier: "VideoOverlayPosition" }) as any as S.Schema<VideoOverlayPosition>;
 export interface VideoOverlayInputClipping {
   EndTimecode?: string;
   StartTimecode?: string;
 }
 export const VideoOverlayInputClipping = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    EndTimecode: S.optional(S.String),
-    StartTimecode: S.optional(S.String),
-  }).pipe(
-    S.encodeKeys({
-      EndTimecode: "endTimecode",
-      StartTimecode: "startTimecode",
-    }),
+  S.Struct({ EndTimecode: S.optional(S.String), StartTimecode: S.optional(S.String) }).pipe(
+    S.encodeKeys({ EndTimecode: "endTimecode", StartTimecode: "startTimecode" }),
   ),
 ).annotate({
   identifier: "VideoOverlayInputClipping",
 }) as any as S.Schema<VideoOverlayInputClipping>;
 export type __listOfVideoOverlayInputClipping = VideoOverlayInputClipping[];
-export const __listOfVideoOverlayInputClipping = /*@__PURE__*/ S.Array(
-  VideoOverlayInputClipping,
-);
+export const __listOfVideoOverlayInputClipping = /*@__PURE__*/ S.Array(VideoOverlayInputClipping);
 export interface VideoOverlayInput {
   AudioSelectors?: { [key: string]: AudioSelector | undefined };
   FileInput?: string;
@@ -1436,9 +1266,7 @@ export const VideoOverlayInput = /*@__PURE__*/ S.suspend(() =>
       TimecodeStart: "timecodeStart",
     }),
   ),
-).annotate({
-  identifier: "VideoOverlayInput",
-}) as any as S.Schema<VideoOverlayInput>;
+).annotate({ identifier: "VideoOverlayInput" }) as any as S.Schema<VideoOverlayInput>;
 export type VideoOverlayPlayBackMode = "ONCE" | "REPEAT" | (string & {});
 export const VideoOverlayPlayBackMode = S.String;
 
@@ -1459,13 +1287,9 @@ export const VideoOverlayTransition = /*@__PURE__*/ S.suspend(() =>
       StartTimecode: "startTimecode",
     }),
   ),
-).annotate({
-  identifier: "VideoOverlayTransition",
-}) as any as S.Schema<VideoOverlayTransition>;
+).annotate({ identifier: "VideoOverlayTransition" }) as any as S.Schema<VideoOverlayTransition>;
 export type __listOfVideoOverlayTransition = VideoOverlayTransition[];
-export const __listOfVideoOverlayTransition = /*@__PURE__*/ S.Array(
-  VideoOverlayTransition,
-);
+export const __listOfVideoOverlayTransition = /*@__PURE__*/ S.Array(VideoOverlayTransition);
 export interface VideoOverlay {
   Crop?: VideoOverlayCrop;
   EndTimecode?: string;
@@ -1566,11 +1390,7 @@ export type InputRotate =
   | (string & {});
 export const InputRotate = S.String;
 
-export type InputSampleRange =
-  | "FOLLOW"
-  | "FULL_RANGE"
-  | "LIMITED_RANGE"
-  | (string & {});
+export type InputSampleRange = "FOLLOW" | "FULL_RANGE" | "LIMITED_RANGE" | (string & {});
 export const InputSampleRange = S.String;
 
 export type VideoSelectorType = "AUTO" | "STREAM" | (string & {});
@@ -1721,8 +1541,7 @@ export type __listOfInput = Input[];
 export const __listOfInput = /*@__PURE__*/ S.Array(Input);
 export type __stringMin1Max20 = string;
 export type __stringMin1Max50PatternAZAZ09 = string;
-export type __stringMin1Max2048PatternArnAZSecretsmanagerWD12SecretAZAZ09 =
-  string;
+export type __stringMin1Max2048PatternArnAZSecretsmanagerWD12SecretAZAZ09 = string;
 export type __doubleMin0 = number;
 export type __stringPatternHttpsKantarmedia55Prod = string;
 export type __stringPatternS3 = string;
@@ -1774,9 +1593,7 @@ export const KantarWatermarkSettings = /*@__PURE__*/ S.suspend(() =>
       Metadata8: "metadata8",
     }),
   ),
-).annotate({
-  identifier: "KantarWatermarkSettings",
-}) as any as S.Schema<KantarWatermarkSettings>;
+).annotate({ identifier: "KantarWatermarkSettings" }) as any as S.Schema<KantarWatermarkSettings>;
 export type __integerMin1Max17895697 = number;
 export type __integerMin1Max2147483640 = number;
 export interface MotionImageInsertionFramerate {
@@ -1840,27 +1657,19 @@ export const MotionImageInserter = /*@__PURE__*/ S.suspend(() =>
       StartTime: "startTime",
     }),
   ),
-).annotate({
-  identifier: "MotionImageInserter",
-}) as any as S.Schema<MotionImageInserter>;
+).annotate({ identifier: "MotionImageInserter" }) as any as S.Schema<MotionImageInserter>;
+export type __listOfMotionImageInserter = MotionImageInserter[];
+export const __listOfMotionImageInserter = /*@__PURE__*/ S.Array(MotionImageInserter);
 export type __integerMin0Max0 = number;
 export interface NielsenConfiguration {
   BreakoutCode?: number;
   DistributorId?: string;
 }
 export const NielsenConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BreakoutCode: S.optional(S.Number),
-    DistributorId: S.optional(S.String),
-  }).pipe(
-    S.encodeKeys({
-      BreakoutCode: "breakoutCode",
-      DistributorId: "distributorId",
-    }),
+  S.Struct({ BreakoutCode: S.optional(S.Number), DistributorId: S.optional(S.String) }).pipe(
+    S.encodeKeys({ BreakoutCode: "breakoutCode", DistributorId: "distributorId" }),
   ),
-).annotate({
-  identifier: "NielsenConfiguration",
-}) as any as S.Schema<NielsenConfiguration>;
+).annotate({ identifier: "NielsenConfiguration" }) as any as S.Schema<NielsenConfiguration>;
 export type NielsenActiveWatermarkProcessType =
   | "NAES2_AND_NW"
   | "CBET"
@@ -1870,10 +1679,7 @@ export const NielsenActiveWatermarkProcessType = S.String;
 
 export type __stringPattern0xAFaF0908190908 = string;
 export type __integerMin0Max65534 = number;
-export type NielsenSourceWatermarkStatusType =
-  | "CLEAN"
-  | "WATERMARKED"
-  | (string & {});
+export type NielsenSourceWatermarkStatusType = "CLEAN" | "WATERMARKED" | (string & {});
 export const NielsenSourceWatermarkStatusType = S.String;
 
 export type __stringPatternHttps = string;
@@ -1943,15 +1749,10 @@ export const AllowedRenditionSize = /*@__PURE__*/ S.suspend(() =>
     Height: S.optional(S.Number),
     Required: S.optional(RequiredFlag),
     Width: S.optional(S.Number),
-  }).pipe(
-    S.encodeKeys({ Height: "height", Required: "required", Width: "width" }),
-  ),
-).annotate({
-  identifier: "AllowedRenditionSize",
-}) as any as S.Schema<AllowedRenditionSize>;
+  }).pipe(S.encodeKeys({ Height: "height", Required: "required", Width: "width" })),
+).annotate({ identifier: "AllowedRenditionSize" }) as any as S.Schema<AllowedRenditionSize>;
 export type __listOfAllowedRenditionSize = AllowedRenditionSize[];
-export const __listOfAllowedRenditionSize =
-  /*@__PURE__*/ S.Array(AllowedRenditionSize);
+export const __listOfAllowedRenditionSize = /*@__PURE__*/ S.Array(AllowedRenditionSize);
 export interface ForceIncludeRenditionSize {
   Height?: number;
   Width?: number;
@@ -1964,9 +1765,7 @@ export const ForceIncludeRenditionSize = /*@__PURE__*/ S.suspend(() =>
   identifier: "ForceIncludeRenditionSize",
 }) as any as S.Schema<ForceIncludeRenditionSize>;
 export type __listOfForceIncludeRenditionSize = ForceIncludeRenditionSize[];
-export const __listOfForceIncludeRenditionSize = /*@__PURE__*/ S.Array(
-  ForceIncludeRenditionSize,
-);
+export const __listOfForceIncludeRenditionSize = /*@__PURE__*/ S.Array(ForceIncludeRenditionSize);
 export interface MinBottomRenditionSize {
   Height?: number;
   Width?: number;
@@ -1975,9 +1774,7 @@ export const MinBottomRenditionSize = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Height: S.optional(S.Number), Width: S.optional(S.Number) }).pipe(
     S.encodeKeys({ Height: "height", Width: "width" }),
   ),
-).annotate({
-  identifier: "MinBottomRenditionSize",
-}) as any as S.Schema<MinBottomRenditionSize>;
+).annotate({ identifier: "MinBottomRenditionSize" }) as any as S.Schema<MinBottomRenditionSize>;
 export interface MinTopRenditionSize {
   Height?: number;
   Width?: number;
@@ -1986,9 +1783,7 @@ export const MinTopRenditionSize = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Height: S.optional(S.Number), Width: S.optional(S.Number) }).pipe(
     S.encodeKeys({ Height: "height", Width: "width" }),
   ),
-).annotate({
-  identifier: "MinTopRenditionSize",
-}) as any as S.Schema<MinTopRenditionSize>;
+).annotate({ identifier: "MinTopRenditionSize" }) as any as S.Schema<MinTopRenditionSize>;
 export type RuleType =
   | "MIN_TOP_RENDITION_SIZE"
   | "MIN_BOTTOM_RENDITION_SIZE"
@@ -2020,9 +1815,7 @@ export const AutomatedAbrRule = /*@__PURE__*/ S.suspend(() =>
       Type: "type",
     }),
   ),
-).annotate({
-  identifier: "AutomatedAbrRule",
-}) as any as S.Schema<AutomatedAbrRule>;
+).annotate({ identifier: "AutomatedAbrRule" }) as any as S.Schema<AutomatedAbrRule>;
 export type __listOfAutomatedAbrRule = AutomatedAbrRule[];
 export const __listOfAutomatedAbrRule = /*@__PURE__*/ S.Array(AutomatedAbrRule);
 export interface AutomatedAbrSettings {
@@ -2048,9 +1841,7 @@ export const AutomatedAbrSettings = /*@__PURE__*/ S.suspend(() =>
       Rules: "rules",
     }),
   ),
-).annotate({
-  identifier: "AutomatedAbrSettings",
-}) as any as S.Schema<AutomatedAbrSettings>;
+).annotate({ identifier: "AutomatedAbrSettings" }) as any as S.Schema<AutomatedAbrSettings>;
 export interface AutomatedEncodingSettings {
   AbrSettings?: AutomatedAbrSettings;
 }
@@ -2076,13 +1867,9 @@ export const CmafAdditionalManifest = /*@__PURE__*/ S.suspend(() =>
       SelectedOutputs: "selectedOutputs",
     }),
   ),
-).annotate({
-  identifier: "CmafAdditionalManifest",
-}) as any as S.Schema<CmafAdditionalManifest>;
+).annotate({ identifier: "CmafAdditionalManifest" }) as any as S.Schema<CmafAdditionalManifest>;
 export type __listOfCmafAdditionalManifest = CmafAdditionalManifest[];
-export const __listOfCmafAdditionalManifest = /*@__PURE__*/ S.Array(
-  CmafAdditionalManifest,
-);
+export const __listOfCmafAdditionalManifest = /*@__PURE__*/ S.Array(CmafAdditionalManifest);
 export type CmafClientCache = "DISABLED" | "ENABLED" | (string & {});
 export const CmafClientCache = S.String;
 
@@ -2090,12 +1877,7 @@ export type CmafCodecSpecification = "RFC_6381" | "RFC_4281" | (string & {});
 export const CmafCodecSpecification = S.String;
 
 export type __stringMin1Max256 = string;
-export type DashManifestStyle =
-  | "BASIC"
-  | "COMPACT"
-  | "DISTINCT"
-  | "FULL"
-  | (string & {});
+export type DashManifestStyle = "BASIC" | "COMPACT" | "DISTINCT" | "FULL" | (string & {});
 export const DashManifestStyle = S.String;
 
 export type S3ObjectCannedAcl =
@@ -2142,9 +1924,7 @@ export const S3EncryptionSettings = /*@__PURE__*/ S.suspend(() =>
       KmsKeyArn: "kmsKeyArn",
     }),
   ),
-).annotate({
-  identifier: "S3EncryptionSettings",
-}) as any as S.Schema<S3EncryptionSettings>;
+).annotate({ identifier: "S3EncryptionSettings" }) as any as S.Schema<S3EncryptionSettings>;
 export type S3StorageClass =
   | "STANDARD"
   | "REDUCED_REDUNDANCY"
@@ -2174,9 +1954,7 @@ export const S3DestinationSettings = /*@__PURE__*/ S.suspend(() =>
       StorageClass: "storageClass",
     }),
   ),
-).annotate({
-  identifier: "S3DestinationSettings",
-}) as any as S.Schema<S3DestinationSettings>;
+).annotate({ identifier: "S3DestinationSettings" }) as any as S.Schema<S3DestinationSettings>;
 export interface DestinationSettings {
   S3Settings?: S3DestinationSettings;
 }
@@ -2184,25 +1962,18 @@ export const DestinationSettings = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ S3Settings: S.optional(S3DestinationSettings) }).pipe(
     S.encodeKeys({ S3Settings: "s3Settings" }),
   ),
-).annotate({
-  identifier: "DestinationSettings",
-}) as any as S.Schema<DestinationSettings>;
+).annotate({ identifier: "DestinationSettings" }) as any as S.Schema<DestinationSettings>;
 export type __integerMin1Max9999 = number;
 export type __stringMin32Max32Pattern09aFAF32 = string;
 export type CmafEncryptionType = "SAMPLE_AES" | "AES_CTR" | (string & {});
 export const CmafEncryptionType = S.String;
 
-export type CmafInitializationVectorInManifest =
-  | "INCLUDE"
-  | "EXCLUDE"
-  | (string & {});
+export type CmafInitializationVectorInManifest = "INCLUDE" | "EXCLUDE" | (string & {});
 export const CmafInitializationVectorInManifest = S.String;
 
 export type __stringPatternArnAwsUsGovAcm = string;
-export type __stringMin36Max36Pattern09aFAF809aFAF409aFAF409aFAF409aFAF12 =
-  string;
-export type __listOf__stringMin36Max36Pattern09aFAF809aFAF409aFAF409aFAF409aFAF12 =
-  string[];
+export type __stringMin36Max36Pattern09aFAF809aFAF409aFAF409aFAF409aFAF12 = string;
+export type __listOf__stringMin36Max36Pattern09aFAF809aFAF409aFAF409aFAF409aFAF12 = string[];
 export const __listOf__stringMin36Max36Pattern09aFAF809aFAF409aFAF409aFAF409aFAF12 =
   /*@__PURE__*/ S.Array(S.String);
 export type PresetSpeke20Audio =
@@ -2237,10 +2008,7 @@ export const EncryptionContractConfiguration = /*@__PURE__*/ S.suspend(() =>
     SpekeAudioPreset: S.optional(PresetSpeke20Audio),
     SpekeVideoPreset: S.optional(PresetSpeke20Video),
   }).pipe(
-    S.encodeKeys({
-      SpekeAudioPreset: "spekeAudioPreset",
-      SpekeVideoPreset: "spekeVideoPreset",
-    }),
+    S.encodeKeys({ SpekeAudioPreset: "spekeAudioPreset", SpekeVideoPreset: "spekeVideoPreset" }),
   ),
 ).annotate({
   identifier: "EncryptionContractConfiguration",
@@ -2261,9 +2029,7 @@ export const SpekeKeyProviderCmaf = /*@__PURE__*/ S.suspend(() =>
     DashSignaledSystemIds: S.optional(
       __listOf__stringMin36Max36Pattern09aFAF809aFAF409aFAF409aFAF409aFAF12,
     ),
-    EncryptionContractConfiguration: S.optional(
-      EncryptionContractConfiguration,
-    ),
+    EncryptionContractConfiguration: S.optional(EncryptionContractConfiguration),
     HlsSignaledSystemIds: S.optional(
       __listOf__stringMin36Max36Pattern09aFAF809aFAF409aFAF409aFAF409aFAF12,
     ),
@@ -2279,9 +2045,7 @@ export const SpekeKeyProviderCmaf = /*@__PURE__*/ S.suspend(() =>
       Url: "url",
     }),
   ),
-).annotate({
-  identifier: "SpekeKeyProviderCmaf",
-}) as any as S.Schema<SpekeKeyProviderCmaf>;
+).annotate({ identifier: "SpekeKeyProviderCmaf" }) as any as S.Schema<SpekeKeyProviderCmaf>;
 export type __stringPatternIdentityAZaZ26AZaZ09163 = string;
 export type __stringPatternDD = string;
 export type __stringPatternAZaZ0932 = string;
@@ -2305,9 +2069,7 @@ export const StaticKeyProvider = /*@__PURE__*/ S.suspend(() =>
       Url: "url",
     }),
   ),
-).annotate({
-  identifier: "StaticKeyProvider",
-}) as any as S.Schema<StaticKeyProvider>;
+).annotate({ identifier: "StaticKeyProvider" }) as any as S.Schema<StaticKeyProvider>;
 export type CmafKeyProviderType = "SPEKE" | "STATIC_KEY" | (string & {});
 export const CmafKeyProviderType = S.String;
 
@@ -2325,9 +2087,7 @@ export const CmafEncryptionSettings = /*@__PURE__*/ S.suspend(() =>
     ClearLeadSegments: S.optional(S.Number),
     ConstantInitializationVector: S.optional(S.String),
     EncryptionMethod: S.optional(CmafEncryptionType),
-    InitializationVectorInManifest: S.optional(
-      CmafInitializationVectorInManifest,
-    ),
+    InitializationVectorInManifest: S.optional(CmafInitializationVectorInManifest),
     SpekeKeyProvider: S.optional(SpekeKeyProviderCmaf),
     StaticKeyProvider: S.optional(StaticKeyProvider),
     Type: S.optional(CmafKeyProviderType),
@@ -2342,9 +2102,7 @@ export const CmafEncryptionSettings = /*@__PURE__*/ S.suspend(() =>
       Type: "type",
     }),
   ),
-).annotate({
-  identifier: "CmafEncryptionSettings",
-}) as any as S.Schema<CmafEncryptionSettings>;
+).annotate({ identifier: "CmafEncryptionSettings" }) as any as S.Schema<CmafEncryptionSettings>;
 export type CmafImageBasedTrickPlay =
   | "NONE"
   | "THUMBNAIL"
@@ -2424,55 +2182,35 @@ export const CmafImageBasedTrickPlayVariant = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "CmafImageBasedTrickPlayVariant",
 }) as any as S.Schema<CmafImageBasedTrickPlayVariant>;
-export type __listOfCmafImageBasedTrickPlayVariant =
-  CmafImageBasedTrickPlayVariant[];
+export type __listOfCmafImageBasedTrickPlayVariant = CmafImageBasedTrickPlayVariant[];
 export const __listOfCmafImageBasedTrickPlayVariant = /*@__PURE__*/ S.Array(
   CmafImageBasedTrickPlayVariant,
 );
 export type CmafManifestCompression = "GZIP" | "NONE" | (string & {});
 export const CmafManifestCompression = S.String;
 
-export type CmafManifestDurationFormat =
-  | "FLOATING_POINT"
-  | "INTEGER"
-  | (string & {});
+export type CmafManifestDurationFormat = "FLOATING_POINT" | "INTEGER" | (string & {});
 export const CmafManifestDurationFormat = S.String;
 
 export type CmafMpdManifestBandwidthType = "AVERAGE" | "MAX" | (string & {});
 export const CmafMpdManifestBandwidthType = S.String;
 
-export type CmafMpdProfile =
-  | "MAIN_PROFILE"
-  | "ON_DEMAND_PROFILE"
-  | (string & {});
+export type CmafMpdProfile = "MAIN_PROFILE" | "ON_DEMAND_PROFILE" | (string & {});
 export const CmafMpdProfile = S.String;
 
-export type CmafPtsOffsetHandlingForBFrames =
-  | "ZERO_BASED"
-  | "MATCH_INITIAL_PTS"
-  | (string & {});
+export type CmafPtsOffsetHandlingForBFrames = "ZERO_BASED" | "MATCH_INITIAL_PTS" | (string & {});
 export const CmafPtsOffsetHandlingForBFrames = S.String;
 
-export type CmafSegmentControl =
-  | "SINGLE_FILE"
-  | "SEGMENTED_FILES"
-  | (string & {});
+export type CmafSegmentControl = "SINGLE_FILE" | "SEGMENTED_FILES" | (string & {});
 export const CmafSegmentControl = S.String;
 
-export type CmafSegmentLengthControl =
-  | "EXACT"
-  | "GOP_MULTIPLE"
-  | "MATCH"
-  | (string & {});
+export type CmafSegmentLengthControl = "EXACT" | "GOP_MULTIPLE" | "MATCH" | (string & {});
 export const CmafSegmentLengthControl = S.String;
 
 export type CmafStreamInfResolution = "INCLUDE" | "EXCLUDE" | (string & {});
 export const CmafStreamInfResolution = S.String;
 
-export type CmafTargetDurationCompatibilityMode =
-  | "LEGACY"
-  | "SPEC_COMPLIANT"
-  | (string & {});
+export type CmafTargetDurationCompatibilityMode = "LEGACY" | "SPEC_COMPLIANT" | (string & {});
 export const CmafTargetDurationCompatibilityMode = S.String;
 
 export type CmafVideoCompositionOffsets = "SIGNED" | "UNSIGNED" | (string & {});
@@ -2484,10 +2222,7 @@ export const CmafWriteDASHManifest = S.String;
 export type CmafWriteHLSManifest = "DISABLED" | "ENABLED" | (string & {});
 export const CmafWriteHLSManifest = S.String;
 
-export type CmafWriteSegmentTimelineInRepresentation =
-  | "ENABLED"
-  | "DISABLED"
-  | (string & {});
+export type CmafWriteSegmentTimelineInRepresentation = "ENABLED" | "DISABLED" | (string & {});
 export const CmafWriteSegmentTimelineInRepresentation = S.String;
 
 export interface CmafGroupSettings {
@@ -2535,9 +2270,7 @@ export const CmafGroupSettings = /*@__PURE__*/ S.suspend(() =>
     FragmentLength: S.optional(S.Number),
     ImageBasedTrickPlay: S.optional(CmafImageBasedTrickPlay),
     ImageBasedTrickPlaySettings: S.optional(CmafImageBasedTrickPlaySettings),
-    ImageBasedTrickPlayVariants: S.optional(
-      __listOfCmafImageBasedTrickPlayVariant,
-    ),
+    ImageBasedTrickPlayVariants: S.optional(__listOfCmafImageBasedTrickPlayVariant),
     ManifestCompression: S.optional(CmafManifestCompression),
     ManifestDurationFormat: S.optional(CmafManifestDurationFormat),
     MinBufferTime: S.optional(S.Number),
@@ -2549,15 +2282,11 @@ export const CmafGroupSettings = /*@__PURE__*/ S.suspend(() =>
     SegmentLength: S.optional(S.Number),
     SegmentLengthControl: S.optional(CmafSegmentLengthControl),
     StreamInfResolution: S.optional(CmafStreamInfResolution),
-    TargetDurationCompatibilityMode: S.optional(
-      CmafTargetDurationCompatibilityMode,
-    ),
+    TargetDurationCompatibilityMode: S.optional(CmafTargetDurationCompatibilityMode),
     VideoCompositionOffsets: S.optional(CmafVideoCompositionOffsets),
     WriteDashManifest: S.optional(CmafWriteDASHManifest),
     WriteHlsManifest: S.optional(CmafWriteHLSManifest),
-    WriteSegmentTimelineInRepresentation: S.optional(
-      CmafWriteSegmentTimelineInRepresentation,
-    ),
+    WriteSegmentTimelineInRepresentation: S.optional(CmafWriteSegmentTimelineInRepresentation),
   }).pipe(
     S.encodeKeys({
       AdditionalManifests: "additionalManifests",
@@ -2588,13 +2317,10 @@ export const CmafGroupSettings = /*@__PURE__*/ S.suspend(() =>
       VideoCompositionOffsets: "videoCompositionOffsets",
       WriteDashManifest: "writeDashManifest",
       WriteHlsManifest: "writeHlsManifest",
-      WriteSegmentTimelineInRepresentation:
-        "writeSegmentTimelineInRepresentation",
+      WriteSegmentTimelineInRepresentation: "writeSegmentTimelineInRepresentation",
     }),
   ),
-).annotate({
-  identifier: "CmafGroupSettings",
-}) as any as S.Schema<CmafGroupSettings>;
+).annotate({ identifier: "CmafGroupSettings" }) as any as S.Schema<CmafGroupSettings>;
 export interface DashAdditionalManifest {
   ManifestNameModifier?: string;
   SelectedOutputs?: string[];
@@ -2609,13 +2335,9 @@ export const DashAdditionalManifest = /*@__PURE__*/ S.suspend(() =>
       SelectedOutputs: "selectedOutputs",
     }),
   ),
-).annotate({
-  identifier: "DashAdditionalManifest",
-}) as any as S.Schema<DashAdditionalManifest>;
+).annotate({ identifier: "DashAdditionalManifest" }) as any as S.Schema<DashAdditionalManifest>;
 export type __listOfDashAdditionalManifest = DashAdditionalManifest[];
-export const __listOfDashAdditionalManifest = /*@__PURE__*/ S.Array(
-  DashAdditionalManifest,
-);
+export const __listOfDashAdditionalManifest = /*@__PURE__*/ S.Array(DashAdditionalManifest);
 export type DashIsoGroupAudioChannelConfigSchemeIdUri =
   | "MPEG_CHANNEL_CONFIGURATION"
   | "DOLBY_CHANNEL_CONFIGURATION"
@@ -2625,14 +2347,15 @@ export const DashIsoGroupAudioChannelConfigSchemeIdUri = S.String;
 export type DashIsoPlaybackDeviceCompatibility =
   | "CENC_V1"
   | "UNENCRYPTED_SEI"
+  | "CENC_V1_UNENCRYPTED_HEADERS"
   | (string & {});
 export const DashIsoPlaybackDeviceCompatibility = S.String;
 
 export type __stringPattern09aFAF809aFAF409aFAF409aFAF409aFAF12 = string;
-export type __listOf__stringPattern09aFAF809aFAF409aFAF409aFAF409aFAF12 =
-  string[];
-export const __listOf__stringPattern09aFAF809aFAF409aFAF409aFAF409aFAF12 =
-  /*@__PURE__*/ S.Array(S.String);
+export type __listOf__stringPattern09aFAF809aFAF409aFAF409aFAF409aFAF12 = string[];
+export const __listOf__stringPattern09aFAF809aFAF409aFAF409aFAF409aFAF12 = /*@__PURE__*/ S.Array(
+  S.String,
+);
 export interface SpekeKeyProvider {
   CertificateArn?: string;
   EncryptionContractConfiguration?: EncryptionContractConfiguration;
@@ -2643,13 +2366,9 @@ export interface SpekeKeyProvider {
 export const SpekeKeyProvider = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     CertificateArn: S.optional(S.String),
-    EncryptionContractConfiguration: S.optional(
-      EncryptionContractConfiguration,
-    ),
+    EncryptionContractConfiguration: S.optional(EncryptionContractConfiguration),
     ResourceId: S.optional(S.String),
-    SystemIds: S.optional(
-      __listOf__stringPattern09aFAF809aFAF409aFAF409aFAF409aFAF12,
-    ),
+    SystemIds: S.optional(__listOf__stringPattern09aFAF809aFAF409aFAF409aFAF409aFAF12),
     Url: S.optional(S.String),
   }).pipe(
     S.encodeKeys({
@@ -2660,9 +2379,7 @@ export const SpekeKeyProvider = /*@__PURE__*/ S.suspend(() =>
       Url: "url",
     }),
   ),
-).annotate({
-  identifier: "SpekeKeyProvider",
-}) as any as S.Schema<SpekeKeyProvider>;
+).annotate({ identifier: "SpekeKeyProvider" }) as any as S.Schema<SpekeKeyProvider>;
 export interface DashIsoEncryptionSettings {
   PlaybackDeviceCompatibility?: DashIsoPlaybackDeviceCompatibility;
   SpekeKeyProvider?: SpekeKeyProvider;
@@ -2758,49 +2475,29 @@ export const DashIsoImageBasedTrickPlayVariant = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "DashIsoImageBasedTrickPlayVariant",
 }) as any as S.Schema<DashIsoImageBasedTrickPlayVariant>;
-export type __listOfDashIsoImageBasedTrickPlayVariant =
-  DashIsoImageBasedTrickPlayVariant[];
+export type __listOfDashIsoImageBasedTrickPlayVariant = DashIsoImageBasedTrickPlayVariant[];
 export const __listOfDashIsoImageBasedTrickPlayVariant = /*@__PURE__*/ S.Array(
   DashIsoImageBasedTrickPlayVariant,
 );
 export type DashIsoMpdManifestBandwidthType = "AVERAGE" | "MAX" | (string & {});
 export const DashIsoMpdManifestBandwidthType = S.String;
 
-export type DashIsoMpdProfile =
-  | "MAIN_PROFILE"
-  | "ON_DEMAND_PROFILE"
-  | (string & {});
+export type DashIsoMpdProfile = "MAIN_PROFILE" | "ON_DEMAND_PROFILE" | (string & {});
 export const DashIsoMpdProfile = S.String;
 
-export type DashIsoPtsOffsetHandlingForBFrames =
-  | "ZERO_BASED"
-  | "MATCH_INITIAL_PTS"
-  | (string & {});
+export type DashIsoPtsOffsetHandlingForBFrames = "ZERO_BASED" | "MATCH_INITIAL_PTS" | (string & {});
 export const DashIsoPtsOffsetHandlingForBFrames = S.String;
 
-export type DashIsoSegmentControl =
-  | "SINGLE_FILE"
-  | "SEGMENTED_FILES"
-  | (string & {});
+export type DashIsoSegmentControl = "SINGLE_FILE" | "SEGMENTED_FILES" | (string & {});
 export const DashIsoSegmentControl = S.String;
 
-export type DashIsoSegmentLengthControl =
-  | "EXACT"
-  | "GOP_MULTIPLE"
-  | "MATCH"
-  | (string & {});
+export type DashIsoSegmentLengthControl = "EXACT" | "GOP_MULTIPLE" | "MATCH" | (string & {});
 export const DashIsoSegmentLengthControl = S.String;
 
-export type DashIsoVideoCompositionOffsets =
-  | "SIGNED"
-  | "UNSIGNED"
-  | (string & {});
+export type DashIsoVideoCompositionOffsets = "SIGNED" | "UNSIGNED" | (string & {});
 export const DashIsoVideoCompositionOffsets = S.String;
 
-export type DashIsoWriteSegmentTimelineInRepresentation =
-  | "ENABLED"
-  | "DISABLED"
-  | (string & {});
+export type DashIsoWriteSegmentTimelineInRepresentation = "ENABLED" | "DISABLED" | (string & {});
 export const DashIsoWriteSegmentTimelineInRepresentation = S.String;
 
 export interface DashIsoGroupSettings {
@@ -2831,9 +2528,7 @@ export interface DashIsoGroupSettings {
 export const DashIsoGroupSettings = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     AdditionalManifests: S.optional(__listOfDashAdditionalManifest),
-    AudioChannelConfigSchemeIdUri: S.optional(
-      DashIsoGroupAudioChannelConfigSchemeIdUri,
-    ),
+    AudioChannelConfigSchemeIdUri: S.optional(DashIsoGroupAudioChannelConfigSchemeIdUri),
     BaseUrl: S.optional(S.String),
     DashIFrameTrickPlayNameModifier: S.optional(S.String),
     DashManifestStyle: S.optional(DashManifestStyle),
@@ -2844,9 +2539,7 @@ export const DashIsoGroupSettings = /*@__PURE__*/ S.suspend(() =>
     HbbtvCompliance: S.optional(DashIsoHbbtvCompliance),
     ImageBasedTrickPlay: S.optional(DashIsoImageBasedTrickPlay),
     ImageBasedTrickPlaySettings: S.optional(DashIsoImageBasedTrickPlaySettings),
-    ImageBasedTrickPlayVariants: S.optional(
-      __listOfDashIsoImageBasedTrickPlayVariant,
-    ),
+    ImageBasedTrickPlayVariants: S.optional(__listOfDashIsoImageBasedTrickPlayVariant),
     MinBufferTime: S.optional(S.Number),
     MinFinalSegmentLength: S.optional(S.Number),
     MpdManifestBandwidthType: S.optional(DashIsoMpdManifestBandwidthType),
@@ -2856,9 +2549,7 @@ export const DashIsoGroupSettings = /*@__PURE__*/ S.suspend(() =>
     SegmentLength: S.optional(S.Number),
     SegmentLengthControl: S.optional(DashIsoSegmentLengthControl),
     VideoCompositionOffsets: S.optional(DashIsoVideoCompositionOffsets),
-    WriteSegmentTimelineInRepresentation: S.optional(
-      DashIsoWriteSegmentTimelineInRepresentation,
-    ),
+    WriteSegmentTimelineInRepresentation: S.optional(DashIsoWriteSegmentTimelineInRepresentation),
   }).pipe(
     S.encodeKeys({
       AdditionalManifests: "additionalManifests",
@@ -2883,13 +2574,10 @@ export const DashIsoGroupSettings = /*@__PURE__*/ S.suspend(() =>
       SegmentLength: "segmentLength",
       SegmentLengthControl: "segmentLengthControl",
       VideoCompositionOffsets: "videoCompositionOffsets",
-      WriteSegmentTimelineInRepresentation:
-        "writeSegmentTimelineInRepresentation",
+      WriteSegmentTimelineInRepresentation: "writeSegmentTimelineInRepresentation",
     }),
   ),
-).annotate({
-  identifier: "DashIsoGroupSettings",
-}) as any as S.Schema<DashIsoGroupSettings>;
+).annotate({ identifier: "DashIsoGroupSettings" }) as any as S.Schema<DashIsoGroupSettings>;
 export interface FileGroupSettings {
   Destination?: string;
   DestinationSettings?: DestinationSettings;
@@ -2898,15 +2586,8 @@ export const FileGroupSettings = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     Destination: S.optional(S.String),
     DestinationSettings: S.optional(DestinationSettings),
-  }).pipe(
-    S.encodeKeys({
-      Destination: "destination",
-      DestinationSettings: "destinationSettings",
-    }),
-  ),
-).annotate({
-  identifier: "FileGroupSettings",
-}) as any as S.Schema<FileGroupSettings>;
+  }).pipe(S.encodeKeys({ Destination: "destination", DestinationSettings: "destinationSettings" })),
+).annotate({ identifier: "FileGroupSettings" }) as any as S.Schema<FileGroupSettings>;
 export type HlsAdMarkers = "ELEMENTAL" | "ELEMENTAL_SCTE35" | (string & {});
 export const HlsAdMarkers = S.String;
 
@@ -2926,13 +2607,9 @@ export const HlsAdditionalManifest = /*@__PURE__*/ S.suspend(() =>
       SelectedOutputs: "selectedOutputs",
     }),
   ),
-).annotate({
-  identifier: "HlsAdditionalManifest",
-}) as any as S.Schema<HlsAdditionalManifest>;
+).annotate({ identifier: "HlsAdditionalManifest" }) as any as S.Schema<HlsAdditionalManifest>;
 export type __listOfHlsAdditionalManifest = HlsAdditionalManifest[];
-export const __listOfHlsAdditionalManifest = /*@__PURE__*/ S.Array(
-  HlsAdditionalManifest,
-);
+export const __listOfHlsAdditionalManifest = /*@__PURE__*/ S.Array(HlsAdditionalManifest);
 export type HlsAudioOnlyHeader = "INCLUDE" | "EXCLUDE" | (string & {});
 export const HlsAudioOnlyHeader = S.String;
 
@@ -2960,20 +2637,11 @@ export const HlsCaptionLanguageMapping = /*@__PURE__*/ S.suspend(() =>
   identifier: "HlsCaptionLanguageMapping",
 }) as any as S.Schema<HlsCaptionLanguageMapping>;
 export type __listOfHlsCaptionLanguageMapping = HlsCaptionLanguageMapping[];
-export const __listOfHlsCaptionLanguageMapping = /*@__PURE__*/ S.Array(
-  HlsCaptionLanguageMapping,
-);
-export type HlsCaptionLanguageSetting =
-  | "INSERT"
-  | "OMIT"
-  | "NONE"
-  | (string & {});
+export const __listOfHlsCaptionLanguageMapping = /*@__PURE__*/ S.Array(HlsCaptionLanguageMapping);
+export type HlsCaptionLanguageSetting = "INSERT" | "OMIT" | "NONE" | (string & {});
 export const HlsCaptionLanguageSetting = S.String;
 
-export type HlsCaptionSegmentLengthControl =
-  | "LARGE_SEGMENTS"
-  | "MATCH_VIDEO"
-  | (string & {});
+export type HlsCaptionSegmentLengthControl = "LARGE_SEGMENTS" | "MATCH_VIDEO" | (string & {});
 export const HlsCaptionSegmentLengthControl = S.String;
 
 export type HlsClientCache = "DISABLED" | "ENABLED" | (string & {});
@@ -2982,19 +2650,13 @@ export const HlsClientCache = S.String;
 export type HlsCodecSpecification = "RFC_6381" | "RFC_4281" | (string & {});
 export const HlsCodecSpecification = S.String;
 
-export type HlsDirectoryStructure =
-  | "SINGLE_DIRECTORY"
-  | "SUBDIRECTORY_PER_STREAM"
-  | (string & {});
+export type HlsDirectoryStructure = "SINGLE_DIRECTORY" | "SUBDIRECTORY_PER_STREAM" | (string & {});
 export const HlsDirectoryStructure = S.String;
 
 export type HlsEncryptionType = "AES128" | "SAMPLE_AES" | (string & {});
 export const HlsEncryptionType = S.String;
 
-export type HlsInitializationVectorInManifest =
-  | "INCLUDE"
-  | "EXCLUDE"
-  | (string & {});
+export type HlsInitializationVectorInManifest = "INCLUDE" | "EXCLUDE" | (string & {});
 export const HlsInitializationVectorInManifest = S.String;
 
 export type HlsOfflineEncrypted = "ENABLED" | "DISABLED" | (string & {});
@@ -3016,9 +2678,7 @@ export const HlsEncryptionSettings = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ConstantInitializationVector: S.optional(S.String),
     EncryptionMethod: S.optional(HlsEncryptionType),
-    InitializationVectorInManifest: S.optional(
-      HlsInitializationVectorInManifest,
-    ),
+    InitializationVectorInManifest: S.optional(HlsInitializationVectorInManifest),
     OfflineEncrypted: S.optional(HlsOfflineEncrypted),
     SpekeKeyProvider: S.optional(SpekeKeyProvider),
     StaticKeyProvider: S.optional(StaticKeyProvider),
@@ -3034,9 +2694,7 @@ export const HlsEncryptionSettings = /*@__PURE__*/ S.suspend(() =>
       Type: "type",
     }),
   ),
-).annotate({
-  identifier: "HlsEncryptionSettings",
-}) as any as S.Schema<HlsEncryptionSettings>;
+).annotate({ identifier: "HlsEncryptionSettings" }) as any as S.Schema<HlsEncryptionSettings>;
 export type HlsImageBasedTrickPlay =
   | "NONE"
   | "THUMBNAIL"
@@ -3111,56 +2769,36 @@ export const HlsImageBasedTrickPlayVariant = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "HlsImageBasedTrickPlayVariant",
 }) as any as S.Schema<HlsImageBasedTrickPlayVariant>;
-export type __listOfHlsImageBasedTrickPlayVariant =
-  HlsImageBasedTrickPlayVariant[];
+export type __listOfHlsImageBasedTrickPlayVariant = HlsImageBasedTrickPlayVariant[];
 export const __listOfHlsImageBasedTrickPlayVariant = /*@__PURE__*/ S.Array(
   HlsImageBasedTrickPlayVariant,
 );
 export type HlsManifestCompression = "GZIP" | "NONE" | (string & {});
 export const HlsManifestCompression = S.String;
 
-export type HlsManifestDurationFormat =
-  | "FLOATING_POINT"
-  | "INTEGER"
-  | (string & {});
+export type HlsManifestDurationFormat = "FLOATING_POINT" | "INTEGER" | (string & {});
 export const HlsManifestDurationFormat = S.String;
 
-export type HlsOutputSelection =
-  | "MANIFESTS_AND_SEGMENTS"
-  | "SEGMENTS_ONLY"
-  | (string & {});
+export type HlsOutputSelection = "MANIFESTS_AND_SEGMENTS" | "SEGMENTS_ONLY" | (string & {});
 export const HlsOutputSelection = S.String;
 
 export type HlsProgramDateTime = "INCLUDE" | "EXCLUDE" | (string & {});
 export const HlsProgramDateTime = S.String;
 
 export type __integerMin0Max3600 = number;
-export type HlsProgressiveWriteHlsManifest =
-  | "ENABLED"
-  | "DISABLED"
-  | (string & {});
+export type HlsProgressiveWriteHlsManifest = "ENABLED" | "DISABLED" | (string & {});
 export const HlsProgressiveWriteHlsManifest = S.String;
 
-export type HlsSegmentControl =
-  | "SINGLE_FILE"
-  | "SEGMENTED_FILES"
-  | (string & {});
+export type HlsSegmentControl = "SINGLE_FILE" | "SEGMENTED_FILES" | (string & {});
 export const HlsSegmentControl = S.String;
 
-export type HlsSegmentLengthControl =
-  | "EXACT"
-  | "GOP_MULTIPLE"
-  | "MATCH"
-  | (string & {});
+export type HlsSegmentLengthControl = "EXACT" | "GOP_MULTIPLE" | "MATCH" | (string & {});
 export const HlsSegmentLengthControl = S.String;
 
 export type HlsStreamInfResolution = "INCLUDE" | "EXCLUDE" | (string & {});
 export const HlsStreamInfResolution = S.String;
 
-export type HlsTargetDurationCompatibilityMode =
-  | "LEGACY"
-  | "SPEC_COMPLIANT"
-  | (string & {});
+export type HlsTargetDurationCompatibilityMode = "LEGACY" | "SPEC_COMPLIANT" | (string & {});
 export const HlsTargetDurationCompatibilityMode = S.String;
 
 export type HlsTimedMetadataId3Frame = "NONE" | "PRIV" | "TDRL" | (string & {});
@@ -3218,9 +2856,7 @@ export const HlsGroupSettings = /*@__PURE__*/ S.suspend(() =>
     Encryption: S.optional(HlsEncryptionSettings),
     ImageBasedTrickPlay: S.optional(HlsImageBasedTrickPlay),
     ImageBasedTrickPlaySettings: S.optional(HlsImageBasedTrickPlaySettings),
-    ImageBasedTrickPlayVariants: S.optional(
-      __listOfHlsImageBasedTrickPlayVariant,
-    ),
+    ImageBasedTrickPlayVariants: S.optional(__listOfHlsImageBasedTrickPlayVariant),
     ManifestCompression: S.optional(HlsManifestCompression),
     ManifestDurationFormat: S.optional(HlsManifestDurationFormat),
     MinFinalSegmentLength: S.optional(S.Number),
@@ -3234,9 +2870,7 @@ export const HlsGroupSettings = /*@__PURE__*/ S.suspend(() =>
     SegmentLengthControl: S.optional(HlsSegmentLengthControl),
     SegmentsPerSubdirectory: S.optional(S.Number),
     StreamInfResolution: S.optional(HlsStreamInfResolution),
-    TargetDurationCompatibilityMode: S.optional(
-      HlsTargetDurationCompatibilityMode,
-    ),
+    TargetDurationCompatibilityMode: S.optional(HlsTargetDurationCompatibilityMode),
     TimedMetadataId3Frame: S.optional(HlsTimedMetadataId3Frame),
     TimedMetadataId3Period: S.optional(S.Number),
     TimestampDeltaMilliseconds: S.optional(S.Number),
@@ -3277,9 +2911,7 @@ export const HlsGroupSettings = /*@__PURE__*/ S.suspend(() =>
       TimestampDeltaMilliseconds: "timestampDeltaMilliseconds",
     }),
   ),
-).annotate({
-  identifier: "HlsGroupSettings",
-}) as any as S.Schema<HlsGroupSettings>;
+).annotate({ identifier: "HlsGroupSettings" }) as any as S.Schema<HlsGroupSettings>;
 export interface MsSmoothAdditionalManifest {
   ManifestNameModifier?: string;
   SelectedOutputs?: string[];
@@ -3298,13 +2930,8 @@ export const MsSmoothAdditionalManifest = /*@__PURE__*/ S.suspend(() =>
   identifier: "MsSmoothAdditionalManifest",
 }) as any as S.Schema<MsSmoothAdditionalManifest>;
 export type __listOfMsSmoothAdditionalManifest = MsSmoothAdditionalManifest[];
-export const __listOfMsSmoothAdditionalManifest = /*@__PURE__*/ S.Array(
-  MsSmoothAdditionalManifest,
-);
-export type MsSmoothAudioDeduplication =
-  | "COMBINE_DUPLICATE_STREAMS"
-  | "NONE"
-  | (string & {});
+export const __listOfMsSmoothAdditionalManifest = /*@__PURE__*/ S.Array(MsSmoothAdditionalManifest);
+export type MsSmoothAudioDeduplication = "COMBINE_DUPLICATE_STREAMS" | "NONE" | (string & {});
 export const MsSmoothAudioDeduplication = S.String;
 
 export interface MsSmoothEncryptionSettings {
@@ -3317,10 +2944,7 @@ export const MsSmoothEncryptionSettings = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "MsSmoothEncryptionSettings",
 }) as any as S.Schema<MsSmoothEncryptionSettings>;
-export type MsSmoothFragmentLengthControl =
-  | "EXACT"
-  | "GOP_MULTIPLE"
-  | (string & {});
+export type MsSmoothFragmentLengthControl = "EXACT" | "GOP_MULTIPLE" | (string & {});
 export const MsSmoothFragmentLengthControl = S.String;
 
 export type MsSmoothManifestEncoding = "UTF8" | "UTF16" | (string & {});
@@ -3358,9 +2982,7 @@ export const MsSmoothGroupSettings = /*@__PURE__*/ S.suspend(() =>
       ManifestEncoding: "manifestEncoding",
     }),
   ),
-).annotate({
-  identifier: "MsSmoothGroupSettings",
-}) as any as S.Schema<MsSmoothGroupSettings>;
+).annotate({ identifier: "MsSmoothGroupSettings" }) as any as S.Schema<MsSmoothGroupSettings>;
 export type FrameMetricType =
   | "PSNR"
   | "SSIM"
@@ -3412,9 +3034,7 @@ export const OutputGroupSettings = /*@__PURE__*/ S.suspend(() =>
       Type: "type",
     }),
   ),
-).annotate({
-  identifier: "OutputGroupSettings",
-}) as any as S.Schema<OutputGroupSettings>;
+).annotate({ identifier: "OutputGroupSettings" }) as any as S.Schema<OutputGroupSettings>;
 export type AudioChannelTag =
   | "L"
   | "R"
@@ -3457,9 +3077,7 @@ export const AudioChannelTaggingSettings = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ChannelTag: S.optional(AudioChannelTag),
     ChannelTags: S.optional(__listOfAudioChannelTag),
-  }).pipe(
-    S.encodeKeys({ ChannelTag: "channelTag", ChannelTags: "channelTags" }),
-  ),
+  }).pipe(S.encodeKeys({ ChannelTag: "channelTag", ChannelTags: "channelTags" })),
 ).annotate({
   identifier: "AudioChannelTaggingSettings",
 }) as any as S.Schema<AudioChannelTaggingSettings>;
@@ -3471,23 +3089,14 @@ export type AudioNormalizationAlgorithm =
   | (string & {});
 export const AudioNormalizationAlgorithm = S.String;
 
-export type AudioNormalizationAlgorithmControl =
-  | "CORRECT_AUDIO"
-  | "MEASURE_ONLY"
-  | (string & {});
+export type AudioNormalizationAlgorithmControl = "CORRECT_AUDIO" | "MEASURE_ONLY" | (string & {});
 export const AudioNormalizationAlgorithmControl = S.String;
 
 export type __integerMinNegative70Max0 = number;
-export type AudioNormalizationLoudnessLogging =
-  | "LOG"
-  | "DONT_LOG"
-  | (string & {});
+export type AudioNormalizationLoudnessLogging = "LOG" | "DONT_LOG" | (string & {});
 export const AudioNormalizationLoudnessLogging = S.String;
 
-export type AudioNormalizationPeakCalculation =
-  | "TRUE_PEAK"
-  | "NONE"
-  | (string & {});
+export type AudioNormalizationPeakCalculation = "TRUE_PEAK" | "NONE" | (string & {});
 export const AudioNormalizationPeakCalculation = S.String;
 
 export type __doubleMinNegative59Max0 = number;
@@ -3538,16 +3147,10 @@ export const AudioPitchCorrectionSettings = /*@__PURE__*/ S.suspend(() =>
   identifier: "AudioPitchCorrectionSettings",
 }) as any as S.Schema<AudioPitchCorrectionSettings>;
 export type __integerMin0Max255 = number;
-export type AudioTypeControl =
-  | "FOLLOW_INPUT"
-  | "USE_CONFIGURED"
-  | (string & {});
+export type AudioTypeControl = "FOLLOW_INPUT" | "USE_CONFIGURED" | (string & {});
 export const AudioTypeControl = S.String;
 
-export type AacAudioDescriptionBroadcasterMix =
-  | "BROADCASTER_MIXED_AD"
-  | "NORMAL"
-  | (string & {});
+export type AacAudioDescriptionBroadcasterMix = "BROADCASTER_MIXED_AD" | "NORMAL" | (string & {});
 export const AacAudioDescriptionBroadcasterMix = S.String;
 
 export type __integerMin6000Max1024000 = number;
@@ -3567,6 +3170,9 @@ export const AacCodingMode = S.String;
 export type AacLoudnessMeasurementMode = "PROGRAM" | "ANCHOR" | (string & {});
 export const AacLoudnessMeasurementMode = S.String;
 
+export type AacPassthroughControl = "WHEN_POSSIBLE" | "NO_PASSTHROUGH" | (string & {});
+export const AacPassthroughControl = S.String;
+
 export type __integerMin2000Max30000 = number;
 export type AacRateControlMode = "CBR" | "VBR" | (string & {});
 export const AacRateControlMode = S.String;
@@ -3579,12 +3185,7 @@ export type AacSpecification = "MPEG2" | "MPEG4" | (string & {});
 export const AacSpecification = S.String;
 
 export type __integerMin6Max16 = number;
-export type AacVbrQuality =
-  | "LOW"
-  | "MEDIUM_LOW"
-  | "MEDIUM_HIGH"
-  | "HIGH"
-  | (string & {});
+export type AacVbrQuality = "LOW" | "MEDIUM_LOW" | "MEDIUM_HIGH" | "HIGH" | (string & {});
 export const AacVbrQuality = S.String;
 
 export interface AacSettings {
@@ -3593,6 +3194,7 @@ export interface AacSettings {
   CodecProfile?: AacCodecProfile;
   CodingMode?: AacCodingMode;
   LoudnessMeasurementMode?: AacLoudnessMeasurementMode;
+  PassthroughControl?: AacPassthroughControl;
   RapInterval?: number;
   RateControlMode?: AacRateControlMode;
   RawFormat?: AacRawFormat;
@@ -3603,13 +3205,12 @@ export interface AacSettings {
 }
 export const AacSettings = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    AudioDescriptionBroadcasterMix: S.optional(
-      AacAudioDescriptionBroadcasterMix,
-    ),
+    AudioDescriptionBroadcasterMix: S.optional(AacAudioDescriptionBroadcasterMix),
     Bitrate: S.optional(S.Number),
     CodecProfile: S.optional(AacCodecProfile),
     CodingMode: S.optional(AacCodingMode),
     LoudnessMeasurementMode: S.optional(AacLoudnessMeasurementMode),
+    PassthroughControl: S.optional(AacPassthroughControl),
     RapInterval: S.optional(S.Number),
     RateControlMode: S.optional(AacRateControlMode),
     RawFormat: S.optional(AacRawFormat),
@@ -3624,6 +3225,7 @@ export const AacSettings = /*@__PURE__*/ S.suspend(() =>
       CodecProfile: "codecProfile",
       CodingMode: "codingMode",
       LoudnessMeasurementMode: "loudnessMeasurementMode",
+      PassthroughControl: "passthroughControl",
       RapInterval: "rapInterval",
       RateControlMode: "rateControlMode",
       RawFormat: "rawFormat",
@@ -3667,10 +3269,7 @@ export type Ac3DynamicRangeCompressionLine =
   | (string & {});
 export const Ac3DynamicRangeCompressionLine = S.String;
 
-export type Ac3DynamicRangeCompressionProfile =
-  | "FILM_STANDARD"
-  | "NONE"
-  | (string & {});
+export type Ac3DynamicRangeCompressionProfile = "FILM_STANDARD" | "NONE" | (string & {});
 export const Ac3DynamicRangeCompressionProfile = S.String;
 
 export type Ac3DynamicRangeCompressionRf =
@@ -3686,10 +3285,7 @@ export const Ac3DynamicRangeCompressionRf = S.String;
 export type Ac3LfeFilter = "ENABLED" | "DISABLED" | (string & {});
 export const Ac3LfeFilter = S.String;
 
-export type Ac3MetadataControl =
-  | "FOLLOW_INPUT"
-  | "USE_CONFIGURED"
-  | (string & {});
+export type Ac3MetadataControl = "FOLLOW_INPUT" | "USE_CONFIGURED" | (string & {});
 export const Ac3MetadataControl = S.String;
 
 export type __integerMin48000Max48000 = number;
@@ -3712,9 +3308,7 @@ export const Ac3Settings = /*@__PURE__*/ S.suspend(() =>
     CodingMode: S.optional(Ac3CodingMode),
     Dialnorm: S.optional(S.Number),
     DynamicRangeCompressionLine: S.optional(Ac3DynamicRangeCompressionLine),
-    DynamicRangeCompressionProfile: S.optional(
-      Ac3DynamicRangeCompressionProfile,
-    ),
+    DynamicRangeCompressionProfile: S.optional(Ac3DynamicRangeCompressionProfile),
     DynamicRangeCompressionRf: S.optional(Ac3DynamicRangeCompressionRf),
     LfeFilter: S.optional(Ac3LfeFilter),
     MetadataControl: S.optional(Ac3MetadataControl),
@@ -3757,12 +3351,7 @@ export const Ac4DynamicRangeCompressionDrcProfile = S.String;
 
 export type __doubleMinNegative1000Max3 = number;
 export type __doubleMinNegative1000MaxNegative1 = number;
-export type Ac4StereoDownmix =
-  | "NOT_INDICATED"
-  | "LO_RO"
-  | "LT_RT"
-  | "DPL2"
-  | (string & {});
+export type Ac4StereoDownmix = "NOT_INDICATED" | "LO_RO" | "LT_RT" | "DPL2" | (string & {});
 export const Ac4StereoDownmix = S.String;
 
 export interface Ac4Settings {
@@ -3785,18 +3374,10 @@ export const Ac4Settings = /*@__PURE__*/ S.suspend(() =>
     Bitrate: S.optional(S.Number),
     BitstreamMode: S.optional(Ac4BitstreamMode),
     CodingMode: S.optional(Ac4CodingMode),
-    DynamicRangeCompressionFlatPanelTv: S.optional(
-      Ac4DynamicRangeCompressionDrcProfile,
-    ),
-    DynamicRangeCompressionHomeTheater: S.optional(
-      Ac4DynamicRangeCompressionDrcProfile,
-    ),
-    DynamicRangeCompressionPortableHeadphones: S.optional(
-      Ac4DynamicRangeCompressionDrcProfile,
-    ),
-    DynamicRangeCompressionPortableSpeakers: S.optional(
-      Ac4DynamicRangeCompressionDrcProfile,
-    ),
+    DynamicRangeCompressionFlatPanelTv: S.optional(Ac4DynamicRangeCompressionDrcProfile),
+    DynamicRangeCompressionHomeTheater: S.optional(Ac4DynamicRangeCompressionDrcProfile),
+    DynamicRangeCompressionPortableHeadphones: S.optional(Ac4DynamicRangeCompressionDrcProfile),
+    DynamicRangeCompressionPortableSpeakers: S.optional(Ac4DynamicRangeCompressionDrcProfile),
     LoRoCenterMixLevel: S.optional(S.Number),
     LoRoSurroundMixLevel: S.optional(S.Number),
     LtRtCenterMixLevel: S.optional(S.Number),
@@ -3810,10 +3391,8 @@ export const Ac4Settings = /*@__PURE__*/ S.suspend(() =>
       CodingMode: "codingMode",
       DynamicRangeCompressionFlatPanelTv: "dynamicRangeCompressionFlatPanelTv",
       DynamicRangeCompressionHomeTheater: "dynamicRangeCompressionHomeTheater",
-      DynamicRangeCompressionPortableHeadphones:
-        "dynamicRangeCompressionPortableHeadphones",
-      DynamicRangeCompressionPortableSpeakers:
-        "dynamicRangeCompressionPortableSpeakers",
+      DynamicRangeCompressionPortableHeadphones: "dynamicRangeCompressionPortableHeadphones",
+      DynamicRangeCompressionPortableSpeakers: "dynamicRangeCompressionPortableSpeakers",
       LoRoCenterMixLevel: "loRoCenterMixLevel",
       LoRoSurroundMixLevel: "loRoSurroundMixLevel",
       LtRtCenterMixLevel: "ltRtCenterMixLevel",
@@ -3836,13 +3415,7 @@ export const AiffSettings = /*@__PURE__*/ S.suspend(() =>
     BitDepth: S.optional(S.Number),
     Channels: S.optional(S.Number),
     SampleRate: S.optional(S.Number),
-  }).pipe(
-    S.encodeKeys({
-      BitDepth: "bitDepth",
-      Channels: "channels",
-      SampleRate: "sampleRate",
-    }),
-  ),
+  }).pipe(S.encodeKeys({ BitDepth: "bitDepth", Channels: "channels", SampleRate: "sampleRate" })),
 ).annotate({ identifier: "AiffSettings" }) as any as S.Schema<AiffSettings>;
 export type AudioCodec =
   | "AAC"
@@ -3873,16 +3446,10 @@ export type Eac3AtmosCodingMode =
   | (string & {});
 export const Eac3AtmosCodingMode = S.String;
 
-export type Eac3AtmosDialogueIntelligence =
-  | "ENABLED"
-  | "DISABLED"
-  | (string & {});
+export type Eac3AtmosDialogueIntelligence = "ENABLED" | "DISABLED" | (string & {});
 export const Eac3AtmosDialogueIntelligence = S.String;
 
-export type Eac3AtmosDownmixControl =
-  | "SPECIFIED"
-  | "INITIALIZE_FROM_SOURCE"
-  | (string & {});
+export type Eac3AtmosDownmixControl = "SPECIFIED" | "INITIALIZE_FROM_SOURCE" | (string & {});
 export const Eac3AtmosDownmixControl = S.String;
 
 export type Eac3AtmosDynamicRangeCompressionLine =
@@ -3905,10 +3472,7 @@ export type Eac3AtmosDynamicRangeCompressionRf =
   | (string & {});
 export const Eac3AtmosDynamicRangeCompressionRf = S.String;
 
-export type Eac3AtmosDynamicRangeControl =
-  | "SPECIFIED"
-  | "INITIALIZE_FROM_SOURCE"
-  | (string & {});
+export type Eac3AtmosDynamicRangeControl = "SPECIFIED" | "INITIALIZE_FROM_SOURCE" | (string & {});
 export const Eac3AtmosDynamicRangeControl = S.String;
 
 export type __doubleMinNegative6Max3 = number;
@@ -3930,11 +3494,7 @@ export type Eac3AtmosStereoDownmix =
   | (string & {});
 export const Eac3AtmosStereoDownmix = S.String;
 
-export type Eac3AtmosSurroundExMode =
-  | "NOT_INDICATED"
-  | "ENABLED"
-  | "DISABLED"
-  | (string & {});
+export type Eac3AtmosSurroundExMode = "NOT_INDICATED" | "ENABLED" | "DISABLED" | (string & {});
 export const Eac3AtmosSurroundExMode = S.String;
 
 export interface Eac3AtmosSettings {
@@ -3963,9 +3523,7 @@ export const Eac3AtmosSettings = /*@__PURE__*/ S.suspend(() =>
     CodingMode: S.optional(Eac3AtmosCodingMode),
     DialogueIntelligence: S.optional(Eac3AtmosDialogueIntelligence),
     DownmixControl: S.optional(Eac3AtmosDownmixControl),
-    DynamicRangeCompressionLine: S.optional(
-      Eac3AtmosDynamicRangeCompressionLine,
-    ),
+    DynamicRangeCompressionLine: S.optional(Eac3AtmosDynamicRangeCompressionLine),
     DynamicRangeCompressionRf: S.optional(Eac3AtmosDynamicRangeCompressionRf),
     DynamicRangeControl: S.optional(Eac3AtmosDynamicRangeControl),
     LoRoCenterMixLevel: S.optional(S.Number),
@@ -3998,9 +3556,7 @@ export const Eac3AtmosSettings = /*@__PURE__*/ S.suspend(() =>
       SurroundExMode: "surroundExMode",
     }),
   ),
-).annotate({
-  identifier: "Eac3AtmosSettings",
-}) as any as S.Schema<Eac3AtmosSettings>;
+).annotate({ identifier: "Eac3AtmosSettings" }) as any as S.Schema<Eac3AtmosSettings>;
 export type Eac3AttenuationControl = "ATTENUATE_3_DB" | "NONE" | (string & {});
 export const Eac3AttenuationControl = S.String;
 
@@ -4052,41 +3608,22 @@ export type Eac3LfeFilter = "ENABLED" | "DISABLED" | (string & {});
 export const Eac3LfeFilter = S.String;
 
 export type __doubleMinNegative60Max3 = number;
-export type Eac3MetadataControl =
-  | "FOLLOW_INPUT"
-  | "USE_CONFIGURED"
-  | (string & {});
+export type Eac3MetadataControl = "FOLLOW_INPUT" | "USE_CONFIGURED" | (string & {});
 export const Eac3MetadataControl = S.String;
 
-export type Eac3PassthroughControl =
-  | "WHEN_POSSIBLE"
-  | "NO_PASSTHROUGH"
-  | (string & {});
+export type Eac3PassthroughControl = "WHEN_POSSIBLE" | "NO_PASSTHROUGH" | (string & {});
 export const Eac3PassthroughControl = S.String;
 
 export type Eac3PhaseControl = "SHIFT_90_DEGREES" | "NO_SHIFT" | (string & {});
 export const Eac3PhaseControl = S.String;
 
-export type Eac3StereoDownmix =
-  | "NOT_INDICATED"
-  | "LO_RO"
-  | "LT_RT"
-  | "DPL2"
-  | (string & {});
+export type Eac3StereoDownmix = "NOT_INDICATED" | "LO_RO" | "LT_RT" | "DPL2" | (string & {});
 export const Eac3StereoDownmix = S.String;
 
-export type Eac3SurroundExMode =
-  | "NOT_INDICATED"
-  | "ENABLED"
-  | "DISABLED"
-  | (string & {});
+export type Eac3SurroundExMode = "NOT_INDICATED" | "ENABLED" | "DISABLED" | (string & {});
 export const Eac3SurroundExMode = S.String;
 
-export type Eac3SurroundMode =
-  | "NOT_INDICATED"
-  | "ENABLED"
-  | "DISABLED"
-  | (string & {});
+export type Eac3SurroundMode = "NOT_INDICATED" | "ENABLED" | "DISABLED" | (string & {});
 export const Eac3SurroundMode = S.String;
 
 export interface Eac3Settings {
@@ -4172,18 +3709,9 @@ export const FlacSettings = /*@__PURE__*/ S.suspend(() =>
     BitDepth: S.optional(S.Number),
     Channels: S.optional(S.Number),
     SampleRate: S.optional(S.Number),
-  }).pipe(
-    S.encodeKeys({
-      BitDepth: "bitDepth",
-      Channels: "channels",
-      SampleRate: "sampleRate",
-    }),
-  ),
+  }).pipe(S.encodeKeys({ BitDepth: "bitDepth", Channels: "channels", SampleRate: "sampleRate" })),
 ).annotate({ identifier: "FlacSettings" }) as any as S.Schema<FlacSettings>;
-export type Mp2AudioDescriptionMix =
-  | "BROADCASTER_MIXED_AD"
-  | "NONE"
-  | (string & {});
+export type Mp2AudioDescriptionMix = "BROADCASTER_MIXED_AD" | "NONE" | (string & {});
 export const Mp2AudioDescriptionMix = S.String;
 
 export type __integerMin32000Max384000 = number;
@@ -4251,13 +3779,7 @@ export const OpusSettings = /*@__PURE__*/ S.suspend(() =>
     Bitrate: S.optional(S.Number),
     Channels: S.optional(S.Number),
     SampleRate: S.optional(S.Number),
-  }).pipe(
-    S.encodeKeys({
-      Bitrate: "bitrate",
-      Channels: "channels",
-      SampleRate: "sampleRate",
-    }),
-  ),
+  }).pipe(S.encodeKeys({ Bitrate: "bitrate", Channels: "channels", SampleRate: "sampleRate" })),
 ).annotate({ identifier: "OpusSettings" }) as any as S.Schema<OpusSettings>;
 export type __integerMinNegative1Max10 = number;
 export interface VorbisSettings {
@@ -4271,11 +3793,7 @@ export const VorbisSettings = /*@__PURE__*/ S.suspend(() =>
     SampleRate: S.optional(S.Number),
     VbrQuality: S.optional(S.Number),
   }).pipe(
-    S.encodeKeys({
-      Channels: "channels",
-      SampleRate: "sampleRate",
-      VbrQuality: "vbrQuality",
-    }),
+    S.encodeKeys({ Channels: "channels", SampleRate: "sampleRate", VbrQuality: "vbrQuality" }),
   ),
 ).annotate({ identifier: "VorbisSettings" }) as any as S.Schema<VorbisSettings>;
 export type WavFormat = "RIFF" | "RF64" | "EXTENSIBLE" | (string & {});
@@ -4349,14 +3867,9 @@ export const AudioCodecSettings = /*@__PURE__*/ S.suspend(() =>
       WavSettings: "wavSettings",
     }),
   ),
-).annotate({
-  identifier: "AudioCodecSettings",
-}) as any as S.Schema<AudioCodecSettings>;
+).annotate({ identifier: "AudioCodecSettings" }) as any as S.Schema<AudioCodecSettings>;
 export type __stringPatternAZaZ23AZaZ09 = string;
-export type AudioLanguageCodeControl =
-  | "FOLLOW_INPUT"
-  | "USE_CONFIGURED"
-  | (string & {});
+export type AudioLanguageCodeControl = "FOLLOW_INPUT" | "USE_CONFIGURED" | (string & {});
 export const AudioLanguageCodeControl = S.String;
 
 export type __stringPatternWS = string;
@@ -4404,31 +3917,17 @@ export const AudioDescription = /*@__PURE__*/ S.suspend(() =>
       StreamName: "streamName",
     }),
   ),
-).annotate({
-  identifier: "AudioDescription",
-}) as any as S.Schema<AudioDescription>;
+).annotate({ identifier: "AudioDescription" }) as any as S.Schema<AudioDescription>;
 export type __listOfAudioDescription = AudioDescription[];
 export const __listOfAudioDescription = /*@__PURE__*/ S.Array(AudioDescription);
 export type __stringPatternAZaZ23AZaZ = string;
-export type BurninSubtitleAlignment =
-  | "CENTERED"
-  | "LEFT"
-  | "AUTO"
-  | (string & {});
+export type BurninSubtitleAlignment = "CENTERED" | "LEFT" | "AUTO" | (string & {});
 export const BurninSubtitleAlignment = S.String;
 
-export type BurninSubtitleApplyFontColor =
-  | "WHITE_TEXT_ONLY"
-  | "ALL_TEXT"
-  | (string & {});
+export type BurninSubtitleApplyFontColor = "WHITE_TEXT_ONLY" | "ALL_TEXT" | (string & {});
 export const BurninSubtitleApplyFontColor = S.String;
 
-export type BurninSubtitleBackgroundColor =
-  | "NONE"
-  | "BLACK"
-  | "WHITE"
-  | "AUTO"
-  | (string & {});
+export type BurninSubtitleBackgroundColor = "NONE" | "BLACK" | "WHITE" | "AUTO" | (string & {});
 export const BurninSubtitleBackgroundColor = S.String;
 
 export type BurninSubtitleFallbackFont =
@@ -4471,31 +3970,16 @@ export type BurninSubtitleOutlineColor =
 export const BurninSubtitleOutlineColor = S.String;
 
 export type __integerMin0Max10 = number;
-export type RemoveRubyReserveAttributes =
-  | "DISABLED"
-  | "ENABLED"
-  | (string & {});
+export type RemoveRubyReserveAttributes = "DISABLED" | "ENABLED" | (string & {});
 export const RemoveRubyReserveAttributes = S.String;
 
-export type BurninSubtitleShadowColor =
-  | "NONE"
-  | "BLACK"
-  | "WHITE"
-  | "AUTO"
-  | (string & {});
+export type BurninSubtitleShadowColor = "NONE" | "BLACK" | "WHITE" | "AUTO" | (string & {});
 export const BurninSubtitleShadowColor = S.String;
 
-export type BurnInSubtitleStylePassthrough =
-  | "ENABLED"
-  | "DISABLED"
-  | (string & {});
+export type BurnInSubtitleStylePassthrough = "ENABLED" | "DISABLED" | (string & {});
 export const BurnInSubtitleStylePassthrough = S.String;
 
-export type BurninSubtitleTeletextSpacing =
-  | "FIXED_GRID"
-  | "PROPORTIONAL"
-  | "AUTO"
-  | (string & {});
+export type BurninSubtitleTeletextSpacing = "FIXED_GRID" | "PROPORTIONAL" | "AUTO" | (string & {});
 export const BurninSubtitleTeletextSpacing = S.String;
 
 export interface BurninDestinationSettings {
@@ -4606,18 +4090,10 @@ export const CaptionDestinationType = S.String;
 export type DvbSubtitleAlignment = "CENTERED" | "LEFT" | "AUTO" | (string & {});
 export const DvbSubtitleAlignment = S.String;
 
-export type DvbSubtitleApplyFontColor =
-  | "WHITE_TEXT_ONLY"
-  | "ALL_TEXT"
-  | (string & {});
+export type DvbSubtitleApplyFontColor = "WHITE_TEXT_ONLY" | "ALL_TEXT" | (string & {});
 export const DvbSubtitleApplyFontColor = S.String;
 
-export type DvbSubtitleBackgroundColor =
-  | "NONE"
-  | "BLACK"
-  | "WHITE"
-  | "AUTO"
-  | (string & {});
+export type DvbSubtitleBackgroundColor = "NONE" | "BLACK" | "WHITE" | "AUTO" | (string & {});
 export const DvbSubtitleBackgroundColor = S.String;
 
 export type DvbddsHandling =
@@ -4660,28 +4136,16 @@ export type DvbSubtitleOutlineColor =
   | (string & {});
 export const DvbSubtitleOutlineColor = S.String;
 
-export type DvbSubtitleShadowColor =
-  | "NONE"
-  | "BLACK"
-  | "WHITE"
-  | "AUTO"
-  | (string & {});
+export type DvbSubtitleShadowColor = "NONE" | "BLACK" | "WHITE" | "AUTO" | (string & {});
 export const DvbSubtitleShadowColor = S.String;
 
-export type DvbSubtitleStylePassthrough =
-  | "ENABLED"
-  | "DISABLED"
-  | (string & {});
+export type DvbSubtitleStylePassthrough = "ENABLED" | "DISABLED" | (string & {});
 export const DvbSubtitleStylePassthrough = S.String;
 
 export type DvbSubtitlingType = "HEARING_IMPAIRED" | "STANDARD" | (string & {});
 export const DvbSubtitlingType = S.String;
 
-export type DvbSubtitleTeletextSpacing =
-  | "FIXED_GRID"
-  | "PROPORTIONAL"
-  | "AUTO"
-  | (string & {});
+export type DvbSubtitleTeletextSpacing = "FIXED_GRID" | "PROPORTIONAL" | "AUTO" | (string & {});
 export const DvbSubtitleTeletextSpacing = S.String;
 
 export interface DvbSubDestinationSettings {
@@ -4820,15 +4284,8 @@ export const ImscDestinationSettings = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     Accessibility: S.optional(ImscAccessibilitySubs),
     StylePassthrough: S.optional(ImscStylePassthrough),
-  }).pipe(
-    S.encodeKeys({
-      Accessibility: "accessibility",
-      StylePassthrough: "stylePassthrough",
-    }),
-  ),
-).annotate({
-  identifier: "ImscDestinationSettings",
-}) as any as S.Schema<ImscDestinationSettings>;
+  }).pipe(S.encodeKeys({ Accessibility: "accessibility", StylePassthrough: "stylePassthrough" })),
+).annotate({ identifier: "ImscDestinationSettings" }) as any as S.Schema<ImscDestinationSettings>;
 export type SccDestinationFramerate =
   | "FRAMERATE_23_97"
   | "FRAMERATE_24"
@@ -4845,9 +4302,7 @@ export const SccDestinationSettings = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Framerate: S.optional(SccDestinationFramerate) }).pipe(
     S.encodeKeys({ Framerate: "framerate" }),
   ),
-).annotate({
-  identifier: "SccDestinationSettings",
-}) as any as S.Schema<SccDestinationSettings>;
+).annotate({ identifier: "SccDestinationSettings" }) as any as S.Schema<SccDestinationSettings>;
 export type SrtStylePassthrough = "ENABLED" | "DISABLED" | (string & {});
 export const SrtStylePassthrough = S.String;
 
@@ -4858,9 +4313,7 @@ export const SrtDestinationSettings = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ StylePassthrough: S.optional(SrtStylePassthrough) }).pipe(
     S.encodeKeys({ StylePassthrough: "stylePassthrough" }),
   ),
-).annotate({
-  identifier: "SrtDestinationSettings",
-}) as any as S.Schema<SrtDestinationSettings>;
+).annotate({ identifier: "SrtDestinationSettings" }) as any as S.Schema<SrtDestinationSettings>;
 export type TeletextPageType =
   | "PAGE_TYPE_INITIAL"
   | "PAGE_TYPE_SUBTITLE"
@@ -4884,28 +4337,72 @@ export const TeletextDestinationSettings = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "TeletextDestinationSettings",
 }) as any as S.Schema<TeletextDestinationSettings>;
+export type TtmlBackgroundColor = "NONE" | "BLACK" | "WHITE" | "AUTO" | (string & {});
+export const TtmlBackgroundColor = S.String;
+
+export type TtmlFontColor =
+  | "WHITE"
+  | "BLACK"
+  | "YELLOW"
+  | "RED"
+  | "GREEN"
+  | "BLUE"
+  | "AUTO"
+  | (string & {});
+export const TtmlFontColor = S.String;
+
+export type TtmlFontStyle = "NORMAL" | "ITALIC" | (string & {});
+export const TtmlFontStyle = S.String;
+
+export type TtmlFontWeight = "NORMAL" | "BOLD" | (string & {});
+export const TtmlFontWeight = S.String;
+
 export type TtmlStylePassthrough = "ENABLED" | "DISABLED" | (string & {});
 export const TtmlStylePassthrough = S.String;
 
+export type TtmlTextDecoration = "NONE" | "UNDERLINE" | (string & {});
+export const TtmlTextDecoration = S.String;
+
 export interface TtmlDestinationSettings {
+  BackgroundColor?: TtmlBackgroundColor;
+  BackgroundOpacity?: number;
+  FontColor?: TtmlFontColor;
+  FontOpacity?: number;
+  FontSize?: number;
+  FontStyle?: TtmlFontStyle;
+  FontWeight?: TtmlFontWeight;
   StylePassthrough?: TtmlStylePassthrough;
+  TextDecoration?: TtmlTextDecoration;
 }
 export const TtmlDestinationSettings = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ StylePassthrough: S.optional(TtmlStylePassthrough) }).pipe(
-    S.encodeKeys({ StylePassthrough: "stylePassthrough" }),
+  S.Struct({
+    BackgroundColor: S.optional(TtmlBackgroundColor),
+    BackgroundOpacity: S.optional(S.Number),
+    FontColor: S.optional(TtmlFontColor),
+    FontOpacity: S.optional(S.Number),
+    FontSize: S.optional(S.Number),
+    FontStyle: S.optional(TtmlFontStyle),
+    FontWeight: S.optional(TtmlFontWeight),
+    StylePassthrough: S.optional(TtmlStylePassthrough),
+    TextDecoration: S.optional(TtmlTextDecoration),
+  }).pipe(
+    S.encodeKeys({
+      BackgroundColor: "backgroundColor",
+      BackgroundOpacity: "backgroundOpacity",
+      FontColor: "fontColor",
+      FontOpacity: "fontOpacity",
+      FontSize: "fontSize",
+      FontStyle: "fontStyle",
+      FontWeight: "fontWeight",
+      StylePassthrough: "stylePassthrough",
+      TextDecoration: "textDecoration",
+    }),
   ),
-).annotate({
-  identifier: "TtmlDestinationSettings",
-}) as any as S.Schema<TtmlDestinationSettings>;
+).annotate({ identifier: "TtmlDestinationSettings" }) as any as S.Schema<TtmlDestinationSettings>;
 export type WebvttAccessibilitySubs = "DISABLED" | "ENABLED" | (string & {});
 export const WebvttAccessibilitySubs = S.String;
 
-export type WebvttStylePassthrough =
-  | "ENABLED"
-  | "DISABLED"
-  | "STRICT"
-  | "MERGE"
-  | (string & {});
+export type WebvttStylePassthrough = "ENABLED" | "DISABLED" | "STRICT" | "MERGE" | (string & {});
 export const WebvttStylePassthrough = S.String;
 
 export interface WebvttDestinationSettings {
@@ -4916,12 +4413,7 @@ export const WebvttDestinationSettings = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     Accessibility: S.optional(WebvttAccessibilitySubs),
     StylePassthrough: S.optional(WebvttStylePassthrough),
-  }).pipe(
-    S.encodeKeys({
-      Accessibility: "accessibility",
-      StylePassthrough: "stylePassthrough",
-    }),
-  ),
+  }).pipe(S.encodeKeys({ Accessibility: "accessibility", StylePassthrough: "stylePassthrough" })),
 ).annotate({
   identifier: "WebvttDestinationSettings",
 }) as any as S.Schema<WebvttDestinationSettings>;
@@ -4989,16 +4481,10 @@ export const CaptionDescription = /*@__PURE__*/ S.suspend(() =>
       LanguageDescription: "languageDescription",
     }),
   ),
-).annotate({
-  identifier: "CaptionDescription",
-}) as any as S.Schema<CaptionDescription>;
+).annotate({ identifier: "CaptionDescription" }) as any as S.Schema<CaptionDescription>;
 export type __listOfCaptionDescription = CaptionDescription[];
-export const __listOfCaptionDescription =
-  /*@__PURE__*/ S.Array(CaptionDescription);
-export type CmfcAudioDuration =
-  | "DEFAULT_CODEC_DURATION"
-  | "MATCH_VIDEO_DURATION"
-  | (string & {});
+export const __listOfCaptionDescription = /*@__PURE__*/ S.Array(CaptionDescription);
+export type CmfcAudioDuration = "DEFAULT_CODEC_DURATION" | "MATCH_VIDEO_DURATION" | (string & {});
 export const CmfcAudioDuration = S.String;
 
 export type CmfcAudioTrackType =
@@ -5012,10 +4498,7 @@ export const CmfcAudioTrackType = S.String;
 export type CmfcC2paManifest = "INCLUDE" | "EXCLUDE" | (string & {});
 export const CmfcC2paManifest = S.String;
 
-export type CmfcDescriptiveVideoServiceFlag =
-  | "DONT_FLAG"
-  | "FLAG"
-  | (string & {});
+export type CmfcDescriptiveVideoServiceFlag = "DONT_FLAG" | "FLAG" | (string & {});
 export const CmfcDescriptiveVideoServiceFlag = S.String;
 
 export type CmfcIFrameOnlyManifest = "INCLUDE" | "EXCLUDE" | (string & {});
@@ -5024,16 +4507,13 @@ export const CmfcIFrameOnlyManifest = S.String;
 export type CmfcKlvMetadata = "PASSTHROUGH" | "NONE" | (string & {});
 export const CmfcKlvMetadata = S.String;
 
-export type CmfcManifestMetadataSignaling =
-  | "ENABLED"
-  | "DISABLED"
-  | (string & {});
+export type CmfcManifestMetadataSignaling = "ENABLED" | "DISABLED" | (string & {});
 export const CmfcManifestMetadataSignaling = S.String;
 
 export type CmfcScte35Esam = "INSERT" | "NONE" | (string & {});
 export const CmfcScte35Esam = S.String;
 
-export type CmfcScte35Source = "PASSTHROUGH" | "NONE" | (string & {});
+export type CmfcScte35Source = "PASSTHROUGH" | "NONE" | "MANIFEST_CUES" | (string & {});
 export const CmfcScte35Source = S.String;
 
 export type __stringMin1PatternArnAwsUsGovCnKmsAZ26EastWestCentralNorthSouthEastWest1912D12KeyAFAF098AFAF094AFAF094AFAF094AFAF0912MrkAFAF0932 =
@@ -5041,10 +4521,7 @@ export type __stringMin1PatternArnAwsUsGovCnKmsAZ26EastWestCentralNorthSouthEast
 export type CmfcTimedMetadata = "PASSTHROUGH" | "NONE" | (string & {});
 export const CmfcTimedMetadata = S.String;
 
-export type CmfcTimedMetadataBoxVersion =
-  | "VERSION_0"
-  | "VERSION_1"
-  | (string & {});
+export type CmfcTimedMetadataBoxVersion = "VERSION_0" | "VERSION_1" | (string & {});
 export const CmfcTimedMetadataBoxVersion = S.String;
 
 export type __stringMax1000 = string;
@@ -5126,10 +4603,7 @@ export type ContainerType =
   | (string & {});
 export const ContainerType = S.String;
 
-export type F4vMoovPlacement =
-  | "PROGRESSIVE_DOWNLOAD"
-  | "NORMAL"
-  | (string & {});
+export type F4vMoovPlacement = "PROGRESSIVE_DOWNLOAD" | "NORMAL" | (string & {});
 export const F4vMoovPlacement = S.String;
 
 export interface F4vSettings {
@@ -5143,10 +4617,7 @@ export const F4vSettings = /*@__PURE__*/ S.suspend(() =>
 export type M2tsAudioBufferModel = "DVB" | "ATSC" | (string & {});
 export const M2tsAudioBufferModel = S.String;
 
-export type M2tsAudioDuration =
-  | "DEFAULT_CODEC_DURATION"
-  | "MATCH_VIDEO_DURATION"
-  | (string & {});
+export type M2tsAudioDuration = "DEFAULT_CODEC_DURATION" | "MATCH_VIDEO_DURATION" | (string & {});
 export const M2tsAudioDuration = S.String;
 
 export type __integerMin32Max8182 = number;
@@ -5217,16 +4688,10 @@ export const DvbTdtSettings = /*@__PURE__*/ S.suspend(() =>
     S.encodeKeys({ TdtInterval: "tdtInterval" }),
   ),
 ).annotate({ identifier: "DvbTdtSettings" }) as any as S.Schema<DvbTdtSettings>;
-export type M2tsEbpAudioInterval =
-  | "VIDEO_AND_FIXED_INTERVALS"
-  | "VIDEO_INTERVAL"
-  | (string & {});
+export type M2tsEbpAudioInterval = "VIDEO_AND_FIXED_INTERVALS" | "VIDEO_INTERVAL" | (string & {});
 export const M2tsEbpAudioInterval = S.String;
 
-export type M2tsEbpPlacement =
-  | "VIDEO_AND_AUDIO_PIDS"
-  | "VIDEO_PID"
-  | (string & {});
+export type M2tsEbpPlacement = "VIDEO_AND_AUDIO_PIDS" | "VIDEO_PID" | (string & {});
 export const M2tsEbpPlacement = S.String;
 
 export type M2tsEsRateInPes = "INCLUDE" | "EXCLUDE" | (string & {});
@@ -5244,10 +4709,7 @@ export type M2tsNielsenId3 = "INSERT" | "NONE" | (string & {});
 export const M2tsNielsenId3 = S.String;
 
 export type __integerMin0Max1000 = number;
-export type M2tsPcrControl =
-  | "PCR_EVERY_PES_PACKET"
-  | "CONFIGURED_PCR_PERIOD"
-  | (string & {});
+export type M2tsPcrControl = "PCR_EVERY_PES_PACKET" | "CONFIGURED_PCR_PERIOD" | (string & {});
 export const M2tsPcrControl = S.String;
 
 export type M2tsPreventBufferUnderflow = "DISABLED" | "ENABLED" | (string & {});
@@ -5267,7 +4729,7 @@ export const M2tsScte35Esam = /*@__PURE__*/ S.suspend(() =>
     S.encodeKeys({ Scte35EsamPid: "scte35EsamPid" }),
   ),
 ).annotate({ identifier: "M2tsScte35Esam" }) as any as S.Schema<M2tsScte35Esam>;
-export type M2tsScte35Source = "PASSTHROUGH" | "NONE" | (string & {});
+export type M2tsScte35Source = "PASSTHROUGH" | "NONE" | "MANIFEST_CUES" | (string & {});
 export const M2tsScte35Source = S.String;
 
 export type M2tsSegmentationMarkers =
@@ -5280,10 +4742,7 @@ export type M2tsSegmentationMarkers =
   | (string & {});
 export const M2tsSegmentationMarkers = S.String;
 
-export type M2tsSegmentationStyle =
-  | "MAINTAIN_CADENCE"
-  | "RESET_CADENCE"
-  | (string & {});
+export type M2tsSegmentationStyle = "MAINTAIN_CADENCE" | "RESET_CADENCE" | (string & {});
 export const M2tsSegmentationStyle = S.String;
 
 export interface M2tsSettings {
@@ -5424,10 +4883,7 @@ export const M2tsSettings = /*@__PURE__*/ S.suspend(() =>
     }),
   ),
 ).annotate({ identifier: "M2tsSettings" }) as any as S.Schema<M2tsSettings>;
-export type M3u8AudioDuration =
-  | "DEFAULT_CODEC_DURATION"
-  | "MATCH_VIDEO_DURATION"
-  | (string & {});
+export type M3u8AudioDuration = "DEFAULT_CODEC_DURATION" | "MATCH_VIDEO_DURATION" | (string & {});
 export const M3u8AudioDuration = S.String;
 
 export type M3u8DataPtsControl = "AUTO" | "ALIGN_TO_VIDEO" | (string & {});
@@ -5436,13 +4892,10 @@ export const M3u8DataPtsControl = S.String;
 export type M3u8NielsenId3 = "INSERT" | "NONE" | (string & {});
 export const M3u8NielsenId3 = S.String;
 
-export type M3u8PcrControl =
-  | "PCR_EVERY_PES_PACKET"
-  | "CONFIGURED_PCR_PERIOD"
-  | (string & {});
+export type M3u8PcrControl = "PCR_EVERY_PES_PACKET" | "CONFIGURED_PCR_PERIOD" | (string & {});
 export const M3u8PcrControl = S.String;
 
-export type M3u8Scte35Source = "PASSTHROUGH" | "NONE" | (string & {});
+export type M3u8Scte35Source = "PASSTHROUGH" | "NONE" | "MANIFEST_CUES" | (string & {});
 export const M3u8Scte35Source = S.String;
 
 export type TimedMetadata = "PASSTHROUGH" | "NONE" | (string & {});
@@ -5575,10 +5028,7 @@ export type __integerMin0Max1 = number;
 export type Mp4FreeSpaceBox = "INCLUDE" | "EXCLUDE" | (string & {});
 export const Mp4FreeSpaceBox = S.String;
 
-export type Mp4MoovPlacement =
-  | "PROGRESSIVE_DOWNLOAD"
-  | "NORMAL"
-  | (string & {});
+export type Mp4MoovPlacement = "PROGRESSIVE_DOWNLOAD" | "NORMAL" | (string & {});
 export const Mp4MoovPlacement = S.String;
 
 export interface Mp4Settings {
@@ -5617,16 +5067,10 @@ export const Mp4Settings = /*@__PURE__*/ S.suspend(() =>
     }),
   ),
 ).annotate({ identifier: "Mp4Settings" }) as any as S.Schema<Mp4Settings>;
-export type MpdAccessibilityCaptionHints =
-  | "INCLUDE"
-  | "EXCLUDE"
-  | (string & {});
+export type MpdAccessibilityCaptionHints = "INCLUDE" | "EXCLUDE" | (string & {});
 export const MpdAccessibilityCaptionHints = S.String;
 
-export type MpdAudioDuration =
-  | "DEFAULT_CODEC_DURATION"
-  | "MATCH_VIDEO_DURATION"
-  | (string & {});
+export type MpdAudioDuration = "DEFAULT_CODEC_DURATION" | "MATCH_VIDEO_DURATION" | (string & {});
 export const MpdAudioDuration = S.String;
 
 export type MpdC2paManifest = "INCLUDE" | "EXCLUDE" | (string & {});
@@ -5638,25 +5082,19 @@ export const MpdCaptionContainerType = S.String;
 export type MpdKlvMetadata = "NONE" | "PASSTHROUGH" | (string & {});
 export const MpdKlvMetadata = S.String;
 
-export type MpdManifestMetadataSignaling =
-  | "ENABLED"
-  | "DISABLED"
-  | (string & {});
+export type MpdManifestMetadataSignaling = "ENABLED" | "DISABLED" | (string & {});
 export const MpdManifestMetadataSignaling = S.String;
 
 export type MpdScte35Esam = "INSERT" | "NONE" | (string & {});
 export const MpdScte35Esam = S.String;
 
-export type MpdScte35Source = "PASSTHROUGH" | "NONE" | (string & {});
+export type MpdScte35Source = "PASSTHROUGH" | "NONE" | "MANIFEST_CUES" | (string & {});
 export const MpdScte35Source = S.String;
 
 export type MpdTimedMetadata = "PASSTHROUGH" | "NONE" | (string & {});
 export const MpdTimedMetadata = S.String;
 
-export type MpdTimedMetadataBoxVersion =
-  | "VERSION_0"
-  | "VERSION_1"
-  | (string & {});
+export type MpdTimedMetadataBoxVersion = "VERSION_0" | "VERSION_1" | (string & {});
 export const MpdTimedMetadataBoxVersion = S.String;
 
 export interface MpdSettings {
@@ -5713,13 +5151,7 @@ export const MpdSettings = /*@__PURE__*/ S.suspend(() =>
 export type MxfAfdSignaling = "NO_COPY" | "COPY_FROM_VIDEO" | (string & {});
 export const MxfAfdSignaling = S.String;
 
-export type MxfProfile =
-  | "D_10"
-  | "XDCAM"
-  | "OP1A"
-  | "XAVC"
-  | "XDCAM_RDD9"
-  | (string & {});
+export type MxfProfile = "D_10" | "XDCAM" | "OP1A" | "XAVC" | "XDCAM_RDD9" | (string & {});
 export const MxfProfile = S.String;
 
 export type MxfUncompressedAudioWrapping = "AUTO" | "AES3" | (string & {});
@@ -5739,15 +5171,8 @@ export const MxfXavcProfileSettings = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     DurationMode: S.optional(MxfXavcDurationMode),
     MaxAncDataSize: S.optional(S.Number),
-  }).pipe(
-    S.encodeKeys({
-      DurationMode: "durationMode",
-      MaxAncDataSize: "maxAncDataSize",
-    }),
-  ),
-).annotate({
-  identifier: "MxfXavcProfileSettings",
-}) as any as S.Schema<MxfXavcProfileSettings>;
+  }).pipe(S.encodeKeys({ DurationMode: "durationMode", MaxAncDataSize: "maxAncDataSize" })),
+).annotate({ identifier: "MxfXavcProfileSettings" }) as any as S.Schema<MxfXavcProfileSettings>;
 export interface MxfSettings {
   AfdSignaling?: MxfAfdSignaling;
   Profile?: MxfProfile;
@@ -5804,9 +5229,7 @@ export const ContainerSettings = /*@__PURE__*/ S.suspend(() =>
       MxfSettings: "mxfSettings",
     }),
   ),
-).annotate({
-  identifier: "ContainerSettings",
-}) as any as S.Schema<ContainerSettings>;
+).annotate({ identifier: "ContainerSettings" }) as any as S.Schema<ContainerSettings>;
 export type __stringMax256 = string;
 export type HlsAudioOnlyContainer = "AUTOMATIC" | "M2TS" | (string & {});
 export const HlsAudioOnlyContainer = S.String;
@@ -5819,17 +5242,10 @@ export type HlsAudioTrackType =
   | (string & {});
 export const HlsAudioTrackType = S.String;
 
-export type HlsDescriptiveVideoServiceFlag =
-  | "DONT_FLAG"
-  | "FLAG"
-  | (string & {});
+export type HlsDescriptiveVideoServiceFlag = "DONT_FLAG" | "FLAG" | (string & {});
 export const HlsDescriptiveVideoServiceFlag = S.String;
 
-export type HlsIFrameOnlyManifest =
-  | "INCLUDE"
-  | "INCLUDE_AS_TS"
-  | "EXCLUDE"
-  | (string & {});
+export type HlsIFrameOnlyManifest = "INCLUDE" | "INCLUDE_AS_TS" | "EXCLUDE" | (string & {});
 export const HlsIFrameOnlyManifest = S.String;
 
 export interface HlsSettings {
@@ -5877,11 +5293,7 @@ export const AfdSignaling = S.String;
 export type AntiAlias = "DISABLED" | "ENABLED" | (string & {});
 export const AntiAlias = S.String;
 
-export type ChromaPositionMode =
-  | "AUTO"
-  | "FORCE_CENTER"
-  | "FORCE_TOP_LEFT"
-  | (string & {});
+export type ChromaPositionMode = "AUTO" | "FORCE_CENTER" | "FORCE_TOP_LEFT" | (string & {});
 export const ChromaPositionMode = S.String;
 
 export type Av1AdaptiveQuantization =
@@ -5900,10 +5312,7 @@ export const Av1BitDepth = S.String;
 export type Av1FilmGrainSynthesis = "DISABLED" | "ENABLED" | (string & {});
 export const Av1FilmGrainSynthesis = S.String;
 
-export type Av1FramerateControl =
-  | "INITIALIZE_FROM_SOURCE"
-  | "SPECIFIED"
-  | (string & {});
+export type Av1FramerateControl = "INITIALIZE_FROM_SOURCE" | "SPECIFIED" | (string & {});
 export const Av1FramerateControl = S.String;
 
 export type Av1FramerateConversionAlgorithm =
@@ -5932,16 +5341,11 @@ export const Av1QvbrSettings = /*@__PURE__*/ S.suspend(() =>
       QvbrQualityLevelFineTune: "qvbrQualityLevelFineTune",
     }),
   ),
-).annotate({
-  identifier: "Av1QvbrSettings",
-}) as any as S.Schema<Av1QvbrSettings>;
+).annotate({ identifier: "Av1QvbrSettings" }) as any as S.Schema<Av1QvbrSettings>;
 export type Av1RateControlMode = "QVBR" | (string & {});
 export const Av1RateControlMode = S.String;
 
-export type Av1SpatialAdaptiveQuantization =
-  | "DISABLED"
-  | "ENABLED"
-  | (string & {});
+export type Av1SpatialAdaptiveQuantization = "DISABLED" | "ENABLED" | (string & {});
 export const Av1SpatialAdaptiveQuantization = S.String;
 
 export interface Av1Settings {
@@ -5989,8 +5393,7 @@ export const Av1Settings = /*@__PURE__*/ S.suspend(() =>
       FramerateNumerator: "framerateNumerator",
       GopSize: "gopSize",
       MaxBitrate: "maxBitrate",
-      NumberBFramesBetweenReferenceFrames:
-        "numberBFramesBetweenReferenceFrames",
+      NumberBFramesBetweenReferenceFrames: "numberBFramesBetweenReferenceFrames",
       PerFrameMetrics: "perFrameMetrics",
       QvbrSettings: "qvbrSettings",
       RateControlMode: "rateControlMode",
@@ -5999,34 +5402,21 @@ export const Av1Settings = /*@__PURE__*/ S.suspend(() =>
     }),
   ),
 ).annotate({ identifier: "Av1Settings" }) as any as S.Schema<Av1Settings>;
-export type AvcIntraClass =
-  | "CLASS_50"
-  | "CLASS_100"
-  | "CLASS_200"
-  | "CLASS_4K_2K"
-  | (string & {});
+export type AvcIntraClass = "CLASS_50" | "CLASS_100" | "CLASS_200" | "CLASS_4K_2K" | (string & {});
 export const AvcIntraClass = S.String;
 
-export type AvcIntraUhdQualityTuningLevel =
-  | "SINGLE_PASS"
-  | "MULTI_PASS"
-  | (string & {});
+export type AvcIntraUhdQualityTuningLevel = "SINGLE_PASS" | "MULTI_PASS" | (string & {});
 export const AvcIntraUhdQualityTuningLevel = S.String;
 
 export interface AvcIntraUhdSettings {
   QualityTuningLevel?: AvcIntraUhdQualityTuningLevel;
 }
 export const AvcIntraUhdSettings = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    QualityTuningLevel: S.optional(AvcIntraUhdQualityTuningLevel),
-  }).pipe(S.encodeKeys({ QualityTuningLevel: "qualityTuningLevel" })),
-).annotate({
-  identifier: "AvcIntraUhdSettings",
-}) as any as S.Schema<AvcIntraUhdSettings>;
-export type AvcIntraFramerateControl =
-  | "INITIALIZE_FROM_SOURCE"
-  | "SPECIFIED"
-  | (string & {});
+  S.Struct({ QualityTuningLevel: S.optional(AvcIntraUhdQualityTuningLevel) }).pipe(
+    S.encodeKeys({ QualityTuningLevel: "qualityTuningLevel" }),
+  ),
+).annotate({ identifier: "AvcIntraUhdSettings" }) as any as S.Schema<AvcIntraUhdSettings>;
+export type AvcIntraFramerateControl = "INITIALIZE_FROM_SOURCE" | "SPECIFIED" | (string & {});
 export const AvcIntraFramerateControl = S.String;
 
 export type AvcIntraFramerateConversionAlgorithm =
@@ -6047,10 +5437,7 @@ export type AvcIntraInterlaceMode =
   | (string & {});
 export const AvcIntraInterlaceMode = S.String;
 
-export type AvcIntraScanTypeConversionMode =
-  | "INTERLACED"
-  | "INTERLACED_OPTIMIZE"
-  | (string & {});
+export type AvcIntraScanTypeConversionMode = "INTERLACED" | "INTERLACED_OPTIMIZE" | (string & {});
 export const AvcIntraScanTypeConversionMode = S.String;
 
 export type AvcIntraSlowPal = "DISABLED" | "ENABLED" | (string & {});
@@ -6077,9 +5464,7 @@ export const AvcIntraSettings = /*@__PURE__*/ S.suspend(() =>
     AvcIntraClass: S.optional(AvcIntraClass),
     AvcIntraUhdSettings: S.optional(AvcIntraUhdSettings),
     FramerateControl: S.optional(AvcIntraFramerateControl),
-    FramerateConversionAlgorithm: S.optional(
-      AvcIntraFramerateConversionAlgorithm,
-    ),
+    FramerateConversionAlgorithm: S.optional(AvcIntraFramerateConversionAlgorithm),
     FramerateDenominator: S.optional(S.Number),
     FramerateNumerator: S.optional(S.Number),
     InterlaceMode: S.optional(AvcIntraInterlaceMode),
@@ -6102,9 +5487,7 @@ export const AvcIntraSettings = /*@__PURE__*/ S.suspend(() =>
       Telecine: "telecine",
     }),
   ),
-).annotate({
-  identifier: "AvcIntraSettings",
-}) as any as S.Schema<AvcIntraSettings>;
+).annotate({ identifier: "AvcIntraSettings" }) as any as S.Schema<AvcIntraSettings>;
 export type VideoCodec =
   | "AV1"
   | "AVC_INTRA"
@@ -6145,19 +5528,11 @@ export const FrameCaptureSettings = /*@__PURE__*/ S.suspend(() =>
       Quality: "quality",
     }),
   ),
-).annotate({
-  identifier: "FrameCaptureSettings",
-}) as any as S.Schema<FrameCaptureSettings>;
-export type GifFramerateControl =
-  | "INITIALIZE_FROM_SOURCE"
-  | "SPECIFIED"
-  | (string & {});
+).annotate({ identifier: "FrameCaptureSettings" }) as any as S.Schema<FrameCaptureSettings>;
+export type GifFramerateControl = "INITIALIZE_FROM_SOURCE" | "SPECIFIED" | (string & {});
 export const GifFramerateControl = S.String;
 
-export type GifFramerateConversionAlgorithm =
-  | "DUPLICATE_DROP"
-  | "INTERPOLATE"
-  | (string & {});
+export type GifFramerateConversionAlgorithm = "DUPLICATE_DROP" | "INTERPOLATE" | (string & {});
 export const GifFramerateConversionAlgorithm = S.String;
 
 export interface GifSettings {
@@ -6192,12 +5567,7 @@ export type H264AdaptiveQuantization =
   | (string & {});
 export const H264AdaptiveQuantization = S.String;
 
-export type BandwidthReductionFilterSharpening =
-  | "LOW"
-  | "MEDIUM"
-  | "HIGH"
-  | "OFF"
-  | (string & {});
+export type BandwidthReductionFilterSharpening = "LOW" | "MEDIUM" | "HIGH" | "OFF" | (string & {});
 export const BandwidthReductionFilterSharpening = S.String;
 
 export type BandwidthReductionFilterStrength =
@@ -6218,9 +5588,7 @@ export const BandwidthReductionFilter = /*@__PURE__*/ S.suspend(() =>
     Sharpening: S.optional(BandwidthReductionFilterSharpening),
     Strength: S.optional(BandwidthReductionFilterStrength),
   }).pipe(S.encodeKeys({ Sharpening: "sharpening", Strength: "strength" })),
-).annotate({
-  identifier: "BandwidthReductionFilter",
-}) as any as S.Schema<BandwidthReductionFilter>;
+).annotate({ identifier: "BandwidthReductionFilter" }) as any as S.Schema<BandwidthReductionFilter>;
 export type H264CodecLevel =
   | "AUTO"
   | "LEVEL_1"
@@ -6261,29 +5629,16 @@ export const H264EndOfStreamMarkers = S.String;
 export type H264EntropyEncoding = "CABAC" | "CAVLC" | (string & {});
 export const H264EntropyEncoding = S.String;
 
-export type H264ExplicitWeightedPrediction =
-  | "DISABLED"
-  | "ENABLED"
-  | (string & {});
+export type H264ExplicitWeightedPrediction = "DISABLED" | "ENABLED" | (string & {});
 export const H264ExplicitWeightedPrediction = S.String;
 
-export type H264FieldEncoding =
-  | "PAFF"
-  | "FORCE_FIELD"
-  | "MBAFF"
-  | (string & {});
+export type H264FieldEncoding = "PAFF" | "FORCE_FIELD" | "MBAFF" | (string & {});
 export const H264FieldEncoding = S.String;
 
-export type H264FlickerAdaptiveQuantization =
-  | "DISABLED"
-  | "ENABLED"
-  | (string & {});
+export type H264FlickerAdaptiveQuantization = "DISABLED" | "ENABLED" | (string & {});
 export const H264FlickerAdaptiveQuantization = S.String;
 
-export type H264FramerateControl =
-  | "INITIALIZE_FROM_SOURCE"
-  | "SPECIFIED"
-  | (string & {});
+export type H264FramerateControl = "INITIALIZE_FROM_SOURCE" | "SPECIFIED" | (string & {});
 export const H264FramerateControl = S.String;
 
 export type H264FramerateConversionAlgorithm =
@@ -6312,10 +5667,7 @@ export const H264InterlaceMode = S.String;
 
 export type __integerMin0Max30 = number;
 export type __integerMin0Max7 = number;
-export type H264ParControl =
-  | "INITIALIZE_FROM_SOURCE"
-  | "SPECIFIED"
-  | (string & {});
+export type H264ParControl = "INITIALIZE_FROM_SOURCE" | "SPECIFIED" | (string & {});
 export const H264ParControl = S.String;
 
 export type H264QualityTuningLevel =
@@ -6342,42 +5694,27 @@ export const H264QvbrSettings = /*@__PURE__*/ S.suspend(() =>
       QvbrQualityLevelFineTune: "qvbrQualityLevelFineTune",
     }),
   ),
-).annotate({
-  identifier: "H264QvbrSettings",
-}) as any as S.Schema<H264QvbrSettings>;
+).annotate({ identifier: "H264QvbrSettings" }) as any as S.Schema<H264QvbrSettings>;
 export type H264RateControlMode = "VBR" | "CBR" | "QVBR" | (string & {});
 export const H264RateControlMode = S.String;
 
 export type H264RepeatPps = "DISABLED" | "ENABLED" | (string & {});
 export const H264RepeatPps = S.String;
 
-export type H264SaliencyAwareEncoding =
-  | "DISABLED"
-  | "PREFERRED"
-  | (string & {});
+export type H264SaliencyAwareEncoding = "DISABLED" | "PREFERRED" | (string & {});
 export const H264SaliencyAwareEncoding = S.String;
 
-export type H264ScanTypeConversionMode =
-  | "INTERLACED"
-  | "INTERLACED_OPTIMIZE"
-  | (string & {});
+export type H264ScanTypeConversionMode = "INTERLACED" | "INTERLACED_OPTIMIZE" | (string & {});
 export const H264ScanTypeConversionMode = S.String;
 
-export type H264SceneChangeDetect =
-  | "DISABLED"
-  | "ENABLED"
-  | "TRANSITION_DETECTION"
-  | (string & {});
+export type H264SceneChangeDetect = "DISABLED" | "ENABLED" | "TRANSITION_DETECTION" | (string & {});
 export const H264SceneChangeDetect = S.String;
 
 export type H264SlowPal = "DISABLED" | "ENABLED" | (string & {});
 export const H264SlowPal = S.String;
 
 export type __integerMin0Max128 = number;
-export type H264SpatialAdaptiveQuantization =
-  | "DISABLED"
-  | "ENABLED"
-  | (string & {});
+export type H264SpatialAdaptiveQuantization = "DISABLED" | "ENABLED" | (string & {});
 export const H264SpatialAdaptiveQuantization = S.String;
 
 export type H264Syntax = "DEFAULT" | "RP2027" | (string & {});
@@ -6386,16 +5723,10 @@ export const H264Syntax = S.String;
 export type H264Telecine = "NONE" | "SOFT" | "HARD" | (string & {});
 export const H264Telecine = S.String;
 
-export type H264TemporalAdaptiveQuantization =
-  | "DISABLED"
-  | "ENABLED"
-  | (string & {});
+export type H264TemporalAdaptiveQuantization = "DISABLED" | "ENABLED" | (string & {});
 export const H264TemporalAdaptiveQuantization = S.String;
 
-export type H264UnregisteredSeiTimecode =
-  | "DISABLED"
-  | "ENABLED"
-  | (string & {});
+export type H264UnregisteredSeiTimecode = "DISABLED" | "ENABLED" | (string & {});
 export const H264UnregisteredSeiTimecode = S.String;
 
 export type H264WriteMp4PackagingType = "AVC1" | "AVC3" | (string & {});
@@ -6526,8 +5857,7 @@ export const H264Settings = /*@__PURE__*/ S.suspend(() =>
       InterlaceMode: "interlaceMode",
       MaxBitrate: "maxBitrate",
       MinIInterval: "minIInterval",
-      NumberBFramesBetweenReferenceFrames:
-        "numberBFramesBetweenReferenceFrames",
+      NumberBFramesBetweenReferenceFrames: "numberBFramesBetweenReferenceFrames",
       NumberReferenceFrames: "numberReferenceFrames",
       ParControl: "parControl",
       ParDenominator: "parDenominator",
@@ -6563,10 +5893,7 @@ export type H265AdaptiveQuantization =
   | (string & {});
 export const H265AdaptiveQuantization = S.String;
 
-export type H265AlternateTransferFunctionSei =
-  | "DISABLED"
-  | "ENABLED"
-  | (string & {});
+export type H265AlternateTransferFunctionSei = "DISABLED" | "ENABLED" | (string & {});
 export const H265AlternateTransferFunctionSei = S.String;
 
 export type __integerMin1000Max1466400000 = number;
@@ -6609,16 +5936,10 @@ export const H265DynamicSubGop = S.String;
 export type H265EndOfStreamMarkers = "INCLUDE" | "SUPPRESS" | (string & {});
 export const H265EndOfStreamMarkers = S.String;
 
-export type H265FlickerAdaptiveQuantization =
-  | "DISABLED"
-  | "ENABLED"
-  | (string & {});
+export type H265FlickerAdaptiveQuantization = "DISABLED" | "ENABLED" | (string & {});
 export const H265FlickerAdaptiveQuantization = S.String;
 
-export type H265FramerateControl =
-  | "INITIALIZE_FROM_SOURCE"
-  | "SPECIFIED"
-  | (string & {});
+export type H265FramerateControl = "INITIALIZE_FROM_SOURCE" | "SPECIFIED" | (string & {});
 export const H265FramerateControl = S.String;
 
 export type H265FramerateConversionAlgorithm =
@@ -6645,19 +5966,13 @@ export type H265InterlaceMode =
   | (string & {});
 export const H265InterlaceMode = S.String;
 
-export type H265MvOverPictureBoundaries =
-  | "ENABLED"
-  | "DISABLED"
-  | (string & {});
+export type H265MvOverPictureBoundaries = "ENABLED" | "DISABLED" | (string & {});
 export const H265MvOverPictureBoundaries = S.String;
 
 export type H265MvTemporalPredictor = "ENABLED" | "DISABLED" | (string & {});
 export const H265MvTemporalPredictor = S.String;
 
-export type H265ParControl =
-  | "INITIALIZE_FROM_SOURCE"
-  | "SPECIFIED"
-  | (string & {});
+export type H265ParControl = "INITIALIZE_FROM_SOURCE" | "SPECIFIED" | (string & {});
 export const H265ParControl = S.String;
 
 export type H265QualityTuningLevel =
@@ -6684,48 +5999,29 @@ export const H265QvbrSettings = /*@__PURE__*/ S.suspend(() =>
       QvbrQualityLevelFineTune: "qvbrQualityLevelFineTune",
     }),
   ),
-).annotate({
-  identifier: "H265QvbrSettings",
-}) as any as S.Schema<H265QvbrSettings>;
+).annotate({ identifier: "H265QvbrSettings" }) as any as S.Schema<H265QvbrSettings>;
 export type H265RateControlMode = "VBR" | "CBR" | "QVBR" | (string & {});
 export const H265RateControlMode = S.String;
 
-export type H265SampleAdaptiveOffsetFilterMode =
-  | "DEFAULT"
-  | "ADAPTIVE"
-  | "OFF"
-  | (string & {});
+export type H265SampleAdaptiveOffsetFilterMode = "DEFAULT" | "ADAPTIVE" | "OFF" | (string & {});
 export const H265SampleAdaptiveOffsetFilterMode = S.String;
 
-export type H265ScanTypeConversionMode =
-  | "INTERLACED"
-  | "INTERLACED_OPTIMIZE"
-  | (string & {});
+export type H265ScanTypeConversionMode = "INTERLACED" | "INTERLACED_OPTIMIZE" | (string & {});
 export const H265ScanTypeConversionMode = S.String;
 
-export type H265SceneChangeDetect =
-  | "DISABLED"
-  | "ENABLED"
-  | "TRANSITION_DETECTION"
-  | (string & {});
+export type H265SceneChangeDetect = "DISABLED" | "ENABLED" | "TRANSITION_DETECTION" | (string & {});
 export const H265SceneChangeDetect = S.String;
 
 export type H265SlowPal = "DISABLED" | "ENABLED" | (string & {});
 export const H265SlowPal = S.String;
 
-export type H265SpatialAdaptiveQuantization =
-  | "DISABLED"
-  | "ENABLED"
-  | (string & {});
+export type H265SpatialAdaptiveQuantization = "DISABLED" | "ENABLED" | (string & {});
 export const H265SpatialAdaptiveQuantization = S.String;
 
 export type H265Telecine = "NONE" | "SOFT" | "HARD" | (string & {});
 export const H265Telecine = S.String;
 
-export type H265TemporalAdaptiveQuantization =
-  | "DISABLED"
-  | "ENABLED"
-  | (string & {});
+export type H265TemporalAdaptiveQuantization = "DISABLED" | "ENABLED" | (string & {});
 export const H265TemporalAdaptiveQuantization = S.String;
 
 export type H265TemporalIds = "DISABLED" | "ENABLED" | (string & {});
@@ -6742,10 +6038,7 @@ export const H265Tiles = S.String;
 export type H265TreeBlockSize = "AUTO" | "TREE_SIZE_32X32" | (string & {});
 export const H265TreeBlockSize = S.String;
 
-export type H265UnregisteredSeiTimecode =
-  | "DISABLED"
-  | "ENABLED"
-  | (string & {});
+export type H265UnregisteredSeiTimecode = "DISABLED" | "ENABLED" | (string & {});
 export const H265UnregisteredSeiTimecode = S.String;
 
 export type H265WriteMp4PackagingType = "HVC1" | "HEV1" | (string & {});
@@ -6841,9 +6134,7 @@ export const H265Settings = /*@__PURE__*/ S.suspend(() =>
     QualityTuningLevel: S.optional(H265QualityTuningLevel),
     QvbrSettings: S.optional(H265QvbrSettings),
     RateControlMode: S.optional(H265RateControlMode),
-    SampleAdaptiveOffsetFilterMode: S.optional(
-      H265SampleAdaptiveOffsetFilterMode,
-    ),
+    SampleAdaptiveOffsetFilterMode: S.optional(H265SampleAdaptiveOffsetFilterMode),
     ScanTypeConversionMode: S.optional(H265ScanTypeConversionMode),
     SceneChangeDetect: S.optional(H265SceneChangeDetect),
     Slices: S.optional(S.Number),
@@ -6887,8 +6178,7 @@ export const H265Settings = /*@__PURE__*/ S.suspend(() =>
       MinIInterval: "minIInterval",
       MvOverPictureBoundaries: "mvOverPictureBoundaries",
       MvTemporalPredictor: "mvTemporalPredictor",
-      NumberBFramesBetweenReferenceFrames:
-        "numberBFramesBetweenReferenceFrames",
+      NumberBFramesBetweenReferenceFrames: "numberBFramesBetweenReferenceFrames",
       NumberReferenceFrames: "numberReferenceFrames",
       ParControl: "parControl",
       ParDenominator: "parDenominator",
@@ -6916,22 +6206,11 @@ export const H265Settings = /*@__PURE__*/ S.suspend(() =>
     }),
   ),
 ).annotate({ identifier: "H265Settings" }) as any as S.Schema<H265Settings>;
-export type Mpeg2AdaptiveQuantization =
-  | "OFF"
-  | "LOW"
-  | "MEDIUM"
-  | "HIGH"
-  | (string & {});
+export type Mpeg2AdaptiveQuantization = "OFF" | "LOW" | "MEDIUM" | "HIGH" | (string & {});
 export const Mpeg2AdaptiveQuantization = S.String;
 
 export type __integerMin1000Max288000000 = number;
-export type Mpeg2CodecLevel =
-  | "AUTO"
-  | "LOW"
-  | "MAIN"
-  | "HIGH1440"
-  | "HIGH"
-  | (string & {});
+export type Mpeg2CodecLevel = "AUTO" | "LOW" | "MAIN" | "HIGH1440" | "HIGH" | (string & {});
 export const Mpeg2CodecLevel = S.String;
 
 export type Mpeg2CodecProfile = "MAIN" | "PROFILE_422" | (string & {});
@@ -6940,10 +6219,7 @@ export const Mpeg2CodecProfile = S.String;
 export type Mpeg2DynamicSubGop = "ADAPTIVE" | "STATIC" | (string & {});
 export const Mpeg2DynamicSubGop = S.String;
 
-export type Mpeg2FramerateControl =
-  | "INITIALIZE_FROM_SOURCE"
-  | "SPECIFIED"
-  | (string & {});
+export type Mpeg2FramerateControl = "INITIALIZE_FROM_SOURCE" | "SPECIFIED" | (string & {});
 export const Mpeg2FramerateControl = S.String;
 
 export type Mpeg2FramerateConversionAlgorithm =
@@ -6977,25 +6253,16 @@ export type Mpeg2IntraDcPrecision =
 export const Mpeg2IntraDcPrecision = S.String;
 
 export type __integerMin1000Max300000000 = number;
-export type Mpeg2ParControl =
-  | "INITIALIZE_FROM_SOURCE"
-  | "SPECIFIED"
-  | (string & {});
+export type Mpeg2ParControl = "INITIALIZE_FROM_SOURCE" | "SPECIFIED" | (string & {});
 export const Mpeg2ParControl = S.String;
 
-export type Mpeg2QualityTuningLevel =
-  | "SINGLE_PASS"
-  | "MULTI_PASS"
-  | (string & {});
+export type Mpeg2QualityTuningLevel = "SINGLE_PASS" | "MULTI_PASS" | (string & {});
 export const Mpeg2QualityTuningLevel = S.String;
 
 export type Mpeg2RateControlMode = "VBR" | "CBR" | (string & {});
 export const Mpeg2RateControlMode = S.String;
 
-export type Mpeg2ScanTypeConversionMode =
-  | "INTERLACED"
-  | "INTERLACED_OPTIMIZE"
-  | (string & {});
+export type Mpeg2ScanTypeConversionMode = "INTERLACED" | "INTERLACED_OPTIMIZE" | (string & {});
 export const Mpeg2ScanTypeConversionMode = S.String;
 
 export type Mpeg2SceneChangeDetect = "DISABLED" | "ENABLED" | (string & {});
@@ -7004,10 +6271,7 @@ export const Mpeg2SceneChangeDetect = S.String;
 export type Mpeg2SlowPal = "DISABLED" | "ENABLED" | (string & {});
 export const Mpeg2SlowPal = S.String;
 
-export type Mpeg2SpatialAdaptiveQuantization =
-  | "DISABLED"
-  | "ENABLED"
-  | (string & {});
+export type Mpeg2SpatialAdaptiveQuantization = "DISABLED" | "ENABLED" | (string & {});
 export const Mpeg2SpatialAdaptiveQuantization = S.String;
 
 export type Mpeg2Syntax = "DEFAULT" | "D_10" | (string & {});
@@ -7016,10 +6280,7 @@ export const Mpeg2Syntax = S.String;
 export type Mpeg2Telecine = "NONE" | "SOFT" | "HARD" | (string & {});
 export const Mpeg2Telecine = S.String;
 
-export type Mpeg2TemporalAdaptiveQuantization =
-  | "DISABLED"
-  | "ENABLED"
-  | (string & {});
+export type Mpeg2TemporalAdaptiveQuantization = "DISABLED" | "ENABLED" | (string & {});
 export const Mpeg2TemporalAdaptiveQuantization = S.String;
 
 export interface Mpeg2Settings {
@@ -7115,8 +6376,7 @@ export const Mpeg2Settings = /*@__PURE__*/ S.suspend(() =>
       IntraDcPrecision: "intraDcPrecision",
       MaxBitrate: "maxBitrate",
       MinIInterval: "minIInterval",
-      NumberBFramesBetweenReferenceFrames:
-        "numberBFramesBetweenReferenceFrames",
+      NumberBFramesBetweenReferenceFrames: "numberBFramesBetweenReferenceFrames",
       ParControl: "parControl",
       ParDenominator: "parDenominator",
       ParNumerator: "parNumerator",
@@ -7134,36 +6394,37 @@ export const Mpeg2Settings = /*@__PURE__*/ S.suspend(() =>
     }),
   ),
 ).annotate({ identifier: "Mpeg2Settings" }) as any as S.Schema<Mpeg2Settings>;
-export type FrameControl =
-  | "NEAREST_IDRFRAME"
-  | "NEAREST_IFRAME"
-  | (string & {});
+export type FrameControl = "NEAREST_IDRFRAME" | "NEAREST_IFRAME" | (string & {});
 export const FrameControl = S.String;
+
+export type PassthroughSegmentationMode = "AUTO" | "DURATION_BASED" | "GOP_COUNT" | (string & {});
+export const PassthroughSegmentationMode = S.String;
 
 export type VideoSelectorMode = "AUTO" | "REMUX_ALL" | (string & {});
 export const VideoSelectorMode = S.String;
 
 export interface PassthroughSettings {
   FrameControl?: FrameControl;
+  GopsPerSegment?: number;
+  SegmentationMode?: PassthroughSegmentationMode;
   VideoSelectorMode?: VideoSelectorMode;
 }
 export const PassthroughSettings = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     FrameControl: S.optional(FrameControl),
+    GopsPerSegment: S.optional(S.Number),
+    SegmentationMode: S.optional(PassthroughSegmentationMode),
     VideoSelectorMode: S.optional(VideoSelectorMode),
   }).pipe(
     S.encodeKeys({
       FrameControl: "frameControl",
+      GopsPerSegment: "gopsPerSegment",
+      SegmentationMode: "segmentationMode",
       VideoSelectorMode: "videoSelectorMode",
     }),
   ),
-).annotate({
-  identifier: "PassthroughSettings",
-}) as any as S.Schema<PassthroughSettings>;
-export type ProresChromaSampling =
-  | "PRESERVE_444_SAMPLING"
-  | "SUBSAMPLE_TO_422"
-  | (string & {});
+).annotate({ identifier: "PassthroughSettings" }) as any as S.Schema<PassthroughSettings>;
+export type ProresChromaSampling = "PRESERVE_444_SAMPLING" | "SUBSAMPLE_TO_422" | (string & {});
 export const ProresChromaSampling = S.String;
 
 export type ProresCodecProfile =
@@ -7176,10 +6437,7 @@ export type ProresCodecProfile =
   | (string & {});
 export const ProresCodecProfile = S.String;
 
-export type ProresFramerateControl =
-  | "INITIALIZE_FROM_SOURCE"
-  | "SPECIFIED"
-  | (string & {});
+export type ProresFramerateControl = "INITIALIZE_FROM_SOURCE" | "SPECIFIED" | (string & {});
 export const ProresFramerateControl = S.String;
 
 export type ProresFramerateConversionAlgorithm =
@@ -7199,16 +6457,10 @@ export type ProresInterlaceMode =
   | (string & {});
 export const ProresInterlaceMode = S.String;
 
-export type ProresParControl =
-  | "INITIALIZE_FROM_SOURCE"
-  | "SPECIFIED"
-  | (string & {});
+export type ProresParControl = "INITIALIZE_FROM_SOURCE" | "SPECIFIED" | (string & {});
 export const ProresParControl = S.String;
 
-export type ProresScanTypeConversionMode =
-  | "INTERLACED"
-  | "INTERLACED_OPTIMIZE"
-  | (string & {});
+export type ProresScanTypeConversionMode = "INTERLACED" | "INTERLACED_OPTIMIZE" | (string & {});
 export const ProresScanTypeConversionMode = S.String;
 
 export type ProresSlowPal = "DISABLED" | "ENABLED" | (string & {});
@@ -7238,9 +6490,7 @@ export const ProresSettings = /*@__PURE__*/ S.suspend(() =>
     ChromaSampling: S.optional(ProresChromaSampling),
     CodecProfile: S.optional(ProresCodecProfile),
     FramerateControl: S.optional(ProresFramerateControl),
-    FramerateConversionAlgorithm: S.optional(
-      ProresFramerateConversionAlgorithm,
-    ),
+    FramerateConversionAlgorithm: S.optional(ProresFramerateConversionAlgorithm),
     FramerateDenominator: S.optional(S.Number),
     FramerateNumerator: S.optional(S.Number),
     InterlaceMode: S.optional(ProresInterlaceMode),
@@ -7273,10 +6523,7 @@ export const ProresSettings = /*@__PURE__*/ S.suspend(() =>
 export type UncompressedFourcc = "I420" | "I422" | "I444" | (string & {});
 export const UncompressedFourcc = S.String;
 
-export type UncompressedFramerateControl =
-  | "INITIALIZE_FROM_SOURCE"
-  | "SPECIFIED"
-  | (string & {});
+export type UncompressedFramerateControl = "INITIALIZE_FROM_SOURCE" | "SPECIFIED" | (string & {});
 export const UncompressedFramerateControl = S.String;
 
 export type UncompressedFramerateConversionAlgorithm =
@@ -7287,10 +6534,7 @@ export type UncompressedFramerateConversionAlgorithm =
   | (string & {});
 export const UncompressedFramerateConversionAlgorithm = S.String;
 
-export type UncompressedInterlaceMode =
-  | "INTERLACED"
-  | "PROGRESSIVE"
-  | (string & {});
+export type UncompressedInterlaceMode = "INTERLACED" | "PROGRESSIVE" | (string & {});
 export const UncompressedInterlaceMode = S.String;
 
 export type UncompressedScanTypeConversionMode =
@@ -7320,9 +6564,7 @@ export const UncompressedSettings = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     Fourcc: S.optional(UncompressedFourcc),
     FramerateControl: S.optional(UncompressedFramerateControl),
-    FramerateConversionAlgorithm: S.optional(
-      UncompressedFramerateConversionAlgorithm,
-    ),
+    FramerateConversionAlgorithm: S.optional(UncompressedFramerateConversionAlgorithm),
     FramerateDenominator: S.optional(S.Number),
     FramerateNumerator: S.optional(S.Number),
     InterlaceMode: S.optional(UncompressedInterlaceMode),
@@ -7342,13 +6584,8 @@ export const UncompressedSettings = /*@__PURE__*/ S.suspend(() =>
       Telecine: "telecine",
     }),
   ),
-).annotate({
-  identifier: "UncompressedSettings",
-}) as any as S.Schema<UncompressedSettings>;
-export type Vc3FramerateControl =
-  | "INITIALIZE_FROM_SOURCE"
-  | "SPECIFIED"
-  | (string & {});
+).annotate({ identifier: "UncompressedSettings" }) as any as S.Schema<UncompressedSettings>;
+export type Vc3FramerateControl = "INITIALIZE_FROM_SOURCE" | "SPECIFIED" | (string & {});
 export const Vc3FramerateControl = S.String;
 
 export type Vc3FramerateConversionAlgorithm =
@@ -7362,10 +6599,7 @@ export const Vc3FramerateConversionAlgorithm = S.String;
 export type Vc3InterlaceMode = "INTERLACED" | "PROGRESSIVE" | (string & {});
 export const Vc3InterlaceMode = S.String;
 
-export type Vc3ScanTypeConversionMode =
-  | "INTERLACED"
-  | "INTERLACED_OPTIMIZE"
-  | (string & {});
+export type Vc3ScanTypeConversionMode = "INTERLACED" | "INTERLACED_OPTIMIZE" | (string & {});
 export const Vc3ScanTypeConversionMode = S.String;
 
 export type Vc3SlowPal = "DISABLED" | "ENABLED" | (string & {});
@@ -7374,11 +6608,7 @@ export const Vc3SlowPal = S.String;
 export type Vc3Telecine = "NONE" | "HARD" | (string & {});
 export const Vc3Telecine = S.String;
 
-export type Vc3Class =
-  | "CLASS_145_8BIT"
-  | "CLASS_220_8BIT"
-  | "CLASS_220_10BIT"
-  | (string & {});
+export type Vc3Class = "CLASS_145_8BIT" | "CLASS_220_8BIT" | "CLASS_220_10BIT" | (string & {});
 export const Vc3Class = S.String;
 
 export interface Vc3Settings {
@@ -7417,10 +6647,7 @@ export const Vc3Settings = /*@__PURE__*/ S.suspend(() =>
     }),
   ),
 ).annotate({ identifier: "Vc3Settings" }) as any as S.Schema<Vc3Settings>;
-export type Vp8FramerateControl =
-  | "INITIALIZE_FROM_SOURCE"
-  | "SPECIFIED"
-  | (string & {});
+export type Vp8FramerateControl = "INITIALIZE_FROM_SOURCE" | "SPECIFIED" | (string & {});
 export const Vp8FramerateControl = S.String;
 
 export type Vp8FramerateConversionAlgorithm =
@@ -7431,16 +6658,10 @@ export type Vp8FramerateConversionAlgorithm =
   | (string & {});
 export const Vp8FramerateConversionAlgorithm = S.String;
 
-export type Vp8ParControl =
-  | "INITIALIZE_FROM_SOURCE"
-  | "SPECIFIED"
-  | (string & {});
+export type Vp8ParControl = "INITIALIZE_FROM_SOURCE" | "SPECIFIED" | (string & {});
 export const Vp8ParControl = S.String;
 
-export type Vp8QualityTuningLevel =
-  | "MULTI_PASS"
-  | "MULTI_PASS_HQ"
-  | (string & {});
+export type Vp8QualityTuningLevel = "MULTI_PASS" | "MULTI_PASS_HQ" | (string & {});
 export const Vp8QualityTuningLevel = S.String;
 
 export type Vp8RateControlMode = "VBR" | (string & {});
@@ -7495,10 +6716,7 @@ export const Vp8Settings = /*@__PURE__*/ S.suspend(() =>
   ),
 ).annotate({ identifier: "Vp8Settings" }) as any as S.Schema<Vp8Settings>;
 export type __integerMin1000Max480000000 = number;
-export type Vp9FramerateControl =
-  | "INITIALIZE_FROM_SOURCE"
-  | "SPECIFIED"
-  | (string & {});
+export type Vp9FramerateControl = "INITIALIZE_FROM_SOURCE" | "SPECIFIED" | (string & {});
 export const Vp9FramerateControl = S.String;
 
 export type Vp9FramerateConversionAlgorithm =
@@ -7509,16 +6727,10 @@ export type Vp9FramerateConversionAlgorithm =
   | (string & {});
 export const Vp9FramerateConversionAlgorithm = S.String;
 
-export type Vp9ParControl =
-  | "INITIALIZE_FROM_SOURCE"
-  | "SPECIFIED"
-  | (string & {});
+export type Vp9ParControl = "INITIALIZE_FROM_SOURCE" | "SPECIFIED" | (string & {});
 export const Vp9ParControl = S.String;
 
-export type Vp9QualityTuningLevel =
-  | "MULTI_PASS"
-  | "MULTI_PASS_HQ"
-  | (string & {});
+export type Vp9QualityTuningLevel = "MULTI_PASS" | "MULTI_PASS_HQ" | (string & {});
 export const Vp9QualityTuningLevel = S.String;
 
 export type Vp9RateControlMode = "VBR" | (string & {});
@@ -7586,10 +6798,7 @@ export const XavcAdaptiveQuantization = S.String;
 export type XavcEntropyEncoding = "AUTO" | "CABAC" | "CAVLC" | (string & {});
 export const XavcEntropyEncoding = S.String;
 
-export type XavcFramerateControl =
-  | "INITIALIZE_FROM_SOURCE"
-  | "SPECIFIED"
-  | (string & {});
+export type XavcFramerateControl = "INITIALIZE_FROM_SOURCE" | "SPECIFIED" | (string & {});
 export const XavcFramerateControl = S.String;
 
 export type XavcFramerateConversionAlgorithm =
@@ -7612,23 +6821,13 @@ export const XavcProfile = S.String;
 export type XavcSlowPal = "DISABLED" | "ENABLED" | (string & {});
 export const XavcSlowPal = S.String;
 
-export type XavcSpatialAdaptiveQuantization =
-  | "DISABLED"
-  | "ENABLED"
-  | (string & {});
+export type XavcSpatialAdaptiveQuantization = "DISABLED" | "ENABLED" | (string & {});
 export const XavcSpatialAdaptiveQuantization = S.String;
 
-export type XavcTemporalAdaptiveQuantization =
-  | "DISABLED"
-  | "ENABLED"
-  | (string & {});
+export type XavcTemporalAdaptiveQuantization = "DISABLED" | "ENABLED" | (string & {});
 export const XavcTemporalAdaptiveQuantization = S.String;
 
-export type Xavc4kIntraCbgProfileClass =
-  | "CLASS_100"
-  | "CLASS_300"
-  | "CLASS_480"
-  | (string & {});
+export type Xavc4kIntraCbgProfileClass = "CLASS_100" | "CLASS_300" | "CLASS_480" | (string & {});
 export const Xavc4kIntraCbgProfileClass = S.String;
 
 export interface Xavc4kIntraCbgProfileSettings {
@@ -7641,11 +6840,7 @@ export const Xavc4kIntraCbgProfileSettings = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "Xavc4kIntraCbgProfileSettings",
 }) as any as S.Schema<Xavc4kIntraCbgProfileSettings>;
-export type Xavc4kIntraVbrProfileClass =
-  | "CLASS_100"
-  | "CLASS_300"
-  | "CLASS_480"
-  | (string & {});
+export type Xavc4kIntraVbrProfileClass = "CLASS_100" | "CLASS_300" | "CLASS_480" | (string & {});
 export const Xavc4kIntraVbrProfileClass = S.String;
 
 export interface Xavc4kIntraVbrProfileSettings {
@@ -7668,10 +6863,7 @@ export const Xavc4kProfileBitrateClass = S.String;
 export type Xavc4kProfileCodecProfile = "HIGH" | "HIGH_422" | (string & {});
 export const Xavc4kProfileCodecProfile = S.String;
 
-export type XavcFlickerAdaptiveQuantization =
-  | "DISABLED"
-  | "ENABLED"
-  | (string & {});
+export type XavcFlickerAdaptiveQuantization = "DISABLED" | "ENABLED" | (string & {});
 export const XavcFlickerAdaptiveQuantization = S.String;
 
 export type XavcGopBReference = "DISABLED" | "ENABLED" | (string & {});
@@ -7717,23 +6909,28 @@ export const Xavc4kProfileSettings = /*@__PURE__*/ S.suspend(() =>
       Slices: "slices",
     }),
   ),
-).annotate({
-  identifier: "Xavc4kProfileSettings",
-}) as any as S.Schema<Xavc4kProfileSettings>;
-export type XavcHdIntraCbgProfileClass =
-  | "CLASS_50"
-  | "CLASS_100"
-  | "CLASS_200"
+).annotate({ identifier: "Xavc4kProfileSettings" }) as any as S.Schema<Xavc4kProfileSettings>;
+export type XavcInterlaceMode =
+  | "PROGRESSIVE"
+  | "TOP_FIELD"
+  | "BOTTOM_FIELD"
+  | "FOLLOW_TOP_FIELD"
+  | "FOLLOW_BOTTOM_FIELD"
   | (string & {});
+export const XavcInterlaceMode = S.String;
+
+export type XavcHdIntraCbgProfileClass = "CLASS_50" | "CLASS_100" | "CLASS_200" | (string & {});
 export const XavcHdIntraCbgProfileClass = S.String;
 
 export interface XavcHdIntraCbgProfileSettings {
+  InterlaceMode?: XavcInterlaceMode;
   XavcClass?: XavcHdIntraCbgProfileClass;
 }
 export const XavcHdIntraCbgProfileSettings = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ XavcClass: S.optional(XavcHdIntraCbgProfileClass) }).pipe(
-    S.encodeKeys({ XavcClass: "xavcClass" }),
-  ),
+  S.Struct({
+    InterlaceMode: S.optional(XavcInterlaceMode),
+    XavcClass: S.optional(XavcHdIntraCbgProfileClass),
+  }).pipe(S.encodeKeys({ InterlaceMode: "interlaceMode", XavcClass: "xavcClass" })),
 ).annotate({
   identifier: "XavcHdIntraCbgProfileSettings",
 }) as any as S.Schema<XavcHdIntraCbgProfileSettings>;
@@ -7743,15 +6940,6 @@ export type XavcHdProfileBitrateClass =
   | "BITRATE_CLASS_50"
   | (string & {});
 export const XavcHdProfileBitrateClass = S.String;
-
-export type XavcInterlaceMode =
-  | "PROGRESSIVE"
-  | "TOP_FIELD"
-  | "BOTTOM_FIELD"
-  | "FOLLOW_TOP_FIELD"
-  | "FOLLOW_BOTTOM_FIELD"
-  | (string & {});
-export const XavcInterlaceMode = S.String;
 
 export type XavcHdProfileQualityTuningLevel =
   | "SINGLE_PASS"
@@ -7799,9 +6987,7 @@ export const XavcHdProfileSettings = /*@__PURE__*/ S.suspend(() =>
       Telecine: "telecine",
     }),
   ),
-).annotate({
-  identifier: "XavcHdProfileSettings",
-}) as any as S.Schema<XavcHdProfileSettings>;
+).annotate({ identifier: "XavcHdProfileSettings" }) as any as S.Schema<XavcHdProfileSettings>;
 export interface XavcSettings {
   AdaptiveQuantization?: XavcAdaptiveQuantization;
   EntropyEncoding?: XavcEntropyEncoding;
@@ -7915,9 +7101,7 @@ export const VideoCodecSettings = /*@__PURE__*/ S.suspend(() =>
       XavcSettings: "xavcSettings",
     }),
   ),
-).annotate({
-  identifier: "VideoCodecSettings",
-}) as any as S.Schema<VideoCodecSettings>;
+).annotate({ identifier: "VideoCodecSettings" }) as any as S.Schema<VideoCodecSettings>;
 export type ColorMetadata = "IGNORE" | "INSERT" | (string & {});
 export const ColorMetadata = S.String;
 
@@ -7937,10 +7121,7 @@ export type ScalingBehavior =
   | (string & {});
 export const ScalingBehavior = S.String;
 
-export type VideoTimecodeInsertion =
-  | "DISABLED"
-  | "PIC_TIMING_SEI"
-  | (string & {});
+export type VideoTimecodeInsertion = "DISABLED" | "PIC_TIMING_SEI" | (string & {});
 export const VideoTimecodeInsertion = S.String;
 
 export type TimecodeTrack = "DISABLED" | "ENABLED" | (string & {});
@@ -8047,11 +7228,7 @@ export const DeinterlaceAlgorithm = S.String;
 export type DeinterlacerControl = "FORCE_ALL_FRAMES" | "NORMAL" | (string & {});
 export const DeinterlacerControl = S.String;
 
-export type DeinterlacerMode =
-  | "DEINTERLACE"
-  | "INVERSE_TELECINE"
-  | "ADAPTIVE"
-  | (string & {});
+export type DeinterlacerMode = "DEINTERLACE" | "INVERSE_TELECINE" | "ADAPTIVE" | (string & {});
 export const DeinterlacerMode = S.String;
 
 export interface Deinterlacer {
@@ -8064,14 +7241,9 @@ export const Deinterlacer = /*@__PURE__*/ S.suspend(() =>
     Algorithm: S.optional(DeinterlaceAlgorithm),
     Control: S.optional(DeinterlacerControl),
     Mode: S.optional(DeinterlacerMode),
-  }).pipe(
-    S.encodeKeys({ Algorithm: "algorithm", Control: "control", Mode: "mode" }),
-  ),
+  }).pipe(S.encodeKeys({ Algorithm: "algorithm", Control: "control", Mode: "mode" })),
 ).annotate({ identifier: "Deinterlacer" }) as any as S.Schema<Deinterlacer>;
-export type DolbyVisionCompatibility =
-  | "DUPLICATE_STREAM"
-  | "SUPPLEMENTAL_CODECS"
-  | (string & {});
+export type DolbyVisionCompatibility = "DUPLICATE_STREAM" | "SUPPLEMENTAL_CODECS" | (string & {});
 export const DolbyVisionCompatibility = S.String;
 
 export interface DolbyVisionLevel6Metadata {
@@ -8079,18 +7251,13 @@ export interface DolbyVisionLevel6Metadata {
   MaxFall?: number;
 }
 export const DolbyVisionLevel6Metadata = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaxCll: S.optional(S.Number),
-    MaxFall: S.optional(S.Number),
-  }).pipe(S.encodeKeys({ MaxCll: "maxCll", MaxFall: "maxFall" })),
+  S.Struct({ MaxCll: S.optional(S.Number), MaxFall: S.optional(S.Number) }).pipe(
+    S.encodeKeys({ MaxCll: "maxCll", MaxFall: "maxFall" }),
+  ),
 ).annotate({
   identifier: "DolbyVisionLevel6Metadata",
 }) as any as S.Schema<DolbyVisionLevel6Metadata>;
-export type DolbyVisionLevel6Mode =
-  | "PASSTHROUGH"
-  | "RECALCULATE"
-  | "SPECIFY"
-  | (string & {});
+export type DolbyVisionLevel6Mode = "PASSTHROUGH" | "RECALCULATE" | "SPECIFY" | (string & {});
 export const DolbyVisionLevel6Mode = S.String;
 
 export type DolbyVisionMapping = "HDR10_NOMAP" | "HDR10_1000" | (string & {});
@@ -8135,17 +7302,12 @@ export const DurationControl = /*@__PURE__*/ S.suspend(() =>
     IntegerDurationTrimThresholdMilliseconds: S.optional(S.Number),
   }).pipe(
     S.encodeKeys({
-      IntegerDurationMaximumCompressionDenominator:
-        "integerDurationMaximumCompressionDenominator",
-      IntegerDurationMaximumCompressionNumerator:
-        "integerDurationMaximumCompressionNumerator",
-      IntegerDurationTrimThresholdMilliseconds:
-        "integerDurationTrimThresholdMilliseconds",
+      IntegerDurationMaximumCompressionDenominator: "integerDurationMaximumCompressionDenominator",
+      IntegerDurationMaximumCompressionNumerator: "integerDurationMaximumCompressionNumerator",
+      IntegerDurationTrimThresholdMilliseconds: "integerDurationTrimThresholdMilliseconds",
     }),
   ),
-).annotate({
-  identifier: "DurationControl",
-}) as any as S.Schema<DurationControl>;
+).annotate({ identifier: "DurationControl" }) as any as S.Schema<DurationControl>;
 export type __integerMin0Max4000 = number;
 export interface Hdr10Plus {
   MasteringMonitorNits?: number;
@@ -8179,9 +7341,7 @@ export interface NoiseReducerFilterSettings {
   Strength?: number;
 }
 export const NoiseReducerFilterSettings = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Strength: S.optional(S.Number) }).pipe(
-    S.encodeKeys({ Strength: "strength" }),
-  ),
+  S.Struct({ Strength: S.optional(S.Number) }).pipe(S.encodeKeys({ Strength: "strength" })),
 ).annotate({
   identifier: "NoiseReducerFilterSettings",
 }) as any as S.Schema<NoiseReducerFilterSettings>;
@@ -8208,18 +7368,10 @@ export const NoiseReducerSpatialFilterSettings = /*@__PURE__*/ S.suspend(() =>
   identifier: "NoiseReducerSpatialFilterSettings",
 }) as any as S.Schema<NoiseReducerSpatialFilterSettings>;
 export type __integerMin0Max4 = number;
-export type NoiseFilterPostTemporalSharpening =
-  | "DISABLED"
-  | "ENABLED"
-  | "AUTO"
-  | (string & {});
+export type NoiseFilterPostTemporalSharpening = "DISABLED" | "ENABLED" | "AUTO" | (string & {});
 export const NoiseFilterPostTemporalSharpening = S.String;
 
-export type NoiseFilterPostTemporalSharpeningStrength =
-  | "LOW"
-  | "MEDIUM"
-  | "HIGH"
-  | (string & {});
+export type NoiseFilterPostTemporalSharpeningStrength = "LOW" | "MEDIUM" | "HIGH" | (string & {});
 export const NoiseFilterPostTemporalSharpeningStrength = S.String;
 
 export type __integerMinNegative1Max3 = number;
@@ -8234,9 +7386,7 @@ export const NoiseReducerTemporalFilterSettings = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     AggressiveMode: S.optional(S.Number),
     PostTemporalSharpening: S.optional(NoiseFilterPostTemporalSharpening),
-    PostTemporalSharpeningStrength: S.optional(
-      NoiseFilterPostTemporalSharpeningStrength,
-    ),
+    PostTemporalSharpeningStrength: S.optional(NoiseFilterPostTemporalSharpeningStrength),
     Speed: S.optional(S.Number),
     Strength: S.optional(S.Number),
   }).pipe(
@@ -8310,14 +7460,10 @@ export interface PartnerWatermarking {
   NexguardFileMarkerSettings?: NexGuardFileMarkerSettings;
 }
 export const PartnerWatermarking = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NexguardFileMarkerSettings: S.optional(NexGuardFileMarkerSettings),
-  }).pipe(
+  S.Struct({ NexguardFileMarkerSettings: S.optional(NexGuardFileMarkerSettings) }).pipe(
     S.encodeKeys({ NexguardFileMarkerSettings: "nexguardFileMarkerSettings" }),
   ),
-).annotate({
-  identifier: "PartnerWatermarking",
-}) as any as S.Schema<PartnerWatermarking>;
+).annotate({ identifier: "PartnerWatermarking" }) as any as S.Schema<PartnerWatermarking>;
 export type __integerMin10Max48 = number;
 export type TimecodeBurninPosition =
   | "TOP_CENTER"
@@ -8343,13 +7489,7 @@ export const TimecodeBurnin = /*@__PURE__*/ S.suspend(() =>
     FontSize: S.optional(S.Number),
     Position: S.optional(TimecodeBurninPosition),
     Prefix: S.optional(S.String),
-  }).pipe(
-    S.encodeKeys({
-      FontSize: "fontSize",
-      Position: "position",
-      Prefix: "prefix",
-    }),
-  ),
+  }).pipe(S.encodeKeys({ FontSize: "fontSize", Position: "position", Prefix: "prefix" })),
 ).annotate({ identifier: "TimecodeBurnin" }) as any as S.Schema<TimecodeBurnin>;
 export interface VideoPreprocessor {
   ColorCorrector?: ColorCorrector;
@@ -8386,9 +7526,7 @@ export const VideoPreprocessor = /*@__PURE__*/ S.suspend(() =>
       TimecodeBurnin: "timecodeBurnin",
     }),
   ),
-).annotate({
-  identifier: "VideoPreprocessor",
-}) as any as S.Schema<VideoPreprocessor>;
+).annotate({ identifier: "VideoPreprocessor" }) as any as S.Schema<VideoPreprocessor>;
 export interface VideoDescription {
   AfdSignaling?: AfdSignaling;
   AntiAlias?: AntiAlias;
@@ -8448,9 +7586,7 @@ export const VideoDescription = /*@__PURE__*/ S.suspend(() =>
       Width: "width",
     }),
   ),
-).annotate({
-  identifier: "VideoDescription",
-}) as any as S.Schema<VideoDescription>;
+).annotate({ identifier: "VideoDescription" }) as any as S.Schema<VideoDescription>;
 export interface Output {
   AudioDescriptions?: AudioDescription[];
   CaptionDescriptions?: CaptionDescription[];
@@ -8512,11 +7648,7 @@ export const OutputGroup = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "OutputGroup" }) as any as S.Schema<OutputGroup>;
 export type __listOfOutputGroup = OutputGroup[];
 export const __listOfOutputGroup = /*@__PURE__*/ S.Array(OutputGroup);
-export type TimecodeSource =
-  | "EMBEDDED"
-  | "ZEROBASED"
-  | "SPECIFIEDSTART"
-  | (string & {});
+export type TimecodeSource = "EMBEDDED" | "ZEROBASED" | "SPECIFIEDSTART" | (string & {});
 export const TimecodeSource = S.String;
 
 export type __stringPattern0940191020191209301 = string;
@@ -8559,9 +7691,7 @@ export const TimedMetadataInsertion = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Id3Insertions: S.optional(__listOfId3Insertion) }).pipe(
     S.encodeKeys({ Id3Insertions: "id3Insertions" }),
   ),
-).annotate({
-  identifier: "TimedMetadataInsertion",
-}) as any as S.Schema<TimedMetadataInsertion>;
+).annotate({ identifier: "TimedMetadataInsertion" }) as any as S.Schema<TimedMetadataInsertion>;
 export interface JobSettings {
   AdAvailOffset?: number;
   AvailBlanking?: AvailBlanking;
@@ -8572,6 +7702,7 @@ export interface JobSettings {
   Inputs?: Input[];
   KantarWatermark?: KantarWatermarkSettings;
   MotionImageInserter?: MotionImageInserter;
+  MotionImageInserters?: MotionImageInserter[];
   NielsenConfiguration?: NielsenConfiguration;
   NielsenNonLinearWatermark?: NielsenNonLinearWatermarkSettings;
   OutputGroups?: OutputGroup[];
@@ -8582,15 +7713,14 @@ export const JobSettings = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     AdAvailOffset: S.optional(S.Number),
     AvailBlanking: S.optional(AvailBlanking),
-    ColorConversion3DLUTSettings: S.optional(
-      __listOfColorConversion3DLUTSetting,
-    ),
+    ColorConversion3DLUTSettings: S.optional(__listOfColorConversion3DLUTSetting),
     Esam: S.optional(EsamSettings),
     ExtendedDataServices: S.optional(ExtendedDataServices),
     FollowSource: S.optional(S.Number),
     Inputs: S.optional(__listOfInput),
     KantarWatermark: S.optional(KantarWatermarkSettings),
     MotionImageInserter: S.optional(MotionImageInserter),
+    MotionImageInserters: S.optional(__listOfMotionImageInserter),
     NielsenConfiguration: S.optional(NielsenConfiguration),
     NielsenNonLinearWatermark: S.optional(NielsenNonLinearWatermarkSettings),
     OutputGroups: S.optional(__listOfOutputGroup),
@@ -8607,6 +7737,7 @@ export const JobSettings = /*@__PURE__*/ S.suspend(() =>
       Inputs: "inputs",
       KantarWatermark: "kantarWatermark",
       MotionImageInserter: "motionImageInserter",
+      MotionImageInserters: "motionImageInserters",
       NielsenConfiguration: "nielsenConfiguration",
       NielsenNonLinearWatermark: "nielsenNonLinearWatermark",
       OutputGroups: "outputGroups",
@@ -8638,10 +7769,7 @@ export type StatusUpdateInterval =
 export const StatusUpdateInterval = S.String;
 
 export type __mapOf__string = { [key: string]: string | undefined };
-export const __mapOf__string = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const __mapOf__string = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface CreateJobRequest {
   AccelerationSettings?: AccelerationSettings;
   BillingTagsSource?: BillingTagsSource;
@@ -8693,19 +7821,8 @@ export const CreateJobRequest = /*@__PURE__*/ S.suspend(() =>
         UserMetadata: "userMetadata",
       }),
     )
-    .pipe(
-      T.all(
-        T.Http({ method: "POST", uri: "/2017-08-29/jobs" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "CreateJobRequest",
-}) as any as S.Schema<CreateJobRequest>;
+    .pipe(T.all(T.Http({ method: "POST", uri: "/2017-08-29/jobs" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "CreateJobRequest" }) as any as S.Schema<CreateJobRequest>;
 export type AccelerationStatus =
   | "NOT_APPLICABLE"
   | "IN_PROGRESS"
@@ -8722,9 +7839,7 @@ export type ElementalInferenceFeature = "SMART_CROP" | (string & {});
 export const ElementalInferenceFeature = S.String;
 
 export type __listOfElementalInferenceFeature = ElementalInferenceFeature[];
-export const __listOfElementalInferenceFeature = /*@__PURE__*/ S.Array(
-  ElementalInferenceFeature,
-);
+export const __listOfElementalInferenceFeature = /*@__PURE__*/ S.Array(ElementalInferenceFeature);
 export type ElementalInferenceFeedManagementState =
   | "CREATED"
   | "ASSOCIATED"
@@ -8741,16 +7856,10 @@ export const ElementalInferenceFeed = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     Arn: S.optional(S.String),
     FeedManagementState: S.optional(ElementalInferenceFeedManagementState),
-  }).pipe(
-    S.encodeKeys({ Arn: "arn", FeedManagementState: "feedManagementState" }),
-  ),
-).annotate({
-  identifier: "ElementalInferenceFeed",
-}) as any as S.Schema<ElementalInferenceFeed>;
+  }).pipe(S.encodeKeys({ Arn: "arn", FeedManagementState: "feedManagementState" })),
+).annotate({ identifier: "ElementalInferenceFeed" }) as any as S.Schema<ElementalInferenceFeed>;
 export type __listOfElementalInferenceFeed = ElementalInferenceFeed[];
-export const __listOfElementalInferenceFeed = /*@__PURE__*/ S.Array(
-  ElementalInferenceFeed,
-);
+export const __listOfElementalInferenceFeed = /*@__PURE__*/ S.Array(ElementalInferenceFeed);
 export interface ElementalInferenceConfiguration {
   Features?: ElementalInferenceFeature[];
   Feeds?: ElementalInferenceFeed[];
@@ -8770,34 +7879,26 @@ export interface JobMessages {
   Warning?: string[];
 }
 export const JobMessages = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Info: S.optional(__listOf__string),
-    Warning: S.optional(__listOf__string),
-  }).pipe(S.encodeKeys({ Info: "info", Warning: "warning" })),
+  S.Struct({ Info: S.optional(__listOf__string), Warning: S.optional(__listOf__string) }).pipe(
+    S.encodeKeys({ Info: "info", Warning: "warning" }),
+  ),
 ).annotate({ identifier: "JobMessages" }) as any as S.Schema<JobMessages>;
 export interface VideoDetail {
   HeightInPx?: number;
   WidthInPx?: number;
 }
 export const VideoDetail = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    HeightInPx: S.optional(S.Number),
-    WidthInPx: S.optional(S.Number),
-  }).pipe(S.encodeKeys({ HeightInPx: "heightInPx", WidthInPx: "widthInPx" })),
+  S.Struct({ HeightInPx: S.optional(S.Number), WidthInPx: S.optional(S.Number) }).pipe(
+    S.encodeKeys({ HeightInPx: "heightInPx", WidthInPx: "widthInPx" }),
+  ),
 ).annotate({ identifier: "VideoDetail" }) as any as S.Schema<VideoDetail>;
 export interface OutputDetail {
   DurationInMs?: number;
   VideoDetails?: VideoDetail;
 }
 export const OutputDetail = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DurationInMs: S.optional(S.Number),
-    VideoDetails: S.optional(VideoDetail),
-  }).pipe(
-    S.encodeKeys({
-      DurationInMs: "durationInMs",
-      VideoDetails: "videoDetails",
-    }),
+  S.Struct({ DurationInMs: S.optional(S.Number), VideoDetails: S.optional(VideoDetail) }).pipe(
+    S.encodeKeys({ DurationInMs: "durationInMs", VideoDetails: "videoDetails" }),
   ),
 ).annotate({ identifier: "OutputDetail" }) as any as S.Schema<OutputDetail>;
 export type __listOfOutputDetail = OutputDetail[];
@@ -8809,12 +7910,9 @@ export const OutputGroupDetail = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ OutputDetails: S.optional(__listOfOutputDetail) }).pipe(
     S.encodeKeys({ OutputDetails: "outputDetails" }),
   ),
-).annotate({
-  identifier: "OutputGroupDetail",
-}) as any as S.Schema<OutputGroupDetail>;
+).annotate({ identifier: "OutputGroupDetail" }) as any as S.Schema<OutputGroupDetail>;
 export type __listOfOutputGroupDetail = OutputGroupDetail[];
-export const __listOfOutputGroupDetail =
-  /*@__PURE__*/ S.Array(OutputGroupDetail);
+export const __listOfOutputGroupDetail = /*@__PURE__*/ S.Array(OutputGroupDetail);
 export interface QueueTransition {
   DestinationQueue?: string;
   SourceQueue?: string;
@@ -8832,9 +7930,7 @@ export const QueueTransition = /*@__PURE__*/ S.suspend(() =>
       Timestamp: "timestamp",
     }),
   ),
-).annotate({
-  identifier: "QueueTransition",
-}) as any as S.Schema<QueueTransition>;
+).annotate({ identifier: "QueueTransition" }) as any as S.Schema<QueueTransition>;
 export type __listOfQueueTransition = QueueTransition[];
 export const __listOfQueueTransition = /*@__PURE__*/ S.Array(QueueTransition);
 export type ShareStatus = "NOT_SHARED" | "INITIATED" | "SHARED" | (string & {});
@@ -8860,11 +7956,7 @@ export const Timing = /*@__PURE__*/ S.suspend(() =>
     StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     SubmitTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }).pipe(
-    S.encodeKeys({
-      FinishTime: "finishTime",
-      StartTime: "startTime",
-      SubmitTime: "submitTime",
-    }),
+    S.encodeKeys({ FinishTime: "finishTime", StartTime: "startTime", SubmitTime: "submitTime" }),
   ),
 ).annotate({ identifier: "Timing" }) as any as S.Schema<Timing>;
 export interface WarningGroup {
@@ -8921,9 +8013,7 @@ export const Job = /*@__PURE__*/ S.suspend(() =>
     ClientRequestToken: S.optional(S.String),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     CurrentPhase: S.optional(JobPhase),
-    ElementalInferenceConfiguration: S.optional(
-      ElementalInferenceConfiguration,
-    ),
+    ElementalInferenceConfiguration: S.optional(ElementalInferenceConfiguration),
     ErrorCode: S.optional(S.Number),
     ErrorMessage: S.optional(S.String),
     HopDestinations: S.optional(__listOfHopDestination),
@@ -8995,9 +8085,7 @@ export interface CreateJobResponse {
 }
 export const CreateJobResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Job: S.optional(Job) }).pipe(S.encodeKeys({ Job: "job" })),
-).annotate({
-  identifier: "CreateJobResponse",
-}) as any as S.Schema<CreateJobResponse>;
+).annotate({ identifier: "CreateJobResponse" }) as any as S.Schema<CreateJobResponse>;
 export interface InputTemplate {
   AdvancedInputFilter?: AdvancedInputFilter;
   AdvancedInputFilterSettings?: AdvancedInputFilterSettings;
@@ -9088,6 +8176,7 @@ export interface JobTemplateSettings {
   Inputs?: InputTemplate[];
   KantarWatermark?: KantarWatermarkSettings;
   MotionImageInserter?: MotionImageInserter;
+  MotionImageInserters?: MotionImageInserter[];
   NielsenConfiguration?: NielsenConfiguration;
   NielsenNonLinearWatermark?: NielsenNonLinearWatermarkSettings;
   OutputGroups?: OutputGroup[];
@@ -9098,15 +8187,14 @@ export const JobTemplateSettings = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     AdAvailOffset: S.optional(S.Number),
     AvailBlanking: S.optional(AvailBlanking),
-    ColorConversion3DLUTSettings: S.optional(
-      __listOfColorConversion3DLUTSetting,
-    ),
+    ColorConversion3DLUTSettings: S.optional(__listOfColorConversion3DLUTSetting),
     Esam: S.optional(EsamSettings),
     ExtendedDataServices: S.optional(ExtendedDataServices),
     FollowSource: S.optional(S.Number),
     Inputs: S.optional(__listOfInputTemplate),
     KantarWatermark: S.optional(KantarWatermarkSettings),
     MotionImageInserter: S.optional(MotionImageInserter),
+    MotionImageInserters: S.optional(__listOfMotionImageInserter),
     NielsenConfiguration: S.optional(NielsenConfiguration),
     NielsenNonLinearWatermark: S.optional(NielsenNonLinearWatermarkSettings),
     OutputGroups: S.optional(__listOfOutputGroup),
@@ -9123,6 +8211,7 @@ export const JobTemplateSettings = /*@__PURE__*/ S.suspend(() =>
       Inputs: "inputs",
       KantarWatermark: "kantarWatermark",
       MotionImageInserter: "motionImageInserter",
+      MotionImageInserters: "motionImageInserters",
       NielsenConfiguration: "nielsenConfiguration",
       NielsenNonLinearWatermark: "nielsenNonLinearWatermark",
       OutputGroups: "outputGroups",
@@ -9130,9 +8219,7 @@ export const JobTemplateSettings = /*@__PURE__*/ S.suspend(() =>
       TimedMetadataInsertion: "timedMetadataInsertion",
     }),
   ),
-).annotate({
-  identifier: "JobTemplateSettings",
-}) as any as S.Schema<JobTemplateSettings>;
+).annotate({ identifier: "JobTemplateSettings" }) as any as S.Schema<JobTemplateSettings>;
 export interface CreateJobTemplateRequest {
   AccelerationSettings?: AccelerationSettings;
   Category?: string;
@@ -9182,9 +8269,7 @@ export const CreateJobTemplateRequest = /*@__PURE__*/ S.suspend(() =>
         rules,
       ),
     ),
-).annotate({
-  identifier: "CreateJobTemplateRequest",
-}) as any as S.Schema<CreateJobTemplateRequest>;
+).annotate({ identifier: "CreateJobTemplateRequest" }) as any as S.Schema<CreateJobTemplateRequest>;
 export type Type = "SYSTEM" | "CUSTOM" | (string & {});
 export const Type = S.String;
 
@@ -9270,13 +8355,9 @@ export const CaptionDescriptionPreset = /*@__PURE__*/ S.suspend(() =>
       LanguageDescription: "languageDescription",
     }),
   ),
-).annotate({
-  identifier: "CaptionDescriptionPreset",
-}) as any as S.Schema<CaptionDescriptionPreset>;
+).annotate({ identifier: "CaptionDescriptionPreset" }) as any as S.Schema<CaptionDescriptionPreset>;
 export type __listOfCaptionDescriptionPreset = CaptionDescriptionPreset[];
-export const __listOfCaptionDescriptionPreset = /*@__PURE__*/ S.Array(
-  CaptionDescriptionPreset,
-);
+export const __listOfCaptionDescriptionPreset = /*@__PURE__*/ S.Array(CaptionDescriptionPreset);
 export interface PresetSettings {
   AudioDescriptions?: AudioDescription[];
   CaptionDescriptions?: CaptionDescriptionPreset[];
@@ -9323,18 +8404,9 @@ export const CreatePresetRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(
-      T.all(
-        T.Http({ method: "POST", uri: "/2017-08-29/presets" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+      T.all(T.Http({ method: "POST", uri: "/2017-08-29/presets" }), svc, auth, proto, ver, rules),
     ),
-).annotate({
-  identifier: "CreatePresetRequest",
-}) as any as S.Schema<CreatePresetRequest>;
+).annotate({ identifier: "CreatePresetRequest" }) as any as S.Schema<CreatePresetRequest>;
 export interface Preset {
   Arn?: string;
   Category?: string;
@@ -9372,12 +8444,8 @@ export interface CreatePresetResponse {
   Preset?: Preset & { Name: string; Settings: PresetSettings };
 }
 export const CreatePresetResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Preset: S.optional(Preset) }).pipe(
-    S.encodeKeys({ Preset: "preset" }),
-  ),
-).annotate({
-  identifier: "CreatePresetResponse",
-}) as any as S.Schema<CreatePresetResponse>;
+  S.Struct({ Preset: S.optional(Preset) }).pipe(S.encodeKeys({ Preset: "preset" })),
+).annotate({ identifier: "CreatePresetResponse" }) as any as S.Schema<CreatePresetResponse>;
 export type __integerMin0 = number;
 export type PricingPlan = "ON_DEMAND" | "RESERVED" | (string & {});
 export const PricingPlan = S.String;
@@ -9405,9 +8473,7 @@ export const ReservationPlanSettings = /*@__PURE__*/ S.suspend(() =>
       ReservedSlots: "reservedSlots",
     }),
   ),
-).annotate({
-  identifier: "ReservationPlanSettings",
-}) as any as S.Schema<ReservationPlanSettings>;
+).annotate({ identifier: "ReservationPlanSettings" }) as any as S.Schema<ReservationPlanSettings>;
 export type QueueStatus = "ACTIVE" | "PAUSED" | (string & {});
 export const QueueStatus = S.String;
 
@@ -9445,18 +8511,9 @@ export const CreateQueueRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(
-      T.all(
-        T.Http({ method: "POST", uri: "/2017-08-29/queues" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+      T.all(T.Http({ method: "POST", uri: "/2017-08-29/queues" }), svc, auth, proto, ver, rules),
     ),
-).annotate({
-  identifier: "CreateQueueRequest",
-}) as any as S.Schema<CreateQueueRequest>;
+).annotate({ identifier: "CreateQueueRequest" }) as any as S.Schema<CreateQueueRequest>;
 export type ReservationPlanStatus = "ACTIVE" | "EXPIRED" | (string & {});
 export const ReservationPlanStatus = S.String;
 
@@ -9486,9 +8543,7 @@ export const ReservationPlan = /*@__PURE__*/ S.suspend(() =>
       Status: "status",
     }),
   ),
-).annotate({
-  identifier: "ReservationPlan",
-}) as any as S.Schema<ReservationPlan>;
+).annotate({ identifier: "ReservationPlan" }) as any as S.Schema<ReservationPlan>;
 export interface ServiceOverride {
   Message?: string;
   Name?: string;
@@ -9509,9 +8564,7 @@ export const ServiceOverride = /*@__PURE__*/ S.suspend(() =>
       Value: "value",
     }),
   ),
-).annotate({
-  identifier: "ServiceOverride",
-}) as any as S.Schema<ServiceOverride>;
+).annotate({ identifier: "ServiceOverride" }) as any as S.Schema<ServiceOverride>;
 export type __listOfServiceOverride = ServiceOverride[];
 export const __listOfServiceOverride = /*@__PURE__*/ S.Array(ServiceOverride);
 export interface Queue {
@@ -9570,9 +8623,7 @@ export interface CreateQueueResponse {
 }
 export const CreateQueueResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Queue: S.optional(Queue) }).pipe(S.encodeKeys({ Queue: "queue" })),
-).annotate({
-  identifier: "CreateQueueResponse",
-}) as any as S.Schema<CreateQueueResponse>;
+).annotate({ identifier: "CreateQueueResponse" }) as any as S.Schema<CreateQueueResponse>;
 export interface CreateResourceShareRequest {
   JobId?: string;
   SupportCaseId?: string;
@@ -9594,9 +8645,7 @@ export const CreateResourceShareRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateResourceShareRequest",
 }) as any as S.Schema<CreateResourceShareRequest>;
 export interface CreateResourceShareResponse {}
-export const CreateResourceShareResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const CreateResourceShareResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "CreateResourceShareResponse",
 }) as any as S.Schema<CreateResourceShareResponse>;
 export interface DeleteJobTemplateRequest {
@@ -9613,34 +8662,19 @@ export const DeleteJobTemplateRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteJobTemplateRequest",
-}) as any as S.Schema<DeleteJobTemplateRequest>;
+).annotate({ identifier: "DeleteJobTemplateRequest" }) as any as S.Schema<DeleteJobTemplateRequest>;
 export interface DeleteJobTemplateResponse {}
-export const DeleteJobTemplateResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteJobTemplateResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteJobTemplateResponse",
 }) as any as S.Schema<DeleteJobTemplateResponse>;
 export interface DeletePolicyRequest {}
 export const DeletePolicyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/2017-08-29/policy" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/2017-08-29/policy" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeletePolicyRequest",
-}) as any as S.Schema<DeletePolicyRequest>;
+).annotate({ identifier: "DeletePolicyRequest" }) as any as S.Schema<DeletePolicyRequest>;
 export interface DeletePolicyResponse {}
-export const DeletePolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeletePolicyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeletePolicyResponse",
 }) as any as S.Schema<DeletePolicyResponse>;
 export interface DeletePresetRequest {
@@ -9657,13 +8691,9 @@ export const DeletePresetRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeletePresetRequest",
-}) as any as S.Schema<DeletePresetRequest>;
+).annotate({ identifier: "DeletePresetRequest" }) as any as S.Schema<DeletePresetRequest>;
 export interface DeletePresetResponse {}
-export const DeletePresetResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeletePresetResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeletePresetResponse",
 }) as any as S.Schema<DeletePresetResponse>;
 export interface DeleteQueueRequest {
@@ -9680,13 +8710,9 @@ export const DeleteQueueRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteQueueRequest",
-}) as any as S.Schema<DeleteQueueRequest>;
+).annotate({ identifier: "DeleteQueueRequest" }) as any as S.Schema<DeleteQueueRequest>;
 export interface DeleteQueueResponse {}
-export const DeleteQueueResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteQueueResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteQueueResponse",
 }) as any as S.Schema<DeleteQueueResponse>;
 export type DescribeEndpointsMode = "DEFAULT" | "GET_ONLY" | (string & {});
@@ -9703,26 +8729,11 @@ export const DescribeEndpointsRequest = /*@__PURE__*/ S.suspend(() =>
     Mode: S.optional(DescribeEndpointsMode),
     NextToken: S.optional(S.String),
   })
+    .pipe(S.encodeKeys({ MaxResults: "maxResults", Mode: "mode", NextToken: "nextToken" }))
     .pipe(
-      S.encodeKeys({
-        MaxResults: "maxResults",
-        Mode: "mode",
-        NextToken: "nextToken",
-      }),
-    )
-    .pipe(
-      T.all(
-        T.Http({ method: "POST", uri: "/2017-08-29/endpoints" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+      T.all(T.Http({ method: "POST", uri: "/2017-08-29/endpoints" }), svc, auth, proto, ver, rules),
     ),
-).annotate({
-  identifier: "DescribeEndpointsRequest",
-}) as any as S.Schema<DescribeEndpointsRequest>;
+).annotate({ identifier: "DescribeEndpointsRequest" }) as any as S.Schema<DescribeEndpointsRequest>;
 export interface Endpoint {
   Url?: string;
 }
@@ -9736,10 +8747,9 @@ export interface DescribeEndpointsResponse {
   NextToken?: string;
 }
 export const DescribeEndpointsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Endpoints: S.optional(__listOfEndpoint),
-    NextToken: S.optional(S.String),
-  }).pipe(S.encodeKeys({ Endpoints: "endpoints", NextToken: "nextToken" })),
+  S.Struct({ Endpoints: S.optional(__listOfEndpoint), NextToken: S.optional(S.String) }).pipe(
+    S.encodeKeys({ Endpoints: "endpoints", NextToken: "nextToken" }),
+  ),
 ).annotate({
   identifier: "DescribeEndpointsResponse",
 }) as any as S.Schema<DescribeEndpointsResponse>;
@@ -9761,24 +8771,15 @@ export const DisassociateCertificateRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DisassociateCertificateRequest",
 }) as any as S.Schema<DisassociateCertificateRequest>;
 export interface DisassociateCertificateResponse {}
-export const DisassociateCertificateResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DisassociateCertificateResponse",
-}) as any as S.Schema<DisassociateCertificateResponse>;
+export const DisassociateCertificateResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
+  { identifier: "DisassociateCertificateResponse" },
+) as any as S.Schema<DisassociateCertificateResponse>;
 export interface GetJobRequest {
   Id: string;
 }
 export const GetJobRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Id: S.String.pipe(T.HttpLabel("Id")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/2017-08-29/jobs/{Id}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/2017-08-29/jobs/{Id}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({ identifier: "GetJobRequest" }) as any as S.Schema<GetJobRequest>;
 export interface GetJobResponse {
@@ -9811,12 +8812,7 @@ export const GetJobsQueryResultsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetJobsQueryResultsRequest>;
 export type __listOfJob = Job[];
 export const __listOfJob = /*@__PURE__*/ S.Array(Job);
-export type JobsQueryStatus =
-  | "SUBMITTED"
-  | "PROGRESSING"
-  | "COMPLETE"
-  | "ERROR"
-  | (string & {});
+export type JobsQueryStatus = "SUBMITTED" | "PROGRESSING" | "COMPLETE" | "ERROR" | (string & {});
 export const JobsQueryStatus = S.String;
 
 export interface GetJobsQueryResultsResponse {
@@ -9834,9 +8830,7 @@ export const GetJobsQueryResultsResponse = /*@__PURE__*/ S.suspend(() =>
     Jobs: S.optional(__listOfJob),
     NextToken: S.optional(S.String),
     Status: S.optional(JobsQueryStatus),
-  }).pipe(
-    S.encodeKeys({ Jobs: "jobs", NextToken: "nextToken", Status: "status" }),
-  ),
+  }).pipe(S.encodeKeys({ Jobs: "jobs", NextToken: "nextToken", Status: "status" })),
 ).annotate({
   identifier: "GetJobsQueryResultsResponse",
 }) as any as S.Schema<GetJobsQueryResultsResponse>;
@@ -9854,9 +8848,7 @@ export const GetJobTemplateRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetJobTemplateRequest",
-}) as any as S.Schema<GetJobTemplateRequest>;
+).annotate({ identifier: "GetJobTemplateRequest" }) as any as S.Schema<GetJobTemplateRequest>;
 export interface GetJobTemplateResponse {
   JobTemplate?: JobTemplate & {
     Name: string;
@@ -9868,24 +8860,13 @@ export const GetJobTemplateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ JobTemplate: S.optional(JobTemplate) }).pipe(
     S.encodeKeys({ JobTemplate: "jobTemplate" }),
   ),
-).annotate({
-  identifier: "GetJobTemplateResponse",
-}) as any as S.Schema<GetJobTemplateResponse>;
+).annotate({ identifier: "GetJobTemplateResponse" }) as any as S.Schema<GetJobTemplateResponse>;
 export interface GetPolicyRequest {}
 export const GetPolicyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/2017-08-29/policy" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/2017-08-29/policy" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetPolicyRequest",
-}) as any as S.Schema<GetPolicyRequest>;
+).annotate({ identifier: "GetPolicyRequest" }) as any as S.Schema<GetPolicyRequest>;
 export type InputPolicy = "ALLOWED" | "DISALLOWED" | (string & {});
 export const InputPolicy = S.String;
 
@@ -9900,23 +8881,15 @@ export const Policy = /*@__PURE__*/ S.suspend(() =>
     HttpsInputs: S.optional(InputPolicy),
     S3Inputs: S.optional(InputPolicy),
   }).pipe(
-    S.encodeKeys({
-      HttpInputs: "httpInputs",
-      HttpsInputs: "httpsInputs",
-      S3Inputs: "s3Inputs",
-    }),
+    S.encodeKeys({ HttpInputs: "httpInputs", HttpsInputs: "httpsInputs", S3Inputs: "s3Inputs" }),
   ),
 ).annotate({ identifier: "Policy" }) as any as S.Schema<Policy>;
 export interface GetPolicyResponse {
   Policy?: Policy;
 }
 export const GetPolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Policy: S.optional(Policy) }).pipe(
-    S.encodeKeys({ Policy: "policy" }),
-  ),
-).annotate({
-  identifier: "GetPolicyResponse",
-}) as any as S.Schema<GetPolicyResponse>;
+  S.Struct({ Policy: S.optional(Policy) }).pipe(S.encodeKeys({ Policy: "policy" })),
+).annotate({ identifier: "GetPolicyResponse" }) as any as S.Schema<GetPolicyResponse>;
 export interface GetPresetRequest {
   Name: string;
 }
@@ -9931,19 +8904,13 @@ export const GetPresetRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetPresetRequest",
-}) as any as S.Schema<GetPresetRequest>;
+).annotate({ identifier: "GetPresetRequest" }) as any as S.Schema<GetPresetRequest>;
 export interface GetPresetResponse {
   Preset?: Preset & { Name: string; Settings: PresetSettings };
 }
 export const GetPresetResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Preset: S.optional(Preset) }).pipe(
-    S.encodeKeys({ Preset: "preset" }),
-  ),
-).annotate({
-  identifier: "GetPresetResponse",
-}) as any as S.Schema<GetPresetResponse>;
+  S.Struct({ Preset: S.optional(Preset) }).pipe(S.encodeKeys({ Preset: "preset" })),
+).annotate({ identifier: "GetPresetResponse" }) as any as S.Schema<GetPresetResponse>;
 export interface GetQueueRequest {
   Name: string;
 }
@@ -9958,17 +8925,13 @@ export const GetQueueRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetQueueRequest",
-}) as any as S.Schema<GetQueueRequest>;
+).annotate({ identifier: "GetQueueRequest" }) as any as S.Schema<GetQueueRequest>;
 export interface GetQueueResponse {
   Queue?: Queue & { Name: string };
 }
 export const GetQueueResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Queue: S.optional(Queue) }).pipe(S.encodeKeys({ Queue: "queue" })),
-).annotate({
-  identifier: "GetQueueResponse",
-}) as any as S.Schema<GetQueueResponse>;
+).annotate({ identifier: "GetQueueResponse" }) as any as S.Schema<GetQueueResponse>;
 export type __integerMin1Max20 = number;
 export type Order = "ASCENDING" | "DESCENDING" | (string & {});
 export const Order = S.String;
@@ -9987,19 +8950,8 @@ export const ListJobsRequest = /*@__PURE__*/ S.suspend(() =>
     Order: S.optional(Order).pipe(T.HttpQuery("order")),
     Queue: S.optional(S.String).pipe(T.HttpQuery("queue")),
     Status: S.optional(JobStatus).pipe(T.HttpQuery("status")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/2017-08-29/jobs" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListJobsRequest",
-}) as any as S.Schema<ListJobsRequest>;
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/2017-08-29/jobs" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "ListJobsRequest" }) as any as S.Schema<ListJobsRequest>;
 export interface ListJobsResponse {
   Jobs?: (Job & {
     Role: string;
@@ -10010,18 +8962,11 @@ export interface ListJobsResponse {
   NextToken?: string;
 }
 export const ListJobsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Jobs: S.optional(__listOfJob),
-    NextToken: S.optional(S.String),
-  }).pipe(S.encodeKeys({ Jobs: "jobs", NextToken: "nextToken" })),
-).annotate({
-  identifier: "ListJobsResponse",
-}) as any as S.Schema<ListJobsResponse>;
-export type JobTemplateListBy =
-  | "NAME"
-  | "CREATION_DATE"
-  | "SYSTEM"
-  | (string & {});
+  S.Struct({ Jobs: S.optional(__listOfJob), NextToken: S.optional(S.String) }).pipe(
+    S.encodeKeys({ Jobs: "jobs", NextToken: "nextToken" }),
+  ),
+).annotate({ identifier: "ListJobsResponse" }) as any as S.Schema<ListJobsResponse>;
+export type JobTemplateListBy = "NAME" | "CREATION_DATE" | "SYSTEM" | (string & {});
 export const JobTemplateListBy = S.String;
 
 export interface ListJobTemplatesRequest {
@@ -10039,18 +8984,9 @@ export const ListJobTemplatesRequest = /*@__PURE__*/ S.suspend(() =>
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     Order: S.optional(Order).pipe(T.HttpQuery("order")),
   }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/2017-08-29/jobTemplates" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/2017-08-29/jobTemplates" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "ListJobTemplatesRequest",
-}) as any as S.Schema<ListJobTemplatesRequest>;
+).annotate({ identifier: "ListJobTemplatesRequest" }) as any as S.Schema<ListJobTemplatesRequest>;
 export type __listOfJobTemplate = JobTemplate[];
 export const __listOfJobTemplate = /*@__PURE__*/ S.Array(JobTemplate);
 export interface ListJobTemplatesResponse {
@@ -10062,15 +8998,10 @@ export interface ListJobTemplatesResponse {
   NextToken?: string;
 }
 export const ListJobTemplatesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    JobTemplates: S.optional(__listOfJobTemplate),
-    NextToken: S.optional(S.String),
-  }).pipe(
+  S.Struct({ JobTemplates: S.optional(__listOfJobTemplate), NextToken: S.optional(S.String) }).pipe(
     S.encodeKeys({ JobTemplates: "jobTemplates", NextToken: "nextToken" }),
   ),
-).annotate({
-  identifier: "ListJobTemplatesResponse",
-}) as any as S.Schema<ListJobTemplatesResponse>;
+).annotate({ identifier: "ListJobTemplatesResponse" }) as any as S.Schema<ListJobTemplatesResponse>;
 export type PresetListBy = "NAME" | "CREATION_DATE" | "SYSTEM" | (string & {});
 export const PresetListBy = S.String;
 
@@ -10089,18 +9020,9 @@ export const ListPresetsRequest = /*@__PURE__*/ S.suspend(() =>
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     Order: S.optional(Order).pipe(T.HttpQuery("order")),
   }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/2017-08-29/presets" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/2017-08-29/presets" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "ListPresetsRequest",
-}) as any as S.Schema<ListPresetsRequest>;
+).annotate({ identifier: "ListPresetsRequest" }) as any as S.Schema<ListPresetsRequest>;
 export type __listOfPreset = Preset[];
 export const __listOfPreset = /*@__PURE__*/ S.Array(Preset);
 export interface ListPresetsResponse {
@@ -10108,13 +9030,10 @@ export interface ListPresetsResponse {
   Presets?: (Preset & { Name: string; Settings: PresetSettings })[];
 }
 export const ListPresetsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    Presets: S.optional(__listOfPreset),
-  }).pipe(S.encodeKeys({ NextToken: "nextToken", Presets: "presets" })),
-).annotate({
-  identifier: "ListPresetsResponse",
-}) as any as S.Schema<ListPresetsResponse>;
+  S.Struct({ NextToken: S.optional(S.String), Presets: S.optional(__listOfPreset) }).pipe(
+    S.encodeKeys({ NextToken: "nextToken", Presets: "presets" }),
+  ),
+).annotate({ identifier: "ListPresetsResponse" }) as any as S.Schema<ListPresetsResponse>;
 export type QueueListBy = "NAME" | "CREATION_DATE" | (string & {});
 export const QueueListBy = S.String;
 
@@ -10131,18 +9050,9 @@ export const ListQueuesRequest = /*@__PURE__*/ S.suspend(() =>
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     Order: S.optional(Order).pipe(T.HttpQuery("order")),
   }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/2017-08-29/queues" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/2017-08-29/queues" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "ListQueuesRequest",
-}) as any as S.Schema<ListQueuesRequest>;
+).annotate({ identifier: "ListQueuesRequest" }) as any as S.Schema<ListQueuesRequest>;
 export type __listOfQueue = Queue[];
 export const __listOfQueue = /*@__PURE__*/ S.Array(Queue);
 export interface ListQueuesResponse {
@@ -10165,22 +9075,13 @@ export const ListQueuesResponse = /*@__PURE__*/ S.suspend(() =>
       UnallocatedConcurrentJobs: "unallocatedConcurrentJobs",
     }),
   ),
-).annotate({
-  identifier: "ListQueuesResponse",
-}) as any as S.Schema<ListQueuesResponse>;
+).annotate({ identifier: "ListQueuesResponse" }) as any as S.Schema<ListQueuesResponse>;
 export interface ListTagsForResourceRequest {
   Arn: string;
 }
 export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Arn: S.String.pipe(T.HttpLabel("Arn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/2017-08-29/tags/{Arn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/2017-08-29/tags/{Arn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListTagsForResourceRequest",
@@ -10190,10 +9091,9 @@ export interface ResourceTags {
   Tags?: { [key: string]: string | undefined };
 }
 export const ResourceTags = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Arn: S.optional(S.String),
-    Tags: S.optional(__mapOf__string),
-  }).pipe(S.encodeKeys({ Arn: "arn", Tags: "tags" })),
+  S.Struct({ Arn: S.optional(S.String), Tags: S.optional(__mapOf__string) }).pipe(
+    S.encodeKeys({ Arn: "arn", Tags: "tags" }),
+  ),
 ).annotate({ identifier: "ResourceTags" }) as any as S.Schema<ResourceTags>;
 export interface ListTagsForResourceResponse {
   ResourceTags?: ResourceTags;
@@ -10214,18 +9114,9 @@ export const ListVersionsRequest = /*@__PURE__*/ S.suspend(() =>
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/2017-08-29/versions" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/2017-08-29/versions" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "ListVersionsRequest",
-}) as any as S.Schema<ListVersionsRequest>;
+).annotate({ identifier: "ListVersionsRequest" }) as any as S.Schema<ListVersionsRequest>;
 export interface JobEngineVersion {
   ExpirationDate?: Date;
   Version?: string;
@@ -10234,12 +9125,8 @@ export const JobEngineVersion = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ExpirationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     Version: S.optional(S.String),
-  }).pipe(
-    S.encodeKeys({ ExpirationDate: "expirationDate", Version: "version" }),
-  ),
-).annotate({
-  identifier: "JobEngineVersion",
-}) as any as S.Schema<JobEngineVersion>;
+  }).pipe(S.encodeKeys({ ExpirationDate: "expirationDate", Version: "version" })),
+).annotate({ identifier: "JobEngineVersion" }) as any as S.Schema<JobEngineVersion>;
 export type __listOfJobEngineVersion = JobEngineVersion[];
 export const __listOfJobEngineVersion = /*@__PURE__*/ S.Array(JobEngineVersion);
 export interface ListVersionsResponse {
@@ -10251,16 +9138,12 @@ export const ListVersionsResponse = /*@__PURE__*/ S.suspend(() =>
     NextToken: S.optional(S.String),
     Versions: S.optional(__listOfJobEngineVersion),
   }).pipe(S.encodeKeys({ NextToken: "nextToken", Versions: "versions" })),
-).annotate({
-  identifier: "ListVersionsResponse",
-}) as any as S.Schema<ListVersionsResponse>;
+).annotate({ identifier: "ListVersionsResponse" }) as any as S.Schema<ListVersionsResponse>;
 export interface ProbeInputFile {
   FileUrl?: string;
 }
 export const ProbeInputFile = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ FileUrl: S.optional(S.String) }).pipe(
-    S.encodeKeys({ FileUrl: "fileUrl" }),
-  ),
+  S.Struct({ FileUrl: S.optional(S.String) }).pipe(S.encodeKeys({ FileUrl: "fileUrl" })),
 ).annotate({ identifier: "ProbeInputFile" }) as any as S.Schema<ProbeInputFile>;
 export type __listOfProbeInputFile = ProbeInputFile[];
 export const __listOfProbeInputFile = /*@__PURE__*/ S.Array(ProbeInputFile);
@@ -10271,14 +9154,7 @@ export const ProbeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ InputFiles: S.optional(__listOfProbeInputFile) })
     .pipe(S.encodeKeys({ InputFiles: "inputFiles" }))
     .pipe(
-      T.all(
-        T.Http({ method: "POST", uri: "/2017-08-29/probe" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+      T.all(T.Http({ method: "POST", uri: "/2017-08-29/probe" }), svc, auth, proto, ver, rules),
     ),
 ).annotate({ identifier: "ProbeRequest" }) as any as S.Schema<ProbeRequest>;
 export type Format =
@@ -10292,6 +9168,14 @@ export type Format =
   | "mpegts"
   | "mpegps"
   | "mp3"
+  | "flac"
+  | "asf"
+  | "ogg"
+  | "three_gp"
+  | "three_g2"
+  | "aac"
+  | "ac3"
+  | "eac3"
   | (string & {});
 export const Format = S.String;
 
@@ -10300,14 +9184,14 @@ export interface FrameRate {
   Numerator?: number;
 }
 export const FrameRate = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Denominator: S.optional(S.Number),
-    Numerator: S.optional(S.Number),
-  }).pipe(S.encodeKeys({ Denominator: "denominator", Numerator: "numerator" })),
+  S.Struct({ Denominator: S.optional(S.Number), Numerator: S.optional(S.Number) }).pipe(
+    S.encodeKeys({ Denominator: "denominator", Numerator: "numerator" }),
+  ),
 ).annotate({ identifier: "FrameRate" }) as any as S.Schema<FrameRate>;
 export interface AudioProperties {
   BitDepth?: number;
   BitRate?: number;
+  ChannelLayout?: string;
   Channels?: number;
   FrameRate?: FrameRate;
   LanguageCode?: string;
@@ -10318,6 +9202,7 @@ export const AudioProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     BitDepth: S.optional(S.Number),
     BitRate: S.optional(S.Number),
+    ChannelLayout: S.optional(S.String),
     Channels: S.optional(S.Number),
     FrameRate: S.optional(FrameRate),
     LanguageCode: S.optional(S.String),
@@ -10327,6 +9212,7 @@ export const AudioProperties = /*@__PURE__*/ S.suspend(() =>
     S.encodeKeys({
       BitDepth: "bitDepth",
       BitRate: "bitRate",
+      ChannelLayout: "channelLayout",
       Channels: "channels",
       FrameRate: "frameRate",
       LanguageCode: "languageCode",
@@ -10334,13 +9220,12 @@ export const AudioProperties = /*@__PURE__*/ S.suspend(() =>
       SampleRate: "sampleRate",
     }),
   ),
-).annotate({
-  identifier: "AudioProperties",
-}) as any as S.Schema<AudioProperties>;
+).annotate({ identifier: "AudioProperties" }) as any as S.Schema<AudioProperties>;
 export type Codec =
   | "UNKNOWN"
   | "AAC"
   | "AC3"
+  | "AMR"
   | "EAC3"
   | "FLAC"
   | "MP2"
@@ -10348,8 +9233,13 @@ export type Codec =
   | "OPUS"
   | "PCM"
   | "VORBIS"
+  | "WMA"
+  | "WMA2"
+  | "WMAPRO"
   | "AV1"
   | "AVC"
+  | "DV"
+  | "H263"
   | "HEVC"
   | "JPEG2000"
   | "MJPEG"
@@ -10360,6 +9250,8 @@ export type Codec =
   | "QTRLE"
   | "THEORA"
   | "UNCOMPRESSED"
+  | "VC1"
+  | "VC3"
   | "VFW"
   | "VP8"
   | "VP9"
@@ -10414,9 +9306,46 @@ export const ContentLightLevel = /*@__PURE__*/ S.suspend(() =>
       MaxFrameAverageLightLevel: "maxFrameAverageLightLevel",
     }),
   ),
-).annotate({
-  identifier: "ContentLightLevel",
-}) as any as S.Schema<ContentLightLevel>;
+).annotate({ identifier: "ContentLightLevel" }) as any as S.Schema<ContentLightLevel>;
+export interface AspectRatio {
+  Denominator?: number;
+  Numerator?: number;
+}
+export const AspectRatio = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ Denominator: S.optional(S.Number), Numerator: S.optional(S.Number) }).pipe(
+    S.encodeKeys({ Denominator: "denominator", Numerator: "numerator" }),
+  ),
+).annotate({ identifier: "AspectRatio" }) as any as S.Schema<AspectRatio>;
+export type DolbyVisionPresence = "PRESENT" | "ABSENT" | (string & {});
+export const DolbyVisionPresence = S.String;
+
+export interface DolbyVisionMetadata {
+  BaseLayer?: DolbyVisionPresence;
+  EnhancementLayer?: DolbyVisionPresence;
+  Level?: number;
+  Profile?: number;
+  Rpu?: DolbyVisionPresence;
+}
+export const DolbyVisionMetadata = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    BaseLayer: S.optional(DolbyVisionPresence),
+    EnhancementLayer: S.optional(DolbyVisionPresence),
+    Level: S.optional(S.Number),
+    Profile: S.optional(S.Number),
+    Rpu: S.optional(DolbyVisionPresence),
+  }).pipe(
+    S.encodeKeys({
+      BaseLayer: "baseLayer",
+      EnhancementLayer: "enhancementLayer",
+      Level: "level",
+      Profile: "profile",
+      Rpu: "rpu",
+    }),
+  ),
+).annotate({ identifier: "DolbyVisionMetadata" }) as any as S.Schema<DolbyVisionMetadata>;
+export type Hdr10PlusPresence = "PRESENT" | (string & {});
+export const Hdr10PlusPresence = S.String;
+
 export type MatrixCoefficients =
   | "RGB"
   | "ITU_709"
@@ -10468,12 +9397,16 @@ export interface CodecMetadata {
   CodedFrameRate?: FrameRate;
   ColorPrimaries?: ColorPrimaries;
   ContentLightLevel?: ContentLightLevel;
+  DisplayAspectRatio?: AspectRatio;
+  DolbyVision?: DolbyVisionMetadata;
   FieldOrder?: string;
+  Hdr10PlusPresence?: Hdr10PlusPresence;
   Height?: number;
   Level?: string;
   MatrixCoefficients?: MatrixCoefficients;
   Profile?: string;
   Rotation?: number;
+  SampleAspectRatio?: AspectRatio;
   ScanType?: string;
   TransferCharacteristics?: TransferCharacteristics;
   Width?: number;
@@ -10485,12 +9418,16 @@ export const CodecMetadata = /*@__PURE__*/ S.suspend(() =>
     CodedFrameRate: S.optional(FrameRate),
     ColorPrimaries: S.optional(ColorPrimaries),
     ContentLightLevel: S.optional(ContentLightLevel),
+    DisplayAspectRatio: S.optional(AspectRatio),
+    DolbyVision: S.optional(DolbyVisionMetadata),
     FieldOrder: S.optional(S.String),
+    Hdr10PlusPresence: S.optional(Hdr10PlusPresence),
     Height: S.optional(S.Number),
     Level: S.optional(S.String),
     MatrixCoefficients: S.optional(MatrixCoefficients),
     Profile: S.optional(S.String),
     Rotation: S.optional(S.Number),
+    SampleAspectRatio: S.optional(AspectRatio),
     ScanType: S.optional(S.String),
     TransferCharacteristics: S.optional(TransferCharacteristics),
     Width: S.optional(S.Number),
@@ -10501,12 +9438,16 @@ export const CodecMetadata = /*@__PURE__*/ S.suspend(() =>
       CodedFrameRate: "codedFrameRate",
       ColorPrimaries: "colorPrimaries",
       ContentLightLevel: "contentLightLevel",
+      DisplayAspectRatio: "displayAspectRatio",
+      DolbyVision: "dolbyVision",
       FieldOrder: "fieldOrder",
+      Hdr10PlusPresence: "hdr10PlusPresence",
       Height: "height",
       Level: "level",
       MatrixCoefficients: "matrixCoefficients",
       Profile: "profile",
       Rotation: "rotation",
+      SampleAspectRatio: "sampleAspectRatio",
       ScanType: "scanType",
       TransferCharacteristics: "transferCharacteristics",
       Width: "width",
@@ -10574,11 +9515,13 @@ export interface VideoProperties {
   BitRate?: number;
   CodecMetadata?: CodecMetadata;
   ColorPrimaries?: ColorPrimaries;
+  DisplayAspectRatio?: AspectRatio;
   FrameRate?: FrameRate;
   HdrMetadata?: HdrMetadata;
   Height?: number;
   MatrixCoefficients?: MatrixCoefficients;
   Rotation?: number;
+  SampleAspectRatio?: AspectRatio;
   TransferCharacteristics?: TransferCharacteristics;
   Width?: number;
 }
@@ -10588,11 +9531,13 @@ export const VideoProperties = /*@__PURE__*/ S.suspend(() =>
     BitRate: S.optional(S.Number),
     CodecMetadata: S.optional(CodecMetadata),
     ColorPrimaries: S.optional(ColorPrimaries),
+    DisplayAspectRatio: S.optional(AspectRatio),
     FrameRate: S.optional(FrameRate),
     HdrMetadata: S.optional(HdrMetadata),
     Height: S.optional(S.Number),
     MatrixCoefficients: S.optional(MatrixCoefficients),
     Rotation: S.optional(S.Number),
+    SampleAspectRatio: S.optional(AspectRatio),
     TransferCharacteristics: S.optional(TransferCharacteristics),
     Width: S.optional(S.Number),
   }).pipe(
@@ -10601,18 +9546,18 @@ export const VideoProperties = /*@__PURE__*/ S.suspend(() =>
       BitRate: "bitRate",
       CodecMetadata: "codecMetadata",
       ColorPrimaries: "colorPrimaries",
+      DisplayAspectRatio: "displayAspectRatio",
       FrameRate: "frameRate",
       HdrMetadata: "hdrMetadata",
       Height: "height",
       MatrixCoefficients: "matrixCoefficients",
       Rotation: "rotation",
+      SampleAspectRatio: "sampleAspectRatio",
       TransferCharacteristics: "transferCharacteristics",
       Width: "width",
     }),
   ),
-).annotate({
-  identifier: "VideoProperties",
-}) as any as S.Schema<VideoProperties>;
+).annotate({ identifier: "VideoProperties" }) as any as S.Schema<VideoProperties>;
 export interface Track {
   AudioProperties?: AudioProperties;
   Codec?: Codec;
@@ -10723,11 +9668,7 @@ export const ProbeResult = /*@__PURE__*/ S.suspend(() =>
     Metadata: S.optional(Metadata),
     TrackMappings: S.optional(__listOfTrackMapping),
   }).pipe(
-    S.encodeKeys({
-      Container: "container",
-      Metadata: "metadata",
-      TrackMappings: "trackMappings",
-    }),
+    S.encodeKeys({ Container: "container", Metadata: "metadata", TrackMappings: "trackMappings" }),
   ),
 ).annotate({ identifier: "ProbeResult" }) as any as S.Schema<ProbeResult>;
 export type __listOfProbeResult = ProbeResult[];
@@ -10747,28 +9688,15 @@ export const PutPolicyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Policy: S.optional(Policy) })
     .pipe(S.encodeKeys({ Policy: "policy" }))
     .pipe(
-      T.all(
-        T.Http({ method: "PUT", uri: "/2017-08-29/policy" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+      T.all(T.Http({ method: "PUT", uri: "/2017-08-29/policy" }), svc, auth, proto, ver, rules),
     ),
-).annotate({
-  identifier: "PutPolicyRequest",
-}) as any as S.Schema<PutPolicyRequest>;
+).annotate({ identifier: "PutPolicyRequest" }) as any as S.Schema<PutPolicyRequest>;
 export interface PutPolicyResponse {
   Policy?: Policy;
 }
 export const PutPolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Policy: S.optional(Policy) }).pipe(
-    S.encodeKeys({ Policy: "policy" }),
-  ),
-).annotate({
-  identifier: "PutPolicyResponse",
-}) as any as S.Schema<PutPolicyResponse>;
+  S.Struct({ Policy: S.optional(Policy) }).pipe(S.encodeKeys({ Policy: "policy" })),
+).annotate({ identifier: "PutPolicyResponse" }) as any as S.Schema<PutPolicyResponse>;
 export interface SearchJobsRequest {
   InputFile?: string;
   MaxResults?: number;
@@ -10786,18 +9714,9 @@ export const SearchJobsRequest = /*@__PURE__*/ S.suspend(() =>
     Queue: S.optional(S.String).pipe(T.HttpQuery("queue")),
     Status: S.optional(JobStatus).pipe(T.HttpQuery("status")),
   }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/2017-08-29/search" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/2017-08-29/search" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "SearchJobsRequest",
-}) as any as S.Schema<SearchJobsRequest>;
+).annotate({ identifier: "SearchJobsRequest" }) as any as S.Schema<SearchJobsRequest>;
 export interface SearchJobsResponse {
   Jobs?: (Job & {
     Role: string;
@@ -10808,13 +9727,10 @@ export interface SearchJobsResponse {
   NextToken?: string;
 }
 export const SearchJobsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Jobs: S.optional(__listOfJob),
-    NextToken: S.optional(S.String),
-  }).pipe(S.encodeKeys({ Jobs: "jobs", NextToken: "nextToken" })),
-).annotate({
-  identifier: "SearchJobsResponse",
-}) as any as S.Schema<SearchJobsResponse>;
+  S.Struct({ Jobs: S.optional(__listOfJob), NextToken: S.optional(S.String) }).pipe(
+    S.encodeKeys({ Jobs: "jobs", NextToken: "nextToken" }),
+  ),
+).annotate({ identifier: "SearchJobsResponse" }) as any as S.Schema<SearchJobsResponse>;
 export type JobsQueryFilterKey =
   | "queue"
   | "status"
@@ -10823,6 +9739,7 @@ export type JobsQueryFilterKey =
   | "jobEngineVersionUsed"
   | "audioCodec"
   | "videoCodec"
+  | "errorCode"
   | (string & {});
 export const JobsQueryFilterKey = S.String;
 
@@ -10838,9 +9755,7 @@ export const JobsQueryFilter = /*@__PURE__*/ S.suspend(() =>
     Key: S.optional(JobsQueryFilterKey),
     Values: S.optional(__listOf__stringMax100),
   }).pipe(S.encodeKeys({ Key: "key", Values: "values" })),
-).annotate({
-  identifier: "JobsQueryFilter",
-}) as any as S.Schema<JobsQueryFilter>;
+).annotate({ identifier: "JobsQueryFilter" }) as any as S.Schema<JobsQueryFilter>;
 export type __listOfJobsQueryFilter = JobsQueryFilter[];
 export const __listOfJobsQueryFilter = /*@__PURE__*/ S.Array(JobsQueryFilter);
 export interface StartJobsQueryRequest {
@@ -10874,17 +9789,13 @@ export const StartJobsQueryRequest = /*@__PURE__*/ S.suspend(() =>
         rules,
       ),
     ),
-).annotate({
-  identifier: "StartJobsQueryRequest",
-}) as any as S.Schema<StartJobsQueryRequest>;
+).annotate({ identifier: "StartJobsQueryRequest" }) as any as S.Schema<StartJobsQueryRequest>;
 export interface StartJobsQueryResponse {
   Id?: string;
 }
 export const StartJobsQueryResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Id: S.optional(S.String) }).pipe(S.encodeKeys({ Id: "id" })),
-).annotate({
-  identifier: "StartJobsQueryResponse",
-}) as any as S.Schema<StartJobsQueryResponse>;
+).annotate({ identifier: "StartJobsQueryResponse" }) as any as S.Schema<StartJobsQueryResponse>;
 export interface TagResourceRequest {
   Arn?: string;
   Tags?: { [key: string]: string | undefined };
@@ -10892,23 +9803,10 @@ export interface TagResourceRequest {
 export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Arn: S.optional(S.String), Tags: S.optional(__mapOf__string) })
     .pipe(S.encodeKeys({ Arn: "arn", Tags: "tags" }))
-    .pipe(
-      T.all(
-        T.Http({ method: "POST", uri: "/2017-08-29/tags" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
+    .pipe(T.all(T.Http({ method: "POST", uri: "/2017-08-29/tags" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
@@ -10916,28 +9814,14 @@ export interface UntagResourceRequest {
   TagKeys?: string[];
 }
 export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Arn: S.String.pipe(T.HttpLabel("Arn")),
-    TagKeys: S.optional(__listOf__string),
-  })
+  S.Struct({ Arn: S.String.pipe(T.HttpLabel("Arn")), TagKeys: S.optional(__listOf__string) })
     .pipe(S.encodeKeys({ TagKeys: "tagKeys" }))
     .pipe(
-      T.all(
-        T.Http({ method: "PUT", uri: "/2017-08-29/tags/{Arn}" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+      T.all(T.Http({ method: "PUT", uri: "/2017-08-29/tags/{Arn}" }), svc, auth, proto, ver, rules),
     ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
+).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateJobTemplateRequest {
@@ -10985,9 +9869,7 @@ export const UpdateJobTemplateRequest = /*@__PURE__*/ S.suspend(() =>
         rules,
       ),
     ),
-).annotate({
-  identifier: "UpdateJobTemplateRequest",
-}) as any as S.Schema<UpdateJobTemplateRequest>;
+).annotate({ identifier: "UpdateJobTemplateRequest" }) as any as S.Schema<UpdateJobTemplateRequest>;
 export interface UpdateJobTemplateResponse {
   JobTemplate?: JobTemplate & {
     Name: string;
@@ -11015,13 +9897,7 @@ export const UpdatePresetRequest = /*@__PURE__*/ S.suspend(() =>
     Name: S.String.pipe(T.HttpLabel("Name")),
     Settings: S.optional(PresetSettings),
   })
-    .pipe(
-      S.encodeKeys({
-        Category: "category",
-        Description: "description",
-        Settings: "settings",
-      }),
-    )
+    .pipe(S.encodeKeys({ Category: "category", Description: "description", Settings: "settings" }))
     .pipe(
       T.all(
         T.Http({ method: "PUT", uri: "/2017-08-29/presets/{Name}" }),
@@ -11032,19 +9908,13 @@ export const UpdatePresetRequest = /*@__PURE__*/ S.suspend(() =>
         rules,
       ),
     ),
-).annotate({
-  identifier: "UpdatePresetRequest",
-}) as any as S.Schema<UpdatePresetRequest>;
+).annotate({ identifier: "UpdatePresetRequest" }) as any as S.Schema<UpdatePresetRequest>;
 export interface UpdatePresetResponse {
   Preset?: Preset & { Name: string; Settings: PresetSettings };
 }
 export const UpdatePresetResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Preset: S.optional(Preset) }).pipe(
-    S.encodeKeys({ Preset: "preset" }),
-  ),
-).annotate({
-  identifier: "UpdatePresetResponse",
-}) as any as S.Schema<UpdatePresetResponse>;
+  S.Struct({ Preset: S.optional(Preset) }).pipe(S.encodeKeys({ Preset: "preset" })),
+).annotate({ identifier: "UpdatePresetResponse" }) as any as S.Schema<UpdatePresetResponse>;
 export interface UpdateQueueRequest {
   ConcurrentJobs?: number;
   Description?: string;
@@ -11081,17 +9951,13 @@ export const UpdateQueueRequest = /*@__PURE__*/ S.suspend(() =>
         rules,
       ),
     ),
-).annotate({
-  identifier: "UpdateQueueRequest",
-}) as any as S.Schema<UpdateQueueRequest>;
+).annotate({ identifier: "UpdateQueueRequest" }) as any as S.Schema<UpdateQueueRequest>;
 export interface UpdateQueueResponse {
   Queue?: Queue & { Name: string };
 }
 export const UpdateQueueResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Queue: S.optional(Queue) }).pipe(S.encodeKeys({ Queue: "queue" })),
-).annotate({
-  identifier: "UpdateQueueResponse",
-}) as any as S.Schema<UpdateQueueResponse>;
+).annotate({ identifier: "UpdateQueueResponse" }) as any as S.Schema<UpdateQueueResponse>;
 export type AssociateCertificateError =
   | BadRequestException
   | ConflictException
@@ -11992,9 +10858,10 @@ export type ProbeError =
   | NotFoundException
   | ServiceQuotaExceededException
   | TooManyRequestsException
+  | UnprocessableEntityException
   | CommonErrors;
 /**
- * Use Probe to obtain detailed information about your input media files. Probe returns a JSON that includes container, codec, frame rate, resolution, track count, audio layout, captions, and more. You can use this information to learn more about your media files, or to help make decisions while automating your transcoding workflow.
+ * Use Probe to obtain detailed information about your input media files. Probe returns a JSON that includes container, codec, frame rate, resolution, track count, audio layout, captions, and more. You can use this information to learn more about your media files, or to help make decisions while automating your transcoding workflow. Probe supports the following input container formats: MP4, QuickTime (MOV), 3GP, 3G2, Matroska (MKV), WebM, MXF, MPEG-TS, MPEG-PS, AVI, WAV, MP3, FLAC, Ogg, and ASF (Windows Media / WMA). The fields that Probe returns vary by container and codec. A field isn't returned when the source doesn't contain it, or when it isn't available for that container and codec.
  */
 export const probe: API.OperationMethod<
   ProbeRequest,
@@ -12012,6 +10879,7 @@ export const probe: API.OperationMethod<
     NotFoundException,
     ServiceQuotaExceededException,
     TooManyRequestsException,
+    UnprocessableEntityException,
   ],
   protocol: AwsProtocol,
   retry: Retry,

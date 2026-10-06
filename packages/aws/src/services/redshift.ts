@@ -1,14 +1,14 @@
+import * as API from "@distilled.cloud/core/api";
+import * as S from "@distilled.cloud/core/schema";
 import * as HttpClient from "effect/http/HttpClient";
 import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
-import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
+import * as T from "../traits.ts";
 const ns = T.XmlNamespace("http://redshift.amazonaws.com/doc/2012-12-01/");
 const svc = T.AwsApiService({
   sdkId: "Redshift",
@@ -29,14 +29,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -62,13 +58,9 @@ const rules = T.EndpointResolver((p, _) => {
             if (_.getAttr(PartitionResult, "name") === "aws-us-gov") {
               return e(`https://redshift.${Region}.amazonaws.com`);
             }
-            return e(
-              `https://redshift-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
+            return e(`https://redshift-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -76,13 +68,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://redshift.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://redshift.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://redshift.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -103,10 +91,7 @@ export class AccessToSnapshotDeniedFault
     "AccessToSnapshotDeniedFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "AccessToSnapshotDenied",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "AccessToSnapshotDenied", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -115,10 +100,7 @@ export class AuthenticationProfileAlreadyExistsFault
     "AuthenticationProfileAlreadyExistsFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "AuthenticationProfileAlreadyExistsFault",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "AuthenticationProfileAlreadyExistsFault", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError, C.withAlreadyExistsError) {}
@@ -127,10 +109,7 @@ export class AuthenticationProfileNotFoundFault
     "AuthenticationProfileNotFoundFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "AuthenticationProfileNotFoundFault",
-        httpResponseCode: 404,
-      }),
+      T.AwsQueryError({ code: "AuthenticationProfileNotFoundFault", httpResponseCode: 404 }),
       T.HttpError(404),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -139,10 +118,7 @@ export class AuthenticationProfileQuotaExceededFault
     "AuthenticationProfileQuotaExceededFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "AuthenticationProfileQuotaExceededFault",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "AuthenticationProfileQuotaExceededFault", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -151,10 +127,7 @@ export class AuthorizationAlreadyExistsFault
     "AuthorizationAlreadyExistsFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "AuthorizationAlreadyExists",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "AuthorizationAlreadyExists", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError, C.withAlreadyExistsError) {}
@@ -172,10 +145,7 @@ export class AuthorizationQuotaExceededFault
     "AuthorizationQuotaExceededFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "AuthorizationQuotaExceeded",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "AuthorizationQuotaExceeded", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -184,10 +154,7 @@ export class BatchDeleteRequestSizeExceededFault
     "BatchDeleteRequestSizeExceededFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "BatchDeleteRequestSizeExceeded",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "BatchDeleteRequestSizeExceeded", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -225,20 +192,14 @@ export class ClusterNotFoundFault
   extends /*@__PURE__*/ S.TaggedError<ClusterNotFoundFault>()(
     "ClusterNotFoundFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "ClusterNotFound", httpResponseCode: 404 }),
-      T.HttpError(404),
-    ),
+    T.all(T.AwsQueryError({ code: "ClusterNotFound", httpResponseCode: 404 }), T.HttpError(404)),
   ).pipe(C.withBadRequestError) {}
 export class ClusterOnLatestRevisionFault
   extends /*@__PURE__*/ S.TaggedError<ClusterOnLatestRevisionFault>()(
     "ClusterOnLatestRevisionFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "ClusterOnLatestRevision",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "ClusterOnLatestRevision", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -247,10 +208,7 @@ export class ClusterParameterGroupAlreadyExistsFault
     "ClusterParameterGroupAlreadyExistsFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "ClusterParameterGroupAlreadyExists",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "ClusterParameterGroupAlreadyExists", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError, C.withAlreadyExistsError) {}
@@ -259,10 +217,7 @@ export class ClusterParameterGroupNotFoundFault
     "ClusterParameterGroupNotFoundFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "ClusterParameterGroupNotFound",
-        httpResponseCode: 404,
-      }),
+      T.AwsQueryError({ code: "ClusterParameterGroupNotFound", httpResponseCode: 404 }),
       T.HttpError(404),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -271,10 +226,7 @@ export class ClusterParameterGroupQuotaExceededFault
     "ClusterParameterGroupQuotaExceededFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "ClusterParameterGroupQuotaExceeded",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "ClusterParameterGroupQuotaExceeded", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -292,10 +244,7 @@ export class ClusterSecurityGroupAlreadyExistsFault
     "ClusterSecurityGroupAlreadyExistsFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "ClusterSecurityGroupAlreadyExists",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "ClusterSecurityGroupAlreadyExists", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError, C.withAlreadyExistsError) {}
@@ -304,10 +253,7 @@ export class ClusterSecurityGroupNotFoundFault
     "ClusterSecurityGroupNotFoundFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "ClusterSecurityGroupNotFound",
-        httpResponseCode: 404,
-      }),
+      T.AwsQueryError({ code: "ClusterSecurityGroupNotFound", httpResponseCode: 404 }),
       T.HttpError(404),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -316,10 +262,7 @@ export class ClusterSecurityGroupQuotaExceededFault
     "ClusterSecurityGroupQuotaExceededFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "QuotaExceeded.ClusterSecurityGroup",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "QuotaExceeded.ClusterSecurityGroup", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -328,10 +271,7 @@ export class ClusterSnapshotAlreadyExistsFault
     "ClusterSnapshotAlreadyExistsFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "ClusterSnapshotAlreadyExists",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "ClusterSnapshotAlreadyExists", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError, C.withAlreadyExistsError) {}
@@ -340,10 +280,7 @@ export class ClusterSnapshotNotFoundFault
     "ClusterSnapshotNotFoundFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "ClusterSnapshotNotFound",
-        httpResponseCode: 404,
-      }),
+      T.AwsQueryError({ code: "ClusterSnapshotNotFound", httpResponseCode: 404 }),
       T.HttpError(404),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -352,10 +289,7 @@ export class ClusterSnapshotQuotaExceededFault
     "ClusterSnapshotQuotaExceededFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "ClusterSnapshotQuotaExceeded",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "ClusterSnapshotQuotaExceeded", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -364,10 +298,7 @@ export class ClusterSubnetGroupAlreadyExistsFault
     "ClusterSubnetGroupAlreadyExistsFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "ClusterSubnetGroupAlreadyExists",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "ClusterSubnetGroupAlreadyExists", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError, C.withAlreadyExistsError) {}
@@ -376,10 +307,7 @@ export class ClusterSubnetGroupNotFoundFault
     "ClusterSubnetGroupNotFoundFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "ClusterSubnetGroupNotFoundFault",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "ClusterSubnetGroupNotFoundFault", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -388,10 +316,7 @@ export class ClusterSubnetGroupQuotaExceededFault
     "ClusterSubnetGroupQuotaExceededFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "ClusterSubnetGroupQuotaExceeded",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "ClusterSubnetGroupQuotaExceeded", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -400,10 +325,7 @@ export class ClusterSubnetQuotaExceededFault
     "ClusterSubnetQuotaExceededFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "ClusterSubnetQuotaExceededFault",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "ClusterSubnetQuotaExceededFault", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -412,10 +334,7 @@ export class ConflictPolicyUpdateFault
     "ConflictPolicyUpdateFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "ConflictPolicyUpdateFault",
-        httpResponseCode: 409,
-      }),
+      T.AwsQueryError({ code: "ConflictPolicyUpdateFault", httpResponseCode: 409 }),
       T.HttpError(409),
     ),
   ).pipe(C.withConflictError) {}
@@ -424,10 +343,7 @@ export class CopyToRegionDisabledFault
     "CopyToRegionDisabledFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "CopyToRegionDisabledFault",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "CopyToRegionDisabledFault", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -436,10 +352,7 @@ export class CustomCnameAssociationFault
     "CustomCnameAssociationFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "CustomCnameAssociationFault",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "CustomCnameAssociationFault", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -448,10 +361,7 @@ export class CustomDomainAssociationNotFoundFault
     "CustomDomainAssociationNotFoundFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "CustomDomainAssociationNotFoundFault",
-        httpResponseCode: 404,
-      }),
+      T.AwsQueryError({ code: "CustomDomainAssociationNotFoundFault", httpResponseCode: 404 }),
       T.HttpError(404),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -460,10 +370,7 @@ export class DependentServiceAccessDeniedFault
     "DependentServiceAccessDeniedFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "DependentServiceAccessDenied",
-        httpResponseCode: 403,
-      }),
+      T.AwsQueryError({ code: "DependentServiceAccessDenied", httpResponseCode: 403 }),
       T.HttpError(403),
     ),
   ).pipe(C.withAuthError) {}
@@ -472,10 +379,7 @@ export class DependentServiceRequestThrottlingFault
     "DependentServiceRequestThrottlingFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "DependentServiceRequestThrottlingFault",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "DependentServiceRequestThrottlingFault", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -484,10 +388,7 @@ export class DependentServiceUnavailableFault
     "DependentServiceUnavailableFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "DependentServiceUnavailableFault",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "DependentServiceUnavailableFault", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError, C.withServerError) {}
@@ -505,10 +406,7 @@ export class EndpointAuthorizationAlreadyExistsFault
     "EndpointAuthorizationAlreadyExistsFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "EndpointAuthorizationAlreadyExists",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "EndpointAuthorizationAlreadyExists", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError, C.withAlreadyExistsError) {}
@@ -517,10 +415,7 @@ export class EndpointAuthorizationNotFoundFault
     "EndpointAuthorizationNotFoundFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "EndpointAuthorizationNotFound",
-        httpResponseCode: 404,
-      }),
+      T.AwsQueryError({ code: "EndpointAuthorizationNotFound", httpResponseCode: 404 }),
       T.HttpError(404),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -540,20 +435,14 @@ export class EndpointNotFoundFault
   extends /*@__PURE__*/ S.TaggedError<EndpointNotFoundFault>()(
     "EndpointNotFoundFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "EndpointNotFound", httpResponseCode: 404 }),
-      T.HttpError(404),
-    ),
+    T.all(T.AwsQueryError({ code: "EndpointNotFound", httpResponseCode: 404 }), T.HttpError(404)),
   ).pipe(C.withBadRequestError) {}
 export class EndpointsPerAuthorizationLimitExceededFault
   extends /*@__PURE__*/ S.TaggedError<EndpointsPerAuthorizationLimitExceededFault>()(
     "EndpointsPerAuthorizationLimitExceededFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "EndpointsPerAuthorizationLimitExceeded",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "EndpointsPerAuthorizationLimitExceeded", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -562,10 +451,7 @@ export class EndpointsPerClusterLimitExceededFault
     "EndpointsPerClusterLimitExceededFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "EndpointsPerClusterLimitExceeded",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "EndpointsPerClusterLimitExceeded", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -574,10 +460,7 @@ export class EventSubscriptionQuotaExceededFault
     "EventSubscriptionQuotaExceededFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "EventSubscriptionQuotaExceeded",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "EventSubscriptionQuotaExceeded", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -586,10 +469,7 @@ export class HsmClientCertificateAlreadyExistsFault
     "HsmClientCertificateAlreadyExistsFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "HsmClientCertificateAlreadyExistsFault",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "HsmClientCertificateAlreadyExistsFault", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError, C.withAlreadyExistsError) {}
@@ -598,10 +478,7 @@ export class HsmClientCertificateNotFoundFault
     "HsmClientCertificateNotFoundFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "HsmClientCertificateNotFoundFault",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "HsmClientCertificateNotFoundFault", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -610,10 +487,7 @@ export class HsmClientCertificateQuotaExceededFault
     "HsmClientCertificateQuotaExceededFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "HsmClientCertificateQuotaExceededFault",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "HsmClientCertificateQuotaExceededFault", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -622,10 +496,7 @@ export class HsmConfigurationAlreadyExistsFault
     "HsmConfigurationAlreadyExistsFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "HsmConfigurationAlreadyExistsFault",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "HsmConfigurationAlreadyExistsFault", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError, C.withAlreadyExistsError) {}
@@ -634,10 +505,7 @@ export class HsmConfigurationNotFoundFault
     "HsmConfigurationNotFoundFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "HsmConfigurationNotFoundFault",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "HsmConfigurationNotFoundFault", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -646,10 +514,7 @@ export class HsmConfigurationQuotaExceededFault
     "HsmConfigurationQuotaExceededFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "HsmConfigurationQuotaExceededFault",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "HsmConfigurationQuotaExceededFault", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -658,10 +523,7 @@ export class IncompatibleOrderableOptions
     "IncompatibleOrderableOptions",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "IncompatibleOrderableOptions",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "IncompatibleOrderableOptions", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -670,10 +532,7 @@ export class InProgressTableRestoreQuotaExceededFault
     "InProgressTableRestoreQuotaExceededFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "InProgressTableRestoreQuotaExceededFault",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "InProgressTableRestoreQuotaExceededFault", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -682,10 +541,7 @@ export class InsufficientClusterCapacityFault
     "InsufficientClusterCapacityFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "InsufficientClusterCapacity",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "InsufficientClusterCapacity", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -694,10 +550,7 @@ export class InsufficientS3BucketPolicyFault
     "InsufficientS3BucketPolicyFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "InsufficientS3BucketPolicyFault",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "InsufficientS3BucketPolicyFault", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -706,10 +559,7 @@ export class IntegrationAlreadyExistsFault
     "IntegrationAlreadyExistsFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "IntegrationAlreadyExistsFault",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "IntegrationAlreadyExistsFault", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError, C.withAlreadyExistsError) {}
@@ -718,10 +568,7 @@ export class IntegrationConflictOperationFault
     "IntegrationConflictOperationFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "IntegrationConflictOperationFault",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "IntegrationConflictOperationFault", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -730,10 +577,7 @@ export class IntegrationConflictStateFault
     "IntegrationConflictStateFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "IntegrationConflictStateFault",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "IntegrationConflictStateFault", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -742,10 +586,7 @@ export class IntegrationNotFoundFault
     "IntegrationNotFoundFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "IntegrationNotFoundFault",
-        httpResponseCode: 404,
-      }),
+      T.AwsQueryError({ code: "IntegrationNotFoundFault", httpResponseCode: 404 }),
       T.HttpError(404),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -754,10 +595,7 @@ export class IntegrationQuotaExceededFault
     "IntegrationQuotaExceededFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "IntegrationQuotaExceededFault",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "IntegrationQuotaExceededFault", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -766,10 +604,7 @@ export class IntegrationSourceNotFoundFault
     "IntegrationSourceNotFoundFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "IntegrationSourceNotFoundFault",
-        httpResponseCode: 404,
-      }),
+      T.AwsQueryError({ code: "IntegrationSourceNotFoundFault", httpResponseCode: 404 }),
       T.HttpError(404),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -778,10 +613,7 @@ export class IntegrationTargetNotFoundFault
     "IntegrationTargetNotFoundFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "IntegrationTargetNotFoundFault",
-        httpResponseCode: 404,
-      }),
+      T.AwsQueryError({ code: "IntegrationTargetNotFoundFault", httpResponseCode: 404 }),
       T.HttpError(404),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -790,10 +622,7 @@ export class InvalidAuthenticationProfileRequestFault
     "InvalidAuthenticationProfileRequestFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "InvalidAuthenticationProfileRequestFault",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "InvalidAuthenticationProfileRequestFault", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -802,10 +631,7 @@ export class InvalidAuthorizationStateFault
     "InvalidAuthorizationStateFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "InvalidAuthorizationState",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "InvalidAuthorizationState", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -814,10 +640,7 @@ export class InvalidClusterParameterGroupStateFault
     "InvalidClusterParameterGroupStateFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "InvalidClusterParameterGroupState",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "InvalidClusterParameterGroupState", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -826,10 +649,7 @@ export class InvalidClusterSecurityGroupStateFault
     "InvalidClusterSecurityGroupStateFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "InvalidClusterSecurityGroupState",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "InvalidClusterSecurityGroupState", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -838,10 +658,7 @@ export class InvalidClusterSnapshotScheduleStateFault
     "InvalidClusterSnapshotScheduleStateFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "InvalidClusterSnapshotScheduleState",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "InvalidClusterSnapshotScheduleState", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -850,10 +667,7 @@ export class InvalidClusterSnapshotStateFault
     "InvalidClusterSnapshotStateFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "InvalidClusterSnapshotState",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "InvalidClusterSnapshotState", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -871,10 +685,7 @@ export class InvalidClusterSubnetGroupStateFault
     "InvalidClusterSubnetGroupStateFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "InvalidClusterSubnetGroupStateFault",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "InvalidClusterSubnetGroupStateFault", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -883,10 +694,7 @@ export class InvalidClusterSubnetStateFault
     "InvalidClusterSubnetStateFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "InvalidClusterSubnetStateFault",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "InvalidClusterSubnetStateFault", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -931,10 +739,7 @@ export class InvalidHsmClientCertificateStateFault
     "InvalidHsmClientCertificateStateFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "InvalidHsmClientCertificateStateFault",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "InvalidHsmClientCertificateStateFault", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -943,10 +748,7 @@ export class InvalidHsmConfigurationStateFault
     "InvalidHsmConfigurationStateFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "InvalidHsmConfigurationStateFault",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "InvalidHsmConfigurationStateFault", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -963,20 +765,14 @@ export class InvalidPolicyFault
   extends /*@__PURE__*/ S.TaggedError<InvalidPolicyFault>()(
     "InvalidPolicyFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "InvalidPolicyFault", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
+    T.all(T.AwsQueryError({ code: "InvalidPolicyFault", httpResponseCode: 400 }), T.HttpError(400)),
   ).pipe(C.withBadRequestError) {}
 export class InvalidReservedNodeStateFault
   extends /*@__PURE__*/ S.TaggedError<InvalidReservedNodeStateFault>()(
     "InvalidReservedNodeStateFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "InvalidReservedNodeState",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "InvalidReservedNodeState", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -984,20 +780,14 @@ export class InvalidRestoreFault
   extends /*@__PURE__*/ S.TaggedError<InvalidRestoreFault>()(
     "InvalidRestoreFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "InvalidRestore", httpResponseCode: 406 }),
-      T.HttpError(406),
-    ),
+    T.all(T.AwsQueryError({ code: "InvalidRestore", httpResponseCode: 406 }), T.HttpError(406)),
   ).pipe(C.withBadRequestError) {}
 export class InvalidRetentionPeriodFault
   extends /*@__PURE__*/ S.TaggedError<InvalidRetentionPeriodFault>()(
     "InvalidRetentionPeriodFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "InvalidRetentionPeriodFault",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "InvalidRetentionPeriodFault", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -1006,10 +796,7 @@ export class InvalidS3BucketNameFault
     "InvalidS3BucketNameFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "InvalidS3BucketNameFault",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "InvalidS3BucketNameFault", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -1018,10 +805,7 @@ export class InvalidS3KeyPrefixFault
     "InvalidS3KeyPrefixFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "InvalidS3KeyPrefixFault",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "InvalidS3KeyPrefixFault", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -1030,10 +814,7 @@ export class InvalidScheduledActionFault
     "InvalidScheduledActionFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "InvalidScheduledAction",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "InvalidScheduledAction", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -1041,20 +822,14 @@ export class InvalidScheduleFault
   extends /*@__PURE__*/ S.TaggedError<InvalidScheduleFault>()(
     "InvalidScheduleFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "InvalidSchedule", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
+    T.all(T.AwsQueryError({ code: "InvalidSchedule", httpResponseCode: 400 }), T.HttpError(400)),
   ).pipe(C.withBadRequestError) {}
 export class InvalidSnapshotCopyGrantStateFault
   extends /*@__PURE__*/ S.TaggedError<InvalidSnapshotCopyGrantStateFault>()(
     "InvalidSnapshotCopyGrantStateFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "InvalidSnapshotCopyGrantStateFault",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "InvalidSnapshotCopyGrantStateFault", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -1062,20 +837,14 @@ export class InvalidSubnet
   extends /*@__PURE__*/ S.TaggedError<InvalidSubnet>()(
     "InvalidSubnet",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "InvalidSubnet", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
+    T.all(T.AwsQueryError({ code: "InvalidSubnet", httpResponseCode: 400 }), T.HttpError(400)),
   ).pipe(C.withBadRequestError) {}
 export class InvalidSubscriptionStateFault
   extends /*@__PURE__*/ S.TaggedError<InvalidSubscriptionStateFault>()(
     "InvalidSubscriptionStateFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "InvalidSubscriptionStateFault",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "InvalidSubscriptionStateFault", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -1084,10 +853,7 @@ export class InvalidTableRestoreArgumentFault
     "InvalidTableRestoreArgumentFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "InvalidTableRestoreArgument",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "InvalidTableRestoreArgument", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -1095,29 +861,20 @@ export class InvalidTagFault
   extends /*@__PURE__*/ S.TaggedError<InvalidTagFault>()(
     "InvalidTagFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "InvalidTagFault", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
+    T.all(T.AwsQueryError({ code: "InvalidTagFault", httpResponseCode: 400 }), T.HttpError(400)),
   ).pipe(C.withBadRequestError) {}
 export class InvalidUsageLimitFault
   extends /*@__PURE__*/ S.TaggedError<InvalidUsageLimitFault>()(
     "InvalidUsageLimitFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "InvalidUsageLimit", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
+    T.all(T.AwsQueryError({ code: "InvalidUsageLimit", httpResponseCode: 400 }), T.HttpError(400)),
   ).pipe(C.withBadRequestError) {}
 export class InvalidVPCNetworkStateFault
   extends /*@__PURE__*/ S.TaggedError<InvalidVPCNetworkStateFault>()(
     "InvalidVPCNetworkStateFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "InvalidVPCNetworkStateFault",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "InvalidVPCNetworkStateFault", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -1126,10 +883,7 @@ export class Ipv6CidrBlockNotFoundFault
     "Ipv6CidrBlockNotFoundFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "Ipv6CidrBlockNotFoundFault",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "Ipv6CidrBlockNotFoundFault", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -1137,20 +891,14 @@ export class LimitExceededFault
   extends /*@__PURE__*/ S.TaggedError<LimitExceededFault>()(
     "LimitExceededFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "LimitExceededFault", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
+    T.all(T.AwsQueryError({ code: "LimitExceededFault", httpResponseCode: 400 }), T.HttpError(400)),
   ).pipe(C.withBadRequestError) {}
 export class NumberOfNodesPerClusterLimitExceededFault
   extends /*@__PURE__*/ S.TaggedError<NumberOfNodesPerClusterLimitExceededFault>()(
     "NumberOfNodesPerClusterLimitExceededFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "NumberOfNodesPerClusterLimitExceeded",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "NumberOfNodesPerClusterLimitExceeded", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -1159,10 +907,7 @@ export class NumberOfNodesQuotaExceededFault
     "NumberOfNodesQuotaExceededFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "NumberOfNodesQuotaExceeded",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "NumberOfNodesQuotaExceeded", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -1170,20 +915,14 @@ export class PartnerNotFoundFault
   extends /*@__PURE__*/ S.TaggedError<PartnerNotFoundFault>()(
     "PartnerNotFoundFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "PartnerNotFound", httpResponseCode: 404 }),
-      T.HttpError(404),
-    ),
+    T.all(T.AwsQueryError({ code: "PartnerNotFound", httpResponseCode: 404 }), T.HttpError(404)),
   ).pipe(C.withBadRequestError) {}
 export class Qev2IdcApplicationAlreadyExistsFault
   extends /*@__PURE__*/ S.TaggedError<Qev2IdcApplicationAlreadyExistsFault>()(
     "Qev2IdcApplicationAlreadyExistsFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "Qev2IdcApplicationAlreadyExists",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "Qev2IdcApplicationAlreadyExists", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError, C.withAlreadyExistsError) {}
@@ -1192,10 +931,7 @@ export class Qev2IdcApplicationNotExistsFault
     "Qev2IdcApplicationNotExistsFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "Qev2IdcApplicationNotExists",
-        httpResponseCode: 404,
-      }),
+      T.AwsQueryError({ code: "Qev2IdcApplicationNotExists", httpResponseCode: 404 }),
       T.HttpError(404),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -1204,10 +940,7 @@ export class RedshiftIdcApplicationAlreadyExistsFault
     "RedshiftIdcApplicationAlreadyExistsFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "RedshiftIdcApplicationAlreadyExists",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "RedshiftIdcApplicationAlreadyExists", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError, C.withAlreadyExistsError) {}
@@ -1216,10 +949,7 @@ export class RedshiftIdcApplicationNotExistsFault
     "RedshiftIdcApplicationNotExistsFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "RedshiftIdcApplicationNotExists",
-        httpResponseCode: 404,
-      }),
+      T.AwsQueryError({ code: "RedshiftIdcApplicationNotExists", httpResponseCode: 404 }),
       T.HttpError(404),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -1228,10 +958,7 @@ export class RedshiftIdcApplicationQuotaExceededFault
     "RedshiftIdcApplicationQuotaExceededFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "RedshiftIdcApplicationQuotaExceeded",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "RedshiftIdcApplicationQuotaExceeded", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -1240,10 +967,7 @@ export class RedshiftInvalidParameterFault
     "RedshiftInvalidParameterFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "RedshiftInvalidParameter",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "RedshiftInvalidParameter", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -1252,10 +976,7 @@ export class ReservedNodeAlreadyExistsFault
     "ReservedNodeAlreadyExistsFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "ReservedNodeAlreadyExists",
-        httpResponseCode: 404,
-      }),
+      T.AwsQueryError({ code: "ReservedNodeAlreadyExists", httpResponseCode: 404 }),
       T.HttpError(404),
     ),
   ).pipe(C.withBadRequestError, C.withAlreadyExistsError) {}
@@ -1264,10 +985,7 @@ export class ReservedNodeAlreadyMigratedFault
     "ReservedNodeAlreadyMigratedFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "ReservedNodeAlreadyMigrated",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "ReservedNodeAlreadyMigrated", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -1276,10 +994,7 @@ export class ReservedNodeExchangeNotFoundFault
     "ReservedNodeExchangeNotFoundFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "ReservedNodeExchangeNotFond",
-        httpResponseCode: 404,
-      }),
+      T.AwsQueryError({ code: "ReservedNodeExchangeNotFond", httpResponseCode: 404 }),
       T.HttpError(404),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -1297,10 +1012,7 @@ export class ReservedNodeOfferingNotFoundFault
     "ReservedNodeOfferingNotFoundFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "ReservedNodeOfferingNotFound",
-        httpResponseCode: 404,
-      }),
+      T.AwsQueryError({ code: "ReservedNodeOfferingNotFound", httpResponseCode: 404 }),
       T.HttpError(404),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -1309,10 +1021,7 @@ export class ReservedNodeQuotaExceededFault
     "ReservedNodeQuotaExceededFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "ReservedNodeQuotaExceeded",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "ReservedNodeQuotaExceeded", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -1320,10 +1029,7 @@ export class ResizeNotFoundFault
   extends /*@__PURE__*/ S.TaggedError<ResizeNotFoundFault>()(
     "ResizeNotFoundFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "ResizeNotFound", httpResponseCode: 404 }),
-      T.HttpError(404),
-    ),
+    T.all(T.AwsQueryError({ code: "ResizeNotFound", httpResponseCode: 404 }), T.HttpError(404)),
   ).pipe(C.withBadRequestError) {}
 export class ResourceNotFoundFault
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundFault>()(
@@ -1339,10 +1045,7 @@ export class ScheduledActionAlreadyExistsFault
     "ScheduledActionAlreadyExistsFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "ScheduledActionAlreadyExists",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "ScheduledActionAlreadyExists", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError, C.withAlreadyExistsError) {}
@@ -1351,10 +1054,7 @@ export class ScheduledActionNotFoundFault
     "ScheduledActionNotFoundFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "ScheduledActionNotFound",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "ScheduledActionNotFound", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -1363,10 +1063,7 @@ export class ScheduledActionQuotaExceededFault
     "ScheduledActionQuotaExceededFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "ScheduledActionQuotaExceeded",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "ScheduledActionQuotaExceeded", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -1375,10 +1072,7 @@ export class ScheduledActionTypeUnsupportedFault
     "ScheduledActionTypeUnsupportedFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "ScheduledActionTypeUnsupported",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "ScheduledActionTypeUnsupported", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -1387,10 +1081,7 @@ export class ScheduleDefinitionTypeUnsupportedFault
     "ScheduleDefinitionTypeUnsupportedFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "ScheduleDefinitionTypeUnsupported",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "ScheduleDefinitionTypeUnsupported", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -1399,10 +1090,7 @@ export class SnapshotCopyAlreadyDisabledFault
     "SnapshotCopyAlreadyDisabledFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "SnapshotCopyAlreadyDisabledFault",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "SnapshotCopyAlreadyDisabledFault", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -1411,10 +1099,7 @@ export class SnapshotCopyAlreadyEnabledFault
     "SnapshotCopyAlreadyEnabledFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "SnapshotCopyAlreadyEnabledFault",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "SnapshotCopyAlreadyEnabledFault", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -1423,10 +1108,7 @@ export class SnapshotCopyDisabledFault
     "SnapshotCopyDisabledFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "SnapshotCopyDisabledFault",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "SnapshotCopyDisabledFault", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -1435,10 +1117,7 @@ export class SnapshotCopyGrantAlreadyExistsFault
     "SnapshotCopyGrantAlreadyExistsFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "SnapshotCopyGrantAlreadyExistsFault",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "SnapshotCopyGrantAlreadyExistsFault", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError, C.withAlreadyExistsError) {}
@@ -1447,10 +1126,7 @@ export class SnapshotCopyGrantNotFoundFault
     "SnapshotCopyGrantNotFoundFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "SnapshotCopyGrantNotFoundFault",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "SnapshotCopyGrantNotFoundFault", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -1459,10 +1135,7 @@ export class SnapshotCopyGrantQuotaExceededFault
     "SnapshotCopyGrantQuotaExceededFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "SnapshotCopyGrantQuotaExceededFault",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "SnapshotCopyGrantQuotaExceededFault", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -1471,10 +1144,7 @@ export class SnapshotScheduleAlreadyExistsFault
     "SnapshotScheduleAlreadyExistsFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "SnapshotScheduleAlreadyExists",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "SnapshotScheduleAlreadyExists", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError, C.withAlreadyExistsError) {}
@@ -1483,10 +1153,7 @@ export class SnapshotScheduleNotFoundFault
     "SnapshotScheduleNotFoundFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "SnapshotScheduleNotFound",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "SnapshotScheduleNotFound", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -1495,10 +1162,7 @@ export class SnapshotScheduleQuotaExceededFault
     "SnapshotScheduleQuotaExceededFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "SnapshotScheduleQuotaExceeded",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "SnapshotScheduleQuotaExceeded", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -1507,10 +1171,7 @@ export class SnapshotScheduleUpdateInProgressFault
     "SnapshotScheduleUpdateInProgressFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "SnapshotScheduleUpdateInProgress",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "SnapshotScheduleUpdateInProgress", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -1518,19 +1179,13 @@ export class SNSInvalidTopicFault
   extends /*@__PURE__*/ S.TaggedError<SNSInvalidTopicFault>()(
     "SNSInvalidTopicFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "SNSInvalidTopic", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
+    T.all(T.AwsQueryError({ code: "SNSInvalidTopic", httpResponseCode: 400 }), T.HttpError(400)),
   ).pipe(C.withBadRequestError) {}
 export class SNSNoAuthorizationFault
   extends /*@__PURE__*/ S.TaggedError<SNSNoAuthorizationFault>()(
     "SNSNoAuthorizationFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "SNSNoAuthorization", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
+    T.all(T.AwsQueryError({ code: "SNSNoAuthorization", httpResponseCode: 400 }), T.HttpError(400)),
   ).pipe(C.withBadRequestError) {}
 export class SNSTopicArnNotFoundFault
   extends /*@__PURE__*/ S.TaggedError<SNSTopicArnNotFoundFault>()(
@@ -1545,29 +1200,20 @@ export class SourceNotFoundFault
   extends /*@__PURE__*/ S.TaggedError<SourceNotFoundFault>()(
     "SourceNotFoundFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "SourceNotFound", httpResponseCode: 404 }),
-      T.HttpError(404),
-    ),
+    T.all(T.AwsQueryError({ code: "SourceNotFound", httpResponseCode: 404 }), T.HttpError(404)),
   ).pipe(C.withBadRequestError) {}
 export class SubnetAlreadyInUse
   extends /*@__PURE__*/ S.TaggedError<SubnetAlreadyInUse>()(
     "SubnetAlreadyInUse",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "SubnetAlreadyInUse", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
+    T.all(T.AwsQueryError({ code: "SubnetAlreadyInUse", httpResponseCode: 400 }), T.HttpError(400)),
   ).pipe(C.withBadRequestError, C.withDependencyViolationError) {}
 export class SubscriptionAlreadyExistFault
   extends /*@__PURE__*/ S.TaggedError<SubscriptionAlreadyExistFault>()(
     "SubscriptionAlreadyExistFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "SubscriptionAlreadyExist",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "SubscriptionAlreadyExist", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -1576,10 +1222,7 @@ export class SubscriptionCategoryNotFoundFault
     "SubscriptionCategoryNotFoundFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "SubscriptionCategoryNotFound",
-        httpResponseCode: 404,
-      }),
+      T.AwsQueryError({ code: "SubscriptionCategoryNotFound", httpResponseCode: 404 }),
       T.HttpError(404),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -1588,10 +1231,7 @@ export class SubscriptionEventIdNotFoundFault
     "SubscriptionEventIdNotFoundFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "SubscriptionEventIdNotFound",
-        httpResponseCode: 404,
-      }),
+      T.AwsQueryError({ code: "SubscriptionEventIdNotFound", httpResponseCode: 404 }),
       T.HttpError(404),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -1609,10 +1249,7 @@ export class SubscriptionSeverityNotFoundFault
     "SubscriptionSeverityNotFoundFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "SubscriptionSeverityNotFound",
-        httpResponseCode: 404,
-      }),
+      T.AwsQueryError({ code: "SubscriptionSeverityNotFound", httpResponseCode: 404 }),
       T.HttpError(404),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -1620,20 +1257,14 @@ export class TableLimitExceededFault
   extends /*@__PURE__*/ S.TaggedError<TableLimitExceededFault>()(
     "TableLimitExceededFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "TableLimitExceeded", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
+    T.all(T.AwsQueryError({ code: "TableLimitExceeded", httpResponseCode: 400 }), T.HttpError(400)),
   ).pipe(C.withBadRequestError) {}
 export class TableRestoreNotFoundFault
   extends /*@__PURE__*/ S.TaggedError<TableRestoreNotFoundFault>()(
     "TableRestoreNotFoundFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "TableRestoreNotFoundFault",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "TableRestoreNotFoundFault", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -1660,10 +1291,7 @@ export class UnauthorizedPartnerIntegrationFault
     "UnauthorizedPartnerIntegrationFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "UnauthorizedPartnerIntegration",
-        httpResponseCode: 401,
-      }),
+      T.AwsQueryError({ code: "UnauthorizedPartnerIntegration", httpResponseCode: 401 }),
       T.HttpError(401),
     ),
   ).pipe(C.withAuthError) {}
@@ -1672,10 +1300,7 @@ export class UnknownSnapshotCopyRegionFault
     "UnknownSnapshotCopyRegionFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "UnknownSnapshotCopyRegionFault",
-        httpResponseCode: 404,
-      }),
+      T.AwsQueryError({ code: "UnknownSnapshotCopyRegionFault", httpResponseCode: 404 }),
       T.HttpError(404),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -1693,10 +1318,7 @@ export class UnsupportedOptionFault
     "UnsupportedOptionFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "UnsupportedOptionFault",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "UnsupportedOptionFault", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -1705,10 +1327,7 @@ export class UsageLimitAlreadyExistsFault
     "UsageLimitAlreadyExistsFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "UsageLimitAlreadyExists",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "UsageLimitAlreadyExists", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError, C.withAlreadyExistsError) {}
@@ -1716,31 +1335,17 @@ export class UsageLimitNotFoundFault
   extends /*@__PURE__*/ S.TaggedError<UsageLimitNotFoundFault>()(
     "UsageLimitNotFoundFault",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "UsageLimitNotFound", httpResponseCode: 404 }),
-      T.HttpError(404),
-    ),
+    T.all(T.AwsQueryError({ code: "UsageLimitNotFound", httpResponseCode: 404 }), T.HttpError(404)),
   ).pipe(C.withBadRequestError) {}
 export interface AcceptReservedNodeExchangeInputMessage {
   ReservedNodeId?: string;
   TargetReservedNodeOfferingId?: string;
 }
-export const AcceptReservedNodeExchangeInputMessage = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ReservedNodeId: S.optional(S.String),
-      TargetReservedNodeOfferingId: S.optional(S.String),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
+export const AcceptReservedNodeExchangeInputMessage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ReservedNodeId: S.optional(S.String),
+    TargetReservedNodeOfferingId: S.optional(S.String),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "AcceptReservedNodeExchangeInputMessage",
 }) as any as S.Schema<AcceptReservedNodeExchangeInputMessage>;
@@ -1753,14 +1358,10 @@ export const RecurringCharge = /*@__PURE__*/ S.suspend(() =>
     RecurringChargeAmount: S.optional(S.Number),
     RecurringChargeFrequency: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RecurringCharge",
-}) as any as S.Schema<RecurringCharge>;
+).annotate({ identifier: "RecurringCharge" }) as any as S.Schema<RecurringCharge>;
 export type RecurringChargeList = RecurringCharge[];
 export const RecurringChargeList = /*@__PURE__*/ S.Array(
-  RecurringCharge.pipe(T.XmlName("RecurringCharge")).annotate({
-    identifier: "RecurringCharge",
-  }),
+  RecurringCharge.pipe(T.XmlName("RecurringCharge")).annotate({ identifier: "RecurringCharge" }),
 );
 export type ReservedNodeOfferingType = "Regular" | "Upgradable" | (string & {});
 export const ReservedNodeOfferingType = S.String;
@@ -1785,9 +1386,7 @@ export const ReservedNode = /*@__PURE__*/ S.suspend(() =>
     ReservedNodeId: S.optional(S.String),
     ReservedNodeOfferingId: S.optional(S.String),
     NodeType: S.optional(S.String),
-    StartTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    StartTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     Duration: S.optional(S.Number),
     FixedPrice: S.optional(S.Number),
     UsagePrice: S.optional(S.Number),
@@ -1802,8 +1401,8 @@ export const ReservedNode = /*@__PURE__*/ S.suspend(() =>
 export interface AcceptReservedNodeExchangeOutputMessage {
   ExchangedReservedNode?: ReservedNode;
 }
-export const AcceptReservedNodeExchangeOutputMessage = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ ExchangedReservedNode: S.optional(ReservedNode) }).pipe(ns),
+export const AcceptReservedNodeExchangeOutputMessage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ ExchangedReservedNode: S.optional(ReservedNode) }).pipe(ns),
 ).annotate({
   identifier: "AcceptReservedNodeExchangeOutputMessage",
 }) as any as S.Schema<AcceptReservedNodeExchangeOutputMessage>;
@@ -1823,17 +1422,7 @@ export const PartnerIntegrationInputMessage = /*@__PURE__*/ S.suspend(() =>
     ClusterIdentifier: S.optional(S.String),
     DatabaseName: S.optional(S.String),
     PartnerName: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "PartnerIntegrationInputMessage",
 }) as any as S.Schema<PartnerIntegrationInputMessage>;
@@ -1842,10 +1431,7 @@ export interface PartnerIntegrationOutputMessage {
   PartnerName?: string;
 }
 export const PartnerIntegrationOutputMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DatabaseName: S.optional(S.String),
-    PartnerName: S.optional(S.String),
-  }).pipe(ns),
+  S.Struct({ DatabaseName: S.optional(S.String), PartnerName: S.optional(S.String) }).pipe(ns),
 ).annotate({
   identifier: "PartnerIntegrationOutputMessage",
 }) as any as S.Schema<PartnerIntegrationOutputMessage>;
@@ -1863,17 +1449,7 @@ export const AssociateDataShareConsumerMessage = /*@__PURE__*/ S.suspend(() =>
     ConsumerArn: S.optional(S.String),
     ConsumerRegion: S.optional(S.String),
     AllowWrites: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "AssociateDataShareConsumerMessage",
 }) as any as S.Schema<AssociateDataShareConsumerMessage>;
@@ -1901,21 +1477,14 @@ export const DataShareAssociation = /*@__PURE__*/ S.suspend(() =>
     ConsumerIdentifier: S.optional(S.String),
     Status: S.optional(DataShareStatus),
     ConsumerRegion: S.optional(S.String),
-    CreatedDate: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    StatusChangeDate: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    CreatedDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    StatusChangeDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     ProducerAllowedWrites: S.optional(S.Boolean),
     ConsumerAcceptedWrites: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "DataShareAssociation",
-}) as any as S.Schema<DataShareAssociation>;
+).annotate({ identifier: "DataShareAssociation" }) as any as S.Schema<DataShareAssociation>;
 export type DataShareAssociationList = DataShareAssociation[];
-export const DataShareAssociationList =
-  /*@__PURE__*/ S.Array(DataShareAssociation);
+export const DataShareAssociationList = /*@__PURE__*/ S.Array(DataShareAssociation);
 export type DataShareType = "INTERNAL" | (string & {});
 export const DataShareType = S.String;
 
@@ -1943,27 +1512,16 @@ export interface AuthorizeClusterSecurityGroupIngressMessage {
   EC2SecurityGroupName?: string;
   EC2SecurityGroupOwnerId?: string;
 }
-export const AuthorizeClusterSecurityGroupIngressMessage =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ClusterSecurityGroupName: S.optional(S.String),
-      CIDRIP: S.optional(S.String),
-      EC2SecurityGroupName: S.optional(S.String),
-      EC2SecurityGroupOwnerId: S.optional(S.String),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "AuthorizeClusterSecurityGroupIngressMessage",
-  }) as any as S.Schema<AuthorizeClusterSecurityGroupIngressMessage>;
+export const AuthorizeClusterSecurityGroupIngressMessage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ClusterSecurityGroupName: S.optional(S.String),
+    CIDRIP: S.optional(S.String),
+    EC2SecurityGroupName: S.optional(S.String),
+    EC2SecurityGroupOwnerId: S.optional(S.String),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({
+  identifier: "AuthorizeClusterSecurityGroupIngressMessage",
+}) as any as S.Schema<AuthorizeClusterSecurityGroupIngressMessage>;
 export interface Tag {
   Key?: string;
   Value?: string;
@@ -1988,14 +1546,10 @@ export const EC2SecurityGroup = /*@__PURE__*/ S.suspend(() =>
     EC2SecurityGroupOwnerId: S.optional(S.String),
     Tags: S.optional(TagList),
   }),
-).annotate({
-  identifier: "EC2SecurityGroup",
-}) as any as S.Schema<EC2SecurityGroup>;
+).annotate({ identifier: "EC2SecurityGroup" }) as any as S.Schema<EC2SecurityGroup>;
 export type EC2SecurityGroupList = EC2SecurityGroup[];
 export const EC2SecurityGroupList = /*@__PURE__*/ S.Array(
-  EC2SecurityGroup.pipe(T.XmlName("EC2SecurityGroup")).annotate({
-    identifier: "EC2SecurityGroup",
-  }),
+  EC2SecurityGroup.pipe(T.XmlName("EC2SecurityGroup")).annotate({ identifier: "EC2SecurityGroup" }),
 );
 export interface IPRange {
   Status?: string;
@@ -2028,20 +1582,15 @@ export const ClusterSecurityGroup = /*@__PURE__*/ S.suspend(() =>
     IPRanges: S.optional(IPRangeList),
     Tags: S.optional(TagList),
   }),
-).annotate({
-  identifier: "ClusterSecurityGroup",
-}) as any as S.Schema<ClusterSecurityGroup>;
+).annotate({ identifier: "ClusterSecurityGroup" }) as any as S.Schema<ClusterSecurityGroup>;
 export interface AuthorizeClusterSecurityGroupIngressResult {
   ClusterSecurityGroup?: ClusterSecurityGroup;
 }
-export const AuthorizeClusterSecurityGroupIngressResult =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ ClusterSecurityGroup: S.optional(ClusterSecurityGroup) }).pipe(
-      ns,
-    ),
-  ).annotate({
-    identifier: "AuthorizeClusterSecurityGroupIngressResult",
-  }) as any as S.Schema<AuthorizeClusterSecurityGroupIngressResult>;
+export const AuthorizeClusterSecurityGroupIngressResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ ClusterSecurityGroup: S.optional(ClusterSecurityGroup) }).pipe(ns),
+).annotate({
+  identifier: "AuthorizeClusterSecurityGroupIngressResult",
+}) as any as S.Schema<AuthorizeClusterSecurityGroupIngressResult>;
 export interface AuthorizeDataShareMessage {
   DataShareArn?: string;
   ConsumerIdentifier?: string;
@@ -2052,24 +1601,12 @@ export const AuthorizeDataShareMessage = /*@__PURE__*/ S.suspend(() =>
     DataShareArn: S.optional(S.String),
     ConsumerIdentifier: S.optional(S.String),
     AllowWrites: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "AuthorizeDataShareMessage",
 }) as any as S.Schema<AuthorizeDataShareMessage>;
 export type VpcIdentifierList = string[];
-export const VpcIdentifierList = /*@__PURE__*/ S.Array(
-  S.String.pipe(T.XmlName("VpcIdentifier")),
-);
+export const VpcIdentifierList = /*@__PURE__*/ S.Array(S.String.pipe(T.XmlName("VpcIdentifier")));
 export interface AuthorizeEndpointAccessMessage {
   ClusterIdentifier?: string;
   Account?: string;
@@ -2080,17 +1617,7 @@ export const AuthorizeEndpointAccessMessage = /*@__PURE__*/ S.suspend(() =>
     ClusterIdentifier: S.optional(S.String),
     Account: S.optional(S.String),
     VpcIds: S.optional(VpcIdentifierList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "AuthorizeEndpointAccessMessage",
 }) as any as S.Schema<AuthorizeEndpointAccessMessage>;
@@ -2113,18 +1640,14 @@ export const EndpointAuthorization = /*@__PURE__*/ S.suspend(() =>
     Grantor: S.optional(S.String),
     Grantee: S.optional(S.String),
     ClusterIdentifier: S.optional(S.String),
-    AuthorizeTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    AuthorizeTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     ClusterStatus: S.optional(S.String),
     Status: S.optional(AuthorizationStatus),
     AllowedAllVPCs: S.optional(S.Boolean),
     AllowedVPCs: S.optional(VpcIdentifierList),
     EndpointCount: S.optional(S.Number),
   }).pipe(ns),
-).annotate({
-  identifier: "EndpointAuthorization",
-}) as any as S.Schema<EndpointAuthorization>;
+).annotate({ identifier: "EndpointAuthorization" }) as any as S.Schema<EndpointAuthorization>;
 export interface AuthorizeSnapshotAccessMessage {
   SnapshotIdentifier?: string;
   SnapshotArn?: string;
@@ -2137,17 +1660,7 @@ export const AuthorizeSnapshotAccessMessage = /*@__PURE__*/ S.suspend(() =>
     SnapshotArn: S.optional(S.String),
     SnapshotClusterIdentifier: S.optional(S.String),
     AccountWithRestoreAccess: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "AuthorizeSnapshotAccessMessage",
 }) as any as S.Schema<AuthorizeSnapshotAccessMessage>;
@@ -2156,23 +1669,16 @@ export interface AccountWithRestoreAccess {
   AccountAlias?: string;
 }
 export const AccountWithRestoreAccess = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AccountId: S.optional(S.String),
-    AccountAlias: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "AccountWithRestoreAccess",
-}) as any as S.Schema<AccountWithRestoreAccess>;
+  S.Struct({ AccountId: S.optional(S.String), AccountAlias: S.optional(S.String) }),
+).annotate({ identifier: "AccountWithRestoreAccess" }) as any as S.Schema<AccountWithRestoreAccess>;
 export type AccountsWithRestoreAccessList = AccountWithRestoreAccess[];
 export const AccountsWithRestoreAccessList = /*@__PURE__*/ S.Array(
-  AccountWithRestoreAccess.pipe(T.XmlName("AccountWithRestoreAccess")).annotate(
-    { identifier: "AccountWithRestoreAccess" },
-  ),
+  AccountWithRestoreAccess.pipe(T.XmlName("AccountWithRestoreAccess")).annotate({
+    identifier: "AccountWithRestoreAccess",
+  }),
 );
 export type RestorableNodeTypeList = string[];
-export const RestorableNodeTypeList = /*@__PURE__*/ S.Array(
-  S.String.pipe(T.XmlName("NodeType")),
-);
+export const RestorableNodeTypeList = /*@__PURE__*/ S.Array(S.String.pipe(T.XmlName("NodeType")));
 export interface Snapshot {
   SnapshotIdentifier?: string;
   ClusterIdentifier?: string;
@@ -2216,15 +1722,11 @@ export const Snapshot = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     SnapshotIdentifier: S.optional(S.String),
     ClusterIdentifier: S.optional(S.String),
-    SnapshotCreateTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    SnapshotCreateTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     Status: S.optional(S.String),
     Port: S.optional(S.Number),
     AvailabilityZone: S.optional(S.String),
-    ClusterCreateTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    ClusterCreateTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     MasterUsername: S.optional(S.String),
     ClusterVersion: S.optional(S.String),
     EngineFullVersion: S.optional(S.String),
@@ -2251,9 +1753,7 @@ export const Snapshot = /*@__PURE__*/ S.suspend(() =>
     MaintenanceTrackName: S.optional(S.String),
     ManualSnapshotRetentionPeriod: S.optional(S.Number),
     ManualSnapshotRemainingDays: S.optional(S.Number),
-    SnapshotRetentionStartTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    SnapshotRetentionStartTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     MasterPasswordSecretArn: S.optional(S.String),
     MasterPasswordSecretKmsKeyId: S.optional(S.String),
     SnapshotArn: S.optional(S.String),
@@ -2275,48 +1775,28 @@ export const DeleteClusterSnapshotMessage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     SnapshotIdentifier: S.optional(S.String),
     SnapshotClusterIdentifier: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DeleteClusterSnapshotMessage",
 }) as any as S.Schema<DeleteClusterSnapshotMessage>;
 export type DeleteClusterSnapshotMessageList = DeleteClusterSnapshotMessage[];
 export const DeleteClusterSnapshotMessageList = /*@__PURE__*/ S.Array(
-  DeleteClusterSnapshotMessage.pipe(
-    T.XmlName("DeleteClusterSnapshotMessage"),
-  ).annotate({ identifier: "DeleteClusterSnapshotMessage" }),
+  DeleteClusterSnapshotMessage.pipe(T.XmlName("DeleteClusterSnapshotMessage")).annotate({
+    identifier: "DeleteClusterSnapshotMessage",
+  }),
 );
 export interface BatchDeleteClusterSnapshotsRequest {
   Identifiers?: DeleteClusterSnapshotMessage[];
 }
 export const BatchDeleteClusterSnapshotsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Identifiers: S.optional(DeleteClusterSnapshotMessageList) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "BatchDeleteClusterSnapshotsRequest",
 }) as any as S.Schema<BatchDeleteClusterSnapshotsRequest>;
 export type SnapshotIdentifierList = string[];
-export const SnapshotIdentifierList = /*@__PURE__*/ S.Array(
-  S.String.pipe(T.XmlName("String")),
-);
+export const SnapshotIdentifierList = /*@__PURE__*/ S.Array(S.String.pipe(T.XmlName("String")));
 export interface SnapshotErrorMessage {
   SnapshotIdentifier?: string;
   SnapshotClusterIdentifier?: string;
@@ -2330,9 +1810,7 @@ export const SnapshotErrorMessage = /*@__PURE__*/ S.suspend(() =>
     FailureCode: S.optional(S.String),
     FailureReason: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SnapshotErrorMessage",
-}) as any as S.Schema<SnapshotErrorMessage>;
+).annotate({ identifier: "SnapshotErrorMessage" }) as any as S.Schema<SnapshotErrorMessage>;
 export type BatchSnapshotOperationErrorList = SnapshotErrorMessage[];
 export const BatchSnapshotOperationErrorList = /*@__PURE__*/ S.Array(
   SnapshotErrorMessage.pipe(T.XmlName("SnapshotErrorMessage")).annotate({
@@ -2361,17 +1839,7 @@ export const BatchModifyClusterSnapshotsMessage = /*@__PURE__*/ S.suspend(() =>
     SnapshotIdentifierList: S.optional(SnapshotIdentifierList),
     ManualSnapshotRetentionPeriod: S.optional(S.Number),
     Force: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "BatchModifyClusterSnapshotsMessage",
 }) as any as S.Schema<BatchModifyClusterSnapshotsMessage>;
@@ -2385,12 +1853,11 @@ export interface BatchModifyClusterSnapshotsOutputMessage {
   Resources?: string[];
   Errors?: SnapshotErrorMessage[];
 }
-export const BatchModifyClusterSnapshotsOutputMessage = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Resources: S.optional(SnapshotIdentifierList),
-      Errors: S.optional(BatchSnapshotOperationErrors),
-    }).pipe(ns),
+export const BatchModifyClusterSnapshotsOutputMessage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Resources: S.optional(SnapshotIdentifierList),
+    Errors: S.optional(BatchSnapshotOperationErrors),
+  }).pipe(ns),
 ).annotate({
   identifier: "BatchModifyClusterSnapshotsOutputMessage",
 }) as any as S.Schema<BatchModifyClusterSnapshotsOutputMessage>;
@@ -2399,19 +1866,9 @@ export interface CancelResizeMessage {
 }
 export const CancelResizeMessage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ClusterIdentifier: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "CancelResizeMessage",
-}) as any as S.Schema<CancelResizeMessage>;
+).annotate({ identifier: "CancelResizeMessage" }) as any as S.Schema<CancelResizeMessage>;
 export type ImportTablesCompleted = string[];
 export const ImportTablesCompleted = /*@__PURE__*/ S.Array(S.String);
 export type ImportTablesInProgress = string[];
@@ -2455,9 +1912,7 @@ export const ResizeProgressMessage = /*@__PURE__*/ S.suspend(() =>
     TargetEncryptionType: S.optional(S.String),
     DataTransferProgressPercent: S.optional(S.Number),
   }).pipe(ns),
-).annotate({
-  identifier: "ResizeProgressMessage",
-}) as any as S.Schema<ResizeProgressMessage>;
+).annotate({ identifier: "ResizeProgressMessage" }) as any as S.Schema<ResizeProgressMessage>;
 export interface CopyClusterSnapshotMessage {
   SourceSnapshotIdentifier?: string;
   SourceSnapshotClusterIdentifier?: string;
@@ -2470,17 +1925,7 @@ export const CopyClusterSnapshotMessage = /*@__PURE__*/ S.suspend(() =>
     SourceSnapshotClusterIdentifier: S.optional(S.String),
     TargetSnapshotIdentifier: S.optional(S.String),
     ManualSnapshotRetentionPeriod: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CopyClusterSnapshotMessage",
 }) as any as S.Schema<CopyClusterSnapshotMessage>;
@@ -2501,17 +1946,7 @@ export const CreateAuthenticationProfileMessage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     AuthenticationProfileName: S.optional(S.String),
     AuthenticationProfileContent: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateAuthenticationProfileMessage",
 }) as any as S.Schema<CreateAuthenticationProfileMessage>;
@@ -2537,14 +1972,8 @@ export const VpcSecurityGroupIdList = /*@__PURE__*/ S.Array(
   S.String.pipe(T.XmlName("VpcSecurityGroupId")),
 );
 export type IamRoleArnList = string[];
-export const IamRoleArnList = /*@__PURE__*/ S.Array(
-  S.String.pipe(T.XmlName("IamRoleArn")),
-);
-export type AquaConfigurationStatus =
-  | "enabled"
-  | "disabled"
-  | "auto"
-  | (string & {});
+export const IamRoleArnList = /*@__PURE__*/ S.Array(S.String.pipe(T.XmlName("IamRoleArn")));
+export type AquaConfigurationStatus = "enabled" | "disabled" | "auto" | (string & {});
 export const AquaConfigurationStatus = S.String;
 
 export type CatalogNameString = string;
@@ -2634,20 +2063,8 @@ export const CreateClusterMessage = /*@__PURE__*/ S.suspend(() =>
     RedshiftIdcApplicationArn: S.optional(S.String),
     CatalogName: S.optional(S.String),
     ExtraComputeForAutomaticOptimization: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateClusterMessage",
-}) as any as S.Schema<CreateClusterMessage>;
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "CreateClusterMessage" }) as any as S.Schema<CreateClusterMessage>;
 export interface NetworkInterface {
   NetworkInterfaceId?: string;
   SubnetId?: string;
@@ -2663,14 +2080,10 @@ export const NetworkInterface = /*@__PURE__*/ S.suspend(() =>
     AvailabilityZone: S.optional(S.String),
     Ipv6Address: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NetworkInterface",
-}) as any as S.Schema<NetworkInterface>;
+).annotate({ identifier: "NetworkInterface" }) as any as S.Schema<NetworkInterface>;
 export type NetworkInterfaceList = NetworkInterface[];
 export const NetworkInterfaceList = /*@__PURE__*/ S.Array(
-  NetworkInterface.pipe(T.XmlName("NetworkInterface")).annotate({
-    identifier: "NetworkInterface",
-  }),
+  NetworkInterface.pipe(T.XmlName("NetworkInterface")).annotate({ identifier: "NetworkInterface" }),
 );
 export interface VpcEndpoint {
   VpcEndpointId?: string;
@@ -2686,9 +2099,7 @@ export const VpcEndpoint = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "VpcEndpoint" }) as any as S.Schema<VpcEndpoint>;
 export type VpcEndpointsList = VpcEndpoint[];
 export const VpcEndpointsList = /*@__PURE__*/ S.Array(
-  VpcEndpoint.pipe(T.XmlName("VpcEndpoint")).annotate({
-    identifier: "VpcEndpoint",
-  }),
+  VpcEndpoint.pipe(T.XmlName("VpcEndpoint")).annotate({ identifier: "VpcEndpoint" }),
 );
 export interface Endpoint {
   Address?: string;
@@ -2707,29 +2118,22 @@ export interface ClusterSecurityGroupMembership {
   Status?: string;
 }
 export const ClusterSecurityGroupMembership = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ClusterSecurityGroupName: S.optional(S.String),
-    Status: S.optional(S.String),
-  }),
+  S.Struct({ ClusterSecurityGroupName: S.optional(S.String), Status: S.optional(S.String) }),
 ).annotate({
   identifier: "ClusterSecurityGroupMembership",
 }) as any as S.Schema<ClusterSecurityGroupMembership>;
-export type ClusterSecurityGroupMembershipList =
-  ClusterSecurityGroupMembership[];
+export type ClusterSecurityGroupMembershipList = ClusterSecurityGroupMembership[];
 export const ClusterSecurityGroupMembershipList = /*@__PURE__*/ S.Array(
-  ClusterSecurityGroupMembership.pipe(
-    T.XmlName("ClusterSecurityGroup"),
-  ).annotate({ identifier: "ClusterSecurityGroupMembership" }),
+  ClusterSecurityGroupMembership.pipe(T.XmlName("ClusterSecurityGroup")).annotate({
+    identifier: "ClusterSecurityGroupMembership",
+  }),
 );
 export interface VpcSecurityGroupMembership {
   VpcSecurityGroupId?: string;
   Status?: string;
 }
 export const VpcSecurityGroupMembership = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    VpcSecurityGroupId: S.optional(S.String),
-    Status: S.optional(S.String),
-  }),
+  S.Struct({ VpcSecurityGroupId: S.optional(S.String), Status: S.optional(S.String) }),
 ).annotate({
   identifier: "VpcSecurityGroupMembership",
 }) as any as S.Schema<VpcSecurityGroupMembership>;
@@ -2750,13 +2154,9 @@ export const ClusterParameterStatus = /*@__PURE__*/ S.suspend(() =>
     ParameterApplyStatus: S.optional(S.String),
     ParameterApplyErrorDescription: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ClusterParameterStatus",
-}) as any as S.Schema<ClusterParameterStatus>;
+).annotate({ identifier: "ClusterParameterStatus" }) as any as S.Schema<ClusterParameterStatus>;
 export type ClusterParameterStatusList = ClusterParameterStatus[];
-export const ClusterParameterStatusList = /*@__PURE__*/ S.Array(
-  ClusterParameterStatus,
-);
+export const ClusterParameterStatusList = /*@__PURE__*/ S.Array(ClusterParameterStatus);
 export interface ClusterParameterGroupStatus {
   ParameterGroupName?: string;
   ParameterApplyStatus?: string;
@@ -2773,9 +2173,9 @@ export const ClusterParameterGroupStatus = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ClusterParameterGroupStatus>;
 export type ClusterParameterGroupStatusList = ClusterParameterGroupStatus[];
 export const ClusterParameterGroupStatusList = /*@__PURE__*/ S.Array(
-  ClusterParameterGroupStatus.pipe(T.XmlName("ClusterParameterGroup")).annotate(
-    { identifier: "ClusterParameterGroupStatus" },
-  ),
+  ClusterParameterGroupStatus.pipe(T.XmlName("ClusterParameterGroup")).annotate({
+    identifier: "ClusterParameterGroupStatus",
+  }),
 );
 export interface PendingModifiedValues {
   MasterUserPassword?: string | redacted.Redacted<string>;
@@ -2804,9 +2204,7 @@ export const PendingModifiedValues = /*@__PURE__*/ S.suspend(() =>
     MaintenanceTrackName: S.optional(S.String),
     EncryptionType: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PendingModifiedValues",
-}) as any as S.Schema<PendingModifiedValues>;
+).annotate({ identifier: "PendingModifiedValues" }) as any as S.Schema<PendingModifiedValues>;
 export interface RestoreStatus {
   Status?: string;
   CurrentRestoreRateInMegaBytesPerSecond?: number;
@@ -2842,9 +2240,7 @@ export const DataTransferProgress = /*@__PURE__*/ S.suspend(() =>
     EstimatedTimeToCompletionInSeconds: S.optional(S.Number),
     ElapsedTimeInSeconds: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "DataTransferProgress",
-}) as any as S.Schema<DataTransferProgress>;
+).annotate({ identifier: "DataTransferProgress" }) as any as S.Schema<DataTransferProgress>;
 export interface HsmStatus {
   HsmClientCertificateIdentifier?: string;
   HsmConfigurationIdentifier?: string;
@@ -2893,24 +2289,17 @@ export interface ElasticIpStatus {
 }
 export const ElasticIpStatus = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ElasticIp: S.optional(S.String), Status: S.optional(S.String) }),
-).annotate({
-  identifier: "ElasticIpStatus",
-}) as any as S.Schema<ElasticIpStatus>;
+).annotate({ identifier: "ElasticIpStatus" }) as any as S.Schema<ElasticIpStatus>;
 export interface ClusterIamRole {
   IamRoleArn?: string;
   ApplyStatus?: string;
 }
 export const ClusterIamRole = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    IamRoleArn: S.optional(S.String),
-    ApplyStatus: S.optional(S.String),
-  }),
+  S.Struct({ IamRoleArn: S.optional(S.String), ApplyStatus: S.optional(S.String) }),
 ).annotate({ identifier: "ClusterIamRole" }) as any as S.Schema<ClusterIamRole>;
 export type ClusterIamRoleList = ClusterIamRole[];
 export const ClusterIamRoleList = /*@__PURE__*/ S.Array(
-  ClusterIamRole.pipe(T.XmlName("ClusterIamRole")).annotate({
-    identifier: "ClusterIamRole",
-  }),
+  ClusterIamRole.pipe(T.XmlName("ClusterIamRole")).annotate({ identifier: "ClusterIamRole" }),
 );
 export type PendingActionsList = string[];
 export const PendingActionsList = /*@__PURE__*/ S.Array(S.String);
@@ -2922,21 +2311,17 @@ export interface DeferredMaintenanceWindow {
 export const DeferredMaintenanceWindow = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     DeferMaintenanceIdentifier: S.optional(S.String),
-    DeferMaintenanceStartTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    DeferMaintenanceEndTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    DeferMaintenanceStartTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    DeferMaintenanceEndTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotate({
   identifier: "DeferredMaintenanceWindow",
 }) as any as S.Schema<DeferredMaintenanceWindow>;
 export type DeferredMaintenanceWindowsList = DeferredMaintenanceWindow[];
 export const DeferredMaintenanceWindowsList = /*@__PURE__*/ S.Array(
-  DeferredMaintenanceWindow.pipe(
-    T.XmlName("DeferredMaintenanceWindow"),
-  ).annotate({ identifier: "DeferredMaintenanceWindow" }),
+  DeferredMaintenanceWindow.pipe(T.XmlName("DeferredMaintenanceWindow")).annotate({
+    identifier: "DeferredMaintenanceWindow",
+  }),
 );
 export type ScheduleState = "MODIFYING" | "ACTIVE" | "FAILED" | (string & {});
 export const ScheduleState = S.String;
@@ -2946,10 +2331,7 @@ export interface ResizeInfo {
   AllowCancelResize?: boolean;
 }
 export const ResizeInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResizeType: S.optional(S.String),
-    AllowCancelResize: S.optional(S.Boolean),
-  }),
+  S.Struct({ ResizeType: S.optional(S.String), AllowCancelResize: S.optional(S.Boolean) }),
 ).annotate({ identifier: "ResizeInfo" }) as any as S.Schema<ResizeInfo>;
 export type AquaStatus = "enabled" | "disabled" | "applying" | (string & {});
 export const AquaStatus = S.String;
@@ -2963,9 +2345,7 @@ export const AquaConfiguration = /*@__PURE__*/ S.suspend(() =>
     AquaStatus: S.optional(AquaStatus),
     AquaConfigurationStatus: S.optional(AquaConfigurationStatus),
   }),
-).annotate({
-  identifier: "AquaConfiguration",
-}) as any as S.Schema<AquaConfiguration>;
+).annotate({ identifier: "AquaConfiguration" }) as any as S.Schema<AquaConfiguration>;
 export type ReservedNodeExchangeStatusType =
   | "REQUESTED"
   | "PENDING"
@@ -2991,9 +2371,7 @@ export const ReservedNodeExchangeStatus = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ReservedNodeExchangeRequestId: S.optional(S.String),
     Status: S.optional(ReservedNodeExchangeStatusType),
-    RequestTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    RequestTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     SourceReservedNodeId: S.optional(S.String),
     SourceReservedNodeType: S.optional(S.String),
     SourceReservedNodeCount: S.optional(S.Number),
@@ -3009,13 +2387,8 @@ export interface SecondaryClusterInfo {
   ClusterNodes?: ClusterNode[];
 }
 export const SecondaryClusterInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AvailabilityZone: S.optional(S.String),
-    ClusterNodes: S.optional(ClusterNodesList),
-  }),
-).annotate({
-  identifier: "SecondaryClusterInfo",
-}) as any as S.Schema<SecondaryClusterInfo>;
+  S.Struct({ AvailabilityZone: S.optional(S.String), ClusterNodes: S.optional(ClusterNodesList) }),
+).annotate({ identifier: "SecondaryClusterInfo" }) as any as S.Schema<SecondaryClusterInfo>;
 export type LogTypeList = string[];
 export const LogTypeList = /*@__PURE__*/ S.Array(S.String);
 export type S3TableLastIngestionTimeMap = { [key: string]: string | undefined };
@@ -3038,17 +2411,13 @@ export const S3TablePublishStatus = /*@__PURE__*/ S.suspend(() =>
     EnabledAll: S.optional(S.Boolean),
     LastIngestionTimes: S.optional(S3TableLastIngestionTimeMap),
   }),
-).annotate({
-  identifier: "S3TablePublishStatus",
-}) as any as S.Schema<S3TablePublishStatus>;
+).annotate({ identifier: "S3TablePublishStatus" }) as any as S.Schema<S3TablePublishStatus>;
 export interface LoggingPublishStatus {
   S3Tables?: S3TablePublishStatus;
 }
 export const LoggingPublishStatus = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ S3Tables: S.optional(S3TablePublishStatus) }),
-).annotate({
-  identifier: "LoggingPublishStatus",
-}) as any as S.Schema<LoggingPublishStatus>;
+).annotate({ identifier: "LoggingPublishStatus" }) as any as S.Schema<LoggingPublishStatus>;
 export interface Cluster {
   ClusterIdentifier?: string;
   NodeType?: string;
@@ -3125,9 +2494,7 @@ export const Cluster = /*@__PURE__*/ S.suspend(() =>
     MasterUsername: S.optional(S.String),
     DBName: S.optional(S.String),
     Endpoint: S.optional(Endpoint),
-    ClusterCreateTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    ClusterCreateTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     AutomatedSnapshotRetentionPeriod: S.optional(S.Number),
     ManualSnapshotRetentionPeriod: S.optional(S.Number),
     ClusterSecurityGroups: S.optional(ClusterSecurityGroupMembershipList),
@@ -3196,9 +2563,7 @@ export interface CreateClusterResult {
 }
 export const CreateClusterResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Cluster: S.optional(Cluster) }).pipe(ns),
-).annotate({
-  identifier: "CreateClusterResult",
-}) as any as S.Schema<CreateClusterResult>;
+).annotate({ identifier: "CreateClusterResult" }) as any as S.Schema<CreateClusterResult>;
 export interface CreateClusterParameterGroupMessage {
   ParameterGroupName?: string;
   ParameterGroupFamily?: string;
@@ -3211,17 +2576,7 @@ export const CreateClusterParameterGroupMessage = /*@__PURE__*/ S.suspend(() =>
     ParameterGroupFamily: S.optional(S.String),
     Description: S.optional(S.String),
     Tags: S.optional(TagList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateClusterParameterGroupMessage",
 }) as any as S.Schema<CreateClusterParameterGroupMessage>;
@@ -3238,16 +2593,12 @@ export const ClusterParameterGroup = /*@__PURE__*/ S.suspend(() =>
     Description: S.optional(S.String),
     Tags: S.optional(TagList),
   }),
-).annotate({
-  identifier: "ClusterParameterGroup",
-}) as any as S.Schema<ClusterParameterGroup>;
+).annotate({ identifier: "ClusterParameterGroup" }) as any as S.Schema<ClusterParameterGroup>;
 export interface CreateClusterParameterGroupResult {
   ClusterParameterGroup?: ClusterParameterGroup;
 }
 export const CreateClusterParameterGroupResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ClusterParameterGroup: S.optional(ClusterParameterGroup) }).pipe(
-    ns,
-  ),
+  S.Struct({ ClusterParameterGroup: S.optional(ClusterParameterGroup) }).pipe(ns),
 ).annotate({
   identifier: "CreateClusterParameterGroupResult",
 }) as any as S.Schema<CreateClusterParameterGroupResult>;
@@ -3261,17 +2612,7 @@ export const CreateClusterSecurityGroupMessage = /*@__PURE__*/ S.suspend(() =>
     ClusterSecurityGroupName: S.optional(S.String),
     Description: S.optional(S.String),
     Tags: S.optional(TagList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateClusterSecurityGroupMessage",
 }) as any as S.Schema<CreateClusterSecurityGroupMessage>;
@@ -3295,17 +2636,7 @@ export const CreateClusterSnapshotMessage = /*@__PURE__*/ S.suspend(() =>
     ClusterIdentifier: S.optional(S.String),
     ManualSnapshotRetentionPeriod: S.optional(S.Number),
     Tags: S.optional(TagList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateClusterSnapshotMessage",
 }) as any as S.Schema<CreateClusterSnapshotMessage>;
@@ -3333,17 +2664,7 @@ export const CreateClusterSubnetGroupMessage = /*@__PURE__*/ S.suspend(() =>
     Description: S.optional(S.String),
     SubnetIds: S.optional(SubnetIdentifierList),
     Tags: S.optional(TagList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateClusterSubnetGroupMessage",
 }) as any as S.Schema<CreateClusterSubnetGroupMessage>;
@@ -3352,9 +2673,7 @@ export interface SupportedPlatform {
 }
 export const SupportedPlatform = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Name: S.optional(S.String) }),
-).annotate({
-  identifier: "SupportedPlatform",
-}) as any as S.Schema<SupportedPlatform>;
+).annotate({ identifier: "SupportedPlatform" }) as any as S.Schema<SupportedPlatform>;
 export type SupportedPlatformsList = SupportedPlatform[];
 export const SupportedPlatformsList = /*@__PURE__*/ S.Array(
   SupportedPlatform.pipe(T.XmlName("SupportedPlatform")).annotate({
@@ -3366,13 +2685,8 @@ export interface AvailabilityZone {
   SupportedPlatforms?: SupportedPlatform[];
 }
 export const AvailabilityZone = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String),
-    SupportedPlatforms: S.optional(SupportedPlatformsList),
-  }),
-).annotate({
-  identifier: "AvailabilityZone",
-}) as any as S.Schema<AvailabilityZone>;
+  S.Struct({ Name: S.optional(S.String), SupportedPlatforms: S.optional(SupportedPlatformsList) }),
+).annotate({ identifier: "AvailabilityZone" }) as any as S.Schema<AvailabilityZone>;
 export interface Subnet {
   SubnetIdentifier?: string;
   SubnetAvailabilityZone?: AvailabilityZone;
@@ -3390,9 +2704,7 @@ export const SubnetList = /*@__PURE__*/ S.Array(
   Subnet.pipe(T.XmlName("Subnet")).annotate({ identifier: "Subnet" }),
 );
 export type ValueStringList = string[];
-export const ValueStringList = /*@__PURE__*/ S.Array(
-  S.String.pipe(T.XmlName("item")),
-);
+export const ValueStringList = /*@__PURE__*/ S.Array(S.String.pipe(T.XmlName("item")));
 export interface ClusterSubnetGroup {
   ClusterSubnetGroupName?: string;
   Description?: string;
@@ -3412,9 +2724,7 @@ export const ClusterSubnetGroup = /*@__PURE__*/ S.suspend(() =>
     Tags: S.optional(TagList),
     SupportedClusterIpAddressTypes: S.optional(ValueStringList),
   }),
-).annotate({
-  identifier: "ClusterSubnetGroup",
-}) as any as S.Schema<ClusterSubnetGroup>;
+).annotate({ identifier: "ClusterSubnetGroup" }) as any as S.Schema<ClusterSubnetGroup>;
 export interface CreateClusterSubnetGroupResult {
   ClusterSubnetGroup?: ClusterSubnetGroup;
 }
@@ -3430,23 +2740,12 @@ export interface CreateCustomDomainAssociationMessage {
   CustomDomainCertificateArn?: string;
   ClusterIdentifier?: string;
 }
-export const CreateCustomDomainAssociationMessage = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      CustomDomainName: S.optional(S.String),
-      CustomDomainCertificateArn: S.optional(S.String),
-      ClusterIdentifier: S.optional(S.String),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
+export const CreateCustomDomainAssociationMessage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    CustomDomainName: S.optional(S.String),
+    CustomDomainCertificateArn: S.optional(S.String),
+    ClusterIdentifier: S.optional(S.String),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateCustomDomainAssociationMessage",
 }) as any as S.Schema<CreateCustomDomainAssociationMessage>;
@@ -3480,17 +2779,7 @@ export const CreateEndpointAccessMessage = /*@__PURE__*/ S.suspend(() =>
     EndpointName: S.optional(S.String),
     SubnetGroupName: S.optional(S.String),
     VpcSecurityGroupIds: S.optional(VpcSecurityGroupIdList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateEndpointAccessMessage",
 }) as any as S.Schema<CreateEndpointAccessMessage>;
@@ -3513,9 +2802,7 @@ export const EndpointAccess = /*@__PURE__*/ S.suspend(() =>
     SubnetGroupName: S.optional(S.String),
     EndpointStatus: S.optional(S.String),
     EndpointName: S.optional(S.String),
-    EndpointCreateTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    EndpointCreateTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     Port: S.optional(S.Number),
     Address: S.optional(S.String),
     VpcSecurityGroups: S.optional(VpcSecurityGroupMembershipList),
@@ -3523,13 +2810,9 @@ export const EndpointAccess = /*@__PURE__*/ S.suspend(() =>
   }).pipe(ns),
 ).annotate({ identifier: "EndpointAccess" }) as any as S.Schema<EndpointAccess>;
 export type SourceIdsList = string[];
-export const SourceIdsList = /*@__PURE__*/ S.Array(
-  S.String.pipe(T.XmlName("SourceId")),
-);
+export const SourceIdsList = /*@__PURE__*/ S.Array(S.String.pipe(T.XmlName("SourceId")));
 export type EventCategoriesList = string[];
-export const EventCategoriesList = /*@__PURE__*/ S.Array(
-  S.String.pipe(T.XmlName("EventCategory")),
-);
+export const EventCategoriesList = /*@__PURE__*/ S.Array(S.String.pipe(T.XmlName("EventCategory")));
 export interface CreateEventSubscriptionMessage {
   SubscriptionName?: string;
   SnsTopicArn?: string;
@@ -3550,17 +2833,7 @@ export const CreateEventSubscriptionMessage = /*@__PURE__*/ S.suspend(() =>
     Severity: S.optional(S.String),
     Enabled: S.optional(S.Boolean),
     Tags: S.optional(TagList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateEventSubscriptionMessage",
 }) as any as S.Schema<CreateEventSubscriptionMessage>;
@@ -3583,9 +2856,7 @@ export const EventSubscription = /*@__PURE__*/ S.suspend(() =>
     CustSubscriptionId: S.optional(S.String),
     SnsTopicArn: S.optional(S.String),
     Status: S.optional(S.String),
-    SubscriptionCreationTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    SubscriptionCreationTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     SourceType: S.optional(S.String),
     SourceIdsList: S.optional(SourceIdsList),
     EventCategoriesList: S.optional(EventCategoriesList),
@@ -3593,9 +2864,7 @@ export const EventSubscription = /*@__PURE__*/ S.suspend(() =>
     Enabled: S.optional(S.Boolean),
     Tags: S.optional(TagList),
   }),
-).annotate({
-  identifier: "EventSubscription",
-}) as any as S.Schema<EventSubscription>;
+).annotate({ identifier: "EventSubscription" }) as any as S.Schema<EventSubscription>;
 export interface CreateEventSubscriptionResult {
   EventSubscription?: EventSubscription;
 }
@@ -3612,17 +2881,7 @@ export const CreateHsmClientCertificateMessage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     HsmClientCertificateIdentifier: S.optional(S.String),
     Tags: S.optional(TagList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateHsmClientCertificateMessage",
 }) as any as S.Schema<CreateHsmClientCertificateMessage>;
@@ -3637,9 +2896,7 @@ export const HsmClientCertificate = /*@__PURE__*/ S.suspend(() =>
     HsmClientCertificatePublicKey: S.optional(S.String),
     Tags: S.optional(TagList),
   }),
-).annotate({
-  identifier: "HsmClientCertificate",
-}) as any as S.Schema<HsmClientCertificate>;
+).annotate({ identifier: "HsmClientCertificate" }) as any as S.Schema<HsmClientCertificate>;
 export interface CreateHsmClientCertificateResult {
   HsmClientCertificate?: HsmClientCertificate;
 }
@@ -3666,17 +2923,7 @@ export const CreateHsmConfigurationMessage = /*@__PURE__*/ S.suspend(() =>
     HsmPartitionPassword: S.optional(S.String),
     HsmServerPublicCertificate: S.optional(S.String),
     Tags: S.optional(TagList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateHsmConfigurationMessage",
 }) as any as S.Schema<CreateHsmConfigurationMessage>;
@@ -3695,9 +2942,7 @@ export const HsmConfiguration = /*@__PURE__*/ S.suspend(() =>
     HsmPartitionName: S.optional(S.String),
     Tags: S.optional(TagList),
   }),
-).annotate({
-  identifier: "HsmConfiguration",
-}) as any as S.Schema<HsmConfiguration>;
+).annotate({ identifier: "HsmConfiguration" }) as any as S.Schema<HsmConfiguration>;
 export interface CreateHsmConfigurationResult {
   HsmConfiguration?: HsmConfiguration;
 }
@@ -3710,10 +2955,7 @@ export type SourceArn = string;
 export type TargetArn = string;
 export type IntegrationName = string;
 export type EncryptionContextMap = { [key: string]: string | undefined };
-export const EncryptionContextMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const EncryptionContextMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export type IntegrationDescription = string;
 export interface CreateIntegrationMessage {
   SourceArn?: string;
@@ -3733,20 +2975,8 @@ export const CreateIntegrationMessage = /*@__PURE__*/ S.suspend(() =>
     TagList: S.optional(TagList),
     AdditionalEncryptionContext: S.optional(EncryptionContextMap),
     Description: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateIntegrationMessage",
-}) as any as S.Schema<CreateIntegrationMessage>;
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "CreateIntegrationMessage" }) as any as S.Schema<CreateIntegrationMessage>;
 export type IntegrationArn = string;
 export type ZeroETLIntegrationStatus =
   | "creating"
@@ -3764,18 +2994,11 @@ export interface IntegrationError {
   ErrorMessage?: string;
 }
 export const IntegrationError = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ErrorCode: S.optional(S.String),
-    ErrorMessage: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "IntegrationError",
-}) as any as S.Schema<IntegrationError>;
+  S.Struct({ ErrorCode: S.optional(S.String), ErrorMessage: S.optional(S.String) }),
+).annotate({ identifier: "IntegrationError" }) as any as S.Schema<IntegrationError>;
 export type IntegrationErrorList = IntegrationError[];
 export const IntegrationErrorList = /*@__PURE__*/ S.Array(
-  IntegrationError.pipe(T.XmlName("IntegrationError")).annotate({
-    identifier: "IntegrationError",
-  }),
+  IntegrationError.pipe(T.XmlName("IntegrationError")).annotate({ identifier: "IntegrationError" }),
 );
 export type Description = string;
 export interface Integration {
@@ -3799,9 +3022,7 @@ export const Integration = /*@__PURE__*/ S.suspend(() =>
     TargetArn: S.optional(S.String),
     Status: S.optional(ZeroETLIntegrationStatus),
     Errors: S.optional(IntegrationErrorList),
-    CreateTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    CreateTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     Description: S.optional(S.String),
     KMSKeyId: S.optional(S.String),
     AdditionalEncryptionContext: S.optional(EncryptionContextMap),
@@ -3822,17 +3043,7 @@ export const CreateQev2IdcApplicationMessage = /*@__PURE__*/ S.suspend(() =>
     Qev2IdcApplicationName: S.optional(S.String),
     IdcDisplayName: S.optional(S.String),
     Tags: S.optional(TagList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateQev2IdcApplicationMessage",
 }) as any as S.Schema<CreateQev2IdcApplicationMessage>;
@@ -3855,9 +3066,7 @@ export const Qev2IdcApplication = /*@__PURE__*/ S.suspend(() =>
     IdcDisplayName: S.optional(S.String),
     Tags: S.optional(TagList),
   }),
-).annotate({
-  identifier: "Qev2IdcApplication",
-}) as any as S.Schema<Qev2IdcApplication>;
+).annotate({ identifier: "Qev2IdcApplication" }) as any as S.Schema<Qev2IdcApplication>;
 export interface CreateQev2IdcApplicationResult {
   Qev2IdcApplication?: Qev2IdcApplication;
 }
@@ -3879,13 +3088,9 @@ export const AuthorizedTokenIssuer = /*@__PURE__*/ S.suspend(() =>
     TrustedTokenIssuerArn: S.optional(S.String),
     AuthorizedAudiencesList: S.optional(AuthorizedAudienceList),
   }),
-).annotate({
-  identifier: "AuthorizedTokenIssuer",
-}) as any as S.Schema<AuthorizedTokenIssuer>;
+).annotate({ identifier: "AuthorizedTokenIssuer" }) as any as S.Schema<AuthorizedTokenIssuer>;
 export type AuthorizedTokenIssuerList = AuthorizedTokenIssuer[];
-export const AuthorizedTokenIssuerList = /*@__PURE__*/ S.Array(
-  AuthorizedTokenIssuer,
-);
+export const AuthorizedTokenIssuerList = /*@__PURE__*/ S.Array(AuthorizedTokenIssuer);
 export type ServiceAuthorization = "Enabled" | "Disabled" | (string & {});
 export const ServiceAuthorization = S.String;
 
@@ -3894,35 +3099,25 @@ export interface LakeFormationQuery {
 }
 export const LakeFormationQuery = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Authorization: S.optional(ServiceAuthorization) }),
-).annotate({
-  identifier: "LakeFormationQuery",
-}) as any as S.Schema<LakeFormationQuery>;
-export type LakeFormationScopeUnion = {
-  LakeFormationQuery: LakeFormationQuery;
-};
+).annotate({ identifier: "LakeFormationQuery" }) as any as S.Schema<LakeFormationQuery>;
+export type LakeFormationScopeUnion = { LakeFormationQuery: LakeFormationQuery };
 export const LakeFormationScopeUnion = /*@__PURE__*/ S.Union([
   S.Struct({ LakeFormationQuery: LakeFormationQuery }),
 ]);
 export type LakeFormationServiceIntegrations = LakeFormationScopeUnion[];
-export const LakeFormationServiceIntegrations = /*@__PURE__*/ S.Array(
-  LakeFormationScopeUnion,
-);
+export const LakeFormationServiceIntegrations = /*@__PURE__*/ S.Array(LakeFormationScopeUnion);
 export interface ReadWriteAccess {
   Authorization?: ServiceAuthorization;
 }
 export const ReadWriteAccess = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Authorization: S.optional(ServiceAuthorization) }),
-).annotate({
-  identifier: "ReadWriteAccess",
-}) as any as S.Schema<ReadWriteAccess>;
+).annotate({ identifier: "ReadWriteAccess" }) as any as S.Schema<ReadWriteAccess>;
 export type S3AccessGrantsScopeUnion = { ReadWriteAccess: ReadWriteAccess };
 export const S3AccessGrantsScopeUnion = /*@__PURE__*/ S.Union([
   S.Struct({ ReadWriteAccess: ReadWriteAccess }),
 ]);
 export type S3AccessGrantsServiceIntegrations = S3AccessGrantsScopeUnion[];
-export const S3AccessGrantsServiceIntegrations = /*@__PURE__*/ S.Array(
-  S3AccessGrantsScopeUnion,
-);
+export const S3AccessGrantsServiceIntegrations = /*@__PURE__*/ S.Array(S3AccessGrantsScopeUnion);
 export interface Connect {
   Authorization?: ServiceAuthorization;
 }
@@ -3930,44 +3125,25 @@ export const Connect = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Authorization: S.optional(ServiceAuthorization) }),
 ).annotate({ identifier: "Connect" }) as any as S.Schema<Connect>;
 export type RedshiftScopeUnion = { Connect: Connect };
-export const RedshiftScopeUnion = /*@__PURE__*/ S.Union([
-  S.Struct({ Connect: Connect }),
-]);
+export const RedshiftScopeUnion = /*@__PURE__*/ S.Union([S.Struct({ Connect: Connect })]);
 export type RedshiftServiceIntegrations = RedshiftScopeUnion[];
-export const RedshiftServiceIntegrations =
-  /*@__PURE__*/ S.Array(RedshiftScopeUnion);
+export const RedshiftServiceIntegrations = /*@__PURE__*/ S.Array(RedshiftScopeUnion);
 export type ServiceIntegrationsUnion =
-  | {
-      LakeFormation: LakeFormationScopeUnion[];
-      S3AccessGrants?: never;
-      Redshift?: never;
-    }
-  | {
-      LakeFormation?: never;
-      S3AccessGrants: S3AccessGrantsScopeUnion[];
-      Redshift?: never;
-    }
-  | {
-      LakeFormation?: never;
-      S3AccessGrants?: never;
-      Redshift: RedshiftScopeUnion[];
-    };
+  | { LakeFormation: LakeFormationScopeUnion[]; S3AccessGrants?: never; Redshift?: never }
+  | { LakeFormation?: never; S3AccessGrants: S3AccessGrantsScopeUnion[]; Redshift?: never }
+  | { LakeFormation?: never; S3AccessGrants?: never; Redshift: RedshiftScopeUnion[] };
 export const ServiceIntegrationsUnion = /*@__PURE__*/ S.Union([
   S.Struct({ LakeFormation: LakeFormationServiceIntegrations }),
   S.Struct({ S3AccessGrants: S3AccessGrantsServiceIntegrations }),
   S.Struct({ Redshift: RedshiftServiceIntegrations }),
 ]);
 export type ServiceIntegrationList = ServiceIntegrationsUnion[];
-export const ServiceIntegrationList = /*@__PURE__*/ S.Array(
-  ServiceIntegrationsUnion,
-);
+export const ServiceIntegrationList = /*@__PURE__*/ S.Array(ServiceIntegrationsUnion);
 export type ApplicationType = "None" | "Lakehouse" | (string & {});
 export const ApplicationType = S.String;
 
 export type TagKeyList = string[];
-export const TagKeyList = /*@__PURE__*/ S.Array(
-  S.String.pipe(T.XmlName("TagKey")),
-);
+export const TagKeyList = /*@__PURE__*/ S.Array(S.String.pipe(T.XmlName("TagKey")));
 export interface CreateRedshiftIdcApplicationMessage {
   IdcInstanceArn?: string;
   RedshiftIdcApplicationName?: string;
@@ -3992,17 +3168,7 @@ export const CreateRedshiftIdcApplicationMessage = /*@__PURE__*/ S.suspend(() =>
     ApplicationType: S.optional(ApplicationType),
     Tags: S.optional(TagList),
     SsoTagKeys: S.optional(TagKeyList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateRedshiftIdcApplicationMessage",
 }) as any as S.Schema<CreateRedshiftIdcApplicationMessage>;
@@ -4037,16 +3203,12 @@ export const RedshiftIdcApplication = /*@__PURE__*/ S.suspend(() =>
     Tags: S.optional(TagList),
     SsoTagKeys: S.optional(TagKeyList),
   }),
-).annotate({
-  identifier: "RedshiftIdcApplication",
-}) as any as S.Schema<RedshiftIdcApplication>;
+).annotate({ identifier: "RedshiftIdcApplication" }) as any as S.Schema<RedshiftIdcApplication>;
 export interface CreateRedshiftIdcApplicationResult {
   RedshiftIdcApplication?: RedshiftIdcApplication;
 }
 export const CreateRedshiftIdcApplicationResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RedshiftIdcApplication: S.optional(RedshiftIdcApplication) }).pipe(
-    ns,
-  ),
+  S.Struct({ RedshiftIdcApplication: S.optional(RedshiftIdcApplication) }).pipe(ns),
 ).annotate({
   identifier: "CreateRedshiftIdcApplicationResult",
 }) as any as S.Schema<CreateRedshiftIdcApplicationResult>;
@@ -4068,56 +3230,24 @@ export const ResizeClusterMessage = /*@__PURE__*/ S.suspend(() =>
     Classic: S.optional(S.Boolean),
     ReservedNodeId: S.optional(S.String),
     TargetReservedNodeOfferingId: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ResizeClusterMessage",
-}) as any as S.Schema<ResizeClusterMessage>;
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "ResizeClusterMessage" }) as any as S.Schema<ResizeClusterMessage>;
 export interface PauseClusterMessage {
   ClusterIdentifier?: string;
 }
 export const PauseClusterMessage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ClusterIdentifier: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "PauseClusterMessage",
-}) as any as S.Schema<PauseClusterMessage>;
+).annotate({ identifier: "PauseClusterMessage" }) as any as S.Schema<PauseClusterMessage>;
 export interface ResumeClusterMessage {
   ClusterIdentifier?: string;
 }
 export const ResumeClusterMessage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ClusterIdentifier: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "ResumeClusterMessage",
-}) as any as S.Schema<ResumeClusterMessage>;
+).annotate({ identifier: "ResumeClusterMessage" }) as any as S.Schema<ResumeClusterMessage>;
 export interface ScheduledActionType {
   ResizeCluster?: ResizeClusterMessage;
   PauseCluster?: PauseClusterMessage;
@@ -4129,9 +3259,7 @@ export const ScheduledActionType = /*@__PURE__*/ S.suspend(() =>
     PauseCluster: S.optional(PauseClusterMessage),
     ResumeCluster: S.optional(ResumeClusterMessage),
   }),
-).annotate({
-  identifier: "ScheduledActionType",
-}) as any as S.Schema<ScheduledActionType>;
+).annotate({ identifier: "ScheduledActionType" }) as any as S.Schema<ScheduledActionType>;
 export interface CreateScheduledActionMessage {
   ScheduledActionName?: string;
   TargetAction?: ScheduledActionType;
@@ -4149,22 +3277,10 @@ export const CreateScheduledActionMessage = /*@__PURE__*/ S.suspend(() =>
     Schedule: S.optional(S.String),
     IamRole: S.optional(S.String),
     ScheduledActionDescription: S.optional(S.String),
-    StartTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    StartTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     EndTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     Enable: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateScheduledActionMessage",
 }) as any as S.Schema<CreateScheduledActionMessage>;
@@ -4173,9 +3289,7 @@ export const ScheduledActionState = S.String;
 
 export type ScheduledActionTimeList = Date[];
 export const ScheduledActionTimeList = /*@__PURE__*/ S.Array(
-  T.DateFromString.pipe(T.TimestampFormat("date-time")).pipe(
-    T.XmlName("ScheduledActionTime"),
-  ),
+  T.DateFromString.pipe(T.TimestampFormat("date-time")).pipe(T.XmlName("ScheduledActionTime")),
 );
 export interface ScheduledAction {
   ScheduledActionName?: string;
@@ -4201,14 +3315,10 @@ export const ScheduledAction = /*@__PURE__*/ S.suspend(() =>
     ScheduledActionDescription: S.optional(S.String),
     State: S.optional(ScheduledActionState),
     NextInvocations: S.optional(ScheduledActionTimeList),
-    StartTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    StartTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     EndTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }).pipe(ns),
-).annotate({
-  identifier: "ScheduledAction",
-}) as any as S.Schema<ScheduledAction>;
+).annotate({ identifier: "ScheduledAction" }) as any as S.Schema<ScheduledAction>;
 export interface CreateSnapshotCopyGrantMessage {
   SnapshotCopyGrantName?: string;
   KmsKeyId?: string;
@@ -4219,17 +3329,7 @@ export const CreateSnapshotCopyGrantMessage = /*@__PURE__*/ S.suspend(() =>
     SnapshotCopyGrantName: S.optional(S.String),
     KmsKeyId: S.optional(S.String),
     Tags: S.optional(TagList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateSnapshotCopyGrantMessage",
 }) as any as S.Schema<CreateSnapshotCopyGrantMessage>;
@@ -4244,9 +3344,7 @@ export const SnapshotCopyGrant = /*@__PURE__*/ S.suspend(() =>
     KmsKeyId: S.optional(S.String),
     Tags: S.optional(TagList),
   }),
-).annotate({
-  identifier: "SnapshotCopyGrant",
-}) as any as S.Schema<SnapshotCopyGrant>;
+).annotate({ identifier: "SnapshotCopyGrant" }) as any as S.Schema<SnapshotCopyGrant>;
 export interface CreateSnapshotCopyGrantResult {
   SnapshotCopyGrant?: SnapshotCopyGrant;
 }
@@ -4275,25 +3373,13 @@ export const CreateSnapshotScheduleMessage = /*@__PURE__*/ S.suspend(() =>
     Tags: S.optional(TagList),
     DryRun: S.optional(S.Boolean),
     NextInvocations: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateSnapshotScheduleMessage",
 }) as any as S.Schema<CreateSnapshotScheduleMessage>;
 export type ScheduledSnapshotTimeList = Date[];
 export const ScheduledSnapshotTimeList = /*@__PURE__*/ S.Array(
-  T.DateFromString.pipe(T.TimestampFormat("date-time")).pipe(
-    T.XmlName("SnapshotTime"),
-  ),
+  T.DateFromString.pipe(T.TimestampFormat("date-time")).pipe(T.XmlName("SnapshotTime")),
 );
 export interface ClusterAssociatedToSchedule {
   ClusterIdentifier?: string;
@@ -4309,9 +3395,9 @@ export const ClusterAssociatedToSchedule = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ClusterAssociatedToSchedule>;
 export type AssociatedClusterList = ClusterAssociatedToSchedule[];
 export const AssociatedClusterList = /*@__PURE__*/ S.Array(
-  ClusterAssociatedToSchedule.pipe(
-    T.XmlName("ClusterAssociatedToSchedule"),
-  ).annotate({ identifier: "ClusterAssociatedToSchedule" }),
+  ClusterAssociatedToSchedule.pipe(T.XmlName("ClusterAssociatedToSchedule")).annotate({
+    identifier: "ClusterAssociatedToSchedule",
+  }),
 );
 export interface SnapshotSchedule {
   ScheduleDefinitions?: string[];
@@ -4332,35 +3418,18 @@ export const SnapshotSchedule = /*@__PURE__*/ S.suspend(() =>
     AssociatedClusterCount: S.optional(S.Number),
     AssociatedClusters: S.optional(AssociatedClusterList),
   }).pipe(ns),
-).annotate({
-  identifier: "SnapshotSchedule",
-}) as any as S.Schema<SnapshotSchedule>;
+).annotate({ identifier: "SnapshotSchedule" }) as any as S.Schema<SnapshotSchedule>;
 export interface CreateTagsMessage {
   ResourceName?: string;
   Tags?: Tag[];
 }
 export const CreateTagsMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceName: S.optional(S.String),
-    Tags: S.optional(TagList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+  S.Struct({ ResourceName: S.optional(S.String), Tags: S.optional(TagList) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "CreateTagsMessage",
-}) as any as S.Schema<CreateTagsMessage>;
+).annotate({ identifier: "CreateTagsMessage" }) as any as S.Schema<CreateTagsMessage>;
 export interface CreateTagsResponse {}
-export const CreateTagsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
+export const CreateTagsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "CreateTagsResponse",
 }) as any as S.Schema<CreateTagsResponse>;
 export type UsageLimitFeatureType =
@@ -4377,11 +3446,7 @@ export const UsageLimitLimitType = S.String;
 export type UsageLimitPeriod = "daily" | "weekly" | "monthly" | (string & {});
 export const UsageLimitPeriod = S.String;
 
-export type UsageLimitBreachAction =
-  | "log"
-  | "emit-metric"
-  | "disable"
-  | (string & {});
+export type UsageLimitBreachAction = "log" | "emit-metric" | "disable" | (string & {});
 export const UsageLimitBreachAction = S.String;
 
 export interface CreateUsageLimitMessage {
@@ -4402,20 +3467,8 @@ export const CreateUsageLimitMessage = /*@__PURE__*/ S.suspend(() =>
     Period: S.optional(UsageLimitPeriod),
     BreachAction: S.optional(UsageLimitBreachAction),
     Tags: S.optional(TagList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateUsageLimitMessage",
-}) as any as S.Schema<CreateUsageLimitMessage>;
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "CreateUsageLimitMessage" }) as any as S.Schema<CreateUsageLimitMessage>;
 export interface UsageLimit {
   UsageLimitId?: string;
   ClusterIdentifier?: string;
@@ -4443,19 +3496,8 @@ export interface DeauthorizeDataShareMessage {
   ConsumerIdentifier?: string;
 }
 export const DeauthorizeDataShareMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DataShareArn: S.optional(S.String),
-    ConsumerIdentifier: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+  S.Struct({ DataShareArn: S.optional(S.String), ConsumerIdentifier: S.optional(S.String) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DeauthorizeDataShareMessage",
@@ -4465,15 +3507,7 @@ export interface DeleteAuthenticationProfileMessage {
 }
 export const DeleteAuthenticationProfileMessage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ AuthenticationProfileName: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DeleteAuthenticationProfileMessage",
@@ -4498,42 +3532,20 @@ export const DeleteClusterMessage = /*@__PURE__*/ S.suspend(() =>
     SkipFinalClusterSnapshot: S.optional(S.Boolean),
     FinalClusterSnapshotIdentifier: S.optional(S.String),
     FinalClusterSnapshotRetentionPeriod: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteClusterMessage",
-}) as any as S.Schema<DeleteClusterMessage>;
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "DeleteClusterMessage" }) as any as S.Schema<DeleteClusterMessage>;
 export interface DeleteClusterResult {
   Cluster?: Cluster;
 }
 export const DeleteClusterResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Cluster: S.optional(Cluster) }).pipe(ns),
-).annotate({
-  identifier: "DeleteClusterResult",
-}) as any as S.Schema<DeleteClusterResult>;
+).annotate({ identifier: "DeleteClusterResult" }) as any as S.Schema<DeleteClusterResult>;
 export interface DeleteClusterParameterGroupMessage {
   ParameterGroupName?: string;
 }
 export const DeleteClusterParameterGroupMessage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ParameterGroupName: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DeleteClusterParameterGroupMessage",
@@ -4549,15 +3561,7 @@ export interface DeleteClusterSecurityGroupMessage {
 }
 export const DeleteClusterSecurityGroupMessage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ClusterSecurityGroupName: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DeleteClusterSecurityGroupMessage",
@@ -4581,15 +3585,7 @@ export interface DeleteClusterSubnetGroupMessage {
 }
 export const DeleteClusterSubnetGroupMessage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ClusterSubnetGroupName: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DeleteClusterSubnetGroupMessage",
@@ -4604,28 +3600,17 @@ export interface DeleteCustomDomainAssociationMessage {
   ClusterIdentifier?: string;
   CustomDomainName?: string;
 }
-export const DeleteCustomDomainAssociationMessage = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ClusterIdentifier: S.optional(S.String),
-      CustomDomainName: S.optional(S.String),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
+export const DeleteCustomDomainAssociationMessage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ClusterIdentifier: S.optional(S.String),
+    CustomDomainName: S.optional(S.String),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DeleteCustomDomainAssociationMessage",
 }) as any as S.Schema<DeleteCustomDomainAssociationMessage>;
 export interface DeleteCustomDomainAssociationResponse {}
-export const DeleteCustomDomainAssociationResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}).pipe(ns),
+export const DeleteCustomDomainAssociationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(ns),
 ).annotate({
   identifier: "DeleteCustomDomainAssociationResponse",
 }) as any as S.Schema<DeleteCustomDomainAssociationResponse>;
@@ -4634,15 +3619,7 @@ export interface DeleteEndpointAccessMessage {
 }
 export const DeleteEndpointAccessMessage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ EndpointName: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DeleteEndpointAccessMessage",
@@ -4652,15 +3629,7 @@ export interface DeleteEventSubscriptionMessage {
 }
 export const DeleteEventSubscriptionMessage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ SubscriptionName: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DeleteEventSubscriptionMessage",
@@ -4676,15 +3645,7 @@ export interface DeleteHsmClientCertificateMessage {
 }
 export const DeleteHsmClientCertificateMessage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ HsmClientCertificateIdentifier: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DeleteHsmClientCertificateMessage",
@@ -4700,15 +3661,7 @@ export interface DeleteHsmConfigurationMessage {
 }
 export const DeleteHsmConfigurationMessage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ HsmConfigurationIdentifier: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DeleteHsmConfigurationMessage",
@@ -4724,33 +3677,15 @@ export interface DeleteIntegrationMessage {
 }
 export const DeleteIntegrationMessage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ IntegrationArn: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteIntegrationMessage",
-}) as any as S.Schema<DeleteIntegrationMessage>;
+).annotate({ identifier: "DeleteIntegrationMessage" }) as any as S.Schema<DeleteIntegrationMessage>;
 export interface DeleteQev2IdcApplicationMessage {
   Qev2IdcApplicationArn?: string;
 }
 export const DeleteQev2IdcApplicationMessage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Qev2IdcApplicationArn: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DeleteQev2IdcApplicationMessage",
@@ -4766,22 +3701,14 @@ export interface DeleteRedshiftIdcApplicationMessage {
 }
 export const DeleteRedshiftIdcApplicationMessage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ RedshiftIdcApplicationArn: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DeleteRedshiftIdcApplicationMessage",
 }) as any as S.Schema<DeleteRedshiftIdcApplicationMessage>;
 export interface DeleteRedshiftIdcApplicationResponse {}
-export const DeleteRedshiftIdcApplicationResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}).pipe(ns),
+export const DeleteRedshiftIdcApplicationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(ns),
 ).annotate({
   identifier: "DeleteRedshiftIdcApplicationResponse",
 }) as any as S.Schema<DeleteRedshiftIdcApplicationResponse>;
@@ -4790,15 +3717,7 @@ export interface DeleteResourcePolicyMessage {
 }
 export const DeleteResourcePolicyMessage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceArn: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DeleteResourcePolicyMessage",
@@ -4814,15 +3733,7 @@ export interface DeleteScheduledActionMessage {
 }
 export const DeleteScheduledActionMessage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ScheduledActionName: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DeleteScheduledActionMessage",
@@ -4838,15 +3749,7 @@ export interface DeleteSnapshotCopyGrantMessage {
 }
 export const DeleteSnapshotCopyGrantMessage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ SnapshotCopyGrantName: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DeleteSnapshotCopyGrantMessage",
@@ -4862,15 +3765,7 @@ export interface DeleteSnapshotScheduleMessage {
 }
 export const DeleteSnapshotScheduleMessage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ScheduleIdentifier: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DeleteSnapshotScheduleMessage",
@@ -4886,27 +3781,12 @@ export interface DeleteTagsMessage {
   TagKeys?: string[];
 }
 export const DeleteTagsMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceName: S.optional(S.String),
-    TagKeys: S.optional(TagKeyList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+  S.Struct({ ResourceName: S.optional(S.String), TagKeys: S.optional(TagKeyList) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteTagsMessage",
-}) as any as S.Schema<DeleteTagsMessage>;
+).annotate({ identifier: "DeleteTagsMessage" }) as any as S.Schema<DeleteTagsMessage>;
 export interface DeleteTagsResponse {}
-export const DeleteTagsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
+export const DeleteTagsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "DeleteTagsResponse",
 }) as any as S.Schema<DeleteTagsResponse>;
 export interface DeleteUsageLimitMessage {
@@ -4914,25 +3794,13 @@ export interface DeleteUsageLimitMessage {
 }
 export const DeleteUsageLimitMessage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ UsageLimitId: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteUsageLimitMessage",
-}) as any as S.Schema<DeleteUsageLimitMessage>;
+).annotate({ identifier: "DeleteUsageLimitMessage" }) as any as S.Schema<DeleteUsageLimitMessage>;
 export interface DeleteUsageLimitResponse {}
 export const DeleteUsageLimitResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteUsageLimitResponse",
-}) as any as S.Schema<DeleteUsageLimitResponse>;
+).annotate({ identifier: "DeleteUsageLimitResponse" }) as any as S.Schema<DeleteUsageLimitResponse>;
 export interface ServerlessIdentifier {
   NamespaceIdentifier?: string;
   WorkgroupIdentifier?: string;
@@ -4942,26 +3810,16 @@ export const ServerlessIdentifier = /*@__PURE__*/ S.suspend(() =>
     NamespaceIdentifier: S.optional(S.String),
     WorkgroupIdentifier: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ServerlessIdentifier",
-}) as any as S.Schema<ServerlessIdentifier>;
+).annotate({ identifier: "ServerlessIdentifier" }) as any as S.Schema<ServerlessIdentifier>;
 export interface ProvisionedIdentifier {
   ClusterIdentifier?: string;
 }
 export const ProvisionedIdentifier = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ClusterIdentifier: S.optional(S.String) }),
-).annotate({
-  identifier: "ProvisionedIdentifier",
-}) as any as S.Schema<ProvisionedIdentifier>;
+).annotate({ identifier: "ProvisionedIdentifier" }) as any as S.Schema<ProvisionedIdentifier>;
 export type NamespaceIdentifierUnion =
-  | {
-      ServerlessIdentifier: ServerlessIdentifier;
-      ProvisionedIdentifier?: never;
-    }
-  | {
-      ServerlessIdentifier?: never;
-      ProvisionedIdentifier: ProvisionedIdentifier;
-    };
+  | { ServerlessIdentifier: ServerlessIdentifier; ProvisionedIdentifier?: never }
+  | { ServerlessIdentifier?: never; ProvisionedIdentifier: ProvisionedIdentifier };
 export const NamespaceIdentifierUnion = /*@__PURE__*/ S.Union([
   S.Struct({ ServerlessIdentifier: ServerlessIdentifier }),
   S.Struct({ ProvisionedIdentifier: ProvisionedIdentifier }),
@@ -4976,24 +3834,11 @@ export const DeregisterNamespaceInputMessage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     NamespaceIdentifier: S.optional(NamespaceIdentifierUnion),
     ConsumerIdentifiers: S.optional(ConsumerIdentifierList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DeregisterNamespaceInputMessage",
 }) as any as S.Schema<DeregisterNamespaceInputMessage>;
-export type NamespaceRegistrationStatus =
-  | "Registering"
-  | "Deregistering"
-  | (string & {});
+export type NamespaceRegistrationStatus = "Registering" | "Deregistering" | (string & {});
 export const NamespaceRegistrationStatus = S.String;
 
 export interface DeregisterNamespaceOutputMessage {
@@ -5005,23 +3850,13 @@ export const DeregisterNamespaceOutputMessage = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeregisterNamespaceOutputMessage",
 }) as any as S.Schema<DeregisterNamespaceOutputMessage>;
 export type AttributeNameList = string[];
-export const AttributeNameList = /*@__PURE__*/ S.Array(
-  S.String.pipe(T.XmlName("AttributeName")),
-);
+export const AttributeNameList = /*@__PURE__*/ S.Array(S.String.pipe(T.XmlName("AttributeName")));
 export interface DescribeAccountAttributesMessage {
   AttributeNames?: string[];
 }
 export const DescribeAccountAttributesMessage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ AttributeNames: S.optional(AttributeNameList) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DescribeAccountAttributesMessage",
@@ -5031,9 +3866,7 @@ export interface AttributeValueTarget {
 }
 export const AttributeValueTarget = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ AttributeValue: S.optional(S.String) }),
-).annotate({
-  identifier: "AttributeValueTarget",
-}) as any as S.Schema<AttributeValueTarget>;
+).annotate({ identifier: "AttributeValueTarget" }) as any as S.Schema<AttributeValueTarget>;
 export type AttributeValueList = AttributeValueTarget[];
 export const AttributeValueList = /*@__PURE__*/ S.Array(
   AttributeValueTarget.pipe(T.XmlName("AttributeValueTarget")).annotate({
@@ -5049,39 +3882,24 @@ export const AccountAttribute = /*@__PURE__*/ S.suspend(() =>
     AttributeName: S.optional(S.String),
     AttributeValues: S.optional(AttributeValueList),
   }),
-).annotate({
-  identifier: "AccountAttribute",
-}) as any as S.Schema<AccountAttribute>;
+).annotate({ identifier: "AccountAttribute" }) as any as S.Schema<AccountAttribute>;
 export type AttributeList = AccountAttribute[];
 export const AttributeList = /*@__PURE__*/ S.Array(
-  AccountAttribute.pipe(T.XmlName("AccountAttribute")).annotate({
-    identifier: "AccountAttribute",
-  }),
+  AccountAttribute.pipe(T.XmlName("AccountAttribute")).annotate({ identifier: "AccountAttribute" }),
 );
 export interface AccountAttributeList {
   AccountAttributes?: AccountAttribute[];
 }
 export const AccountAttributeList = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ AccountAttributes: S.optional(AttributeList) }).pipe(ns),
-).annotate({
-  identifier: "AccountAttributeList",
-}) as any as S.Schema<AccountAttributeList>;
+).annotate({ identifier: "AccountAttributeList" }) as any as S.Schema<AccountAttributeList>;
 export interface DescribeAuthenticationProfilesMessage {
   AuthenticationProfileName?: string;
 }
-export const DescribeAuthenticationProfilesMessage = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ AuthenticationProfileName: S.optional(S.String) }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
+export const DescribeAuthenticationProfilesMessage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ AuthenticationProfileName: S.optional(S.String) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "DescribeAuthenticationProfilesMessage",
 }) as any as S.Schema<DescribeAuthenticationProfilesMessage>;
@@ -5094,21 +3912,14 @@ export const AuthenticationProfile = /*@__PURE__*/ S.suspend(() =>
     AuthenticationProfileName: S.optional(S.String),
     AuthenticationProfileContent: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AuthenticationProfile",
-}) as any as S.Schema<AuthenticationProfile>;
+).annotate({ identifier: "AuthenticationProfile" }) as any as S.Schema<AuthenticationProfile>;
 export type AuthenticationProfileList = AuthenticationProfile[];
-export const AuthenticationProfileList = /*@__PURE__*/ S.Array(
-  AuthenticationProfile,
-);
+export const AuthenticationProfileList = /*@__PURE__*/ S.Array(AuthenticationProfile);
 export interface DescribeAuthenticationProfilesResult {
   AuthenticationProfiles?: AuthenticationProfile[];
 }
-export const DescribeAuthenticationProfilesResult = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      AuthenticationProfiles: S.optional(AuthenticationProfileList),
-    }).pipe(ns),
+export const DescribeAuthenticationProfilesResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ AuthenticationProfiles: S.optional(AuthenticationProfileList) }).pipe(ns),
 ).annotate({
   identifier: "DescribeAuthenticationProfilesResult",
 }) as any as S.Schema<DescribeAuthenticationProfilesResult>;
@@ -5122,17 +3933,7 @@ export const DescribeClusterDbRevisionsMessage = /*@__PURE__*/ S.suspend(() =>
     ClusterIdentifier: S.optional(S.String),
     MaxRecords: S.optional(S.Number),
     Marker: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeClusterDbRevisionsMessage",
 }) as any as S.Schema<DescribeClusterDbRevisionsMessage>;
@@ -5145,16 +3946,12 @@ export const RevisionTarget = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     DatabaseRevision: S.optional(S.String),
     Description: S.optional(S.String),
-    DatabaseRevisionReleaseDate: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    DatabaseRevisionReleaseDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotate({ identifier: "RevisionTarget" }) as any as S.Schema<RevisionTarget>;
 export type RevisionTargetsList = RevisionTarget[];
 export const RevisionTargetsList = /*@__PURE__*/ S.Array(
-  RevisionTarget.pipe(T.XmlName("RevisionTarget")).annotate({
-    identifier: "RevisionTarget",
-  }),
+  RevisionTarget.pipe(T.XmlName("RevisionTarget")).annotate({ identifier: "RevisionTarget" }),
 );
 export interface ClusterDbRevision {
   ClusterIdentifier?: string;
@@ -5166,14 +3963,10 @@ export const ClusterDbRevision = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ClusterIdentifier: S.optional(S.String),
     CurrentDatabaseRevision: S.optional(S.String),
-    DatabaseRevisionReleaseDate: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    DatabaseRevisionReleaseDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     RevisionTargets: S.optional(RevisionTargetsList),
   }),
-).annotate({
-  identifier: "ClusterDbRevision",
-}) as any as S.Schema<ClusterDbRevision>;
+).annotate({ identifier: "ClusterDbRevision" }) as any as S.Schema<ClusterDbRevision>;
 export type ClusterDbRevisionsList = ClusterDbRevision[];
 export const ClusterDbRevisionsList = /*@__PURE__*/ S.Array(
   ClusterDbRevision.pipe(T.XmlName("ClusterDbRevision")).annotate({
@@ -5193,9 +3986,7 @@ export const ClusterDbRevisionsMessage = /*@__PURE__*/ S.suspend(() =>
   identifier: "ClusterDbRevisionsMessage",
 }) as any as S.Schema<ClusterDbRevisionsMessage>;
 export type TagValueList = string[];
-export const TagValueList = /*@__PURE__*/ S.Array(
-  S.String.pipe(T.XmlName("TagValue")),
-);
+export const TagValueList = /*@__PURE__*/ S.Array(S.String.pipe(T.XmlName("TagValue")));
 export interface DescribeClusterParameterGroupsMessage {
   ParameterGroupName?: string;
   MaxRecords?: number;
@@ -5203,25 +3994,14 @@ export interface DescribeClusterParameterGroupsMessage {
   TagKeys?: string[];
   TagValues?: string[];
 }
-export const DescribeClusterParameterGroupsMessage = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ParameterGroupName: S.optional(S.String),
-      MaxRecords: S.optional(S.Number),
-      Marker: S.optional(S.String),
-      TagKeys: S.optional(TagKeyList),
-      TagValues: S.optional(TagValueList),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
+export const DescribeClusterParameterGroupsMessage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ParameterGroupName: S.optional(S.String),
+    MaxRecords: S.optional(S.Number),
+    Marker: S.optional(S.String),
+    TagKeys: S.optional(TagKeyList),
+    TagValues: S.optional(TagValueList),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeClusterParameterGroupsMessage",
 }) as any as S.Schema<DescribeClusterParameterGroupsMessage>;
@@ -5236,10 +4016,9 @@ export interface ClusterParameterGroupsMessage {
   ParameterGroups?: ClusterParameterGroup[];
 }
 export const ClusterParameterGroupsMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Marker: S.optional(S.String),
-    ParameterGroups: S.optional(ParameterGroupList),
-  }).pipe(ns),
+  S.Struct({ Marker: S.optional(S.String), ParameterGroups: S.optional(ParameterGroupList) }).pipe(
+    ns,
+  ),
 ).annotate({
   identifier: "ClusterParameterGroupsMessage",
 }) as any as S.Schema<ClusterParameterGroupsMessage>;
@@ -5255,17 +4034,7 @@ export const DescribeClusterParametersMessage = /*@__PURE__*/ S.suspend(() =>
     Source: S.optional(S.String),
     MaxRecords: S.optional(S.Number),
     Marker: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeClusterParametersMessage",
 }) as any as S.Schema<DescribeClusterParametersMessage>;
@@ -5305,10 +4074,7 @@ export interface ClusterParameterGroupDetails {
   Marker?: string;
 }
 export const ClusterParameterGroupDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Parameters: S.optional(ParametersList),
-    Marker: S.optional(S.String),
-  }).pipe(ns),
+  S.Struct({ Parameters: S.optional(ParametersList), Marker: S.optional(S.String) }).pipe(ns),
 ).annotate({
   identifier: "ClusterParameterGroupDetails",
 }) as any as S.Schema<ClusterParameterGroupDetails>;
@@ -5326,20 +4092,8 @@ export const DescribeClustersMessage = /*@__PURE__*/ S.suspend(() =>
     Marker: S.optional(S.String),
     TagKeys: S.optional(TagKeyList),
     TagValues: S.optional(TagValueList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeClustersMessage",
-}) as any as S.Schema<DescribeClustersMessage>;
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "DescribeClustersMessage" }) as any as S.Schema<DescribeClustersMessage>;
 export type ClusterList = Cluster[];
 export const ClusterList = /*@__PURE__*/ S.Array(
   Cluster.pipe(T.XmlName("Cluster")).annotate({ identifier: "Cluster" }),
@@ -5349,13 +4103,8 @@ export interface ClustersMessage {
   Clusters?: Cluster[];
 }
 export const ClustersMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Marker: S.optional(S.String),
-    Clusters: S.optional(ClusterList),
-  }).pipe(ns),
-).annotate({
-  identifier: "ClustersMessage",
-}) as any as S.Schema<ClustersMessage>;
+  S.Struct({ Marker: S.optional(S.String), Clusters: S.optional(ClusterList) }).pipe(ns),
+).annotate({ identifier: "ClustersMessage" }) as any as S.Schema<ClustersMessage>;
 export interface DescribeClusterSecurityGroupsMessage {
   ClusterSecurityGroupName?: string;
   MaxRecords?: number;
@@ -5363,25 +4112,14 @@ export interface DescribeClusterSecurityGroupsMessage {
   TagKeys?: string[];
   TagValues?: string[];
 }
-export const DescribeClusterSecurityGroupsMessage = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ClusterSecurityGroupName: S.optional(S.String),
-      MaxRecords: S.optional(S.Number),
-      Marker: S.optional(S.String),
-      TagKeys: S.optional(TagKeyList),
-      TagValues: S.optional(TagValueList),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
+export const DescribeClusterSecurityGroupsMessage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ClusterSecurityGroupName: S.optional(S.String),
+    MaxRecords: S.optional(S.Number),
+    Marker: S.optional(S.String),
+    TagKeys: S.optional(TagKeyList),
+    TagValues: S.optional(TagValueList),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeClusterSecurityGroupsMessage",
 }) as any as S.Schema<DescribeClusterSecurityGroupsMessage>;
@@ -5422,9 +4160,7 @@ export const SnapshotSortingEntity = /*@__PURE__*/ S.suspend(() =>
     Attribute: S.optional(SnapshotAttributeToSortBy),
     SortOrder: S.optional(SortByOrder),
   }),
-).annotate({
-  identifier: "SnapshotSortingEntity",
-}) as any as S.Schema<SnapshotSortingEntity>;
+).annotate({ identifier: "SnapshotSortingEntity" }) as any as S.Schema<SnapshotSortingEntity>;
 export type SnapshotSortingEntityList = SnapshotSortingEntity[];
 export const SnapshotSortingEntityList = /*@__PURE__*/ S.Array(
   SnapshotSortingEntity.pipe(T.XmlName("SnapshotSortingEntity")).annotate({
@@ -5452,9 +4188,7 @@ export const DescribeClusterSnapshotsMessage = /*@__PURE__*/ S.suspend(() =>
     SnapshotIdentifier: S.optional(S.String),
     SnapshotArn: S.optional(S.String),
     SnapshotType: S.optional(S.String),
-    StartTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    StartTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     EndTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     MaxRecords: S.optional(S.Number),
     Marker: S.optional(S.String),
@@ -5463,17 +4197,7 @@ export const DescribeClusterSnapshotsMessage = /*@__PURE__*/ S.suspend(() =>
     TagValues: S.optional(TagValueList),
     ClusterExists: S.optional(S.Boolean),
     SortingEntities: S.optional(SnapshotSortingEntityList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeClusterSnapshotsMessage",
 }) as any as S.Schema<DescribeClusterSnapshotsMessage>;
@@ -5486,13 +4210,8 @@ export interface SnapshotMessage {
   Snapshots?: Snapshot[];
 }
 export const SnapshotMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Marker: S.optional(S.String),
-    Snapshots: S.optional(SnapshotList),
-  }).pipe(ns),
-).annotate({
-  identifier: "SnapshotMessage",
-}) as any as S.Schema<SnapshotMessage>;
+  S.Struct({ Marker: S.optional(S.String), Snapshots: S.optional(SnapshotList) }).pipe(ns),
+).annotate({ identifier: "SnapshotMessage" }) as any as S.Schema<SnapshotMessage>;
 export interface DescribeClusterSubnetGroupsMessage {
   ClusterSubnetGroupName?: string;
   MaxRecords?: number;
@@ -5507,17 +4226,7 @@ export const DescribeClusterSubnetGroupsMessage = /*@__PURE__*/ S.suspend(() =>
     Marker: S.optional(S.String),
     TagKeys: S.optional(TagKeyList),
     TagValues: S.optional(TagValueList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeClusterSubnetGroupsMessage",
 }) as any as S.Schema<DescribeClusterSubnetGroupsMessage>;
@@ -5549,17 +4258,7 @@ export const DescribeClusterTracksMessage = /*@__PURE__*/ S.suspend(() =>
     MaintenanceTrackName: S.optional(S.String),
     MaxRecords: S.optional(S.Number),
     Marker: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeClusterTracksMessage",
 }) as any as S.Schema<DescribeClusterTracksMessage>;
@@ -5568,9 +4267,7 @@ export interface SupportedOperation {
 }
 export const SupportedOperation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ OperationName: S.optional(S.String) }),
-).annotate({
-  identifier: "SupportedOperation",
-}) as any as S.Schema<SupportedOperation>;
+).annotate({ identifier: "SupportedOperation" }) as any as S.Schema<SupportedOperation>;
 export type SupportedOperationList = SupportedOperation[];
 export const SupportedOperationList = /*@__PURE__*/ S.Array(
   SupportedOperation.pipe(T.XmlName("SupportedOperation")).annotate({
@@ -5591,9 +4288,7 @@ export const UpdateTarget = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "UpdateTarget" }) as any as S.Schema<UpdateTarget>;
 export type EligibleTracksToUpdateList = UpdateTarget[];
 export const EligibleTracksToUpdateList = /*@__PURE__*/ S.Array(
-  UpdateTarget.pipe(T.XmlName("UpdateTarget")).annotate({
-    identifier: "UpdateTarget",
-  }),
+  UpdateTarget.pipe(T.XmlName("UpdateTarget")).annotate({ identifier: "UpdateTarget" }),
 );
 export interface MaintenanceTrack {
   MaintenanceTrackName?: string;
@@ -5606,27 +4301,18 @@ export const MaintenanceTrack = /*@__PURE__*/ S.suspend(() =>
     DatabaseVersion: S.optional(S.String),
     UpdateTargets: S.optional(EligibleTracksToUpdateList),
   }),
-).annotate({
-  identifier: "MaintenanceTrack",
-}) as any as S.Schema<MaintenanceTrack>;
+).annotate({ identifier: "MaintenanceTrack" }) as any as S.Schema<MaintenanceTrack>;
 export type TrackList = MaintenanceTrack[];
 export const TrackList = /*@__PURE__*/ S.Array(
-  MaintenanceTrack.pipe(T.XmlName("MaintenanceTrack")).annotate({
-    identifier: "MaintenanceTrack",
-  }),
+  MaintenanceTrack.pipe(T.XmlName("MaintenanceTrack")).annotate({ identifier: "MaintenanceTrack" }),
 );
 export interface TrackListMessage {
   MaintenanceTracks?: MaintenanceTrack[];
   Marker?: string;
 }
 export const TrackListMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaintenanceTracks: S.optional(TrackList),
-    Marker: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "TrackListMessage",
-}) as any as S.Schema<TrackListMessage>;
+  S.Struct({ MaintenanceTracks: S.optional(TrackList), Marker: S.optional(S.String) }).pipe(ns),
+).annotate({ identifier: "TrackListMessage" }) as any as S.Schema<TrackListMessage>;
 export interface DescribeClusterVersionsMessage {
   ClusterVersion?: string;
   ClusterParameterGroupFamily?: string;
@@ -5639,17 +4325,7 @@ export const DescribeClusterVersionsMessage = /*@__PURE__*/ S.suspend(() =>
     ClusterParameterGroupFamily: S.optional(S.String),
     MaxRecords: S.optional(S.Number),
     Marker: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeClusterVersionsMessage",
 }) as any as S.Schema<DescribeClusterVersionsMessage>;
@@ -5667,46 +4343,30 @@ export const ClusterVersion = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "ClusterVersion" }) as any as S.Schema<ClusterVersion>;
 export type ClusterVersionList = ClusterVersion[];
 export const ClusterVersionList = /*@__PURE__*/ S.Array(
-  ClusterVersion.pipe(T.XmlName("ClusterVersion")).annotate({
-    identifier: "ClusterVersion",
-  }),
+  ClusterVersion.pipe(T.XmlName("ClusterVersion")).annotate({ identifier: "ClusterVersion" }),
 );
 export interface ClusterVersionsMessage {
   Marker?: string;
   ClusterVersions?: ClusterVersion[];
 }
 export const ClusterVersionsMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Marker: S.optional(S.String),
-    ClusterVersions: S.optional(ClusterVersionList),
-  }).pipe(ns),
-).annotate({
-  identifier: "ClusterVersionsMessage",
-}) as any as S.Schema<ClusterVersionsMessage>;
+  S.Struct({ Marker: S.optional(S.String), ClusterVersions: S.optional(ClusterVersionList) }).pipe(
+    ns,
+  ),
+).annotate({ identifier: "ClusterVersionsMessage" }) as any as S.Schema<ClusterVersionsMessage>;
 export interface DescribeCustomDomainAssociationsMessage {
   CustomDomainName?: string;
   CustomDomainCertificateArn?: string;
   MaxRecords?: number;
   Marker?: string;
 }
-export const DescribeCustomDomainAssociationsMessage = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      CustomDomainName: S.optional(S.String),
-      CustomDomainCertificateArn: S.optional(S.String),
-      MaxRecords: S.optional(S.Number),
-      Marker: S.optional(S.String),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
+export const DescribeCustomDomainAssociationsMessage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    CustomDomainName: S.optional(S.String),
+    CustomDomainCertificateArn: S.optional(S.String),
+    MaxRecords: S.optional(S.Number),
+    Marker: S.optional(S.String),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeCustomDomainAssociationsMessage",
 }) as any as S.Schema<DescribeCustomDomainAssociationsMessage>;
@@ -5715,13 +4375,8 @@ export interface CertificateAssociation {
   ClusterIdentifier?: string;
 }
 export const CertificateAssociation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CustomDomainName: S.optional(S.String),
-    ClusterIdentifier: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CertificateAssociation",
-}) as any as S.Schema<CertificateAssociation>;
+  S.Struct({ CustomDomainName: S.optional(S.String), ClusterIdentifier: S.optional(S.String) }),
+).annotate({ identifier: "CertificateAssociation" }) as any as S.Schema<CertificateAssociation>;
 export type CertificateAssociationList = CertificateAssociation[];
 export const CertificateAssociationList = /*@__PURE__*/ S.Array(
   CertificateAssociation.pipe(T.XmlName("CertificateAssociation")).annotate({
@@ -5744,19 +4399,14 @@ export const Association = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "Association" }) as any as S.Schema<Association>;
 export type AssociationList = Association[];
 export const AssociationList = /*@__PURE__*/ S.Array(
-  Association.pipe(T.XmlName("Association")).annotate({
-    identifier: "Association",
-  }),
+  Association.pipe(T.XmlName("Association")).annotate({ identifier: "Association" }),
 );
 export interface CustomDomainAssociationsMessage {
   Marker?: string;
   Associations?: Association[];
 }
 export const CustomDomainAssociationsMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Marker: S.optional(S.String),
-    Associations: S.optional(AssociationList),
-  }).pipe(ns),
+  S.Struct({ Marker: S.optional(S.String), Associations: S.optional(AssociationList) }).pipe(ns),
 ).annotate({
   identifier: "CustomDomainAssociationsMessage",
 }) as any as S.Schema<CustomDomainAssociationsMessage>;
@@ -5770,17 +4420,7 @@ export const DescribeDataSharesMessage = /*@__PURE__*/ S.suspend(() =>
     DataShareArn: S.optional(S.String),
     MaxRecords: S.optional(S.Number),
     Marker: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeDataSharesMessage",
 }) as any as S.Schema<DescribeDataSharesMessage>;
@@ -5791,13 +4431,8 @@ export interface DescribeDataSharesResult {
   Marker?: string;
 }
 export const DescribeDataSharesResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DataShares: S.optional(DataShareList),
-    Marker: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeDataSharesResult",
-}) as any as S.Schema<DescribeDataSharesResult>;
+  S.Struct({ DataShares: S.optional(DataShareList), Marker: S.optional(S.String) }).pipe(ns),
+).annotate({ identifier: "DescribeDataSharesResult" }) as any as S.Schema<DescribeDataSharesResult>;
 export type DataShareStatusForConsumer = "ACTIVE" | "AVAILABLE" | (string & {});
 export const DataShareStatusForConsumer = S.String;
 
@@ -5807,24 +4442,13 @@ export interface DescribeDataSharesForConsumerMessage {
   MaxRecords?: number;
   Marker?: string;
 }
-export const DescribeDataSharesForConsumerMessage = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ConsumerArn: S.optional(S.String),
-      Status: S.optional(DataShareStatusForConsumer),
-      MaxRecords: S.optional(S.Number),
-      Marker: S.optional(S.String),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
+export const DescribeDataSharesForConsumerMessage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ConsumerArn: S.optional(S.String),
+    Status: S.optional(DataShareStatusForConsumer),
+    MaxRecords: S.optional(S.Number),
+    Marker: S.optional(S.String),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeDataSharesForConsumerMessage",
 }) as any as S.Schema<DescribeDataSharesForConsumerMessage>;
@@ -5833,10 +4457,7 @@ export interface DescribeDataSharesForConsumerResult {
   Marker?: string;
 }
 export const DescribeDataSharesForConsumerResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DataShares: S.optional(DataShareList),
-    Marker: S.optional(S.String),
-  }).pipe(ns),
+  S.Struct({ DataShares: S.optional(DataShareList), Marker: S.optional(S.String) }).pipe(ns),
 ).annotate({
   identifier: "DescribeDataSharesForConsumerResult",
 }) as any as S.Schema<DescribeDataSharesForConsumerResult>;
@@ -5855,24 +4476,13 @@ export interface DescribeDataSharesForProducerMessage {
   MaxRecords?: number;
   Marker?: string;
 }
-export const DescribeDataSharesForProducerMessage = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ProducerArn: S.optional(S.String),
-      Status: S.optional(DataShareStatusForProducer),
-      MaxRecords: S.optional(S.Number),
-      Marker: S.optional(S.String),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
+export const DescribeDataSharesForProducerMessage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ProducerArn: S.optional(S.String),
+    Status: S.optional(DataShareStatusForProducer),
+    MaxRecords: S.optional(S.Number),
+    Marker: S.optional(S.String),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeDataSharesForProducerMessage",
 }) as any as S.Schema<DescribeDataSharesForProducerMessage>;
@@ -5881,10 +4491,7 @@ export interface DescribeDataSharesForProducerResult {
   Marker?: string;
 }
 export const DescribeDataSharesForProducerResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DataShares: S.optional(DataShareList),
-    Marker: S.optional(S.String),
-  }).pipe(ns),
+  S.Struct({ DataShares: S.optional(DataShareList), Marker: S.optional(S.String) }).pipe(ns),
 ).annotate({
   identifier: "DescribeDataSharesForProducerResult",
 }) as any as S.Schema<DescribeDataSharesForProducerResult>;
@@ -5893,23 +4500,12 @@ export interface DescribeDefaultClusterParametersMessage {
   MaxRecords?: number;
   Marker?: string;
 }
-export const DescribeDefaultClusterParametersMessage = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ParameterGroupFamily: S.optional(S.String),
-      MaxRecords: S.optional(S.Number),
-      Marker: S.optional(S.String),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
+export const DescribeDefaultClusterParametersMessage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ParameterGroupFamily: S.optional(S.String),
+    MaxRecords: S.optional(S.Number),
+    Marker: S.optional(S.String),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeDefaultClusterParametersMessage",
 }) as any as S.Schema<DescribeDefaultClusterParametersMessage>;
@@ -5924,17 +4520,12 @@ export const DefaultClusterParameters = /*@__PURE__*/ S.suspend(() =>
     Marker: S.optional(S.String),
     Parameters: S.optional(ParametersList),
   }),
-).annotate({
-  identifier: "DefaultClusterParameters",
-}) as any as S.Schema<DefaultClusterParameters>;
+).annotate({ identifier: "DefaultClusterParameters" }) as any as S.Schema<DefaultClusterParameters>;
 export interface DescribeDefaultClusterParametersResult {
   DefaultClusterParameters?: DefaultClusterParameters;
 }
-export const DescribeDefaultClusterParametersResult = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      DefaultClusterParameters: S.optional(DefaultClusterParameters),
-    }).pipe(ns),
+export const DescribeDefaultClusterParametersResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ DefaultClusterParameters: S.optional(DefaultClusterParameters) }).pipe(ns),
 ).annotate({
   identifier: "DescribeDefaultClusterParametersResult",
 }) as any as S.Schema<DescribeDefaultClusterParametersResult>;
@@ -5954,17 +4545,7 @@ export const DescribeEndpointAccessMessage = /*@__PURE__*/ S.suspend(() =>
     VpcId: S.optional(S.String),
     MaxRecords: S.optional(S.Number),
     Marker: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeEndpointAccessMessage",
 }) as any as S.Schema<DescribeEndpointAccessMessage>;
@@ -5975,13 +4556,10 @@ export interface EndpointAccessList {
   Marker?: string;
 }
 export const EndpointAccessList = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    EndpointAccessList: S.optional(EndpointAccesses),
-    Marker: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "EndpointAccessList",
-}) as any as S.Schema<EndpointAccessList>;
+  S.Struct({ EndpointAccessList: S.optional(EndpointAccesses), Marker: S.optional(S.String) }).pipe(
+    ns,
+  ),
+).annotate({ identifier: "EndpointAccessList" }) as any as S.Schema<EndpointAccessList>;
 export interface DescribeEndpointAuthorizationMessage {
   ClusterIdentifier?: string;
   Account?: string;
@@ -5989,32 +4567,19 @@ export interface DescribeEndpointAuthorizationMessage {
   MaxRecords?: number;
   Marker?: string;
 }
-export const DescribeEndpointAuthorizationMessage = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ClusterIdentifier: S.optional(S.String),
-      Account: S.optional(S.String),
-      Grantee: S.optional(S.Boolean),
-      MaxRecords: S.optional(S.Number),
-      Marker: S.optional(S.String),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
+export const DescribeEndpointAuthorizationMessage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ClusterIdentifier: S.optional(S.String),
+    Account: S.optional(S.String),
+    Grantee: S.optional(S.Boolean),
+    MaxRecords: S.optional(S.Number),
+    Marker: S.optional(S.String),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeEndpointAuthorizationMessage",
 }) as any as S.Schema<DescribeEndpointAuthorizationMessage>;
 export type EndpointAuthorizations = EndpointAuthorization[];
-export const EndpointAuthorizations = /*@__PURE__*/ S.Array(
-  EndpointAuthorization,
-);
+export const EndpointAuthorizations = /*@__PURE__*/ S.Array(EndpointAuthorization);
 export interface EndpointAuthorizationList {
   EndpointAuthorizationList?: EndpointAuthorization[];
   Marker?: string;
@@ -6032,15 +4597,7 @@ export interface DescribeEventCategoriesMessage {
 }
 export const DescribeEventCategoriesMessage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ SourceType: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DescribeEventCategoriesMessage",
@@ -6061,22 +4618,15 @@ export const EventInfoMap = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "EventInfoMap" }) as any as S.Schema<EventInfoMap>;
 export type EventInfoMapList = EventInfoMap[];
 export const EventInfoMapList = /*@__PURE__*/ S.Array(
-  EventInfoMap.pipe(T.XmlName("EventInfoMap")).annotate({
-    identifier: "EventInfoMap",
-  }),
+  EventInfoMap.pipe(T.XmlName("EventInfoMap")).annotate({ identifier: "EventInfoMap" }),
 );
 export interface EventCategoriesMap {
   SourceType?: string;
   Events?: EventInfoMap[];
 }
 export const EventCategoriesMap = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SourceType: S.optional(S.String),
-    Events: S.optional(EventInfoMapList),
-  }),
-).annotate({
-  identifier: "EventCategoriesMap",
-}) as any as S.Schema<EventCategoriesMap>;
+  S.Struct({ SourceType: S.optional(S.String), Events: S.optional(EventInfoMapList) }),
+).annotate({ identifier: "EventCategoriesMap" }) as any as S.Schema<EventCategoriesMap>;
 export type EventCategoriesMapList = EventCategoriesMap[];
 export const EventCategoriesMapList = /*@__PURE__*/ S.Array(
   EventCategoriesMap.pipe(T.XmlName("EventCategoriesMap")).annotate({
@@ -6087,12 +4637,8 @@ export interface EventCategoriesMessage {
   EventCategoriesMapList?: EventCategoriesMap[];
 }
 export const EventCategoriesMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ EventCategoriesMapList: S.optional(EventCategoriesMapList) }).pipe(
-    ns,
-  ),
-).annotate({
-  identifier: "EventCategoriesMessage",
-}) as any as S.Schema<EventCategoriesMessage>;
+  S.Struct({ EventCategoriesMapList: S.optional(EventCategoriesMapList) }).pipe(ns),
+).annotate({ identifier: "EventCategoriesMessage" }) as any as S.Schema<EventCategoriesMessage>;
 export type SourceType =
   | "cluster"
   | "cluster-parameter-group"
@@ -6115,27 +4661,13 @@ export const DescribeEventsMessage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     SourceIdentifier: S.optional(S.String),
     SourceType: S.optional(SourceType),
-    StartTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    StartTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     EndTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     Duration: S.optional(S.Number),
     MaxRecords: S.optional(S.Number),
     Marker: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeEventsMessage",
-}) as any as S.Schema<DescribeEventsMessage>;
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "DescribeEventsMessage" }) as any as S.Schema<DescribeEventsMessage>;
 export interface Event {
   SourceIdentifier?: string;
   SourceType?: SourceType;
@@ -6165,10 +4697,7 @@ export interface EventsMessage {
   Events?: Event[];
 }
 export const EventsMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Marker: S.optional(S.String),
-    Events: S.optional(EventList),
-  }).pipe(ns),
+  S.Struct({ Marker: S.optional(S.String), Events: S.optional(EventList) }).pipe(ns),
 ).annotate({ identifier: "EventsMessage" }) as any as S.Schema<EventsMessage>;
 export interface DescribeEventSubscriptionsMessage {
   SubscriptionName?: string;
@@ -6184,17 +4713,7 @@ export const DescribeEventSubscriptionsMessage = /*@__PURE__*/ S.suspend(() =>
     Marker: S.optional(S.String),
     TagKeys: S.optional(TagKeyList),
     TagValues: S.optional(TagValueList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeEventSubscriptionsMessage",
 }) as any as S.Schema<DescribeEventSubscriptionsMessage>;
@@ -6223,25 +4742,14 @@ export interface DescribeHsmClientCertificatesMessage {
   TagKeys?: string[];
   TagValues?: string[];
 }
-export const DescribeHsmClientCertificatesMessage = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      HsmClientCertificateIdentifier: S.optional(S.String),
-      MaxRecords: S.optional(S.Number),
-      Marker: S.optional(S.String),
-      TagKeys: S.optional(TagKeyList),
-      TagValues: S.optional(TagValueList),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
+export const DescribeHsmClientCertificatesMessage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    HsmClientCertificateIdentifier: S.optional(S.String),
+    MaxRecords: S.optional(S.Number),
+    Marker: S.optional(S.String),
+    TagKeys: S.optional(TagKeyList),
+    TagValues: S.optional(TagValueList),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeHsmClientCertificatesMessage",
 }) as any as S.Schema<DescribeHsmClientCertificatesMessage>;
@@ -6277,25 +4785,13 @@ export const DescribeHsmConfigurationsMessage = /*@__PURE__*/ S.suspend(() =>
     Marker: S.optional(S.String),
     TagKeys: S.optional(TagKeyList),
     TagValues: S.optional(TagValueList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeHsmConfigurationsMessage",
 }) as any as S.Schema<DescribeHsmConfigurationsMessage>;
 export type HsmConfigurationList = HsmConfiguration[];
 export const HsmConfigurationList = /*@__PURE__*/ S.Array(
-  HsmConfiguration.pipe(T.XmlName("HsmConfiguration")).annotate({
-    identifier: "HsmConfiguration",
-  }),
+  HsmConfiguration.pipe(T.XmlName("HsmConfiguration")).annotate({ identifier: "HsmConfiguration" }),
 );
 export interface HsmConfigurationMessage {
   Marker?: string;
@@ -6306,9 +4802,7 @@ export const HsmConfigurationMessage = /*@__PURE__*/ S.suspend(() =>
     Marker: S.optional(S.String),
     HsmConfigurations: S.optional(HsmConfigurationList),
   }).pipe(ns),
-).annotate({
-  identifier: "HsmConfigurationMessage",
-}) as any as S.Schema<HsmConfigurationMessage>;
+).annotate({ identifier: "HsmConfigurationMessage" }) as any as S.Schema<HsmConfigurationMessage>;
 export type InboundIntegrationArn = string;
 export interface DescribeInboundIntegrationsMessage {
   IntegrationArn?: string;
@@ -6322,17 +4816,7 @@ export const DescribeInboundIntegrationsMessage = /*@__PURE__*/ S.suspend(() =>
     TargetArn: S.optional(S.String),
     MaxRecords: S.optional(S.Number),
     Marker: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeInboundIntegrationsMessage",
 }) as any as S.Schema<DescribeInboundIntegrationsMessage>;
@@ -6351,13 +4835,9 @@ export const InboundIntegration = /*@__PURE__*/ S.suspend(() =>
     TargetArn: S.optional(S.String),
     Status: S.optional(ZeroETLIntegrationStatus),
     Errors: S.optional(IntegrationErrorList),
-    CreateTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    CreateTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
-).annotate({
-  identifier: "InboundIntegration",
-}) as any as S.Schema<InboundIntegration>;
+).annotate({ identifier: "InboundIntegration" }) as any as S.Schema<InboundIntegration>;
 export type InboundIntegrationList = InboundIntegration[];
 export const InboundIntegrationList = /*@__PURE__*/ S.Array(
   InboundIntegration.pipe(T.XmlName("InboundIntegration")).annotate({
@@ -6404,9 +4884,9 @@ export const DescribeIntegrationsFilter = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<DescribeIntegrationsFilter>;
 export type DescribeIntegrationsFilterList = DescribeIntegrationsFilter[];
 export const DescribeIntegrationsFilterList = /*@__PURE__*/ S.Array(
-  DescribeIntegrationsFilter.pipe(
-    T.XmlName("DescribeIntegrationsFilter"),
-  ).annotate({ identifier: "DescribeIntegrationsFilter" }),
+  DescribeIntegrationsFilter.pipe(T.XmlName("DescribeIntegrationsFilter")).annotate({
+    identifier: "DescribeIntegrationsFilter",
+  }),
 );
 export interface DescribeIntegrationsMessage {
   IntegrationArn?: string;
@@ -6420,64 +4900,33 @@ export const DescribeIntegrationsMessage = /*@__PURE__*/ S.suspend(() =>
     MaxRecords: S.optional(S.Number),
     Marker: S.optional(S.String),
     Filters: S.optional(DescribeIntegrationsFilterList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeIntegrationsMessage",
 }) as any as S.Schema<DescribeIntegrationsMessage>;
 export type IntegrationList = Integration[];
 export const IntegrationList = /*@__PURE__*/ S.Array(
-  Integration.pipe(T.XmlName("Integration")).annotate({
-    identifier: "Integration",
-  }),
+  Integration.pipe(T.XmlName("Integration")).annotate({ identifier: "Integration" }),
 );
 export interface IntegrationsMessage {
   Marker?: string;
-  Integrations?: (Integration & {
-    Errors: (IntegrationError & { ErrorCode: string })[];
-  })[];
+  Integrations?: (Integration & { Errors: (IntegrationError & { ErrorCode: string })[] })[];
 }
 export const IntegrationsMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Marker: S.optional(S.String),
-    Integrations: S.optional(IntegrationList),
-  }).pipe(ns),
-).annotate({
-  identifier: "IntegrationsMessage",
-}) as any as S.Schema<IntegrationsMessage>;
+  S.Struct({ Marker: S.optional(S.String), Integrations: S.optional(IntegrationList) }).pipe(ns),
+).annotate({ identifier: "IntegrationsMessage" }) as any as S.Schema<IntegrationsMessage>;
 export interface DescribeLoggingStatusMessage {
   ClusterIdentifier?: string;
 }
 export const DescribeLoggingStatusMessage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ClusterIdentifier: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DescribeLoggingStatusMessage",
 }) as any as S.Schema<DescribeLoggingStatusMessage>;
 export type S3KeyPrefixValue = string;
-export type LogDestinationType =
-  | "s3"
-  | "cloudwatch"
-  | "s3table"
-  | (string & {});
+export type LogDestinationType = "s3" | "cloudwatch" | "s3table" | (string & {});
 export const LogDestinationType = S.String;
 
 export interface LoggingStatus {
@@ -6496,12 +4945,8 @@ export const LoggingStatus = /*@__PURE__*/ S.suspend(() =>
     LoggingEnabled: S.optional(S.Boolean),
     BucketName: S.optional(S.String),
     S3KeyPrefix: S.optional(S.String),
-    LastSuccessfulDeliveryTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    LastFailureTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    LastSuccessfulDeliveryTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    LastFailureTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     LastFailureMessage: S.optional(S.String),
     LogDestinationType: S.optional(LogDestinationType),
     LogExports: S.optional(LogTypeList),
@@ -6523,15 +4968,7 @@ export type NodeConfigurationOptionsFilterName =
   | (string & {});
 export const NodeConfigurationOptionsFilterName = S.String;
 
-export type OperatorType =
-  | "eq"
-  | "lt"
-  | "gt"
-  | "le"
-  | "ge"
-  | "in"
-  | "between"
-  | (string & {});
+export type OperatorType = "eq" | "lt" | "gt" | "le" | "ge" | "in" | "between" | (string & {});
 export const OperatorType = S.String;
 
 export interface NodeConfigurationOptionsFilter {
@@ -6548,12 +4985,11 @@ export const NodeConfigurationOptionsFilter = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "NodeConfigurationOptionsFilter",
 }) as any as S.Schema<NodeConfigurationOptionsFilter>;
-export type NodeConfigurationOptionsFilterList =
-  NodeConfigurationOptionsFilter[];
+export type NodeConfigurationOptionsFilterList = NodeConfigurationOptionsFilter[];
 export const NodeConfigurationOptionsFilterList = /*@__PURE__*/ S.Array(
-  NodeConfigurationOptionsFilter.pipe(
-    T.XmlName("NodeConfigurationOptionsFilter"),
-  ).annotate({ identifier: "NodeConfigurationOptionsFilter" }),
+  NodeConfigurationOptionsFilter.pipe(T.XmlName("NodeConfigurationOptionsFilter")).annotate({
+    identifier: "NodeConfigurationOptionsFilter",
+  }),
 );
 export interface DescribeNodeConfigurationOptionsMessage {
   ActionType?: ActionType;
@@ -6565,30 +5001,17 @@ export interface DescribeNodeConfigurationOptionsMessage {
   Marker?: string;
   MaxRecords?: number;
 }
-export const DescribeNodeConfigurationOptionsMessage = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ActionType: S.optional(ActionType),
-      ClusterIdentifier: S.optional(S.String),
-      SnapshotIdentifier: S.optional(S.String),
-      SnapshotArn: S.optional(S.String),
-      OwnerAccount: S.optional(S.String),
-      Filters: S.optional(NodeConfigurationOptionsFilterList).pipe(
-        T.XmlName("Filter"),
-      ),
-      Marker: S.optional(S.String),
-      MaxRecords: S.optional(S.Number),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
+export const DescribeNodeConfigurationOptionsMessage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ActionType: S.optional(ActionType),
+    ClusterIdentifier: S.optional(S.String),
+    SnapshotIdentifier: S.optional(S.String),
+    SnapshotArn: S.optional(S.String),
+    OwnerAccount: S.optional(S.String),
+    Filters: S.optional(NodeConfigurationOptionsFilterList).pipe(T.XmlName("Filter")),
+    Marker: S.optional(S.String),
+    MaxRecords: S.optional(S.Number),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeNodeConfigurationOptionsMessage",
 }) as any as S.Schema<DescribeNodeConfigurationOptionsMessage>;
@@ -6608,9 +5031,7 @@ export const NodeConfigurationOption = /*@__PURE__*/ S.suspend(() =>
     EstimatedDiskUtilizationPercent: S.optional(S.Number),
     Mode: S.optional(Mode),
   }),
-).annotate({
-  identifier: "NodeConfigurationOption",
-}) as any as S.Schema<NodeConfigurationOption>;
+).annotate({ identifier: "NodeConfigurationOption" }) as any as S.Schema<NodeConfigurationOption>;
 export type NodeConfigurationOptionList = NodeConfigurationOption[];
 export const NodeConfigurationOptionList = /*@__PURE__*/ S.Array(
   NodeConfigurationOption.pipe(T.XmlName("NodeConfigurationOption")).annotate({
@@ -6635,32 +5056,19 @@ export interface DescribeOrderableClusterOptionsMessage {
   MaxRecords?: number;
   Marker?: string;
 }
-export const DescribeOrderableClusterOptionsMessage = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ClusterVersion: S.optional(S.String),
-      NodeType: S.optional(S.String),
-      MaxRecords: S.optional(S.Number),
-      Marker: S.optional(S.String),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
+export const DescribeOrderableClusterOptionsMessage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ClusterVersion: S.optional(S.String),
+    NodeType: S.optional(S.String),
+    MaxRecords: S.optional(S.Number),
+    Marker: S.optional(S.String),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeOrderableClusterOptionsMessage",
 }) as any as S.Schema<DescribeOrderableClusterOptionsMessage>;
 export type AvailabilityZoneList = AvailabilityZone[];
 export const AvailabilityZoneList = /*@__PURE__*/ S.Array(
-  AvailabilityZone.pipe(T.XmlName("AvailabilityZone")).annotate({
-    identifier: "AvailabilityZone",
-  }),
+  AvailabilityZone.pipe(T.XmlName("AvailabilityZone")).annotate({ identifier: "AvailabilityZone" }),
 );
 export interface OrderableClusterOption {
   ClusterVersion?: string;
@@ -6675,9 +5083,7 @@ export const OrderableClusterOption = /*@__PURE__*/ S.suspend(() =>
     NodeType: S.optional(S.String),
     AvailabilityZones: S.optional(AvailabilityZoneList),
   }),
-).annotate({
-  identifier: "OrderableClusterOption",
-}) as any as S.Schema<OrderableClusterOption>;
+).annotate({ identifier: "OrderableClusterOption" }) as any as S.Schema<OrderableClusterOption>;
 export type OrderableClusterOptionsList = OrderableClusterOption[];
 export const OrderableClusterOptionsList = /*@__PURE__*/ S.Array(
   OrderableClusterOption.pipe(T.XmlName("OrderableClusterOption")).annotate({
@@ -6708,17 +5114,7 @@ export const DescribePartnersInputMessage = /*@__PURE__*/ S.suspend(() =>
     ClusterIdentifier: S.optional(S.String),
     DatabaseName: S.optional(S.String),
     PartnerName: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribePartnersInputMessage",
 }) as any as S.Schema<DescribePartnersInputMessage>;
@@ -6745,16 +5141,10 @@ export const PartnerIntegrationInfo = /*@__PURE__*/ S.suspend(() =>
     PartnerName: S.optional(S.String),
     Status: S.optional(PartnerIntegrationStatus),
     StatusMessage: S.optional(S.String),
-    CreatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    UpdatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    CreatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    UpdatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
-).annotate({
-  identifier: "PartnerIntegrationInfo",
-}) as any as S.Schema<PartnerIntegrationInfo>;
+).annotate({ identifier: "PartnerIntegrationInfo" }) as any as S.Schema<PartnerIntegrationInfo>;
 export type PartnerIntegrationInfoList = PartnerIntegrationInfo[];
 export const PartnerIntegrationInfoList = /*@__PURE__*/ S.Array(
   PartnerIntegrationInfo.pipe(T.XmlName("PartnerIntegrationInfo")).annotate({
@@ -6765,9 +5155,7 @@ export interface DescribePartnersOutputMessage {
   PartnerIntegrationInfoList?: PartnerIntegrationInfo[];
 }
 export const DescribePartnersOutputMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PartnerIntegrationInfoList: S.optional(PartnerIntegrationInfoList),
-  }).pipe(ns),
+  S.Struct({ PartnerIntegrationInfoList: S.optional(PartnerIntegrationInfoList) }).pipe(ns),
 ).annotate({
   identifier: "DescribePartnersOutputMessage",
 }) as any as S.Schema<DescribePartnersOutputMessage>;
@@ -6781,17 +5169,7 @@ export const DescribeQev2IdcApplicationsMessage = /*@__PURE__*/ S.suspend(() =>
     Qev2IdcApplicationArn: S.optional(S.String),
     MaxRecords: S.optional(S.Number),
     Marker: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeQev2IdcApplicationsMessage",
 }) as any as S.Schema<DescribeQev2IdcApplicationsMessage>;
@@ -6814,40 +5192,26 @@ export interface DescribeRedshiftIdcApplicationsMessage {
   MaxRecords?: number;
   Marker?: string;
 }
-export const DescribeRedshiftIdcApplicationsMessage = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      RedshiftIdcApplicationArn: S.optional(S.String),
-      MaxRecords: S.optional(S.Number),
-      Marker: S.optional(S.String),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
+export const DescribeRedshiftIdcApplicationsMessage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    RedshiftIdcApplicationArn: S.optional(S.String),
+    MaxRecords: S.optional(S.Number),
+    Marker: S.optional(S.String),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeRedshiftIdcApplicationsMessage",
 }) as any as S.Schema<DescribeRedshiftIdcApplicationsMessage>;
 export type RedshiftIdcApplicationList = RedshiftIdcApplication[];
-export const RedshiftIdcApplicationList = /*@__PURE__*/ S.Array(
-  RedshiftIdcApplication,
-);
+export const RedshiftIdcApplicationList = /*@__PURE__*/ S.Array(RedshiftIdcApplication);
 export interface DescribeRedshiftIdcApplicationsResult {
   RedshiftIdcApplications?: RedshiftIdcApplication[];
   Marker?: string;
 }
-export const DescribeRedshiftIdcApplicationsResult = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      RedshiftIdcApplications: S.optional(RedshiftIdcApplicationList),
-      Marker: S.optional(S.String),
-    }).pipe(ns),
+export const DescribeRedshiftIdcApplicationsResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    RedshiftIdcApplications: S.optional(RedshiftIdcApplicationList),
+    Marker: S.optional(S.String),
+  }).pipe(ns),
 ).annotate({
   identifier: "DescribeRedshiftIdcApplicationsResult",
 }) as any as S.Schema<DescribeRedshiftIdcApplicationsResult>;
@@ -6857,70 +5221,45 @@ export interface DescribeReservedNodeExchangeStatusInputMessage {
   MaxRecords?: number;
   Marker?: string;
 }
-export const DescribeReservedNodeExchangeStatusInputMessage =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ReservedNodeId: S.optional(S.String),
-      ReservedNodeExchangeRequestId: S.optional(S.String),
-      MaxRecords: S.optional(S.Number),
-      Marker: S.optional(S.String),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "DescribeReservedNodeExchangeStatusInputMessage",
-  }) as any as S.Schema<DescribeReservedNodeExchangeStatusInputMessage>;
+export const DescribeReservedNodeExchangeStatusInputMessage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ReservedNodeId: S.optional(S.String),
+    ReservedNodeExchangeRequestId: S.optional(S.String),
+    MaxRecords: S.optional(S.Number),
+    Marker: S.optional(S.String),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({
+  identifier: "DescribeReservedNodeExchangeStatusInputMessage",
+}) as any as S.Schema<DescribeReservedNodeExchangeStatusInputMessage>;
 export type ReservedNodeExchangeStatusList = ReservedNodeExchangeStatus[];
 export const ReservedNodeExchangeStatusList = /*@__PURE__*/ S.Array(
-  ReservedNodeExchangeStatus.pipe(
-    T.XmlName("ReservedNodeExchangeStatus"),
-  ).annotate({ identifier: "ReservedNodeExchangeStatus" }),
+  ReservedNodeExchangeStatus.pipe(T.XmlName("ReservedNodeExchangeStatus")).annotate({
+    identifier: "ReservedNodeExchangeStatus",
+  }),
 );
 export interface DescribeReservedNodeExchangeStatusOutputMessage {
   ReservedNodeExchangeStatusDetails?: ReservedNodeExchangeStatus[];
   Marker?: string;
 }
-export const DescribeReservedNodeExchangeStatusOutputMessage =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ReservedNodeExchangeStatusDetails: S.optional(
-        ReservedNodeExchangeStatusList,
-      ),
-      Marker: S.optional(S.String),
-    }).pipe(ns),
-  ).annotate({
-    identifier: "DescribeReservedNodeExchangeStatusOutputMessage",
-  }) as any as S.Schema<DescribeReservedNodeExchangeStatusOutputMessage>;
+export const DescribeReservedNodeExchangeStatusOutputMessage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ReservedNodeExchangeStatusDetails: S.optional(ReservedNodeExchangeStatusList),
+    Marker: S.optional(S.String),
+  }).pipe(ns),
+).annotate({
+  identifier: "DescribeReservedNodeExchangeStatusOutputMessage",
+}) as any as S.Schema<DescribeReservedNodeExchangeStatusOutputMessage>;
 export interface DescribeReservedNodeOfferingsMessage {
   ReservedNodeOfferingId?: string;
   MaxRecords?: number;
   Marker?: string;
 }
-export const DescribeReservedNodeOfferingsMessage = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ReservedNodeOfferingId: S.optional(S.String),
-      MaxRecords: S.optional(S.Number),
-      Marker: S.optional(S.String),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
+export const DescribeReservedNodeOfferingsMessage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ReservedNodeOfferingId: S.optional(S.String),
+    MaxRecords: S.optional(S.Number),
+    Marker: S.optional(S.String),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeReservedNodeOfferingsMessage",
 }) as any as S.Schema<DescribeReservedNodeOfferingsMessage>;
@@ -6947,9 +5286,7 @@ export const ReservedNodeOffering = /*@__PURE__*/ S.suspend(() =>
     RecurringCharges: S.optional(RecurringChargeList),
     ReservedNodeOfferingType: S.optional(ReservedNodeOfferingType),
   }),
-).annotate({
-  identifier: "ReservedNodeOffering",
-}) as any as S.Schema<ReservedNodeOffering>;
+).annotate({ identifier: "ReservedNodeOffering" }) as any as S.Schema<ReservedNodeOffering>;
 export type ReservedNodeOfferingList = ReservedNodeOffering[];
 export const ReservedNodeOfferingList = /*@__PURE__*/ S.Array(
   ReservedNodeOffering.pipe(T.XmlName("ReservedNodeOffering")).annotate({
@@ -6978,56 +5315,29 @@ export const DescribeReservedNodesMessage = /*@__PURE__*/ S.suspend(() =>
     ReservedNodeId: S.optional(S.String),
     MaxRecords: S.optional(S.Number),
     Marker: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeReservedNodesMessage",
 }) as any as S.Schema<DescribeReservedNodesMessage>;
 export type ReservedNodeList = ReservedNode[];
 export const ReservedNodeList = /*@__PURE__*/ S.Array(
-  ReservedNode.pipe(T.XmlName("ReservedNode")).annotate({
-    identifier: "ReservedNode",
-  }),
+  ReservedNode.pipe(T.XmlName("ReservedNode")).annotate({ identifier: "ReservedNode" }),
 );
 export interface ReservedNodesMessage {
   Marker?: string;
   ReservedNodes?: ReservedNode[];
 }
 export const ReservedNodesMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Marker: S.optional(S.String),
-    ReservedNodes: S.optional(ReservedNodeList),
-  }).pipe(ns),
-).annotate({
-  identifier: "ReservedNodesMessage",
-}) as any as S.Schema<ReservedNodesMessage>;
+  S.Struct({ Marker: S.optional(S.String), ReservedNodes: S.optional(ReservedNodeList) }).pipe(ns),
+).annotate({ identifier: "ReservedNodesMessage" }) as any as S.Schema<ReservedNodesMessage>;
 export interface DescribeResizeMessage {
   ClusterIdentifier?: string;
 }
 export const DescribeResizeMessage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ClusterIdentifier: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DescribeResizeMessage",
-}) as any as S.Schema<DescribeResizeMessage>;
+).annotate({ identifier: "DescribeResizeMessage" }) as any as S.Schema<DescribeResizeMessage>;
 export type ScheduledActionTypeValues =
   | "ResizeCluster"
   | "PauseCluster"
@@ -7035,10 +5345,7 @@ export type ScheduledActionTypeValues =
   | (string & {});
 export const ScheduledActionTypeValues = S.String;
 
-export type ScheduledActionFilterName =
-  | "cluster-identifier"
-  | "iam-role"
-  | (string & {});
+export type ScheduledActionFilterName = "cluster-identifier" | "iam-role" | (string & {});
 export const ScheduledActionFilterName = S.String;
 
 export interface ScheduledActionFilter {
@@ -7046,13 +5353,8 @@ export interface ScheduledActionFilter {
   Values?: string[];
 }
 export const ScheduledActionFilter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.optional(ScheduledActionFilterName),
-    Values: S.optional(ValueStringList),
-  }),
-).annotate({
-  identifier: "ScheduledActionFilter",
-}) as any as S.Schema<ScheduledActionFilter>;
+  S.Struct({ Name: S.optional(ScheduledActionFilterName), Values: S.optional(ValueStringList) }),
+).annotate({ identifier: "ScheduledActionFilter" }) as any as S.Schema<ScheduledActionFilter>;
 export type ScheduledActionFilterList = ScheduledActionFilter[];
 export const ScheduledActionFilterList = /*@__PURE__*/ S.Array(
   ScheduledActionFilter.pipe(T.XmlName("ScheduledActionFilter")).annotate({
@@ -7073,33 +5375,19 @@ export const DescribeScheduledActionsMessage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ScheduledActionName: S.optional(S.String),
     TargetActionType: S.optional(ScheduledActionTypeValues),
-    StartTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    StartTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     EndTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     Active: S.optional(S.Boolean),
     Filters: S.optional(ScheduledActionFilterList),
     Marker: S.optional(S.String),
     MaxRecords: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeScheduledActionsMessage",
 }) as any as S.Schema<DescribeScheduledActionsMessage>;
 export type ScheduledActionList = ScheduledAction[];
 export const ScheduledActionList = /*@__PURE__*/ S.Array(
-  ScheduledAction.pipe(T.XmlName("ScheduledAction")).annotate({
-    identifier: "ScheduledAction",
-  }),
+  ScheduledAction.pipe(T.XmlName("ScheduledAction")).annotate({ identifier: "ScheduledAction" }),
 );
 export interface ScheduledActionsMessage {
   Marker?: string;
@@ -7116,9 +5404,7 @@ export const ScheduledActionsMessage = /*@__PURE__*/ S.suspend(() =>
     Marker: S.optional(S.String),
     ScheduledActions: S.optional(ScheduledActionList),
   }).pipe(ns),
-).annotate({
-  identifier: "ScheduledActionsMessage",
-}) as any as S.Schema<ScheduledActionsMessage>;
+).annotate({ identifier: "ScheduledActionsMessage" }) as any as S.Schema<ScheduledActionsMessage>;
 export interface DescribeSnapshotCopyGrantsMessage {
   SnapshotCopyGrantName?: string;
   MaxRecords?: number;
@@ -7133,17 +5419,7 @@ export const DescribeSnapshotCopyGrantsMessage = /*@__PURE__*/ S.suspend(() =>
     Marker: S.optional(S.String),
     TagKeys: S.optional(TagKeyList),
     TagValues: S.optional(TagValueList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeSnapshotCopyGrantsMessage",
 }) as any as S.Schema<DescribeSnapshotCopyGrantsMessage>;
@@ -7162,9 +5438,7 @@ export const SnapshotCopyGrantMessage = /*@__PURE__*/ S.suspend(() =>
     Marker: S.optional(S.String),
     SnapshotCopyGrants: S.optional(SnapshotCopyGrantList),
   }).pipe(ns),
-).annotate({
-  identifier: "SnapshotCopyGrantMessage",
-}) as any as S.Schema<SnapshotCopyGrantMessage>;
+).annotate({ identifier: "SnapshotCopyGrantMessage" }) as any as S.Schema<SnapshotCopyGrantMessage>;
 export interface DescribeSnapshotSchedulesMessage {
   ClusterIdentifier?: string;
   ScheduleIdentifier?: string;
@@ -7181,55 +5455,30 @@ export const DescribeSnapshotSchedulesMessage = /*@__PURE__*/ S.suspend(() =>
     TagValues: S.optional(TagValueList),
     Marker: S.optional(S.String),
     MaxRecords: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeSnapshotSchedulesMessage",
 }) as any as S.Schema<DescribeSnapshotSchedulesMessage>;
 export type SnapshotScheduleList = SnapshotSchedule[];
 export const SnapshotScheduleList = /*@__PURE__*/ S.Array(
-  SnapshotSchedule.pipe(T.XmlName("SnapshotSchedule")).annotate({
-    identifier: "SnapshotSchedule",
-  }),
+  SnapshotSchedule.pipe(T.XmlName("SnapshotSchedule")).annotate({ identifier: "SnapshotSchedule" }),
 );
 export interface DescribeSnapshotSchedulesOutputMessage {
   SnapshotSchedules?: SnapshotSchedule[];
   Marker?: string;
 }
-export const DescribeSnapshotSchedulesOutputMessage = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      SnapshotSchedules: S.optional(SnapshotScheduleList),
-      Marker: S.optional(S.String),
-    }).pipe(ns),
+export const DescribeSnapshotSchedulesOutputMessage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    SnapshotSchedules: S.optional(SnapshotScheduleList),
+    Marker: S.optional(S.String),
+  }).pipe(ns),
 ).annotate({
   identifier: "DescribeSnapshotSchedulesOutputMessage",
 }) as any as S.Schema<DescribeSnapshotSchedulesOutputMessage>;
 export interface DescribeStorageRequest {}
 export const DescribeStorageRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeStorageRequest",
-}) as any as S.Schema<DescribeStorageRequest>;
+  S.Struct({}).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "DescribeStorageRequest" }) as any as S.Schema<DescribeStorageRequest>;
 export interface CustomerStorageMessage {
   TotalBackupSizeInMegaBytes?: number;
   TotalProvisionedStorageInMegaBytes?: number;
@@ -7239,9 +5488,7 @@ export const CustomerStorageMessage = /*@__PURE__*/ S.suspend(() =>
     TotalBackupSizeInMegaBytes: S.optional(S.Number),
     TotalProvisionedStorageInMegaBytes: S.optional(S.Number),
   }).pipe(ns),
-).annotate({
-  identifier: "CustomerStorageMessage",
-}) as any as S.Schema<CustomerStorageMessage>;
+).annotate({ identifier: "CustomerStorageMessage" }) as any as S.Schema<CustomerStorageMessage>;
 export interface DescribeTableRestoreStatusMessage {
   ClusterIdentifier?: string;
   TableRestoreRequestId?: string;
@@ -7254,17 +5501,7 @@ export const DescribeTableRestoreStatusMessage = /*@__PURE__*/ S.suspend(() =>
     TableRestoreRequestId: S.optional(S.String),
     MaxRecords: S.optional(S.Number),
     Marker: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeTableRestoreStatusMessage",
 }) as any as S.Schema<DescribeTableRestoreStatusMessage>;
@@ -7298,9 +5535,7 @@ export const TableRestoreStatus = /*@__PURE__*/ S.suspend(() =>
     TableRestoreRequestId: S.optional(S.String),
     Status: S.optional(TableRestoreStatusType),
     Message: S.optional(S.String),
-    RequestTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    RequestTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     ProgressInMegaBytes: S.optional(S.Number),
     TotalDataInMegaBytes: S.optional(S.Number),
     ClusterIdentifier: S.optional(S.String),
@@ -7312,9 +5547,7 @@ export const TableRestoreStatus = /*@__PURE__*/ S.suspend(() =>
     TargetSchemaName: S.optional(S.String),
     NewTableName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TableRestoreStatus",
-}) as any as S.Schema<TableRestoreStatus>;
+).annotate({ identifier: "TableRestoreStatus" }) as any as S.Schema<TableRestoreStatus>;
 export type TableRestoreStatusList = TableRestoreStatus[];
 export const TableRestoreStatusList = /*@__PURE__*/ S.Array(
   TableRestoreStatus.pipe(T.XmlName("TableRestoreStatus")).annotate({
@@ -7349,20 +5582,8 @@ export const DescribeTagsMessage = /*@__PURE__*/ S.suspend(() =>
     Marker: S.optional(S.String),
     TagKeys: S.optional(TagKeyList),
     TagValues: S.optional(TagValueList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeTagsMessage",
-}) as any as S.Schema<DescribeTagsMessage>;
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "DescribeTagsMessage" }) as any as S.Schema<DescribeTagsMessage>;
 export interface TaggedResource {
   Tag?: Tag;
   ResourceName?: string;
@@ -7377,19 +5598,16 @@ export const TaggedResource = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "TaggedResource" }) as any as S.Schema<TaggedResource>;
 export type TaggedResourceList = TaggedResource[];
 export const TaggedResourceList = /*@__PURE__*/ S.Array(
-  TaggedResource.pipe(T.XmlName("TaggedResource")).annotate({
-    identifier: "TaggedResource",
-  }),
+  TaggedResource.pipe(T.XmlName("TaggedResource")).annotate({ identifier: "TaggedResource" }),
 );
 export interface TaggedResourceListMessage {
   TaggedResources?: TaggedResource[];
   Marker?: string;
 }
 export const TaggedResourceListMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TaggedResources: S.optional(TaggedResourceList),
-    Marker: S.optional(S.String),
-  }).pipe(ns),
+  S.Struct({ TaggedResources: S.optional(TaggedResourceList), Marker: S.optional(S.String) }).pipe(
+    ns,
+  ),
 ).annotate({
   identifier: "TaggedResourceListMessage",
 }) as any as S.Schema<TaggedResourceListMessage>;
@@ -7411,17 +5629,7 @@ export const DescribeUsageLimitsMessage = /*@__PURE__*/ S.suspend(() =>
     Marker: S.optional(S.String),
     TagKeys: S.optional(TagKeyList),
     TagValues: S.optional(TagValueList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeUsageLimitsMessage",
 }) as any as S.Schema<DescribeUsageLimitsMessage>;
@@ -7432,10 +5640,7 @@ export interface UsageLimitList {
   Marker?: string;
 }
 export const UsageLimitList = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    UsageLimits: S.optional(UsageLimits),
-    Marker: S.optional(S.String),
-  }).pipe(ns),
+  S.Struct({ UsageLimits: S.optional(UsageLimits), Marker: S.optional(S.String) }).pipe(ns),
 ).annotate({ identifier: "UsageLimitList" }) as any as S.Schema<UsageLimitList>;
 export interface DisableLoggingMessage {
   ClusterIdentifier?: string;
@@ -7447,34 +5652,14 @@ export const DisableLoggingMessage = /*@__PURE__*/ S.suspend(() =>
     ClusterIdentifier: S.optional(S.String),
     LogDestinationType: S.optional(LogDestinationType),
     LogExports: S.optional(LogTypeList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DisableLoggingMessage",
-}) as any as S.Schema<DisableLoggingMessage>;
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "DisableLoggingMessage" }) as any as S.Schema<DisableLoggingMessage>;
 export interface DisableSnapshotCopyMessage {
   ClusterIdentifier?: string;
 }
 export const DisableSnapshotCopyMessage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ClusterIdentifier: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DisableSnapshotCopyMessage",
@@ -7493,24 +5678,13 @@ export interface DisassociateDataShareConsumerMessage {
   ConsumerArn?: string;
   ConsumerRegion?: string;
 }
-export const DisassociateDataShareConsumerMessage = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      DataShareArn: S.optional(S.String),
-      DisassociateEntireAccount: S.optional(S.Boolean),
-      ConsumerArn: S.optional(S.String),
-      ConsumerRegion: S.optional(S.String),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
+export const DisassociateDataShareConsumerMessage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    DataShareArn: S.optional(S.String),
+    DisassociateEntireAccount: S.optional(S.Boolean),
+    ConsumerArn: S.optional(S.String),
+    ConsumerRegion: S.optional(S.String),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DisassociateDataShareConsumerMessage",
 }) as any as S.Schema<DisassociateDataShareConsumerMessage>;
@@ -7532,20 +5706,8 @@ export const EnableLoggingMessage = /*@__PURE__*/ S.suspend(() =>
     LogExports: S.optional(LogTypeList),
     S3TableKmsKeyId: S.optional(S.String),
     S3TableGranularity: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "EnableLoggingMessage",
-}) as any as S.Schema<EnableLoggingMessage>;
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "EnableLoggingMessage" }) as any as S.Schema<EnableLoggingMessage>;
 export interface EnableSnapshotCopyMessage {
   ClusterIdentifier?: string;
   DestinationRegion?: string;
@@ -7560,17 +5722,7 @@ export const EnableSnapshotCopyMessage = /*@__PURE__*/ S.suspend(() =>
     RetentionPeriod: S.optional(S.Number),
     SnapshotCopyGrantName: S.optional(S.String),
     ManualSnapshotRetentionPeriod: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "EnableSnapshotCopyMessage",
 }) as any as S.Schema<EnableSnapshotCopyMessage>;
@@ -7579,23 +5731,13 @@ export interface EnableSnapshotCopyResult {
 }
 export const EnableSnapshotCopyResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Cluster: S.optional(Cluster) }).pipe(ns),
-).annotate({
-  identifier: "EnableSnapshotCopyResult",
-}) as any as S.Schema<EnableSnapshotCopyResult>;
+).annotate({ identifier: "EnableSnapshotCopyResult" }) as any as S.Schema<EnableSnapshotCopyResult>;
 export interface FailoverPrimaryComputeInputMessage {
   ClusterIdentifier?: string;
 }
 export const FailoverPrimaryComputeInputMessage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ClusterIdentifier: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "FailoverPrimaryComputeInputMessage",
@@ -7609,9 +5751,7 @@ export const FailoverPrimaryComputeResult = /*@__PURE__*/ S.suspend(() =>
   identifier: "FailoverPrimaryComputeResult",
 }) as any as S.Schema<FailoverPrimaryComputeResult>;
 export type DbGroupList = string[];
-export const DbGroupList = /*@__PURE__*/ S.Array(
-  S.String.pipe(T.XmlName("DbGroup")),
-);
+export const DbGroupList = /*@__PURE__*/ S.Array(S.String.pipe(T.XmlName("DbGroup")));
 export interface GetClusterCredentialsMessage {
   DbUser?: string;
   DbName?: string;
@@ -7630,17 +5770,7 @@ export const GetClusterCredentialsMessage = /*@__PURE__*/ S.suspend(() =>
     AutoCreate: S.optional(S.Boolean),
     DbGroups: S.optional(DbGroupList),
     CustomDomainName: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "GetClusterCredentialsMessage",
 }) as any as S.Schema<GetClusterCredentialsMessage>;
@@ -7653,13 +5783,9 @@ export const ClusterCredentials = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     DbUser: S.optional(S.String),
     DbPassword: S.optional(SensitiveString),
-    Expiration: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    Expiration: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }).pipe(ns),
-).annotate({
-  identifier: "ClusterCredentials",
-}) as any as S.Schema<ClusterCredentials>;
+).annotate({ identifier: "ClusterCredentials" }) as any as S.Schema<ClusterCredentials>;
 export interface GetClusterCredentialsWithIAMMessage {
   DbName?: string;
   ClusterIdentifier?: string;
@@ -7672,17 +5798,7 @@ export const GetClusterCredentialsWithIAMMessage = /*@__PURE__*/ S.suspend(() =>
     ClusterIdentifier: S.optional(S.String),
     DurationSeconds: S.optional(S.Number),
     CustomDomainName: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "GetClusterCredentialsWithIAMMessage",
 }) as any as S.Schema<GetClusterCredentialsWithIAMMessage>;
@@ -7696,12 +5812,8 @@ export const ClusterExtendedCredentials = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     DbUser: S.optional(S.String),
     DbPassword: S.optional(SensitiveString),
-    Expiration: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    NextRefreshTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    Expiration: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    NextRefreshTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }).pipe(ns),
 ).annotate({
   identifier: "ClusterExtendedCredentials",
@@ -7715,15 +5827,7 @@ export interface GetIdentityCenterAuthTokenRequest {
 }
 export const GetIdentityCenterAuthTokenRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ClusterIds: S.optional(ClusterIdentifierList) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetIdentityCenterAuthTokenRequest",
@@ -7735,17 +5839,12 @@ export interface GetIdentityCenterAuthTokenResponse {
 export const GetIdentityCenterAuthTokenResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     Token: S.optional(SensitiveString),
-    ExpirationTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    ExpirationTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }).pipe(ns),
 ).annotate({
   identifier: "GetIdentityCenterAuthTokenResponse",
 }) as any as S.Schema<GetIdentityCenterAuthTokenResponse>;
-export type ReservedNodeExchangeActionType =
-  | "restore-cluster"
-  | "resize-cluster"
-  | (string & {});
+export type ReservedNodeExchangeActionType = "restore-cluster" | "resize-cluster" | (string & {});
 export const ReservedNodeExchangeActionType = S.String;
 
 export interface GetReservedNodeExchangeConfigurationOptionsInputMessage {
@@ -7755,28 +5854,17 @@ export interface GetReservedNodeExchangeConfigurationOptionsInputMessage {
   MaxRecords?: number;
   Marker?: string;
 }
-export const GetReservedNodeExchangeConfigurationOptionsInputMessage =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ActionType: S.optional(ReservedNodeExchangeActionType),
-      ClusterIdentifier: S.optional(S.String),
-      SnapshotIdentifier: S.optional(S.String),
-      MaxRecords: S.optional(S.Number),
-      Marker: S.optional(S.String),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "GetReservedNodeExchangeConfigurationOptionsInputMessage",
-  }) as any as S.Schema<GetReservedNodeExchangeConfigurationOptionsInputMessage>;
+export const GetReservedNodeExchangeConfigurationOptionsInputMessage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ActionType: S.optional(ReservedNodeExchangeActionType),
+    ClusterIdentifier: S.optional(S.String),
+    SnapshotIdentifier: S.optional(S.String),
+    MaxRecords: S.optional(S.Number),
+    Marker: S.optional(S.String),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({
+  identifier: "GetReservedNodeExchangeConfigurationOptionsInputMessage",
+}) as any as S.Schema<GetReservedNodeExchangeConfigurationOptionsInputMessage>;
 export interface ReservedNodeConfigurationOption {
   SourceReservedNode?: ReservedNode;
   TargetReservedNodeCount?: number;
@@ -7791,84 +5879,59 @@ export const ReservedNodeConfigurationOption = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ReservedNodeConfigurationOption",
 }) as any as S.Schema<ReservedNodeConfigurationOption>;
-export type ReservedNodeConfigurationOptionList =
-  ReservedNodeConfigurationOption[];
+export type ReservedNodeConfigurationOptionList = ReservedNodeConfigurationOption[];
 export const ReservedNodeConfigurationOptionList = /*@__PURE__*/ S.Array(
-  ReservedNodeConfigurationOption.pipe(
-    T.XmlName("ReservedNodeConfigurationOption"),
-  ).annotate({ identifier: "ReservedNodeConfigurationOption" }),
+  ReservedNodeConfigurationOption.pipe(T.XmlName("ReservedNodeConfigurationOption")).annotate({
+    identifier: "ReservedNodeConfigurationOption",
+  }),
 );
 export interface GetReservedNodeExchangeConfigurationOptionsOutputMessage {
   Marker?: string;
   ReservedNodeConfigurationOptionList?: ReservedNodeConfigurationOption[];
 }
-export const GetReservedNodeExchangeConfigurationOptionsOutputMessage =
-  /*@__PURE__*/ S.suspend(() =>
+export const GetReservedNodeExchangeConfigurationOptionsOutputMessage = /*@__PURE__*/ S.suspend(
+  () =>
     S.Struct({
       Marker: S.optional(S.String),
-      ReservedNodeConfigurationOptionList: S.optional(
-        ReservedNodeConfigurationOptionList,
-      ),
+      ReservedNodeConfigurationOptionList: S.optional(ReservedNodeConfigurationOptionList),
     }).pipe(ns),
-  ).annotate({
-    identifier: "GetReservedNodeExchangeConfigurationOptionsOutputMessage",
-  }) as any as S.Schema<GetReservedNodeExchangeConfigurationOptionsOutputMessage>;
+).annotate({
+  identifier: "GetReservedNodeExchangeConfigurationOptionsOutputMessage",
+}) as any as S.Schema<GetReservedNodeExchangeConfigurationOptionsOutputMessage>;
 export interface GetReservedNodeExchangeOfferingsInputMessage {
   ReservedNodeId?: string;
   MaxRecords?: number;
   Marker?: string;
 }
-export const GetReservedNodeExchangeOfferingsInputMessage =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ReservedNodeId: S.optional(S.String),
-      MaxRecords: S.optional(S.Number),
-      Marker: S.optional(S.String),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "GetReservedNodeExchangeOfferingsInputMessage",
-  }) as any as S.Schema<GetReservedNodeExchangeOfferingsInputMessage>;
+export const GetReservedNodeExchangeOfferingsInputMessage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ReservedNodeId: S.optional(S.String),
+    MaxRecords: S.optional(S.Number),
+    Marker: S.optional(S.String),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({
+  identifier: "GetReservedNodeExchangeOfferingsInputMessage",
+}) as any as S.Schema<GetReservedNodeExchangeOfferingsInputMessage>;
 export interface GetReservedNodeExchangeOfferingsOutputMessage {
   Marker?: string;
   ReservedNodeOfferings?: ReservedNodeOffering[];
 }
-export const GetReservedNodeExchangeOfferingsOutputMessage =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      Marker: S.optional(S.String),
-      ReservedNodeOfferings: S.optional(ReservedNodeOfferingList),
-    }).pipe(ns),
-  ).annotate({
-    identifier: "GetReservedNodeExchangeOfferingsOutputMessage",
-  }) as any as S.Schema<GetReservedNodeExchangeOfferingsOutputMessage>;
+export const GetReservedNodeExchangeOfferingsOutputMessage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Marker: S.optional(S.String),
+    ReservedNodeOfferings: S.optional(ReservedNodeOfferingList),
+  }).pipe(ns),
+).annotate({
+  identifier: "GetReservedNodeExchangeOfferingsOutputMessage",
+}) as any as S.Schema<GetReservedNodeExchangeOfferingsOutputMessage>;
 export interface GetResourcePolicyMessage {
   ResourceArn?: string;
 }
 export const GetResourcePolicyMessage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceArn: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetResourcePolicyMessage",
-}) as any as S.Schema<GetResourcePolicyMessage>;
+).annotate({ identifier: "GetResourcePolicyMessage" }) as any as S.Schema<GetResourcePolicyMessage>;
 export interface ResourcePolicy {
   ResourceArn?: string;
   Policy?: string;
@@ -7881,9 +5944,7 @@ export interface GetResourcePolicyResult {
 }
 export const GetResourcePolicyResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourcePolicy: S.optional(ResourcePolicy) }).pipe(ns),
-).annotate({
-  identifier: "GetResourcePolicyResult",
-}) as any as S.Schema<GetResourcePolicyResult>;
+).annotate({ identifier: "GetResourcePolicyResult" }) as any as S.Schema<GetResourcePolicyResult>;
 export interface ListRecommendationsMessage {
   ClusterIdentifier?: string;
   NamespaceArn?: string;
@@ -7896,17 +5957,7 @@ export const ListRecommendationsMessage = /*@__PURE__*/ S.suspend(() =>
     NamespaceArn: S.optional(S.String),
     MaxRecords: S.optional(S.Number),
     Marker: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListRecommendationsMessage",
 }) as any as S.Schema<ListRecommendationsMessage>;
@@ -7929,9 +5980,7 @@ export const RecommendedAction = /*@__PURE__*/ S.suspend(() =>
     Command: S.optional(S.String),
     Type: S.optional(RecommendedActionType),
   }),
-).annotate({
-  identifier: "RecommendedAction",
-}) as any as S.Schema<RecommendedAction>;
+).annotate({ identifier: "RecommendedAction" }) as any as S.Schema<RecommendedAction>;
 export type RecommendedActionList = RecommendedAction[];
 export const RecommendedActionList = /*@__PURE__*/ S.Array(
   RecommendedAction.pipe(T.XmlName("RecommendedAction")).annotate({
@@ -7947,9 +5996,7 @@ export const ReferenceLink = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "ReferenceLink" }) as any as S.Schema<ReferenceLink>;
 export type ReferenceLinkList = ReferenceLink[];
 export const ReferenceLinkList = /*@__PURE__*/ S.Array(
-  ReferenceLink.pipe(T.XmlName("ReferenceLink")).annotate({
-    identifier: "ReferenceLink",
-  }),
+  ReferenceLink.pipe(T.XmlName("ReferenceLink")).annotate({ identifier: "ReferenceLink" }),
 );
 export interface Recommendation {
   Id?: string;
@@ -7970,9 +6017,7 @@ export const Recommendation = /*@__PURE__*/ S.suspend(() =>
     Id: S.optional(S.String),
     ClusterIdentifier: S.optional(S.String),
     NamespaceArn: S.optional(S.String),
-    CreatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    CreatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     RecommendationType: S.optional(S.String),
     Title: S.optional(S.String),
     Description: S.optional(S.String),
@@ -7985,19 +6030,16 @@ export const Recommendation = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "Recommendation" }) as any as S.Schema<Recommendation>;
 export type RecommendationList = Recommendation[];
 export const RecommendationList = /*@__PURE__*/ S.Array(
-  Recommendation.pipe(T.XmlName("Recommendation")).annotate({
-    identifier: "Recommendation",
-  }),
+  Recommendation.pipe(T.XmlName("Recommendation")).annotate({ identifier: "Recommendation" }),
 );
 export interface ListRecommendationsResult {
   Recommendations?: Recommendation[];
   Marker?: string;
 }
 export const ListRecommendationsResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Recommendations: S.optional(RecommendationList),
-    Marker: S.optional(S.String),
-  }).pipe(ns),
+  S.Struct({ Recommendations: S.optional(RecommendationList), Marker: S.optional(S.String) }).pipe(
+    ns,
+  ),
 ).annotate({
   identifier: "ListRecommendationsResult",
 }) as any as S.Schema<ListRecommendationsResult>;
@@ -8009,28 +6051,14 @@ export const ModifyAquaInputMessage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ClusterIdentifier: S.optional(S.String),
     AquaConfigurationStatus: S.optional(AquaConfigurationStatus),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ModifyAquaInputMessage",
-}) as any as S.Schema<ModifyAquaInputMessage>;
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "ModifyAquaInputMessage" }) as any as S.Schema<ModifyAquaInputMessage>;
 export interface ModifyAquaOutputMessage {
   AquaConfiguration?: AquaConfiguration;
 }
 export const ModifyAquaOutputMessage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ AquaConfiguration: S.optional(AquaConfiguration) }).pipe(ns),
-).annotate({
-  identifier: "ModifyAquaOutputMessage",
-}) as any as S.Schema<ModifyAquaOutputMessage>;
+).annotate({ identifier: "ModifyAquaOutputMessage" }) as any as S.Schema<ModifyAquaOutputMessage>;
 export interface ModifyAuthenticationProfileMessage {
   AuthenticationProfileName?: string;
   AuthenticationProfileContent?: string;
@@ -8039,17 +6067,7 @@ export const ModifyAuthenticationProfileMessage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     AuthenticationProfileName: S.optional(S.String),
     AuthenticationProfileContent: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ModifyAuthenticationProfileMessage",
 }) as any as S.Schema<ModifyAuthenticationProfileMessage>;
@@ -8129,46 +6147,21 @@ export const ModifyClusterMessage = /*@__PURE__*/ S.suspend(() =>
     IpAddressType: S.optional(S.String),
     MultiAZ: S.optional(S.Boolean),
     ExtraComputeForAutomaticOptimization: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ModifyClusterMessage",
-}) as any as S.Schema<ModifyClusterMessage>;
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "ModifyClusterMessage" }) as any as S.Schema<ModifyClusterMessage>;
 export interface ModifyClusterResult {
   Cluster?: Cluster;
 }
 export const ModifyClusterResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Cluster: S.optional(Cluster) }).pipe(ns),
-).annotate({
-  identifier: "ModifyClusterResult",
-}) as any as S.Schema<ModifyClusterResult>;
+).annotate({ identifier: "ModifyClusterResult" }) as any as S.Schema<ModifyClusterResult>;
 export interface ModifyClusterDbRevisionMessage {
   ClusterIdentifier?: string;
   RevisionTarget?: string;
 }
 export const ModifyClusterDbRevisionMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ClusterIdentifier: S.optional(S.String),
-    RevisionTarget: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+  S.Struct({ ClusterIdentifier: S.optional(S.String), RevisionTarget: S.optional(S.String) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ModifyClusterDbRevisionMessage",
@@ -8193,17 +6186,7 @@ export const ModifyClusterIamRolesMessage = /*@__PURE__*/ S.suspend(() =>
     AddIamRoles: S.optional(IamRoleArnList),
     RemoveIamRoles: S.optional(IamRoleArnList),
     DefaultIamRoleArn: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ModifyClusterIamRolesMessage",
 }) as any as S.Schema<ModifyClusterIamRolesMessage>;
@@ -8228,24 +6211,10 @@ export const ModifyClusterMaintenanceMessage = /*@__PURE__*/ S.suspend(() =>
     ClusterIdentifier: S.optional(S.String),
     DeferMaintenance: S.optional(S.Boolean),
     DeferMaintenanceIdentifier: S.optional(S.String),
-    DeferMaintenanceStartTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    DeferMaintenanceEndTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    DeferMaintenanceStartTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    DeferMaintenanceEndTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     DeferMaintenanceDuration: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ModifyClusterMaintenanceMessage",
 }) as any as S.Schema<ModifyClusterMaintenanceMessage>;
@@ -8265,17 +6234,7 @@ export const ModifyClusterParameterGroupMessage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ParameterGroupName: S.optional(S.String),
     Parameters: S.optional(ParametersList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ModifyClusterParameterGroupMessage",
 }) as any as S.Schema<ModifyClusterParameterGroupMessage>;
@@ -8301,17 +6260,7 @@ export const ModifyClusterSnapshotMessage = /*@__PURE__*/ S.suspend(() =>
     SnapshotIdentifier: S.optional(S.String),
     ManualSnapshotRetentionPeriod: S.optional(S.Number),
     Force: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ModifyClusterSnapshotMessage",
 }) as any as S.Schema<ModifyClusterSnapshotMessage>;
@@ -8328,29 +6277,18 @@ export interface ModifyClusterSnapshotScheduleMessage {
   ScheduleIdentifier?: string;
   DisassociateSchedule?: boolean;
 }
-export const ModifyClusterSnapshotScheduleMessage = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ClusterIdentifier: S.optional(S.String),
-      ScheduleIdentifier: S.optional(S.String),
-      DisassociateSchedule: S.optional(S.Boolean),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
+export const ModifyClusterSnapshotScheduleMessage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ClusterIdentifier: S.optional(S.String),
+    ScheduleIdentifier: S.optional(S.String),
+    DisassociateSchedule: S.optional(S.Boolean),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ModifyClusterSnapshotScheduleMessage",
 }) as any as S.Schema<ModifyClusterSnapshotScheduleMessage>;
 export interface ModifyClusterSnapshotScheduleResponse {}
-export const ModifyClusterSnapshotScheduleResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}).pipe(ns),
+export const ModifyClusterSnapshotScheduleResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(ns),
 ).annotate({
   identifier: "ModifyClusterSnapshotScheduleResponse",
 }) as any as S.Schema<ModifyClusterSnapshotScheduleResponse>;
@@ -8364,17 +6302,7 @@ export const ModifyClusterSubnetGroupMessage = /*@__PURE__*/ S.suspend(() =>
     ClusterSubnetGroupName: S.optional(S.String),
     Description: S.optional(S.String),
     SubnetIds: S.optional(SubnetIdentifierList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ModifyClusterSubnetGroupMessage",
 }) as any as S.Schema<ModifyClusterSubnetGroupMessage>;
@@ -8391,23 +6319,12 @@ export interface ModifyCustomDomainAssociationMessage {
   CustomDomainCertificateArn?: string;
   ClusterIdentifier?: string;
 }
-export const ModifyCustomDomainAssociationMessage = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      CustomDomainName: S.optional(S.String),
-      CustomDomainCertificateArn: S.optional(S.String),
-      ClusterIdentifier: S.optional(S.String),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
+export const ModifyCustomDomainAssociationMessage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    CustomDomainName: S.optional(S.String),
+    CustomDomainCertificateArn: S.optional(S.String),
+    ClusterIdentifier: S.optional(S.String),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ModifyCustomDomainAssociationMessage",
 }) as any as S.Schema<ModifyCustomDomainAssociationMessage>;
@@ -8435,17 +6352,7 @@ export const ModifyEndpointAccessMessage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     EndpointName: S.optional(S.String),
     VpcSecurityGroupIds: S.optional(VpcSecurityGroupIdList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ModifyEndpointAccessMessage",
 }) as any as S.Schema<ModifyEndpointAccessMessage>;
@@ -8467,17 +6374,7 @@ export const ModifyEventSubscriptionMessage = /*@__PURE__*/ S.suspend(() =>
     EventCategories: S.optional(EventCategoriesList),
     Severity: S.optional(S.String),
     Enabled: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ModifyEventSubscriptionMessage",
 }) as any as S.Schema<ModifyEventSubscriptionMessage>;
@@ -8499,27 +6396,12 @@ export const ModifyIntegrationMessage = /*@__PURE__*/ S.suspend(() =>
     IntegrationArn: S.optional(S.String),
     Description: S.optional(S.String),
     IntegrationName: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ModifyIntegrationMessage",
-}) as any as S.Schema<ModifyIntegrationMessage>;
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "ModifyIntegrationMessage" }) as any as S.Schema<ModifyIntegrationMessage>;
 export type LakehouseRegistration = "Register" | "Deregister" | (string & {});
 export const LakehouseRegistration = S.String;
 
-export type LakehouseIdcRegistration =
-  | "Associate"
-  | "Disassociate"
-  | (string & {});
+export type LakehouseIdcRegistration = "Associate" | "Disassociate" | (string & {});
 export const LakehouseIdcRegistration = S.String;
 
 export interface ModifyLakehouseConfigurationMessage {
@@ -8538,17 +6420,7 @@ export const ModifyLakehouseConfigurationMessage = /*@__PURE__*/ S.suspend(() =>
     LakehouseIdcRegistration: S.optional(LakehouseIdcRegistration),
     LakehouseIdcApplicationArn: S.optional(S.String),
     DryRun: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ModifyLakehouseConfigurationMessage",
 }) as any as S.Schema<ModifyLakehouseConfigurationMessage>;
@@ -8565,9 +6437,7 @@ export const LakehouseConfiguration = /*@__PURE__*/ S.suspend(() =>
     LakehouseRegistrationStatus: S.optional(S.String),
     CatalogArn: S.optional(S.String),
   }).pipe(ns),
-).annotate({
-  identifier: "LakehouseConfiguration",
-}) as any as S.Schema<LakehouseConfiguration>;
+).annotate({ identifier: "LakehouseConfiguration" }) as any as S.Schema<LakehouseConfiguration>;
 export interface ModifyQev2IdcApplicationMessage {
   Qev2IdcApplicationArn?: string;
   IdcDisplayName?: string;
@@ -8576,17 +6446,7 @@ export const ModifyQev2IdcApplicationMessage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     Qev2IdcApplicationArn: S.optional(S.String),
     IdcDisplayName: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ModifyQev2IdcApplicationMessage",
 }) as any as S.Schema<ModifyQev2IdcApplicationMessage>;
@@ -8614,17 +6474,7 @@ export const ModifyRedshiftIdcApplicationMessage = /*@__PURE__*/ S.suspend(() =>
     IdcDisplayName: S.optional(S.String),
     AuthorizedTokenIssuerList: S.optional(AuthorizedTokenIssuerList),
     ServiceIntegrations: S.optional(ServiceIntegrationList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ModifyRedshiftIdcApplicationMessage",
 }) as any as S.Schema<ModifyRedshiftIdcApplicationMessage>;
@@ -8632,9 +6482,7 @@ export interface ModifyRedshiftIdcApplicationResult {
   RedshiftIdcApplication?: RedshiftIdcApplication;
 }
 export const ModifyRedshiftIdcApplicationResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RedshiftIdcApplication: S.optional(RedshiftIdcApplication) }).pipe(
-    ns,
-  ),
+  S.Struct({ RedshiftIdcApplication: S.optional(RedshiftIdcApplication) }).pipe(ns),
 ).annotate({
   identifier: "ModifyRedshiftIdcApplicationResult",
 }) as any as S.Schema<ModifyRedshiftIdcApplicationResult>;
@@ -8655,22 +6503,10 @@ export const ModifyScheduledActionMessage = /*@__PURE__*/ S.suspend(() =>
     Schedule: S.optional(S.String),
     IamRole: S.optional(S.String),
     ScheduledActionDescription: S.optional(S.String),
-    StartTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    StartTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     EndTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     Enable: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ModifyScheduledActionMessage",
 }) as any as S.Schema<ModifyScheduledActionMessage>;
@@ -8679,31 +6515,20 @@ export interface ModifySnapshotCopyRetentionPeriodMessage {
   RetentionPeriod?: number;
   Manual?: boolean;
 }
-export const ModifySnapshotCopyRetentionPeriodMessage = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ClusterIdentifier: S.optional(S.String),
-      RetentionPeriod: S.optional(S.Number),
-      Manual: S.optional(S.Boolean),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
+export const ModifySnapshotCopyRetentionPeriodMessage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ClusterIdentifier: S.optional(S.String),
+    RetentionPeriod: S.optional(S.Number),
+    Manual: S.optional(S.Boolean),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ModifySnapshotCopyRetentionPeriodMessage",
 }) as any as S.Schema<ModifySnapshotCopyRetentionPeriodMessage>;
 export interface ModifySnapshotCopyRetentionPeriodResult {
   Cluster?: Cluster;
 }
-export const ModifySnapshotCopyRetentionPeriodResult = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ Cluster: S.optional(Cluster) }).pipe(ns),
+export const ModifySnapshotCopyRetentionPeriodResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ Cluster: S.optional(Cluster) }).pipe(ns),
 ).annotate({
   identifier: "ModifySnapshotCopyRetentionPeriodResult",
 }) as any as S.Schema<ModifySnapshotCopyRetentionPeriodResult>;
@@ -8715,17 +6540,7 @@ export const ModifySnapshotScheduleMessage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ScheduleIdentifier: S.optional(S.String),
     ScheduleDefinitions: S.optional(ScheduleDefinitionList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ModifySnapshotScheduleMessage",
 }) as any as S.Schema<ModifySnapshotScheduleMessage>;
@@ -8739,46 +6554,21 @@ export const ModifyUsageLimitMessage = /*@__PURE__*/ S.suspend(() =>
     UsageLimitId: S.optional(S.String),
     Amount: S.optional(S.Number),
     BreachAction: S.optional(UsageLimitBreachAction),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ModifyUsageLimitMessage",
-}) as any as S.Schema<ModifyUsageLimitMessage>;
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "ModifyUsageLimitMessage" }) as any as S.Schema<ModifyUsageLimitMessage>;
 export interface PauseClusterResult {
   Cluster?: Cluster;
 }
 export const PauseClusterResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Cluster: S.optional(Cluster) }).pipe(ns),
-).annotate({
-  identifier: "PauseClusterResult",
-}) as any as S.Schema<PauseClusterResult>;
+).annotate({ identifier: "PauseClusterResult" }) as any as S.Schema<PauseClusterResult>;
 export interface PurchaseReservedNodeOfferingMessage {
   ReservedNodeOfferingId?: string;
   NodeCount?: number;
 }
 export const PurchaseReservedNodeOfferingMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ReservedNodeOfferingId: S.optional(S.String),
-    NodeCount: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+  S.Struct({ ReservedNodeOfferingId: S.optional(S.String), NodeCount: S.optional(S.Number) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "PurchaseReservedNodeOfferingMessage",
@@ -8796,57 +6586,30 @@ export interface PutResourcePolicyMessage {
   Policy?: string;
 }
 export const PutResourcePolicyMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceArn: S.optional(S.String),
-    Policy: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+  S.Struct({ ResourceArn: S.optional(S.String), Policy: S.optional(S.String) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "PutResourcePolicyMessage",
-}) as any as S.Schema<PutResourcePolicyMessage>;
+).annotate({ identifier: "PutResourcePolicyMessage" }) as any as S.Schema<PutResourcePolicyMessage>;
 export interface PutResourcePolicyResult {
   ResourcePolicy?: ResourcePolicy;
 }
 export const PutResourcePolicyResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourcePolicy: S.optional(ResourcePolicy) }).pipe(ns),
-).annotate({
-  identifier: "PutResourcePolicyResult",
-}) as any as S.Schema<PutResourcePolicyResult>;
+).annotate({ identifier: "PutResourcePolicyResult" }) as any as S.Schema<PutResourcePolicyResult>;
 export interface RebootClusterMessage {
   ClusterIdentifier?: string;
 }
 export const RebootClusterMessage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ClusterIdentifier: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "RebootClusterMessage",
-}) as any as S.Schema<RebootClusterMessage>;
+).annotate({ identifier: "RebootClusterMessage" }) as any as S.Schema<RebootClusterMessage>;
 export interface RebootClusterResult {
   Cluster?: Cluster;
 }
 export const RebootClusterResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Cluster: S.optional(Cluster) }).pipe(ns),
-).annotate({
-  identifier: "RebootClusterResult",
-}) as any as S.Schema<RebootClusterResult>;
+).annotate({ identifier: "RebootClusterResult" }) as any as S.Schema<RebootClusterResult>;
 export interface RegisterNamespaceInputMessage {
   NamespaceIdentifier?: NamespaceIdentifierUnion;
   ConsumerIdentifiers?: string[];
@@ -8855,17 +6618,7 @@ export const RegisterNamespaceInputMessage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     NamespaceIdentifier: S.optional(NamespaceIdentifierUnion),
     ConsumerIdentifiers: S.optional(ConsumerIdentifierList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "RegisterNamespaceInputMessage",
 }) as any as S.Schema<RegisterNamespaceInputMessage>;
@@ -8882,19 +6635,9 @@ export interface RejectDataShareMessage {
 }
 export const RejectDataShareMessage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ DataShareArn: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "RejectDataShareMessage",
-}) as any as S.Schema<RejectDataShareMessage>;
+).annotate({ identifier: "RejectDataShareMessage" }) as any as S.Schema<RejectDataShareMessage>;
 export interface ResetClusterParameterGroupMessage {
   ParameterGroupName?: string;
   ResetAllParameters?: boolean;
@@ -8905,17 +6648,7 @@ export const ResetClusterParameterGroupMessage = /*@__PURE__*/ S.suspend(() =>
     ParameterGroupName: S.optional(S.String),
     ResetAllParameters: S.optional(S.Boolean),
     Parameters: S.optional(ParametersList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ResetClusterParameterGroupMessage",
 }) as any as S.Schema<ResetClusterParameterGroupMessage>;
@@ -8924,9 +6657,7 @@ export interface ResizeClusterResult {
 }
 export const ResizeClusterResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Cluster: S.optional(Cluster) }).pipe(ns),
-).annotate({
-  identifier: "ResizeClusterResult",
-}) as any as S.Schema<ResizeClusterResult>;
+).annotate({ identifier: "ResizeClusterResult" }) as any as S.Schema<ResizeClusterResult>;
 export interface RestoreFromClusterSnapshotMessage {
   ClusterIdentifier?: string;
   SnapshotIdentifier?: string;
@@ -9009,17 +6740,7 @@ export const RestoreFromClusterSnapshotMessage = /*@__PURE__*/ S.suspend(() =>
     MultiAZ: S.optional(S.Boolean),
     CatalogName: S.optional(S.String),
     RedshiftIdcApplicationArn: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "RestoreFromClusterSnapshotMessage",
 }) as any as S.Schema<RestoreFromClusterSnapshotMessage>;
@@ -9042,38 +6763,26 @@ export interface RestoreTableFromClusterSnapshotMessage {
   NewTableName?: string;
   EnableCaseSensitiveIdentifier?: boolean;
 }
-export const RestoreTableFromClusterSnapshotMessage = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ClusterIdentifier: S.optional(S.String),
-      SnapshotIdentifier: S.optional(S.String),
-      SourceDatabaseName: S.optional(S.String),
-      SourceSchemaName: S.optional(S.String),
-      SourceTableName: S.optional(S.String),
-      TargetDatabaseName: S.optional(S.String),
-      TargetSchemaName: S.optional(S.String),
-      NewTableName: S.optional(S.String),
-      EnableCaseSensitiveIdentifier: S.optional(S.Boolean),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
+export const RestoreTableFromClusterSnapshotMessage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ClusterIdentifier: S.optional(S.String),
+    SnapshotIdentifier: S.optional(S.String),
+    SourceDatabaseName: S.optional(S.String),
+    SourceSchemaName: S.optional(S.String),
+    SourceTableName: S.optional(S.String),
+    TargetDatabaseName: S.optional(S.String),
+    TargetSchemaName: S.optional(S.String),
+    NewTableName: S.optional(S.String),
+    EnableCaseSensitiveIdentifier: S.optional(S.Boolean),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "RestoreTableFromClusterSnapshotMessage",
 }) as any as S.Schema<RestoreTableFromClusterSnapshotMessage>;
 export interface RestoreTableFromClusterSnapshotResult {
   TableRestoreStatus?: TableRestoreStatus;
 }
-export const RestoreTableFromClusterSnapshotResult = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ TableRestoreStatus: S.optional(TableRestoreStatus) }).pipe(ns),
+export const RestoreTableFromClusterSnapshotResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ TableRestoreStatus: S.optional(TableRestoreStatus) }).pipe(ns),
 ).annotate({
   identifier: "RestoreTableFromClusterSnapshotResult",
 }) as any as S.Schema<RestoreTableFromClusterSnapshotResult>;
@@ -9082,44 +6791,28 @@ export interface ResumeClusterResult {
 }
 export const ResumeClusterResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Cluster: S.optional(Cluster) }).pipe(ns),
-).annotate({
-  identifier: "ResumeClusterResult",
-}) as any as S.Schema<ResumeClusterResult>;
+).annotate({ identifier: "ResumeClusterResult" }) as any as S.Schema<ResumeClusterResult>;
 export interface RevokeClusterSecurityGroupIngressMessage {
   ClusterSecurityGroupName?: string;
   CIDRIP?: string;
   EC2SecurityGroupName?: string;
   EC2SecurityGroupOwnerId?: string;
 }
-export const RevokeClusterSecurityGroupIngressMessage = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ClusterSecurityGroupName: S.optional(S.String),
-      CIDRIP: S.optional(S.String),
-      EC2SecurityGroupName: S.optional(S.String),
-      EC2SecurityGroupOwnerId: S.optional(S.String),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
+export const RevokeClusterSecurityGroupIngressMessage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ClusterSecurityGroupName: S.optional(S.String),
+    CIDRIP: S.optional(S.String),
+    EC2SecurityGroupName: S.optional(S.String),
+    EC2SecurityGroupOwnerId: S.optional(S.String),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "RevokeClusterSecurityGroupIngressMessage",
 }) as any as S.Schema<RevokeClusterSecurityGroupIngressMessage>;
 export interface RevokeClusterSecurityGroupIngressResult {
   ClusterSecurityGroup?: ClusterSecurityGroup;
 }
-export const RevokeClusterSecurityGroupIngressResult = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ ClusterSecurityGroup: S.optional(ClusterSecurityGroup) }).pipe(
-      ns,
-    ),
+export const RevokeClusterSecurityGroupIngressResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ ClusterSecurityGroup: S.optional(ClusterSecurityGroup) }).pipe(ns),
 ).annotate({
   identifier: "RevokeClusterSecurityGroupIngressResult",
 }) as any as S.Schema<RevokeClusterSecurityGroupIngressResult>;
@@ -9135,17 +6828,7 @@ export const RevokeEndpointAccessMessage = /*@__PURE__*/ S.suspend(() =>
     Account: S.optional(S.String),
     VpcIds: S.optional(VpcIdentifierList),
     Force: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "RevokeEndpointAccessMessage",
 }) as any as S.Schema<RevokeEndpointAccessMessage>;
@@ -9161,17 +6844,7 @@ export const RevokeSnapshotAccessMessage = /*@__PURE__*/ S.suspend(() =>
     SnapshotArn: S.optional(S.String),
     SnapshotClusterIdentifier: S.optional(S.String),
     AccountWithRestoreAccess: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "RevokeSnapshotAccessMessage",
 }) as any as S.Schema<RevokeSnapshotAccessMessage>;
@@ -9188,15 +6861,7 @@ export interface RotateEncryptionKeyMessage {
 }
 export const RotateEncryptionKeyMessage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ClusterIdentifier: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "RotateEncryptionKeyMessage",
@@ -9225,17 +6890,7 @@ export const UpdatePartnerStatusInputMessage = /*@__PURE__*/ S.suspend(() =>
     PartnerName: S.optional(S.String),
     Status: S.optional(PartnerIntegrationStatus),
     StatusMessage: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "UpdatePartnerStatusInputMessage",
 }) as any as S.Schema<UpdatePartnerStatusInputMessage>;
@@ -9465,9 +7120,7 @@ export const authorizeSnapshotAccess: API.OperationMethod<
   operationName: "AuthorizeSnapshotAccess",
 }));
 
-export type BatchDeleteClusterSnapshotsError =
-  | BatchDeleteRequestSizeExceededFault
-  | CommonErrors;
+export type BatchDeleteClusterSnapshotsError = BatchDeleteRequestSizeExceededFault | CommonErrors;
 /**
  * Deletes a set of cluster snapshots.
  */
@@ -9500,10 +7153,7 @@ export const batchModifyClusterSnapshots: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: BatchModifyClusterSnapshotsMessage,
   output: BatchModifyClusterSnapshotsOutputMessage,
-  errors: [
-    BatchModifyClusterSnapshotsLimitExceededFault,
-    InvalidRetentionPeriodFault,
-  ],
+  errors: [BatchModifyClusterSnapshotsLimitExceededFault, InvalidRetentionPeriodFault],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchModifyClusterSnapshots",
@@ -9875,11 +7525,7 @@ export const createCustomDomainAssociation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateCustomDomainAssociationMessage,
   output: CreateCustomDomainAssociationResult,
-  errors: [
-    ClusterNotFoundFault,
-    CustomCnameAssociationFault,
-    UnsupportedOperationFault,
-  ],
+  errors: [ClusterNotFoundFault, CustomCnameAssociationFault, UnsupportedOperationFault],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCustomDomainAssociation",
@@ -10286,12 +7932,7 @@ export const createTags: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateTagsMessage,
   output: CreateTagsResponse,
-  errors: [
-    InvalidClusterStateFault,
-    InvalidTagFault,
-    ResourceNotFoundFault,
-    TagLimitExceededFault,
-  ],
+  errors: [InvalidClusterStateFault, InvalidTagFault, ResourceNotFoundFault, TagLimitExceededFault],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTags",
@@ -10365,10 +8006,7 @@ export const deleteAuthenticationProfile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteAuthenticationProfileMessage,
   output: DeleteAuthenticationProfileResult,
-  errors: [
-    AuthenticationProfileNotFoundFault,
-    InvalidAuthenticationProfileRequestFault,
-  ],
+  errors: [AuthenticationProfileNotFoundFault, InvalidAuthenticationProfileRequestFault],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAuthenticationProfile",
@@ -10438,10 +8076,7 @@ export const deleteClusterParameterGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteClusterParameterGroupMessage,
   output: DeleteClusterParameterGroupResponse,
-  errors: [
-    ClusterParameterGroupNotFoundFault,
-    InvalidClusterParameterGroupStateFault,
-  ],
+  errors: [ClusterParameterGroupNotFoundFault, InvalidClusterParameterGroupStateFault],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteClusterParameterGroup",
@@ -10469,10 +8104,7 @@ export const deleteClusterSecurityGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteClusterSecurityGroupMessage,
   output: DeleteClusterSecurityGroupResponse,
-  errors: [
-    ClusterSecurityGroupNotFoundFault,
-    InvalidClusterSecurityGroupStateFault,
-  ],
+  errors: [ClusterSecurityGroupNotFoundFault, InvalidClusterSecurityGroupStateFault],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteClusterSecurityGroup",
@@ -10626,10 +8258,7 @@ export const deleteHsmClientCertificate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteHsmClientCertificateMessage,
   output: DeleteHsmClientCertificateResponse,
-  errors: [
-    HsmClientCertificateNotFoundFault,
-    InvalidHsmClientCertificateStateFault,
-  ],
+  errors: [HsmClientCertificateNotFoundFault, InvalidHsmClientCertificateStateFault],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteHsmClientCertificate",
@@ -10846,19 +8475,13 @@ export const deleteSnapshotSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteSnapshotScheduleMessage,
   output: DeleteSnapshotScheduleResponse,
-  errors: [
-    InvalidClusterSnapshotScheduleStateFault,
-    SnapshotScheduleNotFoundFault,
-  ],
+  errors: [InvalidClusterSnapshotScheduleStateFault, SnapshotScheduleNotFoundFault],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSnapshotSchedule",
 }));
 
-export type DeleteTagsError =
-  | InvalidTagFault
-  | ResourceNotFoundFault
-  | CommonErrors;
+export type DeleteTagsError = InvalidTagFault | ResourceNotFoundFault | CommonErrors;
 /**
  * Deletes tags from a resource. You must provide the ARN of the resource
  * from which you want to delete the tag or tags.
@@ -10914,11 +8537,7 @@ export const deregisterNamespace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeregisterNamespaceInputMessage,
   output: DeregisterNamespaceOutputMessage,
-  errors: [
-    ClusterNotFoundFault,
-    InvalidClusterStateFault,
-    InvalidNamespaceFault,
-  ],
+  errors: [ClusterNotFoundFault, InvalidClusterStateFault, InvalidNamespaceFault],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterNamespace",
@@ -10957,10 +8576,7 @@ export const describeAuthenticationProfiles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DescribeAuthenticationProfilesMessage,
   output: DescribeAuthenticationProfilesResult,
-  errors: [
-    AuthenticationProfileNotFoundFault,
-    InvalidAuthenticationProfileRequestFault,
-  ],
+  errors: [AuthenticationProfileNotFoundFault, InvalidAuthenticationProfileRequestFault],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAuthenticationProfiles",
@@ -11040,9 +8656,7 @@ export const describeClusterParameterGroups: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type DescribeClusterParametersError =
-  | ClusterParameterGroupNotFoundFault
-  | CommonErrors;
+export type DescribeClusterParametersError = ClusterParameterGroupNotFoundFault | CommonErrors;
 /**
  * Returns a detailed list of parameters contained within the specified Amazon Redshift
  * parameter group. For each parameter the response includes information such as parameter
@@ -11079,10 +8693,7 @@ export const describeClusterParameters: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type DescribeClustersError =
-  | ClusterNotFoundFault
-  | InvalidTagFault
-  | CommonErrors;
+export type DescribeClustersError = ClusterNotFoundFault | InvalidTagFault | CommonErrors;
 /**
  * Returns properties of provisioned clusters including general cluster properties,
  * cluster database properties, maintenance and backup properties, and security and access
@@ -11366,9 +8977,7 @@ export const describeDataShares: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type DescribeDataSharesForConsumerError =
-  | InvalidNamespaceFault
-  | CommonErrors;
+export type DescribeDataSharesForConsumerError = InvalidNamespaceFault | CommonErrors;
 /**
  * Returns a list of datashares where the account identifier being called is a consumer account identifier.
  */
@@ -11393,9 +9002,7 @@ export const describeDataSharesForConsumer: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type DescribeDataSharesForProducerError =
-  | InvalidNamespaceFault
-  | CommonErrors;
+export type DescribeDataSharesForProducerError = InvalidNamespaceFault | CommonErrors;
 /**
  * Returns a list of datashares when the account identifier being called is a producer account identifier.
  */
@@ -11467,11 +9074,7 @@ export const describeEndpointAccess: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: DescribeEndpointAccessMessage,
   output: EndpointAccessList,
-  errors: [
-    ClusterNotFoundFault,
-    EndpointNotFoundFault,
-    InvalidClusterStateFault,
-  ],
+  errors: [ClusterNotFoundFault, EndpointNotFoundFault, InvalidClusterStateFault],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEndpointAccess",
@@ -11695,11 +9298,7 @@ export const describeInboundIntegrations: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: DescribeInboundIntegrationsMessage,
   output: InboundIntegrationsMessage,
-  errors: [
-    IntegrationNotFoundFault,
-    InvalidNamespaceFault,
-    UnsupportedOperationFault,
-  ],
+  errors: [IntegrationNotFoundFault, InvalidNamespaceFault, UnsupportedOperationFault],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeInboundIntegrations",
@@ -11848,11 +9447,7 @@ export const describePartners: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DescribePartnersInputMessage,
   output: DescribePartnersOutputMessage,
-  errors: [
-    ClusterNotFoundFault,
-    UnauthorizedPartnerIntegrationFault,
-    UnsupportedOperationFault,
-  ],
+  errors: [ClusterNotFoundFault, UnauthorizedPartnerIntegrationFault, UnsupportedOperationFault],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribePartners",
@@ -11946,11 +9541,7 @@ export const describeReservedNodeExchangeStatus: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: DescribeReservedNodeExchangeStatusInputMessage,
   output: DescribeReservedNodeExchangeStatusOutputMessage,
-  errors: [
-    ReservedNodeExchangeNotFoundFault,
-    ReservedNodeNotFoundFault,
-    UnsupportedOperationFault,
-  ],
+  errors: [ReservedNodeExchangeNotFoundFault, ReservedNodeNotFoundFault, UnsupportedOperationFault],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeReservedNodeExchangeStatus",
@@ -12054,11 +9645,7 @@ export const describeResize: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DescribeResizeMessage,
   output: ResizeProgressMessage,
-  errors: [
-    ClusterNotFoundFault,
-    ResizeNotFoundFault,
-    UnsupportedOperationFault,
-  ],
+  errors: [ClusterNotFoundFault, ResizeNotFoundFault, UnsupportedOperationFault],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeResize",
@@ -12201,10 +9788,7 @@ export const describeTableRestoreStatus: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type DescribeTagsError =
-  | InvalidTagFault
-  | ResourceNotFoundFault
-  | CommonErrors;
+export type DescribeTagsError = InvalidTagFault | ResourceNotFoundFault | CommonErrors;
 /**
  * Returns a list of tags. You can return tags from a specific resource by specifying
  * an ARN, or you can return all tags for a given type of resource, such as clusters,
@@ -12309,11 +9893,7 @@ export const disableLogging: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DisableLoggingMessage,
   output: LoggingStatus,
-  errors: [
-    ClusterNotFoundFault,
-    InvalidClusterStateFault,
-    UnsupportedOperationFault,
-  ],
+  errors: [ClusterNotFoundFault, InvalidClusterStateFault, UnsupportedOperationFault],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableLogging",
@@ -12697,11 +10277,7 @@ export const getResourcePolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetResourcePolicyMessage,
   output: GetResourcePolicyResult,
-  errors: [
-    InvalidPolicyFault,
-    ResourceNotFoundFault,
-    UnsupportedOperationFault,
-  ],
+  errors: [InvalidPolicyFault, ResourceNotFoundFault, UnsupportedOperationFault],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourcePolicy",
@@ -12751,11 +10327,7 @@ export const modifyAquaConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ModifyAquaInputMessage,
   output: ModifyAquaOutputMessage,
-  errors: [
-    ClusterNotFoundFault,
-    InvalidClusterStateFault,
-    UnsupportedOperationFault,
-  ],
+  errors: [ClusterNotFoundFault, InvalidClusterStateFault, UnsupportedOperationFault],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyAquaConfiguration",
@@ -12974,10 +10546,7 @@ export const modifyClusterParameterGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ModifyClusterParameterGroupMessage,
   output: ClusterParameterGroupNameMessage,
-  errors: [
-    ClusterParameterGroupNotFoundFault,
-    InvalidClusterParameterGroupStateFault,
-  ],
+  errors: [ClusterParameterGroupNotFoundFault, InvalidClusterParameterGroupStateFault],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyClusterParameterGroup",
@@ -13420,11 +10989,7 @@ export const modifyUsageLimit: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ModifyUsageLimitMessage,
   output: UsageLimit,
-  errors: [
-    InvalidUsageLimitFault,
-    UnsupportedOperationFault,
-    UsageLimitNotFoundFault,
-  ],
+  errors: [InvalidUsageLimitFault, UnsupportedOperationFault, UsageLimitNotFoundFault],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyUsageLimit",
@@ -13446,11 +11011,7 @@ export const pauseCluster: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PauseClusterMessage,
   output: PauseClusterResult,
-  errors: [
-    ClusterNotFoundFault,
-    InvalidClusterStateFault,
-    UnsupportedOperationFault,
-  ],
+  errors: [ClusterNotFoundFault, InvalidClusterStateFault, UnsupportedOperationFault],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PauseCluster",
@@ -13520,10 +11081,7 @@ export const putResourcePolicy: API.OperationMethod<
   operationName: "PutResourcePolicy",
 }));
 
-export type RebootClusterError =
-  | ClusterNotFoundFault
-  | InvalidClusterStateFault
-  | CommonErrors;
+export type RebootClusterError = ClusterNotFoundFault | InvalidClusterStateFault | CommonErrors;
 /**
  * Reboots a cluster. This action is taken as soon as possible. It results in a
  * momentary outage to the cluster, during which the cluster status is set to
@@ -13564,11 +11122,7 @@ export const registerNamespace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: RegisterNamespaceInputMessage,
   output: RegisterNamespaceOutputMessage,
-  errors: [
-    ClusterNotFoundFault,
-    InvalidClusterStateFault,
-    InvalidNamespaceFault,
-  ],
+  errors: [ClusterNotFoundFault, InvalidClusterStateFault, InvalidNamespaceFault],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterNamespace",
@@ -13610,10 +11164,7 @@ export const resetClusterParameterGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ResetClusterParameterGroupMessage,
   output: ClusterParameterGroupNameMessage,
-  errors: [
-    ClusterParameterGroupNotFoundFault,
-    InvalidClusterParameterGroupStateFault,
-  ],
+  errors: [ClusterParameterGroupNotFoundFault, InvalidClusterParameterGroupStateFault],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResetClusterParameterGroup",

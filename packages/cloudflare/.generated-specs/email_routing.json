@@ -573,7 +573,7 @@
           "uri": "/zones/{zone_id}/email/routing",
           "code": 200
         },
-        "smithy.api#documentation": "Update the settings for your Email Routing zone.",
+        "smithy.api#documentation": "Apply the provided settings to your Email Routing zone. Omitted settings retain their current values, as with PATCH.",
         "smithy.api#idempotent": {}
       }
     },
@@ -1226,7 +1226,10 @@
           }
         },
         "value": {
-          "target": "com.cloudflare.email_routing#RulesCreateRequestActionsItemValueList"
+          "target": "com.cloudflare.email_routing#RulesCreateRequestActionsItemValueList",
+          "traits": {
+            "smithy.api#documentation": "List of values for the action. Currently limited to a single value."
+          }
         }
       }
     },
@@ -1351,7 +1354,10 @@
           }
         },
         "value": {
-          "target": "com.cloudflare.email_routing#RulesCreateResponseActionsItemValueList"
+          "target": "com.cloudflare.email_routing#RulesCreateResponseActionsItemValueList",
+          "traits": {
+            "smithy.api#documentation": "List of values for the action. Currently limited to a single value."
+          }
         }
       }
     },
@@ -1476,7 +1482,10 @@
           }
         },
         "value": {
-          "target": "com.cloudflare.email_routing#RulesDeleteResponseActionsItemValueList"
+          "target": "com.cloudflare.email_routing#RulesDeleteResponseActionsItemValueList",
+          "traits": {
+            "smithy.api#documentation": "List of values for the action. Currently limited to a single value."
+          }
         }
       }
     },
@@ -1601,7 +1610,10 @@
           }
         },
         "value": {
-          "target": "com.cloudflare.email_routing#RulesGetResponseActionsItemValueList"
+          "target": "com.cloudflare.email_routing#RulesGetResponseActionsItemValueList",
+          "traits": {
+            "smithy.api#documentation": "List of values for the action. Currently limited to a single value."
+          }
         }
       }
     },
@@ -1836,7 +1848,10 @@
           }
         },
         "value": {
-          "target": "com.cloudflare.email_routing#RulesUpdateRequestActionsItemValueList"
+          "target": "com.cloudflare.email_routing#RulesUpdateRequestActionsItemValueList",
+          "traits": {
+            "smithy.api#documentation": "List of values for the action. Currently limited to a single value."
+          }
         }
       }
     },
@@ -1961,7 +1976,10 @@
           }
         },
         "value": {
-          "target": "com.cloudflare.email_routing#RulesUpdateResponseActionsItemValueList"
+          "target": "com.cloudflare.email_routing#RulesUpdateResponseActionsItemValueList",
+          "traits": {
+            "smithy.api#documentation": "List of values for the action. Currently limited to a single value."
+          }
         }
       }
     },
@@ -2086,7 +2104,10 @@
           }
         },
         "value": {
-          "target": "com.cloudflare.email_routing#RulesCatchAllsGetResponseActionsItemValueList"
+          "target": "com.cloudflare.email_routing#RulesCatchAllsGetResponseActionsItemValueList",
+          "traits": {
+            "smithy.api#documentation": "List of values for the action. Currently limited to a single value."
+          }
         }
       }
     },
@@ -2182,7 +2203,10 @@
           }
         },
         "value": {
-          "target": "com.cloudflare.email_routing#RulesCatchAllsUpdateRequestActionsItemValueList"
+          "target": "com.cloudflare.email_routing#RulesCatchAllsUpdateRequestActionsItemValueList",
+          "traits": {
+            "smithy.api#documentation": "List of values for the action. Currently limited to a single value."
+          }
         }
       }
     },
@@ -2278,7 +2302,10 @@
           }
         },
         "value": {
-          "target": "com.cloudflare.email_routing#RulesCatchAllsUpdateResponseActionsItemValueList"
+          "target": "com.cloudflare.email_routing#RulesCatchAllsUpdateResponseActionsItemValueList",
+          "traits": {
+            "smithy.api#documentation": "List of values for the action. Currently limited to a single value."
+          }
         }
       }
     },
@@ -2636,7 +2663,7 @@
           "uri": "/zones/{zone_id}/email/routing/dns",
           "code": 200
         },
-        "smithy.api#documentation": "Enable you Email Routing zone. Add and lock the necessary MX and SPF records."
+        "smithy.api#documentation": "Enable your Email Routing zone. Add and lock the necessary MX and SPF records."
       }
     },
     "com.cloudflare.email_routing#CreateDnsRequest": {
@@ -3009,7 +3036,7 @@
           "uri": "/zones/{zone_id}/email/routing/rules/{rule_identifier}",
           "code": 200
         },
-        "smithy.api#documentation": "Delete a specific routing rule.",
+        "smithy.api#documentation": "Deletes a routing rule so matching incoming messages are no longer forwarded by it.",
         "smithy.api#idempotent": {}
       },
       "errors": [
@@ -3766,7 +3793,7 @@
           "uri": "/accounts/{account_id}/email/routing/addresses",
           "code": 200
         },
-        "smithy.api#documentation": "Lists existing destination addresses.",
+        "smithy.api#documentation": "Lists destination addresses configured for Email Routing in an account.",
         "smithy.api#readonly": {},
         "smithy.api#paginated": {
           "mode": "page",
@@ -4520,7 +4547,10 @@
           }
         },
         "value": {
-          "target": "com.cloudflare.email_routing#RulesListResultItemActionsItemValueList"
+          "target": "com.cloudflare.email_routing#RulesListResultItemActionsItemValueList",
+          "traits": {
+            "smithy.api#documentation": "List of values for the action. Currently limited to a single value."
+          }
         }
       }
     },
@@ -4559,7 +4589,10 @@
           }
         },
         "value": {
-          "target": "com.cloudflare.email_routing#AccountRulesListResultItemActionsItemValueList"
+          "target": "com.cloudflare.email_routing#AccountRulesListResultItemActionsItemValueList",
+          "traits": {
+            "smithy.api#documentation": "List of values for the action. Currently limited to a single value."
+          }
         }
       }
     },

@@ -1,15 +1,12 @@
-import * as HttpClient from "effect/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
+import * as S from "@distilled.cloud/core/schema";
+import * as HttpClient from "effect/http/HttpClient";
+import type { Credentials } from "../credentials.ts";
+import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
-import type { Credentials } from "../credentials.ts";
-import type { CommonErrors } from "../errors.ts";
-const svc = T.AwsApiService({
-  sdkId: "CloudHSM",
-  serviceShapeName: "CloudHsmFrontendService",
-});
+const svc = T.AwsApiService({ sdkId: "CloudHSM", serviceShapeName: "CloudHsmFrontendService" });
 const auth = T.AwsAuthSigv4({ name: "cloudhsm" });
 const ver = T.ServiceVersion("2014-05-30");
 const proto = T.AwsProtocolsAwsJson1_1();
@@ -25,14 +22,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -55,13 +48,9 @@ const rules = T.EndpointResolver((p, _) => {
         }
         if (UseFIPS === true) {
           if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            return e(
-              `https://cloudhsm-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
+            return e(`https://cloudhsm-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -69,13 +58,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://cloudhsm.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://cloudhsm.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://cloudhsm.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -83,29 +68,20 @@ const rules = T.EndpointResolver((p, _) => {
 });
 
 export class CloudHsmInternalException
-  extends /*@__PURE__*/ S.TaggedError<CloudHsmInternalException>()(
-    "CloudHsmInternalException",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      retryable: S.optional(S.Boolean),
-    },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<CloudHsmInternalException>()("CloudHsmInternalException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+    retryable: S.optional(S.Boolean),
+  }) {}
 export class CloudHsmServiceException
-  extends /*@__PURE__*/ S.TaggedError<CloudHsmServiceException>()(
-    "CloudHsmServiceException",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      retryable: S.optional(S.Boolean),
-    },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<CloudHsmServiceException>()("CloudHsmServiceException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+    retryable: S.optional(S.Boolean),
+  }) {}
 export class InvalidRequestException
-  extends /*@__PURE__*/ S.TaggedError<InvalidRequestException>()(
-    "InvalidRequestException",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      retryable: S.optional(S.Boolean),
-    },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<InvalidRequestException>()("InvalidRequestException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+    retryable: S.optional(S.Boolean),
+  }) {}
 export type TagKey = string;
 export type TagValue = string;
 export interface Tag {
@@ -125,9 +101,7 @@ export const AddTagsToResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceArn: S.String, TagList: TagList }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "AddTagsToResourceRequest",
-}) as any as S.Schema<AddTagsToResourceRequest>;
+).annotate({ identifier: "AddTagsToResourceRequest" }) as any as S.Schema<AddTagsToResourceRequest>;
 export interface AddTagsToResourceResponse {
   Status: string;
 }
@@ -144,18 +118,14 @@ export const CreateHapgRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Label: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "CreateHapgRequest",
-}) as any as S.Schema<CreateHapgRequest>;
+).annotate({ identifier: "CreateHapgRequest" }) as any as S.Schema<CreateHapgRequest>;
 export type HapgArn = string;
 export interface CreateHapgResponse {
   HapgArn?: string;
 }
 export const CreateHapgResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ HapgArn: S.optional(S.String) }),
-).annotate({
-  identifier: "CreateHapgResponse",
-}) as any as S.Schema<CreateHapgResponse>;
+).annotate({ identifier: "CreateHapgResponse" }) as any as S.Schema<CreateHapgResponse>;
 export type SubnetId = string;
 export type SshKey = string;
 export type IpAddress = string;
@@ -196,18 +166,14 @@ export const CreateHsmRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "CreateHsmRequest",
-}) as any as S.Schema<CreateHsmRequest>;
+).annotate({ identifier: "CreateHsmRequest" }) as any as S.Schema<CreateHsmRequest>;
 export type HsmArn = string;
 export interface CreateHsmResponse {
   HsmArn?: string;
 }
 export const CreateHsmResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ HsmArn: S.optional(S.String) }),
-).annotate({
-  identifier: "CreateHsmResponse",
-}) as any as S.Schema<CreateHsmResponse>;
+).annotate({ identifier: "CreateHsmResponse" }) as any as S.Schema<CreateHsmResponse>;
 export type ClientLabel = string;
 export type Certificate = string;
 export interface CreateLunaClientRequest {
@@ -218,18 +184,14 @@ export const CreateLunaClientRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Label: S.optional(S.String), Certificate: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "CreateLunaClientRequest",
-}) as any as S.Schema<CreateLunaClientRequest>;
+).annotate({ identifier: "CreateLunaClientRequest" }) as any as S.Schema<CreateLunaClientRequest>;
 export type ClientArn = string;
 export interface CreateLunaClientResponse {
   ClientArn?: string;
 }
 export const CreateLunaClientResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ClientArn: S.optional(S.String) }),
-).annotate({
-  identifier: "CreateLunaClientResponse",
-}) as any as S.Schema<CreateLunaClientResponse>;
+).annotate({ identifier: "CreateLunaClientResponse" }) as any as S.Schema<CreateLunaClientResponse>;
 export interface DeleteHapgRequest {
   HapgArn: string;
 }
@@ -237,17 +199,13 @@ export const DeleteHapgRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ HapgArn: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteHapgRequest",
-}) as any as S.Schema<DeleteHapgRequest>;
+).annotate({ identifier: "DeleteHapgRequest" }) as any as S.Schema<DeleteHapgRequest>;
 export interface DeleteHapgResponse {
   Status: string;
 }
 export const DeleteHapgResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Status: S.String }),
-).annotate({
-  identifier: "DeleteHapgResponse",
-}) as any as S.Schema<DeleteHapgResponse>;
+).annotate({ identifier: "DeleteHapgResponse" }) as any as S.Schema<DeleteHapgResponse>;
 export interface DeleteHsmRequest {
   HsmArn: string;
 }
@@ -263,17 +221,13 @@ export const DeleteHsmRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteHsmRequest",
-}) as any as S.Schema<DeleteHsmRequest>;
+).annotate({ identifier: "DeleteHsmRequest" }) as any as S.Schema<DeleteHsmRequest>;
 export interface DeleteHsmResponse {
   Status: string;
 }
 export const DeleteHsmResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Status: S.String }),
-).annotate({
-  identifier: "DeleteHsmResponse",
-}) as any as S.Schema<DeleteHsmResponse>;
+).annotate({ identifier: "DeleteHsmResponse" }) as any as S.Schema<DeleteHsmResponse>;
 export interface DeleteLunaClientRequest {
   ClientArn: string;
 }
@@ -281,17 +235,13 @@ export const DeleteLunaClientRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ClientArn: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteLunaClientRequest",
-}) as any as S.Schema<DeleteLunaClientRequest>;
+).annotate({ identifier: "DeleteLunaClientRequest" }) as any as S.Schema<DeleteLunaClientRequest>;
 export interface DeleteLunaClientResponse {
   Status: string;
 }
 export const DeleteLunaClientResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Status: S.String }),
-).annotate({
-  identifier: "DeleteLunaClientResponse",
-}) as any as S.Schema<DeleteLunaClientResponse>;
+).annotate({ identifier: "DeleteLunaClientResponse" }) as any as S.Schema<DeleteLunaClientResponse>;
 export interface DescribeHapgRequest {
   HapgArn: string;
 }
@@ -299,19 +249,13 @@ export const DescribeHapgRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ HapgArn: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DescribeHapgRequest",
-}) as any as S.Schema<DescribeHapgRequest>;
+).annotate({ identifier: "DescribeHapgRequest" }) as any as S.Schema<DescribeHapgRequest>;
 export type HsmList = string[];
 export const HsmList = /*@__PURE__*/ S.Array(S.String);
 export type PartitionSerial = string;
 export type PartitionSerialList = string[];
 export const PartitionSerialList = /*@__PURE__*/ S.Array(S.String);
-export type CloudHsmObjectState =
-  | "READY"
-  | "UPDATING"
-  | "DEGRADED"
-  | (string & {});
+export type CloudHsmObjectState = "READY" | "UPDATING" | "DEGRADED" | (string & {});
 export const CloudHsmObjectState = S.String;
 
 export interface DescribeHapgResponse {
@@ -337,24 +281,17 @@ export const DescribeHapgResponse = /*@__PURE__*/ S.suspend(() =>
     PartitionSerialList: S.optional(PartitionSerialList),
     State: S.optional(CloudHsmObjectState),
   }),
-).annotate({
-  identifier: "DescribeHapgResponse",
-}) as any as S.Schema<DescribeHapgResponse>;
+).annotate({ identifier: "DescribeHapgResponse" }) as any as S.Schema<DescribeHapgResponse>;
 export type HsmSerialNumber = string;
 export interface DescribeHsmRequest {
   HsmArn?: string;
   HsmSerialNumber?: string;
 }
 export const DescribeHsmRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    HsmArn: S.optional(S.String),
-    HsmSerialNumber: S.optional(S.String),
-  }).pipe(
+  S.Struct({ HsmArn: S.optional(S.String), HsmSerialNumber: S.optional(S.String) }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DescribeHsmRequest",
-}) as any as S.Schema<DescribeHsmRequest>;
+).annotate({ identifier: "DescribeHsmRequest" }) as any as S.Schema<DescribeHsmRequest>;
 export type HsmStatus =
   | "PENDING"
   | "RUNNING"
@@ -419,19 +356,14 @@ export const DescribeHsmResponse = /*@__PURE__*/ S.suspend(() =>
     ServerCertLastUpdated: S.optional(S.String),
     Partitions: S.optional(PartitionList),
   }),
-).annotate({
-  identifier: "DescribeHsmResponse",
-}) as any as S.Schema<DescribeHsmResponse>;
+).annotate({ identifier: "DescribeHsmResponse" }) as any as S.Schema<DescribeHsmResponse>;
 export type CertificateFingerprint = string;
 export interface DescribeLunaClientRequest {
   ClientArn?: string;
   CertificateFingerprint?: string;
 }
 export const DescribeLunaClientRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ClientArn: S.optional(S.String),
-    CertificateFingerprint: S.optional(S.String),
-  }).pipe(
+  S.Struct({ ClientArn: S.optional(S.String), CertificateFingerprint: S.optional(S.String) }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
@@ -466,16 +398,10 @@ export interface GetConfigRequest {
   HapgList: string[];
 }
 export const GetConfigRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ClientArn: S.String,
-    ClientVersion: ClientVersion,
-    HapgList: HapgList,
-  }).pipe(
+  S.Struct({ ClientArn: S.String, ClientVersion: ClientVersion, HapgList: HapgList }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetConfigRequest",
-}) as any as S.Schema<GetConfigRequest>;
+).annotate({ identifier: "GetConfigRequest" }) as any as S.Schema<GetConfigRequest>;
 export interface GetConfigResponse {
   ConfigType?: string;
   ConfigFile?: string;
@@ -487,14 +413,10 @@ export const GetConfigResponse = /*@__PURE__*/ S.suspend(() =>
     ConfigFile: S.optional(S.String),
     ConfigCred: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetConfigResponse",
-}) as any as S.Schema<GetConfigResponse>;
+).annotate({ identifier: "GetConfigResponse" }) as any as S.Schema<GetConfigResponse>;
 export interface ListAvailableZonesRequest {}
 export const ListAvailableZonesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  S.Struct({}).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListAvailableZonesRequest",
 }) as any as S.Schema<ListAvailableZonesRequest>;
@@ -516,18 +438,14 @@ export const ListHapgsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ NextToken: S.optional(S.String) }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "ListHapgsRequest",
-}) as any as S.Schema<ListHapgsRequest>;
+).annotate({ identifier: "ListHapgsRequest" }) as any as S.Schema<ListHapgsRequest>;
 export interface ListHapgsResponse {
   HapgList: string[];
   NextToken?: string;
 }
 export const ListHapgsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ HapgList: HapgList, NextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListHapgsResponse",
-}) as any as S.Schema<ListHapgsResponse>;
+).annotate({ identifier: "ListHapgsResponse" }) as any as S.Schema<ListHapgsResponse>;
 export interface ListHsmsRequest {
   NextToken?: string;
 }
@@ -535,18 +453,14 @@ export const ListHsmsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ NextToken: S.optional(S.String) }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "ListHsmsRequest",
-}) as any as S.Schema<ListHsmsRequest>;
+).annotate({ identifier: "ListHsmsRequest" }) as any as S.Schema<ListHsmsRequest>;
 export interface ListHsmsResponse {
   HsmList?: string[];
   NextToken?: string;
 }
 export const ListHsmsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ HsmList: S.optional(HsmList), NextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListHsmsResponse",
-}) as any as S.Schema<ListHsmsResponse>;
+).annotate({ identifier: "ListHsmsResponse" }) as any as S.Schema<ListHsmsResponse>;
 export interface ListLunaClientsRequest {
   NextToken?: string;
 }
@@ -554,9 +468,7 @@ export const ListLunaClientsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ NextToken: S.optional(S.String) }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "ListLunaClientsRequest",
-}) as any as S.Schema<ListLunaClientsRequest>;
+).annotate({ identifier: "ListLunaClientsRequest" }) as any as S.Schema<ListLunaClientsRequest>;
 export type ClientList = string[];
 export const ClientList = /*@__PURE__*/ S.Array(S.String);
 export interface ListLunaClientsResponse {
@@ -565,9 +477,7 @@ export interface ListLunaClientsResponse {
 }
 export const ListLunaClientsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ClientList: ClientList, NextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListLunaClientsResponse",
-}) as any as S.Schema<ListLunaClientsResponse>;
+).annotate({ identifier: "ListLunaClientsResponse" }) as any as S.Schema<ListLunaClientsResponse>;
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
 }
@@ -596,20 +506,14 @@ export const ModifyHapgRequest = /*@__PURE__*/ S.suspend(() =>
     HapgArn: S.String,
     Label: S.optional(S.String),
     PartitionSerialList: S.optional(PartitionSerialList),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ModifyHapgRequest",
-}) as any as S.Schema<ModifyHapgRequest>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "ModifyHapgRequest" }) as any as S.Schema<ModifyHapgRequest>;
 export interface ModifyHapgResponse {
   HapgArn?: string;
 }
 export const ModifyHapgResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ HapgArn: S.optional(S.String) }),
-).annotate({
-  identifier: "ModifyHapgResponse",
-}) as any as S.Schema<ModifyHapgResponse>;
+).annotate({ identifier: "ModifyHapgResponse" }) as any as S.Schema<ModifyHapgResponse>;
 export interface ModifyHsmRequest {
   HsmArn: string;
   SubnetId?: string;
@@ -637,17 +541,13 @@ export const ModifyHsmRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "ModifyHsmRequest",
-}) as any as S.Schema<ModifyHsmRequest>;
+).annotate({ identifier: "ModifyHsmRequest" }) as any as S.Schema<ModifyHsmRequest>;
 export interface ModifyHsmResponse {
   HsmArn?: string;
 }
 export const ModifyHsmResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ HsmArn: S.optional(S.String) }),
-).annotate({
-  identifier: "ModifyHsmResponse",
-}) as any as S.Schema<ModifyHsmResponse>;
+).annotate({ identifier: "ModifyHsmResponse" }) as any as S.Schema<ModifyHsmResponse>;
 export interface ModifyLunaClientRequest {
   ClientArn: string;
   Certificate: string;
@@ -656,17 +556,13 @@ export const ModifyLunaClientRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ClientArn: S.String, Certificate: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "ModifyLunaClientRequest",
-}) as any as S.Schema<ModifyLunaClientRequest>;
+).annotate({ identifier: "ModifyLunaClientRequest" }) as any as S.Schema<ModifyLunaClientRequest>;
 export interface ModifyLunaClientResponse {
   ClientArn?: string;
 }
 export const ModifyLunaClientResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ClientArn: S.optional(S.String) }),
-).annotate({
-  identifier: "ModifyLunaClientResponse",
-}) as any as S.Schema<ModifyLunaClientResponse>;
+).annotate({ identifier: "ModifyLunaClientResponse" }) as any as S.Schema<ModifyLunaClientResponse>;
 export type TagKeyList = string[];
 export const TagKeyList = /*@__PURE__*/ S.Array(S.String);
 export interface RemoveTagsFromResourceRequest {
@@ -718,11 +614,7 @@ export const addTagsToResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: AddTagsToResourceRequest,
   output: AddTagsToResourceResponse,
-  errors: [
-    CloudHsmInternalException,
-    CloudHsmServiceException,
-    InvalidRequestException,
-  ],
+  errors: [CloudHsmInternalException, CloudHsmServiceException, InvalidRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddTagsToResource",
@@ -756,11 +648,7 @@ export const createHapg: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateHapgRequest,
   output: CreateHapgResponse,
-  errors: [
-    CloudHsmInternalException,
-    CloudHsmServiceException,
-    InvalidRequestException,
-  ],
+  errors: [CloudHsmInternalException, CloudHsmServiceException, InvalidRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateHapg",
@@ -802,11 +690,7 @@ export const createHsm: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateHsmRequest,
   output: CreateHsmResponse,
-  errors: [
-    CloudHsmInternalException,
-    CloudHsmServiceException,
-    InvalidRequestException,
-  ],
+  errors: [CloudHsmInternalException, CloudHsmServiceException, InvalidRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateHsm",
@@ -839,11 +723,7 @@ export const createLunaClient: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateLunaClientRequest,
   output: CreateLunaClientResponse,
-  errors: [
-    CloudHsmInternalException,
-    CloudHsmServiceException,
-    InvalidRequestException,
-  ],
+  errors: [CloudHsmInternalException, CloudHsmServiceException, InvalidRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLunaClient",
@@ -876,11 +756,7 @@ export const deleteHapg: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteHapgRequest,
   output: DeleteHapgResponse,
-  errors: [
-    CloudHsmInternalException,
-    CloudHsmServiceException,
-    InvalidRequestException,
-  ],
+  errors: [CloudHsmInternalException, CloudHsmServiceException, InvalidRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteHapg",
@@ -914,11 +790,7 @@ export const deleteHsm: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteHsmRequest,
   output: DeleteHsmResponse,
-  errors: [
-    CloudHsmInternalException,
-    CloudHsmServiceException,
-    InvalidRequestException,
-  ],
+  errors: [CloudHsmInternalException, CloudHsmServiceException, InvalidRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteHsm",
@@ -951,11 +823,7 @@ export const deleteLunaClient: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteLunaClientRequest,
   output: DeleteLunaClientResponse,
-  errors: [
-    CloudHsmInternalException,
-    CloudHsmServiceException,
-    InvalidRequestException,
-  ],
+  errors: [CloudHsmInternalException, CloudHsmServiceException, InvalidRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLunaClient",
@@ -988,11 +856,7 @@ export const describeHapg: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DescribeHapgRequest,
   output: DescribeHapgResponse,
-  errors: [
-    CloudHsmInternalException,
-    CloudHsmServiceException,
-    InvalidRequestException,
-  ],
+  errors: [CloudHsmInternalException, CloudHsmServiceException, InvalidRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeHapg",
@@ -1026,11 +890,7 @@ export const describeHsm: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DescribeHsmRequest,
   output: DescribeHsmResponse,
-  errors: [
-    CloudHsmInternalException,
-    CloudHsmServiceException,
-    InvalidRequestException,
-  ],
+  errors: [CloudHsmInternalException, CloudHsmServiceException, InvalidRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeHsm",
@@ -1063,11 +923,7 @@ export const describeLunaClient: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DescribeLunaClientRequest,
   output: DescribeLunaClientResponse,
-  errors: [
-    CloudHsmInternalException,
-    CloudHsmServiceException,
-    InvalidRequestException,
-  ],
+  errors: [CloudHsmInternalException, CloudHsmServiceException, InvalidRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeLunaClient",
@@ -1101,11 +957,7 @@ export const getConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetConfigRequest,
   output: GetConfigResponse,
-  errors: [
-    CloudHsmInternalException,
-    CloudHsmServiceException,
-    InvalidRequestException,
-  ],
+  errors: [CloudHsmInternalException, CloudHsmServiceException, InvalidRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConfig",
@@ -1138,11 +990,7 @@ export const listAvailableZones: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListAvailableZonesRequest,
   output: ListAvailableZonesResponse,
-  errors: [
-    CloudHsmInternalException,
-    CloudHsmServiceException,
-    InvalidRequestException,
-  ],
+  errors: [CloudHsmInternalException, CloudHsmServiceException, InvalidRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAvailableZones",
@@ -1180,11 +1028,7 @@ export const listHapgs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListHapgsRequest,
   output: ListHapgsResponse,
-  errors: [
-    CloudHsmInternalException,
-    CloudHsmServiceException,
-    InvalidRequestException,
-  ],
+  errors: [CloudHsmInternalException, CloudHsmServiceException, InvalidRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListHapgs",
@@ -1223,11 +1067,7 @@ export const listHsms: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListHsmsRequest,
   output: ListHsmsResponse,
-  errors: [
-    CloudHsmInternalException,
-    CloudHsmServiceException,
-    InvalidRequestException,
-  ],
+  errors: [CloudHsmInternalException, CloudHsmServiceException, InvalidRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListHsms",
@@ -1265,11 +1105,7 @@ export const listLunaClients: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListLunaClientsRequest,
   output: ListLunaClientsResponse,
-  errors: [
-    CloudHsmInternalException,
-    CloudHsmServiceException,
-    InvalidRequestException,
-  ],
+  errors: [CloudHsmInternalException, CloudHsmServiceException, InvalidRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListLunaClients",
@@ -1302,11 +1138,7 @@ export const listTagsForResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
-  errors: [
-    CloudHsmInternalException,
-    CloudHsmServiceException,
-    InvalidRequestException,
-  ],
+  errors: [CloudHsmInternalException, CloudHsmServiceException, InvalidRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
@@ -1339,11 +1171,7 @@ export const modifyHapg: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ModifyHapgRequest,
   output: ModifyHapgResponse,
-  errors: [
-    CloudHsmInternalException,
-    CloudHsmServiceException,
-    InvalidRequestException,
-  ],
+  errors: [CloudHsmInternalException, CloudHsmServiceException, InvalidRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyHapg",
@@ -1381,11 +1209,7 @@ export const modifyHsm: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ModifyHsmRequest,
   output: ModifyHsmResponse,
-  errors: [
-    CloudHsmInternalException,
-    CloudHsmServiceException,
-    InvalidRequestException,
-  ],
+  errors: [CloudHsmInternalException, CloudHsmServiceException, InvalidRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyHsm",
@@ -1453,11 +1277,7 @@ export const removeTagsFromResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: RemoveTagsFromResourceRequest,
   output: RemoveTagsFromResourceResponse,
-  errors: [
-    CloudHsmInternalException,
-    CloudHsmServiceException,
-    InvalidRequestException,
-  ],
+  errors: [CloudHsmInternalException, CloudHsmServiceException, InvalidRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveTagsFromResource",

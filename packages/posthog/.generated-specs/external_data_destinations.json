@@ -140,6 +140,13 @@
             "smithy.api#required": {},
             "com.distilled.openapi#nullable": {}
           }
+        },
+        "synced_sources": {
+          "target": "com.posthog.external_data_destinations#ExternalDataDestinationSyncedSourcesList",
+          "traits": {
+            "smithy.api#documentation": "Sources whose tables sync to this destination, so you can see what a change or a deletion would affect. Includes sources that reach it through a single table's override, and — for the PostHog warehouse — sources that write there by default because nothing else was configured.",
+            "smithy.api#required": {}
+          }
         }
       },
       "traits": {}
@@ -198,6 +205,51 @@
       },
       "traits": {
         "smithy.api#documentation": "* `PostHogWarehouse` - PostHog warehouse\n* `Redshift` - Redshift\n* `Snowflake` - Snowflake\n* `BigQuery` - BigQuery\n* `Postgres` - Postgres\n* `Databricks` - Databricks\n* `AzureBlob` - Azure Blob\n* `S3` - S3"
+      }
+    },
+    "com.posthog.external_data_destinations#SyncedSource": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The source's id.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "How the source is labelled in the UI, prefix included.",
+            "smithy.api#required": {}
+          }
+        },
+        "source_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Which connector this is, e.g. Stripe or Postgres.",
+            "smithy.api#required": {}
+          }
+        },
+        "via_table_override": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "True when only some of the source's tables reach this destination, through their own override.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "One source that writes to a destination. Shape only — never used to deserialize."
+      }
+    },
+    "com.posthog.external_data_destinations#ExternalDataDestinationSyncedSourcesList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.external_data_destinations#SyncedSource"
+      },
+      "traits": {
+        "smithy.api#documentation": "Sources whose tables sync to this destination, so you can see what a change or a deletion would affect. Includes sources that reach it through a single table's override, and — for the PostHog warehouse — sources that write there by default because nothing else was configured."
       }
     },
     "com.posthog.external_data_destinations#PaginatedExternalDataDestinationListResultsList": {

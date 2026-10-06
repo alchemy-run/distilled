@@ -1,18 +1,15 @@
+import * as API from "@distilled.cloud/core/api";
+import * as S from "@distilled.cloud/core/schema";
 import * as HttpClient from "effect/http/HttpClient";
 import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
-import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
-const svc = T.AwsApiService({
-  sdkId: "SSO OIDC",
-  serviceShapeName: "AWSSSOOIDCService",
-});
+import * as T from "../traits.ts";
+const svc = T.AwsApiService({ sdkId: "SSO OIDC", serviceShapeName: "AWSSSOOIDCService" });
 const auth = T.AwsAuthSigv4({ name: "sso-oauth" });
 const ver = T.ServiceVersion("2019-06-10");
 const proto = T.AwsProtocolsRestJson1();
@@ -28,14 +25,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -61,27 +54,17 @@ const rules = T.EndpointResolver((p, _) => {
             if (_.getAttr(PartitionResult, "name") === "aws-us-gov") {
               return e(`https://oidc.${Region}.amazonaws.com`);
             }
-            return e(
-              `https://oidc-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
+            return e(`https://oidc-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
-            return e(
-              `https://oidc.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
+            return e(`https://oidc.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`);
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://oidc.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://oidc.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -273,19 +256,8 @@ export const CreateTokenRequest = /*@__PURE__*/ S.suspend(() =>
     scope: S.optional(Scopes),
     redirectUri: S.optional(S.String),
     codeVerifier: S.optional(SensitiveString),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/token" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateTokenRequest",
-}) as any as S.Schema<CreateTokenRequest>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/token" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "CreateTokenRequest" }) as any as S.Schema<CreateTokenRequest>;
 export type AccessToken = string | redacted.Redacted<string>;
 export type TokenType = string;
 export type ExpirationInSeconds = number;
@@ -305,9 +277,7 @@ export const CreateTokenResponse = /*@__PURE__*/ S.suspend(() =>
     refreshToken: S.optional(SensitiveString),
     idToken: S.optional(SensitiveString),
   }),
-).annotate({
-  identifier: "CreateTokenResponse",
-}) as any as S.Schema<CreateTokenResponse>;
+).annotate({ identifier: "CreateTokenResponse" }) as any as S.Schema<CreateTokenResponse>;
 export type Assertion = string | redacted.Redacted<string>;
 export type SubjectToken = string | redacted.Redacted<string>;
 export type TokenTypeURI = string;
@@ -337,16 +307,7 @@ export const CreateTokenWithIAMRequest = /*@__PURE__*/ S.suspend(() =>
     subjectTokenType: S.optional(S.String),
     requestedTokenType: S.optional(S.String),
     codeVerifier: S.optional(SensitiveString),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/token?aws_iam=t" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/token?aws_iam=t" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateTokenWithIAMRequest",
 }) as any as S.Schema<CreateTokenWithIAMRequest>;
@@ -356,9 +317,7 @@ export interface AwsAdditionalDetails {
 }
 export const AwsAdditionalDetails = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ identityContext: S.optional(S.String) }),
-).annotate({
-  identifier: "AwsAdditionalDetails",
-}) as any as S.Schema<AwsAdditionalDetails>;
+).annotate({ identifier: "AwsAdditionalDetails" }) as any as S.Schema<AwsAdditionalDetails>;
 export interface CreateTokenWithIAMResponse {
   accessToken?: string | redacted.Redacted<string>;
   tokenType?: string;
@@ -408,19 +367,8 @@ export const RegisterClientRequest = /*@__PURE__*/ S.suspend(() =>
     grantTypes: S.optional(GrantTypes),
     issuerUrl: S.optional(S.String),
     entitledApplicationArn: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/client/register" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "RegisterClientRequest",
-}) as any as S.Schema<RegisterClientRequest>;
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/client/register" }), svc, auth, proto, ver, rules)),
+).annotate({ identifier: "RegisterClientRequest" }) as any as S.Schema<RegisterClientRequest>;
 export type LongTimeStampType = number;
 export interface RegisterClientResponse {
   clientId?: string;
@@ -439,28 +387,15 @@ export const RegisterClientResponse = /*@__PURE__*/ S.suspend(() =>
     authorizationEndpoint: S.optional(S.String),
     tokenEndpoint: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RegisterClientResponse",
-}) as any as S.Schema<RegisterClientResponse>;
+).annotate({ identifier: "RegisterClientResponse" }) as any as S.Schema<RegisterClientResponse>;
 export interface StartDeviceAuthorizationRequest {
   clientId: string;
   clientSecret: string | redacted.Redacted<string>;
   startUrl: string;
 }
 export const StartDeviceAuthorizationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    clientId: S.String,
-    clientSecret: SensitiveString,
-    startUrl: S.String,
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/device_authorization" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+  S.Struct({ clientId: S.String, clientSecret: SensitiveString, startUrl: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/device_authorization" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "StartDeviceAuthorizationRequest",
@@ -487,9 +422,7 @@ export const StartDeviceAuthorizationResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "StartDeviceAuthorizationResponse",
 }) as any as S.Schema<StartDeviceAuthorizationResponse>;
-export type AccessDeniedExceptionReason =
-  | "KMS_AccessDeniedException"
-  | (string & {});
+export type AccessDeniedExceptionReason = "KMS_AccessDeniedException" | (string & {});
 export const AccessDeniedExceptionReason = S.String;
 
 export type ErrorDescription = string;
