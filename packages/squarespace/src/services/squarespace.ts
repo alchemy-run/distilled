@@ -113,13 +113,7 @@ export const AdjustInventoryStockLevelsRequest = /*@__PURE__*/ S.suspend(() =>
     incrementOperations: S.optional(AdjustInventoryStockLevelsRequestIncrementOperationsList),
     setFiniteOperations: S.optional(AdjustInventoryStockLevelsRequestSetFiniteOperationsList),
     setUnlimitedOperations: S.optional(AdjustInventoryStockLevelsRequestSetUnlimitedOperationsList),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/1.0/commerce/inventory/adjustments",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/1.0/commerce/inventory/adjustments", code: 200 })),
 ).annotate({
   identifier: "AdjustInventoryStockLevelsRequest",
 }) as any as S.Schema<AdjustInventoryStockLevelsRequest>;
@@ -473,13 +467,7 @@ export const CreateAddressBookEntryRequest = /*@__PURE__*/ S.suspend(() =>
     contactId: S.String.pipe(T.Label()),
     address: ContactAddress,
     defaultShipping: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/contacts/{contactId}/address-book",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v1/contacts/{contactId}/address-book", code: 200 })),
 ).annotate({
   identifier: "CreateAddressBookEntryRequest",
 }) as any as S.Schema<CreateAddressBookEntryRequest>;
@@ -498,9 +486,7 @@ export const AddressBookEntry = /*@__PURE__*/ S.suspend(() =>
     defaultShipping: S.optional(S.Boolean),
     id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AddressBookEntry",
-}) as any as S.Schema<AddressBookEntry>;
+).annotate({ identifier: "AddressBookEntry" }) as any as S.Schema<AddressBookEntry>;
 
 export interface CreateAddressBookEntryResponse {
   addressBookEntry?: AddressBookEntry;
@@ -543,9 +529,7 @@ export const CreateContactRequest = /*@__PURE__*/ S.suspend(() =>
     locale: S.String,
     primaryEmail: CreateEmail,
   }).pipe(T.Http({ method: "POST", uri: "/v1/contacts", code: 200 })),
-).annotate({
-  identifier: "CreateContactRequest",
-}) as any as S.Schema<CreateContactRequest>;
+).annotate({ identifier: "CreateContactRequest" }) as any as S.Schema<CreateContactRequest>;
 
 /** Marketing subscription state for the contact's email. */
 export interface AcceptsMarketing {
@@ -562,9 +546,7 @@ export const AcceptsMarketing = /*@__PURE__*/ S.suspend(() =>
     joinedOn: S.optional(S.String),
     leftOn: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AcceptsMarketing",
-}) as any as S.Schema<AcceptsMarketing>;
+).annotate({ identifier: "AcceptsMarketing" }) as any as S.Schema<AcceptsMarketing>;
 
 /** The contact's primary email. */
 export interface Email {
@@ -616,9 +598,7 @@ export const CreateContactResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     contact: S.optional(Contact),
   }),
-).annotate({
-  identifier: "CreateContactResponse",
-}) as any as S.Schema<CreateContactResponse>;
+).annotate({ identifier: "CreateContactResponse" }) as any as S.Schema<CreateContactResponse>;
 
 /** Discount applies to any order. No additional conditions. */
 export interface AnyOrderCriteria {
@@ -628,9 +608,7 @@ export const AnyOrderCriteria = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     type: S.String,
   }),
-).annotate({
-  identifier: "AnyOrderCriteria",
-}) as any as S.Schema<AnyOrderCriteria>;
+).annotate({ identifier: "AnyOrderCriteria" }) as any as S.Schema<AnyOrderCriteria>;
 
 /** Specifies the possible targets for a BuyXGetYCriteria buy-side. */
 export type BuyXGetYCriteriaCriteriaAppliesTo = "PRODUCT";
@@ -678,9 +656,7 @@ export const BuyXGetYCriteria = /*@__PURE__*/ S.suspend(() =>
     rewardAppliesTo: S.optional(BuyXGetYCriteriaRewardAppliesTo),
     rewardProductIds: S.optional(BuyXGetYCriteriaRewardProductIdsList),
   }),
-).annotate({
-  identifier: "BuyXGetYCriteria",
-}) as any as S.Schema<BuyXGetYCriteria>;
+).annotate({ identifier: "BuyXGetYCriteria" }) as any as S.Schema<BuyXGetYCriteria>;
 
 /** ISO 4217 currency code. */
 export interface MonetaryAmountCurrency {
@@ -700,9 +676,7 @@ export const MonetaryAmountCurrency = /*@__PURE__*/ S.suspend(() =>
     numericCodeAsString: S.optional(S.String),
     symbol: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MonetaryAmountCurrency",
-}) as any as S.Schema<MonetaryAmountCurrency>;
+).annotate({ identifier: "MonetaryAmountCurrency" }) as any as S.Schema<MonetaryAmountCurrency>;
 
 /** A monetary amount with currency code and decimal value. */
 export interface MonetaryAmount {
@@ -728,9 +702,7 @@ export const CartTotalCriteria = /*@__PURE__*/ S.suspend(() =>
     type: S.String,
     minimumCartTotal: MonetaryAmount,
   }),
-).annotate({
-  identifier: "CartTotalCriteria",
-}) as any as S.Schema<CartTotalCriteria>;
+).annotate({ identifier: "CartTotalCriteria" }) as any as S.Schema<CartTotalCriteria>;
 
 /** Discount applies when the cart contains a specific product. */
 export interface ProductCriteria {
@@ -746,9 +718,7 @@ export const ProductCriteria = /*@__PURE__*/ S.suspend(() =>
     productId: S.optional(S.String),
     productName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ProductCriteria",
-}) as any as S.Schema<ProductCriteria>;
+).annotate({ identifier: "ProductCriteria" }) as any as S.Schema<ProductCriteria>;
 
 export type CreateDiscountRequestCriteria =
   | AnyOrderCriteria
@@ -771,9 +741,7 @@ export const PaymentPlanOptions = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     type: PaymentPlanOptionsType,
   }),
-).annotate({
-  identifier: "PaymentPlanOptions",
-}) as any as S.Schema<PaymentPlanOptions>;
+).annotate({ identifier: "PaymentPlanOptions" }) as any as S.Schema<PaymentPlanOptions>;
 
 /** Defines how the discount applies to subscription payments. */
 export type SubscriptionOptionsType = "EXCLUDED" | "ALL_PAYMENTS" | "LIMITED_PAYMENTS";
@@ -788,9 +756,7 @@ export const SubscriptionOptions = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     type: SubscriptionOptionsType,
   }),
-).annotate({
-  identifier: "SubscriptionOptions",
-}) as any as S.Schema<SubscriptionOptions>;
+).annotate({ identifier: "SubscriptionOptions" }) as any as S.Schema<SubscriptionOptions>;
 
 /** Apply a fixed monetary amount off each reward item in a BUY_X_GET_Y discount. */
 export interface BuyXGetYFixedAmountTemplate {
@@ -837,9 +803,7 @@ export const FixedAmountTemplate = /*@__PURE__*/ S.suspend(() =>
     type: S.String,
     discountAmount: MonetaryAmount,
   }),
-).annotate({
-  identifier: "FixedAmountTemplate",
-}) as any as S.Schema<FixedAmountTemplate>;
+).annotate({ identifier: "FixedAmountTemplate" }) as any as S.Schema<FixedAmountTemplate>;
 
 /** Fulfillment channel a free-shipping discount applies to. */
 export type FreeShippingTemplateAppliesToFulfillmentOptionType =
@@ -890,9 +854,7 @@ export const SelectedShippingOption = /*@__PURE__*/ S.suspend(() =>
     shippingOptionId: S.String,
     shippingOptionName: S.String,
   }),
-).annotate({
-  identifier: "SelectedShippingOption",
-}) as any as S.Schema<SelectedShippingOption>;
+).annotate({ identifier: "SelectedShippingOption" }) as any as S.Schema<SelectedShippingOption>;
 
 /** Waive shipping cost for eligible carts. */
 export interface FreeShippingTemplate {
@@ -909,9 +871,7 @@ export const FreeShippingTemplate = /*@__PURE__*/ S.suspend(() =>
     appliesToFulfillmentOptionType: S.optional(FreeShippingTemplateAppliesToFulfillmentOptionType),
     selectedShippingOption: S.optional(SelectedShippingOption),
   }),
-).annotate({
-  identifier: "FreeShippingTemplate",
-}) as any as S.Schema<FreeShippingTemplate>;
+).annotate({ identifier: "FreeShippingTemplate" }) as any as S.Schema<FreeShippingTemplate>;
 
 /** Apply a percentage discount off the cart total. */
 export interface PercentageTemplate {
@@ -924,9 +884,7 @@ export const PercentageTemplate = /*@__PURE__*/ S.suspend(() =>
     type: S.String,
     percentage: S.Number,
   }),
-).annotate({
-  identifier: "PercentageTemplate",
-}) as any as S.Schema<PercentageTemplate>;
+).annotate({ identifier: "PercentageTemplate" }) as any as S.Schema<PercentageTemplate>;
 
 export type CreateDiscountRequestTemplate =
   | BuyXGetYFixedAmountTemplate
@@ -952,9 +910,7 @@ export const PromoCodeTrigger = /*@__PURE__*/ S.suspend(() =>
     type: S.String,
     promoCode: S.String,
   }),
-).annotate({
-  identifier: "PromoCodeTrigger",
-}) as any as S.Schema<PromoCodeTrigger>;
+).annotate({ identifier: "PromoCodeTrigger" }) as any as S.Schema<PromoCodeTrigger>;
 
 export type CreateDiscountRequestTrigger = AnyOrderCriteria | PromoCodeTrigger;
 export const CreateDiscountRequestTrigger =
@@ -993,9 +949,7 @@ export const CreateDiscountRequest = /*@__PURE__*/ S.suspend(() =>
     validFrom: S.String,
     validTo: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/v1/commerce/discounts", code: 200 })),
-).annotate({
-  identifier: "CreateDiscountRequest",
-}) as any as S.Schema<CreateDiscountRequest>;
+).annotate({ identifier: "CreateDiscountRequest" }) as any as S.Schema<CreateDiscountRequest>;
 
 export type DiscountCriteria =
   | AnyOrderCriteria
@@ -1078,9 +1032,7 @@ export const DiscountResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     discount: Discount,
   }),
-).annotate({
-  identifier: "DiscountResponse",
-}) as any as S.Schema<DiscountResponse>;
+).annotate({ identifier: "DiscountResponse" }) as any as S.Schema<DiscountResponse>;
 
 /** Customer's shipping address. */
 export interface AddressRequest {
@@ -1194,9 +1146,7 @@ export const CreateLineItemRequest = /*@__PURE__*/ S.suspend(() =>
     unitPricePaid: MonetaryAmount,
     variantId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CreateLineItemRequest",
-}) as any as S.Schema<CreateLineItemRequest>;
+).annotate({ identifier: "CreateLineItemRequest" }) as any as S.Schema<CreateLineItemRequest>;
 
 /** Array of purchased line items; cannot be empty. */
 export type CreateOrderRequestLineItemsList = Array<CreateLineItemRequest>;
@@ -1290,9 +1240,7 @@ export const CreateOrderRequest = /*@__PURE__*/ S.suspend(() =>
     subtotal: S.optional(MonetaryAmount),
     taxTotal: S.optional(MonetaryAmount),
   }).pipe(T.Http({ method: "POST", uri: "/1.0/commerce/orders", code: 200 })),
-).annotate({
-  identifier: "CreateOrderRequest",
-}) as any as S.Schema<CreateOrderRequest>;
+).annotate({ identifier: "CreateOrderRequest" }) as any as S.Schema<CreateOrderRequest>;
 
 /** Customer's shipping address provided at checkout or, for recurring subscription orders, the customer's current mailing address. */
 export interface Address {
@@ -1677,9 +1625,7 @@ export const SimpleProductPricing = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     basePrice: S.optional(MonetaryAmount),
   }),
-).annotate({
-  identifier: "SimpleProductPricing",
-}) as any as S.Schema<SimpleProductPricing>;
+).annotate({ identifier: "SimpleProductPricing" }) as any as S.Schema<SimpleProductPricing>;
 
 export interface CreateGiftCardProductVariantRequest {
   pricing?: SimpleProductPricing;
@@ -1754,9 +1700,7 @@ export const FullProductPricing = /*@__PURE__*/ S.suspend(() =>
     onSale: S.optional(S.Boolean),
     salePrice: S.optional(MonetaryAmount),
   }),
-).annotate({
-  identifier: "FullProductPricing",
-}) as any as S.Schema<FullProductPricing>;
+).annotate({ identifier: "FullProductPricing" }) as any as S.Schema<FullProductPricing>;
 
 /** Unit of measurement. Supported values: `INCH`, `CENTIMETER`. */
 export type ProductDimensionsUnit = "CENTIMETER" | "INCH";
@@ -1779,9 +1723,7 @@ export const ProductDimensions = /*@__PURE__*/ S.suspend(() =>
     unit: S.optional(ProductDimensionsUnit),
     width: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ProductDimensions",
-}) as any as S.Schema<ProductDimensions>;
+).annotate({ identifier: "ProductDimensions" }) as any as S.Schema<ProductDimensions>;
 
 /** Unit of measurement. Supported values: `KILOGRAM`, `POUND`. */
 export type ProductWeightUnit = "KILOGRAM" | "POUND";
@@ -1810,9 +1752,7 @@ export const ProductMeasurements = /*@__PURE__*/ S.suspend(() =>
     dimensions: S.optional(ProductDimensions),
     weight: S.optional(ProductWeight),
   }),
-).annotate({
-  identifier: "ProductMeasurements",
-}) as any as S.Schema<ProductMeasurements>;
+).annotate({ identifier: "ProductMeasurements" }) as any as S.Schema<ProductMeasurements>;
 
 /** Available stock for the variant. Present for PHYSICAL products only. */
 export interface ProductStock {
@@ -1896,9 +1836,7 @@ export const CreateServiceProductRequestVariantAttributesList = /*@__PURE__*/ S.
   S.String,
 ) as any as S.Schema<CreateServiceProductRequestVariantAttributesList>;
 
-export type CreateServiceProductVariantRequestAttributesMap = {
-  [key: string]: string | undefined;
-};
+export type CreateServiceProductVariantRequestAttributesMap = { [key: string]: string | undefined };
 export const CreateServiceProductVariantRequestAttributesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1967,9 +1905,7 @@ export const CreateProductRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     body: CreateProductRequestBody.pipe(T.HttpBody()),
   }).pipe(T.Http({ method: "POST", uri: "/v2/commerce/products", code: 200 })),
-).annotate({
-  identifier: "CreateProductRequest",
-}) as any as S.Schema<CreateProductRequest>;
+).annotate({ identifier: "CreateProductRequest" }) as any as S.Schema<CreateProductRequest>;
 
 /** Available image sizes. Use with `images.url` and a `format` query parameter to retrieve the image at a particular width. */
 export type ProductImageAvailableFormatsList = Array<string>;
@@ -2062,9 +1998,7 @@ export const ProductV2 = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "ProductV2" }) as any as S.Schema<ProductV2>;
 
 /** Specifies attribute-value pairs for the variant. 100 char limit per key and per value with no more than six key-value pairs. Supported for PHYSICAL products only. */
-export type CreateProductVariantRequestAttributesMap = {
-  [key: string]: string | undefined;
-};
+export type CreateProductVariantRequestAttributesMap = { [key: string]: string | undefined };
 export const CreateProductVariantRequestAttributesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2109,20 +2043,12 @@ export const CreateProductVariantRequest = /*@__PURE__*/ S.suspend(() =>
     shippingMeasurements: S.optional(ProductMeasurements),
     sku: S.String,
     stock: S.optional(ProductStock),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v2/commerce/products/{productId}/variants",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v2/commerce/products/{productId}/variants", code: 200 })),
 ).annotate({
   identifier: "CreateProductVariantRequest",
 }) as any as S.Schema<CreateProductVariantRequest>;
 
-export type PhysicalProductVariantAttributesMap = {
-  [key: string]: string | undefined;
-};
+export type PhysicalProductVariantAttributesMap = { [key: string]: string | undefined };
 export const PhysicalProductVariantAttributesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2152,9 +2078,7 @@ export const PhysicalProductVariant = /*@__PURE__*/ S.suspend(() =>
     sku: S.optional(S.String),
     stock: S.optional(ProductStock),
   }),
-).annotate({
-  identifier: "PhysicalProductVariant",
-}) as any as S.Schema<PhysicalProductVariant>;
+).annotate({ identifier: "PhysicalProductVariant" }) as any as S.Schema<PhysicalProductVariant>;
 
 /** A variant of a GIFT_CARD product. */
 export interface GiftCardProductVariant {
@@ -2170,13 +2094,9 @@ export const GiftCardProductVariant = /*@__PURE__*/ S.suspend(() =>
     pricing: S.optional(SimpleProductPricing),
     sku: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GiftCardProductVariant",
-}) as any as S.Schema<GiftCardProductVariant>;
+).annotate({ identifier: "GiftCardProductVariant" }) as any as S.Schema<GiftCardProductVariant>;
 
-export type ServiceProductVariantAttributesMap = {
-  [key: string]: string | undefined;
-};
+export type ServiceProductVariantAttributesMap = { [key: string]: string | undefined };
 export const ServiceProductVariantAttributesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2200,9 +2120,7 @@ export const ServiceProductVariant = /*@__PURE__*/ S.suspend(() =>
     sku: S.optional(S.String),
     stock: S.optional(ProductStock),
   }),
-).annotate({
-  identifier: "ServiceProductVariant",
-}) as any as S.Schema<ServiceProductVariant>;
+).annotate({ identifier: "ServiceProductVariant" }) as any as S.Schema<ServiceProductVariant>;
 
 /** A product variant. The shape depends on the product type. */
 export type ProductVariantV2 =
@@ -2334,9 +2252,7 @@ export const DeleteContactRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     contactId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/v1/contacts/{contactId}", code: 200 })),
-).annotate({
-  identifier: "DeleteContactRequest",
-}) as any as S.Schema<DeleteContactRequest>;
+).annotate({ identifier: "DeleteContactRequest" }) as any as S.Schema<DeleteContactRequest>;
 
 export interface DeleteContactResponse {}
 export const DeleteContactResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2350,16 +2266,8 @@ export interface DeleteDiscountRequest {
 export const DeleteDiscountRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     discountId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v1/commerce/discounts/{discountId}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteDiscountRequest",
-}) as any as S.Schema<DeleteDiscountRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/v1/commerce/discounts/{discountId}", code: 200 })),
+).annotate({ identifier: "DeleteDiscountRequest" }) as any as S.Schema<DeleteDiscountRequest>;
 
 export interface DeleteDiscountResponse {}
 export const DeleteDiscountResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2372,16 +2280,8 @@ export interface DeleteProductRequest {
 export const DeleteProductRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     productId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v2/commerce/products/{productId}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteProductRequest",
-}) as any as S.Schema<DeleteProductRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/v2/commerce/products/{productId}", code: 200 })),
+).annotate({ identifier: "DeleteProductRequest" }) as any as S.Schema<DeleteProductRequest>;
 
 export interface DeleteProductResponse {}
 export const DeleteProductResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2444,11 +2344,7 @@ export const DeleteWebhookSubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     subscriptionId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/1.0/webhook_subscriptions/{subscriptionId}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/1.0/webhook_subscriptions/{subscriptionId}", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteWebhookSubscriptionRequest",
@@ -2480,16 +2376,8 @@ export const FulfillOrderRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String.pipe(T.Label()),
     shipments: S.optional(FulfillOrderRequestShipmentsList),
     shouldSendNotification: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/1.0/commerce/orders/{id}/fulfillments",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "FulfillOrderRequest",
-}) as any as S.Schema<FulfillOrderRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/1.0/commerce/orders/{id}/fulfillments", code: 200 })),
+).annotate({ identifier: "FulfillOrderRequest" }) as any as S.Schema<FulfillOrderRequest>;
 
 export interface FulfillOrderResponse {}
 export const FulfillOrderResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2509,16 +2397,8 @@ export const GetAddressBookRequest = /*@__PURE__*/ S.suspend(() =>
     contactId: S.String.pipe(T.Label()),
     pageSize: S.optional(S.Number.pipe(T.Query())),
     cursor: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/contacts/{contactId}/address-book",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetAddressBookRequest",
-}) as any as S.Schema<GetAddressBookRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/v1/contacts/{contactId}/address-book", code: 200 })),
+).annotate({ identifier: "GetAddressBookRequest" }) as any as S.Schema<GetAddressBookRequest>;
 
 /** List of Address Book Entries */
 export type AddressBookAddressBookEntriesList = Array<AddressBookEntry>;
@@ -2551,9 +2431,7 @@ export const PaginationDetails = /*@__PURE__*/ S.suspend(() =>
     nextPageCursor: S.optional(S.String),
     nextPageUrl: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PaginationDetails",
-}) as any as S.Schema<PaginationDetails>;
+).annotate({ identifier: "PaginationDetails" }) as any as S.Schema<PaginationDetails>;
 
 export interface GetAddressBookResponse {
   addressBook?: AddressBook;
@@ -2564,9 +2442,7 @@ export const GetAddressBookResponse = /*@__PURE__*/ S.suspend(() =>
     addressBook: S.optional(AddressBook),
     pagination: S.optional(PaginationDetails),
   }),
-).annotate({
-  identifier: "GetAddressBookResponse",
-}) as any as S.Schema<GetAddressBookResponse>;
+).annotate({ identifier: "GetAddressBookResponse" }) as any as S.Schema<GetAddressBookResponse>;
 
 export interface GetAddressBookEntryRequest {
   /** The contact's ID. */
@@ -2608,9 +2484,7 @@ export const GetContactRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     contactId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/v1/contacts/{contactId}", code: 200 })),
-).annotate({
-  identifier: "GetContactRequest",
-}) as any as S.Schema<GetContactRequest>;
+).annotate({ identifier: "GetContactRequest" }) as any as S.Schema<GetContactRequest>;
 
 export interface GetContactResponse {
   contact?: Contact;
@@ -2619,9 +2493,7 @@ export const GetContactResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     contact: S.optional(Contact),
   }),
-).annotate({
-  identifier: "GetContactResponse",
-}) as any as S.Schema<GetContactResponse>;
+).annotate({ identifier: "GetContactResponse" }) as any as S.Schema<GetContactResponse>;
 
 export interface GetContactsRequest {
   /** number of contacts to retrieve per request */
@@ -2634,9 +2506,7 @@ export const GetContactsRequest = /*@__PURE__*/ S.suspend(() =>
     pageSize: S.optional(S.Number.pipe(T.Query())),
     cursor: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v1/contacts", code: 200 })),
-).annotate({
-  identifier: "GetContactsRequest",
-}) as any as S.Schema<GetContactsRequest>;
+).annotate({ identifier: "GetContactsRequest" }) as any as S.Schema<GetContactsRequest>;
 
 /** paginated list of contacts retrieved */
 export type PaginatedGetContactsResponseContactsList = Array<Contact>;
@@ -2668,16 +2538,8 @@ export interface GetDiscountRequest {
 export const GetDiscountRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     discountId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/commerce/discounts/{discountId}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetDiscountRequest",
-}) as any as S.Schema<GetDiscountRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/v1/commerce/discounts/{discountId}", code: 200 })),
+).annotate({ identifier: "GetDiscountRequest" }) as any as S.Schema<GetDiscountRequest>;
 
 export interface GetDocumentsByIdRequest {
   /** Specifies the Documents to retrieve. Multiple Documents can be retrieved by providing a comma-separated list of Document ids. */
@@ -2686,16 +2548,8 @@ export interface GetDocumentsByIdRequest {
 export const GetDocumentsByIdRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     documentIds: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/1.0/commerce/transactions/{documentIds}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetDocumentsByIdRequest",
-}) as any as S.Schema<GetDocumentsByIdRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/1.0/commerce/transactions/{documentIds}", code: 200 })),
+).annotate({ identifier: "GetDocumentsByIdRequest" }) as any as S.Schema<GetDocumentsByIdRequest>;
 
 /** Array of discounts for an order payment transaction; empty for donations. */
 export interface TransactionDiscount {
@@ -2711,9 +2565,7 @@ export const TransactionDiscount = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     name: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TransactionDiscount",
-}) as any as S.Schema<TransactionDiscount>;
+).annotate({ identifier: "TransactionDiscount" }) as any as S.Schema<TransactionDiscount>;
 
 /** Array of discounts for an order payment transaction; empty for donations. */
 export type TransactionDocumentDiscountsList = Array<TransactionDiscount>;
@@ -2808,9 +2660,7 @@ export const TransactionProcessingFee = /*@__PURE__*/ S.suspend(() =>
     refundedAmount: S.optional(MonetaryAmount),
     refundedAmountGatewayCurrency: S.optional(MonetaryAmount),
   }),
-).annotate({
-  identifier: "TransactionProcessingFee",
-}) as any as S.Schema<TransactionProcessingFee>;
+).annotate({ identifier: "TransactionProcessingFee" }) as any as S.Schema<TransactionProcessingFee>;
 
 /** Array of processing fees associated with the payment. */
 export type TransactionPaymentProcessingFeesList = Array<TransactionProcessingFee>;
@@ -2835,9 +2685,7 @@ export const TransactionRefund = /*@__PURE__*/ S.suspend(() =>
     id: S.optional(S.String),
     refundedOn: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TransactionRefund",
-}) as any as S.Schema<TransactionRefund>;
+).annotate({ identifier: "TransactionRefund" }) as any as S.Schema<TransactionRefund>;
 
 /** Array of refunds for the payment transaction. */
 export type TransactionPaymentRefundsList = Array<TransactionRefund>;
@@ -2887,9 +2735,7 @@ export const TransactionPayment = /*@__PURE__*/ S.suspend(() =>
     refundedAmount: S.optional(MonetaryAmount),
     refunds: S.optional(TransactionPaymentRefundsList),
   }),
-).annotate({
-  identifier: "TransactionPayment",
-}) as any as S.Schema<TransactionPayment>;
+).annotate({ identifier: "TransactionPayment" }) as any as S.Schema<TransactionPayment>;
 
 /** Array of payment transactions for the order or donation. */
 export type TransactionDocumentPaymentsList = Array<TransactionPayment>;
@@ -2942,9 +2788,7 @@ export const TransactionSalesLineItem = /*@__PURE__*/ S.suspend(() =>
     totalNetSales: S.optional(MonetaryAmount),
     totalSales: S.optional(MonetaryAmount),
   }),
-).annotate({
-  identifier: "TransactionSalesLineItem",
-}) as any as S.Schema<TransactionSalesLineItem>;
+).annotate({ identifier: "TransactionSalesLineItem" }) as any as S.Schema<TransactionSalesLineItem>;
 
 /** Array of sales items for an order payment transaction; empty for donations. */
 export type TransactionDocumentSalesLineItemsList = Array<TransactionSalesLineItem>;
@@ -3039,9 +2883,7 @@ export const TransactionDocument = /*@__PURE__*/ S.suspend(() =>
     totalTaxes: S.optional(MonetaryAmount),
     voided: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "TransactionDocument",
-}) as any as S.Schema<TransactionDocument>;
+).annotate({ identifier: "TransactionDocument" }) as any as S.Schema<TransactionDocument>;
 
 /** Array of Document resources. */
 export type TransactionListResponseDocumentsList = Array<TransactionDocument>;
@@ -3057,9 +2899,7 @@ export const TransactionListResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     documents: S.optional(TransactionListResponseDocumentsList),
   }),
-).annotate({
-  identifier: "TransactionListResponse",
-}) as any as S.Schema<TransactionListResponse>;
+).annotate({ identifier: "TransactionListResponse" }) as any as S.Schema<TransactionListResponse>;
 
 export interface GetDocumentsByUpdatedOnRequest {
   /** Identifies where the next page of results should begin. Should be the value of pagination.nextPageCursor from a previous response. */
@@ -3107,11 +2947,7 @@ export const PaginatedTransactionListResponse = /*@__PURE__*/ S.suspend(() =>
 export interface GetFulfillmentOptionsRequest {}
 export const GetFulfillmentOptionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/fulfillments/fulfillment-options",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v1/fulfillments/fulfillment-options", code: 200 }),
   ),
 ).annotate({
   identifier: "GetFulfillmentOptionsRequest",
@@ -3159,9 +2995,7 @@ export const FulfillmentOption = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     type: FulfillmentOptionType,
   }),
-).annotate({
-  identifier: "FulfillmentOption",
-}) as any as S.Schema<FulfillmentOption>;
+).annotate({ identifier: "FulfillmentOption" }) as any as S.Schema<FulfillmentOption>;
 
 /** Fulfillment option IDs and carrier services for this website. */
 export type FulfillmentOptionsListFulfillmentOptionsList = Array<FulfillmentOption>;
@@ -3178,9 +3012,7 @@ export const FulfillmentOptionsList = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     fulfillmentOptions: FulfillmentOptionsListFulfillmentOptionsList,
   }),
-).annotate({
-  identifier: "FulfillmentOptionsList",
-}) as any as S.Schema<FulfillmentOptionsList>;
+).annotate({ identifier: "FulfillmentOptionsList" }) as any as S.Schema<FulfillmentOptionsList>;
 
 export interface GetInventoryItemsRequest {
   /** Identifies where the next page of results should begin. Should be the value of pagination.nextPageCursor from a previous response. If not present or empty, the endpoint returns up to 50 InventoryItems. */
@@ -3190,9 +3022,7 @@ export const GetInventoryItemsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     cursor: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/1.0/commerce/inventory", code: 200 })),
-).annotate({
-  identifier: "GetInventoryItemsRequest",
-}) as any as S.Schema<GetInventoryItemsRequest>;
+).annotate({ identifier: "GetInventoryItemsRequest" }) as any as S.Schema<GetInventoryItemsRequest>;
 
 /** Array of InventoryItem resources. If the merchant site doesn't have any physical or service products, this array is empty. */
 export interface InventoryItem {
@@ -3243,9 +3073,7 @@ export const PaginatedInventoryItemListResponse = /*@__PURE__*/ S.suspend(() =>
 export interface GetMemberProfileRequest {}
 export const GetMemberProfileRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/1.0/authorization/member", code: 200 })),
-).annotate({
-  identifier: "GetMemberProfileRequest",
-}) as any as S.Schema<GetMemberProfileRequest>;
+).annotate({ identifier: "GetMemberProfileRequest" }) as any as S.Schema<GetMemberProfileRequest>;
 
 export interface MemberProfile {
   /** Profile email address. */
@@ -3274,9 +3102,7 @@ export const GetOrderRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/1.0/commerce/orders/{id}", code: 200 })),
-).annotate({
-  identifier: "GetOrderRequest",
-}) as any as S.Schema<GetOrderRequest>;
+).annotate({ identifier: "GetOrderRequest" }) as any as S.Schema<GetOrderRequest>;
 
 export interface GetOrdersRequest {
   /** Used to filter Orders by Customer ID. */
@@ -3301,9 +3127,7 @@ export const GetOrdersRequest = /*@__PURE__*/ S.suspend(() =>
     fulfillmentStatus: S.optional(S.String.pipe(T.Query())),
     paymentStates: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/1.0/commerce/orders", code: 200 })),
-).annotate({
-  identifier: "GetOrdersRequest",
-}) as any as S.Schema<GetOrdersRequest>;
+).annotate({ identifier: "GetOrdersRequest" }) as any as S.Schema<GetOrdersRequest>;
 
 export type OrderListResponsePagination = PaginationDetails;
 export const OrderListResponsePagination = PaginationDetails;
@@ -3322,9 +3146,7 @@ export const OrderListResponse = /*@__PURE__*/ S.suspend(() =>
     pagination: S.optional(PaginationDetails),
     result: OrderListResponseResultList,
   }),
-).annotate({
-  identifier: "OrderListResponse",
-}) as any as S.Schema<OrderListResponse>;
+).annotate({ identifier: "OrderListResponse" }) as any as S.Schema<OrderListResponse>;
 
 export interface GetProductImageProcessingStatusRequest {
   productId: string;
@@ -3381,9 +3203,7 @@ export const GetProductsRequest = /*@__PURE__*/ S.suspend(() =>
     query: S.optional(S.String.pipe(T.Query())),
     type: S.optional(GetProductsRequestTypeList.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v2/commerce/products", code: 200 })),
-).annotate({
-  identifier: "GetProductsRequest",
-}) as any as S.Schema<GetProductsRequest>;
+).annotate({ identifier: "GetProductsRequest" }) as any as S.Schema<GetProductsRequest>;
 
 export type PaginatedProductListResponseV2Pagination = PaginationDetails;
 export const PaginatedProductListResponseV2Pagination = PaginationDetails;
@@ -3499,9 +3319,7 @@ export const GiftCardProduct = /*@__PURE__*/ S.suspend(() =>
     urlSlug: S.optional(S.String),
     variants: S.optional(GiftCardProductVariantsList),
   }),
-).annotate({
-  identifier: "GiftCardProduct",
-}) as any as S.Schema<GiftCardProduct>;
+).annotate({ identifier: "GiftCardProduct" }) as any as S.Schema<GiftCardProduct>;
 
 export type PhysicalProductImagesList = Array<ProductImage>;
 export const PhysicalProductImagesList = /*@__PURE__*/ S.Array(
@@ -3559,9 +3377,7 @@ export const PhysicalProduct = /*@__PURE__*/ S.suspend(() =>
     variantAttributes: S.optional(PhysicalProductVariantAttributesList),
     variants: S.optional(PhysicalProductVariantsList),
   }),
-).annotate({
-  identifier: "PhysicalProduct",
-}) as any as S.Schema<PhysicalProduct>;
+).annotate({ identifier: "PhysicalProduct" }) as any as S.Schema<PhysicalProduct>;
 
 export type ServiceProductImagesList = Array<ProductImage>;
 export const ServiceProductImagesList = /*@__PURE__*/ S.Array(
@@ -3668,9 +3484,7 @@ export const GetProfilesRequest = /*@__PURE__*/ S.suspend(() =>
     email: S.optional(S.String.pipe(T.Query())),
     cursor: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/1.0/profiles", code: 200 })),
-).annotate({
-  identifier: "GetProfilesRequest",
-}) as any as S.Schema<GetProfilesRequest>;
+).annotate({ identifier: "GetProfilesRequest" }) as any as S.Schema<GetProfilesRequest>;
 
 export type PaginatedProfileListResponsePagination = PaginationDetails;
 export const PaginatedProfileListResponsePagination = PaginationDetails;
@@ -3705,9 +3519,7 @@ export const TransactionsSummary = /*@__PURE__*/ S.suspend(() =>
     totalOrderAmount: S.optional(MonetaryAmount),
     totalRefundAmount: S.optional(MonetaryAmount),
   }),
-).annotate({
-  identifier: "TransactionsSummary",
-}) as any as S.Schema<TransactionsSummary>;
+).annotate({ identifier: "TransactionsSummary" }) as any as S.Schema<TransactionsSummary>;
 
 export interface Profile {
   /** Indicates whether the profile opted to receive marketing. */
@@ -3769,13 +3581,7 @@ export interface GetSpecificInventoryItemsRequest {
 export const GetSpecificInventoryItemsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     variantIdCsvs: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/1.0/commerce/inventory/{variantIdCsvs}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/1.0/commerce/inventory/{variantIdCsvs}", code: 200 })),
 ).annotate({
   identifier: "GetSpecificInventoryItemsRequest",
 }) as any as S.Schema<GetSpecificInventoryItemsRequest>;
@@ -3804,13 +3610,7 @@ export interface GetSpecificProductsRequest {
 export const GetSpecificProductsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     productIdCsvs: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/commerce/products/{productIdCsvs}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v2/commerce/products/{productIdCsvs}", code: 200 })),
 ).annotate({
   identifier: "GetSpecificProductsRequest",
 }) as any as S.Schema<GetSpecificProductsRequest>;
@@ -3835,9 +3635,7 @@ export const ProductListResponseV2 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     products: S.optional(ProductListResponseV2ProductsList),
   }),
-).annotate({
-  identifier: "ProductListResponseV2",
-}) as any as S.Schema<ProductListResponseV2>;
+).annotate({ identifier: "ProductListResponseV2" }) as any as S.Schema<ProductListResponseV2>;
 
 export interface GetSpecificProfilesRequest {
   /** Specifies the profiles to retrieve. Multiple Profiles can be retrieved by providing a comma-separated list of profile ids. */
@@ -3863,9 +3661,7 @@ export const ProfileListResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     profiles: S.optional(ProfileListResponseProfilesList),
   }),
-).annotate({
-  identifier: "ProfileListResponse",
-}) as any as S.Schema<ProfileListResponse>;
+).annotate({ identifier: "ProfileListResponse" }) as any as S.Schema<ProfileListResponse>;
 
 export interface GetStorePagesRequest {
   cursor?: string;
@@ -3874,9 +3670,7 @@ export const GetStorePagesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     cursor: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/1.0/commerce/store_pages", code: 200 })),
-).annotate({
-  identifier: "GetStorePagesRequest",
-}) as any as S.Schema<GetStorePagesRequest>;
+).annotate({ identifier: "GetStorePagesRequest" }) as any as S.Schema<GetStorePagesRequest>;
 
 export type PaginatedStorePagesResponsePagination = PaginationDetails;
 export const PaginatedStorePagesResponsePagination = PaginationDetails;
@@ -3932,13 +3726,7 @@ export const GetTransactionsSummariesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     contactIds: GetTransactionsSummariesRequestContactIdsList,
     groupBy: GetTransactionsSummariesRequestGroupBy,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/analytics/transaction-summaries",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v1/analytics/transaction-summaries", code: 200 })),
 ).annotate({
   identifier: "GetTransactionsSummariesRequest",
 }) as any as S.Schema<GetTransactionsSummariesRequest>;
@@ -3987,13 +3775,7 @@ export interface GetWebhookSubscriptionRequest {
 export const GetWebhookSubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     subscriptionId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/1.0/webhook_subscriptions/{subscriptionId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/1.0/webhook_subscriptions/{subscriptionId}", code: 200 })),
 ).annotate({
   identifier: "GetWebhookSubscriptionRequest",
 }) as any as S.Schema<GetWebhookSubscriptionRequest>;
@@ -4066,9 +3848,7 @@ export const ExternalWebhookSubscriptionListResponse = /*@__PURE__*/ S.suspend((
 export interface GetWebsiteProfileRequest {}
 export const GetWebsiteProfileRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/1.0/authorization/website", code: 200 })),
-).annotate({
-  identifier: "GetWebsiteProfileRequest",
-}) as any as S.Schema<GetWebsiteProfileRequest>;
+).annotate({ identifier: "GetWebsiteProfileRequest" }) as any as S.Schema<GetWebsiteProfileRequest>;
 
 export interface Location {
   country?: string;
@@ -4185,9 +3965,7 @@ export const ListDiscountsRequest = /*@__PURE__*/ S.suspend(() =>
     offset: S.optional(S.Number.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v1/commerce/discounts", code: 200 })),
-).annotate({
-  identifier: "ListDiscountsRequest",
-}) as any as S.Schema<ListDiscountsRequest>;
+).annotate({ identifier: "ListDiscountsRequest" }) as any as S.Schema<ListDiscountsRequest>;
 
 /** Discounts for this page. */
 export type PaginatedDiscountListResponseDiscountsList = Array<Discount>;
@@ -4239,9 +4017,7 @@ export const AcceptsMarketingWithDate = /*@__PURE__*/ S.suspend(() =>
     acceptsMarketing: S.optional(S.Boolean),
     joinedOn: S.optional(DateFilter),
   }),
-).annotate({
-  identifier: "AcceptsMarketingWithDate",
-}) as any as S.Schema<AcceptsMarketingWithDate>;
+).annotate({ identifier: "AcceptsMarketingWithDate" }) as any as S.Schema<AcceptsMarketingWithDate>;
 
 /** Object for filtering by a min and max integer */
 export interface IntegerFilter {
@@ -4315,9 +4091,7 @@ export const QueryContactsRequest = /*@__PURE__*/ S.suspend(() =>
     sortDirection: S.optional(QueryContactsRequestSortDirection),
     sortField: S.optional(QueryContactsRequestSortField),
   }).pipe(T.Http({ method: "POST", uri: "/v1/contacts/query", code: 200 })),
-).annotate({
-  identifier: "QueryContactsRequest",
-}) as any as S.Schema<QueryContactsRequest>;
+).annotate({ identifier: "QueryContactsRequest" }) as any as S.Schema<QueryContactsRequest>;
 
 /** paginated list of contacts retrieved */
 export type PaginatedQueryContactsResponseContactsList = Array<Contact>;
@@ -4450,9 +4224,7 @@ export const UpdateContactRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     contactId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "PATCH", uri: "/v1/contacts/{contactId}", code: 200 })),
-).annotate({
-  identifier: "UpdateContactRequest",
-}) as any as S.Schema<UpdateContactRequest>;
+).annotate({ identifier: "UpdateContactRequest" }) as any as S.Schema<UpdateContactRequest>;
 
 export interface PatchContactResponse {
   contact?: Contact;
@@ -4461,9 +4233,7 @@ export const PatchContactResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     contact: S.optional(Contact),
   }),
-).annotate({
-  identifier: "PatchContactResponse",
-}) as any as S.Schema<PatchContactResponse>;
+).annotate({ identifier: "PatchContactResponse" }) as any as S.Schema<PatchContactResponse>;
 
 export type UpdateDiscountRequestCriteria =
   | AnyOrderCriteria
@@ -4521,16 +4291,8 @@ export const UpdateDiscountRequest = /*@__PURE__*/ S.suspend(() =>
     trigger: UpdateDiscountRequestTrigger,
     validFrom: S.String,
     validTo: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/v1/commerce/discounts/{discountId}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "UpdateDiscountRequest",
-}) as any as S.Schema<UpdateDiscountRequest>;
+  }).pipe(T.Http({ method: "PUT", uri: "/v1/commerce/discounts/{discountId}", code: 200 })),
+).annotate({ identifier: "UpdateDiscountRequest" }) as any as S.Schema<UpdateDiscountRequest>;
 
 export interface ChangeBoolean {
   present?: boolean;
@@ -4552,9 +4314,7 @@ export const ChangeMonetaryAmount = /*@__PURE__*/ S.suspend(() =>
     present: S.optional(S.Boolean),
     value: S.optional(MonetaryAmount),
   }),
-).annotate({
-  identifier: "ChangeMonetaryAmount",
-}) as any as S.Schema<ChangeMonetaryAmount>;
+).annotate({ identifier: "ChangeMonetaryAmount" }) as any as S.Schema<ChangeMonetaryAmount>;
 
 export interface UpdateProductPricing {
   basePrice?: ChangeMonetaryAmount;
@@ -4567,9 +4327,7 @@ export const UpdateProductPricing = /*@__PURE__*/ S.suspend(() =>
     onSale: S.optional(ChangeBoolean),
     salePrice: S.optional(ChangeMonetaryAmount),
   }),
-).annotate({
-  identifier: "UpdateProductPricing",
-}) as any as S.Schema<UpdateProductPricing>;
+).annotate({ identifier: "UpdateProductPricing" }) as any as S.Schema<UpdateProductPricing>;
 
 /** Pricing data for the product. */
 export interface ChangeUpdateProductPricing {
@@ -4600,9 +4358,7 @@ export const ChangeListString = /*@__PURE__*/ S.suspend(() =>
     present: S.optional(S.Boolean),
     value: S.optional(ChangeListStringValueList),
   }),
-).annotate({
-  identifier: "ChangeListString",
-}) as any as S.Schema<ChangeListString>;
+).annotate({ identifier: "ChangeListString" }) as any as S.Schema<ChangeListString>;
 
 /** Options for search engine optimization. */
 export interface ChangeSeoOptions {
@@ -4614,9 +4370,7 @@ export const ChangeSeoOptions = /*@__PURE__*/ S.suspend(() =>
     present: S.optional(S.Boolean),
     value: S.optional(SeoOptions),
   }),
-).annotate({
-  identifier: "ChangeSeoOptions",
-}) as any as S.Schema<ChangeSeoOptions>;
+).annotate({ identifier: "ChangeSeoOptions" }) as any as S.Schema<ChangeSeoOptions>;
 
 export interface UpdateProductRequest {
   productId: string;
@@ -4640,16 +4394,8 @@ export const UpdateProductRequest = /*@__PURE__*/ S.suspend(() =>
     seoData: S.optional(ChangeSeoOptions),
     tags: S.optional(ChangeListString),
     urlSlug: S.optional(ChangeString),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v2/commerce/products/{productId}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "UpdateProductRequest",
-}) as any as S.Schema<UpdateProductRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/v2/commerce/products/{productId}", code: 200 })),
+).annotate({ identifier: "UpdateProductRequest" }) as any as S.Schema<UpdateProductRequest>;
 
 export interface UpdateProductImageRequest {
   productId: string;
@@ -4695,14 +4441,10 @@ export const UpdateProductImageOrderRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface UpdateProductImageOrderResponse {}
 export const UpdateProductImageOrderResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "UpdateProductImageOrderResponse",
-  },
+  { identifier: "UpdateProductImageOrderResponse" },
 ) as any as S.Schema<UpdateProductImageOrderResponse>;
 
-export type ChangeMapStringStringValueMap = {
-  [key: string]: string | undefined;
-};
+export type ChangeMapStringStringValueMap = { [key: string]: string | undefined };
 export const ChangeMapStringStringValueMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -4718,9 +4460,7 @@ export const ChangeMapStringString = /*@__PURE__*/ S.suspend(() =>
     present: S.optional(S.Boolean),
     value: S.optional(ChangeMapStringStringValueMap),
   }),
-).annotate({
-  identifier: "ChangeMapStringString",
-}) as any as S.Schema<ChangeMapStringString>;
+).annotate({ identifier: "ChangeMapStringString" }) as any as S.Schema<ChangeMapStringString>;
 
 export interface ChangeProductDimensions {
   present?: boolean;
@@ -4731,9 +4471,7 @@ export const ChangeProductDimensions = /*@__PURE__*/ S.suspend(() =>
     present: S.optional(S.Boolean),
     value: S.optional(ProductDimensions),
   }),
-).annotate({
-  identifier: "ChangeProductDimensions",
-}) as any as S.Schema<ChangeProductDimensions>;
+).annotate({ identifier: "ChangeProductDimensions" }) as any as S.Schema<ChangeProductDimensions>;
 
 export interface ChangeProductWeight {
   present?: boolean;
@@ -4744,9 +4482,7 @@ export const ChangeProductWeight = /*@__PURE__*/ S.suspend(() =>
     present: S.optional(S.Boolean),
     value: S.optional(ProductWeight),
   }),
-).annotate({
-  identifier: "ChangeProductWeight",
-}) as any as S.Schema<ChangeProductWeight>;
+).annotate({ identifier: "ChangeProductWeight" }) as any as S.Schema<ChangeProductWeight>;
 
 export interface UpdateProductMeasurements {
   dimensions?: ChangeProductDimensions;
@@ -4818,11 +4554,7 @@ export const UpdateWebhookSubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
     endpointUrl: S.optional(ChangeString),
     topics: S.optional(ChangeListString),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/1.0/webhook_subscriptions/{subscriptionId}",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/1.0/webhook_subscriptions/{subscriptionId}", code: 200 }),
   ),
 ).annotate({
   identifier: "UpdateWebhookSubscriptionRequest",
