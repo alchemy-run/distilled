@@ -131,9 +131,7 @@ export const GetEntitlementFilterName = S.String;
 export type FilterValue = string;
 export type FilterValueList = string[];
 export const FilterValueList = /*@__PURE__*/ S.Array(S.String);
-export type GetEntitlementFilters = {
-  [key in GetEntitlementFilterName]?: string[];
-};
+export type GetEntitlementFilters = { [key in GetEntitlementFilterName]?: string[] };
 export const GetEntitlementFilters = /*@__PURE__*/ S.Record(
   GetEntitlementFilterName,
   FilterValueList.pipe(S.optional),
@@ -153,9 +151,7 @@ export const GetEntitlementsRequest = /*@__PURE__*/ S.suspend(() =>
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "GetEntitlementsRequest",
-}) as any as S.Schema<GetEntitlementsRequest>;
+).annotate({ identifier: "GetEntitlementsRequest" }) as any as S.Schema<GetEntitlementsRequest>;
 export interface EntitlementValue {
   IntegerValue?: number;
   DoubleValue?: number;
@@ -169,9 +165,7 @@ export const EntitlementValue = /*@__PURE__*/ S.suspend(() =>
     BooleanValue: S.optional(S.Boolean),
     StringValue: S.optional(S.String),
   }),
-).annotate({
-  identifier: "EntitlementValue",
-}) as any as S.Schema<EntitlementValue>;
+).annotate({ identifier: "EntitlementValue" }) as any as S.Schema<EntitlementValue>;
 export interface Entitlement {
   ProductCode?: string;
   Dimension?: string;
@@ -199,13 +193,8 @@ export interface GetEntitlementsResult {
   NextToken?: string;
 }
 export const GetEntitlementsResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Entitlements: S.optional(EntitlementList),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GetEntitlementsResult",
-}) as any as S.Schema<GetEntitlementsResult>;
+  S.Struct({ Entitlements: S.optional(EntitlementList), NextToken: S.optional(S.String) }),
+).annotate({ identifier: "GetEntitlementsResult" }) as any as S.Schema<GetEntitlementsResult>;
 export type ErrorMessage = string;
 export type GetEntitlementsError =
   | InternalServiceErrorException

@@ -64,9 +64,7 @@ export const OldAgreementProperties = /*@__PURE__*/ S.suspend(() =>
     cancelDate: S.optional(S.String),
     state: S.optional(OldAgreementPropertiesState),
   }),
-).annotate({
-  identifier: "OldAgreementProperties",
-}) as any as S.Schema<OldAgreementProperties>;
+).annotate({ identifier: "OldAgreementProperties" }) as any as S.Schema<OldAgreementProperties>;
 
 export interface CancelMarketplaceAgreementResponse {
   /** Resource ID. */
@@ -125,9 +123,7 @@ export const AgreementProperties = /*@__PURE__*/ S.suspend(() =>
     signature: S.optional(S.String),
     accepted: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "AgreementProperties",
-}) as any as S.Schema<AgreementProperties>;
+).annotate({ identifier: "AgreementProperties" }) as any as S.Schema<AgreementProperties>;
 
 export interface CreateMarketplaceAgreementRequest {
   /** The subscription ID that identifies an Azure subscription. */
@@ -419,9 +415,7 @@ export const OldAgreementTerms = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(OldAgreementProperties),
   }),
-).annotate({
-  identifier: "OldAgreementTerms",
-}) as any as S.Schema<OldAgreementTerms>;
+).annotate({ identifier: "OldAgreementTerms" }) as any as S.Schema<OldAgreementTerms>;
 
 export type OldAgreementTermsListValueList = Array<OldAgreementTerms>;
 export const OldAgreementTermsListValueList = /*@__PURE__*/ S.Array(
@@ -436,9 +430,7 @@ export const OldAgreementTermsList = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     value: S.optional(OldAgreementTermsListValueList),
   }),
-).annotate({
-  identifier: "OldAgreementTermsList",
-}) as any as S.Schema<OldAgreementTermsList>;
+).annotate({ identifier: "OldAgreementTermsList" }) as any as S.Schema<OldAgreementTermsList>;
 
 export interface ListOperationsRequest {}
 export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -450,9 +442,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2021-01-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** The object that represents the operation. */
 export interface OperationDisplay {
@@ -472,9 +462,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** Microsoft.MarketplaceOrdering REST API operation */
 export interface Operation {
@@ -508,9 +496,7 @@ export const OperationListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(OperationListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationListResult",
-}) as any as S.Schema<OperationListResult>;
+).annotate({ identifier: "OperationListResult" }) as any as S.Schema<OperationListResult>;
 
 export interface SignMarketplaceAgreementRequest {
   /** The subscription ID that identifies an Azure subscription. */

@@ -31,10 +31,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resources",
           "code": 200,
-          "apiVersion": "2026-02-01"
+          "apiVersion": "2026-05-15"
         },
         "smithy.api#documentation": "The List operation gets information about the vaults associated with the subscription.",
-        "com.distilled.openapi#apiVersion": "2026-02-01"
+        "com.distilled.openapi#apiVersion": "2026-05-15"
       }
     },
     "com.azure.keyvault#ResourceListResult": {
@@ -288,10 +288,10 @@
           "method": "PATCH",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}/secrets/{secretName}",
           "code": 200,
-          "apiVersion": "2026-02-01"
+          "apiVersion": "2026-05-15"
         },
         "smithy.api#documentation": "Update a secret in the specified subscription.  NOTE: This API is intended for internal use in ARM deployments.  Users should use the data-plane REST service for interaction with vault secrets.",
-        "com.distilled.openapi#apiVersion": "2026-02-01"
+        "com.distilled.openapi#apiVersion": "2026-05-15"
       }
     },
     "com.azure.keyvault#UpdateSecretResponse": {
@@ -562,10 +562,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}/secrets/{secretName}",
           "code": 200,
-          "apiVersion": "2026-02-01"
+          "apiVersion": "2026-05-15"
         },
         "smithy.api#documentation": "Create or update a secret in a key vault in the specified subscription.  NOTE: This API is intended for internal use in ARM deployments. Users should use the data-plane REST service for interaction with vault secrets.",
-        "com.distilled.openapi#apiVersion": "2026-02-01"
+        "com.distilled.openapi#apiVersion": "2026-05-15"
       }
     },
     "com.azure.keyvault#SecretsCreateOrUpdateResponse": {
@@ -735,10 +735,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}/secrets/{secretName}",
           "code": 200,
-          "apiVersion": "2026-02-01"
+          "apiVersion": "2026-05-15"
         },
         "smithy.api#documentation": "Gets the specified secret.  NOTE: This API is intended for internal use in ARM deployments. Users should use the data-plane REST service for interaction with vault secrets.",
-        "com.distilled.openapi#apiVersion": "2026-02-01"
+        "com.distilled.openapi#apiVersion": "2026-05-15"
       }
     },
     "com.azure.keyvault#GetSecretResponse": {
@@ -857,10 +857,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}/secrets",
           "code": 200,
-          "apiVersion": "2026-02-01"
+          "apiVersion": "2026-05-15"
         },
         "smithy.api#documentation": "The List operation gets information about the secrets in a vault.  NOTE: This API is intended for internal use in ARM deployments. Users should use the data-plane REST service for interaction with vault secrets.",
-        "com.distilled.openapi#apiVersion": "2026-02-01"
+        "com.distilled.openapi#apiVersion": "2026-05-15"
       }
     },
     "com.azure.keyvault#SecretListResult": {
@@ -1008,10 +1008,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}/privateLinkResources",
           "code": 200,
-          "apiVersion": "2026-02-01"
+          "apiVersion": "2026-05-15"
         },
         "smithy.api#documentation": "Gets the private link resources supported for the key vault.",
-        "com.distilled.openapi#apiVersion": "2026-02-01"
+        "com.distilled.openapi#apiVersion": "2026-05-15"
       }
     },
     "com.azure.keyvault#PrivateLinkResourceListResult": {
@@ -1188,10 +1188,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}/privateEndpointConnections/{privateEndpointConnectionName}",
           "code": 200,
-          "apiVersion": "2026-02-01"
+          "apiVersion": "2026-05-15"
         },
         "smithy.api#documentation": "Deletes the specified private endpoint connection associated with the key vault.",
-        "com.distilled.openapi#apiVersion": "2026-02-01"
+        "com.distilled.openapi#apiVersion": "2026-05-15"
       }
     },
     "com.azure.keyvault#DeletePrivateEndpointConnectionResponse": {
@@ -1471,10 +1471,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}/privateEndpointConnections/{privateEndpointConnectionName}",
           "code": 200,
-          "apiVersion": "2026-02-01"
+          "apiVersion": "2026-05-15"
         },
         "smithy.api#documentation": "Updates the specified private endpoint connection associated with the key vault.",
-        "com.distilled.openapi#apiVersion": "2026-02-01"
+        "com.distilled.openapi#apiVersion": "2026-05-15"
       }
     },
     "com.azure.keyvault#PutPrivateEndpointConnectionResponse": {
@@ -1637,10 +1637,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}/privateEndpointConnections/{privateEndpointConnectionName}",
           "code": 200,
-          "apiVersion": "2026-02-01"
+          "apiVersion": "2026-05-15"
         },
         "smithy.api#documentation": "Gets the specified private endpoint connection associated with the key vault.",
-        "com.distilled.openapi#apiVersion": "2026-02-01"
+        "com.distilled.openapi#apiVersion": "2026-05-15"
       }
     },
     "com.azure.keyvault#GetPrivateEndpointConnectionResponse": {
@@ -1764,10 +1764,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}/privateEndpointConnections",
           "code": 200,
-          "apiVersion": "2026-02-01"
+          "apiVersion": "2026-05-15"
         },
         "smithy.api#documentation": "The List operation gets information about the private endpoint connections associated with the vault.",
-        "com.distilled.openapi#apiVersion": "2026-02-01"
+        "com.distilled.openapi#apiVersion": "2026-05-15"
       }
     },
     "com.azure.keyvault#PrivateEndpointConnectionListResult": {
@@ -1913,10 +1913,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}/keys/{keyName}/versions/{keyVersion}",
           "code": 200,
-          "apiVersion": "2026-02-01"
+          "apiVersion": "2026-05-15"
         },
         "smithy.api#documentation": "Gets the specified version of the specified key in the specified key vault.",
-        "com.distilled.openapi#apiVersion": "2026-02-01"
+        "com.distilled.openapi#apiVersion": "2026-05-15"
       }
     },
     "com.azure.keyvault#GetKeyVersionResponse": {
@@ -2299,6 +2299,12 @@
           "traits": {
             "smithy.api#enumValue": "RSA-HSM"
           }
+        },
+        "OCT_HSM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "oct-HSM"
+          }
         }
       },
       "traits": {
@@ -2448,10 +2454,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}/keys/{keyName}/versions",
           "code": 200,
-          "apiVersion": "2026-02-01"
+          "apiVersion": "2026-05-15"
         },
         "smithy.api#documentation": "Lists the keys in the specified key vault.",
-        "com.distilled.openapi#apiVersion": "2026-02-01"
+        "com.distilled.openapi#apiVersion": "2026-05-15"
       }
     },
     "com.azure.keyvault#KeyListResult": {
@@ -2600,10 +2606,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}/keys/{keyName}",
           "code": 200,
-          "apiVersion": "2026-02-01"
+          "apiVersion": "2026-05-15"
         },
         "smithy.api#documentation": "Creates the first version of a new key if it does not exist. If it already exists, then the existing key is returned without any write operations being performed. This API does not create subsequent versions, and does not update existing keys.",
-        "com.distilled.openapi#apiVersion": "2026-02-01"
+        "com.distilled.openapi#apiVersion": "2026-05-15"
       }
     },
     "com.azure.keyvault#CreateKeyIfNotExistResponse": {
@@ -2872,10 +2878,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}/keys/{keyName}",
           "code": 200,
-          "apiVersion": "2026-02-01"
+          "apiVersion": "2026-05-15"
         },
         "smithy.api#documentation": "Gets the current version of the specified key from the specified key vault.",
-        "com.distilled.openapi#apiVersion": "2026-02-01"
+        "com.distilled.openapi#apiVersion": "2026-05-15"
       }
     },
     "com.azure.keyvault#GetKeyResponse": {
@@ -2994,10 +3000,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}/keys",
           "code": 200,
-          "apiVersion": "2026-02-01"
+          "apiVersion": "2026-05-15"
         },
         "smithy.api#documentation": "Lists the keys in the specified key vault.",
-        "com.distilled.openapi#apiVersion": "2026-02-01"
+        "com.distilled.openapi#apiVersion": "2026-05-15"
       }
     },
     "com.azure.keyvault#ListKeysRequest": {
@@ -3045,10 +3051,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}/accessPolicies/{operationKind}",
           "code": 200,
-          "apiVersion": "2026-02-01"
+          "apiVersion": "2026-05-15"
         },
         "smithy.api#documentation": "Update access policies in a key vault in the specified subscription.",
-        "com.distilled.openapi#apiVersion": "2026-02-01"
+        "com.distilled.openapi#apiVersion": "2026-05-15"
       }
     },
     "com.azure.keyvault#VaultAccessPolicyParameters": {
@@ -3697,10 +3703,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}",
           "code": 200,
-          "apiVersion": "2026-02-01"
+          "apiVersion": "2026-05-15"
         },
         "smithy.api#documentation": "Deletes the specified Azure key vault.",
-        "com.distilled.openapi#apiVersion": "2026-02-01"
+        "com.distilled.openapi#apiVersion": "2026-05-15"
       }
     },
     "com.azure.keyvault#DeleteVaultRequest": {
@@ -3748,10 +3754,10 @@
           "method": "PATCH",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}",
           "code": 200,
-          "apiVersion": "2026-02-01"
+          "apiVersion": "2026-05-15"
         },
         "smithy.api#documentation": "Update a key vault in the specified subscription.",
-        "com.distilled.openapi#apiVersion": "2026-02-01"
+        "com.distilled.openapi#apiVersion": "2026-05-15"
       }
     },
     "com.azure.keyvault#UpdateVaultResponse": {
@@ -4359,10 +4365,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}",
           "code": 200,
-          "apiVersion": "2026-02-01"
+          "apiVersion": "2026-05-15"
         },
         "smithy.api#documentation": "Create or update a key vault in the specified subscription.",
-        "com.distilled.openapi#apiVersion": "2026-02-01"
+        "com.distilled.openapi#apiVersion": "2026-05-15"
       }
     },
     "com.azure.keyvault#VaultsCreateOrUpdateResponse": {
@@ -4614,10 +4620,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}",
           "code": 200,
-          "apiVersion": "2026-02-01"
+          "apiVersion": "2026-05-15"
         },
         "smithy.api#documentation": "Gets the specified Azure key vault.",
-        "com.distilled.openapi#apiVersion": "2026-02-01"
+        "com.distilled.openapi#apiVersion": "2026-05-15"
       }
     },
     "com.azure.keyvault#GetVaultResponse": {
@@ -4728,10 +4734,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults",
           "code": 200,
-          "apiVersion": "2026-02-01"
+          "apiVersion": "2026-05-15"
         },
         "smithy.api#documentation": "The List operation gets information about the vaults associated with the subscription and within the specified resource group.",
-        "com.distilled.openapi#apiVersion": "2026-02-01"
+        "com.distilled.openapi#apiVersion": "2026-05-15"
       }
     },
     "com.azure.keyvault#VaultListResult": {
@@ -4871,10 +4877,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/managedHSMs/{name}/regions",
           "code": 200,
-          "apiVersion": "2026-02-01"
+          "apiVersion": "2026-05-15"
         },
         "smithy.api#documentation": "The List operation gets information about the regions associated with the managed HSM Pool.",
-        "com.distilled.openapi#apiVersion": "2026-02-01"
+        "com.distilled.openapi#apiVersion": "2026-05-15"
       }
     },
     "com.azure.keyvault#MHSMRegionsListResult": {
@@ -5022,10 +5028,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/managedHSMs/{name}/privateLinkResources",
           "code": 200,
-          "apiVersion": "2026-02-01"
+          "apiVersion": "2026-05-15"
         },
         "smithy.api#documentation": "Gets the private link resources supported for the managed hsm pool.",
-        "com.distilled.openapi#apiVersion": "2026-02-01"
+        "com.distilled.openapi#apiVersion": "2026-05-15"
       }
     },
     "com.azure.keyvault#MHSMPrivateLinkResourceListResult": {
@@ -5221,7 +5227,7 @@
           }
         },
         "name": {
-          "target": "com.azure.keyvault#ManagedHsmSkuName",
+          "target": "com.azure.keyvault#ManagedHsmSkuNameV2",
           "traits": {
             "smithy.api#documentation": "SKU of the managed HSM Pool",
             "smithy.api#required": {}
@@ -5232,7 +5238,7 @@
         "smithy.api#documentation": "SKU details"
       }
     },
-    "com.azure.keyvault#ManagedHsmSkuName": {
+    "com.azure.keyvault#ManagedHsmSkuNameV2": {
       "type": "enum",
       "members": {
         "STANDARD_B1": {
@@ -5263,6 +5269,36 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "Custom_C10"
+          }
+        },
+        "STANDARD_B1V2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Standard_B1v2"
+          }
+        },
+        "STANDARD_B5V2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Standard_B5v2"
+          }
+        },
+        "STANDARD_B10V2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Standard_B10v2"
+          }
+        },
+        "STANDARD_B15V2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Standard_B15v2"
+          }
+        },
+        "STANDARD_B20V2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Standard_B20v2"
           }
         }
       },
@@ -5391,10 +5427,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/managedHSMs/{name}/privateEndpointConnections/{privateEndpointConnectionName}",
           "code": 200,
-          "apiVersion": "2026-02-01"
+          "apiVersion": "2026-05-15"
         },
         "smithy.api#documentation": "Deletes the specified private endpoint connection associated with the managed hsm pool.",
-        "com.distilled.openapi#apiVersion": "2026-02-01"
+        "com.distilled.openapi#apiVersion": "2026-05-15"
       }
     },
     "com.azure.keyvault#DeleteMHSMPrivateEndpointConnectionResponse": {
@@ -5625,10 +5661,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/managedHSMs/{name}/privateEndpointConnections/{privateEndpointConnectionName}",
           "code": 200,
-          "apiVersion": "2026-02-01"
+          "apiVersion": "2026-05-15"
         },
         "smithy.api#documentation": "Updates the specified private endpoint connection associated with the managed hsm pool.",
-        "com.distilled.openapi#apiVersion": "2026-02-01"
+        "com.distilled.openapi#apiVersion": "2026-05-15"
       }
     },
     "com.azure.keyvault#PutMHSMPrivateEndpointConnectionResponse": {
@@ -5907,10 +5943,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/managedHSMs/{name}/privateEndpointConnections/{privateEndpointConnectionName}",
           "code": 200,
-          "apiVersion": "2026-02-01"
+          "apiVersion": "2026-05-15"
         },
         "smithy.api#documentation": "Gets the specified private endpoint connection associated with the managed HSM Pool.",
-        "com.distilled.openapi#apiVersion": "2026-02-01"
+        "com.distilled.openapi#apiVersion": "2026-05-15"
       }
     },
     "com.azure.keyvault#GetMHSMPrivateEndpointConnectionResponse": {
@@ -6075,10 +6111,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/managedHSMs/{name}/privateEndpointConnections",
           "code": 200,
-          "apiVersion": "2026-02-01"
+          "apiVersion": "2026-05-15"
         },
         "smithy.api#documentation": "The List operation gets information about the private endpoint connections associated with the managed HSM Pool.",
-        "com.distilled.openapi#apiVersion": "2026-02-01"
+        "com.distilled.openapi#apiVersion": "2026-05-15"
       }
     },
     "com.azure.keyvault#MHSMPrivateEndpointConnectionsListResult": {
@@ -6265,10 +6301,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/managedHSMs/{name}/keys/{keyName}/versions/{keyVersion}",
           "code": 200,
-          "apiVersion": "2026-02-01"
+          "apiVersion": "2026-05-15"
         },
         "smithy.api#documentation": "Gets the specified version of the specified key in the specified managed HSM.",
-        "com.distilled.openapi#apiVersion": "2026-02-01"
+        "com.distilled.openapi#apiVersion": "2026-05-15"
       }
     },
     "com.azure.keyvault#GetManagedHsmKeyVersionResponse": {
@@ -6622,10 +6658,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/managedHSMs/{name}/keys/{keyName}/versions",
           "code": 200,
-          "apiVersion": "2026-02-01"
+          "apiVersion": "2026-05-15"
         },
         "smithy.api#documentation": "Lists the keys in the specified managed HSM.",
-        "com.distilled.openapi#apiVersion": "2026-02-01"
+        "com.distilled.openapi#apiVersion": "2026-05-15"
       }
     },
     "com.azure.keyvault#ManagedHsmKeyListResult": {
@@ -6768,10 +6804,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/managedHSMs/{name}/keys/{keyName}",
           "code": 200,
-          "apiVersion": "2026-02-01"
+          "apiVersion": "2026-05-15"
         },
         "smithy.api#documentation": "Creates the first version of a new key if it does not exist. If it already exists, then the existing key is returned without any write operations being performed. This API does not create subsequent versions, and does not update existing keys.",
-        "com.distilled.openapi#apiVersion": "2026-02-01"
+        "com.distilled.openapi#apiVersion": "2026-05-15"
       }
     },
     "com.azure.keyvault#CreateManagedHsmKeyIfNotExistResponse": {
@@ -7034,10 +7070,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/managedHSMs/{name}/keys/{keyName}",
           "code": 200,
-          "apiVersion": "2026-02-01"
+          "apiVersion": "2026-05-15"
         },
         "smithy.api#documentation": "Gets the current version of the specified key from the specified managed HSM.",
-        "com.distilled.openapi#apiVersion": "2026-02-01"
+        "com.distilled.openapi#apiVersion": "2026-05-15"
       }
     },
     "com.azure.keyvault#GetManagedHsmKeyResponse": {
@@ -7150,10 +7186,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/managedHSMs/{name}/keys",
           "code": 200,
-          "apiVersion": "2026-02-01"
+          "apiVersion": "2026-05-15"
         },
         "smithy.api#documentation": "Lists the keys in the specified managed HSM.",
-        "com.distilled.openapi#apiVersion": "2026-02-01"
+        "com.distilled.openapi#apiVersion": "2026-05-15"
       }
     },
     "com.azure.keyvault#ListManagedHsmKeysRequest": {
@@ -7201,10 +7237,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/managedHSMs/{name}",
           "code": 200,
-          "apiVersion": "2026-02-01"
+          "apiVersion": "2026-05-15"
         },
         "smithy.api#documentation": "Deletes the specified managed HSM Pool.",
-        "com.distilled.openapi#apiVersion": "2026-02-01"
+        "com.distilled.openapi#apiVersion": "2026-05-15"
       }
     },
     "com.azure.keyvault#DeleteManagedHsmRequest": {
@@ -7252,10 +7288,10 @@
           "method": "PATCH",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/managedHSMs/{name}",
           "code": 200,
-          "apiVersion": "2026-02-01"
+          "apiVersion": "2026-05-15"
         },
         "smithy.api#documentation": "Update a managed HSM Pool in the specified subscription.",
-        "com.distilled.openapi#apiVersion": "2026-02-01"
+        "com.distilled.openapi#apiVersion": "2026-05-15"
       }
     },
     "com.azure.keyvault#UpdateManagedHsmResponse": {
@@ -7974,10 +8010,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/managedHSMs/{name}",
           "code": 200,
-          "apiVersion": "2026-02-01"
+          "apiVersion": "2026-05-15"
         },
         "smithy.api#documentation": "Create or update a managed HSM Pool in the specified subscription.",
-        "com.distilled.openapi#apiVersion": "2026-02-01"
+        "com.distilled.openapi#apiVersion": "2026-05-15"
       }
     },
     "com.azure.keyvault#ManagedHsmsCreateOrUpdateResponse": {
@@ -8187,10 +8223,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/managedHSMs/{name}",
           "code": 200,
-          "apiVersion": "2026-02-01"
+          "apiVersion": "2026-05-15"
         },
         "smithy.api#documentation": "Gets the specified managed HSM Pool.",
-        "com.distilled.openapi#apiVersion": "2026-02-01"
+        "com.distilled.openapi#apiVersion": "2026-05-15"
       }
     },
     "com.azure.keyvault#GetManagedHsmResponse": {
@@ -8341,10 +8377,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/managedHSMs",
           "code": 200,
-          "apiVersion": "2026-02-01"
+          "apiVersion": "2026-05-15"
         },
         "smithy.api#documentation": "The List operation gets information about the managed HSM Pools associated with the subscription and within the specified resource group.",
-        "com.distilled.openapi#apiVersion": "2026-02-01"
+        "com.distilled.openapi#apiVersion": "2026-05-15"
       }
     },
     "com.azure.keyvault#ManagedHsmListResult": {
@@ -8524,10 +8560,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.KeyVault/vaults",
           "code": 200,
-          "apiVersion": "2026-02-01"
+          "apiVersion": "2026-05-15"
         },
         "smithy.api#documentation": "The List operation gets information about the vaults associated with the subscription.",
-        "com.distilled.openapi#apiVersion": "2026-02-01"
+        "com.distilled.openapi#apiVersion": "2026-05-15"
       }
     },
     "com.azure.keyvault#ListVaultBySubscriptionRequest": {
@@ -8566,10 +8602,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.KeyVault/managedHSMs",
           "code": 200,
-          "apiVersion": "2026-02-01"
+          "apiVersion": "2026-05-15"
         },
         "smithy.api#documentation": "The List operation gets information about the managed HSM Pools associated with the subscription.",
-        "com.distilled.openapi#apiVersion": "2026-02-01"
+        "com.distilled.openapi#apiVersion": "2026-05-15"
       }
     },
     "com.azure.keyvault#ListManagedHsmBySubscriptionRequest": {
@@ -8608,10 +8644,10 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.KeyVault/locations/{location}/deletedVaults/{vaultName}/purge",
           "code": 200,
-          "apiVersion": "2026-02-01"
+          "apiVersion": "2026-05-15"
         },
         "smithy.api#documentation": "Permanently deletes the specified vault. aka Purges the deleted Azure key vault.",
-        "com.distilled.openapi#apiVersion": "2026-02-01"
+        "com.distilled.openapi#apiVersion": "2026-05-15"
       }
     },
     "com.azure.keyvault#PurgeVaultDeletedRequest": {
@@ -8659,10 +8695,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.KeyVault/locations/{location}/deletedVaults/{vaultName}",
           "code": 200,
-          "apiVersion": "2026-02-01"
+          "apiVersion": "2026-05-15"
         },
         "smithy.api#documentation": "Gets the deleted Azure key vault.",
-        "com.distilled.openapi#apiVersion": "2026-02-01"
+        "com.distilled.openapi#apiVersion": "2026-05-15"
       }
     },
     "com.azure.keyvault#GetVaultDeletedResponse": {
@@ -8804,10 +8840,10 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.KeyVault/locations/{location}/deletedManagedHSMs/{name}/purge",
           "code": 200,
-          "apiVersion": "2026-02-01"
+          "apiVersion": "2026-05-15"
         },
         "smithy.api#documentation": "Permanently deletes the specified managed HSM.",
-        "com.distilled.openapi#apiVersion": "2026-02-01"
+        "com.distilled.openapi#apiVersion": "2026-05-15"
       }
     },
     "com.azure.keyvault#PurgeManagedHsmDeletedRequest": {
@@ -8855,10 +8891,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.KeyVault/locations/{location}/deletedManagedHSMs/{name}",
           "code": 200,
-          "apiVersion": "2026-02-01"
+          "apiVersion": "2026-05-15"
         },
         "smithy.api#documentation": "Gets the specified deleted managed HSM.",
-        "com.distilled.openapi#apiVersion": "2026-02-01"
+        "com.distilled.openapi#apiVersion": "2026-05-15"
       }
     },
     "com.azure.keyvault#GetManagedHsmDeletedResponse": {
@@ -9000,10 +9036,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.KeyVault/deletedVaults",
           "code": 200,
-          "apiVersion": "2026-02-01"
+          "apiVersion": "2026-05-15"
         },
         "smithy.api#documentation": "Gets information about the deleted vaults in a subscription.",
-        "com.distilled.openapi#apiVersion": "2026-02-01"
+        "com.distilled.openapi#apiVersion": "2026-05-15"
       }
     },
     "com.azure.keyvault#DeletedVaultListResult": {
@@ -9103,10 +9139,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.KeyVault/deletedManagedHSMs",
           "code": 200,
-          "apiVersion": "2026-02-01"
+          "apiVersion": "2026-05-15"
         },
         "smithy.api#documentation": "The List operation gets information about the deleted managed HSMs associated with the subscription.",
-        "com.distilled.openapi#apiVersion": "2026-02-01"
+        "com.distilled.openapi#apiVersion": "2026-05-15"
       }
     },
     "com.azure.keyvault#DeletedManagedHsmListResult": {
@@ -9206,10 +9242,10 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.KeyVault/checkNameAvailability",
           "code": 200,
-          "apiVersion": "2026-02-01"
+          "apiVersion": "2026-05-15"
         },
         "smithy.api#documentation": "Checks that the vault name is valid and is not already in use.",
-        "com.distilled.openapi#apiVersion": "2026-02-01"
+        "com.distilled.openapi#apiVersion": "2026-05-15"
       }
     },
     "com.azure.keyvault#CheckNameAvailabilityResult": {
@@ -9315,10 +9351,10 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.KeyVault/checkMhsmNameAvailability",
           "code": 200,
-          "apiVersion": "2026-02-01"
+          "apiVersion": "2026-05-15"
         },
         "smithy.api#documentation": "Checks that the managed hsm name is valid and is not already in use.",
-        "com.distilled.openapi#apiVersion": "2026-02-01"
+        "com.distilled.openapi#apiVersion": "2026-05-15"
       }
     },
     "com.azure.keyvault#CheckMhsmNameAvailabilityResult": {
@@ -9383,10 +9419,10 @@
           "method": "GET",
           "uri": "/providers/Microsoft.KeyVault/operations",
           "code": 200,
-          "apiVersion": "2026-02-01"
+          "apiVersion": "2026-05-15"
         },
         "smithy.api#documentation": "List the operations for the provider",
-        "com.distilled.openapi#apiVersion": "2026-02-01"
+        "com.distilled.openapi#apiVersion": "2026-05-15"
       }
     },
     "com.azure.keyvault#OperationListResult": {

@@ -44,6 +44,15 @@ export class PaymentRequired
     [{ status: 402 }],
   ) {}
 
+export class UnprocessableEntity
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<UnprocessableEntity>()("UnprocessableEntity", {
+      code: S.Number,
+      message: S.String,
+    }).pipe(C.withBadRequestError),
+    [{ status: 422 }],
+  ) {}
+
 /** Dimensions to group results by. JSON dimensions support nested refs, for example event_data/checkout_step. Nested keys containing characters that OData cannot parse as an identifier, such as '-', spaces, quotes, or '/', must be wrapped in single quotes (escape embedded single quotes by doubling them), for example flags/'enable-comments-view' or event_data/'some property''s/value'. */
 export type CreateObservabilityQueryRequestGroupByList = Array<string>;
 export const CreateObservabilityQueryRequestGroupByList = /*@__PURE__*/ S.Array(
@@ -117,27 +126,23 @@ export const GetObservabilityConfigurationProjectsRequest = /*@__PURE__*/ S.susp
     teamId: S.optional(S.String.pipe(T.Query())),
     slug: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/observability/manage/configuration/projects",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v1/observability/manage/configuration/projects", code: 200 }),
   ),
 ).annotate({
   identifier: "GetObservabilityConfigurationProjectsRequest",
 }) as any as S.Schema<GetObservabilityConfigurationProjectsRequest>;
 
 export interface GetObservabilityConfigurationProjectsResponseDisabledProjectsItem {
+  disabledAt: number;
   id: string;
   name?: string;
-  disabledAt: number;
 }
 export const GetObservabilityConfigurationProjectsResponseDisabledProjectsItem =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      disabledAt: S.Number,
       id: S.String,
       name: S.optional(S.String),
-      disabledAt: S.Number,
     }),
   ).annotate({
     identifier: "GetObservabilityConfigurationProjectsResponseDisabledProjectsItem",
@@ -169,13 +174,13 @@ export const GetObservabilitySchemaRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetObservabilitySchemaRequest>;
 
 export interface GetObservabilitySchemaResponseMetricsItem {
-  id: string;
   description: string;
+  id: string;
 }
 export const GetObservabilitySchemaResponseMetricsItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    id: S.String,
     description: S.String,
+    id: S.String,
   }),
 ).annotate({
   identifier: "GetObservabilitySchemaResponseMetricsItem",
@@ -204,28 +209,28 @@ export interface GetObservabilitySchemaByMetricIdRequest {
 export const GetObservabilitySchemaByMetricIdRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     metricId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/observability/schema/{metricId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v2/observability/schema/{metricId}", code: 200 })),
 ).annotate({
   identifier: "GetObservabilitySchemaByMetricIdRequest",
 }) as any as S.Schema<GetObservabilitySchemaByMetricIdRequest>;
 
+export type GetObservabilitySchemaByMetricIdResponseBodyItemAggregationsList = Array<string>;
+export const GetObservabilitySchemaByMetricIdResponseBodyItemAggregationsList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<GetObservabilitySchemaByMetricIdResponseBodyItemAggregationsList>;
+
 export interface GetObservabilitySchemaByMetricIdResponseBodyItemDimensionsItem {
-  name: string;
-  label: string;
   description?: string;
+  label: string;
+  name: string;
 }
 export const GetObservabilitySchemaByMetricIdResponseBodyItemDimensionsItem =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      name: S.String,
-      label: S.String,
       description: S.optional(S.String),
+      label: S.String,
+      name: S.String,
     }),
   ).annotate({
     identifier: "GetObservabilitySchemaByMetricIdResponseBodyItemDimensionsItem",
@@ -237,28 +242,22 @@ export const GetObservabilitySchemaByMetricIdResponseBodyItemDimensionsList = /*
   GetObservabilitySchemaByMetricIdResponseBodyItemDimensionsItem,
 ) as any as S.Schema<GetObservabilitySchemaByMetricIdResponseBodyItemDimensionsList>;
 
-export type GetObservabilitySchemaByMetricIdResponseBodyItemAggregationsList = Array<string>;
-export const GetObservabilitySchemaByMetricIdResponseBodyItemAggregationsList =
-  /*@__PURE__*/ S.Array(
-    S.String,
-  ) as any as S.Schema<GetObservabilitySchemaByMetricIdResponseBodyItemAggregationsList>;
-
 export interface GetObservabilitySchemaByMetricIdResponseBodyItem {
-  id: string;
-  description: string;
-  dimensions: GetObservabilitySchemaByMetricIdResponseBodyItemDimensionsList;
-  unit: string;
   aggregations: GetObservabilitySchemaByMetricIdResponseBodyItemAggregationsList;
   defaultAggregation: string;
+  description: string;
+  dimensions: GetObservabilitySchemaByMetricIdResponseBodyItemDimensionsList;
+  id: string;
+  unit: string;
 }
 export const GetObservabilitySchemaByMetricIdResponseBodyItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    id: S.String,
-    description: S.String,
-    dimensions: GetObservabilitySchemaByMetricIdResponseBodyItemDimensionsList,
-    unit: S.String,
     aggregations: GetObservabilitySchemaByMetricIdResponseBodyItemAggregationsList,
     defaultAggregation: S.String,
+    description: S.String,
+    dimensions: GetObservabilitySchemaByMetricIdResponseBodyItemDimensionsList,
+    id: S.String,
+    unit: S.String,
   }),
 ).annotate({
   identifier: "GetObservabilitySchemaByMetricIdResponseBodyItem",
@@ -306,13 +305,13 @@ export const UpdateObservabilityConfigurationProjectRequest = /*@__PURE__*/ S.su
 }) as any as S.Schema<UpdateObservabilityConfigurationProjectRequest>;
 
 export interface UpdateObservabilityConfigurationProjectResponse {
-  id: string;
   disabledAt?: number;
+  id: string;
 }
 export const UpdateObservabilityConfigurationProjectResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    id: S.String,
     disabledAt: S.optional(S.Number),
+    id: S.String,
   }),
 ).annotate({
   identifier: "UpdateObservabilityConfigurationProjectResponse",
@@ -322,6 +321,8 @@ export type CreateObservabilityQueryError =
   | BadRequest
   | PaymentRequired
   | Forbidden
+  | NotFound
+  | UnprocessableEntity
   | VercelOpError;
 export const createObservabilityQuery: API.OperationMethod<
   CreateObservabilityQueryRequest,
@@ -331,7 +332,7 @@ export const createObservabilityQuery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateObservabilityQueryRequest,
   output: CreateObservabilityQueryResponse,
-  errors: [BadRequest, PaymentRequired, Forbidden],
+  errors: [BadRequest, PaymentRequired, Forbidden, NotFound, UnprocessableEntity],
   protocol: VercelProtocol,
   retry: Retry.Retry,
 }));
@@ -355,7 +356,7 @@ export const getObservabilityConfigurationProjects: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type GetObservabilitySchemaError = BadRequest | Forbidden | VercelOpError;
+export type GetObservabilitySchemaError = BadRequest | Forbidden | NotFound | VercelOpError;
 export const getObservabilitySchema: API.OperationMethod<
   GetObservabilitySchemaRequest,
   GetObservabilitySchemaResponse,
@@ -364,12 +365,16 @@ export const getObservabilitySchema: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetObservabilitySchemaRequest,
   output: GetObservabilitySchemaResponse,
-  errors: [BadRequest, Forbidden],
+  errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetObservabilitySchemaByMetricIdError = BadRequest | Forbidden | VercelOpError;
+export type GetObservabilitySchemaByMetricIdError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | VercelOpError;
 export const getObservabilitySchemaByMetricId: API.OperationMethod<
   GetObservabilitySchemaByMetricIdRequest,
   GetObservabilitySchemaByMetricIdResponse,
@@ -378,7 +383,7 @@ export const getObservabilitySchemaByMetricId: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetObservabilitySchemaByMetricIdRequest,
   output: GetObservabilitySchemaByMetricIdResponse,
-  errors: [BadRequest, Forbidden],
+  errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
 }));

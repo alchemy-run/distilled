@@ -7,10 +7,7 @@ import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
-const svc = T.AwsApiService({
-  sdkId: "SimpleDBv2",
-  serviceShapeName: "SimpleDBv2",
-});
+const svc = T.AwsApiService({ sdkId: "SimpleDBv2", serviceShapeName: "SimpleDBv2" });
 const auth = T.AwsAuthSigv4({ name: "sdb" });
 const ver = T.ServiceVersion("2025-09-26");
 const proto = T.AwsProtocolsRestJson1();
@@ -122,9 +119,7 @@ export const GetExportRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ exportArn: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/v2/GetExport" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetExportRequest",
-}) as any as S.Schema<GetExportRequest>;
+).annotate({ identifier: "GetExportRequest" }) as any as S.Schema<GetExportRequest>;
 export type IdempotencyToken = string;
 export type ExportStatus = "PENDING" | "IN_PROGRESS" | "SUCCEEDED" | "FAILED" | (string & {});
 export const ExportStatus = S.String;
@@ -178,9 +173,7 @@ export const GetExportResponse = /*@__PURE__*/ S.suspend(() =>
     itemsCount: S.optional(S.Number),
     exportDataCutoffTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
-).annotate({
-  identifier: "GetExportResponse",
-}) as any as S.Schema<GetExportResponse>;
+).annotate({ identifier: "GetExportResponse" }) as any as S.Schema<GetExportResponse>;
 export type MaxResults = number;
 export type NextToken = string;
 export interface ListExportsRequest {
@@ -194,9 +187,7 @@ export const ListExportsRequest = /*@__PURE__*/ S.suspend(() =>
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/v2/ListExports" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListExportsRequest",
-}) as any as S.Schema<ListExportsRequest>;
+).annotate({ identifier: "ListExportsRequest" }) as any as S.Schema<ListExportsRequest>;
 export interface ExportSummary {
   exportArn: string;
   exportStatus: ExportStatus;
@@ -218,13 +209,8 @@ export interface ListExportsResponse {
   nextToken?: string;
 }
 export const ListExportsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    exportSummaries: ExportSummaries,
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListExportsResponse",
-}) as any as S.Schema<ListExportsResponse>;
+  S.Struct({ exportSummaries: ExportSummaries, nextToken: S.optional(S.String) }),
+).annotate({ identifier: "ListExportsResponse" }) as any as S.Schema<ListExportsResponse>;
 export interface StartDomainExportRequest {
   clientToken?: string;
   domainName: string;
@@ -246,9 +232,7 @@ export const StartDomainExportRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/v2/StartDomainExport" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "StartDomainExportRequest",
-}) as any as S.Schema<StartDomainExportRequest>;
+).annotate({ identifier: "StartDomainExportRequest" }) as any as S.Schema<StartDomainExportRequest>;
 export interface StartDomainExportResponse {
   clientToken: string;
   exportArn: string;

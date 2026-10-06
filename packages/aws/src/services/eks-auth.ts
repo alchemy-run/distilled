@@ -9,10 +9,7 @@ import { AwsProtocol } from "../protocol.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
-const svc = T.AwsApiService({
-  sdkId: "EKS Auth",
-  serviceShapeName: "EKSAuthFrontend",
-});
+const svc = T.AwsApiService({ sdkId: "EKS Auth", serviceShapeName: "EKSAuthFrontend" });
 const auth = T.AwsAuthSigv4({ name: "eks-auth" });
 const ver = T.ServiceVersion("2023-11-26");
 const proto = T.AwsProtocolsRestJson1();
@@ -134,10 +131,7 @@ export const AssumeRoleForPodIdentityRequest = /*@__PURE__*/ S.suspend(() =>
     zone: S.optional(S.String),
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/clusters/{clusterName}/assume-role-for-pod-identity",
-      }),
+      T.Http({ method: "POST", uri: "/clusters/{clusterName}/assume-role-for-pod-identity" }),
       svc,
       auth,
       proto,
@@ -161,18 +155,14 @@ export interface PodIdentityAssociation {
 }
 export const PodIdentityAssociation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ associationArn: S.String, associationId: S.String }),
-).annotate({
-  identifier: "PodIdentityAssociation",
-}) as any as S.Schema<PodIdentityAssociation>;
+).annotate({ identifier: "PodIdentityAssociation" }) as any as S.Schema<PodIdentityAssociation>;
 export interface AssumedRoleUser {
   arn: string;
   assumeRoleId: string;
 }
 export const AssumedRoleUser = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ arn: S.String, assumeRoleId: S.String }),
-).annotate({
-  identifier: "AssumedRoleUser",
-}) as any as S.Schema<AssumedRoleUser>;
+).annotate({ identifier: "AssumedRoleUser" }) as any as S.Schema<AssumedRoleUser>;
 export interface Credentials {
   sessionToken: string | redacted.Redacted<string>;
   secretAccessKey: string | redacted.Redacted<string>;

@@ -80,10 +80,7 @@ const rules = T.EndpointResolver((p, _) => {
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
     "AccessDeniedException",
-    {
-      code: S.optional(S.String),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
+    { code: S.optional(S.String), message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.HttpError(403),
   ).pipe(C.withAuthError) {}
 export class ConflictException
@@ -125,10 +122,7 @@ export class Ipv6CidrBlockNotFoundException
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",
-    {
-      message: S.String.pipe(T.ErrorMessage()),
-      resourceName: S.optional(S.String),
-    },
+    { message: S.String.pipe(T.ErrorMessage()), resourceName: S.optional(S.String) },
     T.HttpError(404),
   ).pipe(C.withBadRequestError) {}
 export class ServiceQuotaExceededException
@@ -140,19 +134,13 @@ export class ServiceQuotaExceededException
 export class ThrottlingException
   extends /*@__PURE__*/ S.TaggedError<ThrottlingException>()(
     "ThrottlingException",
-    {
-      code: S.optional(S.String),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
+    { code: S.optional(S.String), message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(T.HttpError(429), T.Retryable()),
   ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class TooManyTagsException
   extends /*@__PURE__*/ S.TaggedError<TooManyTagsException>()(
     "TooManyTagsException",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      resourceName: S.optional(S.String),
-    },
+    { message: S.optional(S.String).pipe(T.ErrorMessage()), resourceName: S.optional(S.String) },
     T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export class ValidationException
@@ -315,10 +303,7 @@ export interface VpcSecurityGroupMembership {
   status?: string;
 }
 export const VpcSecurityGroupMembership = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    vpcSecurityGroupId: S.optional(S.String),
-    status: S.optional(S.String),
-  }),
+  S.Struct({ vpcSecurityGroupId: S.optional(S.String), status: S.optional(S.String) }),
 ).annotate({
   identifier: "VpcSecurityGroupMembership",
 }) as any as S.Schema<VpcSecurityGroupMembership>;
@@ -339,9 +324,7 @@ export const NetworkInterface = /*@__PURE__*/ S.suspend(() =>
     availabilityZone: S.optional(S.String),
     ipv6Address: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NetworkInterface",
-}) as any as S.Schema<NetworkInterface>;
+).annotate({ identifier: "NetworkInterface" }) as any as S.Schema<NetworkInterface>;
 export type NetworkInterfaceList = NetworkInterface[];
 export const NetworkInterfaceList = /*@__PURE__*/ S.Array(NetworkInterface);
 export interface VpcEndpoint {
@@ -429,9 +412,7 @@ export const CreateNamespaceRequest = /*@__PURE__*/ S.suspend(() =>
     adminPasswordSecretKmsKeyId: S.optional(S.String),
     redshiftIdcApplicationArn: S.optional(S.String),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateNamespaceRequest",
-}) as any as S.Schema<CreateNamespaceRequest>;
+).annotate({ identifier: "CreateNamespaceRequest" }) as any as S.Schema<CreateNamespaceRequest>;
 export type NamespaceStatus = string;
 export type S3TableName = string;
 export type S3TableNameList = string[];
@@ -457,9 +438,7 @@ export const S3TablePublishStatus = /*@__PURE__*/ S.suspend(() =>
     enabledAll: S.optional(S.Boolean),
     lastIngestionTimes: S.optional(S3TableLastIngestionTimeMap),
   }),
-).annotate({
-  identifier: "S3TablePublishStatus",
-}) as any as S.Schema<S3TablePublishStatus>;
+).annotate({ identifier: "S3TablePublishStatus" }) as any as S.Schema<S3TablePublishStatus>;
 export interface Namespace {
   namespaceArn?: string;
   namespaceId?: string;
@@ -503,9 +482,7 @@ export interface CreateNamespaceResponse {
 }
 export const CreateNamespaceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ namespace: S.optional(Namespace) }),
-).annotate({
-  identifier: "CreateNamespaceResponse",
-}) as any as S.Schema<CreateNamespaceResponse>;
+).annotate({ identifier: "CreateNamespaceResponse" }) as any as S.Schema<CreateNamespaceResponse>;
 export type Capacity = number;
 export type OfferingId = string;
 export interface CreateReservationRequest {
@@ -519,9 +496,7 @@ export const CreateReservationRequest = /*@__PURE__*/ S.suspend(() =>
     offeringId: S.String,
     clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateReservationRequest",
-}) as any as S.Schema<CreateReservationRequest>;
+).annotate({ identifier: "CreateReservationRequest" }) as any as S.Schema<CreateReservationRequest>;
 export type ReservationId = string;
 export type ReservationArn = string;
 export type Duration = number;
@@ -545,9 +520,7 @@ export const ReservationOffering = /*@__PURE__*/ S.suspend(() =>
     currencyCode: S.optional(S.String),
     offeringType: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ReservationOffering",
-}) as any as S.Schema<ReservationOffering>;
+).annotate({ identifier: "ReservationOffering" }) as any as S.Schema<ReservationOffering>;
 export type Status = string;
 export interface Reservation {
   reservationId?: string;
@@ -595,9 +568,7 @@ export const CreateSnapshotScheduleActionParameters = /*@__PURE__*/ S.suspend(()
 ).annotate({
   identifier: "CreateSnapshotScheduleActionParameters",
 }) as any as S.Schema<CreateSnapshotScheduleActionParameters>;
-export type TargetAction = {
-  createSnapshot: CreateSnapshotScheduleActionParameters;
-};
+export type TargetAction = { createSnapshot: CreateSnapshotScheduleActionParameters };
 export const TargetAction = /*@__PURE__*/ S.Union([
   S.Struct({ createSnapshot: CreateSnapshotScheduleActionParameters }),
 ]);
@@ -664,9 +635,7 @@ export const ScheduledActionResponse = /*@__PURE__*/ S.suspend(() =>
     namespaceName: S.optional(S.String),
     scheduledActionUuid: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ScheduledActionResponse",
-}) as any as S.Schema<ScheduledActionResponse>;
+).annotate({ identifier: "ScheduledActionResponse" }) as any as S.Schema<ScheduledActionResponse>;
 export interface CreateScheduledActionResponse {
   scheduledAction?: ScheduledActionResponse;
 }
@@ -688,17 +657,13 @@ export const CreateSnapshotRequest = /*@__PURE__*/ S.suspend(() =>
     retentionPeriod: S.optional(S.Number),
     tags: S.optional(TagList),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateSnapshotRequest",
-}) as any as S.Schema<CreateSnapshotRequest>;
+).annotate({ identifier: "CreateSnapshotRequest" }) as any as S.Schema<CreateSnapshotRequest>;
 export interface CreateSnapshotResponse {
   snapshot?: Snapshot;
 }
 export const CreateSnapshotResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ snapshot: S.optional(Snapshot) }),
-).annotate({
-  identifier: "CreateSnapshotResponse",
-}) as any as S.Schema<CreateSnapshotResponse>;
+).annotate({ identifier: "CreateSnapshotResponse" }) as any as S.Schema<CreateSnapshotResponse>;
 export interface CreateSnapshotCopyConfigurationRequest {
   namespaceName: string;
   destinationRegion: string;
@@ -761,9 +726,7 @@ export const CreateUsageLimitRequest = /*@__PURE__*/ S.suspend(() =>
     period: S.optional(S.String),
     breachAction: S.optional(S.String),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateUsageLimitRequest",
-}) as any as S.Schema<CreateUsageLimitRequest>;
+).annotate({ identifier: "CreateUsageLimitRequest" }) as any as S.Schema<CreateUsageLimitRequest>;
 export interface UsageLimit {
   usageLimitId?: string;
   usageLimitArn?: string;
@@ -789,9 +752,7 @@ export interface CreateUsageLimitResponse {
 }
 export const CreateUsageLimitResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ usageLimit: S.optional(UsageLimit) }),
-).annotate({
-  identifier: "CreateUsageLimitResponse",
-}) as any as S.Schema<CreateUsageLimitResponse>;
+).annotate({ identifier: "CreateUsageLimitResponse" }) as any as S.Schema<CreateUsageLimitResponse>;
 export type ParameterKey = string;
 export type ParameterValue = string;
 export interface ConfigParameter {
@@ -799,13 +760,8 @@ export interface ConfigParameter {
   parameterValue?: string;
 }
 export const ConfigParameter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    parameterKey: S.optional(S.String),
-    parameterValue: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ConfigParameter",
-}) as any as S.Schema<ConfigParameter>;
+  S.Struct({ parameterKey: S.optional(S.String), parameterValue: S.optional(S.String) }),
+).annotate({ identifier: "ConfigParameter" }) as any as S.Schema<ConfigParameter>;
 export type ConfigParameterList = ConfigParameter[];
 export const ConfigParameterList = /*@__PURE__*/ S.Array(ConfigParameter);
 export type SecurityGroupId = string;
@@ -818,9 +774,7 @@ export interface PerformanceTarget {
 }
 export const PerformanceTarget = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ status: S.optional(S.String), level: S.optional(S.Number) }),
-).annotate({
-  identifier: "PerformanceTarget",
-}) as any as S.Schema<PerformanceTarget>;
+).annotate({ identifier: "PerformanceTarget" }) as any as S.Schema<PerformanceTarget>;
 export type IpAddressType = string;
 export type TrackName = string;
 export interface CreateWorkgroupRequest {
@@ -858,9 +812,7 @@ export const CreateWorkgroupRequest = /*@__PURE__*/ S.suspend(() =>
     trackName: S.optional(S.String),
     extraComputeForAutomaticOptimization: S.optional(S.Boolean),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateWorkgroupRequest",
-}) as any as S.Schema<CreateWorkgroupRequest>;
+).annotate({ identifier: "CreateWorkgroupRequest" }) as any as S.Schema<CreateWorkgroupRequest>;
 export type WorkgroupStatus = string;
 export type VpcEndpointList = VpcEndpoint[];
 export const VpcEndpointList = /*@__PURE__*/ S.Array(VpcEndpoint);
@@ -943,9 +895,7 @@ export interface CreateWorkgroupResponse {
 }
 export const CreateWorkgroupResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ workgroup: S.optional(Workgroup) }),
-).annotate({
-  identifier: "CreateWorkgroupResponse",
-}) as any as S.Schema<CreateWorkgroupResponse>;
+).annotate({ identifier: "CreateWorkgroupResponse" }) as any as S.Schema<CreateWorkgroupResponse>;
 export interface DeleteCustomDomainAssociationRequest {
   workgroupName: string;
   customDomainName: string;
@@ -992,17 +942,13 @@ export const DeleteNamespaceRequest = /*@__PURE__*/ S.suspend(() =>
     finalSnapshotName: S.optional(S.String),
     finalSnapshotRetentionPeriod: S.optional(S.Number),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DeleteNamespaceRequest",
-}) as any as S.Schema<DeleteNamespaceRequest>;
+).annotate({ identifier: "DeleteNamespaceRequest" }) as any as S.Schema<DeleteNamespaceRequest>;
 export interface DeleteNamespaceResponse {
   namespace: Namespace;
 }
 export const DeleteNamespaceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ namespace: Namespace }),
-).annotate({
-  identifier: "DeleteNamespaceResponse",
-}) as any as S.Schema<DeleteNamespaceResponse>;
+).annotate({ identifier: "DeleteNamespaceResponse" }) as any as S.Schema<DeleteNamespaceResponse>;
 export interface DeleteResourcePolicyRequest {
   resourceArn: string;
 }
@@ -1042,17 +988,13 @@ export const DeleteSnapshotRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ snapshotName: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteSnapshotRequest",
-}) as any as S.Schema<DeleteSnapshotRequest>;
+).annotate({ identifier: "DeleteSnapshotRequest" }) as any as S.Schema<DeleteSnapshotRequest>;
 export interface DeleteSnapshotResponse {
   snapshot?: Snapshot;
 }
 export const DeleteSnapshotResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ snapshot: S.optional(Snapshot) }),
-).annotate({
-  identifier: "DeleteSnapshotResponse",
-}) as any as S.Schema<DeleteSnapshotResponse>;
+).annotate({ identifier: "DeleteSnapshotResponse" }) as any as S.Schema<DeleteSnapshotResponse>;
 export interface DeleteSnapshotCopyConfigurationRequest {
   snapshotCopyConfigurationId: string;
 }
@@ -1078,17 +1020,13 @@ export const DeleteUsageLimitRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ usageLimitId: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteUsageLimitRequest",
-}) as any as S.Schema<DeleteUsageLimitRequest>;
+).annotate({ identifier: "DeleteUsageLimitRequest" }) as any as S.Schema<DeleteUsageLimitRequest>;
 export interface DeleteUsageLimitResponse {
   usageLimit?: UsageLimit;
 }
 export const DeleteUsageLimitResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ usageLimit: S.optional(UsageLimit) }),
-).annotate({
-  identifier: "DeleteUsageLimitResponse",
-}) as any as S.Schema<DeleteUsageLimitResponse>;
+).annotate({ identifier: "DeleteUsageLimitResponse" }) as any as S.Schema<DeleteUsageLimitResponse>;
 export interface DeleteWorkgroupRequest {
   workgroupName: string;
 }
@@ -1096,17 +1034,13 @@ export const DeleteWorkgroupRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ workgroupName: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteWorkgroupRequest",
-}) as any as S.Schema<DeleteWorkgroupRequest>;
+).annotate({ identifier: "DeleteWorkgroupRequest" }) as any as S.Schema<DeleteWorkgroupRequest>;
 export interface DeleteWorkgroupResponse {
   workgroup: Workgroup;
 }
 export const DeleteWorkgroupResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ workgroup: Workgroup }),
-).annotate({
-  identifier: "DeleteWorkgroupResponse",
-}) as any as S.Schema<DeleteWorkgroupResponse>;
+).annotate({ identifier: "DeleteWorkgroupResponse" }) as any as S.Schema<DeleteWorkgroupResponse>;
 export type DbName = string;
 export interface GetCredentialsRequest {
   dbName?: string;
@@ -1121,9 +1055,7 @@ export const GetCredentialsRequest = /*@__PURE__*/ S.suspend(() =>
     workgroupName: S.optional(S.String),
     customDomainName: S.optional(S.String),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "GetCredentialsRequest",
-}) as any as S.Schema<GetCredentialsRequest>;
+).annotate({ identifier: "GetCredentialsRequest" }) as any as S.Schema<GetCredentialsRequest>;
 export interface GetCredentialsResponse {
   dbUser?: string | redacted.Redacted<string>;
   dbPassword?: string | redacted.Redacted<string>;
@@ -1137,9 +1069,7 @@ export const GetCredentialsResponse = /*@__PURE__*/ S.suspend(() =>
     expiration: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     nextRefreshTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
-).annotate({
-  identifier: "GetCredentialsResponse",
-}) as any as S.Schema<GetCredentialsResponse>;
+).annotate({ identifier: "GetCredentialsResponse" }) as any as S.Schema<GetCredentialsResponse>;
 export interface GetCustomDomainAssociationRequest {
   customDomainName: string;
   workgroupName: string;
@@ -1176,9 +1106,7 @@ export const GetEndpointAccessRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ endpointName: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetEndpointAccessRequest",
-}) as any as S.Schema<GetEndpointAccessRequest>;
+).annotate({ identifier: "GetEndpointAccessRequest" }) as any as S.Schema<GetEndpointAccessRequest>;
 export interface GetEndpointAccessResponse {
   endpoint?: EndpointAccess;
 }
@@ -1218,17 +1146,13 @@ export const GetNamespaceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ namespaceName: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetNamespaceRequest",
-}) as any as S.Schema<GetNamespaceRequest>;
+).annotate({ identifier: "GetNamespaceRequest" }) as any as S.Schema<GetNamespaceRequest>;
 export interface GetNamespaceResponse {
   namespace: Namespace;
 }
 export const GetNamespaceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ namespace: Namespace }),
-).annotate({
-  identifier: "GetNamespaceResponse",
-}) as any as S.Schema<GetNamespaceResponse>;
+).annotate({ identifier: "GetNamespaceResponse" }) as any as S.Schema<GetNamespaceResponse>;
 export interface GetRecoveryPointRequest {
   recoveryPointId: string;
 }
@@ -1236,9 +1160,7 @@ export const GetRecoveryPointRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ recoveryPointId: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetRecoveryPointRequest",
-}) as any as S.Schema<GetRecoveryPointRequest>;
+).annotate({ identifier: "GetRecoveryPointRequest" }) as any as S.Schema<GetRecoveryPointRequest>;
 export interface RecoveryPoint {
   recoveryPointId?: string;
   recoveryPointCreateTime?: Date;
@@ -1262,9 +1184,7 @@ export interface GetRecoveryPointResponse {
 }
 export const GetRecoveryPointResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ recoveryPoint: S.optional(RecoveryPoint) }),
-).annotate({
-  identifier: "GetRecoveryPointResponse",
-}) as any as S.Schema<GetRecoveryPointResponse>;
+).annotate({ identifier: "GetRecoveryPointResponse" }) as any as S.Schema<GetRecoveryPointResponse>;
 export interface GetReservationRequest {
   reservationId: string;
 }
@@ -1272,17 +1192,13 @@ export const GetReservationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ reservationId: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetReservationRequest",
-}) as any as S.Schema<GetReservationRequest>;
+).annotate({ identifier: "GetReservationRequest" }) as any as S.Schema<GetReservationRequest>;
 export interface GetReservationResponse {
   reservation: Reservation;
 }
 export const GetReservationResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ reservation: Reservation }),
-).annotate({
-  identifier: "GetReservationResponse",
-}) as any as S.Schema<GetReservationResponse>;
+).annotate({ identifier: "GetReservationResponse" }) as any as S.Schema<GetReservationResponse>;
 export interface GetReservationOfferingRequest {
   offeringId: string;
 }
@@ -1308,9 +1224,7 @@ export const GetResourcePolicyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ resourceArn: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetResourcePolicyRequest",
-}) as any as S.Schema<GetResourcePolicyRequest>;
+).annotate({ identifier: "GetResourcePolicyRequest" }) as any as S.Schema<GetResourcePolicyRequest>;
 export interface ResourcePolicy {
   resourceArn?: string;
   policy?: string;
@@ -1355,17 +1269,13 @@ export const GetSnapshotRequest = /*@__PURE__*/ S.suspend(() =>
     ownerAccount: S.optional(S.String),
     snapshotArn: S.optional(S.String),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "GetSnapshotRequest",
-}) as any as S.Schema<GetSnapshotRequest>;
+).annotate({ identifier: "GetSnapshotRequest" }) as any as S.Schema<GetSnapshotRequest>;
 export interface GetSnapshotResponse {
   snapshot?: Snapshot;
 }
 export const GetSnapshotResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ snapshot: S.optional(Snapshot) }),
-).annotate({
-  identifier: "GetSnapshotResponse",
-}) as any as S.Schema<GetSnapshotResponse>;
+).annotate({ identifier: "GetSnapshotResponse" }) as any as S.Schema<GetSnapshotResponse>;
 export interface GetTableRestoreStatusRequest {
   tableRestoreRequestId: string;
 }
@@ -1413,9 +1323,7 @@ export const TableRestoreStatus = /*@__PURE__*/ S.suspend(() =>
     newTableName: S.optional(S.String),
     recoveryPointId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TableRestoreStatus",
-}) as any as S.Schema<TableRestoreStatus>;
+).annotate({ identifier: "TableRestoreStatus" }) as any as S.Schema<TableRestoreStatus>;
 export interface GetTableRestoreStatusResponse {
   tableRestoreStatus?: TableRestoreStatus;
 }
@@ -1431,18 +1339,13 @@ export const GetTrackRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ trackName: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetTrackRequest",
-}) as any as S.Schema<GetTrackRequest>;
+).annotate({ identifier: "GetTrackRequest" }) as any as S.Schema<GetTrackRequest>;
 export interface UpdateTarget {
   trackName?: string;
   workgroupVersion?: string;
 }
 export const UpdateTarget = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    trackName: S.optional(S.String),
-    workgroupVersion: S.optional(S.String),
-  }),
+  S.Struct({ trackName: S.optional(S.String), workgroupVersion: S.optional(S.String) }),
 ).annotate({ identifier: "UpdateTarget" }) as any as S.Schema<UpdateTarget>;
 export type UpdateTargetsList = UpdateTarget[];
 export const UpdateTargetsList = /*@__PURE__*/ S.Array(UpdateTarget);
@@ -1457,17 +1360,13 @@ export const ServerlessTrack = /*@__PURE__*/ S.suspend(() =>
     workgroupVersion: S.optional(S.String),
     updateTargets: S.optional(UpdateTargetsList),
   }),
-).annotate({
-  identifier: "ServerlessTrack",
-}) as any as S.Schema<ServerlessTrack>;
+).annotate({ identifier: "ServerlessTrack" }) as any as S.Schema<ServerlessTrack>;
 export interface GetTrackResponse {
   track?: ServerlessTrack;
 }
 export const GetTrackResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ track: S.optional(ServerlessTrack) }),
-).annotate({
-  identifier: "GetTrackResponse",
-}) as any as S.Schema<GetTrackResponse>;
+).annotate({ identifier: "GetTrackResponse" }) as any as S.Schema<GetTrackResponse>;
 export interface GetUsageLimitRequest {
   usageLimitId: string;
 }
@@ -1475,17 +1374,13 @@ export const GetUsageLimitRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ usageLimitId: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetUsageLimitRequest",
-}) as any as S.Schema<GetUsageLimitRequest>;
+).annotate({ identifier: "GetUsageLimitRequest" }) as any as S.Schema<GetUsageLimitRequest>;
 export interface GetUsageLimitResponse {
   usageLimit?: UsageLimit;
 }
 export const GetUsageLimitResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ usageLimit: S.optional(UsageLimit) }),
-).annotate({
-  identifier: "GetUsageLimitResponse",
-}) as any as S.Schema<GetUsageLimitResponse>;
+).annotate({ identifier: "GetUsageLimitResponse" }) as any as S.Schema<GetUsageLimitResponse>;
 export interface GetWorkgroupRequest {
   workgroupName: string;
 }
@@ -1493,17 +1388,13 @@ export const GetWorkgroupRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ workgroupName: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetWorkgroupRequest",
-}) as any as S.Schema<GetWorkgroupRequest>;
+).annotate({ identifier: "GetWorkgroupRequest" }) as any as S.Schema<GetWorkgroupRequest>;
 export interface GetWorkgroupResponse {
   workgroup: Workgroup;
 }
 export const GetWorkgroupResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ workgroup: Workgroup }),
-).annotate({
-  identifier: "GetWorkgroupResponse",
-}) as any as S.Schema<GetWorkgroupResponse>;
+).annotate({ identifier: "GetWorkgroupResponse" }) as any as S.Schema<GetWorkgroupResponse>;
 export type PaginationToken = string;
 export interface ListCustomDomainAssociationsRequest {
   nextToken?: string;
@@ -1544,10 +1435,7 @@ export interface ListCustomDomainAssociationsResponse {
   associations?: Association[];
 }
 export const ListCustomDomainAssociationsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    nextToken: S.optional(S.String),
-    associations: S.optional(AssociationList),
-  }),
+  S.Struct({ nextToken: S.optional(S.String), associations: S.optional(AssociationList) }),
 ).annotate({
   identifier: "ListCustomDomainAssociationsResponse",
 }) as any as S.Schema<ListCustomDomainAssociationsResponse>;
@@ -1620,9 +1508,7 @@ export const ManagedWorkgroupListItem = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(ManagedWorkgroupStatus),
     creationDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
-).annotate({
-  identifier: "ManagedWorkgroupListItem",
-}) as any as S.Schema<ManagedWorkgroupListItem>;
+).annotate({ identifier: "ManagedWorkgroupListItem" }) as any as S.Schema<ManagedWorkgroupListItem>;
 export type ManagedWorkgroups = ManagedWorkgroupListItem[];
 export const ManagedWorkgroups = /*@__PURE__*/ S.Array(ManagedWorkgroupListItem);
 export interface ListManagedWorkgroupsResponse {
@@ -1630,10 +1516,7 @@ export interface ListManagedWorkgroupsResponse {
   managedWorkgroups?: ManagedWorkgroupListItem[];
 }
 export const ListManagedWorkgroupsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    nextToken: S.optional(S.String),
-    managedWorkgroups: S.optional(ManagedWorkgroups),
-  }),
+  S.Struct({ nextToken: S.optional(S.String), managedWorkgroups: S.optional(ManagedWorkgroups) }),
 ).annotate({
   identifier: "ListManagedWorkgroupsResponse",
 }) as any as S.Schema<ListManagedWorkgroupsResponse>;
@@ -1646,9 +1529,7 @@ export const ListNamespacesRequest = /*@__PURE__*/ S.suspend(() =>
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListNamespacesRequest",
-}) as any as S.Schema<ListNamespacesRequest>;
+).annotate({ identifier: "ListNamespacesRequest" }) as any as S.Schema<ListNamespacesRequest>;
 export type NamespaceList = Namespace[];
 export const NamespaceList = /*@__PURE__*/ S.Array(Namespace);
 export interface ListNamespacesResponse {
@@ -1657,9 +1538,7 @@ export interface ListNamespacesResponse {
 }
 export const ListNamespacesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ nextToken: S.optional(S.String), namespaces: NamespaceList }),
-).annotate({
-  identifier: "ListNamespacesResponse",
-}) as any as S.Schema<ListNamespacesResponse>;
+).annotate({ identifier: "ListNamespacesResponse" }) as any as S.Schema<ListNamespacesResponse>;
 export interface ListRecoveryPointsRequest {
   nextToken?: string;
   maxResults?: number;
@@ -1687,10 +1566,7 @@ export interface ListRecoveryPointsResponse {
   nextToken?: string;
 }
 export const ListRecoveryPointsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    recoveryPoints: S.optional(RecoveryPointList),
-    nextToken: S.optional(S.String),
-  }),
+  S.Struct({ recoveryPoints: S.optional(RecoveryPointList), nextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListRecoveryPointsResponse",
 }) as any as S.Schema<ListRecoveryPointsResponse>;
@@ -1713,10 +1589,7 @@ export interface ListReservationOfferingsResponse {
   nextToken?: string;
 }
 export const ListReservationOfferingsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    reservationOfferingsList: ReservationOfferingsList,
-    nextToken: S.optional(S.String),
-  }),
+  S.Struct({ reservationOfferingsList: ReservationOfferingsList, nextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListReservationOfferingsResponse",
 }) as any as S.Schema<ListReservationOfferingsResponse>;
@@ -1729,9 +1602,7 @@ export const ListReservationsRequest = /*@__PURE__*/ S.suspend(() =>
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListReservationsRequest",
-}) as any as S.Schema<ListReservationsRequest>;
+).annotate({ identifier: "ListReservationsRequest" }) as any as S.Schema<ListReservationsRequest>;
 export type ReservationsList = Reservation[];
 export const ReservationsList = /*@__PURE__*/ S.Array(Reservation);
 export interface ListReservationsResponse {
@@ -1739,13 +1610,8 @@ export interface ListReservationsResponse {
   nextToken?: string;
 }
 export const ListReservationsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    reservationsList: ReservationsList,
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListReservationsResponse",
-}) as any as S.Schema<ListReservationsResponse>;
+  S.Struct({ reservationsList: ReservationsList, nextToken: S.optional(S.String) }),
+).annotate({ identifier: "ListReservationsResponse" }) as any as S.Schema<ListReservationsResponse>;
 export interface ListScheduledActionsRequest {
   nextToken?: string;
   maxResults?: number;
@@ -1765,10 +1631,7 @@ export interface ScheduledActionAssociation {
   scheduledActionName?: string;
 }
 export const ScheduledActionAssociation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    namespaceName: S.optional(S.String),
-    scheduledActionName: S.optional(S.String),
-  }),
+  S.Struct({ namespaceName: S.optional(S.String), scheduledActionName: S.optional(S.String) }),
 ).annotate({
   identifier: "ScheduledActionAssociation",
 }) as any as S.Schema<ScheduledActionAssociation>;
@@ -1779,10 +1642,7 @@ export interface ListScheduledActionsResponse {
   scheduledActions?: ScheduledActionAssociation[];
 }
 export const ListScheduledActionsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    nextToken: S.optional(S.String),
-    scheduledActions: S.optional(ScheduledActionsList),
-  }),
+  S.Struct({ nextToken: S.optional(S.String), scheduledActions: S.optional(ScheduledActionsList) }),
 ).annotate({
   identifier: "ListScheduledActionsResponse",
 }) as any as S.Schema<ListScheduledActionsResponse>;
@@ -1833,9 +1693,7 @@ export const ListSnapshotsRequest = /*@__PURE__*/ S.suspend(() =>
     startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListSnapshotsRequest",
-}) as any as S.Schema<ListSnapshotsRequest>;
+).annotate({ identifier: "ListSnapshotsRequest" }) as any as S.Schema<ListSnapshotsRequest>;
 export type SnapshotList = Snapshot[];
 export const SnapshotList = /*@__PURE__*/ S.Array(Snapshot);
 export interface ListSnapshotsResponse {
@@ -1843,13 +1701,8 @@ export interface ListSnapshotsResponse {
   snapshots?: Snapshot[];
 }
 export const ListSnapshotsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    nextToken: S.optional(S.String),
-    snapshots: S.optional(SnapshotList),
-  }),
-).annotate({
-  identifier: "ListSnapshotsResponse",
-}) as any as S.Schema<ListSnapshotsResponse>;
+  S.Struct({ nextToken: S.optional(S.String), snapshots: S.optional(SnapshotList) }),
+).annotate({ identifier: "ListSnapshotsResponse" }) as any as S.Schema<ListSnapshotsResponse>;
 export interface ListTableRestoreStatusRequest {
   nextToken?: string;
   maxResults?: number;
@@ -1908,9 +1761,7 @@ export const ListTracksRequest = /*@__PURE__*/ S.suspend(() =>
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListTracksRequest",
-}) as any as S.Schema<ListTracksRequest>;
+).annotate({ identifier: "ListTracksRequest" }) as any as S.Schema<ListTracksRequest>;
 export type TrackList = ServerlessTrack[];
 export const TrackList = /*@__PURE__*/ S.Array(ServerlessTrack);
 export interface ListTracksResponse {
@@ -1919,9 +1770,7 @@ export interface ListTracksResponse {
 }
 export const ListTracksResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ tracks: S.optional(TrackList), nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListTracksResponse",
-}) as any as S.Schema<ListTracksResponse>;
+).annotate({ identifier: "ListTracksResponse" }) as any as S.Schema<ListTracksResponse>;
 export interface ListUsageLimitsRequest {
   resourceArn?: string;
   usageType?: string;
@@ -1935,9 +1784,7 @@ export const ListUsageLimitsRequest = /*@__PURE__*/ S.suspend(() =>
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListUsageLimitsRequest",
-}) as any as S.Schema<ListUsageLimitsRequest>;
+).annotate({ identifier: "ListUsageLimitsRequest" }) as any as S.Schema<ListUsageLimitsRequest>;
 export type UsageLimits = UsageLimit[];
 export const UsageLimits = /*@__PURE__*/ S.Array(UsageLimit);
 export interface ListUsageLimitsResponse {
@@ -1945,13 +1792,8 @@ export interface ListUsageLimitsResponse {
   nextToken?: string;
 }
 export const ListUsageLimitsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    usageLimits: S.optional(UsageLimits),
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListUsageLimitsResponse",
-}) as any as S.Schema<ListUsageLimitsResponse>;
+  S.Struct({ usageLimits: S.optional(UsageLimits), nextToken: S.optional(S.String) }),
+).annotate({ identifier: "ListUsageLimitsResponse" }) as any as S.Schema<ListUsageLimitsResponse>;
 export interface ListWorkgroupsRequest {
   nextToken?: string;
   maxResults?: number;
@@ -1963,9 +1805,7 @@ export const ListWorkgroupsRequest = /*@__PURE__*/ S.suspend(() =>
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     ownerAccount: S.optional(S.String),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListWorkgroupsRequest",
-}) as any as S.Schema<ListWorkgroupsRequest>;
+).annotate({ identifier: "ListWorkgroupsRequest" }) as any as S.Schema<ListWorkgroupsRequest>;
 export type WorkgroupList = Workgroup[];
 export const WorkgroupList = /*@__PURE__*/ S.Array(Workgroup);
 export interface ListWorkgroupsResponse {
@@ -1974,9 +1814,7 @@ export interface ListWorkgroupsResponse {
 }
 export const ListWorkgroupsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ nextToken: S.optional(S.String), workgroups: WorkgroupList }),
-).annotate({
-  identifier: "ListWorkgroupsResponse",
-}) as any as S.Schema<ListWorkgroupsResponse>;
+).annotate({ identifier: "ListWorkgroupsResponse" }) as any as S.Schema<ListWorkgroupsResponse>;
 export interface PutResourcePolicyRequest {
   resourceArn: string;
   policy: string;
@@ -1985,9 +1823,7 @@ export const PutResourcePolicyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ resourceArn: S.String, policy: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "PutResourcePolicyRequest",
-}) as any as S.Schema<PutResourcePolicyRequest>;
+).annotate({ identifier: "PutResourcePolicyRequest" }) as any as S.Schema<PutResourcePolicyRequest>;
 export interface PutResourcePolicyResponse {
   resourcePolicy?: ResourcePolicy;
 }
@@ -2017,10 +1853,7 @@ export interface RestoreFromRecoveryPointResponse {
   namespace?: Namespace;
 }
 export const RestoreFromRecoveryPointResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    recoveryPointId: S.optional(S.String),
-    namespace: S.optional(Namespace),
-  }),
+  S.Struct({ recoveryPointId: S.optional(S.String), namespace: S.optional(Namespace) }),
 ).annotate({
   identifier: "RestoreFromRecoveryPointResponse",
 }) as any as S.Schema<RestoreFromRecoveryPointResponse>;
@@ -2142,9 +1975,7 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ resourceArn: S.String, tags: TagList }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
+).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
 export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
@@ -2159,9 +1990,7 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ resourceArn: S.String, tagKeys: TagKeyList }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
+).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
 export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
@@ -2292,17 +2121,13 @@ export const UpdateNamespaceRequest = /*@__PURE__*/ S.suspend(() =>
     s3TableKmsKeyId: S.optional(S.String),
     s3TableGranularity: S.optional(S.String),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "UpdateNamespaceRequest",
-}) as any as S.Schema<UpdateNamespaceRequest>;
+).annotate({ identifier: "UpdateNamespaceRequest" }) as any as S.Schema<UpdateNamespaceRequest>;
 export interface UpdateNamespaceResponse {
   namespace: Namespace;
 }
 export const UpdateNamespaceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ namespace: Namespace }),
-).annotate({
-  identifier: "UpdateNamespaceResponse",
-}) as any as S.Schema<UpdateNamespaceResponse>;
+).annotate({ identifier: "UpdateNamespaceResponse" }) as any as S.Schema<UpdateNamespaceResponse>;
 export interface UpdateScheduledActionRequest {
   scheduledActionName: string;
   targetAction?: TargetAction;
@@ -2340,21 +2165,16 @@ export interface UpdateSnapshotRequest {
   retentionPeriod?: number;
 }
 export const UpdateSnapshotRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    snapshotName: S.String,
-    retentionPeriod: S.optional(S.Number),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "UpdateSnapshotRequest",
-}) as any as S.Schema<UpdateSnapshotRequest>;
+  S.Struct({ snapshotName: S.String, retentionPeriod: S.optional(S.Number) }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({ identifier: "UpdateSnapshotRequest" }) as any as S.Schema<UpdateSnapshotRequest>;
 export interface UpdateSnapshotResponse {
   snapshot?: Snapshot;
 }
 export const UpdateSnapshotResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ snapshot: S.optional(Snapshot) }),
-).annotate({
-  identifier: "UpdateSnapshotResponse",
-}) as any as S.Schema<UpdateSnapshotResponse>;
+).annotate({ identifier: "UpdateSnapshotResponse" }) as any as S.Schema<UpdateSnapshotResponse>;
 export interface UpdateSnapshotCopyConfigurationRequest {
   snapshotCopyConfigurationId: string;
   snapshotRetentionPeriod?: number;
@@ -2386,17 +2206,13 @@ export const UpdateUsageLimitRequest = /*@__PURE__*/ S.suspend(() =>
     amount: S.optional(S.Number),
     breachAction: S.optional(S.String),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "UpdateUsageLimitRequest",
-}) as any as S.Schema<UpdateUsageLimitRequest>;
+).annotate({ identifier: "UpdateUsageLimitRequest" }) as any as S.Schema<UpdateUsageLimitRequest>;
 export interface UpdateUsageLimitResponse {
   usageLimit?: UsageLimit;
 }
 export const UpdateUsageLimitResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ usageLimit: S.optional(UsageLimit) }),
-).annotate({
-  identifier: "UpdateUsageLimitResponse",
-}) as any as S.Schema<UpdateUsageLimitResponse>;
+).annotate({ identifier: "UpdateUsageLimitResponse" }) as any as S.Schema<UpdateUsageLimitResponse>;
 export interface UpdateWorkgroupRequest {
   workgroupName: string;
   baseCapacity?: number;
@@ -2428,17 +2244,13 @@ export const UpdateWorkgroupRequest = /*@__PURE__*/ S.suspend(() =>
     trackName: S.optional(S.String),
     extraComputeForAutomaticOptimization: S.optional(S.Boolean),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "UpdateWorkgroupRequest",
-}) as any as S.Schema<UpdateWorkgroupRequest>;
+).annotate({ identifier: "UpdateWorkgroupRequest" }) as any as S.Schema<UpdateWorkgroupRequest>;
 export interface UpdateWorkgroupResponse {
   workgroup: Workgroup;
 }
 export const UpdateWorkgroupResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ workgroup: Workgroup }),
-).annotate({
-  identifier: "UpdateWorkgroupResponse",
-}) as any as S.Schema<UpdateWorkgroupResponse>;
+).annotate({ identifier: "UpdateWorkgroupResponse" }) as any as S.Schema<UpdateWorkgroupResponse>;
 export type ConvertRecoveryPointToSnapshotError =
   | ConflictException
   | InternalServerException

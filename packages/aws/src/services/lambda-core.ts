@@ -7,10 +7,7 @@ import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
-const svc = T.AwsApiService({
-  sdkId: "Lambda Core",
-  serviceShapeName: "LambdaCoreApiService",
-});
+const svc = T.AwsApiService({ sdkId: "Lambda Core", serviceShapeName: "LambdaCoreApiService" });
 const auth = T.AwsAuthSigv4({ name: "lambda" });
 const ver = T.ServiceVersion("2026-04-30");
 const proto = T.AwsProtocolsRestJson1();
@@ -74,46 +71,31 @@ const rules = T.EndpointResolver((p, _) => {
 export class InvalidParameterValueException
   extends /*@__PURE__*/ S.TaggedError<InvalidParameterValueException>()(
     "InvalidParameterValueException",
-    {
-      Type: S.optional(S.String),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
+    { Type: S.optional(S.String), message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export class NetworkConnectorLimitExceededException
   extends /*@__PURE__*/ S.TaggedError<NetworkConnectorLimitExceededException>()(
     "NetworkConnectorLimitExceededException",
-    {
-      Type: S.optional(S.String),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
+    { Type: S.optional(S.String), message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export class ResourceConflictException
   extends /*@__PURE__*/ S.TaggedError<ResourceConflictException>()(
     "ResourceConflictException",
-    {
-      Type: S.optional(S.String),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
+    { Type: S.optional(S.String), message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.HttpError(409),
   ).pipe(C.withConflictError) {}
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",
-    {
-      Type: S.optional(S.String),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
+    { Type: S.optional(S.String), message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.HttpError(404),
   ).pipe(C.withBadRequestError) {}
 export class ServiceException
   extends /*@__PURE__*/ S.TaggedError<ServiceException>()(
     "ServiceException",
-    {
-      Type: S.optional(S.String),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
+    { Type: S.optional(S.String), message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.HttpError(500),
   ).pipe(C.withServerError) {}
 export class TooManyRequestsException
@@ -124,9 +106,7 @@ export class TooManyRequestsException
       Type: S.optional(S.String),
       message: S.optional(S.String).pipe(T.ErrorMessage()),
       Reason: S.optional(
-        S.suspend(() => ThrottleReason).annotate({
-          identifier: "ThrottleReason",
-        }),
+        S.suspend(() => ThrottleReason).annotate({ identifier: "ThrottleReason" }),
       ),
     },
     T.HttpError(429),
@@ -240,10 +220,7 @@ export interface DeleteNetworkConnectorRequest {
 export const DeleteNetworkConnectorRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Identifier: S.String.pipe(T.HttpLabel("Identifier")) }).pipe(
     T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/2026-04-04/network-connectors/{Identifier}",
-      }),
+      T.Http({ method: "DELETE", uri: "/2026-04-04/network-connectors/{Identifier}" }),
       svc,
       auth,
       proto,
@@ -280,10 +257,7 @@ export interface GetNetworkConnectorRequest {
 export const GetNetworkConnectorRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Identifier: S.String.pipe(T.HttpLabel("Identifier")) }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/2026-04-04/network-connectors/{Identifier}",
-      }),
+      T.Http({ method: "GET", uri: "/2026-04-04/network-connectors/{Identifier}" }),
       svc,
       auth,
       proto,
@@ -404,9 +378,7 @@ export const NetworkConnectorSummary = /*@__PURE__*/ S.suspend(() =>
     State: S.optional(NetworkConnectorState),
     LastModified: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
-).annotate({
-  identifier: "NetworkConnectorSummary",
-}) as any as S.Schema<NetworkConnectorSummary>;
+).annotate({ identifier: "NetworkConnectorSummary" }) as any as S.Schema<NetworkConnectorSummary>;
 export type NetworkConnectorsList = NetworkConnectorSummary[];
 export const NetworkConnectorsList = /*@__PURE__*/ S.Array(NetworkConnectorSummary);
 export interface ListNetworkConnectorsResponse {
@@ -414,10 +386,7 @@ export interface ListNetworkConnectorsResponse {
   NextMarker?: string;
 }
 export const ListNetworkConnectorsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NetworkConnectors: NetworkConnectorsList,
-    NextMarker: S.optional(S.String),
-  }),
+  S.Struct({ NetworkConnectors: NetworkConnectorsList, NextMarker: S.optional(S.String) }),
 ).annotate({
   identifier: "ListNetworkConnectorsResponse",
 }) as any as S.Schema<ListNetworkConnectorsResponse>;
@@ -435,10 +404,7 @@ export const UpdateNetworkConnectorRequest = /*@__PURE__*/ S.suspend(() =>
     ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
   }).pipe(
     T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/2026-04-04/network-connectors/{Identifier}",
-      }),
+      T.Http({ method: "PUT", uri: "/2026-04-04/network-connectors/{Identifier}" }),
       svc,
       auth,
       proto,

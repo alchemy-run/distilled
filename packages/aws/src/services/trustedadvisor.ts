@@ -9,10 +9,7 @@ import { AwsProtocol } from "../protocol.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
-const svc = T.AwsApiService({
-  sdkId: "TrustedAdvisor",
-  serviceShapeName: "TrustedAdvisor",
-});
+const svc = T.AwsApiService({ sdkId: "TrustedAdvisor", serviceShapeName: "TrustedAdvisor" });
 const auth = T.AwsAuthSigv4({ name: "trustedadvisor" });
 const ver = T.ServiceVersion("2022-09-15");
 const proto = T.AwsProtocolsRestJson1();
@@ -129,14 +126,9 @@ export interface BatchUpdateRecommendationResourceExclusionRequest {
   recommendationResourceExclusions: RecommendationResourceExclusion[];
 }
 export const BatchUpdateRecommendationResourceExclusionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    recommendationResourceExclusions: RecommendationResourceExclusionList,
-  }).pipe(
+  S.Struct({ recommendationResourceExclusions: RecommendationResourceExclusionList }).pipe(
     T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/v1/batch-update-recommendation-resource-exclusion",
-      }),
+      T.Http({ method: "PUT", uri: "/v1/batch-update-recommendation-resource-exclusion" }),
       svc,
       auth,
       proto,
@@ -270,10 +262,7 @@ export interface RecommendationCostOptimizingAggregates {
   estimatedPercentMonthlySavings: number;
 }
 export const RecommendationCostOptimizingAggregates = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    estimatedMonthlySavings: S.Number,
-    estimatedPercentMonthlySavings: S.Number,
-  }),
+  S.Struct({ estimatedMonthlySavings: S.Number, estimatedPercentMonthlySavings: S.Number }),
 ).annotate({
   identifier: "RecommendationCostOptimizingAggregates",
 }) as any as S.Schema<RecommendationCostOptimizingAggregates>;
@@ -281,9 +270,7 @@ export interface RecommendationPillarSpecificAggregates {
   costOptimizing?: RecommendationCostOptimizingAggregates;
 }
 export const RecommendationPillarSpecificAggregates = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    costOptimizing: S.optional(RecommendationCostOptimizingAggregates),
-  }),
+  S.Struct({ costOptimizing: S.optional(RecommendationCostOptimizingAggregates) }),
 ).annotate({
   identifier: "RecommendationPillarSpecificAggregates",
 }) as any as S.Schema<RecommendationPillarSpecificAggregates>;
@@ -354,9 +341,7 @@ export interface GetOrganizationRecommendationResponse {
   organizationRecommendation?: OrganizationRecommendation;
 }
 export const GetOrganizationRecommendationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    organizationRecommendation: S.optional(OrganizationRecommendation),
-  }),
+  S.Struct({ organizationRecommendation: S.optional(OrganizationRecommendation) }),
 ).annotate({
   identifier: "GetOrganizationRecommendationResponse",
 }) as any as S.Schema<GetOrganizationRecommendationResponse>;
@@ -386,10 +371,7 @@ export const GetRecommendationRequest = /*@__PURE__*/ S.suspend(() =>
     language: S.optional(RecommendationLanguage).pipe(T.HttpQuery("language")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/v1/recommendations/{recommendationIdentifier}",
-      }),
+      T.Http({ method: "GET", uri: "/v1/recommendations/{recommendationIdentifier}" }),
       svc,
       auth,
       proto,
@@ -397,9 +379,7 @@ export const GetRecommendationRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetRecommendationRequest",
-}) as any as S.Schema<GetRecommendationRequest>;
+).annotate({ identifier: "GetRecommendationRequest" }) as any as S.Schema<GetRecommendationRequest>;
 export type AccountRecommendationArn = string;
 export type StatusReason = "no_data_ok" | (string & {});
 export const StatusReason = S.String;
@@ -479,9 +459,7 @@ export const ListChecksRequest = /*@__PURE__*/ S.suspend(() =>
     source: S.optional(RecommendationSource).pipe(T.HttpQuery("source")),
     language: S.optional(RecommendationLanguage).pipe(T.HttpQuery("language")),
   }).pipe(T.all(T.Http({ method: "GET", uri: "/v1/checks" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListChecksRequest",
-}) as any as S.Schema<ListChecksRequest>;
+).annotate({ identifier: "ListChecksRequest" }) as any as S.Schema<ListChecksRequest>;
 export type CheckArn = string;
 export type StringMap = { [key: string]: string | undefined };
 export const StringMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
@@ -524,13 +502,8 @@ export interface ListChecksResponse {
   checkSummaries: CheckSummary[];
 }
 export const ListChecksResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    nextToken: S.optional(S.String),
-    checkSummaries: CheckSummaryList,
-  }),
-).annotate({
-  identifier: "ListChecksResponse",
-}) as any as S.Schema<ListChecksResponse>;
+  S.Struct({ nextToken: S.optional(S.String), checkSummaries: CheckSummaryList }),
+).annotate({ identifier: "ListChecksResponse" }) as any as S.Schema<ListChecksResponse>;
 export type AccountId = string;
 export interface ListOrganizationRecommendationAccountsRequest {
   nextToken?: string;
@@ -804,10 +777,7 @@ export const ListRecommendationResourcesRequest = /*@__PURE__*/ S.suspend(() =>
     language: S.optional(RecommendationLanguage).pipe(T.HttpQuery("language")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/v1/recommendations/{recommendationIdentifier}/resources",
-      }),
+      T.Http({ method: "GET", uri: "/v1/recommendations/{recommendationIdentifier}/resources" }),
       svc,
       auth,
       proto,
@@ -931,9 +901,7 @@ export const RecommendationSummary = /*@__PURE__*/ S.suspend(() =>
     arn: S.String,
     statusReason: S.optional(StatusReason),
   }),
-).annotate({
-  identifier: "RecommendationSummary",
-}) as any as S.Schema<RecommendationSummary>;
+).annotate({ identifier: "RecommendationSummary" }) as any as S.Schema<RecommendationSummary>;
 export type RecommendationSummaryList = RecommendationSummary[];
 export const RecommendationSummaryList = /*@__PURE__*/ S.Array(RecommendationSummary);
 export interface ListRecommendationsResponse {
@@ -941,10 +909,7 @@ export interface ListRecommendationsResponse {
   recommendationSummaries: RecommendationSummary[];
 }
 export const ListRecommendationsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    nextToken: S.optional(S.String),
-    recommendationSummaries: RecommendationSummaryList,
-  }),
+  S.Struct({ nextToken: S.optional(S.String), recommendationSummaries: RecommendationSummaryList }),
 ).annotate({
   identifier: "ListRecommendationsResponse",
 }) as any as S.Schema<ListRecommendationsResponse>;
@@ -969,10 +934,7 @@ export const ListRecommendationsForResourceRequest = /*@__PURE__*/ S.suspend(() 
     language: S.optional(RecommendationLanguage).pipe(T.HttpQuery("language")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/v1/recommendations-for-resource/{awsResourceArn}",
-      }),
+      T.Http({ method: "GET", uri: "/v1/recommendations-for-resource/{awsResourceArn}" }),
       svc,
       auth,
       proto,
@@ -1081,10 +1043,7 @@ export const UpdateRecommendationLifecycleRequest = /*@__PURE__*/ S.suspend(() =
     recommendationIdentifier: S.String.pipe(T.HttpLabel("recommendationIdentifier")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/v1/recommendations/{recommendationIdentifier}/lifecycle",
-      }),
+      T.Http({ method: "PUT", uri: "/v1/recommendations/{recommendationIdentifier}/lifecycle" }),
       svc,
       auth,
       proto,

@@ -165,10 +165,7 @@ export interface ShardFilter {
   ShardId?: string;
 }
 export const ShardFilter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Type: S.optional(ShardFilterType),
-    ShardId: S.optional(S.String),
-  }),
+  S.Struct({ Type: S.optional(ShardFilterType), ShardId: S.optional(S.String) }),
 ).annotate({ identifier: "ShardFilter" }) as any as S.Schema<ShardFilter>;
 export interface DescribeStreamInput {
   StreamArn: string;
@@ -183,9 +180,7 @@ export const DescribeStreamInput = /*@__PURE__*/ S.suspend(() =>
     ExclusiveStartShardId: S.optional(S.String),
     ShardFilter: S.optional(ShardFilter),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DescribeStreamInput",
-}) as any as S.Schema<DescribeStreamInput>;
+).annotate({ identifier: "DescribeStreamInput" }) as any as S.Schema<DescribeStreamInput>;
 export type StreamStatus = "ENABLING" | "ENABLED" | "DISABLING" | "DISABLED" | (string & {});
 export const StreamStatus = S.String;
 
@@ -208,9 +203,7 @@ export interface KeySchemaElement {
 }
 export const KeySchemaElement = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ AttributeName: S.String, KeyType: KeyType }),
-).annotate({
-  identifier: "KeySchemaElement",
-}) as any as S.Schema<KeySchemaElement>;
+).annotate({ identifier: "KeySchemaElement" }) as any as S.Schema<KeySchemaElement>;
 export type KeySchema = KeySchemaElement[];
 export const KeySchema = /*@__PURE__*/ S.Array(KeySchemaElement);
 export type SequenceNumber = string;
@@ -223,9 +216,7 @@ export const SequenceNumberRange = /*@__PURE__*/ S.suspend(() =>
     StartingSequenceNumber: S.optional(S.String),
     EndingSequenceNumber: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SequenceNumberRange",
-}) as any as S.Schema<SequenceNumberRange>;
+).annotate({ identifier: "SequenceNumberRange" }) as any as S.Schema<SequenceNumberRange>;
 export interface Shard {
   ShardId?: string;
   SequenceNumberRange?: SequenceNumberRange;
@@ -263,17 +254,13 @@ export const StreamDescription = /*@__PURE__*/ S.suspend(() =>
     Shards: S.optional(ShardDescriptionList),
     LastEvaluatedShardId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "StreamDescription",
-}) as any as S.Schema<StreamDescription>;
+).annotate({ identifier: "StreamDescription" }) as any as S.Schema<StreamDescription>;
 export interface DescribeStreamOutput {
   StreamDescription?: StreamDescription;
 }
 export const DescribeStreamOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ StreamDescription: S.optional(StreamDescription) }).pipe(ns),
-).annotate({
-  identifier: "DescribeStreamOutput",
-}) as any as S.Schema<DescribeStreamOutput>;
+).annotate({ identifier: "DescribeStreamOutput" }) as any as S.Schema<DescribeStreamOutput>;
 export type ShardIterator = string;
 export interface GetRecordsInput {
   ShardIterator: string;
@@ -283,9 +270,7 @@ export const GetRecordsInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ShardIterator: S.String, Limit: S.optional(S.Number) }).pipe(
     T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetRecordsInput",
-}) as any as S.Schema<GetRecordsInput>;
+).annotate({ identifier: "GetRecordsInput" }) as any as S.Schema<GetRecordsInput>;
 export type OperationType = "INSERT" | "MODIFY" | "REMOVE" | (string & {});
 export const OperationType = S.String;
 
@@ -440,15 +425,9 @@ export const AttributeValue = /*@__PURE__*/ S.Union([
   S.Struct({ SS: StringSetAttributeValue }),
   S.Struct({ NS: NumberSetAttributeValue }),
   S.Struct({ BS: BinarySetAttributeValue }),
+  S.Struct({ M: S.suspend(() => MapAttributeValue).annotate({ identifier: "MapAttributeValue" }) }),
   S.Struct({
-    M: S.suspend(() => MapAttributeValue).annotate({
-      identifier: "MapAttributeValue",
-    }),
-  }),
-  S.Struct({
-    L: S.suspend(() => ListAttributeValue).annotate({
-      identifier: "ListAttributeValue",
-    }),
+    L: S.suspend(() => ListAttributeValue).annotate({ identifier: "ListAttributeValue" }),
   }),
   S.Struct({ NULL: S.Boolean }),
   S.Struct({ BOOL: S.Boolean }),
@@ -515,13 +494,8 @@ export interface GetRecordsOutput {
   NextShardIterator?: string;
 }
 export const GetRecordsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Records: S.optional(RecordList),
-    NextShardIterator: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetRecordsOutput",
-}) as any as S.Schema<GetRecordsOutput>;
+  S.Struct({ Records: S.optional(RecordList), NextShardIterator: S.optional(S.String) }).pipe(ns),
+).annotate({ identifier: "GetRecordsOutput" }) as any as S.Schema<GetRecordsOutput>;
 export type ShardIteratorType =
   | "TRIM_HORIZON"
   | "LATEST"
@@ -543,17 +517,13 @@ export const GetShardIteratorInput = /*@__PURE__*/ S.suspend(() =>
     ShardIteratorType: ShardIteratorType,
     SequenceNumber: S.optional(S.String),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "GetShardIteratorInput",
-}) as any as S.Schema<GetShardIteratorInput>;
+).annotate({ identifier: "GetShardIteratorInput" }) as any as S.Schema<GetShardIteratorInput>;
 export interface GetShardIteratorOutput {
   ShardIterator?: string;
 }
 export const GetShardIteratorOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ShardIterator: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "GetShardIteratorOutput",
-}) as any as S.Schema<GetShardIteratorOutput>;
+).annotate({ identifier: "GetShardIteratorOutput" }) as any as S.Schema<GetShardIteratorOutput>;
 export interface ListStreamsInput {
   TableName?: string;
   Limit?: number;
@@ -565,9 +535,7 @@ export const ListStreamsInput = /*@__PURE__*/ S.suspend(() =>
     Limit: S.optional(S.Number),
     ExclusiveStartStreamArn: S.optional(S.String),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListStreamsInput",
-}) as any as S.Schema<ListStreamsInput>;
+).annotate({ identifier: "ListStreamsInput" }) as any as S.Schema<ListStreamsInput>;
 export interface Stream {
   StreamArn?: string;
   TableName?: string;
@@ -587,13 +555,10 @@ export interface ListStreamsOutput {
   LastEvaluatedStreamArn?: string;
 }
 export const ListStreamsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Streams: S.optional(StreamList),
-    LastEvaluatedStreamArn: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListStreamsOutput",
-}) as any as S.Schema<ListStreamsOutput>;
+  S.Struct({ Streams: S.optional(StreamList), LastEvaluatedStreamArn: S.optional(S.String) }).pipe(
+    ns,
+  ),
+).annotate({ identifier: "ListStreamsOutput" }) as any as S.Schema<ListStreamsOutput>;
 export type ErrorMessage = string;
 export type DescribeStreamError = InternalServerError | ResourceNotFoundException | CommonErrors;
 /**

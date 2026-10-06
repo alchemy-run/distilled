@@ -116,7 +116,7 @@ export type RegistryRecordId = string;
 export type RegistryRecordName = string;
 export type Description = string | redacted.Redacted<string>;
 export type RegistryRecordDisplayName = string;
-export type RecordType = "MCP" | "AGENT" | "CUSTOM" | "SKILL" | (string & {});
+export type RecordType = "MCP" | "AGENT" | "CUSTOM" | "SKILL" | "GATEWAY" | (string & {});
 export const RecordType = S.String;
 
 export type DescriptorData = string | redacted.Redacted<string>;
@@ -213,11 +213,25 @@ export interface CustomDescriptor {
 export const CustomDescriptor = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ data: S.optional(SensitiveString) }),
 ).annotate({ identifier: "CustomDescriptor" }) as any as S.Schema<CustomDescriptor>;
+export interface HttpDescriptor {
+  source?: DescriptorSource;
+}
+export const HttpDescriptor = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ source: S.optional(DescriptorSource) }),
+).annotate({ identifier: "HttpDescriptor" }) as any as S.Schema<HttpDescriptor>;
+export interface AgUiDescriptor {
+  source?: DescriptorSource;
+}
+export const AgUiDescriptor = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ source: S.optional(DescriptorSource) }),
+).annotate({ identifier: "AgUiDescriptor" }) as any as S.Schema<AgUiDescriptor>;
 export interface Descriptors {
   mcpServer?: McpServerDescriptor;
   a2aAgentCard?: A2aAgentCardDescriptor;
   agentSkillsDefinition?: AgentSkillsDefinitionDescriptor;
   custom?: CustomDescriptor;
+  http?: HttpDescriptor;
+  agui?: AgUiDescriptor;
 }
 export const Descriptors = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -225,6 +239,8 @@ export const Descriptors = /*@__PURE__*/ S.suspend(() =>
     a2aAgentCard: S.optional(A2aAgentCardDescriptor),
     agentSkillsDefinition: S.optional(AgentSkillsDefinitionDescriptor),
     custom: S.optional(CustomDescriptor),
+    http: S.optional(HttpDescriptor),
+    agui: S.optional(AgUiDescriptor),
   }),
 ).annotate({ identifier: "Descriptors" }) as any as S.Schema<Descriptors>;
 export type RegistryRecordVersion = string;
@@ -241,6 +257,7 @@ export type RegistryRecordStatus =
   | (string & {});
 export const RegistryRecordStatus = S.String;
 
+export type CustomMetadataDocument = unknown;
 export interface RegistryRecordSummary {
   registryArn: string;
   recordArn: string;
@@ -254,6 +271,7 @@ export interface RegistryRecordSummary {
   status: RegistryRecordStatus;
   createdAt: Date;
   updatedAt: Date;
+  customMetadata?: any;
 }
 export const RegistryRecordSummary = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -269,6 +287,7 @@ export const RegistryRecordSummary = /*@__PURE__*/ S.suspend(() =>
     status: RegistryRecordStatus,
     createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    customMetadata: S.optional(S.Any),
   }),
 ).annotate({ identifier: "RegistryRecordSummary" }) as any as S.Schema<RegistryRecordSummary>;
 export type RegistryRecordSummaryList = RegistryRecordSummary[];
@@ -353,6 +372,8 @@ export const ListDiscoverableRegistryRecordsRequest = /*@__PURE__*/ S.suspend(()
 ).annotate({
   identifier: "ListDiscoverableRegistryRecordsRequest",
 }) as any as S.Schema<ListDiscoverableRegistryRecordsRequest>;
+export type DescriptorTypeList = string[];
+export const DescriptorTypeList = /*@__PURE__*/ S.Array(S.String);
 export interface DiscoverableRegistryRecordSummary {
   registryArn: string;
   recordArn: string;
@@ -365,6 +386,7 @@ export interface DiscoverableRegistryRecordSummary {
   status: RegistryRecordStatus;
   createdAt: Date;
   updatedAt: Date;
+  descriptorTypes?: string[];
 }
 export const DiscoverableRegistryRecordSummary = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -379,6 +401,7 @@ export const DiscoverableRegistryRecordSummary = /*@__PURE__*/ S.suspend(() =>
     status: RegistryRecordStatus,
     createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    descriptorTypes: S.optional(DescriptorTypeList),
   }),
 ).annotate({
   identifier: "DiscoverableRegistryRecordSummary",

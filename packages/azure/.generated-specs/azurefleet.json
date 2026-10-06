@@ -18,94 +18,112 @@
     "distilled.finalized": true
   },
   "shapes": {
-    "com.azure.azurefleet#ListFleetVirtualMachineScaleSets": {
+    "com.azure.azurefleet#ListFleetVirtualMachines": {
       "type": "operation",
       "input": {
-        "target": "com.azure.azurefleet#ListFleetVirtualMachineScaleSetsRequest"
+        "target": "com.azure.azurefleet#ListFleetVirtualMachinesRequest"
       },
       "output": {
-        "target": "com.azure.azurefleet#VirtualMachineScaleSetListResult"
+        "target": "com.azure.azurefleet#VirtualMachineListResult"
       },
       "traits": {
         "smithy.api#http": {
           "method": "GET",
-          "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureFleet/fleets/{name}/virtualMachineScaleSets",
+          "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureFleet/fleets/{name}/virtualMachines",
           "code": 200,
-          "apiVersion": "2024-11-01"
+          "apiVersion": "2026-08-01"
         },
-        "smithy.api#documentation": "List VirtualMachineScaleSet resources by Fleet",
-        "com.distilled.openapi#apiVersion": "2024-11-01"
+        "smithy.api#documentation": "List VirtualMachine resources of a Launch mode Fleet.",
+        "com.distilled.openapi#apiVersion": "2026-08-01"
       }
     },
-    "com.azure.azurefleet#VirtualMachineScaleSetListResult": {
+    "com.azure.azurefleet#VirtualMachineListResult": {
       "type": "structure",
       "members": {
         "value": {
-          "target": "com.azure.azurefleet#VirtualMachineScaleSetListResultValueList",
+          "target": "com.azure.azurefleet#VirtualMachineListResultValueList",
           "traits": {
-            "smithy.api#documentation": "The VirtualMachineScaleSet items on this page",
+            "smithy.api#documentation": "The Virtual Machine items on this page.",
             "smithy.api#required": {}
           }
         },
         "nextLink": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The link to the next page of items"
+            "smithy.api#documentation": "The link to the next page of items."
           }
         }
       },
       "traits": {
-        "smithy.api#documentation": "The response of a VirtualMachineScaleSet list operation."
+        "smithy.api#documentation": "The response of a virtual machine list operation."
       }
     },
-    "com.azure.azurefleet#VirtualMachineScaleSetListResultValueList": {
+    "com.azure.azurefleet#VirtualMachineListResultValueList": {
       "type": "list",
       "member": {
-        "target": "com.azure.azurefleet#VirtualMachineScaleSet"
+        "target": "com.azure.azurefleet#VirtualMachine"
       },
       "traits": {
-        "smithy.api#documentation": "The VirtualMachineScaleSet items on this page"
+        "smithy.api#documentation": "The Virtual Machine items on this page."
       }
     },
-    "com.azure.azurefleet#VirtualMachineScaleSet": {
+    "com.azure.azurefleet#VirtualMachine": {
       "type": "structure",
       "members": {
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The name of the virtualMachineScaleSet",
+            "smithy.api#documentation": "The name of the virtual machine.",
             "smithy.api#required": {}
           }
         },
         "id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The compute RP resource id of the virtualMachineScaleSet \n\"subscriptions/{subId}/resourceGroups/{rgName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmssName}\"",
+            "smithy.api#documentation": "The compute RP resource id of the virtual machine. subscriptions/{subId}/resourceGroups/{rgName}/providers/Microsoft.Compute/virtualMachines/{vmName}",
             "smithy.api#required": {}
           }
         },
         "type": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Type of the virtualMachineScaleSet"
+            "smithy.api#documentation": "ARM resource type - virtual machine"
           }
         },
         "operationStatus": {
-          "target": "com.azure.azurefleet#ProvisioningState",
+          "target": "com.azure.azurefleet#VMOperationStatus",
           "traits": {
-            "smithy.api#documentation": "This represents the operationStatus of the VMSS in response to the last operation that was performed on it by Azure Fleet resource.",
+            "smithy.api#documentation": "This represents the operationStatus of the virtual machine in response to the last operation that was performed on it by Azure Fleet resource.",
             "smithy.api#required": {}
           }
         },
         "error": {
           "target": "com.azure.azurefleet#ApiError",
           "traits": {
-            "smithy.api#documentation": "Error Information when `operationStatus` is `Failed`"
+            "smithy.api#documentation": "Error information when `operationStatus` is `Failed`."
+          }
+        },
+        "vmSize": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The VM size of the virtual machine."
+          }
+        },
+        "zone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The availability zone of the virtual machine."
+          }
+        },
+        "priority": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The priority of the virtual machine."
           }
         }
       },
       "traits": {
-        "smithy.api#documentation": "An AzureFleet's virtualMachineScaleSet"
+        "smithy.api#documentation": "A Launch mode Fleet's virtual machine."
       }
     },
     "com.azure.azurefleet#ApiError": {
@@ -199,6 +217,174 @@
       },
       "traits": {
         "smithy.api#documentation": "API error base."
+      }
+    },
+    "com.azure.azurefleet#VMOperationStatus": {
+      "type": "enum",
+      "members": {
+        "LAUNCHING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Launching"
+          }
+        },
+        "CREATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Creating"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Failed"
+          }
+        },
+        "SUCCEEDED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Succeeded"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Virtual Machine operation status values."
+      }
+    },
+    "com.azure.azurefleet#ListFleetVirtualMachinesRequest": {
+      "type": "structure",
+      "members": {
+        "subscriptionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the target subscription. The value must be an UUID."
+          }
+        },
+        "resourceGroupName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the resource group. The name is case insensitive."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the Fleet"
+          }
+        },
+        "_filter": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "$filter",
+            "smithy.api#documentation": "Filter expression to filter the virtual machines."
+          }
+        },
+        "_skiptoken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "$skiptoken",
+            "smithy.api#documentation": "Skip token for pagination. Uses the token from a previous response to fetch the next page of results."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.azure.azurefleet#ListFleetVirtualMachineScaleSets": {
+      "type": "operation",
+      "input": {
+        "target": "com.azure.azurefleet#ListFleetVirtualMachineScaleSetsRequest"
+      },
+      "output": {
+        "target": "com.azure.azurefleet#VirtualMachineScaleSetListResult"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureFleet/fleets/{name}/virtualMachineScaleSets",
+          "code": 200,
+          "apiVersion": "2026-08-01"
+        },
+        "smithy.api#documentation": "List VirtualMachineScaleSet resources by Fleet",
+        "com.distilled.openapi#apiVersion": "2026-08-01"
+      }
+    },
+    "com.azure.azurefleet#VirtualMachineScaleSetListResult": {
+      "type": "structure",
+      "members": {
+        "value": {
+          "target": "com.azure.azurefleet#VirtualMachineScaleSetListResultValueList",
+          "traits": {
+            "smithy.api#documentation": "The VirtualMachineScaleSet items on this page",
+            "smithy.api#required": {}
+          }
+        },
+        "nextLink": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The link to the next page of items"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The response of a VirtualMachineScaleSet list operation."
+      }
+    },
+    "com.azure.azurefleet#VirtualMachineScaleSetListResultValueList": {
+      "type": "list",
+      "member": {
+        "target": "com.azure.azurefleet#VirtualMachineScaleSet"
+      },
+      "traits": {
+        "smithy.api#documentation": "The VirtualMachineScaleSet items on this page"
+      }
+    },
+    "com.azure.azurefleet#VirtualMachineScaleSet": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the virtualMachineScaleSet",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The compute RP resource id of the virtualMachineScaleSet \n\"subscriptions/{subId}/resourceGroups/{rgName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmssName}\"",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Type of the virtualMachineScaleSet"
+          }
+        },
+        "operationStatus": {
+          "target": "com.azure.azurefleet#ProvisioningState",
+          "traits": {
+            "smithy.api#documentation": "This represents the operationStatus of the VMSS in response to the last operation that was performed on it by Azure Fleet resource.",
+            "smithy.api#required": {}
+          }
+        },
+        "error": {
+          "target": "com.azure.azurefleet#ApiError",
+          "traits": {
+            "smithy.api#documentation": "Error Information when `operationStatus` is `Failed`"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "An AzureFleet's virtualMachineScaleSet"
       }
     },
     "com.azure.azurefleet#ProvisioningState": {
@@ -296,10 +482,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureFleet/fleets/{fleetName}",
           "code": 200,
-          "apiVersion": "2024-11-01"
+          "apiVersion": "2026-08-01"
         },
         "smithy.api#documentation": "Delete a Fleet",
-        "com.distilled.openapi#apiVersion": "2024-11-01"
+        "com.distilled.openapi#apiVersion": "2026-08-01"
       }
     },
     "com.azure.azurefleet#DeleteFleetRequest": {
@@ -347,10 +533,10 @@
           "method": "PATCH",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureFleet/fleets/{fleetName}",
           "code": 200,
-          "apiVersion": "2024-11-01"
+          "apiVersion": "2026-08-01"
         },
         "smithy.api#documentation": "Update a Fleet",
-        "com.distilled.openapi#apiVersion": "2024-11-01"
+        "com.distilled.openapi#apiVersion": "2026-08-01"
       }
     },
     "com.azure.azurefleet#UpdateFleetResponse": {
@@ -626,10 +812,68 @@
           "traits": {
             "smithy.api#documentation": "Specifies the ID which uniquely identifies a Compute Fleet."
           }
+        },
+        "mode": {
+          "target": "com.azure.azurefleet#FleetMode",
+          "traits": {
+            "smithy.api#documentation": "Mode of the Fleet."
+          }
+        },
+        "vmNamePrefix": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "VirtualMachine prefix to be used for the virtual machines launched by Fleet. Can be used only with Launch mode."
+          }
+        },
+        "capacityType": {
+          "target": "com.azure.azurefleet#CapacityType",
+          "traits": {
+            "smithy.api#documentation": "Specifies capacity type for Fleet Regular and Spot priority profiles.\ncapacityType is an immutable property. Once set during Fleet creation, it cannot be updated.\nSpecifying different capacity type for Fleet Regular and Spot priority profiles is not allowed."
+          }
         }
       },
       "traits": {
         "smithy.api#documentation": "Details of the Compute Fleet."
+      }
+    },
+    "com.azure.azurefleet#CapacityType": {
+      "type": "enum",
+      "members": {
+        "VM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "VM"
+          }
+        },
+        "VCPU": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "VCpu"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Capacity types for Compute Fleet."
+      }
+    },
+    "com.azure.azurefleet#FleetMode": {
+      "type": "enum",
+      "members": {
+        "MANAGED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Managed"
+          }
+        },
+        "LAUNCH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Launch"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Modes for Compute Fleet."
       }
     },
     "com.azure.azurefleet#ComputeProfile": {
@@ -4102,6 +4346,24 @@
             "smithy.api#documentation": "Compute Profile to use for running user's workloads.",
             "smithy.api#required": {}
           }
+        },
+        "mode": {
+          "target": "com.azure.azurefleet#FleetMode",
+          "traits": {
+            "smithy.api#documentation": "Mode of the Fleet."
+          }
+        },
+        "vmNamePrefix": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "VirtualMachine prefix to be used for the virtual machines launched by Fleet. Can be used only with Launch mode."
+          }
+        },
+        "capacityType": {
+          "target": "com.azure.azurefleet#CapacityType",
+          "traits": {
+            "smithy.api#documentation": "Specifies capacity type for Fleet Regular and Spot priority profiles.\ncapacityType is an immutable property. Once set during Fleet creation, it cannot be updated.\nSpecifying different capacity type for Fleet Regular and Spot priority profiles is not allowed."
+          }
         }
       },
       "traits": {
@@ -4668,10 +4930,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureFleet/fleets/{fleetName}",
           "code": 200,
-          "apiVersion": "2024-11-01"
+          "apiVersion": "2026-08-01"
         },
         "smithy.api#documentation": "Create a Fleet",
-        "com.distilled.openapi#apiVersion": "2024-11-01"
+        "com.distilled.openapi#apiVersion": "2026-08-01"
       }
     },
     "com.azure.azurefleet#FleetsCreateOrUpdateResponse": {
@@ -5017,10 +5279,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureFleet/fleets/{fleetName}",
           "code": 200,
-          "apiVersion": "2024-11-01"
+          "apiVersion": "2026-08-01"
         },
         "smithy.api#documentation": "Get a Fleet",
-        "com.distilled.openapi#apiVersion": "2024-11-01"
+        "com.distilled.openapi#apiVersion": "2026-08-01"
       }
     },
     "com.azure.azurefleet#GetFleetResponse": {
@@ -5228,10 +5490,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureFleet/fleets",
           "code": 200,
-          "apiVersion": "2024-11-01"
+          "apiVersion": "2026-08-01"
         },
         "smithy.api#documentation": "List Fleet resources by resource group",
-        "com.distilled.openapi#apiVersion": "2024-11-01"
+        "com.distilled.openapi#apiVersion": "2026-08-01"
       }
     },
     "com.azure.azurefleet#FleetListResult": {
@@ -5461,10 +5723,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.AzureFleet/fleets",
           "code": 200,
-          "apiVersion": "2024-11-01"
+          "apiVersion": "2026-08-01"
         },
         "smithy.api#documentation": "List Fleet resources by subscription ID",
-        "com.distilled.openapi#apiVersion": "2024-11-01"
+        "com.distilled.openapi#apiVersion": "2026-08-01"
       }
     },
     "com.azure.azurefleet#ListFleetBySubscriptionRequest": {
@@ -5496,10 +5758,10 @@
           "method": "GET",
           "uri": "/providers/Microsoft.AzureFleet/operations",
           "code": 200,
-          "apiVersion": "2024-11-01"
+          "apiVersion": "2026-08-01"
         },
         "smithy.api#documentation": "List the operations for the provider",
-        "com.distilled.openapi#apiVersion": "2024-11-01"
+        "com.distilled.openapi#apiVersion": "2026-08-01"
       }
     },
     "com.azure.azurefleet#ListOperationsResponse": {
@@ -5645,6 +5907,9 @@
       "type": "service",
       "version": "1.0",
       "operations": [
+        {
+          "target": "com.azure.azurefleet#ListFleetVirtualMachines"
+        },
         {
           "target": "com.azure.azurefleet#ListFleetVirtualMachineScaleSets"
         },

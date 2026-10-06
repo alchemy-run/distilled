@@ -128,9 +128,7 @@ export const CreateCliTokenRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Name: S.String.pipe(T.HttpLabel("Name")) }).pipe(
     T.all(T.Http({ method: "POST", uri: "/clitoken/{Name}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "CreateCliTokenRequest",
-}) as any as S.Schema<CreateCliTokenRequest>;
+).annotate({ identifier: "CreateCliTokenRequest" }) as any as S.Schema<CreateCliTokenRequest>;
 export type Token = string | redacted.Redacted<string>;
 export type Hostname = string;
 export interface CreateCliTokenResponse {
@@ -138,13 +136,8 @@ export interface CreateCliTokenResponse {
   WebServerHostname?: string;
 }
 export const CreateCliTokenResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CliToken: S.optional(SensitiveString),
-    WebServerHostname: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CreateCliTokenResponse",
-}) as any as S.Schema<CreateCliTokenResponse>;
+  S.Struct({ CliToken: S.optional(SensitiveString), WebServerHostname: S.optional(S.String) }),
+).annotate({ identifier: "CreateCliTokenResponse" }) as any as S.Schema<CreateCliTokenResponse>;
 export type IamRoleArn = string;
 export type S3BucketArn = string;
 export type RelativePath = string;
@@ -159,13 +152,8 @@ export interface NetworkConfiguration {
   SecurityGroupIds?: string[];
 }
 export const NetworkConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SubnetIds: S.optional(SubnetList),
-    SecurityGroupIds: S.optional(SecurityGroupList),
-  }),
-).annotate({
-  identifier: "NetworkConfiguration",
-}) as any as S.Schema<NetworkConfiguration>;
+  S.Struct({ SubnetIds: S.optional(SubnetList), SecurityGroupIds: S.optional(SecurityGroupList) }),
+).annotate({ identifier: "NetworkConfiguration" }) as any as S.Schema<NetworkConfiguration>;
 export type S3ObjectVersion = string;
 export type ConfigKey = string;
 export type ConfigValue = string | redacted.Redacted<string>;
@@ -232,9 +220,7 @@ export interface CreateEnvironmentInput {
   RequirementsS3ObjectVersion?: string;
   StartupScriptS3Path?: string;
   StartupScriptS3ObjectVersion?: string;
-  AirflowConfigurationOptions?: {
-    [key: string]: string | redacted.Redacted<string> | undefined;
-  };
+  AirflowConfigurationOptions?: { [key: string]: string | redacted.Redacted<string> | undefined };
   EnvironmentClass?: string;
   MaxWorkers?: number;
   KmsKey?: string;
@@ -279,18 +265,14 @@ export const CreateEnvironmentInput = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "PUT", uri: "/environments/{Name}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "CreateEnvironmentInput",
-}) as any as S.Schema<CreateEnvironmentInput>;
+).annotate({ identifier: "CreateEnvironmentInput" }) as any as S.Schema<CreateEnvironmentInput>;
 export type EnvironmentArn = string;
 export interface CreateEnvironmentOutput {
   Arn?: string;
 }
 export const CreateEnvironmentOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Arn: S.optional(S.String) }),
-).annotate({
-  identifier: "CreateEnvironmentOutput",
-}) as any as S.Schema<CreateEnvironmentOutput>;
+).annotate({ identifier: "CreateEnvironmentOutput" }) as any as S.Schema<CreateEnvironmentOutput>;
 export interface CreateWebLoginTokenRequest {
   Name: string;
 }
@@ -326,9 +308,7 @@ export const DeleteEnvironmentInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Name: S.String.pipe(T.HttpLabel("Name")) }).pipe(
     T.all(T.Http({ method: "DELETE", uri: "/environments/{Name}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteEnvironmentInput",
-}) as any as S.Schema<DeleteEnvironmentInput>;
+).annotate({ identifier: "DeleteEnvironmentInput" }) as any as S.Schema<DeleteEnvironmentInput>;
 export interface DeleteEnvironmentOutput {}
 export const DeleteEnvironmentOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteEnvironmentOutput",
@@ -340,9 +320,7 @@ export const GetEnvironmentInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Name: S.String.pipe(T.HttpLabel("Name")) }).pipe(
     T.all(T.Http({ method: "GET", uri: "/environments/{Name}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetEnvironmentInput",
-}) as any as S.Schema<GetEnvironmentInput>;
+).annotate({ identifier: "GetEnvironmentInput" }) as any as S.Schema<GetEnvironmentInput>;
 export type EnvironmentStatus = string;
 export type CreatedAt = Date;
 export type WebserverUrl = string;
@@ -376,9 +354,7 @@ export const LoggingConfiguration = /*@__PURE__*/ S.suspend(() =>
     WorkerLogs: S.optional(ModuleLoggingConfiguration),
     TaskLogs: S.optional(ModuleLoggingConfiguration),
   }),
-).annotate({
-  identifier: "LoggingConfiguration",
-}) as any as S.Schema<LoggingConfiguration>;
+).annotate({ identifier: "LoggingConfiguration" }) as any as S.Schema<LoggingConfiguration>;
 export type UpdateStatus = string;
 export type UpdateCreatedAt = Date;
 export type ErrorCode = string;
@@ -388,10 +364,7 @@ export interface UpdateError {
   ErrorMessage?: string;
 }
 export const UpdateError = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ErrorCode: S.optional(S.String),
-    ErrorMessage: S.optional(S.String),
-  }),
+  S.Struct({ ErrorCode: S.optional(S.String), ErrorMessage: S.optional(S.String) }),
 ).annotate({ identifier: "UpdateError" }) as any as S.Schema<UpdateError>;
 export type UpdateSource = string;
 export type WorkerReplacementStrategy = string;
@@ -431,9 +404,7 @@ export interface Environment {
   RequirementsS3ObjectVersion?: string;
   StartupScriptS3Path?: string;
   StartupScriptS3ObjectVersion?: string;
-  AirflowConfigurationOptions?: {
-    [key: string]: string | redacted.Redacted<string> | undefined;
-  };
+  AirflowConfigurationOptions?: { [key: string]: string | redacted.Redacted<string> | undefined };
   EnvironmentClass?: string;
   MaxWorkers?: number;
   NetworkConfiguration?: NetworkConfiguration;
@@ -494,9 +465,7 @@ export interface GetEnvironmentOutput {
 }
 export const GetEnvironmentOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Environment: S.optional(Environment) }),
-).annotate({
-  identifier: "GetEnvironmentOutput",
-}) as any as S.Schema<GetEnvironmentOutput>;
+).annotate({ identifier: "GetEnvironmentOutput" }) as any as S.Schema<GetEnvironmentOutput>;
 export type RestApiPath = string;
 export type RestApiMethod = string;
 export type RestApiRequestBody = unknown;
@@ -515,22 +484,15 @@ export const InvokeRestApiRequest = /*@__PURE__*/ S.suspend(() =>
     QueryParameters: S.optional(S.Any),
     Body: S.optional(S.Any),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/restapi/{Name}" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "InvokeRestApiRequest",
-}) as any as S.Schema<InvokeRestApiRequest>;
+).annotate({ identifier: "InvokeRestApiRequest" }) as any as S.Schema<InvokeRestApiRequest>;
 export type RestApiResponse = unknown;
 export interface InvokeRestApiResponse {
   RestApiStatusCode?: number;
   RestApiResponse?: any;
 }
 export const InvokeRestApiResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RestApiStatusCode: S.optional(S.Number),
-    RestApiResponse: S.optional(S.Any),
-  }),
-).annotate({
-  identifier: "InvokeRestApiResponse",
-}) as any as S.Schema<InvokeRestApiResponse>;
+  S.Struct({ RestApiStatusCode: S.optional(S.Number), RestApiResponse: S.optional(S.Any) }),
+).annotate({ identifier: "InvokeRestApiResponse" }) as any as S.Schema<InvokeRestApiResponse>;
 export type NextToken = string;
 export interface ListEnvironmentsInput {
   NextToken?: string;
@@ -541,9 +503,7 @@ export const ListEnvironmentsInput = /*@__PURE__*/ S.suspend(() =>
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
   }).pipe(T.all(T.Http({ method: "GET", uri: "/environments" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListEnvironmentsInput",
-}) as any as S.Schema<ListEnvironmentsInput>;
+).annotate({ identifier: "ListEnvironmentsInput" }) as any as S.Schema<ListEnvironmentsInput>;
 export type EnvironmentList = string[];
 export const EnvironmentList = /*@__PURE__*/ S.Array(S.String);
 export interface ListEnvironmentsOutput {
@@ -552,9 +512,7 @@ export interface ListEnvironmentsOutput {
 }
 export const ListEnvironmentsOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Environments: EnvironmentList, NextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListEnvironmentsOutput",
-}) as any as S.Schema<ListEnvironmentsOutput>;
+).annotate({ identifier: "ListEnvironmentsOutput" }) as any as S.Schema<ListEnvironmentsOutput>;
 export interface ListTagsForResourceInput {
   ResourceArn: string;
 }
@@ -562,9 +520,7 @@ export const ListTagsForResourceInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) }).pipe(
     T.all(T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "ListTagsForResourceInput",
-}) as any as S.Schema<ListTagsForResourceInput>;
+).annotate({ identifier: "ListTagsForResourceInput" }) as any as S.Schema<ListTagsForResourceInput>;
 export interface ListTagsForResourceOutput {
   Tags?: { [key: string]: string | undefined };
 }
@@ -627,10 +583,7 @@ export const PublishMetricsInput = /*@__PURE__*/ S.suspend(() =>
     MetricData: MetricData,
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/metrics/environments/{EnvironmentName}",
-      }),
+      T.Http({ method: "POST", uri: "/metrics/environments/{EnvironmentName}" }),
       svc,
       auth,
       proto,
@@ -638,9 +591,7 @@ export const PublishMetricsInput = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "PublishMetricsInput",
-}) as any as S.Schema<PublishMetricsInput>;
+).annotate({ identifier: "PublishMetricsInput" }) as any as S.Schema<PublishMetricsInput>;
 export interface PublishMetricsOutput {}
 export const PublishMetricsOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "PublishMetricsOutput",
@@ -650,15 +601,10 @@ export interface TagResourceInput {
   Tags: { [key: string]: string | undefined };
 }
 export const TagResourceInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
-    Tags: TagMap,
-  }).pipe(
+  S.Struct({ ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")), Tags: TagMap }).pipe(
     T.all(T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "TagResourceInput",
-}) as any as S.Schema<TagResourceInput>;
+).annotate({ identifier: "TagResourceInput" }) as any as S.Schema<TagResourceInput>;
 export interface TagResourceOutput {}
 export const TagResourceOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceOutput",
@@ -676,9 +622,7 @@ export const UntagResourceInput = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UntagResourceInput",
-}) as any as S.Schema<UntagResourceInput>;
+).annotate({ identifier: "UntagResourceInput" }) as any as S.Schema<UntagResourceInput>;
 export interface UntagResourceOutput {}
 export const UntagResourceOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceOutput",
@@ -694,9 +638,7 @@ export const UpdateNetworkConfigurationInput = /*@__PURE__*/ S.suspend(() =>
 export interface UpdateEnvironmentInput {
   Name: string;
   ExecutionRoleArn?: string;
-  AirflowConfigurationOptions?: {
-    [key: string]: string | redacted.Redacted<string> | undefined;
-  };
+  AirflowConfigurationOptions?: { [key: string]: string | redacted.Redacted<string> | undefined };
   AirflowVersion?: string;
   DagS3Path?: string;
   EnvironmentClass?: string;
@@ -746,17 +688,13 @@ export const UpdateEnvironmentInput = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "PATCH", uri: "/environments/{Name}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UpdateEnvironmentInput",
-}) as any as S.Schema<UpdateEnvironmentInput>;
+).annotate({ identifier: "UpdateEnvironmentInput" }) as any as S.Schema<UpdateEnvironmentInput>;
 export interface UpdateEnvironmentOutput {
   Arn?: string;
 }
 export const UpdateEnvironmentOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Arn: S.optional(S.String) }),
-).annotate({
-  identifier: "UpdateEnvironmentOutput",
-}) as any as S.Schema<UpdateEnvironmentOutput>;
+).annotate({ identifier: "UpdateEnvironmentOutput" }) as any as S.Schema<UpdateEnvironmentOutput>;
 export type CreateCliTokenError = ResourceNotFoundException | CommonErrors;
 /**
  * Creates a CLI token for the Airflow CLI. To learn more, see Creating an Apache Airflow CLI token.

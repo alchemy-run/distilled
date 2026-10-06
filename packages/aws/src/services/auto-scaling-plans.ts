@@ -84,10 +84,7 @@ export class ConcurrentUpdateException
     "ConcurrentUpdateException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "ConcurrentUpdateException",
-        httpResponseCode: 500,
-      }),
+      T.AwsQueryError({ code: "ConcurrentUpdateException", httpResponseCode: 500 }),
       T.HttpError(500),
     ),
   ).pipe(C.withServerError) {}
@@ -96,10 +93,7 @@ export class InternalServiceException
     "InternalServiceException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "InternalServiceException",
-        httpResponseCode: 500,
-      }),
+      T.AwsQueryError({ code: "InternalServiceException", httpResponseCode: 500 }),
       T.HttpError(500),
     ),
   ).pipe(C.withServerError) {}
@@ -108,10 +102,7 @@ export class InvalidNextTokenException
     "InvalidNextTokenException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "InvalidNextTokenException",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "InvalidNextTokenException", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -120,10 +111,7 @@ export class LimitExceededException
     "LimitExceededException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "LimitExceededException",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "LimitExceededException", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -132,10 +120,7 @@ export class ObjectNotFoundException
     "ObjectNotFoundException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "ObjectNotFoundException",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "ObjectNotFoundException", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -168,13 +153,8 @@ export interface ApplicationSource {
   TagFilters?: TagFilter[];
 }
 export const ApplicationSource = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CloudFormationStackARN: S.optional(S.String),
-    TagFilters: S.optional(TagFilters),
-  }),
-).annotate({
-  identifier: "ApplicationSource",
-}) as any as S.Schema<ApplicationSource>;
+  S.Struct({ CloudFormationStackARN: S.optional(S.String), TagFilters: S.optional(TagFilters) }),
+).annotate({ identifier: "ApplicationSource" }) as any as S.Schema<ApplicationSource>;
 export type ServiceNamespace = "autoscaling" | "ecs" | "ec2" | "rds" | "dynamodb" | (string & {});
 export const ServiceNamespace = S.String;
 
@@ -215,10 +195,7 @@ export interface PredefinedScalingMetricSpecification {
   ResourceLabel?: string;
 }
 export const PredefinedScalingMetricSpecification = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PredefinedScalingMetricType: ScalingMetricType,
-    ResourceLabel: S.optional(S.String),
-  }),
+  S.Struct({ PredefinedScalingMetricType: ScalingMetricType, ResourceLabel: S.optional(S.String) }),
 ).annotate({
   identifier: "PredefinedScalingMetricSpecification",
 }) as any as S.Schema<PredefinedScalingMetricSpecification>;
@@ -232,9 +209,7 @@ export interface MetricDimension {
 }
 export const MetricDimension = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Name: S.String, Value: S.String }),
-).annotate({
-  identifier: "MetricDimension",
-}) as any as S.Schema<MetricDimension>;
+).annotate({ identifier: "MetricDimension" }) as any as S.Schema<MetricDimension>;
 export type MetricDimensions = MetricDimension[];
 export const MetricDimensions = /*@__PURE__*/ S.Array(MetricDimension);
 export type MetricStatistic =
@@ -305,10 +280,7 @@ export interface PredefinedLoadMetricSpecification {
   ResourceLabel?: string;
 }
 export const PredefinedLoadMetricSpecification = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PredefinedLoadMetricType: LoadMetricType,
-    ResourceLabel: S.optional(S.String),
-  }),
+  S.Struct({ PredefinedLoadMetricType: LoadMetricType, ResourceLabel: S.optional(S.String) }),
 ).annotate({
   identifier: "PredefinedLoadMetricSpecification",
 }) as any as S.Schema<PredefinedLoadMetricSpecification>;
@@ -381,9 +353,7 @@ export const ScalingInstruction = /*@__PURE__*/ S.suspend(() =>
     ScalingPolicyUpdateBehavior: S.optional(ScalingPolicyUpdateBehavior),
     DisableDynamicScaling: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "ScalingInstruction",
-}) as any as S.Schema<ScalingInstruction>;
+).annotate({ identifier: "ScalingInstruction" }) as any as S.Schema<ScalingInstruction>;
 export type ScalingInstructions = ScalingInstruction[];
 export const ScalingInstructions = /*@__PURE__*/ S.Array(ScalingInstruction);
 export interface CreateScalingPlanRequest {
@@ -397,9 +367,7 @@ export const CreateScalingPlanRequest = /*@__PURE__*/ S.suspend(() =>
     ApplicationSource: ApplicationSource,
     ScalingInstructions: ScalingInstructions,
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateScalingPlanRequest",
-}) as any as S.Schema<CreateScalingPlanRequest>;
+).annotate({ identifier: "CreateScalingPlanRequest" }) as any as S.Schema<CreateScalingPlanRequest>;
 export type ScalingPlanVersion = number;
 export interface CreateScalingPlanResponse {
   ScalingPlanVersion: number;
@@ -417,9 +385,7 @@ export const DeleteScalingPlanRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ScalingPlanName: S.String, ScalingPlanVersion: S.Number }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteScalingPlanRequest",
-}) as any as S.Schema<DeleteScalingPlanRequest>;
+).annotate({ identifier: "DeleteScalingPlanRequest" }) as any as S.Schema<DeleteScalingPlanRequest>;
 export interface DeleteScalingPlanResponse {}
 export const DeleteScalingPlanResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteScalingPlanResponse",
@@ -484,9 +450,7 @@ export const ScalingPlanResource = /*@__PURE__*/ S.suspend(() =>
     ScalingStatusCode: ScalingStatusCode,
     ScalingStatusMessage: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ScalingPlanResource",
-}) as any as S.Schema<ScalingPlanResource>;
+).annotate({ identifier: "ScalingPlanResource" }) as any as S.Schema<ScalingPlanResource>;
 export type ScalingPlanResources = ScalingPlanResource[];
 export const ScalingPlanResources = /*@__PURE__*/ S.Array(ScalingPlanResource);
 export interface DescribeScalingPlanResourcesResponse {
@@ -564,10 +528,7 @@ export interface DescribeScalingPlansResponse {
   NextToken?: string;
 }
 export const DescribeScalingPlansResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ScalingPlans: S.optional(ScalingPlans),
-    NextToken: S.optional(S.String),
-  }),
+  S.Struct({ ScalingPlans: S.optional(ScalingPlans), NextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "DescribeScalingPlansResponse",
 }) as any as S.Schema<DescribeScalingPlansResponse>;
@@ -636,9 +597,7 @@ export const UpdateScalingPlanRequest = /*@__PURE__*/ S.suspend(() =>
     ApplicationSource: S.optional(ApplicationSource),
     ScalingInstructions: S.optional(ScalingInstructions),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "UpdateScalingPlanRequest",
-}) as any as S.Schema<UpdateScalingPlanRequest>;
+).annotate({ identifier: "UpdateScalingPlanRequest" }) as any as S.Schema<UpdateScalingPlanRequest>;
 export interface UpdateScalingPlanResponse {}
 export const UpdateScalingPlanResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UpdateScalingPlanResponse",

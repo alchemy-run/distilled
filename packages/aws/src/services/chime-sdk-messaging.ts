@@ -206,10 +206,7 @@ export const BatchCreateChannelMembershipRequest = /*@__PURE__*/ S.suspend(() =>
     SubChannelId: S.optional(S.String),
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/channels/{ChannelArn}/memberships?operation=batch-create",
-      }),
+      T.Http({ method: "POST", uri: "/channels/{ChannelArn}/memberships?operation=batch-create" }),
       svc,
       auth,
       proto,
@@ -245,9 +242,7 @@ export const BatchChannelMemberships = /*@__PURE__*/ S.suspend(() =>
     ChannelArn: S.optional(S.String),
     SubChannelId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "BatchChannelMemberships",
-}) as any as S.Schema<BatchChannelMemberships>;
+).annotate({ identifier: "BatchChannelMemberships" }) as any as S.Schema<BatchChannelMemberships>;
 export type ErrorCode =
   | "BadRequest"
   | "Conflict"
@@ -330,12 +325,8 @@ export interface MessageAttributeValue {
 }
 export const MessageAttributeValue = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ StringValues: S.optional(MessageAttributeStringValues) }),
-).annotate({
-  identifier: "MessageAttributeValue",
-}) as any as S.Schema<MessageAttributeValue>;
-export type MessageAttributeMap = {
-  [key: string]: MessageAttributeValue | undefined;
-};
+).annotate({ identifier: "MessageAttributeValue" }) as any as S.Schema<MessageAttributeValue>;
+export type MessageAttributeMap = { [key: string]: MessageAttributeValue | undefined };
 export const MessageAttributeMap = /*@__PURE__*/ S.Record(
   S.String,
   MessageAttributeValue.pipe(S.optional),
@@ -360,9 +351,7 @@ export const ChannelMessageCallback = /*@__PURE__*/ S.suspend(() =>
     SubChannelId: S.optional(S.String),
     ContentType: S.optional(SensitiveString),
   }),
-).annotate({
-  identifier: "ChannelMessageCallback",
-}) as any as S.Schema<ChannelMessageCallback>;
+).annotate({ identifier: "ChannelMessageCallback" }) as any as S.Schema<ChannelMessageCallback>;
 export interface ChannelFlowCallbackRequest {
   CallbackId: string;
   ChannelArn: string;
@@ -377,10 +366,7 @@ export const ChannelFlowCallbackRequest = /*@__PURE__*/ S.suspend(() =>
     ChannelMessage: ChannelMessageCallback,
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/channels/{ChannelArn}?operation=channel-flow-callback",
-      }),
+      T.Http({ method: "POST", uri: "/channels/{ChannelArn}?operation=channel-flow-callback" }),
       svc,
       auth,
       proto,
@@ -396,10 +382,7 @@ export interface ChannelFlowCallbackResponse {
   CallbackId?: string;
 }
 export const ChannelFlowCallbackResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ChannelArn: S.optional(S.String),
-    CallbackId: S.optional(S.String),
-  }),
+  S.Struct({ ChannelArn: S.optional(S.String), CallbackId: S.optional(S.String) }),
 ).annotate({
   identifier: "ChannelFlowCallbackResponse",
 }) as any as S.Schema<ChannelFlowCallbackResponse>;
@@ -453,13 +436,8 @@ export interface ExpirationSettings {
   ExpirationCriterion: ExpirationCriterion;
 }
 export const ExpirationSettings = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ExpirationDays: S.Number,
-    ExpirationCriterion: ExpirationCriterion,
-  }),
-).annotate({
-  identifier: "ExpirationSettings",
-}) as any as S.Schema<ExpirationSettings>;
+  S.Struct({ ExpirationDays: S.Number, ExpirationCriterion: ExpirationCriterion }),
+).annotate({ identifier: "ExpirationSettings" }) as any as S.Schema<ExpirationSettings>;
 export interface CreateChannelRequest {
   AppInstanceArn: string;
   Name: string | redacted.Redacted<string>;
@@ -491,17 +469,13 @@ export const CreateChannelRequest = /*@__PURE__*/ S.suspend(() =>
     ElasticChannelConfiguration: S.optional(ElasticChannelConfiguration),
     ExpirationSettings: S.optional(ExpirationSettings),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/channels" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateChannelRequest",
-}) as any as S.Schema<CreateChannelRequest>;
+).annotate({ identifier: "CreateChannelRequest" }) as any as S.Schema<CreateChannelRequest>;
 export interface CreateChannelResponse {
   ChannelArn?: string;
 }
 export const CreateChannelResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ChannelArn: S.optional(S.String) }),
-).annotate({
-  identifier: "CreateChannelResponse",
-}) as any as S.Schema<CreateChannelResponse>;
+).annotate({ identifier: "CreateChannelResponse" }) as any as S.Schema<CreateChannelResponse>;
 export interface CreateChannelBanRequest {
   ChannelArn: string;
   MemberArn: string;
@@ -522,18 +496,14 @@ export const CreateChannelBanRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "CreateChannelBanRequest",
-}) as any as S.Schema<CreateChannelBanRequest>;
+).annotate({ identifier: "CreateChannelBanRequest" }) as any as S.Schema<CreateChannelBanRequest>;
 export interface CreateChannelBanResponse {
   ChannelArn?: string;
   Member?: Identity;
 }
 export const CreateChannelBanResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ChannelArn: S.optional(S.String), Member: S.optional(Identity) }),
-).annotate({
-  identifier: "CreateChannelBanResponse",
-}) as any as S.Schema<CreateChannelBanResponse>;
+).annotate({ identifier: "CreateChannelBanResponse" }) as any as S.Schema<CreateChannelBanResponse>;
 export type LambdaFunctionArn = string;
 export type InvocationType = "ASYNC" | (string & {});
 export const InvocationType = S.String;
@@ -544,17 +514,13 @@ export interface LambdaConfiguration {
 }
 export const LambdaConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceArn: S.String, InvocationType: InvocationType }),
-).annotate({
-  identifier: "LambdaConfiguration",
-}) as any as S.Schema<LambdaConfiguration>;
+).annotate({ identifier: "LambdaConfiguration" }) as any as S.Schema<LambdaConfiguration>;
 export interface ProcessorConfiguration {
   Lambda: LambdaConfiguration;
 }
 export const ProcessorConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Lambda: LambdaConfiguration }),
-).annotate({
-  identifier: "ProcessorConfiguration",
-}) as any as S.Schema<ProcessorConfiguration>;
+).annotate({ identifier: "ProcessorConfiguration" }) as any as S.Schema<ProcessorConfiguration>;
 export type ChannelFlowExecutionOrder = number;
 export type FallbackAction = "CONTINUE" | "ABORT" | (string & {});
 export const FallbackAction = S.String;
@@ -590,9 +556,7 @@ export const CreateChannelFlowRequest = /*@__PURE__*/ S.suspend(() =>
     Tags: S.optional(TagList),
     ClientRequestToken: SensitiveString.pipe(T.IdempotencyToken()),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/channel-flows" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateChannelFlowRequest",
-}) as any as S.Schema<CreateChannelFlowRequest>;
+).annotate({ identifier: "CreateChannelFlowRequest" }) as any as S.Schema<CreateChannelFlowRequest>;
 export interface CreateChannelFlowResponse {
   ChannelFlowArn?: string;
 }
@@ -670,10 +634,7 @@ export interface CreateChannelModeratorResponse {
   ChannelModerator?: Identity;
 }
 export const CreateChannelModeratorResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ChannelArn: S.optional(S.String),
-    ChannelModerator: S.optional(Identity),
-  }),
+  S.Struct({ ChannelArn: S.optional(S.String), ChannelModerator: S.optional(Identity) }),
 ).annotate({
   identifier: "CreateChannelModeratorResponse",
 }) as any as S.Schema<CreateChannelModeratorResponse>;
@@ -695,9 +656,7 @@ export const DeleteChannelRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteChannelRequest",
-}) as any as S.Schema<DeleteChannelRequest>;
+).annotate({ identifier: "DeleteChannelRequest" }) as any as S.Schema<DeleteChannelRequest>;
 export interface DeleteChannelResponse {}
 export const DeleteChannelResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteChannelResponse",
@@ -714,10 +673,7 @@ export const DeleteChannelBanRequest = /*@__PURE__*/ S.suspend(() =>
     ChimeBearer: S.String.pipe(T.HttpHeader("x-amz-chime-bearer")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/channels/{ChannelArn}/bans/{MemberArn}",
-      }),
+      T.Http({ method: "DELETE", uri: "/channels/{ChannelArn}/bans/{MemberArn}" }),
       svc,
       auth,
       proto,
@@ -725,9 +681,7 @@ export const DeleteChannelBanRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteChannelBanRequest",
-}) as any as S.Schema<DeleteChannelBanRequest>;
+).annotate({ identifier: "DeleteChannelBanRequest" }) as any as S.Schema<DeleteChannelBanRequest>;
 export interface DeleteChannelBanResponse {}
 export const DeleteChannelBanResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteChannelBanResponse",
@@ -736,9 +690,7 @@ export interface DeleteChannelFlowRequest {
   ChannelFlowArn: string;
 }
 export const DeleteChannelFlowRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ChannelFlowArn: S.String.pipe(T.HttpLabel("ChannelFlowArn")),
-  }).pipe(
+  S.Struct({ ChannelFlowArn: S.String.pipe(T.HttpLabel("ChannelFlowArn")) }).pipe(
     T.all(
       T.Http({ method: "DELETE", uri: "/channel-flows/{ChannelFlowArn}" }),
       svc,
@@ -748,9 +700,7 @@ export const DeleteChannelFlowRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteChannelFlowRequest",
-}) as any as S.Schema<DeleteChannelFlowRequest>;
+).annotate({ identifier: "DeleteChannelFlowRequest" }) as any as S.Schema<DeleteChannelFlowRequest>;
 export interface DeleteChannelFlowResponse {}
 export const DeleteChannelFlowResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteChannelFlowResponse",
@@ -769,10 +719,7 @@ export const DeleteChannelMembershipRequest = /*@__PURE__*/ S.suspend(() =>
     SubChannelId: S.optional(S.String).pipe(T.HttpQuery("sub-channel-id")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/channels/{ChannelArn}/memberships/{MemberArn}",
-      }),
+      T.Http({ method: "DELETE", uri: "/channels/{ChannelArn}/memberships/{MemberArn}" }),
       svc,
       auth,
       proto,
@@ -785,9 +732,7 @@ export const DeleteChannelMembershipRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<DeleteChannelMembershipRequest>;
 export interface DeleteChannelMembershipResponse {}
 export const DeleteChannelMembershipResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "DeleteChannelMembershipResponse",
-  },
+  { identifier: "DeleteChannelMembershipResponse" },
 ) as any as S.Schema<DeleteChannelMembershipResponse>;
 export interface DeleteChannelMessageRequest {
   ChannelArn: string;
@@ -803,10 +748,7 @@ export const DeleteChannelMessageRequest = /*@__PURE__*/ S.suspend(() =>
     SubChannelId: S.optional(S.String).pipe(T.HttpQuery("sub-channel-id")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/channels/{ChannelArn}/messages/{MessageId}",
-      }),
+      T.Http({ method: "DELETE", uri: "/channels/{ChannelArn}/messages/{MessageId}" }),
       svc,
       auth,
       proto,
@@ -833,10 +775,7 @@ export const DeleteChannelModeratorRequest = /*@__PURE__*/ S.suspend(() =>
     ChimeBearer: S.String.pipe(T.HttpHeader("x-amz-chime-bearer")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/channels/{ChannelArn}/moderators/{ChannelModeratorArn}",
-      }),
+      T.Http({ method: "DELETE", uri: "/channels/{ChannelArn}/moderators/{ChannelModeratorArn}" }),
       svc,
       auth,
       proto,
@@ -855,14 +794,9 @@ export interface DeleteMessagingStreamingConfigurationsRequest {
   AppInstanceArn: string;
 }
 export const DeleteMessagingStreamingConfigurationsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AppInstanceArn: S.String.pipe(T.HttpLabel("AppInstanceArn")),
-  }).pipe(
+  S.Struct({ AppInstanceArn: S.String.pipe(T.HttpLabel("AppInstanceArn")) }).pipe(
     T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/app-instances/{AppInstanceArn}/streaming-configurations",
-      }),
+      T.Http({ method: "DELETE", uri: "/app-instances/{AppInstanceArn}/streaming-configurations" }),
       svc,
       auth,
       proto,
@@ -890,9 +824,7 @@ export const DescribeChannelRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "GET", uri: "/channels/{ChannelArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DescribeChannelRequest",
-}) as any as S.Schema<DescribeChannelRequest>;
+).annotate({ identifier: "DescribeChannelRequest" }) as any as S.Schema<DescribeChannelRequest>;
 export interface Channel {
   Name?: string | redacted.Redacted<string>;
   ChannelArn?: string;
@@ -928,9 +860,7 @@ export interface DescribeChannelResponse {
 }
 export const DescribeChannelResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Channel: S.optional(Channel) }),
-).annotate({
-  identifier: "DescribeChannelResponse",
-}) as any as S.Schema<DescribeChannelResponse>;
+).annotate({ identifier: "DescribeChannelResponse" }) as any as S.Schema<DescribeChannelResponse>;
 export interface DescribeChannelBanRequest {
   ChannelArn: string;
   MemberArn: string;
@@ -980,9 +910,7 @@ export interface DescribeChannelFlowRequest {
   ChannelFlowArn: string;
 }
 export const DescribeChannelFlowRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ChannelFlowArn: S.String.pipe(T.HttpLabel("ChannelFlowArn")),
-  }).pipe(
+  S.Struct({ ChannelFlowArn: S.String.pipe(T.HttpLabel("ChannelFlowArn")) }).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/channel-flows/{ChannelFlowArn}" }),
       svc,
@@ -1033,10 +961,7 @@ export const DescribeChannelMembershipRequest = /*@__PURE__*/ S.suspend(() =>
     SubChannelId: S.optional(S.String).pipe(T.HttpQuery("sub-channel-id")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/channels/{ChannelArn}/memberships/{MemberArn}",
-      }),
+      T.Http({ method: "GET", uri: "/channels/{ChannelArn}/memberships/{MemberArn}" }),
       svc,
       auth,
       proto,
@@ -1066,9 +991,7 @@ export const ChannelMembership = /*@__PURE__*/ S.suspend(() =>
     LastUpdatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     SubChannelId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ChannelMembership",
-}) as any as S.Schema<ChannelMembership>;
+).annotate({ identifier: "ChannelMembership" }) as any as S.Schema<ChannelMembership>;
 export interface DescribeChannelMembershipResponse {
   ChannelMembership?: ChannelMembership;
 }
@@ -1089,10 +1012,7 @@ export const DescribeChannelMembershipForAppInstanceUserRequest = /*@__PURE__*/ 
     ChimeBearer: S.String.pipe(T.HttpHeader("x-amz-chime-bearer")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/channels/{ChannelArn}?scope=app-instance-user-membership",
-      }),
+      T.Http({ method: "GET", uri: "/channels/{ChannelArn}?scope=app-instance-user-membership" }),
       svc,
       auth,
       proto,
@@ -1151,9 +1071,7 @@ export interface DescribeChannelMembershipForAppInstanceUserResponse {
   ChannelMembership?: ChannelMembershipForAppInstanceUserSummary;
 }
 export const DescribeChannelMembershipForAppInstanceUserResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ChannelMembership: S.optional(ChannelMembershipForAppInstanceUserSummary),
-  }),
+  S.Struct({ ChannelMembership: S.optional(ChannelMembershipForAppInstanceUserSummary) }),
 ).annotate({
   identifier: "DescribeChannelMembershipForAppInstanceUserResponse",
 }) as any as S.Schema<DescribeChannelMembershipForAppInstanceUserResponse>;
@@ -1211,10 +1129,7 @@ export const DescribeChannelModeratorRequest = /*@__PURE__*/ S.suspend(() =>
     ChimeBearer: S.String.pipe(T.HttpHeader("x-amz-chime-bearer")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/channels/{ChannelArn}/moderators/{ChannelModeratorArn}",
-      }),
+      T.Http({ method: "GET", uri: "/channels/{ChannelArn}/moderators/{ChannelModeratorArn}" }),
       svc,
       auth,
       proto,
@@ -1238,9 +1153,7 @@ export const ChannelModerator = /*@__PURE__*/ S.suspend(() =>
     CreatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     CreatedBy: S.optional(Identity),
   }),
-).annotate({
-  identifier: "ChannelModerator",
-}) as any as S.Schema<ChannelModerator>;
+).annotate({ identifier: "ChannelModerator" }) as any as S.Schema<ChannelModerator>;
 export interface DescribeChannelModeratorResponse {
   ChannelModerator?: ChannelModerator;
 }
@@ -1261,10 +1174,7 @@ export const DisassociateChannelFlowRequest = /*@__PURE__*/ S.suspend(() =>
     ChimeBearer: S.String.pipe(T.HttpHeader("x-amz-chime-bearer")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/channels/{ChannelArn}/channel-flow/{ChannelFlowArn}",
-      }),
+      T.Http({ method: "DELETE", uri: "/channels/{ChannelArn}/channel-flow/{ChannelFlowArn}" }),
       svc,
       auth,
       proto,
@@ -1277,9 +1187,7 @@ export const DisassociateChannelFlowRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<DisassociateChannelFlowRequest>;
 export interface DisassociateChannelFlowResponse {}
 export const DisassociateChannelFlowResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "DisassociateChannelFlowResponse",
-  },
+  { identifier: "DisassociateChannelFlowResponse" },
 ) as any as S.Schema<DisassociateChannelFlowResponse>;
 export interface GetChannelMembershipPreferencesRequest {
   ChannelArn: string;
@@ -1293,10 +1201,7 @@ export const GetChannelMembershipPreferencesRequest = /*@__PURE__*/ S.suspend(()
     ChimeBearer: S.String.pipe(T.HttpHeader("x-amz-chime-bearer")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/channels/{ChannelArn}/memberships/{MemberArn}/preferences",
-      }),
+      T.Http({ method: "GET", uri: "/channels/{ChannelArn}/memberships/{MemberArn}/preferences" }),
       svc,
       auth,
       proto,
@@ -1316,10 +1221,7 @@ export interface PushNotificationPreferences {
   FilterRule?: string | redacted.Redacted<string>;
 }
 export const PushNotificationPreferences = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AllowNotifications: AllowNotifications,
-    FilterRule: S.optional(SensitiveString),
-  }),
+  S.Struct({ AllowNotifications: AllowNotifications, FilterRule: S.optional(SensitiveString) }),
 ).annotate({
   identifier: "PushNotificationPreferences",
 }) as any as S.Schema<PushNotificationPreferences>;
@@ -1359,10 +1261,7 @@ export const GetChannelMessageRequest = /*@__PURE__*/ S.suspend(() =>
     SubChannelId: S.optional(S.String).pipe(T.HttpQuery("sub-channel-id")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/channels/{ChannelArn}/messages/{MessageId}",
-      }),
+      T.Http({ method: "GET", uri: "/channels/{ChannelArn}/messages/{MessageId}" }),
       svc,
       auth,
       proto,
@@ -1370,9 +1269,7 @@ export const GetChannelMessageRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetChannelMessageRequest",
-}) as any as S.Schema<GetChannelMessageRequest>;
+).annotate({ identifier: "GetChannelMessageRequest" }) as any as S.Schema<GetChannelMessageRequest>;
 export type Content = string | redacted.Redacted<string>;
 export type ChannelMessageType = "STANDARD" | "CONTROL" | (string & {});
 export const ChannelMessageType = S.String;
@@ -1389,10 +1286,7 @@ export interface ChannelMessageStatusStructure {
   Detail?: string;
 }
 export const ChannelMessageStatusStructure = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Value: S.optional(ChannelMessageStatus),
-    Detail: S.optional(S.String),
-  }),
+  S.Struct({ Value: S.optional(ChannelMessageStatus), Detail: S.optional(S.String) }),
 ).annotate({
   identifier: "ChannelMessageStatusStructure",
 }) as any as S.Schema<ChannelMessageStatusStructure>;
@@ -1493,9 +1387,7 @@ export interface GetMessagingSessionEndpointRequest {
   NetworkType?: NetworkType;
 }
 export const GetMessagingSessionEndpointRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NetworkType: S.optional(NetworkType).pipe(T.HttpQuery("network-type")),
-  }).pipe(
+  S.Struct({ NetworkType: S.optional(NetworkType).pipe(T.HttpQuery("network-type")) }).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/endpoints/messaging-session" }),
       svc,
@@ -1514,9 +1406,7 @@ export interface MessagingSessionEndpoint {
 }
 export const MessagingSessionEndpoint = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Url: S.optional(S.String) }),
-).annotate({
-  identifier: "MessagingSessionEndpoint",
-}) as any as S.Schema<MessagingSessionEndpoint>;
+).annotate({ identifier: "MessagingSessionEndpoint" }) as any as S.Schema<MessagingSessionEndpoint>;
 export interface GetMessagingSessionEndpointResponse {
   Endpoint?: MessagingSessionEndpoint;
 }
@@ -1529,14 +1419,9 @@ export interface GetMessagingStreamingConfigurationsRequest {
   AppInstanceArn: string;
 }
 export const GetMessagingStreamingConfigurationsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AppInstanceArn: S.String.pipe(T.HttpLabel("AppInstanceArn")),
-  }).pipe(
+  S.Struct({ AppInstanceArn: S.String.pipe(T.HttpLabel("AppInstanceArn")) }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/app-instances/{AppInstanceArn}/streaming-configurations",
-      }),
+      T.Http({ method: "GET", uri: "/app-instances/{AppInstanceArn}/streaming-configurations" }),
       svc,
       auth,
       proto,
@@ -1556,18 +1441,14 @@ export interface StreamingConfiguration {
 }
 export const StreamingConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ DataType: MessagingDataType, ResourceArn: S.String }),
-).annotate({
-  identifier: "StreamingConfiguration",
-}) as any as S.Schema<StreamingConfiguration>;
+).annotate({ identifier: "StreamingConfiguration" }) as any as S.Schema<StreamingConfiguration>;
 export type StreamingConfigurationList = StreamingConfiguration[];
 export const StreamingConfigurationList = /*@__PURE__*/ S.Array(StreamingConfiguration);
 export interface GetMessagingStreamingConfigurationsResponse {
   StreamingConfigurations?: StreamingConfiguration[];
 }
 export const GetMessagingStreamingConfigurationsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    StreamingConfigurations: S.optional(StreamingConfigurationList),
-  }),
+  S.Struct({ StreamingConfigurations: S.optional(StreamingConfigurationList) }),
 ).annotate({
   identifier: "GetMessagingStreamingConfigurationsResponse",
 }) as any as S.Schema<GetMessagingStreamingConfigurationsResponse>;
@@ -1595,17 +1476,13 @@ export const ListChannelBansRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "ListChannelBansRequest",
-}) as any as S.Schema<ListChannelBansRequest>;
+).annotate({ identifier: "ListChannelBansRequest" }) as any as S.Schema<ListChannelBansRequest>;
 export interface ChannelBanSummary {
   Member?: Identity;
 }
 export const ChannelBanSummary = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Member: S.optional(Identity) }),
-).annotate({
-  identifier: "ChannelBanSummary",
-}) as any as S.Schema<ChannelBanSummary>;
+).annotate({ identifier: "ChannelBanSummary" }) as any as S.Schema<ChannelBanSummary>;
 export type ChannelBanSummaryList = ChannelBanSummary[];
 export const ChannelBanSummaryList = /*@__PURE__*/ S.Array(ChannelBanSummary);
 export interface ListChannelBansResponse {
@@ -1619,9 +1496,7 @@ export const ListChannelBansResponse = /*@__PURE__*/ S.suspend(() =>
     NextToken: S.optional(SensitiveString),
     ChannelBans: S.optional(ChannelBanSummaryList),
   }),
-).annotate({
-  identifier: "ListChannelBansResponse",
-}) as any as S.Schema<ListChannelBansResponse>;
+).annotate({ identifier: "ListChannelBansResponse" }) as any as S.Schema<ListChannelBansResponse>;
 export interface ListChannelFlowsRequest {
   AppInstanceArn: string;
   MaxResults?: number;
@@ -1633,9 +1508,7 @@ export const ListChannelFlowsRequest = /*@__PURE__*/ S.suspend(() =>
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max-results")),
     NextToken: S.optional(SensitiveString).pipe(T.HttpQuery("next-token")),
   }).pipe(T.all(T.Http({ method: "GET", uri: "/channel-flows" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListChannelFlowsRequest",
-}) as any as S.Schema<ListChannelFlowsRequest>;
+).annotate({ identifier: "ListChannelFlowsRequest" }) as any as S.Schema<ListChannelFlowsRequest>;
 export interface ChannelFlowSummary {
   ChannelFlowArn?: string;
   Name?: string | redacted.Redacted<string>;
@@ -1647,9 +1520,7 @@ export const ChannelFlowSummary = /*@__PURE__*/ S.suspend(() =>
     Name: S.optional(SensitiveString),
     Processors: S.optional(ProcessorList),
   }),
-).annotate({
-  identifier: "ChannelFlowSummary",
-}) as any as S.Schema<ChannelFlowSummary>;
+).annotate({ identifier: "ChannelFlowSummary" }) as any as S.Schema<ChannelFlowSummary>;
 export type ChannelFlowSummaryList = ChannelFlowSummary[];
 export const ChannelFlowSummaryList = /*@__PURE__*/ S.Array(ChannelFlowSummary);
 export interface ListChannelFlowsResponse {
@@ -1661,9 +1532,7 @@ export const ListChannelFlowsResponse = /*@__PURE__*/ S.suspend(() =>
     ChannelFlows: S.optional(ChannelFlowSummaryList),
     NextToken: S.optional(SensitiveString),
   }),
-).annotate({
-  identifier: "ListChannelFlowsResponse",
-}) as any as S.Schema<ListChannelFlowsResponse>;
+).annotate({ identifier: "ListChannelFlowsResponse" }) as any as S.Schema<ListChannelFlowsResponse>;
 export interface ListChannelMembershipsRequest {
   ChannelArn: string;
   Type?: ChannelMembershipType;
@@ -1698,9 +1567,7 @@ export interface ChannelMembershipSummary {
 }
 export const ChannelMembershipSummary = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Member: S.optional(Identity) }),
-).annotate({
-  identifier: "ChannelMembershipSummary",
-}) as any as S.Schema<ChannelMembershipSummary>;
+).annotate({ identifier: "ChannelMembershipSummary" }) as any as S.Schema<ChannelMembershipSummary>;
 export type ChannelMembershipSummaryList = ChannelMembershipSummary[];
 export const ChannelMembershipSummaryList = /*@__PURE__*/ S.Array(ChannelMembershipSummary);
 export interface ListChannelMembershipsResponse {
@@ -1731,10 +1598,7 @@ export const ListChannelMembershipsForAppInstanceUserRequest = /*@__PURE__*/ S.s
     ChimeBearer: S.String.pipe(T.HttpHeader("x-amz-chime-bearer")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/channels?scope=app-instance-user-memberships",
-      }),
+      T.Http({ method: "GET", uri: "/channels?scope=app-instance-user-memberships" }),
       svc,
       auth,
       proto,
@@ -1833,9 +1697,7 @@ export const ChannelMessageSummary = /*@__PURE__*/ S.suspend(() =>
     ContentType: S.optional(SensitiveString),
     Target: S.optional(TargetList),
   }),
-).annotate({
-  identifier: "ChannelMessageSummary",
-}) as any as S.Schema<ChannelMessageSummary>;
+).annotate({ identifier: "ChannelMessageSummary" }) as any as S.Schema<ChannelMessageSummary>;
 export type ChannelMessageSummaryList = ChannelMessageSummary[];
 export const ChannelMessageSummaryList = /*@__PURE__*/ S.Array(ChannelMessageSummary);
 export interface ListChannelMessagesResponse {
@@ -1884,9 +1746,7 @@ export interface ChannelModeratorSummary {
 }
 export const ChannelModeratorSummary = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Moderator: S.optional(Identity) }),
-).annotate({
-  identifier: "ChannelModeratorSummary",
-}) as any as S.Schema<ChannelModeratorSummary>;
+).annotate({ identifier: "ChannelModeratorSummary" }) as any as S.Schema<ChannelModeratorSummary>;
 export type ChannelModeratorSummaryList = ChannelModeratorSummary[];
 export const ChannelModeratorSummaryList = /*@__PURE__*/ S.Array(ChannelModeratorSummary);
 export interface ListChannelModeratorsResponse {
@@ -1918,9 +1778,7 @@ export const ListChannelsRequest = /*@__PURE__*/ S.suspend(() =>
     NextToken: S.optional(SensitiveString).pipe(T.HttpQuery("next-token")),
     ChimeBearer: S.String.pipe(T.HttpHeader("x-amz-chime-bearer")),
   }).pipe(T.all(T.Http({ method: "GET", uri: "/channels" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListChannelsRequest",
-}) as any as S.Schema<ListChannelsRequest>;
+).annotate({ identifier: "ListChannelsRequest" }) as any as S.Schema<ListChannelsRequest>;
 export type ChannelSummaryList = ChannelSummary[];
 export const ChannelSummaryList = /*@__PURE__*/ S.Array(ChannelSummary);
 export interface ListChannelsResponse {
@@ -1928,13 +1786,8 @@ export interface ListChannelsResponse {
   NextToken?: string | redacted.Redacted<string>;
 }
 export const ListChannelsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Channels: S.optional(ChannelSummaryList),
-    NextToken: S.optional(SensitiveString),
-  }),
-).annotate({
-  identifier: "ListChannelsResponse",
-}) as any as S.Schema<ListChannelsResponse>;
+  S.Struct({ Channels: S.optional(ChannelSummaryList), NextToken: S.optional(SensitiveString) }),
+).annotate({ identifier: "ListChannelsResponse" }) as any as S.Schema<ListChannelsResponse>;
 export interface ListChannelsAssociatedWithChannelFlowRequest {
   ChannelFlowArn: string;
   MaxResults?: number;
@@ -1947,10 +1800,7 @@ export const ListChannelsAssociatedWithChannelFlowRequest = /*@__PURE__*/ S.susp
     NextToken: S.optional(SensitiveString).pipe(T.HttpQuery("next-token")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/channels?scope=channel-flow-associations",
-      }),
+      T.Http({ method: "GET", uri: "/channels?scope=channel-flow-associations" }),
       svc,
       auth,
       proto,
@@ -2009,10 +1859,7 @@ export const ListChannelsModeratedByAppInstanceUserRequest = /*@__PURE__*/ S.sus
     ChimeBearer: S.String.pipe(T.HttpHeader("x-amz-chime-bearer")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/channels?scope=app-instance-user-moderated-channels",
-      }),
+      T.Http({ method: "GET", uri: "/channels?scope=app-instance-user-moderated-channels" }),
       svc,
       auth,
       proto,
@@ -2062,22 +1909,15 @@ export const ListSubChannelsRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "ListSubChannelsRequest",
-}) as any as S.Schema<ListSubChannelsRequest>;
+).annotate({ identifier: "ListSubChannelsRequest" }) as any as S.Schema<ListSubChannelsRequest>;
 export type MembershipCount = number;
 export interface SubChannelSummary {
   SubChannelId?: string;
   MembershipCount?: number;
 }
 export const SubChannelSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SubChannelId: S.optional(S.String),
-    MembershipCount: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "SubChannelSummary",
-}) as any as S.Schema<SubChannelSummary>;
+  S.Struct({ SubChannelId: S.optional(S.String), MembershipCount: S.optional(S.Number) }),
+).annotate({ identifier: "SubChannelSummary" }) as any as S.Schema<SubChannelSummary>;
 export type SubChannelSummaryList = SubChannelSummary[];
 export const SubChannelSummaryList = /*@__PURE__*/ S.Array(SubChannelSummary);
 export interface ListSubChannelsResponse {
@@ -2091,9 +1931,7 @@ export const ListSubChannelsResponse = /*@__PURE__*/ S.suspend(() =>
     SubChannels: S.optional(SubChannelSummaryList),
     NextToken: S.optional(SensitiveString),
   }),
-).annotate({
-  identifier: "ListSubChannelsResponse",
-}) as any as S.Schema<ListSubChannelsResponse>;
+).annotate({ identifier: "ListSubChannelsResponse" }) as any as S.Schema<ListSubChannelsResponse>;
 export interface ListTagsForResourceRequest {
   ResourceARN: string;
 }
@@ -2124,10 +1962,7 @@ export const PutChannelExpirationSettingsRequest = /*@__PURE__*/ S.suspend(() =>
     ExpirationSettings: S.optional(ExpirationSettings),
   }).pipe(
     T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/channels/{ChannelArn}/expiration-settings",
-      }),
+      T.Http({ method: "PUT", uri: "/channels/{ChannelArn}/expiration-settings" }),
       svc,
       auth,
       proto,
@@ -2164,10 +1999,7 @@ export const PutChannelMembershipPreferencesRequest = /*@__PURE__*/ S.suspend(()
     Preferences: ChannelMembershipPreferences,
   }).pipe(
     T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/channels/{ChannelArn}/memberships/{MemberArn}/preferences",
-      }),
+      T.Http({ method: "PUT", uri: "/channels/{ChannelArn}/memberships/{MemberArn}/preferences" }),
       svc,
       auth,
       proto,
@@ -2202,10 +2034,7 @@ export const PutMessagingStreamingConfigurationsRequest = /*@__PURE__*/ S.suspen
     StreamingConfigurations: StreamingConfigurationList,
   }).pipe(
     T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/app-instances/{AppInstanceArn}/streaming-configurations",
-      }),
+      T.Http({ method: "PUT", uri: "/app-instances/{AppInstanceArn}/streaming-configurations" }),
       svc,
       auth,
       proto,
@@ -2220,9 +2049,7 @@ export interface PutMessagingStreamingConfigurationsResponse {
   StreamingConfigurations?: StreamingConfiguration[];
 }
 export const PutMessagingStreamingConfigurationsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    StreamingConfigurations: S.optional(StreamingConfigurationList),
-  }),
+  S.Struct({ StreamingConfigurations: S.optional(StreamingConfigurationList) }),
 ).annotate({
   identifier: "PutMessagingStreamingConfigurationsResponse",
 }) as any as S.Schema<PutMessagingStreamingConfigurationsResponse>;
@@ -2283,11 +2110,7 @@ export interface SearchField {
   Operator: SearchFieldOperator;
 }
 export const SearchField = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Key: SearchFieldKey,
-    Values: SearchFieldValues,
-    Operator: SearchFieldOperator,
-  }),
+  S.Struct({ Key: SearchFieldKey, Values: SearchFieldValues, Operator: SearchFieldOperator }),
 ).annotate({ identifier: "SearchField" }) as any as S.Schema<SearchField>;
 export type SearchFields = SearchField[];
 export const SearchFields = /*@__PURE__*/ S.Array(SearchField);
@@ -2313,21 +2136,14 @@ export const SearchChannelsRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "SearchChannelsRequest",
-}) as any as S.Schema<SearchChannelsRequest>;
+).annotate({ identifier: "SearchChannelsRequest" }) as any as S.Schema<SearchChannelsRequest>;
 export interface SearchChannelsResponse {
   Channels?: ChannelSummary[];
   NextToken?: string | redacted.Redacted<string>;
 }
 export const SearchChannelsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Channels: S.optional(ChannelSummaryList),
-    NextToken: S.optional(SensitiveString),
-  }),
-).annotate({
-  identifier: "SearchChannelsResponse",
-}) as any as S.Schema<SearchChannelsResponse>;
+  S.Struct({ Channels: S.optional(ChannelSummaryList), NextToken: S.optional(SensitiveString) }),
+).annotate({ identifier: "SearchChannelsResponse" }) as any as S.Schema<SearchChannelsResponse>;
 export interface SendChannelMessageRequest {
   ChannelArn: string;
   Content: string | redacted.Redacted<string>;
@@ -2400,9 +2216,7 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
+).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
 export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
@@ -2424,9 +2238,7 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
+).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
 export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
@@ -2448,17 +2260,13 @@ export const UpdateChannelRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "PUT", uri: "/channels/{ChannelArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UpdateChannelRequest",
-}) as any as S.Schema<UpdateChannelRequest>;
+).annotate({ identifier: "UpdateChannelRequest" }) as any as S.Schema<UpdateChannelRequest>;
 export interface UpdateChannelResponse {
   ChannelArn?: string;
 }
 export const UpdateChannelResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ChannelArn: S.optional(S.String) }),
-).annotate({
-  identifier: "UpdateChannelResponse",
-}) as any as S.Schema<UpdateChannelResponse>;
+).annotate({ identifier: "UpdateChannelResponse" }) as any as S.Schema<UpdateChannelResponse>;
 export interface UpdateChannelFlowRequest {
   ChannelFlowArn: string;
   Processors: Processor[];
@@ -2479,9 +2287,7 @@ export const UpdateChannelFlowRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "UpdateChannelFlowRequest",
-}) as any as S.Schema<UpdateChannelFlowRequest>;
+).annotate({ identifier: "UpdateChannelFlowRequest" }) as any as S.Schema<UpdateChannelFlowRequest>;
 export interface UpdateChannelFlowResponse {
   ChannelFlowArn?: string;
 }
@@ -2510,10 +2316,7 @@ export const UpdateChannelMessageRequest = /*@__PURE__*/ S.suspend(() =>
     ContentType: S.optional(SensitiveString),
   }).pipe(
     T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/channels/{ChannelArn}/messages/{MessageId}",
-      }),
+      T.Http({ method: "PUT", uri: "/channels/{ChannelArn}/messages/{MessageId}" }),
       svc,
       auth,
       proto,

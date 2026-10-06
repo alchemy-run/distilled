@@ -165,63 +165,25 @@
       },
       "traits": {}
     },
-    "com.vercel.bulk_redirects#GetRedirectsResponseBodyCase1Version": {
+    "com.vercel.bulk_redirects#GetRedirectsResponseBodyCase1Pagination": {
       "type": "structure",
       "members": {
-        "id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The unique identifier for the version.",
-            "smithy.api#required": {}
-          }
-        },
-        "key": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The key of the version. The key may be duplicated across versions if the contents are the same as a different version.",
-            "smithy.api#required": {}
-          }
-        },
-        "lastModified": {
+        "numPages": {
           "target": "smithy.api#Double",
           "traits": {
             "smithy.api#required": {}
           }
         },
-        "createdBy": {
-          "target": "smithy.api#String",
+        "page": {
+          "target": "smithy.api#Double",
           "traits": {
             "smithy.api#required": {}
           }
         },
-        "name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Optional name for the version. If not provided, defaults to an ISO timestamp string."
-          }
-        },
-        "isStaging": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "Whether this version has not been promoted to production yet and is not serving end users."
-          }
-        },
-        "isLive": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "Whether this version is currently live in production."
-          }
-        },
-        "redirectCount": {
+        "per_page": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "The number of redirects in this version."
-          }
-        },
-        "alias": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The staging link for previewing redirects in this version."
+            "smithy.api#required": {}
           }
         }
       },
@@ -230,22 +192,7 @@
     "com.vercel.bulk_redirects#GetRedirectsResponseBodyCase1RedirectsItem": {
       "type": "structure",
       "members": {
-        "statusCode": {
-          "target": "smithy.api#Double"
-        },
-        "permanent": {
-          "target": "smithy.api#Boolean"
-        },
-        "sensitive": {
-          "target": "smithy.api#Boolean"
-        },
         "caseSensitive": {
-          "target": "smithy.api#Boolean"
-        },
-        "query": {
-          "target": "smithy.api#Boolean"
-        },
-        "preserveQueryParams": {
           "target": "smithy.api#Boolean"
         },
         "destination": {
@@ -254,11 +201,26 @@
             "smithy.api#required": {}
           }
         },
+        "permanent": {
+          "target": "smithy.api#Boolean"
+        },
+        "preserveQueryParams": {
+          "target": "smithy.api#Boolean"
+        },
+        "query": {
+          "target": "smithy.api#Boolean"
+        },
+        "sensitive": {
+          "target": "smithy.api#Boolean"
+        },
         "source": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
+        },
+        "statusCode": {
+          "target": "smithy.api#Double"
         }
       },
       "traits": {}
@@ -270,59 +232,38 @@
       },
       "traits": {}
     },
-    "com.vercel.bulk_redirects#GetRedirectsResponseBodyCase1Pagination": {
+    "com.vercel.bulk_redirects#GetRedirectsResponseBodyCase1Version": {
       "type": "structure",
       "members": {
-        "page": {
-          "target": "smithy.api#Double",
+        "alias": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The staging link for previewing redirects in this version."
+          }
+        },
+        "createdBy": {
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
         },
-        "per_page": {
-          "target": "smithy.api#Double",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "numPages": {
-          "target": "smithy.api#Double",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.vercel.bulk_redirects#GetRedirectsResponseBodyCase1": {
-      "type": "structure",
-      "members": {
-        "version": {
-          "target": "com.vercel.bulk_redirects#GetRedirectsResponseBodyCase1Version"
-        },
-        "redirects": {
-          "target": "com.vercel.bulk_redirects#GetRedirectsResponseBodyCase1RedirectsList",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "pagination": {
-          "target": "com.vercel.bulk_redirects#GetRedirectsResponseBodyCase1Pagination",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.vercel.bulk_redirects#GetRedirectsResponseBodyCase2Version": {
-      "type": "structure",
-      "members": {
         "id": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The unique identifier for the version.",
             "smithy.api#required": {}
+          }
+        },
+        "isLive": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this version is currently live in production."
+          }
+        },
+        "isStaging": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this version has not been promoted to production yet and is not serving end users."
           }
         },
         "key": {
@@ -338,28 +279,10 @@
             "smithy.api#required": {}
           }
         },
-        "createdBy": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
         "name": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "Optional name for the version. If not provided, defaults to an ISO timestamp string."
-          }
-        },
-        "isStaging": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "Whether this version has not been promoted to production yet and is not serving end users."
-          }
-        },
-        "isLive": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "Whether this version is currently live in production."
           }
         },
         "redirectCount": {
@@ -367,62 +290,40 @@
           "traits": {
             "smithy.api#documentation": "The number of redirects in this version."
           }
-        },
-        "alias": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The staging link for previewing redirects in this version."
-          }
         }
       },
       "traits": {}
     },
-    "com.vercel.bulk_redirects#GetRedirectsResponseBodyCase2RedirectsItem": {
+    "com.vercel.bulk_redirects#GetRedirectsResponseBodyCase1": {
       "type": "structure",
       "members": {
-        "statusCode": {
-          "target": "smithy.api#Double"
-        },
-        "permanent": {
-          "target": "smithy.api#Boolean"
-        },
-        "sensitive": {
-          "target": "smithy.api#Boolean"
-        },
-        "caseSensitive": {
-          "target": "smithy.api#Boolean"
-        },
-        "query": {
-          "target": "smithy.api#Boolean"
-        },
-        "preserveQueryParams": {
-          "target": "smithy.api#Boolean"
-        },
-        "destination": {
-          "target": "smithy.api#String",
+        "pagination": {
+          "target": "com.vercel.bulk_redirects#GetRedirectsResponseBodyCase1Pagination",
           "traits": {
             "smithy.api#required": {}
           }
         },
-        "source": {
-          "target": "smithy.api#String",
+        "redirects": {
+          "target": "com.vercel.bulk_redirects#GetRedirectsResponseBodyCase1RedirectsList",
           "traits": {
             "smithy.api#required": {}
           }
+        },
+        "version": {
+          "target": "com.vercel.bulk_redirects#GetRedirectsResponseBodyCase1Version"
         }
-      },
-      "traits": {}
-    },
-    "com.vercel.bulk_redirects#GetRedirectsResponseBodyCase2RedirectsList": {
-      "type": "list",
-      "member": {
-        "target": "com.vercel.bulk_redirects#GetRedirectsResponseBodyCase2RedirectsItem"
       },
       "traits": {}
     },
     "com.vercel.bulk_redirects#GetRedirectsResponseBodyCase2Pagination": {
       "type": "structure",
       "members": {
+        "numPages": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
         "page": {
           "target": "smithy.api#Double",
           "traits": {
@@ -434,11 +335,110 @@
           "traits": {
             "smithy.api#required": {}
           }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.bulk_redirects#GetRedirectsResponseBodyCase2RedirectsItem": {
+      "type": "structure",
+      "members": {
+        "caseSensitive": {
+          "target": "smithy.api#Boolean"
         },
-        "numPages": {
+        "destination": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "permanent": {
+          "target": "smithy.api#Boolean"
+        },
+        "preserveQueryParams": {
+          "target": "smithy.api#Boolean"
+        },
+        "query": {
+          "target": "smithy.api#Boolean"
+        },
+        "sensitive": {
+          "target": "smithy.api#Boolean"
+        },
+        "source": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "statusCode": {
+          "target": "smithy.api#Double"
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.bulk_redirects#GetRedirectsResponseBodyCase2RedirectsList": {
+      "type": "list",
+      "member": {
+        "target": "com.vercel.bulk_redirects#GetRedirectsResponseBodyCase2RedirectsItem"
+      },
+      "traits": {}
+    },
+    "com.vercel.bulk_redirects#GetRedirectsResponseBodyCase2Version": {
+      "type": "structure",
+      "members": {
+        "alias": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The staging link for previewing redirects in this version."
+          }
+        },
+        "createdBy": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the version.",
+            "smithy.api#required": {}
+          }
+        },
+        "isLive": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this version is currently live in production."
+          }
+        },
+        "isStaging": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this version has not been promoted to production yet and is not serving end users."
+          }
+        },
+        "key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The key of the version. The key may be duplicated across versions if the contents are the same as a different version.",
+            "smithy.api#required": {}
+          }
+        },
+        "lastModified": {
           "target": "smithy.api#Double",
           "traits": {
             "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional name for the version. If not provided, defaults to an ISO timestamp string."
+          }
+        },
+        "redirectCount": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The number of redirects in this version."
           }
         }
       },
@@ -447,8 +447,8 @@
     "com.vercel.bulk_redirects#GetRedirectsResponseBodyCase2": {
       "type": "structure",
       "members": {
-        "version": {
-          "target": "com.vercel.bulk_redirects#GetRedirectsResponseBodyCase2Version",
+        "pagination": {
+          "target": "com.vercel.bulk_redirects#GetRedirectsResponseBodyCase2Pagination",
           "traits": {
             "smithy.api#required": {}
           }
@@ -459,8 +459,8 @@
             "smithy.api#required": {}
           }
         },
-        "pagination": {
-          "target": "com.vercel.bulk_redirects#GetRedirectsResponseBodyCase2Pagination",
+        "version": {
+          "target": "com.vercel.bulk_redirects#GetRedirectsResponseBodyCase2Version",
           "traits": {
             "smithy.api#required": {}
           }
@@ -618,11 +618,35 @@
     "com.vercel.bulk_redirects#StageRedirectsResponseVersion": {
       "type": "structure",
       "members": {
+        "alias": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The staging link for previewing redirects in this version."
+          }
+        },
+        "createdBy": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
         "id": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The unique identifier for the version.",
             "smithy.api#required": {}
+          }
+        },
+        "isLive": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this version is currently live in production."
+          }
+        },
+        "isStaging": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this version has not been promoted to production yet and is not serving end users."
           }
         },
         "key": {
@@ -638,40 +662,16 @@
             "smithy.api#required": {}
           }
         },
-        "createdBy": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
         "name": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "Optional name for the version. If not provided, defaults to an ISO timestamp string."
           }
         },
-        "isStaging": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "Whether this version has not been promoted to production yet and is not serving end users."
-          }
-        },
-        "isLive": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "Whether this version is currently live in production."
-          }
-        },
         "redirectCount": {
           "target": "smithy.api#Double",
           "traits": {
             "smithy.api#documentation": "The number of redirects in this version."
-          }
-        },
-        "alias": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The staging link for previewing redirects in this version."
           }
         }
       },
@@ -712,6 +712,9 @@
         },
         {
           "target": "com.vercel.bulk_redirects#Forbidden"
+        },
+        {
+          "target": "com.vercel.bulk_redirects#NotFound"
         }
       ],
       "traits": {
@@ -803,11 +806,35 @@
     "com.vercel.bulk_redirects#EditRedirectResponseVersion": {
       "type": "structure",
       "members": {
+        "alias": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The staging link for previewing redirects in this version."
+          }
+        },
+        "createdBy": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
         "id": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The unique identifier for the version.",
             "smithy.api#required": {}
+          }
+        },
+        "isLive": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this version is currently live in production."
+          }
+        },
+        "isStaging": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this version has not been promoted to production yet and is not serving end users."
           }
         },
         "key": {
@@ -823,40 +850,16 @@
             "smithy.api#required": {}
           }
         },
-        "createdBy": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
         "name": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "Optional name for the version. If not provided, defaults to an ISO timestamp string."
           }
         },
-        "isStaging": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "Whether this version has not been promoted to production yet and is not serving end users."
-          }
-        },
-        "isLive": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "Whether this version is currently live in production."
-          }
-        },
         "redirectCount": {
           "target": "smithy.api#Double",
           "traits": {
             "smithy.api#documentation": "The number of redirects in this version."
-          }
-        },
-        "alias": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The staging link for previewing redirects in this version."
           }
         }
       },
@@ -962,11 +965,35 @@
     "com.vercel.bulk_redirects#DeleteRedirectsResponseBodyCase0Version": {
       "type": "structure",
       "members": {
+        "alias": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The staging link for previewing redirects in this version."
+          }
+        },
+        "createdBy": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
         "id": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The unique identifier for the version.",
             "smithy.api#required": {}
+          }
+        },
+        "isLive": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this version is currently live in production."
+          }
+        },
+        "isStaging": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this version has not been promoted to production yet and is not serving end users."
           }
         },
         "key": {
@@ -982,40 +1009,16 @@
             "smithy.api#required": {}
           }
         },
-        "createdBy": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
         "name": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "Optional name for the version. If not provided, defaults to an ISO timestamp string."
           }
         },
-        "isStaging": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "Whether this version has not been promoted to production yet and is not serving end users."
-          }
-        },
-        "isLive": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "Whether this version is currently live in production."
-          }
-        },
         "redirectCount": {
           "target": "smithy.api#Double",
           "traits": {
             "smithy.api#documentation": "The number of redirects in this version."
-          }
-        },
-        "alias": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The staging link for previewing redirects in this version."
           }
         }
       },
@@ -1039,11 +1042,35 @@
     "com.vercel.bulk_redirects#DeleteRedirectsResponseBodyCase1Version": {
       "type": "structure",
       "members": {
+        "alias": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The staging link for previewing redirects in this version."
+          }
+        },
+        "createdBy": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
         "id": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The unique identifier for the version.",
             "smithy.api#required": {}
+          }
+        },
+        "isLive": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this version is currently live in production."
+          }
+        },
+        "isStaging": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this version has not been promoted to production yet and is not serving end users."
           }
         },
         "key": {
@@ -1059,40 +1086,16 @@
             "smithy.api#required": {}
           }
         },
-        "createdBy": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
         "name": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "Optional name for the version. If not provided, defaults to an ISO timestamp string."
           }
         },
-        "isStaging": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "Whether this version has not been promoted to production yet and is not serving end users."
-          }
-        },
-        "isLive": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "Whether this version is currently live in production."
-          }
-        },
         "redirectCount": {
           "target": "smithy.api#Double",
           "traits": {
             "smithy.api#documentation": "The number of redirects in this version."
-          }
-        },
-        "alias": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The staging link for previewing redirects in this version."
           }
         }
       },
@@ -1120,11 +1123,35 @@
     "com.vercel.bulk_redirects#DeleteRedirectsResponseBodyCase2Version": {
       "type": "structure",
       "members": {
+        "alias": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The staging link for previewing redirects in this version."
+          }
+        },
+        "createdBy": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
         "id": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The unique identifier for the version.",
             "smithy.api#required": {}
+          }
+        },
+        "isLive": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this version is currently live in production."
+          }
+        },
+        "isStaging": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this version has not been promoted to production yet and is not serving end users."
           }
         },
         "key": {
@@ -1140,40 +1167,16 @@
             "smithy.api#required": {}
           }
         },
-        "createdBy": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
         "name": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "Optional name for the version. If not provided, defaults to an ISO timestamp string."
           }
         },
-        "isStaging": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "Whether this version has not been promoted to production yet and is not serving end users."
-          }
-        },
-        "isLive": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "Whether this version is currently live in production."
-          }
-        },
         "redirectCount": {
           "target": "smithy.api#Double",
           "traits": {
             "smithy.api#documentation": "The number of redirects in this version."
-          }
-        },
-        "alias": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The staging link for previewing redirects in this version."
           }
         }
       },
@@ -1304,14 +1307,52 @@
         "smithy.api#input": {}
       }
     },
+    "com.vercel.bulk_redirects#RestoreRedirectsResponseFailedToRestoreList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.vercel.bulk_redirects#RestoreRedirectsResponseRestoredList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
     "com.vercel.bulk_redirects#RestoreRedirectsResponseVersion": {
       "type": "structure",
       "members": {
+        "alias": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The staging link for previewing redirects in this version."
+          }
+        },
+        "createdBy": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
         "id": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The unique identifier for the version.",
             "smithy.api#required": {}
+          }
+        },
+        "isLive": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this version is currently live in production."
+          }
+        },
+        "isStaging": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this version has not been promoted to production yet and is not serving end users."
           }
         },
         "key": {
@@ -1327,28 +1368,10 @@
             "smithy.api#required": {}
           }
         },
-        "createdBy": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
         "name": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "Optional name for the version. If not provided, defaults to an ISO timestamp string."
-          }
-        },
-        "isStaging": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "Whether this version has not been promoted to production yet and is not serving end users."
-          }
-        },
-        "isLive": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "Whether this version is currently live in production."
           }
         },
         "redirectCount": {
@@ -1356,35 +1379,15 @@
           "traits": {
             "smithy.api#documentation": "The number of redirects in this version."
           }
-        },
-        "alias": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The staging link for previewing redirects in this version."
-          }
         }
-      },
-      "traits": {}
-    },
-    "com.vercel.bulk_redirects#RestoreRedirectsResponseRestoredList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      },
-      "traits": {}
-    },
-    "com.vercel.bulk_redirects#RestoreRedirectsResponseFailedToRestoreList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
       },
       "traits": {}
     },
     "com.vercel.bulk_redirects#RestoreRedirectsResponse": {
       "type": "structure",
       "members": {
-        "version": {
-          "target": "com.vercel.bulk_redirects#RestoreRedirectsResponseVersion",
+        "failedToRestore": {
+          "target": "com.vercel.bulk_redirects#RestoreRedirectsResponseFailedToRestoreList",
           "traits": {
             "smithy.api#required": {}
           }
@@ -1395,8 +1398,8 @@
             "smithy.api#required": {}
           }
         },
-        "failedToRestore": {
-          "target": "com.vercel.bulk_redirects#RestoreRedirectsResponseFailedToRestoreList",
+        "version": {
+          "target": "com.vercel.bulk_redirects#RestoreRedirectsResponseVersion",
           "traits": {
             "smithy.api#required": {}
           }
@@ -1466,11 +1469,35 @@
     "com.vercel.bulk_redirects#GetVersionsResponseVersionsItem": {
       "type": "structure",
       "members": {
+        "alias": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The staging link for previewing redirects in this version."
+          }
+        },
+        "createdBy": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
         "id": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The unique identifier for the version.",
             "smithy.api#required": {}
+          }
+        },
+        "isLive": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this version is currently live in production."
+          }
+        },
+        "isStaging": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this version has not been promoted to production yet and is not serving end users."
           }
         },
         "key": {
@@ -1486,40 +1513,16 @@
             "smithy.api#required": {}
           }
         },
-        "createdBy": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
         "name": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "Optional name for the version. If not provided, defaults to an ISO timestamp string."
           }
         },
-        "isStaging": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "Whether this version has not been promoted to production yet and is not serving end users."
-          }
-        },
-        "isLive": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "Whether this version is currently live in production."
-          }
-        },
         "redirectCount": {
           "target": "smithy.api#Double",
           "traits": {
             "smithy.api#documentation": "The number of redirects in this version."
-          }
-        },
-        "alias": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The staging link for previewing redirects in this version."
           }
         }
       },
@@ -1560,6 +1563,9 @@
         },
         {
           "target": "com.vercel.bulk_redirects#Forbidden"
+        },
+        {
+          "target": "com.vercel.bulk_redirects#NotFound"
         }
       ],
       "traits": {
@@ -1642,11 +1648,35 @@
     "com.vercel.bulk_redirects#UpdateVersionResponseVersion": {
       "type": "structure",
       "members": {
+        "alias": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The staging link for previewing redirects in this version."
+          }
+        },
+        "createdBy": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
         "id": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The unique identifier for the version.",
             "smithy.api#required": {}
+          }
+        },
+        "isLive": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this version is currently live in production."
+          }
+        },
+        "isStaging": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this version has not been promoted to production yet and is not serving end users."
           }
         },
         "key": {
@@ -1662,40 +1692,16 @@
             "smithy.api#required": {}
           }
         },
-        "createdBy": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
         "name": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "Optional name for the version. If not provided, defaults to an ISO timestamp string."
           }
         },
-        "isStaging": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "Whether this version has not been promoted to production yet and is not serving end users."
-          }
-        },
-        "isLive": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "Whether this version is currently live in production."
-          }
-        },
         "redirectCount": {
           "target": "smithy.api#Double",
           "traits": {
             "smithy.api#documentation": "The number of redirects in this version."
-          }
-        },
-        "alias": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The staging link for previewing redirects in this version."
           }
         }
       },

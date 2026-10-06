@@ -30,7 +30,7 @@ export const AbortAgentPoolLatestOperationRequest = /*@__PURE__*/ S.suspend(() =
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}/abort",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-07-01",
     }),
   ),
 ).annotate({
@@ -62,7 +62,7 @@ export const AbortManagedClusterLatestOperationRequest = /*@__PURE__*/ S.suspend
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/abort",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-07-01",
     }),
   ),
 ).annotate({
@@ -939,7 +939,7 @@ export const AgentPoolsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-07-01",
     }),
   ),
 ).annotate({
@@ -1351,7 +1351,7 @@ export const AgentPoolsUpgradeNodeImageVersionRequest = /*@__PURE__*/ S.suspend(
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}/upgradeNodeImageVersion",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-07-01",
     }),
   ),
 ).annotate({
@@ -1964,7 +1964,7 @@ export const DeleteAgentPoolRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-07-01",
     }),
   ),
 ).annotate({ identifier: "DeleteAgentPoolRequest" }) as any as S.Schema<DeleteAgentPoolRequest>;
@@ -2004,7 +2004,7 @@ export const DeleteAgentPoolMachinesRequest = /*@__PURE__*/ S.suspend(() =>
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}/deleteMachines",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-07-01",
     }),
   ),
 ).annotate({
@@ -2227,7 +2227,7 @@ export const DeleteIdentityBindingRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/identityBindings/{identityBindingName}",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-07-01",
     }),
   ),
 ).annotate({
@@ -2260,7 +2260,7 @@ export const DeleteMaintenanceConfigurationRequest = /*@__PURE__*/ S.suspend(() 
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/maintenanceConfigurations/{configName}",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-07-01",
     }),
   ),
 ).annotate({
@@ -2292,7 +2292,7 @@ export const DeleteManagedClusterRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-07-01",
     }),
   ),
 ).annotate({
@@ -2325,7 +2325,7 @@ export const DeleteManagedNamespaceRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/managedNamespaces/{managedNamespaceName}",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-07-01",
     }),
   ),
 ).annotate({
@@ -2358,7 +2358,7 @@ export const DeletePrivateEndpointConnectionRequest = /*@__PURE__*/ S.suspend(()
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/privateEndpointConnections/{privateEndpointConnectionName}",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-07-01",
     }),
   ),
 ).annotate({
@@ -2390,7 +2390,7 @@ export const DeleteSnapshotRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/snapshots/{resourceName}",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-07-01",
     }),
   ),
 ).annotate({ identifier: "DeleteSnapshotRequest" }) as any as S.Schema<DeleteSnapshotRequest>;
@@ -2421,7 +2421,7 @@ export const DeleteTrustedAccessRoleBindingRequest = /*@__PURE__*/ S.suspend(() 
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/trustedAccessRoleBindings/{trustedAccessRoleBindingName}",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-07-01",
     }),
   ),
 ).annotate({
@@ -3576,7 +3576,7 @@ export const GetAgentPoolRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-07-01",
     }),
   ),
 ).annotate({ identifier: "GetAgentPoolRequest" }) as any as S.Schema<GetAgentPoolRequest>;
@@ -3621,7 +3621,7 @@ export const GetAgentPoolAvailableAgentPoolVersionsRequest = /*@__PURE__*/ S.sus
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/availableAgentPoolVersions",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-07-01",
     }),
   ),
 ).annotate({
@@ -3711,7 +3711,7 @@ export const GetAgentPoolUpgradeProfileRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}/upgradeProfiles/default",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-07-01",
     }),
   ),
 ).annotate({
@@ -4306,7 +4306,7 @@ export const GetIdentityBindingRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/identityBindings/{identityBindingName}",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-07-01",
     }),
   ),
 ).annotate({
@@ -4428,7 +4428,7 @@ export const GetMachineRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}/machines/{machineName}",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-07-01",
     }),
   ),
 ).annotate({ identifier: "GetMachineRequest" }) as any as S.Schema<GetMachineRequest>;
@@ -4534,7 +4534,7 @@ export const GetMaintenanceConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/maintenanceConfigurations/{configName}",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-07-01",
     }),
   ),
 ).annotate({
@@ -4785,7 +4785,7 @@ export const GetManagedClusterRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-07-01",
     }),
   ),
 ).annotate({ identifier: "GetManagedClusterRequest" }) as any as S.Schema<GetManagedClusterRequest>;
@@ -6179,7 +6179,7 @@ export const AzureKeyVaultKmsKeyVaultNetworkAccess = S.String;
 export interface AzureKeyVaultKms {
   /** Whether to enable Azure Key Vault key management service. The default is false. */
   enabled?: boolean;
-  /** Identifier of Azure Key Vault key. See [key identifier format](https://docs.microsoft.com/en-us/azure/key-vault/general/about-keys-secrets-certificates#vault-name-and-object-name) for more details. When Azure Key Vault key management service is enabled, this field is required and must be a valid key identifier. When Azure Key Vault key management service is disabled, leave the field empty. */
+  /** The identifier of the Azure Key Vault key. For more information, see [Azure Key Vault key identifiers](https://docs.microsoft.com/en-us/azure/key-vault/general/about-keys-secrets-certificates#vault-name-and-object-name). This property is required when Azure Key Vault key management service is enabled and must be omitted when the service is disabled. Starting with API versions 2026-07-01 and 2026-07-02-preview, a versioned key identifier uses the legacy KMS experience, while an unversioned key identifier uses the new KMS experience. For more information, see [KMS data encryption concepts](https://learn.microsoft.com/en-us/azure/aks/kms-data-encryption-concepts). */
   keyId?: string;
   /** Network access of the key vault. Network access of key vault. The possible values are `Public` and `Private`. `Public` means the key vault allows public access from all networks. `Private` means the key vault disables public access and enables private link. The default value is `Public`. */
   keyVaultNetworkAccess?: AzureKeyVaultKmsKeyVaultNetworkAccess | (string & {});
@@ -6194,6 +6194,23 @@ export const AzureKeyVaultKms = /*@__PURE__*/ S.suspend(() =>
     keyVaultResourceId: S.optional(S.String),
   }),
 ).annotate({ identifier: "AzureKeyVaultKms" }) as any as S.Schema<AzureKeyVaultKms>;
+
+/** Whether to enable encryption at rest of Kubernetes resource objects using service-managed keys. More information on this can be found under https://aka.ms/aks/kubernetesResourceObjectEncryption. */
+export type InfrastructureEncryption = "Enabled";
+export const InfrastructureEncryption = S.String;
+
+/** Encryption at rest of Kubernetes resource objects using service-managed keys. More information on this can be found under https://aka.ms/aks/kubernetesResourceObjectEncryption. */
+export interface KubernetesResourceObjectEncryptionProfile {
+  /** Whether to enable encryption at rest of Kubernetes resource objects using service-managed keys. More information on this can be found under https://aka.ms/aks/kubernetesResourceObjectEncryption. */
+  infrastructureEncryption?: InfrastructureEncryption | (string & {});
+}
+export const KubernetesResourceObjectEncryptionProfile = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    infrastructureEncryption: S.optional(InfrastructureEncryption),
+  }),
+).annotate({
+  identifier: "KubernetesResourceObjectEncryptionProfile",
+}) as any as S.Schema<KubernetesResourceObjectEncryptionProfile>;
 
 /** Workload identity settings for the security profile. */
 export interface ManagedClusterSecurityProfileWorkloadIdentity {
@@ -6236,6 +6253,8 @@ export interface ManagedClusterSecurityProfile {
   defender?: ManagedClusterSecurityProfileDefender;
   /** Azure Key Vault [key management service](https://kubernetes.io/docs/tasks/administer-cluster/kms-provider/) settings for the security profile. */
   azureKeyVaultKms?: AzureKeyVaultKms;
+  /** Encryption at rest of Kubernetes resource objects. More information on this can be found under https://aka.ms/aks/kubernetesResourceObjectEncryption */
+  kubernetesResourceObjectEncryptionProfile?: KubernetesResourceObjectEncryptionProfile;
   /** Workload identity settings for the security profile. Workload identity enables Kubernetes applications to access Azure cloud resources securely with Azure AD. See https://aka.ms/aks/wi for more details. */
   workloadIdentity?: ManagedClusterSecurityProfileWorkloadIdentity;
   /** Image Cleaner settings for the security profile. */
@@ -6247,6 +6266,9 @@ export const ManagedClusterSecurityProfile = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     defender: S.optional(ManagedClusterSecurityProfileDefender),
     azureKeyVaultKms: S.optional(AzureKeyVaultKms),
+    kubernetesResourceObjectEncryptionProfile: S.optional(
+      KubernetesResourceObjectEncryptionProfile,
+    ),
     workloadIdentity: S.optional(ManagedClusterSecurityProfileWorkloadIdentity),
     imageCleaner: S.optional(ManagedClusterSecurityProfileImageCleaner),
     customCATrustCertificates: S.optional(
@@ -7035,6 +7057,8 @@ export interface ManagedClusterProperties {
   enableRBAC?: boolean;
   /** The support plan for the Managed Cluster. If unspecified, the default is 'KubernetesOfficial'. */
   supportPlan?: KubernetesSupportPlan;
+  /** Whether to enable FIPS mode at the cluster level. When enabled, this setting enforces FIPS compliance for all AKS-managed components, such as the node operating system, addons, and [managed containerized components](https://aka.ms/aks/components/docs). See [Enable cluster-wide FIPS](https://aka.ms/aks/fips) for more details. When this property is enabled, all node pools in the cluster must also be FIPS-enabled. Although this property is available in a stable API version, cluster-wide FIPS remains a preview feature. Write requests whose resulting cluster state has this property set to true require the `Microsoft.ContainerService/EnableFIPSPreview` subscription feature registration. */
+  enableFIPS?: boolean;
   /** The network configuration profile. */
   networkProfile?: ContainerServiceNetworkProfile;
   /** The Azure Active Directory configuration. */
@@ -7111,6 +7135,7 @@ export const ManagedClusterProperties = /*@__PURE__*/ S.suspend(() =>
     nodeResourceGroupProfile: S.optional(ManagedClusterNodeResourceGroupProfile),
     enableRBAC: S.optional(S.Boolean),
     supportPlan: S.optional(KubernetesSupportPlan),
+    enableFIPS: S.optional(S.Boolean),
     networkProfile: S.optional(ContainerServiceNetworkProfile),
     aadProfile: S.optional(ManagedClusterAADProfile),
     autoUpgradeProfile: S.optional(ManagedClusterAutoUpgradeProfile),
@@ -7329,7 +7354,7 @@ export const GetManagedClusterCommandResultRequest = /*@__PURE__*/ S.suspend(() 
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/commandResults/{commandId}",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-07-01",
     }),
   ),
 ).annotate({
@@ -7394,7 +7419,7 @@ export const GetManagedClusterMeshRevisionProfileRequest = /*@__PURE__*/ S.suspe
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.ContainerService/locations/{location}/meshRevisionProfiles/{mode}",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-07-01",
     }),
   ),
 ).annotate({
@@ -7514,7 +7539,7 @@ export const GetManagedClusterMeshUpgradeProfileRequest = /*@__PURE__*/ S.suspen
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/meshUpgradeProfiles/{mode}",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-07-01",
     }),
   ),
 ).annotate({
@@ -7563,7 +7588,7 @@ export const GetManagedClusterUpgradeProfileRequest = /*@__PURE__*/ S.suspend(()
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/upgradeProfiles/default",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-07-01",
     }),
   ),
 ).annotate({
@@ -7677,7 +7702,7 @@ export const GetManagedNamespaceRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/managedNamespaces/{managedNamespaceName}",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-07-01",
     }),
   ),
 ).annotate({
@@ -7851,7 +7876,7 @@ export const GetPrivateEndpointConnectionRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/privateEndpointConnections/{privateEndpointConnectionName}",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-07-01",
     }),
   ),
 ).annotate({
@@ -7959,7 +7984,7 @@ export const GetSnapshotRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/snapshots/{resourceName}",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-07-01",
     }),
   ),
 ).annotate({ identifier: "GetSnapshotRequest" }) as any as S.Schema<GetSnapshotRequest>;
@@ -8060,7 +8085,7 @@ export const GetTrustedAccessRoleBindingRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/trustedAccessRoleBindings/{trustedAccessRoleBindingName}",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-07-01",
     }),
   ),
 ).annotate({
@@ -8577,7 +8602,7 @@ export const IdentityBindingsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() 
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/identityBindings/{identityBindingName}",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-07-01",
     }),
   ),
 ).annotate({
@@ -8629,7 +8654,7 @@ export const ListAgentPoolsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-07-01",
     }),
   ),
 ).annotate({ identifier: "ListAgentPoolsRequest" }) as any as S.Schema<ListAgentPoolsRequest>;
@@ -9333,7 +9358,7 @@ export const ListIdentityBindingByManagedClusterRequest = /*@__PURE__*/ S.suspen
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/identityBindings",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-07-01",
     }),
   ),
 ).annotate({
@@ -9409,7 +9434,7 @@ export const ListMachinesRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}/machines",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-07-01",
     }),
   ),
 ).annotate({ identifier: "ListMachinesRequest" }) as any as S.Schema<ListMachinesRequest>;
@@ -9484,7 +9509,7 @@ export const ListMaintenanceConfigurationByManagedClusterRequest = /*@__PURE__*/
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/maintenanceConfigurations",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-07-01",
     }),
   ),
 ).annotate({
@@ -9551,7 +9576,7 @@ export const ListManagedClusterByResourceGroupRequest = /*@__PURE__*/ S.suspend(
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-07-01",
     }),
   ),
 ).annotate({
@@ -9650,7 +9675,7 @@ export const ListManagedClusterClusterAdminCredentialsRequest = /*@__PURE__*/ S.
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/listClusterAdminCredential",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-07-01",
     }),
   ),
 ).annotate({
@@ -9700,7 +9725,7 @@ export const ListManagedClusterClusterMonitoringUserCredentialsRequest = /*@__PU
         method: "POST",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/listClusterMonitoringUserCredential",
         code: 200,
-        apiVersion: "2026-06-01",
+        apiVersion: "2026-07-01",
       }),
     ),
 ).annotate({
@@ -9734,7 +9759,7 @@ export const ListManagedClusterClusterUserCredentialsRequest = /*@__PURE__*/ S.s
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/listClusterUserCredential",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-07-01",
     }),
   ),
 ).annotate({
@@ -9756,7 +9781,7 @@ export const ListManagedClusterKubernetesVersionsRequest = /*@__PURE__*/ S.suspe
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.ContainerService/locations/{location}/kubernetesVersions",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-07-01",
     }),
   ),
 ).annotate({
@@ -9865,7 +9890,7 @@ export const ListManagedClusterMeshRevisionProfilesRequest = /*@__PURE__*/ S.sus
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.ContainerService/locations/{location}/meshRevisionProfiles",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-07-01",
     }),
   ),
 ).annotate({
@@ -9933,7 +9958,7 @@ export const ListManagedClusterMeshUpgradeProfilesRequest = /*@__PURE__*/ S.susp
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/meshUpgradeProfiles",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-07-01",
     }),
   ),
 ).annotate({
@@ -10002,7 +10027,7 @@ export const ListManagedClusterOutboundNetworkDependenciesEndpointsRequest =
         method: "GET",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/outboundNetworkDependenciesEndpoints",
         code: 200,
-        apiVersion: "2026-06-01",
+        apiVersion: "2026-07-01",
       }),
     ),
   ).annotate({
@@ -10105,7 +10130,7 @@ export const ListManagedClustersRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.ContainerService/managedClusters",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-07-01",
     }),
   ),
 ).annotate({
@@ -10130,7 +10155,7 @@ export const ListManagedNamespaceByManagedClusterRequest = /*@__PURE__*/ S.suspe
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/managedNamespaces",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-07-01",
     }),
   ),
 ).annotate({
@@ -10219,7 +10244,7 @@ export const ListManagedNamespaceCredentialRequest = /*@__PURE__*/ S.suspend(() 
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/managedNamespaces/{managedNamespaceName}/listCredential",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-07-01",
     }),
   ),
 ).annotate({
@@ -10233,7 +10258,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/providers/Microsoft.ContainerService/operations",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-07-01",
     }),
   ),
 ).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
@@ -10313,7 +10338,7 @@ export const ListPrivateEndpointConnectionsRequest = /*@__PURE__*/ S.suspend(() 
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/privateEndpointConnections",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-07-01",
     }),
   ),
 ).annotate({
@@ -10382,7 +10407,7 @@ export const ListPrivateLinkResourcesRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/privateLinkResources",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-07-01",
     }),
   ),
 ).annotate({
@@ -10423,7 +10448,7 @@ export const ListSnapshotByResourceGroupRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/snapshots",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-07-01",
     }),
   ),
 ).annotate({
@@ -10498,7 +10523,7 @@ export const ListSnapshotsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.ContainerService/snapshots",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-07-01",
     }),
   ),
 ).annotate({ identifier: "ListSnapshotsRequest" }) as any as S.Schema<ListSnapshotsRequest>;
@@ -10521,7 +10546,7 @@ export const ListTrustedAccessRoleBindingsRequest = /*@__PURE__*/ S.suspend(() =
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/trustedAccessRoleBindings",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-07-01",
     }),
   ),
 ).annotate({
@@ -10588,7 +10613,7 @@ export const ListTrustedAccessRolesRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.ContainerService/locations/{location}/trustedAccessRoles",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-07-01",
     }),
   ),
 ).annotate({
@@ -10794,7 +10819,7 @@ export const MaintenanceConfigurationsCreateOrUpdateRequest = /*@__PURE__*/ S.su
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/maintenanceConfigurations/{configName}",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-07-01",
     }),
   ),
 ).annotate({
@@ -11420,6 +11445,8 @@ export interface ManagedClusterPropertiesInput {
   enableRBAC?: boolean;
   /** The support plan for the Managed Cluster. If unspecified, the default is 'KubernetesOfficial'. */
   supportPlan?: KubernetesSupportPlan | (string & {});
+  /** Whether to enable FIPS mode at the cluster level. When enabled, this setting enforces FIPS compliance for all AKS-managed components, such as the node operating system, addons, and [managed containerized components](https://aka.ms/aks/components/docs). See [Enable cluster-wide FIPS](https://aka.ms/aks/fips) for more details. When this property is enabled, all node pools in the cluster must also be FIPS-enabled. Although this property is available in a stable API version, cluster-wide FIPS remains a preview feature. Write requests whose resulting cluster state has this property set to true require the `Microsoft.ContainerService/EnableFIPSPreview` subscription feature registration. */
+  enableFIPS?: boolean;
   /** The network configuration profile. */
   networkProfile?: ContainerServiceNetworkProfileInput;
   /** The Azure Active Directory configuration. */
@@ -11487,6 +11514,7 @@ export const ManagedClusterPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     nodeResourceGroupProfile: S.optional(ManagedClusterNodeResourceGroupProfile),
     enableRBAC: S.optional(S.Boolean),
     supportPlan: S.optional(KubernetesSupportPlan),
+    enableFIPS: S.optional(S.Boolean),
     networkProfile: S.optional(ContainerServiceNetworkProfileInput),
     aadProfile: S.optional(ManagedClusterAADProfile),
     autoUpgradeProfile: S.optional(ManagedClusterAutoUpgradeProfile),
@@ -11605,7 +11633,7 @@ export const ManagedClustersCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-07-01",
     }),
   ),
 ).annotate({
@@ -11741,7 +11769,7 @@ export const ManagedNamespacesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(()
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/managedNamespaces/{managedNamespaceName}",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-07-01",
     }),
   ),
 ).annotate({
@@ -11827,7 +11855,7 @@ export const PostResolvePrivateLinkServiceIdRequest = /*@__PURE__*/ S.suspend(()
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/resolvePrivateLinkServiceId",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-07-01",
     }),
   ),
 ).annotate({
@@ -11858,7 +11886,7 @@ export const ResetManagedClusterServicePrincipalProfileRequest = /*@__PURE__*/ S
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/resetServicePrincipalProfile",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-07-01",
     }),
   ),
 ).annotate({
@@ -11890,7 +11918,7 @@ export const RotateManagedClusterClusterCertificatesRequest = /*@__PURE__*/ S.su
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/rotateClusterCertificates",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-07-01",
     }),
   ),
 ).annotate({
@@ -11922,7 +11950,7 @@ export const RotateManagedClusterServiceAccountSigningKeysRequest = /*@__PURE__*
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/rotateServiceAccountSigningKeys",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-07-01",
     }),
   ),
 ).annotate({
@@ -11963,7 +11991,7 @@ export const RunManagedClusterCommandRequest = /*@__PURE__*/ S.suspend(() =>
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/runCommand",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-07-01",
     }),
   ),
 ).annotate({
@@ -12022,7 +12050,7 @@ export const SnapshotsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/snapshots/{resourceName}",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-07-01",
     }),
   ),
 ).annotate({
@@ -12084,7 +12112,7 @@ export const StartManagedClusterRequest = /*@__PURE__*/ S.suspend(() =>
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/start",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-07-01",
     }),
   ),
 ).annotate({
@@ -12165,7 +12193,7 @@ export const StopManagedClusterRequest = /*@__PURE__*/ S.suspend(() =>
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/stop",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-07-01",
     }),
   ),
 ).annotate({
@@ -12274,7 +12302,7 @@ export const TrustedAccessRoleBindingsCreateOrUpdateRequest = /*@__PURE__*/ S.su
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/trustedAccessRoleBindings/{trustedAccessRoleBindingName}",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-07-01",
     }),
   ),
 ).annotate({
@@ -12640,7 +12668,7 @@ export const UpdateManagedClusterTagsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-07-01",
     }),
   ),
 ).annotate({
@@ -12730,7 +12758,7 @@ export const UpdateManagedNamespaceRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/managedNamespaces/{managedNamespaceName}",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-07-01",
     }),
   ),
 ).annotate({
@@ -12817,7 +12845,7 @@ export const UpdatePrivateEndpointConnectionRequest = /*@__PURE__*/ S.suspend(()
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/privateEndpointConnections/{privateEndpointConnectionName}",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-07-01",
     }),
   ),
 ).annotate({
@@ -13070,7 +13098,7 @@ export const UpdateSnapshotTagsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/snapshots/{resourceName}",
       code: 200,
-      apiVersion: "2026-06-01",
+      apiVersion: "2026-07-01",
     }),
   ),
 ).annotate({

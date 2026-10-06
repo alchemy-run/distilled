@@ -7,10 +7,7 @@ import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
-const svc = T.AwsApiService({
-  sdkId: "Scheduler",
-  serviceShapeName: "AWSChronosService",
-});
+const svc = T.AwsApiService({ sdkId: "Scheduler", serviceShapeName: "AWSChronosService" });
 const auth = T.AwsAuthSigv4({ name: "scheduler" });
 const ver = T.ServiceVersion("2021-06-30");
 const proto = T.AwsProtocolsRestJson1();
@@ -83,9 +80,7 @@ export class ExecutionRoleNotAssumable
     { message: S.String.pipe(T.ErrorMessage()) },
     T.SyntheticError({
       from: "ValidationException",
-      message: {
-        includes: "must allow AWS EventBridge Scheduler to assume the role",
-      },
+      message: { includes: "must allow AWS EventBridge Scheduler to assume the role" },
     }),
   ) {}
 export class InternalServerException
@@ -135,9 +130,7 @@ export interface DeadLetterConfig {
 }
 export const DeadLetterConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Arn: S.optional(S.String) }),
-).annotate({
-  identifier: "DeadLetterConfig",
-}) as any as S.Schema<DeadLetterConfig>;
+).annotate({ identifier: "DeadLetterConfig" }) as any as S.Schema<DeadLetterConfig>;
 export type MaximumEventAgeInSeconds = number;
 export type MaximumRetryAttempts = number;
 export interface RetryPolicy {
@@ -172,17 +165,13 @@ export const AwsVpcConfiguration = /*@__PURE__*/ S.suspend(() =>
     SecurityGroups: S.optional(SecurityGroups),
     AssignPublicIp: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AwsVpcConfiguration",
-}) as any as S.Schema<AwsVpcConfiguration>;
+).annotate({ identifier: "AwsVpcConfiguration" }) as any as S.Schema<AwsVpcConfiguration>;
 export interface NetworkConfiguration {
   awsvpcConfiguration?: AwsVpcConfiguration;
 }
 export const NetworkConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ awsvpcConfiguration: S.optional(AwsVpcConfiguration) }),
-).annotate({
-  identifier: "NetworkConfiguration",
-}) as any as S.Schema<NetworkConfiguration>;
+).annotate({ identifier: "NetworkConfiguration" }) as any as S.Schema<NetworkConfiguration>;
 export type PlatformVersion = string;
 export type Group = string;
 export type CapacityProvider = string;
@@ -214,9 +203,7 @@ export interface PlacementConstraint {
 }
 export const PlacementConstraint = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ type: S.optional(S.String), expression: S.optional(S.String) }),
-).annotate({
-  identifier: "PlacementConstraint",
-}) as any as S.Schema<PlacementConstraint>;
+).annotate({ identifier: "PlacementConstraint" }) as any as S.Schema<PlacementConstraint>;
 export type PlacementConstraints = PlacementConstraint[];
 export const PlacementConstraints = /*@__PURE__*/ S.Array(PlacementConstraint);
 export type PlacementStrategyType = string;
@@ -227,9 +214,7 @@ export interface PlacementStrategy {
 }
 export const PlacementStrategy = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ type: S.optional(S.String), field: S.optional(S.String) }),
-).annotate({
-  identifier: "PlacementStrategy",
-}) as any as S.Schema<PlacementStrategy>;
+).annotate({ identifier: "PlacementStrategy" }) as any as S.Schema<PlacementStrategy>;
 export type PlacementStrategies = PlacementStrategy[];
 export const PlacementStrategies = /*@__PURE__*/ S.Array(PlacementStrategy);
 export type PropagateTags = string;
@@ -282,18 +267,14 @@ export interface EventBridgeParameters {
 }
 export const EventBridgeParameters = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ DetailType: S.String, Source: S.String }),
-).annotate({
-  identifier: "EventBridgeParameters",
-}) as any as S.Schema<EventBridgeParameters>;
+).annotate({ identifier: "EventBridgeParameters" }) as any as S.Schema<EventBridgeParameters>;
 export type TargetPartitionKey = string;
 export interface KinesisParameters {
   PartitionKey: string;
 }
 export const KinesisParameters = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ PartitionKey: S.String }),
-).annotate({
-  identifier: "KinesisParameters",
-}) as any as S.Schema<KinesisParameters>;
+).annotate({ identifier: "KinesisParameters" }) as any as S.Schema<KinesisParameters>;
 export type SageMakerPipelineParameterName = string;
 export type SageMakerPipelineParameterValue = string;
 export interface SageMakerPipelineParameter {
@@ -311,9 +292,7 @@ export interface SageMakerPipelineParameters {
   PipelineParameterList?: SageMakerPipelineParameter[];
 }
 export const SageMakerPipelineParameters = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PipelineParameterList: S.optional(SageMakerPipelineParameterList),
-  }),
+  S.Struct({ PipelineParameterList: S.optional(SageMakerPipelineParameterList) }),
 ).annotate({
   identifier: "SageMakerPipelineParameters",
 }) as any as S.Schema<SageMakerPipelineParameters>;
@@ -358,9 +337,7 @@ export interface FlexibleTimeWindow {
 }
 export const FlexibleTimeWindow = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Mode: S.String, MaximumWindowInMinutes: S.optional(S.Number) }),
-).annotate({
-  identifier: "FlexibleTimeWindow",
-}) as any as S.Schema<FlexibleTimeWindow>;
+).annotate({ identifier: "FlexibleTimeWindow" }) as any as S.Schema<FlexibleTimeWindow>;
 export type ClientToken = string;
 export type ActionAfterCompletion = string;
 export interface CreateScheduleInput {
@@ -396,18 +373,14 @@ export const CreateScheduleInput = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/schedules/{Name}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "CreateScheduleInput",
-}) as any as S.Schema<CreateScheduleInput>;
+).annotate({ identifier: "CreateScheduleInput" }) as any as S.Schema<CreateScheduleInput>;
 export type ScheduleArn = string;
 export interface CreateScheduleOutput {
   ScheduleArn: string;
 }
 export const CreateScheduleOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ScheduleArn: S.String }),
-).annotate({
-  identifier: "CreateScheduleOutput",
-}) as any as S.Schema<CreateScheduleOutput>;
+).annotate({ identifier: "CreateScheduleOutput" }) as any as S.Schema<CreateScheduleOutput>;
 export interface Tag {
   Key: string;
   Value: string;
@@ -430,9 +403,7 @@ export const CreateScheduleGroupInput = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/schedule-groups/{Name}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "CreateScheduleGroupInput",
-}) as any as S.Schema<CreateScheduleGroupInput>;
+).annotate({ identifier: "CreateScheduleGroupInput" }) as any as S.Schema<CreateScheduleGroupInput>;
 export type ScheduleGroupArn = string;
 export interface CreateScheduleGroupOutput {
   ScheduleGroupArn: string;
@@ -455,9 +426,7 @@ export const DeleteScheduleInput = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "DELETE", uri: "/schedules/{Name}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteScheduleInput",
-}) as any as S.Schema<DeleteScheduleInput>;
+).annotate({ identifier: "DeleteScheduleInput" }) as any as S.Schema<DeleteScheduleInput>;
 export interface DeleteScheduleOutput {}
 export const DeleteScheduleOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteScheduleOutput",
@@ -480,9 +449,7 @@ export const DeleteScheduleGroupInput = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteScheduleGroupInput",
-}) as any as S.Schema<DeleteScheduleGroupInput>;
+).annotate({ identifier: "DeleteScheduleGroupInput" }) as any as S.Schema<DeleteScheduleGroupInput>;
 export interface DeleteScheduleGroupOutput {}
 export const DeleteScheduleGroupOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteScheduleGroupOutput",
@@ -496,9 +463,7 @@ export const GetScheduleInput = /*@__PURE__*/ S.suspend(() =>
     Name: S.String.pipe(T.HttpLabel("Name")),
     GroupName: S.optional(S.String).pipe(T.HttpQuery("groupName")),
   }).pipe(T.all(T.Http({ method: "GET", uri: "/schedules/{Name}" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "GetScheduleInput",
-}) as any as S.Schema<GetScheduleInput>;
+).annotate({ identifier: "GetScheduleInput" }) as any as S.Schema<GetScheduleInput>;
 export type CreationDate = Date;
 export type LastModificationDate = Date;
 export interface GetScheduleOutput {
@@ -536,9 +501,7 @@ export const GetScheduleOutput = /*@__PURE__*/ S.suspend(() =>
     FlexibleTimeWindow: S.optional(FlexibleTimeWindow),
     ActionAfterCompletion: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetScheduleOutput",
-}) as any as S.Schema<GetScheduleOutput>;
+).annotate({ identifier: "GetScheduleOutput" }) as any as S.Schema<GetScheduleOutput>;
 export interface GetScheduleGroupInput {
   Name: string;
 }
@@ -546,9 +509,7 @@ export const GetScheduleGroupInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Name: S.String.pipe(T.HttpLabel("Name")) }).pipe(
     T.all(T.Http({ method: "GET", uri: "/schedule-groups/{Name}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetScheduleGroupInput",
-}) as any as S.Schema<GetScheduleGroupInput>;
+).annotate({ identifier: "GetScheduleGroupInput" }) as any as S.Schema<GetScheduleGroupInput>;
 export type ScheduleGroupState = string;
 export interface GetScheduleGroupOutput {
   Arn?: string;
@@ -565,9 +526,7 @@ export const GetScheduleGroupOutput = /*@__PURE__*/ S.suspend(() =>
     CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LastModificationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
-).annotate({
-  identifier: "GetScheduleGroupOutput",
-}) as any as S.Schema<GetScheduleGroupOutput>;
+).annotate({ identifier: "GetScheduleGroupOutput" }) as any as S.Schema<GetScheduleGroupOutput>;
 export type ScheduleGroupNamePrefix = string;
 export type NextToken = string;
 export type MaxResults = number;
@@ -582,9 +541,7 @@ export const ListScheduleGroupsInput = /*@__PURE__*/ S.suspend(() =>
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
   }).pipe(T.all(T.Http({ method: "GET", uri: "/schedule-groups" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListScheduleGroupsInput",
-}) as any as S.Schema<ListScheduleGroupsInput>;
+).annotate({ identifier: "ListScheduleGroupsInput" }) as any as S.Schema<ListScheduleGroupsInput>;
 export interface ScheduleGroupSummary {
   Arn?: string;
   Name?: string;
@@ -600,9 +557,7 @@ export const ScheduleGroupSummary = /*@__PURE__*/ S.suspend(() =>
     CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LastModificationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
-).annotate({
-  identifier: "ScheduleGroupSummary",
-}) as any as S.Schema<ScheduleGroupSummary>;
+).annotate({ identifier: "ScheduleGroupSummary" }) as any as S.Schema<ScheduleGroupSummary>;
 export type ScheduleGroupList = ScheduleGroupSummary[];
 export const ScheduleGroupList = /*@__PURE__*/ S.Array(ScheduleGroupSummary);
 export interface ListScheduleGroupsOutput {
@@ -610,13 +565,8 @@ export interface ListScheduleGroupsOutput {
   ScheduleGroups: ScheduleGroupSummary[];
 }
 export const ListScheduleGroupsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    ScheduleGroups: ScheduleGroupList,
-  }),
-).annotate({
-  identifier: "ListScheduleGroupsOutput",
-}) as any as S.Schema<ListScheduleGroupsOutput>;
+  S.Struct({ NextToken: S.optional(S.String), ScheduleGroups: ScheduleGroupList }),
+).annotate({ identifier: "ListScheduleGroupsOutput" }) as any as S.Schema<ListScheduleGroupsOutput>;
 export type NamePrefix = string;
 export interface ListSchedulesInput {
   GroupName?: string;
@@ -633,9 +583,7 @@ export const ListSchedulesInput = /*@__PURE__*/ S.suspend(() =>
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
   }).pipe(T.all(T.Http({ method: "GET", uri: "/schedules" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListSchedulesInput",
-}) as any as S.Schema<ListSchedulesInput>;
+).annotate({ identifier: "ListSchedulesInput" }) as any as S.Schema<ListSchedulesInput>;
 export interface TargetSummary {
   Arn: string;
 }
@@ -661,9 +609,7 @@ export const ScheduleSummary = /*@__PURE__*/ S.suspend(() =>
     LastModificationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     Target: S.optional(TargetSummary),
   }),
-).annotate({
-  identifier: "ScheduleSummary",
-}) as any as S.Schema<ScheduleSummary>;
+).annotate({ identifier: "ScheduleSummary" }) as any as S.Schema<ScheduleSummary>;
 export type ScheduleList = ScheduleSummary[];
 export const ScheduleList = /*@__PURE__*/ S.Array(ScheduleSummary);
 export interface ListSchedulesOutput {
@@ -672,9 +618,7 @@ export interface ListSchedulesOutput {
 }
 export const ListSchedulesOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ NextToken: S.optional(S.String), Schedules: ScheduleList }),
-).annotate({
-  identifier: "ListSchedulesOutput",
-}) as any as S.Schema<ListSchedulesOutput>;
+).annotate({ identifier: "ListSchedulesOutput" }) as any as S.Schema<ListSchedulesOutput>;
 export type TagResourceArn = string;
 export interface ListTagsForResourceInput {
   ResourceArn: string;
@@ -683,9 +627,7 @@ export const ListTagsForResourceInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) }).pipe(
     T.all(T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "ListTagsForResourceInput",
-}) as any as S.Schema<ListTagsForResourceInput>;
+).annotate({ identifier: "ListTagsForResourceInput" }) as any as S.Schema<ListTagsForResourceInput>;
 export interface ListTagsForResourceOutput {
   Tags?: Tag[];
 }
@@ -699,15 +641,10 @@ export interface TagResourceInput {
   Tags: Tag[];
 }
 export const TagResourceInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
-    Tags: TagList,
-  }).pipe(
+  S.Struct({ ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")), Tags: TagList }).pipe(
     T.all(T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "TagResourceInput",
-}) as any as S.Schema<TagResourceInput>;
+).annotate({ identifier: "TagResourceInput" }) as any as S.Schema<TagResourceInput>;
 export interface TagResourceOutput {}
 export const TagResourceOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceOutput",
@@ -725,9 +662,7 @@ export const UntagResourceInput = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UntagResourceInput",
-}) as any as S.Schema<UntagResourceInput>;
+).annotate({ identifier: "UntagResourceInput" }) as any as S.Schema<UntagResourceInput>;
 export interface UntagResourceOutput {}
 export const UntagResourceOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceOutput",
@@ -763,17 +698,13 @@ export const UpdateScheduleInput = /*@__PURE__*/ S.suspend(() =>
     ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
     ActionAfterCompletion: S.optional(S.String),
   }).pipe(T.all(T.Http({ method: "PUT", uri: "/schedules/{Name}" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "UpdateScheduleInput",
-}) as any as S.Schema<UpdateScheduleInput>;
+).annotate({ identifier: "UpdateScheduleInput" }) as any as S.Schema<UpdateScheduleInput>;
 export interface UpdateScheduleOutput {
   ScheduleArn: string;
 }
 export const UpdateScheduleOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ScheduleArn: S.String }),
-).annotate({
-  identifier: "UpdateScheduleOutput",
-}) as any as S.Schema<UpdateScheduleOutput>;
+).annotate({ identifier: "UpdateScheduleOutput" }) as any as S.Schema<UpdateScheduleOutput>;
 export type CreateScheduleError =
   | ConflictException
   | InternalServerException

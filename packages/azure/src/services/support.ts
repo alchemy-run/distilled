@@ -366,9 +366,7 @@ export const CreateFileRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-04-01",
     }),
   ),
-).annotate({
-  identifier: "CreateFileRequest",
-}) as any as S.Schema<CreateFileRequest>;
+).annotate({ identifier: "CreateFileRequest" }) as any as S.Schema<CreateFileRequest>;
 
 /** Describes the properties of a file. */
 export interface FileDetailsProperties {
@@ -388,9 +386,7 @@ export const FileDetailsProperties = /*@__PURE__*/ S.suspend(() =>
     fileSize: S.optional(S.Number),
     numberOfChunks: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "FileDetailsProperties",
-}) as any as S.Schema<FileDetailsProperties>;
+).annotate({ identifier: "FileDetailsProperties" }) as any as S.Schema<FileDetailsProperties>;
 
 export interface CreateFileResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -412,9 +408,7 @@ export const CreateFileResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(FileDetailsProperties),
   }),
-).annotate({
-  identifier: "CreateFileResponse",
-}) as any as S.Schema<CreateFileResponse>;
+).annotate({ identifier: "CreateFileResponse" }) as any as S.Schema<CreateFileResponse>;
 
 export interface CreateFilesNoSubscriptionRequest {
   /** The name of the FileWorkspaceDetails */
@@ -642,9 +636,7 @@ export const TechnicalTicketDetails = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     resourceId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TechnicalTicketDetails",
-}) as any as S.Schema<TechnicalTicketDetails>;
+).annotate({ identifier: "TechnicalTicketDetails" }) as any as S.Schema<TechnicalTicketDetails>;
 
 /** This property is required for providing the region and new quota limits. */
 export interface QuotaChangeRequest {
@@ -658,9 +650,7 @@ export const QuotaChangeRequest = /*@__PURE__*/ S.suspend(() =>
     region: S.optional(S.String),
     payload: S.optional(S.String),
   }),
-).annotate({
-  identifier: "QuotaChangeRequest",
-}) as any as S.Schema<QuotaChangeRequest>;
+).annotate({ identifier: "QuotaChangeRequest" }) as any as S.Schema<QuotaChangeRequest>;
 
 /** This property is required for providing the region and new quota limits. */
 export type QuotaTicketDetailsQuotaChangeRequestsList = Array<QuotaChangeRequest>;
@@ -683,9 +673,7 @@ export const QuotaTicketDetails = /*@__PURE__*/ S.suspend(() =>
     quotaChangeRequestVersion: S.optional(S.String),
     quotaChangeRequests: S.optional(QuotaTicketDetailsQuotaChangeRequestsList),
   }),
-).annotate({
-  identifier: "QuotaTicketDetails",
-}) as any as S.Schema<QuotaTicketDetails>;
+).annotate({ identifier: "QuotaTicketDetails" }) as any as S.Schema<QuotaTicketDetails>;
 
 /** User consent value provided */
 export type UserConsent = "Yes" | "No";
@@ -703,9 +691,7 @@ export const SecondaryConsent = /*@__PURE__*/ S.suspend(() =>
     userConsent: S.optional(UserConsent),
     type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SecondaryConsent",
-}) as any as S.Schema<SecondaryConsent>;
+).annotate({ identifier: "SecondaryConsent" }) as any as S.Schema<SecondaryConsent>;
 
 /** This property indicates secondary consents for the support ticket */
 export type SupportTicketDetailsPropertiesInputSecondaryConsentList = Array<SecondaryConsent>;
@@ -820,9 +806,7 @@ export const ServiceLevelAgreement = /*@__PURE__*/ S.suspend(() =>
     expirationTime: S.optional(S.String),
     slaMinutes: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ServiceLevelAgreement",
-}) as any as S.Schema<ServiceLevelAgreement>;
+).annotate({ identifier: "ServiceLevelAgreement" }) as any as S.Schema<ServiceLevelAgreement>;
 
 /** Support engineer information. */
 export interface SupportEngineer {
@@ -833,9 +817,7 @@ export const SupportEngineer = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     emailAddress: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SupportEngineer",
-}) as any as S.Schema<SupportEngineer>;
+).annotate({ identifier: "SupportEngineer" }) as any as S.Schema<SupportEngineer>;
 
 /** This property indicates if support ticket is a temporary ticket. */
 export type IsTemporaryTicket = "Yes" | "No";
@@ -1029,9 +1011,7 @@ export const GetChatTranscriptRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-04-01",
     }),
   ),
-).annotate({
-  identifier: "GetChatTranscriptRequest",
-}) as any as S.Schema<GetChatTranscriptRequest>;
+).annotate({ identifier: "GetChatTranscriptRequest" }) as any as S.Schema<GetChatTranscriptRequest>;
 
 /** Describes the properties of a Message Details resource. */
 export interface MessageProperties {
@@ -1054,9 +1034,7 @@ export const MessageProperties = /*@__PURE__*/ S.suspend(() =>
     body: S.optional(S.String),
     createdDate: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MessageProperties",
-}) as any as S.Schema<MessageProperties>;
+).annotate({ identifier: "MessageProperties" }) as any as S.Schema<MessageProperties>;
 
 /** List of chat transcript communication resources. */
 export type ChatTranscriptDetailsPropertiesMessagesList = Array<MessageProperties>;
@@ -1171,9 +1149,7 @@ export const GetCommunicationRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-04-01",
     }),
   ),
-).annotate({
-  identifier: "GetCommunicationRequest",
-}) as any as S.Schema<GetCommunicationRequest>;
+).annotate({ identifier: "GetCommunicationRequest" }) as any as S.Schema<GetCommunicationRequest>;
 
 export interface GetCommunicationResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -1195,9 +1171,7 @@ export const GetCommunicationResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: CommunicationDetailsProperties,
   }),
-).annotate({
-  identifier: "GetCommunicationResponse",
-}) as any as S.Schema<GetCommunicationResponse>;
+).annotate({ identifier: "GetCommunicationResponse" }) as any as S.Schema<GetCommunicationResponse>;
 
 export interface GetCommunicationsNoSubscriptionRequest {
   /** The name of the SupportTicketDetails */
@@ -1288,9 +1262,7 @@ export const GetFileResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(FileDetailsProperties),
   }),
-).annotate({
-  identifier: "GetFileResponse",
-}) as any as S.Schema<GetFileResponse>;
+).annotate({ identifier: "GetFileResponse" }) as any as S.Schema<GetFileResponse>;
 
 export interface GetFilesNoSubscriptionRequest {
   /** The name of the FileWorkspaceDetails */
@@ -1356,9 +1328,7 @@ export const GetFileWorkspaceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-04-01",
     }),
   ),
-).annotate({
-  identifier: "GetFileWorkspaceRequest",
-}) as any as S.Schema<GetFileWorkspaceRequest>;
+).annotate({ identifier: "GetFileWorkspaceRequest" }) as any as S.Schema<GetFileWorkspaceRequest>;
 
 export interface GetFileWorkspaceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -1380,9 +1350,7 @@ export const GetFileWorkspaceResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(FileWorkspaceDetailsProperties),
   }),
-).annotate({
-  identifier: "GetFileWorkspaceResponse",
-}) as any as S.Schema<GetFileWorkspaceResponse>;
+).annotate({ identifier: "GetFileWorkspaceResponse" }) as any as S.Schema<GetFileWorkspaceResponse>;
 
 export interface GetFileWorkspacesNoSubscriptionRequest {
   /** The name of the FileWorkspaceDetails */
@@ -1461,9 +1429,7 @@ export const SecondaryConsentEnabled = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SecondaryConsentEnabled",
-}) as any as S.Schema<SecondaryConsentEnabled>;
+).annotate({ identifier: "SecondaryConsentEnabled" }) as any as S.Schema<SecondaryConsentEnabled>;
 
 /** This property indicates whether secondary consent is present for problem classification */
 export type ProblemClassificationPropertiesSecondaryConsentEnabledList =
@@ -1527,9 +1493,7 @@ export const GetServiceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-04-01",
     }),
   ),
-).annotate({
-  identifier: "GetServiceRequest",
-}) as any as S.Schema<GetServiceRequest>;
+).annotate({ identifier: "GetServiceRequest" }) as any as S.Schema<GetServiceRequest>;
 
 /** ARM Resource types. */
 export type ServicePropertiesResourceTypesList = Array<string>;
@@ -1549,9 +1513,7 @@ export const ServiceProperties = /*@__PURE__*/ S.suspend(() =>
     displayName: S.optional(S.String),
     resourceTypes: S.optional(ServicePropertiesResourceTypesList),
   }),
-).annotate({
-  identifier: "ServiceProperties",
-}) as any as S.Schema<ServiceProperties>;
+).annotate({ identifier: "ServiceProperties" }) as any as S.Schema<ServiceProperties>;
 
 export interface GetServiceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -1573,9 +1535,7 @@ export const GetServiceResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(ServiceProperties),
   }),
-).annotate({
-  identifier: "GetServiceResponse",
-}) as any as S.Schema<GetServiceResponse>;
+).annotate({ identifier: "GetServiceResponse" }) as any as S.Schema<GetServiceResponse>;
 
 export interface GetSupportTicketRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1595,9 +1555,7 @@ export const GetSupportTicketRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-04-01",
     }),
   ),
-).annotate({
-  identifier: "GetSupportTicketRequest",
-}) as any as S.Schema<GetSupportTicketRequest>;
+).annotate({ identifier: "GetSupportTicketRequest" }) as any as S.Schema<GetSupportTicketRequest>;
 
 export interface GetSupportTicketResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -1619,9 +1577,7 @@ export const GetSupportTicketResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: SupportTicketDetailsProperties,
   }),
-).annotate({
-  identifier: "GetSupportTicketResponse",
-}) as any as S.Schema<GetSupportTicketResponse>;
+).annotate({ identifier: "GetSupportTicketResponse" }) as any as S.Schema<GetSupportTicketResponse>;
 
 export interface GetSupportTicketsNoSubscriptionRequest {
   /** The name of the SupportTicketDetails */
@@ -1709,9 +1665,7 @@ export const ChatTranscriptDetails = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(ChatTranscriptDetailsProperties),
   }),
-).annotate({
-  identifier: "ChatTranscriptDetails",
-}) as any as S.Schema<ChatTranscriptDetails>;
+).annotate({ identifier: "ChatTranscriptDetails" }) as any as S.Schema<ChatTranscriptDetails>;
 
 /** [Placeholder] Description for value property */
 export type ChatTranscriptsListResultValueList = Array<ChatTranscriptDetails>;
@@ -1803,9 +1757,7 @@ export const CommunicationDetails = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: CommunicationDetailsProperties,
   }),
-).annotate({
-  identifier: "CommunicationDetails",
-}) as any as S.Schema<CommunicationDetails>;
+).annotate({ identifier: "CommunicationDetails" }) as any as S.Schema<CommunicationDetails>;
 
 /** [Placeholder] Description for value property */
 export type CommunicationsListResultValueList = Array<CommunicationDetails>;
@@ -1825,9 +1777,7 @@ export const CommunicationsListResult = /*@__PURE__*/ S.suspend(() =>
     nextLink: S.optional(S.String),
     value: S.optional(CommunicationsListResultValueList),
   }),
-).annotate({
-  identifier: "CommunicationsListResult",
-}) as any as S.Schema<CommunicationsListResult>;
+).annotate({ identifier: "CommunicationsListResult" }) as any as S.Schema<CommunicationsListResult>;
 
 export interface ListCommunicationsNoSubscriptionRequest {
   /** The name of the SupportTicketDetails */
@@ -1872,9 +1822,7 @@ export const ListFilesRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-04-01",
     }),
   ),
-).annotate({
-  identifier: "ListFilesRequest",
-}) as any as S.Schema<ListFilesRequest>;
+).annotate({ identifier: "ListFilesRequest" }) as any as S.Schema<ListFilesRequest>;
 
 /** Object that represents File Details resource */
 export interface FileDetails {
@@ -1917,9 +1865,7 @@ export const FilesListResult = /*@__PURE__*/ S.suspend(() =>
     nextLink: S.optional(S.String),
     value: S.optional(FilesListResultValueList),
   }),
-).annotate({
-  identifier: "FilesListResult",
-}) as any as S.Schema<FilesListResult>;
+).annotate({ identifier: "FilesListResult" }) as any as S.Schema<FilesListResult>;
 
 export interface ListFilesNoSubscriptionRequest {
   /** The name of the FileWorkspaceDetails */
@@ -1950,9 +1896,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-04-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
@@ -1972,9 +1916,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -2024,9 +1966,7 @@ export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ListOperationsResponseValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListOperationsResponse",
-}) as any as S.Schema<ListOperationsResponse>;
+).annotate({ identifier: "ListOperationsResponse" }) as any as S.Schema<ListOperationsResponse>;
 
 export interface ListProblemClassificationsRequest {
   /** Name of the Azure service. */
@@ -2068,9 +2008,7 @@ export const ProblemClassification = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(ProblemClassificationProperties),
   }),
-).annotate({
-  identifier: "ProblemClassification",
-}) as any as S.Schema<ProblemClassification>;
+).annotate({ identifier: "ProblemClassification" }) as any as S.Schema<ProblemClassification>;
 
 /** List of ProblemClassification resources. */
 export type ProblemClassificationsListResultValueList = Array<ProblemClassification>;
@@ -2104,9 +2042,7 @@ export const ListServicesRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-04-01",
     }),
   ),
-).annotate({
-  identifier: "ListServicesRequest",
-}) as any as S.Schema<ListServicesRequest>;
+).annotate({ identifier: "ListServicesRequest" }) as any as S.Schema<ListServicesRequest>;
 
 /** Object that represents a Service resource. */
 export interface Service {
@@ -2149,9 +2085,7 @@ export const ServicesListResult = /*@__PURE__*/ S.suspend(() =>
     nextLink: S.optional(S.String),
     value: S.optional(ServicesListResultValueList),
   }),
-).annotate({
-  identifier: "ServicesListResult",
-}) as any as S.Schema<ServicesListResult>;
+).annotate({ identifier: "ServicesListResult" }) as any as S.Schema<ServicesListResult>;
 
 export interface ListSupportTicketsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2199,9 +2133,7 @@ export const SupportTicketDetails = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: SupportTicketDetailsProperties,
   }),
-).annotate({
-  identifier: "SupportTicketDetails",
-}) as any as S.Schema<SupportTicketDetails>;
+).annotate({ identifier: "SupportTicketDetails" }) as any as S.Schema<SupportTicketDetails>;
 
 /** [Placeholder] Description for value property */
 export type SupportTicketsListResultValueList = Array<SupportTicketDetails>;
@@ -2221,9 +2153,7 @@ export const SupportTicketsListResult = /*@__PURE__*/ S.suspend(() =>
     nextLink: S.optional(S.String),
     value: S.optional(SupportTicketsListResultValueList),
   }),
-).annotate({
-  identifier: "SupportTicketsListResult",
-}) as any as S.Schema<SupportTicketsListResult>;
+).annotate({ identifier: "SupportTicketsListResult" }) as any as S.Schema<SupportTicketsListResult>;
 
 export interface ListSupportTicketsNoSubscriptionRequest {
   /** The number of values to return in the collection. Default is 25 and max is 100. */
@@ -2290,9 +2220,7 @@ export const UpdateContactProfile = /*@__PURE__*/ S.suspend(() =>
     country: S.optional(S.String),
     preferredSupportLanguage: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UpdateContactProfile",
-}) as any as S.Schema<UpdateContactProfile>;
+).annotate({ identifier: "UpdateContactProfile" }) as any as S.Schema<UpdateContactProfile>;
 
 /** This property indicates secondary consents for the support ticket */
 export type UpdateSupportTicketRequestSecondaryConsentList = Array<SecondaryConsent>;
@@ -2452,9 +2380,7 @@ export const UploadFileRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-04-01",
     }),
   ),
-).annotate({
-  identifier: "UploadFileRequest",
-}) as any as S.Schema<UploadFileRequest>;
+).annotate({ identifier: "UploadFileRequest" }) as any as S.Schema<UploadFileRequest>;
 
 export interface UploadFileResponse {}
 export const UploadFileResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({

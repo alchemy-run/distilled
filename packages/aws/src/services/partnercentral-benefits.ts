@@ -182,11 +182,7 @@ export interface AssociateBenefitApplicationResourceOutput {
   Revision?: string;
 }
 export const AssociateBenefitApplicationResourceOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.optional(S.String),
-    Arn: S.optional(S.String),
-    Revision: S.optional(S.String),
-  }),
+  S.Struct({ Id: S.optional(S.String), Arn: S.optional(S.String), Revision: S.optional(S.String) }),
 ).annotate({
   identifier: "AssociateBenefitApplicationResourceOutput",
 }) as any as S.Schema<AssociateBenefitApplicationResourceOutput>;
@@ -316,11 +312,7 @@ export interface CreateBenefitApplicationOutput {
   Revision?: string;
 }
 export const CreateBenefitApplicationOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.optional(S.String),
-    Arn: S.optional(S.String),
-    Revision: S.optional(S.String),
-  }),
+  S.Struct({ Id: S.optional(S.String), Arn: S.optional(S.String), Revision: S.optional(S.String) }),
 ).annotate({
   identifier: "CreateBenefitApplicationOutput",
 }) as any as S.Schema<CreateBenefitApplicationOutput>;
@@ -336,10 +328,7 @@ export const DisassociateBenefitApplicationResourceInput = /*@__PURE__*/ S.suspe
     ResourceArn: S.String,
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/DisassociateBenefitApplicationResource",
-      }),
+      T.Http({ method: "POST", uri: "/DisassociateBenefitApplicationResource" }),
       svc,
       auth,
       proto,
@@ -356,11 +345,7 @@ export interface DisassociateBenefitApplicationResourceOutput {
   Revision?: string;
 }
 export const DisassociateBenefitApplicationResourceOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.optional(S.String),
-    Arn: S.optional(S.String),
-    Revision: S.optional(S.String),
-  }),
+  S.Struct({ Id: S.optional(S.String), Arn: S.optional(S.String), Revision: S.optional(S.String) }),
 ).annotate({
   identifier: "DisassociateBenefitApplicationResourceOutput",
 }) as any as S.Schema<DisassociateBenefitApplicationResourceOutput>;
@@ -372,9 +357,7 @@ export const GetBenefitInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Catalog: S.String, Identifier: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/GetBenefit" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetBenefitInput",
-}) as any as S.Schema<GetBenefitInput>;
+).annotate({ identifier: "GetBenefitInput" }) as any as S.Schema<GetBenefitInput>;
 export type Program = string;
 export type Programs = string[];
 export const Programs = /*@__PURE__*/ S.Array(S.String);
@@ -404,9 +387,7 @@ export const GetBenefitOutput = /*@__PURE__*/ S.suspend(() =>
     BenefitRequestSchema: S.optional(S.Any),
     Status: S.optional(BenefitStatus),
   }),
-).annotate({
-  identifier: "GetBenefitOutput",
-}) as any as S.Schema<GetBenefitOutput>;
+).annotate({ identifier: "GetBenefitOutput" }) as any as S.Schema<GetBenefitOutput>;
 export type BenefitAllocationIdentifier = string;
 export interface GetBenefitAllocationInput {
   Catalog: string;
@@ -554,9 +535,7 @@ export const DisbursementDetails = /*@__PURE__*/ S.suspend(() =>
     DisbursedAmount: S.optional(MonetaryValue),
     IssuanceDetails: S.optional(IssuanceDetail),
   }),
-).annotate({
-  identifier: "DisbursementDetails",
-}) as any as S.Schema<DisbursementDetails>;
+).annotate({ identifier: "DisbursementDetails" }) as any as S.Schema<DisbursementDetails>;
 export interface ConsumableDetails {
   AllocatedAmount?: MonetaryValue;
   RemainingAmount?: MonetaryValue;
@@ -570,9 +549,7 @@ export const ConsumableDetails = /*@__PURE__*/ S.suspend(() =>
     UtilizedAmount: S.optional(MonetaryValue),
     IssuanceDetails: S.optional(IssuanceDetail),
   }),
-).annotate({
-  identifier: "ConsumableDetails",
-}) as any as S.Schema<ConsumableDetails>;
+).annotate({ identifier: "ConsumableDetails" }) as any as S.Schema<ConsumableDetails>;
 export interface CreditCode {
   AwsAccountId: string;
   Value: MonetaryValue;
@@ -599,11 +576,7 @@ export interface CreditDetails {
   Codes: CreditCode[];
 }
 export const CreditDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AllocatedAmount: MonetaryValue,
-    IssuedAmount: MonetaryValue,
-    Codes: CreditCodes,
-  }),
+  S.Struct({ AllocatedAmount: MonetaryValue, IssuedAmount: MonetaryValue, Codes: CreditCodes }),
 ).annotate({ identifier: "CreditDetails" }) as any as S.Schema<CreditDetails>;
 export interface AccessDetails {
   Description?: string;
@@ -852,9 +825,7 @@ export const BenefitAllocationSummary = /*@__PURE__*/ S.suspend(() =>
     ExpiresAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     ApplicableBenefitIds: S.optional(BenefitIds),
   }),
-).annotate({
-  identifier: "BenefitAllocationSummary",
-}) as any as S.Schema<BenefitAllocationSummary>;
+).annotate({ identifier: "BenefitAllocationSummary" }) as any as S.Schema<BenefitAllocationSummary>;
 export type BenefitAllocationSummaries = BenefitAllocationSummary[];
 export const BenefitAllocationSummaries = /*@__PURE__*/ S.Array(BenefitAllocationSummary);
 export interface ListBenefitAllocationsOutput {
@@ -887,9 +858,7 @@ export const AssociatedResource = /*@__PURE__*/ S.suspend(() =>
     ResourceIdentifier: S.optional(S.String),
     ResourceArn: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AssociatedResource",
-}) as any as S.Schema<AssociatedResource>;
+).annotate({ identifier: "AssociatedResource" }) as any as S.Schema<AssociatedResource>;
 export type AssociatedResources = AssociatedResource[];
 export const AssociatedResources = /*@__PURE__*/ S.Array(AssociatedResource);
 export interface ListBenefitApplicationsInput {
@@ -998,9 +967,7 @@ export const ListBenefitsInput = /*@__PURE__*/ S.suspend(() =>
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/ListBenefits" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListBenefitsInput",
-}) as any as S.Schema<ListBenefitsInput>;
+).annotate({ identifier: "ListBenefitsInput" }) as any as S.Schema<ListBenefitsInput>;
 export interface BenefitSummary {
   Id?: string;
   Catalog?: string;
@@ -1030,13 +997,8 @@ export interface ListBenefitsOutput {
   NextToken?: string;
 }
 export const ListBenefitsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BenefitSummaries: S.optional(BenefitSummaries),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListBenefitsOutput",
-}) as any as S.Schema<ListBenefitsOutput>;
+  S.Struct({ BenefitSummaries: S.optional(BenefitSummaries), NextToken: S.optional(S.String) }),
+).annotate({ identifier: "ListBenefitsOutput" }) as any as S.Schema<ListBenefitsOutput>;
 export type TaggableResourceArn = string;
 export interface ListTagsForResourceRequest {
   resourceArn: string;
@@ -1115,9 +1077,7 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ resourceArn: S.String, tags: Tags }).pipe(
     T.all(T.Http({ method: "POST", uri: "/TagResource" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
+).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
 export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
@@ -1132,9 +1092,7 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ resourceArn: S.String, tagKeys: TagKeyList }).pipe(
     T.all(T.Http({ method: "POST", uri: "/UntagResource" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
+).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
 export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
@@ -1180,11 +1138,7 @@ export interface UpdateBenefitApplicationOutput {
   Revision?: string;
 }
 export const UpdateBenefitApplicationOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.optional(S.String),
-    Arn: S.optional(S.String),
-    Revision: S.optional(S.String),
-  }),
+  S.Struct({ Id: S.optional(S.String), Arn: S.optional(S.String), Revision: S.optional(S.String) }),
 ).annotate({
   identifier: "UpdateBenefitApplicationOutput",
 }) as any as S.Schema<UpdateBenefitApplicationOutput>;
@@ -1217,14 +1171,8 @@ export interface ValidationExceptionField {
   Code?: ValidationExceptionErrorCode;
 }
 export const ValidationExceptionField = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.String,
-    Message: S.String,
-    Code: S.optional(ValidationExceptionErrorCode),
-  }),
-).annotate({
-  identifier: "ValidationExceptionField",
-}) as any as S.Schema<ValidationExceptionField>;
+  S.Struct({ Name: S.String, Message: S.String, Code: S.optional(ValidationExceptionErrorCode) }),
+).annotate({ identifier: "ValidationExceptionField" }) as any as S.Schema<ValidationExceptionField>;
 export type ValidationExceptionFieldList = ValidationExceptionField[];
 export const ValidationExceptionFieldList = /*@__PURE__*/ S.Array(ValidationExceptionField);
 export type AmendBenefitApplicationError =

@@ -195,9 +195,7 @@ export const DedicatedCloudNode = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(Tags),
     type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DedicatedCloudNode",
-}) as any as S.Schema<DedicatedCloudNode>;
+).annotate({ identifier: "DedicatedCloudNode" }) as any as S.Schema<DedicatedCloudNode>;
 
 /** Properties of dedicated cloud service */
 export interface DedicatedCloudServicePropertiesInput {
@@ -300,9 +298,7 @@ export const DedicatedCloudService = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(Tags),
     type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DedicatedCloudService",
-}) as any as S.Schema<DedicatedCloudService>;
+).annotate({ identifier: "DedicatedCloudService" }) as any as S.Schema<DedicatedCloudService>;
 
 export interface DeleteDedicatedCloudNodeRequest {
   /** The subscription ID. */
@@ -447,9 +443,7 @@ export const CustomizationHostName = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(CustomizationHostNameType),
   }),
-).annotate({
-  identifier: "CustomizationHostName",
-}) as any as S.Schema<CustomizationHostName>;
+).annotate({ identifier: "CustomizationHostName" }) as any as S.Schema<CustomizationHostName>;
 
 /** Identity type */
 export type CustomizationIdentityType = "WINDOWS_TEXT" | "WINDOWS" | "LINUX";
@@ -485,9 +479,7 @@ export const CustomizationIdentity = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(CustomizationIdentityType),
     userData: S.optional(CustomizationIdentityUserData),
   }),
-).annotate({
-  identifier: "CustomizationIdentity",
-}) as any as S.Schema<CustomizationIdentity>;
+).annotate({ identifier: "CustomizationIdentity" }) as any as S.Schema<CustomizationIdentity>;
 
 /** The list of gateways */
 export type CustomizationIPSettingsGatewayList = Array<string>;
@@ -513,9 +505,7 @@ export const CustomizationIPAddress = /*@__PURE__*/ S.suspend(() =>
     ipAddress: S.optional(S.String),
     type: S.optional(CustomizationIPAddressType),
   }),
-).annotate({
-  identifier: "CustomizationIPAddress",
-}) as any as S.Schema<CustomizationIPAddress>;
+).annotate({ identifier: "CustomizationIPAddress" }) as any as S.Schema<CustomizationIPAddress>;
 
 export interface CustomizationIPSettings {
   /** The list of gateways */
@@ -531,9 +521,7 @@ export const CustomizationIPSettings = /*@__PURE__*/ S.suspend(() =>
     ip: S.optional(CustomizationIPAddress),
     subnetMask: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CustomizationIPSettings",
-}) as any as S.Schema<CustomizationIPSettings>;
+).annotate({ identifier: "CustomizationIPSettings" }) as any as S.Schema<CustomizationIPSettings>;
 
 export interface CustomizationNicSetting {
   /** The list of adapters' settings */
@@ -546,9 +534,7 @@ export const CustomizationNicSetting = /*@__PURE__*/ S.suspend(() =>
     adapter: S.optional(CustomizationIPSettings),
     macAddress: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CustomizationNicSetting",
-}) as any as S.Schema<CustomizationNicSetting>;
+).annotate({ identifier: "CustomizationNicSetting" }) as any as S.Schema<CustomizationNicSetting>;
 
 /** Network interface settings */
 export type CustomizationSpecificationNicSettingsList = Array<CustomizationNicSetting>;
@@ -621,9 +607,7 @@ export const CustomizationPolicy = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(CustomizationPolicyProperties),
     type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CustomizationPolicy",
-}) as any as S.Schema<CustomizationPolicy>;
+).annotate({ identifier: "CustomizationPolicy" }) as any as S.Schema<CustomizationPolicy>;
 
 export interface GetDedicatedCloudNodeRequest {
   /** The subscription ID. */
@@ -696,9 +680,7 @@ export const GetOperationRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2019-04-01",
     }),
   ),
-).annotate({
-  identifier: "GetOperationRequest",
-}) as any as S.Schema<GetOperationRequest>;
+).annotate({ identifier: "GetOperationRequest" }) as any as S.Schema<GetOperationRequest>;
 
 /** Operation error model */
 export interface OperationError {
@@ -738,9 +720,7 @@ export const OperationResource = /*@__PURE__*/ S.suspend(() =>
     startTime: S.optional(S.String),
     status: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationResource",
-}) as any as S.Schema<OperationResource>;
+).annotate({ identifier: "OperationResource" }) as any as S.Schema<OperationResource>;
 
 export interface GetPrivateCloudRequest {
   /** The subscription ID. */
@@ -763,9 +743,7 @@ export const GetPrivateCloudRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2019-04-01",
     }),
   ),
-).annotate({
-  identifier: "GetPrivateCloudRequest",
-}) as any as S.Schema<GetPrivateCloudRequest>;
+).annotate({ identifier: "GetPrivateCloudRequest" }) as any as S.Schema<GetPrivateCloudRequest>;
 
 /** Array of DNS servers */
 export type PrivateCloudPropertiesDnsServersList = Array<string>;
@@ -782,9 +760,7 @@ export const ResourcePoolProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     fullName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ResourcePoolProperties",
-}) as any as S.Schema<ResourcePoolProperties>;
+).annotate({ identifier: "ResourcePoolProperties" }) as any as S.Schema<ResourcePoolProperties>;
 
 /** Resource pool model */
 export interface ResourcePool {
@@ -836,9 +812,7 @@ export const VirtualDiskController = /*@__PURE__*/ S.suspend(() =>
     subType: S.optional(S.String),
     type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "VirtualDiskController",
-}) as any as S.Schema<VirtualDiskController>;
+).annotate({ identifier: "VirtualDiskController" }) as any as S.Schema<VirtualDiskController>;
 
 /** The list of Virtual Disk Controllers */
 export type VirtualMachineTemplatePropertiesControllersList = Array<VirtualDiskController>;
@@ -925,9 +899,7 @@ export const GuestOSNICCustomization = /*@__PURE__*/ S.suspend(() =>
     primaryWinsServer: S.optional(S.String),
     secondaryWinsServer: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GuestOSNICCustomization",
-}) as any as S.Schema<GuestOSNICCustomization>;
+).annotate({ identifier: "GuestOSNICCustomization" }) as any as S.Schema<GuestOSNICCustomization>;
 
 /** NIC ip address */
 export type VirtualNicIpAddressesList = Array<string>;
@@ -944,9 +916,7 @@ export const VirtualNetworkProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     privateCloudId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "VirtualNetworkProperties",
-}) as any as S.Schema<VirtualNetworkProperties>;
+).annotate({ identifier: "VirtualNetworkProperties" }) as any as S.Schema<VirtualNetworkProperties>;
 
 /** Virtual network model */
 export interface VirtualNetwork {
@@ -1101,9 +1071,7 @@ export const VirtualMachineTemplate = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(VirtualMachineTemplateProperties),
     type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "VirtualMachineTemplate",
-}) as any as S.Schema<VirtualMachineTemplate>;
+).annotate({ identifier: "VirtualMachineTemplate" }) as any as S.Schema<VirtualMachineTemplate>;
 
 /** The list of Virtual Machine Templates */
 export type PrivateCloudPropertiesVirtualMachineTemplatesList = Array<VirtualMachineTemplate>;
@@ -1195,9 +1163,7 @@ export const PrivateCloudProperties = /*@__PURE__*/ S.suspend(() =>
     virtualNetworks: S.optional(PrivateCloudPropertiesVirtualNetworksList),
     vrOpsEnabled: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "PrivateCloudProperties",
-}) as any as S.Schema<PrivateCloudProperties>;
+).annotate({ identifier: "PrivateCloudProperties" }) as any as S.Schema<PrivateCloudProperties>;
 
 /** Azure Resource type */
 export type PrivateCloudType = "Microsoft.VMwareCloudSimple/privateClouds";
@@ -1250,9 +1216,7 @@ export const GetResourcePoolRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2019-04-01",
     }),
   ),
-).annotate({
-  identifier: "GetResourcePoolRequest",
-}) as any as S.Schema<GetResourcePoolRequest>;
+).annotate({ identifier: "GetResourcePoolRequest" }) as any as S.Schema<GetResourcePoolRequest>;
 
 export interface GetVirtualMachineRequest {
   /** The subscription ID. */
@@ -1275,9 +1239,7 @@ export const GetVirtualMachineRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2019-04-01",
     }),
   ),
-).annotate({
-  identifier: "GetVirtualMachineRequest",
-}) as any as S.Schema<GetVirtualMachineRequest>;
+).annotate({ identifier: "GetVirtualMachineRequest" }) as any as S.Schema<GetVirtualMachineRequest>;
 
 /** The list of Virtual Disks' Controllers */
 export type VirtualMachinePropertiesControllersList = Array<VirtualDiskController>;
@@ -1312,9 +1274,7 @@ export const GuestOSCustomization = /*@__PURE__*/ S.suspend(() =>
     policyId: S.optional(S.String),
     username: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GuestOSCustomization",
-}) as any as S.Schema<GuestOSCustomization>;
+).annotate({ identifier: "GuestOSCustomization" }) as any as S.Schema<GuestOSCustomization>;
 
 /** The list of Virtual Disks */
 export type VirtualMachinePropertiesDisksList = Array<VirtualDisk>;
@@ -1420,9 +1380,7 @@ export const VirtualMachineProperties = /*@__PURE__*/ S.suspend(() =>
     vmId: S.optional(S.String),
     vmwaretools: S.optional(S.String),
   }),
-).annotate({
-  identifier: "VirtualMachineProperties",
-}) as any as S.Schema<VirtualMachineProperties>;
+).annotate({ identifier: "VirtualMachineProperties" }) as any as S.Schema<VirtualMachineProperties>;
 
 /** Virtual machine model */
 export interface VirtualMachine {
@@ -1502,9 +1460,7 @@ export const GetVirtualNetworkRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2019-04-01",
     }),
   ),
-).annotate({
-  identifier: "GetVirtualNetworkRequest",
-}) as any as S.Schema<GetVirtualNetworkRequest>;
+).annotate({ identifier: "GetVirtualNetworkRequest" }) as any as S.Schema<GetVirtualNetworkRequest>;
 
 export interface ListCustomizationPoliciesRequest {
   /** The subscription ID. */
@@ -1728,9 +1684,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2019-04-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** Resource provider available operation display model */
 export interface AvailableOperationDisplay {
@@ -1852,9 +1806,7 @@ export const AvailableOperation = /*@__PURE__*/ S.suspend(() =>
     origin: S.optional(AvailableOperationOrigin),
     properties: S.optional(AvailableOperationDisplayPropertyServiceSpecification),
   }),
-).annotate({
-  identifier: "AvailableOperation",
-}) as any as S.Schema<AvailableOperation>;
+).annotate({ identifier: "AvailableOperation" }) as any as S.Schema<AvailableOperation>;
 
 /** Returns a list of available operations */
 export type AvailableOperationsListResponseValueList = Array<AvailableOperation>;
@@ -1896,9 +1848,7 @@ export const ListPrivateCloudsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2019-04-01",
     }),
   ),
-).annotate({
-  identifier: "ListPrivateCloudsRequest",
-}) as any as S.Schema<ListPrivateCloudsRequest>;
+).annotate({ identifier: "ListPrivateCloudsRequest" }) as any as S.Schema<ListPrivateCloudsRequest>;
 
 /** the list of private clouds */
 export type PrivateCloudListValueList = Array<PrivateCloud>;
@@ -1918,9 +1868,7 @@ export const PrivateCloudList = /*@__PURE__*/ S.suspend(() =>
     nextLink: S.optional(S.String),
     value: S.optional(PrivateCloudListValueList),
   }),
-).annotate({
-  identifier: "PrivateCloudList",
-}) as any as S.Schema<PrivateCloudList>;
+).annotate({ identifier: "PrivateCloudList" }) as any as S.Schema<PrivateCloudList>;
 
 export interface ListResourcePoolsRequest {
   /** The subscription ID. */
@@ -1943,9 +1891,7 @@ export const ListResourcePoolsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2019-04-01",
     }),
   ),
-).annotate({
-  identifier: "ListResourcePoolsRequest",
-}) as any as S.Schema<ListResourcePoolsRequest>;
+).annotate({ identifier: "ListResourcePoolsRequest" }) as any as S.Schema<ListResourcePoolsRequest>;
 
 /** Results of the Resource pools list */
 export type ResourcePoolsListResponseValueList = Array<ResourcePool>;
@@ -2024,9 +1970,7 @@ export const SkuAvailability = /*@__PURE__*/ S.suspend(() =>
     skuId: S.optional(S.String),
     skuName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SkuAvailability",
-}) as any as S.Schema<SkuAvailability>;
+).annotate({ identifier: "SkuAvailability" }) as any as S.Schema<SkuAvailability>;
 
 /** Results of the DedicatedPlacementGroupSkuAvailability list */
 export type SkuAvailabilityListResponseValueList = Array<SkuAvailability>;
@@ -2071,9 +2015,7 @@ export const ListUsagesRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2019-04-01",
     }),
   ),
-).annotate({
-  identifier: "ListUsagesRequest",
-}) as any as S.Schema<ListUsagesRequest>;
+).annotate({ identifier: "ListUsagesRequest" }) as any as S.Schema<ListUsagesRequest>;
 
 /** User name model */
 export interface UsageName {
@@ -2137,9 +2079,7 @@ export const UsageListResponse = /*@__PURE__*/ S.suspend(() =>
     nextLink: S.optional(S.String),
     value: S.optional(UsageListResponseValueList),
   }),
-).annotate({
-  identifier: "UsageListResponse",
-}) as any as S.Schema<UsageListResponse>;
+).annotate({ identifier: "UsageListResponse" }) as any as S.Schema<UsageListResponse>;
 
 export interface ListVirtualMachineByResourceGroupRequest {
   /** The subscription ID. */
@@ -2497,9 +2437,7 @@ export const VirtualDiskInput = /*@__PURE__*/ S.suspend(() =>
     totalSize: S.Number,
     virtualDiskId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "VirtualDiskInput",
-}) as any as S.Schema<VirtualDiskInput>;
+).annotate({ identifier: "VirtualDiskInput" }) as any as S.Schema<VirtualDiskInput>;
 
 /** The list of Virtual Disks */
 export type VirtualMachinePropertiesInputDisksList = Array<VirtualDiskInput>;
@@ -2531,9 +2469,7 @@ export const VirtualNetworkInput = /*@__PURE__*/ S.suspend(() =>
     id: S.String,
     properties: S.optional(VirtualNetworkPropertiesInput),
   }),
-).annotate({
-  identifier: "VirtualNetworkInput",
-}) as any as S.Schema<VirtualNetworkInput>;
+).annotate({ identifier: "VirtualNetworkInput" }) as any as S.Schema<VirtualNetworkInput>;
 
 /** NIC type */
 export type VirtualNicInputNicType =
@@ -2572,9 +2508,7 @@ export const VirtualNicInput = /*@__PURE__*/ S.suspend(() =>
     powerOnBoot: S.optional(S.Boolean),
     virtualNicId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "VirtualNicInput",
-}) as any as S.Schema<VirtualNicInput>;
+).annotate({ identifier: "VirtualNicInput" }) as any as S.Schema<VirtualNicInput>;
 
 /** The list of Virtual NICs */
 export type VirtualMachinePropertiesInputNicsList = Array<VirtualNicInput>;
@@ -2598,9 +2532,7 @@ export const ResourcePoolInput = /*@__PURE__*/ S.suspend(() =>
     id: S.String,
     properties: S.optional(VirtualNetworkPropertiesInput),
   }),
-).annotate({
-  identifier: "ResourcePoolInput",
-}) as any as S.Schema<ResourcePoolInput>;
+).annotate({ identifier: "ResourcePoolInput" }) as any as S.Schema<ResourcePoolInput>;
 
 /** The list of Virtual VSphere Networks */
 export type VirtualMachinePropertiesInputVSphereNetworksList = Array<string>;

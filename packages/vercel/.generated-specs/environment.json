@@ -74,6 +74,115 @@
         "smithy.api#input": {}
       }
     },
+    "com.vercel.environment#ListSharedEnvVariableResponseDataItemCustomEnvironmentIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The custom environment IDs that this Shared Env Var is scoped to."
+      }
+    },
+    "com.vercel.environment#ListSharedEnvVariableResponseDataItemLastEditedByPrincipalCase0Type": {
+      "type": "enum",
+      "members": {
+        "USER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "user"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.environment#ListSharedEnvVariableResponseDataItemLastEditedByPrincipalCase0": {
+      "type": "structure",
+      "members": {
+        "avatar": {
+          "target": "smithy.api#String"
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "type": {
+          "target": "com.vercel.environment#ListSharedEnvVariableResponseDataItemLastEditedByPrincipalCase0Type",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The principal that last edited this env var, when the editor id resolves to a known user or app. Lets clients render the right avatar instead of assuming every editor is a user."
+      }
+    },
+    "com.vercel.environment#ListSharedEnvVariableResponseDataItemLastEditedByPrincipalCase1Type": {
+      "type": "enum",
+      "members": {
+        "APP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "app"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.environment#ListSharedEnvVariableResponseDataItemLastEditedByPrincipalCase1": {
+      "type": "structure",
+      "members": {
+        "avatar": {
+          "target": "smithy.api#String"
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "com.vercel.environment#ListSharedEnvVariableResponseDataItemLastEditedByPrincipalCase1Type",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The principal that last edited this env var, when the editor id resolves to a known user or app. Lets clients render the right avatar instead of assuming every editor is a user."
+      }
+    },
+    "com.vercel.environment#ListSharedEnvVariableResponseDataItemLastEditedByPrincipal": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.vercel.environment#ListSharedEnvVariableResponseDataItemLastEditedByPrincipalCase0"
+        },
+        "Case1": {
+          "target": "com.vercel.environment#ListSharedEnvVariableResponseDataItemLastEditedByPrincipalCase1"
+        }
+      },
+      "traits": {}
+    },
     "com.vercel.environment#ListSharedEnvVariableResponseDataItemProjectIdList": {
       "type": "list",
       "member": {
@@ -83,37 +192,30 @@
         "smithy.api#documentation": "The unique identifiers of the projects which the Shared Env Var is linked to."
       }
     },
-    "com.vercel.environment#ListSharedEnvVariableResponseDataItemType": {
+    "com.vercel.environment#ListSharedEnvVariableResponseDataItemSecurityIssuesItem": {
       "type": "enum",
       "members": {
-        "ENCRYPTED": {
+        "FLAGS_SECRET_NEEDS_SPLIT": {
           "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#enumValue": "encrypted"
+            "smithy.api#enumValue": "flags-secret-needs-split"
           }
         },
-        "PLAIN": {
+        "READABLE_SECRET": {
           "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#enumValue": "plain"
-          }
-        },
-        "SENSITIVE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "sensitive"
-          }
-        },
-        "SYSTEM": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "system"
+            "smithy.api#enumValue": "readable-secret"
           }
         }
       },
-      "traits": {
-        "smithy.api#documentation": "The type of this cosmos doc instance, if blank, assume secret."
-      }
+      "traits": {}
+    },
+    "com.vercel.environment#ListSharedEnvVariableResponseDataItemSecurityIssuesList": {
+      "type": "list",
+      "member": {
+        "target": "com.vercel.environment#ListSharedEnvVariableResponseDataItemSecurityIssuesItem"
+      },
+      "traits": {}
     },
     "com.vercel.environment#ListSharedEnvVariableResponseDataItemTargetItem": {
       "type": "enum",
@@ -150,62 +252,58 @@
         "smithy.api#documentation": "environments this env variable targets"
       }
     },
-    "com.vercel.environment#ListSharedEnvVariableResponseDataItemCustomEnvironmentIdsList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
+    "com.vercel.environment#ListSharedEnvVariableResponseDataItemType": {
+      "type": "enum",
+      "members": {
+        "ENCRYPTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "encrypted"
+          }
+        },
+        "PLAIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "plain"
+          }
+        },
+        "SENSITIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sensitive"
+          }
+        },
+        "SYSTEM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "system"
+          }
+        }
       },
       "traits": {
-        "smithy.api#documentation": "The custom environment IDs that this Shared Env Var is scoped to."
+        "smithy.api#documentation": "The type of this cosmos doc instance, if blank, assume secret."
       }
     },
     "com.vercel.environment#ListSharedEnvVariableResponseDataItem": {
       "type": "structure",
       "members": {
+        "applyToAllCustomEnvironments": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "whether or not this env varible applies to custom environments"
+          }
+        },
+        "comment": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A user provided comment that describes what this Shared Env Var is for."
+          }
+        },
         "created": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The date when the Shared Env Var was created."
-          }
-        },
-        "key": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The name of the Shared Env Var."
-          }
-        },
-        "ownerId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The unique identifier of the owner (team) the Shared Env Var was created for.",
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The unique identifier of the Shared Env Var."
-          }
-        },
-        "createdBy": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The unique identifier of the user who created the Shared Env Var.",
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "deletedBy": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The unique identifier of the user who deleted the Shared Env Var.",
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "updatedBy": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The unique identifier of the user who last updated the Shared Env Var.",
-            "com.distilled.openapi#nullable": {}
+            "smithy.api#documentation": "The date when the Shared Env Var was created.",
+            "smithy.api#required": {}
           }
         },
         "createdAt": {
@@ -214,46 +312,11 @@
             "smithy.api#documentation": "Timestamp for when the Shared Env Var was created."
           }
         },
-        "deletedAt": {
-          "target": "smithy.api#Double",
-          "traits": {
-            "smithy.api#documentation": "Timestamp for when the Shared Env Var was (soft) deleted."
-          }
-        },
-        "updatedAt": {
-          "target": "smithy.api#Double",
-          "traits": {
-            "smithy.api#documentation": "Timestamp for when the Shared Env Var was last updated."
-          }
-        },
-        "value": {
+        "createdBy": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The value of the Shared Env Var."
-          }
-        },
-        "projectId": {
-          "target": "com.vercel.environment#ListSharedEnvVariableResponseDataItemProjectIdList",
-          "traits": {
-            "smithy.api#documentation": "The unique identifiers of the projects which the Shared Env Var is linked to."
-          }
-        },
-        "type": {
-          "target": "com.vercel.environment#ListSharedEnvVariableResponseDataItemType",
-          "traits": {
-            "smithy.api#documentation": "The type of this cosmos doc instance, if blank, assume secret."
-          }
-        },
-        "target": {
-          "target": "com.vercel.environment#ListSharedEnvVariableResponseDataItemTargetList",
-          "traits": {
-            "smithy.api#documentation": "environments this env variable targets"
-          }
-        },
-        "applyToAllCustomEnvironments": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "whether or not this env varible applies to custom environments"
+            "smithy.api#documentation": "The unique identifier of the user who created the Shared Env Var.",
+            "com.distilled.openapi#nullable": {}
           }
         },
         "customEnvironmentIds": {
@@ -265,19 +328,94 @@
         "decrypted": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "whether or not this env variable is decrypted"
+            "smithy.api#documentation": "whether or not this env variable is decrypted",
+            "smithy.api#required": {}
           }
         },
-        "comment": {
+        "deletedAt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Timestamp for when the Shared Env Var was (soft) deleted."
+          }
+        },
+        "deletedBy": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "A user provided comment that describes what this Shared Env Var is for."
+            "smithy.api#documentation": "The unique identifier of the user who deleted the Shared Env Var.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier of the Shared Env Var.",
+            "smithy.api#required": {}
+          }
+        },
+        "key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the Shared Env Var.",
+            "smithy.api#required": {}
           }
         },
         "lastEditedByDisplayName": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The last editor full name or username."
+          }
+        },
+        "lastEditedByPrincipal": {
+          "target": "com.vercel.environment#ListSharedEnvVariableResponseDataItemLastEditedByPrincipal"
+        },
+        "ownerId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier of the owner (team) the Shared Env Var was created for.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "projectId": {
+          "target": "com.vercel.environment#ListSharedEnvVariableResponseDataItemProjectIdList",
+          "traits": {
+            "smithy.api#documentation": "The unique identifiers of the projects which the Shared Env Var is linked to."
+          }
+        },
+        "securityIssues": {
+          "target": "com.vercel.environment#ListSharedEnvVariableResponseDataItemSecurityIssuesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "target": {
+          "target": "com.vercel.environment#ListSharedEnvVariableResponseDataItemTargetList",
+          "traits": {
+            "smithy.api#documentation": "environments this env variable targets"
+          }
+        },
+        "type": {
+          "target": "com.vercel.environment#ListSharedEnvVariableResponseDataItemType",
+          "traits": {
+            "smithy.api#documentation": "The type of this cosmos doc instance, if blank, assume secret."
+          }
+        },
+        "updatedAt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Timestamp for when the Shared Env Var was last updated."
+          }
+        },
+        "updatedBy": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier of the user who last updated the Shared Env Var.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The value of the Shared Env Var."
           }
         }
       },
@@ -510,6 +648,115 @@
         "smithy.api#input": {}
       }
     },
+    "com.vercel.environment#CreateSharedEnvVariableResponseCreatedItemCustomEnvironmentIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The custom environment IDs that this Shared Env Var is scoped to."
+      }
+    },
+    "com.vercel.environment#CreateSharedEnvVariableResponseCreatedItemLastEditedByPrincipalCase0Type": {
+      "type": "enum",
+      "members": {
+        "USER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "user"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.environment#CreateSharedEnvVariableResponseCreatedItemLastEditedByPrincipalCase0": {
+      "type": "structure",
+      "members": {
+        "avatar": {
+          "target": "smithy.api#String"
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "type": {
+          "target": "com.vercel.environment#CreateSharedEnvVariableResponseCreatedItemLastEditedByPrincipalCase0Type",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The principal that last edited this env var, when the editor id resolves to a known user or app. Lets clients render the right avatar instead of assuming every editor is a user."
+      }
+    },
+    "com.vercel.environment#CreateSharedEnvVariableResponseCreatedItemLastEditedByPrincipalCase1Type": {
+      "type": "enum",
+      "members": {
+        "APP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "app"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.environment#CreateSharedEnvVariableResponseCreatedItemLastEditedByPrincipalCase1": {
+      "type": "structure",
+      "members": {
+        "avatar": {
+          "target": "smithy.api#String"
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "com.vercel.environment#CreateSharedEnvVariableResponseCreatedItemLastEditedByPrincipalCase1Type",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The principal that last edited this env var, when the editor id resolves to a known user or app. Lets clients render the right avatar instead of assuming every editor is a user."
+      }
+    },
+    "com.vercel.environment#CreateSharedEnvVariableResponseCreatedItemLastEditedByPrincipal": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.vercel.environment#CreateSharedEnvVariableResponseCreatedItemLastEditedByPrincipalCase0"
+        },
+        "Case1": {
+          "target": "com.vercel.environment#CreateSharedEnvVariableResponseCreatedItemLastEditedByPrincipalCase1"
+        }
+      },
+      "traits": {}
+    },
     "com.vercel.environment#CreateSharedEnvVariableResponseCreatedItemProjectIdList": {
       "type": "list",
       "member": {
@@ -517,38 +764,6 @@
       },
       "traits": {
         "smithy.api#documentation": "The unique identifiers of the projects which the Shared Env Var is linked to."
-      }
-    },
-    "com.vercel.environment#CreateSharedEnvVariableResponseCreatedItemType": {
-      "type": "enum",
-      "members": {
-        "ENCRYPTED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "encrypted"
-          }
-        },
-        "PLAIN": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "plain"
-          }
-        },
-        "SENSITIVE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "sensitive"
-          }
-        },
-        "SYSTEM": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "system"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "The type of this cosmos doc instance, if blank, assume secret."
       }
     },
     "com.vercel.environment#CreateSharedEnvVariableResponseCreatedItemTargetItem": {
@@ -586,62 +801,57 @@
         "smithy.api#documentation": "environments this env variable targets"
       }
     },
-    "com.vercel.environment#CreateSharedEnvVariableResponseCreatedItemCustomEnvironmentIdsList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
+    "com.vercel.environment#CreateSharedEnvVariableResponseCreatedItemType": {
+      "type": "enum",
+      "members": {
+        "ENCRYPTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "encrypted"
+          }
+        },
+        "PLAIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "plain"
+          }
+        },
+        "SENSITIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sensitive"
+          }
+        },
+        "SYSTEM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "system"
+          }
+        }
       },
       "traits": {
-        "smithy.api#documentation": "The custom environment IDs that this Shared Env Var is scoped to."
+        "smithy.api#documentation": "The type of this cosmos doc instance, if blank, assume secret."
       }
     },
     "com.vercel.environment#CreateSharedEnvVariableResponseCreatedItem": {
       "type": "structure",
       "members": {
+        "applyToAllCustomEnvironments": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "whether or not this env varible applies to custom environments"
+          }
+        },
+        "comment": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A user provided comment that describes what this Shared Env Var is for."
+          }
+        },
         "created": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The date when the Shared Env Var was created."
-          }
-        },
-        "key": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The name of the Shared Env Var."
-          }
-        },
-        "ownerId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The unique identifier of the owner (team) the Shared Env Var was created for.",
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The unique identifier of the Shared Env Var."
-          }
-        },
-        "createdBy": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The unique identifier of the user who created the Shared Env Var.",
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "deletedBy": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The unique identifier of the user who deleted the Shared Env Var.",
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "updatedBy": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The unique identifier of the user who last updated the Shared Env Var.",
-            "com.distilled.openapi#nullable": {}
           }
         },
         "createdAt": {
@@ -650,46 +860,11 @@
             "smithy.api#documentation": "Timestamp for when the Shared Env Var was created."
           }
         },
-        "deletedAt": {
-          "target": "smithy.api#Double",
-          "traits": {
-            "smithy.api#documentation": "Timestamp for when the Shared Env Var was (soft) deleted."
-          }
-        },
-        "updatedAt": {
-          "target": "smithy.api#Double",
-          "traits": {
-            "smithy.api#documentation": "Timestamp for when the Shared Env Var was last updated."
-          }
-        },
-        "value": {
+        "createdBy": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The value of the Shared Env Var."
-          }
-        },
-        "projectId": {
-          "target": "com.vercel.environment#CreateSharedEnvVariableResponseCreatedItemProjectIdList",
-          "traits": {
-            "smithy.api#documentation": "The unique identifiers of the projects which the Shared Env Var is linked to."
-          }
-        },
-        "type": {
-          "target": "com.vercel.environment#CreateSharedEnvVariableResponseCreatedItemType",
-          "traits": {
-            "smithy.api#documentation": "The type of this cosmos doc instance, if blank, assume secret."
-          }
-        },
-        "target": {
-          "target": "com.vercel.environment#CreateSharedEnvVariableResponseCreatedItemTargetList",
-          "traits": {
-            "smithy.api#documentation": "environments this env variable targets"
-          }
-        },
-        "applyToAllCustomEnvironments": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "whether or not this env varible applies to custom environments"
+            "smithy.api#documentation": "The unique identifier of the user who created the Shared Env Var.",
+            "com.distilled.openapi#nullable": {}
           }
         },
         "customEnvironmentIds": {
@@ -704,16 +879,82 @@
             "smithy.api#documentation": "whether or not this env variable is decrypted"
           }
         },
-        "comment": {
+        "deletedAt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Timestamp for when the Shared Env Var was (soft) deleted."
+          }
+        },
+        "deletedBy": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "A user provided comment that describes what this Shared Env Var is for."
+            "smithy.api#documentation": "The unique identifier of the user who deleted the Shared Env Var.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier of the Shared Env Var."
+          }
+        },
+        "key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the Shared Env Var."
           }
         },
         "lastEditedByDisplayName": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The last editor full name or username."
+          }
+        },
+        "lastEditedByPrincipal": {
+          "target": "com.vercel.environment#CreateSharedEnvVariableResponseCreatedItemLastEditedByPrincipal"
+        },
+        "ownerId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier of the owner (team) the Shared Env Var was created for.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "projectId": {
+          "target": "com.vercel.environment#CreateSharedEnvVariableResponseCreatedItemProjectIdList",
+          "traits": {
+            "smithy.api#documentation": "The unique identifiers of the projects which the Shared Env Var is linked to."
+          }
+        },
+        "target": {
+          "target": "com.vercel.environment#CreateSharedEnvVariableResponseCreatedItemTargetList",
+          "traits": {
+            "smithy.api#documentation": "environments this env variable targets"
+          }
+        },
+        "type": {
+          "target": "com.vercel.environment#CreateSharedEnvVariableResponseCreatedItemType",
+          "traits": {
+            "smithy.api#documentation": "The type of this cosmos doc instance, if blank, assume secret."
+          }
+        },
+        "updatedAt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Timestamp for when the Shared Env Var was last updated."
+          }
+        },
+        "updatedBy": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier of the user who last updated the Shared Env Var.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The value of the Shared Env Var."
           }
         }
       },
@@ -723,61 +964,6 @@
       "type": "list",
       "member": {
         "target": "com.vercel.environment#CreateSharedEnvVariableResponseCreatedItem"
-      },
-      "traits": {}
-    },
-    "com.vercel.environment#CreateSharedEnvVariableResponseFailedItemErrorValueCase1Item": {
-      "type": "enum",
-      "members": {
-        "DEVELOPMENT": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "development"
-          }
-        },
-        "DEVELOPMENT_2": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "development"
-          }
-        },
-        "PREVIEW": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "preview"
-          }
-        },
-        "PREVIEW_2": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "preview"
-          }
-        },
-        "PRODUCTION": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "production"
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.vercel.environment#CreateSharedEnvVariableResponseFailedItemErrorValueCase1List": {
-      "type": "list",
-      "member": {
-        "target": "com.vercel.environment#CreateSharedEnvVariableResponseFailedItemErrorValueCase1Item"
-      },
-      "traits": {}
-    },
-    "com.vercel.environment#CreateSharedEnvVariableResponseFailedItemErrorValue": {
-      "type": "union",
-      "members": {
-        "Case0": {
-          "target": "smithy.api#String"
-        },
-        "Case1": {
-          "target": "com.vercel.environment#CreateSharedEnvVariableResponseFailedItemErrorValueCase1List"
-        }
       },
       "traits": {}
     },
@@ -872,23 +1058,72 @@
       },
       "traits": {}
     },
+    "com.vercel.environment#CreateSharedEnvVariableResponseFailedItemErrorValueCase1Item": {
+      "type": "enum",
+      "members": {
+        "DEVELOPMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "development"
+          }
+        },
+        "DEVELOPMENT_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "development"
+          }
+        },
+        "PREVIEW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "preview"
+          }
+        },
+        "PREVIEW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "preview"
+          }
+        },
+        "PRODUCTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "production"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.environment#CreateSharedEnvVariableResponseFailedItemErrorValueCase1List": {
+      "type": "list",
+      "member": {
+        "target": "com.vercel.environment#CreateSharedEnvVariableResponseFailedItemErrorValueCase1Item"
+      },
+      "traits": {}
+    },
+    "com.vercel.environment#CreateSharedEnvVariableResponseFailedItemErrorValue": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#String"
+        },
+        "Case1": {
+          "target": "com.vercel.environment#CreateSharedEnvVariableResponseFailedItemErrorValueCase1List"
+        }
+      },
+      "traits": {}
+    },
     "com.vercel.environment#CreateSharedEnvVariableResponseFailedItemError": {
       "type": "structure",
       "members": {
+        "action": {
+          "target": "smithy.api#String"
+        },
         "code": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
-        },
-        "message": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "key": {
-          "target": "smithy.api#String"
         },
         "envVarId": {
           "target": "smithy.api#String"
@@ -896,23 +1131,29 @@
         "envVarKey": {
           "target": "smithy.api#String"
         },
-        "action": {
+        "gitBranch": {
+          "target": "smithy.api#String"
+        },
+        "key": {
           "target": "smithy.api#String"
         },
         "link": {
           "target": "smithy.api#String"
         },
-        "value": {
-          "target": "com.vercel.environment#CreateSharedEnvVariableResponseFailedItemErrorValue"
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
         },
-        "gitBranch": {
+        "project": {
           "target": "smithy.api#String"
         },
         "target": {
           "target": "com.vercel.environment#CreateSharedEnvVariableResponseFailedItemErrorTarget"
         },
-        "project": {
-          "target": "smithy.api#String"
+        "value": {
+          "target": "com.vercel.environment#CreateSharedEnvVariableResponseFailedItemErrorValue"
         }
       },
       "traits": {}
@@ -973,6 +1214,9 @@
         },
         {
           "target": "com.vercel.environment#Forbidden"
+        },
+        {
+          "target": "com.vercel.environment#NotFound"
         }
       ],
       "traits": {
@@ -1173,277 +1417,6 @@
         "smithy.api#input": {}
       }
     },
-    "com.vercel.environment#UpdateSharedEnvVariableResponseUpdatedItemProjectIdList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      },
-      "traits": {
-        "smithy.api#documentation": "The unique identifiers of the projects which the Shared Env Var is linked to."
-      }
-    },
-    "com.vercel.environment#UpdateSharedEnvVariableResponseUpdatedItemType": {
-      "type": "enum",
-      "members": {
-        "ENCRYPTED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "encrypted"
-          }
-        },
-        "PLAIN": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "plain"
-          }
-        },
-        "SENSITIVE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "sensitive"
-          }
-        },
-        "SYSTEM": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "system"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "The type of this cosmos doc instance, if blank, assume secret."
-      }
-    },
-    "com.vercel.environment#UpdateSharedEnvVariableResponseUpdatedItemTargetItem": {
-      "type": "enum",
-      "members": {
-        "DEVELOPMENT": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "development"
-          }
-        },
-        "PREVIEW": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "preview"
-          }
-        },
-        "PRODUCTION": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "production"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "environments this env variable targets"
-      }
-    },
-    "com.vercel.environment#UpdateSharedEnvVariableResponseUpdatedItemTargetList": {
-      "type": "list",
-      "member": {
-        "target": "com.vercel.environment#UpdateSharedEnvVariableResponseUpdatedItemTargetItem"
-      },
-      "traits": {
-        "smithy.api#documentation": "environments this env variable targets"
-      }
-    },
-    "com.vercel.environment#UpdateSharedEnvVariableResponseUpdatedItemCustomEnvironmentIdsList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      },
-      "traits": {
-        "smithy.api#documentation": "The custom environment IDs that this Shared Env Var is scoped to."
-      }
-    },
-    "com.vercel.environment#UpdateSharedEnvVariableResponseUpdatedItem": {
-      "type": "structure",
-      "members": {
-        "created": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The date when the Shared Env Var was created."
-          }
-        },
-        "key": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The name of the Shared Env Var."
-          }
-        },
-        "ownerId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The unique identifier of the owner (team) the Shared Env Var was created for.",
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The unique identifier of the Shared Env Var."
-          }
-        },
-        "createdBy": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The unique identifier of the user who created the Shared Env Var.",
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "deletedBy": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The unique identifier of the user who deleted the Shared Env Var.",
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "updatedBy": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The unique identifier of the user who last updated the Shared Env Var.",
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "createdAt": {
-          "target": "smithy.api#Double",
-          "traits": {
-            "smithy.api#documentation": "Timestamp for when the Shared Env Var was created."
-          }
-        },
-        "deletedAt": {
-          "target": "smithy.api#Double",
-          "traits": {
-            "smithy.api#documentation": "Timestamp for when the Shared Env Var was (soft) deleted."
-          }
-        },
-        "updatedAt": {
-          "target": "smithy.api#Double",
-          "traits": {
-            "smithy.api#documentation": "Timestamp for when the Shared Env Var was last updated."
-          }
-        },
-        "value": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The value of the Shared Env Var."
-          }
-        },
-        "projectId": {
-          "target": "com.vercel.environment#UpdateSharedEnvVariableResponseUpdatedItemProjectIdList",
-          "traits": {
-            "smithy.api#documentation": "The unique identifiers of the projects which the Shared Env Var is linked to."
-          }
-        },
-        "type": {
-          "target": "com.vercel.environment#UpdateSharedEnvVariableResponseUpdatedItemType",
-          "traits": {
-            "smithy.api#documentation": "The type of this cosmos doc instance, if blank, assume secret."
-          }
-        },
-        "target": {
-          "target": "com.vercel.environment#UpdateSharedEnvVariableResponseUpdatedItemTargetList",
-          "traits": {
-            "smithy.api#documentation": "environments this env variable targets"
-          }
-        },
-        "applyToAllCustomEnvironments": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "whether or not this env varible applies to custom environments"
-          }
-        },
-        "customEnvironmentIds": {
-          "target": "com.vercel.environment#UpdateSharedEnvVariableResponseUpdatedItemCustomEnvironmentIdsList",
-          "traits": {
-            "smithy.api#documentation": "The custom environment IDs that this Shared Env Var is scoped to."
-          }
-        },
-        "decrypted": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "whether or not this env variable is decrypted"
-          }
-        },
-        "comment": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "A user provided comment that describes what this Shared Env Var is for."
-          }
-        },
-        "lastEditedByDisplayName": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The last editor full name or username."
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.vercel.environment#UpdateSharedEnvVariableResponseUpdatedList": {
-      "type": "list",
-      "member": {
-        "target": "com.vercel.environment#UpdateSharedEnvVariableResponseUpdatedItem"
-      },
-      "traits": {}
-    },
-    "com.vercel.environment#UpdateSharedEnvVariableResponseFailedItemErrorValueCase1Item": {
-      "type": "enum",
-      "members": {
-        "DEVELOPMENT": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "development"
-          }
-        },
-        "DEVELOPMENT_2": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "development"
-          }
-        },
-        "PREVIEW": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "preview"
-          }
-        },
-        "PREVIEW_2": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "preview"
-          }
-        },
-        "PRODUCTION": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "production"
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.vercel.environment#UpdateSharedEnvVariableResponseFailedItemErrorValueCase1List": {
-      "type": "list",
-      "member": {
-        "target": "com.vercel.environment#UpdateSharedEnvVariableResponseFailedItemErrorValueCase1Item"
-      },
-      "traits": {}
-    },
-    "com.vercel.environment#UpdateSharedEnvVariableResponseFailedItemErrorValue": {
-      "type": "union",
-      "members": {
-        "Case0": {
-          "target": "smithy.api#String"
-        },
-        "Case1": {
-          "target": "com.vercel.environment#UpdateSharedEnvVariableResponseFailedItemErrorValueCase1List"
-        }
-      },
-      "traits": {}
-    },
     "com.vercel.environment#UpdateSharedEnvVariableResponseFailedItemErrorTargetCase0Item": {
       "type": "enum",
       "members": {
@@ -1535,23 +1508,72 @@
       },
       "traits": {}
     },
+    "com.vercel.environment#UpdateSharedEnvVariableResponseFailedItemErrorValueCase1Item": {
+      "type": "enum",
+      "members": {
+        "DEVELOPMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "development"
+          }
+        },
+        "DEVELOPMENT_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "development"
+          }
+        },
+        "PREVIEW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "preview"
+          }
+        },
+        "PREVIEW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "preview"
+          }
+        },
+        "PRODUCTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "production"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.environment#UpdateSharedEnvVariableResponseFailedItemErrorValueCase1List": {
+      "type": "list",
+      "member": {
+        "target": "com.vercel.environment#UpdateSharedEnvVariableResponseFailedItemErrorValueCase1Item"
+      },
+      "traits": {}
+    },
+    "com.vercel.environment#UpdateSharedEnvVariableResponseFailedItemErrorValue": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#String"
+        },
+        "Case1": {
+          "target": "com.vercel.environment#UpdateSharedEnvVariableResponseFailedItemErrorValueCase1List"
+        }
+      },
+      "traits": {}
+    },
     "com.vercel.environment#UpdateSharedEnvVariableResponseFailedItemError": {
       "type": "structure",
       "members": {
+        "action": {
+          "target": "smithy.api#String"
+        },
         "code": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
-        },
-        "message": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "key": {
-          "target": "smithy.api#String"
         },
         "envVarId": {
           "target": "smithy.api#String"
@@ -1559,23 +1581,29 @@
         "envVarKey": {
           "target": "smithy.api#String"
         },
-        "action": {
+        "gitBranch": {
+          "target": "smithy.api#String"
+        },
+        "key": {
           "target": "smithy.api#String"
         },
         "link": {
           "target": "smithy.api#String"
         },
-        "value": {
-          "target": "com.vercel.environment#UpdateSharedEnvVariableResponseFailedItemErrorValue"
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
         },
-        "gitBranch": {
+        "project": {
           "target": "smithy.api#String"
         },
         "target": {
           "target": "com.vercel.environment#UpdateSharedEnvVariableResponseFailedItemErrorTarget"
         },
-        "project": {
-          "target": "smithy.api#String"
+        "value": {
+          "target": "com.vercel.environment#UpdateSharedEnvVariableResponseFailedItemErrorValue"
         }
       },
       "traits": {}
@@ -1599,17 +1627,336 @@
       },
       "traits": {}
     },
-    "com.vercel.environment#UpdateSharedEnvVariableResponse": {
+    "com.vercel.environment#UpdateSharedEnvVariableResponseUpdatedItemCustomEnvironmentIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The custom environment IDs that this Shared Env Var is scoped to."
+      }
+    },
+    "com.vercel.environment#UpdateSharedEnvVariableResponseUpdatedItemLastEditedByPrincipalCase0Type": {
+      "type": "enum",
+      "members": {
+        "USER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "user"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.environment#UpdateSharedEnvVariableResponseUpdatedItemLastEditedByPrincipalCase0": {
       "type": "structure",
       "members": {
-        "updated": {
-          "target": "com.vercel.environment#UpdateSharedEnvVariableResponseUpdatedList",
+        "avatar": {
+          "target": "smithy.api#String"
+        },
+        "id": {
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
         },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "type": {
+          "target": "com.vercel.environment#UpdateSharedEnvVariableResponseUpdatedItemLastEditedByPrincipalCase0Type",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The principal that last edited this env var, when the editor id resolves to a known user or app. Lets clients render the right avatar instead of assuming every editor is a user."
+      }
+    },
+    "com.vercel.environment#UpdateSharedEnvVariableResponseUpdatedItemLastEditedByPrincipalCase1Type": {
+      "type": "enum",
+      "members": {
+        "APP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "app"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.environment#UpdateSharedEnvVariableResponseUpdatedItemLastEditedByPrincipalCase1": {
+      "type": "structure",
+      "members": {
+        "avatar": {
+          "target": "smithy.api#String"
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "com.vercel.environment#UpdateSharedEnvVariableResponseUpdatedItemLastEditedByPrincipalCase1Type",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The principal that last edited this env var, when the editor id resolves to a known user or app. Lets clients render the right avatar instead of assuming every editor is a user."
+      }
+    },
+    "com.vercel.environment#UpdateSharedEnvVariableResponseUpdatedItemLastEditedByPrincipal": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.vercel.environment#UpdateSharedEnvVariableResponseUpdatedItemLastEditedByPrincipalCase0"
+        },
+        "Case1": {
+          "target": "com.vercel.environment#UpdateSharedEnvVariableResponseUpdatedItemLastEditedByPrincipalCase1"
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.environment#UpdateSharedEnvVariableResponseUpdatedItemProjectIdList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The unique identifiers of the projects which the Shared Env Var is linked to."
+      }
+    },
+    "com.vercel.environment#UpdateSharedEnvVariableResponseUpdatedItemTargetItem": {
+      "type": "enum",
+      "members": {
+        "DEVELOPMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "development"
+          }
+        },
+        "PREVIEW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "preview"
+          }
+        },
+        "PRODUCTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "production"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "environments this env variable targets"
+      }
+    },
+    "com.vercel.environment#UpdateSharedEnvVariableResponseUpdatedItemTargetList": {
+      "type": "list",
+      "member": {
+        "target": "com.vercel.environment#UpdateSharedEnvVariableResponseUpdatedItemTargetItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "environments this env variable targets"
+      }
+    },
+    "com.vercel.environment#UpdateSharedEnvVariableResponseUpdatedItemType": {
+      "type": "enum",
+      "members": {
+        "ENCRYPTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "encrypted"
+          }
+        },
+        "PLAIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "plain"
+          }
+        },
+        "SENSITIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sensitive"
+          }
+        },
+        "SYSTEM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "system"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The type of this cosmos doc instance, if blank, assume secret."
+      }
+    },
+    "com.vercel.environment#UpdateSharedEnvVariableResponseUpdatedItem": {
+      "type": "structure",
+      "members": {
+        "applyToAllCustomEnvironments": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "whether or not this env varible applies to custom environments"
+          }
+        },
+        "comment": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A user provided comment that describes what this Shared Env Var is for."
+          }
+        },
+        "created": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The date when the Shared Env Var was created."
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Timestamp for when the Shared Env Var was created."
+          }
+        },
+        "createdBy": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier of the user who created the Shared Env Var.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "customEnvironmentIds": {
+          "target": "com.vercel.environment#UpdateSharedEnvVariableResponseUpdatedItemCustomEnvironmentIdsList",
+          "traits": {
+            "smithy.api#documentation": "The custom environment IDs that this Shared Env Var is scoped to."
+          }
+        },
+        "decrypted": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "whether or not this env variable is decrypted"
+          }
+        },
+        "deletedAt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Timestamp for when the Shared Env Var was (soft) deleted."
+          }
+        },
+        "deletedBy": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier of the user who deleted the Shared Env Var.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier of the Shared Env Var."
+          }
+        },
+        "key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the Shared Env Var."
+          }
+        },
+        "lastEditedByDisplayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The last editor full name or username."
+          }
+        },
+        "lastEditedByPrincipal": {
+          "target": "com.vercel.environment#UpdateSharedEnvVariableResponseUpdatedItemLastEditedByPrincipal"
+        },
+        "ownerId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier of the owner (team) the Shared Env Var was created for.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "projectId": {
+          "target": "com.vercel.environment#UpdateSharedEnvVariableResponseUpdatedItemProjectIdList",
+          "traits": {
+            "smithy.api#documentation": "The unique identifiers of the projects which the Shared Env Var is linked to."
+          }
+        },
+        "target": {
+          "target": "com.vercel.environment#UpdateSharedEnvVariableResponseUpdatedItemTargetList",
+          "traits": {
+            "smithy.api#documentation": "environments this env variable targets"
+          }
+        },
+        "type": {
+          "target": "com.vercel.environment#UpdateSharedEnvVariableResponseUpdatedItemType",
+          "traits": {
+            "smithy.api#documentation": "The type of this cosmos doc instance, if blank, assume secret."
+          }
+        },
+        "updatedAt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Timestamp for when the Shared Env Var was last updated."
+          }
+        },
+        "updatedBy": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier of the user who last updated the Shared Env Var.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The value of the Shared Env Var."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.environment#UpdateSharedEnvVariableResponseUpdatedList": {
+      "type": "list",
+      "member": {
+        "target": "com.vercel.environment#UpdateSharedEnvVariableResponseUpdatedItem"
+      },
+      "traits": {}
+    },
+    "com.vercel.environment#UpdateSharedEnvVariableResponse": {
+      "type": "structure",
+      "members": {
         "failed": {
           "target": "com.vercel.environment#UpdateSharedEnvVariableResponseFailedList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "updated": {
+          "target": "com.vercel.environment#UpdateSharedEnvVariableResponseUpdatedList",
           "traits": {
             "smithy.api#required": {}
           }
@@ -1636,6 +1983,9 @@
         },
         {
           "target": "com.vercel.environment#Forbidden"
+        },
+        {
+          "target": "com.vercel.environment#NotFound"
         }
       ],
       "traits": {
@@ -1689,61 +2039,6 @@
       "type": "list",
       "member": {
         "target": "smithy.api#String"
-      },
-      "traits": {}
-    },
-    "com.vercel.environment#DeleteSharedEnvVariableResponseFailedItemErrorValueCase1Item": {
-      "type": "enum",
-      "members": {
-        "DEVELOPMENT": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "development"
-          }
-        },
-        "DEVELOPMENT_2": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "development"
-          }
-        },
-        "PREVIEW": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "preview"
-          }
-        },
-        "PREVIEW_2": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "preview"
-          }
-        },
-        "PRODUCTION": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "production"
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.vercel.environment#DeleteSharedEnvVariableResponseFailedItemErrorValueCase1List": {
-      "type": "list",
-      "member": {
-        "target": "com.vercel.environment#DeleteSharedEnvVariableResponseFailedItemErrorValueCase1Item"
-      },
-      "traits": {}
-    },
-    "com.vercel.environment#DeleteSharedEnvVariableResponseFailedItemErrorValue": {
-      "type": "union",
-      "members": {
-        "Case0": {
-          "target": "smithy.api#String"
-        },
-        "Case1": {
-          "target": "com.vercel.environment#DeleteSharedEnvVariableResponseFailedItemErrorValueCase1List"
-        }
       },
       "traits": {}
     },
@@ -1838,23 +2133,72 @@
       },
       "traits": {}
     },
+    "com.vercel.environment#DeleteSharedEnvVariableResponseFailedItemErrorValueCase1Item": {
+      "type": "enum",
+      "members": {
+        "DEVELOPMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "development"
+          }
+        },
+        "DEVELOPMENT_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "development"
+          }
+        },
+        "PREVIEW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "preview"
+          }
+        },
+        "PREVIEW_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "preview"
+          }
+        },
+        "PRODUCTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "production"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.environment#DeleteSharedEnvVariableResponseFailedItemErrorValueCase1List": {
+      "type": "list",
+      "member": {
+        "target": "com.vercel.environment#DeleteSharedEnvVariableResponseFailedItemErrorValueCase1Item"
+      },
+      "traits": {}
+    },
+    "com.vercel.environment#DeleteSharedEnvVariableResponseFailedItemErrorValue": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#String"
+        },
+        "Case1": {
+          "target": "com.vercel.environment#DeleteSharedEnvVariableResponseFailedItemErrorValueCase1List"
+        }
+      },
+      "traits": {}
+    },
     "com.vercel.environment#DeleteSharedEnvVariableResponseFailedItemError": {
       "type": "structure",
       "members": {
+        "action": {
+          "target": "smithy.api#String"
+        },
         "code": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
-        },
-        "message": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "key": {
-          "target": "smithy.api#String"
         },
         "envVarId": {
           "target": "smithy.api#String"
@@ -1862,23 +2206,29 @@
         "envVarKey": {
           "target": "smithy.api#String"
         },
-        "action": {
+        "gitBranch": {
+          "target": "smithy.api#String"
+        },
+        "key": {
           "target": "smithy.api#String"
         },
         "link": {
           "target": "smithy.api#String"
         },
-        "value": {
-          "target": "com.vercel.environment#DeleteSharedEnvVariableResponseFailedItemErrorValue"
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
         },
-        "gitBranch": {
+        "project": {
           "target": "smithy.api#String"
         },
         "target": {
           "target": "com.vercel.environment#DeleteSharedEnvVariableResponseFailedItemErrorTarget"
         },
-        "project": {
-          "target": "smithy.api#String"
+        "value": {
+          "target": "com.vercel.environment#DeleteSharedEnvVariableResponseFailedItemErrorValue"
         }
       },
       "traits": {}
@@ -1939,6 +2289,9 @@
         },
         {
           "target": "com.vercel.environment#Forbidden"
+        },
+        {
+          "target": "com.vercel.environment#NotFound"
         }
       ],
       "traits": {
@@ -1980,6 +2333,115 @@
         "smithy.api#input": {}
       }
     },
+    "com.vercel.environment#GetSharedEnvVarResponseCustomEnvironmentIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The custom environment IDs that this Shared Env Var is scoped to."
+      }
+    },
+    "com.vercel.environment#GetSharedEnvVarResponseLastEditedByPrincipalCase0Type": {
+      "type": "enum",
+      "members": {
+        "USER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "user"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.environment#GetSharedEnvVarResponseLastEditedByPrincipalCase0": {
+      "type": "structure",
+      "members": {
+        "avatar": {
+          "target": "smithy.api#String"
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "type": {
+          "target": "com.vercel.environment#GetSharedEnvVarResponseLastEditedByPrincipalCase0Type",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The principal that last edited this env var, when the editor id resolves to a known user or app. Lets clients render the right avatar instead of assuming every editor is a user."
+      }
+    },
+    "com.vercel.environment#GetSharedEnvVarResponseLastEditedByPrincipalCase1Type": {
+      "type": "enum",
+      "members": {
+        "APP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "app"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.environment#GetSharedEnvVarResponseLastEditedByPrincipalCase1": {
+      "type": "structure",
+      "members": {
+        "avatar": {
+          "target": "smithy.api#String"
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "com.vercel.environment#GetSharedEnvVarResponseLastEditedByPrincipalCase1Type",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The principal that last edited this env var, when the editor id resolves to a known user or app. Lets clients render the right avatar instead of assuming every editor is a user."
+      }
+    },
+    "com.vercel.environment#GetSharedEnvVarResponseLastEditedByPrincipal": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.vercel.environment#GetSharedEnvVarResponseLastEditedByPrincipalCase0"
+        },
+        "Case1": {
+          "target": "com.vercel.environment#GetSharedEnvVarResponseLastEditedByPrincipalCase1"
+        }
+      },
+      "traits": {}
+    },
     "com.vercel.environment#GetSharedEnvVarResponseProjectIdList": {
       "type": "list",
       "member": {
@@ -1987,38 +2449,6 @@
       },
       "traits": {
         "smithy.api#documentation": "The unique identifiers of the projects which the Shared Env Var is linked to."
-      }
-    },
-    "com.vercel.environment#GetSharedEnvVarResponseType": {
-      "type": "enum",
-      "members": {
-        "ENCRYPTED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "encrypted"
-          }
-        },
-        "PLAIN": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "plain"
-          }
-        },
-        "SENSITIVE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "sensitive"
-          }
-        },
-        "SYSTEM": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "system"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "The type of this cosmos doc instance, if blank, assume secret."
       }
     },
     "com.vercel.environment#GetSharedEnvVarResponseTargetItem": {
@@ -2056,62 +2486,57 @@
         "smithy.api#documentation": "environments this env variable targets"
       }
     },
-    "com.vercel.environment#GetSharedEnvVarResponseCustomEnvironmentIdsList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
+    "com.vercel.environment#GetSharedEnvVarResponseType": {
+      "type": "enum",
+      "members": {
+        "ENCRYPTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "encrypted"
+          }
+        },
+        "PLAIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "plain"
+          }
+        },
+        "SENSITIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sensitive"
+          }
+        },
+        "SYSTEM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "system"
+          }
+        }
       },
       "traits": {
-        "smithy.api#documentation": "The custom environment IDs that this Shared Env Var is scoped to."
+        "smithy.api#documentation": "The type of this cosmos doc instance, if blank, assume secret."
       }
     },
     "com.vercel.environment#GetSharedEnvVarResponse": {
       "type": "structure",
       "members": {
+        "applyToAllCustomEnvironments": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "whether or not this env varible applies to custom environments"
+          }
+        },
+        "comment": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A user provided comment that describes what this Shared Env Var is for."
+          }
+        },
         "created": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The date when the Shared Env Var was created."
-          }
-        },
-        "key": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The name of the Shared Env Var."
-          }
-        },
-        "ownerId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The unique identifier of the owner (team) the Shared Env Var was created for.",
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The unique identifier of the Shared Env Var."
-          }
-        },
-        "createdBy": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The unique identifier of the user who created the Shared Env Var.",
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "deletedBy": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The unique identifier of the user who deleted the Shared Env Var.",
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "updatedBy": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The unique identifier of the user who last updated the Shared Env Var.",
-            "com.distilled.openapi#nullable": {}
           }
         },
         "createdAt": {
@@ -2120,46 +2545,11 @@
             "smithy.api#documentation": "Timestamp for when the Shared Env Var was created."
           }
         },
-        "deletedAt": {
-          "target": "smithy.api#Double",
-          "traits": {
-            "smithy.api#documentation": "Timestamp for when the Shared Env Var was (soft) deleted."
-          }
-        },
-        "updatedAt": {
-          "target": "smithy.api#Double",
-          "traits": {
-            "smithy.api#documentation": "Timestamp for when the Shared Env Var was last updated."
-          }
-        },
-        "value": {
+        "createdBy": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The value of the Shared Env Var."
-          }
-        },
-        "projectId": {
-          "target": "com.vercel.environment#GetSharedEnvVarResponseProjectIdList",
-          "traits": {
-            "smithy.api#documentation": "The unique identifiers of the projects which the Shared Env Var is linked to."
-          }
-        },
-        "type": {
-          "target": "com.vercel.environment#GetSharedEnvVarResponseType",
-          "traits": {
-            "smithy.api#documentation": "The type of this cosmos doc instance, if blank, assume secret."
-          }
-        },
-        "target": {
-          "target": "com.vercel.environment#GetSharedEnvVarResponseTargetList",
-          "traits": {
-            "smithy.api#documentation": "environments this env variable targets"
-          }
-        },
-        "applyToAllCustomEnvironments": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "whether or not this env varible applies to custom environments"
+            "smithy.api#documentation": "The unique identifier of the user who created the Shared Env Var.",
+            "com.distilled.openapi#nullable": {}
           }
         },
         "customEnvironmentIds": {
@@ -2174,16 +2564,82 @@
             "smithy.api#documentation": "whether or not this env variable is decrypted"
           }
         },
-        "comment": {
+        "deletedAt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Timestamp for when the Shared Env Var was (soft) deleted."
+          }
+        },
+        "deletedBy": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "A user provided comment that describes what this Shared Env Var is for."
+            "smithy.api#documentation": "The unique identifier of the user who deleted the Shared Env Var.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier of the Shared Env Var."
+          }
+        },
+        "key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the Shared Env Var."
           }
         },
         "lastEditedByDisplayName": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The last editor full name or username."
+          }
+        },
+        "lastEditedByPrincipal": {
+          "target": "com.vercel.environment#GetSharedEnvVarResponseLastEditedByPrincipal"
+        },
+        "ownerId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier of the owner (team) the Shared Env Var was created for.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "projectId": {
+          "target": "com.vercel.environment#GetSharedEnvVarResponseProjectIdList",
+          "traits": {
+            "smithy.api#documentation": "The unique identifiers of the projects which the Shared Env Var is linked to."
+          }
+        },
+        "target": {
+          "target": "com.vercel.environment#GetSharedEnvVarResponseTargetList",
+          "traits": {
+            "smithy.api#documentation": "environments this env variable targets"
+          }
+        },
+        "type": {
+          "target": "com.vercel.environment#GetSharedEnvVarResponseType",
+          "traits": {
+            "smithy.api#documentation": "The type of this cosmos doc instance, if blank, assume secret."
+          }
+        },
+        "updatedAt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Timestamp for when the Shared Env Var was last updated."
+          }
+        },
+        "updatedBy": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier of the user who last updated the Shared Env Var.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The value of the Shared Env Var."
           }
         }
       },
@@ -2205,6 +2661,9 @@
         },
         {
           "target": "com.vercel.environment#Forbidden"
+        },
+        {
+          "target": "com.vercel.environment#NotFound"
         }
       ],
       "traits": {
@@ -2281,6 +2740,9 @@
         },
         {
           "target": "com.vercel.environment#Forbidden"
+        },
+        {
+          "target": "com.vercel.environment#NotFound"
         }
       ],
       "traits": {
@@ -2343,30 +2805,61 @@
         "smithy.api#documentation": "The maximum number of custom environments allowed either by the team's plan type or a custom override."
       }
     },
-    "com.vercel.environment#GetProjectCustomEnvironmentsResponseEnvironmentsItemType": {
+    "com.vercel.environment#GetProjectCustomEnvironmentsResponseEnvironmentsItemBranchMatcherType": {
       "type": "enum",
       "members": {
-        "DEVELOPMENT": {
+        "ENDSWITH": {
           "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#enumValue": "development"
+            "smithy.api#enumValue": "endsWith"
           }
         },
-        "PREVIEW": {
+        "EQUALS": {
           "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#enumValue": "preview"
+            "smithy.api#enumValue": "equals"
           }
         },
-        "PRODUCTION": {
+        "STARTSWITH": {
           "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#enumValue": "production"
+            "smithy.api#enumValue": "startsWith"
           }
         }
       },
       "traits": {
-        "smithy.api#documentation": "The type of environment (production, preview, or development)"
+        "smithy.api#documentation": "The type of matching to perform"
+      }
+    },
+    "com.vercel.environment#GetProjectCustomEnvironmentsResponseEnvironmentsItemBranchMatcher": {
+      "type": "structure",
+      "members": {
+        "pattern": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The pattern to match against branch names",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "com.vercel.environment#GetProjectCustomEnvironmentsResponseEnvironmentsItemBranchMatcherType",
+          "traits": {
+            "smithy.api#documentation": "The type of matching to perform",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Configuration for matching git branches to this environment"
+      }
+    },
+    "com.vercel.environment#GetProjectCustomEnvironmentsResponseEnvironmentsItemCurrentDeploymentAliasesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of aliases for the current deployment"
       }
     },
     "com.vercel.environment#GetProjectCustomEnvironmentsResponseEnvironmentsItemDomainsItemRedirectStatusCode": {
@@ -2402,25 +2895,25 @@
     "com.vercel.environment#GetProjectCustomEnvironmentsResponseEnvironmentsItemDomainsItemVerificationItem": {
       "type": "structure",
       "members": {
-        "type": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
         "domain": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
         },
-        "value": {
+        "reason": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
         },
-        "reason": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
@@ -2443,13 +2936,28 @@
     "com.vercel.environment#GetProjectCustomEnvironmentsResponseEnvironmentsItemDomainsItem": {
       "type": "structure",
       "members": {
-        "name": {
+        "apexName": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
         },
-        "apexName": {
+        "createdAt": {
+          "target": "smithy.api#Double"
+        },
+        "customEnvironmentId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "gitBranch": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "name": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
@@ -2473,35 +2981,20 @@
             "com.distilled.openapi#nullable": {}
           }
         },
-        "gitBranch": {
-          "target": "smithy.api#String",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "customEnvironmentId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
         "updatedAt": {
           "target": "smithy.api#Double"
         },
-        "createdAt": {
-          "target": "smithy.api#Double"
+        "verification": {
+          "target": "com.vercel.environment#GetProjectCustomEnvironmentsResponseEnvironmentsItemDomainsItemVerificationList",
+          "traits": {
+            "smithy.api#documentation": "A list of verification challenges, one of which must be completed to verify the domain for use on the project. After the challenge is complete `POST /projects/:idOrName/domains/:domain/verify` to verify the domain. Possible challenges: - If `verification.type = TXT` the `verification.domain` will be checked for a TXT record matching `verification.value`."
+          }
         },
         "verified": {
           "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#documentation": "`true` if the domain is verified for use with the project. If `false` it will not be used as an alias on this project until the challenge in `verification` is completed.",
             "smithy.api#required": {}
-          }
-        },
-        "verification": {
-          "target": "com.vercel.environment#GetProjectCustomEnvironmentsResponseEnvironmentsItemDomainsItemVerificationList",
-          "traits": {
-            "smithy.api#documentation": "A list of verification challenges, one of which must be completed to verify the domain for use on the project. After the challenge is complete `POST /projects/:idOrName/domains/:domain/verify` to verify the domain. Possible challenges: - If `verification.type = TXT` the `verification.domain` will be checked for a TXT record matching `verification.value`."
           }
         }
       },
@@ -2518,77 +3011,39 @@
         "smithy.api#documentation": "List of domains associated with this environment"
       }
     },
-    "com.vercel.environment#GetProjectCustomEnvironmentsResponseEnvironmentsItemBranchMatcherType": {
+    "com.vercel.environment#GetProjectCustomEnvironmentsResponseEnvironmentsItemType": {
       "type": "enum",
       "members": {
-        "ENDSWITH": {
+        "DEVELOPMENT": {
           "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#enumValue": "endsWith"
+            "smithy.api#enumValue": "development"
           }
         },
-        "EQUALS": {
+        "PREVIEW": {
           "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#enumValue": "equals"
+            "smithy.api#enumValue": "preview"
           }
         },
-        "STARTSWITH": {
+        "PRODUCTION": {
           "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#enumValue": "startsWith"
+            "smithy.api#enumValue": "production"
           }
         }
       },
       "traits": {
-        "smithy.api#documentation": "The type of matching to perform"
-      }
-    },
-    "com.vercel.environment#GetProjectCustomEnvironmentsResponseEnvironmentsItemBranchMatcher": {
-      "type": "structure",
-      "members": {
-        "type": {
-          "target": "com.vercel.environment#GetProjectCustomEnvironmentsResponseEnvironmentsItemBranchMatcherType",
-          "traits": {
-            "smithy.api#documentation": "The type of matching to perform",
-            "smithy.api#required": {}
-          }
-        },
-        "pattern": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The pattern to match against branch names",
-            "smithy.api#required": {}
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Configuration for matching git branches to this environment"
-      }
-    },
-    "com.vercel.environment#GetProjectCustomEnvironmentsResponseEnvironmentsItemCurrentDeploymentAliasesList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      },
-      "traits": {
-        "smithy.api#documentation": "List of aliases for the current deployment"
+        "smithy.api#documentation": "The type of environment (production, preview, or development)"
       }
     },
     "com.vercel.environment#GetProjectCustomEnvironmentsResponseEnvironmentsItem": {
       "type": "structure",
       "members": {
-        "type": {
-          "target": "com.vercel.environment#GetProjectCustomEnvironmentsResponseEnvironmentsItemType",
+        "branchMatcher": {
+          "target": "com.vercel.environment#GetProjectCustomEnvironmentsResponseEnvironmentsItemBranchMatcher",
           "traits": {
-            "smithy.api#documentation": "The type of environment (production, preview, or development)",
-            "smithy.api#required": {}
-          }
-        },
-        "description": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Optional description of the environment's purpose"
+            "smithy.api#documentation": "Configuration for matching git branches to this environment"
           }
         },
         "createdAt": {
@@ -2598,10 +3053,28 @@
             "smithy.api#required": {}
           }
         },
-        "updatedAt": {
-          "target": "smithy.api#Double",
+        "currentDeploymentAliases": {
+          "target": "com.vercel.environment#GetProjectCustomEnvironmentsResponseEnvironmentsItemCurrentDeploymentAliasesList",
           "traits": {
-            "smithy.api#documentation": "Timestamp when the environment was last updated",
+            "smithy.api#documentation": "List of aliases for the current deployment"
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional description of the environment's purpose"
+          }
+        },
+        "domains": {
+          "target": "com.vercel.environment#GetProjectCustomEnvironmentsResponseEnvironmentsItemDomainsList",
+          "traits": {
+            "smithy.api#documentation": "List of domains associated with this environment"
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique identifier for the custom environment (format: env_*)",
             "smithy.api#required": {}
           }
         },
@@ -2612,29 +3085,18 @@
             "smithy.api#required": {}
           }
         },
-        "id": {
-          "target": "smithy.api#String",
+        "type": {
+          "target": "com.vercel.environment#GetProjectCustomEnvironmentsResponseEnvironmentsItemType",
           "traits": {
-            "smithy.api#documentation": "Unique identifier for the custom environment (format: env_*)",
+            "smithy.api#documentation": "The type of environment (production, preview, or development)",
             "smithy.api#required": {}
           }
         },
-        "domains": {
-          "target": "com.vercel.environment#GetProjectCustomEnvironmentsResponseEnvironmentsItemDomainsList",
+        "updatedAt": {
+          "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "List of domains associated with this environment"
-          }
-        },
-        "branchMatcher": {
-          "target": "com.vercel.environment#GetProjectCustomEnvironmentsResponseEnvironmentsItemBranchMatcher",
-          "traits": {
-            "smithy.api#documentation": "Configuration for matching git branches to this environment"
-          }
-        },
-        "currentDeploymentAliases": {
-          "target": "com.vercel.environment#GetProjectCustomEnvironmentsResponseEnvironmentsItemCurrentDeploymentAliasesList",
-          "traits": {
-            "smithy.api#documentation": "List of aliases for the current deployment"
+            "smithy.api#documentation": "Timestamp when the environment was last updated",
+            "smithy.api#required": {}
           }
         }
       },
@@ -2682,6 +3144,9 @@
         },
         {
           "target": "com.vercel.environment#Forbidden"
+        },
+        {
+          "target": "com.vercel.environment#NotFound"
         }
       ],
       "traits": {
@@ -2789,32 +3254,6 @@
         "smithy.api#input": {}
       }
     },
-    "com.vercel.environment#CreateCustomEnvironmentResponseType": {
-      "type": "enum",
-      "members": {
-        "DEVELOPMENT": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "development"
-          }
-        },
-        "PREVIEW": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "preview"
-          }
-        },
-        "PRODUCTION": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "production"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "The type of environment (production, preview, or development)"
-      }
-    },
     "com.vercel.environment#CreateCustomEnvironmentResponseBranchMatcherType": {
       "type": "enum",
       "members": {
@@ -2844,23 +3283,32 @@
     "com.vercel.environment#CreateCustomEnvironmentResponseBranchMatcher": {
       "type": "structure",
       "members": {
-        "type": {
-          "target": "com.vercel.environment#CreateCustomEnvironmentResponseBranchMatcherType",
-          "traits": {
-            "smithy.api#documentation": "The type of matching to perform",
-            "smithy.api#required": {}
-          }
-        },
         "pattern": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The pattern to match against branch names",
             "smithy.api#required": {}
           }
+        },
+        "type": {
+          "target": "com.vercel.environment#CreateCustomEnvironmentResponseBranchMatcherType",
+          "traits": {
+            "smithy.api#documentation": "The type of matching to perform",
+            "smithy.api#required": {}
+          }
         }
       },
       "traits": {
         "smithy.api#documentation": "Configuration for matching git branches to this environment"
+      }
+    },
+    "com.vercel.environment#CreateCustomEnvironmentResponseCurrentDeploymentAliasesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of aliases for the current deployment"
       }
     },
     "com.vercel.environment#CreateCustomEnvironmentResponseDomainsItemRedirectStatusCode": {
@@ -2896,25 +3344,25 @@
     "com.vercel.environment#CreateCustomEnvironmentResponseDomainsItemVerificationItem": {
       "type": "structure",
       "members": {
-        "type": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
         "domain": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
         },
-        "value": {
+        "reason": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
         },
-        "reason": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
@@ -2937,13 +3385,28 @@
     "com.vercel.environment#CreateCustomEnvironmentResponseDomainsItem": {
       "type": "structure",
       "members": {
-        "name": {
+        "apexName": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
         },
-        "apexName": {
+        "createdAt": {
+          "target": "smithy.api#Double"
+        },
+        "customEnvironmentId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "gitBranch": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "name": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
@@ -2967,35 +3430,20 @@
             "com.distilled.openapi#nullable": {}
           }
         },
-        "gitBranch": {
-          "target": "smithy.api#String",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "customEnvironmentId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
         "updatedAt": {
           "target": "smithy.api#Double"
         },
-        "createdAt": {
-          "target": "smithy.api#Double"
+        "verification": {
+          "target": "com.vercel.environment#CreateCustomEnvironmentResponseDomainsItemVerificationList",
+          "traits": {
+            "smithy.api#documentation": "A list of verification challenges, one of which must be completed to verify the domain for use on the project. After the challenge is complete `POST /projects/:idOrName/domains/:domain/verify` to verify the domain. Possible challenges: - If `verification.type = TXT` the `verification.domain` will be checked for a TXT record matching `verification.value`."
+          }
         },
         "verified": {
           "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#documentation": "`true` if the domain is verified for use with the project. If `false` it will not be used as an alias on this project until the challenge in `verification` is completed.",
             "smithy.api#required": {}
-          }
-        },
-        "verification": {
-          "target": "com.vercel.environment#CreateCustomEnvironmentResponseDomainsItemVerificationList",
-          "traits": {
-            "smithy.api#documentation": "A list of verification challenges, one of which must be completed to verify the domain for use on the project. After the challenge is complete `POST /projects/:idOrName/domains/:domain/verify` to verify the domain. Possible challenges: - If `verification.type = TXT` the `verification.domain` will be checked for a TXT record matching `verification.value`."
           }
         }
       },
@@ -3012,18 +3460,66 @@
         "smithy.api#documentation": "List of domains associated with this environment"
       }
     },
-    "com.vercel.environment#CreateCustomEnvironmentResponseCurrentDeploymentAliasesList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
+    "com.vercel.environment#CreateCustomEnvironmentResponseType": {
+      "type": "enum",
+      "members": {
+        "DEVELOPMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "development"
+          }
+        },
+        "PREVIEW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "preview"
+          }
+        },
+        "PRODUCTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "production"
+          }
+        }
       },
       "traits": {
-        "smithy.api#documentation": "List of aliases for the current deployment"
+        "smithy.api#documentation": "The type of environment (production, preview, or development)"
       }
     },
     "com.vercel.environment#CreateCustomEnvironmentResponse": {
       "type": "structure",
       "members": {
+        "branchMatcher": {
+          "target": "com.vercel.environment#CreateCustomEnvironmentResponseBranchMatcher",
+          "traits": {
+            "smithy.api#documentation": "Configuration for matching git branches to this environment"
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Timestamp when the environment was created",
+            "smithy.api#required": {}
+          }
+        },
+        "currentDeploymentAliases": {
+          "target": "com.vercel.environment#CreateCustomEnvironmentResponseCurrentDeploymentAliasesList",
+          "traits": {
+            "smithy.api#documentation": "List of aliases for the current deployment"
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional description of the environment's purpose"
+          }
+        },
+        "domains": {
+          "target": "com.vercel.environment#CreateCustomEnvironmentResponseDomainsList",
+          "traits": {
+            "smithy.api#documentation": "List of domains associated with this environment"
+          }
+        },
         "id": {
           "target": "smithy.api#String",
           "traits": {
@@ -3042,37 +3538,6 @@
           "target": "com.vercel.environment#CreateCustomEnvironmentResponseType",
           "traits": {
             "smithy.api#documentation": "The type of environment (production, preview, or development)",
-            "smithy.api#required": {}
-          }
-        },
-        "description": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Optional description of the environment's purpose"
-          }
-        },
-        "branchMatcher": {
-          "target": "com.vercel.environment#CreateCustomEnvironmentResponseBranchMatcher",
-          "traits": {
-            "smithy.api#documentation": "Configuration for matching git branches to this environment"
-          }
-        },
-        "domains": {
-          "target": "com.vercel.environment#CreateCustomEnvironmentResponseDomainsList",
-          "traits": {
-            "smithy.api#documentation": "List of domains associated with this environment"
-          }
-        },
-        "currentDeploymentAliases": {
-          "target": "com.vercel.environment#CreateCustomEnvironmentResponseCurrentDeploymentAliasesList",
-          "traits": {
-            "smithy.api#documentation": "List of aliases for the current deployment"
-          }
-        },
-        "createdAt": {
-          "target": "smithy.api#Double",
-          "traits": {
-            "smithy.api#documentation": "Timestamp when the environment was created",
             "smithy.api#required": {}
           }
         },
@@ -3105,6 +3570,12 @@
         },
         {
           "target": "com.vercel.environment#Forbidden"
+        },
+        {
+          "target": "com.vercel.environment#NotFound"
+        },
+        {
+          "target": "com.vercel.environment#Conflict"
         }
       ],
       "traits": {
@@ -3154,32 +3625,6 @@
         "smithy.api#input": {}
       }
     },
-    "com.vercel.environment#GetCustomEnvironmentResponseType": {
-      "type": "enum",
-      "members": {
-        "DEVELOPMENT": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "development"
-          }
-        },
-        "PREVIEW": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "preview"
-          }
-        },
-        "PRODUCTION": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "production"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "The type of environment (production, preview, or development)"
-      }
-    },
     "com.vercel.environment#GetCustomEnvironmentResponseBranchMatcherType": {
       "type": "enum",
       "members": {
@@ -3209,23 +3654,32 @@
     "com.vercel.environment#GetCustomEnvironmentResponseBranchMatcher": {
       "type": "structure",
       "members": {
-        "type": {
-          "target": "com.vercel.environment#GetCustomEnvironmentResponseBranchMatcherType",
-          "traits": {
-            "smithy.api#documentation": "The type of matching to perform",
-            "smithy.api#required": {}
-          }
-        },
         "pattern": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The pattern to match against branch names",
             "smithy.api#required": {}
           }
+        },
+        "type": {
+          "target": "com.vercel.environment#GetCustomEnvironmentResponseBranchMatcherType",
+          "traits": {
+            "smithy.api#documentation": "The type of matching to perform",
+            "smithy.api#required": {}
+          }
         }
       },
       "traits": {
         "smithy.api#documentation": "Configuration for matching git branches to this environment"
+      }
+    },
+    "com.vercel.environment#GetCustomEnvironmentResponseCurrentDeploymentAliasesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of aliases for the current deployment"
       }
     },
     "com.vercel.environment#GetCustomEnvironmentResponseDomainsItemRedirectStatusCode": {
@@ -3261,25 +3715,25 @@
     "com.vercel.environment#GetCustomEnvironmentResponseDomainsItemVerificationItem": {
       "type": "structure",
       "members": {
-        "type": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
         "domain": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
         },
-        "value": {
+        "reason": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
         },
-        "reason": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
@@ -3302,13 +3756,28 @@
     "com.vercel.environment#GetCustomEnvironmentResponseDomainsItem": {
       "type": "structure",
       "members": {
-        "name": {
+        "apexName": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
         },
-        "apexName": {
+        "createdAt": {
+          "target": "smithy.api#Double"
+        },
+        "customEnvironmentId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "gitBranch": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "name": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
@@ -3332,35 +3801,20 @@
             "com.distilled.openapi#nullable": {}
           }
         },
-        "gitBranch": {
-          "target": "smithy.api#String",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "customEnvironmentId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
         "updatedAt": {
           "target": "smithy.api#Double"
         },
-        "createdAt": {
-          "target": "smithy.api#Double"
+        "verification": {
+          "target": "com.vercel.environment#GetCustomEnvironmentResponseDomainsItemVerificationList",
+          "traits": {
+            "smithy.api#documentation": "A list of verification challenges, one of which must be completed to verify the domain for use on the project. After the challenge is complete `POST /projects/:idOrName/domains/:domain/verify` to verify the domain. Possible challenges: - If `verification.type = TXT` the `verification.domain` will be checked for a TXT record matching `verification.value`."
+          }
         },
         "verified": {
           "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#documentation": "`true` if the domain is verified for use with the project. If `false` it will not be used as an alias on this project until the challenge in `verification` is completed.",
             "smithy.api#required": {}
-          }
-        },
-        "verification": {
-          "target": "com.vercel.environment#GetCustomEnvironmentResponseDomainsItemVerificationList",
-          "traits": {
-            "smithy.api#documentation": "A list of verification challenges, one of which must be completed to verify the domain for use on the project. After the challenge is complete `POST /projects/:idOrName/domains/:domain/verify` to verify the domain. Possible challenges: - If `verification.type = TXT` the `verification.domain` will be checked for a TXT record matching `verification.value`."
           }
         }
       },
@@ -3377,18 +3831,66 @@
         "smithy.api#documentation": "List of domains associated with this environment"
       }
     },
-    "com.vercel.environment#GetCustomEnvironmentResponseCurrentDeploymentAliasesList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
+    "com.vercel.environment#GetCustomEnvironmentResponseType": {
+      "type": "enum",
+      "members": {
+        "DEVELOPMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "development"
+          }
+        },
+        "PREVIEW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "preview"
+          }
+        },
+        "PRODUCTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "production"
+          }
+        }
       },
       "traits": {
-        "smithy.api#documentation": "List of aliases for the current deployment"
+        "smithy.api#documentation": "The type of environment (production, preview, or development)"
       }
     },
     "com.vercel.environment#GetCustomEnvironmentResponse": {
       "type": "structure",
       "members": {
+        "branchMatcher": {
+          "target": "com.vercel.environment#GetCustomEnvironmentResponseBranchMatcher",
+          "traits": {
+            "smithy.api#documentation": "Configuration for matching git branches to this environment"
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Timestamp when the environment was created",
+            "smithy.api#required": {}
+          }
+        },
+        "currentDeploymentAliases": {
+          "target": "com.vercel.environment#GetCustomEnvironmentResponseCurrentDeploymentAliasesList",
+          "traits": {
+            "smithy.api#documentation": "List of aliases for the current deployment"
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional description of the environment's purpose"
+          }
+        },
+        "domains": {
+          "target": "com.vercel.environment#GetCustomEnvironmentResponseDomainsList",
+          "traits": {
+            "smithy.api#documentation": "List of domains associated with this environment"
+          }
+        },
         "id": {
           "target": "smithy.api#String",
           "traits": {
@@ -3407,37 +3909,6 @@
           "target": "com.vercel.environment#GetCustomEnvironmentResponseType",
           "traits": {
             "smithy.api#documentation": "The type of environment (production, preview, or development)",
-            "smithy.api#required": {}
-          }
-        },
-        "description": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Optional description of the environment's purpose"
-          }
-        },
-        "branchMatcher": {
-          "target": "com.vercel.environment#GetCustomEnvironmentResponseBranchMatcher",
-          "traits": {
-            "smithy.api#documentation": "Configuration for matching git branches to this environment"
-          }
-        },
-        "domains": {
-          "target": "com.vercel.environment#GetCustomEnvironmentResponseDomainsList",
-          "traits": {
-            "smithy.api#documentation": "List of domains associated with this environment"
-          }
-        },
-        "currentDeploymentAliases": {
-          "target": "com.vercel.environment#GetCustomEnvironmentResponseCurrentDeploymentAliasesList",
-          "traits": {
-            "smithy.api#documentation": "List of aliases for the current deployment"
-          }
-        },
-        "createdAt": {
-          "target": "smithy.api#Double",
-          "traits": {
-            "smithy.api#documentation": "Timestamp when the environment was created",
             "smithy.api#required": {}
           }
         },
@@ -3580,32 +4051,6 @@
         "smithy.api#input": {}
       }
     },
-    "com.vercel.environment#UpdateCustomEnvironmentResponseType": {
-      "type": "enum",
-      "members": {
-        "DEVELOPMENT": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "development"
-          }
-        },
-        "PREVIEW": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "preview"
-          }
-        },
-        "PRODUCTION": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "production"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "The type of environment (production, preview, or development)"
-      }
-    },
     "com.vercel.environment#UpdateCustomEnvironmentResponseBranchMatcherType": {
       "type": "enum",
       "members": {
@@ -3635,23 +4080,32 @@
     "com.vercel.environment#UpdateCustomEnvironmentResponseBranchMatcher": {
       "type": "structure",
       "members": {
-        "type": {
-          "target": "com.vercel.environment#UpdateCustomEnvironmentResponseBranchMatcherType",
-          "traits": {
-            "smithy.api#documentation": "The type of matching to perform",
-            "smithy.api#required": {}
-          }
-        },
         "pattern": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The pattern to match against branch names",
             "smithy.api#required": {}
           }
+        },
+        "type": {
+          "target": "com.vercel.environment#UpdateCustomEnvironmentResponseBranchMatcherType",
+          "traits": {
+            "smithy.api#documentation": "The type of matching to perform",
+            "smithy.api#required": {}
+          }
         }
       },
       "traits": {
         "smithy.api#documentation": "Configuration for matching git branches to this environment"
+      }
+    },
+    "com.vercel.environment#UpdateCustomEnvironmentResponseCurrentDeploymentAliasesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of aliases for the current deployment"
       }
     },
     "com.vercel.environment#UpdateCustomEnvironmentResponseDomainsItemRedirectStatusCode": {
@@ -3687,25 +4141,25 @@
     "com.vercel.environment#UpdateCustomEnvironmentResponseDomainsItemVerificationItem": {
       "type": "structure",
       "members": {
-        "type": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
         "domain": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
         },
-        "value": {
+        "reason": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
         },
-        "reason": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
@@ -3728,13 +4182,28 @@
     "com.vercel.environment#UpdateCustomEnvironmentResponseDomainsItem": {
       "type": "structure",
       "members": {
-        "name": {
+        "apexName": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
         },
-        "apexName": {
+        "createdAt": {
+          "target": "smithy.api#Double"
+        },
+        "customEnvironmentId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "gitBranch": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "name": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
@@ -3758,35 +4227,20 @@
             "com.distilled.openapi#nullable": {}
           }
         },
-        "gitBranch": {
-          "target": "smithy.api#String",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "customEnvironmentId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
         "updatedAt": {
           "target": "smithy.api#Double"
         },
-        "createdAt": {
-          "target": "smithy.api#Double"
+        "verification": {
+          "target": "com.vercel.environment#UpdateCustomEnvironmentResponseDomainsItemVerificationList",
+          "traits": {
+            "smithy.api#documentation": "A list of verification challenges, one of which must be completed to verify the domain for use on the project. After the challenge is complete `POST /projects/:idOrName/domains/:domain/verify` to verify the domain. Possible challenges: - If `verification.type = TXT` the `verification.domain` will be checked for a TXT record matching `verification.value`."
+          }
         },
         "verified": {
           "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#documentation": "`true` if the domain is verified for use with the project. If `false` it will not be used as an alias on this project until the challenge in `verification` is completed.",
             "smithy.api#required": {}
-          }
-        },
-        "verification": {
-          "target": "com.vercel.environment#UpdateCustomEnvironmentResponseDomainsItemVerificationList",
-          "traits": {
-            "smithy.api#documentation": "A list of verification challenges, one of which must be completed to verify the domain for use on the project. After the challenge is complete `POST /projects/:idOrName/domains/:domain/verify` to verify the domain. Possible challenges: - If `verification.type = TXT` the `verification.domain` will be checked for a TXT record matching `verification.value`."
           }
         }
       },
@@ -3803,18 +4257,66 @@
         "smithy.api#documentation": "List of domains associated with this environment"
       }
     },
-    "com.vercel.environment#UpdateCustomEnvironmentResponseCurrentDeploymentAliasesList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
+    "com.vercel.environment#UpdateCustomEnvironmentResponseType": {
+      "type": "enum",
+      "members": {
+        "DEVELOPMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "development"
+          }
+        },
+        "PREVIEW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "preview"
+          }
+        },
+        "PRODUCTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "production"
+          }
+        }
       },
       "traits": {
-        "smithy.api#documentation": "List of aliases for the current deployment"
+        "smithy.api#documentation": "The type of environment (production, preview, or development)"
       }
     },
     "com.vercel.environment#UpdateCustomEnvironmentResponse": {
       "type": "structure",
       "members": {
+        "branchMatcher": {
+          "target": "com.vercel.environment#UpdateCustomEnvironmentResponseBranchMatcher",
+          "traits": {
+            "smithy.api#documentation": "Configuration for matching git branches to this environment"
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Timestamp when the environment was created",
+            "smithy.api#required": {}
+          }
+        },
+        "currentDeploymentAliases": {
+          "target": "com.vercel.environment#UpdateCustomEnvironmentResponseCurrentDeploymentAliasesList",
+          "traits": {
+            "smithy.api#documentation": "List of aliases for the current deployment"
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional description of the environment's purpose"
+          }
+        },
+        "domains": {
+          "target": "com.vercel.environment#UpdateCustomEnvironmentResponseDomainsList",
+          "traits": {
+            "smithy.api#documentation": "List of domains associated with this environment"
+          }
+        },
         "id": {
           "target": "smithy.api#String",
           "traits": {
@@ -3833,37 +4335,6 @@
           "target": "com.vercel.environment#UpdateCustomEnvironmentResponseType",
           "traits": {
             "smithy.api#documentation": "The type of environment (production, preview, or development)",
-            "smithy.api#required": {}
-          }
-        },
-        "description": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Optional description of the environment's purpose"
-          }
-        },
-        "branchMatcher": {
-          "target": "com.vercel.environment#UpdateCustomEnvironmentResponseBranchMatcher",
-          "traits": {
-            "smithy.api#documentation": "Configuration for matching git branches to this environment"
-          }
-        },
-        "domains": {
-          "target": "com.vercel.environment#UpdateCustomEnvironmentResponseDomainsList",
-          "traits": {
-            "smithy.api#documentation": "List of domains associated with this environment"
-          }
-        },
-        "currentDeploymentAliases": {
-          "target": "com.vercel.environment#UpdateCustomEnvironmentResponseCurrentDeploymentAliasesList",
-          "traits": {
-            "smithy.api#documentation": "List of aliases for the current deployment"
-          }
-        },
-        "createdAt": {
-          "target": "smithy.api#Double",
-          "traits": {
-            "smithy.api#documentation": "Timestamp when the environment was created",
             "smithy.api#required": {}
           }
         },
@@ -3896,6 +4367,9 @@
         },
         {
           "target": "com.vercel.environment#Forbidden"
+        },
+        {
+          "target": "com.vercel.environment#NotFound"
         }
       ],
       "traits": {
@@ -3951,32 +4425,6 @@
         "smithy.api#input": {}
       }
     },
-    "com.vercel.environment#RemoveCustomEnvironmentResponseType": {
-      "type": "enum",
-      "members": {
-        "DEVELOPMENT": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "development"
-          }
-        },
-        "PREVIEW": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "preview"
-          }
-        },
-        "PRODUCTION": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "production"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "The type of environment (production, preview, or development)"
-      }
-    },
     "com.vercel.environment#RemoveCustomEnvironmentResponseBranchMatcherType": {
       "type": "enum",
       "members": {
@@ -4006,23 +4454,32 @@
     "com.vercel.environment#RemoveCustomEnvironmentResponseBranchMatcher": {
       "type": "structure",
       "members": {
-        "type": {
-          "target": "com.vercel.environment#RemoveCustomEnvironmentResponseBranchMatcherType",
-          "traits": {
-            "smithy.api#documentation": "The type of matching to perform",
-            "smithy.api#required": {}
-          }
-        },
         "pattern": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The pattern to match against branch names",
             "smithy.api#required": {}
           }
+        },
+        "type": {
+          "target": "com.vercel.environment#RemoveCustomEnvironmentResponseBranchMatcherType",
+          "traits": {
+            "smithy.api#documentation": "The type of matching to perform",
+            "smithy.api#required": {}
+          }
         }
       },
       "traits": {
         "smithy.api#documentation": "Configuration for matching git branches to this environment"
+      }
+    },
+    "com.vercel.environment#RemoveCustomEnvironmentResponseCurrentDeploymentAliasesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of aliases for the current deployment"
       }
     },
     "com.vercel.environment#RemoveCustomEnvironmentResponseDomainsItemRedirectStatusCode": {
@@ -4058,25 +4515,25 @@
     "com.vercel.environment#RemoveCustomEnvironmentResponseDomainsItemVerificationItem": {
       "type": "structure",
       "members": {
-        "type": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
         "domain": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
         },
-        "value": {
+        "reason": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
         },
-        "reason": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
@@ -4099,13 +4556,28 @@
     "com.vercel.environment#RemoveCustomEnvironmentResponseDomainsItem": {
       "type": "structure",
       "members": {
-        "name": {
+        "apexName": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
         },
-        "apexName": {
+        "createdAt": {
+          "target": "smithy.api#Double"
+        },
+        "customEnvironmentId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "gitBranch": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "name": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
@@ -4129,35 +4601,20 @@
             "com.distilled.openapi#nullable": {}
           }
         },
-        "gitBranch": {
-          "target": "smithy.api#String",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "customEnvironmentId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
         "updatedAt": {
           "target": "smithy.api#Double"
         },
-        "createdAt": {
-          "target": "smithy.api#Double"
+        "verification": {
+          "target": "com.vercel.environment#RemoveCustomEnvironmentResponseDomainsItemVerificationList",
+          "traits": {
+            "smithy.api#documentation": "A list of verification challenges, one of which must be completed to verify the domain for use on the project. After the challenge is complete `POST /projects/:idOrName/domains/:domain/verify` to verify the domain. Possible challenges: - If `verification.type = TXT` the `verification.domain` will be checked for a TXT record matching `verification.value`."
+          }
         },
         "verified": {
           "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#documentation": "`true` if the domain is verified for use with the project. If `false` it will not be used as an alias on this project until the challenge in `verification` is completed.",
             "smithy.api#required": {}
-          }
-        },
-        "verification": {
-          "target": "com.vercel.environment#RemoveCustomEnvironmentResponseDomainsItemVerificationList",
-          "traits": {
-            "smithy.api#documentation": "A list of verification challenges, one of which must be completed to verify the domain for use on the project. After the challenge is complete `POST /projects/:idOrName/domains/:domain/verify` to verify the domain. Possible challenges: - If `verification.type = TXT` the `verification.domain` will be checked for a TXT record matching `verification.value`."
           }
         }
       },
@@ -4174,18 +4631,66 @@
         "smithy.api#documentation": "List of domains associated with this environment"
       }
     },
-    "com.vercel.environment#RemoveCustomEnvironmentResponseCurrentDeploymentAliasesList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
+    "com.vercel.environment#RemoveCustomEnvironmentResponseType": {
+      "type": "enum",
+      "members": {
+        "DEVELOPMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "development"
+          }
+        },
+        "PREVIEW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "preview"
+          }
+        },
+        "PRODUCTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "production"
+          }
+        }
       },
       "traits": {
-        "smithy.api#documentation": "List of aliases for the current deployment"
+        "smithy.api#documentation": "The type of environment (production, preview, or development)"
       }
     },
     "com.vercel.environment#RemoveCustomEnvironmentResponse": {
       "type": "structure",
       "members": {
+        "branchMatcher": {
+          "target": "com.vercel.environment#RemoveCustomEnvironmentResponseBranchMatcher",
+          "traits": {
+            "smithy.api#documentation": "Configuration for matching git branches to this environment"
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Timestamp when the environment was created",
+            "smithy.api#required": {}
+          }
+        },
+        "currentDeploymentAliases": {
+          "target": "com.vercel.environment#RemoveCustomEnvironmentResponseCurrentDeploymentAliasesList",
+          "traits": {
+            "smithy.api#documentation": "List of aliases for the current deployment"
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional description of the environment's purpose"
+          }
+        },
+        "domains": {
+          "target": "com.vercel.environment#RemoveCustomEnvironmentResponseDomainsList",
+          "traits": {
+            "smithy.api#documentation": "List of domains associated with this environment"
+          }
+        },
         "id": {
           "target": "smithy.api#String",
           "traits": {
@@ -4204,37 +4709,6 @@
           "target": "com.vercel.environment#RemoveCustomEnvironmentResponseType",
           "traits": {
             "smithy.api#documentation": "The type of environment (production, preview, or development)",
-            "smithy.api#required": {}
-          }
-        },
-        "description": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Optional description of the environment's purpose"
-          }
-        },
-        "branchMatcher": {
-          "target": "com.vercel.environment#RemoveCustomEnvironmentResponseBranchMatcher",
-          "traits": {
-            "smithy.api#documentation": "Configuration for matching git branches to this environment"
-          }
-        },
-        "domains": {
-          "target": "com.vercel.environment#RemoveCustomEnvironmentResponseDomainsList",
-          "traits": {
-            "smithy.api#documentation": "List of domains associated with this environment"
-          }
-        },
-        "currentDeploymentAliases": {
-          "target": "com.vercel.environment#RemoveCustomEnvironmentResponseCurrentDeploymentAliasesList",
-          "traits": {
-            "smithy.api#documentation": "List of aliases for the current deployment"
-          }
-        },
-        "createdAt": {
-          "target": "smithy.api#Double",
-          "traits": {
-            "smithy.api#documentation": "Timestamp when the environment was created",
             "smithy.api#required": {}
           }
         },
@@ -4264,6 +4738,9 @@
         },
         {
           "target": "com.vercel.environment#Forbidden"
+        },
+        {
+          "target": "com.vercel.environment#NotFound"
         }
       ],
       "traits": {
@@ -4323,6 +4800,19 @@
         "com.distilled.openapi#errorMatchers": [
           {
             "status": 402
+          }
+        ]
+      }
+    },
+    "com.vercel.environment#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
           }
         ]
       }

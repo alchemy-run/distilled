@@ -7,10 +7,7 @@ import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
-const svc = T.AwsApiService({
-  sdkId: "Pinpoint",
-  serviceShapeName: "Pinpoint",
-});
+const svc = T.AwsApiService({ sdkId: "Pinpoint", serviceShapeName: "Pinpoint" });
 const auth = T.AwsAuthSigv4({ name: "mobiletargeting" });
 const ver = T.ServiceVersion("2016-12-01");
 const proto = T.AwsProtocolsRestJson1();
@@ -89,73 +86,49 @@ const rules = T.EndpointResolver((p, _) => {
 export class BadRequestException
   extends /*@__PURE__*/ S.TaggedError<BadRequestException>()(
     "BadRequestException",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      RequestID: S.optional(S.String),
-    },
+    { message: S.optional(S.String).pipe(T.ErrorMessage()), RequestID: S.optional(S.String) },
     T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export class ConflictException
   extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
     "ConflictException",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      RequestID: S.optional(S.String),
-    },
+    { message: S.optional(S.String).pipe(T.ErrorMessage()), RequestID: S.optional(S.String) },
     T.HttpError(409),
   ).pipe(C.withConflictError) {}
 export class ForbiddenException
   extends /*@__PURE__*/ S.TaggedError<ForbiddenException>()(
     "ForbiddenException",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      RequestID: S.optional(S.String),
-    },
+    { message: S.optional(S.String).pipe(T.ErrorMessage()), RequestID: S.optional(S.String) },
     T.HttpError(403),
   ).pipe(C.withAuthError) {}
 export class InternalServerErrorException
   extends /*@__PURE__*/ S.TaggedError<InternalServerErrorException>()(
     "InternalServerErrorException",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      RequestID: S.optional(S.String),
-    },
+    { message: S.optional(S.String).pipe(T.ErrorMessage()), RequestID: S.optional(S.String) },
     T.HttpError(500),
   ).pipe(C.withServerError) {}
 export class MethodNotAllowedException
   extends /*@__PURE__*/ S.TaggedError<MethodNotAllowedException>()(
     "MethodNotAllowedException",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      RequestID: S.optional(S.String),
-    },
+    { message: S.optional(S.String).pipe(T.ErrorMessage()), RequestID: S.optional(S.String) },
     T.HttpError(405),
   ).pipe(C.withBadRequestError) {}
 export class NotFoundException
   extends /*@__PURE__*/ S.TaggedError<NotFoundException>()(
     "NotFoundException",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      RequestID: S.optional(S.String),
-    },
+    { message: S.optional(S.String).pipe(T.ErrorMessage()), RequestID: S.optional(S.String) },
     T.HttpError(404),
   ).pipe(C.withBadRequestError) {}
 export class PayloadTooLargeException
   extends /*@__PURE__*/ S.TaggedError<PayloadTooLargeException>()(
     "PayloadTooLargeException",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      RequestID: S.optional(S.String),
-    },
+    { message: S.optional(S.String).pipe(T.ErrorMessage()), RequestID: S.optional(S.String) },
     T.HttpError(413),
   ).pipe(C.withBadRequestError) {}
 export class TooManyRequestsException
   extends /*@__PURE__*/ S.TaggedError<TooManyRequestsException>()(
     "TooManyRequestsException",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      RequestID: S.optional(S.String),
-    },
+    { message: S.optional(S.String).pipe(T.ErrorMessage()), RequestID: S.optional(S.String) },
     T.HttpError(429),
   ).pipe(C.withThrottlingError) {}
 export type MapOf__string = { [key: string]: string | undefined };
@@ -166,9 +139,7 @@ export interface CreateApplicationRequest {
 }
 export const CreateApplicationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Name: S.optional(S.String), tags: S.optional(MapOf__string) }),
-).annotate({
-  identifier: "CreateApplicationRequest",
-}) as any as S.Schema<CreateApplicationRequest>;
+).annotate({ identifier: "CreateApplicationRequest" }) as any as S.Schema<CreateApplicationRequest>;
 export interface CreateAppRequest {
   CreateApplicationRequest?: CreateApplicationRequest;
 }
@@ -178,9 +149,7 @@ export const CreateAppRequest = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.HttpPayload())
       .annotate({ identifier: "CreateApplicationRequest" }),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/v1/apps" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateAppRequest",
-}) as any as S.Schema<CreateAppRequest>;
+).annotate({ identifier: "CreateAppRequest" }) as any as S.Schema<CreateAppRequest>;
 export interface ApplicationResponse {
   Arn?: string;
   Id?: string;
@@ -196,15 +165,9 @@ export const ApplicationResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(MapOf__string),
     CreationDate: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ApplicationResponse",
-}) as any as S.Schema<ApplicationResponse>;
+).annotate({ identifier: "ApplicationResponse" }) as any as S.Schema<ApplicationResponse>;
 export interface CreateAppResponse {
-  ApplicationResponse: ApplicationResponse & {
-    Arn: string;
-    Id: string;
-    Name: string;
-  };
+  ApplicationResponse: ApplicationResponse & { Arn: string; Id: string; Name: string };
 }
 export const CreateAppResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -212,9 +175,7 @@ export const CreateAppResponse = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.HttpPayload())
       .annotate({ identifier: "ApplicationResponse" }),
   }),
-).annotate({
-  identifier: "CreateAppResponse",
-}) as any as S.Schema<CreateAppResponse>;
+).annotate({ identifier: "CreateAppResponse" }) as any as S.Schema<CreateAppResponse>;
 export type __EndpointTypesElement =
   | "PUSH"
   | "GCM"
@@ -284,9 +245,7 @@ export interface CampaignCustomMessage {
 }
 export const CampaignCustomMessage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Data: S.optional(S.String) }),
-).annotate({
-  identifier: "CampaignCustomMessage",
-}) as any as S.Schema<CampaignCustomMessage>;
+).annotate({ identifier: "CampaignCustomMessage" }) as any as S.Schema<CampaignCustomMessage>;
 export interface MessageHeader {
   Name?: string;
   Value?: string;
@@ -311,9 +270,7 @@ export const CampaignEmailMessage = /*@__PURE__*/ S.suspend(() =>
     HtmlBody: S.optional(S.String),
     Title: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CampaignEmailMessage",
-}) as any as S.Schema<CampaignEmailMessage>;
+).annotate({ identifier: "CampaignEmailMessage" }) as any as S.Schema<CampaignEmailMessage>;
 export type MessageType = "TRANSACTIONAL" | "PROMOTIONAL" | (string & {});
 export const MessageType = S.String;
 
@@ -334,9 +291,7 @@ export const CampaignSmsMessage = /*@__PURE__*/ S.suspend(() =>
     EntityId: S.optional(S.String),
     TemplateId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CampaignSmsMessage",
-}) as any as S.Schema<CampaignSmsMessage>;
+).annotate({ identifier: "CampaignSmsMessage" }) as any as S.Schema<CampaignSmsMessage>;
 export type Alignment = "LEFT" | "CENTER" | "RIGHT" | (string & {});
 export const Alignment = S.String;
 
@@ -351,9 +306,7 @@ export const InAppMessageBodyConfig = /*@__PURE__*/ S.suspend(() =>
     Body: S.optional(S.String),
     TextColor: S.optional(S.String),
   }),
-).annotate({
-  identifier: "InAppMessageBodyConfig",
-}) as any as S.Schema<InAppMessageBodyConfig>;
+).annotate({ identifier: "InAppMessageBodyConfig" }) as any as S.Schema<InAppMessageBodyConfig>;
 export interface InAppMessageHeaderConfig {
   Alignment?: Alignment;
   Header?: string;
@@ -365,9 +318,7 @@ export const InAppMessageHeaderConfig = /*@__PURE__*/ S.suspend(() =>
     Header: S.optional(S.String),
     TextColor: S.optional(S.String),
   }),
-).annotate({
-  identifier: "InAppMessageHeaderConfig",
-}) as any as S.Schema<InAppMessageHeaderConfig>;
+).annotate({ identifier: "InAppMessageHeaderConfig" }) as any as S.Schema<InAppMessageHeaderConfig>;
 export type ButtonAction = "LINK" | "DEEP_LINK" | "CLOSE" | (string & {});
 export const ButtonAction = S.String;
 
@@ -376,10 +327,7 @@ export interface OverrideButtonConfiguration {
   Link?: string;
 }
 export const OverrideButtonConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ButtonAction: S.optional(ButtonAction),
-    Link: S.optional(S.String),
-  }),
+  S.Struct({ ButtonAction: S.optional(ButtonAction), Link: S.optional(S.String) }),
 ).annotate({
   identifier: "OverrideButtonConfiguration",
 }) as any as S.Schema<OverrideButtonConfiguration>;
@@ -416,9 +364,7 @@ export const InAppMessageButton = /*@__PURE__*/ S.suspend(() =>
     IOS: S.optional(OverrideButtonConfiguration),
     Web: S.optional(OverrideButtonConfiguration),
   }),
-).annotate({
-  identifier: "InAppMessageButton",
-}) as any as S.Schema<InAppMessageButton>;
+).annotate({ identifier: "InAppMessageButton" }) as any as S.Schema<InAppMessageButton>;
 export interface InAppMessageContent {
   BackgroundColor?: string;
   BodyConfig?: InAppMessageBodyConfig;
@@ -436,9 +382,7 @@ export const InAppMessageContent = /*@__PURE__*/ S.suspend(() =>
     PrimaryBtn: S.optional(InAppMessageButton),
     SecondaryBtn: S.optional(InAppMessageButton),
   }),
-).annotate({
-  identifier: "InAppMessageContent",
-}) as any as S.Schema<InAppMessageContent>;
+).annotate({ identifier: "InAppMessageContent" }) as any as S.Schema<InAppMessageContent>;
 export type ListOfInAppMessageContent = InAppMessageContent[];
 export const ListOfInAppMessageContent = /*@__PURE__*/ S.Array(InAppMessageContent);
 export type Layout =
@@ -464,9 +408,7 @@ export const CampaignInAppMessage = /*@__PURE__*/ S.suspend(() =>
     CustomConfig: S.optional(MapOf__string),
     Layout: S.optional(Layout),
   }),
-).annotate({
-  identifier: "CampaignInAppMessage",
-}) as any as S.Schema<CampaignInAppMessage>;
+).annotate({ identifier: "CampaignInAppMessage" }) as any as S.Schema<CampaignInAppMessage>;
 export interface MessageConfiguration {
   ADMMessage?: Message;
   APNSMessage?: Message;
@@ -490,9 +432,7 @@ export const MessageConfiguration = /*@__PURE__*/ S.suspend(() =>
     SMSMessage: S.optional(CampaignSmsMessage),
     InAppMessage: S.optional(CampaignInAppMessage),
   }),
-).annotate({
-  identifier: "MessageConfiguration",
-}) as any as S.Schema<MessageConfiguration>;
+).annotate({ identifier: "MessageConfiguration" }) as any as S.Schema<MessageConfiguration>;
 export type AttributeType =
   | "INCLUSIVE"
   | "EXCLUSIVE"
@@ -511,16 +451,9 @@ export interface AttributeDimension {
   Values?: string[];
 }
 export const AttributeDimension = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AttributeType: S.optional(AttributeType),
-    Values: S.optional(ListOf__string),
-  }),
-).annotate({
-  identifier: "AttributeDimension",
-}) as any as S.Schema<AttributeDimension>;
-export type MapOfAttributeDimension = {
-  [key: string]: AttributeDimension | undefined;
-};
+  S.Struct({ AttributeType: S.optional(AttributeType), Values: S.optional(ListOf__string) }),
+).annotate({ identifier: "AttributeDimension" }) as any as S.Schema<AttributeDimension>;
+export type MapOfAttributeDimension = { [key: string]: AttributeDimension | undefined };
 export const MapOfAttributeDimension = /*@__PURE__*/ S.Record(
   S.String,
   AttributeDimension.pipe(S.optional),
@@ -533,26 +466,16 @@ export interface SetDimension {
   Values?: string[];
 }
 export const SetDimension = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DimensionType: S.optional(DimensionType),
-    Values: S.optional(ListOf__string),
-  }),
+  S.Struct({ DimensionType: S.optional(DimensionType), Values: S.optional(ListOf__string) }),
 ).annotate({ identifier: "SetDimension" }) as any as S.Schema<SetDimension>;
 export interface MetricDimension {
   ComparisonOperator?: string;
   Value?: number;
 }
 export const MetricDimension = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ComparisonOperator: S.optional(S.String),
-    Value: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "MetricDimension",
-}) as any as S.Schema<MetricDimension>;
-export type MapOfMetricDimension = {
-  [key: string]: MetricDimension | undefined;
-};
+  S.Struct({ ComparisonOperator: S.optional(S.String), Value: S.optional(S.Number) }),
+).annotate({ identifier: "MetricDimension" }) as any as S.Schema<MetricDimension>;
+export type MapOfMetricDimension = { [key: string]: MetricDimension | undefined };
 export const MapOfMetricDimension = /*@__PURE__*/ S.Record(
   S.String,
   MetricDimension.pipe(S.optional),
@@ -568,9 +491,7 @@ export const EventDimensions = /*@__PURE__*/ S.suspend(() =>
     EventType: S.optional(SetDimension),
     Metrics: S.optional(MapOfMetricDimension),
   }),
-).annotate({
-  identifier: "EventDimensions",
-}) as any as S.Schema<EventDimensions>;
+).annotate({ identifier: "EventDimensions" }) as any as S.Schema<EventDimensions>;
 export type FilterType = "SYSTEM" | "ENDPOINT" | (string & {});
 export const FilterType = S.String;
 
@@ -579,13 +500,8 @@ export interface CampaignEventFilter {
   FilterType?: FilterType;
 }
 export const CampaignEventFilter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Dimensions: S.optional(EventDimensions),
-    FilterType: S.optional(FilterType),
-  }),
-).annotate({
-  identifier: "CampaignEventFilter",
-}) as any as S.Schema<CampaignEventFilter>;
+  S.Struct({ Dimensions: S.optional(EventDimensions), FilterType: S.optional(FilterType) }),
+).annotate({ identifier: "CampaignEventFilter" }) as any as S.Schema<CampaignEventFilter>;
 export type Frequency =
   | "ONCE"
   | "HOURLY"
@@ -646,9 +562,7 @@ export const TemplateConfiguration = /*@__PURE__*/ S.suspend(() =>
     VoiceTemplate: S.optional(Template),
     InAppTemplate: S.optional(Template),
   }),
-).annotate({
-  identifier: "TemplateConfiguration",
-}) as any as S.Schema<TemplateConfiguration>;
+).annotate({ identifier: "TemplateConfiguration" }) as any as S.Schema<TemplateConfiguration>;
 export interface WriteTreatmentResource {
   CustomDeliveryConfiguration?: CustomDeliveryConfiguration;
   MessageConfiguration?: MessageConfiguration;
@@ -668,9 +582,7 @@ export const WriteTreatmentResource = /*@__PURE__*/ S.suspend(() =>
     TreatmentDescription: S.optional(S.String),
     TreatmentName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "WriteTreatmentResource",
-}) as any as S.Schema<WriteTreatmentResource>;
+).annotate({ identifier: "WriteTreatmentResource" }) as any as S.Schema<WriteTreatmentResource>;
 export type ListOfWriteTreatmentResource = WriteTreatmentResource[];
 export const ListOfWriteTreatmentResource = /*@__PURE__*/ S.Array(WriteTreatmentResource);
 export type Mode = "DELIVERY" | "FILTER" | (string & {});
@@ -743,9 +655,7 @@ export const WriteCampaignRequest = /*@__PURE__*/ S.suspend(() =>
     TreatmentName: S.optional(S.String),
     Priority: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "WriteCampaignRequest",
-}) as any as S.Schema<WriteCampaignRequest>;
+).annotate({ identifier: "WriteCampaignRequest" }) as any as S.Schema<WriteCampaignRequest>;
 export interface CreateCampaignRequest {
   ApplicationId: string;
   WriteCampaignRequest?: WriteCampaignRequest;
@@ -766,9 +676,7 @@ export const CreateCampaignRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "CreateCampaignRequest",
-}) as any as S.Schema<CreateCampaignRequest>;
+).annotate({ identifier: "CreateCampaignRequest" }) as any as S.Schema<CreateCampaignRequest>;
 export type CampaignStatus =
   | "SCHEDULED"
   | "EXECUTING"
@@ -809,9 +717,7 @@ export const TreatmentResource = /*@__PURE__*/ S.suspend(() =>
     TreatmentDescription: S.optional(S.String),
     TreatmentName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TreatmentResource",
-}) as any as S.Schema<TreatmentResource>;
+).annotate({ identifier: "TreatmentResource" }) as any as S.Schema<TreatmentResource>;
 export type ListOfTreatmentResource = TreatmentResource[];
 export const ListOfTreatmentResource = /*@__PURE__*/ S.Array(TreatmentResource);
 export interface CampaignResponse {
@@ -869,9 +775,7 @@ export const CampaignResponse = /*@__PURE__*/ S.suspend(() =>
     Version: S.optional(S.Number),
     Priority: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "CampaignResponse",
-}) as any as S.Schema<CampaignResponse>;
+).annotate({ identifier: "CampaignResponse" }) as any as S.Schema<CampaignResponse>;
 export interface CreateCampaignResponse {
   CampaignResponse: CampaignResponse & {
     ApplicationId: string;
@@ -884,9 +788,7 @@ export interface CreateCampaignResponse {
     AdditionalTreatments: (TreatmentResource & {
       Id: string;
       SizePercent: number;
-      CustomDeliveryConfiguration: CustomDeliveryConfiguration & {
-        DeliveryUri: string;
-      };
+      CustomDeliveryConfiguration: CustomDeliveryConfiguration & { DeliveryUri: string };
       MessageConfiguration: MessageConfiguration & {
         InAppMessage: CampaignInAppMessage & {
           Content: (InAppMessageContent & {
@@ -901,9 +803,7 @@ export interface CreateCampaignResponse {
               TextColor: string;
             };
             PrimaryBtn: InAppMessageButton & {
-              Android: OverrideButtonConfiguration & {
-                ButtonAction: ButtonAction;
-              };
+              Android: OverrideButtonConfiguration & { ButtonAction: ButtonAction };
               DefaultConfig: DefaultButtonConfiguration & {
                 ButtonAction: ButtonAction;
                 Text: string;
@@ -912,9 +812,7 @@ export interface CreateCampaignResponse {
               Web: OverrideButtonConfiguration & { ButtonAction: ButtonAction };
             };
             SecondaryBtn: InAppMessageButton & {
-              Android: OverrideButtonConfiguration & {
-                ButtonAction: ButtonAction;
-              };
+              Android: OverrideButtonConfiguration & { ButtonAction: ButtonAction };
               DefaultConfig: DefaultButtonConfiguration & {
                 ButtonAction: ButtonAction;
                 Text: string;
@@ -935,10 +833,7 @@ export interface CreateCampaignResponse {
             EventType: SetDimension & { Values: ListOf__string };
             Metrics: {
               [key: string]:
-                | (MetricDimension & {
-                    ComparisonOperator: string;
-                    Value: number;
-                  })
+                | (MetricDimension & { ComparisonOperator: string; Value: number })
                 | undefined;
             };
           };
@@ -946,9 +841,7 @@ export interface CreateCampaignResponse {
         };
       };
     })[];
-    CustomDeliveryConfiguration: CustomDeliveryConfiguration & {
-      DeliveryUri: string;
-    };
+    CustomDeliveryConfiguration: CustomDeliveryConfiguration & { DeliveryUri: string };
     MessageConfiguration: MessageConfiguration & {
       InAppMessage: CampaignInAppMessage & {
         Content: (InAppMessageContent & {
@@ -963,9 +856,7 @@ export interface CreateCampaignResponse {
             TextColor: string;
           };
           PrimaryBtn: InAppMessageButton & {
-            Android: OverrideButtonConfiguration & {
-              ButtonAction: ButtonAction;
-            };
+            Android: OverrideButtonConfiguration & { ButtonAction: ButtonAction };
             DefaultConfig: DefaultButtonConfiguration & {
               ButtonAction: ButtonAction;
               Text: string;
@@ -974,9 +865,7 @@ export interface CreateCampaignResponse {
             Web: OverrideButtonConfiguration & { ButtonAction: ButtonAction };
           };
           SecondaryBtn: InAppMessageButton & {
-            Android: OverrideButtonConfiguration & {
-              ButtonAction: ButtonAction;
-            };
+            Android: OverrideButtonConfiguration & { ButtonAction: ButtonAction };
             DefaultConfig: DefaultButtonConfiguration & {
               ButtonAction: ButtonAction;
               Text: string;
@@ -997,10 +886,7 @@ export interface CreateCampaignResponse {
           EventType: SetDimension & { Values: ListOf__string };
           Metrics: {
             [key: string]:
-              | (MetricDimension & {
-                  ComparisonOperator: string;
-                  Value: number;
-                })
+              | (MetricDimension & { ComparisonOperator: string; Value: number })
               | undefined;
           };
         };
@@ -1015,9 +901,7 @@ export const CreateCampaignResponse = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.HttpPayload())
       .annotate({ identifier: "CampaignResponse" }),
   }),
-).annotate({
-  identifier: "CreateCampaignResponse",
-}) as any as S.Schema<CreateCampaignResponse>;
+).annotate({ identifier: "CreateCampaignResponse" }) as any as S.Schema<CreateCampaignResponse>;
 export interface EmailTemplateRequest {
   DefaultSubstitutions?: string;
   HtmlPart?: string;
@@ -1039,9 +923,7 @@ export const EmailTemplateRequest = /*@__PURE__*/ S.suspend(() =>
     TemplateDescription: S.optional(S.String),
     TextPart: S.optional(S.String),
   }),
-).annotate({
-  identifier: "EmailTemplateRequest",
-}) as any as S.Schema<EmailTemplateRequest>;
+).annotate({ identifier: "EmailTemplateRequest" }) as any as S.Schema<EmailTemplateRequest>;
 export interface CreateEmailTemplateRequest {
   EmailTemplateRequest?: EmailTemplateRequest;
   TemplateName: string;
@@ -1104,9 +986,7 @@ export const ExportJobRequest = /*@__PURE__*/ S.suspend(() =>
     SegmentId: S.optional(S.String),
     SegmentVersion: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ExportJobRequest",
-}) as any as S.Schema<ExportJobRequest>;
+).annotate({ identifier: "ExportJobRequest" }) as any as S.Schema<ExportJobRequest>;
 export interface CreateExportJobRequest {
   ApplicationId: string;
   ExportJobRequest?: ExportJobRequest;
@@ -1127,9 +1007,7 @@ export const CreateExportJobRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "CreateExportJobRequest",
-}) as any as S.Schema<CreateExportJobRequest>;
+).annotate({ identifier: "CreateExportJobRequest" }) as any as S.Schema<CreateExportJobRequest>;
 export interface ExportJobResource {
   RoleArn?: string;
   S3UrlPrefix?: string;
@@ -1143,9 +1021,7 @@ export const ExportJobResource = /*@__PURE__*/ S.suspend(() =>
     SegmentId: S.optional(S.String),
     SegmentVersion: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ExportJobResource",
-}) as any as S.Schema<ExportJobResource>;
+).annotate({ identifier: "ExportJobResource" }) as any as S.Schema<ExportJobResource>;
 export type JobStatus =
   | "CREATED"
   | "PREPARING_FOR_INITIALIZATION"
@@ -1190,9 +1066,7 @@ export const ExportJobResponse = /*@__PURE__*/ S.suspend(() =>
     TotalProcessed: S.optional(S.Number),
     Type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ExportJobResponse",
-}) as any as S.Schema<ExportJobResponse>;
+).annotate({ identifier: "ExportJobResponse" }) as any as S.Schema<ExportJobResponse>;
 export interface CreateExportJobResponse {
   ExportJobResponse: ExportJobResponse & {
     ApplicationId: string;
@@ -1209,9 +1083,7 @@ export const CreateExportJobResponse = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.HttpPayload())
       .annotate({ identifier: "ExportJobResponse" }),
   }),
-).annotate({
-  identifier: "CreateExportJobResponse",
-}) as any as S.Schema<CreateExportJobResponse>;
+).annotate({ identifier: "CreateExportJobResponse" }) as any as S.Schema<CreateExportJobResponse>;
 export type Format = "CSV" | "JSON" | (string & {});
 export const Format = S.String;
 
@@ -1236,9 +1108,7 @@ export const ImportJobRequest = /*@__PURE__*/ S.suspend(() =>
     SegmentId: S.optional(S.String),
     SegmentName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ImportJobRequest",
-}) as any as S.Schema<ImportJobRequest>;
+).annotate({ identifier: "ImportJobRequest" }) as any as S.Schema<ImportJobRequest>;
 export interface CreateImportJobRequest {
   ApplicationId: string;
   ImportJobRequest?: ImportJobRequest;
@@ -1259,9 +1129,7 @@ export const CreateImportJobRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "CreateImportJobRequest",
-}) as any as S.Schema<CreateImportJobRequest>;
+).annotate({ identifier: "CreateImportJobRequest" }) as any as S.Schema<CreateImportJobRequest>;
 export interface ImportJobResource {
   DefineSegment?: boolean;
   ExternalId?: string;
@@ -1283,9 +1151,7 @@ export const ImportJobResource = /*@__PURE__*/ S.suspend(() =>
     SegmentId: S.optional(S.String),
     SegmentName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ImportJobResource",
-}) as any as S.Schema<ImportJobResource>;
+).annotate({ identifier: "ImportJobResource" }) as any as S.Schema<ImportJobResource>;
 export interface ImportJobResponse {
   ApplicationId?: string;
   CompletedPieces?: number;
@@ -1317,18 +1183,12 @@ export const ImportJobResponse = /*@__PURE__*/ S.suspend(() =>
     TotalProcessed: S.optional(S.Number),
     Type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ImportJobResponse",
-}) as any as S.Schema<ImportJobResponse>;
+).annotate({ identifier: "ImportJobResponse" }) as any as S.Schema<ImportJobResponse>;
 export interface CreateImportJobResponse {
   ImportJobResponse: ImportJobResponse & {
     ApplicationId: string;
     CreationDate: string;
-    Definition: ImportJobResource & {
-      Format: Format;
-      RoleArn: string;
-      S3Url: string;
-    };
+    Definition: ImportJobResource & { Format: Format; RoleArn: string; S3Url: string };
     Id: string;
     JobStatus: JobStatus;
     Type: string;
@@ -1340,9 +1200,7 @@ export const CreateImportJobResponse = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.HttpPayload())
       .annotate({ identifier: "ImportJobResponse" }),
   }),
-).annotate({
-  identifier: "CreateImportJobResponse",
-}) as any as S.Schema<CreateImportJobResponse>;
+).annotate({ identifier: "CreateImportJobResponse" }) as any as S.Schema<CreateImportJobResponse>;
 export interface InAppTemplateRequest {
   Content?: InAppMessageContent[];
   CustomConfig?: { [key: string]: string | undefined };
@@ -1358,9 +1216,7 @@ export const InAppTemplateRequest = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(MapOf__string),
     TemplateDescription: S.optional(S.String),
   }),
-).annotate({
-  identifier: "InAppTemplateRequest",
-}) as any as S.Schema<InAppTemplateRequest>;
+).annotate({ identifier: "InAppTemplateRequest" }) as any as S.Schema<InAppTemplateRequest>;
 export interface CreateInAppTemplateRequest {
   InAppTemplateRequest?: InAppTemplateRequest;
   TemplateName: string;
@@ -1415,9 +1271,7 @@ export interface JourneyCustomMessage {
 }
 export const JourneyCustomMessage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Data: S.optional(S.String) }),
-).annotate({
-  identifier: "JourneyCustomMessage",
-}) as any as S.Schema<JourneyCustomMessage>;
+).annotate({ identifier: "JourneyCustomMessage" }) as any as S.Schema<JourneyCustomMessage>;
 export interface CustomMessageActivity {
   DeliveryUri?: string;
   EndpointTypes?: __EndpointTypesElement[];
@@ -1435,27 +1289,20 @@ export const CustomMessageActivity = /*@__PURE__*/ S.suspend(() =>
     TemplateName: S.optional(S.String),
     TemplateVersion: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CustomMessageActivity",
-}) as any as S.Schema<CustomMessageActivity>;
+).annotate({ identifier: "CustomMessageActivity" }) as any as S.Schema<CustomMessageActivity>;
 export interface EventCondition {
   Dimensions?: EventDimensions;
   MessageActivity?: string;
 }
 export const EventCondition = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Dimensions: S.optional(EventDimensions),
-    MessageActivity: S.optional(S.String),
-  }),
+  S.Struct({ Dimensions: S.optional(EventDimensions), MessageActivity: S.optional(S.String) }),
 ).annotate({ identifier: "EventCondition" }) as any as S.Schema<EventCondition>;
 export interface SegmentCondition {
   SegmentId?: string;
 }
 export const SegmentCondition = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ SegmentId: S.optional(S.String) }),
-).annotate({
-  identifier: "SegmentCondition",
-}) as any as S.Schema<SegmentCondition>;
+).annotate({ identifier: "SegmentCondition" }) as any as S.Schema<SegmentCondition>;
 export type Duration = "HR_24" | "DAY_7" | "DAY_14" | "DAY_30" | (string & {});
 export const Duration = S.String;
 
@@ -1467,21 +1314,14 @@ export interface RecencyDimension {
   RecencyType?: RecencyType;
 }
 export const RecencyDimension = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Duration: S.optional(Duration),
-    RecencyType: S.optional(RecencyType),
-  }),
-).annotate({
-  identifier: "RecencyDimension",
-}) as any as S.Schema<RecencyDimension>;
+  S.Struct({ Duration: S.optional(Duration), RecencyType: S.optional(RecencyType) }),
+).annotate({ identifier: "RecencyDimension" }) as any as S.Schema<RecencyDimension>;
 export interface SegmentBehaviors {
   Recency?: RecencyDimension;
 }
 export const SegmentBehaviors = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Recency: S.optional(RecencyDimension) }),
-).annotate({
-  identifier: "SegmentBehaviors",
-}) as any as S.Schema<SegmentBehaviors>;
+).annotate({ identifier: "SegmentBehaviors" }) as any as S.Schema<SegmentBehaviors>;
 export interface SegmentDemographics {
   AppVersion?: SetDimension;
   Channel?: SetDimension;
@@ -1499,9 +1339,7 @@ export const SegmentDemographics = /*@__PURE__*/ S.suspend(() =>
     Model: S.optional(SetDimension),
     Platform: S.optional(SetDimension),
   }),
-).annotate({
-  identifier: "SegmentDemographics",
-}) as any as S.Schema<SegmentDemographics>;
+).annotate({ identifier: "SegmentDemographics" }) as any as S.Schema<SegmentDemographics>;
 export interface GPSCoordinates {
   Latitude?: number;
   Longitude?: number;
@@ -1514,25 +1352,15 @@ export interface GPSPointDimension {
   RangeInKilometers?: number;
 }
 export const GPSPointDimension = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Coordinates: S.optional(GPSCoordinates),
-    RangeInKilometers: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "GPSPointDimension",
-}) as any as S.Schema<GPSPointDimension>;
+  S.Struct({ Coordinates: S.optional(GPSCoordinates), RangeInKilometers: S.optional(S.Number) }),
+).annotate({ identifier: "GPSPointDimension" }) as any as S.Schema<GPSPointDimension>;
 export interface SegmentLocation {
   Country?: SetDimension;
   GPSPoint?: GPSPointDimension;
 }
 export const SegmentLocation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Country: S.optional(SetDimension),
-    GPSPoint: S.optional(GPSPointDimension),
-  }),
-).annotate({
-  identifier: "SegmentLocation",
-}) as any as S.Schema<SegmentLocation>;
+  S.Struct({ Country: S.optional(SetDimension), GPSPoint: S.optional(GPSPointDimension) }),
+).annotate({ identifier: "SegmentLocation" }) as any as S.Schema<SegmentLocation>;
 export interface SegmentDimensions {
   Attributes?: { [key: string]: AttributeDimension | undefined };
   Behavior?: SegmentBehaviors;
@@ -1550,9 +1378,7 @@ export const SegmentDimensions = /*@__PURE__*/ S.suspend(() =>
     Metrics: S.optional(MapOfMetricDimension),
     UserAttributes: S.optional(MapOfAttributeDimension),
   }),
-).annotate({
-  identifier: "SegmentDimensions",
-}) as any as S.Schema<SegmentDimensions>;
+).annotate({ identifier: "SegmentDimensions" }) as any as S.Schema<SegmentDimensions>;
 export interface SimpleCondition {
   EventCondition?: EventCondition;
   SegmentCondition?: SegmentCondition;
@@ -1564,9 +1390,7 @@ export const SimpleCondition = /*@__PURE__*/ S.suspend(() =>
     SegmentCondition: S.optional(SegmentCondition),
     SegmentDimensions: S.optional(SegmentDimensions),
   }).pipe(S.encodeKeys({ SegmentDimensions: "segmentDimensions" })),
-).annotate({
-  identifier: "SimpleCondition",
-}) as any as S.Schema<SimpleCondition>;
+).annotate({ identifier: "SimpleCondition" }) as any as S.Schema<SimpleCondition>;
 export type ListOfSimpleCondition = SimpleCondition[];
 export const ListOfSimpleCondition = /*@__PURE__*/ S.Array(SimpleCondition);
 export type Operator = "ALL" | "ANY" | (string & {});
@@ -1577,10 +1401,7 @@ export interface Condition {
   Operator?: Operator;
 }
 export const Condition = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Conditions: S.optional(ListOfSimpleCondition),
-    Operator: S.optional(Operator),
-  }),
+  S.Struct({ Conditions: S.optional(ListOfSimpleCondition), Operator: S.optional(Operator) }),
 ).annotate({ identifier: "Condition" }) as any as S.Schema<Condition>;
 export interface WaitTime {
   WaitFor?: string;
@@ -1602,17 +1423,13 @@ export const ConditionalSplitActivity = /*@__PURE__*/ S.suspend(() =>
     FalseActivity: S.optional(S.String),
     TrueActivity: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ConditionalSplitActivity",
-}) as any as S.Schema<ConditionalSplitActivity>;
+).annotate({ identifier: "ConditionalSplitActivity" }) as any as S.Schema<ConditionalSplitActivity>;
 export interface JourneyEmailMessage {
   FromAddress?: string;
 }
 export const JourneyEmailMessage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ FromAddress: S.optional(S.String) }),
-).annotate({
-  identifier: "JourneyEmailMessage",
-}) as any as S.Schema<JourneyEmailMessage>;
+).annotate({ identifier: "JourneyEmailMessage" }) as any as S.Schema<JourneyEmailMessage>;
 export interface EmailMessageActivity {
   MessageConfig?: JourneyEmailMessage;
   NextActivity?: string;
@@ -1626,33 +1443,21 @@ export const EmailMessageActivity = /*@__PURE__*/ S.suspend(() =>
     TemplateName: S.optional(S.String),
     TemplateVersion: S.optional(S.String),
   }),
-).annotate({
-  identifier: "EmailMessageActivity",
-}) as any as S.Schema<EmailMessageActivity>;
+).annotate({ identifier: "EmailMessageActivity" }) as any as S.Schema<EmailMessageActivity>;
 export interface HoldoutActivity {
   NextActivity?: string;
   Percentage?: number;
 }
 export const HoldoutActivity = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextActivity: S.optional(S.String),
-    Percentage: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "HoldoutActivity",
-}) as any as S.Schema<HoldoutActivity>;
+  S.Struct({ NextActivity: S.optional(S.String), Percentage: S.optional(S.Number) }),
+).annotate({ identifier: "HoldoutActivity" }) as any as S.Schema<HoldoutActivity>;
 export interface MultiConditionalBranch {
   Condition?: SimpleCondition;
   NextActivity?: string;
 }
 export const MultiConditionalBranch = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Condition: S.optional(SimpleCondition),
-    NextActivity: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "MultiConditionalBranch",
-}) as any as S.Schema<MultiConditionalBranch>;
+  S.Struct({ Condition: S.optional(SimpleCondition), NextActivity: S.optional(S.String) }),
+).annotate({ identifier: "MultiConditionalBranch" }) as any as S.Schema<MultiConditionalBranch>;
 export type ListOfMultiConditionalBranch = MultiConditionalBranch[];
 export const ListOfMultiConditionalBranch = /*@__PURE__*/ S.Array(MultiConditionalBranch);
 export interface MultiConditionalSplitActivity {
@@ -1674,9 +1479,7 @@ export interface JourneyPushMessage {
 }
 export const JourneyPushMessage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ TimeToLive: S.optional(S.String) }),
-).annotate({
-  identifier: "JourneyPushMessage",
-}) as any as S.Schema<JourneyPushMessage>;
+).annotate({ identifier: "JourneyPushMessage" }) as any as S.Schema<JourneyPushMessage>;
 export interface PushMessageActivity {
   MessageConfig?: JourneyPushMessage;
   NextActivity?: string;
@@ -1690,21 +1493,14 @@ export const PushMessageActivity = /*@__PURE__*/ S.suspend(() =>
     TemplateName: S.optional(S.String),
     TemplateVersion: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PushMessageActivity",
-}) as any as S.Schema<PushMessageActivity>;
+).annotate({ identifier: "PushMessageActivity" }) as any as S.Schema<PushMessageActivity>;
 export interface RandomSplitEntry {
   NextActivity?: string;
   Percentage?: number;
 }
 export const RandomSplitEntry = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextActivity: S.optional(S.String),
-    Percentage: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "RandomSplitEntry",
-}) as any as S.Schema<RandomSplitEntry>;
+  S.Struct({ NextActivity: S.optional(S.String), Percentage: S.optional(S.Number) }),
+).annotate({ identifier: "RandomSplitEntry" }) as any as S.Schema<RandomSplitEntry>;
 export type ListOfRandomSplitEntry = RandomSplitEntry[];
 export const ListOfRandomSplitEntry = /*@__PURE__*/ S.Array(RandomSplitEntry);
 export interface RandomSplitActivity {
@@ -1712,9 +1508,7 @@ export interface RandomSplitActivity {
 }
 export const RandomSplitActivity = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Branches: S.optional(ListOfRandomSplitEntry) }),
-).annotate({
-  identifier: "RandomSplitActivity",
-}) as any as S.Schema<RandomSplitActivity>;
+).annotate({ identifier: "RandomSplitActivity" }) as any as S.Schema<RandomSplitActivity>;
 export interface JourneySMSMessage {
   MessageType?: MessageType;
   OriginationNumber?: string;
@@ -1730,9 +1524,7 @@ export const JourneySMSMessage = /*@__PURE__*/ S.suspend(() =>
     EntityId: S.optional(S.String),
     TemplateId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "JourneySMSMessage",
-}) as any as S.Schema<JourneySMSMessage>;
+).annotate({ identifier: "JourneySMSMessage" }) as any as S.Schema<JourneySMSMessage>;
 export interface SMSMessageActivity {
   MessageConfig?: JourneySMSMessage;
   NextActivity?: string;
@@ -1746,27 +1538,20 @@ export const SMSMessageActivity = /*@__PURE__*/ S.suspend(() =>
     TemplateName: S.optional(S.String),
     TemplateVersion: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SMSMessageActivity",
-}) as any as S.Schema<SMSMessageActivity>;
+).annotate({ identifier: "SMSMessageActivity" }) as any as S.Schema<SMSMessageActivity>;
 export interface WaitActivity {
   NextActivity?: string;
   WaitTime?: WaitTime;
 }
 export const WaitActivity = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextActivity: S.optional(S.String),
-    WaitTime: S.optional(WaitTime),
-  }),
+  S.Struct({ NextActivity: S.optional(S.String), WaitTime: S.optional(WaitTime) }),
 ).annotate({ identifier: "WaitActivity" }) as any as S.Schema<WaitActivity>;
 export interface ContactCenterActivity {
   NextActivity?: string;
 }
 export const ContactCenterActivity = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ NextActivity: S.optional(S.String) }),
-).annotate({
-  identifier: "ContactCenterActivity",
-}) as any as S.Schema<ContactCenterActivity>;
+).annotate({ identifier: "ContactCenterActivity" }) as any as S.Schema<ContactCenterActivity>;
 export interface Activity {
   CUSTOM?: CustomMessageActivity;
   ConditionalSplit?: ConditionalSplitActivity;
@@ -1803,9 +1588,7 @@ export interface JourneyTimeframeCap {
 }
 export const JourneyTimeframeCap = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Cap: S.optional(S.Number), Days: S.optional(S.Number) }),
-).annotate({
-  identifier: "JourneyTimeframeCap",
-}) as any as S.Schema<JourneyTimeframeCap>;
+).annotate({ identifier: "JourneyTimeframeCap" }) as any as S.Schema<JourneyTimeframeCap>;
 export interface JourneyLimits {
   DailyCap?: number;
   EndpointReentryCap?: number;
@@ -1836,31 +1619,21 @@ export const JourneySchedule = /*@__PURE__*/ S.suspend(() =>
     StartTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     Timezone: S.optional(S.String),
   }),
-).annotate({
-  identifier: "JourneySchedule",
-}) as any as S.Schema<JourneySchedule>;
+).annotate({ identifier: "JourneySchedule" }) as any as S.Schema<JourneySchedule>;
 export interface EventFilter {
   Dimensions?: EventDimensions;
   FilterType?: FilterType;
 }
 export const EventFilter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Dimensions: S.optional(EventDimensions),
-    FilterType: S.optional(FilterType),
-  }),
+  S.Struct({ Dimensions: S.optional(EventDimensions), FilterType: S.optional(FilterType) }),
 ).annotate({ identifier: "EventFilter" }) as any as S.Schema<EventFilter>;
 export interface EventStartCondition {
   EventFilter?: EventFilter;
   SegmentId?: string;
 }
 export const EventStartCondition = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    EventFilter: S.optional(EventFilter),
-    SegmentId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "EventStartCondition",
-}) as any as S.Schema<EventStartCondition>;
+  S.Struct({ EventFilter: S.optional(EventFilter), SegmentId: S.optional(S.String) }),
+).annotate({ identifier: "EventStartCondition" }) as any as S.Schema<EventStartCondition>;
 export interface StartCondition {
   Description?: string;
   EventStartCondition?: EventStartCondition;
@@ -1892,9 +1665,7 @@ export const JourneyChannelSettings = /*@__PURE__*/ S.suspend(() =>
     ConnectCampaignArn: S.optional(S.String),
     ConnectCampaignExecutionRoleArn: S.optional(S.String),
   }),
-).annotate({
-  identifier: "JourneyChannelSettings",
-}) as any as S.Schema<JourneyChannelSettings>;
+).annotate({ identifier: "JourneyChannelSettings" }) as any as S.Schema<JourneyChannelSettings>;
 export type DayOfWeek =
   | "MONDAY"
   | "TUESDAY"
@@ -1915,9 +1686,7 @@ export const OpenHoursRule = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "OpenHoursRule" }) as any as S.Schema<OpenHoursRule>;
 export type ListOfOpenHoursRules = OpenHoursRule[];
 export const ListOfOpenHoursRules = /*@__PURE__*/ S.Array(OpenHoursRule);
-export type MapOfListOfOpenHoursRules = {
-  [key in DayOfWeek]?: OpenHoursRule[];
-};
+export type MapOfListOfOpenHoursRules = { [key in DayOfWeek]?: OpenHoursRule[] };
 export const MapOfListOfOpenHoursRules = /*@__PURE__*/ S.Record(
   DayOfWeek,
   ListOfOpenHoursRules.pipe(S.optional),
@@ -2018,9 +1787,7 @@ export const WriteJourneyRequest = /*@__PURE__*/ S.suspend(() =>
     ClosedDays: S.optional(ClosedDays),
     TimezoneEstimationMethods: S.optional(ListOf__TimezoneEstimationMethodsElement),
   }),
-).annotate({
-  identifier: "WriteJourneyRequest",
-}) as any as S.Schema<WriteJourneyRequest>;
+).annotate({ identifier: "WriteJourneyRequest" }) as any as S.Schema<WriteJourneyRequest>;
 export interface CreateJourneyRequest {
   ApplicationId: string;
   WriteJourneyRequest?: WriteJourneyRequest;
@@ -2041,9 +1808,7 @@ export const CreateJourneyRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "CreateJourneyRequest",
-}) as any as S.Schema<CreateJourneyRequest>;
+).annotate({ identifier: "CreateJourneyRequest" }) as any as S.Schema<CreateJourneyRequest>;
 export interface JourneyResponse {
   Activities?: { [key: string]: Activity | undefined };
   ApplicationId?: string;
@@ -2093,9 +1858,7 @@ export const JourneyResponse = /*@__PURE__*/ S.suspend(() =>
     ClosedDays: S.optional(ClosedDays),
     TimezoneEstimationMethods: S.optional(ListOf__TimezoneEstimationMethodsElement),
   }),
-).annotate({
-  identifier: "JourneyResponse",
-}) as any as S.Schema<JourneyResponse>;
+).annotate({ identifier: "JourneyResponse" }) as any as S.Schema<JourneyResponse>;
 export interface CreateJourneyResponse {
   JourneyResponse: JourneyResponse & {
     ApplicationId: string;
@@ -2117,10 +1880,7 @@ export interface CreateJourneyResponse {
                       EventType: SetDimension & { Values: ListOf__string };
                       Metrics: {
                         [key: string]:
-                          | (MetricDimension & {
-                              ComparisonOperator: string;
-                              Value: number;
-                            })
+                          | (MetricDimension & { ComparisonOperator: string; Value: number })
                           | undefined;
                       };
                     };
@@ -2131,10 +1891,7 @@ export interface CreateJourneyResponse {
                       [key: string]: (AttributeDimension & { Values: ListOf__string }) | undefined;
                     };
                     Behavior: SegmentBehaviors & {
-                      Recency: RecencyDimension & {
-                        Duration: Duration;
-                        RecencyType: RecencyType;
-                      };
+                      Recency: RecencyDimension & { Duration: Duration; RecencyType: RecencyType };
                     };
                     Demographic: SegmentDemographics & {
                       AppVersion: SetDimension & { Values: ListOf__string };
@@ -2147,18 +1904,12 @@ export interface CreateJourneyResponse {
                     Location: SegmentLocation & {
                       Country: SetDimension & { Values: ListOf__string };
                       GPSPoint: GPSPointDimension & {
-                        Coordinates: GPSCoordinates & {
-                          Latitude: number;
-                          Longitude: number;
-                        };
+                        Coordinates: GPSCoordinates & { Latitude: number; Longitude: number };
                       };
                     };
                     Metrics: {
                       [key: string]:
-                        | (MetricDimension & {
-                            ComparisonOperator: string;
-                            Value: number;
-                          })
+                        | (MetricDimension & { ComparisonOperator: string; Value: number })
                         | undefined;
                     };
                     UserAttributes: {
@@ -2182,10 +1933,7 @@ export interface CreateJourneyResponse {
                       EventType: SetDimension & { Values: ListOf__string };
                       Metrics: {
                         [key: string]:
-                          | (MetricDimension & {
-                              ComparisonOperator: string;
-                              Value: number;
-                            })
+                          | (MetricDimension & { ComparisonOperator: string; Value: number })
                           | undefined;
                       };
                     };
@@ -2196,10 +1944,7 @@ export interface CreateJourneyResponse {
                       [key: string]: (AttributeDimension & { Values: ListOf__string }) | undefined;
                     };
                     Behavior: SegmentBehaviors & {
-                      Recency: RecencyDimension & {
-                        Duration: Duration;
-                        RecencyType: RecencyType;
-                      };
+                      Recency: RecencyDimension & { Duration: Duration; RecencyType: RecencyType };
                     };
                     Demographic: SegmentDemographics & {
                       AppVersion: SetDimension & { Values: ListOf__string };
@@ -2212,18 +1957,12 @@ export interface CreateJourneyResponse {
                     Location: SegmentLocation & {
                       Country: SetDimension & { Values: ListOf__string };
                       GPSPoint: GPSPointDimension & {
-                        Coordinates: GPSCoordinates & {
-                          Latitude: number;
-                          Longitude: number;
-                        };
+                        Coordinates: GPSCoordinates & { Latitude: number; Longitude: number };
                       };
                     };
                     Metrics: {
                       [key: string]:
-                        | (MetricDimension & {
-                            ComparisonOperator: string;
-                            Value: number;
-                          })
+                        | (MetricDimension & { ComparisonOperator: string; Value: number })
                         | undefined;
                     };
                     UserAttributes: {
@@ -2246,10 +1985,7 @@ export interface CreateJourneyResponse {
             EventType: SetDimension & { Values: ListOf__string };
             Metrics: {
               [key: string]:
-                | (MetricDimension & {
-                    ComparisonOperator: string;
-                    Value: number;
-                  })
+                | (MetricDimension & { ComparisonOperator: string; Value: number })
                 | undefined;
             };
           };
@@ -2266,9 +2002,7 @@ export const CreateJourneyResponse = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.HttpPayload())
       .annotate({ identifier: "JourneyResponse" }),
   }),
-).annotate({
-  identifier: "CreateJourneyResponse",
-}) as any as S.Schema<CreateJourneyResponse>;
+).annotate({ identifier: "CreateJourneyResponse" }) as any as S.Schema<CreateJourneyResponse>;
 export interface AndroidPushNotificationTemplate {
   Action?: Action;
   Body?: string;
@@ -2492,9 +2226,7 @@ export interface SegmentReference {
 }
 export const SegmentReference = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Id: S.optional(S.String), Version: S.optional(S.Number) }),
-).annotate({
-  identifier: "SegmentReference",
-}) as any as S.Schema<SegmentReference>;
+).annotate({ identifier: "SegmentReference" }) as any as S.Schema<SegmentReference>;
 export type ListOfSegmentReference = SegmentReference[];
 export const ListOfSegmentReference = /*@__PURE__*/ S.Array(SegmentReference);
 export type SourceType = "ALL" | "ANY" | "NONE" | (string & {});
@@ -2527,13 +2259,8 @@ export interface SegmentGroupList {
   Include?: Include;
 }
 export const SegmentGroupList = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Groups: S.optional(ListOfSegmentGroup),
-    Include: S.optional(Include),
-  }),
-).annotate({
-  identifier: "SegmentGroupList",
-}) as any as S.Schema<SegmentGroupList>;
+  S.Struct({ Groups: S.optional(ListOfSegmentGroup), Include: S.optional(Include) }),
+).annotate({ identifier: "SegmentGroupList" }) as any as S.Schema<SegmentGroupList>;
 export interface WriteSegmentRequest {
   Dimensions?: SegmentDimensions;
   Name?: string;
@@ -2547,9 +2274,7 @@ export const WriteSegmentRequest = /*@__PURE__*/ S.suspend(() =>
     SegmentGroups: S.optional(SegmentGroupList),
     tags: S.optional(MapOf__string),
   }),
-).annotate({
-  identifier: "WriteSegmentRequest",
-}) as any as S.Schema<WriteSegmentRequest>;
+).annotate({ identifier: "WriteSegmentRequest" }) as any as S.Schema<WriteSegmentRequest>;
 export interface CreateSegmentRequest {
   ApplicationId: string;
   WriteSegmentRequest?: WriteSegmentRequest;
@@ -2570,9 +2295,7 @@ export const CreateSegmentRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "CreateSegmentRequest",
-}) as any as S.Schema<CreateSegmentRequest>;
+).annotate({ identifier: "CreateSegmentRequest" }) as any as S.Schema<CreateSegmentRequest>;
 export type MapOf__integer = { [key: string]: number | undefined };
 export const MapOf__integer = /*@__PURE__*/ S.Record(S.String, S.Number.pipe(S.optional));
 export interface SegmentImportResource {
@@ -2592,9 +2315,7 @@ export const SegmentImportResource = /*@__PURE__*/ S.suspend(() =>
     S3Url: S.optional(S.String),
     Size: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "SegmentImportResource",
-}) as any as S.Schema<SegmentImportResource>;
+).annotate({ identifier: "SegmentImportResource" }) as any as S.Schema<SegmentImportResource>;
 export type SegmentType = "DIMENSIONAL" | "IMPORT" | (string & {});
 export const SegmentType = S.String;
 
@@ -2627,9 +2348,7 @@ export const SegmentResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(MapOf__string),
     Version: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "SegmentResponse",
-}) as any as S.Schema<SegmentResponse>;
+).annotate({ identifier: "SegmentResponse" }) as any as S.Schema<SegmentResponse>;
 export interface CreateSegmentResponse {
   SegmentResponse: SegmentResponse & {
     ApplicationId: string;
@@ -2638,14 +2357,9 @@ export interface CreateSegmentResponse {
     Id: string;
     SegmentType: SegmentType;
     Dimensions: SegmentDimensions & {
-      Attributes: {
-        [key: string]: (AttributeDimension & { Values: ListOf__string }) | undefined;
-      };
+      Attributes: { [key: string]: (AttributeDimension & { Values: ListOf__string }) | undefined };
       Behavior: SegmentBehaviors & {
-        Recency: RecencyDimension & {
-          Duration: Duration;
-          RecencyType: RecencyType;
-        };
+        Recency: RecencyDimension & { Duration: Duration; RecencyType: RecencyType };
       };
       Demographic: SegmentDemographics & {
         AppVersion: SetDimension & { Values: ListOf__string };
@@ -2684,10 +2398,7 @@ export interface CreateSegmentResponse {
             [key: string]: (AttributeDimension & { Values: ListOf__string }) | undefined;
           };
           Behavior: SegmentBehaviors & {
-            Recency: RecencyDimension & {
-              Duration: Duration;
-              RecencyType: RecencyType;
-            };
+            Recency: RecencyDimension & { Duration: Duration; RecencyType: RecencyType };
           };
           Demographic: SegmentDemographics & {
             AppVersion: SetDimension & { Values: ListOf__string };
@@ -2700,18 +2411,12 @@ export interface CreateSegmentResponse {
           Location: SegmentLocation & {
             Country: SetDimension & { Values: ListOf__string };
             GPSPoint: GPSPointDimension & {
-              Coordinates: GPSCoordinates & {
-                Latitude: number;
-                Longitude: number;
-              };
+              Coordinates: GPSCoordinates & { Latitude: number; Longitude: number };
             };
           };
           Metrics: {
             [key: string]:
-              | (MetricDimension & {
-                  ComparisonOperator: string;
-                  Value: number;
-                })
+              | (MetricDimension & { ComparisonOperator: string; Value: number })
               | undefined;
           };
           UserAttributes: {
@@ -2729,9 +2434,7 @@ export const CreateSegmentResponse = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.HttpPayload())
       .annotate({ identifier: "SegmentResponse" }),
   }),
-).annotate({
-  identifier: "CreateSegmentResponse",
-}) as any as S.Schema<CreateSegmentResponse>;
+).annotate({ identifier: "CreateSegmentResponse" }) as any as S.Schema<CreateSegmentResponse>;
 export interface SMSTemplateRequest {
   Body?: string;
   DefaultSubstitutions?: string;
@@ -2747,9 +2450,7 @@ export const SMSTemplateRequest = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(MapOf__string),
     TemplateDescription: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SMSTemplateRequest",
-}) as any as S.Schema<SMSTemplateRequest>;
+).annotate({ identifier: "SMSTemplateRequest" }) as any as S.Schema<SMSTemplateRequest>;
 export interface CreateSmsTemplateRequest {
   SMSTemplateRequest?: SMSTemplateRequest;
   TemplateName: string;
@@ -2770,9 +2471,7 @@ export const CreateSmsTemplateRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "CreateSmsTemplateRequest",
-}) as any as S.Schema<CreateSmsTemplateRequest>;
+).annotate({ identifier: "CreateSmsTemplateRequest" }) as any as S.Schema<CreateSmsTemplateRequest>;
 export interface CreateSmsTemplateResponse {
   CreateTemplateMessageBody: CreateTemplateMessageBody;
 }
@@ -2802,9 +2501,7 @@ export const VoiceTemplateRequest = /*@__PURE__*/ S.suspend(() =>
     TemplateDescription: S.optional(S.String),
     VoiceId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "VoiceTemplateRequest",
-}) as any as S.Schema<VoiceTemplateRequest>;
+).annotate({ identifier: "VoiceTemplateRequest" }) as any as S.Schema<VoiceTemplateRequest>;
 export interface CreateVoiceTemplateRequest {
   TemplateName: string;
   VoiceTemplateRequest?: VoiceTemplateRequest;
@@ -2846,10 +2543,7 @@ export interface DeleteAdmChannelRequest {
 export const DeleteAdmChannelRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")) }).pipe(
     T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/v1/apps/{ApplicationId}/channels/adm",
-      }),
+      T.Http({ method: "DELETE", uri: "/v1/apps/{ApplicationId}/channels/adm" }),
       svc,
       auth,
       proto,
@@ -2857,9 +2551,7 @@ export const DeleteAdmChannelRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteAdmChannelRequest",
-}) as any as S.Schema<DeleteAdmChannelRequest>;
+).annotate({ identifier: "DeleteAdmChannelRequest" }) as any as S.Schema<DeleteAdmChannelRequest>;
 export interface ADMChannelResponse {
   ApplicationId?: string;
   CreationDate?: string;
@@ -2885,9 +2577,7 @@ export const ADMChannelResponse = /*@__PURE__*/ S.suspend(() =>
     Platform: S.optional(S.String),
     Version: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ADMChannelResponse",
-}) as any as S.Schema<ADMChannelResponse>;
+).annotate({ identifier: "ADMChannelResponse" }) as any as S.Schema<ADMChannelResponse>;
 export interface DeleteAdmChannelResponse {
   ADMChannelResponse: ADMChannelResponse & { Platform: string };
 }
@@ -2897,19 +2587,14 @@ export const DeleteAdmChannelResponse = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.HttpPayload())
       .annotate({ identifier: "ADMChannelResponse" }),
   }),
-).annotate({
-  identifier: "DeleteAdmChannelResponse",
-}) as any as S.Schema<DeleteAdmChannelResponse>;
+).annotate({ identifier: "DeleteAdmChannelResponse" }) as any as S.Schema<DeleteAdmChannelResponse>;
 export interface DeleteApnsChannelRequest {
   ApplicationId: string;
 }
 export const DeleteApnsChannelRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")) }).pipe(
     T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/v1/apps/{ApplicationId}/channels/apns",
-      }),
+      T.Http({ method: "DELETE", uri: "/v1/apps/{ApplicationId}/channels/apns" }),
       svc,
       auth,
       proto,
@@ -2917,9 +2602,7 @@ export const DeleteApnsChannelRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteApnsChannelRequest",
-}) as any as S.Schema<DeleteApnsChannelRequest>;
+).annotate({ identifier: "DeleteApnsChannelRequest" }) as any as S.Schema<DeleteApnsChannelRequest>;
 export interface APNSChannelResponse {
   ApplicationId?: string;
   CreationDate?: string;
@@ -2949,9 +2632,7 @@ export const APNSChannelResponse = /*@__PURE__*/ S.suspend(() =>
     Platform: S.optional(S.String),
     Version: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "APNSChannelResponse",
-}) as any as S.Schema<APNSChannelResponse>;
+).annotate({ identifier: "APNSChannelResponse" }) as any as S.Schema<APNSChannelResponse>;
 export interface DeleteApnsChannelResponse {
   APNSChannelResponse: APNSChannelResponse & { Platform: string };
 }
@@ -2970,10 +2651,7 @@ export interface DeleteApnsSandboxChannelRequest {
 export const DeleteApnsSandboxChannelRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")) }).pipe(
     T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/v1/apps/{ApplicationId}/channels/apns_sandbox",
-      }),
+      T.Http({ method: "DELETE", uri: "/v1/apps/{ApplicationId}/channels/apns_sandbox" }),
       svc,
       auth,
       proto,
@@ -3034,10 +2712,7 @@ export interface DeleteApnsVoipChannelRequest {
 export const DeleteApnsVoipChannelRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")) }).pipe(
     T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/v1/apps/{ApplicationId}/channels/apns_voip",
-      }),
+      T.Http({ method: "DELETE", uri: "/v1/apps/{ApplicationId}/channels/apns_voip" }),
       svc,
       auth,
       proto,
@@ -3077,9 +2752,7 @@ export const APNSVoipChannelResponse = /*@__PURE__*/ S.suspend(() =>
     Platform: S.optional(S.String),
     Version: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "APNSVoipChannelResponse",
-}) as any as S.Schema<APNSVoipChannelResponse>;
+).annotate({ identifier: "APNSVoipChannelResponse" }) as any as S.Schema<APNSVoipChannelResponse>;
 export interface DeleteApnsVoipChannelResponse {
   APNSVoipChannelResponse: APNSVoipChannelResponse & { Platform: string };
 }
@@ -3098,10 +2771,7 @@ export interface DeleteApnsVoipSandboxChannelRequest {
 export const DeleteApnsVoipSandboxChannelRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")) }).pipe(
     T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/v1/apps/{ApplicationId}/channels/apns_voip_sandbox",
-      }),
+      T.Http({ method: "DELETE", uri: "/v1/apps/{ApplicationId}/channels/apns_voip_sandbox" }),
       svc,
       auth,
       proto,
@@ -3145,9 +2815,7 @@ export const APNSVoipSandboxChannelResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "APNSVoipSandboxChannelResponse",
 }) as any as S.Schema<APNSVoipSandboxChannelResponse>;
 export interface DeleteApnsVoipSandboxChannelResponse {
-  APNSVoipSandboxChannelResponse: APNSVoipSandboxChannelResponse & {
-    Platform: string;
-  };
+  APNSVoipSandboxChannelResponse: APNSVoipSandboxChannelResponse & { Platform: string };
 }
 export const DeleteApnsVoipSandboxChannelResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -3172,15 +2840,9 @@ export const DeleteAppRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteAppRequest",
-}) as any as S.Schema<DeleteAppRequest>;
+).annotate({ identifier: "DeleteAppRequest" }) as any as S.Schema<DeleteAppRequest>;
 export interface DeleteAppResponse {
-  ApplicationResponse: ApplicationResponse & {
-    Arn: string;
-    Id: string;
-    Name: string;
-  };
+  ApplicationResponse: ApplicationResponse & { Arn: string; Id: string; Name: string };
 }
 export const DeleteAppResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -3188,19 +2850,14 @@ export const DeleteAppResponse = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.HttpPayload())
       .annotate({ identifier: "ApplicationResponse" }),
   }),
-).annotate({
-  identifier: "DeleteAppResponse",
-}) as any as S.Schema<DeleteAppResponse>;
+).annotate({ identifier: "DeleteAppResponse" }) as any as S.Schema<DeleteAppResponse>;
 export interface DeleteBaiduChannelRequest {
   ApplicationId: string;
 }
 export const DeleteBaiduChannelRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")) }).pipe(
     T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/v1/apps/{ApplicationId}/channels/baidu",
-      }),
+      T.Http({ method: "DELETE", uri: "/v1/apps/{ApplicationId}/channels/baidu" }),
       svc,
       auth,
       proto,
@@ -3238,14 +2895,9 @@ export const BaiduChannelResponse = /*@__PURE__*/ S.suspend(() =>
     Platform: S.optional(S.String),
     Version: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "BaiduChannelResponse",
-}) as any as S.Schema<BaiduChannelResponse>;
+).annotate({ identifier: "BaiduChannelResponse" }) as any as S.Schema<BaiduChannelResponse>;
 export interface DeleteBaiduChannelResponse {
-  BaiduChannelResponse: BaiduChannelResponse & {
-    Credential: string;
-    Platform: string;
-  };
+  BaiduChannelResponse: BaiduChannelResponse & { Credential: string; Platform: string };
 }
 export const DeleteBaiduChannelResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -3266,10 +2918,7 @@ export const DeleteCampaignRequest = /*@__PURE__*/ S.suspend(() =>
     CampaignId: S.String.pipe(T.HttpLabel("CampaignId")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/v1/apps/{ApplicationId}/campaigns/{CampaignId}",
-      }),
+      T.Http({ method: "DELETE", uri: "/v1/apps/{ApplicationId}/campaigns/{CampaignId}" }),
       svc,
       auth,
       proto,
@@ -3277,9 +2926,7 @@ export const DeleteCampaignRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteCampaignRequest",
-}) as any as S.Schema<DeleteCampaignRequest>;
+).annotate({ identifier: "DeleteCampaignRequest" }) as any as S.Schema<DeleteCampaignRequest>;
 export interface DeleteCampaignResponse {
   CampaignResponse: CampaignResponse & {
     ApplicationId: string;
@@ -3292,9 +2939,7 @@ export interface DeleteCampaignResponse {
     AdditionalTreatments: (TreatmentResource & {
       Id: string;
       SizePercent: number;
-      CustomDeliveryConfiguration: CustomDeliveryConfiguration & {
-        DeliveryUri: string;
-      };
+      CustomDeliveryConfiguration: CustomDeliveryConfiguration & { DeliveryUri: string };
       MessageConfiguration: MessageConfiguration & {
         InAppMessage: CampaignInAppMessage & {
           Content: (InAppMessageContent & {
@@ -3309,9 +2954,7 @@ export interface DeleteCampaignResponse {
               TextColor: string;
             };
             PrimaryBtn: InAppMessageButton & {
-              Android: OverrideButtonConfiguration & {
-                ButtonAction: ButtonAction;
-              };
+              Android: OverrideButtonConfiguration & { ButtonAction: ButtonAction };
               DefaultConfig: DefaultButtonConfiguration & {
                 ButtonAction: ButtonAction;
                 Text: string;
@@ -3320,9 +2963,7 @@ export interface DeleteCampaignResponse {
               Web: OverrideButtonConfiguration & { ButtonAction: ButtonAction };
             };
             SecondaryBtn: InAppMessageButton & {
-              Android: OverrideButtonConfiguration & {
-                ButtonAction: ButtonAction;
-              };
+              Android: OverrideButtonConfiguration & { ButtonAction: ButtonAction };
               DefaultConfig: DefaultButtonConfiguration & {
                 ButtonAction: ButtonAction;
                 Text: string;
@@ -3343,10 +2984,7 @@ export interface DeleteCampaignResponse {
             EventType: SetDimension & { Values: ListOf__string };
             Metrics: {
               [key: string]:
-                | (MetricDimension & {
-                    ComparisonOperator: string;
-                    Value: number;
-                  })
+                | (MetricDimension & { ComparisonOperator: string; Value: number })
                 | undefined;
             };
           };
@@ -3354,9 +2992,7 @@ export interface DeleteCampaignResponse {
         };
       };
     })[];
-    CustomDeliveryConfiguration: CustomDeliveryConfiguration & {
-      DeliveryUri: string;
-    };
+    CustomDeliveryConfiguration: CustomDeliveryConfiguration & { DeliveryUri: string };
     MessageConfiguration: MessageConfiguration & {
       InAppMessage: CampaignInAppMessage & {
         Content: (InAppMessageContent & {
@@ -3371,9 +3007,7 @@ export interface DeleteCampaignResponse {
             TextColor: string;
           };
           PrimaryBtn: InAppMessageButton & {
-            Android: OverrideButtonConfiguration & {
-              ButtonAction: ButtonAction;
-            };
+            Android: OverrideButtonConfiguration & { ButtonAction: ButtonAction };
             DefaultConfig: DefaultButtonConfiguration & {
               ButtonAction: ButtonAction;
               Text: string;
@@ -3382,9 +3016,7 @@ export interface DeleteCampaignResponse {
             Web: OverrideButtonConfiguration & { ButtonAction: ButtonAction };
           };
           SecondaryBtn: InAppMessageButton & {
-            Android: OverrideButtonConfiguration & {
-              ButtonAction: ButtonAction;
-            };
+            Android: OverrideButtonConfiguration & { ButtonAction: ButtonAction };
             DefaultConfig: DefaultButtonConfiguration & {
               ButtonAction: ButtonAction;
               Text: string;
@@ -3405,10 +3037,7 @@ export interface DeleteCampaignResponse {
           EventType: SetDimension & { Values: ListOf__string };
           Metrics: {
             [key: string]:
-              | (MetricDimension & {
-                  ComparisonOperator: string;
-                  Value: number;
-                })
+              | (MetricDimension & { ComparisonOperator: string; Value: number })
               | undefined;
           };
         };
@@ -3423,19 +3052,14 @@ export const DeleteCampaignResponse = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.HttpPayload())
       .annotate({ identifier: "CampaignResponse" }),
   }),
-).annotate({
-  identifier: "DeleteCampaignResponse",
-}) as any as S.Schema<DeleteCampaignResponse>;
+).annotate({ identifier: "DeleteCampaignResponse" }) as any as S.Schema<DeleteCampaignResponse>;
 export interface DeleteEmailChannelRequest {
   ApplicationId: string;
 }
 export const DeleteEmailChannelRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")) }).pipe(
     T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/v1/apps/{ApplicationId}/channels/email",
-      }),
+      T.Http({ method: "DELETE", uri: "/v1/apps/{ApplicationId}/channels/email" }),
       svc,
       auth,
       proto,
@@ -3483,9 +3107,7 @@ export const EmailChannelResponse = /*@__PURE__*/ S.suspend(() =>
     OrchestrationSendingRoleArn: S.optional(S.String),
     Version: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "EmailChannelResponse",
-}) as any as S.Schema<EmailChannelResponse>;
+).annotate({ identifier: "EmailChannelResponse" }) as any as S.Schema<EmailChannelResponse>;
 export interface DeleteEmailChannelResponse {
   EmailChannelResponse: EmailChannelResponse & { Platform: string };
 }
@@ -3548,10 +3170,7 @@ export const DeleteEndpointRequest = /*@__PURE__*/ S.suspend(() =>
     EndpointId: S.String.pipe(T.HttpLabel("EndpointId")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/v1/apps/{ApplicationId}/endpoints/{EndpointId}",
-      }),
+      T.Http({ method: "DELETE", uri: "/v1/apps/{ApplicationId}/endpoints/{EndpointId}" }),
       svc,
       auth,
       proto,
@@ -3559,9 +3178,7 @@ export const DeleteEndpointRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteEndpointRequest",
-}) as any as S.Schema<DeleteEndpointRequest>;
+).annotate({ identifier: "DeleteEndpointRequest" }) as any as S.Schema<DeleteEndpointRequest>;
 export type MapOfListOf__string = { [key: string]: string[] | undefined };
 export const MapOfListOf__string = /*@__PURE__*/ S.Record(
   S.String,
@@ -3605,9 +3222,7 @@ export const EndpointDemographic = /*@__PURE__*/ S.suspend(() =>
     PlatformVersion: S.optional(S.String),
     Timezone: S.optional(S.String),
   }),
-).annotate({
-  identifier: "EndpointDemographic",
-}) as any as S.Schema<EndpointDemographic>;
+).annotate({ identifier: "EndpointDemographic" }) as any as S.Schema<EndpointDemographic>;
 export interface EndpointLocation {
   City?: string;
   Country?: string;
@@ -3625,9 +3240,7 @@ export const EndpointLocation = /*@__PURE__*/ S.suspend(() =>
     PostalCode: S.optional(S.String),
     Region: S.optional(S.String),
   }),
-).annotate({
-  identifier: "EndpointLocation",
-}) as any as S.Schema<EndpointLocation>;
+).annotate({ identifier: "EndpointLocation" }) as any as S.Schema<EndpointLocation>;
 export type MapOf__double = { [key: string]: number | undefined };
 export const MapOf__double = /*@__PURE__*/ S.Record(S.String, S.Number.pipe(S.optional));
 export interface EndpointUser {
@@ -3635,10 +3248,7 @@ export interface EndpointUser {
   UserId?: string;
 }
 export const EndpointUser = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    UserAttributes: S.optional(MapOfListOf__string),
-    UserId: S.optional(S.String),
-  }),
+  S.Struct({ UserAttributes: S.optional(MapOfListOf__string), UserId: S.optional(S.String) }),
 ).annotate({ identifier: "EndpointUser" }) as any as S.Schema<EndpointUser>;
 export interface EndpointResponse {
   Address?: string;
@@ -3675,9 +3285,7 @@ export const EndpointResponse = /*@__PURE__*/ S.suspend(() =>
     RequestId: S.optional(S.String),
     User: S.optional(EndpointUser),
   }),
-).annotate({
-  identifier: "EndpointResponse",
-}) as any as S.Schema<EndpointResponse>;
+).annotate({ identifier: "EndpointResponse" }) as any as S.Schema<EndpointResponse>;
 export interface DeleteEndpointResponse {
   EndpointResponse: EndpointResponse;
 }
@@ -3687,9 +3295,7 @@ export const DeleteEndpointResponse = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.HttpPayload())
       .annotate({ identifier: "EndpointResponse" }),
   }),
-).annotate({
-  identifier: "DeleteEndpointResponse",
-}) as any as S.Schema<DeleteEndpointResponse>;
+).annotate({ identifier: "DeleteEndpointResponse" }) as any as S.Schema<DeleteEndpointResponse>;
 export interface DeleteEventStreamRequest {
   ApplicationId: string;
 }
@@ -3704,9 +3310,7 @@ export const DeleteEventStreamRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteEventStreamRequest",
-}) as any as S.Schema<DeleteEventStreamRequest>;
+).annotate({ identifier: "DeleteEventStreamRequest" }) as any as S.Schema<DeleteEventStreamRequest>;
 export interface EventStream {
   ApplicationId?: string;
   DestinationStreamArn?: string;
@@ -3747,10 +3351,7 @@ export interface DeleteGcmChannelRequest {
 export const DeleteGcmChannelRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")) }).pipe(
     T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/v1/apps/{ApplicationId}/channels/gcm",
-      }),
+      T.Http({ method: "DELETE", uri: "/v1/apps/{ApplicationId}/channels/gcm" }),
       svc,
       auth,
       proto,
@@ -3758,9 +3359,7 @@ export const DeleteGcmChannelRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteGcmChannelRequest",
-}) as any as S.Schema<DeleteGcmChannelRequest>;
+).annotate({ identifier: "DeleteGcmChannelRequest" }) as any as S.Schema<DeleteGcmChannelRequest>;
 export interface GCMChannelResponse {
   ApplicationId?: string;
   CreationDate?: string;
@@ -3792,9 +3391,7 @@ export const GCMChannelResponse = /*@__PURE__*/ S.suspend(() =>
     Platform: S.optional(S.String),
     Version: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "GCMChannelResponse",
-}) as any as S.Schema<GCMChannelResponse>;
+).annotate({ identifier: "GCMChannelResponse" }) as any as S.Schema<GCMChannelResponse>;
 export interface DeleteGcmChannelResponse {
   GCMChannelResponse: GCMChannelResponse & { Platform: string };
 }
@@ -3804,9 +3401,7 @@ export const DeleteGcmChannelResponse = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.HttpPayload())
       .annotate({ identifier: "GCMChannelResponse" }),
   }),
-).annotate({
-  identifier: "DeleteGcmChannelResponse",
-}) as any as S.Schema<DeleteGcmChannelResponse>;
+).annotate({ identifier: "DeleteGcmChannelResponse" }) as any as S.Schema<DeleteGcmChannelResponse>;
 export interface DeleteInAppTemplateRequest {
   TemplateName: string;
   Version?: string;
@@ -3850,10 +3445,7 @@ export const DeleteJourneyRequest = /*@__PURE__*/ S.suspend(() =>
     JourneyId: S.String.pipe(T.HttpLabel("JourneyId")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/v1/apps/{ApplicationId}/journeys/{JourneyId}",
-      }),
+      T.Http({ method: "DELETE", uri: "/v1/apps/{ApplicationId}/journeys/{JourneyId}" }),
       svc,
       auth,
       proto,
@@ -3861,9 +3453,7 @@ export const DeleteJourneyRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteJourneyRequest",
-}) as any as S.Schema<DeleteJourneyRequest>;
+).annotate({ identifier: "DeleteJourneyRequest" }) as any as S.Schema<DeleteJourneyRequest>;
 export interface DeleteJourneyResponse {
   JourneyResponse: JourneyResponse & {
     ApplicationId: string;
@@ -3885,10 +3475,7 @@ export interface DeleteJourneyResponse {
                       EventType: SetDimension & { Values: ListOf__string };
                       Metrics: {
                         [key: string]:
-                          | (MetricDimension & {
-                              ComparisonOperator: string;
-                              Value: number;
-                            })
+                          | (MetricDimension & { ComparisonOperator: string; Value: number })
                           | undefined;
                       };
                     };
@@ -3899,10 +3486,7 @@ export interface DeleteJourneyResponse {
                       [key: string]: (AttributeDimension & { Values: ListOf__string }) | undefined;
                     };
                     Behavior: SegmentBehaviors & {
-                      Recency: RecencyDimension & {
-                        Duration: Duration;
-                        RecencyType: RecencyType;
-                      };
+                      Recency: RecencyDimension & { Duration: Duration; RecencyType: RecencyType };
                     };
                     Demographic: SegmentDemographics & {
                       AppVersion: SetDimension & { Values: ListOf__string };
@@ -3915,18 +3499,12 @@ export interface DeleteJourneyResponse {
                     Location: SegmentLocation & {
                       Country: SetDimension & { Values: ListOf__string };
                       GPSPoint: GPSPointDimension & {
-                        Coordinates: GPSCoordinates & {
-                          Latitude: number;
-                          Longitude: number;
-                        };
+                        Coordinates: GPSCoordinates & { Latitude: number; Longitude: number };
                       };
                     };
                     Metrics: {
                       [key: string]:
-                        | (MetricDimension & {
-                            ComparisonOperator: string;
-                            Value: number;
-                          })
+                        | (MetricDimension & { ComparisonOperator: string; Value: number })
                         | undefined;
                     };
                     UserAttributes: {
@@ -3950,10 +3528,7 @@ export interface DeleteJourneyResponse {
                       EventType: SetDimension & { Values: ListOf__string };
                       Metrics: {
                         [key: string]:
-                          | (MetricDimension & {
-                              ComparisonOperator: string;
-                              Value: number;
-                            })
+                          | (MetricDimension & { ComparisonOperator: string; Value: number })
                           | undefined;
                       };
                     };
@@ -3964,10 +3539,7 @@ export interface DeleteJourneyResponse {
                       [key: string]: (AttributeDimension & { Values: ListOf__string }) | undefined;
                     };
                     Behavior: SegmentBehaviors & {
-                      Recency: RecencyDimension & {
-                        Duration: Duration;
-                        RecencyType: RecencyType;
-                      };
+                      Recency: RecencyDimension & { Duration: Duration; RecencyType: RecencyType };
                     };
                     Demographic: SegmentDemographics & {
                       AppVersion: SetDimension & { Values: ListOf__string };
@@ -3980,18 +3552,12 @@ export interface DeleteJourneyResponse {
                     Location: SegmentLocation & {
                       Country: SetDimension & { Values: ListOf__string };
                       GPSPoint: GPSPointDimension & {
-                        Coordinates: GPSCoordinates & {
-                          Latitude: number;
-                          Longitude: number;
-                        };
+                        Coordinates: GPSCoordinates & { Latitude: number; Longitude: number };
                       };
                     };
                     Metrics: {
                       [key: string]:
-                        | (MetricDimension & {
-                            ComparisonOperator: string;
-                            Value: number;
-                          })
+                        | (MetricDimension & { ComparisonOperator: string; Value: number })
                         | undefined;
                     };
                     UserAttributes: {
@@ -4014,10 +3580,7 @@ export interface DeleteJourneyResponse {
             EventType: SetDimension & { Values: ListOf__string };
             Metrics: {
               [key: string]:
-                | (MetricDimension & {
-                    ComparisonOperator: string;
-                    Value: number;
-                  })
+                | (MetricDimension & { ComparisonOperator: string; Value: number })
                 | undefined;
             };
           };
@@ -4034,9 +3597,7 @@ export const DeleteJourneyResponse = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.HttpPayload())
       .annotate({ identifier: "JourneyResponse" }),
   }),
-).annotate({
-  identifier: "DeleteJourneyResponse",
-}) as any as S.Schema<DeleteJourneyResponse>;
+).annotate({ identifier: "DeleteJourneyResponse" }) as any as S.Schema<DeleteJourneyResponse>;
 export interface DeletePushTemplateRequest {
   TemplateName: string;
   Version?: string;
@@ -4074,9 +3635,7 @@ export interface DeleteRecommenderConfigurationRequest {
   RecommenderId: string;
 }
 export const DeleteRecommenderConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RecommenderId: S.String.pipe(T.HttpLabel("RecommenderId")),
-  }).pipe(
+  S.Struct({ RecommenderId: S.String.pipe(T.HttpLabel("RecommenderId")) }).pipe(
     T.all(
       T.Http({ method: "DELETE", uri: "/v1/recommenders/{RecommenderId}" }),
       svc,
@@ -4117,10 +3676,7 @@ export const DeleteSegmentRequest = /*@__PURE__*/ S.suspend(() =>
     SegmentId: S.String.pipe(T.HttpLabel("SegmentId")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/v1/apps/{ApplicationId}/segments/{SegmentId}",
-      }),
+      T.Http({ method: "DELETE", uri: "/v1/apps/{ApplicationId}/segments/{SegmentId}" }),
       svc,
       auth,
       proto,
@@ -4128,9 +3684,7 @@ export const DeleteSegmentRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteSegmentRequest",
-}) as any as S.Schema<DeleteSegmentRequest>;
+).annotate({ identifier: "DeleteSegmentRequest" }) as any as S.Schema<DeleteSegmentRequest>;
 export interface DeleteSegmentResponse {
   SegmentResponse: SegmentResponse & {
     ApplicationId: string;
@@ -4139,14 +3693,9 @@ export interface DeleteSegmentResponse {
     Id: string;
     SegmentType: SegmentType;
     Dimensions: SegmentDimensions & {
-      Attributes: {
-        [key: string]: (AttributeDimension & { Values: ListOf__string }) | undefined;
-      };
+      Attributes: { [key: string]: (AttributeDimension & { Values: ListOf__string }) | undefined };
       Behavior: SegmentBehaviors & {
-        Recency: RecencyDimension & {
-          Duration: Duration;
-          RecencyType: RecencyType;
-        };
+        Recency: RecencyDimension & { Duration: Duration; RecencyType: RecencyType };
       };
       Demographic: SegmentDemographics & {
         AppVersion: SetDimension & { Values: ListOf__string };
@@ -4185,10 +3734,7 @@ export interface DeleteSegmentResponse {
             [key: string]: (AttributeDimension & { Values: ListOf__string }) | undefined;
           };
           Behavior: SegmentBehaviors & {
-            Recency: RecencyDimension & {
-              Duration: Duration;
-              RecencyType: RecencyType;
-            };
+            Recency: RecencyDimension & { Duration: Duration; RecencyType: RecencyType };
           };
           Demographic: SegmentDemographics & {
             AppVersion: SetDimension & { Values: ListOf__string };
@@ -4201,18 +3747,12 @@ export interface DeleteSegmentResponse {
           Location: SegmentLocation & {
             Country: SetDimension & { Values: ListOf__string };
             GPSPoint: GPSPointDimension & {
-              Coordinates: GPSCoordinates & {
-                Latitude: number;
-                Longitude: number;
-              };
+              Coordinates: GPSCoordinates & { Latitude: number; Longitude: number };
             };
           };
           Metrics: {
             [key: string]:
-              | (MetricDimension & {
-                  ComparisonOperator: string;
-                  Value: number;
-                })
+              | (MetricDimension & { ComparisonOperator: string; Value: number })
               | undefined;
           };
           UserAttributes: {
@@ -4230,19 +3770,14 @@ export const DeleteSegmentResponse = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.HttpPayload())
       .annotate({ identifier: "SegmentResponse" }),
   }),
-).annotate({
-  identifier: "DeleteSegmentResponse",
-}) as any as S.Schema<DeleteSegmentResponse>;
+).annotate({ identifier: "DeleteSegmentResponse" }) as any as S.Schema<DeleteSegmentResponse>;
 export interface DeleteSmsChannelRequest {
   ApplicationId: string;
 }
 export const DeleteSmsChannelRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")) }).pipe(
     T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/v1/apps/{ApplicationId}/channels/sms",
-      }),
+      T.Http({ method: "DELETE", uri: "/v1/apps/{ApplicationId}/channels/sms" }),
       svc,
       auth,
       proto,
@@ -4250,9 +3785,7 @@ export const DeleteSmsChannelRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteSmsChannelRequest",
-}) as any as S.Schema<DeleteSmsChannelRequest>;
+).annotate({ identifier: "DeleteSmsChannelRequest" }) as any as S.Schema<DeleteSmsChannelRequest>;
 export interface SMSChannelResponse {
   ApplicationId?: string;
   CreationDate?: string;
@@ -4286,9 +3819,7 @@ export const SMSChannelResponse = /*@__PURE__*/ S.suspend(() =>
     TransactionalMessagesPerSecond: S.optional(S.Number),
     Version: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "SMSChannelResponse",
-}) as any as S.Schema<SMSChannelResponse>;
+).annotate({ identifier: "SMSChannelResponse" }) as any as S.Schema<SMSChannelResponse>;
 export interface DeleteSmsChannelResponse {
   SMSChannelResponse: SMSChannelResponse & { Platform: string };
 }
@@ -4298,9 +3829,7 @@ export const DeleteSmsChannelResponse = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.HttpPayload())
       .annotate({ identifier: "SMSChannelResponse" }),
   }),
-).annotate({
-  identifier: "DeleteSmsChannelResponse",
-}) as any as S.Schema<DeleteSmsChannelResponse>;
+).annotate({ identifier: "DeleteSmsChannelResponse" }) as any as S.Schema<DeleteSmsChannelResponse>;
 export interface DeleteSmsTemplateRequest {
   TemplateName: string;
   Version?: string;
@@ -4319,9 +3848,7 @@ export const DeleteSmsTemplateRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteSmsTemplateRequest",
-}) as any as S.Schema<DeleteSmsTemplateRequest>;
+).annotate({ identifier: "DeleteSmsTemplateRequest" }) as any as S.Schema<DeleteSmsTemplateRequest>;
 export interface DeleteSmsTemplateResponse {
   MessageBody: MessageBody;
 }
@@ -4344,10 +3871,7 @@ export const DeleteUserEndpointsRequest = /*@__PURE__*/ S.suspend(() =>
     UserId: S.String.pipe(T.HttpLabel("UserId")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/v1/apps/{ApplicationId}/users/{UserId}",
-      }),
+      T.Http({ method: "DELETE", uri: "/v1/apps/{ApplicationId}/users/{UserId}" }),
       svc,
       auth,
       proto,
@@ -4365,9 +3889,7 @@ export interface EndpointsResponse {
 }
 export const EndpointsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Item: S.optional(ListOfEndpointResponse) }),
-).annotate({
-  identifier: "EndpointsResponse",
-}) as any as S.Schema<EndpointsResponse>;
+).annotate({ identifier: "EndpointsResponse" }) as any as S.Schema<EndpointsResponse>;
 export interface DeleteUserEndpointsResponse {
   EndpointsResponse: EndpointsResponse & { Item: ListOfEndpointResponse };
 }
@@ -4386,10 +3908,7 @@ export interface DeleteVoiceChannelRequest {
 export const DeleteVoiceChannelRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")) }).pipe(
     T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/v1/apps/{ApplicationId}/channels/voice",
-      }),
+      T.Http({ method: "DELETE", uri: "/v1/apps/{ApplicationId}/channels/voice" }),
       svc,
       auth,
       proto,
@@ -4425,9 +3944,7 @@ export const VoiceChannelResponse = /*@__PURE__*/ S.suspend(() =>
     Platform: S.optional(S.String),
     Version: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "VoiceChannelResponse",
-}) as any as S.Schema<VoiceChannelResponse>;
+).annotate({ identifier: "VoiceChannelResponse" }) as any as S.Schema<VoiceChannelResponse>;
 export interface DeleteVoiceChannelResponse {
   VoiceChannelResponse: VoiceChannelResponse & { Platform: string };
 }
@@ -4487,9 +4004,7 @@ export const GetAdmChannelRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetAdmChannelRequest",
-}) as any as S.Schema<GetAdmChannelRequest>;
+).annotate({ identifier: "GetAdmChannelRequest" }) as any as S.Schema<GetAdmChannelRequest>;
 export interface GetAdmChannelResponse {
   ADMChannelResponse: ADMChannelResponse & { Platform: string };
 }
@@ -4499,9 +4014,7 @@ export const GetAdmChannelResponse = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.HttpPayload())
       .annotate({ identifier: "ADMChannelResponse" }),
   }),
-).annotate({
-  identifier: "GetAdmChannelResponse",
-}) as any as S.Schema<GetAdmChannelResponse>;
+).annotate({ identifier: "GetAdmChannelResponse" }) as any as S.Schema<GetAdmChannelResponse>;
 export interface GetApnsChannelRequest {
   ApplicationId: string;
 }
@@ -4516,9 +4029,7 @@ export const GetApnsChannelRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetApnsChannelRequest",
-}) as any as S.Schema<GetApnsChannelRequest>;
+).annotate({ identifier: "GetApnsChannelRequest" }) as any as S.Schema<GetApnsChannelRequest>;
 export interface GetApnsChannelResponse {
   APNSChannelResponse: APNSChannelResponse & { Platform: string };
 }
@@ -4528,19 +4039,14 @@ export const GetApnsChannelResponse = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.HttpPayload())
       .annotate({ identifier: "APNSChannelResponse" }),
   }),
-).annotate({
-  identifier: "GetApnsChannelResponse",
-}) as any as S.Schema<GetApnsChannelResponse>;
+).annotate({ identifier: "GetApnsChannelResponse" }) as any as S.Schema<GetApnsChannelResponse>;
 export interface GetApnsSandboxChannelRequest {
   ApplicationId: string;
 }
 export const GetApnsSandboxChannelRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")) }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/v1/apps/{ApplicationId}/channels/apns_sandbox",
-      }),
+      T.Http({ method: "GET", uri: "/v1/apps/{ApplicationId}/channels/apns_sandbox" }),
       svc,
       auth,
       proto,
@@ -4569,10 +4075,7 @@ export interface GetApnsVoipChannelRequest {
 export const GetApnsVoipChannelRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")) }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/v1/apps/{ApplicationId}/channels/apns_voip",
-      }),
+      T.Http({ method: "GET", uri: "/v1/apps/{ApplicationId}/channels/apns_voip" }),
       svc,
       auth,
       proto,
@@ -4601,10 +4104,7 @@ export interface GetApnsVoipSandboxChannelRequest {
 export const GetApnsVoipSandboxChannelRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")) }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/v1/apps/{ApplicationId}/channels/apns_voip_sandbox",
-      }),
+      T.Http({ method: "GET", uri: "/v1/apps/{ApplicationId}/channels/apns_voip_sandbox" }),
       svc,
       auth,
       proto,
@@ -4616,9 +4116,7 @@ export const GetApnsVoipSandboxChannelRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetApnsVoipSandboxChannelRequest",
 }) as any as S.Schema<GetApnsVoipSandboxChannelRequest>;
 export interface GetApnsVoipSandboxChannelResponse {
-  APNSVoipSandboxChannelResponse: APNSVoipSandboxChannelResponse & {
-    Platform: string;
-  };
+  APNSVoipSandboxChannelResponse: APNSVoipSandboxChannelResponse & { Platform: string };
 }
 export const GetApnsVoipSandboxChannelResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -4638,11 +4136,7 @@ export const GetAppRequest = /*@__PURE__*/ S.suspend(() =>
   ),
 ).annotate({ identifier: "GetAppRequest" }) as any as S.Schema<GetAppRequest>;
 export interface GetAppResponse {
-  ApplicationResponse: ApplicationResponse & {
-    Arn: string;
-    Id: string;
-    Name: string;
-  };
+  ApplicationResponse: ApplicationResponse & { Arn: string; Id: string; Name: string };
 }
 export const GetAppResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -4673,10 +4167,7 @@ export const GetApplicationDateRangeKpiRequest = /*@__PURE__*/ S.suspend(() =>
     ),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/v1/apps/{ApplicationId}/kpis/daterange/{KpiName}",
-      }),
+      T.Http({ method: "GET", uri: "/v1/apps/{ApplicationId}/kpis/daterange/{KpiName}" }),
       svc,
       auth,
       proto,
@@ -4693,11 +4184,7 @@ export interface ResultRowValue {
   Value?: string;
 }
 export const ResultRowValue = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Key: S.optional(S.String),
-    Type: S.optional(S.String),
-    Value: S.optional(S.String),
-  }),
+  S.Struct({ Key: S.optional(S.String), Type: S.optional(S.String), Value: S.optional(S.String) }),
 ).annotate({ identifier: "ResultRowValue" }) as any as S.Schema<ResultRowValue>;
 export type ListOfResultRowValue = ResultRowValue[];
 export const ListOfResultRowValue = /*@__PURE__*/ S.Array(ResultRowValue);
@@ -4746,16 +4233,8 @@ export interface GetApplicationDateRangeKpiResponse {
     KpiName: string;
     KpiResult: BaseKpiResult & {
       Rows: (ResultRow & {
-        GroupedBys: (ResultRowValue & {
-          Key: string;
-          Type: string;
-          Value: string;
-        })[];
-        Values: (ResultRowValue & {
-          Key: string;
-          Type: string;
-          Value: string;
-        })[];
+        GroupedBys: (ResultRowValue & { Key: string; Type: string; Value: string })[];
+        Values: (ResultRowValue & { Key: string; Type: string; Value: string })[];
       })[];
     };
     StartTime: __timestampIso8601;
@@ -4822,9 +4301,7 @@ export const ApplicationSettingsResource = /*@__PURE__*/ S.suspend(() =>
   identifier: "ApplicationSettingsResource",
 }) as any as S.Schema<ApplicationSettingsResource>;
 export interface GetApplicationSettingsResponse {
-  ApplicationSettingsResource: ApplicationSettingsResource & {
-    ApplicationId: string;
-  };
+  ApplicationSettingsResource: ApplicationSettingsResource & { ApplicationId: string };
 }
 export const GetApplicationSettingsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -4852,13 +4329,8 @@ export interface ApplicationsResponse {
   NextToken?: string;
 }
 export const ApplicationsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Item: S.optional(ListOfApplicationResponse),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ApplicationsResponse",
-}) as any as S.Schema<ApplicationsResponse>;
+  S.Struct({ Item: S.optional(ListOfApplicationResponse), NextToken: S.optional(S.String) }),
+).annotate({ identifier: "ApplicationsResponse" }) as any as S.Schema<ApplicationsResponse>;
 export interface GetAppsResponse {
   ApplicationsResponse: ApplicationsResponse & {
     Item: (ApplicationResponse & { Arn: string; Id: string; Name: string })[];
@@ -4870,9 +4342,7 @@ export const GetAppsResponse = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.HttpPayload())
       .annotate({ identifier: "ApplicationsResponse" }),
   }),
-).annotate({
-  identifier: "GetAppsResponse",
-}) as any as S.Schema<GetAppsResponse>;
+).annotate({ identifier: "GetAppsResponse" }) as any as S.Schema<GetAppsResponse>;
 export interface GetBaiduChannelRequest {
   ApplicationId: string;
 }
@@ -4887,14 +4357,9 @@ export const GetBaiduChannelRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetBaiduChannelRequest",
-}) as any as S.Schema<GetBaiduChannelRequest>;
+).annotate({ identifier: "GetBaiduChannelRequest" }) as any as S.Schema<GetBaiduChannelRequest>;
 export interface GetBaiduChannelResponse {
-  BaiduChannelResponse: BaiduChannelResponse & {
-    Credential: string;
-    Platform: string;
-  };
+  BaiduChannelResponse: BaiduChannelResponse & { Credential: string; Platform: string };
 }
 export const GetBaiduChannelResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -4902,9 +4367,7 @@ export const GetBaiduChannelResponse = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.HttpPayload())
       .annotate({ identifier: "BaiduChannelResponse" }),
   }),
-).annotate({
-  identifier: "GetBaiduChannelResponse",
-}) as any as S.Schema<GetBaiduChannelResponse>;
+).annotate({ identifier: "GetBaiduChannelResponse" }) as any as S.Schema<GetBaiduChannelResponse>;
 export interface GetCampaignRequest {
   ApplicationId: string;
   CampaignId: string;
@@ -4915,10 +4378,7 @@ export const GetCampaignRequest = /*@__PURE__*/ S.suspend(() =>
     CampaignId: S.String.pipe(T.HttpLabel("CampaignId")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/v1/apps/{ApplicationId}/campaigns/{CampaignId}",
-      }),
+      T.Http({ method: "GET", uri: "/v1/apps/{ApplicationId}/campaigns/{CampaignId}" }),
       svc,
       auth,
       proto,
@@ -4926,9 +4386,7 @@ export const GetCampaignRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetCampaignRequest",
-}) as any as S.Schema<GetCampaignRequest>;
+).annotate({ identifier: "GetCampaignRequest" }) as any as S.Schema<GetCampaignRequest>;
 export interface GetCampaignResponse {
   CampaignResponse: CampaignResponse & {
     ApplicationId: string;
@@ -4941,9 +4399,7 @@ export interface GetCampaignResponse {
     AdditionalTreatments: (TreatmentResource & {
       Id: string;
       SizePercent: number;
-      CustomDeliveryConfiguration: CustomDeliveryConfiguration & {
-        DeliveryUri: string;
-      };
+      CustomDeliveryConfiguration: CustomDeliveryConfiguration & { DeliveryUri: string };
       MessageConfiguration: MessageConfiguration & {
         InAppMessage: CampaignInAppMessage & {
           Content: (InAppMessageContent & {
@@ -4958,9 +4414,7 @@ export interface GetCampaignResponse {
               TextColor: string;
             };
             PrimaryBtn: InAppMessageButton & {
-              Android: OverrideButtonConfiguration & {
-                ButtonAction: ButtonAction;
-              };
+              Android: OverrideButtonConfiguration & { ButtonAction: ButtonAction };
               DefaultConfig: DefaultButtonConfiguration & {
                 ButtonAction: ButtonAction;
                 Text: string;
@@ -4969,9 +4423,7 @@ export interface GetCampaignResponse {
               Web: OverrideButtonConfiguration & { ButtonAction: ButtonAction };
             };
             SecondaryBtn: InAppMessageButton & {
-              Android: OverrideButtonConfiguration & {
-                ButtonAction: ButtonAction;
-              };
+              Android: OverrideButtonConfiguration & { ButtonAction: ButtonAction };
               DefaultConfig: DefaultButtonConfiguration & {
                 ButtonAction: ButtonAction;
                 Text: string;
@@ -4992,10 +4444,7 @@ export interface GetCampaignResponse {
             EventType: SetDimension & { Values: ListOf__string };
             Metrics: {
               [key: string]:
-                | (MetricDimension & {
-                    ComparisonOperator: string;
-                    Value: number;
-                  })
+                | (MetricDimension & { ComparisonOperator: string; Value: number })
                 | undefined;
             };
           };
@@ -5003,9 +4452,7 @@ export interface GetCampaignResponse {
         };
       };
     })[];
-    CustomDeliveryConfiguration: CustomDeliveryConfiguration & {
-      DeliveryUri: string;
-    };
+    CustomDeliveryConfiguration: CustomDeliveryConfiguration & { DeliveryUri: string };
     MessageConfiguration: MessageConfiguration & {
       InAppMessage: CampaignInAppMessage & {
         Content: (InAppMessageContent & {
@@ -5020,9 +4467,7 @@ export interface GetCampaignResponse {
             TextColor: string;
           };
           PrimaryBtn: InAppMessageButton & {
-            Android: OverrideButtonConfiguration & {
-              ButtonAction: ButtonAction;
-            };
+            Android: OverrideButtonConfiguration & { ButtonAction: ButtonAction };
             DefaultConfig: DefaultButtonConfiguration & {
               ButtonAction: ButtonAction;
               Text: string;
@@ -5031,9 +4476,7 @@ export interface GetCampaignResponse {
             Web: OverrideButtonConfiguration & { ButtonAction: ButtonAction };
           };
           SecondaryBtn: InAppMessageButton & {
-            Android: OverrideButtonConfiguration & {
-              ButtonAction: ButtonAction;
-            };
+            Android: OverrideButtonConfiguration & { ButtonAction: ButtonAction };
             DefaultConfig: DefaultButtonConfiguration & {
               ButtonAction: ButtonAction;
               Text: string;
@@ -5054,10 +4497,7 @@ export interface GetCampaignResponse {
           EventType: SetDimension & { Values: ListOf__string };
           Metrics: {
             [key: string]:
-              | (MetricDimension & {
-                  ComparisonOperator: string;
-                  Value: number;
-                })
+              | (MetricDimension & { ComparisonOperator: string; Value: number })
               | undefined;
           };
         };
@@ -5072,9 +4512,7 @@ export const GetCampaignResponse = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.HttpPayload())
       .annotate({ identifier: "CampaignResponse" }),
   }),
-).annotate({
-  identifier: "GetCampaignResponse",
-}) as any as S.Schema<GetCampaignResponse>;
+).annotate({ identifier: "GetCampaignResponse" }) as any as S.Schema<GetCampaignResponse>;
 export interface GetCampaignActivitiesRequest {
   ApplicationId: string;
   CampaignId: string;
@@ -5089,10 +4527,7 @@ export const GetCampaignActivitiesRequest = /*@__PURE__*/ S.suspend(() =>
     Token: S.optional(S.String).pipe(T.HttpQuery("token")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/v1/apps/{ApplicationId}/campaigns/{CampaignId}/activities",
-      }),
+      T.Http({ method: "GET", uri: "/v1/apps/{ApplicationId}/campaigns/{CampaignId}/activities" }),
       svc,
       auth,
       proto,
@@ -5136,9 +4571,7 @@ export const ActivityResponse = /*@__PURE__*/ S.suspend(() =>
     TreatmentId: S.optional(S.String),
     ExecutionMetrics: S.optional(MapOf__string),
   }),
-).annotate({
-  identifier: "ActivityResponse",
-}) as any as S.Schema<ActivityResponse>;
+).annotate({ identifier: "ActivityResponse" }) as any as S.Schema<ActivityResponse>;
 export type ListOfActivityResponse = ActivityResponse[];
 export const ListOfActivityResponse = /*@__PURE__*/ S.Array(ActivityResponse);
 export interface ActivitiesResponse {
@@ -5146,20 +4579,11 @@ export interface ActivitiesResponse {
   NextToken?: string;
 }
 export const ActivitiesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Item: S.optional(ListOfActivityResponse),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ActivitiesResponse",
-}) as any as S.Schema<ActivitiesResponse>;
+  S.Struct({ Item: S.optional(ListOfActivityResponse), NextToken: S.optional(S.String) }),
+).annotate({ identifier: "ActivitiesResponse" }) as any as S.Schema<ActivitiesResponse>;
 export interface GetCampaignActivitiesResponse {
   ActivitiesResponse: ActivitiesResponse & {
-    Item: (ActivityResponse & {
-      ApplicationId: string;
-      CampaignId: string;
-      Id: string;
-    })[];
+    Item: (ActivityResponse & { ApplicationId: string; CampaignId: string; Id: string })[];
   };
 }
 export const GetCampaignActivitiesResponse = /*@__PURE__*/ S.suspend(() =>
@@ -5239,16 +4663,8 @@ export interface GetCampaignDateRangeKpiResponse {
     KpiName: string;
     KpiResult: BaseKpiResult & {
       Rows: (ResultRow & {
-        GroupedBys: (ResultRowValue & {
-          Key: string;
-          Type: string;
-          Value: string;
-        })[];
-        Values: (ResultRowValue & {
-          Key: string;
-          Type: string;
-          Value: string;
-        })[];
+        GroupedBys: (ResultRowValue & { Key: string; Type: string; Value: string })[];
+        Values: (ResultRowValue & { Key: string; Type: string; Value: string })[];
       })[];
     };
     StartTime: __timestampIso8601;
@@ -5283,9 +4699,7 @@ export const GetCampaignsRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetCampaignsRequest",
-}) as any as S.Schema<GetCampaignsRequest>;
+).annotate({ identifier: "GetCampaignsRequest" }) as any as S.Schema<GetCampaignsRequest>;
 export type ListOfCampaignResponse = CampaignResponse[];
 export const ListOfCampaignResponse = /*@__PURE__*/ S.Array(CampaignResponse);
 export interface CampaignsResponse {
@@ -5293,13 +4707,8 @@ export interface CampaignsResponse {
   NextToken?: string;
 }
 export const CampaignsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Item: S.optional(ListOfCampaignResponse),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CampaignsResponse",
-}) as any as S.Schema<CampaignsResponse>;
+  S.Struct({ Item: S.optional(ListOfCampaignResponse), NextToken: S.optional(S.String) }),
+).annotate({ identifier: "CampaignsResponse" }) as any as S.Schema<CampaignsResponse>;
 export interface GetCampaignsResponse {
   CampaignsResponse: CampaignsResponse & {
     Item: (CampaignResponse & {
@@ -5313,9 +4722,7 @@ export interface GetCampaignsResponse {
       AdditionalTreatments: (TreatmentResource & {
         Id: string;
         SizePercent: number;
-        CustomDeliveryConfiguration: CustomDeliveryConfiguration & {
-          DeliveryUri: string;
-        };
+        CustomDeliveryConfiguration: CustomDeliveryConfiguration & { DeliveryUri: string };
         MessageConfiguration: MessageConfiguration & {
           InAppMessage: CampaignInAppMessage & {
             Content: (InAppMessageContent & {
@@ -5330,34 +4737,22 @@ export interface GetCampaignsResponse {
                 TextColor: string;
               };
               PrimaryBtn: InAppMessageButton & {
-                Android: OverrideButtonConfiguration & {
-                  ButtonAction: ButtonAction;
-                };
+                Android: OverrideButtonConfiguration & { ButtonAction: ButtonAction };
                 DefaultConfig: DefaultButtonConfiguration & {
                   ButtonAction: ButtonAction;
                   Text: string;
                 };
-                IOS: OverrideButtonConfiguration & {
-                  ButtonAction: ButtonAction;
-                };
-                Web: OverrideButtonConfiguration & {
-                  ButtonAction: ButtonAction;
-                };
+                IOS: OverrideButtonConfiguration & { ButtonAction: ButtonAction };
+                Web: OverrideButtonConfiguration & { ButtonAction: ButtonAction };
               };
               SecondaryBtn: InAppMessageButton & {
-                Android: OverrideButtonConfiguration & {
-                  ButtonAction: ButtonAction;
-                };
+                Android: OverrideButtonConfiguration & { ButtonAction: ButtonAction };
                 DefaultConfig: DefaultButtonConfiguration & {
                   ButtonAction: ButtonAction;
                   Text: string;
                 };
-                IOS: OverrideButtonConfiguration & {
-                  ButtonAction: ButtonAction;
-                };
-                Web: OverrideButtonConfiguration & {
-                  ButtonAction: ButtonAction;
-                };
+                IOS: OverrideButtonConfiguration & { ButtonAction: ButtonAction };
+                Web: OverrideButtonConfiguration & { ButtonAction: ButtonAction };
               };
             })[];
           };
@@ -5372,10 +4767,7 @@ export interface GetCampaignsResponse {
               EventType: SetDimension & { Values: ListOf__string };
               Metrics: {
                 [key: string]:
-                  | (MetricDimension & {
-                      ComparisonOperator: string;
-                      Value: number;
-                    })
+                  | (MetricDimension & { ComparisonOperator: string; Value: number })
                   | undefined;
               };
             };
@@ -5383,9 +4775,7 @@ export interface GetCampaignsResponse {
           };
         };
       })[];
-      CustomDeliveryConfiguration: CustomDeliveryConfiguration & {
-        DeliveryUri: string;
-      };
+      CustomDeliveryConfiguration: CustomDeliveryConfiguration & { DeliveryUri: string };
       MessageConfiguration: MessageConfiguration & {
         InAppMessage: CampaignInAppMessage & {
           Content: (InAppMessageContent & {
@@ -5400,9 +4790,7 @@ export interface GetCampaignsResponse {
               TextColor: string;
             };
             PrimaryBtn: InAppMessageButton & {
-              Android: OverrideButtonConfiguration & {
-                ButtonAction: ButtonAction;
-              };
+              Android: OverrideButtonConfiguration & { ButtonAction: ButtonAction };
               DefaultConfig: DefaultButtonConfiguration & {
                 ButtonAction: ButtonAction;
                 Text: string;
@@ -5411,9 +4799,7 @@ export interface GetCampaignsResponse {
               Web: OverrideButtonConfiguration & { ButtonAction: ButtonAction };
             };
             SecondaryBtn: InAppMessageButton & {
-              Android: OverrideButtonConfiguration & {
-                ButtonAction: ButtonAction;
-              };
+              Android: OverrideButtonConfiguration & { ButtonAction: ButtonAction };
               DefaultConfig: DefaultButtonConfiguration & {
                 ButtonAction: ButtonAction;
                 Text: string;
@@ -5434,10 +4820,7 @@ export interface GetCampaignsResponse {
             EventType: SetDimension & { Values: ListOf__string };
             Metrics: {
               [key: string]:
-                | (MetricDimension & {
-                    ComparisonOperator: string;
-                    Value: number;
-                  })
+                | (MetricDimension & { ComparisonOperator: string; Value: number })
                 | undefined;
             };
           };
@@ -5453,9 +4836,7 @@ export const GetCampaignsResponse = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.HttpPayload())
       .annotate({ identifier: "CampaignsResponse" }),
   }),
-).annotate({
-  identifier: "GetCampaignsResponse",
-}) as any as S.Schema<GetCampaignsResponse>;
+).annotate({ identifier: "GetCampaignsResponse" }) as any as S.Schema<GetCampaignsResponse>;
 export interface GetCampaignVersionRequest {
   ApplicationId: string;
   CampaignId: string;
@@ -5494,9 +4875,7 @@ export interface GetCampaignVersionResponse {
     AdditionalTreatments: (TreatmentResource & {
       Id: string;
       SizePercent: number;
-      CustomDeliveryConfiguration: CustomDeliveryConfiguration & {
-        DeliveryUri: string;
-      };
+      CustomDeliveryConfiguration: CustomDeliveryConfiguration & { DeliveryUri: string };
       MessageConfiguration: MessageConfiguration & {
         InAppMessage: CampaignInAppMessage & {
           Content: (InAppMessageContent & {
@@ -5511,9 +4890,7 @@ export interface GetCampaignVersionResponse {
               TextColor: string;
             };
             PrimaryBtn: InAppMessageButton & {
-              Android: OverrideButtonConfiguration & {
-                ButtonAction: ButtonAction;
-              };
+              Android: OverrideButtonConfiguration & { ButtonAction: ButtonAction };
               DefaultConfig: DefaultButtonConfiguration & {
                 ButtonAction: ButtonAction;
                 Text: string;
@@ -5522,9 +4899,7 @@ export interface GetCampaignVersionResponse {
               Web: OverrideButtonConfiguration & { ButtonAction: ButtonAction };
             };
             SecondaryBtn: InAppMessageButton & {
-              Android: OverrideButtonConfiguration & {
-                ButtonAction: ButtonAction;
-              };
+              Android: OverrideButtonConfiguration & { ButtonAction: ButtonAction };
               DefaultConfig: DefaultButtonConfiguration & {
                 ButtonAction: ButtonAction;
                 Text: string;
@@ -5545,10 +4920,7 @@ export interface GetCampaignVersionResponse {
             EventType: SetDimension & { Values: ListOf__string };
             Metrics: {
               [key: string]:
-                | (MetricDimension & {
-                    ComparisonOperator: string;
-                    Value: number;
-                  })
+                | (MetricDimension & { ComparisonOperator: string; Value: number })
                 | undefined;
             };
           };
@@ -5556,9 +4928,7 @@ export interface GetCampaignVersionResponse {
         };
       };
     })[];
-    CustomDeliveryConfiguration: CustomDeliveryConfiguration & {
-      DeliveryUri: string;
-    };
+    CustomDeliveryConfiguration: CustomDeliveryConfiguration & { DeliveryUri: string };
     MessageConfiguration: MessageConfiguration & {
       InAppMessage: CampaignInAppMessage & {
         Content: (InAppMessageContent & {
@@ -5573,9 +4943,7 @@ export interface GetCampaignVersionResponse {
             TextColor: string;
           };
           PrimaryBtn: InAppMessageButton & {
-            Android: OverrideButtonConfiguration & {
-              ButtonAction: ButtonAction;
-            };
+            Android: OverrideButtonConfiguration & { ButtonAction: ButtonAction };
             DefaultConfig: DefaultButtonConfiguration & {
               ButtonAction: ButtonAction;
               Text: string;
@@ -5584,9 +4952,7 @@ export interface GetCampaignVersionResponse {
             Web: OverrideButtonConfiguration & { ButtonAction: ButtonAction };
           };
           SecondaryBtn: InAppMessageButton & {
-            Android: OverrideButtonConfiguration & {
-              ButtonAction: ButtonAction;
-            };
+            Android: OverrideButtonConfiguration & { ButtonAction: ButtonAction };
             DefaultConfig: DefaultButtonConfiguration & {
               ButtonAction: ButtonAction;
               Text: string;
@@ -5607,10 +4973,7 @@ export interface GetCampaignVersionResponse {
           EventType: SetDimension & { Values: ListOf__string };
           Metrics: {
             [key: string]:
-              | (MetricDimension & {
-                  ComparisonOperator: string;
-                  Value: number;
-                })
+              | (MetricDimension & { ComparisonOperator: string; Value: number })
               | undefined;
           };
         };
@@ -5642,10 +5005,7 @@ export const GetCampaignVersionsRequest = /*@__PURE__*/ S.suspend(() =>
     Token: S.optional(S.String).pipe(T.HttpQuery("token")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/v1/apps/{ApplicationId}/campaigns/{CampaignId}/versions",
-      }),
+      T.Http({ method: "GET", uri: "/v1/apps/{ApplicationId}/campaigns/{CampaignId}/versions" }),
       svc,
       auth,
       proto,
@@ -5669,9 +5029,7 @@ export interface GetCampaignVersionsResponse {
       AdditionalTreatments: (TreatmentResource & {
         Id: string;
         SizePercent: number;
-        CustomDeliveryConfiguration: CustomDeliveryConfiguration & {
-          DeliveryUri: string;
-        };
+        CustomDeliveryConfiguration: CustomDeliveryConfiguration & { DeliveryUri: string };
         MessageConfiguration: MessageConfiguration & {
           InAppMessage: CampaignInAppMessage & {
             Content: (InAppMessageContent & {
@@ -5686,34 +5044,22 @@ export interface GetCampaignVersionsResponse {
                 TextColor: string;
               };
               PrimaryBtn: InAppMessageButton & {
-                Android: OverrideButtonConfiguration & {
-                  ButtonAction: ButtonAction;
-                };
+                Android: OverrideButtonConfiguration & { ButtonAction: ButtonAction };
                 DefaultConfig: DefaultButtonConfiguration & {
                   ButtonAction: ButtonAction;
                   Text: string;
                 };
-                IOS: OverrideButtonConfiguration & {
-                  ButtonAction: ButtonAction;
-                };
-                Web: OverrideButtonConfiguration & {
-                  ButtonAction: ButtonAction;
-                };
+                IOS: OverrideButtonConfiguration & { ButtonAction: ButtonAction };
+                Web: OverrideButtonConfiguration & { ButtonAction: ButtonAction };
               };
               SecondaryBtn: InAppMessageButton & {
-                Android: OverrideButtonConfiguration & {
-                  ButtonAction: ButtonAction;
-                };
+                Android: OverrideButtonConfiguration & { ButtonAction: ButtonAction };
                 DefaultConfig: DefaultButtonConfiguration & {
                   ButtonAction: ButtonAction;
                   Text: string;
                 };
-                IOS: OverrideButtonConfiguration & {
-                  ButtonAction: ButtonAction;
-                };
-                Web: OverrideButtonConfiguration & {
-                  ButtonAction: ButtonAction;
-                };
+                IOS: OverrideButtonConfiguration & { ButtonAction: ButtonAction };
+                Web: OverrideButtonConfiguration & { ButtonAction: ButtonAction };
               };
             })[];
           };
@@ -5728,10 +5074,7 @@ export interface GetCampaignVersionsResponse {
               EventType: SetDimension & { Values: ListOf__string };
               Metrics: {
                 [key: string]:
-                  | (MetricDimension & {
-                      ComparisonOperator: string;
-                      Value: number;
-                    })
+                  | (MetricDimension & { ComparisonOperator: string; Value: number })
                   | undefined;
               };
             };
@@ -5739,9 +5082,7 @@ export interface GetCampaignVersionsResponse {
           };
         };
       })[];
-      CustomDeliveryConfiguration: CustomDeliveryConfiguration & {
-        DeliveryUri: string;
-      };
+      CustomDeliveryConfiguration: CustomDeliveryConfiguration & { DeliveryUri: string };
       MessageConfiguration: MessageConfiguration & {
         InAppMessage: CampaignInAppMessage & {
           Content: (InAppMessageContent & {
@@ -5756,9 +5097,7 @@ export interface GetCampaignVersionsResponse {
               TextColor: string;
             };
             PrimaryBtn: InAppMessageButton & {
-              Android: OverrideButtonConfiguration & {
-                ButtonAction: ButtonAction;
-              };
+              Android: OverrideButtonConfiguration & { ButtonAction: ButtonAction };
               DefaultConfig: DefaultButtonConfiguration & {
                 ButtonAction: ButtonAction;
                 Text: string;
@@ -5767,9 +5106,7 @@ export interface GetCampaignVersionsResponse {
               Web: OverrideButtonConfiguration & { ButtonAction: ButtonAction };
             };
             SecondaryBtn: InAppMessageButton & {
-              Android: OverrideButtonConfiguration & {
-                ButtonAction: ButtonAction;
-              };
+              Android: OverrideButtonConfiguration & { ButtonAction: ButtonAction };
               DefaultConfig: DefaultButtonConfiguration & {
                 ButtonAction: ButtonAction;
                 Text: string;
@@ -5790,10 +5127,7 @@ export interface GetCampaignVersionsResponse {
             EventType: SetDimension & { Values: ListOf__string };
             Metrics: {
               [key: string]:
-                | (MetricDimension & {
-                    ComparisonOperator: string;
-                    Value: number;
-                  })
+                | (MetricDimension & { ComparisonOperator: string; Value: number })
                 | undefined;
             };
           };
@@ -5826,9 +5160,7 @@ export const GetChannelsRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetChannelsRequest",
-}) as any as S.Schema<GetChannelsRequest>;
+).annotate({ identifier: "GetChannelsRequest" }) as any as S.Schema<GetChannelsRequest>;
 export interface ChannelResponse {
   ApplicationId?: string;
   CreationDate?: string;
@@ -5852,12 +5184,8 @@ export const ChannelResponse = /*@__PURE__*/ S.suspend(() =>
     LastModifiedDate: S.optional(S.String),
     Version: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ChannelResponse",
-}) as any as S.Schema<ChannelResponse>;
-export type MapOfChannelResponse = {
-  [key: string]: ChannelResponse | undefined;
-};
+).annotate({ identifier: "ChannelResponse" }) as any as S.Schema<ChannelResponse>;
+export type MapOfChannelResponse = { [key: string]: ChannelResponse | undefined };
 export const MapOfChannelResponse = /*@__PURE__*/ S.Record(
   S.String,
   ChannelResponse.pipe(S.optional),
@@ -5867,9 +5195,7 @@ export interface ChannelsResponse {
 }
 export const ChannelsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Channels: S.optional(MapOfChannelResponse) }),
-).annotate({
-  identifier: "ChannelsResponse",
-}) as any as S.Schema<ChannelsResponse>;
+).annotate({ identifier: "ChannelsResponse" }) as any as S.Schema<ChannelsResponse>;
 export interface GetChannelsResponse {
   ChannelsResponse: ChannelsResponse & { Channels: MapOfChannelResponse };
 }
@@ -5879,9 +5205,7 @@ export const GetChannelsResponse = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.HttpPayload())
       .annotate({ identifier: "ChannelsResponse" }),
   }),
-).annotate({
-  identifier: "GetChannelsResponse",
-}) as any as S.Schema<GetChannelsResponse>;
+).annotate({ identifier: "GetChannelsResponse" }) as any as S.Schema<GetChannelsResponse>;
 export interface GetEmailChannelRequest {
   ApplicationId: string;
 }
@@ -5896,9 +5220,7 @@ export const GetEmailChannelRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetEmailChannelRequest",
-}) as any as S.Schema<GetEmailChannelRequest>;
+).annotate({ identifier: "GetEmailChannelRequest" }) as any as S.Schema<GetEmailChannelRequest>;
 export interface GetEmailChannelResponse {
   EmailChannelResponse: EmailChannelResponse & { Platform: string };
 }
@@ -5908,9 +5230,7 @@ export const GetEmailChannelResponse = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.HttpPayload())
       .annotate({ identifier: "EmailChannelResponse" }),
   }),
-).annotate({
-  identifier: "GetEmailChannelResponse",
-}) as any as S.Schema<GetEmailChannelResponse>;
+).annotate({ identifier: "GetEmailChannelResponse" }) as any as S.Schema<GetEmailChannelResponse>;
 export interface GetEmailTemplateRequest {
   TemplateName: string;
   Version?: string;
@@ -5929,9 +5249,7 @@ export const GetEmailTemplateRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetEmailTemplateRequest",
-}) as any as S.Schema<GetEmailTemplateRequest>;
+).annotate({ identifier: "GetEmailTemplateRequest" }) as any as S.Schema<GetEmailTemplateRequest>;
 export type TemplateType = "EMAIL" | "SMS" | "VOICE" | "PUSH" | "INAPP" | (string & {});
 export const TemplateType = S.String;
 
@@ -5968,9 +5286,7 @@ export const EmailTemplateResponse = /*@__PURE__*/ S.suspend(() =>
     TextPart: S.optional(S.String),
     Version: S.optional(S.String),
   }),
-).annotate({
-  identifier: "EmailTemplateResponse",
-}) as any as S.Schema<EmailTemplateResponse>;
+).annotate({ identifier: "EmailTemplateResponse" }) as any as S.Schema<EmailTemplateResponse>;
 export interface GetEmailTemplateResponse {
   EmailTemplateResponse: EmailTemplateResponse & {
     CreationDate: string;
@@ -5985,9 +5301,7 @@ export const GetEmailTemplateResponse = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.HttpPayload())
       .annotate({ identifier: "EmailTemplateResponse" }),
   }),
-).annotate({
-  identifier: "GetEmailTemplateResponse",
-}) as any as S.Schema<GetEmailTemplateResponse>;
+).annotate({ identifier: "GetEmailTemplateResponse" }) as any as S.Schema<GetEmailTemplateResponse>;
 export interface GetEndpointRequest {
   ApplicationId: string;
   EndpointId: string;
@@ -5998,10 +5312,7 @@ export const GetEndpointRequest = /*@__PURE__*/ S.suspend(() =>
     EndpointId: S.String.pipe(T.HttpLabel("EndpointId")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/v1/apps/{ApplicationId}/endpoints/{EndpointId}",
-      }),
+      T.Http({ method: "GET", uri: "/v1/apps/{ApplicationId}/endpoints/{EndpointId}" }),
       svc,
       auth,
       proto,
@@ -6009,9 +5320,7 @@ export const GetEndpointRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetEndpointRequest",
-}) as any as S.Schema<GetEndpointRequest>;
+).annotate({ identifier: "GetEndpointRequest" }) as any as S.Schema<GetEndpointRequest>;
 export interface GetEndpointResponse {
   EndpointResponse: EndpointResponse;
 }
@@ -6021,9 +5330,7 @@ export const GetEndpointResponse = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.HttpPayload())
       .annotate({ identifier: "EndpointResponse" }),
   }),
-).annotate({
-  identifier: "GetEndpointResponse",
-}) as any as S.Schema<GetEndpointResponse>;
+).annotate({ identifier: "GetEndpointResponse" }) as any as S.Schema<GetEndpointResponse>;
 export interface GetEventStreamRequest {
   ApplicationId: string;
 }
@@ -6038,9 +5345,7 @@ export const GetEventStreamRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetEventStreamRequest",
-}) as any as S.Schema<GetEventStreamRequest>;
+).annotate({ identifier: "GetEventStreamRequest" }) as any as S.Schema<GetEventStreamRequest>;
 export interface GetEventStreamResponse {
   EventStream: EventStream & {
     ApplicationId: string;
@@ -6054,9 +5359,7 @@ export const GetEventStreamResponse = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.HttpPayload())
       .annotate({ identifier: "EventStream" }),
   }),
-).annotate({
-  identifier: "GetEventStreamResponse",
-}) as any as S.Schema<GetEventStreamResponse>;
+).annotate({ identifier: "GetEventStreamResponse" }) as any as S.Schema<GetEventStreamResponse>;
 export interface GetExportJobRequest {
   ApplicationId: string;
   JobId: string;
@@ -6067,10 +5370,7 @@ export const GetExportJobRequest = /*@__PURE__*/ S.suspend(() =>
     JobId: S.String.pipe(T.HttpLabel("JobId")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/v1/apps/{ApplicationId}/jobs/export/{JobId}",
-      }),
+      T.Http({ method: "GET", uri: "/v1/apps/{ApplicationId}/jobs/export/{JobId}" }),
       svc,
       auth,
       proto,
@@ -6078,9 +5378,7 @@ export const GetExportJobRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetExportJobRequest",
-}) as any as S.Schema<GetExportJobRequest>;
+).annotate({ identifier: "GetExportJobRequest" }) as any as S.Schema<GetExportJobRequest>;
 export interface GetExportJobResponse {
   ExportJobResponse: ExportJobResponse & {
     ApplicationId: string;
@@ -6097,9 +5395,7 @@ export const GetExportJobResponse = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.HttpPayload())
       .annotate({ identifier: "ExportJobResponse" }),
   }),
-).annotate({
-  identifier: "GetExportJobResponse",
-}) as any as S.Schema<GetExportJobResponse>;
+).annotate({ identifier: "GetExportJobResponse" }) as any as S.Schema<GetExportJobResponse>;
 export interface GetExportJobsRequest {
   ApplicationId: string;
   PageSize?: string;
@@ -6120,9 +5416,7 @@ export const GetExportJobsRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetExportJobsRequest",
-}) as any as S.Schema<GetExportJobsRequest>;
+).annotate({ identifier: "GetExportJobsRequest" }) as any as S.Schema<GetExportJobsRequest>;
 export type ListOfExportJobResponse = ExportJobResponse[];
 export const ListOfExportJobResponse = /*@__PURE__*/ S.Array(ExportJobResponse);
 export interface ExportJobsResponse {
@@ -6130,13 +5424,8 @@ export interface ExportJobsResponse {
   NextToken?: string;
 }
 export const ExportJobsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Item: S.optional(ListOfExportJobResponse),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ExportJobsResponse",
-}) as any as S.Schema<ExportJobsResponse>;
+  S.Struct({ Item: S.optional(ListOfExportJobResponse), NextToken: S.optional(S.String) }),
+).annotate({ identifier: "ExportJobsResponse" }) as any as S.Schema<ExportJobsResponse>;
 export interface GetExportJobsResponse {
   ExportJobsResponse: ExportJobsResponse & {
     Item: (ExportJobResponse & {
@@ -6155,9 +5444,7 @@ export const GetExportJobsResponse = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.HttpPayload())
       .annotate({ identifier: "ExportJobsResponse" }),
   }),
-).annotate({
-  identifier: "GetExportJobsResponse",
-}) as any as S.Schema<GetExportJobsResponse>;
+).annotate({ identifier: "GetExportJobsResponse" }) as any as S.Schema<GetExportJobsResponse>;
 export interface GetGcmChannelRequest {
   ApplicationId: string;
 }
@@ -6172,9 +5459,7 @@ export const GetGcmChannelRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetGcmChannelRequest",
-}) as any as S.Schema<GetGcmChannelRequest>;
+).annotate({ identifier: "GetGcmChannelRequest" }) as any as S.Schema<GetGcmChannelRequest>;
 export interface GetGcmChannelResponse {
   GCMChannelResponse: GCMChannelResponse & { Platform: string };
 }
@@ -6184,9 +5469,7 @@ export const GetGcmChannelResponse = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.HttpPayload())
       .annotate({ identifier: "GCMChannelResponse" }),
   }),
-).annotate({
-  identifier: "GetGcmChannelResponse",
-}) as any as S.Schema<GetGcmChannelResponse>;
+).annotate({ identifier: "GetGcmChannelResponse" }) as any as S.Schema<GetGcmChannelResponse>;
 export interface GetImportJobRequest {
   ApplicationId: string;
   JobId: string;
@@ -6197,10 +5480,7 @@ export const GetImportJobRequest = /*@__PURE__*/ S.suspend(() =>
     JobId: S.String.pipe(T.HttpLabel("JobId")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/v1/apps/{ApplicationId}/jobs/import/{JobId}",
-      }),
+      T.Http({ method: "GET", uri: "/v1/apps/{ApplicationId}/jobs/import/{JobId}" }),
       svc,
       auth,
       proto,
@@ -6208,18 +5488,12 @@ export const GetImportJobRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetImportJobRequest",
-}) as any as S.Schema<GetImportJobRequest>;
+).annotate({ identifier: "GetImportJobRequest" }) as any as S.Schema<GetImportJobRequest>;
 export interface GetImportJobResponse {
   ImportJobResponse: ImportJobResponse & {
     ApplicationId: string;
     CreationDate: string;
-    Definition: ImportJobResource & {
-      Format: Format;
-      RoleArn: string;
-      S3Url: string;
-    };
+    Definition: ImportJobResource & { Format: Format; RoleArn: string; S3Url: string };
     Id: string;
     JobStatus: JobStatus;
     Type: string;
@@ -6231,9 +5505,7 @@ export const GetImportJobResponse = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.HttpPayload())
       .annotate({ identifier: "ImportJobResponse" }),
   }),
-).annotate({
-  identifier: "GetImportJobResponse",
-}) as any as S.Schema<GetImportJobResponse>;
+).annotate({ identifier: "GetImportJobResponse" }) as any as S.Schema<GetImportJobResponse>;
 export interface GetImportJobsRequest {
   ApplicationId: string;
   PageSize?: string;
@@ -6254,9 +5526,7 @@ export const GetImportJobsRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetImportJobsRequest",
-}) as any as S.Schema<GetImportJobsRequest>;
+).annotate({ identifier: "GetImportJobsRequest" }) as any as S.Schema<GetImportJobsRequest>;
 export type ListOfImportJobResponse = ImportJobResponse[];
 export const ListOfImportJobResponse = /*@__PURE__*/ S.Array(ImportJobResponse);
 export interface ImportJobsResponse {
@@ -6264,23 +5534,14 @@ export interface ImportJobsResponse {
   NextToken?: string;
 }
 export const ImportJobsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Item: S.optional(ListOfImportJobResponse),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ImportJobsResponse",
-}) as any as S.Schema<ImportJobsResponse>;
+  S.Struct({ Item: S.optional(ListOfImportJobResponse), NextToken: S.optional(S.String) }),
+).annotate({ identifier: "ImportJobsResponse" }) as any as S.Schema<ImportJobsResponse>;
 export interface GetImportJobsResponse {
   ImportJobsResponse: ImportJobsResponse & {
     Item: (ImportJobResponse & {
       ApplicationId: string;
       CreationDate: string;
-      Definition: ImportJobResource & {
-        Format: Format;
-        RoleArn: string;
-        S3Url: string;
-      };
+      Definition: ImportJobResource & { Format: Format; RoleArn: string; S3Url: string };
       Id: string;
       JobStatus: JobStatus;
       Type: string;
@@ -6293,9 +5554,7 @@ export const GetImportJobsResponse = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.HttpPayload())
       .annotate({ identifier: "ImportJobsResponse" }),
   }),
-).annotate({
-  identifier: "GetImportJobsResponse",
-}) as any as S.Schema<GetImportJobsResponse>;
+).annotate({ identifier: "GetImportJobsResponse" }) as any as S.Schema<GetImportJobsResponse>;
 export interface GetInAppMessagesRequest {
   ApplicationId: string;
   EndpointId: string;
@@ -6317,9 +5576,7 @@ export const GetInAppMessagesRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetInAppMessagesRequest",
-}) as any as S.Schema<GetInAppMessagesRequest>;
+).annotate({ identifier: "GetInAppMessagesRequest" }) as any as S.Schema<GetInAppMessagesRequest>;
 export interface InAppMessage {
   Content?: InAppMessageContent[];
   CustomConfig?: { [key: string]: string | undefined };
@@ -6343,9 +5600,7 @@ export const InAppCampaignSchedule = /*@__PURE__*/ S.suspend(() =>
     EventFilter: S.optional(CampaignEventFilter),
     QuietTime: S.optional(QuietTime),
   }),
-).annotate({
-  identifier: "InAppCampaignSchedule",
-}) as any as S.Schema<InAppCampaignSchedule>;
+).annotate({ identifier: "InAppCampaignSchedule" }) as any as S.Schema<InAppCampaignSchedule>;
 export interface InAppMessageCampaign {
   CampaignId?: string;
   DailyCap?: number;
@@ -6367,9 +5622,7 @@ export const InAppMessageCampaign = /*@__PURE__*/ S.suspend(() =>
     TotalCap: S.optional(S.Number),
     TreatmentId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "InAppMessageCampaign",
-}) as any as S.Schema<InAppMessageCampaign>;
+).annotate({ identifier: "InAppMessageCampaign" }) as any as S.Schema<InAppMessageCampaign>;
 export type ListOfInAppMessageCampaign = InAppMessageCampaign[];
 export const ListOfInAppMessageCampaign = /*@__PURE__*/ S.Array(InAppMessageCampaign);
 export interface InAppMessagesResponse {
@@ -6377,9 +5630,7 @@ export interface InAppMessagesResponse {
 }
 export const InAppMessagesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ InAppMessageCampaigns: S.optional(ListOfInAppMessageCampaign) }),
-).annotate({
-  identifier: "InAppMessagesResponse",
-}) as any as S.Schema<InAppMessagesResponse>;
+).annotate({ identifier: "InAppMessagesResponse" }) as any as S.Schema<InAppMessagesResponse>;
 export interface GetInAppMessagesResponse {
   InAppMessagesResponse: InAppMessagesResponse & {
     InAppMessageCampaigns: (InAppMessageCampaign & {
@@ -6396,9 +5647,7 @@ export interface GetInAppMessagesResponse {
             TextColor: string;
           };
           PrimaryBtn: InAppMessageButton & {
-            Android: OverrideButtonConfiguration & {
-              ButtonAction: ButtonAction;
-            };
+            Android: OverrideButtonConfiguration & { ButtonAction: ButtonAction };
             DefaultConfig: DefaultButtonConfiguration & {
               ButtonAction: ButtonAction;
               Text: string;
@@ -6407,9 +5656,7 @@ export interface GetInAppMessagesResponse {
             Web: OverrideButtonConfiguration & { ButtonAction: ButtonAction };
           };
           SecondaryBtn: InAppMessageButton & {
-            Android: OverrideButtonConfiguration & {
-              ButtonAction: ButtonAction;
-            };
+            Android: OverrideButtonConfiguration & { ButtonAction: ButtonAction };
             DefaultConfig: DefaultButtonConfiguration & {
               ButtonAction: ButtonAction;
               Text: string;
@@ -6428,10 +5675,7 @@ export interface GetInAppMessagesResponse {
             EventType: SetDimension & { Values: ListOf__string };
             Metrics: {
               [key: string]:
-                | (MetricDimension & {
-                    ComparisonOperator: string;
-                    Value: number;
-                  })
+                | (MetricDimension & { ComparisonOperator: string; Value: number })
                 | undefined;
             };
           };
@@ -6447,9 +5691,7 @@ export const GetInAppMessagesResponse = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.HttpPayload())
       .annotate({ identifier: "InAppMessagesResponse" }),
   }),
-).annotate({
-  identifier: "GetInAppMessagesResponse",
-}) as any as S.Schema<GetInAppMessagesResponse>;
+).annotate({ identifier: "GetInAppMessagesResponse" }) as any as S.Schema<GetInAppMessagesResponse>;
 export interface GetInAppTemplateRequest {
   TemplateName: string;
   Version?: string;
@@ -6468,9 +5710,7 @@ export const GetInAppTemplateRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetInAppTemplateRequest",
-}) as any as S.Schema<GetInAppTemplateRequest>;
+).annotate({ identifier: "GetInAppTemplateRequest" }) as any as S.Schema<GetInAppTemplateRequest>;
 export interface InAppTemplateResponse {
   Arn?: string;
   Content?: InAppMessageContent[];
@@ -6498,9 +5738,7 @@ export const InAppTemplateResponse = /*@__PURE__*/ S.suspend(() =>
     TemplateType: S.optional(TemplateType),
     Version: S.optional(S.String),
   }),
-).annotate({
-  identifier: "InAppTemplateResponse",
-}) as any as S.Schema<InAppTemplateResponse>;
+).annotate({ identifier: "InAppTemplateResponse" }) as any as S.Schema<InAppTemplateResponse>;
 export interface GetInAppTemplateResponse {
   InAppTemplateResponse: InAppTemplateResponse & {
     CreationDate: string;
@@ -6520,19 +5758,13 @@ export interface GetInAppTemplateResponse {
       };
       PrimaryBtn: InAppMessageButton & {
         Android: OverrideButtonConfiguration & { ButtonAction: ButtonAction };
-        DefaultConfig: DefaultButtonConfiguration & {
-          ButtonAction: ButtonAction;
-          Text: string;
-        };
+        DefaultConfig: DefaultButtonConfiguration & { ButtonAction: ButtonAction; Text: string };
         IOS: OverrideButtonConfiguration & { ButtonAction: ButtonAction };
         Web: OverrideButtonConfiguration & { ButtonAction: ButtonAction };
       };
       SecondaryBtn: InAppMessageButton & {
         Android: OverrideButtonConfiguration & { ButtonAction: ButtonAction };
-        DefaultConfig: DefaultButtonConfiguration & {
-          ButtonAction: ButtonAction;
-          Text: string;
-        };
+        DefaultConfig: DefaultButtonConfiguration & { ButtonAction: ButtonAction; Text: string };
         IOS: OverrideButtonConfiguration & { ButtonAction: ButtonAction };
         Web: OverrideButtonConfiguration & { ButtonAction: ButtonAction };
       };
@@ -6545,9 +5777,7 @@ export const GetInAppTemplateResponse = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.HttpPayload())
       .annotate({ identifier: "InAppTemplateResponse" }),
   }),
-).annotate({
-  identifier: "GetInAppTemplateResponse",
-}) as any as S.Schema<GetInAppTemplateResponse>;
+).annotate({ identifier: "GetInAppTemplateResponse" }) as any as S.Schema<GetInAppTemplateResponse>;
 export interface GetJourneyRequest {
   ApplicationId: string;
   JourneyId: string;
@@ -6558,10 +5788,7 @@ export const GetJourneyRequest = /*@__PURE__*/ S.suspend(() =>
     JourneyId: S.String.pipe(T.HttpLabel("JourneyId")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/v1/apps/{ApplicationId}/journeys/{JourneyId}",
-      }),
+      T.Http({ method: "GET", uri: "/v1/apps/{ApplicationId}/journeys/{JourneyId}" }),
       svc,
       auth,
       proto,
@@ -6569,9 +5796,7 @@ export const GetJourneyRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetJourneyRequest",
-}) as any as S.Schema<GetJourneyRequest>;
+).annotate({ identifier: "GetJourneyRequest" }) as any as S.Schema<GetJourneyRequest>;
 export interface GetJourneyResponse {
   JourneyResponse: JourneyResponse & {
     ApplicationId: string;
@@ -6593,10 +5818,7 @@ export interface GetJourneyResponse {
                       EventType: SetDimension & { Values: ListOf__string };
                       Metrics: {
                         [key: string]:
-                          | (MetricDimension & {
-                              ComparisonOperator: string;
-                              Value: number;
-                            })
+                          | (MetricDimension & { ComparisonOperator: string; Value: number })
                           | undefined;
                       };
                     };
@@ -6607,10 +5829,7 @@ export interface GetJourneyResponse {
                       [key: string]: (AttributeDimension & { Values: ListOf__string }) | undefined;
                     };
                     Behavior: SegmentBehaviors & {
-                      Recency: RecencyDimension & {
-                        Duration: Duration;
-                        RecencyType: RecencyType;
-                      };
+                      Recency: RecencyDimension & { Duration: Duration; RecencyType: RecencyType };
                     };
                     Demographic: SegmentDemographics & {
                       AppVersion: SetDimension & { Values: ListOf__string };
@@ -6623,18 +5842,12 @@ export interface GetJourneyResponse {
                     Location: SegmentLocation & {
                       Country: SetDimension & { Values: ListOf__string };
                       GPSPoint: GPSPointDimension & {
-                        Coordinates: GPSCoordinates & {
-                          Latitude: number;
-                          Longitude: number;
-                        };
+                        Coordinates: GPSCoordinates & { Latitude: number; Longitude: number };
                       };
                     };
                     Metrics: {
                       [key: string]:
-                        | (MetricDimension & {
-                            ComparisonOperator: string;
-                            Value: number;
-                          })
+                        | (MetricDimension & { ComparisonOperator: string; Value: number })
                         | undefined;
                     };
                     UserAttributes: {
@@ -6658,10 +5871,7 @@ export interface GetJourneyResponse {
                       EventType: SetDimension & { Values: ListOf__string };
                       Metrics: {
                         [key: string]:
-                          | (MetricDimension & {
-                              ComparisonOperator: string;
-                              Value: number;
-                            })
+                          | (MetricDimension & { ComparisonOperator: string; Value: number })
                           | undefined;
                       };
                     };
@@ -6672,10 +5882,7 @@ export interface GetJourneyResponse {
                       [key: string]: (AttributeDimension & { Values: ListOf__string }) | undefined;
                     };
                     Behavior: SegmentBehaviors & {
-                      Recency: RecencyDimension & {
-                        Duration: Duration;
-                        RecencyType: RecencyType;
-                      };
+                      Recency: RecencyDimension & { Duration: Duration; RecencyType: RecencyType };
                     };
                     Demographic: SegmentDemographics & {
                       AppVersion: SetDimension & { Values: ListOf__string };
@@ -6688,18 +5895,12 @@ export interface GetJourneyResponse {
                     Location: SegmentLocation & {
                       Country: SetDimension & { Values: ListOf__string };
                       GPSPoint: GPSPointDimension & {
-                        Coordinates: GPSCoordinates & {
-                          Latitude: number;
-                          Longitude: number;
-                        };
+                        Coordinates: GPSCoordinates & { Latitude: number; Longitude: number };
                       };
                     };
                     Metrics: {
                       [key: string]:
-                        | (MetricDimension & {
-                            ComparisonOperator: string;
-                            Value: number;
-                          })
+                        | (MetricDimension & { ComparisonOperator: string; Value: number })
                         | undefined;
                     };
                     UserAttributes: {
@@ -6722,10 +5923,7 @@ export interface GetJourneyResponse {
             EventType: SetDimension & { Values: ListOf__string };
             Metrics: {
               [key: string]:
-                | (MetricDimension & {
-                    ComparisonOperator: string;
-                    Value: number;
-                  })
+                | (MetricDimension & { ComparisonOperator: string; Value: number })
                 | undefined;
             };
           };
@@ -6742,9 +5940,7 @@ export const GetJourneyResponse = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.HttpPayload())
       .annotate({ identifier: "JourneyResponse" }),
   }),
-).annotate({
-  identifier: "GetJourneyResponse",
-}) as any as S.Schema<GetJourneyResponse>;
+).annotate({ identifier: "GetJourneyResponse" }) as any as S.Schema<GetJourneyResponse>;
 export interface GetJourneyDateRangeKpiRequest {
   ApplicationId: string;
   EndTime?: Date;
@@ -6813,16 +6009,8 @@ export interface GetJourneyDateRangeKpiResponse {
     KpiName: string;
     KpiResult: BaseKpiResult & {
       Rows: (ResultRow & {
-        GroupedBys: (ResultRowValue & {
-          Key: string;
-          Type: string;
-          Value: string;
-        })[];
-        Values: (ResultRowValue & {
-          Key: string;
-          Type: string;
-          Value: string;
-        })[];
+        GroupedBys: (ResultRowValue & { Key: string; Type: string; Value: string })[];
+        Values: (ResultRowValue & { Key: string; Type: string; Value: string })[];
       })[];
     };
     StartTime: __timestampIso8601;
@@ -7123,10 +6311,7 @@ export const GetJourneyRunsRequest = /*@__PURE__*/ S.suspend(() =>
     Token: S.optional(S.String).pipe(T.HttpQuery("token")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/v1/apps/{ApplicationId}/journeys/{JourneyId}/runs",
-      }),
+      T.Http({ method: "GET", uri: "/v1/apps/{ApplicationId}/journeys/{JourneyId}/runs" }),
       svc,
       auth,
       proto,
@@ -7134,9 +6319,7 @@ export const GetJourneyRunsRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetJourneyRunsRequest",
-}) as any as S.Schema<GetJourneyRunsRequest>;
+).annotate({ identifier: "GetJourneyRunsRequest" }) as any as S.Schema<GetJourneyRunsRequest>;
 export type JourneyRunStatus = "SCHEDULED" | "RUNNING" | "COMPLETED" | "CANCELLED" | (string & {});
 export const JourneyRunStatus = S.String;
 
@@ -7153,9 +6336,7 @@ export const JourneyRunResponse = /*@__PURE__*/ S.suspend(() =>
     RunId: S.optional(S.String),
     Status: S.optional(JourneyRunStatus),
   }),
-).annotate({
-  identifier: "JourneyRunResponse",
-}) as any as S.Schema<JourneyRunResponse>;
+).annotate({ identifier: "JourneyRunResponse" }) as any as S.Schema<JourneyRunResponse>;
 export type ListOfJourneyRunResponse = JourneyRunResponse[];
 export const ListOfJourneyRunResponse = /*@__PURE__*/ S.Array(JourneyRunResponse);
 export interface JourneyRunsResponse {
@@ -7163,13 +6344,8 @@ export interface JourneyRunsResponse {
   NextToken?: string;
 }
 export const JourneyRunsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Item: S.optional(ListOfJourneyRunResponse),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "JourneyRunsResponse",
-}) as any as S.Schema<JourneyRunsResponse>;
+  S.Struct({ Item: S.optional(ListOfJourneyRunResponse), NextToken: S.optional(S.String) }),
+).annotate({ identifier: "JourneyRunsResponse" }) as any as S.Schema<JourneyRunsResponse>;
 export interface GetJourneyRunsResponse {
   JourneyRunsResponse: JourneyRunsResponse & {
     Item: (JourneyRunResponse & {
@@ -7186,9 +6362,7 @@ export const GetJourneyRunsResponse = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.HttpPayload())
       .annotate({ identifier: "JourneyRunsResponse" }),
   }),
-).annotate({
-  identifier: "GetJourneyRunsResponse",
-}) as any as S.Schema<GetJourneyRunsResponse>;
+).annotate({ identifier: "GetJourneyRunsResponse" }) as any as S.Schema<GetJourneyRunsResponse>;
 export interface GetPushTemplateRequest {
   TemplateName: string;
   Version?: string;
@@ -7207,9 +6381,7 @@ export const GetPushTemplateRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetPushTemplateRequest",
-}) as any as S.Schema<GetPushTemplateRequest>;
+).annotate({ identifier: "GetPushTemplateRequest" }) as any as S.Schema<GetPushTemplateRequest>;
 export interface PushNotificationTemplateResponse {
   ADM?: AndroidPushNotificationTemplate;
   APNS?: APNSPushNotificationTemplate;
@@ -7262,9 +6434,7 @@ export const GetPushTemplateResponse = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.HttpPayload())
       .annotate({ identifier: "PushNotificationTemplateResponse" }),
   }),
-).annotate({
-  identifier: "GetPushTemplateResponse",
-}) as any as S.Schema<GetPushTemplateResponse>;
+).annotate({ identifier: "GetPushTemplateResponse" }) as any as S.Schema<GetPushTemplateResponse>;
 export interface GetRecommenderConfigurationRequest {
   RecommenderId: string;
 }
@@ -7358,10 +6528,7 @@ export const GetSegmentRequest = /*@__PURE__*/ S.suspend(() =>
     SegmentId: S.String.pipe(T.HttpLabel("SegmentId")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/v1/apps/{ApplicationId}/segments/{SegmentId}",
-      }),
+      T.Http({ method: "GET", uri: "/v1/apps/{ApplicationId}/segments/{SegmentId}" }),
       svc,
       auth,
       proto,
@@ -7369,9 +6536,7 @@ export const GetSegmentRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetSegmentRequest",
-}) as any as S.Schema<GetSegmentRequest>;
+).annotate({ identifier: "GetSegmentRequest" }) as any as S.Schema<GetSegmentRequest>;
 export interface GetSegmentResponse {
   SegmentResponse: SegmentResponse & {
     ApplicationId: string;
@@ -7380,14 +6545,9 @@ export interface GetSegmentResponse {
     Id: string;
     SegmentType: SegmentType;
     Dimensions: SegmentDimensions & {
-      Attributes: {
-        [key: string]: (AttributeDimension & { Values: ListOf__string }) | undefined;
-      };
+      Attributes: { [key: string]: (AttributeDimension & { Values: ListOf__string }) | undefined };
       Behavior: SegmentBehaviors & {
-        Recency: RecencyDimension & {
-          Duration: Duration;
-          RecencyType: RecencyType;
-        };
+        Recency: RecencyDimension & { Duration: Duration; RecencyType: RecencyType };
       };
       Demographic: SegmentDemographics & {
         AppVersion: SetDimension & { Values: ListOf__string };
@@ -7426,10 +6586,7 @@ export interface GetSegmentResponse {
             [key: string]: (AttributeDimension & { Values: ListOf__string }) | undefined;
           };
           Behavior: SegmentBehaviors & {
-            Recency: RecencyDimension & {
-              Duration: Duration;
-              RecencyType: RecencyType;
-            };
+            Recency: RecencyDimension & { Duration: Duration; RecencyType: RecencyType };
           };
           Demographic: SegmentDemographics & {
             AppVersion: SetDimension & { Values: ListOf__string };
@@ -7442,18 +6599,12 @@ export interface GetSegmentResponse {
           Location: SegmentLocation & {
             Country: SetDimension & { Values: ListOf__string };
             GPSPoint: GPSPointDimension & {
-              Coordinates: GPSCoordinates & {
-                Latitude: number;
-                Longitude: number;
-              };
+              Coordinates: GPSCoordinates & { Latitude: number; Longitude: number };
             };
           };
           Metrics: {
             [key: string]:
-              | (MetricDimension & {
-                  ComparisonOperator: string;
-                  Value: number;
-                })
+              | (MetricDimension & { ComparisonOperator: string; Value: number })
               | undefined;
           };
           UserAttributes: {
@@ -7471,9 +6622,7 @@ export const GetSegmentResponse = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.HttpPayload())
       .annotate({ identifier: "SegmentResponse" }),
   }),
-).annotate({
-  identifier: "GetSegmentResponse",
-}) as any as S.Schema<GetSegmentResponse>;
+).annotate({ identifier: "GetSegmentResponse" }) as any as S.Schema<GetSegmentResponse>;
 export interface GetSegmentExportJobsRequest {
   ApplicationId: string;
   PageSize?: string;
@@ -7488,10 +6637,7 @@ export const GetSegmentExportJobsRequest = /*@__PURE__*/ S.suspend(() =>
     Token: S.optional(S.String).pipe(T.HttpQuery("token")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/v1/apps/{ApplicationId}/segments/{SegmentId}/jobs/export",
-      }),
+      T.Http({ method: "GET", uri: "/v1/apps/{ApplicationId}/segments/{SegmentId}/jobs/export" }),
       svc,
       auth,
       proto,
@@ -7537,10 +6683,7 @@ export const GetSegmentImportJobsRequest = /*@__PURE__*/ S.suspend(() =>
     Token: S.optional(S.String).pipe(T.HttpQuery("token")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/v1/apps/{ApplicationId}/segments/{SegmentId}/jobs/import",
-      }),
+      T.Http({ method: "GET", uri: "/v1/apps/{ApplicationId}/segments/{SegmentId}/jobs/import" }),
       svc,
       auth,
       proto,
@@ -7556,11 +6699,7 @@ export interface GetSegmentImportJobsResponse {
     Item: (ImportJobResponse & {
       ApplicationId: string;
       CreationDate: string;
-      Definition: ImportJobResource & {
-        Format: Format;
-        RoleArn: string;
-        S3Url: string;
-      };
+      Definition: ImportJobResource & { Format: Format; RoleArn: string; S3Url: string };
       Id: string;
       JobStatus: JobStatus;
       Type: string;
@@ -7596,9 +6735,7 @@ export const GetSegmentsRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetSegmentsRequest",
-}) as any as S.Schema<GetSegmentsRequest>;
+).annotate({ identifier: "GetSegmentsRequest" }) as any as S.Schema<GetSegmentsRequest>;
 export type ListOfSegmentResponse = SegmentResponse[];
 export const ListOfSegmentResponse = /*@__PURE__*/ S.Array(SegmentResponse);
 export interface SegmentsResponse {
@@ -7606,13 +6743,8 @@ export interface SegmentsResponse {
   NextToken?: string;
 }
 export const SegmentsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Item: S.optional(ListOfSegmentResponse),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "SegmentsResponse",
-}) as any as S.Schema<SegmentsResponse>;
+  S.Struct({ Item: S.optional(ListOfSegmentResponse), NextToken: S.optional(S.String) }),
+).annotate({ identifier: "SegmentsResponse" }) as any as S.Schema<SegmentsResponse>;
 export interface GetSegmentsResponse {
   SegmentsResponse: SegmentsResponse & {
     Item: (SegmentResponse & {
@@ -7626,10 +6758,7 @@ export interface GetSegmentsResponse {
           [key: string]: (AttributeDimension & { Values: ListOf__string }) | undefined;
         };
         Behavior: SegmentBehaviors & {
-          Recency: RecencyDimension & {
-            Duration: Duration;
-            RecencyType: RecencyType;
-          };
+          Recency: RecencyDimension & { Duration: Duration; RecencyType: RecencyType };
         };
         Demographic: SegmentDemographics & {
           AppVersion: SetDimension & { Values: ListOf__string };
@@ -7642,10 +6771,7 @@ export interface GetSegmentsResponse {
         Location: SegmentLocation & {
           Country: SetDimension & { Values: ListOf__string };
           GPSPoint: GPSPointDimension & {
-            Coordinates: GPSCoordinates & {
-              Latitude: number;
-              Longitude: number;
-            };
+            Coordinates: GPSCoordinates & { Latitude: number; Longitude: number };
           };
         };
         Metrics: {
@@ -7671,10 +6797,7 @@ export interface GetSegmentsResponse {
               [key: string]: (AttributeDimension & { Values: ListOf__string }) | undefined;
             };
             Behavior: SegmentBehaviors & {
-              Recency: RecencyDimension & {
-                Duration: Duration;
-                RecencyType: RecencyType;
-              };
+              Recency: RecencyDimension & { Duration: Duration; RecencyType: RecencyType };
             };
             Demographic: SegmentDemographics & {
               AppVersion: SetDimension & { Values: ListOf__string };
@@ -7687,18 +6810,12 @@ export interface GetSegmentsResponse {
             Location: SegmentLocation & {
               Country: SetDimension & { Values: ListOf__string };
               GPSPoint: GPSPointDimension & {
-                Coordinates: GPSCoordinates & {
-                  Latitude: number;
-                  Longitude: number;
-                };
+                Coordinates: GPSCoordinates & { Latitude: number; Longitude: number };
               };
             };
             Metrics: {
               [key: string]:
-                | (MetricDimension & {
-                    ComparisonOperator: string;
-                    Value: number;
-                  })
+                | (MetricDimension & { ComparisonOperator: string; Value: number })
                 | undefined;
             };
             UserAttributes: {
@@ -7717,9 +6834,7 @@ export const GetSegmentsResponse = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.HttpPayload())
       .annotate({ identifier: "SegmentsResponse" }),
   }),
-).annotate({
-  identifier: "GetSegmentsResponse",
-}) as any as S.Schema<GetSegmentsResponse>;
+).annotate({ identifier: "GetSegmentsResponse" }) as any as S.Schema<GetSegmentsResponse>;
 export interface GetSegmentVersionRequest {
   ApplicationId: string;
   SegmentId: string;
@@ -7743,9 +6858,7 @@ export const GetSegmentVersionRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetSegmentVersionRequest",
-}) as any as S.Schema<GetSegmentVersionRequest>;
+).annotate({ identifier: "GetSegmentVersionRequest" }) as any as S.Schema<GetSegmentVersionRequest>;
 export interface GetSegmentVersionResponse {
   SegmentResponse: SegmentResponse & {
     ApplicationId: string;
@@ -7754,14 +6867,9 @@ export interface GetSegmentVersionResponse {
     Id: string;
     SegmentType: SegmentType;
     Dimensions: SegmentDimensions & {
-      Attributes: {
-        [key: string]: (AttributeDimension & { Values: ListOf__string }) | undefined;
-      };
+      Attributes: { [key: string]: (AttributeDimension & { Values: ListOf__string }) | undefined };
       Behavior: SegmentBehaviors & {
-        Recency: RecencyDimension & {
-          Duration: Duration;
-          RecencyType: RecencyType;
-        };
+        Recency: RecencyDimension & { Duration: Duration; RecencyType: RecencyType };
       };
       Demographic: SegmentDemographics & {
         AppVersion: SetDimension & { Values: ListOf__string };
@@ -7800,10 +6908,7 @@ export interface GetSegmentVersionResponse {
             [key: string]: (AttributeDimension & { Values: ListOf__string }) | undefined;
           };
           Behavior: SegmentBehaviors & {
-            Recency: RecencyDimension & {
-              Duration: Duration;
-              RecencyType: RecencyType;
-            };
+            Recency: RecencyDimension & { Duration: Duration; RecencyType: RecencyType };
           };
           Demographic: SegmentDemographics & {
             AppVersion: SetDimension & { Values: ListOf__string };
@@ -7816,18 +6921,12 @@ export interface GetSegmentVersionResponse {
           Location: SegmentLocation & {
             Country: SetDimension & { Values: ListOf__string };
             GPSPoint: GPSPointDimension & {
-              Coordinates: GPSCoordinates & {
-                Latitude: number;
-                Longitude: number;
-              };
+              Coordinates: GPSCoordinates & { Latitude: number; Longitude: number };
             };
           };
           Metrics: {
             [key: string]:
-              | (MetricDimension & {
-                  ComparisonOperator: string;
-                  Value: number;
-                })
+              | (MetricDimension & { ComparisonOperator: string; Value: number })
               | undefined;
           };
           UserAttributes: {
@@ -7862,10 +6961,7 @@ export const GetSegmentVersionsRequest = /*@__PURE__*/ S.suspend(() =>
     Token: S.optional(S.String).pipe(T.HttpQuery("token")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/v1/apps/{ApplicationId}/segments/{SegmentId}/versions",
-      }),
+      T.Http({ method: "GET", uri: "/v1/apps/{ApplicationId}/segments/{SegmentId}/versions" }),
       svc,
       auth,
       proto,
@@ -7889,10 +6985,7 @@ export interface GetSegmentVersionsResponse {
           [key: string]: (AttributeDimension & { Values: ListOf__string }) | undefined;
         };
         Behavior: SegmentBehaviors & {
-          Recency: RecencyDimension & {
-            Duration: Duration;
-            RecencyType: RecencyType;
-          };
+          Recency: RecencyDimension & { Duration: Duration; RecencyType: RecencyType };
         };
         Demographic: SegmentDemographics & {
           AppVersion: SetDimension & { Values: ListOf__string };
@@ -7905,10 +6998,7 @@ export interface GetSegmentVersionsResponse {
         Location: SegmentLocation & {
           Country: SetDimension & { Values: ListOf__string };
           GPSPoint: GPSPointDimension & {
-            Coordinates: GPSCoordinates & {
-              Latitude: number;
-              Longitude: number;
-            };
+            Coordinates: GPSCoordinates & { Latitude: number; Longitude: number };
           };
         };
         Metrics: {
@@ -7934,10 +7024,7 @@ export interface GetSegmentVersionsResponse {
               [key: string]: (AttributeDimension & { Values: ListOf__string }) | undefined;
             };
             Behavior: SegmentBehaviors & {
-              Recency: RecencyDimension & {
-                Duration: Duration;
-                RecencyType: RecencyType;
-              };
+              Recency: RecencyDimension & { Duration: Duration; RecencyType: RecencyType };
             };
             Demographic: SegmentDemographics & {
               AppVersion: SetDimension & { Values: ListOf__string };
@@ -7950,18 +7037,12 @@ export interface GetSegmentVersionsResponse {
             Location: SegmentLocation & {
               Country: SetDimension & { Values: ListOf__string };
               GPSPoint: GPSPointDimension & {
-                Coordinates: GPSCoordinates & {
-                  Latitude: number;
-                  Longitude: number;
-                };
+                Coordinates: GPSCoordinates & { Latitude: number; Longitude: number };
               };
             };
             Metrics: {
               [key: string]:
-                | (MetricDimension & {
-                    ComparisonOperator: string;
-                    Value: number;
-                  })
+                | (MetricDimension & { ComparisonOperator: string; Value: number })
                 | undefined;
             };
             UserAttributes: {
@@ -7997,9 +7078,7 @@ export const GetSmsChannelRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetSmsChannelRequest",
-}) as any as S.Schema<GetSmsChannelRequest>;
+).annotate({ identifier: "GetSmsChannelRequest" }) as any as S.Schema<GetSmsChannelRequest>;
 export interface GetSmsChannelResponse {
   SMSChannelResponse: SMSChannelResponse & { Platform: string };
 }
@@ -8009,9 +7088,7 @@ export const GetSmsChannelResponse = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.HttpPayload())
       .annotate({ identifier: "SMSChannelResponse" }),
   }),
-).annotate({
-  identifier: "GetSmsChannelResponse",
-}) as any as S.Schema<GetSmsChannelResponse>;
+).annotate({ identifier: "GetSmsChannelResponse" }) as any as S.Schema<GetSmsChannelResponse>;
 export interface GetSmsTemplateRequest {
   TemplateName: string;
   Version?: string;
@@ -8030,9 +7107,7 @@ export const GetSmsTemplateRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetSmsTemplateRequest",
-}) as any as S.Schema<GetSmsTemplateRequest>;
+).annotate({ identifier: "GetSmsTemplateRequest" }) as any as S.Schema<GetSmsTemplateRequest>;
 export interface SMSTemplateResponse {
   Arn?: string;
   Body?: string;
@@ -8060,9 +7135,7 @@ export const SMSTemplateResponse = /*@__PURE__*/ S.suspend(() =>
     TemplateType: S.optional(TemplateType),
     Version: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SMSTemplateResponse",
-}) as any as S.Schema<SMSTemplateResponse>;
+).annotate({ identifier: "SMSTemplateResponse" }) as any as S.Schema<SMSTemplateResponse>;
 export interface GetSmsTemplateResponse {
   SMSTemplateResponse: SMSTemplateResponse & {
     CreationDate: string;
@@ -8077,9 +7150,7 @@ export const GetSmsTemplateResponse = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.HttpPayload())
       .annotate({ identifier: "SMSTemplateResponse" }),
   }),
-).annotate({
-  identifier: "GetSmsTemplateResponse",
-}) as any as S.Schema<GetSmsTemplateResponse>;
+).annotate({ identifier: "GetSmsTemplateResponse" }) as any as S.Schema<GetSmsTemplateResponse>;
 export interface GetUserEndpointsRequest {
   ApplicationId: string;
   UserId: string;
@@ -8098,9 +7169,7 @@ export const GetUserEndpointsRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetUserEndpointsRequest",
-}) as any as S.Schema<GetUserEndpointsRequest>;
+).annotate({ identifier: "GetUserEndpointsRequest" }) as any as S.Schema<GetUserEndpointsRequest>;
 export interface GetUserEndpointsResponse {
   EndpointsResponse: EndpointsResponse & { Item: ListOfEndpointResponse };
 }
@@ -8110,9 +7179,7 @@ export const GetUserEndpointsResponse = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.HttpPayload())
       .annotate({ identifier: "EndpointsResponse" }),
   }),
-).annotate({
-  identifier: "GetUserEndpointsResponse",
-}) as any as S.Schema<GetUserEndpointsResponse>;
+).annotate({ identifier: "GetUserEndpointsResponse" }) as any as S.Schema<GetUserEndpointsResponse>;
 export interface GetVoiceChannelRequest {
   ApplicationId: string;
 }
@@ -8127,9 +7194,7 @@ export const GetVoiceChannelRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetVoiceChannelRequest",
-}) as any as S.Schema<GetVoiceChannelRequest>;
+).annotate({ identifier: "GetVoiceChannelRequest" }) as any as S.Schema<GetVoiceChannelRequest>;
 export interface GetVoiceChannelResponse {
   VoiceChannelResponse: VoiceChannelResponse & { Platform: string };
 }
@@ -8139,9 +7204,7 @@ export const GetVoiceChannelResponse = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.HttpPayload())
       .annotate({ identifier: "VoiceChannelResponse" }),
   }),
-).annotate({
-  identifier: "GetVoiceChannelResponse",
-}) as any as S.Schema<GetVoiceChannelResponse>;
+).annotate({ identifier: "GetVoiceChannelResponse" }) as any as S.Schema<GetVoiceChannelResponse>;
 export interface GetVoiceTemplateRequest {
   TemplateName: string;
   Version?: string;
@@ -8160,9 +7223,7 @@ export const GetVoiceTemplateRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetVoiceTemplateRequest",
-}) as any as S.Schema<GetVoiceTemplateRequest>;
+).annotate({ identifier: "GetVoiceTemplateRequest" }) as any as S.Schema<GetVoiceTemplateRequest>;
 export interface VoiceTemplateResponse {
   Arn?: string;
   Body?: string;
@@ -8192,9 +7253,7 @@ export const VoiceTemplateResponse = /*@__PURE__*/ S.suspend(() =>
     Version: S.optional(S.String),
     VoiceId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "VoiceTemplateResponse",
-}) as any as S.Schema<VoiceTemplateResponse>;
+).annotate({ identifier: "VoiceTemplateResponse" }) as any as S.Schema<VoiceTemplateResponse>;
 export interface GetVoiceTemplateResponse {
   VoiceTemplateResponse: VoiceTemplateResponse & {
     CreationDate: string;
@@ -8209,9 +7268,7 @@ export const GetVoiceTemplateResponse = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.HttpPayload())
       .annotate({ identifier: "VoiceTemplateResponse" }),
   }),
-).annotate({
-  identifier: "GetVoiceTemplateResponse",
-}) as any as S.Schema<GetVoiceTemplateResponse>;
+).annotate({ identifier: "GetVoiceTemplateResponse" }) as any as S.Schema<GetVoiceTemplateResponse>;
 export interface ListJourneysRequest {
   ApplicationId: string;
   PageSize?: string;
@@ -8232,9 +7289,7 @@ export const ListJourneysRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "ListJourneysRequest",
-}) as any as S.Schema<ListJourneysRequest>;
+).annotate({ identifier: "ListJourneysRequest" }) as any as S.Schema<ListJourneysRequest>;
 export type ListOfJourneyResponse = JourneyResponse[];
 export const ListOfJourneyResponse = /*@__PURE__*/ S.Array(JourneyResponse);
 export interface JourneysResponse {
@@ -8242,13 +7297,8 @@ export interface JourneysResponse {
   NextToken?: string;
 }
 export const JourneysResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Item: S.optional(ListOfJourneyResponse),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "JourneysResponse",
-}) as any as S.Schema<JourneysResponse>;
+  S.Struct({ Item: S.optional(ListOfJourneyResponse), NextToken: S.optional(S.String) }),
+).annotate({ identifier: "JourneysResponse" }) as any as S.Schema<JourneysResponse>;
 export interface ListJourneysResponse {
   JourneysResponse: JourneysResponse & {
     Item: (JourneyResponse & {
@@ -8271,10 +7321,7 @@ export interface ListJourneysResponse {
                         EventType: SetDimension & { Values: ListOf__string };
                         Metrics: {
                           [key: string]:
-                            | (MetricDimension & {
-                                ComparisonOperator: string;
-                                Value: number;
-                              })
+                            | (MetricDimension & { ComparisonOperator: string; Value: number })
                             | undefined;
                         };
                       };
@@ -8303,18 +7350,12 @@ export interface ListJourneysResponse {
                       Location: SegmentLocation & {
                         Country: SetDimension & { Values: ListOf__string };
                         GPSPoint: GPSPointDimension & {
-                          Coordinates: GPSCoordinates & {
-                            Latitude: number;
-                            Longitude: number;
-                          };
+                          Coordinates: GPSCoordinates & { Latitude: number; Longitude: number };
                         };
                       };
                       Metrics: {
                         [key: string]:
-                          | (MetricDimension & {
-                              ComparisonOperator: string;
-                              Value: number;
-                            })
+                          | (MetricDimension & { ComparisonOperator: string; Value: number })
                           | undefined;
                       };
                       UserAttributes: {
@@ -8340,10 +7381,7 @@ export interface ListJourneysResponse {
                         EventType: SetDimension & { Values: ListOf__string };
                         Metrics: {
                           [key: string]:
-                            | (MetricDimension & {
-                                ComparisonOperator: string;
-                                Value: number;
-                              })
+                            | (MetricDimension & { ComparisonOperator: string; Value: number })
                             | undefined;
                         };
                       };
@@ -8372,18 +7410,12 @@ export interface ListJourneysResponse {
                       Location: SegmentLocation & {
                         Country: SetDimension & { Values: ListOf__string };
                         GPSPoint: GPSPointDimension & {
-                          Coordinates: GPSCoordinates & {
-                            Latitude: number;
-                            Longitude: number;
-                          };
+                          Coordinates: GPSCoordinates & { Latitude: number; Longitude: number };
                         };
                       };
                       Metrics: {
                         [key: string]:
-                          | (MetricDimension & {
-                              ComparisonOperator: string;
-                              Value: number;
-                            })
+                          | (MetricDimension & { ComparisonOperator: string; Value: number })
                           | undefined;
                       };
                       UserAttributes: {
@@ -8408,10 +7440,7 @@ export interface ListJourneysResponse {
               EventType: SetDimension & { Values: ListOf__string };
               Metrics: {
                 [key: string]:
-                  | (MetricDimension & {
-                      ComparisonOperator: string;
-                      Value: number;
-                    })
+                  | (MetricDimension & { ComparisonOperator: string; Value: number })
                   | undefined;
               };
             };
@@ -8429,9 +7458,7 @@ export const ListJourneysResponse = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.HttpPayload())
       .annotate({ identifier: "JourneysResponse" }),
   }),
-).annotate({
-  identifier: "ListJourneysResponse",
-}) as any as S.Schema<ListJourneysResponse>;
+).annotate({ identifier: "ListJourneysResponse" }) as any as S.Schema<ListJourneysResponse>;
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
 }
@@ -8471,9 +7498,7 @@ export const ListTemplatesRequest = /*@__PURE__*/ S.suspend(() =>
     Prefix: S.optional(S.String).pipe(T.HttpQuery("prefix")),
     TemplateType: S.optional(S.String).pipe(T.HttpQuery("template-type")),
   }).pipe(T.all(T.Http({ method: "GET", uri: "/v1/templates" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListTemplatesRequest",
-}) as any as S.Schema<ListTemplatesRequest>;
+).annotate({ identifier: "ListTemplatesRequest" }) as any as S.Schema<ListTemplatesRequest>;
 export interface TemplateResponse {
   Arn?: string;
   CreationDate?: string;
@@ -8497,9 +7522,7 @@ export const TemplateResponse = /*@__PURE__*/ S.suspend(() =>
     TemplateType: S.optional(TemplateType),
     Version: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TemplateResponse",
-}) as any as S.Schema<TemplateResponse>;
+).annotate({ identifier: "TemplateResponse" }) as any as S.Schema<TemplateResponse>;
 export type ListOfTemplateResponse = TemplateResponse[];
 export const ListOfTemplateResponse = /*@__PURE__*/ S.Array(TemplateResponse);
 export interface TemplatesResponse {
@@ -8507,13 +7530,8 @@ export interface TemplatesResponse {
   NextToken?: string;
 }
 export const TemplatesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Item: S.optional(ListOfTemplateResponse),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "TemplatesResponse",
-}) as any as S.Schema<TemplatesResponse>;
+  S.Struct({ Item: S.optional(ListOfTemplateResponse), NextToken: S.optional(S.String) }),
+).annotate({ identifier: "TemplatesResponse" }) as any as S.Schema<TemplatesResponse>;
 export interface ListTemplatesResponse {
   TemplatesResponse: TemplatesResponse & {
     Item: (TemplateResponse & {
@@ -8530,9 +7548,7 @@ export const ListTemplatesResponse = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.HttpPayload())
       .annotate({ identifier: "TemplatesResponse" }),
   }),
-).annotate({
-  identifier: "ListTemplatesResponse",
-}) as any as S.Schema<ListTemplatesResponse>;
+).annotate({ identifier: "ListTemplatesResponse" }) as any as S.Schema<ListTemplatesResponse>;
 export interface ListTemplateVersionsRequest {
   NextToken?: string;
   PageSize?: string;
@@ -8547,10 +7563,7 @@ export const ListTemplateVersionsRequest = /*@__PURE__*/ S.suspend(() =>
     TemplateType: S.String.pipe(T.HttpLabel("TemplateType")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/v1/templates/{TemplateName}/{TemplateType}/versions",
-      }),
+      T.Http({ method: "GET", uri: "/v1/templates/{TemplateName}/{TemplateType}/versions" }),
       svc,
       auth,
       proto,
@@ -8580,9 +7593,7 @@ export const TemplateVersionResponse = /*@__PURE__*/ S.suspend(() =>
     TemplateType: S.optional(S.String),
     Version: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TemplateVersionResponse",
-}) as any as S.Schema<TemplateVersionResponse>;
+).annotate({ identifier: "TemplateVersionResponse" }) as any as S.Schema<TemplateVersionResponse>;
 export type ListOfTemplateVersionResponse = TemplateVersionResponse[];
 export const ListOfTemplateVersionResponse = /*@__PURE__*/ S.Array(TemplateVersionResponse);
 export interface TemplateVersionsResponse {
@@ -8598,9 +7609,7 @@ export const TemplateVersionsResponse = /*@__PURE__*/ S.suspend(() =>
     NextToken: S.optional(S.String),
     RequestID: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TemplateVersionsResponse",
-}) as any as S.Schema<TemplateVersionsResponse>;
+).annotate({ identifier: "TemplateVersionsResponse" }) as any as S.Schema<TemplateVersionsResponse>;
 export interface ListTemplateVersionsResponse {
   TemplateVersionsResponse: TemplateVersionsResponse & {
     Item: (TemplateVersionResponse & {
@@ -8625,13 +7634,8 @@ export interface NumberValidateRequest {
   PhoneNumber?: string;
 }
 export const NumberValidateRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    IsoCountryCode: S.optional(S.String),
-    PhoneNumber: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "NumberValidateRequest",
-}) as any as S.Schema<NumberValidateRequest>;
+  S.Struct({ IsoCountryCode: S.optional(S.String), PhoneNumber: S.optional(S.String) }),
+).annotate({ identifier: "NumberValidateRequest" }) as any as S.Schema<NumberValidateRequest>;
 export interface PhoneNumberValidateRequest {
   NumberValidateRequest?: NumberValidateRequest;
 }
@@ -8686,9 +7690,7 @@ export const NumberValidateResponse = /*@__PURE__*/ S.suspend(() =>
     Timezone: S.optional(S.String),
     ZipCode: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NumberValidateResponse",
-}) as any as S.Schema<NumberValidateResponse>;
+).annotate({ identifier: "NumberValidateResponse" }) as any as S.Schema<NumberValidateResponse>;
 export interface PhoneNumberValidateResponse {
   NumberValidateResponse: NumberValidateResponse;
 }
@@ -8776,10 +7778,7 @@ export interface EventsBatch {
   Events?: { [key: string]: Event | undefined };
 }
 export const EventsBatch = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Endpoint: S.optional(PublicEndpoint),
-    Events: S.optional(MapOfEvent),
-  }),
+  S.Struct({ Endpoint: S.optional(PublicEndpoint), Events: S.optional(MapOfEvent) }),
 ).annotate({ identifier: "EventsBatch" }) as any as S.Schema<EventsBatch>;
 export type MapOfEventsBatch = { [key: string]: EventsBatch | undefined };
 export const MapOfEventsBatch = /*@__PURE__*/ S.Record(S.String, EventsBatch.pipe(S.optional));
@@ -8809,30 +7808,22 @@ export const PutEventsRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "PutEventsRequest",
-}) as any as S.Schema<PutEventsRequest>;
+).annotate({ identifier: "PutEventsRequest" }) as any as S.Schema<PutEventsRequest>;
 export interface EndpointItemResponse {
   Message?: string;
   StatusCode?: number;
 }
 export const EndpointItemResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Message: S.optional(S.String), StatusCode: S.optional(S.Number) }),
-).annotate({
-  identifier: "EndpointItemResponse",
-}) as any as S.Schema<EndpointItemResponse>;
+).annotate({ identifier: "EndpointItemResponse" }) as any as S.Schema<EndpointItemResponse>;
 export interface EventItemResponse {
   Message?: string;
   StatusCode?: number;
 }
 export const EventItemResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Message: S.optional(S.String), StatusCode: S.optional(S.Number) }),
-).annotate({
-  identifier: "EventItemResponse",
-}) as any as S.Schema<EventItemResponse>;
-export type MapOfEventItemResponse = {
-  [key: string]: EventItemResponse | undefined;
-};
+).annotate({ identifier: "EventItemResponse" }) as any as S.Schema<EventItemResponse>;
+export type MapOfEventItemResponse = { [key: string]: EventItemResponse | undefined };
 export const MapOfEventItemResponse = /*@__PURE__*/ S.Record(
   S.String,
   EventItemResponse.pipe(S.optional),
@@ -8864,21 +7855,14 @@ export const PutEventsResponse = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.HttpPayload())
       .annotate({ identifier: "EventsResponse" }),
   }),
-).annotate({
-  identifier: "PutEventsResponse",
-}) as any as S.Schema<PutEventsResponse>;
+).annotate({ identifier: "PutEventsResponse" }) as any as S.Schema<PutEventsResponse>;
 export interface WriteEventStream {
   DestinationStreamArn?: string;
   RoleArn?: string;
 }
 export const WriteEventStream = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DestinationStreamArn: S.optional(S.String),
-    RoleArn: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "WriteEventStream",
-}) as any as S.Schema<WriteEventStream>;
+  S.Struct({ DestinationStreamArn: S.optional(S.String), RoleArn: S.optional(S.String) }),
+).annotate({ identifier: "WriteEventStream" }) as any as S.Schema<WriteEventStream>;
 export interface PutEventStreamRequest {
   ApplicationId: string;
   WriteEventStream?: WriteEventStream;
@@ -8899,9 +7883,7 @@ export const PutEventStreamRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "PutEventStreamRequest",
-}) as any as S.Schema<PutEventStreamRequest>;
+).annotate({ identifier: "PutEventStreamRequest" }) as any as S.Schema<PutEventStreamRequest>;
 export interface PutEventStreamResponse {
   EventStream: EventStream & {
     ApplicationId: string;
@@ -8915,17 +7897,13 @@ export const PutEventStreamResponse = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.HttpPayload())
       .annotate({ identifier: "EventStream" }),
   }),
-).annotate({
-  identifier: "PutEventStreamResponse",
-}) as any as S.Schema<PutEventStreamResponse>;
+).annotate({ identifier: "PutEventStreamResponse" }) as any as S.Schema<PutEventStreamResponse>;
 export interface UpdateAttributesRequest {
   Blacklist?: string[];
 }
 export const UpdateAttributesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Blacklist: S.optional(ListOf__string) }),
-).annotate({
-  identifier: "UpdateAttributesRequest",
-}) as any as S.Schema<UpdateAttributesRequest>;
+).annotate({ identifier: "UpdateAttributesRequest" }) as any as S.Schema<UpdateAttributesRequest>;
 export interface RemoveAttributesRequest {
   ApplicationId: string;
   AttributeType: string;
@@ -8940,10 +7918,7 @@ export const RemoveAttributesRequest = /*@__PURE__*/ S.suspend(() =>
       .annotate({ identifier: "UpdateAttributesRequest" }),
   }).pipe(
     T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/v1/apps/{ApplicationId}/attributes/{AttributeType}",
-      }),
+      T.Http({ method: "PUT", uri: "/v1/apps/{ApplicationId}/attributes/{AttributeType}" }),
       svc,
       auth,
       proto,
@@ -8951,9 +7926,7 @@ export const RemoveAttributesRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "RemoveAttributesRequest",
-}) as any as S.Schema<RemoveAttributesRequest>;
+).annotate({ identifier: "RemoveAttributesRequest" }) as any as S.Schema<RemoveAttributesRequest>;
 export interface AttributesResource {
   ApplicationId?: string;
   AttributeType?: string;
@@ -8965,14 +7938,9 @@ export const AttributesResource = /*@__PURE__*/ S.suspend(() =>
     AttributeType: S.optional(S.String),
     Attributes: S.optional(ListOf__string),
   }),
-).annotate({
-  identifier: "AttributesResource",
-}) as any as S.Schema<AttributesResource>;
+).annotate({ identifier: "AttributesResource" }) as any as S.Schema<AttributesResource>;
 export interface RemoveAttributesResponse {
-  AttributesResource: AttributesResource & {
-    ApplicationId: string;
-    AttributeType: string;
-  };
+  AttributesResource: AttributesResource & { ApplicationId: string; AttributeType: string };
 }
 export const RemoveAttributesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -8980,9 +7948,7 @@ export const RemoveAttributesResponse = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.HttpPayload())
       .annotate({ identifier: "AttributesResource" }),
   }),
-).annotate({
-  identifier: "RemoveAttributesResponse",
-}) as any as S.Schema<RemoveAttributesResponse>;
+).annotate({ identifier: "RemoveAttributesResponse" }) as any as S.Schema<RemoveAttributesResponse>;
 export interface AddressConfiguration {
   BodyOverride?: string;
   ChannelType?: ChannelType;
@@ -9000,12 +7966,8 @@ export const AddressConfiguration = /*@__PURE__*/ S.suspend(() =>
     Substitutions: S.optional(MapOfListOf__string),
     TitleOverride: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AddressConfiguration",
-}) as any as S.Schema<AddressConfiguration>;
-export type MapOfAddressConfiguration = {
-  [key: string]: AddressConfiguration | undefined;
-};
+).annotate({ identifier: "AddressConfiguration" }) as any as S.Schema<AddressConfiguration>;
+export type MapOfAddressConfiguration = { [key: string]: AddressConfiguration | undefined };
 export const MapOfAddressConfiguration = /*@__PURE__*/ S.Record(
   S.String,
   AddressConfiguration.pipe(S.optional),
@@ -9154,10 +8116,7 @@ export interface DefaultMessage {
   Substitutions?: { [key: string]: string[] | undefined };
 }
 export const DefaultMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Body: S.optional(S.String),
-    Substitutions: S.optional(MapOfListOf__string),
-  }),
+  S.Struct({ Body: S.optional(S.String), Substitutions: S.optional(MapOfListOf__string) }),
 ).annotate({ identifier: "DefaultMessage" }) as any as S.Schema<DefaultMessage>;
 export interface DefaultPushNotificationMessage {
   Action?: Action;
@@ -9194,9 +8153,7 @@ export interface SimpleEmailPart {
 }
 export const SimpleEmailPart = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Charset: S.optional(S.String), Data: S.optional(S.String) }),
-).annotate({
-  identifier: "SimpleEmailPart",
-}) as any as S.Schema<SimpleEmailPart>;
+).annotate({ identifier: "SimpleEmailPart" }) as any as S.Schema<SimpleEmailPart>;
 export interface SimpleEmail {
   HtmlPart?: SimpleEmailPart;
   Subject?: SimpleEmailPart;
@@ -9377,9 +8334,7 @@ export const SendMessagesRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "SendMessagesRequest",
-}) as any as S.Schema<SendMessagesRequest>;
+).annotate({ identifier: "SendMessagesRequest" }) as any as S.Schema<SendMessagesRequest>;
 export type DeliveryStatus =
   | "SUCCESSFUL"
   | "THROTTLED"
@@ -9408,12 +8363,8 @@ export const EndpointMessageResult = /*@__PURE__*/ S.suspend(() =>
     StatusMessage: S.optional(S.String),
     UpdatedToken: S.optional(S.String),
   }),
-).annotate({
-  identifier: "EndpointMessageResult",
-}) as any as S.Schema<EndpointMessageResult>;
-export type MapOfEndpointMessageResult = {
-  [key: string]: EndpointMessageResult | undefined;
-};
+).annotate({ identifier: "EndpointMessageResult" }) as any as S.Schema<EndpointMessageResult>;
+export type MapOfEndpointMessageResult = { [key: string]: EndpointMessageResult | undefined };
 export const MapOfEndpointMessageResult = /*@__PURE__*/ S.Record(
   S.String,
   EndpointMessageResult.pipe(S.optional),
@@ -9449,26 +8400,18 @@ export const MessageResponse = /*@__PURE__*/ S.suspend(() =>
     RequestId: S.optional(S.String),
     Result: S.optional(MapOfMessageResult),
   }),
-).annotate({
-  identifier: "MessageResponse",
-}) as any as S.Schema<MessageResponse>;
+).annotate({ identifier: "MessageResponse" }) as any as S.Schema<MessageResponse>;
 export interface SendMessagesResponse {
   MessageResponse: MessageResponse & {
     ApplicationId: string;
     EndpointResult: {
       [key: string]:
-        | (EndpointMessageResult & {
-            DeliveryStatus: DeliveryStatus;
-            StatusCode: number;
-          })
+        | (EndpointMessageResult & { DeliveryStatus: DeliveryStatus; StatusCode: number })
         | undefined;
     };
     Result: {
       [key: string]:
-        | (MessageResult & {
-            DeliveryStatus: DeliveryStatus;
-            StatusCode: number;
-          })
+        | (MessageResult & { DeliveryStatus: DeliveryStatus; StatusCode: number })
         | undefined;
     };
   };
@@ -9479,9 +8422,7 @@ export const SendMessagesResponse = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.HttpPayload())
       .annotate({ identifier: "MessageResponse" }),
   }),
-).annotate({
-  identifier: "SendMessagesResponse",
-}) as any as S.Schema<SendMessagesResponse>;
+).annotate({ identifier: "SendMessagesResponse" }) as any as S.Schema<SendMessagesResponse>;
 export interface SendOTPMessageRequestParameters {
   AllowedAttempts?: number;
   BrandName?: string;
@@ -9532,26 +8473,18 @@ export const SendOTPMessageRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "SendOTPMessageRequest",
-}) as any as S.Schema<SendOTPMessageRequest>;
+).annotate({ identifier: "SendOTPMessageRequest" }) as any as S.Schema<SendOTPMessageRequest>;
 export interface SendOTPMessageResponse {
   MessageResponse: MessageResponse & {
     ApplicationId: string;
     EndpointResult: {
       [key: string]:
-        | (EndpointMessageResult & {
-            DeliveryStatus: DeliveryStatus;
-            StatusCode: number;
-          })
+        | (EndpointMessageResult & { DeliveryStatus: DeliveryStatus; StatusCode: number })
         | undefined;
     };
     Result: {
       [key: string]:
-        | (MessageResult & {
-            DeliveryStatus: DeliveryStatus;
-            StatusCode: number;
-          })
+        | (MessageResult & { DeliveryStatus: DeliveryStatus; StatusCode: number })
         | undefined;
     };
   };
@@ -9562,9 +8495,7 @@ export const SendOTPMessageResponse = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.HttpPayload())
       .annotate({ identifier: "MessageResponse" }),
   }),
-).annotate({
-  identifier: "SendOTPMessageResponse",
-}) as any as S.Schema<SendOTPMessageResponse>;
+).annotate({ identifier: "SendOTPMessageResponse" }) as any as S.Schema<SendOTPMessageResponse>;
 export interface SendUsersMessageRequest {
   Context?: { [key: string]: string | undefined };
   MessageConfiguration?: DirectMessageConfiguration;
@@ -9580,9 +8511,7 @@ export const SendUsersMessageRequest = /*@__PURE__*/ S.suspend(() =>
     TraceId: S.optional(S.String),
     Users: S.optional(MapOfEndpointSendConfiguration),
   }),
-).annotate({
-  identifier: "SendUsersMessageRequest",
-}) as any as S.Schema<SendUsersMessageRequest>;
+).annotate({ identifier: "SendUsersMessageRequest" }) as any as S.Schema<SendUsersMessageRequest>;
 export interface SendUsersMessagesRequest {
   ApplicationId: string;
   SendUsersMessageRequest?: SendUsersMessageRequest;
@@ -9595,10 +8524,7 @@ export const SendUsersMessagesRequest = /*@__PURE__*/ S.suspend(() =>
       .annotate({ identifier: "SendUsersMessageRequest" }),
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/v1/apps/{ApplicationId}/users-messages",
-      }),
+      T.Http({ method: "POST", uri: "/v1/apps/{ApplicationId}/users-messages" }),
       svc,
       auth,
       proto,
@@ -9606,9 +8532,7 @@ export const SendUsersMessagesRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "SendUsersMessagesRequest",
-}) as any as S.Schema<SendUsersMessagesRequest>;
+).annotate({ identifier: "SendUsersMessagesRequest" }) as any as S.Schema<SendUsersMessagesRequest>;
 export type MapOfMapOfEndpointMessageResult = {
   [key: string]: { [key: string]: EndpointMessageResult | undefined } | undefined;
 };
@@ -9619,9 +8543,7 @@ export const MapOfMapOfEndpointMessageResult = /*@__PURE__*/ S.Record(
 export interface SendUsersMessageResponse {
   ApplicationId?: string;
   RequestId?: string;
-  Result?: {
-    [key: string]: { [key: string]: EndpointMessageResult | undefined } | undefined;
-  };
+  Result?: { [key: string]: { [key: string]: EndpointMessageResult | undefined } | undefined };
 }
 export const SendUsersMessageResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -9629,9 +8551,7 @@ export const SendUsersMessageResponse = /*@__PURE__*/ S.suspend(() =>
     RequestId: S.optional(S.String),
     Result: S.optional(MapOfMapOfEndpointMessageResult),
   }),
-).annotate({
-  identifier: "SendUsersMessageResponse",
-}) as any as S.Schema<SendUsersMessageResponse>;
+).annotate({ identifier: "SendUsersMessageResponse" }) as any as S.Schema<SendUsersMessageResponse>;
 export interface SendUsersMessagesResponse {
   SendUsersMessageResponse: SendUsersMessageResponse & {
     ApplicationId: string;
@@ -9639,10 +8559,7 @@ export interface SendUsersMessagesResponse {
       [key: string]:
         | {
             [key: string]:
-              | (EndpointMessageResult & {
-                  DeliveryStatus: DeliveryStatus;
-                  StatusCode: number;
-                })
+              | (EndpointMessageResult & { DeliveryStatus: DeliveryStatus; StatusCode: number })
               | undefined;
           }
         | undefined;
@@ -9669,9 +8586,7 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/v1/tags/{ResourceArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
+).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
 export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
@@ -9694,9 +8609,7 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
+).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
 export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
@@ -9712,9 +8625,7 @@ export const ADMChannelRequest = /*@__PURE__*/ S.suspend(() =>
     ClientSecret: S.optional(S.String),
     Enabled: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "ADMChannelRequest",
-}) as any as S.Schema<ADMChannelRequest>;
+).annotate({ identifier: "ADMChannelRequest" }) as any as S.Schema<ADMChannelRequest>;
 export interface UpdateAdmChannelRequest {
   ADMChannelRequest?: ADMChannelRequest;
   ApplicationId: string;
@@ -9735,9 +8646,7 @@ export const UpdateAdmChannelRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "UpdateAdmChannelRequest",
-}) as any as S.Schema<UpdateAdmChannelRequest>;
+).annotate({ identifier: "UpdateAdmChannelRequest" }) as any as S.Schema<UpdateAdmChannelRequest>;
 export interface UpdateAdmChannelResponse {
   ADMChannelResponse: ADMChannelResponse & { Platform: string };
 }
@@ -9747,9 +8656,7 @@ export const UpdateAdmChannelResponse = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.HttpPayload())
       .annotate({ identifier: "ADMChannelResponse" }),
   }),
-).annotate({
-  identifier: "UpdateAdmChannelResponse",
-}) as any as S.Schema<UpdateAdmChannelResponse>;
+).annotate({ identifier: "UpdateAdmChannelResponse" }) as any as S.Schema<UpdateAdmChannelResponse>;
 export interface APNSChannelRequest {
   BundleId?: string;
   Certificate?: string;
@@ -9771,9 +8678,7 @@ export const APNSChannelRequest = /*@__PURE__*/ S.suspend(() =>
     TokenKey: S.optional(S.String),
     TokenKeyId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "APNSChannelRequest",
-}) as any as S.Schema<APNSChannelRequest>;
+).annotate({ identifier: "APNSChannelRequest" }) as any as S.Schema<APNSChannelRequest>;
 export interface UpdateApnsChannelRequest {
   APNSChannelRequest?: APNSChannelRequest;
   ApplicationId: string;
@@ -9794,9 +8699,7 @@ export const UpdateApnsChannelRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "UpdateApnsChannelRequest",
-}) as any as S.Schema<UpdateApnsChannelRequest>;
+).annotate({ identifier: "UpdateApnsChannelRequest" }) as any as S.Schema<UpdateApnsChannelRequest>;
 export interface UpdateApnsChannelResponse {
   APNSChannelResponse: APNSChannelResponse & { Platform: string };
 }
@@ -9845,10 +8748,7 @@ export const UpdateApnsSandboxChannelRequest = /*@__PURE__*/ S.suspend(() =>
     ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/v1/apps/{ApplicationId}/channels/apns_sandbox",
-      }),
+      T.Http({ method: "PUT", uri: "/v1/apps/{ApplicationId}/channels/apns_sandbox" }),
       svc,
       auth,
       proto,
@@ -9892,9 +8792,7 @@ export const APNSVoipChannelRequest = /*@__PURE__*/ S.suspend(() =>
     TokenKey: S.optional(S.String),
     TokenKeyId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "APNSVoipChannelRequest",
-}) as any as S.Schema<APNSVoipChannelRequest>;
+).annotate({ identifier: "APNSVoipChannelRequest" }) as any as S.Schema<APNSVoipChannelRequest>;
 export interface UpdateApnsVoipChannelRequest {
   APNSVoipChannelRequest?: APNSVoipChannelRequest;
   ApplicationId: string;
@@ -9907,10 +8805,7 @@ export const UpdateApnsVoipChannelRequest = /*@__PURE__*/ S.suspend(() =>
     ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/v1/apps/{ApplicationId}/channels/apns_voip",
-      }),
+      T.Http({ method: "PUT", uri: "/v1/apps/{ApplicationId}/channels/apns_voip" }),
       svc,
       auth,
       proto,
@@ -9969,10 +8864,7 @@ export const UpdateApnsVoipSandboxChannelRequest = /*@__PURE__*/ S.suspend(() =>
     ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/v1/apps/{ApplicationId}/channels/apns_voip_sandbox",
-      }),
+      T.Http({ method: "PUT", uri: "/v1/apps/{ApplicationId}/channels/apns_voip_sandbox" }),
       svc,
       auth,
       proto,
@@ -9984,9 +8876,7 @@ export const UpdateApnsVoipSandboxChannelRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "UpdateApnsVoipSandboxChannelRequest",
 }) as any as S.Schema<UpdateApnsVoipSandboxChannelRequest>;
 export interface UpdateApnsVoipSandboxChannelResponse {
-  APNSVoipSandboxChannelResponse: APNSVoipSandboxChannelResponse & {
-    Platform: string;
-  };
+  APNSVoipSandboxChannelResponse: APNSVoipSandboxChannelResponse & { Platform: string };
 }
 export const UpdateApnsVoipSandboxChannelResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -10041,9 +8931,7 @@ export const UpdateApplicationSettingsRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "UpdateApplicationSettingsRequest",
 }) as any as S.Schema<UpdateApplicationSettingsRequest>;
 export interface UpdateApplicationSettingsResponse {
-  ApplicationSettingsResource: ApplicationSettingsResource & {
-    ApplicationId: string;
-  };
+  ApplicationSettingsResource: ApplicationSettingsResource & { ApplicationId: string };
 }
 export const UpdateApplicationSettingsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -10065,9 +8953,7 @@ export const BaiduChannelRequest = /*@__PURE__*/ S.suspend(() =>
     Enabled: S.optional(S.Boolean),
     SecretKey: S.optional(S.String),
   }),
-).annotate({
-  identifier: "BaiduChannelRequest",
-}) as any as S.Schema<BaiduChannelRequest>;
+).annotate({ identifier: "BaiduChannelRequest" }) as any as S.Schema<BaiduChannelRequest>;
 export interface UpdateBaiduChannelRequest {
   ApplicationId: string;
   BaiduChannelRequest?: BaiduChannelRequest;
@@ -10092,10 +8978,7 @@ export const UpdateBaiduChannelRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "UpdateBaiduChannelRequest",
 }) as any as S.Schema<UpdateBaiduChannelRequest>;
 export interface UpdateBaiduChannelResponse {
-  BaiduChannelResponse: BaiduChannelResponse & {
-    Credential: string;
-    Platform: string;
-  };
+  BaiduChannelResponse: BaiduChannelResponse & { Credential: string; Platform: string };
 }
 export const UpdateBaiduChannelResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -10120,10 +9003,7 @@ export const UpdateCampaignRequest = /*@__PURE__*/ S.suspend(() =>
       .annotate({ identifier: "WriteCampaignRequest" }),
   }).pipe(
     T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/v1/apps/{ApplicationId}/campaigns/{CampaignId}",
-      }),
+      T.Http({ method: "PUT", uri: "/v1/apps/{ApplicationId}/campaigns/{CampaignId}" }),
       svc,
       auth,
       proto,
@@ -10131,9 +9011,7 @@ export const UpdateCampaignRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "UpdateCampaignRequest",
-}) as any as S.Schema<UpdateCampaignRequest>;
+).annotate({ identifier: "UpdateCampaignRequest" }) as any as S.Schema<UpdateCampaignRequest>;
 export interface UpdateCampaignResponse {
   CampaignResponse: CampaignResponse & {
     ApplicationId: string;
@@ -10146,9 +9024,7 @@ export interface UpdateCampaignResponse {
     AdditionalTreatments: (TreatmentResource & {
       Id: string;
       SizePercent: number;
-      CustomDeliveryConfiguration: CustomDeliveryConfiguration & {
-        DeliveryUri: string;
-      };
+      CustomDeliveryConfiguration: CustomDeliveryConfiguration & { DeliveryUri: string };
       MessageConfiguration: MessageConfiguration & {
         InAppMessage: CampaignInAppMessage & {
           Content: (InAppMessageContent & {
@@ -10163,9 +9039,7 @@ export interface UpdateCampaignResponse {
               TextColor: string;
             };
             PrimaryBtn: InAppMessageButton & {
-              Android: OverrideButtonConfiguration & {
-                ButtonAction: ButtonAction;
-              };
+              Android: OverrideButtonConfiguration & { ButtonAction: ButtonAction };
               DefaultConfig: DefaultButtonConfiguration & {
                 ButtonAction: ButtonAction;
                 Text: string;
@@ -10174,9 +9048,7 @@ export interface UpdateCampaignResponse {
               Web: OverrideButtonConfiguration & { ButtonAction: ButtonAction };
             };
             SecondaryBtn: InAppMessageButton & {
-              Android: OverrideButtonConfiguration & {
-                ButtonAction: ButtonAction;
-              };
+              Android: OverrideButtonConfiguration & { ButtonAction: ButtonAction };
               DefaultConfig: DefaultButtonConfiguration & {
                 ButtonAction: ButtonAction;
                 Text: string;
@@ -10197,10 +9069,7 @@ export interface UpdateCampaignResponse {
             EventType: SetDimension & { Values: ListOf__string };
             Metrics: {
               [key: string]:
-                | (MetricDimension & {
-                    ComparisonOperator: string;
-                    Value: number;
-                  })
+                | (MetricDimension & { ComparisonOperator: string; Value: number })
                 | undefined;
             };
           };
@@ -10208,9 +9077,7 @@ export interface UpdateCampaignResponse {
         };
       };
     })[];
-    CustomDeliveryConfiguration: CustomDeliveryConfiguration & {
-      DeliveryUri: string;
-    };
+    CustomDeliveryConfiguration: CustomDeliveryConfiguration & { DeliveryUri: string };
     MessageConfiguration: MessageConfiguration & {
       InAppMessage: CampaignInAppMessage & {
         Content: (InAppMessageContent & {
@@ -10225,9 +9092,7 @@ export interface UpdateCampaignResponse {
             TextColor: string;
           };
           PrimaryBtn: InAppMessageButton & {
-            Android: OverrideButtonConfiguration & {
-              ButtonAction: ButtonAction;
-            };
+            Android: OverrideButtonConfiguration & { ButtonAction: ButtonAction };
             DefaultConfig: DefaultButtonConfiguration & {
               ButtonAction: ButtonAction;
               Text: string;
@@ -10236,9 +9101,7 @@ export interface UpdateCampaignResponse {
             Web: OverrideButtonConfiguration & { ButtonAction: ButtonAction };
           };
           SecondaryBtn: InAppMessageButton & {
-            Android: OverrideButtonConfiguration & {
-              ButtonAction: ButtonAction;
-            };
+            Android: OverrideButtonConfiguration & { ButtonAction: ButtonAction };
             DefaultConfig: DefaultButtonConfiguration & {
               ButtonAction: ButtonAction;
               Text: string;
@@ -10259,10 +9122,7 @@ export interface UpdateCampaignResponse {
           EventType: SetDimension & { Values: ListOf__string };
           Metrics: {
             [key: string]:
-              | (MetricDimension & {
-                  ComparisonOperator: string;
-                  Value: number;
-                })
+              | (MetricDimension & { ComparisonOperator: string; Value: number })
               | undefined;
           };
         };
@@ -10277,9 +9137,7 @@ export const UpdateCampaignResponse = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.HttpPayload())
       .annotate({ identifier: "CampaignResponse" }),
   }),
-).annotate({
-  identifier: "UpdateCampaignResponse",
-}) as any as S.Schema<UpdateCampaignResponse>;
+).annotate({ identifier: "UpdateCampaignResponse" }) as any as S.Schema<UpdateCampaignResponse>;
 export interface EmailChannelRequest {
   ConfigurationSet?: string;
   Enabled?: boolean;
@@ -10297,9 +9155,7 @@ export const EmailChannelRequest = /*@__PURE__*/ S.suspend(() =>
     RoleArn: S.optional(S.String),
     OrchestrationSendingRoleArn: S.optional(S.String),
   }),
-).annotate({
-  identifier: "EmailChannelRequest",
-}) as any as S.Schema<EmailChannelRequest>;
+).annotate({ identifier: "EmailChannelRequest" }) as any as S.Schema<EmailChannelRequest>;
 export interface UpdateEmailChannelRequest {
   ApplicationId: string;
   EmailChannelRequest?: EmailChannelRequest;
@@ -10401,9 +9257,7 @@ export const EndpointRequest = /*@__PURE__*/ S.suspend(() =>
     RequestId: S.optional(S.String),
     User: S.optional(EndpointUser),
   }),
-).annotate({
-  identifier: "EndpointRequest",
-}) as any as S.Schema<EndpointRequest>;
+).annotate({ identifier: "EndpointRequest" }) as any as S.Schema<EndpointRequest>;
 export interface UpdateEndpointRequest {
   ApplicationId: string;
   EndpointId: string;
@@ -10418,10 +9272,7 @@ export const UpdateEndpointRequest = /*@__PURE__*/ S.suspend(() =>
       .annotate({ identifier: "EndpointRequest" }),
   }).pipe(
     T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/v1/apps/{ApplicationId}/endpoints/{EndpointId}",
-      }),
+      T.Http({ method: "PUT", uri: "/v1/apps/{ApplicationId}/endpoints/{EndpointId}" }),
       svc,
       auth,
       proto,
@@ -10429,9 +9280,7 @@ export const UpdateEndpointRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "UpdateEndpointRequest",
-}) as any as S.Schema<UpdateEndpointRequest>;
+).annotate({ identifier: "UpdateEndpointRequest" }) as any as S.Schema<UpdateEndpointRequest>;
 export interface UpdateEndpointResponse {
   MessageBody: MessageBody;
 }
@@ -10441,9 +9290,7 @@ export const UpdateEndpointResponse = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.HttpPayload())
       .annotate({ identifier: "MessageBody" }),
   }),
-).annotate({
-  identifier: "UpdateEndpointResponse",
-}) as any as S.Schema<UpdateEndpointResponse>;
+).annotate({ identifier: "UpdateEndpointResponse" }) as any as S.Schema<UpdateEndpointResponse>;
 export interface EndpointBatchItem {
   Address?: string;
   Attributes?: { [key: string]: string[] | undefined };
@@ -10473,9 +9320,7 @@ export const EndpointBatchItem = /*@__PURE__*/ S.suspend(() =>
     RequestId: S.optional(S.String),
     User: S.optional(EndpointUser),
   }),
-).annotate({
-  identifier: "EndpointBatchItem",
-}) as any as S.Schema<EndpointBatchItem>;
+).annotate({ identifier: "EndpointBatchItem" }) as any as S.Schema<EndpointBatchItem>;
 export type ListOfEndpointBatchItem = EndpointBatchItem[];
 export const ListOfEndpointBatchItem = /*@__PURE__*/ S.Array(EndpointBatchItem);
 export interface EndpointBatchRequest {
@@ -10483,9 +9328,7 @@ export interface EndpointBatchRequest {
 }
 export const EndpointBatchRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Item: S.optional(ListOfEndpointBatchItem) }),
-).annotate({
-  identifier: "EndpointBatchRequest",
-}) as any as S.Schema<EndpointBatchRequest>;
+).annotate({ identifier: "EndpointBatchRequest" }) as any as S.Schema<EndpointBatchRequest>;
 export interface UpdateEndpointsBatchRequest {
   ApplicationId: string;
   EndpointBatchRequest?: EndpointBatchRequest;
@@ -10534,9 +9377,7 @@ export const GCMChannelRequest = /*@__PURE__*/ S.suspend(() =>
     Enabled: S.optional(S.Boolean),
     ServiceJson: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GCMChannelRequest",
-}) as any as S.Schema<GCMChannelRequest>;
+).annotate({ identifier: "GCMChannelRequest" }) as any as S.Schema<GCMChannelRequest>;
 export interface UpdateGcmChannelRequest {
   ApplicationId: string;
   GCMChannelRequest?: GCMChannelRequest;
@@ -10557,9 +9398,7 @@ export const UpdateGcmChannelRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "UpdateGcmChannelRequest",
-}) as any as S.Schema<UpdateGcmChannelRequest>;
+).annotate({ identifier: "UpdateGcmChannelRequest" }) as any as S.Schema<UpdateGcmChannelRequest>;
 export interface UpdateGcmChannelResponse {
   GCMChannelResponse: GCMChannelResponse & { Platform: string };
 }
@@ -10569,9 +9408,7 @@ export const UpdateGcmChannelResponse = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.HttpPayload())
       .annotate({ identifier: "GCMChannelResponse" }),
   }),
-).annotate({
-  identifier: "UpdateGcmChannelResponse",
-}) as any as S.Schema<UpdateGcmChannelResponse>;
+).annotate({ identifier: "UpdateGcmChannelResponse" }) as any as S.Schema<UpdateGcmChannelResponse>;
 export interface UpdateInAppTemplateRequest {
   CreateNewVersion?: boolean;
   InAppTemplateRequest?: InAppTemplateRequest;
@@ -10625,10 +9462,7 @@ export const UpdateJourneyRequest = /*@__PURE__*/ S.suspend(() =>
       .annotate({ identifier: "WriteJourneyRequest" }),
   }).pipe(
     T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/v1/apps/{ApplicationId}/journeys/{JourneyId}",
-      }),
+      T.Http({ method: "PUT", uri: "/v1/apps/{ApplicationId}/journeys/{JourneyId}" }),
       svc,
       auth,
       proto,
@@ -10636,9 +9470,7 @@ export const UpdateJourneyRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "UpdateJourneyRequest",
-}) as any as S.Schema<UpdateJourneyRequest>;
+).annotate({ identifier: "UpdateJourneyRequest" }) as any as S.Schema<UpdateJourneyRequest>;
 export interface UpdateJourneyResponse {
   JourneyResponse: JourneyResponse & {
     ApplicationId: string;
@@ -10660,10 +9492,7 @@ export interface UpdateJourneyResponse {
                       EventType: SetDimension & { Values: ListOf__string };
                       Metrics: {
                         [key: string]:
-                          | (MetricDimension & {
-                              ComparisonOperator: string;
-                              Value: number;
-                            })
+                          | (MetricDimension & { ComparisonOperator: string; Value: number })
                           | undefined;
                       };
                     };
@@ -10674,10 +9503,7 @@ export interface UpdateJourneyResponse {
                       [key: string]: (AttributeDimension & { Values: ListOf__string }) | undefined;
                     };
                     Behavior: SegmentBehaviors & {
-                      Recency: RecencyDimension & {
-                        Duration: Duration;
-                        RecencyType: RecencyType;
-                      };
+                      Recency: RecencyDimension & { Duration: Duration; RecencyType: RecencyType };
                     };
                     Demographic: SegmentDemographics & {
                       AppVersion: SetDimension & { Values: ListOf__string };
@@ -10690,18 +9516,12 @@ export interface UpdateJourneyResponse {
                     Location: SegmentLocation & {
                       Country: SetDimension & { Values: ListOf__string };
                       GPSPoint: GPSPointDimension & {
-                        Coordinates: GPSCoordinates & {
-                          Latitude: number;
-                          Longitude: number;
-                        };
+                        Coordinates: GPSCoordinates & { Latitude: number; Longitude: number };
                       };
                     };
                     Metrics: {
                       [key: string]:
-                        | (MetricDimension & {
-                            ComparisonOperator: string;
-                            Value: number;
-                          })
+                        | (MetricDimension & { ComparisonOperator: string; Value: number })
                         | undefined;
                     };
                     UserAttributes: {
@@ -10725,10 +9545,7 @@ export interface UpdateJourneyResponse {
                       EventType: SetDimension & { Values: ListOf__string };
                       Metrics: {
                         [key: string]:
-                          | (MetricDimension & {
-                              ComparisonOperator: string;
-                              Value: number;
-                            })
+                          | (MetricDimension & { ComparisonOperator: string; Value: number })
                           | undefined;
                       };
                     };
@@ -10739,10 +9556,7 @@ export interface UpdateJourneyResponse {
                       [key: string]: (AttributeDimension & { Values: ListOf__string }) | undefined;
                     };
                     Behavior: SegmentBehaviors & {
-                      Recency: RecencyDimension & {
-                        Duration: Duration;
-                        RecencyType: RecencyType;
-                      };
+                      Recency: RecencyDimension & { Duration: Duration; RecencyType: RecencyType };
                     };
                     Demographic: SegmentDemographics & {
                       AppVersion: SetDimension & { Values: ListOf__string };
@@ -10755,18 +9569,12 @@ export interface UpdateJourneyResponse {
                     Location: SegmentLocation & {
                       Country: SetDimension & { Values: ListOf__string };
                       GPSPoint: GPSPointDimension & {
-                        Coordinates: GPSCoordinates & {
-                          Latitude: number;
-                          Longitude: number;
-                        };
+                        Coordinates: GPSCoordinates & { Latitude: number; Longitude: number };
                       };
                     };
                     Metrics: {
                       [key: string]:
-                        | (MetricDimension & {
-                            ComparisonOperator: string;
-                            Value: number;
-                          })
+                        | (MetricDimension & { ComparisonOperator: string; Value: number })
                         | undefined;
                     };
                     UserAttributes: {
@@ -10789,10 +9597,7 @@ export interface UpdateJourneyResponse {
             EventType: SetDimension & { Values: ListOf__string };
             Metrics: {
               [key: string]:
-                | (MetricDimension & {
-                    ComparisonOperator: string;
-                    Value: number;
-                  })
+                | (MetricDimension & { ComparisonOperator: string; Value: number })
                 | undefined;
             };
           };
@@ -10809,17 +9614,13 @@ export const UpdateJourneyResponse = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.HttpPayload())
       .annotate({ identifier: "JourneyResponse" }),
   }),
-).annotate({
-  identifier: "UpdateJourneyResponse",
-}) as any as S.Schema<UpdateJourneyResponse>;
+).annotate({ identifier: "UpdateJourneyResponse" }) as any as S.Schema<UpdateJourneyResponse>;
 export interface JourneyStateRequest {
   State?: State;
 }
 export const JourneyStateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ State: S.optional(State) }),
-).annotate({
-  identifier: "JourneyStateRequest",
-}) as any as S.Schema<JourneyStateRequest>;
+).annotate({ identifier: "JourneyStateRequest" }) as any as S.Schema<JourneyStateRequest>;
 export interface UpdateJourneyStateRequest {
   ApplicationId: string;
   JourneyId: string;
@@ -10834,10 +9635,7 @@ export const UpdateJourneyStateRequest = /*@__PURE__*/ S.suspend(() =>
       .annotate({ identifier: "JourneyStateRequest" }),
   }).pipe(
     T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/v1/apps/{ApplicationId}/journeys/{JourneyId}/state",
-      }),
+      T.Http({ method: "PUT", uri: "/v1/apps/{ApplicationId}/journeys/{JourneyId}/state" }),
       svc,
       auth,
       proto,
@@ -10869,10 +9667,7 @@ export interface UpdateJourneyStateResponse {
                       EventType: SetDimension & { Values: ListOf__string };
                       Metrics: {
                         [key: string]:
-                          | (MetricDimension & {
-                              ComparisonOperator: string;
-                              Value: number;
-                            })
+                          | (MetricDimension & { ComparisonOperator: string; Value: number })
                           | undefined;
                       };
                     };
@@ -10883,10 +9678,7 @@ export interface UpdateJourneyStateResponse {
                       [key: string]: (AttributeDimension & { Values: ListOf__string }) | undefined;
                     };
                     Behavior: SegmentBehaviors & {
-                      Recency: RecencyDimension & {
-                        Duration: Duration;
-                        RecencyType: RecencyType;
-                      };
+                      Recency: RecencyDimension & { Duration: Duration; RecencyType: RecencyType };
                     };
                     Demographic: SegmentDemographics & {
                       AppVersion: SetDimension & { Values: ListOf__string };
@@ -10899,18 +9691,12 @@ export interface UpdateJourneyStateResponse {
                     Location: SegmentLocation & {
                       Country: SetDimension & { Values: ListOf__string };
                       GPSPoint: GPSPointDimension & {
-                        Coordinates: GPSCoordinates & {
-                          Latitude: number;
-                          Longitude: number;
-                        };
+                        Coordinates: GPSCoordinates & { Latitude: number; Longitude: number };
                       };
                     };
                     Metrics: {
                       [key: string]:
-                        | (MetricDimension & {
-                            ComparisonOperator: string;
-                            Value: number;
-                          })
+                        | (MetricDimension & { ComparisonOperator: string; Value: number })
                         | undefined;
                     };
                     UserAttributes: {
@@ -10934,10 +9720,7 @@ export interface UpdateJourneyStateResponse {
                       EventType: SetDimension & { Values: ListOf__string };
                       Metrics: {
                         [key: string]:
-                          | (MetricDimension & {
-                              ComparisonOperator: string;
-                              Value: number;
-                            })
+                          | (MetricDimension & { ComparisonOperator: string; Value: number })
                           | undefined;
                       };
                     };
@@ -10948,10 +9731,7 @@ export interface UpdateJourneyStateResponse {
                       [key: string]: (AttributeDimension & { Values: ListOf__string }) | undefined;
                     };
                     Behavior: SegmentBehaviors & {
-                      Recency: RecencyDimension & {
-                        Duration: Duration;
-                        RecencyType: RecencyType;
-                      };
+                      Recency: RecencyDimension & { Duration: Duration; RecencyType: RecencyType };
                     };
                     Demographic: SegmentDemographics & {
                       AppVersion: SetDimension & { Values: ListOf__string };
@@ -10964,18 +9744,12 @@ export interface UpdateJourneyStateResponse {
                     Location: SegmentLocation & {
                       Country: SetDimension & { Values: ListOf__string };
                       GPSPoint: GPSPointDimension & {
-                        Coordinates: GPSCoordinates & {
-                          Latitude: number;
-                          Longitude: number;
-                        };
+                        Coordinates: GPSCoordinates & { Latitude: number; Longitude: number };
                       };
                     };
                     Metrics: {
                       [key: string]:
-                        | (MetricDimension & {
-                            ComparisonOperator: string;
-                            Value: number;
-                          })
+                        | (MetricDimension & { ComparisonOperator: string; Value: number })
                         | undefined;
                     };
                     UserAttributes: {
@@ -10998,10 +9772,7 @@ export interface UpdateJourneyStateResponse {
             EventType: SetDimension & { Values: ListOf__string };
             Metrics: {
               [key: string]:
-                | (MetricDimension & {
-                    ComparisonOperator: string;
-                    Value: number;
-                  })
+                | (MetricDimension & { ComparisonOperator: string; Value: number })
                 | undefined;
             };
           };
@@ -11141,10 +9912,7 @@ export const UpdateSegmentRequest = /*@__PURE__*/ S.suspend(() =>
       .annotate({ identifier: "WriteSegmentRequest" }),
   }).pipe(
     T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/v1/apps/{ApplicationId}/segments/{SegmentId}",
-      }),
+      T.Http({ method: "PUT", uri: "/v1/apps/{ApplicationId}/segments/{SegmentId}" }),
       svc,
       auth,
       proto,
@@ -11152,9 +9920,7 @@ export const UpdateSegmentRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "UpdateSegmentRequest",
-}) as any as S.Schema<UpdateSegmentRequest>;
+).annotate({ identifier: "UpdateSegmentRequest" }) as any as S.Schema<UpdateSegmentRequest>;
 export interface UpdateSegmentResponse {
   SegmentResponse: SegmentResponse & {
     ApplicationId: string;
@@ -11163,14 +9929,9 @@ export interface UpdateSegmentResponse {
     Id: string;
     SegmentType: SegmentType;
     Dimensions: SegmentDimensions & {
-      Attributes: {
-        [key: string]: (AttributeDimension & { Values: ListOf__string }) | undefined;
-      };
+      Attributes: { [key: string]: (AttributeDimension & { Values: ListOf__string }) | undefined };
       Behavior: SegmentBehaviors & {
-        Recency: RecencyDimension & {
-          Duration: Duration;
-          RecencyType: RecencyType;
-        };
+        Recency: RecencyDimension & { Duration: Duration; RecencyType: RecencyType };
       };
       Demographic: SegmentDemographics & {
         AppVersion: SetDimension & { Values: ListOf__string };
@@ -11209,10 +9970,7 @@ export interface UpdateSegmentResponse {
             [key: string]: (AttributeDimension & { Values: ListOf__string }) | undefined;
           };
           Behavior: SegmentBehaviors & {
-            Recency: RecencyDimension & {
-              Duration: Duration;
-              RecencyType: RecencyType;
-            };
+            Recency: RecencyDimension & { Duration: Duration; RecencyType: RecencyType };
           };
           Demographic: SegmentDemographics & {
             AppVersion: SetDimension & { Values: ListOf__string };
@@ -11225,18 +9983,12 @@ export interface UpdateSegmentResponse {
           Location: SegmentLocation & {
             Country: SetDimension & { Values: ListOf__string };
             GPSPoint: GPSPointDimension & {
-              Coordinates: GPSCoordinates & {
-                Latitude: number;
-                Longitude: number;
-              };
+              Coordinates: GPSCoordinates & { Latitude: number; Longitude: number };
             };
           };
           Metrics: {
             [key: string]:
-              | (MetricDimension & {
-                  ComparisonOperator: string;
-                  Value: number;
-                })
+              | (MetricDimension & { ComparisonOperator: string; Value: number })
               | undefined;
           };
           UserAttributes: {
@@ -11254,9 +10006,7 @@ export const UpdateSegmentResponse = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.HttpPayload())
       .annotate({ identifier: "SegmentResponse" }),
   }),
-).annotate({
-  identifier: "UpdateSegmentResponse",
-}) as any as S.Schema<UpdateSegmentResponse>;
+).annotate({ identifier: "UpdateSegmentResponse" }) as any as S.Schema<UpdateSegmentResponse>;
 export interface SMSChannelRequest {
   Enabled?: boolean;
   SenderId?: string;
@@ -11268,9 +10018,7 @@ export const SMSChannelRequest = /*@__PURE__*/ S.suspend(() =>
     SenderId: S.optional(S.String),
     ShortCode: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SMSChannelRequest",
-}) as any as S.Schema<SMSChannelRequest>;
+).annotate({ identifier: "SMSChannelRequest" }) as any as S.Schema<SMSChannelRequest>;
 export interface UpdateSmsChannelRequest {
   ApplicationId: string;
   SMSChannelRequest?: SMSChannelRequest;
@@ -11291,9 +10039,7 @@ export const UpdateSmsChannelRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "UpdateSmsChannelRequest",
-}) as any as S.Schema<UpdateSmsChannelRequest>;
+).annotate({ identifier: "UpdateSmsChannelRequest" }) as any as S.Schema<UpdateSmsChannelRequest>;
 export interface UpdateSmsChannelResponse {
   SMSChannelResponse: SMSChannelResponse & { Platform: string };
 }
@@ -11303,9 +10049,7 @@ export const UpdateSmsChannelResponse = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.HttpPayload())
       .annotate({ identifier: "SMSChannelResponse" }),
   }),
-).annotate({
-  identifier: "UpdateSmsChannelResponse",
-}) as any as S.Schema<UpdateSmsChannelResponse>;
+).annotate({ identifier: "UpdateSmsChannelResponse" }) as any as S.Schema<UpdateSmsChannelResponse>;
 export interface UpdateSmsTemplateRequest {
   CreateNewVersion?: boolean;
   SMSTemplateRequest?: SMSTemplateRequest;
@@ -11330,9 +10074,7 @@ export const UpdateSmsTemplateRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "UpdateSmsTemplateRequest",
-}) as any as S.Schema<UpdateSmsTemplateRequest>;
+).annotate({ identifier: "UpdateSmsTemplateRequest" }) as any as S.Schema<UpdateSmsTemplateRequest>;
 export interface UpdateSmsTemplateResponse {
   MessageBody: MessageBody;
 }
@@ -11367,10 +10109,7 @@ export const UpdateTemplateActiveVersionRequest = /*@__PURE__*/ S.suspend(() =>
     TemplateType: S.String.pipe(T.HttpLabel("TemplateType")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/v1/templates/{TemplateName}/{TemplateType}/active-version",
-      }),
+      T.Http({ method: "PUT", uri: "/v1/templates/{TemplateName}/{TemplateType}/active-version" }),
       svc,
       auth,
       proto,
@@ -11398,9 +10137,7 @@ export interface VoiceChannelRequest {
 }
 export const VoiceChannelRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Enabled: S.optional(S.Boolean) }),
-).annotate({
-  identifier: "VoiceChannelRequest",
-}) as any as S.Schema<VoiceChannelRequest>;
+).annotate({ identifier: "VoiceChannelRequest" }) as any as S.Schema<VoiceChannelRequest>;
 export interface UpdateVoiceChannelRequest {
   ApplicationId: string;
   VoiceChannelRequest?: VoiceChannelRequest;
@@ -11509,17 +10246,13 @@ export const VerifyOTPMessageRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "VerifyOTPMessageRequest",
-}) as any as S.Schema<VerifyOTPMessageRequest>;
+).annotate({ identifier: "VerifyOTPMessageRequest" }) as any as S.Schema<VerifyOTPMessageRequest>;
 export interface VerificationResponse {
   Valid?: boolean;
 }
 export const VerificationResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Valid: S.optional(S.Boolean) }),
-).annotate({
-  identifier: "VerificationResponse",
-}) as any as S.Schema<VerificationResponse>;
+).annotate({ identifier: "VerificationResponse" }) as any as S.Schema<VerificationResponse>;
 export interface VerifyOTPMessageResponse {
   VerificationResponse: VerificationResponse;
 }
@@ -11529,9 +10262,7 @@ export const VerifyOTPMessageResponse = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.HttpPayload())
       .annotate({ identifier: "VerificationResponse" }),
   }),
-).annotate({
-  identifier: "VerifyOTPMessageResponse",
-}) as any as S.Schema<VerifyOTPMessageResponse>;
+).annotate({ identifier: "VerifyOTPMessageResponse" }) as any as S.Schema<VerifyOTPMessageResponse>;
 export type CreateAppError =
   | BadRequestException
   | ForbiddenException

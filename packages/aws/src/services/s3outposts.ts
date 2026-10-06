@@ -7,10 +7,7 @@ import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
-const svc = T.AwsApiService({
-  sdkId: "S3Outposts",
-  serviceShapeName: "S3Outposts",
-});
+const svc = T.AwsApiService({ sdkId: "S3Outposts", serviceShapeName: "S3Outposts" });
 const auth = T.AwsAuthSigv4({ name: "s3-outposts" });
 const ver = T.ServiceVersion("2017-07-25");
 const proto = T.AwsProtocolsRestJson1();
@@ -146,18 +143,14 @@ export const CreateEndpointRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "CreateEndpointRequest",
-}) as any as S.Schema<CreateEndpointRequest>;
+).annotate({ identifier: "CreateEndpointRequest" }) as any as S.Schema<CreateEndpointRequest>;
 export type EndpointArn = string;
 export interface CreateEndpointResult {
   EndpointArn?: string;
 }
 export const CreateEndpointResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ EndpointArn: S.optional(S.String) }),
-).annotate({
-  identifier: "CreateEndpointResult",
-}) as any as S.Schema<CreateEndpointResult>;
+).annotate({ identifier: "CreateEndpointResult" }) as any as S.Schema<CreateEndpointResult>;
 export type EndpointId = string;
 export interface DeleteEndpointRequest {
   EndpointId: string;
@@ -177,9 +170,7 @@ export const DeleteEndpointRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteEndpointRequest",
-}) as any as S.Schema<DeleteEndpointRequest>;
+).annotate({ identifier: "DeleteEndpointRequest" }) as any as S.Schema<DeleteEndpointRequest>;
 export interface DeleteEndpointResponse {}
 export const DeleteEndpointResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteEndpointResponse",
@@ -204,9 +195,7 @@ export const ListEndpointsRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "ListEndpointsRequest",
-}) as any as S.Schema<ListEndpointsRequest>;
+).annotate({ identifier: "ListEndpointsRequest" }) as any as S.Schema<ListEndpointsRequest>;
 export type CidrBlock = string;
 export type EndpointStatus =
   | "Pending"
@@ -224,9 +213,7 @@ export interface NetworkInterface {
 }
 export const NetworkInterface = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ NetworkInterfaceId: S.optional(S.String) }),
-).annotate({
-  identifier: "NetworkInterface",
-}) as any as S.Schema<NetworkInterface>;
+).annotate({ identifier: "NetworkInterface" }) as any as S.Schema<NetworkInterface>;
 export type NetworkInterfaces = NetworkInterface[];
 export const NetworkInterfaces = /*@__PURE__*/ S.Array(NetworkInterface);
 export type VpcId = string;
@@ -276,13 +263,8 @@ export interface ListEndpointsResult {
   NextToken?: string;
 }
 export const ListEndpointsResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Endpoints: S.optional(Endpoints),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListEndpointsResult",
-}) as any as S.Schema<ListEndpointsResult>;
+  S.Struct({ Endpoints: S.optional(Endpoints), NextToken: S.optional(S.String) }),
+).annotate({ identifier: "ListEndpointsResult" }) as any as S.Schema<ListEndpointsResult>;
 export interface ListOutpostsWithS3Request {
   NextToken?: string;
   MaxResults?: number;
@@ -332,9 +314,7 @@ export interface ListOutpostsWithS3Result {
 }
 export const ListOutpostsWithS3Result = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Outposts: S.optional(Outposts), NextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListOutpostsWithS3Result",
-}) as any as S.Schema<ListOutpostsWithS3Result>;
+).annotate({ identifier: "ListOutpostsWithS3Result" }) as any as S.Schema<ListOutpostsWithS3Result>;
 export interface ListSharedEndpointsRequest {
   NextToken?: string;
   MaxResults?: number;
@@ -363,10 +343,7 @@ export interface ListSharedEndpointsResult {
   NextToken?: string;
 }
 export const ListSharedEndpointsResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Endpoints: S.optional(Endpoints),
-    NextToken: S.optional(S.String),
-  }),
+  S.Struct({ Endpoints: S.optional(Endpoints), NextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListSharedEndpointsResult",
 }) as any as S.Schema<ListSharedEndpointsResult>;

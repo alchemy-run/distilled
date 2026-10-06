@@ -33,10 +33,7 @@ const rules = T.EndpointResolver((p, _) => {
   const _p1 = (_0: unknown) => ({
     authSchemes: [
       { name: "sigv4a", signingRegionSet: ["*"] },
-      {
-        name: "sigv4",
-        signingRegion: `${_.getAttr(_0, "implicitGlobalRegion")}`,
-      },
+      { name: "sigv4", signingRegion: `${_.getAttr(_0, "implicitGlobalRegion")}` },
     ],
   });
   if (Endpoint != null) {
@@ -45,9 +42,7 @@ const rules = T.EndpointResolver((p, _) => {
     }
     return e(
       Endpoint,
-      {
-        authSchemes: [{ name: "sigv4a", signingRegionSet: ["*"] }, { name: "sigv4" }],
-      },
+      { authSchemes: [{ name: "sigv4a", signingRegionSet: ["*"] }, { name: "sigv4" }] },
       {},
     );
   }
@@ -151,9 +146,7 @@ export interface FilterExpression {
 }
 export const FilterExpression = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Dimensions: S.optional(DimensionListMap) }),
-).annotate({
-  identifier: "FilterExpression",
-}) as any as S.Schema<FilterExpression>;
+).annotate({ identifier: "FilterExpression" }) as any as S.Schema<FilterExpression>;
 export type EmissionsType =
   | "TOTAL_LBM_CARBON_EMISSIONS"
   | "TOTAL_MBM_CARBON_EMISSIONS"
@@ -182,9 +175,7 @@ export interface GranularityConfiguration {
 }
 export const GranularityConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ FiscalYearStartMonth: S.optional(S.Number) }),
-).annotate({
-  identifier: "GranularityConfiguration",
-}) as any as S.Schema<GranularityConfiguration>;
+).annotate({ identifier: "GranularityConfiguration" }) as any as S.Schema<GranularityConfiguration>;
 export type MaxResults = number;
 export type NextToken = string;
 export interface GetEstimatedCarbonEmissionsRequest {
@@ -248,9 +239,7 @@ export const EstimatedCarbonEmissions = /*@__PURE__*/ S.suspend(() =>
     ModelVersion: S.String,
     EmissionsValues: EmissionsMap,
   }),
-).annotate({
-  identifier: "EstimatedCarbonEmissions",
-}) as any as S.Schema<EstimatedCarbonEmissions>;
+).annotate({ identifier: "EstimatedCarbonEmissions" }) as any as S.Schema<EstimatedCarbonEmissions>;
 export type EstimatedCarbonEmissionsList = EstimatedCarbonEmissions[];
 export const EstimatedCarbonEmissionsList = /*@__PURE__*/ S.Array(EstimatedCarbonEmissions);
 export interface GetEstimatedCarbonEmissionsResponse {
@@ -258,10 +247,7 @@ export interface GetEstimatedCarbonEmissionsResponse {
   NextToken?: string;
 }
 export const GetEstimatedCarbonEmissionsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Results: EstimatedCarbonEmissionsList,
-    NextToken: S.optional(S.String),
-  }),
+  S.Struct({ Results: EstimatedCarbonEmissionsList, NextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "GetEstimatedCarbonEmissionsResponse",
 }) as any as S.Schema<GetEstimatedCarbonEmissionsResponse>;
@@ -279,10 +265,7 @@ export const GetEstimatedCarbonEmissionsDimensionValuesRequest = /*@__PURE__*/ S
     NextToken: S.optional(S.String),
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/v1/estimated-carbon-emissions-dimension-values",
-      }),
+      T.Http({ method: "POST", uri: "/v1/estimated-carbon-emissions-dimension-values" }),
       svc,
       auth,
       proto,
@@ -307,10 +290,7 @@ export interface GetEstimatedCarbonEmissionsDimensionValuesResponse {
   NextToken?: string;
 }
 export const GetEstimatedCarbonEmissionsDimensionValuesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Results: S.optional(DimensionEntryList),
-    NextToken: S.optional(S.String),
-  }),
+  S.Struct({ Results: S.optional(DimensionEntryList), NextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "GetEstimatedCarbonEmissionsDimensionValuesResponse",
 }) as any as S.Schema<GetEstimatedCarbonEmissionsDimensionValuesResponse>;
@@ -359,12 +339,8 @@ export interface WaterAllocation {
 }
 export const WaterAllocation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Value: S.Number, Unit: WaterAllocationUnit }),
-).annotate({
-  identifier: "WaterAllocation",
-}) as any as S.Schema<WaterAllocation>;
-export type WaterAllocationMap = {
-  [key in WaterAllocationType]?: WaterAllocation;
-};
+).annotate({ identifier: "WaterAllocation" }) as any as S.Schema<WaterAllocation>;
+export type WaterAllocationMap = { [key in WaterAllocationType]?: WaterAllocation };
 export const WaterAllocationMap = /*@__PURE__*/ S.Record(
   WaterAllocationType,
   WaterAllocation.pipe(S.optional),
@@ -382,9 +358,7 @@ export const EstimatedWaterAllocation = /*@__PURE__*/ S.suspend(() =>
     ModelVersion: S.String,
     AllocationValues: WaterAllocationMap,
   }),
-).annotate({
-  identifier: "EstimatedWaterAllocation",
-}) as any as S.Schema<EstimatedWaterAllocation>;
+).annotate({ identifier: "EstimatedWaterAllocation" }) as any as S.Schema<EstimatedWaterAllocation>;
 export type EstimatedWaterAllocationList = EstimatedWaterAllocation[];
 export const EstimatedWaterAllocationList = /*@__PURE__*/ S.Array(EstimatedWaterAllocation);
 export interface GetEstimatedWaterAllocationResponse {
@@ -392,10 +366,7 @@ export interface GetEstimatedWaterAllocationResponse {
   NextToken?: string;
 }
 export const GetEstimatedWaterAllocationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Results: EstimatedWaterAllocationList,
-    NextToken: S.optional(S.String),
-  }),
+  S.Struct({ Results: EstimatedWaterAllocationList, NextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "GetEstimatedWaterAllocationResponse",
 }) as any as S.Schema<GetEstimatedWaterAllocationResponse>;
@@ -413,10 +384,7 @@ export const GetEstimatedWaterAllocationDimensionValuesRequest = /*@__PURE__*/ S
     NextToken: S.optional(S.String),
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/v1/estimated-water-allocation-dimension-values",
-      }),
+      T.Http({ method: "POST", uri: "/v1/estimated-water-allocation-dimension-values" }),
       svc,
       auth,
       proto,

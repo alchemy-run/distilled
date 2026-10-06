@@ -18,6 +18,164 @@
     "distilled.finalized": true
   },
   "shapes": {
+    "com.azure.portal#ListOperations": {
+      "type": "operation",
+      "input": {
+        "target": "smithy.api#Unit"
+      },
+      "output": {
+        "target": "com.azure.portal#ListOperationsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/providers/Microsoft.Portal/operations",
+          "code": 200,
+          "apiVersion": "2026-04-01"
+        },
+        "smithy.api#documentation": "List the operations for the provider",
+        "com.distilled.openapi#apiVersion": "2026-04-01"
+      }
+    },
+    "com.azure.portal#ListOperationsResponse": {
+      "type": "structure",
+      "members": {
+        "value": {
+          "target": "com.azure.portal#ListOperationsResponseValueList",
+          "traits": {
+            "smithy.api#documentation": "List of operations supported by the resource provider"
+          }
+        },
+        "nextLink": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL to get the next set of operation list results (if there are any)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.azure.portal#ListOperationsResponseValueList": {
+      "type": "list",
+      "member": {
+        "target": "com.azure.portal#Operation"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of operations supported by the resource provider"
+      }
+    },
+    "com.azure.portal#Operation": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the operation, as per Resource-Based Access Control (RBAC). Examples: \"Microsoft.Compute/virtualMachines/write\", \"Microsoft.Compute/virtualMachines/capture/action\""
+          }
+        },
+        "isDataAction": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the operation applies to data-plane. This is \"true\" for data-plane operations and \"false\" for ARM/control-plane operations."
+          }
+        },
+        "display": {
+          "target": "com.azure.portal#OperationDisplay",
+          "traits": {
+            "smithy.api#documentation": "Localized display information for this particular operation."
+          }
+        },
+        "origin": {
+          "target": "com.azure.portal#OperationOrigin",
+          "traits": {
+            "smithy.api#documentation": "The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is \"user,system\""
+          }
+        },
+        "actionType": {
+          "target": "com.azure.portal#OperationActionType",
+          "traits": {
+            "smithy.api#documentation": "Enum. Indicates the action type. \"Internal\" refers to actions that are for internal only APIs."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Details of a REST API operation, returned from the Resource Provider Operations API"
+      }
+    },
+    "com.azure.portal#OperationActionType": {
+      "type": "enum",
+      "members": {
+        "INTERNAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Internal"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Enum. Indicates the action type. \"Internal\" refers to actions that are for internal only APIs."
+      }
+    },
+    "com.azure.portal#OperationOrigin": {
+      "type": "enum",
+      "members": {
+        "USER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "user"
+          }
+        },
+        "SYSTEM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "system"
+          }
+        },
+        "USER_SYSTEM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "user,system"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is \"user,system\""
+      }
+    },
+    "com.azure.portal#OperationDisplay": {
+      "type": "structure",
+      "members": {
+        "provider": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The localized friendly form of the resource provider name, e.g. \"Microsoft Monitoring Insights\" or \"Microsoft Compute\"."
+          }
+        },
+        "resource": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The localized friendly name of the resource type related to this operation. E.g. \"Virtual Machines\" or \"Job Schedule Collections\"."
+          }
+        },
+        "operation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The concise, localized friendly name for the operation; suitable for dropdowns. E.g. \"Create or Update Virtual Machine\", \"Restart Virtual Machine\"."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The short, localized friendly description of the operation; suitable for tool tips and detailed views."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Localized display information for this particular operation."
+      }
+    },
     "com.azure.portal#DeleteDashboard": {
       "type": "operation",
       "input": {
@@ -827,7 +985,7 @@
         "target": "com.azure.portal#ListDashboardByResourceGroupRequest"
       },
       "output": {
-        "target": "com.azure.portal#DashboardListResult"
+        "target": "com.azure.portal#ListDashboardByResourceGroupResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -840,11 +998,11 @@
         "com.distilled.openapi#apiVersion": "2026-04-01"
       }
     },
-    "com.azure.portal#DashboardListResult": {
+    "com.azure.portal#ListDashboardByResourceGroupResponse": {
       "type": "structure",
       "members": {
         "value": {
-          "target": "com.azure.portal#DashboardListResultValueList",
+          "target": "com.azure.portal#ListDashboardByResourceGroupResponseValueList",
           "traits": {
             "smithy.api#documentation": "The Dashboard items on this page",
             "smithy.api#required": {}
@@ -858,10 +1016,10 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "The response of a Dashboard list operation."
+        "smithy.api#output": {}
       }
     },
-    "com.azure.portal#DashboardListResultValueList": {
+    "com.azure.portal#ListDashboardByResourceGroupResponseValueList": {
       "type": "list",
       "member": {
         "target": "com.azure.portal#Dashboard"
@@ -963,7 +1121,7 @@
         "target": "com.azure.portal#ListDashboardBySubscriptionRequest"
       },
       "output": {
-        "target": "com.azure.portal#DashboardListResult"
+        "target": "com.azure.portal#ListDashboardBySubscriptionResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -974,6 +1132,36 @@
         },
         "smithy.api#documentation": "Gets all the dashboards within a subscription.",
         "com.distilled.openapi#apiVersion": "2026-04-01"
+      }
+    },
+    "com.azure.portal#ListDashboardBySubscriptionResponse": {
+      "type": "structure",
+      "members": {
+        "value": {
+          "target": "com.azure.portal#ListDashboardBySubscriptionResponseValueList",
+          "traits": {
+            "smithy.api#documentation": "The Dashboard items on this page",
+            "smithy.api#required": {}
+          }
+        },
+        "nextLink": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The link to the next page of items"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.azure.portal#ListDashboardBySubscriptionResponseValueList": {
+      "type": "list",
+      "member": {
+        "target": "com.azure.portal#Dashboard"
+      },
+      "traits": {
+        "smithy.api#documentation": "The Dashboard items on this page"
       }
     },
     "com.azure.portal#ListDashboardBySubscriptionRequest": {
@@ -990,164 +1178,6 @@
       },
       "traits": {
         "smithy.api#input": {}
-      }
-    },
-    "com.azure.portal#ListOperations": {
-      "type": "operation",
-      "input": {
-        "target": "smithy.api#Unit"
-      },
-      "output": {
-        "target": "com.azure.portal#ListOperationsResponse"
-      },
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/providers/Microsoft.Portal/operations",
-          "code": 200,
-          "apiVersion": "2026-04-01"
-        },
-        "smithy.api#documentation": "List the operations for the provider",
-        "com.distilled.openapi#apiVersion": "2026-04-01"
-      }
-    },
-    "com.azure.portal#ListOperationsResponse": {
-      "type": "structure",
-      "members": {
-        "value": {
-          "target": "com.azure.portal#ListOperationsResponseValueList",
-          "traits": {
-            "smithy.api#documentation": "List of operations supported by the resource provider"
-          }
-        },
-        "nextLink": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "URL to get the next set of operation list results (if there are any)."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#output": {}
-      }
-    },
-    "com.azure.portal#ListOperationsResponseValueList": {
-      "type": "list",
-      "member": {
-        "target": "com.azure.portal#Operation"
-      },
-      "traits": {
-        "smithy.api#documentation": "List of operations supported by the resource provider"
-      }
-    },
-    "com.azure.portal#Operation": {
-      "type": "structure",
-      "members": {
-        "name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The name of the operation, as per Resource-Based Access Control (RBAC). Examples: \"Microsoft.Compute/virtualMachines/write\", \"Microsoft.Compute/virtualMachines/capture/action\""
-          }
-        },
-        "isDataAction": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "Whether the operation applies to data-plane. This is \"true\" for data-plane operations and \"false\" for ARM/control-plane operations."
-          }
-        },
-        "display": {
-          "target": "com.azure.portal#OperationDisplay",
-          "traits": {
-            "smithy.api#documentation": "Localized display information for this particular operation."
-          }
-        },
-        "origin": {
-          "target": "com.azure.portal#OperationOrigin",
-          "traits": {
-            "smithy.api#documentation": "The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is \"user,system\""
-          }
-        },
-        "actionType": {
-          "target": "com.azure.portal#OperationActionType",
-          "traits": {
-            "smithy.api#documentation": "Enum. Indicates the action type. \"Internal\" refers to actions that are for internal only APIs."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Details of a REST API operation, returned from the Resource Provider Operations API"
-      }
-    },
-    "com.azure.portal#OperationActionType": {
-      "type": "enum",
-      "members": {
-        "INTERNAL": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "Internal"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Enum. Indicates the action type. \"Internal\" refers to actions that are for internal only APIs."
-      }
-    },
-    "com.azure.portal#OperationOrigin": {
-      "type": "enum",
-      "members": {
-        "USER": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "user"
-          }
-        },
-        "SYSTEM": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "system"
-          }
-        },
-        "USER_SYSTEM": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "user,system"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is \"user,system\""
-      }
-    },
-    "com.azure.portal#OperationDisplay": {
-      "type": "structure",
-      "members": {
-        "provider": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The localized friendly form of the resource provider name, e.g. \"Microsoft Monitoring Insights\" or \"Microsoft Compute\"."
-          }
-        },
-        "resource": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The localized friendly name of the resource type related to this operation. E.g. \"Virtual Machines\" or \"Job Schedule Collections\"."
-          }
-        },
-        "operation": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The concise, localized friendly name for the operation; suitable for dropdowns. E.g. \"Create or Update Virtual Machine\", \"Restart Virtual Machine\"."
-          }
-        },
-        "description": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The short, localized friendly description of the operation; suitable for tool tips and detailed views."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Localized display information for this particular operation."
       }
     },
     "com.azure.portal#DeleteTenantConfiguration": {
@@ -1377,7 +1407,7 @@
         "target": "smithy.api#Unit"
       },
       "output": {
-        "target": "com.azure.portal#ConfigurationListResult"
+        "target": "com.azure.portal#ListTenantConfigurationsResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -1390,11 +1420,11 @@
         "com.distilled.openapi#apiVersion": "2026-04-01"
       }
     },
-    "com.azure.portal#ConfigurationListResult": {
+    "com.azure.portal#ListTenantConfigurationsResponse": {
       "type": "structure",
       "members": {
         "value": {
-          "target": "com.azure.portal#ConfigurationListResultValueList",
+          "target": "com.azure.portal#ListTenantConfigurationsResponseValueList",
           "traits": {
             "smithy.api#documentation": "The Configuration items on this page",
             "smithy.api#required": {}
@@ -1408,10 +1438,10 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "The response of a Configuration list operation."
+        "smithy.api#output": {}
       }
     },
-    "com.azure.portal#ConfigurationListResultValueList": {
+    "com.azure.portal#ListTenantConfigurationsResponseValueList": {
       "type": "list",
       "member": {
         "target": "com.azure.portal#Configuration"
@@ -1464,7 +1494,7 @@
         "target": "smithy.api#Unit"
       },
       "output": {
-        "target": "com.azure.portal#ViolationsList"
+        "target": "com.azure.portal#ListListTenantConfigurationViolationsResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -1477,11 +1507,11 @@
         "com.distilled.openapi#apiVersion": "2026-04-01"
       }
     },
-    "com.azure.portal#ViolationsList": {
+    "com.azure.portal#ListListTenantConfigurationViolationsResponse": {
       "type": "structure",
       "members": {
         "value": {
-          "target": "com.azure.portal#ViolationsListValueList",
+          "target": "com.azure.portal#ListListTenantConfigurationViolationsResponseValueList",
           "traits": {
             "smithy.api#documentation": "The Violation items on this page",
             "smithy.api#required": {}
@@ -1495,10 +1525,10 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "List of list of items that violate tenant's configuration."
+        "smithy.api#output": {}
       }
     },
-    "com.azure.portal#ViolationsListValueList": {
+    "com.azure.portal#ListListTenantConfigurationViolationsResponseValueList": {
       "type": "list",
       "member": {
         "target": "com.azure.portal#Violation"
@@ -1538,6 +1568,9 @@
       "version": "1.0",
       "operations": [
         {
+          "target": "com.azure.portal#ListOperations"
+        },
+        {
           "target": "com.azure.portal#DeleteDashboard"
         },
         {
@@ -1554,9 +1587,6 @@
         },
         {
           "target": "com.azure.portal#ListDashboardBySubscription"
-        },
-        {
-          "target": "com.azure.portal#ListOperations"
         },
         {
           "target": "com.azure.portal#DeleteTenantConfiguration"

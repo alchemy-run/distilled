@@ -7,10 +7,7 @@ import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
-const svc = T.AwsApiService({
-  sdkId: "forecastquery",
-  serviceShapeName: "AmazonForecastRuntime",
-});
+const svc = T.AwsApiService({ sdkId: "forecastquery", serviceShapeName: "AmazonForecastRuntime" });
 const auth = T.AwsAuthSigv4({ name: "forecast" });
 const ver = T.ServiceVersion("2018-06-26");
 const proto = T.AwsProtocolsAwsJson1_1();
@@ -124,9 +121,7 @@ export const QueryForecastRequest = /*@__PURE__*/ S.suspend(() =>
     Filters: Filters,
     NextToken: S.optional(S.String),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "QueryForecastRequest",
-}) as any as S.Schema<QueryForecastRequest>;
+).annotate({ identifier: "QueryForecastRequest" }) as any as S.Schema<QueryForecastRequest>;
 export type Statistic = string;
 export interface DataPoint {
   Timestamp?: string;
@@ -150,9 +145,7 @@ export interface QueryForecastResponse {
 }
 export const QueryForecastResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Forecast: S.optional(Forecast) }),
-).annotate({
-  identifier: "QueryForecastResponse",
-}) as any as S.Schema<QueryForecastResponse>;
+).annotate({ identifier: "QueryForecastResponse" }) as any as S.Schema<QueryForecastResponse>;
 export type LongArn = string;
 export interface QueryWhatIfForecastRequest {
   WhatIfForecastArn: string;

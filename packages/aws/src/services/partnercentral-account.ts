@@ -119,9 +119,7 @@ export class ValidationException
         identifier: "ValidationExceptionReason",
       }),
       ErrorDetails: S.optional(
-        S.suspend(() => ValidationErrorList).annotate({
-          identifier: "ValidationErrorList",
-        }),
+        S.suspend(() => ValidationErrorList).annotate({ identifier: "ValidationErrorList" }),
       ),
     },
     T.HttpError(400),
@@ -162,9 +160,7 @@ export interface PartnerProfileSummary {
 }
 export const PartnerProfileSummary = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Id: S.String, Name: S.String }),
-).annotate({
-  identifier: "PartnerProfileSummary",
-}) as any as S.Schema<PartnerProfileSummary>;
+).annotate({ identifier: "PartnerProfileSummary" }) as any as S.Schema<PartnerProfileSummary>;
 export type SellerProfileId = string;
 export interface SellerProfileSummary {
   Id: string;
@@ -172,9 +168,7 @@ export interface SellerProfileSummary {
 }
 export const SellerProfileSummary = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Id: S.String, Name: S.String }),
-).annotate({
-  identifier: "SellerProfileSummary",
-}) as any as S.Schema<SellerProfileSummary>;
+).annotate({ identifier: "SellerProfileSummary" }) as any as S.Schema<SellerProfileSummary>;
 export interface AccountSummary {
   Name: string;
 }
@@ -182,16 +176,8 @@ export const AccountSummary = /*@__PURE__*/ S.suspend(() => S.Struct({ Name: S.S
   identifier: "AccountSummary",
 }) as any as S.Schema<AccountSummary>;
 export type Participant =
-  | {
-      PartnerProfile: PartnerProfileSummary;
-      SellerProfile?: never;
-      Account?: never;
-    }
-  | {
-      PartnerProfile?: never;
-      SellerProfile: SellerProfileSummary;
-      Account?: never;
-    }
+  | { PartnerProfile: PartnerProfileSummary; SellerProfile?: never; Account?: never }
+  | { PartnerProfile?: never; SellerProfile: SellerProfileSummary; Account?: never }
   | { PartnerProfile?: never; SellerProfile?: never; Account: AccountSummary };
 export const Participant = /*@__PURE__*/ S.Union([
   S.Struct({ PartnerProfile: PartnerProfileSummary }),
@@ -217,12 +203,8 @@ export const ConnectionTypeDetail = /*@__PURE__*/ S.suspend(() =>
     CanceledBy: S.optional(S.String),
     OtherParticipant: Participant,
   }),
-).annotate({
-  identifier: "ConnectionTypeDetail",
-}) as any as S.Schema<ConnectionTypeDetail>;
-export type ConnectionTypeDetailMap = {
-  [key in ConnectionType]?: ConnectionTypeDetail;
-};
+).annotate({ identifier: "ConnectionTypeDetail" }) as any as S.Schema<ConnectionTypeDetail>;
+export type ConnectionTypeDetailMap = { [key in ConnectionType]?: ConnectionTypeDetail };
 export const ConnectionTypeDetailMap = /*@__PURE__*/ S.Record(
   ConnectionType,
   ConnectionTypeDetail.pipe(S.optional),
@@ -294,9 +276,7 @@ export const CancelConnectionRequest = /*@__PURE__*/ S.suspend(() =>
     Reason: S.String,
     ClientToken: S.String.pipe(T.IdempotencyToken()),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CancelConnectionRequest",
-}) as any as S.Schema<CancelConnectionRequest>;
+).annotate({ identifier: "CancelConnectionRequest" }) as any as S.Schema<CancelConnectionRequest>;
 export interface CancelConnectionResponse {
   Catalog: string;
   Id: string;
@@ -314,9 +294,7 @@ export const CancelConnectionResponse = /*@__PURE__*/ S.suspend(() =>
     UpdatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ConnectionTypes: ConnectionTypeDetailMap,
   }),
-).annotate({
-  identifier: "CancelConnectionResponse",
-}) as any as S.Schema<CancelConnectionResponse>;
+).annotate({ identifier: "CancelConnectionResponse" }) as any as S.Schema<CancelConnectionResponse>;
 export interface CancelConnectionInvitationRequest {
   Catalog: string;
   Identifier: string;
@@ -473,9 +451,7 @@ export const LocalizedContent = /*@__PURE__*/ S.suspend(() =>
     LogoUrl: S.String,
     Locale: S.String,
   }),
-).annotate({
-  identifier: "LocalizedContent",
-}) as any as S.Schema<LocalizedContent>;
+).annotate({ identifier: "LocalizedContent" }) as any as S.Schema<LocalizedContent>;
 export type LocalizedContentList = LocalizedContent[];
 export const LocalizedContentList = /*@__PURE__*/ S.Array(LocalizedContent);
 export type CountryCode = string;
@@ -531,11 +507,7 @@ export interface ErrorDetail {
   Reason: ProfileValidationErrorReason;
 }
 export const ErrorDetail = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Locale: S.String,
-    Message: S.String,
-    Reason: ProfileValidationErrorReason,
-  }),
+  S.Struct({ Locale: S.String, Message: S.String, Reason: ProfileValidationErrorReason }),
 ).annotate({ identifier: "ErrorDetail" }) as any as S.Schema<ErrorDetail>;
 export type ErrorDetailList = ErrorDetail[];
 export const ErrorDetailList = /*@__PURE__*/ S.Array(ErrorDetail);
@@ -636,9 +608,7 @@ export const AllianceLeadContact = /*@__PURE__*/ S.suspend(() =>
     Email: S.String,
     BusinessTitle: SensitiveString,
   }),
-).annotate({
-  identifier: "AllianceLeadContact",
-}) as any as S.Schema<AllianceLeadContact>;
+).annotate({ identifier: "AllianceLeadContact" }) as any as S.Schema<AllianceLeadContact>;
 export type TagKey = string;
 export type TagValue = string;
 export interface Tag {
@@ -669,9 +639,7 @@ export const CreatePartnerRequest = /*@__PURE__*/ S.suspend(() =>
     EmailVerificationCode: SensitiveString,
     Tags: S.optional(TagList),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreatePartnerRequest",
-}) as any as S.Schema<CreatePartnerRequest>;
+).annotate({ identifier: "CreatePartnerRequest" }) as any as S.Schema<CreatePartnerRequest>;
 export interface PartnerProfile {
   DisplayName: string;
   Description: string;
@@ -732,9 +700,7 @@ export const CreatePartnerResponse = /*@__PURE__*/ S.suspend(() =>
     AwsTrainingCertificationEmailDomains: S.optional(PartnerDomainList),
     AllianceLeadContact: AllianceLeadContact,
   }),
-).annotate({
-  identifier: "CreatePartnerResponse",
-}) as any as S.Schema<CreatePartnerResponse>;
+).annotate({ identifier: "CreatePartnerResponse" }) as any as S.Schema<CreatePartnerResponse>;
 export interface DisassociateAwsTrainingCertificationEmailDomainRequest {
   Catalog: string;
   Identifier: string;
@@ -792,9 +758,7 @@ export const GetConnectionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Catalog: S.String, Identifier: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetConnectionRequest",
-}) as any as S.Schema<GetConnectionRequest>;
+).annotate({ identifier: "GetConnectionRequest" }) as any as S.Schema<GetConnectionRequest>;
 export interface GetConnectionResponse {
   Catalog: string;
   Id: string;
@@ -812,9 +776,7 @@ export const GetConnectionResponse = /*@__PURE__*/ S.suspend(() =>
     UpdatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ConnectionTypes: ConnectionTypeDetailMap,
   }),
-).annotate({
-  identifier: "GetConnectionResponse",
-}) as any as S.Schema<GetConnectionResponse>;
+).annotate({ identifier: "GetConnectionResponse" }) as any as S.Schema<GetConnectionResponse>;
 export interface GetConnectionInvitationRequest {
   Catalog: string;
   Identifier: string;
@@ -907,9 +869,7 @@ export const GetPartnerRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Catalog: S.String, Identifier: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetPartnerRequest",
-}) as any as S.Schema<GetPartnerRequest>;
+).annotate({ identifier: "GetPartnerRequest" }) as any as S.Schema<GetPartnerRequest>;
 export interface GetPartnerResponse {
   Catalog: string;
   Arn: string;
@@ -929,9 +889,7 @@ export const GetPartnerResponse = /*@__PURE__*/ S.suspend(() =>
     Profile: PartnerProfile,
     AwsTrainingCertificationEmailDomains: S.optional(PartnerDomainList),
   }),
-).annotate({
-  identifier: "GetPartnerResponse",
-}) as any as S.Schema<GetPartnerResponse>;
+).annotate({ identifier: "GetPartnerResponse" }) as any as S.Schema<GetPartnerResponse>;
 export interface GetProfileUpdateTaskRequest {
   Catalog: string;
   Identifier: string;
@@ -1020,10 +978,7 @@ export interface QualificationsAssociationPartner {
   AccountId?: string;
 }
 export const QualificationsAssociationPartner = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ProfileId: S.optional(S.String),
-    AccountId: S.optional(S.String),
-  }),
+  S.Struct({ ProfileId: S.optional(S.String), AccountId: S.optional(S.String) }),
 ).annotate({
   identifier: "QualificationsAssociationPartner",
 }) as any as S.Schema<QualificationsAssociationPartner>;
@@ -1139,9 +1094,7 @@ export const GetVerificationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ VerificationType: VerificationType }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetVerificationRequest",
-}) as any as S.Schema<GetVerificationRequest>;
+).annotate({ identifier: "GetVerificationRequest" }) as any as S.Schema<GetVerificationRequest>;
 export type VerificationStatus =
   | "PENDING_CUSTOMER_ACTION"
   | "IN_PROGRESS"
@@ -1228,9 +1181,7 @@ export const GetVerificationResponse = /*@__PURE__*/ S.suspend(() =>
     StartedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     CompletedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
-).annotate({
-  identifier: "GetVerificationResponse",
-}) as any as S.Schema<GetVerificationResponse>;
+).annotate({ identifier: "GetVerificationResponse" }) as any as S.Schema<GetVerificationResponse>;
 export type NextToken = string;
 export type MaxResults = number;
 export interface ListConnectionInvitationsRequest {
@@ -1315,21 +1266,15 @@ export const ListConnectionsRequest = /*@__PURE__*/ S.suspend(() =>
     MaxResults: S.optional(S.Number),
     OtherParticipantIdentifiers: S.optional(ParticipantIdentifierList),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListConnectionsRequest",
-}) as any as S.Schema<ListConnectionsRequest>;
+).annotate({ identifier: "ListConnectionsRequest" }) as any as S.Schema<ListConnectionsRequest>;
 export interface ConnectionTypeSummary {
   Status: ConnectionTypeStatus;
   OtherParticipant: Participant;
 }
 export const ConnectionTypeSummary = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Status: ConnectionTypeStatus, OtherParticipant: Participant }),
-).annotate({
-  identifier: "ConnectionTypeSummary",
-}) as any as S.Schema<ConnectionTypeSummary>;
-export type ConnectionTypeSummaryMap = {
-  [key in ConnectionType]?: ConnectionTypeSummary;
-};
+).annotate({ identifier: "ConnectionTypeSummary" }) as any as S.Schema<ConnectionTypeSummary>;
+export type ConnectionTypeSummaryMap = { [key in ConnectionType]?: ConnectionTypeSummary };
 export const ConnectionTypeSummaryMap = /*@__PURE__*/ S.Record(
   ConnectionType,
   ConnectionTypeSummary.pipe(S.optional),
@@ -1351,9 +1296,7 @@ export const ConnectionSummary = /*@__PURE__*/ S.suspend(() =>
     UpdatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ConnectionTypes: ConnectionTypeSummaryMap,
   }),
-).annotate({
-  identifier: "ConnectionSummary",
-}) as any as S.Schema<ConnectionSummary>;
+).annotate({ identifier: "ConnectionSummary" }) as any as S.Schema<ConnectionSummary>;
 export type ConnectionSummaryList = ConnectionSummary[];
 export const ConnectionSummaryList = /*@__PURE__*/ S.Array(ConnectionSummary);
 export interface ListConnectionsResponse {
@@ -1361,13 +1304,8 @@ export interface ListConnectionsResponse {
   NextToken?: string;
 }
 export const ListConnectionsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ConnectionSummaries: ConnectionSummaryList,
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListConnectionsResponse",
-}) as any as S.Schema<ListConnectionsResponse>;
+  S.Struct({ ConnectionSummaries: ConnectionSummaryList, NextToken: S.optional(S.String) }),
+).annotate({ identifier: "ListConnectionsResponse" }) as any as S.Schema<ListConnectionsResponse>;
 export interface ListPartnersRequest {
   Catalog: string;
   NextToken?: string;
@@ -1376,9 +1314,7 @@ export const ListPartnersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Catalog: S.String, NextToken: S.optional(S.String) }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "ListPartnersRequest",
-}) as any as S.Schema<ListPartnersRequest>;
+).annotate({ identifier: "ListPartnersRequest" }) as any as S.Schema<ListPartnersRequest>;
 export interface PartnerSummary {
   Catalog: string;
   Arn: string;
@@ -1402,13 +1338,8 @@ export interface ListPartnersResponse {
   NextToken?: string;
 }
 export const ListPartnersResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PartnerSummaryList: PartnerSummaryList,
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListPartnersResponse",
-}) as any as S.Schema<ListPartnersResponse>;
+  S.Struct({ PartnerSummaryList: PartnerSummaryList, NextToken: S.optional(S.String) }),
+).annotate({ identifier: "ListPartnersResponse" }) as any as S.Schema<ListPartnersResponse>;
 export type TaggableResourceArn = string;
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
@@ -1467,11 +1398,9 @@ export interface PutProfileVisibilityRequest {
   Visibility: ProfileVisibility;
 }
 export const PutProfileVisibilityRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Catalog: S.String,
-    Identifier: S.String,
-    Visibility: ProfileVisibility,
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+  S.Struct({ Catalog: S.String, Identifier: S.String, Visibility: ProfileVisibility }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "PutProfileVisibilityRequest",
 }) as any as S.Schema<PutProfileVisibilityRequest>;
@@ -1706,9 +1635,7 @@ export const StartVerificationRequest = /*@__PURE__*/ S.suspend(() =>
     ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
     VerificationDetails: S.optional(VerificationDetails),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "StartVerificationRequest",
-}) as any as S.Schema<StartVerificationRequest>;
+).annotate({ identifier: "StartVerificationRequest" }) as any as S.Schema<StartVerificationRequest>;
 export interface StartVerificationResponse {
   VerificationType: VerificationType;
   VerificationStatus: VerificationStatus;
@@ -1737,9 +1664,7 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceArn: S.String, Tags: TagList }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
+).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
 export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
@@ -1754,9 +1679,7 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceArn: S.String, TagKeys: TagKeyList }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
+).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
 export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
@@ -1870,9 +1793,7 @@ export interface FieldValidationError {
 }
 export const FieldValidationError = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Name: S.String, Message: S.String, Code: FieldValidationCode }),
-).annotate({
-  identifier: "FieldValidationError",
-}) as any as S.Schema<FieldValidationError>;
+).annotate({ identifier: "FieldValidationError" }) as any as S.Schema<FieldValidationError>;
 export type BusinessValidationCode =
   | "INCOMPATIBLE_CONNECTION_INVITATION_REQUEST"
   | "INCOMPATIBLE_LEGAL_NAME"
@@ -1897,18 +1818,10 @@ export interface BusinessValidationError {
 }
 export const BusinessValidationError = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Message: S.String, Code: BusinessValidationCode }),
-).annotate({
-  identifier: "BusinessValidationError",
-}) as any as S.Schema<BusinessValidationError>;
+).annotate({ identifier: "BusinessValidationError" }) as any as S.Schema<BusinessValidationError>;
 export type ValidationError =
-  | {
-      FieldValidationError: FieldValidationError;
-      BusinessValidationError?: never;
-    }
-  | {
-      FieldValidationError?: never;
-      BusinessValidationError: BusinessValidationError;
-    };
+  | { FieldValidationError: FieldValidationError; BusinessValidationError?: never }
+  | { FieldValidationError?: never; BusinessValidationError: BusinessValidationError };
 export const ValidationError = /*@__PURE__*/ S.Union([
   S.Struct({ FieldValidationError: FieldValidationError }),
   S.Struct({ BusinessValidationError: BusinessValidationError }),

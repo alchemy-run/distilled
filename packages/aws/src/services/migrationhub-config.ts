@@ -124,11 +124,9 @@ export interface CreateHomeRegionControlRequest {
   DryRun?: boolean;
 }
 export const CreateHomeRegionControlRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    HomeRegion: S.String,
-    Target: Target,
-    DryRun: S.optional(S.Boolean),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+  S.Struct({ HomeRegion: S.String, Target: Target, DryRun: S.optional(S.Boolean) }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "CreateHomeRegionControlRequest",
 }) as any as S.Schema<CreateHomeRegionControlRequest>;
@@ -147,9 +145,7 @@ export const HomeRegionControl = /*@__PURE__*/ S.suspend(() =>
     Target: S.optional(Target),
     RequestedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
-).annotate({
-  identifier: "HomeRegionControl",
-}) as any as S.Schema<HomeRegionControl>;
+).annotate({ identifier: "HomeRegionControl" }) as any as S.Schema<HomeRegionControl>;
 export interface CreateHomeRegionControlResult {
   HomeRegionControl?: HomeRegionControl;
 }
@@ -199,27 +195,20 @@ export interface DescribeHomeRegionControlsResult {
   NextToken?: string;
 }
 export const DescribeHomeRegionControlsResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    HomeRegionControls: S.optional(HomeRegionControls),
-    NextToken: S.optional(S.String),
-  }),
+  S.Struct({ HomeRegionControls: S.optional(HomeRegionControls), NextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "DescribeHomeRegionControlsResult",
 }) as any as S.Schema<DescribeHomeRegionControlsResult>;
 export interface GetHomeRegionRequest {}
 export const GetHomeRegionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "GetHomeRegionRequest",
-}) as any as S.Schema<GetHomeRegionRequest>;
+).annotate({ identifier: "GetHomeRegionRequest" }) as any as S.Schema<GetHomeRegionRequest>;
 export interface GetHomeRegionResult {
   HomeRegion?: string;
 }
 export const GetHomeRegionResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ HomeRegion: S.optional(S.String) }),
-).annotate({
-  identifier: "GetHomeRegionResult",
-}) as any as S.Schema<GetHomeRegionResult>;
+).annotate({ identifier: "GetHomeRegionResult" }) as any as S.Schema<GetHomeRegionResult>;
 export type ErrorMessage = string;
 export type RetryAfterSeconds = number;
 export type CreateHomeRegionControlError =

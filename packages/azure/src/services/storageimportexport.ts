@@ -87,9 +87,7 @@ export const ShippingInformationInput = /*@__PURE__*/ S.suspend(() =>
     countryOrRegion: S.optional(S.String),
     phone: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ShippingInformationInput",
-}) as any as S.Schema<ShippingInformationInput>;
+).annotate({ identifier: "ShippingInformationInput" }) as any as S.Schema<ShippingInformationInput>;
 
 /** Contains information about the delivery package being shipped by the customer to the Microsoft data center. */
 export interface DeliveryPackageInformation {
@@ -131,9 +129,7 @@ export const PackageInformation = /*@__PURE__*/ S.suspend(() =>
     driveCount: S.Number,
     shipDate: S.String,
   }),
-).annotate({
-  identifier: "PackageInformation",
-}) as any as S.Schema<PackageInformation>;
+).annotate({ identifier: "PackageInformation" }) as any as S.Schema<PackageInformation>;
 
 /** The drive's current state. */
 export type DriveStatusState =
@@ -255,9 +251,7 @@ export const EncryptionKeyDetails = /*@__PURE__*/ S.suspend(() =>
     kekUrl: S.optional(S.String),
     kekVaultResourceID: S.optional(S.String),
   }),
-).annotate({
-  identifier: "EncryptionKeyDetails",
-}) as any as S.Schema<EncryptionKeyDetails>;
+).annotate({ identifier: "EncryptionKeyDetails" }) as any as S.Schema<EncryptionKeyDetails>;
 
 /** Specifies the job properties */
 export interface JobDetailsInput {
@@ -319,9 +313,7 @@ export const JobDetailsInput = /*@__PURE__*/ S.suspend(() =>
     provisioningState: S.optional(S.String),
     encryptionKey: S.optional(EncryptionKeyDetails),
   }),
-).annotate({
-  identifier: "JobDetailsInput",
-}) as any as S.Schema<JobDetailsInput>;
+).annotate({ identifier: "JobDetailsInput" }) as any as S.Schema<JobDetailsInput>;
 
 export interface CreateJobRequest {
   /** The subscription ID for the Azure user. */
@@ -353,9 +345,7 @@ export const CreateJobRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2020-08-01",
     }),
   ),
-).annotate({
-  identifier: "CreateJobRequest",
-}) as any as S.Schema<CreateJobRequest>;
+).annotate({ identifier: "CreateJobRequest" }) as any as S.Schema<CreateJobRequest>;
 
 /** The type of identity that created the resource. */
 export type JobResponseSystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -393,9 +383,7 @@ export const JobResponseSystemData = /*@__PURE__*/ S.suspend(() =>
     lastModifiedByType: S.optional(JobResponseSystemDataLastModifiedByType),
     lastModifiedAt: S.optional(S.String),
   }),
-).annotate({
-  identifier: "JobResponseSystemData",
-}) as any as S.Schema<JobResponseSystemData>;
+).annotate({ identifier: "JobResponseSystemData" }) as any as S.Schema<JobResponseSystemData>;
 
 /** Contains information about the Microsoft datacenter to which the drives should be shipped. */
 export interface ShippingInformation {
@@ -430,9 +418,7 @@ export const ShippingInformation = /*@__PURE__*/ S.suspend(() =>
     phone: S.optional(S.String),
     additionalInformation: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ShippingInformation",
-}) as any as S.Schema<ShippingInformation>;
+).annotate({ identifier: "ShippingInformation" }) as any as S.Schema<ShippingInformation>;
 
 /** List of up to ten drives that comprise the job. The drive list is a required element for an import job; it is not specified for export jobs. */
 export type JobDetailsDriveListList = Array<DriveStatus>;
@@ -521,9 +507,7 @@ export const IdentityDetails = /*@__PURE__*/ S.suspend(() =>
     principalId: S.optional(S.String),
     tenantId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "IdentityDetails",
-}) as any as S.Schema<IdentityDetails>;
+).annotate({ identifier: "IdentityDetails" }) as any as S.Schema<IdentityDetails>;
 
 /** Contains the job information. */
 export interface JobResponse {
@@ -578,9 +562,7 @@ export const DeleteJobRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2020-08-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteJobRequest",
-}) as any as S.Schema<DeleteJobRequest>;
+).annotate({ identifier: "DeleteJobRequest" }) as any as S.Schema<DeleteJobRequest>;
 
 export interface DeleteJobResponse {}
 export const DeleteJobResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -625,9 +607,7 @@ export const GetLocationRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2020-08-01",
     }),
   ),
-).annotate({
-  identifier: "GetLocationRequest",
-}) as any as S.Schema<GetLocationRequest>;
+).annotate({ identifier: "GetLocationRequest" }) as any as S.Schema<GetLocationRequest>;
 
 /** A list of carriers that are supported at this location. */
 export type LocationPropertiesSupportedCarriersList = Array<string>;
@@ -680,9 +660,7 @@ export const LocationProperties = /*@__PURE__*/ S.suspend(() =>
     supportedCarriers: S.optional(LocationPropertiesSupportedCarriersList),
     alternateLocations: S.optional(LocationPropertiesAlternateLocationsList),
   }),
-).annotate({
-  identifier: "LocationProperties",
-}) as any as S.Schema<LocationProperties>;
+).annotate({ identifier: "LocationProperties" }) as any as S.Schema<LocationProperties>;
 
 /** Provides information about an Azure data center location. */
 export interface Location {
@@ -725,9 +703,7 @@ export const ListBitLockerKeysRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2020-08-01",
     }),
   ),
-).annotate({
-  identifier: "ListBitLockerKeysRequest",
-}) as any as S.Schema<ListBitLockerKeysRequest>;
+).annotate({ identifier: "ListBitLockerKeysRequest" }) as any as S.Schema<ListBitLockerKeysRequest>;
 
 /** BitLocker recovery key or password to the specified drive */
 export interface DriveBitLockerKey {
@@ -741,9 +717,7 @@ export const DriveBitLockerKey = /*@__PURE__*/ S.suspend(() =>
     bitLockerKey: S.optional(S.String),
     driveId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DriveBitLockerKey",
-}) as any as S.Schema<DriveBitLockerKey>;
+).annotate({ identifier: "DriveBitLockerKey" }) as any as S.Schema<DriveBitLockerKey>;
 
 /** drive status */
 export type GetBitLockerKeysResponseValueList = Array<DriveBitLockerKey>;
@@ -760,9 +734,7 @@ export const GetBitLockerKeysResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     value: S.optional(GetBitLockerKeysResponseValueList),
   }),
-).annotate({
-  identifier: "GetBitLockerKeysResponse",
-}) as any as S.Schema<GetBitLockerKeysResponse>;
+).annotate({ identifier: "GetBitLockerKeysResponse" }) as any as S.Schema<GetBitLockerKeysResponse>;
 
 export interface ListJobByResourceGroupRequest {
   /** The subscription ID for the Azure user. */
@@ -810,9 +782,7 @@ export const ListJobsResponse = /*@__PURE__*/ S.suspend(() =>
     nextLink: S.optional(S.String),
     value: S.optional(ListJobsResponseValueList),
   }),
-).annotate({
-  identifier: "ListJobsResponse",
-}) as any as S.Schema<ListJobsResponse>;
+).annotate({ identifier: "ListJobsResponse" }) as any as S.Schema<ListJobsResponse>;
 
 export interface ListJobBySubscriptionRequest {
   /** The subscription ID for the Azure user. */
@@ -849,9 +819,7 @@ export const ListLocationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2020-08-01",
     }),
   ),
-).annotate({
-  identifier: "ListLocationsRequest",
-}) as any as S.Schema<ListLocationsRequest>;
+).annotate({ identifier: "ListLocationsRequest" }) as any as S.Schema<ListLocationsRequest>;
 
 /** locations */
 export type LocationsResponseValueList = Array<Location>;
@@ -868,9 +836,7 @@ export const LocationsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     value: S.optional(LocationsResponseValueList),
   }),
-).annotate({
-  identifier: "LocationsResponse",
-}) as any as S.Schema<LocationsResponse>;
+).annotate({ identifier: "LocationsResponse" }) as any as S.Schema<LocationsResponse>;
 
 export interface ListOperationsRequest {}
 export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -882,9 +848,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2020-08-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** operation display properties */
 export interface OperationDisplay {
@@ -904,9 +868,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** Describes a supported operation by the Storage Import/Export job API. */
 export interface Operation {
@@ -937,9 +899,7 @@ export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     value: S.optional(ListOperationsResponseValueList),
   }),
-).annotate({
-  identifier: "ListOperationsResponse",
-}) as any as S.Schema<ListOperationsResponse>;
+).annotate({ identifier: "ListOperationsResponse" }) as any as S.Schema<ListOperationsResponse>;
 
 /** List of drives that comprise the job. */
 export type UpdateJobRequestPropertiesDriveListList = Array<DriveStatus>;
@@ -1008,9 +968,7 @@ export const UpdateJobRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2020-08-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateJobRequest",
-}) as any as S.Schema<UpdateJobRequest>;
+).annotate({ identifier: "UpdateJobRequest" }) as any as S.Schema<UpdateJobRequest>;
 
 export type CreateJobError = AzureOpError;
 /** Creates a new job or updates an existing job in the specified subscription. */

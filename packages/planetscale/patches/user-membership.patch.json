@@ -1,11 +1,6 @@
 {
-  "description": "Fix User schema in OrganizationMembership and PaginatedOrganizationMembership: make name nullable, make default_organization and SSO-related fields optional",
+  "description": "User in OrganizationMembership, PaginatedOrganizationMembership and User: name is null for some users, and the spec (which now marks it x-nullable) still lists it as required, so the key may be absent; drop name from required.",
   "patches": [
-    {
-      "op": "add",
-      "path": "/definitions/OrganizationMembership/properties/user/properties/name/x-nullable",
-      "value": true
-    },
     {
       "op": "replace",
       "path": "/definitions/OrganizationMembership/properties/user/required",
@@ -20,11 +15,6 @@
       ]
     },
     {
-      "op": "add",
-      "path": "/definitions/User/properties/name/x-nullable",
-      "value": true
-    },
-    {
       "op": "replace",
       "path": "/definitions/User/required",
       "value": [
@@ -36,11 +26,6 @@
         "updated_at",
         "two_factor_auth_configured"
       ]
-    },
-    {
-      "op": "add",
-      "path": "/definitions/PaginatedOrganizationMembership/properties/data/items/properties/user/properties/name/x-nullable",
-      "value": true
     },
     {
       "op": "replace",

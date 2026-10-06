@@ -65,11 +65,7 @@ export class InternalServerException
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",
-    {
-      message: S.String.pipe(T.ErrorMessage()),
-      resourceId: S.String,
-      resourceType: S.String,
-    },
+    { message: S.String.pipe(T.ErrorMessage()), resourceId: S.String, resourceType: S.String },
     T.HttpError(404),
   ).pipe(C.withBadRequestError) {}
 export class ServiceQuotaExceededException
@@ -127,13 +123,8 @@ export interface MultiRegionProperties {
   clusters?: string[];
 }
 export const MultiRegionProperties = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    witnessRegion: S.optional(S.String),
-    clusters: S.optional(ClusterArnList),
-  }),
-).annotate({
-  identifier: "MultiRegionProperties",
-}) as any as S.Schema<MultiRegionProperties>;
+  S.Struct({ witnessRegion: S.optional(S.String), clusters: S.optional(ClusterArnList) }),
+).annotate({ identifier: "MultiRegionProperties" }) as any as S.Schema<MultiRegionProperties>;
 export type PolicyDocument = string;
 export type BypassPolicyLockoutSafetyCheck = boolean;
 export interface CreateClusterInput {
@@ -155,9 +146,7 @@ export const CreateClusterInput = /*@__PURE__*/ S.suspend(() =>
     policy: S.optional(S.String),
     bypassPolicyLockoutSafetyCheck: S.optional(S.Boolean),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/cluster" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateClusterInput",
-}) as any as S.Schema<CreateClusterInput>;
+).annotate({ identifier: "CreateClusterInput" }) as any as S.Schema<CreateClusterInput>;
 export type ClusterId = string;
 export type ClusterStatus =
   | "CREATING"
@@ -197,9 +186,7 @@ export const EncryptionDetails = /*@__PURE__*/ S.suspend(() =>
     kmsKeyArn: S.optional(S.String),
     encryptionStatus: EncryptionStatus,
   }),
-).annotate({
-  identifier: "EncryptionDetails",
-}) as any as S.Schema<EncryptionDetails>;
+).annotate({ identifier: "EncryptionDetails" }) as any as S.Schema<EncryptionDetails>;
 export type Endpoint = string;
 export interface CreateClusterOutput {
   identifier: string;
@@ -222,9 +209,7 @@ export const CreateClusterOutput = /*@__PURE__*/ S.suspend(() =>
     deletionProtectionEnabled: S.Boolean,
     endpoint: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CreateClusterOutput",
-}) as any as S.Schema<CreateClusterOutput>;
+).annotate({ identifier: "CreateClusterOutput" }) as any as S.Schema<CreateClusterOutput>;
 export type KinesisStreamArn = string;
 export type RoleArn = string;
 export interface KinesisTargetDefinition {
@@ -233,9 +218,7 @@ export interface KinesisTargetDefinition {
 }
 export const KinesisTargetDefinition = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ streamArn: S.String, roleArn: S.String }),
-).annotate({
-  identifier: "KinesisTargetDefinition",
-}) as any as S.Schema<KinesisTargetDefinition>;
+).annotate({ identifier: "KinesisTargetDefinition" }) as any as S.Schema<KinesisTargetDefinition>;
 export type TargetDefinition = { kinesis: KinesisTargetDefinition };
 export const TargetDefinition = /*@__PURE__*/ S.Union([
   S.Struct({ kinesis: KinesisTargetDefinition }),
@@ -272,9 +255,7 @@ export const CreateStreamInput = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "CreateStreamInput",
-}) as any as S.Schema<CreateStreamInput>;
+).annotate({ identifier: "CreateStreamInput" }) as any as S.Schema<CreateStreamInput>;
 export type StreamId = string;
 export type StreamArn = string;
 export type StreamStatus =
@@ -307,9 +288,7 @@ export const CreateStreamOutput = /*@__PURE__*/ S.suspend(() =>
     ordering: StreamOrdering,
     format: StreamFormat,
   }),
-).annotate({
-  identifier: "CreateStreamOutput",
-}) as any as S.Schema<CreateStreamOutput>;
+).annotate({ identifier: "CreateStreamOutput" }) as any as S.Schema<CreateStreamOutput>;
 export interface DeleteClusterInput {
   identifier: string;
   clientToken?: string;
@@ -321,9 +300,7 @@ export const DeleteClusterInput = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "DELETE", uri: "/cluster/{identifier}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteClusterInput",
-}) as any as S.Schema<DeleteClusterInput>;
+).annotate({ identifier: "DeleteClusterInput" }) as any as S.Schema<DeleteClusterInput>;
 export interface DeleteClusterOutput {
   identifier: string;
   arn: string;
@@ -337,9 +314,7 @@ export const DeleteClusterOutput = /*@__PURE__*/ S.suspend(() =>
     status: ClusterStatus,
     creationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
   }),
-).annotate({
-  identifier: "DeleteClusterOutput",
-}) as any as S.Schema<DeleteClusterOutput>;
+).annotate({ identifier: "DeleteClusterOutput" }) as any as S.Schema<DeleteClusterOutput>;
 export type PolicyVersion = string;
 export interface DeleteClusterPolicyInput {
   identifier: string;
@@ -361,9 +336,7 @@ export const DeleteClusterPolicyInput = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteClusterPolicyInput",
-}) as any as S.Schema<DeleteClusterPolicyInput>;
+).annotate({ identifier: "DeleteClusterPolicyInput" }) as any as S.Schema<DeleteClusterPolicyInput>;
 export interface DeleteClusterPolicyOutput {
   policyVersion: string;
 }
@@ -384,10 +357,7 @@ export const DeleteStreamInput = /*@__PURE__*/ S.suspend(() =>
     clientToken: S.optional(S.String).pipe(T.HttpQuery("client-token"), T.IdempotencyToken()),
   }).pipe(
     T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/stream/{clusterIdentifier}/{streamIdentifier}",
-      }),
+      T.Http({ method: "DELETE", uri: "/stream/{clusterIdentifier}/{streamIdentifier}" }),
       svc,
       auth,
       proto,
@@ -395,9 +365,7 @@ export const DeleteStreamInput = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteStreamInput",
-}) as any as S.Schema<DeleteStreamInput>;
+).annotate({ identifier: "DeleteStreamInput" }) as any as S.Schema<DeleteStreamInput>;
 export interface DeleteStreamOutput {
   clusterIdentifier: string;
   streamIdentifier: string;
@@ -413,9 +381,7 @@ export const DeleteStreamOutput = /*@__PURE__*/ S.suspend(() =>
     status: StreamStatus,
     creationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
   }),
-).annotate({
-  identifier: "DeleteStreamOutput",
-}) as any as S.Schema<DeleteStreamOutput>;
+).annotate({ identifier: "DeleteStreamOutput" }) as any as S.Schema<DeleteStreamOutput>;
 export interface GetClusterInput {
   identifier: string;
 }
@@ -423,9 +389,7 @@ export const GetClusterInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ identifier: S.String.pipe(T.HttpLabel("identifier")) }).pipe(
     T.all(T.Http({ method: "GET", uri: "/cluster/{identifier}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetClusterInput",
-}) as any as S.Schema<GetClusterInput>;
+).annotate({ identifier: "GetClusterInput" }) as any as S.Schema<GetClusterInput>;
 export interface GetClusterOutput {
   identifier: string;
   arn: string;
@@ -449,9 +413,7 @@ export const GetClusterOutput = /*@__PURE__*/ S.suspend(() =>
     encryptionDetails: S.optional(EncryptionDetails),
     endpoint: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetClusterOutput",
-}) as any as S.Schema<GetClusterOutput>;
+).annotate({ identifier: "GetClusterOutput" }) as any as S.Schema<GetClusterOutput>;
 export interface GetClusterPolicyInput {
   identifier: string;
 }
@@ -466,18 +428,14 @@ export const GetClusterPolicyInput = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetClusterPolicyInput",
-}) as any as S.Schema<GetClusterPolicyInput>;
+).annotate({ identifier: "GetClusterPolicyInput" }) as any as S.Schema<GetClusterPolicyInput>;
 export interface GetClusterPolicyOutput {
   policy: string;
   policyVersion: string;
 }
 export const GetClusterPolicyOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ policy: S.String, policyVersion: S.String }),
-).annotate({
-  identifier: "GetClusterPolicyOutput",
-}) as any as S.Schema<GetClusterPolicyOutput>;
+).annotate({ identifier: "GetClusterPolicyOutput" }) as any as S.Schema<GetClusterPolicyOutput>;
 export interface GetStreamInput {
   clusterIdentifier: string;
   streamIdentifier: string;
@@ -488,10 +446,7 @@ export const GetStreamInput = /*@__PURE__*/ S.suspend(() =>
     streamIdentifier: S.String.pipe(T.HttpLabel("streamIdentifier")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/stream/{clusterIdentifier}/{streamIdentifier}",
-      }),
+      T.Http({ method: "GET", uri: "/stream/{clusterIdentifier}/{streamIdentifier}" }),
       svc,
       auth,
       proto,
@@ -547,19 +502,14 @@ export const GetStreamOutput = /*@__PURE__*/ S.suspend(() =>
     statusReason: S.optional(StatusReason),
     tags: S.optional(TagMap),
   }),
-).annotate({
-  identifier: "GetStreamOutput",
-}) as any as S.Schema<GetStreamOutput>;
+).annotate({ identifier: "GetStreamOutput" }) as any as S.Schema<GetStreamOutput>;
 export interface GetVpcEndpointServiceNameInput {
   identifier: string;
 }
 export const GetVpcEndpointServiceNameInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ identifier: S.String.pipe(T.HttpLabel("identifier")) }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/clusters/{identifier}/vpc-endpoint-service-name",
-      }),
+      T.Http({ method: "GET", uri: "/clusters/{identifier}/vpc-endpoint-service-name" }),
       svc,
       auth,
       proto,
@@ -592,9 +542,7 @@ export const ListClustersInput = /*@__PURE__*/ S.suspend(() =>
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("max-results")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("next-token")),
   }).pipe(T.all(T.Http({ method: "GET", uri: "/cluster" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListClustersInput",
-}) as any as S.Schema<ListClustersInput>;
+).annotate({ identifier: "ListClustersInput" }) as any as S.Schema<ListClustersInput>;
 export interface ClusterSummary {
   identifier: string;
   arn: string;
@@ -610,9 +558,7 @@ export interface ListClustersOutput {
 }
 export const ListClustersOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ nextToken: S.optional(S.String), clusters: ClusterList }),
-).annotate({
-  identifier: "ListClustersOutput",
-}) as any as S.Schema<ListClustersOutput>;
+).annotate({ identifier: "ListClustersOutput" }) as any as S.Schema<ListClustersOutput>;
 export interface ListStreamsInput {
   clusterIdentifier: string;
   maxResults?: number;
@@ -633,9 +579,7 @@ export const ListStreamsInput = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "ListStreamsInput",
-}) as any as S.Schema<ListStreamsInput>;
+).annotate({ identifier: "ListStreamsInput" }) as any as S.Schema<ListStreamsInput>;
 export interface StreamSummary {
   clusterIdentifier: string;
   streamIdentifier: string;
@@ -660,9 +604,7 @@ export interface ListStreamsOutput {
 }
 export const ListStreamsOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ nextToken: S.optional(S.String), streams: StreamList }),
-).annotate({
-  identifier: "ListStreamsOutput",
-}) as any as S.Schema<ListStreamsOutput>;
+).annotate({ identifier: "ListStreamsOutput" }) as any as S.Schema<ListStreamsOutput>;
 export type Arn = string;
 export interface ListTagsForResourceInput {
   resourceArn: string;
@@ -671,9 +613,7 @@ export const ListTagsForResourceInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
     T.all(T.Http({ method: "GET", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "ListTagsForResourceInput",
-}) as any as S.Schema<ListTagsForResourceInput>;
+).annotate({ identifier: "ListTagsForResourceInput" }) as any as S.Schema<ListTagsForResourceInput>;
 export interface ListTagsForResourceOutput {
   tags?: { [key: string]: string | undefined };
 }
@@ -706,31 +646,22 @@ export const PutClusterPolicyInput = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "PutClusterPolicyInput",
-}) as any as S.Schema<PutClusterPolicyInput>;
+).annotate({ identifier: "PutClusterPolicyInput" }) as any as S.Schema<PutClusterPolicyInput>;
 export interface PutClusterPolicyOutput {
   policyVersion: string;
 }
 export const PutClusterPolicyOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ policyVersion: S.String }),
-).annotate({
-  identifier: "PutClusterPolicyOutput",
-}) as any as S.Schema<PutClusterPolicyOutput>;
+).annotate({ identifier: "PutClusterPolicyOutput" }) as any as S.Schema<PutClusterPolicyOutput>;
 export interface TagResourceInput {
   resourceArn: string;
   tags: { [key: string]: string | undefined };
 }
 export const TagResourceInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-    tags: TagMap,
-  }).pipe(
+  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tags: TagMap }).pipe(
     T.all(T.Http({ method: "POST", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "TagResourceInput",
-}) as any as S.Schema<TagResourceInput>;
+).annotate({ identifier: "TagResourceInput" }) as any as S.Schema<TagResourceInput>;
 export interface TagResourceResponse {}
 export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
@@ -748,9 +679,7 @@ export const UntagResourceInput = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UntagResourceInput",
-}) as any as S.Schema<UntagResourceInput>;
+).annotate({ identifier: "UntagResourceInput" }) as any as S.Schema<UntagResourceInput>;
 export interface UntagResourceResponse {}
 export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
@@ -772,9 +701,7 @@ export const UpdateClusterInput = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/cluster/{identifier}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UpdateClusterInput",
-}) as any as S.Schema<UpdateClusterInput>;
+).annotate({ identifier: "UpdateClusterInput" }) as any as S.Schema<UpdateClusterInput>;
 export interface UpdateClusterOutput {
   identifier: string;
   arn: string;
@@ -788,9 +715,7 @@ export const UpdateClusterOutput = /*@__PURE__*/ S.suspend(() =>
     status: ClusterStatus,
     creationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
   }),
-).annotate({
-  identifier: "UpdateClusterOutput",
-}) as any as S.Schema<UpdateClusterOutput>;
+).annotate({ identifier: "UpdateClusterOutput" }) as any as S.Schema<UpdateClusterOutput>;
 export type ValidationExceptionReason =
   | "unknownOperation"
   | "cannotParse"
@@ -806,9 +731,7 @@ export interface ValidationExceptionField {
 }
 export const ValidationExceptionField = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ name: S.String, message: S.String }),
-).annotate({
-  identifier: "ValidationExceptionField",
-}) as any as S.Schema<ValidationExceptionField>;
+).annotate({ identifier: "ValidationExceptionField" }) as any as S.Schema<ValidationExceptionField>;
 export type ValidationExceptionFieldList = ValidationExceptionField[];
 export const ValidationExceptionFieldList = /*@__PURE__*/ S.Array(ValidationExceptionField);
 export type CreateClusterError =

@@ -75,14 +75,14 @@
             "smithy.api#required": {}
           }
         },
+        "expires": {
+          "target": "smithy.api#Double"
+        },
         "scope": {
           "target": "com.vercel.aliases#ListDeploymentAliasesResponseAliasesItemProtectionBypassValueCase0Scope",
           "traits": {
             "smithy.api#required": {}
           }
-        },
-        "expires": {
-          "target": "smithy.api#Double"
         }
       },
       "traits": {
@@ -122,6 +122,12 @@
     "com.vercel.aliases#ListDeploymentAliasesResponseAliasesItemProtectionBypassValueCase1": {
       "type": "structure",
       "members": {
+        "access": {
+          "target": "com.vercel.aliases#ListDeploymentAliasesResponseAliasesItemProtectionBypassValueCase1Access",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
         "createdAt": {
           "target": "smithy.api#Double",
           "traits": {
@@ -136,12 +142,6 @@
         },
         "lastUpdatedBy": {
           "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "access": {
-          "target": "com.vercel.aliases#ListDeploymentAliasesResponseAliasesItemProtectionBypassValueCase1Access",
           "traits": {
             "smithy.api#required": {}
           }
@@ -272,13 +272,6 @@
     "com.vercel.aliases#ListDeploymentAliasesResponseAliasesItem": {
       "type": "structure",
       "members": {
-        "uid": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The unique identifier of the alias",
-            "smithy.api#required": {}
-          }
-        },
         "alias": {
           "target": "smithy.api#String",
           "traits": {
@@ -293,6 +286,12 @@
             "smithy.api#required": {}
           }
         },
+        "protectionBypass": {
+          "target": "com.vercel.aliases#ListDeploymentAliasesResponseAliasesItemProtectionBypassMap",
+          "traits": {
+            "smithy.api#documentation": "The protection bypass for the alias"
+          }
+        },
         "redirect": {
           "target": "smithy.api#String",
           "traits": {
@@ -300,10 +299,11 @@
             "com.distilled.openapi#nullable": {}
           }
         },
-        "protectionBypass": {
-          "target": "com.vercel.aliases#ListDeploymentAliasesResponseAliasesItemProtectionBypassMap",
+        "uid": {
+          "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The protection bypass for the alias"
+            "smithy.api#documentation": "The unique identifier of the alias",
+            "smithy.api#required": {}
           }
         }
       },
@@ -409,13 +409,6 @@
     "com.vercel.aliases#AssignAliasResponse": {
       "type": "structure",
       "members": {
-        "uid": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The unique identifier of the alias",
-            "smithy.api#required": {}
-          }
-        },
         "alias": {
           "target": "smithy.api#String",
           "traits": {
@@ -435,6 +428,13 @@
           "traits": {
             "smithy.api#documentation": "The unique identifier of the previously aliased deployment, only received when the alias was used before",
             "com.distilled.openapi#nullable": {}
+          }
+        },
+        "uid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier of the alias",
+            "smithy.api#required": {}
           }
         }
       },
@@ -571,17 +571,17 @@
     "com.vercel.aliases#ListAliasesResponseAliasesItemCreator": {
       "type": "structure",
       "members": {
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Email of the user who created the alias"
+          }
+        },
         "uid": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "ID of the user who created the alias",
             "smithy.api#required": {}
-          }
-        },
-        "email": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Email of the user who created the alias"
           }
         },
         "username": {
@@ -605,16 +605,16 @@
             "smithy.api#required": {}
           }
         },
-        "url": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The deployment unique URL"
-          }
-        },
         "meta": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The deployment metadata"
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The deployment unique URL"
           }
         }
       },
@@ -622,36 +622,171 @@
         "smithy.api#documentation": "A map with the deployment ID, URL and metadata"
       }
     },
-    "com.vercel.aliases#ListAliasesResponseAliasesItemRedirectStatusCode": {
-      "type": "intEnum",
+    "com.vercel.aliases#ListAliasesResponseAliasesItemMicrofrontendsApplicationsCase0Item": {
+      "type": "structure",
       "members": {
-        "_301": {
-          "target": "smithy.api#Unit",
+        "fallbackHost": {
+          "target": "smithy.api#String",
           "traits": {
-            "smithy.api#enumValue": 301
+            "smithy.api#documentation": "This is always set. In production it is used as a pointer to each apps production deployment. For pre-production, it's used as the fallback if there is no deployment for the branch.",
+            "smithy.api#required": {}
           }
         },
-        "_302": {
-          "target": "smithy.api#Unit",
+        "projectId": {
+          "target": "smithy.api#String",
           "traits": {
-            "smithy.api#enumValue": 302
-          }
-        },
-        "_307": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": 307
-          }
-        },
-        "_308": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": 308
+            "smithy.api#documentation": "The project ID of the microfrontends application.",
+            "smithy.api#required": {}
           }
         }
       },
       "traits": {
-        "smithy.api#documentation": "Status code to be used on redirect"
+        "smithy.api#documentation": "A list of the deployment routing information for each project."
+      }
+    },
+    "com.vercel.aliases#ListAliasesResponseAliasesItemMicrofrontendsApplicationsCase0List": {
+      "type": "list",
+      "member": {
+        "target": "com.vercel.aliases#ListAliasesResponseAliasesItemMicrofrontendsApplicationsCase0Item"
+      },
+      "traits": {
+        "smithy.api#documentation": "A list of the deployment routing information for each project."
+      }
+    },
+    "com.vercel.aliases#ListAliasesResponseAliasesItemMicrofrontendsApplicationsCase1Item": {
+      "type": "structure",
+      "members": {
+        "branchAlias": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Could point to a branch without a deployment if the project was never deployed. The proxy will fallback to the fallbackHost if there is no deployment.",
+            "smithy.api#required": {}
+          }
+        },
+        "fallbackHost": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "This is always set. For branch aliases, it's used as the fallback if there is no deployment for the branch.",
+            "smithy.api#required": {}
+          }
+        },
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The project ID of the microfrontends application.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A list of the deployment routing information for each project."
+      }
+    },
+    "com.vercel.aliases#ListAliasesResponseAliasesItemMicrofrontendsApplicationsCase1List": {
+      "type": "list",
+      "member": {
+        "target": "com.vercel.aliases#ListAliasesResponseAliasesItemMicrofrontendsApplicationsCase1Item"
+      },
+      "traits": {
+        "smithy.api#documentation": "A list of the deployment routing information for each project."
+      }
+    },
+    "com.vercel.aliases#ListAliasesResponseAliasesItemMicrofrontendsApplicationsCase2Item": {
+      "type": "structure",
+      "members": {
+        "branchAlias": {
+          "target": "smithy.api#String"
+        },
+        "branchDeploymentId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "This is the latest non-cancelled deployment of the branch alias at the time the commit alias was created. It is possible there is no deployment for the branch, or this was set before the deployment was canceled, in which case this will point to a cancelled deployment, in either case the proxy will fallback to the fallbackDeploymentId."
+          }
+        },
+        "deploymentId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "This is the deployment for the same commit, it could be a cancelled deployment. The proxy will fallback to the branchDeploymentId and then the fallbackDeploymentId."
+          }
+        },
+        "fallbackDeploymentId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "This is the deployment of the fallback host at the time the commit alias was created. It is possible for this to be a deleted deployment, in which case the proxy will show that the deployment is deleted. It will not use the fallbackHost, as a future deployment on the fallback host could be invalid for this deployment, and it could lead to confusion / incorrect behavior for the commit alias."
+          }
+        },
+        "fallbackHost": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Temporary for backwards compatibility. Can remove when metadata change is released"
+          }
+        },
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The project ID of the microfrontends application.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A list of the deployment routing information for each project."
+      }
+    },
+    "com.vercel.aliases#ListAliasesResponseAliasesItemMicrofrontendsApplicationsCase2List": {
+      "type": "list",
+      "member": {
+        "target": "com.vercel.aliases#ListAliasesResponseAliasesItemMicrofrontendsApplicationsCase2Item"
+      },
+      "traits": {
+        "smithy.api#documentation": "A list of the deployment routing information for each project."
+      }
+    },
+    "com.vercel.aliases#ListAliasesResponseAliasesItemMicrofrontendsApplications": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.vercel.aliases#ListAliasesResponseAliasesItemMicrofrontendsApplicationsCase0List"
+        },
+        "Case1": {
+          "target": "com.vercel.aliases#ListAliasesResponseAliasesItemMicrofrontendsApplicationsCase1List"
+        },
+        "Case2": {
+          "target": "com.vercel.aliases#ListAliasesResponseAliasesItemMicrofrontendsApplicationsCase2List"
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.aliases#ListAliasesResponseAliasesItemMicrofrontendsDefaultApp": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.aliases#ListAliasesResponseAliasesItemMicrofrontends": {
+      "type": "structure",
+      "members": {
+        "applications": {
+          "target": "com.vercel.aliases#ListAliasesResponseAliasesItemMicrofrontendsApplications",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "defaultApp": {
+          "target": "com.vercel.aliases#ListAliasesResponseAliasesItemMicrofrontendsDefaultApp",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The microfrontends for the alias including the routing configuration"
       }
     },
     "com.vercel.aliases#ListAliasesResponseAliasesItemProtectionBypassValueCase0Scope": {
@@ -681,14 +816,14 @@
             "smithy.api#required": {}
           }
         },
+        "expires": {
+          "target": "smithy.api#Double"
+        },
         "scope": {
           "target": "com.vercel.aliases#ListAliasesResponseAliasesItemProtectionBypassValueCase0Scope",
           "traits": {
             "smithy.api#required": {}
           }
-        },
-        "expires": {
-          "target": "smithy.api#Double"
         }
       },
       "traits": {
@@ -728,6 +863,12 @@
     "com.vercel.aliases#ListAliasesResponseAliasesItemProtectionBypassValueCase1": {
       "type": "structure",
       "members": {
+        "access": {
+          "target": "com.vercel.aliases#ListAliasesResponseAliasesItemProtectionBypassValueCase1Access",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
         "createdAt": {
           "target": "smithy.api#Double",
           "traits": {
@@ -742,12 +883,6 @@
         },
         "lastUpdatedBy": {
           "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "access": {
-          "target": "com.vercel.aliases#ListAliasesResponseAliasesItemProtectionBypassValueCase1Access",
           "traits": {
             "smithy.api#required": {}
           }
@@ -875,171 +1010,36 @@
         "smithy.api#documentation": "The protection bypass for the alias"
       }
     },
-    "com.vercel.aliases#ListAliasesResponseAliasesItemMicrofrontendsDefaultApp": {
-      "type": "structure",
+    "com.vercel.aliases#ListAliasesResponseAliasesItemRedirectStatusCode": {
+      "type": "intEnum",
       "members": {
-        "projectId": {
-          "target": "smithy.api#String",
+        "_301": {
+          "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#required": {}
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.vercel.aliases#ListAliasesResponseAliasesItemMicrofrontendsApplicationsCase0Item": {
-      "type": "structure",
-      "members": {
-        "fallbackHost": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "This is always set. In production it is used as a pointer to each apps production deployment. For pre-production, it's used as the fallback if there is no deployment for the branch.",
-            "smithy.api#required": {}
+            "smithy.api#enumValue": 301
           }
         },
-        "projectId": {
-          "target": "smithy.api#String",
+        "_302": {
+          "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#documentation": "The project ID of the microfrontends application.",
-            "smithy.api#required": {}
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "A list of the deployment routing information for each project."
-      }
-    },
-    "com.vercel.aliases#ListAliasesResponseAliasesItemMicrofrontendsApplicationsCase0List": {
-      "type": "list",
-      "member": {
-        "target": "com.vercel.aliases#ListAliasesResponseAliasesItemMicrofrontendsApplicationsCase0Item"
-      },
-      "traits": {
-        "smithy.api#documentation": "A list of the deployment routing information for each project."
-      }
-    },
-    "com.vercel.aliases#ListAliasesResponseAliasesItemMicrofrontendsApplicationsCase1Item": {
-      "type": "structure",
-      "members": {
-        "fallbackHost": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "This is always set. For branch aliases, it's used as the fallback if there is no deployment for the branch.",
-            "smithy.api#required": {}
+            "smithy.api#enumValue": 302
           }
         },
-        "branchAlias": {
-          "target": "smithy.api#String",
+        "_307": {
+          "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#documentation": "Could point to a branch without a deployment if the project was never deployed. The proxy will fallback to the fallbackHost if there is no deployment.",
-            "smithy.api#required": {}
+            "smithy.api#enumValue": 307
           }
         },
-        "projectId": {
-          "target": "smithy.api#String",
+        "_308": {
+          "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#documentation": "The project ID of the microfrontends application.",
-            "smithy.api#required": {}
+            "smithy.api#enumValue": 308
           }
         }
       },
       "traits": {
-        "smithy.api#documentation": "A list of the deployment routing information for each project."
-      }
-    },
-    "com.vercel.aliases#ListAliasesResponseAliasesItemMicrofrontendsApplicationsCase1List": {
-      "type": "list",
-      "member": {
-        "target": "com.vercel.aliases#ListAliasesResponseAliasesItemMicrofrontendsApplicationsCase1Item"
-      },
-      "traits": {
-        "smithy.api#documentation": "A list of the deployment routing information for each project."
-      }
-    },
-    "com.vercel.aliases#ListAliasesResponseAliasesItemMicrofrontendsApplicationsCase2Item": {
-      "type": "structure",
-      "members": {
-        "deploymentId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "This is the deployment for the same commit, it could be a cancelled deployment. The proxy will fallback to the branchDeploymentId and then the fallbackDeploymentId."
-          }
-        },
-        "branchDeploymentId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "This is the latest non-cancelled deployment of the branch alias at the time the commit alias was created. It is possible there is no deployment for the branch, or this was set before the deployment was canceled, in which case this will point to a cancelled deployment, in either case the proxy will fallback to the fallbackDeploymentId."
-          }
-        },
-        "fallbackDeploymentId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "This is the deployment of the fallback host at the time the commit alias was created. It is possible for this to be a deleted deployment, in which case the proxy will show that the deployment is deleted. It will not use the fallbackHost, as a future deployment on the fallback host could be invalid for this deployment, and it could lead to confusion / incorrect behavior for the commit alias."
-          }
-        },
-        "fallbackHost": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Temporary for backwards compatibility. Can remove when metadata change is released"
-          }
-        },
-        "branchAlias": {
-          "target": "smithy.api#String"
-        },
-        "projectId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The project ID of the microfrontends application.",
-            "smithy.api#required": {}
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "A list of the deployment routing information for each project."
-      }
-    },
-    "com.vercel.aliases#ListAliasesResponseAliasesItemMicrofrontendsApplicationsCase2List": {
-      "type": "list",
-      "member": {
-        "target": "com.vercel.aliases#ListAliasesResponseAliasesItemMicrofrontendsApplicationsCase2Item"
-      },
-      "traits": {
-        "smithy.api#documentation": "A list of the deployment routing information for each project."
-      }
-    },
-    "com.vercel.aliases#ListAliasesResponseAliasesItemMicrofrontendsApplications": {
-      "type": "union",
-      "members": {
-        "Case0": {
-          "target": "com.vercel.aliases#ListAliasesResponseAliasesItemMicrofrontendsApplicationsCase0List"
-        },
-        "Case1": {
-          "target": "com.vercel.aliases#ListAliasesResponseAliasesItemMicrofrontendsApplicationsCase1List"
-        },
-        "Case2": {
-          "target": "com.vercel.aliases#ListAliasesResponseAliasesItemMicrofrontendsApplicationsCase2List"
-        }
-      },
-      "traits": {}
-    },
-    "com.vercel.aliases#ListAliasesResponseAliasesItemMicrofrontends": {
-      "type": "structure",
-      "members": {
-        "defaultApp": {
-          "target": "com.vercel.aliases#ListAliasesResponseAliasesItemMicrofrontendsDefaultApp",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "applications": {
-          "target": "com.vercel.aliases#ListAliasesResponseAliasesItemMicrofrontendsApplications",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "The microfrontends for the alias including the routing configuration"
+        "smithy.api#documentation": "Status code to be used on redirect"
       }
     },
     "com.vercel.aliases#ListAliasesResponseAliasesItem": {
@@ -1092,12 +1092,24 @@
             "com.distilled.openapi#nullable": {}
           }
         },
+        "microfrontends": {
+          "target": "com.vercel.aliases#ListAliasesResponseAliasesItemMicrofrontends",
+          "traits": {
+            "smithy.api#documentation": "The microfrontends for the alias including the routing configuration"
+          }
+        },
         "projectId": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The unique identifier of the project",
             "smithy.api#required": {},
             "com.distilled.openapi#nullable": {}
+          }
+        },
+        "protectionBypass": {
+          "target": "com.vercel.aliases#ListAliasesResponseAliasesItemProtectionBypassMap",
+          "traits": {
+            "smithy.api#documentation": "The protection bypass for the alias"
           }
         },
         "redirect": {
@@ -1125,18 +1137,6 @@
           "target": "smithy.api#Double",
           "traits": {
             "smithy.api#documentation": "The date when the alias was updated in milliseconds since the UNIX epoch"
-          }
-        },
-        "protectionBypass": {
-          "target": "com.vercel.aliases#ListAliasesResponseAliasesItemProtectionBypassMap",
-          "traits": {
-            "smithy.api#documentation": "The protection bypass for the alias"
-          }
-        },
-        "microfrontends": {
-          "target": "com.vercel.aliases#ListAliasesResponseAliasesItemMicrofrontends",
-          "traits": {
-            "smithy.api#documentation": "The microfrontends for the alias including the routing configuration"
           }
         }
       },
@@ -1289,17 +1289,17 @@
     "com.vercel.aliases#GetAliasResponseCreator": {
       "type": "structure",
       "members": {
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Email of the user who created the alias"
+          }
+        },
         "uid": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "ID of the user who created the alias",
             "smithy.api#required": {}
-          }
-        },
-        "email": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Email of the user who created the alias"
           }
         },
         "username": {
@@ -1323,16 +1323,16 @@
             "smithy.api#required": {}
           }
         },
-        "url": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The deployment unique URL"
-          }
-        },
         "meta": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The deployment metadata"
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The deployment unique URL"
           }
         }
       },
@@ -1340,36 +1340,171 @@
         "smithy.api#documentation": "A map with the deployment ID, URL and metadata"
       }
     },
-    "com.vercel.aliases#GetAliasResponseRedirectStatusCode": {
-      "type": "intEnum",
+    "com.vercel.aliases#GetAliasResponseMicrofrontendsApplicationsCase0Item": {
+      "type": "structure",
       "members": {
-        "_301": {
-          "target": "smithy.api#Unit",
+        "fallbackHost": {
+          "target": "smithy.api#String",
           "traits": {
-            "smithy.api#enumValue": 301
+            "smithy.api#documentation": "This is always set. In production it is used as a pointer to each apps production deployment. For pre-production, it's used as the fallback if there is no deployment for the branch.",
+            "smithy.api#required": {}
           }
         },
-        "_302": {
-          "target": "smithy.api#Unit",
+        "projectId": {
+          "target": "smithy.api#String",
           "traits": {
-            "smithy.api#enumValue": 302
-          }
-        },
-        "_307": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": 307
-          }
-        },
-        "_308": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": 308
+            "smithy.api#documentation": "The project ID of the microfrontends application.",
+            "smithy.api#required": {}
           }
         }
       },
       "traits": {
-        "smithy.api#documentation": "Status code to be used on redirect"
+        "smithy.api#documentation": "A list of the deployment routing information for each project."
+      }
+    },
+    "com.vercel.aliases#GetAliasResponseMicrofrontendsApplicationsCase0List": {
+      "type": "list",
+      "member": {
+        "target": "com.vercel.aliases#GetAliasResponseMicrofrontendsApplicationsCase0Item"
+      },
+      "traits": {
+        "smithy.api#documentation": "A list of the deployment routing information for each project."
+      }
+    },
+    "com.vercel.aliases#GetAliasResponseMicrofrontendsApplicationsCase1Item": {
+      "type": "structure",
+      "members": {
+        "branchAlias": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Could point to a branch without a deployment if the project was never deployed. The proxy will fallback to the fallbackHost if there is no deployment.",
+            "smithy.api#required": {}
+          }
+        },
+        "fallbackHost": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "This is always set. For branch aliases, it's used as the fallback if there is no deployment for the branch.",
+            "smithy.api#required": {}
+          }
+        },
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The project ID of the microfrontends application.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A list of the deployment routing information for each project."
+      }
+    },
+    "com.vercel.aliases#GetAliasResponseMicrofrontendsApplicationsCase1List": {
+      "type": "list",
+      "member": {
+        "target": "com.vercel.aliases#GetAliasResponseMicrofrontendsApplicationsCase1Item"
+      },
+      "traits": {
+        "smithy.api#documentation": "A list of the deployment routing information for each project."
+      }
+    },
+    "com.vercel.aliases#GetAliasResponseMicrofrontendsApplicationsCase2Item": {
+      "type": "structure",
+      "members": {
+        "branchAlias": {
+          "target": "smithy.api#String"
+        },
+        "branchDeploymentId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "This is the latest non-cancelled deployment of the branch alias at the time the commit alias was created. It is possible there is no deployment for the branch, or this was set before the deployment was canceled, in which case this will point to a cancelled deployment, in either case the proxy will fallback to the fallbackDeploymentId."
+          }
+        },
+        "deploymentId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "This is the deployment for the same commit, it could be a cancelled deployment. The proxy will fallback to the branchDeploymentId and then the fallbackDeploymentId."
+          }
+        },
+        "fallbackDeploymentId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "This is the deployment of the fallback host at the time the commit alias was created. It is possible for this to be a deleted deployment, in which case the proxy will show that the deployment is deleted. It will not use the fallbackHost, as a future deployment on the fallback host could be invalid for this deployment, and it could lead to confusion / incorrect behavior for the commit alias."
+          }
+        },
+        "fallbackHost": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Temporary for backwards compatibility. Can remove when metadata change is released"
+          }
+        },
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The project ID of the microfrontends application.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A list of the deployment routing information for each project."
+      }
+    },
+    "com.vercel.aliases#GetAliasResponseMicrofrontendsApplicationsCase2List": {
+      "type": "list",
+      "member": {
+        "target": "com.vercel.aliases#GetAliasResponseMicrofrontendsApplicationsCase2Item"
+      },
+      "traits": {
+        "smithy.api#documentation": "A list of the deployment routing information for each project."
+      }
+    },
+    "com.vercel.aliases#GetAliasResponseMicrofrontendsApplications": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.vercel.aliases#GetAliasResponseMicrofrontendsApplicationsCase0List"
+        },
+        "Case1": {
+          "target": "com.vercel.aliases#GetAliasResponseMicrofrontendsApplicationsCase1List"
+        },
+        "Case2": {
+          "target": "com.vercel.aliases#GetAliasResponseMicrofrontendsApplicationsCase2List"
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.aliases#GetAliasResponseMicrofrontendsDefaultApp": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.aliases#GetAliasResponseMicrofrontends": {
+      "type": "structure",
+      "members": {
+        "applications": {
+          "target": "com.vercel.aliases#GetAliasResponseMicrofrontendsApplications",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "defaultApp": {
+          "target": "com.vercel.aliases#GetAliasResponseMicrofrontendsDefaultApp",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The microfrontends for the alias including the routing configuration"
       }
     },
     "com.vercel.aliases#GetAliasResponseProtectionBypassValueCase0Scope": {
@@ -1399,14 +1534,14 @@
             "smithy.api#required": {}
           }
         },
+        "expires": {
+          "target": "smithy.api#Double"
+        },
         "scope": {
           "target": "com.vercel.aliases#GetAliasResponseProtectionBypassValueCase0Scope",
           "traits": {
             "smithy.api#required": {}
           }
-        },
-        "expires": {
-          "target": "smithy.api#Double"
         }
       },
       "traits": {
@@ -1446,6 +1581,12 @@
     "com.vercel.aliases#GetAliasResponseProtectionBypassValueCase1": {
       "type": "structure",
       "members": {
+        "access": {
+          "target": "com.vercel.aliases#GetAliasResponseProtectionBypassValueCase1Access",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
         "createdAt": {
           "target": "smithy.api#Double",
           "traits": {
@@ -1460,12 +1601,6 @@
         },
         "lastUpdatedBy": {
           "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "access": {
-          "target": "com.vercel.aliases#GetAliasResponseProtectionBypassValueCase1Access",
           "traits": {
             "smithy.api#required": {}
           }
@@ -1593,171 +1728,36 @@
         "smithy.api#documentation": "The protection bypass for the alias"
       }
     },
-    "com.vercel.aliases#GetAliasResponseMicrofrontendsDefaultApp": {
-      "type": "structure",
+    "com.vercel.aliases#GetAliasResponseRedirectStatusCode": {
+      "type": "intEnum",
       "members": {
-        "projectId": {
-          "target": "smithy.api#String",
+        "_301": {
+          "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#required": {}
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.vercel.aliases#GetAliasResponseMicrofrontendsApplicationsCase0Item": {
-      "type": "structure",
-      "members": {
-        "fallbackHost": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "This is always set. In production it is used as a pointer to each apps production deployment. For pre-production, it's used as the fallback if there is no deployment for the branch.",
-            "smithy.api#required": {}
+            "smithy.api#enumValue": 301
           }
         },
-        "projectId": {
-          "target": "smithy.api#String",
+        "_302": {
+          "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#documentation": "The project ID of the microfrontends application.",
-            "smithy.api#required": {}
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "A list of the deployment routing information for each project."
-      }
-    },
-    "com.vercel.aliases#GetAliasResponseMicrofrontendsApplicationsCase0List": {
-      "type": "list",
-      "member": {
-        "target": "com.vercel.aliases#GetAliasResponseMicrofrontendsApplicationsCase0Item"
-      },
-      "traits": {
-        "smithy.api#documentation": "A list of the deployment routing information for each project."
-      }
-    },
-    "com.vercel.aliases#GetAliasResponseMicrofrontendsApplicationsCase1Item": {
-      "type": "structure",
-      "members": {
-        "fallbackHost": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "This is always set. For branch aliases, it's used as the fallback if there is no deployment for the branch.",
-            "smithy.api#required": {}
+            "smithy.api#enumValue": 302
           }
         },
-        "branchAlias": {
-          "target": "smithy.api#String",
+        "_307": {
+          "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#documentation": "Could point to a branch without a deployment if the project was never deployed. The proxy will fallback to the fallbackHost if there is no deployment.",
-            "smithy.api#required": {}
+            "smithy.api#enumValue": 307
           }
         },
-        "projectId": {
-          "target": "smithy.api#String",
+        "_308": {
+          "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#documentation": "The project ID of the microfrontends application.",
-            "smithy.api#required": {}
+            "smithy.api#enumValue": 308
           }
         }
       },
       "traits": {
-        "smithy.api#documentation": "A list of the deployment routing information for each project."
-      }
-    },
-    "com.vercel.aliases#GetAliasResponseMicrofrontendsApplicationsCase1List": {
-      "type": "list",
-      "member": {
-        "target": "com.vercel.aliases#GetAliasResponseMicrofrontendsApplicationsCase1Item"
-      },
-      "traits": {
-        "smithy.api#documentation": "A list of the deployment routing information for each project."
-      }
-    },
-    "com.vercel.aliases#GetAliasResponseMicrofrontendsApplicationsCase2Item": {
-      "type": "structure",
-      "members": {
-        "deploymentId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "This is the deployment for the same commit, it could be a cancelled deployment. The proxy will fallback to the branchDeploymentId and then the fallbackDeploymentId."
-          }
-        },
-        "branchDeploymentId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "This is the latest non-cancelled deployment of the branch alias at the time the commit alias was created. It is possible there is no deployment for the branch, or this was set before the deployment was canceled, in which case this will point to a cancelled deployment, in either case the proxy will fallback to the fallbackDeploymentId."
-          }
-        },
-        "fallbackDeploymentId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "This is the deployment of the fallback host at the time the commit alias was created. It is possible for this to be a deleted deployment, in which case the proxy will show that the deployment is deleted. It will not use the fallbackHost, as a future deployment on the fallback host could be invalid for this deployment, and it could lead to confusion / incorrect behavior for the commit alias."
-          }
-        },
-        "fallbackHost": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Temporary for backwards compatibility. Can remove when metadata change is released"
-          }
-        },
-        "branchAlias": {
-          "target": "smithy.api#String"
-        },
-        "projectId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The project ID of the microfrontends application.",
-            "smithy.api#required": {}
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "A list of the deployment routing information for each project."
-      }
-    },
-    "com.vercel.aliases#GetAliasResponseMicrofrontendsApplicationsCase2List": {
-      "type": "list",
-      "member": {
-        "target": "com.vercel.aliases#GetAliasResponseMicrofrontendsApplicationsCase2Item"
-      },
-      "traits": {
-        "smithy.api#documentation": "A list of the deployment routing information for each project."
-      }
-    },
-    "com.vercel.aliases#GetAliasResponseMicrofrontendsApplications": {
-      "type": "union",
-      "members": {
-        "Case0": {
-          "target": "com.vercel.aliases#GetAliasResponseMicrofrontendsApplicationsCase0List"
-        },
-        "Case1": {
-          "target": "com.vercel.aliases#GetAliasResponseMicrofrontendsApplicationsCase1List"
-        },
-        "Case2": {
-          "target": "com.vercel.aliases#GetAliasResponseMicrofrontendsApplicationsCase2List"
-        }
-      },
-      "traits": {}
-    },
-    "com.vercel.aliases#GetAliasResponseMicrofrontends": {
-      "type": "structure",
-      "members": {
-        "defaultApp": {
-          "target": "com.vercel.aliases#GetAliasResponseMicrofrontendsDefaultApp",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "applications": {
-          "target": "com.vercel.aliases#GetAliasResponseMicrofrontendsApplications",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "The microfrontends for the alias including the routing configuration"
+        "smithy.api#documentation": "Status code to be used on redirect"
       }
     },
     "com.vercel.aliases#GetAliasResponse": {
@@ -1811,12 +1811,24 @@
             "com.distilled.openapi#nullable": {}
           }
         },
+        "microfrontends": {
+          "target": "com.vercel.aliases#GetAliasResponseMicrofrontends",
+          "traits": {
+            "smithy.api#documentation": "The microfrontends for the alias including the routing configuration"
+          }
+        },
         "projectId": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The unique identifier of the project",
             "smithy.api#required": {},
             "com.distilled.openapi#nullable": {}
+          }
+        },
+        "protectionBypass": {
+          "target": "com.vercel.aliases#GetAliasResponseProtectionBypassMap",
+          "traits": {
+            "smithy.api#documentation": "The protection bypass for the alias"
           }
         },
         "redirect": {
@@ -1845,18 +1857,6 @@
           "traits": {
             "smithy.api#documentation": "The date when the alias was updated in milliseconds since the UNIX epoch",
             "com.distilled.openapi#nullable": {}
-          }
-        },
-        "protectionBypass": {
-          "target": "com.vercel.aliases#GetAliasResponseProtectionBypassMap",
-          "traits": {
-            "smithy.api#documentation": "The protection bypass for the alias"
-          }
-        },
-        "microfrontends": {
-          "target": "com.vercel.aliases#GetAliasResponseMicrofrontends",
-          "traits": {
-            "smithy.api#documentation": "The microfrontends for the alias including the routing configuration"
           }
         }
       },

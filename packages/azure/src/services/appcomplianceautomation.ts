@@ -70,9 +70,7 @@ export const DeleteEvidenceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-06-27",
     }),
   ),
-).annotate({
-  identifier: "DeleteEvidenceRequest",
-}) as any as S.Schema<DeleteEvidenceRequest>;
+).annotate({ identifier: "DeleteEvidenceRequest" }) as any as S.Schema<DeleteEvidenceRequest>;
 
 export interface DeleteEvidenceResponse {}
 export const DeleteEvidenceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -94,9 +92,7 @@ export const DeleteReportRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-06-27",
     }),
   ),
-).annotate({
-  identifier: "DeleteReportRequest",
-}) as any as S.Schema<DeleteReportRequest>;
+).annotate({ identifier: "DeleteReportRequest" }) as any as S.Schema<DeleteReportRequest>;
 
 export interface DeleteReportResponse {}
 export const DeleteReportResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -150,9 +146,7 @@ export const DeleteWebhookRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-06-27",
     }),
   ),
-).annotate({
-  identifier: "DeleteWebhookRequest",
-}) as any as S.Schema<DeleteWebhookRequest>;
+).annotate({ identifier: "DeleteWebhookRequest" }) as any as S.Schema<DeleteWebhookRequest>;
 
 export interface DeleteWebhookResponse {}
 export const DeleteWebhookResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -183,9 +177,7 @@ export const DownloadEvidenceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-06-27",
     }),
   ),
-).annotate({
-  identifier: "DownloadEvidenceRequest",
-}) as any as S.Schema<DownloadEvidenceRequest>;
+).annotate({ identifier: "DownloadEvidenceRequest" }) as any as S.Schema<DownloadEvidenceRequest>;
 
 /** The uri of evidence file */
 export interface EvidenceFileDownloadResponseEvidenceFile {
@@ -248,9 +240,7 @@ export const DownloadSnapshotRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-06-27",
     }),
   ),
-).annotate({
-  identifier: "DownloadSnapshotRequest",
-}) as any as S.Schema<DownloadSnapshotRequest>;
+).annotate({ identifier: "DownloadSnapshotRequest" }) as any as S.Schema<DownloadSnapshotRequest>;
 
 /** Resource Id. */
 export interface ResourceItem {
@@ -332,9 +322,7 @@ export const ComplianceReportItem = /*@__PURE__*/ S.suspend(() =>
     resourceStatus: S.optional(ResourceStatus),
     resourceStatusChangeDate: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ComplianceReportItem",
-}) as any as S.Schema<ComplianceReportItem>;
+).annotate({ identifier: "ComplianceReportItem" }) as any as S.Schema<ComplianceReportItem>;
 
 /** List of the compliance result */
 export type DownloadResponseComplianceReportList = Array<ComplianceReportItem>;
@@ -386,9 +374,7 @@ export const DownloadResponse = /*@__PURE__*/ S.suspend(() =>
     compliancePdfReport: S.optional(DownloadResponseCompliancePdfReport),
     complianceDetailedPdfReport: S.optional(DownloadResponseComplianceDetailedPdfReport),
   }),
-).annotate({
-  identifier: "DownloadResponse",
-}) as any as S.Schema<DownloadResponse>;
+).annotate({ identifier: "DownloadResponse" }) as any as S.Schema<DownloadResponse>;
 
 /** Evidence type */
 export type EvidenceType = "File" | "AutoCollectedEvidence" | "Data";
@@ -415,9 +401,7 @@ export const EvidencePropertiesInput = /*@__PURE__*/ S.suspend(() =>
     controlId: S.optional(S.String),
     responsibilityId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "EvidencePropertiesInput",
-}) as any as S.Schema<EvidencePropertiesInput>;
+).annotate({ identifier: "EvidencePropertiesInput" }) as any as S.Schema<EvidencePropertiesInput>;
 
 export interface EvidenceCreateOrUpdateRequest {
   /** Report Name. */
@@ -520,9 +504,7 @@ export const EvidenceProperties = /*@__PURE__*/ S.suspend(() =>
     responsibilityId: S.optional(S.String),
     provisioningState: S.optional(ProvisioningState),
   }),
-).annotate({
-  identifier: "EvidenceProperties",
-}) as any as S.Schema<EvidenceProperties>;
+).annotate({ identifier: "EvidenceProperties" }) as any as S.Schema<EvidenceProperties>;
 
 export interface EvidenceCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -566,9 +548,7 @@ export const GetEvidenceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-06-27",
     }),
   ),
-).annotate({
-  identifier: "GetEvidenceRequest",
-}) as any as S.Schema<GetEvidenceRequest>;
+).annotate({ identifier: "GetEvidenceRequest" }) as any as S.Schema<GetEvidenceRequest>;
 
 export interface GetEvidenceResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -590,9 +570,7 @@ export const GetEvidenceResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: EvidenceProperties,
   }),
-).annotate({
-  identifier: "GetEvidenceResponse",
-}) as any as S.Schema<GetEvidenceResponse>;
+).annotate({ identifier: "GetEvidenceResponse" }) as any as S.Schema<GetEvidenceResponse>;
 
 export interface GetProviderActionCollectionCountRequest {
   /** The resource type. */
@@ -693,9 +671,7 @@ export const GetReportRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-06-27",
     }),
   ),
-).annotate({
-  identifier: "GetReportRequest",
-}) as any as S.Schema<GetReportRequest>;
+).annotate({ identifier: "GetReportRequest" }) as any as S.Schema<GetReportRequest>;
 
 /** Single resource Id's metadata. */
 export interface ResourceMetadata {
@@ -718,9 +694,7 @@ export const ResourceMetadata = /*@__PURE__*/ S.suspend(() =>
     resourceOrigin: S.optional(ResourceOrigin),
     accountId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ResourceMetadata",
-}) as any as S.Schema<ResourceMetadata>;
+).annotate({ identifier: "ResourceMetadata" }) as any as S.Schema<ResourceMetadata>;
 
 /** List of resource data. */
 export type ReportPropertiesResourcesList = Array<ResourceMetadata>;
@@ -776,9 +750,7 @@ export const ReportComplianceStatus = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     m365: S.optional(OverviewStatus),
   }),
-).annotate({
-  identifier: "ReportComplianceStatus",
-}) as any as S.Schema<ReportComplianceStatus>;
+).annotate({ identifier: "ReportComplianceStatus" }) as any as S.Schema<ReportComplianceStatus>;
 
 /** The information of 'bring your own storage' account binding to the report */
 export interface StorageInfo {
@@ -812,9 +784,7 @@ export const ControlSyncRecord = /*@__PURE__*/ S.suspend(() =>
     controlId: S.optional(S.String),
     controlStatus: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ControlSyncRecord",
-}) as any as S.Schema<ControlSyncRecord>;
+).annotate({ identifier: "ControlSyncRecord" }) as any as S.Schema<ControlSyncRecord>;
 
 /** The control records list to be synchronized. */
 export type CertSyncRecordControlsList = Array<ControlSyncRecord>;
@@ -896,9 +866,7 @@ export const ReportProperties = /*@__PURE__*/ S.suspend(() =>
     certRecords: S.optional(ReportPropertiesCertRecordsList),
     provisioningState: S.optional(ProvisioningState),
   }),
-).annotate({
-  identifier: "ReportProperties",
-}) as any as S.Schema<ReportProperties>;
+).annotate({ identifier: "ReportProperties" }) as any as S.Schema<ReportProperties>;
 
 export interface GetReportResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -920,9 +888,7 @@ export const GetReportResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: ReportProperties,
   }),
-).annotate({
-  identifier: "GetReportResponse",
-}) as any as S.Schema<GetReportResponse>;
+).annotate({ identifier: "GetReportResponse" }) as any as S.Schema<GetReportResponse>;
 
 export interface GetReportScopingQuestionsRequest {
   /** Report Name. */
@@ -1019,9 +985,7 @@ export const ScopingQuestion = /*@__PURE__*/ S.suspend(() =>
     rules: ScopingQuestionRulesList,
     showSubQuestionsValue: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ScopingQuestion",
-}) as any as S.Schema<ScopingQuestion>;
+).annotate({ identifier: "ScopingQuestion" }) as any as S.Schema<ScopingQuestion>;
 
 /** List of scoping questions. */
 export type ScopingQuestionsQuestionsList = Array<ScopingQuestion>;
@@ -1038,9 +1002,7 @@ export const ScopingQuestions = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     questions: S.optional(ScopingQuestionsQuestionsList),
   }),
-).annotate({
-  identifier: "ScopingQuestions",
-}) as any as S.Schema<ScopingQuestions>;
+).annotate({ identifier: "ScopingQuestions" }) as any as S.Schema<ScopingQuestions>;
 
 export interface GetScopingConfigurationRequest {
   /** Report Name. */
@@ -1148,9 +1110,7 @@ export const GetSnapshotRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-06-27",
     }),
   ),
-).annotate({
-  identifier: "GetSnapshotRequest",
-}) as any as S.Schema<GetSnapshotRequest>;
+).annotate({ identifier: "GetSnapshotRequest" }) as any as S.Schema<GetSnapshotRequest>;
 
 /** The type of identity that created the resource. */
 export type SnapshotPropertiesReportSystemDataCreatedByType =
@@ -1253,9 +1213,7 @@ export const ResponsibilityResource = /*@__PURE__*/ S.suspend(() =>
     resourceStatusChangeDate: S.optional(S.String),
     recommendationIds: S.optional(ResponsibilityResourceRecommendationIdsList),
   }),
-).annotate({
-  identifier: "ResponsibilityResource",
-}) as any as S.Schema<ResponsibilityResource>;
+).annotate({ identifier: "ResponsibilityResource" }) as any as S.Schema<ResponsibilityResource>;
 
 /** List of resource. */
 export type ResponsibilityResourceListList = Array<ResponsibilityResource>;
@@ -1282,9 +1240,7 @@ export const RecommendationSolution = /*@__PURE__*/ S.suspend(() =>
     recommendationSolutionContent: S.optional(S.String),
     isRecommendSolution: S.optional(IsRecommendSolution),
   }),
-).annotate({
-  identifier: "RecommendationSolution",
-}) as any as S.Schema<RecommendationSolution>;
+).annotate({ identifier: "RecommendationSolution" }) as any as S.Schema<RecommendationSolution>;
 
 /** List of recommendation solutions. */
 export type RecommendationRecommendationSolutionsList = Array<RecommendationSolution>;
@@ -1470,9 +1426,7 @@ export const ComplianceResult = /*@__PURE__*/ S.suspend(() =>
     complianceName: S.optional(S.String),
     categories: S.optional(ComplianceResultCategoriesList),
   }),
-).annotate({
-  identifier: "ComplianceResult",
-}) as any as S.Schema<ComplianceResult>;
+).annotate({ identifier: "ComplianceResult" }) as any as S.Schema<ComplianceResult>;
 
 /** List of compliance results. */
 export type SnapshotPropertiesComplianceResultsList = Array<ComplianceResult>;
@@ -1504,9 +1458,7 @@ export const SnapshotProperties = /*@__PURE__*/ S.suspend(() =>
     reportSystemData: S.optional(SnapshotPropertiesReportSystemData),
     complianceResults: S.optional(SnapshotPropertiesComplianceResultsList),
   }),
-).annotate({
-  identifier: "SnapshotProperties",
-}) as any as S.Schema<SnapshotProperties>;
+).annotate({ identifier: "SnapshotProperties" }) as any as S.Schema<SnapshotProperties>;
 
 export interface GetSnapshotResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -1528,9 +1480,7 @@ export const GetSnapshotResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(SnapshotProperties),
   }),
-).annotate({
-  identifier: "GetSnapshotResponse",
-}) as any as S.Schema<GetSnapshotResponse>;
+).annotate({ identifier: "GetSnapshotResponse" }) as any as S.Schema<GetSnapshotResponse>;
 
 export interface GetWebhookRequest {
   /** Report Name. */
@@ -1550,9 +1500,7 @@ export const GetWebhookRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-06-27",
     }),
   ),
-).annotate({
-  identifier: "GetWebhookRequest",
-}) as any as S.Schema<GetWebhookRequest>;
+).annotate({ identifier: "GetWebhookRequest" }) as any as S.Schema<GetWebhookRequest>;
 
 /** Webhook status. */
 export type WebhookStatus = "Enabled" | "Disabled";
@@ -1642,9 +1590,7 @@ export const WebhookProperties = /*@__PURE__*/ S.suspend(() =>
     deliveryStatus: S.optional(DeliveryStatus),
     provisioningState: S.optional(ProvisioningState),
   }),
-).annotate({
-  identifier: "WebhookProperties",
-}) as any as S.Schema<WebhookProperties>;
+).annotate({ identifier: "WebhookProperties" }) as any as S.Schema<WebhookProperties>;
 
 export interface GetWebhookResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -1666,9 +1612,7 @@ export const GetWebhookResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: WebhookProperties,
   }),
-).annotate({
-  identifier: "GetWebhookResponse",
-}) as any as S.Schema<GetWebhookResponse>;
+).annotate({ identifier: "GetWebhookResponse" }) as any as S.Schema<GetWebhookResponse>;
 
 export interface ListEvidenceByReportRequest {
   /** Report Name. */
@@ -1731,9 +1675,7 @@ export const EvidenceResource = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: EvidenceProperties,
   }),
-).annotate({
-  identifier: "EvidenceResource",
-}) as any as S.Schema<EvidenceResource>;
+).annotate({ identifier: "EvidenceResource" }) as any as S.Schema<EvidenceResource>;
 
 /** The EvidenceResource items on this page */
 export type EvidenceResourceListResultValueList = Array<EvidenceResource>;
@@ -1767,9 +1709,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-06-27",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
@@ -1789,9 +1729,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -1841,9 +1779,7 @@ export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ListOperationsResponseValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListOperationsResponse",
-}) as any as S.Schema<ListOperationsResponse>;
+).annotate({ identifier: "ListOperationsResponse" }) as any as S.Schema<ListOperationsResponse>;
 
 /** List of subscription ids to be query. If the list is null or empty, the API will query all the subscriptions of the user. */
 export type ListProviderActionInUseStorageAccountsRequestSubscriptionIdsList = Array<string>;
@@ -1923,9 +1859,7 @@ export const ListReportRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-06-27",
     }),
   ),
-).annotate({
-  identifier: "ListReportRequest",
-}) as any as S.Schema<ListReportRequest>;
+).annotate({ identifier: "ListReportRequest" }) as any as S.Schema<ListReportRequest>;
 
 /** A class represent an AppComplianceAutomation report resource. */
 export interface ReportResource {
@@ -1968,9 +1902,7 @@ export const ReportResourceListResult = /*@__PURE__*/ S.suspend(() =>
     value: ReportResourceListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ReportResourceListResult",
-}) as any as S.Schema<ReportResourceListResult>;
+).annotate({ identifier: "ReportResourceListResult" }) as any as S.Schema<ReportResourceListResult>;
 
 export interface ListScopingConfigurationRequest {
   /** Report Name. */
@@ -2074,9 +2006,7 @@ export const ListSnapshotRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-06-27",
     }),
   ),
-).annotate({
-  identifier: "ListSnapshotRequest",
-}) as any as S.Schema<ListSnapshotRequest>;
+).annotate({ identifier: "ListSnapshotRequest" }) as any as S.Schema<ListSnapshotRequest>;
 
 /** A class represent a AppComplianceAutomation snapshot resource. */
 export interface SnapshotResource {
@@ -2099,9 +2029,7 @@ export const SnapshotResource = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(SnapshotProperties),
   }),
-).annotate({
-  identifier: "SnapshotResource",
-}) as any as S.Schema<SnapshotResource>;
+).annotate({ identifier: "SnapshotResource" }) as any as S.Schema<SnapshotResource>;
 
 /** The SnapshotResource items on this page */
 export type SnapshotResourceListResultValueList = Array<SnapshotResource>;
@@ -2161,9 +2089,7 @@ export const ListWebhookRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-06-27",
     }),
   ),
-).annotate({
-  identifier: "ListWebhookRequest",
-}) as any as S.Schema<ListWebhookRequest>;
+).annotate({ identifier: "ListWebhookRequest" }) as any as S.Schema<ListWebhookRequest>;
 
 /** A class represent an AppComplianceAutomation webhook resource. */
 export interface WebhookResource {
@@ -2186,9 +2112,7 @@ export const WebhookResource = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: WebhookProperties,
   }),
-).annotate({
-  identifier: "WebhookResource",
-}) as any as S.Schema<WebhookResource>;
+).annotate({ identifier: "WebhookResource" }) as any as S.Schema<WebhookResource>;
 
 /** The WebhookResource items on this page */
 export type WebhookResourceListResultValueList = Array<WebhookResource>;
@@ -2252,9 +2176,7 @@ export const OnboardResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     subscriptionIds: S.optional(OnboardResponseSubscriptionIdsList),
   }),
-).annotate({
-  identifier: "OnboardResponse",
-}) as any as S.Schema<OnboardResponse>;
+).annotate({ identifier: "OnboardResponse" }) as any as S.Schema<OnboardResponse>;
 
 /** List of resource data. */
 export type ReportPropertiesInputResourcesList = Array<ResourceMetadata>;
@@ -2283,9 +2205,7 @@ export const ReportPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     offerGuid: S.optional(S.String),
     storageInfo: S.optional(StorageInfo),
   }),
-).annotate({
-  identifier: "ReportPropertiesInput",
-}) as any as S.Schema<ReportPropertiesInput>;
+).annotate({ identifier: "ReportPropertiesInput" }) as any as S.Schema<ReportPropertiesInput>;
 
 export interface ReportCreateOrUpdateRequest {
   /** Report Name. */
@@ -2348,9 +2268,7 @@ export const ReportFixRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-06-27",
     }),
   ),
-).annotate({
-  identifier: "ReportFixRequest",
-}) as any as S.Schema<ReportFixRequest>;
+).annotate({ identifier: "ReportFixRequest" }) as any as S.Schema<ReportFixRequest>;
 
 /** Indicates whether the fix action is Succeeded or Failed. */
 export type Result = "Succeeded" | "Failed";
@@ -2368,9 +2286,7 @@ export const ReportFixResult = /*@__PURE__*/ S.suspend(() =>
     result: S.optional(Result),
     reason: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ReportFixResult",
-}) as any as S.Schema<ReportFixResult>;
+).annotate({ identifier: "ReportFixResult" }) as any as S.Schema<ReportFixResult>;
 
 export interface ReportNestedResourceCheckNameAvailabilityRequest {
   /** Report Name. */
@@ -2518,9 +2434,7 @@ export const SyncCertRecordResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     certRecord: S.optional(CertSyncRecord),
   }),
-).annotate({
-  identifier: "SyncCertRecordResponse",
-}) as any as S.Schema<SyncCertRecordResponse>;
+).annotate({ identifier: "SyncCertRecordResponse" }) as any as S.Schema<SyncCertRecordResponse>;
 
 /** List of resource ids to be evaluated */
 export type TriggerProviderActionEvaluationRequestResourceIdsList = Array<string>;
@@ -2580,9 +2494,7 @@ export const QuickAssessment = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     remediationLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "QuickAssessment",
-}) as any as S.Schema<QuickAssessment>;
+).annotate({ identifier: "QuickAssessment" }) as any as S.Schema<QuickAssessment>;
 
 /** List of quick assessments */
 export type TriggerEvaluationPropertyQuickAssessmentsList = Array<QuickAssessment>;
@@ -2674,9 +2586,7 @@ export const UpdateReportRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-06-27",
     }),
   ),
-).annotate({
-  identifier: "UpdateReportRequest",
-}) as any as S.Schema<UpdateReportRequest>;
+).annotate({ identifier: "UpdateReportRequest" }) as any as S.Schema<UpdateReportRequest>;
 
 export interface UpdateReportResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -2698,9 +2608,7 @@ export const UpdateReportResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: ReportProperties,
   }),
-).annotate({
-  identifier: "UpdateReportResponse",
-}) as any as S.Schema<UpdateReportResponse>;
+).annotate({ identifier: "UpdateReportResponse" }) as any as S.Schema<UpdateReportResponse>;
 
 /** under which event notification should be sent. */
 export type WebhookPropertiesInputEventsList = Array<NotificationEvent | (string & {})>;
@@ -2738,9 +2646,7 @@ export const WebhookPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     updateWebhookKey: S.optional(S.Boolean.pipe(T.StringEncoded())),
     enableSslVerification: S.optional(S.Boolean.pipe(T.StringEncoded())),
   }),
-).annotate({
-  identifier: "WebhookPropertiesInput",
-}) as any as S.Schema<WebhookPropertiesInput>;
+).annotate({ identifier: "WebhookPropertiesInput" }) as any as S.Schema<WebhookPropertiesInput>;
 
 export interface UpdateWebhookRequest {
   /** Report Name. */
@@ -2763,9 +2669,7 @@ export const UpdateWebhookRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-06-27",
     }),
   ),
-).annotate({
-  identifier: "UpdateWebhookRequest",
-}) as any as S.Schema<UpdateWebhookRequest>;
+).annotate({ identifier: "UpdateWebhookRequest" }) as any as S.Schema<UpdateWebhookRequest>;
 
 export interface UpdateWebhookResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -2787,9 +2691,7 @@ export const UpdateWebhookResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: WebhookProperties,
   }),
-).annotate({
-  identifier: "UpdateWebhookResponse",
-}) as any as S.Schema<UpdateWebhookResponse>;
+).annotate({ identifier: "UpdateWebhookResponse" }) as any as S.Schema<UpdateWebhookResponse>;
 
 export interface VerifyReportRequest {
   /** Report Name. */
@@ -2806,9 +2708,7 @@ export const VerifyReportRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-06-27",
     }),
   ),
-).annotate({
-  identifier: "VerifyReportRequest",
-}) as any as S.Schema<VerifyReportRequest>;
+).annotate({ identifier: "VerifyReportRequest" }) as any as S.Schema<VerifyReportRequest>;
 
 /** Report health status verification result. */
 export interface ReportVerificationResult {
@@ -2822,9 +2722,7 @@ export const ReportVerificationResult = /*@__PURE__*/ S.suspend(() =>
     result: S.optional(Result),
     reason: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ReportVerificationResult",
-}) as any as S.Schema<ReportVerificationResult>;
+).annotate({ identifier: "ReportVerificationResult" }) as any as S.Schema<ReportVerificationResult>;
 
 export interface WebhookCreateOrUpdateRequest {
   /** Report Name. */

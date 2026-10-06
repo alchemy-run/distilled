@@ -33,9 +33,7 @@ export const CancelJobRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-07-01",
     }),
   ),
-).annotate({
-  identifier: "CancelJobRequest",
-}) as any as S.Schema<CancelJobRequest>;
+).annotate({ identifier: "CancelJobRequest" }) as any as S.Schema<CancelJobRequest>;
 
 export interface CancelJobResponse {}
 export const CancelJobResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -83,9 +81,7 @@ export const NotificationPreference = /*@__PURE__*/ S.suspend(() =>
     stageName: NotificationStageName,
     sendNotification: S.Boolean,
   }),
-).annotate({
-  identifier: "NotificationPreference",
-}) as any as S.Schema<NotificationPreference>;
+).annotate({ identifier: "NotificationPreference" }) as any as S.Schema<NotificationPreference>;
 
 /** Notification preference for a job stage. */
 export type ContactDetailsNotificationPreferenceList = Array<NotificationPreference>;
@@ -165,9 +161,7 @@ export const ShippingAddress = /*@__PURE__*/ S.suspend(() =>
     skipAddressValidation: S.optional(S.Boolean),
     taxIdentificationNumber: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ShippingAddress",
-}) as any as S.Schema<ShippingAddress>;
+).annotate({ identifier: "ShippingAddress" }) as any as S.Schema<ShippingAddress>;
 
 /** Account Type of the data to be transferred. */
 export type DataAccountDetailsDataAccountType = "StorageAccount" | "ManagedDisk";
@@ -185,9 +179,7 @@ export const DataAccountDetails = /*@__PURE__*/ S.suspend(() =>
     dataAccountType: DataAccountDetailsDataAccountType,
     sharePassword: S.optional(S.String.pipe(T.SensitiveValue({}))),
   }),
-).annotate({
-  identifier: "DataAccountDetails",
-}) as any as S.Schema<DataAccountDetails>;
+).annotate({ identifier: "DataAccountDetails" }) as any as S.Schema<DataAccountDetails>;
 
 /** Level of the logs to be collected. */
 export type DataImportDetailsLogCollectionLevel = "Error" | "Verbose";
@@ -205,9 +197,7 @@ export const DataImportDetails = /*@__PURE__*/ S.suspend(() =>
     accountDetails: DataAccountDetails,
     logCollectionLevel: S.optional(DataImportDetailsLogCollectionLevel),
   }),
-).annotate({
-  identifier: "DataImportDetails",
-}) as any as S.Schema<DataImportDetails>;
+).annotate({ identifier: "DataImportDetails" }) as any as S.Schema<DataImportDetails>;
 
 /** Details of the data to be imported into azure. */
 export type JobDetailsInputDataImportDetailsList = Array<DataImportDetails>;
@@ -256,9 +246,7 @@ export const BlobFilterDetails = /*@__PURE__*/ S.suspend(() =>
     blobPathList: S.optional(BlobFilterDetailsBlobPathListList),
     containerList: S.optional(BlobFilterDetailsContainerListList),
   }),
-).annotate({
-  identifier: "BlobFilterDetails",
-}) as any as S.Schema<BlobFilterDetails>;
+).annotate({ identifier: "BlobFilterDetails" }) as any as S.Schema<BlobFilterDetails>;
 
 /** Prefix list of the Azure files to be transferred. */
 export type AzureFileFilterDetailsFilePrefixListList = Array<string>;
@@ -293,9 +281,7 @@ export const AzureFileFilterDetails = /*@__PURE__*/ S.suspend(() =>
     filePathList: S.optional(AzureFileFilterDetailsFilePathListList),
     fileShareList: S.optional(AzureFileFilterDetailsFileShareListList),
   }),
-).annotate({
-  identifier: "AzureFileFilterDetails",
-}) as any as S.Schema<AzureFileFilterDetails>;
+).annotate({ identifier: "AzureFileFilterDetails" }) as any as S.Schema<AzureFileFilterDetails>;
 
 /** Type of the filter file. */
 export type FilterFileType = "AzureBlob" | "AzureFile";
@@ -313,9 +299,7 @@ export const FilterFileDetails = /*@__PURE__*/ S.suspend(() =>
     filterFileType: FilterFileType,
     filterFilePath: S.String,
   }),
-).annotate({
-  identifier: "FilterFileDetails",
-}) as any as S.Schema<FilterFileDetails>;
+).annotate({ identifier: "FilterFileDetails" }) as any as S.Schema<FilterFileDetails>;
 
 /** Details of the filter files to be used for data transfer. */
 export type TransferFilterDetailsFilterFileDetailsList = Array<FilterFileDetails>;
@@ -341,9 +325,7 @@ export const TransferFilterDetails = /*@__PURE__*/ S.suspend(() =>
     azureFileFilterDetails: S.optional(AzureFileFilterDetails),
     filterFileDetails: S.optional(TransferFilterDetailsFilterFileDetailsList),
   }),
-).annotate({
-  identifier: "TransferFilterDetails",
-}) as any as S.Schema<TransferFilterDetails>;
+).annotate({ identifier: "TransferFilterDetails" }) as any as S.Schema<TransferFilterDetails>;
 
 /** Map of filter type and the details to filter. This field is required only if the TransferConfigurationType is given as TransferUsingFilter. */
 export interface TransferConfigurationTransferFilterDetails {
@@ -377,9 +359,7 @@ export const TransferAllDetails = /*@__PURE__*/ S.suspend(() =>
     transferAllBlobs: S.optional(S.Boolean),
     transferAllFiles: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "TransferAllDetails",
-}) as any as S.Schema<TransferAllDetails>;
+).annotate({ identifier: "TransferAllDetails" }) as any as S.Schema<TransferAllDetails>;
 
 /** Map of filter type and the details to transfer all data. This field is required only if the TransferConfigurationType is given as TransferAll */
 export interface TransferConfigurationTransferAllDetails {
@@ -409,9 +389,7 @@ export const TransferConfiguration = /*@__PURE__*/ S.suspend(() =>
     transferFilterDetails: S.optional(TransferConfigurationTransferFilterDetails),
     transferAllDetails: S.optional(TransferConfigurationTransferAllDetails),
   }),
-).annotate({
-  identifier: "TransferConfiguration",
-}) as any as S.Schema<TransferConfiguration>;
+).annotate({ identifier: "TransferConfiguration" }) as any as S.Schema<TransferConfiguration>;
 
 /** Level of the logs to be collected. */
 export type DataExportDetailsLogCollectionLevel = "Error" | "Verbose";
@@ -432,9 +410,7 @@ export const DataExportDetails = /*@__PURE__*/ S.suspend(() =>
     logCollectionLevel: S.optional(DataExportDetailsLogCollectionLevel),
     accountDetails: DataAccountDetails,
   }),
-).annotate({
-  identifier: "DataExportDetails",
-}) as any as S.Schema<DataExportDetails>;
+).annotate({ identifier: "DataExportDetails" }) as any as S.Schema<DataExportDetails>;
 
 /** Details of the data to be exported from azure. */
 export type JobDetailsInputDataExportDetailsList = Array<DataExportDetails>;
@@ -489,9 +465,7 @@ export const EncryptionPreferences = /*@__PURE__*/ S.suspend(() =>
     doubleEncryption: S.optional(EncryptionPreferencesDoubleEncryption),
     hardwareEncryption: S.optional(HardwareEncryption),
   }),
-).annotate({
-  identifier: "EncryptionPreferences",
-}) as any as S.Schema<EncryptionPreferences>;
+).annotate({ identifier: "EncryptionPreferences" }) as any as S.Schema<EncryptionPreferences>;
 
 export type PreferencesInputStorageAccountAccessTierPreferencesItem = "Archive";
 export const PreferencesInputStorageAccountAccessTierPreferencesItem = S.String;
@@ -527,9 +501,7 @@ export const PreferencesInput = /*@__PURE__*/ S.suspend(() =>
       PreferencesInputStorageAccountAccessTierPreferencesList,
     ),
   }),
-).annotate({
-  identifier: "PreferencesInput",
-}) as any as S.Schema<PreferencesInput>;
+).annotate({ identifier: "PreferencesInput" }) as any as S.Schema<PreferencesInput>;
 
 /** Contact Info. */
 export interface ContactInfo {
@@ -580,9 +552,7 @@ export const UserAssignedProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     resourceId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UserAssignedProperties",
-}) as any as S.Schema<UserAssignedProperties>;
+).annotate({ identifier: "UserAssignedProperties" }) as any as S.Schema<UserAssignedProperties>;
 
 /** Managed identity properties. */
 export interface IdentityProperties {
@@ -596,9 +566,7 @@ export const IdentityProperties = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     userAssigned: S.optional(UserAssignedProperties),
   }),
-).annotate({
-  identifier: "IdentityProperties",
-}) as any as S.Schema<IdentityProperties>;
+).annotate({ identifier: "IdentityProperties" }) as any as S.Schema<IdentityProperties>;
 
 /** Encryption key containing details about key to encrypt different keys. */
 export interface KeyEncryptionKey {
@@ -618,9 +586,7 @@ export const KeyEncryptionKey = /*@__PURE__*/ S.suspend(() =>
     kekUrl: S.optional(S.String),
     kekVaultResourceID: S.optional(S.String),
   }),
-).annotate({
-  identifier: "KeyEncryptionKey",
-}) as any as S.Schema<KeyEncryptionKey>;
+).annotate({ identifier: "KeyEncryptionKey" }) as any as S.Schema<KeyEncryptionKey>;
 
 /** Job details. */
 export interface JobDetailsInput {
@@ -655,9 +621,7 @@ export const JobDetailsInput = /*@__PURE__*/ S.suspend(() =>
     keyEncryptionKey: S.optional(KeyEncryptionKey),
     expectedDataSizeInTeraBytes: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "JobDetailsInput",
-}) as any as S.Schema<JobDetailsInput>;
+).annotate({ identifier: "JobDetailsInput" }) as any as S.Schema<JobDetailsInput>;
 
 /** Delivery type of Job. */
 export type JobPropertiesInputDeliveryType = "NonScheduled" | "Scheduled";
@@ -672,9 +636,7 @@ export const JobDeliveryInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     scheduledDateTime: S.optional(S.String),
   }),
-).annotate({
-  identifier: "JobDeliveryInfo",
-}) as any as S.Schema<JobDeliveryInfo>;
+).annotate({ identifier: "JobDeliveryInfo" }) as any as S.Schema<JobDeliveryInfo>;
 
 /** Job Properties */
 export interface JobPropertiesInput {
@@ -694,9 +656,7 @@ export const JobPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     deliveryType: S.optional(JobPropertiesInputDeliveryType),
     deliveryInfo: S.optional(JobDeliveryInfo),
   }),
-).annotate({
-  identifier: "JobPropertiesInput",
-}) as any as S.Schema<JobPropertiesInput>;
+).annotate({ identifier: "JobPropertiesInput" }) as any as S.Schema<JobPropertiesInput>;
 
 /** SKU names. */
 export type SkuName = "DataBox" | "DataBoxDisk" | "DataBoxHeavy" | "DataBoxCustomerDisk";
@@ -761,9 +721,7 @@ export const ResourceIdentityInput = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     userAssignedIdentities: S.optional(ResourceIdentityInputUserAssignedIdentitiesMap),
   }),
-).annotate({
-  identifier: "ResourceIdentityInput",
-}) as any as S.Schema<ResourceIdentityInput>;
+).annotate({ identifier: "ResourceIdentityInput" }) as any as S.Schema<ResourceIdentityInput>;
 
 export interface CreateJobRequest {
   /** The ID of the target subscription. */
@@ -801,9 +759,7 @@ export const CreateJobRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-07-01",
     }),
   ),
-).annotate({
-  identifier: "CreateJobRequest",
-}) as any as S.Schema<CreateJobRequest>;
+).annotate({ identifier: "CreateJobRequest" }) as any as S.Schema<CreateJobRequest>;
 
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -898,9 +854,7 @@ export const AdditionalErrorInfo = /*@__PURE__*/ S.suspend(() =>
     info: S.optional(AdditionalErrorInfoInfoMap),
     type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AdditionalErrorInfo",
-}) as any as S.Schema<AdditionalErrorInfo>;
+).annotate({ identifier: "AdditionalErrorInfo" }) as any as S.Schema<AdditionalErrorInfo>;
 
 /** Gets or sets additional error info. */
 export type CloudErrorAdditionalInfoList = Array<AdditionalErrorInfo>;
@@ -987,9 +941,7 @@ export const JobDelayDetails = /*@__PURE__*/ S.suspend(() =>
     startTime: S.optional(S.String),
     resolutionTime: S.optional(S.String),
   }),
-).annotate({
-  identifier: "JobDelayDetails",
-}) as any as S.Schema<JobDelayDetails>;
+).annotate({ identifier: "JobDelayDetails" }) as any as S.Schema<JobDelayDetails>;
 
 /** Delay information for the job stages. */
 export type JobStagesDelayInformationList = Array<JobDelayDetails>;
@@ -1044,9 +996,7 @@ export const PackageShippingDetails = /*@__PURE__*/ S.suspend(() =>
     carrierName: S.optional(S.String),
     trackingId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PackageShippingDetails",
-}) as any as S.Schema<PackageShippingDetails>;
+).annotate({ identifier: "PackageShippingDetails" }) as any as S.Schema<PackageShippingDetails>;
 
 /** Details of the data to be imported into azure. */
 export type JobDetailsDataImportDetailsList = Array<DataImportDetails>;
@@ -1078,9 +1028,7 @@ export const TransportPreferences = /*@__PURE__*/ S.suspend(() =>
     preferredShipmentType: TransportShipmentTypes,
     isUpdated: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "TransportPreferences",
-}) as any as S.Schema<TransportPreferences>;
+).annotate({ identifier: "TransportPreferences" }) as any as S.Schema<TransportPreferences>;
 
 export type PreferencesStorageAccountAccessTierPreferencesItem = "Archive";
 export const PreferencesStorageAccountAccessTierPreferencesItem = S.String;
@@ -1132,9 +1080,7 @@ export const ReverseShippingDetails = /*@__PURE__*/ S.suspend(() =>
     shippingAddress: S.optional(ShippingAddress),
     isUpdated: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "ReverseShippingDetails",
-}) as any as S.Schema<ReverseShippingDetails>;
+).annotate({ identifier: "ReverseShippingDetails" }) as any as S.Schema<ReverseShippingDetails>;
 
 /** Details for log generated during copy. */
 export interface CopyLogDetails {
@@ -1168,9 +1114,7 @@ export const DeviceErasureDetails = /*@__PURE__*/ S.suspend(() =>
     erasureOrDestructionCertificateSasKey: S.optional(S.String),
     secureErasureCertificateSasKey: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DeviceErasureDetails",
-}) as any as S.Schema<DeviceErasureDetails>;
+).annotate({ identifier: "DeviceErasureDetails" }) as any as S.Schema<DeviceErasureDetails>;
 
 /** Resolution code provided by customer. */
 export type CustomerResolutionCode =
@@ -1484,9 +1428,7 @@ export const ResourceIdentity = /*@__PURE__*/ S.suspend(() =>
     tenantId: S.optional(S.String),
     userAssignedIdentities: S.optional(ResourceIdentityUserAssignedIdentitiesMap),
   }),
-).annotate({
-  identifier: "ResourceIdentity",
-}) as any as S.Schema<ResourceIdentity>;
+).annotate({ identifier: "ResourceIdentity" }) as any as S.Schema<ResourceIdentity>;
 
 export interface CreateJobResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -1520,9 +1462,7 @@ export const CreateJobResponse = /*@__PURE__*/ S.suspend(() =>
     sku: Sku,
     identity: S.optional(ResourceIdentity),
   }),
-).annotate({
-  identifier: "CreateJobResponse",
-}) as any as S.Schema<CreateJobResponse>;
+).annotate({ identifier: "CreateJobResponse" }) as any as S.Schema<CreateJobResponse>;
 
 export interface DeleteJobRequest {
   /** The ID of the target subscription. */
@@ -1545,9 +1485,7 @@ export const DeleteJobRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-07-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteJobRequest",
-}) as any as S.Schema<DeleteJobRequest>;
+).annotate({ identifier: "DeleteJobRequest" }) as any as S.Schema<DeleteJobRequest>;
 
 export interface DeleteJobResponse {}
 export const DeleteJobResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1667,9 +1605,7 @@ export const ShipmentPickUpResponse = /*@__PURE__*/ S.suspend(() =>
     confirmationNumber: S.optional(S.String),
     readyByTime: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ShipmentPickUpResponse",
-}) as any as S.Schema<ShipmentPickUpResponse>;
+).annotate({ identifier: "ShipmentPickUpResponse" }) as any as S.Schema<ShipmentPickUpResponse>;
 
 /** package carrier info */
 export interface PackageCarrierInfo {
@@ -1683,9 +1619,7 @@ export const PackageCarrierInfo = /*@__PURE__*/ S.suspend(() =>
     carrierName: S.optional(S.String),
     trackingId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PackageCarrierInfo",
-}) as any as S.Schema<PackageCarrierInfo>;
+).annotate({ identifier: "PackageCarrierInfo" }) as any as S.Schema<PackageCarrierInfo>;
 
 export interface JobsMarkDevicesShippedRequest {
   /** The ID of the target subscription. */
@@ -1805,9 +1739,7 @@ export const JobResourceList = /*@__PURE__*/ S.suspend(() =>
     value: JobResourceListValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "JobResourceList",
-}) as any as S.Schema<JobResourceList>;
+).annotate({ identifier: "JobResourceList" }) as any as S.Schema<JobResourceList>;
 
 export interface ListJobCredentialsRequest {
   /** The ID of the target subscription. */
@@ -1846,9 +1778,7 @@ export const DcAccessSecurityCode = /*@__PURE__*/ S.suspend(() =>
     reverseDCAccessCode: S.optional(S.String),
     forwardDCAccessCode: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DcAccessSecurityCode",
-}) as any as S.Schema<DcAccessSecurityCode>;
+).annotate({ identifier: "DcAccessSecurityCode" }) as any as S.Schema<DcAccessSecurityCode>;
 
 /** The base class for the secrets */
 export interface JobSecrets {
@@ -1879,9 +1809,7 @@ export const UnencryptedCredentials = /*@__PURE__*/ S.suspend(() =>
     jobName: S.optional(S.String),
     jobSecrets: S.optional(JobSecrets),
   }),
-).annotate({
-  identifier: "UnencryptedCredentials",
-}) as any as S.Schema<UnencryptedCredentials>;
+).annotate({ identifier: "UnencryptedCredentials" }) as any as S.Schema<UnencryptedCredentials>;
 
 /** The UnencryptedCredentials items on this page */
 export type UnencryptedCredentialsListValueList = Array<UnencryptedCredentials>;
@@ -1923,9 +1851,7 @@ export const ListJobsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-07-01",
     }),
   ),
-).annotate({
-  identifier: "ListJobsRequest",
-}) as any as S.Schema<ListJobsRequest>;
+).annotate({ identifier: "ListJobsRequest" }) as any as S.Schema<ListJobsRequest>;
 
 export interface ListOperationsRequest {}
 export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -1937,9 +1863,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-07-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** Operation display */
 export interface OperationDisplay {
@@ -1959,9 +1883,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** Operation entity. */
 export interface Operation {
@@ -2200,9 +2122,7 @@ export const AvailableSkusResult = /*@__PURE__*/ S.suspend(() =>
     value: AvailableSkusResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AvailableSkusResult",
-}) as any as S.Schema<AvailableSkusResult>;
+).annotate({ identifier: "AvailableSkusResult" }) as any as S.Schema<AvailableSkusResult>;
 
 /** Serial number and the customer resolution code corresponding to each serial number */
 export type MitigateRequestSerialNumberCustomerResolutionMapMap = {
@@ -2242,9 +2162,7 @@ export const MitigateRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-07-01",
     }),
   ),
-).annotate({
-  identifier: "MitigateRequest",
-}) as any as S.Schema<MitigateRequest>;
+).annotate({ identifier: "MitigateRequest" }) as any as S.Schema<MitigateRequest>;
 
 export interface MitigateResponse {}
 export const MitigateResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2304,9 +2222,7 @@ export const DatacenterAddressRequest = /*@__PURE__*/ S.suspend(() =>
     skuName: SkuName,
     model: S.optional(ModelName),
   }),
-).annotate({
-  identifier: "DatacenterAddressRequest",
-}) as any as S.Schema<DatacenterAddressRequest>;
+).annotate({ identifier: "DatacenterAddressRequest" }) as any as S.Schema<DatacenterAddressRequest>;
 
 /** Request body to get the device capabilities for given sku. */
 export type DeviceCapabilityRequest = TransportAvailabilityRequest;
@@ -2409,9 +2325,7 @@ export const DeviceCapabilityDetails = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     hardwareEncryption: S.optional(HardwareEncryption),
   }),
-).annotate({
-  identifier: "DeviceCapabilityDetails",
-}) as any as S.Schema<DeviceCapabilityDetails>;
+).annotate({ identifier: "DeviceCapabilityDetails" }) as any as S.Schema<DeviceCapabilityDetails>;
 
 /** List of device capabilities available for a given region and a given sku */
 export type DeviceCapabilityResponseDeviceCapabilityDetailsList = Array<DeviceCapabilityDetails>;
@@ -2428,9 +2342,7 @@ export const DeviceCapabilityResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     deviceCapabilityDetails: S.optional(DeviceCapabilityResponseDeviceCapabilityDetailsList),
   }),
-).annotate({
-  identifier: "DeviceCapabilityResponse",
-}) as any as S.Schema<DeviceCapabilityResponse>;
+).annotate({ identifier: "DeviceCapabilityResponse" }) as any as S.Schema<DeviceCapabilityResponse>;
 
 /** Configuration response specific to a region. */
 export interface RegionConfigurationResponse {
@@ -2506,9 +2418,7 @@ export const PackageCarrierDetails = /*@__PURE__*/ S.suspend(() =>
     carrierName: S.optional(S.String),
     trackingId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PackageCarrierDetails",
-}) as any as S.Schema<PackageCarrierDetails>;
+).annotate({ identifier: "PackageCarrierDetails" }) as any as S.Schema<PackageCarrierDetails>;
 
 /** Job details for update. */
 export interface UpdateJobDetailsInput {
@@ -2534,9 +2444,7 @@ export const UpdateJobDetailsInput = /*@__PURE__*/ S.suspend(() =>
     keyEncryptionKey: S.optional(KeyEncryptionKey),
     returnToCustomerPackageDetails: S.optional(PackageCarrierDetails),
   }),
-).annotate({
-  identifier: "UpdateJobDetailsInput",
-}) as any as S.Schema<UpdateJobDetailsInput>;
+).annotate({ identifier: "UpdateJobDetailsInput" }) as any as S.Schema<UpdateJobDetailsInput>;
 
 /** Job Properties for update */
 export interface UpdateJobPropertiesInput {
@@ -2547,9 +2455,7 @@ export const UpdateJobPropertiesInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     details: S.optional(UpdateJobDetailsInput),
   }),
-).annotate({
-  identifier: "UpdateJobPropertiesInput",
-}) as any as S.Schema<UpdateJobPropertiesInput>;
+).annotate({ identifier: "UpdateJobPropertiesInput" }) as any as S.Schema<UpdateJobPropertiesInput>;
 
 /** The list of key value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). */
 export type UpdateJobRequestTagsMap = { [key: string]: string | undefined };
@@ -2588,9 +2494,7 @@ export const UpdateJobRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-07-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateJobRequest",
-}) as any as S.Schema<UpdateJobRequest>;
+).annotate({ identifier: "UpdateJobRequest" }) as any as S.Schema<UpdateJobRequest>;
 
 /** Resource tags. */
 export type UpdateJobResponseTagsMap = { [key: string]: string | undefined };
@@ -2631,9 +2535,7 @@ export const UpdateJobResponse = /*@__PURE__*/ S.suspend(() =>
     sku: Sku,
     identity: S.optional(ResourceIdentity),
   }),
-).annotate({
-  identifier: "UpdateJobResponse",
-}) as any as S.Schema<UpdateJobResponse>;
+).annotate({ identifier: "UpdateJobResponse" }) as any as S.Schema<UpdateJobResponse>;
 
 /** Identify the nature of validation. */
 export type ValidateServiceInputsRequestValidationCategory = "JobCreationValidation";
@@ -2658,9 +2560,7 @@ export const ValidationInputRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     validationType: ValidationInputDiscriminator,
   }),
-).annotate({
-  identifier: "ValidationInputRequest",
-}) as any as S.Schema<ValidationInputRequest>;
+).annotate({ identifier: "ValidationInputRequest" }) as any as S.Schema<ValidationInputRequest>;
 
 /** List of request details contain validationType and its request as key and value respectively. */
 export type ValidateServiceInputsRequestIndividualRequestDetailsList =
@@ -2716,9 +2616,7 @@ export const ValidationInputResponse = /*@__PURE__*/ S.suspend(() =>
     validationType: ValidationInputDiscriminator,
     error: S.optional(CloudError),
   }),
-).annotate({
-  identifier: "ValidationInputResponse",
-}) as any as S.Schema<ValidationInputResponse>;
+).annotate({ identifier: "ValidationInputResponse" }) as any as S.Schema<ValidationInputResponse>;
 
 /** List of response details contain validationType and its response as key and value respectively. */
 export type ValidationResponsePropertiesIndividualResponseDetailsList =
@@ -2754,9 +2652,7 @@ export const ValidationResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     properties: S.optional(ValidationResponseProperties),
   }),
-).annotate({
-  identifier: "ValidationResponse",
-}) as any as S.Schema<ValidationResponse>;
+).annotate({ identifier: "ValidationResponse" }) as any as S.Schema<ValidationResponse>;
 
 /** Identify the nature of validation. */
 export type ValidateServiceInputsByResourceGroupRequestValidationCategory = "JobCreationValidation";

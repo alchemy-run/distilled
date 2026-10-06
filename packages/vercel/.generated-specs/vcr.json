@@ -25,7 +25,8 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "projectId",
-            "smithy.api#required": {}
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID or name (slug) within the authenticated team. IDs take precedence over names. Missing or empty values return HTTP 400."
           }
         },
         "limit": {
@@ -63,16 +64,16 @@
     "com.vercel.vcr#VcrRepositoryList": {
       "type": "structure",
       "members": {
-        "repositories": {
-          "target": "com.vercel.vcr#VcrRepositoryListRepositoriesList",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
         "nextCursor": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "Cursor to fetch the next page of results, when more are available."
+          }
+        },
+        "repositories": {
+          "target": "com.vercel.vcr#VcrRepositoryListRepositoriesList",
+          "traits": {
+            "smithy.api#required": {}
           }
         }
       },
@@ -83,17 +84,17 @@
     "com.vercel.vcr#VcrRepository": {
       "type": "structure",
       "members": {
+        "createdAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ISO 8601 timestamp of when the repository was created.",
+            "smithy.api#required": {}
+          }
+        },
         "id": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "Unique identifier of the repository.",
-            "smithy.api#required": {}
-          }
-        },
-        "projectId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Identifier of the project the repository belongs to.",
             "smithy.api#required": {}
           }
         },
@@ -104,17 +105,17 @@
             "smithy.api#required": {}
           }
         },
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier of the project the repository belongs to.",
+            "smithy.api#required": {}
+          }
+        },
         "public": {
           "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#documentation": "Whether the repository is public. Images in public repositories can be pulled by anyone. Defaults to `false` (private).",
-            "smithy.api#required": {}
-          }
-        },
-        "createdAt": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "ISO 8601 timestamp of when the repository was created.",
             "smithy.api#required": {}
           }
         },
@@ -185,6 +186,7 @@
         "projectId": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "Project ID or name (slug) within the authenticated team. IDs take precedence over names. Missing or empty values return HTTP 400.",
             "smithy.api#required": {}
           }
         },
@@ -262,7 +264,8 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "projectId",
-            "smithy.api#required": {}
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID or name (slug) within the authenticated team. IDs take precedence over names. Missing or empty values return HTTP 400."
           }
         },
         "teamId": {
@@ -340,7 +343,8 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "projectId",
-            "smithy.api#required": {}
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID or name (slug) within the authenticated team. IDs take precedence over names. Missing or empty values return HTTP 400."
           }
         },
         "teamId": {
@@ -420,7 +424,8 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "projectId",
-            "smithy.api#required": {}
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID or name (slug) within the authenticated team. IDs take precedence over names. Missing or empty values return HTTP 400."
           }
         },
         "limit": {
@@ -484,10 +489,16 @@
     "com.vercel.vcr#VcrImageListItem": {
       "type": "structure",
       "members": {
-        "tags": {
-          "target": "com.vercel.vcr#VcrImageListItemTagsList",
+        "arch": {
+          "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Tags pointing at this image's manifest.",
+            "smithy.api#documentation": "CPU architecture the manifest targets. Only present for single-platform manifests."
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ISO 8601 timestamp of when the image was created.",
             "smithy.api#required": {}
           }
         },
@@ -498,10 +509,10 @@
             "smithy.api#required": {}
           }
         },
-        "repositoryId": {
-          "target": "smithy.api#String",
+        "kind": {
+          "target": "com.vercel.vcr#VcrImageListItemKind",
           "traits": {
-            "smithy.api#documentation": "Identifier of the repository the image belongs to.",
+            "smithy.api#documentation": "Whether the manifest is a multi-platform image index, a single-platform image manifest or an attestation.",
             "smithy.api#required": {}
           }
         },
@@ -512,29 +523,23 @@
             "smithy.api#required": {}
           }
         },
-        "kind": {
-          "target": "com.vercel.vcr#VcrImageListItemKind",
-          "traits": {
-            "smithy.api#documentation": "Whether the manifest is a multi-platform image index, a single-platform image manifest or an attestation.",
-            "smithy.api#required": {}
-          }
-        },
         "platform": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "Operating system the manifest targets. Only present for single-platform manifests."
           }
         },
-        "arch": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "CPU architecture the manifest targets. Only present for single-platform manifests."
-          }
-        },
         "pushedBy": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "Identifier of the actor that pushed the image."
+          }
+        },
+        "repositoryId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier of the repository the image belongs to.",
+            "smithy.api#required": {}
           }
         },
         "sizeInBytes": {
@@ -552,25 +557,16 @@
             "com.distilled.openapi#nullable": {}
           }
         },
-        "createdAt": {
-          "target": "smithy.api#String",
+        "tags": {
+          "target": "com.vercel.vcr#VcrImageListItemTagsList",
           "traits": {
-            "smithy.api#documentation": "ISO 8601 timestamp of when the image was created.",
+            "smithy.api#documentation": "Tags pointing at this image's manifest.",
             "smithy.api#required": {}
           }
         }
       },
       "traits": {
         "smithy.api#documentation": "An image enriched with its tags and VHS-readiness status, as returned when listing a repository's images."
-      }
-    },
-    "com.vercel.vcr#VcrImageListItemTagsList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      },
-      "traits": {
-        "smithy.api#documentation": "Tags pointing at this image's manifest."
       }
     },
     "com.vercel.vcr#VcrImageListItemKind": {
@@ -602,6 +598,12 @@
     "com.vercel.vcr#VcrImageListItemStatus": {
       "type": "enum",
       "members": {
+        "ERRORED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "errored"
+          }
+        },
         "PREPARING": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -623,6 +625,15 @@
       },
       "traits": {
         "smithy.api#documentation": "VHS-readiness status, or `null` for a multi-platform index."
+      }
+    },
+    "com.vercel.vcr#VcrImageListItemTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Tags pointing at this image's manifest."
       }
     },
     "com.vercel.vcr#VcrImageListImagesList": {
@@ -674,7 +685,8 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "projectId",
-            "smithy.api#required": {}
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID or name (slug) within the authenticated team. IDs take precedence over names. Missing or empty values return HTTP 400."
           }
         },
         "limit": {
@@ -712,16 +724,16 @@
     "com.vercel.vcr#VcrRepositoryPermissionList": {
       "type": "structure",
       "members": {
-        "permissions": {
-          "target": "com.vercel.vcr#VcrRepositoryPermissionListPermissionsList",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
         "nextCursor": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "Cursor to fetch the next page of results, when more are available."
+          }
+        },
+        "permissions": {
+          "target": "com.vercel.vcr#VcrRepositoryPermissionListPermissionsList",
+          "traits": {
+            "smithy.api#required": {}
           }
         }
       },
@@ -732,6 +744,13 @@
     "com.vercel.vcr#VcrRepositoryPermission": {
       "type": "structure",
       "members": {
+        "createdAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ISO 8601 timestamp of when the permission was created.",
+            "smithy.api#required": {}
+          }
+        },
         "repositoryId": {
           "target": "smithy.api#String",
           "traits": {
@@ -750,13 +769,6 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "Slug of the team that is granted access to the repository.",
-            "smithy.api#required": {}
-          }
-        },
-        "createdAt": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "ISO 8601 timestamp of when the permission was created.",
             "smithy.api#required": {}
           }
         }
@@ -814,7 +826,8 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "projectId",
-            "smithy.api#required": {}
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID or name (slug) within the authenticated team. IDs take precedence over names. Missing or empty values return HTTP 400."
           }
         },
         "teamId": {
@@ -898,7 +911,8 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "projectId",
-            "smithy.api#required": {}
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID or name (slug) within the authenticated team. IDs take precedence over names. Missing or empty values return HTTP 400."
           }
         },
         "teamId": {
@@ -984,7 +998,8 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "projectId",
-            "smithy.api#required": {}
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID or name (slug) within the authenticated team. IDs take precedence over names. Missing or empty values return HTTP 400."
           }
         },
         "teamId": {
@@ -1104,7 +1119,8 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "projectId",
-            "smithy.api#required": {}
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID or name (slug) within the authenticated team. IDs take precedence over names. Missing or empty values return HTTP 400."
           }
         },
         "limit": {
@@ -1179,6 +1195,12 @@
     "com.vercel.vcr#ListRepositoryTagsResponseTagsItemStatus": {
       "type": "enum",
       "members": {
+        "ERRORED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "errored"
+          }
+        },
         "PREPARING": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -1203,13 +1225,10 @@
     "com.vercel.vcr#ListRepositoryTagsResponseTagsItem": {
       "type": "structure",
       "members": {
-        "tag": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
+        "arch": {
+          "target": "smithy.api#String"
         },
-        "manifestDigest": {
+        "createdAt": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
@@ -1227,14 +1246,23 @@
             "smithy.api#required": {}
           }
         },
-        "platform": {
-          "target": "smithy.api#String"
+        "manifestDigest": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
         },
-        "arch": {
+        "platform": {
           "target": "smithy.api#String"
         },
         "pushedBy": {
           "target": "smithy.api#String"
+        },
+        "sizeInBytes": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
         },
         "status": {
           "target": "com.vercel.vcr#ListRepositoryTagsResponseTagsItemStatus",
@@ -1243,13 +1271,7 @@
             "com.distilled.openapi#nullable": {}
           }
         },
-        "sizeInBytes": {
-          "target": "smithy.api#Double",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "createdAt": {
+        "tag": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
@@ -1274,14 +1296,14 @@
     "com.vercel.vcr#ListRepositoryTagsResponse": {
       "type": "structure",
       "members": {
+        "nextCursor": {
+          "target": "smithy.api#String"
+        },
         "tags": {
           "target": "com.vercel.vcr#ListRepositoryTagsResponseTagsList",
           "traits": {
             "smithy.api#required": {}
           }
-        },
-        "nextCursor": {
-          "target": "smithy.api#String"
         }
       },
       "traits": {
@@ -1337,7 +1359,8 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "projectId",
-            "smithy.api#required": {}
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID or name (slug) within the authenticated team. IDs take precedence over names. Missing or empty values return HTTP 400."
           }
         },
         "teamId": {
@@ -1362,17 +1385,16 @@
     "com.vercel.vcr#VcrTag": {
       "type": "structure",
       "members": {
-        "tag": {
+        "arch": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The tag name.",
-            "smithy.api#required": {}
+            "smithy.api#documentation": "CPU architecture the manifest targets. Only present for single-platform manifests."
           }
         },
-        "manifestDigest": {
+        "createdAt": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "SHA-256 digest of the image manifest the tag points at.",
+            "smithy.api#documentation": "ISO 8601 timestamp of when the tag was created.",
             "smithy.api#required": {}
           }
         },
@@ -1390,22 +1412,30 @@
             "smithy.api#required": {}
           }
         },
+        "manifestDigest": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "SHA-256 digest of the image manifest the tag points at.",
+            "smithy.api#required": {}
+          }
+        },
         "platform": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "Operating system the manifest targets. Only present for single-platform manifests."
           }
         },
-        "arch": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "CPU architecture the manifest targets. Only present for single-platform manifests."
-          }
-        },
         "pushedBy": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "Identifier of the actor that pushed the image."
+          }
+        },
+        "sizeInBytes": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Total size in bytes of the image's resources (manifest, config and layer blobs) stored by the registry.",
+            "smithy.api#required": {}
           }
         },
         "status": {
@@ -1416,17 +1446,10 @@
             "com.distilled.openapi#nullable": {}
           }
         },
-        "sizeInBytes": {
-          "target": "smithy.api#Double",
-          "traits": {
-            "smithy.api#documentation": "Total size in bytes of the image's resources (manifest, config and layer blobs) stored by the registry.",
-            "smithy.api#required": {}
-          }
-        },
-        "createdAt": {
+        "tag": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "ISO 8601 timestamp of when the tag was created.",
+            "smithy.api#documentation": "The tag name.",
             "smithy.api#required": {}
           }
         },
@@ -1471,6 +1494,12 @@
     "com.vercel.vcr#VcrTagStatus": {
       "type": "enum",
       "members": {
+        "ERRORED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "errored"
+          }
+        },
         "PREPARING": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -1558,7 +1587,8 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "projectId",
-            "smithy.api#required": {}
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID or name (slug) within the authenticated team. IDs take precedence over names. Missing or empty values return HTTP 400."
           }
         },
         "teamId": {
@@ -1583,16 +1613,16 @@
     "com.vercel.vcr#VcrImageDetail": {
       "type": "structure",
       "members": {
-        "layers": {
-          "target": "com.vercel.vcr#VcrImageDetailLayersList",
+        "arch": {
+          "target": "smithy.api#String",
           "traits": {
-            "smithy.api#required": {}
+            "smithy.api#documentation": "CPU architecture the manifest targets. Only present for single-platform manifests."
           }
         },
-        "tags": {
-          "target": "com.vercel.vcr#VcrImageDetailTagsList",
+        "createdAt": {
+          "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Tags pointing at this image's manifest.",
+            "smithy.api#documentation": "ISO 8601 timestamp of when the image was created.",
             "smithy.api#required": {}
           }
         },
@@ -1603,10 +1633,16 @@
             "smithy.api#required": {}
           }
         },
-        "repositoryId": {
-          "target": "smithy.api#String",
+        "kind": {
+          "target": "com.vercel.vcr#VcrImageDetailKind",
           "traits": {
-            "smithy.api#documentation": "Identifier of the repository the image belongs to.",
+            "smithy.api#documentation": "Whether the manifest is a multi-platform image index, a single-platform image manifest or an attestation.",
+            "smithy.api#required": {}
+          }
+        },
+        "layers": {
+          "target": "com.vercel.vcr#VcrImageDetailLayersList",
+          "traits": {
             "smithy.api#required": {}
           }
         },
@@ -1617,29 +1653,23 @@
             "smithy.api#required": {}
           }
         },
-        "kind": {
-          "target": "com.vercel.vcr#VcrImageDetailKind",
-          "traits": {
-            "smithy.api#documentation": "Whether the manifest is a multi-platform image index, a single-platform image manifest or an attestation.",
-            "smithy.api#required": {}
-          }
-        },
         "platform": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "Operating system the manifest targets. Only present for single-platform manifests."
           }
         },
-        "arch": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "CPU architecture the manifest targets. Only present for single-platform manifests."
-          }
-        },
         "pushedBy": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "Identifier of the actor that pushed the image."
+          }
+        },
+        "repositoryId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier of the repository the image belongs to.",
+            "smithy.api#required": {}
           }
         },
         "sizeInBytes": {
@@ -1657,16 +1687,42 @@
             "com.distilled.openapi#nullable": {}
           }
         },
-        "createdAt": {
-          "target": "smithy.api#String",
+        "tags": {
+          "target": "com.vercel.vcr#VcrImageDetailTagsList",
           "traits": {
-            "smithy.api#documentation": "ISO 8601 timestamp of when the image was created.",
+            "smithy.api#documentation": "Tags pointing at this image's manifest.",
             "smithy.api#required": {}
           }
         }
       },
       "traits": {
         "smithy.api#documentation": "A single image with its tags, status and resolved Dockerfile layer history."
+      }
+    },
+    "com.vercel.vcr#VcrImageDetailKind": {
+      "type": "enum",
+      "members": {
+        "ATTESTATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "attestation"
+          }
+        },
+        "INDEX": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "index"
+          }
+        },
+        "MANIFEST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "manifest"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Whether the manifest is a multi-platform image index, a single-platform image manifest or an attestation."
       }
     },
     "com.vercel.vcr#VcrImageLayer": {
@@ -1803,6 +1859,13 @@
         "smithy.api#documentation": "Docker/OCI build instruction associated with an image layer."
       }
     },
+    "com.vercel.vcr#VcrImageLayerCase0CollapsedDigestsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
     "com.vercel.vcr#VcrImageLayerCase0Type": {
       "type": "enum",
       "members": {
@@ -1812,13 +1875,6 @@
             "smithy.api#enumValue": "FROM"
           }
         }
-      },
-      "traits": {}
-    },
-    "com.vercel.vcr#VcrImageLayerCase0CollapsedDigestsList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
       },
       "traits": {}
     },
@@ -1853,12 +1909,6 @@
             "com.distilled.openapi#nullable": {}
           }
         },
-        "type": {
-          "target": "com.vercel.vcr#VcrImageLayerCase0Type",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
         "baseImage": {
           "target": "smithy.api#String",
           "traits": {
@@ -1874,6 +1924,12 @@
         },
         "collapsedLayerCount": {
           "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "com.vercel.vcr#VcrImageLayerCase0Type",
           "traits": {
             "smithy.api#required": {}
           }
@@ -2040,17 +2096,17 @@
             "com.distilled.openapi#nullable": {}
           }
         },
-        "type": {
-          "target": "com.vercel.vcr#VcrImageLayerCase1Type",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
         "command": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {},
             "com.distilled.openapi#nullable": {}
+          }
+        },
+        "type": {
+          "target": "com.vercel.vcr#VcrImageLayerCase1Type",
+          "traits": {
+            "smithy.api#required": {}
           }
         }
       },
@@ -2215,17 +2271,17 @@
             "com.distilled.openapi#nullable": {}
           }
         },
-        "type": {
-          "target": "com.vercel.vcr#VcrImageLayerCase2Type",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
         "env": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {},
             "com.distilled.openapi#nullable": {}
+          }
+        },
+        "type": {
+          "target": "com.vercel.vcr#VcrImageLayerCase2Type",
+          "traits": {
+            "smithy.api#required": {}
           }
         }
       },
@@ -2497,44 +2553,15 @@
       },
       "traits": {}
     },
-    "com.vercel.vcr#VcrImageDetailTagsList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      },
-      "traits": {
-        "smithy.api#documentation": "Tags pointing at this image's manifest."
-      }
-    },
-    "com.vercel.vcr#VcrImageDetailKind": {
-      "type": "enum",
-      "members": {
-        "ATTESTATION": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "attestation"
-          }
-        },
-        "INDEX": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "index"
-          }
-        },
-        "MANIFEST": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "manifest"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Whether the manifest is a multi-platform image index, a single-platform image manifest or an attestation."
-      }
-    },
     "com.vercel.vcr#VcrImageDetailStatus": {
       "type": "enum",
       "members": {
+        "ERRORED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "errored"
+          }
+        },
         "PREPARING": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -2556,6 +2583,15 @@
       },
       "traits": {
         "smithy.api#documentation": "VHS-readiness status, or `null` for a multi-platform index."
+      }
+    },
+    "com.vercel.vcr#VcrImageDetailTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Tags pointing at this image's manifest."
       }
     },
     "com.vercel.vcr#GetRepositoryImageResponse": {
@@ -2621,7 +2657,8 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "projectId",
-            "smithy.api#required": {}
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID or name (slug) within the authenticated team. IDs take precedence over names. Missing or empty values return HTTP 400."
           }
         },
         "teamId": {
@@ -3811,7 +3848,7 @@
           "uri": "/v2/{teamSlug}/{projectSlug}/{repositoryName}/tags/list",
           "code": 200
         },
-        "smithy.api#documentation": "List image tags\n\nGET /v2/:teamSlug/:projectSlug/:repositoryName/tags/list List the tags in a repository."
+        "smithy.api#documentation": "List image tags\n\nGET /v2/:teamSlug/:projectSlug/:repositoryName/tags/list List the tags in a repository. The `last` parameter accepts the opaque cursor from a previous response's `Link` header. Unparseable cursors return HTTP 400 with code `invalid_cursor`."
       }
     },
     "com.vercel.vcr#BadRequest": {

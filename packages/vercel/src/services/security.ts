@@ -71,28 +71,26 @@ export const AddBypassIpRequest = /*@__PURE__*/ S.suspend(() =>
     ttl: S.optional(S.Number),
     note: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/v1/security/firewall/bypass", code: 200 })),
-).annotate({
-  identifier: "AddBypassIpRequest",
-}) as any as S.Schema<AddBypassIpRequest>;
+).annotate({ identifier: "AddBypassIpRequest" }) as any as S.Schema<AddBypassIpRequest>;
 
 export interface AddBypassIpResponseBodyCase0ResultItem {
-  OwnerId: string;
-  Id: string;
   Domain: string;
+  Id: string;
   Ip?: string;
-  ProjectId: string;
-  Note: string;
   IsProjectRule: boolean;
+  Note: string;
+  OwnerId: string;
+  ProjectId: string;
 }
 export const AddBypassIpResponseBodyCase0ResultItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    OwnerId: S.String,
-    Id: S.String,
     Domain: S.String,
+    Id: S.String,
     Ip: S.optional(S.String),
-    ProjectId: S.String,
-    Note: S.String,
     IsProjectRule: S.Boolean,
+    Note: S.String,
+    OwnerId: S.String,
+    ProjectId: S.String,
   }),
 ).annotate({
   identifier: "AddBypassIpResponseBodyCase0ResultItem",
@@ -105,14 +103,14 @@ export const AddBypassIpResponseBodyCase0ResultList = /*@__PURE__*/ S.Array(
 
 export interface AddBypassIpResponseBodyCase0 {
   ok: boolean;
-  result: AddBypassIpResponseBodyCase0ResultList;
   pagination: unknown | null;
+  result: AddBypassIpResponseBodyCase0ResultList;
 }
 export const AddBypassIpResponseBodyCase0 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ok: S.Boolean,
-    result: AddBypassIpResponseBodyCase0ResultList,
     pagination: S.NullOr(S.Unknown),
+    result: AddBypassIpResponseBodyCase0ResultList,
   }),
 ).annotate({
   identifier: "AddBypassIpResponseBodyCase0",
@@ -122,37 +120,37 @@ export type AddBypassIpResponseBodyCase1ResultItemAction = "block" | "bypass";
 export const AddBypassIpResponseBodyCase1ResultItemAction = S.String;
 
 export interface AddBypassIpResponseBodyCase1ResultItem {
-  OwnerId: string;
-  Id: string;
-  Domain: string;
-  Ip: string;
   Action?: AddBypassIpResponseBodyCase1ResultItemAction;
-  ProjectId?: string;
+  ActorId?: string;
+  CreatedAt: string;
+  DeletedAt?: string;
+  Domain: string;
+  ExpiresAt?: number | null;
+  Id: string;
+  Ip: string;
   IsProjectRule?: boolean;
   Note?: string;
-  CreatedAt: string;
-  ActorId?: string;
+  OwnerId: string;
+  ProjectId?: string;
   UpdatedAt: string;
   UpdatedAtHour: string;
-  DeletedAt?: string;
-  ExpiresAt?: number | null;
 }
 export const AddBypassIpResponseBodyCase1ResultItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    OwnerId: S.String,
-    Id: S.String,
-    Domain: S.String,
-    Ip: S.String,
     Action: S.optional(AddBypassIpResponseBodyCase1ResultItemAction),
-    ProjectId: S.optional(S.String),
+    ActorId: S.optional(S.String),
+    CreatedAt: S.String,
+    DeletedAt: S.optional(S.String),
+    Domain: S.String,
+    ExpiresAt: S.optional(S.NullOr(S.Number)),
+    Id: S.String,
+    Ip: S.String,
     IsProjectRule: S.optional(S.Boolean),
     Note: S.optional(S.String),
-    CreatedAt: S.String,
-    ActorId: S.optional(S.String),
+    OwnerId: S.String,
+    ProjectId: S.optional(S.String),
     UpdatedAt: S.String,
     UpdatedAtHour: S.String,
-    DeletedAt: S.optional(S.String),
-    ExpiresAt: S.optional(S.NullOr(S.Number)),
   }),
 ).annotate({
   identifier: "AddBypassIpResponseBodyCase1ResultItem",
@@ -182,9 +180,7 @@ export const AddBypassIpResponseBody = S.Unknown as any as S.Schema<AddBypassIpR
 export type AddBypassIpResponse = AddBypassIpResponseBody;
 export const AddBypassIpResponse = /*@__PURE__*/ S.suspend(() =>
   AddBypassIpResponseBody.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "AddBypassIpResponse",
-}) as any as S.Schema<AddBypassIpResponse>;
+).annotate({ identifier: "AddBypassIpResponse" }) as any as S.Schema<AddBypassIpResponse>;
 
 export interface CreateSecurityFirewallConfigByConfigVersionActivateRequest {
   /** The deployed configVersion for the firewall configuration */
@@ -205,115 +201,160 @@ export const CreateSecurityFirewallConfigByConfigVersionActivateRequest = /*@__P
   identifier: "CreateSecurityFirewallConfigByConfigVersionActivateRequest",
 }) as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateRequest>;
 
-export type CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsSdAction = "deny" | "log";
-export const CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsSdAction = S.String;
+export type CreateSecurityFirewallConfigByConfigVersionActivateResponseChangesList = Array<unknown>;
+export const CreateSecurityFirewallConfigByConfigVersionActivateResponseChangesList =
+  /*@__PURE__*/ S.Array(
+    S.Unknown,
+  ) as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponseChangesList>;
 
-export interface CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsSd {
-  active: boolean;
-  action: CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsSdAction;
+export type CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsItemConditionGroupItemConditionsItemOp =
+  | "eq"
+  | "ex"
+  | "gt"
+  | "gte"
+  | "inc"
+  | "list"
+  | "lt"
+  | "lte"
+  | "neq"
+  | "nex"
+  | "ninc"
+  | "pre"
+  | "re"
+  | "sub"
+  | "suf";
+export const CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsItemConditionGroupItemConditionsItemOp =
+  S.String;
+
+export type CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsItemConditionGroupItemConditionsItemType =
+  | "bot_category"
+  | "bot_name"
+  | "bot_protection"
+  | "bot_status"
+  | "cookie"
+  | "domain_environment"
+  | "environment"
+  | "geo_as_number"
+  | "geo_city"
+  | "geo_continent"
+  | "geo_country"
+  | "geo_country_region"
+  | "header"
+  | "host"
+  | "ip_address"
+  | "ja3_digest"
+  | "ja4_digest"
+  | "method"
+  | "path"
+  | "protocol"
+  | "query"
+  | "rate_limit_api_id"
+  | "raw_path"
+  | "region"
+  | "route"
+  | "ruleset"
+  | "scheme"
+  | "server_action"
+  | "shared_condition"
+  | "target_path"
+  | "traffic_source"
+  | "trusted_source"
+  | "user_agent";
+export const CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsItemConditionGroupItemConditionsItemType =
+  S.String;
+
+export type CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsItemConditionGroupItemConditionsItemValueCase2List =
+  Array<string>;
+export const CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsItemConditionGroupItemConditionsItemValueCase2List =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsItemConditionGroupItemConditionsItemValueCase2List>;
+
+export type CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsItemConditionGroupItemConditionsItemValue =
+  | string
+  | number
+  | CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsItemConditionGroupItemConditionsItemValueCase2List;
+export const CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsItemConditionGroupItemConditionsItemValue =
+  S.Unknown as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsItemConditionGroupItemConditionsItemValue>;
+
+export interface CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsItemConditionGroupItemConditionsItem {
+  key?: string;
+  neg?: boolean;
+  op: CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsItemConditionGroupItemConditionsItemOp;
+  type: CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsItemConditionGroupItemConditionsItemType;
+  value?: CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsItemConditionGroupItemConditionsItemValue;
 }
-export const CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsSd =
+export const CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsItemConditionGroupItemConditionsItem =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      key: S.optional(S.String),
+      neg: S.optional(S.Boolean),
+      op: CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsItemConditionGroupItemConditionsItemOp,
+      type: CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsItemConditionGroupItemConditionsItemType,
+      value: S.optional(
+        CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsItemConditionGroupItemConditionsItemValue,
+      ),
+    }),
+  ).annotate({
+    identifier:
+      "CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsItemConditionGroupItemConditionsItem",
+  }) as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsItemConditionGroupItemConditionsItem>;
+
+export type CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsItemConditionGroupItemConditionsList =
+  Array<CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsItemConditionGroupItemConditionsItem>;
+export const CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsItemConditionGroupItemConditionsList =
+  /*@__PURE__*/ S.Array(
+    CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsItemConditionGroupItemConditionsItem,
+  ) as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsItemConditionGroupItemConditionsList>;
+
+export interface CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsItemConditionGroupItem {
+  conditions: CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsItemConditionGroupItemConditionsList;
+}
+export const CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsItemConditionGroupItem =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      conditions:
+        CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsItemConditionGroupItemConditionsList,
+    }),
+  ).annotate({
+    identifier:
+      "CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsItemConditionGroupItem",
+  }) as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsItemConditionGroupItem>;
+
+export type CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsItemConditionGroupList =
+  Array<CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsItemConditionGroupItem>;
+export const CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsItemConditionGroupList =
+  /*@__PURE__*/ S.Array(
+    CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsItemConditionGroupItem,
+  ) as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsItemConditionGroupList>;
+
+export interface CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsItem {
+  active: boolean;
+  conditionGroup: CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsItemConditionGroupList;
+  description?: string;
+  id: string;
+  name: string;
+}
+export const CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsItem =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       active: S.Boolean,
-      action: CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsSdAction,
+      conditionGroup:
+        CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsItemConditionGroupList,
+      description: S.optional(S.String),
+      id: S.String,
+      name: S.String,
     }),
   ).annotate({
-    identifier: "CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsSd",
-  }) as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsSd>;
+    identifier: "CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsItem",
+  }) as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsItem>;
 
-export type CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsMaAction = "deny" | "log";
-export const CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsMaAction = S.String;
-
-export interface CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsMa {
-  active: boolean;
-  action: CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsMaAction;
-}
-export const CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsMa =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      active: S.Boolean,
-      action: CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsMaAction,
-    }),
-  ).annotate({
-    identifier: "CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsMa",
-  }) as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsMa>;
-
-export type CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsLfiAction =
-  | "deny"
-  | "log";
-export const CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsLfiAction = S.String;
-
-export interface CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsLfi {
-  active: boolean;
-  action: CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsLfiAction;
-}
-export const CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsLfi =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      active: S.Boolean,
-      action: CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsLfiAction,
-    }),
-  ).annotate({
-    identifier: "CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsLfi",
-  }) as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsLfi>;
-
-export type CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsRfiAction =
-  | "deny"
-  | "log";
-export const CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsRfiAction = S.String;
-
-export interface CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsRfi {
-  active: boolean;
-  action: CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsRfiAction;
-}
-export const CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsRfi =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      active: S.Boolean,
-      action: CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsRfiAction,
-    }),
-  ).annotate({
-    identifier: "CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsRfi",
-  }) as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsRfi>;
-
-export type CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsRceAction =
-  | "deny"
-  | "log";
-export const CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsRceAction = S.String;
-
-export interface CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsRce {
-  active: boolean;
-  action: CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsRceAction;
-}
-export const CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsRce =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      active: S.Boolean,
-      action: CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsRceAction,
-    }),
-  ).annotate({
-    identifier: "CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsRce",
-  }) as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsRce>;
-
-export type CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsPhpAction =
-  | "deny"
-  | "log";
-export const CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsPhpAction = S.String;
-
-export interface CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsPhp {
-  active: boolean;
-  action: CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsPhpAction;
-}
-export const CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsPhp =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      active: S.Boolean,
-      action: CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsPhpAction,
-    }),
-  ).annotate({
-    identifier: "CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsPhp",
-  }) as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsPhp>;
+export type CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsList =
+  Array<CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsItem>;
+export const CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsList =
+  /*@__PURE__*/ S.Array(
+    CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsItem,
+  ) as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsList>;
 
 export type CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsGenAction =
   | "deny"
@@ -321,73 +362,18 @@ export type CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsGenAct
 export const CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsGenAction = S.String;
 
 export interface CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsGen {
-  active: boolean;
   action: CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsGenAction;
+  active: boolean;
 }
 export const CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsGen =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      active: S.Boolean,
       action: CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsGenAction,
+      active: S.Boolean,
     }),
   ).annotate({
     identifier: "CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsGen",
   }) as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsGen>;
-
-export type CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsXssAction =
-  | "deny"
-  | "log";
-export const CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsXssAction = S.String;
-
-export interface CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsXss {
-  active: boolean;
-  action: CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsXssAction;
-}
-export const CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsXss =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      active: S.Boolean,
-      action: CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsXssAction,
-    }),
-  ).annotate({
-    identifier: "CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsXss",
-  }) as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsXss>;
-
-export type CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsSqliAction =
-  | "deny"
-  | "log";
-export const CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsSqliAction = S.String;
-
-export interface CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsSqli {
-  active: boolean;
-  action: CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsSqliAction;
-}
-export const CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsSqli =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      active: S.Boolean,
-      action: CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsSqliAction,
-    }),
-  ).annotate({
-    identifier: "CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsSqli",
-  }) as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsSqli>;
-
-export type CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsSfAction = "deny" | "log";
-export const CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsSfAction = S.String;
-
-export interface CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsSf {
-  active: boolean;
-  action: CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsSfAction;
-}
-export const CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsSf =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      active: S.Boolean,
-      action: CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsSfAction,
-    }),
-  ).annotate({
-    identifier: "CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsSf",
-  }) as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsSf>;
 
 export type CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsJavaAction =
   | "deny"
@@ -395,50 +381,600 @@ export type CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsJavaAc
 export const CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsJavaAction = S.String;
 
 export interface CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsJava {
-  active: boolean;
   action: CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsJavaAction;
+  active: boolean;
 }
 export const CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsJava =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      active: S.Boolean,
       action: CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsJavaAction,
+      active: S.Boolean,
     }),
   ).annotate({
     identifier: "CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsJava",
   }) as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsJava>;
 
+export type CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsLfiAction =
+  | "deny"
+  | "log";
+export const CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsLfiAction = S.String;
+
+export interface CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsLfi {
+  action: CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsLfiAction;
+  active: boolean;
+}
+export const CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsLfi =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      action: CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsLfiAction,
+      active: S.Boolean,
+    }),
+  ).annotate({
+    identifier: "CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsLfi",
+  }) as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsLfi>;
+
+export type CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsMaAction = "deny" | "log";
+export const CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsMaAction = S.String;
+
+export interface CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsMa {
+  action: CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsMaAction;
+  active: boolean;
+}
+export const CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsMa =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      action: CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsMaAction,
+      active: S.Boolean,
+    }),
+  ).annotate({
+    identifier: "CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsMa",
+  }) as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsMa>;
+
+export type CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsPhpAction =
+  | "deny"
+  | "log";
+export const CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsPhpAction = S.String;
+
+export interface CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsPhp {
+  action: CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsPhpAction;
+  active: boolean;
+}
+export const CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsPhp =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      action: CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsPhpAction,
+      active: S.Boolean,
+    }),
+  ).annotate({
+    identifier: "CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsPhp",
+  }) as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsPhp>;
+
+export type CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsRceAction =
+  | "deny"
+  | "log";
+export const CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsRceAction = S.String;
+
+export interface CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsRce {
+  action: CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsRceAction;
+  active: boolean;
+}
+export const CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsRce =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      action: CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsRceAction,
+      active: S.Boolean,
+    }),
+  ).annotate({
+    identifier: "CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsRce",
+  }) as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsRce>;
+
+export type CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsRfiAction =
+  | "deny"
+  | "log";
+export const CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsRfiAction = S.String;
+
+export interface CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsRfi {
+  action: CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsRfiAction;
+  active: boolean;
+}
+export const CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsRfi =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      action: CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsRfiAction,
+      active: S.Boolean,
+    }),
+  ).annotate({
+    identifier: "CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsRfi",
+  }) as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsRfi>;
+
+export type CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsSdAction = "deny" | "log";
+export const CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsSdAction = S.String;
+
+export interface CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsSd {
+  action: CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsSdAction;
+  active: boolean;
+}
+export const CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsSd =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      action: CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsSdAction,
+      active: S.Boolean,
+    }),
+  ).annotate({
+    identifier: "CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsSd",
+  }) as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsSd>;
+
+export type CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsSfAction = "deny" | "log";
+export const CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsSfAction = S.String;
+
+export interface CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsSf {
+  action: CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsSfAction;
+  active: boolean;
+}
+export const CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsSf =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      action: CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsSfAction,
+      active: S.Boolean,
+    }),
+  ).annotate({
+    identifier: "CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsSf",
+  }) as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsSf>;
+
+export type CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsSqliAction =
+  | "deny"
+  | "log";
+export const CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsSqliAction = S.String;
+
+export interface CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsSqli {
+  action: CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsSqliAction;
+  active: boolean;
+}
+export const CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsSqli =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      action: CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsSqliAction,
+      active: S.Boolean,
+    }),
+  ).annotate({
+    identifier: "CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsSqli",
+  }) as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsSqli>;
+
+export type CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsXssAction =
+  | "deny"
+  | "log";
+export const CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsXssAction = S.String;
+
+export interface CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsXss {
+  action: CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsXssAction;
+  active: boolean;
+}
+export const CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsXss =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      action: CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsXssAction,
+      active: S.Boolean,
+    }),
+  ).annotate({
+    identifier: "CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsXss",
+  }) as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsXss>;
+
 export interface CreateSecurityFirewallConfigByConfigVersionActivateResponseCrs {
-  sd: CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsSd;
-  ma: CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsMa;
-  lfi: CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsLfi;
-  rfi: CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsRfi;
-  rce: CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsRce;
-  php: CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsPhp;
   gen: CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsGen;
-  xss: CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsXss;
-  sqli: CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsSqli;
-  sf: CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsSf;
   java: CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsJava;
+  lfi: CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsLfi;
+  ma: CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsMa;
+  php: CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsPhp;
+  rce: CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsRce;
+  rfi: CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsRfi;
+  sd: CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsSd;
+  sf: CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsSf;
+  sqli: CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsSqli;
+  xss: CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsXss;
 }
 export const CreateSecurityFirewallConfigByConfigVersionActivateResponseCrs =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      sd: CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsSd,
-      ma: CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsMa,
-      lfi: CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsLfi,
-      rfi: CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsRfi,
-      rce: CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsRce,
-      php: CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsPhp,
       gen: CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsGen,
-      xss: CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsXss,
-      sqli: CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsSqli,
-      sf: CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsSf,
       java: CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsJava,
+      lfi: CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsLfi,
+      ma: CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsMa,
+      php: CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsPhp,
+      rce: CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsRce,
+      rfi: CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsRfi,
+      sd: CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsSd,
+      sf: CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsSf,
+      sqli: CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsSqli,
+      xss: CreateSecurityFirewallConfigByConfigVersionActivateResponseCrsXss,
     }),
   ).annotate({
     identifier: "CreateSecurityFirewallConfigByConfigVersionActivateResponseCrs",
   }) as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponseCrs>;
+
+export type CreateSecurityFirewallConfigByConfigVersionActivateResponseIpsItemAction =
+  | "bypass"
+  | "challenge"
+  | "deny"
+  | "log";
+export const CreateSecurityFirewallConfigByConfigVersionActivateResponseIpsItemAction = S.String;
+
+export interface CreateSecurityFirewallConfigByConfigVersionActivateResponseIpsItem {
+  action: CreateSecurityFirewallConfigByConfigVersionActivateResponseIpsItemAction;
+  hostname: string;
+  id: string;
+  ip: string;
+  notes?: string;
+}
+export const CreateSecurityFirewallConfigByConfigVersionActivateResponseIpsItem =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      action: CreateSecurityFirewallConfigByConfigVersionActivateResponseIpsItemAction,
+      hostname: S.String,
+      id: S.String,
+      ip: S.String,
+      notes: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "CreateSecurityFirewallConfigByConfigVersionActivateResponseIpsItem",
+  }) as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponseIpsItem>;
+
+export type CreateSecurityFirewallConfigByConfigVersionActivateResponseIpsList =
+  Array<CreateSecurityFirewallConfigByConfigVersionActivateResponseIpsItem>;
+export const CreateSecurityFirewallConfigByConfigVersionActivateResponseIpsList =
+  /*@__PURE__*/ S.Array(
+    CreateSecurityFirewallConfigByConfigVersionActivateResponseIpsItem,
+  ) as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponseIpsList>;
+
+export type CreateSecurityFirewallConfigByConfigVersionActivateResponseLogHeadersCase0List =
+  Array<string>;
+export const CreateSecurityFirewallConfigByConfigVersionActivateResponseLogHeadersCase0List =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponseLogHeadersCase0List>;
+
+export type CreateSecurityFirewallConfigByConfigVersionActivateResponseLogHeadersCase1 = "*";
+export const CreateSecurityFirewallConfigByConfigVersionActivateResponseLogHeadersCase1 = S.String;
+
+export type CreateSecurityFirewallConfigByConfigVersionActivateResponseLogHeaders =
+  | CreateSecurityFirewallConfigByConfigVersionActivateResponseLogHeadersCase0List
+  | CreateSecurityFirewallConfigByConfigVersionActivateResponseLogHeadersCase1;
+export const CreateSecurityFirewallConfigByConfigVersionActivateResponseLogHeaders =
+  S.Unknown as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponseLogHeaders>;
+
+export type CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesAiBotsAction =
+  | "challenge"
+  | "deny"
+  | "log";
+export const CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesAiBotsAction =
+  S.String;
+
+export interface CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesAiBots {
+  action?: CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesAiBotsAction;
+  active: boolean;
+  updatedAt?: string;
+  userId?: string;
+  username?: string;
+}
+export const CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesAiBots =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      action: S.optional(
+        CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesAiBotsAction,
+      ),
+      active: S.Boolean,
+      updatedAt: S.optional(S.String),
+      userId: S.optional(S.String),
+      username: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesAiBots",
+  }) as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesAiBots>;
+
+export type CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesBotProtectionAction =
+  | "challenge"
+  | "deny"
+  | "log";
+export const CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesBotProtectionAction =
+  S.String;
+
+export interface CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesBotProtection {
+  action?: CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesBotProtectionAction;
+  active: boolean;
+  updatedAt?: string;
+  userId?: string;
+  username?: string;
+}
+export const CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesBotProtection =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      action: S.optional(
+        CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesBotProtectionAction,
+      ),
+      active: S.Boolean,
+      updatedAt: S.optional(S.String),
+      userId: S.optional(S.String),
+      username: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier:
+      "CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesBotProtection",
+  }) as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesBotProtection>;
+
+export type CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesOwaspAction =
+  | "challenge"
+  | "deny"
+  | "log";
+export const CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesOwaspAction =
+  S.String;
+
+export interface CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesOwasp {
+  action?: CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesOwaspAction;
+  active: boolean;
+  updatedAt?: string;
+  userId?: string;
+  username?: string;
+}
+export const CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesOwasp =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      action: S.optional(
+        CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesOwaspAction,
+      ),
+      active: S.Boolean,
+      updatedAt: S.optional(S.String),
+      userId: S.optional(S.String),
+      username: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesOwasp",
+  }) as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesOwasp>;
+
+export type CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesTrafficSourcesAction =
+  | "challenge"
+  | "deny"
+  | "log";
+export const CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesTrafficSourcesAction =
+  S.String;
+
+export interface CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesTrafficSources {
+  action?: CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesTrafficSourcesAction;
+  active: boolean;
+  updatedAt?: string;
+  userId?: string;
+  username?: string;
+}
+export const CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesTrafficSources =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      action: S.optional(
+        CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesTrafficSourcesAction,
+      ),
+      active: S.Boolean,
+      updatedAt: S.optional(S.String),
+      userId: S.optional(S.String),
+      username: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier:
+      "CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesTrafficSources",
+  }) as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesTrafficSources>;
+
+export type CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesVercelRulesetAction =
+  | "challenge"
+  | "deny"
+  | "log";
+export const CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesVercelRulesetAction =
+  S.String;
+
+export interface CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesVercelRuleset {
+  action?: CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesVercelRulesetAction;
+  active: boolean;
+  updatedAt?: string;
+  userId?: string;
+  username?: string;
+}
+export const CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesVercelRuleset =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      action: S.optional(
+        CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesVercelRulesetAction,
+      ),
+      active: S.Boolean,
+      updatedAt: S.optional(S.String),
+      userId: S.optional(S.String),
+      username: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier:
+      "CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesVercelRuleset",
+  }) as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesVercelRuleset>;
+
+export interface CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRules {
+  ai_bots?: CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesAiBots;
+  bot_protection?: CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesBotProtection;
+  owasp?: CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesOwasp;
+  traffic_sources?: CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesTrafficSources;
+  vercel_ruleset?: CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesVercelRuleset;
+}
+export const CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRules =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      ai_bots: S.optional(
+        CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesAiBots,
+      ),
+      bot_protection: S.optional(
+        CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesBotProtection,
+      ),
+      owasp: S.optional(
+        CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesOwasp,
+      ),
+      traffic_sources: S.optional(
+        CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesTrafficSources,
+      ),
+      vercel_ruleset: S.optional(
+        CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesVercelRuleset,
+      ),
+    }),
+  ).annotate({
+    identifier: "CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRules",
+  }) as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRules>;
+
+export type CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateAction =
+  | "allow"
+  | "bypass"
+  | "challenge"
+  | "deny"
+  | "log"
+  | "rate_limit"
+  | "redirect";
+export const CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateAction =
+  S.String;
+
+export type CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateLogHeadersCase0List =
+  Array<string>;
+export const CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateLogHeadersCase0List =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateLogHeadersCase0List>;
+
+export type CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateLogHeadersCase1 =
+  "*";
+export const CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateLogHeadersCase1 =
+  S.String;
+
+export type CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateLogHeaders =
+  | CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateLogHeadersCase0List
+  | CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateLogHeadersCase1;
+export const CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateLogHeaders =
+  S.Unknown as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateLogHeaders>;
+
+export type CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRateLimitAction =
+  | "challenge"
+  | "deny"
+  | "log"
+  | "rate_limit";
+export const CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRateLimitAction =
+  S.String;
+
+export type CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRateLimitAlgo =
+  | "fixed_window"
+  | "token_bucket";
+export const CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRateLimitAlgo =
+  S.String;
+
+export type CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRateLimitKeysList =
+  Array<string>;
+export const CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRateLimitKeysList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRateLimitKeysList>;
+
+export interface CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRateLimit {
+  action?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRateLimitAction | null;
+  algo: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRateLimitAlgo;
+  keys: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRateLimitKeysList;
+  limit: number;
+  window: number;
+}
+export const CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRateLimit =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      action: S.optional(
+        S.NullOr(
+          CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRateLimitAction,
+        ),
+      ),
+      algo: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRateLimitAlgo,
+      keys: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRateLimitKeysList,
+      limit: S.Number,
+      window: S.Number,
+    }),
+  ).annotate({
+    identifier:
+      "CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRateLimit",
+  }) as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRateLimit>;
+
+export interface CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect {
+  location: string;
+  permanent: boolean;
+}
+export const CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      location: S.String,
+      permanent: S.Boolean,
+    }),
+  ).annotate({
+    identifier:
+      "CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect",
+  }) as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect>;
+
+export interface CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigate {
+  action: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateAction;
+  actionDuration?: string | null;
+  bypassSystem?: boolean | null;
+  logHeaders?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateLogHeaders;
+  rateLimit?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRateLimit | null;
+  redirect?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect | null;
+}
+export const CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigate =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      action:
+        CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateAction,
+      actionDuration: S.optional(S.NullOr(S.String)),
+      bypassSystem: S.optional(S.NullOr(S.Boolean)),
+      logHeaders: S.optional(
+        CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateLogHeaders,
+      ),
+      rateLimit: S.optional(
+        S.NullOr(
+          CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRateLimit,
+        ),
+      ),
+      redirect: S.optional(
+        S.NullOr(
+          CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect,
+        ),
+      ),
+    }),
+  ).annotate({
+    identifier:
+      "CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigate",
+  }) as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigate>;
+
+export interface CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0Action {
+  mitigate?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigate;
+}
+export const CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0Action =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      mitigate: S.optional(
+        CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigate,
+      ),
+    }),
+  ).annotate({
+    identifier: "CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0Action",
+  }) as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0Action>;
+
+export type CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ConditionGroupItemConditionsItemOp =
+  | "eq"
+  | "ex"
+  | "gt"
+  | "gte"
+  | "inc"
+  | "list"
+  | "lt"
+  | "lte"
+  | "neq"
+  | "nex"
+  | "ninc"
+  | "pre"
+  | "re"
+  | "sub"
+  | "suf";
+export const CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ConditionGroupItemConditionsItemOp =
+  S.String;
 
 export type CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ConditionGroupItemConditionsItemType =
   | "bot_category"
@@ -477,25 +1013,6 @@ export type CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItem
 export const CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ConditionGroupItemConditionsItemType =
   S.String;
 
-export type CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ConditionGroupItemConditionsItemOp =
-  | "eq"
-  | "ex"
-  | "gt"
-  | "gte"
-  | "inc"
-  | "list"
-  | "lt"
-  | "lte"
-  | "neq"
-  | "nex"
-  | "ninc"
-  | "pre"
-  | "re"
-  | "sub"
-  | "suf";
-export const CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ConditionGroupItemConditionsItemOp =
-  S.String;
-
 export type CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ConditionGroupItemConditionsItemValueCase2List =
   Array<string>;
 export const CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ConditionGroupItemConditionsItemValueCase2List =
@@ -511,19 +1028,19 @@ export const CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesIte
   S.Unknown as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ConditionGroupItemConditionsItemValue>;
 
 export interface CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ConditionGroupItemConditionsItem {
-  type: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ConditionGroupItemConditionsItemType;
-  op: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ConditionGroupItemConditionsItemOp;
-  neg?: boolean;
   key?: string;
+  neg?: boolean;
+  op: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ConditionGroupItemConditionsItemOp;
+  type: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ConditionGroupItemConditionsItemType;
   value?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ConditionGroupItemConditionsItemValue;
 }
 export const CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ConditionGroupItemConditionsItem =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      type: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ConditionGroupItemConditionsItemType,
-      op: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ConditionGroupItemConditionsItemOp,
-      neg: S.optional(S.Boolean),
       key: S.optional(S.String),
+      neg: S.optional(S.Boolean),
+      op: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ConditionGroupItemConditionsItemOp,
+      type: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ConditionGroupItemConditionsItemType,
       value: S.optional(
         CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ConditionGroupItemConditionsItemValue,
       ),
@@ -561,7 +1078,34 @@ export const CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesIte
     CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ConditionGroupItem,
   ) as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ConditionGroupList>;
 
-export type CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateAction =
+export interface CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0 {
+  action: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0Action;
+  active: boolean;
+  conditionGroup: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ConditionGroupList;
+  description?: string;
+  id: string;
+  name: string;
+  valid: boolean;
+  validationErrors: unknown | null;
+}
+export const CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      action: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0Action,
+      active: S.Boolean,
+      conditionGroup:
+        CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ConditionGroupList,
+      description: S.optional(S.String),
+      id: S.String,
+      name: S.String,
+      valid: S.Boolean,
+      validationErrors: S.NullOr(S.Unknown),
+    }),
+  ).annotate({
+    identifier: "CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0",
+  }) as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0>;
+
+export type CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ActionMitigateAction =
   | "allow"
   | "bypass"
   | "challenge"
@@ -569,104 +1113,99 @@ export type CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItem
   | "log"
   | "rate_limit"
   | "redirect";
-export const CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateAction =
+export const CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ActionMitigateAction =
   S.String;
 
-export type CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRateLimitAlgo =
-  | "fixed_window"
-  | "token_bucket";
-export const CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRateLimitAlgo =
-  S.String;
-
-export type CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRateLimitKeysList =
+export type CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ActionMitigateLogHeadersCase0List =
   Array<string>;
-export const CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRateLimitKeysList =
+export const CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ActionMitigateLogHeadersCase0List =
   /*@__PURE__*/ S.Array(
     S.String,
-  ) as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRateLimitKeysList>;
+  ) as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ActionMitigateLogHeadersCase0List>;
 
-export type CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRateLimitAction =
+export type CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ActionMitigateLogHeadersCase1 =
+  "*";
+export const CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ActionMitigateLogHeadersCase1 =
+  S.String;
+
+export type CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ActionMitigateLogHeaders =
+  | CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ActionMitigateLogHeadersCase0List
+  | CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ActionMitigateLogHeadersCase1;
+export const CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ActionMitigateLogHeaders =
+  S.Unknown as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ActionMitigateLogHeaders>;
+
+export type CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ActionMitigateRateLimitAction =
   | "challenge"
   | "deny"
   | "log"
   | "rate_limit";
-export const CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRateLimitAction =
+export const CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ActionMitigateRateLimitAction =
   S.String;
 
-export interface CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRateLimit {
-  algo: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRateLimitAlgo;
-  window: number;
-  limit: number;
-  keys: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRateLimitKeysList;
-  action?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRateLimitAction | null;
-}
-export const CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRateLimit =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      algo: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRateLimitAlgo,
-      window: S.Number,
-      limit: S.Number,
-      keys: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRateLimitKeysList,
-      action: S.optional(
-        S.NullOr(
-          CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRateLimitAction,
-        ),
-      ),
-    }),
-  ).annotate({
-    identifier:
-      "CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRateLimit",
-  }) as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRateLimit>;
+export type CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ActionMitigateRateLimitAlgo =
+  | "fixed_window"
+  | "token_bucket";
+export const CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ActionMitigateRateLimitAlgo =
+  S.String;
 
-export interface CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect {
-  location: string;
-  permanent: boolean;
-}
-export const CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      location: S.String,
-      permanent: S.Boolean,
-    }),
-  ).annotate({
-    identifier:
-      "CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect",
-  }) as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect>;
-
-export type CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateLogHeadersCase0List =
+export type CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ActionMitigateRateLimitKeysList =
   Array<string>;
-export const CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateLogHeadersCase0List =
+export const CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ActionMitigateRateLimitKeysList =
   /*@__PURE__*/ S.Array(
     S.String,
-  ) as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateLogHeadersCase0List>;
+  ) as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ActionMitigateRateLimitKeysList>;
 
-export type CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateLogHeadersCase1 =
-  "*";
-export const CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateLogHeadersCase1 =
-  S.String;
+export interface CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ActionMitigateRateLimit {
+  action?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ActionMitigateRateLimitAction | null;
+  algo: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ActionMitigateRateLimitAlgo;
+  keys: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ActionMitigateRateLimitKeysList;
+  limit: number;
+  window: number;
+}
+export const CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ActionMitigateRateLimit =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      action: S.optional(
+        S.NullOr(
+          CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ActionMitigateRateLimitAction,
+        ),
+      ),
+      algo: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ActionMitigateRateLimitAlgo,
+      keys: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ActionMitigateRateLimitKeysList,
+      limit: S.Number,
+      window: S.Number,
+    }),
+  ).annotate({
+    identifier:
+      "CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ActionMitigateRateLimit",
+  }) as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ActionMitigateRateLimit>;
 
-export type CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateLogHeaders =
-  | CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateLogHeadersCase0List
-  | CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateLogHeadersCase1;
-export const CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateLogHeaders =
-  S.Unknown as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateLogHeaders>;
+export type CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ActionMitigateRedirect =
+  CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
+export const CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ActionMitigateRedirect =
+  CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
 
-export interface CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigate {
-  action: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateAction;
-  rateLimit?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRateLimit | null;
-  redirect?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect | null;
+export interface CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ActionMitigate {
+  action: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ActionMitigateAction;
   actionDuration?: string | null;
   bypassSystem?: boolean | null;
-  logHeaders?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateLogHeaders;
+  logHeaders?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ActionMitigateLogHeaders;
+  rateLimit?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ActionMitigateRateLimit | null;
+  redirect?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect | null;
 }
-export const CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigate =
+export const CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ActionMitigate =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       action:
-        CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateAction,
+        CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ActionMitigateAction,
+      actionDuration: S.optional(S.NullOr(S.String)),
+      bypassSystem: S.optional(S.NullOr(S.Boolean)),
+      logHeaders: S.optional(
+        CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ActionMitigateLogHeaders,
+      ),
       rateLimit: S.optional(
         S.NullOr(
-          CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRateLimit,
+          CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ActionMitigateRateLimit,
         ),
       ),
       redirect: S.optional(
@@ -674,57 +1213,44 @@ export const CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesIte
           CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect,
         ),
       ),
-      actionDuration: S.optional(S.NullOr(S.String)),
-      bypassSystem: S.optional(S.NullOr(S.Boolean)),
-      logHeaders: S.optional(
-        CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateLogHeaders,
-      ),
     }),
   ).annotate({
     identifier:
-      "CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigate",
-  }) as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigate>;
+      "CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ActionMitigate",
+  }) as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ActionMitigate>;
 
-export interface CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0Action {
-  mitigate?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigate;
+export interface CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1Action {
+  mitigate?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ActionMitigate;
 }
-export const CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0Action =
+export const CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1Action =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       mitigate: S.optional(
-        CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigate,
+        CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ActionMitigate,
       ),
     }),
   ).annotate({
-    identifier: "CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0Action",
-  }) as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0Action>;
+    identifier: "CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1Action",
+  }) as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1Action>;
 
-export interface CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0 {
-  id: string;
-  name: string;
-  description?: string;
-  active: boolean;
-  conditionGroup: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ConditionGroupList;
-  action: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0Action;
-  valid: boolean;
-  validationErrors: unknown | null;
-}
-export const CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0 =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      id: S.String,
-      name: S.String,
-      description: S.optional(S.String),
-      active: S.Boolean,
-      conditionGroup:
-        CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ConditionGroupList,
-      action: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0Action,
-      valid: S.Boolean,
-      validationErrors: S.NullOr(S.Unknown),
-    }),
-  ).annotate({
-    identifier: "CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0",
-  }) as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0>;
+export type CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ConditionGroupItemConditionsItemOp =
+  | "eq"
+  | "ex"
+  | "gt"
+  | "gte"
+  | "inc"
+  | "list"
+  | "lt"
+  | "lte"
+  | "neq"
+  | "nex"
+  | "ninc"
+  | "pre"
+  | "re"
+  | "sub"
+  | "suf";
+export const CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ConditionGroupItemConditionsItemOp =
+  S.String;
 
 export type CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ConditionGroupItemConditionsItemType =
   | "bot_category"
@@ -763,25 +1289,6 @@ export type CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItem
 export const CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ConditionGroupItemConditionsItemType =
   S.String;
 
-export type CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ConditionGroupItemConditionsItemOp =
-  | "eq"
-  | "ex"
-  | "gt"
-  | "gte"
-  | "inc"
-  | "list"
-  | "lt"
-  | "lte"
-  | "neq"
-  | "nex"
-  | "ninc"
-  | "pre"
-  | "re"
-  | "sub"
-  | "suf";
-export const CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ConditionGroupItemConditionsItemOp =
-  S.String;
-
 export type CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ConditionGroupItemConditionsItemValueCase2List =
   Array<string>;
 export const CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ConditionGroupItemConditionsItemValueCase2List =
@@ -797,19 +1304,19 @@ export const CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesIte
   S.Unknown as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ConditionGroupItemConditionsItemValue>;
 
 export interface CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ConditionGroupItemConditionsItem {
-  type: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ConditionGroupItemConditionsItemType;
-  op: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ConditionGroupItemConditionsItemOp;
-  neg?: boolean;
   key?: string;
+  neg?: boolean;
+  op: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ConditionGroupItemConditionsItemOp;
+  type: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ConditionGroupItemConditionsItemType;
   value?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ConditionGroupItemConditionsItemValue;
 }
 export const CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ConditionGroupItemConditionsItem =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      type: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ConditionGroupItemConditionsItemType,
-      op: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ConditionGroupItemConditionsItemOp,
-      neg: S.optional(S.Boolean),
       key: S.optional(S.String),
+      neg: S.optional(S.Boolean),
+      op: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ConditionGroupItemConditionsItemOp,
+      type: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ConditionGroupItemConditionsItemType,
       value: S.optional(
         CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ConditionGroupItemConditionsItemValue,
       ),
@@ -847,134 +1354,6 @@ export const CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesIte
     CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ConditionGroupItem,
   ) as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ConditionGroupList>;
 
-export type CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ActionMitigateAction =
-  | "allow"
-  | "bypass"
-  | "challenge"
-  | "deny"
-  | "log"
-  | "rate_limit"
-  | "redirect";
-export const CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ActionMitigateAction =
-  S.String;
-
-export type CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ActionMitigateRateLimitAlgo =
-  | "fixed_window"
-  | "token_bucket";
-export const CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ActionMitigateRateLimitAlgo =
-  S.String;
-
-export type CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ActionMitigateRateLimitKeysList =
-  Array<string>;
-export const CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ActionMitigateRateLimitKeysList =
-  /*@__PURE__*/ S.Array(
-    S.String,
-  ) as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ActionMitigateRateLimitKeysList>;
-
-export type CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ActionMitigateRateLimitAction =
-  | "challenge"
-  | "deny"
-  | "log"
-  | "rate_limit";
-export const CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ActionMitigateRateLimitAction =
-  S.String;
-
-export interface CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ActionMitigateRateLimit {
-  algo: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ActionMitigateRateLimitAlgo;
-  window: number;
-  limit: number;
-  keys: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ActionMitigateRateLimitKeysList;
-  action?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ActionMitigateRateLimitAction | null;
-}
-export const CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ActionMitigateRateLimit =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      algo: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ActionMitigateRateLimitAlgo,
-      window: S.Number,
-      limit: S.Number,
-      keys: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ActionMitigateRateLimitKeysList,
-      action: S.optional(
-        S.NullOr(
-          CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ActionMitigateRateLimitAction,
-        ),
-      ),
-    }),
-  ).annotate({
-    identifier:
-      "CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ActionMitigateRateLimit",
-  }) as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ActionMitigateRateLimit>;
-
-export type CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ActionMitigateRedirect =
-  CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
-export const CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ActionMitigateRedirect =
-  CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
-
-export type CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ActionMitigateLogHeadersCase0List =
-  Array<string>;
-export const CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ActionMitigateLogHeadersCase0List =
-  /*@__PURE__*/ S.Array(
-    S.String,
-  ) as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ActionMitigateLogHeadersCase0List>;
-
-export type CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ActionMitigateLogHeadersCase1 =
-  "*";
-export const CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ActionMitigateLogHeadersCase1 =
-  S.String;
-
-export type CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ActionMitigateLogHeaders =
-  | CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ActionMitigateLogHeadersCase0List
-  | CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ActionMitigateLogHeadersCase1;
-export const CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ActionMitigateLogHeaders =
-  S.Unknown as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ActionMitigateLogHeaders>;
-
-export interface CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ActionMitigate {
-  action: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ActionMitigateAction;
-  rateLimit?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ActionMitigateRateLimit | null;
-  redirect?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect | null;
-  actionDuration?: string | null;
-  bypassSystem?: boolean | null;
-  logHeaders?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ActionMitigateLogHeaders;
-}
-export const CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ActionMitigate =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      action:
-        CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ActionMitigateAction,
-      rateLimit: S.optional(
-        S.NullOr(
-          CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ActionMitigateRateLimit,
-        ),
-      ),
-      redirect: S.optional(
-        S.NullOr(
-          CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect,
-        ),
-      ),
-      actionDuration: S.optional(S.NullOr(S.String)),
-      bypassSystem: S.optional(S.NullOr(S.Boolean)),
-      logHeaders: S.optional(
-        CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ActionMitigateLogHeaders,
-      ),
-    }),
-  ).annotate({
-    identifier:
-      "CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ActionMitigate",
-  }) as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ActionMitigate>;
-
-export interface CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1Action {
-  mitigate?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ActionMitigate;
-}
-export const CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1Action =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      mitigate: S.optional(
-        CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ActionMitigate,
-      ),
-    }),
-  ).annotate({
-    identifier: "CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1Action",
-  }) as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1Action>;
-
 export type CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ValidationErrorsList =
   Array<string>;
 export const CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ValidationErrorsList =
@@ -983,25 +1362,25 @@ export const CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesIte
   ) as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ValidationErrorsList>;
 
 export interface CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1 {
-  id: string;
-  name: string;
-  description?: string;
+  action: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1Action;
   active: boolean;
   conditionGroup: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ConditionGroupList;
-  action: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1Action;
+  description?: string;
+  id: string;
+  name: string;
   valid: boolean;
   validationErrors: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ValidationErrorsList;
 }
 export const CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1 =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      id: S.String,
-      name: S.String,
-      description: S.optional(S.String),
+      action: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1Action,
       active: S.Boolean,
       conditionGroup:
         CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ConditionGroupList,
-      action: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1Action,
+      description: S.optional(S.String),
+      id: S.String,
+      name: S.String,
       valid: S.Boolean,
       validationErrors:
         CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase1ValidationErrorsList,
@@ -1023,39 +1402,24 @@ export const CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesLis
     CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItem,
   ) as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesList>;
 
-export type CreateSecurityFirewallConfigByConfigVersionActivateResponseIpsItemAction =
-  | "bypass"
-  | "challenge"
-  | "deny"
-  | "log";
-export const CreateSecurityFirewallConfigByConfigVersionActivateResponseIpsItemAction = S.String;
-
-export interface CreateSecurityFirewallConfigByConfigVersionActivateResponseIpsItem {
-  id: string;
-  hostname: string;
-  ip: string;
-  notes?: string;
-  action: CreateSecurityFirewallConfigByConfigVersionActivateResponseIpsItemAction;
-}
-export const CreateSecurityFirewallConfigByConfigVersionActivateResponseIpsItem =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      id: S.String,
-      hostname: S.String,
-      ip: S.String,
-      notes: S.optional(S.String),
-      action: CreateSecurityFirewallConfigByConfigVersionActivateResponseIpsItemAction,
-    }),
-  ).annotate({
-    identifier: "CreateSecurityFirewallConfigByConfigVersionActivateResponseIpsItem",
-  }) as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponseIpsItem>;
-
-export type CreateSecurityFirewallConfigByConfigVersionActivateResponseIpsList =
-  Array<CreateSecurityFirewallConfigByConfigVersionActivateResponseIpsItem>;
-export const CreateSecurityFirewallConfigByConfigVersionActivateResponseIpsList =
-  /*@__PURE__*/ S.Array(
-    CreateSecurityFirewallConfigByConfigVersionActivateResponseIpsItem,
-  ) as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponseIpsList>;
+export type CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0ItemConditionGroupItemConditionsItemOp =
+  | "eq"
+  | "ex"
+  | "gt"
+  | "gte"
+  | "inc"
+  | "list"
+  | "lt"
+  | "lte"
+  | "neq"
+  | "nex"
+  | "ninc"
+  | "pre"
+  | "re"
+  | "sub"
+  | "suf";
+export const CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0ItemConditionGroupItemConditionsItemOp =
+  S.String;
 
 export type CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0ItemConditionGroupItemConditionsItemType =
   | "bot_category"
@@ -1094,25 +1458,6 @@ export type CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsC
 export const CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0ItemConditionGroupItemConditionsItemType =
   S.String;
 
-export type CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0ItemConditionGroupItemConditionsItemOp =
-  | "eq"
-  | "ex"
-  | "gt"
-  | "gte"
-  | "inc"
-  | "list"
-  | "lt"
-  | "lte"
-  | "neq"
-  | "nex"
-  | "ninc"
-  | "pre"
-  | "re"
-  | "sub"
-  | "suf";
-export const CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0ItemConditionGroupItemConditionsItemOp =
-  S.String;
-
 export type CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0ItemConditionGroupItemConditionsItemValueCase2List =
   Array<string>;
 export const CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0ItemConditionGroupItemConditionsItemValueCase2List =
@@ -1128,19 +1473,19 @@ export const CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesets
   S.Unknown as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0ItemConditionGroupItemConditionsItemValue>;
 
 export interface CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0ItemConditionGroupItemConditionsItem {
-  type: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0ItemConditionGroupItemConditionsItemType;
-  op: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0ItemConditionGroupItemConditionsItemOp;
-  neg?: boolean;
   key?: string;
+  neg?: boolean;
+  op: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0ItemConditionGroupItemConditionsItemOp;
+  type: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0ItemConditionGroupItemConditionsItemType;
   value?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0ItemConditionGroupItemConditionsItemValue;
 }
 export const CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0ItemConditionGroupItemConditionsItem =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      type: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0ItemConditionGroupItemConditionsItemType,
-      op: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0ItemConditionGroupItemConditionsItemOp,
-      neg: S.optional(S.Boolean),
       key: S.optional(S.String),
+      neg: S.optional(S.Boolean),
+      op: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0ItemConditionGroupItemConditionsItemOp,
+      type: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0ItemConditionGroupItemConditionsItemType,
       value: S.optional(
         CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0ItemConditionGroupItemConditionsItemValue,
       ),
@@ -1189,57 +1534,6 @@ export type CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsC
 export const CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0ItemActionMitigateAction =
   S.String;
 
-export type CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0ItemActionMitigateRateLimitAlgo =
-  | "fixed_window"
-  | "token_bucket";
-export const CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0ItemActionMitigateRateLimitAlgo =
-  S.String;
-
-export type CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0ItemActionMitigateRateLimitKeysList =
-  Array<string>;
-export const CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0ItemActionMitigateRateLimitKeysList =
-  /*@__PURE__*/ S.Array(
-    S.String,
-  ) as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0ItemActionMitigateRateLimitKeysList>;
-
-export type CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0ItemActionMitigateRateLimitAction =
-  | "challenge"
-  | "deny"
-  | "log"
-  | "rate_limit";
-export const CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0ItemActionMitigateRateLimitAction =
-  S.String;
-
-export interface CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0ItemActionMitigateRateLimit {
-  algo: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0ItemActionMitigateRateLimitAlgo;
-  window: number;
-  limit: number;
-  keys: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0ItemActionMitigateRateLimitKeysList;
-  action?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0ItemActionMitigateRateLimitAction | null;
-}
-export const CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0ItemActionMitigateRateLimit =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      algo: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0ItemActionMitigateRateLimitAlgo,
-      window: S.Number,
-      limit: S.Number,
-      keys: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0ItemActionMitigateRateLimitKeysList,
-      action: S.optional(
-        S.NullOr(
-          CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0ItemActionMitigateRateLimitAction,
-        ),
-      ),
-    }),
-  ).annotate({
-    identifier:
-      "CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0ItemActionMitigateRateLimit",
-  }) as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0ItemActionMitigateRateLimit>;
-
-export type CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0ItemActionMitigateRedirect =
-  CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
-export const CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0ItemActionMitigateRedirect =
-  CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
-
 export type CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0ItemActionMitigateLogHeadersCase0List =
   Array<string>;
 export const CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0ItemActionMitigateLogHeadersCase0List =
@@ -1258,19 +1552,75 @@ export type CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsC
 export const CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0ItemActionMitigateLogHeaders =
   S.Unknown as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0ItemActionMitigateLogHeaders>;
 
+export type CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0ItemActionMitigateRateLimitAction =
+  | "challenge"
+  | "deny"
+  | "log"
+  | "rate_limit";
+export const CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0ItemActionMitigateRateLimitAction =
+  S.String;
+
+export type CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0ItemActionMitigateRateLimitAlgo =
+  | "fixed_window"
+  | "token_bucket";
+export const CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0ItemActionMitigateRateLimitAlgo =
+  S.String;
+
+export type CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0ItemActionMitigateRateLimitKeysList =
+  Array<string>;
+export const CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0ItemActionMitigateRateLimitKeysList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0ItemActionMitigateRateLimitKeysList>;
+
+export interface CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0ItemActionMitigateRateLimit {
+  action?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0ItemActionMitigateRateLimitAction | null;
+  algo: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0ItemActionMitigateRateLimitAlgo;
+  keys: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0ItemActionMitigateRateLimitKeysList;
+  limit: number;
+  window: number;
+}
+export const CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0ItemActionMitigateRateLimit =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      action: S.optional(
+        S.NullOr(
+          CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0ItemActionMitigateRateLimitAction,
+        ),
+      ),
+      algo: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0ItemActionMitigateRateLimitAlgo,
+      keys: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0ItemActionMitigateRateLimitKeysList,
+      limit: S.Number,
+      window: S.Number,
+    }),
+  ).annotate({
+    identifier:
+      "CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0ItemActionMitigateRateLimit",
+  }) as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0ItemActionMitigateRateLimit>;
+
+export type CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0ItemActionMitigateRedirect =
+  CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
+export const CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0ItemActionMitigateRedirect =
+  CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
+
 export interface CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0ItemActionMitigate {
   action: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0ItemActionMitigateAction;
-  rateLimit?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0ItemActionMitigateRateLimit | null;
-  redirect?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect | null;
   actionDuration?: string | null;
   bypassSystem?: boolean | null;
   logHeaders?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0ItemActionMitigateLogHeaders;
+  rateLimit?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0ItemActionMitigateRateLimit | null;
+  redirect?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect | null;
 }
 export const CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0ItemActionMitigate =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       action:
         CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0ItemActionMitigateAction,
+      actionDuration: S.optional(S.NullOr(S.String)),
+      bypassSystem: S.optional(S.NullOr(S.Boolean)),
+      logHeaders: S.optional(
+        CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0ItemActionMitigateLogHeaders,
+      ),
       rateLimit: S.optional(
         S.NullOr(
           CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0ItemActionMitigateRateLimit,
@@ -1280,11 +1630,6 @@ export const CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesets
         S.NullOr(
           CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect,
         ),
-      ),
-      actionDuration: S.optional(S.NullOr(S.String)),
-      bypassSystem: S.optional(S.NullOr(S.Boolean)),
-      logHeaders: S.optional(
-        CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0ItemActionMitigateLogHeaders,
       ),
     }),
   ).annotate({
@@ -1308,22 +1653,22 @@ export const CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesets
   }) as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0ItemAction>;
 
 export interface CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0Item {
+  active: boolean;
+  conditionGroup: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0ItemConditionGroupList;
   description?: string;
   id: string;
   name: string;
-  active: boolean;
-  conditionGroup: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0ItemConditionGroupList;
   action?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0ItemAction;
 }
 export const CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0Item =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      description: S.optional(S.String),
-      id: S.String,
-      name: S.String,
       active: S.Boolean,
       conditionGroup:
         CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0ItemConditionGroupList,
+      description: S.optional(S.String),
+      id: S.String,
+      name: S.String,
       action: S.optional(
         CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase0ItemAction,
       ),
@@ -1350,57 +1695,6 @@ export type CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsC
 export const CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase1ValueAction =
   S.String;
 
-export type CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase1ValueRateLimitAlgo =
-  | "fixed_window"
-  | "token_bucket";
-export const CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase1ValueRateLimitAlgo =
-  S.String;
-
-export type CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase1ValueRateLimitKeysList =
-  Array<string>;
-export const CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase1ValueRateLimitKeysList =
-  /*@__PURE__*/ S.Array(
-    S.String,
-  ) as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase1ValueRateLimitKeysList>;
-
-export type CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase1ValueRateLimitAction =
-  | "challenge"
-  | "deny"
-  | "log"
-  | "rate_limit";
-export const CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase1ValueRateLimitAction =
-  S.String;
-
-export interface CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase1ValueRateLimit {
-  algo: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase1ValueRateLimitAlgo;
-  window: number;
-  limit: number;
-  keys: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase1ValueRateLimitKeysList;
-  action?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase1ValueRateLimitAction | null;
-}
-export const CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase1ValueRateLimit =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      algo: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase1ValueRateLimitAlgo,
-      window: S.Number,
-      limit: S.Number,
-      keys: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase1ValueRateLimitKeysList,
-      action: S.optional(
-        S.NullOr(
-          CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase1ValueRateLimitAction,
-        ),
-      ),
-    }),
-  ).annotate({
-    identifier:
-      "CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase1ValueRateLimit",
-  }) as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase1ValueRateLimit>;
-
-export type CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase1ValueRedirect =
-  CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
-export const CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase1ValueRedirect =
-  CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
-
 export type CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase1ValueLogHeadersCase0List =
   Array<string>;
 export const CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase1ValueLogHeadersCase0List =
@@ -1419,18 +1713,74 @@ export type CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsC
 export const CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase1ValueLogHeaders =
   S.Unknown as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase1ValueLogHeaders>;
 
+export type CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase1ValueRateLimitAction =
+  | "challenge"
+  | "deny"
+  | "log"
+  | "rate_limit";
+export const CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase1ValueRateLimitAction =
+  S.String;
+
+export type CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase1ValueRateLimitAlgo =
+  | "fixed_window"
+  | "token_bucket";
+export const CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase1ValueRateLimitAlgo =
+  S.String;
+
+export type CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase1ValueRateLimitKeysList =
+  Array<string>;
+export const CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase1ValueRateLimitKeysList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase1ValueRateLimitKeysList>;
+
+export interface CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase1ValueRateLimit {
+  action?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase1ValueRateLimitAction | null;
+  algo: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase1ValueRateLimitAlgo;
+  keys: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase1ValueRateLimitKeysList;
+  limit: number;
+  window: number;
+}
+export const CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase1ValueRateLimit =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      action: S.optional(
+        S.NullOr(
+          CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase1ValueRateLimitAction,
+        ),
+      ),
+      algo: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase1ValueRateLimitAlgo,
+      keys: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase1ValueRateLimitKeysList,
+      limit: S.Number,
+      window: S.Number,
+    }),
+  ).annotate({
+    identifier:
+      "CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase1ValueRateLimit",
+  }) as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase1ValueRateLimit>;
+
+export type CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase1ValueRedirect =
+  CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
+export const CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase1ValueRedirect =
+  CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
+
 export interface CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase1Value {
   action: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase1ValueAction;
-  rateLimit?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase1ValueRateLimit | null;
-  redirect?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect | null;
   actionDuration?: string | null;
   bypassSystem?: boolean | null;
   logHeaders?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase1ValueLogHeaders;
+  rateLimit?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase1ValueRateLimit | null;
+  redirect?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect | null;
 }
 export const CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase1Value =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       action: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase1ValueAction,
+      actionDuration: S.optional(S.NullOr(S.String)),
+      bypassSystem: S.optional(S.NullOr(S.Boolean)),
+      logHeaders: S.optional(
+        CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase1ValueLogHeaders,
+      ),
       rateLimit: S.optional(
         S.NullOr(
           CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase1ValueRateLimit,
@@ -1440,11 +1790,6 @@ export const CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesets
         S.NullOr(
           CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect,
         ),
-      ),
-      actionDuration: S.optional(S.NullOr(S.String)),
-      bypassSystem: S.optional(S.NullOr(S.Boolean)),
-      logHeaders: S.optional(
-        CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesetsCase1ValueLogHeaders,
       ),
     }),
   ).annotate({
@@ -1468,394 +1813,45 @@ export type CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesets 
 export const CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesets =
   S.Unknown as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesets>;
 
-export type CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsItemConditionGroupItemConditionsItemType =
-  | "bot_category"
-  | "bot_name"
-  | "bot_protection"
-  | "bot_status"
-  | "cookie"
-  | "domain_environment"
-  | "environment"
-  | "geo_as_number"
-  | "geo_city"
-  | "geo_continent"
-  | "geo_country"
-  | "geo_country_region"
-  | "header"
-  | "host"
-  | "ip_address"
-  | "ja3_digest"
-  | "ja4_digest"
-  | "method"
-  | "path"
-  | "protocol"
-  | "query"
-  | "rate_limit_api_id"
-  | "raw_path"
-  | "region"
-  | "route"
-  | "ruleset"
-  | "scheme"
-  | "server_action"
-  | "shared_condition"
-  | "target_path"
-  | "traffic_source"
-  | "trusted_source"
-  | "user_agent";
-export const CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsItemConditionGroupItemConditionsItemType =
-  S.String;
-
-export type CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsItemConditionGroupItemConditionsItemOp =
-  | "eq"
-  | "ex"
-  | "gt"
-  | "gte"
-  | "inc"
-  | "list"
-  | "lt"
-  | "lte"
-  | "neq"
-  | "nex"
-  | "ninc"
-  | "pre"
-  | "re"
-  | "sub"
-  | "suf";
-export const CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsItemConditionGroupItemConditionsItemOp =
-  S.String;
-
-export type CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsItemConditionGroupItemConditionsItemValueCase2List =
-  Array<string>;
-export const CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsItemConditionGroupItemConditionsItemValueCase2List =
-  /*@__PURE__*/ S.Array(
-    S.String,
-  ) as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsItemConditionGroupItemConditionsItemValueCase2List>;
-
-export type CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsItemConditionGroupItemConditionsItemValue =
-  | string
-  | number
-  | CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsItemConditionGroupItemConditionsItemValueCase2List;
-export const CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsItemConditionGroupItemConditionsItemValue =
-  S.Unknown as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsItemConditionGroupItemConditionsItemValue>;
-
-export interface CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsItemConditionGroupItemConditionsItem {
-  type: CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsItemConditionGroupItemConditionsItemType;
-  op: CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsItemConditionGroupItemConditionsItemOp;
-  neg?: boolean;
-  key?: string;
-  value?: CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsItemConditionGroupItemConditionsItemValue;
-}
-export const CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsItemConditionGroupItemConditionsItem =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      type: CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsItemConditionGroupItemConditionsItemType,
-      op: CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsItemConditionGroupItemConditionsItemOp,
-      neg: S.optional(S.Boolean),
-      key: S.optional(S.String),
-      value: S.optional(
-        CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsItemConditionGroupItemConditionsItemValue,
-      ),
-    }),
-  ).annotate({
-    identifier:
-      "CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsItemConditionGroupItemConditionsItem",
-  }) as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsItemConditionGroupItemConditionsItem>;
-
-export type CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsItemConditionGroupItemConditionsList =
-  Array<CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsItemConditionGroupItemConditionsItem>;
-export const CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsItemConditionGroupItemConditionsList =
-  /*@__PURE__*/ S.Array(
-    CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsItemConditionGroupItemConditionsItem,
-  ) as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsItemConditionGroupItemConditionsList>;
-
-export interface CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsItemConditionGroupItem {
-  conditions: CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsItemConditionGroupItemConditionsList;
-}
-export const CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsItemConditionGroupItem =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      conditions:
-        CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsItemConditionGroupItemConditionsList,
-    }),
-  ).annotate({
-    identifier:
-      "CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsItemConditionGroupItem",
-  }) as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsItemConditionGroupItem>;
-
-export type CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsItemConditionGroupList =
-  Array<CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsItemConditionGroupItem>;
-export const CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsItemConditionGroupList =
-  /*@__PURE__*/ S.Array(
-    CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsItemConditionGroupItem,
-  ) as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsItemConditionGroupList>;
-
-export interface CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsItem {
-  description?: string;
-  id: string;
-  name: string;
-  active: boolean;
-  conditionGroup: CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsItemConditionGroupList;
-}
-export const CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsItem =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      description: S.optional(S.String),
-      id: S.String,
-      name: S.String,
-      active: S.Boolean,
-      conditionGroup:
-        CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsItemConditionGroupList,
-    }),
-  ).annotate({
-    identifier: "CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsItem",
-  }) as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsItem>;
-
-export type CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsList =
-  Array<CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsItem>;
-export const CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsList =
-  /*@__PURE__*/ S.Array(
-    CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsItem,
-  ) as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsList>;
-
-export type CreateSecurityFirewallConfigByConfigVersionActivateResponseChangesList = Array<unknown>;
-export const CreateSecurityFirewallConfigByConfigVersionActivateResponseChangesList =
-  /*@__PURE__*/ S.Array(
-    S.Unknown,
-  ) as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponseChangesList>;
-
-export type CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesBotProtectionAction =
-  | "challenge"
-  | "deny"
-  | "log";
-export const CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesBotProtectionAction =
-  S.String;
-
-export interface CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesBotProtection {
-  active: boolean;
-  action?: CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesBotProtectionAction;
-  updatedAt?: string;
-  userId?: string;
-  username?: string;
-}
-export const CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesBotProtection =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      active: S.Boolean,
-      action: S.optional(
-        CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesBotProtectionAction,
-      ),
-      updatedAt: S.optional(S.String),
-      userId: S.optional(S.String),
-      username: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier:
-      "CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesBotProtection",
-  }) as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesBotProtection>;
-
-export type CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesAiBotsAction =
-  | "challenge"
-  | "deny"
-  | "log";
-export const CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesAiBotsAction =
-  S.String;
-
-export interface CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesAiBots {
-  active: boolean;
-  action?: CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesAiBotsAction;
-  updatedAt?: string;
-  userId?: string;
-  username?: string;
-}
-export const CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesAiBots =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      active: S.Boolean,
-      action: S.optional(
-        CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesAiBotsAction,
-      ),
-      updatedAt: S.optional(S.String),
-      userId: S.optional(S.String),
-      username: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesAiBots",
-  }) as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesAiBots>;
-
-export type CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesOwaspAction =
-  | "challenge"
-  | "deny"
-  | "log";
-export const CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesOwaspAction =
-  S.String;
-
-export interface CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesOwasp {
-  active: boolean;
-  action?: CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesOwaspAction;
-  updatedAt?: string;
-  userId?: string;
-  username?: string;
-}
-export const CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesOwasp =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      active: S.Boolean,
-      action: S.optional(
-        CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesOwaspAction,
-      ),
-      updatedAt: S.optional(S.String),
-      userId: S.optional(S.String),
-      username: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesOwasp",
-  }) as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesOwasp>;
-
-export type CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesVercelRulesetAction =
-  | "challenge"
-  | "deny"
-  | "log";
-export const CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesVercelRulesetAction =
-  S.String;
-
-export interface CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesVercelRuleset {
-  active: boolean;
-  action?: CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesVercelRulesetAction;
-  updatedAt?: string;
-  userId?: string;
-  username?: string;
-}
-export const CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesVercelRuleset =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      active: S.Boolean,
-      action: S.optional(
-        CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesVercelRulesetAction,
-      ),
-      updatedAt: S.optional(S.String),
-      userId: S.optional(S.String),
-      username: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier:
-      "CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesVercelRuleset",
-  }) as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesVercelRuleset>;
-
-export type CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesTrafficSourcesAction =
-  | "challenge"
-  | "deny"
-  | "log";
-export const CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesTrafficSourcesAction =
-  S.String;
-
-export interface CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesTrafficSources {
-  active: boolean;
-  action?: CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesTrafficSourcesAction;
-  updatedAt?: string;
-  userId?: string;
-  username?: string;
-}
-export const CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesTrafficSources =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      active: S.Boolean,
-      action: S.optional(
-        CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesTrafficSourcesAction,
-      ),
-      updatedAt: S.optional(S.String),
-      userId: S.optional(S.String),
-      username: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier:
-      "CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesTrafficSources",
-  }) as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesTrafficSources>;
-
-export interface CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRules {
-  bot_protection?: CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesBotProtection;
-  ai_bots?: CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesAiBots;
-  owasp?: CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesOwasp;
-  vercel_ruleset?: CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesVercelRuleset;
-  traffic_sources?: CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesTrafficSources;
-}
-export const CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRules =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      bot_protection: S.optional(
-        CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesBotProtection,
-      ),
-      ai_bots: S.optional(
-        CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesAiBots,
-      ),
-      owasp: S.optional(
-        CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesOwasp,
-      ),
-      vercel_ruleset: S.optional(
-        CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesVercelRuleset,
-      ),
-      traffic_sources: S.optional(
-        CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRulesTrafficSources,
-      ),
-    }),
-  ).annotate({
-    identifier: "CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRules",
-  }) as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRules>;
-
-export type CreateSecurityFirewallConfigByConfigVersionActivateResponseLogHeadersCase0List =
-  Array<string>;
-export const CreateSecurityFirewallConfigByConfigVersionActivateResponseLogHeadersCase0List =
-  /*@__PURE__*/ S.Array(
-    S.String,
-  ) as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponseLogHeadersCase0List>;
-
-export type CreateSecurityFirewallConfigByConfigVersionActivateResponseLogHeadersCase1 = "*";
-export const CreateSecurityFirewallConfigByConfigVersionActivateResponseLogHeadersCase1 = S.String;
-
-export type CreateSecurityFirewallConfigByConfigVersionActivateResponseLogHeaders =
-  | CreateSecurityFirewallConfigByConfigVersionActivateResponseLogHeadersCase0List
-  | CreateSecurityFirewallConfigByConfigVersionActivateResponseLogHeadersCase1;
-export const CreateSecurityFirewallConfigByConfigVersionActivateResponseLogHeaders =
-  S.Unknown as any as S.Schema<CreateSecurityFirewallConfigByConfigVersionActivateResponseLogHeaders>;
-
 export interface CreateSecurityFirewallConfigByConfigVersionActivateResponse {
+  botIdEnabled?: boolean;
+  changes: CreateSecurityFirewallConfigByConfigVersionActivateResponseChangesList;
+  conditions?: CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsList;
+  crs?: CreateSecurityFirewallConfigByConfigVersionActivateResponseCrs;
+  firewallEnabled: boolean;
+  id: string;
+  ips: CreateSecurityFirewallConfigByConfigVersionActivateResponseIpsList;
+  logHeaders?: CreateSecurityFirewallConfigByConfigVersionActivateResponseLogHeaders;
+  managedRules?: CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRules;
   ownerId: string;
   projectKey: string;
-  id: string;
-  version: number;
-  updatedAt: string;
-  firewallEnabled: boolean;
-  crs?: CreateSecurityFirewallConfigByConfigVersionActivateResponseCrs;
   rules: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesList;
-  ips: CreateSecurityFirewallConfigByConfigVersionActivateResponseIpsList;
   rulesets?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesets;
-  conditions?: CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsList;
-  changes: CreateSecurityFirewallConfigByConfigVersionActivateResponseChangesList;
-  managedRules?: CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRules;
-  botIdEnabled?: boolean;
-  logHeaders?: CreateSecurityFirewallConfigByConfigVersionActivateResponseLogHeaders;
+  updatedAt: string;
+  version: number;
 }
 export const CreateSecurityFirewallConfigByConfigVersionActivateResponse = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      ownerId: S.String,
-      projectKey: S.String,
-      id: S.String,
-      version: S.Number,
-      updatedAt: S.String,
-      firewallEnabled: S.Boolean,
-      crs: S.optional(CreateSecurityFirewallConfigByConfigVersionActivateResponseCrs),
-      rules: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesList,
-      ips: CreateSecurityFirewallConfigByConfigVersionActivateResponseIpsList,
-      rulesets: S.optional(CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesets),
+      botIdEnabled: S.optional(S.Boolean),
+      changes: CreateSecurityFirewallConfigByConfigVersionActivateResponseChangesList,
       conditions: S.optional(
         CreateSecurityFirewallConfigByConfigVersionActivateResponseConditionsList,
       ),
-      changes: CreateSecurityFirewallConfigByConfigVersionActivateResponseChangesList,
+      crs: S.optional(CreateSecurityFirewallConfigByConfigVersionActivateResponseCrs),
+      firewallEnabled: S.Boolean,
+      id: S.String,
+      ips: CreateSecurityFirewallConfigByConfigVersionActivateResponseIpsList,
+      logHeaders: S.optional(CreateSecurityFirewallConfigByConfigVersionActivateResponseLogHeaders),
       managedRules: S.optional(
         CreateSecurityFirewallConfigByConfigVersionActivateResponseManagedRules,
       ),
-      botIdEnabled: S.optional(S.Boolean),
-      logHeaders: S.optional(CreateSecurityFirewallConfigByConfigVersionActivateResponseLogHeaders),
+      ownerId: S.String,
+      projectKey: S.String,
+      rules: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesList,
+      rulesets: S.optional(CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesets),
+      updatedAt: S.String,
+      version: S.Number,
     }),
 ).annotate({
   identifier: "CreateSecurityFirewallConfigByConfigVersionActivateResponse",
@@ -1869,11 +1865,7 @@ export const DeleteSecurityFirewallConfigRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     configVersion: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v1/security/firewall/config/{configVersion}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/v1/security/firewall/config/{configVersion}", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteSecurityFirewallConfigRequest",
@@ -1901,16 +1893,72 @@ export const GenerateFirewallRuleRequest = /*@__PURE__*/ S.suspend(() =>
     projectId: S.optional(S.String.pipe(T.Query())),
     teamId: S.optional(S.String.pipe(T.Query())),
     slug: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/security/firewall/config/generate-rule",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v1/security/firewall/config/generate-rule", code: 200 })),
 ).annotate({
   identifier: "GenerateFirewallRuleRequest",
 }) as any as S.Schema<GenerateFirewallRuleRequest>;
+
+export type GenerateFirewallRuleResponseRuleActionMitigateRateLimitKeysList = Array<string>;
+export const GenerateFirewallRuleResponseRuleActionMitigateRateLimitKeysList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<GenerateFirewallRuleResponseRuleActionMitigateRateLimitKeysList>;
+
+export interface GenerateFirewallRuleResponseRuleActionMitigateRateLimit {
+  action?: string | null;
+  algo: string;
+  keys: GenerateFirewallRuleResponseRuleActionMitigateRateLimitKeysList;
+  limit: number;
+  window: number;
+}
+export const GenerateFirewallRuleResponseRuleActionMitigateRateLimit = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    action: S.optional(S.NullOr(S.String)),
+    algo: S.String,
+    keys: GenerateFirewallRuleResponseRuleActionMitigateRateLimitKeysList,
+    limit: S.Number,
+    window: S.Number,
+  }),
+).annotate({
+  identifier: "GenerateFirewallRuleResponseRuleActionMitigateRateLimit",
+}) as any as S.Schema<GenerateFirewallRuleResponseRuleActionMitigateRateLimit>;
+
+export type GenerateFirewallRuleResponseRuleActionMitigateRedirect =
+  CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
+export const GenerateFirewallRuleResponseRuleActionMitigateRedirect =
+  CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
+
+export interface GenerateFirewallRuleResponseRuleActionMitigate {
+  action: string;
+  actionDuration?: string | null;
+  rateLimit?: GenerateFirewallRuleResponseRuleActionMitigateRateLimit | null;
+  redirect?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect | null;
+}
+export const GenerateFirewallRuleResponseRuleActionMitigate = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    action: S.String,
+    actionDuration: S.optional(S.NullOr(S.String)),
+    rateLimit: S.optional(S.NullOr(GenerateFirewallRuleResponseRuleActionMitigateRateLimit)),
+    redirect: S.optional(
+      S.NullOr(
+        CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect,
+      ),
+    ),
+  }),
+).annotate({
+  identifier: "GenerateFirewallRuleResponseRuleActionMitigate",
+}) as any as S.Schema<GenerateFirewallRuleResponseRuleActionMitigate>;
+
+export interface GenerateFirewallRuleResponseRuleAction {
+  mitigate?: GenerateFirewallRuleResponseRuleActionMitigate;
+}
+export const GenerateFirewallRuleResponseRuleAction = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    mitigate: S.optional(GenerateFirewallRuleResponseRuleActionMitigate),
+  }),
+).annotate({
+  identifier: "GenerateFirewallRuleResponseRuleAction",
+}) as any as S.Schema<GenerateFirewallRuleResponseRuleAction>;
 
 export type GenerateFirewallRuleResponseRuleConditionGroupItemConditionsItemValueCase2List =
   Array<string>;
@@ -1927,19 +1975,19 @@ export const GenerateFirewallRuleResponseRuleConditionGroupItemConditionsItemVal
   S.Unknown as any as S.Schema<GenerateFirewallRuleResponseRuleConditionGroupItemConditionsItemValue>;
 
 export interface GenerateFirewallRuleResponseRuleConditionGroupItemConditionsItem {
-  type: string;
-  op: string;
-  neg?: boolean;
   key?: string;
+  neg?: boolean;
+  op: string;
+  type: string;
   value?: GenerateFirewallRuleResponseRuleConditionGroupItemConditionsItemValue;
 }
 export const GenerateFirewallRuleResponseRuleConditionGroupItemConditionsItem =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      type: S.String,
-      op: S.String,
-      neg: S.optional(S.Boolean),
       key: S.optional(S.String),
+      neg: S.optional(S.Boolean),
+      op: S.String,
+      type: S.String,
       value: S.optional(GenerateFirewallRuleResponseRuleConditionGroupItemConditionsItemValue),
     }),
   ).annotate({
@@ -1970,95 +2018,33 @@ export const GenerateFirewallRuleResponseRuleConditionGroupList = /*@__PURE__*/ 
   GenerateFirewallRuleResponseRuleConditionGroupItem,
 ) as any as S.Schema<GenerateFirewallRuleResponseRuleConditionGroupList>;
 
-export type GenerateFirewallRuleResponseRuleActionMitigateRateLimitKeysList = Array<string>;
-export const GenerateFirewallRuleResponseRuleActionMitigateRateLimitKeysList =
-  /*@__PURE__*/ S.Array(
-    S.String,
-  ) as any as S.Schema<GenerateFirewallRuleResponseRuleActionMitigateRateLimitKeysList>;
-
-export interface GenerateFirewallRuleResponseRuleActionMitigateRateLimit {
-  algo: string;
-  window: number;
-  limit: number;
-  keys: GenerateFirewallRuleResponseRuleActionMitigateRateLimitKeysList;
-  action?: string | null;
-}
-export const GenerateFirewallRuleResponseRuleActionMitigateRateLimit = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    algo: S.String,
-    window: S.Number,
-    limit: S.Number,
-    keys: GenerateFirewallRuleResponseRuleActionMitigateRateLimitKeysList,
-    action: S.optional(S.NullOr(S.String)),
-  }),
-).annotate({
-  identifier: "GenerateFirewallRuleResponseRuleActionMitigateRateLimit",
-}) as any as S.Schema<GenerateFirewallRuleResponseRuleActionMitigateRateLimit>;
-
-export type GenerateFirewallRuleResponseRuleActionMitigateRedirect =
-  CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
-export const GenerateFirewallRuleResponseRuleActionMitigateRedirect =
-  CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
-
-export interface GenerateFirewallRuleResponseRuleActionMitigate {
-  action: string;
-  rateLimit?: GenerateFirewallRuleResponseRuleActionMitigateRateLimit | null;
-  redirect?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect | null;
-  actionDuration?: string | null;
-}
-export const GenerateFirewallRuleResponseRuleActionMitigate = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    action: S.String,
-    rateLimit: S.optional(S.NullOr(GenerateFirewallRuleResponseRuleActionMitigateRateLimit)),
-    redirect: S.optional(
-      S.NullOr(
-        CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect,
-      ),
-    ),
-    actionDuration: S.optional(S.NullOr(S.String)),
-  }),
-).annotate({
-  identifier: "GenerateFirewallRuleResponseRuleActionMitigate",
-}) as any as S.Schema<GenerateFirewallRuleResponseRuleActionMitigate>;
-
-export interface GenerateFirewallRuleResponseRuleAction {
-  mitigate?: GenerateFirewallRuleResponseRuleActionMitigate;
-}
-export const GenerateFirewallRuleResponseRuleAction = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    mitigate: S.optional(GenerateFirewallRuleResponseRuleActionMitigate),
-  }),
-).annotate({
-  identifier: "GenerateFirewallRuleResponseRuleAction",
-}) as any as S.Schema<GenerateFirewallRuleResponseRuleAction>;
-
 export interface GenerateFirewallRuleResponseRule {
-  name: string;
-  description?: string;
+  action: GenerateFirewallRuleResponseRuleAction;
   active: boolean;
   conditionGroup: GenerateFirewallRuleResponseRuleConditionGroupList;
-  action: GenerateFirewallRuleResponseRuleAction;
+  description?: string;
+  name: string;
 }
 export const GenerateFirewallRuleResponseRule = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String,
-    description: S.optional(S.String),
+    action: GenerateFirewallRuleResponseRuleAction,
     active: S.Boolean,
     conditionGroup: GenerateFirewallRuleResponseRuleConditionGroupList,
-    action: GenerateFirewallRuleResponseRuleAction,
+    description: S.optional(S.String),
+    name: S.String,
   }),
 ).annotate({
   identifier: "GenerateFirewallRuleResponseRule",
 }) as any as S.Schema<GenerateFirewallRuleResponseRule>;
 
 export interface GenerateFirewallRuleResponse {
-  rule?: GenerateFirewallRuleResponseRule;
   error?: string;
+  rule?: GenerateFirewallRuleResponseRule;
 }
 export const GenerateFirewallRuleResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    rule: S.optional(GenerateFirewallRuleResponseRule),
     error: S.optional(S.String),
+    rule: S.optional(GenerateFirewallRuleResponseRule),
   }),
 ).annotate({
   identifier: "GenerateFirewallRuleResponse",
@@ -2078,32 +2064,26 @@ export const GetActiveAttackStatusRequest = /*@__PURE__*/ S.suspend(() =>
     since: S.optional(S.Number.pipe(T.Query())),
     teamId: S.optional(S.String.pipe(T.Query())),
     slug: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/security/firewall/attack-status",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/security/firewall/attack-status", code: 200 })),
 ).annotate({
   identifier: "GetActiveAttackStatusRequest",
 }) as any as S.Schema<GetActiveAttackStatusRequest>;
 
 export interface GetActiveAttackStatusResponseBodyCase1AnomaliesItemAffectedHostMapValueAnomalyAlertsValue {
   at_minute: string;
-  zscore: number;
-  total_requests_minute: number;
   avg_requests: number;
   stddev_requests: number;
+  total_requests_minute: number;
+  zscore: number;
 }
 export const GetActiveAttackStatusResponseBodyCase1AnomaliesItemAffectedHostMapValueAnomalyAlertsValue =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       at_minute: S.String,
-      zscore: S.Number,
-      total_requests_minute: S.Number,
       avg_requests: S.Number,
       stddev_requests: S.Number,
+      total_requests_minute: S.Number,
+      zscore: S.Number,
     }),
   ).annotate({
     identifier:
@@ -2178,23 +2158,23 @@ export const GetActiveAttackStatusResponseBodyCase1AnomaliesItemAffectedHostMapM
   ) as any as S.Schema<GetActiveAttackStatusResponseBodyCase1AnomaliesItemAffectedHostMapMap>;
 
 export interface GetActiveAttackStatusResponseBodyCase1AnomaliesItem {
-  projectId: string;
-  ownerId: string;
-  startTime: number;
-  endTime: number | null;
-  atMinute: number;
-  state?: string;
   affectedHostMap: GetActiveAttackStatusResponseBodyCase1AnomaliesItemAffectedHostMapMap;
+  atMinute: number;
+  endTime: number | null;
+  ownerId: string;
+  projectId: string;
+  startTime: number;
+  state?: string;
 }
 export const GetActiveAttackStatusResponseBodyCase1AnomaliesItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    projectId: S.String,
-    ownerId: S.String,
-    startTime: S.Number,
-    endTime: S.NullOr(S.Number),
-    atMinute: S.Number,
-    state: S.optional(S.String),
     affectedHostMap: GetActiveAttackStatusResponseBodyCase1AnomaliesItemAffectedHostMapMap,
+    atMinute: S.Number,
+    endTime: S.NullOr(S.Number),
+    ownerId: S.String,
+    projectId: S.String,
+    startTime: S.Number,
+    state: S.optional(S.String),
   }),
 ).annotate({
   identifier: "GetActiveAttackStatusResponseBodyCase1AnomaliesItem",
@@ -2255,45 +2235,56 @@ export const GetBypassIpRequest = /*@__PURE__*/ S.suspend(() =>
     teamId: S.optional(S.String.pipe(T.Query())),
     slug: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v1/security/firewall/bypass", code: 200 })),
+).annotate({ identifier: "GetBypassIpRequest" }) as any as S.Schema<GetBypassIpRequest>;
+
+export interface GetBypassIpResponsePagination {
+  Id: string;
+  OwnerId: string;
+}
+export const GetBypassIpResponsePagination = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Id: S.String,
+    OwnerId: S.String,
+  }),
 ).annotate({
-  identifier: "GetBypassIpRequest",
-}) as any as S.Schema<GetBypassIpRequest>;
+  identifier: "GetBypassIpResponsePagination",
+}) as any as S.Schema<GetBypassIpResponsePagination>;
 
 export type GetBypassIpResponseResultItemAction = "block" | "bypass";
 export const GetBypassIpResponseResultItemAction = S.String;
 
 export interface GetBypassIpResponseResultItem {
-  OwnerId: string;
-  Id: string;
-  Domain: string;
-  Ip: string;
   Action?: GetBypassIpResponseResultItemAction;
-  ProjectId?: string;
+  ActorId?: string;
+  CreatedAt: string;
+  DeletedAt?: string;
+  Domain: string;
+  ExpiresAt?: number | null;
+  Id: string;
+  Ip: string;
   IsProjectRule?: boolean;
   Note?: string;
-  CreatedAt: string;
-  ActorId?: string;
+  OwnerId: string;
+  ProjectId?: string;
   UpdatedAt: string;
   UpdatedAtHour: string;
-  DeletedAt?: string;
-  ExpiresAt?: number | null;
 }
 export const GetBypassIpResponseResultItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    OwnerId: S.String,
-    Id: S.String,
-    Domain: S.String,
-    Ip: S.String,
     Action: S.optional(GetBypassIpResponseResultItemAction),
-    ProjectId: S.optional(S.String),
+    ActorId: S.optional(S.String),
+    CreatedAt: S.String,
+    DeletedAt: S.optional(S.String),
+    Domain: S.String,
+    ExpiresAt: S.optional(S.NullOr(S.Number)),
+    Id: S.String,
+    Ip: S.String,
     IsProjectRule: S.optional(S.Boolean),
     Note: S.optional(S.String),
-    CreatedAt: S.String,
-    ActorId: S.optional(S.String),
+    OwnerId: S.String,
+    ProjectId: S.optional(S.String),
     UpdatedAt: S.String,
     UpdatedAtHour: S.String,
-    DeletedAt: S.optional(S.String),
-    ExpiresAt: S.optional(S.NullOr(S.Number)),
   }),
 ).annotate({
   identifier: "GetBypassIpResponseResultItem",
@@ -2304,31 +2295,16 @@ export const GetBypassIpResponseResultList = /*@__PURE__*/ S.Array(
   GetBypassIpResponseResultItem,
 ) as any as S.Schema<GetBypassIpResponseResultList>;
 
-export interface GetBypassIpResponsePagination {
-  OwnerId: string;
-  Id: string;
-}
-export const GetBypassIpResponsePagination = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    OwnerId: S.String,
-    Id: S.String,
-  }),
-).annotate({
-  identifier: "GetBypassIpResponsePagination",
-}) as any as S.Schema<GetBypassIpResponsePagination>;
-
 export interface GetBypassIpResponse {
-  result: GetBypassIpResponseResultList;
   pagination?: GetBypassIpResponsePagination;
+  result: GetBypassIpResponseResultList;
 }
 export const GetBypassIpResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    result: GetBypassIpResponseResultList,
     pagination: S.optional(GetBypassIpResponsePagination),
+    result: GetBypassIpResponseResultList,
   }),
-).annotate({
-  identifier: "GetBypassIpResponse",
-}) as any as S.Schema<GetBypassIpResponse>;
+).annotate({ identifier: "GetBypassIpResponse" }) as any as S.Schema<GetBypassIpResponse>;
 
 export interface GetFirewallConfigRequest {
   /** The deployed configVersion for the firewall configuration */
@@ -2346,245 +2322,682 @@ export const GetFirewallConfigRequest = /*@__PURE__*/ S.suspend(() =>
     teamId: S.optional(S.String.pipe(T.Query())),
     slug: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/security/firewall/config/{configVersion}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v1/security/firewall/config/{configVersion}", code: 200 }),
   ),
-).annotate({
-  identifier: "GetFirewallConfigRequest",
-}) as any as S.Schema<GetFirewallConfigRequest>;
+).annotate({ identifier: "GetFirewallConfigRequest" }) as any as S.Schema<GetFirewallConfigRequest>;
 
-export type GetFirewallConfigResponseCrsSdAction = "deny" | "log";
-export const GetFirewallConfigResponseCrsSdAction = S.String;
+export type GetFirewallConfigResponseChangesList = Array<unknown>;
+export const GetFirewallConfigResponseChangesList = /*@__PURE__*/ S.Array(
+  S.Unknown,
+) as any as S.Schema<GetFirewallConfigResponseChangesList>;
 
-/** Scanner Detection - Detect and prevent reconnaissance activities from network scanning tools. */
-export interface GetFirewallConfigResponseCrsSd {
-  active: boolean;
-  action: GetFirewallConfigResponseCrsSdAction;
+export type GetFirewallConfigResponseConditionsItemConditionGroupItemConditionsItemOp =
+  | "eq"
+  | "ex"
+  | "gt"
+  | "gte"
+  | "inc"
+  | "list"
+  | "lt"
+  | "lte"
+  | "neq"
+  | "nex"
+  | "ninc"
+  | "pre"
+  | "re"
+  | "sub"
+  | "suf";
+export const GetFirewallConfigResponseConditionsItemConditionGroupItemConditionsItemOp = S.String;
+
+export type GetFirewallConfigResponseConditionsItemConditionGroupItemConditionsItemType =
+  | "bot_category"
+  | "bot_name"
+  | "bot_protection"
+  | "bot_status"
+  | "cookie"
+  | "domain_environment"
+  | "environment"
+  | "geo_as_number"
+  | "geo_city"
+  | "geo_continent"
+  | "geo_country"
+  | "geo_country_region"
+  | "header"
+  | "host"
+  | "ip_address"
+  | "ja3_digest"
+  | "ja4_digest"
+  | "method"
+  | "path"
+  | "protocol"
+  | "query"
+  | "rate_limit_api_id"
+  | "raw_path"
+  | "region"
+  | "route"
+  | "ruleset"
+  | "scheme"
+  | "server_action"
+  | "shared_condition"
+  | "target_path"
+  | "traffic_source"
+  | "trusted_source"
+  | "user_agent";
+export const GetFirewallConfigResponseConditionsItemConditionGroupItemConditionsItemType = S.String;
+
+export type GetFirewallConfigResponseConditionsItemConditionGroupItemConditionsItemValueCase2List =
+  Array<string>;
+export const GetFirewallConfigResponseConditionsItemConditionGroupItemConditionsItemValueCase2List =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<GetFirewallConfigResponseConditionsItemConditionGroupItemConditionsItemValueCase2List>;
+
+export type GetFirewallConfigResponseConditionsItemConditionGroupItemConditionsItemValue =
+  | string
+  | number
+  | GetFirewallConfigResponseConditionsItemConditionGroupItemConditionsItemValueCase2List;
+export const GetFirewallConfigResponseConditionsItemConditionGroupItemConditionsItemValue =
+  S.Unknown as any as S.Schema<GetFirewallConfigResponseConditionsItemConditionGroupItemConditionsItemValue>;
+
+export interface GetFirewallConfigResponseConditionsItemConditionGroupItemConditionsItem {
+  key?: string;
+  neg?: boolean;
+  op: GetFirewallConfigResponseConditionsItemConditionGroupItemConditionsItemOp;
+  type: GetFirewallConfigResponseConditionsItemConditionGroupItemConditionsItemType;
+  value?: GetFirewallConfigResponseConditionsItemConditionGroupItemConditionsItemValue;
 }
-export const GetFirewallConfigResponseCrsSd = /*@__PURE__*/ S.suspend(() =>
+export const GetFirewallConfigResponseConditionsItemConditionGroupItemConditionsItem =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      key: S.optional(S.String),
+      neg: S.optional(S.Boolean),
+      op: GetFirewallConfigResponseConditionsItemConditionGroupItemConditionsItemOp,
+      type: GetFirewallConfigResponseConditionsItemConditionGroupItemConditionsItemType,
+      value: S.optional(
+        GetFirewallConfigResponseConditionsItemConditionGroupItemConditionsItemValue,
+      ),
+    }),
+  ).annotate({
+    identifier: "GetFirewallConfigResponseConditionsItemConditionGroupItemConditionsItem",
+  }) as any as S.Schema<GetFirewallConfigResponseConditionsItemConditionGroupItemConditionsItem>;
+
+export type GetFirewallConfigResponseConditionsItemConditionGroupItemConditionsList =
+  Array<GetFirewallConfigResponseConditionsItemConditionGroupItemConditionsItem>;
+export const GetFirewallConfigResponseConditionsItemConditionGroupItemConditionsList =
+  /*@__PURE__*/ S.Array(
+    GetFirewallConfigResponseConditionsItemConditionGroupItemConditionsItem,
+  ) as any as S.Schema<GetFirewallConfigResponseConditionsItemConditionGroupItemConditionsList>;
+
+export interface GetFirewallConfigResponseConditionsItemConditionGroupItem {
+  conditions: GetFirewallConfigResponseConditionsItemConditionGroupItemConditionsList;
+}
+export const GetFirewallConfigResponseConditionsItemConditionGroupItem = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      conditions: GetFirewallConfigResponseConditionsItemConditionGroupItemConditionsList,
+    }),
+).annotate({
+  identifier: "GetFirewallConfigResponseConditionsItemConditionGroupItem",
+}) as any as S.Schema<GetFirewallConfigResponseConditionsItemConditionGroupItem>;
+
+export type GetFirewallConfigResponseConditionsItemConditionGroupList =
+  Array<GetFirewallConfigResponseConditionsItemConditionGroupItem>;
+export const GetFirewallConfigResponseConditionsItemConditionGroupList = /*@__PURE__*/ S.Array(
+  GetFirewallConfigResponseConditionsItemConditionGroupItem,
+) as any as S.Schema<GetFirewallConfigResponseConditionsItemConditionGroupList>;
+
+export interface GetFirewallConfigResponseConditionsItem {
+  active: boolean;
+  conditionGroup: GetFirewallConfigResponseConditionsItemConditionGroupList;
+  description?: string;
+  id: string;
+  name: string;
+}
+export const GetFirewallConfigResponseConditionsItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     active: S.Boolean,
-    action: GetFirewallConfigResponseCrsSdAction,
+    conditionGroup: GetFirewallConfigResponseConditionsItemConditionGroupList,
+    description: S.optional(S.String),
+    id: S.String,
+    name: S.String,
   }),
 ).annotate({
-  identifier: "GetFirewallConfigResponseCrsSd",
-}) as any as S.Schema<GetFirewallConfigResponseCrsSd>;
+  identifier: "GetFirewallConfigResponseConditionsItem",
+}) as any as S.Schema<GetFirewallConfigResponseConditionsItem>;
 
-export type GetFirewallConfigResponseCrsMaAction = "deny" | "log";
-export const GetFirewallConfigResponseCrsMaAction = S.String;
-
-/** Multipart Attack - Block attempts to bypass security controls using multipart/form-data encoding. */
-export interface GetFirewallConfigResponseCrsMa {
-  active: boolean;
-  action: GetFirewallConfigResponseCrsMaAction;
-}
-export const GetFirewallConfigResponseCrsMa = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    active: S.Boolean,
-    action: GetFirewallConfigResponseCrsMaAction,
-  }),
-).annotate({
-  identifier: "GetFirewallConfigResponseCrsMa",
-}) as any as S.Schema<GetFirewallConfigResponseCrsMa>;
-
-export type GetFirewallConfigResponseCrsLfiAction = "deny" | "log";
-export const GetFirewallConfigResponseCrsLfiAction = S.String;
-
-/** Local File Inclusion Attack - Prevent unauthorized access to local files through web applications. */
-export interface GetFirewallConfigResponseCrsLfi {
-  active: boolean;
-  action: GetFirewallConfigResponseCrsLfiAction;
-}
-export const GetFirewallConfigResponseCrsLfi = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    active: S.Boolean,
-    action: GetFirewallConfigResponseCrsLfiAction,
-  }),
-).annotate({
-  identifier: "GetFirewallConfigResponseCrsLfi",
-}) as any as S.Schema<GetFirewallConfigResponseCrsLfi>;
-
-export type GetFirewallConfigResponseCrsRfiAction = "deny" | "log";
-export const GetFirewallConfigResponseCrsRfiAction = S.String;
-
-/** Remote File Inclusion Attack - Prohibit unauthorized upload or execution of remote files. */
-export interface GetFirewallConfigResponseCrsRfi {
-  active: boolean;
-  action: GetFirewallConfigResponseCrsRfiAction;
-}
-export const GetFirewallConfigResponseCrsRfi = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    active: S.Boolean,
-    action: GetFirewallConfigResponseCrsRfiAction,
-  }),
-).annotate({
-  identifier: "GetFirewallConfigResponseCrsRfi",
-}) as any as S.Schema<GetFirewallConfigResponseCrsRfi>;
-
-export type GetFirewallConfigResponseCrsRceAction = "deny" | "log";
-export const GetFirewallConfigResponseCrsRceAction = S.String;
-
-/** Remote Execution Attack - Prevent unauthorized execution of remote scripts or commands. */
-export interface GetFirewallConfigResponseCrsRce {
-  active: boolean;
-  action: GetFirewallConfigResponseCrsRceAction;
-}
-export const GetFirewallConfigResponseCrsRce = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    active: S.Boolean,
-    action: GetFirewallConfigResponseCrsRceAction,
-  }),
-).annotate({
-  identifier: "GetFirewallConfigResponseCrsRce",
-}) as any as S.Schema<GetFirewallConfigResponseCrsRce>;
-
-export type GetFirewallConfigResponseCrsPhpAction = "deny" | "log";
-export const GetFirewallConfigResponseCrsPhpAction = S.String;
-
-/** PHP Attack - Safeguard against vulnerability exploits in PHP-based applications. */
-export interface GetFirewallConfigResponseCrsPhp {
-  active: boolean;
-  action: GetFirewallConfigResponseCrsPhpAction;
-}
-export const GetFirewallConfigResponseCrsPhp = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    active: S.Boolean,
-    action: GetFirewallConfigResponseCrsPhpAction,
-  }),
-).annotate({
-  identifier: "GetFirewallConfigResponseCrsPhp",
-}) as any as S.Schema<GetFirewallConfigResponseCrsPhp>;
+export type GetFirewallConfigResponseConditionsList =
+  Array<GetFirewallConfigResponseConditionsItem>;
+export const GetFirewallConfigResponseConditionsList = /*@__PURE__*/ S.Array(
+  GetFirewallConfigResponseConditionsItem,
+) as any as S.Schema<GetFirewallConfigResponseConditionsList>;
 
 export type GetFirewallConfigResponseCrsGenAction = "deny" | "log";
 export const GetFirewallConfigResponseCrsGenAction = S.String;
 
 /** Generic Attack - Provide broad protection from various undefined or novel attack vectors. */
 export interface GetFirewallConfigResponseCrsGen {
-  active: boolean;
   action: GetFirewallConfigResponseCrsGenAction;
+  active: boolean;
 }
 export const GetFirewallConfigResponseCrsGen = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    active: S.Boolean,
     action: GetFirewallConfigResponseCrsGenAction,
+    active: S.Boolean,
   }),
 ).annotate({
   identifier: "GetFirewallConfigResponseCrsGen",
 }) as any as S.Schema<GetFirewallConfigResponseCrsGen>;
-
-export type GetFirewallConfigResponseCrsXssAction = "deny" | "log";
-export const GetFirewallConfigResponseCrsXssAction = S.String;
-
-/** XSS Attack - Prevent injection of malicious scripts into trusted webpages. */
-export interface GetFirewallConfigResponseCrsXss {
-  active: boolean;
-  action: GetFirewallConfigResponseCrsXssAction;
-}
-export const GetFirewallConfigResponseCrsXss = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    active: S.Boolean,
-    action: GetFirewallConfigResponseCrsXssAction,
-  }),
-).annotate({
-  identifier: "GetFirewallConfigResponseCrsXss",
-}) as any as S.Schema<GetFirewallConfigResponseCrsXss>;
-
-export type GetFirewallConfigResponseCrsSqliAction = "deny" | "log";
-export const GetFirewallConfigResponseCrsSqliAction = S.String;
-
-/** SQL Injection Attack - Prohibit unauthorized use of SQL commands to manipulate databases. */
-export interface GetFirewallConfigResponseCrsSqli {
-  active: boolean;
-  action: GetFirewallConfigResponseCrsSqliAction;
-}
-export const GetFirewallConfigResponseCrsSqli = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    active: S.Boolean,
-    action: GetFirewallConfigResponseCrsSqliAction,
-  }),
-).annotate({
-  identifier: "GetFirewallConfigResponseCrsSqli",
-}) as any as S.Schema<GetFirewallConfigResponseCrsSqli>;
-
-export type GetFirewallConfigResponseCrsSfAction = "deny" | "log";
-export const GetFirewallConfigResponseCrsSfAction = S.String;
-
-/** Session Fixation Attack - Prevent unauthorized takeover of user sessions by enforcing unique session IDs. */
-export interface GetFirewallConfigResponseCrsSf {
-  active: boolean;
-  action: GetFirewallConfigResponseCrsSfAction;
-}
-export const GetFirewallConfigResponseCrsSf = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    active: S.Boolean,
-    action: GetFirewallConfigResponseCrsSfAction,
-  }),
-).annotate({
-  identifier: "GetFirewallConfigResponseCrsSf",
-}) as any as S.Schema<GetFirewallConfigResponseCrsSf>;
 
 export type GetFirewallConfigResponseCrsJavaAction = "deny" | "log";
 export const GetFirewallConfigResponseCrsJavaAction = S.String;
 
 /** Java Attack - Mitigate risks of exploitation targeting Java-based applications or components. */
 export interface GetFirewallConfigResponseCrsJava {
-  active: boolean;
   action: GetFirewallConfigResponseCrsJavaAction;
+  active: boolean;
 }
 export const GetFirewallConfigResponseCrsJava = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    active: S.Boolean,
     action: GetFirewallConfigResponseCrsJavaAction,
+    active: S.Boolean,
   }),
 ).annotate({
   identifier: "GetFirewallConfigResponseCrsJava",
 }) as any as S.Schema<GetFirewallConfigResponseCrsJava>;
 
+export type GetFirewallConfigResponseCrsLfiAction = "deny" | "log";
+export const GetFirewallConfigResponseCrsLfiAction = S.String;
+
+/** Local File Inclusion Attack - Prevent unauthorized access to local files through web applications. */
+export interface GetFirewallConfigResponseCrsLfi {
+  action: GetFirewallConfigResponseCrsLfiAction;
+  active: boolean;
+}
+export const GetFirewallConfigResponseCrsLfi = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    action: GetFirewallConfigResponseCrsLfiAction,
+    active: S.Boolean,
+  }),
+).annotate({
+  identifier: "GetFirewallConfigResponseCrsLfi",
+}) as any as S.Schema<GetFirewallConfigResponseCrsLfi>;
+
+export type GetFirewallConfigResponseCrsMaAction = "deny" | "log";
+export const GetFirewallConfigResponseCrsMaAction = S.String;
+
+/** Multipart Attack - Block attempts to bypass security controls using multipart/form-data encoding. */
+export interface GetFirewallConfigResponseCrsMa {
+  action: GetFirewallConfigResponseCrsMaAction;
+  active: boolean;
+}
+export const GetFirewallConfigResponseCrsMa = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    action: GetFirewallConfigResponseCrsMaAction,
+    active: S.Boolean,
+  }),
+).annotate({
+  identifier: "GetFirewallConfigResponseCrsMa",
+}) as any as S.Schema<GetFirewallConfigResponseCrsMa>;
+
+export type GetFirewallConfigResponseCrsPhpAction = "deny" | "log";
+export const GetFirewallConfigResponseCrsPhpAction = S.String;
+
+/** PHP Attack - Safeguard against vulnerability exploits in PHP-based applications. */
+export interface GetFirewallConfigResponseCrsPhp {
+  action: GetFirewallConfigResponseCrsPhpAction;
+  active: boolean;
+}
+export const GetFirewallConfigResponseCrsPhp = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    action: GetFirewallConfigResponseCrsPhpAction,
+    active: S.Boolean,
+  }),
+).annotate({
+  identifier: "GetFirewallConfigResponseCrsPhp",
+}) as any as S.Schema<GetFirewallConfigResponseCrsPhp>;
+
+export type GetFirewallConfigResponseCrsRceAction = "deny" | "log";
+export const GetFirewallConfigResponseCrsRceAction = S.String;
+
+/** Remote Execution Attack - Prevent unauthorized execution of remote scripts or commands. */
+export interface GetFirewallConfigResponseCrsRce {
+  action: GetFirewallConfigResponseCrsRceAction;
+  active: boolean;
+}
+export const GetFirewallConfigResponseCrsRce = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    action: GetFirewallConfigResponseCrsRceAction,
+    active: S.Boolean,
+  }),
+).annotate({
+  identifier: "GetFirewallConfigResponseCrsRce",
+}) as any as S.Schema<GetFirewallConfigResponseCrsRce>;
+
+export type GetFirewallConfigResponseCrsRfiAction = "deny" | "log";
+export const GetFirewallConfigResponseCrsRfiAction = S.String;
+
+/** Remote File Inclusion Attack - Prohibit unauthorized upload or execution of remote files. */
+export interface GetFirewallConfigResponseCrsRfi {
+  action: GetFirewallConfigResponseCrsRfiAction;
+  active: boolean;
+}
+export const GetFirewallConfigResponseCrsRfi = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    action: GetFirewallConfigResponseCrsRfiAction,
+    active: S.Boolean,
+  }),
+).annotate({
+  identifier: "GetFirewallConfigResponseCrsRfi",
+}) as any as S.Schema<GetFirewallConfigResponseCrsRfi>;
+
+export type GetFirewallConfigResponseCrsSdAction = "deny" | "log";
+export const GetFirewallConfigResponseCrsSdAction = S.String;
+
+/** Scanner Detection - Detect and prevent reconnaissance activities from network scanning tools. */
+export interface GetFirewallConfigResponseCrsSd {
+  action: GetFirewallConfigResponseCrsSdAction;
+  active: boolean;
+}
+export const GetFirewallConfigResponseCrsSd = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    action: GetFirewallConfigResponseCrsSdAction,
+    active: S.Boolean,
+  }),
+).annotate({
+  identifier: "GetFirewallConfigResponseCrsSd",
+}) as any as S.Schema<GetFirewallConfigResponseCrsSd>;
+
+export type GetFirewallConfigResponseCrsSfAction = "deny" | "log";
+export const GetFirewallConfigResponseCrsSfAction = S.String;
+
+/** Session Fixation Attack - Prevent unauthorized takeover of user sessions by enforcing unique session IDs. */
+export interface GetFirewallConfigResponseCrsSf {
+  action: GetFirewallConfigResponseCrsSfAction;
+  active: boolean;
+}
+export const GetFirewallConfigResponseCrsSf = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    action: GetFirewallConfigResponseCrsSfAction,
+    active: S.Boolean,
+  }),
+).annotate({
+  identifier: "GetFirewallConfigResponseCrsSf",
+}) as any as S.Schema<GetFirewallConfigResponseCrsSf>;
+
+export type GetFirewallConfigResponseCrsSqliAction = "deny" | "log";
+export const GetFirewallConfigResponseCrsSqliAction = S.String;
+
+/** SQL Injection Attack - Prohibit unauthorized use of SQL commands to manipulate databases. */
+export interface GetFirewallConfigResponseCrsSqli {
+  action: GetFirewallConfigResponseCrsSqliAction;
+  active: boolean;
+}
+export const GetFirewallConfigResponseCrsSqli = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    action: GetFirewallConfigResponseCrsSqliAction,
+    active: S.Boolean,
+  }),
+).annotate({
+  identifier: "GetFirewallConfigResponseCrsSqli",
+}) as any as S.Schema<GetFirewallConfigResponseCrsSqli>;
+
+export type GetFirewallConfigResponseCrsXssAction = "deny" | "log";
+export const GetFirewallConfigResponseCrsXssAction = S.String;
+
+/** XSS Attack - Prevent injection of malicious scripts into trusted webpages. */
+export interface GetFirewallConfigResponseCrsXss {
+  action: GetFirewallConfigResponseCrsXssAction;
+  active: boolean;
+}
+export const GetFirewallConfigResponseCrsXss = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    action: GetFirewallConfigResponseCrsXssAction,
+    active: S.Boolean,
+  }),
+).annotate({
+  identifier: "GetFirewallConfigResponseCrsXss",
+}) as any as S.Schema<GetFirewallConfigResponseCrsXss>;
+
 /** Custom Ruleset */
 export interface GetFirewallConfigResponseCrs {
-  /** Scanner Detection - Detect and prevent reconnaissance activities from network scanning tools. */
-  sd: GetFirewallConfigResponseCrsSd;
-  /** Multipart Attack - Block attempts to bypass security controls using multipart/form-data encoding. */
-  ma: GetFirewallConfigResponseCrsMa;
-  /** Local File Inclusion Attack - Prevent unauthorized access to local files through web applications. */
-  lfi: GetFirewallConfigResponseCrsLfi;
-  /** Remote File Inclusion Attack - Prohibit unauthorized upload or execution of remote files. */
-  rfi: GetFirewallConfigResponseCrsRfi;
-  /** Remote Execution Attack - Prevent unauthorized execution of remote scripts or commands. */
-  rce: GetFirewallConfigResponseCrsRce;
-  /** PHP Attack - Safeguard against vulnerability exploits in PHP-based applications. */
-  php: GetFirewallConfigResponseCrsPhp;
   /** Generic Attack - Provide broad protection from various undefined or novel attack vectors. */
   gen: GetFirewallConfigResponseCrsGen;
-  /** XSS Attack - Prevent injection of malicious scripts into trusted webpages. */
-  xss: GetFirewallConfigResponseCrsXss;
-  /** SQL Injection Attack - Prohibit unauthorized use of SQL commands to manipulate databases. */
-  sqli: GetFirewallConfigResponseCrsSqli;
-  /** Session Fixation Attack - Prevent unauthorized takeover of user sessions by enforcing unique session IDs. */
-  sf: GetFirewallConfigResponseCrsSf;
   /** Java Attack - Mitigate risks of exploitation targeting Java-based applications or components. */
   java: GetFirewallConfigResponseCrsJava;
+  /** Local File Inclusion Attack - Prevent unauthorized access to local files through web applications. */
+  lfi: GetFirewallConfigResponseCrsLfi;
+  /** Multipart Attack - Block attempts to bypass security controls using multipart/form-data encoding. */
+  ma: GetFirewallConfigResponseCrsMa;
+  /** PHP Attack - Safeguard against vulnerability exploits in PHP-based applications. */
+  php: GetFirewallConfigResponseCrsPhp;
+  /** Remote Execution Attack - Prevent unauthorized execution of remote scripts or commands. */
+  rce: GetFirewallConfigResponseCrsRce;
+  /** Remote File Inclusion Attack - Prohibit unauthorized upload or execution of remote files. */
+  rfi: GetFirewallConfigResponseCrsRfi;
+  /** Scanner Detection - Detect and prevent reconnaissance activities from network scanning tools. */
+  sd: GetFirewallConfigResponseCrsSd;
+  /** Session Fixation Attack - Prevent unauthorized takeover of user sessions by enforcing unique session IDs. */
+  sf: GetFirewallConfigResponseCrsSf;
+  /** SQL Injection Attack - Prohibit unauthorized use of SQL commands to manipulate databases. */
+  sqli: GetFirewallConfigResponseCrsSqli;
+  /** XSS Attack - Prevent injection of malicious scripts into trusted webpages. */
+  xss: GetFirewallConfigResponseCrsXss;
 }
 export const GetFirewallConfigResponseCrs = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    sd: GetFirewallConfigResponseCrsSd,
-    ma: GetFirewallConfigResponseCrsMa,
-    lfi: GetFirewallConfigResponseCrsLfi,
-    rfi: GetFirewallConfigResponseCrsRfi,
-    rce: GetFirewallConfigResponseCrsRce,
-    php: GetFirewallConfigResponseCrsPhp,
     gen: GetFirewallConfigResponseCrsGen,
-    xss: GetFirewallConfigResponseCrsXss,
-    sqli: GetFirewallConfigResponseCrsSqli,
-    sf: GetFirewallConfigResponseCrsSf,
     java: GetFirewallConfigResponseCrsJava,
+    lfi: GetFirewallConfigResponseCrsLfi,
+    ma: GetFirewallConfigResponseCrsMa,
+    php: GetFirewallConfigResponseCrsPhp,
+    rce: GetFirewallConfigResponseCrsRce,
+    rfi: GetFirewallConfigResponseCrsRfi,
+    sd: GetFirewallConfigResponseCrsSd,
+    sf: GetFirewallConfigResponseCrsSf,
+    sqli: GetFirewallConfigResponseCrsSqli,
+    xss: GetFirewallConfigResponseCrsXss,
   }),
 ).annotate({
   identifier: "GetFirewallConfigResponseCrs",
 }) as any as S.Schema<GetFirewallConfigResponseCrs>;
+
+export type GetFirewallConfigResponseIpsItemAction = "bypass" | "challenge" | "deny" | "log";
+export const GetFirewallConfigResponseIpsItemAction = S.String;
+
+export interface GetFirewallConfigResponseIpsItem {
+  action: GetFirewallConfigResponseIpsItemAction;
+  hostname: string;
+  id: string;
+  ip: string;
+  notes?: string;
+}
+export const GetFirewallConfigResponseIpsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    action: GetFirewallConfigResponseIpsItemAction,
+    hostname: S.String,
+    id: S.String,
+    ip: S.String,
+    notes: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GetFirewallConfigResponseIpsItem",
+}) as any as S.Schema<GetFirewallConfigResponseIpsItem>;
+
+export type GetFirewallConfigResponseIpsList = Array<GetFirewallConfigResponseIpsItem>;
+export const GetFirewallConfigResponseIpsList = /*@__PURE__*/ S.Array(
+  GetFirewallConfigResponseIpsItem,
+) as any as S.Schema<GetFirewallConfigResponseIpsList>;
+
+export type GetFirewallConfigResponseLogHeadersCase0List = Array<string>;
+export const GetFirewallConfigResponseLogHeadersCase0List = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<GetFirewallConfigResponseLogHeadersCase0List>;
+
+export type GetFirewallConfigResponseLogHeadersCase1 = "*";
+export const GetFirewallConfigResponseLogHeadersCase1 = S.String;
+
+export type GetFirewallConfigResponseLogHeaders =
+  | GetFirewallConfigResponseLogHeadersCase0List
+  | GetFirewallConfigResponseLogHeadersCase1;
+export const GetFirewallConfigResponseLogHeaders =
+  S.Unknown as any as S.Schema<GetFirewallConfigResponseLogHeaders>;
+
+export type GetFirewallConfigResponseManagedRulesAiBotsAction = "challenge" | "deny" | "log";
+export const GetFirewallConfigResponseManagedRulesAiBotsAction = S.String;
+
+export interface GetFirewallConfigResponseManagedRulesAiBots {
+  action?: GetFirewallConfigResponseManagedRulesAiBotsAction;
+  active: boolean;
+  updatedAt?: string;
+  userId?: string;
+  username?: string;
+}
+export const GetFirewallConfigResponseManagedRulesAiBots = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    action: S.optional(GetFirewallConfigResponseManagedRulesAiBotsAction),
+    active: S.Boolean,
+    updatedAt: S.optional(S.String),
+    userId: S.optional(S.String),
+    username: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GetFirewallConfigResponseManagedRulesAiBots",
+}) as any as S.Schema<GetFirewallConfigResponseManagedRulesAiBots>;
+
+export type GetFirewallConfigResponseManagedRulesBotProtectionAction = "challenge" | "deny" | "log";
+export const GetFirewallConfigResponseManagedRulesBotProtectionAction = S.String;
+
+export interface GetFirewallConfigResponseManagedRulesBotProtection {
+  action?: GetFirewallConfigResponseManagedRulesBotProtectionAction;
+  active: boolean;
+  updatedAt?: string;
+  userId?: string;
+  username?: string;
+}
+export const GetFirewallConfigResponseManagedRulesBotProtection = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    action: S.optional(GetFirewallConfigResponseManagedRulesBotProtectionAction),
+    active: S.Boolean,
+    updatedAt: S.optional(S.String),
+    userId: S.optional(S.String),
+    username: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GetFirewallConfigResponseManagedRulesBotProtection",
+}) as any as S.Schema<GetFirewallConfigResponseManagedRulesBotProtection>;
+
+export type GetFirewallConfigResponseManagedRulesOwaspAction = "challenge" | "deny" | "log";
+export const GetFirewallConfigResponseManagedRulesOwaspAction = S.String;
+
+export interface GetFirewallConfigResponseManagedRulesOwasp {
+  action?: GetFirewallConfigResponseManagedRulesOwaspAction;
+  active: boolean;
+  updatedAt?: string;
+  userId?: string;
+  username?: string;
+}
+export const GetFirewallConfigResponseManagedRulesOwasp = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    action: S.optional(GetFirewallConfigResponseManagedRulesOwaspAction),
+    active: S.Boolean,
+    updatedAt: S.optional(S.String),
+    userId: S.optional(S.String),
+    username: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GetFirewallConfigResponseManagedRulesOwasp",
+}) as any as S.Schema<GetFirewallConfigResponseManagedRulesOwasp>;
+
+export type GetFirewallConfigResponseManagedRulesTrafficSourcesAction =
+  | "challenge"
+  | "deny"
+  | "log";
+export const GetFirewallConfigResponseManagedRulesTrafficSourcesAction = S.String;
+
+export interface GetFirewallConfigResponseManagedRulesTrafficSources {
+  action?: GetFirewallConfigResponseManagedRulesTrafficSourcesAction;
+  active: boolean;
+  updatedAt?: string;
+  userId?: string;
+  username?: string;
+}
+export const GetFirewallConfigResponseManagedRulesTrafficSources = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    action: S.optional(GetFirewallConfigResponseManagedRulesTrafficSourcesAction),
+    active: S.Boolean,
+    updatedAt: S.optional(S.String),
+    userId: S.optional(S.String),
+    username: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GetFirewallConfigResponseManagedRulesTrafficSources",
+}) as any as S.Schema<GetFirewallConfigResponseManagedRulesTrafficSources>;
+
+export type GetFirewallConfigResponseManagedRulesVercelRulesetAction = "challenge" | "deny" | "log";
+export const GetFirewallConfigResponseManagedRulesVercelRulesetAction = S.String;
+
+export interface GetFirewallConfigResponseManagedRulesVercelRuleset {
+  action?: GetFirewallConfigResponseManagedRulesVercelRulesetAction;
+  active: boolean;
+  updatedAt?: string;
+  userId?: string;
+  username?: string;
+}
+export const GetFirewallConfigResponseManagedRulesVercelRuleset = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    action: S.optional(GetFirewallConfigResponseManagedRulesVercelRulesetAction),
+    active: S.Boolean,
+    updatedAt: S.optional(S.String),
+    userId: S.optional(S.String),
+    username: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GetFirewallConfigResponseManagedRulesVercelRuleset",
+}) as any as S.Schema<GetFirewallConfigResponseManagedRulesVercelRuleset>;
+
+export interface GetFirewallConfigResponseManagedRules {
+  ai_bots?: GetFirewallConfigResponseManagedRulesAiBots;
+  bot_protection?: GetFirewallConfigResponseManagedRulesBotProtection;
+  owasp?: GetFirewallConfigResponseManagedRulesOwasp;
+  traffic_sources?: GetFirewallConfigResponseManagedRulesTrafficSources;
+  vercel_ruleset?: GetFirewallConfigResponseManagedRulesVercelRuleset;
+}
+export const GetFirewallConfigResponseManagedRules = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ai_bots: S.optional(GetFirewallConfigResponseManagedRulesAiBots),
+    bot_protection: S.optional(GetFirewallConfigResponseManagedRulesBotProtection),
+    owasp: S.optional(GetFirewallConfigResponseManagedRulesOwasp),
+    traffic_sources: S.optional(GetFirewallConfigResponseManagedRulesTrafficSources),
+    vercel_ruleset: S.optional(GetFirewallConfigResponseManagedRulesVercelRuleset),
+  }),
+).annotate({
+  identifier: "GetFirewallConfigResponseManagedRules",
+}) as any as S.Schema<GetFirewallConfigResponseManagedRules>;
+
+export type GetFirewallConfigResponseRulesItemCase0ActionMitigateAction =
+  | "allow"
+  | "bypass"
+  | "challenge"
+  | "deny"
+  | "log"
+  | "rate_limit"
+  | "redirect";
+export const GetFirewallConfigResponseRulesItemCase0ActionMitigateAction = S.String;
+
+export type GetFirewallConfigResponseRulesItemCase0ActionMitigateLogHeadersCase0List =
+  Array<string>;
+export const GetFirewallConfigResponseRulesItemCase0ActionMitigateLogHeadersCase0List =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<GetFirewallConfigResponseRulesItemCase0ActionMitigateLogHeadersCase0List>;
+
+export type GetFirewallConfigResponseRulesItemCase0ActionMitigateLogHeadersCase1 = "*";
+export const GetFirewallConfigResponseRulesItemCase0ActionMitigateLogHeadersCase1 = S.String;
+
+export type GetFirewallConfigResponseRulesItemCase0ActionMitigateLogHeaders =
+  | GetFirewallConfigResponseRulesItemCase0ActionMitigateLogHeadersCase0List
+  | GetFirewallConfigResponseRulesItemCase0ActionMitigateLogHeadersCase1;
+export const GetFirewallConfigResponseRulesItemCase0ActionMitigateLogHeaders =
+  S.Unknown as any as S.Schema<GetFirewallConfigResponseRulesItemCase0ActionMitigateLogHeaders>;
+
+export type GetFirewallConfigResponseRulesItemCase0ActionMitigateRateLimitAction =
+  | "challenge"
+  | "deny"
+  | "log"
+  | "rate_limit";
+export const GetFirewallConfigResponseRulesItemCase0ActionMitigateRateLimitAction = S.String;
+
+export type GetFirewallConfigResponseRulesItemCase0ActionMitigateRateLimitAlgo =
+  | "fixed_window"
+  | "token_bucket";
+export const GetFirewallConfigResponseRulesItemCase0ActionMitigateRateLimitAlgo = S.String;
+
+export type GetFirewallConfigResponseRulesItemCase0ActionMitigateRateLimitKeysList = Array<string>;
+export const GetFirewallConfigResponseRulesItemCase0ActionMitigateRateLimitKeysList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<GetFirewallConfigResponseRulesItemCase0ActionMitigateRateLimitKeysList>;
+
+export interface GetFirewallConfigResponseRulesItemCase0ActionMitigateRateLimit {
+  action?: GetFirewallConfigResponseRulesItemCase0ActionMitigateRateLimitAction | null;
+  algo: GetFirewallConfigResponseRulesItemCase0ActionMitigateRateLimitAlgo;
+  keys: GetFirewallConfigResponseRulesItemCase0ActionMitigateRateLimitKeysList;
+  limit: number;
+  window: number;
+}
+export const GetFirewallConfigResponseRulesItemCase0ActionMitigateRateLimit =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      action: S.optional(
+        S.NullOr(GetFirewallConfigResponseRulesItemCase0ActionMitigateRateLimitAction),
+      ),
+      algo: GetFirewallConfigResponseRulesItemCase0ActionMitigateRateLimitAlgo,
+      keys: GetFirewallConfigResponseRulesItemCase0ActionMitigateRateLimitKeysList,
+      limit: S.Number,
+      window: S.Number,
+    }),
+  ).annotate({
+    identifier: "GetFirewallConfigResponseRulesItemCase0ActionMitigateRateLimit",
+  }) as any as S.Schema<GetFirewallConfigResponseRulesItemCase0ActionMitigateRateLimit>;
+
+export type GetFirewallConfigResponseRulesItemCase0ActionMitigateRedirect =
+  CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
+export const GetFirewallConfigResponseRulesItemCase0ActionMitigateRedirect =
+  CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
+
+export interface GetFirewallConfigResponseRulesItemCase0ActionMitigate {
+  action: GetFirewallConfigResponseRulesItemCase0ActionMitigateAction;
+  actionDuration?: string | null;
+  bypassSystem?: boolean | null;
+  logHeaders?: GetFirewallConfigResponseRulesItemCase0ActionMitigateLogHeaders;
+  rateLimit?: GetFirewallConfigResponseRulesItemCase0ActionMitigateRateLimit | null;
+  redirect?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect | null;
+}
+export const GetFirewallConfigResponseRulesItemCase0ActionMitigate = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    action: GetFirewallConfigResponseRulesItemCase0ActionMitigateAction,
+    actionDuration: S.optional(S.NullOr(S.String)),
+    bypassSystem: S.optional(S.NullOr(S.Boolean)),
+    logHeaders: S.optional(GetFirewallConfigResponseRulesItemCase0ActionMitigateLogHeaders),
+    rateLimit: S.optional(S.NullOr(GetFirewallConfigResponseRulesItemCase0ActionMitigateRateLimit)),
+    redirect: S.optional(
+      S.NullOr(
+        CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect,
+      ),
+    ),
+  }),
+).annotate({
+  identifier: "GetFirewallConfigResponseRulesItemCase0ActionMitigate",
+}) as any as S.Schema<GetFirewallConfigResponseRulesItemCase0ActionMitigate>;
+
+export interface GetFirewallConfigResponseRulesItemCase0Action {
+  mitigate?: GetFirewallConfigResponseRulesItemCase0ActionMitigate;
+}
+export const GetFirewallConfigResponseRulesItemCase0Action = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    mitigate: S.optional(GetFirewallConfigResponseRulesItemCase0ActionMitigate),
+  }),
+).annotate({
+  identifier: "GetFirewallConfigResponseRulesItemCase0Action",
+}) as any as S.Schema<GetFirewallConfigResponseRulesItemCase0Action>;
+
+export type GetFirewallConfigResponseRulesItemCase0ConditionGroupItemConditionsItemOp =
+  | "eq"
+  | "ex"
+  | "gt"
+  | "gte"
+  | "inc"
+  | "list"
+  | "lt"
+  | "lte"
+  | "neq"
+  | "nex"
+  | "ninc"
+  | "pre"
+  | "re"
+  | "sub"
+  | "suf";
+export const GetFirewallConfigResponseRulesItemCase0ConditionGroupItemConditionsItemOp = S.String;
 
 export type GetFirewallConfigResponseRulesItemCase0ConditionGroupItemConditionsItemType =
   | "bot_category"
@@ -2622,24 +3035,6 @@ export type GetFirewallConfigResponseRulesItemCase0ConditionGroupItemConditionsI
   | "user_agent";
 export const GetFirewallConfigResponseRulesItemCase0ConditionGroupItemConditionsItemType = S.String;
 
-export type GetFirewallConfigResponseRulesItemCase0ConditionGroupItemConditionsItemOp =
-  | "eq"
-  | "ex"
-  | "gt"
-  | "gte"
-  | "inc"
-  | "list"
-  | "lt"
-  | "lte"
-  | "neq"
-  | "nex"
-  | "ninc"
-  | "pre"
-  | "re"
-  | "sub"
-  | "suf";
-export const GetFirewallConfigResponseRulesItemCase0ConditionGroupItemConditionsItemOp = S.String;
-
 export type GetFirewallConfigResponseRulesItemCase0ConditionGroupItemConditionsItemValueCase2List =
   Array<string>;
 export const GetFirewallConfigResponseRulesItemCase0ConditionGroupItemConditionsItemValueCase2List =
@@ -2655,19 +3050,19 @@ export const GetFirewallConfigResponseRulesItemCase0ConditionGroupItemConditions
   S.Unknown as any as S.Schema<GetFirewallConfigResponseRulesItemCase0ConditionGroupItemConditionsItemValue>;
 
 export interface GetFirewallConfigResponseRulesItemCase0ConditionGroupItemConditionsItem {
-  type: GetFirewallConfigResponseRulesItemCase0ConditionGroupItemConditionsItemType;
-  op: GetFirewallConfigResponseRulesItemCase0ConditionGroupItemConditionsItemOp;
-  neg?: boolean;
   key?: string;
+  neg?: boolean;
+  op: GetFirewallConfigResponseRulesItemCase0ConditionGroupItemConditionsItemOp;
+  type: GetFirewallConfigResponseRulesItemCase0ConditionGroupItemConditionsItemType;
   value?: GetFirewallConfigResponseRulesItemCase0ConditionGroupItemConditionsItemValue;
 }
 export const GetFirewallConfigResponseRulesItemCase0ConditionGroupItemConditionsItem =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      type: GetFirewallConfigResponseRulesItemCase0ConditionGroupItemConditionsItemType,
-      op: GetFirewallConfigResponseRulesItemCase0ConditionGroupItemConditionsItemOp,
-      neg: S.optional(S.Boolean),
       key: S.optional(S.String),
+      neg: S.optional(S.Boolean),
+      op: GetFirewallConfigResponseRulesItemCase0ConditionGroupItemConditionsItemOp,
+      type: GetFirewallConfigResponseRulesItemCase0ConditionGroupItemConditionsItemType,
       value: S.optional(
         GetFirewallConfigResponseRulesItemCase0ConditionGroupItemConditionsItemValue,
       ),
@@ -2701,7 +3096,32 @@ export const GetFirewallConfigResponseRulesItemCase0ConditionGroupList = /*@__PU
   GetFirewallConfigResponseRulesItemCase0ConditionGroupItem,
 ) as any as S.Schema<GetFirewallConfigResponseRulesItemCase0ConditionGroupList>;
 
-export type GetFirewallConfigResponseRulesItemCase0ActionMitigateAction =
+export interface GetFirewallConfigResponseRulesItemCase0 {
+  action: GetFirewallConfigResponseRulesItemCase0Action;
+  active: boolean;
+  conditionGroup: GetFirewallConfigResponseRulesItemCase0ConditionGroupList;
+  description?: string;
+  id: string;
+  name: string;
+  valid: boolean;
+  validationErrors: unknown | null;
+}
+export const GetFirewallConfigResponseRulesItemCase0 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    action: GetFirewallConfigResponseRulesItemCase0Action,
+    active: S.Boolean,
+    conditionGroup: GetFirewallConfigResponseRulesItemCase0ConditionGroupList,
+    description: S.optional(S.String),
+    id: S.String,
+    name: S.String,
+    valid: S.Boolean,
+    validationErrors: S.NullOr(S.Unknown),
+  }),
+).annotate({
+  identifier: "GetFirewallConfigResponseRulesItemCase0",
+}) as any as S.Schema<GetFirewallConfigResponseRulesItemCase0>;
+
+export type GetFirewallConfigResponseRulesItemCase1ActionMitigateAction =
   | "allow"
   | "bypass"
   | "challenge"
@@ -2709,129 +3129,122 @@ export type GetFirewallConfigResponseRulesItemCase0ActionMitigateAction =
   | "log"
   | "rate_limit"
   | "redirect";
-export const GetFirewallConfigResponseRulesItemCase0ActionMitigateAction = S.String;
+export const GetFirewallConfigResponseRulesItemCase1ActionMitigateAction = S.String;
 
-export type GetFirewallConfigResponseRulesItemCase0ActionMitigateRateLimitAlgo =
-  | "fixed_window"
-  | "token_bucket";
-export const GetFirewallConfigResponseRulesItemCase0ActionMitigateRateLimitAlgo = S.String;
-
-export type GetFirewallConfigResponseRulesItemCase0ActionMitigateRateLimitKeysList = Array<string>;
-export const GetFirewallConfigResponseRulesItemCase0ActionMitigateRateLimitKeysList =
+export type GetFirewallConfigResponseRulesItemCase1ActionMitigateLogHeadersCase0List =
+  Array<string>;
+export const GetFirewallConfigResponseRulesItemCase1ActionMitigateLogHeadersCase0List =
   /*@__PURE__*/ S.Array(
     S.String,
-  ) as any as S.Schema<GetFirewallConfigResponseRulesItemCase0ActionMitigateRateLimitKeysList>;
+  ) as any as S.Schema<GetFirewallConfigResponseRulesItemCase1ActionMitigateLogHeadersCase0List>;
 
-export type GetFirewallConfigResponseRulesItemCase0ActionMitigateRateLimitAction =
+export type GetFirewallConfigResponseRulesItemCase1ActionMitigateLogHeadersCase1 = "*";
+export const GetFirewallConfigResponseRulesItemCase1ActionMitigateLogHeadersCase1 = S.String;
+
+export type GetFirewallConfigResponseRulesItemCase1ActionMitigateLogHeaders =
+  | GetFirewallConfigResponseRulesItemCase1ActionMitigateLogHeadersCase0List
+  | GetFirewallConfigResponseRulesItemCase1ActionMitigateLogHeadersCase1;
+export const GetFirewallConfigResponseRulesItemCase1ActionMitigateLogHeaders =
+  S.Unknown as any as S.Schema<GetFirewallConfigResponseRulesItemCase1ActionMitigateLogHeaders>;
+
+export type GetFirewallConfigResponseRulesItemCase1ActionMitigateRateLimitAction =
   | "challenge"
   | "deny"
   | "log"
   | "rate_limit";
-export const GetFirewallConfigResponseRulesItemCase0ActionMitigateRateLimitAction = S.String;
+export const GetFirewallConfigResponseRulesItemCase1ActionMitigateRateLimitAction = S.String;
 
-export interface GetFirewallConfigResponseRulesItemCase0ActionMitigateRateLimit {
-  algo: GetFirewallConfigResponseRulesItemCase0ActionMitigateRateLimitAlgo;
-  window: number;
-  limit: number;
-  keys: GetFirewallConfigResponseRulesItemCase0ActionMitigateRateLimitKeysList;
-  action?: GetFirewallConfigResponseRulesItemCase0ActionMitigateRateLimitAction | null;
-}
-export const GetFirewallConfigResponseRulesItemCase0ActionMitigateRateLimit =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      algo: GetFirewallConfigResponseRulesItemCase0ActionMitigateRateLimitAlgo,
-      window: S.Number,
-      limit: S.Number,
-      keys: GetFirewallConfigResponseRulesItemCase0ActionMitigateRateLimitKeysList,
-      action: S.optional(
-        S.NullOr(GetFirewallConfigResponseRulesItemCase0ActionMitigateRateLimitAction),
-      ),
-    }),
-  ).annotate({
-    identifier: "GetFirewallConfigResponseRulesItemCase0ActionMitigateRateLimit",
-  }) as any as S.Schema<GetFirewallConfigResponseRulesItemCase0ActionMitigateRateLimit>;
+export type GetFirewallConfigResponseRulesItemCase1ActionMitigateRateLimitAlgo =
+  | "fixed_window"
+  | "token_bucket";
+export const GetFirewallConfigResponseRulesItemCase1ActionMitigateRateLimitAlgo = S.String;
 
-export type GetFirewallConfigResponseRulesItemCase0ActionMitigateRedirect =
-  CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
-export const GetFirewallConfigResponseRulesItemCase0ActionMitigateRedirect =
-  CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
-
-export type GetFirewallConfigResponseRulesItemCase0ActionMitigateLogHeadersCase0List =
-  Array<string>;
-export const GetFirewallConfigResponseRulesItemCase0ActionMitigateLogHeadersCase0List =
+export type GetFirewallConfigResponseRulesItemCase1ActionMitigateRateLimitKeysList = Array<string>;
+export const GetFirewallConfigResponseRulesItemCase1ActionMitigateRateLimitKeysList =
   /*@__PURE__*/ S.Array(
     S.String,
-  ) as any as S.Schema<GetFirewallConfigResponseRulesItemCase0ActionMitigateLogHeadersCase0List>;
+  ) as any as S.Schema<GetFirewallConfigResponseRulesItemCase1ActionMitigateRateLimitKeysList>;
 
-export type GetFirewallConfigResponseRulesItemCase0ActionMitigateLogHeadersCase1 = "*";
-export const GetFirewallConfigResponseRulesItemCase0ActionMitigateLogHeadersCase1 = S.String;
+export interface GetFirewallConfigResponseRulesItemCase1ActionMitigateRateLimit {
+  action?: GetFirewallConfigResponseRulesItemCase1ActionMitigateRateLimitAction | null;
+  algo: GetFirewallConfigResponseRulesItemCase1ActionMitigateRateLimitAlgo;
+  keys: GetFirewallConfigResponseRulesItemCase1ActionMitigateRateLimitKeysList;
+  limit: number;
+  window: number;
+}
+export const GetFirewallConfigResponseRulesItemCase1ActionMitigateRateLimit =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      action: S.optional(
+        S.NullOr(GetFirewallConfigResponseRulesItemCase1ActionMitigateRateLimitAction),
+      ),
+      algo: GetFirewallConfigResponseRulesItemCase1ActionMitigateRateLimitAlgo,
+      keys: GetFirewallConfigResponseRulesItemCase1ActionMitigateRateLimitKeysList,
+      limit: S.Number,
+      window: S.Number,
+    }),
+  ).annotate({
+    identifier: "GetFirewallConfigResponseRulesItemCase1ActionMitigateRateLimit",
+  }) as any as S.Schema<GetFirewallConfigResponseRulesItemCase1ActionMitigateRateLimit>;
 
-export type GetFirewallConfigResponseRulesItemCase0ActionMitigateLogHeaders =
-  | GetFirewallConfigResponseRulesItemCase0ActionMitigateLogHeadersCase0List
-  | GetFirewallConfigResponseRulesItemCase0ActionMitigateLogHeadersCase1;
-export const GetFirewallConfigResponseRulesItemCase0ActionMitigateLogHeaders =
-  S.Unknown as any as S.Schema<GetFirewallConfigResponseRulesItemCase0ActionMitigateLogHeaders>;
+export type GetFirewallConfigResponseRulesItemCase1ActionMitigateRedirect =
+  CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
+export const GetFirewallConfigResponseRulesItemCase1ActionMitigateRedirect =
+  CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
 
-export interface GetFirewallConfigResponseRulesItemCase0ActionMitigate {
-  action: GetFirewallConfigResponseRulesItemCase0ActionMitigateAction;
-  rateLimit?: GetFirewallConfigResponseRulesItemCase0ActionMitigateRateLimit | null;
-  redirect?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect | null;
+export interface GetFirewallConfigResponseRulesItemCase1ActionMitigate {
+  action: GetFirewallConfigResponseRulesItemCase1ActionMitigateAction;
   actionDuration?: string | null;
   bypassSystem?: boolean | null;
-  logHeaders?: GetFirewallConfigResponseRulesItemCase0ActionMitigateLogHeaders;
+  logHeaders?: GetFirewallConfigResponseRulesItemCase1ActionMitigateLogHeaders;
+  rateLimit?: GetFirewallConfigResponseRulesItemCase1ActionMitigateRateLimit | null;
+  redirect?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect | null;
 }
-export const GetFirewallConfigResponseRulesItemCase0ActionMitigate = /*@__PURE__*/ S.suspend(() =>
+export const GetFirewallConfigResponseRulesItemCase1ActionMitigate = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    action: GetFirewallConfigResponseRulesItemCase0ActionMitigateAction,
-    rateLimit: S.optional(S.NullOr(GetFirewallConfigResponseRulesItemCase0ActionMitigateRateLimit)),
+    action: GetFirewallConfigResponseRulesItemCase1ActionMitigateAction,
+    actionDuration: S.optional(S.NullOr(S.String)),
+    bypassSystem: S.optional(S.NullOr(S.Boolean)),
+    logHeaders: S.optional(GetFirewallConfigResponseRulesItemCase1ActionMitigateLogHeaders),
+    rateLimit: S.optional(S.NullOr(GetFirewallConfigResponseRulesItemCase1ActionMitigateRateLimit)),
     redirect: S.optional(
       S.NullOr(
         CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect,
       ),
     ),
-    actionDuration: S.optional(S.NullOr(S.String)),
-    bypassSystem: S.optional(S.NullOr(S.Boolean)),
-    logHeaders: S.optional(GetFirewallConfigResponseRulesItemCase0ActionMitigateLogHeaders),
   }),
 ).annotate({
-  identifier: "GetFirewallConfigResponseRulesItemCase0ActionMitigate",
-}) as any as S.Schema<GetFirewallConfigResponseRulesItemCase0ActionMitigate>;
+  identifier: "GetFirewallConfigResponseRulesItemCase1ActionMitigate",
+}) as any as S.Schema<GetFirewallConfigResponseRulesItemCase1ActionMitigate>;
 
-export interface GetFirewallConfigResponseRulesItemCase0Action {
-  mitigate?: GetFirewallConfigResponseRulesItemCase0ActionMitigate;
+export interface GetFirewallConfigResponseRulesItemCase1Action {
+  mitigate?: GetFirewallConfigResponseRulesItemCase1ActionMitigate;
 }
-export const GetFirewallConfigResponseRulesItemCase0Action = /*@__PURE__*/ S.suspend(() =>
+export const GetFirewallConfigResponseRulesItemCase1Action = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    mitigate: S.optional(GetFirewallConfigResponseRulesItemCase0ActionMitigate),
+    mitigate: S.optional(GetFirewallConfigResponseRulesItemCase1ActionMitigate),
   }),
 ).annotate({
-  identifier: "GetFirewallConfigResponseRulesItemCase0Action",
-}) as any as S.Schema<GetFirewallConfigResponseRulesItemCase0Action>;
+  identifier: "GetFirewallConfigResponseRulesItemCase1Action",
+}) as any as S.Schema<GetFirewallConfigResponseRulesItemCase1Action>;
 
-export interface GetFirewallConfigResponseRulesItemCase0 {
-  id: string;
-  name: string;
-  description?: string;
-  active: boolean;
-  conditionGroup: GetFirewallConfigResponseRulesItemCase0ConditionGroupList;
-  action: GetFirewallConfigResponseRulesItemCase0Action;
-  valid: boolean;
-  validationErrors: unknown | null;
-}
-export const GetFirewallConfigResponseRulesItemCase0 = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    name: S.String,
-    description: S.optional(S.String),
-    active: S.Boolean,
-    conditionGroup: GetFirewallConfigResponseRulesItemCase0ConditionGroupList,
-    action: GetFirewallConfigResponseRulesItemCase0Action,
-    valid: S.Boolean,
-    validationErrors: S.NullOr(S.Unknown),
-  }),
-).annotate({
-  identifier: "GetFirewallConfigResponseRulesItemCase0",
-}) as any as S.Schema<GetFirewallConfigResponseRulesItemCase0>;
+export type GetFirewallConfigResponseRulesItemCase1ConditionGroupItemConditionsItemOp =
+  | "eq"
+  | "ex"
+  | "gt"
+  | "gte"
+  | "inc"
+  | "list"
+  | "lt"
+  | "lte"
+  | "neq"
+  | "nex"
+  | "ninc"
+  | "pre"
+  | "re"
+  | "sub"
+  | "suf";
+export const GetFirewallConfigResponseRulesItemCase1ConditionGroupItemConditionsItemOp = S.String;
 
 export type GetFirewallConfigResponseRulesItemCase1ConditionGroupItemConditionsItemType =
   | "bot_category"
@@ -2869,24 +3282,6 @@ export type GetFirewallConfigResponseRulesItemCase1ConditionGroupItemConditionsI
   | "user_agent";
 export const GetFirewallConfigResponseRulesItemCase1ConditionGroupItemConditionsItemType = S.String;
 
-export type GetFirewallConfigResponseRulesItemCase1ConditionGroupItemConditionsItemOp =
-  | "eq"
-  | "ex"
-  | "gt"
-  | "gte"
-  | "inc"
-  | "list"
-  | "lt"
-  | "lte"
-  | "neq"
-  | "nex"
-  | "ninc"
-  | "pre"
-  | "re"
-  | "sub"
-  | "suf";
-export const GetFirewallConfigResponseRulesItemCase1ConditionGroupItemConditionsItemOp = S.String;
-
 export type GetFirewallConfigResponseRulesItemCase1ConditionGroupItemConditionsItemValueCase2List =
   Array<string>;
 export const GetFirewallConfigResponseRulesItemCase1ConditionGroupItemConditionsItemValueCase2List =
@@ -2902,19 +3297,19 @@ export const GetFirewallConfigResponseRulesItemCase1ConditionGroupItemConditions
   S.Unknown as any as S.Schema<GetFirewallConfigResponseRulesItemCase1ConditionGroupItemConditionsItemValue>;
 
 export interface GetFirewallConfigResponseRulesItemCase1ConditionGroupItemConditionsItem {
-  type: GetFirewallConfigResponseRulesItemCase1ConditionGroupItemConditionsItemType;
-  op: GetFirewallConfigResponseRulesItemCase1ConditionGroupItemConditionsItemOp;
-  neg?: boolean;
   key?: string;
+  neg?: boolean;
+  op: GetFirewallConfigResponseRulesItemCase1ConditionGroupItemConditionsItemOp;
+  type: GetFirewallConfigResponseRulesItemCase1ConditionGroupItemConditionsItemType;
   value?: GetFirewallConfigResponseRulesItemCase1ConditionGroupItemConditionsItemValue;
 }
 export const GetFirewallConfigResponseRulesItemCase1ConditionGroupItemConditionsItem =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      type: GetFirewallConfigResponseRulesItemCase1ConditionGroupItemConditionsItemType,
-      op: GetFirewallConfigResponseRulesItemCase1ConditionGroupItemConditionsItemOp,
-      neg: S.optional(S.Boolean),
       key: S.optional(S.String),
+      neg: S.optional(S.Boolean),
+      op: GetFirewallConfigResponseRulesItemCase1ConditionGroupItemConditionsItemOp,
+      type: GetFirewallConfigResponseRulesItemCase1ConditionGroupItemConditionsItemType,
       value: S.optional(
         GetFirewallConfigResponseRulesItemCase1ConditionGroupItemConditionsItemValue,
       ),
@@ -2948,136 +3343,29 @@ export const GetFirewallConfigResponseRulesItemCase1ConditionGroupList = /*@__PU
   GetFirewallConfigResponseRulesItemCase1ConditionGroupItem,
 ) as any as S.Schema<GetFirewallConfigResponseRulesItemCase1ConditionGroupList>;
 
-export type GetFirewallConfigResponseRulesItemCase1ActionMitigateAction =
-  | "allow"
-  | "bypass"
-  | "challenge"
-  | "deny"
-  | "log"
-  | "rate_limit"
-  | "redirect";
-export const GetFirewallConfigResponseRulesItemCase1ActionMitigateAction = S.String;
-
-export type GetFirewallConfigResponseRulesItemCase1ActionMitigateRateLimitAlgo =
-  | "fixed_window"
-  | "token_bucket";
-export const GetFirewallConfigResponseRulesItemCase1ActionMitigateRateLimitAlgo = S.String;
-
-export type GetFirewallConfigResponseRulesItemCase1ActionMitigateRateLimitKeysList = Array<string>;
-export const GetFirewallConfigResponseRulesItemCase1ActionMitigateRateLimitKeysList =
-  /*@__PURE__*/ S.Array(
-    S.String,
-  ) as any as S.Schema<GetFirewallConfigResponseRulesItemCase1ActionMitigateRateLimitKeysList>;
-
-export type GetFirewallConfigResponseRulesItemCase1ActionMitigateRateLimitAction =
-  | "challenge"
-  | "deny"
-  | "log"
-  | "rate_limit";
-export const GetFirewallConfigResponseRulesItemCase1ActionMitigateRateLimitAction = S.String;
-
-export interface GetFirewallConfigResponseRulesItemCase1ActionMitigateRateLimit {
-  algo: GetFirewallConfigResponseRulesItemCase1ActionMitigateRateLimitAlgo;
-  window: number;
-  limit: number;
-  keys: GetFirewallConfigResponseRulesItemCase1ActionMitigateRateLimitKeysList;
-  action?: GetFirewallConfigResponseRulesItemCase1ActionMitigateRateLimitAction | null;
-}
-export const GetFirewallConfigResponseRulesItemCase1ActionMitigateRateLimit =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      algo: GetFirewallConfigResponseRulesItemCase1ActionMitigateRateLimitAlgo,
-      window: S.Number,
-      limit: S.Number,
-      keys: GetFirewallConfigResponseRulesItemCase1ActionMitigateRateLimitKeysList,
-      action: S.optional(
-        S.NullOr(GetFirewallConfigResponseRulesItemCase1ActionMitigateRateLimitAction),
-      ),
-    }),
-  ).annotate({
-    identifier: "GetFirewallConfigResponseRulesItemCase1ActionMitigateRateLimit",
-  }) as any as S.Schema<GetFirewallConfigResponseRulesItemCase1ActionMitigateRateLimit>;
-
-export type GetFirewallConfigResponseRulesItemCase1ActionMitigateRedirect =
-  CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
-export const GetFirewallConfigResponseRulesItemCase1ActionMitigateRedirect =
-  CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
-
-export type GetFirewallConfigResponseRulesItemCase1ActionMitigateLogHeadersCase0List =
-  Array<string>;
-export const GetFirewallConfigResponseRulesItemCase1ActionMitigateLogHeadersCase0List =
-  /*@__PURE__*/ S.Array(
-    S.String,
-  ) as any as S.Schema<GetFirewallConfigResponseRulesItemCase1ActionMitigateLogHeadersCase0List>;
-
-export type GetFirewallConfigResponseRulesItemCase1ActionMitigateLogHeadersCase1 = "*";
-export const GetFirewallConfigResponseRulesItemCase1ActionMitigateLogHeadersCase1 = S.String;
-
-export type GetFirewallConfigResponseRulesItemCase1ActionMitigateLogHeaders =
-  | GetFirewallConfigResponseRulesItemCase1ActionMitigateLogHeadersCase0List
-  | GetFirewallConfigResponseRulesItemCase1ActionMitigateLogHeadersCase1;
-export const GetFirewallConfigResponseRulesItemCase1ActionMitigateLogHeaders =
-  S.Unknown as any as S.Schema<GetFirewallConfigResponseRulesItemCase1ActionMitigateLogHeaders>;
-
-export interface GetFirewallConfigResponseRulesItemCase1ActionMitigate {
-  action: GetFirewallConfigResponseRulesItemCase1ActionMitigateAction;
-  rateLimit?: GetFirewallConfigResponseRulesItemCase1ActionMitigateRateLimit | null;
-  redirect?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect | null;
-  actionDuration?: string | null;
-  bypassSystem?: boolean | null;
-  logHeaders?: GetFirewallConfigResponseRulesItemCase1ActionMitigateLogHeaders;
-}
-export const GetFirewallConfigResponseRulesItemCase1ActionMitigate = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    action: GetFirewallConfigResponseRulesItemCase1ActionMitigateAction,
-    rateLimit: S.optional(S.NullOr(GetFirewallConfigResponseRulesItemCase1ActionMitigateRateLimit)),
-    redirect: S.optional(
-      S.NullOr(
-        CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect,
-      ),
-    ),
-    actionDuration: S.optional(S.NullOr(S.String)),
-    bypassSystem: S.optional(S.NullOr(S.Boolean)),
-    logHeaders: S.optional(GetFirewallConfigResponseRulesItemCase1ActionMitigateLogHeaders),
-  }),
-).annotate({
-  identifier: "GetFirewallConfigResponseRulesItemCase1ActionMitigate",
-}) as any as S.Schema<GetFirewallConfigResponseRulesItemCase1ActionMitigate>;
-
-export interface GetFirewallConfigResponseRulesItemCase1Action {
-  mitigate?: GetFirewallConfigResponseRulesItemCase1ActionMitigate;
-}
-export const GetFirewallConfigResponseRulesItemCase1Action = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    mitigate: S.optional(GetFirewallConfigResponseRulesItemCase1ActionMitigate),
-  }),
-).annotate({
-  identifier: "GetFirewallConfigResponseRulesItemCase1Action",
-}) as any as S.Schema<GetFirewallConfigResponseRulesItemCase1Action>;
-
 export type GetFirewallConfigResponseRulesItemCase1ValidationErrorsList = Array<string>;
 export const GetFirewallConfigResponseRulesItemCase1ValidationErrorsList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<GetFirewallConfigResponseRulesItemCase1ValidationErrorsList>;
 
 export interface GetFirewallConfigResponseRulesItemCase1 {
-  id: string;
-  name: string;
-  description?: string;
+  action: GetFirewallConfigResponseRulesItemCase1Action;
   active: boolean;
   conditionGroup: GetFirewallConfigResponseRulesItemCase1ConditionGroupList;
-  action: GetFirewallConfigResponseRulesItemCase1Action;
+  description?: string;
+  id: string;
+  name: string;
   valid: boolean;
   validationErrors: GetFirewallConfigResponseRulesItemCase1ValidationErrorsList;
 }
 export const GetFirewallConfigResponseRulesItemCase1 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    id: S.String,
-    name: S.String,
-    description: S.optional(S.String),
+    action: GetFirewallConfigResponseRulesItemCase1Action,
     active: S.Boolean,
     conditionGroup: GetFirewallConfigResponseRulesItemCase1ConditionGroupList,
-    action: GetFirewallConfigResponseRulesItemCase1Action,
+    description: S.optional(S.String),
+    id: S.String,
+    name: S.String,
     valid: S.Boolean,
     validationErrors: GetFirewallConfigResponseRulesItemCase1ValidationErrorsList,
   }),
@@ -3096,32 +3384,24 @@ export const GetFirewallConfigResponseRulesList = /*@__PURE__*/ S.Array(
   GetFirewallConfigResponseRulesItem,
 ) as any as S.Schema<GetFirewallConfigResponseRulesList>;
 
-export type GetFirewallConfigResponseIpsItemAction = "bypass" | "challenge" | "deny" | "log";
-export const GetFirewallConfigResponseIpsItemAction = S.String;
-
-export interface GetFirewallConfigResponseIpsItem {
-  id: string;
-  hostname: string;
-  ip: string;
-  notes?: string;
-  action: GetFirewallConfigResponseIpsItemAction;
-}
-export const GetFirewallConfigResponseIpsItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    hostname: S.String,
-    ip: S.String,
-    notes: S.optional(S.String),
-    action: GetFirewallConfigResponseIpsItemAction,
-  }),
-).annotate({
-  identifier: "GetFirewallConfigResponseIpsItem",
-}) as any as S.Schema<GetFirewallConfigResponseIpsItem>;
-
-export type GetFirewallConfigResponseIpsList = Array<GetFirewallConfigResponseIpsItem>;
-export const GetFirewallConfigResponseIpsList = /*@__PURE__*/ S.Array(
-  GetFirewallConfigResponseIpsItem,
-) as any as S.Schema<GetFirewallConfigResponseIpsList>;
+export type GetFirewallConfigResponseRulesetsCase0ItemConditionGroupItemConditionsItemOp =
+  | "eq"
+  | "ex"
+  | "gt"
+  | "gte"
+  | "inc"
+  | "list"
+  | "lt"
+  | "lte"
+  | "neq"
+  | "nex"
+  | "ninc"
+  | "pre"
+  | "re"
+  | "sub"
+  | "suf";
+export const GetFirewallConfigResponseRulesetsCase0ItemConditionGroupItemConditionsItemOp =
+  S.String;
 
 export type GetFirewallConfigResponseRulesetsCase0ItemConditionGroupItemConditionsItemType =
   | "bot_category"
@@ -3160,25 +3440,6 @@ export type GetFirewallConfigResponseRulesetsCase0ItemConditionGroupItemConditio
 export const GetFirewallConfigResponseRulesetsCase0ItemConditionGroupItemConditionsItemType =
   S.String;
 
-export type GetFirewallConfigResponseRulesetsCase0ItemConditionGroupItemConditionsItemOp =
-  | "eq"
-  | "ex"
-  | "gt"
-  | "gte"
-  | "inc"
-  | "list"
-  | "lt"
-  | "lte"
-  | "neq"
-  | "nex"
-  | "ninc"
-  | "pre"
-  | "re"
-  | "sub"
-  | "suf";
-export const GetFirewallConfigResponseRulesetsCase0ItemConditionGroupItemConditionsItemOp =
-  S.String;
-
 export type GetFirewallConfigResponseRulesetsCase0ItemConditionGroupItemConditionsItemValueCase2List =
   Array<string>;
 export const GetFirewallConfigResponseRulesetsCase0ItemConditionGroupItemConditionsItemValueCase2List =
@@ -3194,19 +3455,19 @@ export const GetFirewallConfigResponseRulesetsCase0ItemConditionGroupItemConditi
   S.Unknown as any as S.Schema<GetFirewallConfigResponseRulesetsCase0ItemConditionGroupItemConditionsItemValue>;
 
 export interface GetFirewallConfigResponseRulesetsCase0ItemConditionGroupItemConditionsItem {
-  type: GetFirewallConfigResponseRulesetsCase0ItemConditionGroupItemConditionsItemType;
-  op: GetFirewallConfigResponseRulesetsCase0ItemConditionGroupItemConditionsItemOp;
-  neg?: boolean;
   key?: string;
+  neg?: boolean;
+  op: GetFirewallConfigResponseRulesetsCase0ItemConditionGroupItemConditionsItemOp;
+  type: GetFirewallConfigResponseRulesetsCase0ItemConditionGroupItemConditionsItemType;
   value?: GetFirewallConfigResponseRulesetsCase0ItemConditionGroupItemConditionsItemValue;
 }
 export const GetFirewallConfigResponseRulesetsCase0ItemConditionGroupItemConditionsItem =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      type: GetFirewallConfigResponseRulesetsCase0ItemConditionGroupItemConditionsItemType,
-      op: GetFirewallConfigResponseRulesetsCase0ItemConditionGroupItemConditionsItemOp,
-      neg: S.optional(S.Boolean),
       key: S.optional(S.String),
+      neg: S.optional(S.Boolean),
+      op: GetFirewallConfigResponseRulesetsCase0ItemConditionGroupItemConditionsItemOp,
+      type: GetFirewallConfigResponseRulesetsCase0ItemConditionGroupItemConditionsItemType,
       value: S.optional(
         GetFirewallConfigResponseRulesetsCase0ItemConditionGroupItemConditionsItemValue,
       ),
@@ -3250,52 +3511,6 @@ export type GetFirewallConfigResponseRulesetsCase0ItemActionMitigateAction =
   | "redirect";
 export const GetFirewallConfigResponseRulesetsCase0ItemActionMitigateAction = S.String;
 
-export type GetFirewallConfigResponseRulesetsCase0ItemActionMitigateRateLimitAlgo =
-  | "fixed_window"
-  | "token_bucket";
-export const GetFirewallConfigResponseRulesetsCase0ItemActionMitigateRateLimitAlgo = S.String;
-
-export type GetFirewallConfigResponseRulesetsCase0ItemActionMitigateRateLimitKeysList =
-  Array<string>;
-export const GetFirewallConfigResponseRulesetsCase0ItemActionMitigateRateLimitKeysList =
-  /*@__PURE__*/ S.Array(
-    S.String,
-  ) as any as S.Schema<GetFirewallConfigResponseRulesetsCase0ItemActionMitigateRateLimitKeysList>;
-
-export type GetFirewallConfigResponseRulesetsCase0ItemActionMitigateRateLimitAction =
-  | "challenge"
-  | "deny"
-  | "log"
-  | "rate_limit";
-export const GetFirewallConfigResponseRulesetsCase0ItemActionMitigateRateLimitAction = S.String;
-
-export interface GetFirewallConfigResponseRulesetsCase0ItemActionMitigateRateLimit {
-  algo: GetFirewallConfigResponseRulesetsCase0ItemActionMitigateRateLimitAlgo;
-  window: number;
-  limit: number;
-  keys: GetFirewallConfigResponseRulesetsCase0ItemActionMitigateRateLimitKeysList;
-  action?: GetFirewallConfigResponseRulesetsCase0ItemActionMitigateRateLimitAction | null;
-}
-export const GetFirewallConfigResponseRulesetsCase0ItemActionMitigateRateLimit =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      algo: GetFirewallConfigResponseRulesetsCase0ItemActionMitigateRateLimitAlgo,
-      window: S.Number,
-      limit: S.Number,
-      keys: GetFirewallConfigResponseRulesetsCase0ItemActionMitigateRateLimitKeysList,
-      action: S.optional(
-        S.NullOr(GetFirewallConfigResponseRulesetsCase0ItemActionMitigateRateLimitAction),
-      ),
-    }),
-  ).annotate({
-    identifier: "GetFirewallConfigResponseRulesetsCase0ItemActionMitigateRateLimit",
-  }) as any as S.Schema<GetFirewallConfigResponseRulesetsCase0ItemActionMitigateRateLimit>;
-
-export type GetFirewallConfigResponseRulesetsCase0ItemActionMitigateRedirect =
-  CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
-export const GetFirewallConfigResponseRulesetsCase0ItemActionMitigateRedirect =
-  CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
-
 export type GetFirewallConfigResponseRulesetsCase0ItemActionMitigateLogHeadersCase0List =
   Array<string>;
 export const GetFirewallConfigResponseRulesetsCase0ItemActionMitigateLogHeadersCase0List =
@@ -3312,18 +3527,67 @@ export type GetFirewallConfigResponseRulesetsCase0ItemActionMitigateLogHeaders =
 export const GetFirewallConfigResponseRulesetsCase0ItemActionMitigateLogHeaders =
   S.Unknown as any as S.Schema<GetFirewallConfigResponseRulesetsCase0ItemActionMitigateLogHeaders>;
 
+export type GetFirewallConfigResponseRulesetsCase0ItemActionMitigateRateLimitAction =
+  | "challenge"
+  | "deny"
+  | "log"
+  | "rate_limit";
+export const GetFirewallConfigResponseRulesetsCase0ItemActionMitigateRateLimitAction = S.String;
+
+export type GetFirewallConfigResponseRulesetsCase0ItemActionMitigateRateLimitAlgo =
+  | "fixed_window"
+  | "token_bucket";
+export const GetFirewallConfigResponseRulesetsCase0ItemActionMitigateRateLimitAlgo = S.String;
+
+export type GetFirewallConfigResponseRulesetsCase0ItemActionMitigateRateLimitKeysList =
+  Array<string>;
+export const GetFirewallConfigResponseRulesetsCase0ItemActionMitigateRateLimitKeysList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<GetFirewallConfigResponseRulesetsCase0ItemActionMitigateRateLimitKeysList>;
+
+export interface GetFirewallConfigResponseRulesetsCase0ItemActionMitigateRateLimit {
+  action?: GetFirewallConfigResponseRulesetsCase0ItemActionMitigateRateLimitAction | null;
+  algo: GetFirewallConfigResponseRulesetsCase0ItemActionMitigateRateLimitAlgo;
+  keys: GetFirewallConfigResponseRulesetsCase0ItemActionMitigateRateLimitKeysList;
+  limit: number;
+  window: number;
+}
+export const GetFirewallConfigResponseRulesetsCase0ItemActionMitigateRateLimit =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      action: S.optional(
+        S.NullOr(GetFirewallConfigResponseRulesetsCase0ItemActionMitigateRateLimitAction),
+      ),
+      algo: GetFirewallConfigResponseRulesetsCase0ItemActionMitigateRateLimitAlgo,
+      keys: GetFirewallConfigResponseRulesetsCase0ItemActionMitigateRateLimitKeysList,
+      limit: S.Number,
+      window: S.Number,
+    }),
+  ).annotate({
+    identifier: "GetFirewallConfigResponseRulesetsCase0ItemActionMitigateRateLimit",
+  }) as any as S.Schema<GetFirewallConfigResponseRulesetsCase0ItemActionMitigateRateLimit>;
+
+export type GetFirewallConfigResponseRulesetsCase0ItemActionMitigateRedirect =
+  CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
+export const GetFirewallConfigResponseRulesetsCase0ItemActionMitigateRedirect =
+  CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
+
 export interface GetFirewallConfigResponseRulesetsCase0ItemActionMitigate {
   action: GetFirewallConfigResponseRulesetsCase0ItemActionMitigateAction;
-  rateLimit?: GetFirewallConfigResponseRulesetsCase0ItemActionMitigateRateLimit | null;
-  redirect?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect | null;
   actionDuration?: string | null;
   bypassSystem?: boolean | null;
   logHeaders?: GetFirewallConfigResponseRulesetsCase0ItemActionMitigateLogHeaders;
+  rateLimit?: GetFirewallConfigResponseRulesetsCase0ItemActionMitigateRateLimit | null;
+  redirect?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect | null;
 }
 export const GetFirewallConfigResponseRulesetsCase0ItemActionMitigate = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
       action: GetFirewallConfigResponseRulesetsCase0ItemActionMitigateAction,
+      actionDuration: S.optional(S.NullOr(S.String)),
+      bypassSystem: S.optional(S.NullOr(S.Boolean)),
+      logHeaders: S.optional(GetFirewallConfigResponseRulesetsCase0ItemActionMitigateLogHeaders),
       rateLimit: S.optional(
         S.NullOr(GetFirewallConfigResponseRulesetsCase0ItemActionMitigateRateLimit),
       ),
@@ -3332,9 +3596,6 @@ export const GetFirewallConfigResponseRulesetsCase0ItemActionMitigate = /*@__PUR
           CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect,
         ),
       ),
-      actionDuration: S.optional(S.NullOr(S.String)),
-      bypassSystem: S.optional(S.NullOr(S.Boolean)),
-      logHeaders: S.optional(GetFirewallConfigResponseRulesetsCase0ItemActionMitigateLogHeaders),
     }),
 ).annotate({
   identifier: "GetFirewallConfigResponseRulesetsCase0ItemActionMitigate",
@@ -3352,20 +3613,20 @@ export const GetFirewallConfigResponseRulesetsCase0ItemAction = /*@__PURE__*/ S.
 }) as any as S.Schema<GetFirewallConfigResponseRulesetsCase0ItemAction>;
 
 export interface GetFirewallConfigResponseRulesetsCase0Item {
+  active: boolean;
+  conditionGroup: GetFirewallConfigResponseRulesetsCase0ItemConditionGroupList;
   description?: string;
   id: string;
   name: string;
-  active: boolean;
-  conditionGroup: GetFirewallConfigResponseRulesetsCase0ItemConditionGroupList;
   action?: GetFirewallConfigResponseRulesetsCase0ItemAction;
 }
 export const GetFirewallConfigResponseRulesetsCase0Item = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    active: S.Boolean,
+    conditionGroup: GetFirewallConfigResponseRulesetsCase0ItemConditionGroupList,
     description: S.optional(S.String),
     id: S.String,
     name: S.String,
-    active: S.Boolean,
-    conditionGroup: GetFirewallConfigResponseRulesetsCase0ItemConditionGroupList,
     action: S.optional(GetFirewallConfigResponseRulesetsCase0ItemAction),
   }),
 ).annotate({
@@ -3388,47 +3649,6 @@ export type GetFirewallConfigResponseRulesetsCase1ValueAction =
   | "redirect";
 export const GetFirewallConfigResponseRulesetsCase1ValueAction = S.String;
 
-export type GetFirewallConfigResponseRulesetsCase1ValueRateLimitAlgo =
-  | "fixed_window"
-  | "token_bucket";
-export const GetFirewallConfigResponseRulesetsCase1ValueRateLimitAlgo = S.String;
-
-export type GetFirewallConfigResponseRulesetsCase1ValueRateLimitKeysList = Array<string>;
-export const GetFirewallConfigResponseRulesetsCase1ValueRateLimitKeysList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<GetFirewallConfigResponseRulesetsCase1ValueRateLimitKeysList>;
-
-export type GetFirewallConfigResponseRulesetsCase1ValueRateLimitAction =
-  | "challenge"
-  | "deny"
-  | "log"
-  | "rate_limit";
-export const GetFirewallConfigResponseRulesetsCase1ValueRateLimitAction = S.String;
-
-export interface GetFirewallConfigResponseRulesetsCase1ValueRateLimit {
-  algo: GetFirewallConfigResponseRulesetsCase1ValueRateLimitAlgo;
-  window: number;
-  limit: number;
-  keys: GetFirewallConfigResponseRulesetsCase1ValueRateLimitKeysList;
-  action?: GetFirewallConfigResponseRulesetsCase1ValueRateLimitAction | null;
-}
-export const GetFirewallConfigResponseRulesetsCase1ValueRateLimit = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    algo: GetFirewallConfigResponseRulesetsCase1ValueRateLimitAlgo,
-    window: S.Number,
-    limit: S.Number,
-    keys: GetFirewallConfigResponseRulesetsCase1ValueRateLimitKeysList,
-    action: S.optional(S.NullOr(GetFirewallConfigResponseRulesetsCase1ValueRateLimitAction)),
-  }),
-).annotate({
-  identifier: "GetFirewallConfigResponseRulesetsCase1ValueRateLimit",
-}) as any as S.Schema<GetFirewallConfigResponseRulesetsCase1ValueRateLimit>;
-
-export type GetFirewallConfigResponseRulesetsCase1ValueRedirect =
-  CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
-export const GetFirewallConfigResponseRulesetsCase1ValueRedirect =
-  CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
-
 export type GetFirewallConfigResponseRulesetsCase1ValueLogHeadersCase0List = Array<string>;
 export const GetFirewallConfigResponseRulesetsCase1ValueLogHeadersCase0List = /*@__PURE__*/ S.Array(
   S.String,
@@ -3443,26 +3663,67 @@ export type GetFirewallConfigResponseRulesetsCase1ValueLogHeaders =
 export const GetFirewallConfigResponseRulesetsCase1ValueLogHeaders =
   S.Unknown as any as S.Schema<GetFirewallConfigResponseRulesetsCase1ValueLogHeaders>;
 
+export type GetFirewallConfigResponseRulesetsCase1ValueRateLimitAction =
+  | "challenge"
+  | "deny"
+  | "log"
+  | "rate_limit";
+export const GetFirewallConfigResponseRulesetsCase1ValueRateLimitAction = S.String;
+
+export type GetFirewallConfigResponseRulesetsCase1ValueRateLimitAlgo =
+  | "fixed_window"
+  | "token_bucket";
+export const GetFirewallConfigResponseRulesetsCase1ValueRateLimitAlgo = S.String;
+
+export type GetFirewallConfigResponseRulesetsCase1ValueRateLimitKeysList = Array<string>;
+export const GetFirewallConfigResponseRulesetsCase1ValueRateLimitKeysList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<GetFirewallConfigResponseRulesetsCase1ValueRateLimitKeysList>;
+
+export interface GetFirewallConfigResponseRulesetsCase1ValueRateLimit {
+  action?: GetFirewallConfigResponseRulesetsCase1ValueRateLimitAction | null;
+  algo: GetFirewallConfigResponseRulesetsCase1ValueRateLimitAlgo;
+  keys: GetFirewallConfigResponseRulesetsCase1ValueRateLimitKeysList;
+  limit: number;
+  window: number;
+}
+export const GetFirewallConfigResponseRulesetsCase1ValueRateLimit = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    action: S.optional(S.NullOr(GetFirewallConfigResponseRulesetsCase1ValueRateLimitAction)),
+    algo: GetFirewallConfigResponseRulesetsCase1ValueRateLimitAlgo,
+    keys: GetFirewallConfigResponseRulesetsCase1ValueRateLimitKeysList,
+    limit: S.Number,
+    window: S.Number,
+  }),
+).annotate({
+  identifier: "GetFirewallConfigResponseRulesetsCase1ValueRateLimit",
+}) as any as S.Schema<GetFirewallConfigResponseRulesetsCase1ValueRateLimit>;
+
+export type GetFirewallConfigResponseRulesetsCase1ValueRedirect =
+  CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
+export const GetFirewallConfigResponseRulesetsCase1ValueRedirect =
+  CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
+
 export interface GetFirewallConfigResponseRulesetsCase1Value {
   action: GetFirewallConfigResponseRulesetsCase1ValueAction;
-  rateLimit?: GetFirewallConfigResponseRulesetsCase1ValueRateLimit | null;
-  redirect?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect | null;
   actionDuration?: string | null;
   bypassSystem?: boolean | null;
   logHeaders?: GetFirewallConfigResponseRulesetsCase1ValueLogHeaders;
+  rateLimit?: GetFirewallConfigResponseRulesetsCase1ValueRateLimit | null;
+  redirect?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect | null;
 }
 export const GetFirewallConfigResponseRulesetsCase1Value = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     action: GetFirewallConfigResponseRulesetsCase1ValueAction,
+    actionDuration: S.optional(S.NullOr(S.String)),
+    bypassSystem: S.optional(S.NullOr(S.Boolean)),
+    logHeaders: S.optional(GetFirewallConfigResponseRulesetsCase1ValueLogHeaders),
     rateLimit: S.optional(S.NullOr(GetFirewallConfigResponseRulesetsCase1ValueRateLimit)),
     redirect: S.optional(
       S.NullOr(
         CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect,
       ),
     ),
-    actionDuration: S.optional(S.NullOr(S.String)),
-    bypassSystem: S.optional(S.NullOr(S.Boolean)),
-    logHeaders: S.optional(GetFirewallConfigResponseRulesetsCase1ValueLogHeaders),
   }),
 ).annotate({
   identifier: "GetFirewallConfigResponseRulesetsCase1Value",
@@ -3482,7 +3743,78 @@ export type GetFirewallConfigResponseRulesets =
 export const GetFirewallConfigResponseRulesets =
   S.Unknown as any as S.Schema<GetFirewallConfigResponseRulesets>;
 
-export type GetFirewallConfigResponseConditionsItemConditionGroupItemConditionsItemType =
+export interface GetFirewallConfigResponse {
+  botIdEnabled?: boolean;
+  changes: GetFirewallConfigResponseChangesList;
+  conditions?: GetFirewallConfigResponseConditionsList;
+  /** Custom Ruleset */
+  crs?: GetFirewallConfigResponseCrs;
+  firewallEnabled: boolean;
+  id: string;
+  ips: GetFirewallConfigResponseIpsList;
+  logHeaders?: GetFirewallConfigResponseLogHeaders;
+  managedRules?: GetFirewallConfigResponseManagedRules;
+  ownerId: string;
+  projectKey: string;
+  rules: GetFirewallConfigResponseRulesList;
+  rulesets?: GetFirewallConfigResponseRulesets;
+  updatedAt: string;
+  version: number;
+}
+export const GetFirewallConfigResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    botIdEnabled: S.optional(S.Boolean),
+    changes: GetFirewallConfigResponseChangesList,
+    conditions: S.optional(GetFirewallConfigResponseConditionsList),
+    crs: S.optional(GetFirewallConfigResponseCrs),
+    firewallEnabled: S.Boolean,
+    id: S.String,
+    ips: GetFirewallConfigResponseIpsList,
+    logHeaders: S.optional(GetFirewallConfigResponseLogHeaders),
+    managedRules: S.optional(GetFirewallConfigResponseManagedRules),
+    ownerId: S.String,
+    projectKey: S.String,
+    rules: GetFirewallConfigResponseRulesList,
+    rulesets: S.optional(GetFirewallConfigResponseRulesets),
+    updatedAt: S.String,
+    version: S.Number,
+  }),
+).annotate({
+  identifier: "GetFirewallConfigResponse",
+}) as any as S.Schema<GetFirewallConfigResponse>;
+
+export interface GetSecurityFirewallConfigRequest {}
+export const GetSecurityFirewallConfigRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v1/security/firewall/config", code: 200 })),
+).annotate({
+  identifier: "GetSecurityFirewallConfigRequest",
+}) as any as S.Schema<GetSecurityFirewallConfigRequest>;
+
+export type GetSecurityFirewallConfigResponseActiveChangesList = Array<unknown>;
+export const GetSecurityFirewallConfigResponseActiveChangesList = /*@__PURE__*/ S.Array(
+  S.Unknown,
+) as any as S.Schema<GetSecurityFirewallConfigResponseActiveChangesList>;
+
+export type GetSecurityFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItemOp =
+  | "eq"
+  | "ex"
+  | "gt"
+  | "gte"
+  | "inc"
+  | "list"
+  | "lt"
+  | "lte"
+  | "neq"
+  | "nex"
+  | "ninc"
+  | "pre"
+  | "re"
+  | "sub"
+  | "suf";
+export const GetSecurityFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItemOp =
+  S.String;
+
+export type GetSecurityFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItemType =
   | "bot_category"
   | "bot_name"
   | "bot_protection"
@@ -3516,9 +3848,621 @@ export type GetFirewallConfigResponseConditionsItemConditionGroupItemConditionsI
   | "traffic_source"
   | "trusted_source"
   | "user_agent";
-export const GetFirewallConfigResponseConditionsItemConditionGroupItemConditionsItemType = S.String;
+export const GetSecurityFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItemType =
+  S.String;
 
-export type GetFirewallConfigResponseConditionsItemConditionGroupItemConditionsItemOp =
+export type GetSecurityFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItemValueCase2List =
+  Array<string>;
+export const GetSecurityFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItemValueCase2List =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<GetSecurityFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItemValueCase2List>;
+
+export type GetSecurityFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItemValue =
+  | string
+  | number
+  | GetSecurityFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItemValueCase2List;
+export const GetSecurityFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItemValue =
+  S.Unknown as any as S.Schema<GetSecurityFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItemValue>;
+
+export interface GetSecurityFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItem {
+  key?: string;
+  neg?: boolean;
+  op: GetSecurityFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItemOp;
+  type: GetSecurityFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItemType;
+  value?: GetSecurityFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItemValue;
+}
+export const GetSecurityFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItem =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      key: S.optional(S.String),
+      neg: S.optional(S.Boolean),
+      op: GetSecurityFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItemOp,
+      type: GetSecurityFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItemType,
+      value: S.optional(
+        GetSecurityFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItemValue,
+      ),
+    }),
+  ).annotate({
+    identifier:
+      "GetSecurityFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItem",
+  }) as any as S.Schema<GetSecurityFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItem>;
+
+export type GetSecurityFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsList =
+  Array<GetSecurityFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItem>;
+export const GetSecurityFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsList =
+  /*@__PURE__*/ S.Array(
+    GetSecurityFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItem,
+  ) as any as S.Schema<GetSecurityFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsList>;
+
+export interface GetSecurityFirewallConfigResponseActiveConditionsItemConditionGroupItem {
+  conditions: GetSecurityFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsList;
+}
+export const GetSecurityFirewallConfigResponseActiveConditionsItemConditionGroupItem =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      conditions:
+        GetSecurityFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsList,
+    }),
+  ).annotate({
+    identifier: "GetSecurityFirewallConfigResponseActiveConditionsItemConditionGroupItem",
+  }) as any as S.Schema<GetSecurityFirewallConfigResponseActiveConditionsItemConditionGroupItem>;
+
+export type GetSecurityFirewallConfigResponseActiveConditionsItemConditionGroupList =
+  Array<GetSecurityFirewallConfigResponseActiveConditionsItemConditionGroupItem>;
+export const GetSecurityFirewallConfigResponseActiveConditionsItemConditionGroupList =
+  /*@__PURE__*/ S.Array(
+    GetSecurityFirewallConfigResponseActiveConditionsItemConditionGroupItem,
+  ) as any as S.Schema<GetSecurityFirewallConfigResponseActiveConditionsItemConditionGroupList>;
+
+export interface GetSecurityFirewallConfigResponseActiveConditionsItem {
+  active: boolean;
+  conditionGroup: GetSecurityFirewallConfigResponseActiveConditionsItemConditionGroupList;
+  description?: string;
+  id: string;
+  name: string;
+}
+export const GetSecurityFirewallConfigResponseActiveConditionsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    active: S.Boolean,
+    conditionGroup: GetSecurityFirewallConfigResponseActiveConditionsItemConditionGroupList,
+    description: S.optional(S.String),
+    id: S.String,
+    name: S.String,
+  }),
+).annotate({
+  identifier: "GetSecurityFirewallConfigResponseActiveConditionsItem",
+}) as any as S.Schema<GetSecurityFirewallConfigResponseActiveConditionsItem>;
+
+export type GetSecurityFirewallConfigResponseActiveConditionsList =
+  Array<GetSecurityFirewallConfigResponseActiveConditionsItem>;
+export const GetSecurityFirewallConfigResponseActiveConditionsList = /*@__PURE__*/ S.Array(
+  GetSecurityFirewallConfigResponseActiveConditionsItem,
+) as any as S.Schema<GetSecurityFirewallConfigResponseActiveConditionsList>;
+
+export type GetSecurityFirewallConfigResponseActiveCrsGenAction = "deny" | "log";
+export const GetSecurityFirewallConfigResponseActiveCrsGenAction = S.String;
+
+export interface GetSecurityFirewallConfigResponseActiveCrsGen {
+  action: GetSecurityFirewallConfigResponseActiveCrsGenAction;
+  active: boolean;
+}
+export const GetSecurityFirewallConfigResponseActiveCrsGen = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    action: GetSecurityFirewallConfigResponseActiveCrsGenAction,
+    active: S.Boolean,
+  }),
+).annotate({
+  identifier: "GetSecurityFirewallConfigResponseActiveCrsGen",
+}) as any as S.Schema<GetSecurityFirewallConfigResponseActiveCrsGen>;
+
+export type GetSecurityFirewallConfigResponseActiveCrsJavaAction = "deny" | "log";
+export const GetSecurityFirewallConfigResponseActiveCrsJavaAction = S.String;
+
+export interface GetSecurityFirewallConfigResponseActiveCrsJava {
+  action: GetSecurityFirewallConfigResponseActiveCrsJavaAction;
+  active: boolean;
+}
+export const GetSecurityFirewallConfigResponseActiveCrsJava = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    action: GetSecurityFirewallConfigResponseActiveCrsJavaAction,
+    active: S.Boolean,
+  }),
+).annotate({
+  identifier: "GetSecurityFirewallConfigResponseActiveCrsJava",
+}) as any as S.Schema<GetSecurityFirewallConfigResponseActiveCrsJava>;
+
+export type GetSecurityFirewallConfigResponseActiveCrsLfiAction = "deny" | "log";
+export const GetSecurityFirewallConfigResponseActiveCrsLfiAction = S.String;
+
+export interface GetSecurityFirewallConfigResponseActiveCrsLfi {
+  action: GetSecurityFirewallConfigResponseActiveCrsLfiAction;
+  active: boolean;
+}
+export const GetSecurityFirewallConfigResponseActiveCrsLfi = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    action: GetSecurityFirewallConfigResponseActiveCrsLfiAction,
+    active: S.Boolean,
+  }),
+).annotate({
+  identifier: "GetSecurityFirewallConfigResponseActiveCrsLfi",
+}) as any as S.Schema<GetSecurityFirewallConfigResponseActiveCrsLfi>;
+
+export type GetSecurityFirewallConfigResponseActiveCrsMaAction = "deny" | "log";
+export const GetSecurityFirewallConfigResponseActiveCrsMaAction = S.String;
+
+export interface GetSecurityFirewallConfigResponseActiveCrsMa {
+  action: GetSecurityFirewallConfigResponseActiveCrsMaAction;
+  active: boolean;
+}
+export const GetSecurityFirewallConfigResponseActiveCrsMa = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    action: GetSecurityFirewallConfigResponseActiveCrsMaAction,
+    active: S.Boolean,
+  }),
+).annotate({
+  identifier: "GetSecurityFirewallConfigResponseActiveCrsMa",
+}) as any as S.Schema<GetSecurityFirewallConfigResponseActiveCrsMa>;
+
+export type GetSecurityFirewallConfigResponseActiveCrsPhpAction = "deny" | "log";
+export const GetSecurityFirewallConfigResponseActiveCrsPhpAction = S.String;
+
+export interface GetSecurityFirewallConfigResponseActiveCrsPhp {
+  action: GetSecurityFirewallConfigResponseActiveCrsPhpAction;
+  active: boolean;
+}
+export const GetSecurityFirewallConfigResponseActiveCrsPhp = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    action: GetSecurityFirewallConfigResponseActiveCrsPhpAction,
+    active: S.Boolean,
+  }),
+).annotate({
+  identifier: "GetSecurityFirewallConfigResponseActiveCrsPhp",
+}) as any as S.Schema<GetSecurityFirewallConfigResponseActiveCrsPhp>;
+
+export type GetSecurityFirewallConfigResponseActiveCrsRceAction = "deny" | "log";
+export const GetSecurityFirewallConfigResponseActiveCrsRceAction = S.String;
+
+export interface GetSecurityFirewallConfigResponseActiveCrsRce {
+  action: GetSecurityFirewallConfigResponseActiveCrsRceAction;
+  active: boolean;
+}
+export const GetSecurityFirewallConfigResponseActiveCrsRce = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    action: GetSecurityFirewallConfigResponseActiveCrsRceAction,
+    active: S.Boolean,
+  }),
+).annotate({
+  identifier: "GetSecurityFirewallConfigResponseActiveCrsRce",
+}) as any as S.Schema<GetSecurityFirewallConfigResponseActiveCrsRce>;
+
+export type GetSecurityFirewallConfigResponseActiveCrsRfiAction = "deny" | "log";
+export const GetSecurityFirewallConfigResponseActiveCrsRfiAction = S.String;
+
+export interface GetSecurityFirewallConfigResponseActiveCrsRfi {
+  action: GetSecurityFirewallConfigResponseActiveCrsRfiAction;
+  active: boolean;
+}
+export const GetSecurityFirewallConfigResponseActiveCrsRfi = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    action: GetSecurityFirewallConfigResponseActiveCrsRfiAction,
+    active: S.Boolean,
+  }),
+).annotate({
+  identifier: "GetSecurityFirewallConfigResponseActiveCrsRfi",
+}) as any as S.Schema<GetSecurityFirewallConfigResponseActiveCrsRfi>;
+
+export type GetSecurityFirewallConfigResponseActiveCrsSdAction = "deny" | "log";
+export const GetSecurityFirewallConfigResponseActiveCrsSdAction = S.String;
+
+export interface GetSecurityFirewallConfigResponseActiveCrsSd {
+  action: GetSecurityFirewallConfigResponseActiveCrsSdAction;
+  active: boolean;
+}
+export const GetSecurityFirewallConfigResponseActiveCrsSd = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    action: GetSecurityFirewallConfigResponseActiveCrsSdAction,
+    active: S.Boolean,
+  }),
+).annotate({
+  identifier: "GetSecurityFirewallConfigResponseActiveCrsSd",
+}) as any as S.Schema<GetSecurityFirewallConfigResponseActiveCrsSd>;
+
+export type GetSecurityFirewallConfigResponseActiveCrsSfAction = "deny" | "log";
+export const GetSecurityFirewallConfigResponseActiveCrsSfAction = S.String;
+
+export interface GetSecurityFirewallConfigResponseActiveCrsSf {
+  action: GetSecurityFirewallConfigResponseActiveCrsSfAction;
+  active: boolean;
+}
+export const GetSecurityFirewallConfigResponseActiveCrsSf = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    action: GetSecurityFirewallConfigResponseActiveCrsSfAction,
+    active: S.Boolean,
+  }),
+).annotate({
+  identifier: "GetSecurityFirewallConfigResponseActiveCrsSf",
+}) as any as S.Schema<GetSecurityFirewallConfigResponseActiveCrsSf>;
+
+export type GetSecurityFirewallConfigResponseActiveCrsSqliAction = "deny" | "log";
+export const GetSecurityFirewallConfigResponseActiveCrsSqliAction = S.String;
+
+export interface GetSecurityFirewallConfigResponseActiveCrsSqli {
+  action: GetSecurityFirewallConfigResponseActiveCrsSqliAction;
+  active: boolean;
+}
+export const GetSecurityFirewallConfigResponseActiveCrsSqli = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    action: GetSecurityFirewallConfigResponseActiveCrsSqliAction,
+    active: S.Boolean,
+  }),
+).annotate({
+  identifier: "GetSecurityFirewallConfigResponseActiveCrsSqli",
+}) as any as S.Schema<GetSecurityFirewallConfigResponseActiveCrsSqli>;
+
+export type GetSecurityFirewallConfigResponseActiveCrsXssAction = "deny" | "log";
+export const GetSecurityFirewallConfigResponseActiveCrsXssAction = S.String;
+
+export interface GetSecurityFirewallConfigResponseActiveCrsXss {
+  action: GetSecurityFirewallConfigResponseActiveCrsXssAction;
+  active: boolean;
+}
+export const GetSecurityFirewallConfigResponseActiveCrsXss = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    action: GetSecurityFirewallConfigResponseActiveCrsXssAction,
+    active: S.Boolean,
+  }),
+).annotate({
+  identifier: "GetSecurityFirewallConfigResponseActiveCrsXss",
+}) as any as S.Schema<GetSecurityFirewallConfigResponseActiveCrsXss>;
+
+export interface GetSecurityFirewallConfigResponseActiveCrs {
+  gen: GetSecurityFirewallConfigResponseActiveCrsGen;
+  java: GetSecurityFirewallConfigResponseActiveCrsJava;
+  lfi: GetSecurityFirewallConfigResponseActiveCrsLfi;
+  ma: GetSecurityFirewallConfigResponseActiveCrsMa;
+  php: GetSecurityFirewallConfigResponseActiveCrsPhp;
+  rce: GetSecurityFirewallConfigResponseActiveCrsRce;
+  rfi: GetSecurityFirewallConfigResponseActiveCrsRfi;
+  sd: GetSecurityFirewallConfigResponseActiveCrsSd;
+  sf: GetSecurityFirewallConfigResponseActiveCrsSf;
+  sqli: GetSecurityFirewallConfigResponseActiveCrsSqli;
+  xss: GetSecurityFirewallConfigResponseActiveCrsXss;
+}
+export const GetSecurityFirewallConfigResponseActiveCrs = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    gen: GetSecurityFirewallConfigResponseActiveCrsGen,
+    java: GetSecurityFirewallConfigResponseActiveCrsJava,
+    lfi: GetSecurityFirewallConfigResponseActiveCrsLfi,
+    ma: GetSecurityFirewallConfigResponseActiveCrsMa,
+    php: GetSecurityFirewallConfigResponseActiveCrsPhp,
+    rce: GetSecurityFirewallConfigResponseActiveCrsRce,
+    rfi: GetSecurityFirewallConfigResponseActiveCrsRfi,
+    sd: GetSecurityFirewallConfigResponseActiveCrsSd,
+    sf: GetSecurityFirewallConfigResponseActiveCrsSf,
+    sqli: GetSecurityFirewallConfigResponseActiveCrsSqli,
+    xss: GetSecurityFirewallConfigResponseActiveCrsXss,
+  }),
+).annotate({
+  identifier: "GetSecurityFirewallConfigResponseActiveCrs",
+}) as any as S.Schema<GetSecurityFirewallConfigResponseActiveCrs>;
+
+export type GetSecurityFirewallConfigResponseActiveIpsItemAction =
+  | "bypass"
+  | "challenge"
+  | "deny"
+  | "log";
+export const GetSecurityFirewallConfigResponseActiveIpsItemAction = S.String;
+
+export interface GetSecurityFirewallConfigResponseActiveIpsItem {
+  action: GetSecurityFirewallConfigResponseActiveIpsItemAction;
+  hostname: string;
+  id: string;
+  ip: string;
+  notes?: string;
+}
+export const GetSecurityFirewallConfigResponseActiveIpsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    action: GetSecurityFirewallConfigResponseActiveIpsItemAction,
+    hostname: S.String,
+    id: S.String,
+    ip: S.String,
+    notes: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GetSecurityFirewallConfigResponseActiveIpsItem",
+}) as any as S.Schema<GetSecurityFirewallConfigResponseActiveIpsItem>;
+
+export type GetSecurityFirewallConfigResponseActiveIpsList =
+  Array<GetSecurityFirewallConfigResponseActiveIpsItem>;
+export const GetSecurityFirewallConfigResponseActiveIpsList = /*@__PURE__*/ S.Array(
+  GetSecurityFirewallConfigResponseActiveIpsItem,
+) as any as S.Schema<GetSecurityFirewallConfigResponseActiveIpsList>;
+
+export type GetSecurityFirewallConfigResponseActiveLogHeadersCase0List = Array<string>;
+export const GetSecurityFirewallConfigResponseActiveLogHeadersCase0List = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<GetSecurityFirewallConfigResponseActiveLogHeadersCase0List>;
+
+export type GetSecurityFirewallConfigResponseActiveLogHeadersCase1 = "*";
+export const GetSecurityFirewallConfigResponseActiveLogHeadersCase1 = S.String;
+
+export type GetSecurityFirewallConfigResponseActiveLogHeaders =
+  | GetSecurityFirewallConfigResponseActiveLogHeadersCase0List
+  | GetSecurityFirewallConfigResponseActiveLogHeadersCase1;
+export const GetSecurityFirewallConfigResponseActiveLogHeaders =
+  S.Unknown as any as S.Schema<GetSecurityFirewallConfigResponseActiveLogHeaders>;
+
+export type GetSecurityFirewallConfigResponseActiveManagedRulesAiBotsAction =
+  | "challenge"
+  | "deny"
+  | "log";
+export const GetSecurityFirewallConfigResponseActiveManagedRulesAiBotsAction = S.String;
+
+export interface GetSecurityFirewallConfigResponseActiveManagedRulesAiBots {
+  action?: GetSecurityFirewallConfigResponseActiveManagedRulesAiBotsAction;
+  active: boolean;
+  updatedAt?: string;
+  userId?: string;
+  username?: string;
+}
+export const GetSecurityFirewallConfigResponseActiveManagedRulesAiBots = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      action: S.optional(GetSecurityFirewallConfigResponseActiveManagedRulesAiBotsAction),
+      active: S.Boolean,
+      updatedAt: S.optional(S.String),
+      userId: S.optional(S.String),
+      username: S.optional(S.String),
+    }),
+).annotate({
+  identifier: "GetSecurityFirewallConfigResponseActiveManagedRulesAiBots",
+}) as any as S.Schema<GetSecurityFirewallConfigResponseActiveManagedRulesAiBots>;
+
+export type GetSecurityFirewallConfigResponseActiveManagedRulesBotProtectionAction =
+  | "challenge"
+  | "deny"
+  | "log";
+export const GetSecurityFirewallConfigResponseActiveManagedRulesBotProtectionAction = S.String;
+
+export interface GetSecurityFirewallConfigResponseActiveManagedRulesBotProtection {
+  action?: GetSecurityFirewallConfigResponseActiveManagedRulesBotProtectionAction;
+  active: boolean;
+  updatedAt?: string;
+  userId?: string;
+  username?: string;
+}
+export const GetSecurityFirewallConfigResponseActiveManagedRulesBotProtection =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      action: S.optional(GetSecurityFirewallConfigResponseActiveManagedRulesBotProtectionAction),
+      active: S.Boolean,
+      updatedAt: S.optional(S.String),
+      userId: S.optional(S.String),
+      username: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "GetSecurityFirewallConfigResponseActiveManagedRulesBotProtection",
+  }) as any as S.Schema<GetSecurityFirewallConfigResponseActiveManagedRulesBotProtection>;
+
+export type GetSecurityFirewallConfigResponseActiveManagedRulesOwaspAction =
+  | "challenge"
+  | "deny"
+  | "log";
+export const GetSecurityFirewallConfigResponseActiveManagedRulesOwaspAction = S.String;
+
+export interface GetSecurityFirewallConfigResponseActiveManagedRulesOwasp {
+  action?: GetSecurityFirewallConfigResponseActiveManagedRulesOwaspAction;
+  active: boolean;
+  updatedAt?: string;
+  userId?: string;
+  username?: string;
+}
+export const GetSecurityFirewallConfigResponseActiveManagedRulesOwasp = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      action: S.optional(GetSecurityFirewallConfigResponseActiveManagedRulesOwaspAction),
+      active: S.Boolean,
+      updatedAt: S.optional(S.String),
+      userId: S.optional(S.String),
+      username: S.optional(S.String),
+    }),
+).annotate({
+  identifier: "GetSecurityFirewallConfigResponseActiveManagedRulesOwasp",
+}) as any as S.Schema<GetSecurityFirewallConfigResponseActiveManagedRulesOwasp>;
+
+export type GetSecurityFirewallConfigResponseActiveManagedRulesTrafficSourcesAction =
+  | "challenge"
+  | "deny"
+  | "log";
+export const GetSecurityFirewallConfigResponseActiveManagedRulesTrafficSourcesAction = S.String;
+
+export interface GetSecurityFirewallConfigResponseActiveManagedRulesTrafficSources {
+  action?: GetSecurityFirewallConfigResponseActiveManagedRulesTrafficSourcesAction;
+  active: boolean;
+  updatedAt?: string;
+  userId?: string;
+  username?: string;
+}
+export const GetSecurityFirewallConfigResponseActiveManagedRulesTrafficSources =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      action: S.optional(GetSecurityFirewallConfigResponseActiveManagedRulesTrafficSourcesAction),
+      active: S.Boolean,
+      updatedAt: S.optional(S.String),
+      userId: S.optional(S.String),
+      username: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "GetSecurityFirewallConfigResponseActiveManagedRulesTrafficSources",
+  }) as any as S.Schema<GetSecurityFirewallConfigResponseActiveManagedRulesTrafficSources>;
+
+export type GetSecurityFirewallConfigResponseActiveManagedRulesVercelRulesetAction =
+  | "challenge"
+  | "deny"
+  | "log";
+export const GetSecurityFirewallConfigResponseActiveManagedRulesVercelRulesetAction = S.String;
+
+export interface GetSecurityFirewallConfigResponseActiveManagedRulesVercelRuleset {
+  action?: GetSecurityFirewallConfigResponseActiveManagedRulesVercelRulesetAction;
+  active: boolean;
+  updatedAt?: string;
+  userId?: string;
+  username?: string;
+}
+export const GetSecurityFirewallConfigResponseActiveManagedRulesVercelRuleset =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      action: S.optional(GetSecurityFirewallConfigResponseActiveManagedRulesVercelRulesetAction),
+      active: S.Boolean,
+      updatedAt: S.optional(S.String),
+      userId: S.optional(S.String),
+      username: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "GetSecurityFirewallConfigResponseActiveManagedRulesVercelRuleset",
+  }) as any as S.Schema<GetSecurityFirewallConfigResponseActiveManagedRulesVercelRuleset>;
+
+export interface GetSecurityFirewallConfigResponseActiveManagedRules {
+  ai_bots?: GetSecurityFirewallConfigResponseActiveManagedRulesAiBots;
+  bot_protection?: GetSecurityFirewallConfigResponseActiveManagedRulesBotProtection;
+  owasp?: GetSecurityFirewallConfigResponseActiveManagedRulesOwasp;
+  traffic_sources?: GetSecurityFirewallConfigResponseActiveManagedRulesTrafficSources;
+  vercel_ruleset?: GetSecurityFirewallConfigResponseActiveManagedRulesVercelRuleset;
+}
+export const GetSecurityFirewallConfigResponseActiveManagedRules = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ai_bots: S.optional(GetSecurityFirewallConfigResponseActiveManagedRulesAiBots),
+    bot_protection: S.optional(GetSecurityFirewallConfigResponseActiveManagedRulesBotProtection),
+    owasp: S.optional(GetSecurityFirewallConfigResponseActiveManagedRulesOwasp),
+    traffic_sources: S.optional(GetSecurityFirewallConfigResponseActiveManagedRulesTrafficSources),
+    vercel_ruleset: S.optional(GetSecurityFirewallConfigResponseActiveManagedRulesVercelRuleset),
+  }),
+).annotate({
+  identifier: "GetSecurityFirewallConfigResponseActiveManagedRules",
+}) as any as S.Schema<GetSecurityFirewallConfigResponseActiveManagedRules>;
+
+export type GetSecurityFirewallConfigResponseActiveRulesItemCase0ActionMitigateAction =
+  | "allow"
+  | "bypass"
+  | "challenge"
+  | "deny"
+  | "log"
+  | "rate_limit"
+  | "redirect";
+export const GetSecurityFirewallConfigResponseActiveRulesItemCase0ActionMitigateAction = S.String;
+
+export type GetSecurityFirewallConfigResponseActiveRulesItemCase0ActionMitigateLogHeadersCase0List =
+  Array<string>;
+export const GetSecurityFirewallConfigResponseActiveRulesItemCase0ActionMitigateLogHeadersCase0List =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<GetSecurityFirewallConfigResponseActiveRulesItemCase0ActionMitigateLogHeadersCase0List>;
+
+export type GetSecurityFirewallConfigResponseActiveRulesItemCase0ActionMitigateLogHeadersCase1 =
+  "*";
+export const GetSecurityFirewallConfigResponseActiveRulesItemCase0ActionMitigateLogHeadersCase1 =
+  S.String;
+
+export type GetSecurityFirewallConfigResponseActiveRulesItemCase0ActionMitigateLogHeaders =
+  | GetSecurityFirewallConfigResponseActiveRulesItemCase0ActionMitigateLogHeadersCase0List
+  | GetSecurityFirewallConfigResponseActiveRulesItemCase0ActionMitigateLogHeadersCase1;
+export const GetSecurityFirewallConfigResponseActiveRulesItemCase0ActionMitigateLogHeaders =
+  S.Unknown as any as S.Schema<GetSecurityFirewallConfigResponseActiveRulesItemCase0ActionMitigateLogHeaders>;
+
+export type GetSecurityFirewallConfigResponseActiveRulesItemCase0ActionMitigateRateLimitAction =
+  | "challenge"
+  | "deny"
+  | "log"
+  | "rate_limit";
+export const GetSecurityFirewallConfigResponseActiveRulesItemCase0ActionMitigateRateLimitAction =
+  S.String;
+
+export type GetSecurityFirewallConfigResponseActiveRulesItemCase0ActionMitigateRateLimitAlgo =
+  | "fixed_window"
+  | "token_bucket";
+export const GetSecurityFirewallConfigResponseActiveRulesItemCase0ActionMitigateRateLimitAlgo =
+  S.String;
+
+export type GetSecurityFirewallConfigResponseActiveRulesItemCase0ActionMitigateRateLimitKeysList =
+  Array<string>;
+export const GetSecurityFirewallConfigResponseActiveRulesItemCase0ActionMitigateRateLimitKeysList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<GetSecurityFirewallConfigResponseActiveRulesItemCase0ActionMitigateRateLimitKeysList>;
+
+export interface GetSecurityFirewallConfigResponseActiveRulesItemCase0ActionMitigateRateLimit {
+  action?: GetSecurityFirewallConfigResponseActiveRulesItemCase0ActionMitigateRateLimitAction | null;
+  algo: GetSecurityFirewallConfigResponseActiveRulesItemCase0ActionMitigateRateLimitAlgo;
+  keys: GetSecurityFirewallConfigResponseActiveRulesItemCase0ActionMitigateRateLimitKeysList;
+  limit: number;
+  window: number;
+}
+export const GetSecurityFirewallConfigResponseActiveRulesItemCase0ActionMitigateRateLimit =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      action: S.optional(
+        S.NullOr(
+          GetSecurityFirewallConfigResponseActiveRulesItemCase0ActionMitigateRateLimitAction,
+        ),
+      ),
+      algo: GetSecurityFirewallConfigResponseActiveRulesItemCase0ActionMitigateRateLimitAlgo,
+      keys: GetSecurityFirewallConfigResponseActiveRulesItemCase0ActionMitigateRateLimitKeysList,
+      limit: S.Number,
+      window: S.Number,
+    }),
+  ).annotate({
+    identifier: "GetSecurityFirewallConfigResponseActiveRulesItemCase0ActionMitigateRateLimit",
+  }) as any as S.Schema<GetSecurityFirewallConfigResponseActiveRulesItemCase0ActionMitigateRateLimit>;
+
+export type GetSecurityFirewallConfigResponseActiveRulesItemCase0ActionMitigateRedirect =
+  CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
+export const GetSecurityFirewallConfigResponseActiveRulesItemCase0ActionMitigateRedirect =
+  CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
+
+export interface GetSecurityFirewallConfigResponseActiveRulesItemCase0ActionMitigate {
+  action: GetSecurityFirewallConfigResponseActiveRulesItemCase0ActionMitigateAction;
+  actionDuration?: string | null;
+  bypassSystem?: boolean | null;
+  logHeaders?: GetSecurityFirewallConfigResponseActiveRulesItemCase0ActionMitigateLogHeaders;
+  rateLimit?: GetSecurityFirewallConfigResponseActiveRulesItemCase0ActionMitigateRateLimit | null;
+  redirect?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect | null;
+}
+export const GetSecurityFirewallConfigResponseActiveRulesItemCase0ActionMitigate =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      action: GetSecurityFirewallConfigResponseActiveRulesItemCase0ActionMitigateAction,
+      actionDuration: S.optional(S.NullOr(S.String)),
+      bypassSystem: S.optional(S.NullOr(S.Boolean)),
+      logHeaders: S.optional(
+        GetSecurityFirewallConfigResponseActiveRulesItemCase0ActionMitigateLogHeaders,
+      ),
+      rateLimit: S.optional(
+        S.NullOr(GetSecurityFirewallConfigResponseActiveRulesItemCase0ActionMitigateRateLimit),
+      ),
+      redirect: S.optional(
+        S.NullOr(
+          CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect,
+        ),
+      ),
+    }),
+  ).annotate({
+    identifier: "GetSecurityFirewallConfigResponseActiveRulesItemCase0ActionMitigate",
+  }) as any as S.Schema<GetSecurityFirewallConfigResponseActiveRulesItemCase0ActionMitigate>;
+
+export interface GetSecurityFirewallConfigResponseActiveRulesItemCase0Action {
+  mitigate?: GetSecurityFirewallConfigResponseActiveRulesItemCase0ActionMitigate;
+}
+export const GetSecurityFirewallConfigResponseActiveRulesItemCase0Action = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      mitigate: S.optional(GetSecurityFirewallConfigResponseActiveRulesItemCase0ActionMitigate),
+    }),
+).annotate({
+  identifier: "GetSecurityFirewallConfigResponseActiveRulesItemCase0Action",
+}) as any as S.Schema<GetSecurityFirewallConfigResponseActiveRulesItemCase0Action>;
+
+export type GetSecurityFirewallConfigResponseActiveRulesItemCase0ConditionGroupItemConditionsItemOp =
   | "eq"
   | "ex"
   | "gt"
@@ -3534,498 +4478,8 @@ export type GetFirewallConfigResponseConditionsItemConditionGroupItemConditionsI
   | "re"
   | "sub"
   | "suf";
-export const GetFirewallConfigResponseConditionsItemConditionGroupItemConditionsItemOp = S.String;
-
-export type GetFirewallConfigResponseConditionsItemConditionGroupItemConditionsItemValueCase2List =
-  Array<string>;
-export const GetFirewallConfigResponseConditionsItemConditionGroupItemConditionsItemValueCase2List =
-  /*@__PURE__*/ S.Array(
-    S.String,
-  ) as any as S.Schema<GetFirewallConfigResponseConditionsItemConditionGroupItemConditionsItemValueCase2List>;
-
-export type GetFirewallConfigResponseConditionsItemConditionGroupItemConditionsItemValue =
-  | string
-  | number
-  | GetFirewallConfigResponseConditionsItemConditionGroupItemConditionsItemValueCase2List;
-export const GetFirewallConfigResponseConditionsItemConditionGroupItemConditionsItemValue =
-  S.Unknown as any as S.Schema<GetFirewallConfigResponseConditionsItemConditionGroupItemConditionsItemValue>;
-
-export interface GetFirewallConfigResponseConditionsItemConditionGroupItemConditionsItem {
-  type: GetFirewallConfigResponseConditionsItemConditionGroupItemConditionsItemType;
-  op: GetFirewallConfigResponseConditionsItemConditionGroupItemConditionsItemOp;
-  neg?: boolean;
-  key?: string;
-  value?: GetFirewallConfigResponseConditionsItemConditionGroupItemConditionsItemValue;
-}
-export const GetFirewallConfigResponseConditionsItemConditionGroupItemConditionsItem =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      type: GetFirewallConfigResponseConditionsItemConditionGroupItemConditionsItemType,
-      op: GetFirewallConfigResponseConditionsItemConditionGroupItemConditionsItemOp,
-      neg: S.optional(S.Boolean),
-      key: S.optional(S.String),
-      value: S.optional(
-        GetFirewallConfigResponseConditionsItemConditionGroupItemConditionsItemValue,
-      ),
-    }),
-  ).annotate({
-    identifier: "GetFirewallConfigResponseConditionsItemConditionGroupItemConditionsItem",
-  }) as any as S.Schema<GetFirewallConfigResponseConditionsItemConditionGroupItemConditionsItem>;
-
-export type GetFirewallConfigResponseConditionsItemConditionGroupItemConditionsList =
-  Array<GetFirewallConfigResponseConditionsItemConditionGroupItemConditionsItem>;
-export const GetFirewallConfigResponseConditionsItemConditionGroupItemConditionsList =
-  /*@__PURE__*/ S.Array(
-    GetFirewallConfigResponseConditionsItemConditionGroupItemConditionsItem,
-  ) as any as S.Schema<GetFirewallConfigResponseConditionsItemConditionGroupItemConditionsList>;
-
-export interface GetFirewallConfigResponseConditionsItemConditionGroupItem {
-  conditions: GetFirewallConfigResponseConditionsItemConditionGroupItemConditionsList;
-}
-export const GetFirewallConfigResponseConditionsItemConditionGroupItem = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      conditions: GetFirewallConfigResponseConditionsItemConditionGroupItemConditionsList,
-    }),
-).annotate({
-  identifier: "GetFirewallConfigResponseConditionsItemConditionGroupItem",
-}) as any as S.Schema<GetFirewallConfigResponseConditionsItemConditionGroupItem>;
-
-export type GetFirewallConfigResponseConditionsItemConditionGroupList =
-  Array<GetFirewallConfigResponseConditionsItemConditionGroupItem>;
-export const GetFirewallConfigResponseConditionsItemConditionGroupList = /*@__PURE__*/ S.Array(
-  GetFirewallConfigResponseConditionsItemConditionGroupItem,
-) as any as S.Schema<GetFirewallConfigResponseConditionsItemConditionGroupList>;
-
-export interface GetFirewallConfigResponseConditionsItem {
-  description?: string;
-  id: string;
-  name: string;
-  active: boolean;
-  conditionGroup: GetFirewallConfigResponseConditionsItemConditionGroupList;
-}
-export const GetFirewallConfigResponseConditionsItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    description: S.optional(S.String),
-    id: S.String,
-    name: S.String,
-    active: S.Boolean,
-    conditionGroup: GetFirewallConfigResponseConditionsItemConditionGroupList,
-  }),
-).annotate({
-  identifier: "GetFirewallConfigResponseConditionsItem",
-}) as any as S.Schema<GetFirewallConfigResponseConditionsItem>;
-
-export type GetFirewallConfigResponseConditionsList =
-  Array<GetFirewallConfigResponseConditionsItem>;
-export const GetFirewallConfigResponseConditionsList = /*@__PURE__*/ S.Array(
-  GetFirewallConfigResponseConditionsItem,
-) as any as S.Schema<GetFirewallConfigResponseConditionsList>;
-
-export type GetFirewallConfigResponseChangesList = Array<unknown>;
-export const GetFirewallConfigResponseChangesList = /*@__PURE__*/ S.Array(
-  S.Unknown,
-) as any as S.Schema<GetFirewallConfigResponseChangesList>;
-
-export type GetFirewallConfigResponseManagedRulesBotProtectionAction = "challenge" | "deny" | "log";
-export const GetFirewallConfigResponseManagedRulesBotProtectionAction = S.String;
-
-export interface GetFirewallConfigResponseManagedRulesBotProtection {
-  active: boolean;
-  action?: GetFirewallConfigResponseManagedRulesBotProtectionAction;
-  updatedAt?: string;
-  userId?: string;
-  username?: string;
-}
-export const GetFirewallConfigResponseManagedRulesBotProtection = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    active: S.Boolean,
-    action: S.optional(GetFirewallConfigResponseManagedRulesBotProtectionAction),
-    updatedAt: S.optional(S.String),
-    userId: S.optional(S.String),
-    username: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GetFirewallConfigResponseManagedRulesBotProtection",
-}) as any as S.Schema<GetFirewallConfigResponseManagedRulesBotProtection>;
-
-export type GetFirewallConfigResponseManagedRulesAiBotsAction = "challenge" | "deny" | "log";
-export const GetFirewallConfigResponseManagedRulesAiBotsAction = S.String;
-
-export interface GetFirewallConfigResponseManagedRulesAiBots {
-  active: boolean;
-  action?: GetFirewallConfigResponseManagedRulesAiBotsAction;
-  updatedAt?: string;
-  userId?: string;
-  username?: string;
-}
-export const GetFirewallConfigResponseManagedRulesAiBots = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    active: S.Boolean,
-    action: S.optional(GetFirewallConfigResponseManagedRulesAiBotsAction),
-    updatedAt: S.optional(S.String),
-    userId: S.optional(S.String),
-    username: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GetFirewallConfigResponseManagedRulesAiBots",
-}) as any as S.Schema<GetFirewallConfigResponseManagedRulesAiBots>;
-
-export type GetFirewallConfigResponseManagedRulesOwaspAction = "challenge" | "deny" | "log";
-export const GetFirewallConfigResponseManagedRulesOwaspAction = S.String;
-
-export interface GetFirewallConfigResponseManagedRulesOwasp {
-  active: boolean;
-  action?: GetFirewallConfigResponseManagedRulesOwaspAction;
-  updatedAt?: string;
-  userId?: string;
-  username?: string;
-}
-export const GetFirewallConfigResponseManagedRulesOwasp = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    active: S.Boolean,
-    action: S.optional(GetFirewallConfigResponseManagedRulesOwaspAction),
-    updatedAt: S.optional(S.String),
-    userId: S.optional(S.String),
-    username: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GetFirewallConfigResponseManagedRulesOwasp",
-}) as any as S.Schema<GetFirewallConfigResponseManagedRulesOwasp>;
-
-export type GetFirewallConfigResponseManagedRulesVercelRulesetAction = "challenge" | "deny" | "log";
-export const GetFirewallConfigResponseManagedRulesVercelRulesetAction = S.String;
-
-export interface GetFirewallConfigResponseManagedRulesVercelRuleset {
-  active: boolean;
-  action?: GetFirewallConfigResponseManagedRulesVercelRulesetAction;
-  updatedAt?: string;
-  userId?: string;
-  username?: string;
-}
-export const GetFirewallConfigResponseManagedRulesVercelRuleset = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    active: S.Boolean,
-    action: S.optional(GetFirewallConfigResponseManagedRulesVercelRulesetAction),
-    updatedAt: S.optional(S.String),
-    userId: S.optional(S.String),
-    username: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GetFirewallConfigResponseManagedRulesVercelRuleset",
-}) as any as S.Schema<GetFirewallConfigResponseManagedRulesVercelRuleset>;
-
-export type GetFirewallConfigResponseManagedRulesTrafficSourcesAction =
-  | "challenge"
-  | "deny"
-  | "log";
-export const GetFirewallConfigResponseManagedRulesTrafficSourcesAction = S.String;
-
-export interface GetFirewallConfigResponseManagedRulesTrafficSources {
-  active: boolean;
-  action?: GetFirewallConfigResponseManagedRulesTrafficSourcesAction;
-  updatedAt?: string;
-  userId?: string;
-  username?: string;
-}
-export const GetFirewallConfigResponseManagedRulesTrafficSources = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    active: S.Boolean,
-    action: S.optional(GetFirewallConfigResponseManagedRulesTrafficSourcesAction),
-    updatedAt: S.optional(S.String),
-    userId: S.optional(S.String),
-    username: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GetFirewallConfigResponseManagedRulesTrafficSources",
-}) as any as S.Schema<GetFirewallConfigResponseManagedRulesTrafficSources>;
-
-export interface GetFirewallConfigResponseManagedRules {
-  bot_protection?: GetFirewallConfigResponseManagedRulesBotProtection;
-  ai_bots?: GetFirewallConfigResponseManagedRulesAiBots;
-  owasp?: GetFirewallConfigResponseManagedRulesOwasp;
-  vercel_ruleset?: GetFirewallConfigResponseManagedRulesVercelRuleset;
-  traffic_sources?: GetFirewallConfigResponseManagedRulesTrafficSources;
-}
-export const GetFirewallConfigResponseManagedRules = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    bot_protection: S.optional(GetFirewallConfigResponseManagedRulesBotProtection),
-    ai_bots: S.optional(GetFirewallConfigResponseManagedRulesAiBots),
-    owasp: S.optional(GetFirewallConfigResponseManagedRulesOwasp),
-    vercel_ruleset: S.optional(GetFirewallConfigResponseManagedRulesVercelRuleset),
-    traffic_sources: S.optional(GetFirewallConfigResponseManagedRulesTrafficSources),
-  }),
-).annotate({
-  identifier: "GetFirewallConfigResponseManagedRules",
-}) as any as S.Schema<GetFirewallConfigResponseManagedRules>;
-
-export type GetFirewallConfigResponseLogHeadersCase0List = Array<string>;
-export const GetFirewallConfigResponseLogHeadersCase0List = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<GetFirewallConfigResponseLogHeadersCase0List>;
-
-export type GetFirewallConfigResponseLogHeadersCase1 = "*";
-export const GetFirewallConfigResponseLogHeadersCase1 = S.String;
-
-export type GetFirewallConfigResponseLogHeaders =
-  | GetFirewallConfigResponseLogHeadersCase0List
-  | GetFirewallConfigResponseLogHeadersCase1;
-export const GetFirewallConfigResponseLogHeaders =
-  S.Unknown as any as S.Schema<GetFirewallConfigResponseLogHeaders>;
-
-export interface GetFirewallConfigResponse {
-  ownerId: string;
-  projectKey: string;
-  id: string;
-  version: number;
-  updatedAt: string;
-  firewallEnabled: boolean;
-  /** Custom Ruleset */
-  crs?: GetFirewallConfigResponseCrs;
-  rules: GetFirewallConfigResponseRulesList;
-  ips: GetFirewallConfigResponseIpsList;
-  rulesets?: GetFirewallConfigResponseRulesets;
-  conditions?: GetFirewallConfigResponseConditionsList;
-  changes: GetFirewallConfigResponseChangesList;
-  managedRules?: GetFirewallConfigResponseManagedRules;
-  botIdEnabled?: boolean;
-  logHeaders?: GetFirewallConfigResponseLogHeaders;
-}
-export const GetFirewallConfigResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ownerId: S.String,
-    projectKey: S.String,
-    id: S.String,
-    version: S.Number,
-    updatedAt: S.String,
-    firewallEnabled: S.Boolean,
-    crs: S.optional(GetFirewallConfigResponseCrs),
-    rules: GetFirewallConfigResponseRulesList,
-    ips: GetFirewallConfigResponseIpsList,
-    rulesets: S.optional(GetFirewallConfigResponseRulesets),
-    conditions: S.optional(GetFirewallConfigResponseConditionsList),
-    changes: GetFirewallConfigResponseChangesList,
-    managedRules: S.optional(GetFirewallConfigResponseManagedRules),
-    botIdEnabled: S.optional(S.Boolean),
-    logHeaders: S.optional(GetFirewallConfigResponseLogHeaders),
-  }),
-).annotate({
-  identifier: "GetFirewallConfigResponse",
-}) as any as S.Schema<GetFirewallConfigResponse>;
-
-export interface GetSecurityFirewallConfigRequest {}
-export const GetSecurityFirewallConfigRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v1/security/firewall/config", code: 200 })),
-).annotate({
-  identifier: "GetSecurityFirewallConfigRequest",
-}) as any as S.Schema<GetSecurityFirewallConfigRequest>;
-
-export type GetSecurityFirewallConfigResponseActiveCrsSdAction = "deny" | "log";
-export const GetSecurityFirewallConfigResponseActiveCrsSdAction = S.String;
-
-export interface GetSecurityFirewallConfigResponseActiveCrsSd {
-  active: boolean;
-  action: GetSecurityFirewallConfigResponseActiveCrsSdAction;
-}
-export const GetSecurityFirewallConfigResponseActiveCrsSd = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    active: S.Boolean,
-    action: GetSecurityFirewallConfigResponseActiveCrsSdAction,
-  }),
-).annotate({
-  identifier: "GetSecurityFirewallConfigResponseActiveCrsSd",
-}) as any as S.Schema<GetSecurityFirewallConfigResponseActiveCrsSd>;
-
-export type GetSecurityFirewallConfigResponseActiveCrsMaAction = "deny" | "log";
-export const GetSecurityFirewallConfigResponseActiveCrsMaAction = S.String;
-
-export interface GetSecurityFirewallConfigResponseActiveCrsMa {
-  active: boolean;
-  action: GetSecurityFirewallConfigResponseActiveCrsMaAction;
-}
-export const GetSecurityFirewallConfigResponseActiveCrsMa = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    active: S.Boolean,
-    action: GetSecurityFirewallConfigResponseActiveCrsMaAction,
-  }),
-).annotate({
-  identifier: "GetSecurityFirewallConfigResponseActiveCrsMa",
-}) as any as S.Schema<GetSecurityFirewallConfigResponseActiveCrsMa>;
-
-export type GetSecurityFirewallConfigResponseActiveCrsLfiAction = "deny" | "log";
-export const GetSecurityFirewallConfigResponseActiveCrsLfiAction = S.String;
-
-export interface GetSecurityFirewallConfigResponseActiveCrsLfi {
-  active: boolean;
-  action: GetSecurityFirewallConfigResponseActiveCrsLfiAction;
-}
-export const GetSecurityFirewallConfigResponseActiveCrsLfi = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    active: S.Boolean,
-    action: GetSecurityFirewallConfigResponseActiveCrsLfiAction,
-  }),
-).annotate({
-  identifier: "GetSecurityFirewallConfigResponseActiveCrsLfi",
-}) as any as S.Schema<GetSecurityFirewallConfigResponseActiveCrsLfi>;
-
-export type GetSecurityFirewallConfigResponseActiveCrsRfiAction = "deny" | "log";
-export const GetSecurityFirewallConfigResponseActiveCrsRfiAction = S.String;
-
-export interface GetSecurityFirewallConfigResponseActiveCrsRfi {
-  active: boolean;
-  action: GetSecurityFirewallConfigResponseActiveCrsRfiAction;
-}
-export const GetSecurityFirewallConfigResponseActiveCrsRfi = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    active: S.Boolean,
-    action: GetSecurityFirewallConfigResponseActiveCrsRfiAction,
-  }),
-).annotate({
-  identifier: "GetSecurityFirewallConfigResponseActiveCrsRfi",
-}) as any as S.Schema<GetSecurityFirewallConfigResponseActiveCrsRfi>;
-
-export type GetSecurityFirewallConfigResponseActiveCrsRceAction = "deny" | "log";
-export const GetSecurityFirewallConfigResponseActiveCrsRceAction = S.String;
-
-export interface GetSecurityFirewallConfigResponseActiveCrsRce {
-  active: boolean;
-  action: GetSecurityFirewallConfigResponseActiveCrsRceAction;
-}
-export const GetSecurityFirewallConfigResponseActiveCrsRce = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    active: S.Boolean,
-    action: GetSecurityFirewallConfigResponseActiveCrsRceAction,
-  }),
-).annotate({
-  identifier: "GetSecurityFirewallConfigResponseActiveCrsRce",
-}) as any as S.Schema<GetSecurityFirewallConfigResponseActiveCrsRce>;
-
-export type GetSecurityFirewallConfigResponseActiveCrsPhpAction = "deny" | "log";
-export const GetSecurityFirewallConfigResponseActiveCrsPhpAction = S.String;
-
-export interface GetSecurityFirewallConfigResponseActiveCrsPhp {
-  active: boolean;
-  action: GetSecurityFirewallConfigResponseActiveCrsPhpAction;
-}
-export const GetSecurityFirewallConfigResponseActiveCrsPhp = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    active: S.Boolean,
-    action: GetSecurityFirewallConfigResponseActiveCrsPhpAction,
-  }),
-).annotate({
-  identifier: "GetSecurityFirewallConfigResponseActiveCrsPhp",
-}) as any as S.Schema<GetSecurityFirewallConfigResponseActiveCrsPhp>;
-
-export type GetSecurityFirewallConfigResponseActiveCrsGenAction = "deny" | "log";
-export const GetSecurityFirewallConfigResponseActiveCrsGenAction = S.String;
-
-export interface GetSecurityFirewallConfigResponseActiveCrsGen {
-  active: boolean;
-  action: GetSecurityFirewallConfigResponseActiveCrsGenAction;
-}
-export const GetSecurityFirewallConfigResponseActiveCrsGen = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    active: S.Boolean,
-    action: GetSecurityFirewallConfigResponseActiveCrsGenAction,
-  }),
-).annotate({
-  identifier: "GetSecurityFirewallConfigResponseActiveCrsGen",
-}) as any as S.Schema<GetSecurityFirewallConfigResponseActiveCrsGen>;
-
-export type GetSecurityFirewallConfigResponseActiveCrsXssAction = "deny" | "log";
-export const GetSecurityFirewallConfigResponseActiveCrsXssAction = S.String;
-
-export interface GetSecurityFirewallConfigResponseActiveCrsXss {
-  active: boolean;
-  action: GetSecurityFirewallConfigResponseActiveCrsXssAction;
-}
-export const GetSecurityFirewallConfigResponseActiveCrsXss = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    active: S.Boolean,
-    action: GetSecurityFirewallConfigResponseActiveCrsXssAction,
-  }),
-).annotate({
-  identifier: "GetSecurityFirewallConfigResponseActiveCrsXss",
-}) as any as S.Schema<GetSecurityFirewallConfigResponseActiveCrsXss>;
-
-export type GetSecurityFirewallConfigResponseActiveCrsSqliAction = "deny" | "log";
-export const GetSecurityFirewallConfigResponseActiveCrsSqliAction = S.String;
-
-export interface GetSecurityFirewallConfigResponseActiveCrsSqli {
-  active: boolean;
-  action: GetSecurityFirewallConfigResponseActiveCrsSqliAction;
-}
-export const GetSecurityFirewallConfigResponseActiveCrsSqli = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    active: S.Boolean,
-    action: GetSecurityFirewallConfigResponseActiveCrsSqliAction,
-  }),
-).annotate({
-  identifier: "GetSecurityFirewallConfigResponseActiveCrsSqli",
-}) as any as S.Schema<GetSecurityFirewallConfigResponseActiveCrsSqli>;
-
-export type GetSecurityFirewallConfigResponseActiveCrsSfAction = "deny" | "log";
-export const GetSecurityFirewallConfigResponseActiveCrsSfAction = S.String;
-
-export interface GetSecurityFirewallConfigResponseActiveCrsSf {
-  active: boolean;
-  action: GetSecurityFirewallConfigResponseActiveCrsSfAction;
-}
-export const GetSecurityFirewallConfigResponseActiveCrsSf = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    active: S.Boolean,
-    action: GetSecurityFirewallConfigResponseActiveCrsSfAction,
-  }),
-).annotate({
-  identifier: "GetSecurityFirewallConfigResponseActiveCrsSf",
-}) as any as S.Schema<GetSecurityFirewallConfigResponseActiveCrsSf>;
-
-export type GetSecurityFirewallConfigResponseActiveCrsJavaAction = "deny" | "log";
-export const GetSecurityFirewallConfigResponseActiveCrsJavaAction = S.String;
-
-export interface GetSecurityFirewallConfigResponseActiveCrsJava {
-  active: boolean;
-  action: GetSecurityFirewallConfigResponseActiveCrsJavaAction;
-}
-export const GetSecurityFirewallConfigResponseActiveCrsJava = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    active: S.Boolean,
-    action: GetSecurityFirewallConfigResponseActiveCrsJavaAction,
-  }),
-).annotate({
-  identifier: "GetSecurityFirewallConfigResponseActiveCrsJava",
-}) as any as S.Schema<GetSecurityFirewallConfigResponseActiveCrsJava>;
-
-export interface GetSecurityFirewallConfigResponseActiveCrs {
-  sd: GetSecurityFirewallConfigResponseActiveCrsSd;
-  ma: GetSecurityFirewallConfigResponseActiveCrsMa;
-  lfi: GetSecurityFirewallConfigResponseActiveCrsLfi;
-  rfi: GetSecurityFirewallConfigResponseActiveCrsRfi;
-  rce: GetSecurityFirewallConfigResponseActiveCrsRce;
-  php: GetSecurityFirewallConfigResponseActiveCrsPhp;
-  gen: GetSecurityFirewallConfigResponseActiveCrsGen;
-  xss: GetSecurityFirewallConfigResponseActiveCrsXss;
-  sqli: GetSecurityFirewallConfigResponseActiveCrsSqli;
-  sf: GetSecurityFirewallConfigResponseActiveCrsSf;
-  java: GetSecurityFirewallConfigResponseActiveCrsJava;
-}
-export const GetSecurityFirewallConfigResponseActiveCrs = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    sd: GetSecurityFirewallConfigResponseActiveCrsSd,
-    ma: GetSecurityFirewallConfigResponseActiveCrsMa,
-    lfi: GetSecurityFirewallConfigResponseActiveCrsLfi,
-    rfi: GetSecurityFirewallConfigResponseActiveCrsRfi,
-    rce: GetSecurityFirewallConfigResponseActiveCrsRce,
-    php: GetSecurityFirewallConfigResponseActiveCrsPhp,
-    gen: GetSecurityFirewallConfigResponseActiveCrsGen,
-    xss: GetSecurityFirewallConfigResponseActiveCrsXss,
-    sqli: GetSecurityFirewallConfigResponseActiveCrsSqli,
-    sf: GetSecurityFirewallConfigResponseActiveCrsSf,
-    java: GetSecurityFirewallConfigResponseActiveCrsJava,
-  }),
-).annotate({
-  identifier: "GetSecurityFirewallConfigResponseActiveCrs",
-}) as any as S.Schema<GetSecurityFirewallConfigResponseActiveCrs>;
+export const GetSecurityFirewallConfigResponseActiveRulesItemCase0ConditionGroupItemConditionsItemOp =
+  S.String;
 
 export type GetSecurityFirewallConfigResponseActiveRulesItemCase0ConditionGroupItemConditionsItemType =
   | "bot_category"
@@ -4064,25 +4518,6 @@ export type GetSecurityFirewallConfigResponseActiveRulesItemCase0ConditionGroupI
 export const GetSecurityFirewallConfigResponseActiveRulesItemCase0ConditionGroupItemConditionsItemType =
   S.String;
 
-export type GetSecurityFirewallConfigResponseActiveRulesItemCase0ConditionGroupItemConditionsItemOp =
-  | "eq"
-  | "ex"
-  | "gt"
-  | "gte"
-  | "inc"
-  | "list"
-  | "lt"
-  | "lte"
-  | "neq"
-  | "nex"
-  | "ninc"
-  | "pre"
-  | "re"
-  | "sub"
-  | "suf";
-export const GetSecurityFirewallConfigResponseActiveRulesItemCase0ConditionGroupItemConditionsItemOp =
-  S.String;
-
 export type GetSecurityFirewallConfigResponseActiveRulesItemCase0ConditionGroupItemConditionsItemValueCase2List =
   Array<string>;
 export const GetSecurityFirewallConfigResponseActiveRulesItemCase0ConditionGroupItemConditionsItemValueCase2List =
@@ -4098,19 +4533,19 @@ export const GetSecurityFirewallConfigResponseActiveRulesItemCase0ConditionGroup
   S.Unknown as any as S.Schema<GetSecurityFirewallConfigResponseActiveRulesItemCase0ConditionGroupItemConditionsItemValue>;
 
 export interface GetSecurityFirewallConfigResponseActiveRulesItemCase0ConditionGroupItemConditionsItem {
-  type: GetSecurityFirewallConfigResponseActiveRulesItemCase0ConditionGroupItemConditionsItemType;
-  op: GetSecurityFirewallConfigResponseActiveRulesItemCase0ConditionGroupItemConditionsItemOp;
-  neg?: boolean;
   key?: string;
+  neg?: boolean;
+  op: GetSecurityFirewallConfigResponseActiveRulesItemCase0ConditionGroupItemConditionsItemOp;
+  type: GetSecurityFirewallConfigResponseActiveRulesItemCase0ConditionGroupItemConditionsItemType;
   value?: GetSecurityFirewallConfigResponseActiveRulesItemCase0ConditionGroupItemConditionsItemValue;
 }
 export const GetSecurityFirewallConfigResponseActiveRulesItemCase0ConditionGroupItemConditionsItem =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      type: GetSecurityFirewallConfigResponseActiveRulesItemCase0ConditionGroupItemConditionsItemType,
-      op: GetSecurityFirewallConfigResponseActiveRulesItemCase0ConditionGroupItemConditionsItemOp,
-      neg: S.optional(S.Boolean),
       key: S.optional(S.String),
+      neg: S.optional(S.Boolean),
+      op: GetSecurityFirewallConfigResponseActiveRulesItemCase0ConditionGroupItemConditionsItemOp,
+      type: GetSecurityFirewallConfigResponseActiveRulesItemCase0ConditionGroupItemConditionsItemType,
       value: S.optional(
         GetSecurityFirewallConfigResponseActiveRulesItemCase0ConditionGroupItemConditionsItemValue,
       ),
@@ -4147,7 +4582,32 @@ export const GetSecurityFirewallConfigResponseActiveRulesItemCase0ConditionGroup
     GetSecurityFirewallConfigResponseActiveRulesItemCase0ConditionGroupItem,
   ) as any as S.Schema<GetSecurityFirewallConfigResponseActiveRulesItemCase0ConditionGroupList>;
 
-export type GetSecurityFirewallConfigResponseActiveRulesItemCase0ActionMitigateAction =
+export interface GetSecurityFirewallConfigResponseActiveRulesItemCase0 {
+  action: GetSecurityFirewallConfigResponseActiveRulesItemCase0Action;
+  active: boolean;
+  conditionGroup: GetSecurityFirewallConfigResponseActiveRulesItemCase0ConditionGroupList;
+  description?: string;
+  id: string;
+  name: string;
+  valid: boolean;
+  validationErrors: unknown | null;
+}
+export const GetSecurityFirewallConfigResponseActiveRulesItemCase0 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    action: GetSecurityFirewallConfigResponseActiveRulesItemCase0Action,
+    active: S.Boolean,
+    conditionGroup: GetSecurityFirewallConfigResponseActiveRulesItemCase0ConditionGroupList,
+    description: S.optional(S.String),
+    id: S.String,
+    name: S.String,
+    valid: S.Boolean,
+    validationErrors: S.NullOr(S.Unknown),
+  }),
+).annotate({
+  identifier: "GetSecurityFirewallConfigResponseActiveRulesItemCase0",
+}) as any as S.Schema<GetSecurityFirewallConfigResponseActiveRulesItemCase0>;
+
+export type GetSecurityFirewallConfigResponseActiveRulesItemCase1ActionMitigateAction =
   | "allow"
   | "bypass"
   | "challenge"
@@ -4155,142 +4615,136 @@ export type GetSecurityFirewallConfigResponseActiveRulesItemCase0ActionMitigateA
   | "log"
   | "rate_limit"
   | "redirect";
-export const GetSecurityFirewallConfigResponseActiveRulesItemCase0ActionMitigateAction = S.String;
+export const GetSecurityFirewallConfigResponseActiveRulesItemCase1ActionMitigateAction = S.String;
 
-export type GetSecurityFirewallConfigResponseActiveRulesItemCase0ActionMitigateRateLimitAlgo =
-  | "fixed_window"
-  | "token_bucket";
-export const GetSecurityFirewallConfigResponseActiveRulesItemCase0ActionMitigateRateLimitAlgo =
-  S.String;
-
-export type GetSecurityFirewallConfigResponseActiveRulesItemCase0ActionMitigateRateLimitKeysList =
+export type GetSecurityFirewallConfigResponseActiveRulesItemCase1ActionMitigateLogHeadersCase0List =
   Array<string>;
-export const GetSecurityFirewallConfigResponseActiveRulesItemCase0ActionMitigateRateLimitKeysList =
+export const GetSecurityFirewallConfigResponseActiveRulesItemCase1ActionMitigateLogHeadersCase0List =
   /*@__PURE__*/ S.Array(
     S.String,
-  ) as any as S.Schema<GetSecurityFirewallConfigResponseActiveRulesItemCase0ActionMitigateRateLimitKeysList>;
+  ) as any as S.Schema<GetSecurityFirewallConfigResponseActiveRulesItemCase1ActionMitigateLogHeadersCase0List>;
 
-export type GetSecurityFirewallConfigResponseActiveRulesItemCase0ActionMitigateRateLimitAction =
+export type GetSecurityFirewallConfigResponseActiveRulesItemCase1ActionMitigateLogHeadersCase1 =
+  "*";
+export const GetSecurityFirewallConfigResponseActiveRulesItemCase1ActionMitigateLogHeadersCase1 =
+  S.String;
+
+export type GetSecurityFirewallConfigResponseActiveRulesItemCase1ActionMitigateLogHeaders =
+  | GetSecurityFirewallConfigResponseActiveRulesItemCase1ActionMitigateLogHeadersCase0List
+  | GetSecurityFirewallConfigResponseActiveRulesItemCase1ActionMitigateLogHeadersCase1;
+export const GetSecurityFirewallConfigResponseActiveRulesItemCase1ActionMitigateLogHeaders =
+  S.Unknown as any as S.Schema<GetSecurityFirewallConfigResponseActiveRulesItemCase1ActionMitigateLogHeaders>;
+
+export type GetSecurityFirewallConfigResponseActiveRulesItemCase1ActionMitigateRateLimitAction =
   | "challenge"
   | "deny"
   | "log"
   | "rate_limit";
-export const GetSecurityFirewallConfigResponseActiveRulesItemCase0ActionMitigateRateLimitAction =
+export const GetSecurityFirewallConfigResponseActiveRulesItemCase1ActionMitigateRateLimitAction =
   S.String;
 
-export interface GetSecurityFirewallConfigResponseActiveRulesItemCase0ActionMitigateRateLimit {
-  algo: GetSecurityFirewallConfigResponseActiveRulesItemCase0ActionMitigateRateLimitAlgo;
-  window: number;
-  limit: number;
-  keys: GetSecurityFirewallConfigResponseActiveRulesItemCase0ActionMitigateRateLimitKeysList;
-  action?: GetSecurityFirewallConfigResponseActiveRulesItemCase0ActionMitigateRateLimitAction | null;
-}
-export const GetSecurityFirewallConfigResponseActiveRulesItemCase0ActionMitigateRateLimit =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      algo: GetSecurityFirewallConfigResponseActiveRulesItemCase0ActionMitigateRateLimitAlgo,
-      window: S.Number,
-      limit: S.Number,
-      keys: GetSecurityFirewallConfigResponseActiveRulesItemCase0ActionMitigateRateLimitKeysList,
-      action: S.optional(
-        S.NullOr(
-          GetSecurityFirewallConfigResponseActiveRulesItemCase0ActionMitigateRateLimitAction,
-        ),
-      ),
-    }),
-  ).annotate({
-    identifier: "GetSecurityFirewallConfigResponseActiveRulesItemCase0ActionMitigateRateLimit",
-  }) as any as S.Schema<GetSecurityFirewallConfigResponseActiveRulesItemCase0ActionMitigateRateLimit>;
+export type GetSecurityFirewallConfigResponseActiveRulesItemCase1ActionMitigateRateLimitAlgo =
+  | "fixed_window"
+  | "token_bucket";
+export const GetSecurityFirewallConfigResponseActiveRulesItemCase1ActionMitigateRateLimitAlgo =
+  S.String;
 
-export type GetSecurityFirewallConfigResponseActiveRulesItemCase0ActionMitigateRedirect =
-  CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
-export const GetSecurityFirewallConfigResponseActiveRulesItemCase0ActionMitigateRedirect =
-  CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
-
-export type GetSecurityFirewallConfigResponseActiveRulesItemCase0ActionMitigateLogHeadersCase0List =
+export type GetSecurityFirewallConfigResponseActiveRulesItemCase1ActionMitigateRateLimitKeysList =
   Array<string>;
-export const GetSecurityFirewallConfigResponseActiveRulesItemCase0ActionMitigateLogHeadersCase0List =
+export const GetSecurityFirewallConfigResponseActiveRulesItemCase1ActionMitigateRateLimitKeysList =
   /*@__PURE__*/ S.Array(
     S.String,
-  ) as any as S.Schema<GetSecurityFirewallConfigResponseActiveRulesItemCase0ActionMitigateLogHeadersCase0List>;
+  ) as any as S.Schema<GetSecurityFirewallConfigResponseActiveRulesItemCase1ActionMitigateRateLimitKeysList>;
 
-export type GetSecurityFirewallConfigResponseActiveRulesItemCase0ActionMitigateLogHeadersCase1 =
-  "*";
-export const GetSecurityFirewallConfigResponseActiveRulesItemCase0ActionMitigateLogHeadersCase1 =
-  S.String;
-
-export type GetSecurityFirewallConfigResponseActiveRulesItemCase0ActionMitigateLogHeaders =
-  | GetSecurityFirewallConfigResponseActiveRulesItemCase0ActionMitigateLogHeadersCase0List
-  | GetSecurityFirewallConfigResponseActiveRulesItemCase0ActionMitigateLogHeadersCase1;
-export const GetSecurityFirewallConfigResponseActiveRulesItemCase0ActionMitigateLogHeaders =
-  S.Unknown as any as S.Schema<GetSecurityFirewallConfigResponseActiveRulesItemCase0ActionMitigateLogHeaders>;
-
-export interface GetSecurityFirewallConfigResponseActiveRulesItemCase0ActionMitigate {
-  action: GetSecurityFirewallConfigResponseActiveRulesItemCase0ActionMitigateAction;
-  rateLimit?: GetSecurityFirewallConfigResponseActiveRulesItemCase0ActionMitigateRateLimit | null;
-  redirect?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect | null;
-  actionDuration?: string | null;
-  bypassSystem?: boolean | null;
-  logHeaders?: GetSecurityFirewallConfigResponseActiveRulesItemCase0ActionMitigateLogHeaders;
+export interface GetSecurityFirewallConfigResponseActiveRulesItemCase1ActionMitigateRateLimit {
+  action?: GetSecurityFirewallConfigResponseActiveRulesItemCase1ActionMitigateRateLimitAction | null;
+  algo: GetSecurityFirewallConfigResponseActiveRulesItemCase1ActionMitigateRateLimitAlgo;
+  keys: GetSecurityFirewallConfigResponseActiveRulesItemCase1ActionMitigateRateLimitKeysList;
+  limit: number;
+  window: number;
 }
-export const GetSecurityFirewallConfigResponseActiveRulesItemCase0ActionMitigate =
+export const GetSecurityFirewallConfigResponseActiveRulesItemCase1ActionMitigateRateLimit =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      action: GetSecurityFirewallConfigResponseActiveRulesItemCase0ActionMitigateAction,
+      action: S.optional(
+        S.NullOr(
+          GetSecurityFirewallConfigResponseActiveRulesItemCase1ActionMitigateRateLimitAction,
+        ),
+      ),
+      algo: GetSecurityFirewallConfigResponseActiveRulesItemCase1ActionMitigateRateLimitAlgo,
+      keys: GetSecurityFirewallConfigResponseActiveRulesItemCase1ActionMitigateRateLimitKeysList,
+      limit: S.Number,
+      window: S.Number,
+    }),
+  ).annotate({
+    identifier: "GetSecurityFirewallConfigResponseActiveRulesItemCase1ActionMitigateRateLimit",
+  }) as any as S.Schema<GetSecurityFirewallConfigResponseActiveRulesItemCase1ActionMitigateRateLimit>;
+
+export type GetSecurityFirewallConfigResponseActiveRulesItemCase1ActionMitigateRedirect =
+  CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
+export const GetSecurityFirewallConfigResponseActiveRulesItemCase1ActionMitigateRedirect =
+  CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
+
+export interface GetSecurityFirewallConfigResponseActiveRulesItemCase1ActionMitigate {
+  action: GetSecurityFirewallConfigResponseActiveRulesItemCase1ActionMitigateAction;
+  actionDuration?: string | null;
+  bypassSystem?: boolean | null;
+  logHeaders?: GetSecurityFirewallConfigResponseActiveRulesItemCase1ActionMitigateLogHeaders;
+  rateLimit?: GetSecurityFirewallConfigResponseActiveRulesItemCase1ActionMitigateRateLimit | null;
+  redirect?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect | null;
+}
+export const GetSecurityFirewallConfigResponseActiveRulesItemCase1ActionMitigate =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      action: GetSecurityFirewallConfigResponseActiveRulesItemCase1ActionMitigateAction,
+      actionDuration: S.optional(S.NullOr(S.String)),
+      bypassSystem: S.optional(S.NullOr(S.Boolean)),
+      logHeaders: S.optional(
+        GetSecurityFirewallConfigResponseActiveRulesItemCase1ActionMitigateLogHeaders,
+      ),
       rateLimit: S.optional(
-        S.NullOr(GetSecurityFirewallConfigResponseActiveRulesItemCase0ActionMitigateRateLimit),
+        S.NullOr(GetSecurityFirewallConfigResponseActiveRulesItemCase1ActionMitigateRateLimit),
       ),
       redirect: S.optional(
         S.NullOr(
           CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect,
         ),
       ),
-      actionDuration: S.optional(S.NullOr(S.String)),
-      bypassSystem: S.optional(S.NullOr(S.Boolean)),
-      logHeaders: S.optional(
-        GetSecurityFirewallConfigResponseActiveRulesItemCase0ActionMitigateLogHeaders,
-      ),
     }),
   ).annotate({
-    identifier: "GetSecurityFirewallConfigResponseActiveRulesItemCase0ActionMitigate",
-  }) as any as S.Schema<GetSecurityFirewallConfigResponseActiveRulesItemCase0ActionMitigate>;
+    identifier: "GetSecurityFirewallConfigResponseActiveRulesItemCase1ActionMitigate",
+  }) as any as S.Schema<GetSecurityFirewallConfigResponseActiveRulesItemCase1ActionMitigate>;
 
-export interface GetSecurityFirewallConfigResponseActiveRulesItemCase0Action {
-  mitigate?: GetSecurityFirewallConfigResponseActiveRulesItemCase0ActionMitigate;
+export interface GetSecurityFirewallConfigResponseActiveRulesItemCase1Action {
+  mitigate?: GetSecurityFirewallConfigResponseActiveRulesItemCase1ActionMitigate;
 }
-export const GetSecurityFirewallConfigResponseActiveRulesItemCase0Action = /*@__PURE__*/ S.suspend(
+export const GetSecurityFirewallConfigResponseActiveRulesItemCase1Action = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      mitigate: S.optional(GetSecurityFirewallConfigResponseActiveRulesItemCase0ActionMitigate),
+      mitigate: S.optional(GetSecurityFirewallConfigResponseActiveRulesItemCase1ActionMitigate),
     }),
 ).annotate({
-  identifier: "GetSecurityFirewallConfigResponseActiveRulesItemCase0Action",
-}) as any as S.Schema<GetSecurityFirewallConfigResponseActiveRulesItemCase0Action>;
+  identifier: "GetSecurityFirewallConfigResponseActiveRulesItemCase1Action",
+}) as any as S.Schema<GetSecurityFirewallConfigResponseActiveRulesItemCase1Action>;
 
-export interface GetSecurityFirewallConfigResponseActiveRulesItemCase0 {
-  id: string;
-  name: string;
-  description?: string;
-  active: boolean;
-  conditionGroup: GetSecurityFirewallConfigResponseActiveRulesItemCase0ConditionGroupList;
-  action: GetSecurityFirewallConfigResponseActiveRulesItemCase0Action;
-  valid: boolean;
-  validationErrors: unknown | null;
-}
-export const GetSecurityFirewallConfigResponseActiveRulesItemCase0 = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    name: S.String,
-    description: S.optional(S.String),
-    active: S.Boolean,
-    conditionGroup: GetSecurityFirewallConfigResponseActiveRulesItemCase0ConditionGroupList,
-    action: GetSecurityFirewallConfigResponseActiveRulesItemCase0Action,
-    valid: S.Boolean,
-    validationErrors: S.NullOr(S.Unknown),
-  }),
-).annotate({
-  identifier: "GetSecurityFirewallConfigResponseActiveRulesItemCase0",
-}) as any as S.Schema<GetSecurityFirewallConfigResponseActiveRulesItemCase0>;
+export type GetSecurityFirewallConfigResponseActiveRulesItemCase1ConditionGroupItemConditionsItemOp =
+  | "eq"
+  | "ex"
+  | "gt"
+  | "gte"
+  | "inc"
+  | "list"
+  | "lt"
+  | "lte"
+  | "neq"
+  | "nex"
+  | "ninc"
+  | "pre"
+  | "re"
+  | "sub"
+  | "suf";
+export const GetSecurityFirewallConfigResponseActiveRulesItemCase1ConditionGroupItemConditionsItemOp =
+  S.String;
 
 export type GetSecurityFirewallConfigResponseActiveRulesItemCase1ConditionGroupItemConditionsItemType =
   | "bot_category"
@@ -4329,25 +4783,6 @@ export type GetSecurityFirewallConfigResponseActiveRulesItemCase1ConditionGroupI
 export const GetSecurityFirewallConfigResponseActiveRulesItemCase1ConditionGroupItemConditionsItemType =
   S.String;
 
-export type GetSecurityFirewallConfigResponseActiveRulesItemCase1ConditionGroupItemConditionsItemOp =
-  | "eq"
-  | "ex"
-  | "gt"
-  | "gte"
-  | "inc"
-  | "list"
-  | "lt"
-  | "lte"
-  | "neq"
-  | "nex"
-  | "ninc"
-  | "pre"
-  | "re"
-  | "sub"
-  | "suf";
-export const GetSecurityFirewallConfigResponseActiveRulesItemCase1ConditionGroupItemConditionsItemOp =
-  S.String;
-
 export type GetSecurityFirewallConfigResponseActiveRulesItemCase1ConditionGroupItemConditionsItemValueCase2List =
   Array<string>;
 export const GetSecurityFirewallConfigResponseActiveRulesItemCase1ConditionGroupItemConditionsItemValueCase2List =
@@ -4363,19 +4798,19 @@ export const GetSecurityFirewallConfigResponseActiveRulesItemCase1ConditionGroup
   S.Unknown as any as S.Schema<GetSecurityFirewallConfigResponseActiveRulesItemCase1ConditionGroupItemConditionsItemValue>;
 
 export interface GetSecurityFirewallConfigResponseActiveRulesItemCase1ConditionGroupItemConditionsItem {
-  type: GetSecurityFirewallConfigResponseActiveRulesItemCase1ConditionGroupItemConditionsItemType;
-  op: GetSecurityFirewallConfigResponseActiveRulesItemCase1ConditionGroupItemConditionsItemOp;
-  neg?: boolean;
   key?: string;
+  neg?: boolean;
+  op: GetSecurityFirewallConfigResponseActiveRulesItemCase1ConditionGroupItemConditionsItemOp;
+  type: GetSecurityFirewallConfigResponseActiveRulesItemCase1ConditionGroupItemConditionsItemType;
   value?: GetSecurityFirewallConfigResponseActiveRulesItemCase1ConditionGroupItemConditionsItemValue;
 }
 export const GetSecurityFirewallConfigResponseActiveRulesItemCase1ConditionGroupItemConditionsItem =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      type: GetSecurityFirewallConfigResponseActiveRulesItemCase1ConditionGroupItemConditionsItemType,
-      op: GetSecurityFirewallConfigResponseActiveRulesItemCase1ConditionGroupItemConditionsItemOp,
-      neg: S.optional(S.Boolean),
       key: S.optional(S.String),
+      neg: S.optional(S.Boolean),
+      op: GetSecurityFirewallConfigResponseActiveRulesItemCase1ConditionGroupItemConditionsItemOp,
+      type: GetSecurityFirewallConfigResponseActiveRulesItemCase1ConditionGroupItemConditionsItemType,
       value: S.optional(
         GetSecurityFirewallConfigResponseActiveRulesItemCase1ConditionGroupItemConditionsItemValue,
       ),
@@ -4412,126 +4847,6 @@ export const GetSecurityFirewallConfigResponseActiveRulesItemCase1ConditionGroup
     GetSecurityFirewallConfigResponseActiveRulesItemCase1ConditionGroupItem,
   ) as any as S.Schema<GetSecurityFirewallConfigResponseActiveRulesItemCase1ConditionGroupList>;
 
-export type GetSecurityFirewallConfigResponseActiveRulesItemCase1ActionMitigateAction =
-  | "allow"
-  | "bypass"
-  | "challenge"
-  | "deny"
-  | "log"
-  | "rate_limit"
-  | "redirect";
-export const GetSecurityFirewallConfigResponseActiveRulesItemCase1ActionMitigateAction = S.String;
-
-export type GetSecurityFirewallConfigResponseActiveRulesItemCase1ActionMitigateRateLimitAlgo =
-  | "fixed_window"
-  | "token_bucket";
-export const GetSecurityFirewallConfigResponseActiveRulesItemCase1ActionMitigateRateLimitAlgo =
-  S.String;
-
-export type GetSecurityFirewallConfigResponseActiveRulesItemCase1ActionMitigateRateLimitKeysList =
-  Array<string>;
-export const GetSecurityFirewallConfigResponseActiveRulesItemCase1ActionMitigateRateLimitKeysList =
-  /*@__PURE__*/ S.Array(
-    S.String,
-  ) as any as S.Schema<GetSecurityFirewallConfigResponseActiveRulesItemCase1ActionMitigateRateLimitKeysList>;
-
-export type GetSecurityFirewallConfigResponseActiveRulesItemCase1ActionMitigateRateLimitAction =
-  | "challenge"
-  | "deny"
-  | "log"
-  | "rate_limit";
-export const GetSecurityFirewallConfigResponseActiveRulesItemCase1ActionMitigateRateLimitAction =
-  S.String;
-
-export interface GetSecurityFirewallConfigResponseActiveRulesItemCase1ActionMitigateRateLimit {
-  algo: GetSecurityFirewallConfigResponseActiveRulesItemCase1ActionMitigateRateLimitAlgo;
-  window: number;
-  limit: number;
-  keys: GetSecurityFirewallConfigResponseActiveRulesItemCase1ActionMitigateRateLimitKeysList;
-  action?: GetSecurityFirewallConfigResponseActiveRulesItemCase1ActionMitigateRateLimitAction | null;
-}
-export const GetSecurityFirewallConfigResponseActiveRulesItemCase1ActionMitigateRateLimit =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      algo: GetSecurityFirewallConfigResponseActiveRulesItemCase1ActionMitigateRateLimitAlgo,
-      window: S.Number,
-      limit: S.Number,
-      keys: GetSecurityFirewallConfigResponseActiveRulesItemCase1ActionMitigateRateLimitKeysList,
-      action: S.optional(
-        S.NullOr(
-          GetSecurityFirewallConfigResponseActiveRulesItemCase1ActionMitigateRateLimitAction,
-        ),
-      ),
-    }),
-  ).annotate({
-    identifier: "GetSecurityFirewallConfigResponseActiveRulesItemCase1ActionMitigateRateLimit",
-  }) as any as S.Schema<GetSecurityFirewallConfigResponseActiveRulesItemCase1ActionMitigateRateLimit>;
-
-export type GetSecurityFirewallConfigResponseActiveRulesItemCase1ActionMitigateRedirect =
-  CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
-export const GetSecurityFirewallConfigResponseActiveRulesItemCase1ActionMitigateRedirect =
-  CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
-
-export type GetSecurityFirewallConfigResponseActiveRulesItemCase1ActionMitigateLogHeadersCase0List =
-  Array<string>;
-export const GetSecurityFirewallConfigResponseActiveRulesItemCase1ActionMitigateLogHeadersCase0List =
-  /*@__PURE__*/ S.Array(
-    S.String,
-  ) as any as S.Schema<GetSecurityFirewallConfigResponseActiveRulesItemCase1ActionMitigateLogHeadersCase0List>;
-
-export type GetSecurityFirewallConfigResponseActiveRulesItemCase1ActionMitigateLogHeadersCase1 =
-  "*";
-export const GetSecurityFirewallConfigResponseActiveRulesItemCase1ActionMitigateLogHeadersCase1 =
-  S.String;
-
-export type GetSecurityFirewallConfigResponseActiveRulesItemCase1ActionMitigateLogHeaders =
-  | GetSecurityFirewallConfigResponseActiveRulesItemCase1ActionMitigateLogHeadersCase0List
-  | GetSecurityFirewallConfigResponseActiveRulesItemCase1ActionMitigateLogHeadersCase1;
-export const GetSecurityFirewallConfigResponseActiveRulesItemCase1ActionMitigateLogHeaders =
-  S.Unknown as any as S.Schema<GetSecurityFirewallConfigResponseActiveRulesItemCase1ActionMitigateLogHeaders>;
-
-export interface GetSecurityFirewallConfigResponseActiveRulesItemCase1ActionMitigate {
-  action: GetSecurityFirewallConfigResponseActiveRulesItemCase1ActionMitigateAction;
-  rateLimit?: GetSecurityFirewallConfigResponseActiveRulesItemCase1ActionMitigateRateLimit | null;
-  redirect?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect | null;
-  actionDuration?: string | null;
-  bypassSystem?: boolean | null;
-  logHeaders?: GetSecurityFirewallConfigResponseActiveRulesItemCase1ActionMitigateLogHeaders;
-}
-export const GetSecurityFirewallConfigResponseActiveRulesItemCase1ActionMitigate =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      action: GetSecurityFirewallConfigResponseActiveRulesItemCase1ActionMitigateAction,
-      rateLimit: S.optional(
-        S.NullOr(GetSecurityFirewallConfigResponseActiveRulesItemCase1ActionMitigateRateLimit),
-      ),
-      redirect: S.optional(
-        S.NullOr(
-          CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect,
-        ),
-      ),
-      actionDuration: S.optional(S.NullOr(S.String)),
-      bypassSystem: S.optional(S.NullOr(S.Boolean)),
-      logHeaders: S.optional(
-        GetSecurityFirewallConfigResponseActiveRulesItemCase1ActionMitigateLogHeaders,
-      ),
-    }),
-  ).annotate({
-    identifier: "GetSecurityFirewallConfigResponseActiveRulesItemCase1ActionMitigate",
-  }) as any as S.Schema<GetSecurityFirewallConfigResponseActiveRulesItemCase1ActionMitigate>;
-
-export interface GetSecurityFirewallConfigResponseActiveRulesItemCase1Action {
-  mitigate?: GetSecurityFirewallConfigResponseActiveRulesItemCase1ActionMitigate;
-}
-export const GetSecurityFirewallConfigResponseActiveRulesItemCase1Action = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      mitigate: S.optional(GetSecurityFirewallConfigResponseActiveRulesItemCase1ActionMitigate),
-    }),
-).annotate({
-  identifier: "GetSecurityFirewallConfigResponseActiveRulesItemCase1Action",
-}) as any as S.Schema<GetSecurityFirewallConfigResponseActiveRulesItemCase1Action>;
-
 export type GetSecurityFirewallConfigResponseActiveRulesItemCase1ValidationErrorsList =
   Array<string>;
 export const GetSecurityFirewallConfigResponseActiveRulesItemCase1ValidationErrorsList =
@@ -4540,23 +4855,23 @@ export const GetSecurityFirewallConfigResponseActiveRulesItemCase1ValidationErro
   ) as any as S.Schema<GetSecurityFirewallConfigResponseActiveRulesItemCase1ValidationErrorsList>;
 
 export interface GetSecurityFirewallConfigResponseActiveRulesItemCase1 {
-  id: string;
-  name: string;
-  description?: string;
+  action: GetSecurityFirewallConfigResponseActiveRulesItemCase1Action;
   active: boolean;
   conditionGroup: GetSecurityFirewallConfigResponseActiveRulesItemCase1ConditionGroupList;
-  action: GetSecurityFirewallConfigResponseActiveRulesItemCase1Action;
+  description?: string;
+  id: string;
+  name: string;
   valid: boolean;
   validationErrors: GetSecurityFirewallConfigResponseActiveRulesItemCase1ValidationErrorsList;
 }
 export const GetSecurityFirewallConfigResponseActiveRulesItemCase1 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    id: S.String,
-    name: S.String,
-    description: S.optional(S.String),
+    action: GetSecurityFirewallConfigResponseActiveRulesItemCase1Action,
     active: S.Boolean,
     conditionGroup: GetSecurityFirewallConfigResponseActiveRulesItemCase1ConditionGroupList,
-    action: GetSecurityFirewallConfigResponseActiveRulesItemCase1Action,
+    description: S.optional(S.String),
+    id: S.String,
+    name: S.String,
     valid: S.Boolean,
     validationErrors: GetSecurityFirewallConfigResponseActiveRulesItemCase1ValidationErrorsList,
   }),
@@ -4576,37 +4891,24 @@ export const GetSecurityFirewallConfigResponseActiveRulesList = /*@__PURE__*/ S.
   GetSecurityFirewallConfigResponseActiveRulesItem,
 ) as any as S.Schema<GetSecurityFirewallConfigResponseActiveRulesList>;
 
-export type GetSecurityFirewallConfigResponseActiveIpsItemAction =
-  | "bypass"
-  | "challenge"
-  | "deny"
-  | "log";
-export const GetSecurityFirewallConfigResponseActiveIpsItemAction = S.String;
-
-export interface GetSecurityFirewallConfigResponseActiveIpsItem {
-  id: string;
-  hostname: string;
-  ip: string;
-  notes?: string;
-  action: GetSecurityFirewallConfigResponseActiveIpsItemAction;
-}
-export const GetSecurityFirewallConfigResponseActiveIpsItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    hostname: S.String,
-    ip: S.String,
-    notes: S.optional(S.String),
-    action: GetSecurityFirewallConfigResponseActiveIpsItemAction,
-  }),
-).annotate({
-  identifier: "GetSecurityFirewallConfigResponseActiveIpsItem",
-}) as any as S.Schema<GetSecurityFirewallConfigResponseActiveIpsItem>;
-
-export type GetSecurityFirewallConfigResponseActiveIpsList =
-  Array<GetSecurityFirewallConfigResponseActiveIpsItem>;
-export const GetSecurityFirewallConfigResponseActiveIpsList = /*@__PURE__*/ S.Array(
-  GetSecurityFirewallConfigResponseActiveIpsItem,
-) as any as S.Schema<GetSecurityFirewallConfigResponseActiveIpsList>;
+export type GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemConditionGroupItemConditionsItemOp =
+  | "eq"
+  | "ex"
+  | "gt"
+  | "gte"
+  | "inc"
+  | "list"
+  | "lt"
+  | "lte"
+  | "neq"
+  | "nex"
+  | "ninc"
+  | "pre"
+  | "re"
+  | "sub"
+  | "suf";
+export const GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemConditionGroupItemConditionsItemOp =
+  S.String;
 
 export type GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemConditionGroupItemConditionsItemType =
   | "bot_category"
@@ -4645,25 +4947,6 @@ export type GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemConditionGro
 export const GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemConditionGroupItemConditionsItemType =
   S.String;
 
-export type GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemConditionGroupItemConditionsItemOp =
-  | "eq"
-  | "ex"
-  | "gt"
-  | "gte"
-  | "inc"
-  | "list"
-  | "lt"
-  | "lte"
-  | "neq"
-  | "nex"
-  | "ninc"
-  | "pre"
-  | "re"
-  | "sub"
-  | "suf";
-export const GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemConditionGroupItemConditionsItemOp =
-  S.String;
-
 export type GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemConditionGroupItemConditionsItemValueCase2List =
   Array<string>;
 export const GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemConditionGroupItemConditionsItemValueCase2List =
@@ -4679,19 +4962,19 @@ export const GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemConditionGr
   S.Unknown as any as S.Schema<GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemConditionGroupItemConditionsItemValue>;
 
 export interface GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemConditionGroupItemConditionsItem {
-  type: GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemConditionGroupItemConditionsItemType;
-  op: GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemConditionGroupItemConditionsItemOp;
-  neg?: boolean;
   key?: string;
+  neg?: boolean;
+  op: GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemConditionGroupItemConditionsItemOp;
+  type: GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemConditionGroupItemConditionsItemType;
   value?: GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemConditionGroupItemConditionsItemValue;
 }
 export const GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemConditionGroupItemConditionsItem =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      type: GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemConditionGroupItemConditionsItemType,
-      op: GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemConditionGroupItemConditionsItemOp,
-      neg: S.optional(S.Boolean),
       key: S.optional(S.String),
+      neg: S.optional(S.Boolean),
+      op: GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemConditionGroupItemConditionsItemOp,
+      type: GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemConditionGroupItemConditionsItemType,
       value: S.optional(
         GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemConditionGroupItemConditionsItemValue,
       ),
@@ -4739,56 +5022,6 @@ export type GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemActionMitiga
 export const GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateAction =
   S.String;
 
-export type GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateRateLimitAlgo =
-  | "fixed_window"
-  | "token_bucket";
-export const GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateRateLimitAlgo =
-  S.String;
-
-export type GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateRateLimitKeysList =
-  Array<string>;
-export const GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateRateLimitKeysList =
-  /*@__PURE__*/ S.Array(
-    S.String,
-  ) as any as S.Schema<GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateRateLimitKeysList>;
-
-export type GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateRateLimitAction =
-  | "challenge"
-  | "deny"
-  | "log"
-  | "rate_limit";
-export const GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateRateLimitAction =
-  S.String;
-
-export interface GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateRateLimit {
-  algo: GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateRateLimitAlgo;
-  window: number;
-  limit: number;
-  keys: GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateRateLimitKeysList;
-  action?: GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateRateLimitAction | null;
-}
-export const GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateRateLimit =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      algo: GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateRateLimitAlgo,
-      window: S.Number,
-      limit: S.Number,
-      keys: GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateRateLimitKeysList,
-      action: S.optional(
-        S.NullOr(
-          GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateRateLimitAction,
-        ),
-      ),
-    }),
-  ).annotate({
-    identifier: "GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateRateLimit",
-  }) as any as S.Schema<GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateRateLimit>;
-
-export type GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateRedirect =
-  CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
-export const GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateRedirect =
-  CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
-
 export type GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateLogHeadersCase0List =
   Array<string>;
 export const GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateLogHeadersCase0List =
@@ -4807,18 +5040,73 @@ export type GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemActionMitiga
 export const GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateLogHeaders =
   S.Unknown as any as S.Schema<GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateLogHeaders>;
 
+export type GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateRateLimitAction =
+  | "challenge"
+  | "deny"
+  | "log"
+  | "rate_limit";
+export const GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateRateLimitAction =
+  S.String;
+
+export type GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateRateLimitAlgo =
+  | "fixed_window"
+  | "token_bucket";
+export const GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateRateLimitAlgo =
+  S.String;
+
+export type GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateRateLimitKeysList =
+  Array<string>;
+export const GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateRateLimitKeysList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateRateLimitKeysList>;
+
+export interface GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateRateLimit {
+  action?: GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateRateLimitAction | null;
+  algo: GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateRateLimitAlgo;
+  keys: GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateRateLimitKeysList;
+  limit: number;
+  window: number;
+}
+export const GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateRateLimit =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      action: S.optional(
+        S.NullOr(
+          GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateRateLimitAction,
+        ),
+      ),
+      algo: GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateRateLimitAlgo,
+      keys: GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateRateLimitKeysList,
+      limit: S.Number,
+      window: S.Number,
+    }),
+  ).annotate({
+    identifier: "GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateRateLimit",
+  }) as any as S.Schema<GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateRateLimit>;
+
+export type GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateRedirect =
+  CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
+export const GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateRedirect =
+  CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
+
 export interface GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemActionMitigate {
   action: GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateAction;
-  rateLimit?: GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateRateLimit | null;
-  redirect?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect | null;
   actionDuration?: string | null;
   bypassSystem?: boolean | null;
   logHeaders?: GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateLogHeaders;
+  rateLimit?: GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateRateLimit | null;
+  redirect?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect | null;
 }
 export const GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemActionMitigate =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       action: GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateAction,
+      actionDuration: S.optional(S.NullOr(S.String)),
+      bypassSystem: S.optional(S.NullOr(S.Boolean)),
+      logHeaders: S.optional(
+        GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateLogHeaders,
+      ),
       rateLimit: S.optional(
         S.NullOr(GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateRateLimit),
       ),
@@ -4826,11 +5114,6 @@ export const GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemActionMitig
         S.NullOr(
           CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect,
         ),
-      ),
-      actionDuration: S.optional(S.NullOr(S.String)),
-      bypassSystem: S.optional(S.NullOr(S.Boolean)),
-      logHeaders: S.optional(
-        GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateLogHeaders,
       ),
     }),
   ).annotate({
@@ -4850,21 +5133,21 @@ export const GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemAction =
   }) as any as S.Schema<GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemAction>;
 
 export interface GetSecurityFirewallConfigResponseActiveRulesetsCase0Item {
+  active: boolean;
+  conditionGroup: GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemConditionGroupList;
   description?: string;
   id: string;
   name: string;
-  active: boolean;
-  conditionGroup: GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemConditionGroupList;
   action?: GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemAction;
 }
 export const GetSecurityFirewallConfigResponseActiveRulesetsCase0Item = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
+      active: S.Boolean,
+      conditionGroup: GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemConditionGroupList,
       description: S.optional(S.String),
       id: S.String,
       name: S.String,
-      active: S.Boolean,
-      conditionGroup: GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemConditionGroupList,
       action: S.optional(GetSecurityFirewallConfigResponseActiveRulesetsCase0ItemAction),
     }),
 ).annotate({
@@ -4887,52 +5170,6 @@ export type GetSecurityFirewallConfigResponseActiveRulesetsCase1ValueAction =
   | "redirect";
 export const GetSecurityFirewallConfigResponseActiveRulesetsCase1ValueAction = S.String;
 
-export type GetSecurityFirewallConfigResponseActiveRulesetsCase1ValueRateLimitAlgo =
-  | "fixed_window"
-  | "token_bucket";
-export const GetSecurityFirewallConfigResponseActiveRulesetsCase1ValueRateLimitAlgo = S.String;
-
-export type GetSecurityFirewallConfigResponseActiveRulesetsCase1ValueRateLimitKeysList =
-  Array<string>;
-export const GetSecurityFirewallConfigResponseActiveRulesetsCase1ValueRateLimitKeysList =
-  /*@__PURE__*/ S.Array(
-    S.String,
-  ) as any as S.Schema<GetSecurityFirewallConfigResponseActiveRulesetsCase1ValueRateLimitKeysList>;
-
-export type GetSecurityFirewallConfigResponseActiveRulesetsCase1ValueRateLimitAction =
-  | "challenge"
-  | "deny"
-  | "log"
-  | "rate_limit";
-export const GetSecurityFirewallConfigResponseActiveRulesetsCase1ValueRateLimitAction = S.String;
-
-export interface GetSecurityFirewallConfigResponseActiveRulesetsCase1ValueRateLimit {
-  algo: GetSecurityFirewallConfigResponseActiveRulesetsCase1ValueRateLimitAlgo;
-  window: number;
-  limit: number;
-  keys: GetSecurityFirewallConfigResponseActiveRulesetsCase1ValueRateLimitKeysList;
-  action?: GetSecurityFirewallConfigResponseActiveRulesetsCase1ValueRateLimitAction | null;
-}
-export const GetSecurityFirewallConfigResponseActiveRulesetsCase1ValueRateLimit =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      algo: GetSecurityFirewallConfigResponseActiveRulesetsCase1ValueRateLimitAlgo,
-      window: S.Number,
-      limit: S.Number,
-      keys: GetSecurityFirewallConfigResponseActiveRulesetsCase1ValueRateLimitKeysList,
-      action: S.optional(
-        S.NullOr(GetSecurityFirewallConfigResponseActiveRulesetsCase1ValueRateLimitAction),
-      ),
-    }),
-  ).annotate({
-    identifier: "GetSecurityFirewallConfigResponseActiveRulesetsCase1ValueRateLimit",
-  }) as any as S.Schema<GetSecurityFirewallConfigResponseActiveRulesetsCase1ValueRateLimit>;
-
-export type GetSecurityFirewallConfigResponseActiveRulesetsCase1ValueRedirect =
-  CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
-export const GetSecurityFirewallConfigResponseActiveRulesetsCase1ValueRedirect =
-  CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
-
 export type GetSecurityFirewallConfigResponseActiveRulesetsCase1ValueLogHeadersCase0List =
   Array<string>;
 export const GetSecurityFirewallConfigResponseActiveRulesetsCase1ValueLogHeadersCase0List =
@@ -4949,18 +5186,67 @@ export type GetSecurityFirewallConfigResponseActiveRulesetsCase1ValueLogHeaders 
 export const GetSecurityFirewallConfigResponseActiveRulesetsCase1ValueLogHeaders =
   S.Unknown as any as S.Schema<GetSecurityFirewallConfigResponseActiveRulesetsCase1ValueLogHeaders>;
 
+export type GetSecurityFirewallConfigResponseActiveRulesetsCase1ValueRateLimitAction =
+  | "challenge"
+  | "deny"
+  | "log"
+  | "rate_limit";
+export const GetSecurityFirewallConfigResponseActiveRulesetsCase1ValueRateLimitAction = S.String;
+
+export type GetSecurityFirewallConfigResponseActiveRulesetsCase1ValueRateLimitAlgo =
+  | "fixed_window"
+  | "token_bucket";
+export const GetSecurityFirewallConfigResponseActiveRulesetsCase1ValueRateLimitAlgo = S.String;
+
+export type GetSecurityFirewallConfigResponseActiveRulesetsCase1ValueRateLimitKeysList =
+  Array<string>;
+export const GetSecurityFirewallConfigResponseActiveRulesetsCase1ValueRateLimitKeysList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<GetSecurityFirewallConfigResponseActiveRulesetsCase1ValueRateLimitKeysList>;
+
+export interface GetSecurityFirewallConfigResponseActiveRulesetsCase1ValueRateLimit {
+  action?: GetSecurityFirewallConfigResponseActiveRulesetsCase1ValueRateLimitAction | null;
+  algo: GetSecurityFirewallConfigResponseActiveRulesetsCase1ValueRateLimitAlgo;
+  keys: GetSecurityFirewallConfigResponseActiveRulesetsCase1ValueRateLimitKeysList;
+  limit: number;
+  window: number;
+}
+export const GetSecurityFirewallConfigResponseActiveRulesetsCase1ValueRateLimit =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      action: S.optional(
+        S.NullOr(GetSecurityFirewallConfigResponseActiveRulesetsCase1ValueRateLimitAction),
+      ),
+      algo: GetSecurityFirewallConfigResponseActiveRulesetsCase1ValueRateLimitAlgo,
+      keys: GetSecurityFirewallConfigResponseActiveRulesetsCase1ValueRateLimitKeysList,
+      limit: S.Number,
+      window: S.Number,
+    }),
+  ).annotate({
+    identifier: "GetSecurityFirewallConfigResponseActiveRulesetsCase1ValueRateLimit",
+  }) as any as S.Schema<GetSecurityFirewallConfigResponseActiveRulesetsCase1ValueRateLimit>;
+
+export type GetSecurityFirewallConfigResponseActiveRulesetsCase1ValueRedirect =
+  CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
+export const GetSecurityFirewallConfigResponseActiveRulesetsCase1ValueRedirect =
+  CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
+
 export interface GetSecurityFirewallConfigResponseActiveRulesetsCase1Value {
   action: GetSecurityFirewallConfigResponseActiveRulesetsCase1ValueAction;
-  rateLimit?: GetSecurityFirewallConfigResponseActiveRulesetsCase1ValueRateLimit | null;
-  redirect?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect | null;
   actionDuration?: string | null;
   bypassSystem?: boolean | null;
   logHeaders?: GetSecurityFirewallConfigResponseActiveRulesetsCase1ValueLogHeaders;
+  rateLimit?: GetSecurityFirewallConfigResponseActiveRulesetsCase1ValueRateLimit | null;
+  redirect?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect | null;
 }
 export const GetSecurityFirewallConfigResponseActiveRulesetsCase1Value = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
       action: GetSecurityFirewallConfigResponseActiveRulesetsCase1ValueAction,
+      actionDuration: S.optional(S.NullOr(S.String)),
+      bypassSystem: S.optional(S.NullOr(S.Boolean)),
+      logHeaders: S.optional(GetSecurityFirewallConfigResponseActiveRulesetsCase1ValueLogHeaders),
       rateLimit: S.optional(
         S.NullOr(GetSecurityFirewallConfigResponseActiveRulesetsCase1ValueRateLimit),
       ),
@@ -4969,9 +5255,6 @@ export const GetSecurityFirewallConfigResponseActiveRulesetsCase1Value = /*@__PU
           CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect,
         ),
       ),
-      actionDuration: S.optional(S.NullOr(S.String)),
-      bypassSystem: S.optional(S.NullOr(S.Boolean)),
-      logHeaders: S.optional(GetSecurityFirewallConfigResponseActiveRulesetsCase1ValueLogHeaders),
     }),
 ).annotate({
   identifier: "GetSecurityFirewallConfigResponseActiveRulesetsCase1Value",
@@ -4991,7 +5274,70 @@ export type GetSecurityFirewallConfigResponseActiveRulesets =
 export const GetSecurityFirewallConfigResponseActiveRulesets =
   S.Unknown as any as S.Schema<GetSecurityFirewallConfigResponseActiveRulesets>;
 
-export type GetSecurityFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItemType =
+export interface GetSecurityFirewallConfigResponseActive {
+  botIdEnabled?: boolean;
+  changes: GetSecurityFirewallConfigResponseActiveChangesList;
+  conditions?: GetSecurityFirewallConfigResponseActiveConditionsList;
+  crs?: GetSecurityFirewallConfigResponseActiveCrs;
+  firewallEnabled: boolean;
+  id: string;
+  ips: GetSecurityFirewallConfigResponseActiveIpsList;
+  logHeaders?: GetSecurityFirewallConfigResponseActiveLogHeaders;
+  managedRules?: GetSecurityFirewallConfigResponseActiveManagedRules;
+  ownerId: string;
+  projectKey: string;
+  rules: GetSecurityFirewallConfigResponseActiveRulesList;
+  rulesets?: GetSecurityFirewallConfigResponseActiveRulesets;
+  updatedAt: string;
+  version: number;
+}
+export const GetSecurityFirewallConfigResponseActive = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    botIdEnabled: S.optional(S.Boolean),
+    changes: GetSecurityFirewallConfigResponseActiveChangesList,
+    conditions: S.optional(GetSecurityFirewallConfigResponseActiveConditionsList),
+    crs: S.optional(GetSecurityFirewallConfigResponseActiveCrs),
+    firewallEnabled: S.Boolean,
+    id: S.String,
+    ips: GetSecurityFirewallConfigResponseActiveIpsList,
+    logHeaders: S.optional(GetSecurityFirewallConfigResponseActiveLogHeaders),
+    managedRules: S.optional(GetSecurityFirewallConfigResponseActiveManagedRules),
+    ownerId: S.String,
+    projectKey: S.String,
+    rules: GetSecurityFirewallConfigResponseActiveRulesList,
+    rulesets: S.optional(GetSecurityFirewallConfigResponseActiveRulesets),
+    updatedAt: S.String,
+    version: S.Number,
+  }),
+).annotate({
+  identifier: "GetSecurityFirewallConfigResponseActive",
+}) as any as S.Schema<GetSecurityFirewallConfigResponseActive>;
+
+export type GetSecurityFirewallConfigResponseDraftChangesList = Array<unknown>;
+export const GetSecurityFirewallConfigResponseDraftChangesList = /*@__PURE__*/ S.Array(
+  S.Unknown,
+) as any as S.Schema<GetSecurityFirewallConfigResponseDraftChangesList>;
+
+export type GetSecurityFirewallConfigResponseDraftConditionsItemConditionGroupItemConditionsItemOp =
+  | "eq"
+  | "ex"
+  | "gt"
+  | "gte"
+  | "inc"
+  | "list"
+  | "lt"
+  | "lte"
+  | "neq"
+  | "nex"
+  | "ninc"
+  | "pre"
+  | "re"
+  | "sub"
+  | "suf";
+export const GetSecurityFirewallConfigResponseDraftConditionsItemConditionGroupItemConditionsItemOp =
+  S.String;
+
+export type GetSecurityFirewallConfigResponseDraftConditionsItemConditionGroupItemConditionsItemType =
   | "bot_category"
   | "bot_name"
   | "bot_protection"
@@ -5025,10 +5371,617 @@ export type GetSecurityFirewallConfigResponseActiveConditionsItemConditionGroupI
   | "traffic_source"
   | "trusted_source"
   | "user_agent";
-export const GetSecurityFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItemType =
+export const GetSecurityFirewallConfigResponseDraftConditionsItemConditionGroupItemConditionsItemType =
   S.String;
 
-export type GetSecurityFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItemOp =
+export type GetSecurityFirewallConfigResponseDraftConditionsItemConditionGroupItemConditionsItemValueCase2List =
+  Array<string>;
+export const GetSecurityFirewallConfigResponseDraftConditionsItemConditionGroupItemConditionsItemValueCase2List =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<GetSecurityFirewallConfigResponseDraftConditionsItemConditionGroupItemConditionsItemValueCase2List>;
+
+export type GetSecurityFirewallConfigResponseDraftConditionsItemConditionGroupItemConditionsItemValue =
+  | string
+  | number
+  | GetSecurityFirewallConfigResponseDraftConditionsItemConditionGroupItemConditionsItemValueCase2List;
+export const GetSecurityFirewallConfigResponseDraftConditionsItemConditionGroupItemConditionsItemValue =
+  S.Unknown as any as S.Schema<GetSecurityFirewallConfigResponseDraftConditionsItemConditionGroupItemConditionsItemValue>;
+
+export interface GetSecurityFirewallConfigResponseDraftConditionsItemConditionGroupItemConditionsItem {
+  key?: string;
+  neg?: boolean;
+  op: GetSecurityFirewallConfigResponseDraftConditionsItemConditionGroupItemConditionsItemOp;
+  type: GetSecurityFirewallConfigResponseDraftConditionsItemConditionGroupItemConditionsItemType;
+  value?: GetSecurityFirewallConfigResponseDraftConditionsItemConditionGroupItemConditionsItemValue;
+}
+export const GetSecurityFirewallConfigResponseDraftConditionsItemConditionGroupItemConditionsItem =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      key: S.optional(S.String),
+      neg: S.optional(S.Boolean),
+      op: GetSecurityFirewallConfigResponseDraftConditionsItemConditionGroupItemConditionsItemOp,
+      type: GetSecurityFirewallConfigResponseDraftConditionsItemConditionGroupItemConditionsItemType,
+      value: S.optional(
+        GetSecurityFirewallConfigResponseDraftConditionsItemConditionGroupItemConditionsItemValue,
+      ),
+    }),
+  ).annotate({
+    identifier:
+      "GetSecurityFirewallConfigResponseDraftConditionsItemConditionGroupItemConditionsItem",
+  }) as any as S.Schema<GetSecurityFirewallConfigResponseDraftConditionsItemConditionGroupItemConditionsItem>;
+
+export type GetSecurityFirewallConfigResponseDraftConditionsItemConditionGroupItemConditionsList =
+  Array<GetSecurityFirewallConfigResponseDraftConditionsItemConditionGroupItemConditionsItem>;
+export const GetSecurityFirewallConfigResponseDraftConditionsItemConditionGroupItemConditionsList =
+  /*@__PURE__*/ S.Array(
+    GetSecurityFirewallConfigResponseDraftConditionsItemConditionGroupItemConditionsItem,
+  ) as any as S.Schema<GetSecurityFirewallConfigResponseDraftConditionsItemConditionGroupItemConditionsList>;
+
+export interface GetSecurityFirewallConfigResponseDraftConditionsItemConditionGroupItem {
+  conditions: GetSecurityFirewallConfigResponseDraftConditionsItemConditionGroupItemConditionsList;
+}
+export const GetSecurityFirewallConfigResponseDraftConditionsItemConditionGroupItem =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      conditions:
+        GetSecurityFirewallConfigResponseDraftConditionsItemConditionGroupItemConditionsList,
+    }),
+  ).annotate({
+    identifier: "GetSecurityFirewallConfigResponseDraftConditionsItemConditionGroupItem",
+  }) as any as S.Schema<GetSecurityFirewallConfigResponseDraftConditionsItemConditionGroupItem>;
+
+export type GetSecurityFirewallConfigResponseDraftConditionsItemConditionGroupList =
+  Array<GetSecurityFirewallConfigResponseDraftConditionsItemConditionGroupItem>;
+export const GetSecurityFirewallConfigResponseDraftConditionsItemConditionGroupList =
+  /*@__PURE__*/ S.Array(
+    GetSecurityFirewallConfigResponseDraftConditionsItemConditionGroupItem,
+  ) as any as S.Schema<GetSecurityFirewallConfigResponseDraftConditionsItemConditionGroupList>;
+
+export interface GetSecurityFirewallConfigResponseDraftConditionsItem {
+  active: boolean;
+  conditionGroup: GetSecurityFirewallConfigResponseDraftConditionsItemConditionGroupList;
+  description?: string;
+  id: string;
+  name: string;
+}
+export const GetSecurityFirewallConfigResponseDraftConditionsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    active: S.Boolean,
+    conditionGroup: GetSecurityFirewallConfigResponseDraftConditionsItemConditionGroupList,
+    description: S.optional(S.String),
+    id: S.String,
+    name: S.String,
+  }),
+).annotate({
+  identifier: "GetSecurityFirewallConfigResponseDraftConditionsItem",
+}) as any as S.Schema<GetSecurityFirewallConfigResponseDraftConditionsItem>;
+
+export type GetSecurityFirewallConfigResponseDraftConditionsList =
+  Array<GetSecurityFirewallConfigResponseDraftConditionsItem>;
+export const GetSecurityFirewallConfigResponseDraftConditionsList = /*@__PURE__*/ S.Array(
+  GetSecurityFirewallConfigResponseDraftConditionsItem,
+) as any as S.Schema<GetSecurityFirewallConfigResponseDraftConditionsList>;
+
+export type GetSecurityFirewallConfigResponseDraftCrsGenAction = "deny" | "log";
+export const GetSecurityFirewallConfigResponseDraftCrsGenAction = S.String;
+
+export interface GetSecurityFirewallConfigResponseDraftCrsGen {
+  action: GetSecurityFirewallConfigResponseDraftCrsGenAction;
+  active: boolean;
+}
+export const GetSecurityFirewallConfigResponseDraftCrsGen = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    action: GetSecurityFirewallConfigResponseDraftCrsGenAction,
+    active: S.Boolean,
+  }),
+).annotate({
+  identifier: "GetSecurityFirewallConfigResponseDraftCrsGen",
+}) as any as S.Schema<GetSecurityFirewallConfigResponseDraftCrsGen>;
+
+export type GetSecurityFirewallConfigResponseDraftCrsJavaAction = "deny" | "log";
+export const GetSecurityFirewallConfigResponseDraftCrsJavaAction = S.String;
+
+export interface GetSecurityFirewallConfigResponseDraftCrsJava {
+  action: GetSecurityFirewallConfigResponseDraftCrsJavaAction;
+  active: boolean;
+}
+export const GetSecurityFirewallConfigResponseDraftCrsJava = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    action: GetSecurityFirewallConfigResponseDraftCrsJavaAction,
+    active: S.Boolean,
+  }),
+).annotate({
+  identifier: "GetSecurityFirewallConfigResponseDraftCrsJava",
+}) as any as S.Schema<GetSecurityFirewallConfigResponseDraftCrsJava>;
+
+export type GetSecurityFirewallConfigResponseDraftCrsLfiAction = "deny" | "log";
+export const GetSecurityFirewallConfigResponseDraftCrsLfiAction = S.String;
+
+export interface GetSecurityFirewallConfigResponseDraftCrsLfi {
+  action: GetSecurityFirewallConfigResponseDraftCrsLfiAction;
+  active: boolean;
+}
+export const GetSecurityFirewallConfigResponseDraftCrsLfi = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    action: GetSecurityFirewallConfigResponseDraftCrsLfiAction,
+    active: S.Boolean,
+  }),
+).annotate({
+  identifier: "GetSecurityFirewallConfigResponseDraftCrsLfi",
+}) as any as S.Schema<GetSecurityFirewallConfigResponseDraftCrsLfi>;
+
+export type GetSecurityFirewallConfigResponseDraftCrsMaAction = "deny" | "log";
+export const GetSecurityFirewallConfigResponseDraftCrsMaAction = S.String;
+
+export interface GetSecurityFirewallConfigResponseDraftCrsMa {
+  action: GetSecurityFirewallConfigResponseDraftCrsMaAction;
+  active: boolean;
+}
+export const GetSecurityFirewallConfigResponseDraftCrsMa = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    action: GetSecurityFirewallConfigResponseDraftCrsMaAction,
+    active: S.Boolean,
+  }),
+).annotate({
+  identifier: "GetSecurityFirewallConfigResponseDraftCrsMa",
+}) as any as S.Schema<GetSecurityFirewallConfigResponseDraftCrsMa>;
+
+export type GetSecurityFirewallConfigResponseDraftCrsPhpAction = "deny" | "log";
+export const GetSecurityFirewallConfigResponseDraftCrsPhpAction = S.String;
+
+export interface GetSecurityFirewallConfigResponseDraftCrsPhp {
+  action: GetSecurityFirewallConfigResponseDraftCrsPhpAction;
+  active: boolean;
+}
+export const GetSecurityFirewallConfigResponseDraftCrsPhp = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    action: GetSecurityFirewallConfigResponseDraftCrsPhpAction,
+    active: S.Boolean,
+  }),
+).annotate({
+  identifier: "GetSecurityFirewallConfigResponseDraftCrsPhp",
+}) as any as S.Schema<GetSecurityFirewallConfigResponseDraftCrsPhp>;
+
+export type GetSecurityFirewallConfigResponseDraftCrsRceAction = "deny" | "log";
+export const GetSecurityFirewallConfigResponseDraftCrsRceAction = S.String;
+
+export interface GetSecurityFirewallConfigResponseDraftCrsRce {
+  action: GetSecurityFirewallConfigResponseDraftCrsRceAction;
+  active: boolean;
+}
+export const GetSecurityFirewallConfigResponseDraftCrsRce = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    action: GetSecurityFirewallConfigResponseDraftCrsRceAction,
+    active: S.Boolean,
+  }),
+).annotate({
+  identifier: "GetSecurityFirewallConfigResponseDraftCrsRce",
+}) as any as S.Schema<GetSecurityFirewallConfigResponseDraftCrsRce>;
+
+export type GetSecurityFirewallConfigResponseDraftCrsRfiAction = "deny" | "log";
+export const GetSecurityFirewallConfigResponseDraftCrsRfiAction = S.String;
+
+export interface GetSecurityFirewallConfigResponseDraftCrsRfi {
+  action: GetSecurityFirewallConfigResponseDraftCrsRfiAction;
+  active: boolean;
+}
+export const GetSecurityFirewallConfigResponseDraftCrsRfi = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    action: GetSecurityFirewallConfigResponseDraftCrsRfiAction,
+    active: S.Boolean,
+  }),
+).annotate({
+  identifier: "GetSecurityFirewallConfigResponseDraftCrsRfi",
+}) as any as S.Schema<GetSecurityFirewallConfigResponseDraftCrsRfi>;
+
+export type GetSecurityFirewallConfigResponseDraftCrsSdAction = "deny" | "log";
+export const GetSecurityFirewallConfigResponseDraftCrsSdAction = S.String;
+
+export interface GetSecurityFirewallConfigResponseDraftCrsSd {
+  action: GetSecurityFirewallConfigResponseDraftCrsSdAction;
+  active: boolean;
+}
+export const GetSecurityFirewallConfigResponseDraftCrsSd = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    action: GetSecurityFirewallConfigResponseDraftCrsSdAction,
+    active: S.Boolean,
+  }),
+).annotate({
+  identifier: "GetSecurityFirewallConfigResponseDraftCrsSd",
+}) as any as S.Schema<GetSecurityFirewallConfigResponseDraftCrsSd>;
+
+export type GetSecurityFirewallConfigResponseDraftCrsSfAction = "deny" | "log";
+export const GetSecurityFirewallConfigResponseDraftCrsSfAction = S.String;
+
+export interface GetSecurityFirewallConfigResponseDraftCrsSf {
+  action: GetSecurityFirewallConfigResponseDraftCrsSfAction;
+  active: boolean;
+}
+export const GetSecurityFirewallConfigResponseDraftCrsSf = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    action: GetSecurityFirewallConfigResponseDraftCrsSfAction,
+    active: S.Boolean,
+  }),
+).annotate({
+  identifier: "GetSecurityFirewallConfigResponseDraftCrsSf",
+}) as any as S.Schema<GetSecurityFirewallConfigResponseDraftCrsSf>;
+
+export type GetSecurityFirewallConfigResponseDraftCrsSqliAction = "deny" | "log";
+export const GetSecurityFirewallConfigResponseDraftCrsSqliAction = S.String;
+
+export interface GetSecurityFirewallConfigResponseDraftCrsSqli {
+  action: GetSecurityFirewallConfigResponseDraftCrsSqliAction;
+  active: boolean;
+}
+export const GetSecurityFirewallConfigResponseDraftCrsSqli = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    action: GetSecurityFirewallConfigResponseDraftCrsSqliAction,
+    active: S.Boolean,
+  }),
+).annotate({
+  identifier: "GetSecurityFirewallConfigResponseDraftCrsSqli",
+}) as any as S.Schema<GetSecurityFirewallConfigResponseDraftCrsSqli>;
+
+export type GetSecurityFirewallConfigResponseDraftCrsXssAction = "deny" | "log";
+export const GetSecurityFirewallConfigResponseDraftCrsXssAction = S.String;
+
+export interface GetSecurityFirewallConfigResponseDraftCrsXss {
+  action: GetSecurityFirewallConfigResponseDraftCrsXssAction;
+  active: boolean;
+}
+export const GetSecurityFirewallConfigResponseDraftCrsXss = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    action: GetSecurityFirewallConfigResponseDraftCrsXssAction,
+    active: S.Boolean,
+  }),
+).annotate({
+  identifier: "GetSecurityFirewallConfigResponseDraftCrsXss",
+}) as any as S.Schema<GetSecurityFirewallConfigResponseDraftCrsXss>;
+
+export interface GetSecurityFirewallConfigResponseDraftCrs {
+  gen: GetSecurityFirewallConfigResponseDraftCrsGen;
+  java: GetSecurityFirewallConfigResponseDraftCrsJava;
+  lfi: GetSecurityFirewallConfigResponseDraftCrsLfi;
+  ma: GetSecurityFirewallConfigResponseDraftCrsMa;
+  php: GetSecurityFirewallConfigResponseDraftCrsPhp;
+  rce: GetSecurityFirewallConfigResponseDraftCrsRce;
+  rfi: GetSecurityFirewallConfigResponseDraftCrsRfi;
+  sd: GetSecurityFirewallConfigResponseDraftCrsSd;
+  sf: GetSecurityFirewallConfigResponseDraftCrsSf;
+  sqli: GetSecurityFirewallConfigResponseDraftCrsSqli;
+  xss: GetSecurityFirewallConfigResponseDraftCrsXss;
+}
+export const GetSecurityFirewallConfigResponseDraftCrs = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    gen: GetSecurityFirewallConfigResponseDraftCrsGen,
+    java: GetSecurityFirewallConfigResponseDraftCrsJava,
+    lfi: GetSecurityFirewallConfigResponseDraftCrsLfi,
+    ma: GetSecurityFirewallConfigResponseDraftCrsMa,
+    php: GetSecurityFirewallConfigResponseDraftCrsPhp,
+    rce: GetSecurityFirewallConfigResponseDraftCrsRce,
+    rfi: GetSecurityFirewallConfigResponseDraftCrsRfi,
+    sd: GetSecurityFirewallConfigResponseDraftCrsSd,
+    sf: GetSecurityFirewallConfigResponseDraftCrsSf,
+    sqli: GetSecurityFirewallConfigResponseDraftCrsSqli,
+    xss: GetSecurityFirewallConfigResponseDraftCrsXss,
+  }),
+).annotate({
+  identifier: "GetSecurityFirewallConfigResponseDraftCrs",
+}) as any as S.Schema<GetSecurityFirewallConfigResponseDraftCrs>;
+
+export type GetSecurityFirewallConfigResponseDraftIpsItemAction =
+  | "bypass"
+  | "challenge"
+  | "deny"
+  | "log";
+export const GetSecurityFirewallConfigResponseDraftIpsItemAction = S.String;
+
+export interface GetSecurityFirewallConfigResponseDraftIpsItem {
+  action: GetSecurityFirewallConfigResponseDraftIpsItemAction;
+  hostname: string;
+  id: string;
+  ip: string;
+  notes?: string;
+}
+export const GetSecurityFirewallConfigResponseDraftIpsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    action: GetSecurityFirewallConfigResponseDraftIpsItemAction,
+    hostname: S.String,
+    id: S.String,
+    ip: S.String,
+    notes: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GetSecurityFirewallConfigResponseDraftIpsItem",
+}) as any as S.Schema<GetSecurityFirewallConfigResponseDraftIpsItem>;
+
+export type GetSecurityFirewallConfigResponseDraftIpsList =
+  Array<GetSecurityFirewallConfigResponseDraftIpsItem>;
+export const GetSecurityFirewallConfigResponseDraftIpsList = /*@__PURE__*/ S.Array(
+  GetSecurityFirewallConfigResponseDraftIpsItem,
+) as any as S.Schema<GetSecurityFirewallConfigResponseDraftIpsList>;
+
+export type GetSecurityFirewallConfigResponseDraftLogHeadersCase0List = Array<string>;
+export const GetSecurityFirewallConfigResponseDraftLogHeadersCase0List = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<GetSecurityFirewallConfigResponseDraftLogHeadersCase0List>;
+
+export type GetSecurityFirewallConfigResponseDraftLogHeadersCase1 = "*";
+export const GetSecurityFirewallConfigResponseDraftLogHeadersCase1 = S.String;
+
+export type GetSecurityFirewallConfigResponseDraftLogHeaders =
+  | GetSecurityFirewallConfigResponseDraftLogHeadersCase0List
+  | GetSecurityFirewallConfigResponseDraftLogHeadersCase1;
+export const GetSecurityFirewallConfigResponseDraftLogHeaders =
+  S.Unknown as any as S.Schema<GetSecurityFirewallConfigResponseDraftLogHeaders>;
+
+export type GetSecurityFirewallConfigResponseDraftManagedRulesAiBotsAction =
+  | "challenge"
+  | "deny"
+  | "log";
+export const GetSecurityFirewallConfigResponseDraftManagedRulesAiBotsAction = S.String;
+
+export interface GetSecurityFirewallConfigResponseDraftManagedRulesAiBots {
+  action?: GetSecurityFirewallConfigResponseDraftManagedRulesAiBotsAction;
+  active: boolean;
+  updatedAt?: string;
+  userId?: string;
+  username?: string;
+}
+export const GetSecurityFirewallConfigResponseDraftManagedRulesAiBots = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      action: S.optional(GetSecurityFirewallConfigResponseDraftManagedRulesAiBotsAction),
+      active: S.Boolean,
+      updatedAt: S.optional(S.String),
+      userId: S.optional(S.String),
+      username: S.optional(S.String),
+    }),
+).annotate({
+  identifier: "GetSecurityFirewallConfigResponseDraftManagedRulesAiBots",
+}) as any as S.Schema<GetSecurityFirewallConfigResponseDraftManagedRulesAiBots>;
+
+export type GetSecurityFirewallConfigResponseDraftManagedRulesBotProtectionAction =
+  | "challenge"
+  | "deny"
+  | "log";
+export const GetSecurityFirewallConfigResponseDraftManagedRulesBotProtectionAction = S.String;
+
+export interface GetSecurityFirewallConfigResponseDraftManagedRulesBotProtection {
+  action?: GetSecurityFirewallConfigResponseDraftManagedRulesBotProtectionAction;
+  active: boolean;
+  updatedAt?: string;
+  userId?: string;
+  username?: string;
+}
+export const GetSecurityFirewallConfigResponseDraftManagedRulesBotProtection =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      action: S.optional(GetSecurityFirewallConfigResponseDraftManagedRulesBotProtectionAction),
+      active: S.Boolean,
+      updatedAt: S.optional(S.String),
+      userId: S.optional(S.String),
+      username: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "GetSecurityFirewallConfigResponseDraftManagedRulesBotProtection",
+  }) as any as S.Schema<GetSecurityFirewallConfigResponseDraftManagedRulesBotProtection>;
+
+export type GetSecurityFirewallConfigResponseDraftManagedRulesOwaspAction =
+  | "challenge"
+  | "deny"
+  | "log";
+export const GetSecurityFirewallConfigResponseDraftManagedRulesOwaspAction = S.String;
+
+export interface GetSecurityFirewallConfigResponseDraftManagedRulesOwasp {
+  action?: GetSecurityFirewallConfigResponseDraftManagedRulesOwaspAction;
+  active: boolean;
+  updatedAt?: string;
+  userId?: string;
+  username?: string;
+}
+export const GetSecurityFirewallConfigResponseDraftManagedRulesOwasp = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    action: S.optional(GetSecurityFirewallConfigResponseDraftManagedRulesOwaspAction),
+    active: S.Boolean,
+    updatedAt: S.optional(S.String),
+    userId: S.optional(S.String),
+    username: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GetSecurityFirewallConfigResponseDraftManagedRulesOwasp",
+}) as any as S.Schema<GetSecurityFirewallConfigResponseDraftManagedRulesOwasp>;
+
+export type GetSecurityFirewallConfigResponseDraftManagedRulesTrafficSourcesAction =
+  | "challenge"
+  | "deny"
+  | "log";
+export const GetSecurityFirewallConfigResponseDraftManagedRulesTrafficSourcesAction = S.String;
+
+export interface GetSecurityFirewallConfigResponseDraftManagedRulesTrafficSources {
+  action?: GetSecurityFirewallConfigResponseDraftManagedRulesTrafficSourcesAction;
+  active: boolean;
+  updatedAt?: string;
+  userId?: string;
+  username?: string;
+}
+export const GetSecurityFirewallConfigResponseDraftManagedRulesTrafficSources =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      action: S.optional(GetSecurityFirewallConfigResponseDraftManagedRulesTrafficSourcesAction),
+      active: S.Boolean,
+      updatedAt: S.optional(S.String),
+      userId: S.optional(S.String),
+      username: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "GetSecurityFirewallConfigResponseDraftManagedRulesTrafficSources",
+  }) as any as S.Schema<GetSecurityFirewallConfigResponseDraftManagedRulesTrafficSources>;
+
+export type GetSecurityFirewallConfigResponseDraftManagedRulesVercelRulesetAction =
+  | "challenge"
+  | "deny"
+  | "log";
+export const GetSecurityFirewallConfigResponseDraftManagedRulesVercelRulesetAction = S.String;
+
+export interface GetSecurityFirewallConfigResponseDraftManagedRulesVercelRuleset {
+  action?: GetSecurityFirewallConfigResponseDraftManagedRulesVercelRulesetAction;
+  active: boolean;
+  updatedAt?: string;
+  userId?: string;
+  username?: string;
+}
+export const GetSecurityFirewallConfigResponseDraftManagedRulesVercelRuleset =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      action: S.optional(GetSecurityFirewallConfigResponseDraftManagedRulesVercelRulesetAction),
+      active: S.Boolean,
+      updatedAt: S.optional(S.String),
+      userId: S.optional(S.String),
+      username: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "GetSecurityFirewallConfigResponseDraftManagedRulesVercelRuleset",
+  }) as any as S.Schema<GetSecurityFirewallConfigResponseDraftManagedRulesVercelRuleset>;
+
+export interface GetSecurityFirewallConfigResponseDraftManagedRules {
+  ai_bots?: GetSecurityFirewallConfigResponseDraftManagedRulesAiBots;
+  bot_protection?: GetSecurityFirewallConfigResponseDraftManagedRulesBotProtection;
+  owasp?: GetSecurityFirewallConfigResponseDraftManagedRulesOwasp;
+  traffic_sources?: GetSecurityFirewallConfigResponseDraftManagedRulesTrafficSources;
+  vercel_ruleset?: GetSecurityFirewallConfigResponseDraftManagedRulesVercelRuleset;
+}
+export const GetSecurityFirewallConfigResponseDraftManagedRules = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ai_bots: S.optional(GetSecurityFirewallConfigResponseDraftManagedRulesAiBots),
+    bot_protection: S.optional(GetSecurityFirewallConfigResponseDraftManagedRulesBotProtection),
+    owasp: S.optional(GetSecurityFirewallConfigResponseDraftManagedRulesOwasp),
+    traffic_sources: S.optional(GetSecurityFirewallConfigResponseDraftManagedRulesTrafficSources),
+    vercel_ruleset: S.optional(GetSecurityFirewallConfigResponseDraftManagedRulesVercelRuleset),
+  }),
+).annotate({
+  identifier: "GetSecurityFirewallConfigResponseDraftManagedRules",
+}) as any as S.Schema<GetSecurityFirewallConfigResponseDraftManagedRules>;
+
+export type GetSecurityFirewallConfigResponseDraftRulesItemCase0ActionMitigateAction =
+  | "allow"
+  | "bypass"
+  | "challenge"
+  | "deny"
+  | "log"
+  | "rate_limit"
+  | "redirect";
+export const GetSecurityFirewallConfigResponseDraftRulesItemCase0ActionMitigateAction = S.String;
+
+export type GetSecurityFirewallConfigResponseDraftRulesItemCase0ActionMitigateLogHeadersCase0List =
+  Array<string>;
+export const GetSecurityFirewallConfigResponseDraftRulesItemCase0ActionMitigateLogHeadersCase0List =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<GetSecurityFirewallConfigResponseDraftRulesItemCase0ActionMitigateLogHeadersCase0List>;
+
+export type GetSecurityFirewallConfigResponseDraftRulesItemCase0ActionMitigateLogHeadersCase1 = "*";
+export const GetSecurityFirewallConfigResponseDraftRulesItemCase0ActionMitigateLogHeadersCase1 =
+  S.String;
+
+export type GetSecurityFirewallConfigResponseDraftRulesItemCase0ActionMitigateLogHeaders =
+  | GetSecurityFirewallConfigResponseDraftRulesItemCase0ActionMitigateLogHeadersCase0List
+  | GetSecurityFirewallConfigResponseDraftRulesItemCase0ActionMitigateLogHeadersCase1;
+export const GetSecurityFirewallConfigResponseDraftRulesItemCase0ActionMitigateLogHeaders =
+  S.Unknown as any as S.Schema<GetSecurityFirewallConfigResponseDraftRulesItemCase0ActionMitigateLogHeaders>;
+
+export type GetSecurityFirewallConfigResponseDraftRulesItemCase0ActionMitigateRateLimitAction =
+  | "challenge"
+  | "deny"
+  | "log"
+  | "rate_limit";
+export const GetSecurityFirewallConfigResponseDraftRulesItemCase0ActionMitigateRateLimitAction =
+  S.String;
+
+export type GetSecurityFirewallConfigResponseDraftRulesItemCase0ActionMitigateRateLimitAlgo =
+  | "fixed_window"
+  | "token_bucket";
+export const GetSecurityFirewallConfigResponseDraftRulesItemCase0ActionMitigateRateLimitAlgo =
+  S.String;
+
+export type GetSecurityFirewallConfigResponseDraftRulesItemCase0ActionMitigateRateLimitKeysList =
+  Array<string>;
+export const GetSecurityFirewallConfigResponseDraftRulesItemCase0ActionMitigateRateLimitKeysList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<GetSecurityFirewallConfigResponseDraftRulesItemCase0ActionMitigateRateLimitKeysList>;
+
+export interface GetSecurityFirewallConfigResponseDraftRulesItemCase0ActionMitigateRateLimit {
+  action?: GetSecurityFirewallConfigResponseDraftRulesItemCase0ActionMitigateRateLimitAction | null;
+  algo: GetSecurityFirewallConfigResponseDraftRulesItemCase0ActionMitigateRateLimitAlgo;
+  keys: GetSecurityFirewallConfigResponseDraftRulesItemCase0ActionMitigateRateLimitKeysList;
+  limit: number;
+  window: number;
+}
+export const GetSecurityFirewallConfigResponseDraftRulesItemCase0ActionMitigateRateLimit =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      action: S.optional(
+        S.NullOr(GetSecurityFirewallConfigResponseDraftRulesItemCase0ActionMitigateRateLimitAction),
+      ),
+      algo: GetSecurityFirewallConfigResponseDraftRulesItemCase0ActionMitigateRateLimitAlgo,
+      keys: GetSecurityFirewallConfigResponseDraftRulesItemCase0ActionMitigateRateLimitKeysList,
+      limit: S.Number,
+      window: S.Number,
+    }),
+  ).annotate({
+    identifier: "GetSecurityFirewallConfigResponseDraftRulesItemCase0ActionMitigateRateLimit",
+  }) as any as S.Schema<GetSecurityFirewallConfigResponseDraftRulesItemCase0ActionMitigateRateLimit>;
+
+export type GetSecurityFirewallConfigResponseDraftRulesItemCase0ActionMitigateRedirect =
+  CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
+export const GetSecurityFirewallConfigResponseDraftRulesItemCase0ActionMitigateRedirect =
+  CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
+
+export interface GetSecurityFirewallConfigResponseDraftRulesItemCase0ActionMitigate {
+  action: GetSecurityFirewallConfigResponseDraftRulesItemCase0ActionMitigateAction;
+  actionDuration?: string | null;
+  bypassSystem?: boolean | null;
+  logHeaders?: GetSecurityFirewallConfigResponseDraftRulesItemCase0ActionMitigateLogHeaders;
+  rateLimit?: GetSecurityFirewallConfigResponseDraftRulesItemCase0ActionMitigateRateLimit | null;
+  redirect?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect | null;
+}
+export const GetSecurityFirewallConfigResponseDraftRulesItemCase0ActionMitigate =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      action: GetSecurityFirewallConfigResponseDraftRulesItemCase0ActionMitigateAction,
+      actionDuration: S.optional(S.NullOr(S.String)),
+      bypassSystem: S.optional(S.NullOr(S.Boolean)),
+      logHeaders: S.optional(
+        GetSecurityFirewallConfigResponseDraftRulesItemCase0ActionMitigateLogHeaders,
+      ),
+      rateLimit: S.optional(
+        S.NullOr(GetSecurityFirewallConfigResponseDraftRulesItemCase0ActionMitigateRateLimit),
+      ),
+      redirect: S.optional(
+        S.NullOr(
+          CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect,
+        ),
+      ),
+    }),
+  ).annotate({
+    identifier: "GetSecurityFirewallConfigResponseDraftRulesItemCase0ActionMitigate",
+  }) as any as S.Schema<GetSecurityFirewallConfigResponseDraftRulesItemCase0ActionMitigate>;
+
+export interface GetSecurityFirewallConfigResponseDraftRulesItemCase0Action {
+  mitigate?: GetSecurityFirewallConfigResponseDraftRulesItemCase0ActionMitigate;
+}
+export const GetSecurityFirewallConfigResponseDraftRulesItemCase0Action = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      mitigate: S.optional(GetSecurityFirewallConfigResponseDraftRulesItemCase0ActionMitigate),
+    }),
+).annotate({
+  identifier: "GetSecurityFirewallConfigResponseDraftRulesItemCase0Action",
+}) as any as S.Schema<GetSecurityFirewallConfigResponseDraftRulesItemCase0Action>;
+
+export type GetSecurityFirewallConfigResponseDraftRulesItemCase0ConditionGroupItemConditionsItemOp =
   | "eq"
   | "ex"
   | "gt"
@@ -5044,511 +5997,8 @@ export type GetSecurityFirewallConfigResponseActiveConditionsItemConditionGroupI
   | "re"
   | "sub"
   | "suf";
-export const GetSecurityFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItemOp =
+export const GetSecurityFirewallConfigResponseDraftRulesItemCase0ConditionGroupItemConditionsItemOp =
   S.String;
-
-export type GetSecurityFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItemValueCase2List =
-  Array<string>;
-export const GetSecurityFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItemValueCase2List =
-  /*@__PURE__*/ S.Array(
-    S.String,
-  ) as any as S.Schema<GetSecurityFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItemValueCase2List>;
-
-export type GetSecurityFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItemValue =
-  | string
-  | number
-  | GetSecurityFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItemValueCase2List;
-export const GetSecurityFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItemValue =
-  S.Unknown as any as S.Schema<GetSecurityFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItemValue>;
-
-export interface GetSecurityFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItem {
-  type: GetSecurityFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItemType;
-  op: GetSecurityFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItemOp;
-  neg?: boolean;
-  key?: string;
-  value?: GetSecurityFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItemValue;
-}
-export const GetSecurityFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItem =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      type: GetSecurityFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItemType,
-      op: GetSecurityFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItemOp,
-      neg: S.optional(S.Boolean),
-      key: S.optional(S.String),
-      value: S.optional(
-        GetSecurityFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItemValue,
-      ),
-    }),
-  ).annotate({
-    identifier:
-      "GetSecurityFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItem",
-  }) as any as S.Schema<GetSecurityFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItem>;
-
-export type GetSecurityFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsList =
-  Array<GetSecurityFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItem>;
-export const GetSecurityFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsList =
-  /*@__PURE__*/ S.Array(
-    GetSecurityFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItem,
-  ) as any as S.Schema<GetSecurityFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsList>;
-
-export interface GetSecurityFirewallConfigResponseActiveConditionsItemConditionGroupItem {
-  conditions: GetSecurityFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsList;
-}
-export const GetSecurityFirewallConfigResponseActiveConditionsItemConditionGroupItem =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      conditions:
-        GetSecurityFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsList,
-    }),
-  ).annotate({
-    identifier: "GetSecurityFirewallConfigResponseActiveConditionsItemConditionGroupItem",
-  }) as any as S.Schema<GetSecurityFirewallConfigResponseActiveConditionsItemConditionGroupItem>;
-
-export type GetSecurityFirewallConfigResponseActiveConditionsItemConditionGroupList =
-  Array<GetSecurityFirewallConfigResponseActiveConditionsItemConditionGroupItem>;
-export const GetSecurityFirewallConfigResponseActiveConditionsItemConditionGroupList =
-  /*@__PURE__*/ S.Array(
-    GetSecurityFirewallConfigResponseActiveConditionsItemConditionGroupItem,
-  ) as any as S.Schema<GetSecurityFirewallConfigResponseActiveConditionsItemConditionGroupList>;
-
-export interface GetSecurityFirewallConfigResponseActiveConditionsItem {
-  description?: string;
-  id: string;
-  name: string;
-  active: boolean;
-  conditionGroup: GetSecurityFirewallConfigResponseActiveConditionsItemConditionGroupList;
-}
-export const GetSecurityFirewallConfigResponseActiveConditionsItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    description: S.optional(S.String),
-    id: S.String,
-    name: S.String,
-    active: S.Boolean,
-    conditionGroup: GetSecurityFirewallConfigResponseActiveConditionsItemConditionGroupList,
-  }),
-).annotate({
-  identifier: "GetSecurityFirewallConfigResponseActiveConditionsItem",
-}) as any as S.Schema<GetSecurityFirewallConfigResponseActiveConditionsItem>;
-
-export type GetSecurityFirewallConfigResponseActiveConditionsList =
-  Array<GetSecurityFirewallConfigResponseActiveConditionsItem>;
-export const GetSecurityFirewallConfigResponseActiveConditionsList = /*@__PURE__*/ S.Array(
-  GetSecurityFirewallConfigResponseActiveConditionsItem,
-) as any as S.Schema<GetSecurityFirewallConfigResponseActiveConditionsList>;
-
-export type GetSecurityFirewallConfigResponseActiveChangesList = Array<unknown>;
-export const GetSecurityFirewallConfigResponseActiveChangesList = /*@__PURE__*/ S.Array(
-  S.Unknown,
-) as any as S.Schema<GetSecurityFirewallConfigResponseActiveChangesList>;
-
-export type GetSecurityFirewallConfigResponseActiveManagedRulesBotProtectionAction =
-  | "challenge"
-  | "deny"
-  | "log";
-export const GetSecurityFirewallConfigResponseActiveManagedRulesBotProtectionAction = S.String;
-
-export interface GetSecurityFirewallConfigResponseActiveManagedRulesBotProtection {
-  active: boolean;
-  action?: GetSecurityFirewallConfigResponseActiveManagedRulesBotProtectionAction;
-  updatedAt?: string;
-  userId?: string;
-  username?: string;
-}
-export const GetSecurityFirewallConfigResponseActiveManagedRulesBotProtection =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      active: S.Boolean,
-      action: S.optional(GetSecurityFirewallConfigResponseActiveManagedRulesBotProtectionAction),
-      updatedAt: S.optional(S.String),
-      userId: S.optional(S.String),
-      username: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "GetSecurityFirewallConfigResponseActiveManagedRulesBotProtection",
-  }) as any as S.Schema<GetSecurityFirewallConfigResponseActiveManagedRulesBotProtection>;
-
-export type GetSecurityFirewallConfigResponseActiveManagedRulesAiBotsAction =
-  | "challenge"
-  | "deny"
-  | "log";
-export const GetSecurityFirewallConfigResponseActiveManagedRulesAiBotsAction = S.String;
-
-export interface GetSecurityFirewallConfigResponseActiveManagedRulesAiBots {
-  active: boolean;
-  action?: GetSecurityFirewallConfigResponseActiveManagedRulesAiBotsAction;
-  updatedAt?: string;
-  userId?: string;
-  username?: string;
-}
-export const GetSecurityFirewallConfigResponseActiveManagedRulesAiBots = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      active: S.Boolean,
-      action: S.optional(GetSecurityFirewallConfigResponseActiveManagedRulesAiBotsAction),
-      updatedAt: S.optional(S.String),
-      userId: S.optional(S.String),
-      username: S.optional(S.String),
-    }),
-).annotate({
-  identifier: "GetSecurityFirewallConfigResponseActiveManagedRulesAiBots",
-}) as any as S.Schema<GetSecurityFirewallConfigResponseActiveManagedRulesAiBots>;
-
-export type GetSecurityFirewallConfigResponseActiveManagedRulesOwaspAction =
-  | "challenge"
-  | "deny"
-  | "log";
-export const GetSecurityFirewallConfigResponseActiveManagedRulesOwaspAction = S.String;
-
-export interface GetSecurityFirewallConfigResponseActiveManagedRulesOwasp {
-  active: boolean;
-  action?: GetSecurityFirewallConfigResponseActiveManagedRulesOwaspAction;
-  updatedAt?: string;
-  userId?: string;
-  username?: string;
-}
-export const GetSecurityFirewallConfigResponseActiveManagedRulesOwasp = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      active: S.Boolean,
-      action: S.optional(GetSecurityFirewallConfigResponseActiveManagedRulesOwaspAction),
-      updatedAt: S.optional(S.String),
-      userId: S.optional(S.String),
-      username: S.optional(S.String),
-    }),
-).annotate({
-  identifier: "GetSecurityFirewallConfigResponseActiveManagedRulesOwasp",
-}) as any as S.Schema<GetSecurityFirewallConfigResponseActiveManagedRulesOwasp>;
-
-export type GetSecurityFirewallConfigResponseActiveManagedRulesVercelRulesetAction =
-  | "challenge"
-  | "deny"
-  | "log";
-export const GetSecurityFirewallConfigResponseActiveManagedRulesVercelRulesetAction = S.String;
-
-export interface GetSecurityFirewallConfigResponseActiveManagedRulesVercelRuleset {
-  active: boolean;
-  action?: GetSecurityFirewallConfigResponseActiveManagedRulesVercelRulesetAction;
-  updatedAt?: string;
-  userId?: string;
-  username?: string;
-}
-export const GetSecurityFirewallConfigResponseActiveManagedRulesVercelRuleset =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      active: S.Boolean,
-      action: S.optional(GetSecurityFirewallConfigResponseActiveManagedRulesVercelRulesetAction),
-      updatedAt: S.optional(S.String),
-      userId: S.optional(S.String),
-      username: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "GetSecurityFirewallConfigResponseActiveManagedRulesVercelRuleset",
-  }) as any as S.Schema<GetSecurityFirewallConfigResponseActiveManagedRulesVercelRuleset>;
-
-export type GetSecurityFirewallConfigResponseActiveManagedRulesTrafficSourcesAction =
-  | "challenge"
-  | "deny"
-  | "log";
-export const GetSecurityFirewallConfigResponseActiveManagedRulesTrafficSourcesAction = S.String;
-
-export interface GetSecurityFirewallConfigResponseActiveManagedRulesTrafficSources {
-  active: boolean;
-  action?: GetSecurityFirewallConfigResponseActiveManagedRulesTrafficSourcesAction;
-  updatedAt?: string;
-  userId?: string;
-  username?: string;
-}
-export const GetSecurityFirewallConfigResponseActiveManagedRulesTrafficSources =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      active: S.Boolean,
-      action: S.optional(GetSecurityFirewallConfigResponseActiveManagedRulesTrafficSourcesAction),
-      updatedAt: S.optional(S.String),
-      userId: S.optional(S.String),
-      username: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "GetSecurityFirewallConfigResponseActiveManagedRulesTrafficSources",
-  }) as any as S.Schema<GetSecurityFirewallConfigResponseActiveManagedRulesTrafficSources>;
-
-export interface GetSecurityFirewallConfigResponseActiveManagedRules {
-  bot_protection?: GetSecurityFirewallConfigResponseActiveManagedRulesBotProtection;
-  ai_bots?: GetSecurityFirewallConfigResponseActiveManagedRulesAiBots;
-  owasp?: GetSecurityFirewallConfigResponseActiveManagedRulesOwasp;
-  vercel_ruleset?: GetSecurityFirewallConfigResponseActiveManagedRulesVercelRuleset;
-  traffic_sources?: GetSecurityFirewallConfigResponseActiveManagedRulesTrafficSources;
-}
-export const GetSecurityFirewallConfigResponseActiveManagedRules = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    bot_protection: S.optional(GetSecurityFirewallConfigResponseActiveManagedRulesBotProtection),
-    ai_bots: S.optional(GetSecurityFirewallConfigResponseActiveManagedRulesAiBots),
-    owasp: S.optional(GetSecurityFirewallConfigResponseActiveManagedRulesOwasp),
-    vercel_ruleset: S.optional(GetSecurityFirewallConfigResponseActiveManagedRulesVercelRuleset),
-    traffic_sources: S.optional(GetSecurityFirewallConfigResponseActiveManagedRulesTrafficSources),
-  }),
-).annotate({
-  identifier: "GetSecurityFirewallConfigResponseActiveManagedRules",
-}) as any as S.Schema<GetSecurityFirewallConfigResponseActiveManagedRules>;
-
-export type GetSecurityFirewallConfigResponseActiveLogHeadersCase0List = Array<string>;
-export const GetSecurityFirewallConfigResponseActiveLogHeadersCase0List = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<GetSecurityFirewallConfigResponseActiveLogHeadersCase0List>;
-
-export type GetSecurityFirewallConfigResponseActiveLogHeadersCase1 = "*";
-export const GetSecurityFirewallConfigResponseActiveLogHeadersCase1 = S.String;
-
-export type GetSecurityFirewallConfigResponseActiveLogHeaders =
-  | GetSecurityFirewallConfigResponseActiveLogHeadersCase0List
-  | GetSecurityFirewallConfigResponseActiveLogHeadersCase1;
-export const GetSecurityFirewallConfigResponseActiveLogHeaders =
-  S.Unknown as any as S.Schema<GetSecurityFirewallConfigResponseActiveLogHeaders>;
-
-export interface GetSecurityFirewallConfigResponseActive {
-  ownerId: string;
-  projectKey: string;
-  id: string;
-  version: number;
-  updatedAt: string;
-  firewallEnabled: boolean;
-  crs?: GetSecurityFirewallConfigResponseActiveCrs;
-  rules: GetSecurityFirewallConfigResponseActiveRulesList;
-  ips: GetSecurityFirewallConfigResponseActiveIpsList;
-  rulesets?: GetSecurityFirewallConfigResponseActiveRulesets;
-  conditions?: GetSecurityFirewallConfigResponseActiveConditionsList;
-  changes: GetSecurityFirewallConfigResponseActiveChangesList;
-  managedRules?: GetSecurityFirewallConfigResponseActiveManagedRules;
-  botIdEnabled?: boolean;
-  logHeaders?: GetSecurityFirewallConfigResponseActiveLogHeaders;
-}
-export const GetSecurityFirewallConfigResponseActive = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ownerId: S.String,
-    projectKey: S.String,
-    id: S.String,
-    version: S.Number,
-    updatedAt: S.String,
-    firewallEnabled: S.Boolean,
-    crs: S.optional(GetSecurityFirewallConfigResponseActiveCrs),
-    rules: GetSecurityFirewallConfigResponseActiveRulesList,
-    ips: GetSecurityFirewallConfigResponseActiveIpsList,
-    rulesets: S.optional(GetSecurityFirewallConfigResponseActiveRulesets),
-    conditions: S.optional(GetSecurityFirewallConfigResponseActiveConditionsList),
-    changes: GetSecurityFirewallConfigResponseActiveChangesList,
-    managedRules: S.optional(GetSecurityFirewallConfigResponseActiveManagedRules),
-    botIdEnabled: S.optional(S.Boolean),
-    logHeaders: S.optional(GetSecurityFirewallConfigResponseActiveLogHeaders),
-  }),
-).annotate({
-  identifier: "GetSecurityFirewallConfigResponseActive",
-}) as any as S.Schema<GetSecurityFirewallConfigResponseActive>;
-
-export type GetSecurityFirewallConfigResponseDraftCrsSdAction = "deny" | "log";
-export const GetSecurityFirewallConfigResponseDraftCrsSdAction = S.String;
-
-export interface GetSecurityFirewallConfigResponseDraftCrsSd {
-  active: boolean;
-  action: GetSecurityFirewallConfigResponseDraftCrsSdAction;
-}
-export const GetSecurityFirewallConfigResponseDraftCrsSd = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    active: S.Boolean,
-    action: GetSecurityFirewallConfigResponseDraftCrsSdAction,
-  }),
-).annotate({
-  identifier: "GetSecurityFirewallConfigResponseDraftCrsSd",
-}) as any as S.Schema<GetSecurityFirewallConfigResponseDraftCrsSd>;
-
-export type GetSecurityFirewallConfigResponseDraftCrsMaAction = "deny" | "log";
-export const GetSecurityFirewallConfigResponseDraftCrsMaAction = S.String;
-
-export interface GetSecurityFirewallConfigResponseDraftCrsMa {
-  active: boolean;
-  action: GetSecurityFirewallConfigResponseDraftCrsMaAction;
-}
-export const GetSecurityFirewallConfigResponseDraftCrsMa = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    active: S.Boolean,
-    action: GetSecurityFirewallConfigResponseDraftCrsMaAction,
-  }),
-).annotate({
-  identifier: "GetSecurityFirewallConfigResponseDraftCrsMa",
-}) as any as S.Schema<GetSecurityFirewallConfigResponseDraftCrsMa>;
-
-export type GetSecurityFirewallConfigResponseDraftCrsLfiAction = "deny" | "log";
-export const GetSecurityFirewallConfigResponseDraftCrsLfiAction = S.String;
-
-export interface GetSecurityFirewallConfigResponseDraftCrsLfi {
-  active: boolean;
-  action: GetSecurityFirewallConfigResponseDraftCrsLfiAction;
-}
-export const GetSecurityFirewallConfigResponseDraftCrsLfi = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    active: S.Boolean,
-    action: GetSecurityFirewallConfigResponseDraftCrsLfiAction,
-  }),
-).annotate({
-  identifier: "GetSecurityFirewallConfigResponseDraftCrsLfi",
-}) as any as S.Schema<GetSecurityFirewallConfigResponseDraftCrsLfi>;
-
-export type GetSecurityFirewallConfigResponseDraftCrsRfiAction = "deny" | "log";
-export const GetSecurityFirewallConfigResponseDraftCrsRfiAction = S.String;
-
-export interface GetSecurityFirewallConfigResponseDraftCrsRfi {
-  active: boolean;
-  action: GetSecurityFirewallConfigResponseDraftCrsRfiAction;
-}
-export const GetSecurityFirewallConfigResponseDraftCrsRfi = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    active: S.Boolean,
-    action: GetSecurityFirewallConfigResponseDraftCrsRfiAction,
-  }),
-).annotate({
-  identifier: "GetSecurityFirewallConfigResponseDraftCrsRfi",
-}) as any as S.Schema<GetSecurityFirewallConfigResponseDraftCrsRfi>;
-
-export type GetSecurityFirewallConfigResponseDraftCrsRceAction = "deny" | "log";
-export const GetSecurityFirewallConfigResponseDraftCrsRceAction = S.String;
-
-export interface GetSecurityFirewallConfigResponseDraftCrsRce {
-  active: boolean;
-  action: GetSecurityFirewallConfigResponseDraftCrsRceAction;
-}
-export const GetSecurityFirewallConfigResponseDraftCrsRce = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    active: S.Boolean,
-    action: GetSecurityFirewallConfigResponseDraftCrsRceAction,
-  }),
-).annotate({
-  identifier: "GetSecurityFirewallConfigResponseDraftCrsRce",
-}) as any as S.Schema<GetSecurityFirewallConfigResponseDraftCrsRce>;
-
-export type GetSecurityFirewallConfigResponseDraftCrsPhpAction = "deny" | "log";
-export const GetSecurityFirewallConfigResponseDraftCrsPhpAction = S.String;
-
-export interface GetSecurityFirewallConfigResponseDraftCrsPhp {
-  active: boolean;
-  action: GetSecurityFirewallConfigResponseDraftCrsPhpAction;
-}
-export const GetSecurityFirewallConfigResponseDraftCrsPhp = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    active: S.Boolean,
-    action: GetSecurityFirewallConfigResponseDraftCrsPhpAction,
-  }),
-).annotate({
-  identifier: "GetSecurityFirewallConfigResponseDraftCrsPhp",
-}) as any as S.Schema<GetSecurityFirewallConfigResponseDraftCrsPhp>;
-
-export type GetSecurityFirewallConfigResponseDraftCrsGenAction = "deny" | "log";
-export const GetSecurityFirewallConfigResponseDraftCrsGenAction = S.String;
-
-export interface GetSecurityFirewallConfigResponseDraftCrsGen {
-  active: boolean;
-  action: GetSecurityFirewallConfigResponseDraftCrsGenAction;
-}
-export const GetSecurityFirewallConfigResponseDraftCrsGen = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    active: S.Boolean,
-    action: GetSecurityFirewallConfigResponseDraftCrsGenAction,
-  }),
-).annotate({
-  identifier: "GetSecurityFirewallConfigResponseDraftCrsGen",
-}) as any as S.Schema<GetSecurityFirewallConfigResponseDraftCrsGen>;
-
-export type GetSecurityFirewallConfigResponseDraftCrsXssAction = "deny" | "log";
-export const GetSecurityFirewallConfigResponseDraftCrsXssAction = S.String;
-
-export interface GetSecurityFirewallConfigResponseDraftCrsXss {
-  active: boolean;
-  action: GetSecurityFirewallConfigResponseDraftCrsXssAction;
-}
-export const GetSecurityFirewallConfigResponseDraftCrsXss = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    active: S.Boolean,
-    action: GetSecurityFirewallConfigResponseDraftCrsXssAction,
-  }),
-).annotate({
-  identifier: "GetSecurityFirewallConfigResponseDraftCrsXss",
-}) as any as S.Schema<GetSecurityFirewallConfigResponseDraftCrsXss>;
-
-export type GetSecurityFirewallConfigResponseDraftCrsSqliAction = "deny" | "log";
-export const GetSecurityFirewallConfigResponseDraftCrsSqliAction = S.String;
-
-export interface GetSecurityFirewallConfigResponseDraftCrsSqli {
-  active: boolean;
-  action: GetSecurityFirewallConfigResponseDraftCrsSqliAction;
-}
-export const GetSecurityFirewallConfigResponseDraftCrsSqli = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    active: S.Boolean,
-    action: GetSecurityFirewallConfigResponseDraftCrsSqliAction,
-  }),
-).annotate({
-  identifier: "GetSecurityFirewallConfigResponseDraftCrsSqli",
-}) as any as S.Schema<GetSecurityFirewallConfigResponseDraftCrsSqli>;
-
-export type GetSecurityFirewallConfigResponseDraftCrsSfAction = "deny" | "log";
-export const GetSecurityFirewallConfigResponseDraftCrsSfAction = S.String;
-
-export interface GetSecurityFirewallConfigResponseDraftCrsSf {
-  active: boolean;
-  action: GetSecurityFirewallConfigResponseDraftCrsSfAction;
-}
-export const GetSecurityFirewallConfigResponseDraftCrsSf = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    active: S.Boolean,
-    action: GetSecurityFirewallConfigResponseDraftCrsSfAction,
-  }),
-).annotate({
-  identifier: "GetSecurityFirewallConfigResponseDraftCrsSf",
-}) as any as S.Schema<GetSecurityFirewallConfigResponseDraftCrsSf>;
-
-export type GetSecurityFirewallConfigResponseDraftCrsJavaAction = "deny" | "log";
-export const GetSecurityFirewallConfigResponseDraftCrsJavaAction = S.String;
-
-export interface GetSecurityFirewallConfigResponseDraftCrsJava {
-  active: boolean;
-  action: GetSecurityFirewallConfigResponseDraftCrsJavaAction;
-}
-export const GetSecurityFirewallConfigResponseDraftCrsJava = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    active: S.Boolean,
-    action: GetSecurityFirewallConfigResponseDraftCrsJavaAction,
-  }),
-).annotate({
-  identifier: "GetSecurityFirewallConfigResponseDraftCrsJava",
-}) as any as S.Schema<GetSecurityFirewallConfigResponseDraftCrsJava>;
-
-export interface GetSecurityFirewallConfigResponseDraftCrs {
-  sd: GetSecurityFirewallConfigResponseDraftCrsSd;
-  ma: GetSecurityFirewallConfigResponseDraftCrsMa;
-  lfi: GetSecurityFirewallConfigResponseDraftCrsLfi;
-  rfi: GetSecurityFirewallConfigResponseDraftCrsRfi;
-  rce: GetSecurityFirewallConfigResponseDraftCrsRce;
-  php: GetSecurityFirewallConfigResponseDraftCrsPhp;
-  gen: GetSecurityFirewallConfigResponseDraftCrsGen;
-  xss: GetSecurityFirewallConfigResponseDraftCrsXss;
-  sqli: GetSecurityFirewallConfigResponseDraftCrsSqli;
-  sf: GetSecurityFirewallConfigResponseDraftCrsSf;
-  java: GetSecurityFirewallConfigResponseDraftCrsJava;
-}
-export const GetSecurityFirewallConfigResponseDraftCrs = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    sd: GetSecurityFirewallConfigResponseDraftCrsSd,
-    ma: GetSecurityFirewallConfigResponseDraftCrsMa,
-    lfi: GetSecurityFirewallConfigResponseDraftCrsLfi,
-    rfi: GetSecurityFirewallConfigResponseDraftCrsRfi,
-    rce: GetSecurityFirewallConfigResponseDraftCrsRce,
-    php: GetSecurityFirewallConfigResponseDraftCrsPhp,
-    gen: GetSecurityFirewallConfigResponseDraftCrsGen,
-    xss: GetSecurityFirewallConfigResponseDraftCrsXss,
-    sqli: GetSecurityFirewallConfigResponseDraftCrsSqli,
-    sf: GetSecurityFirewallConfigResponseDraftCrsSf,
-    java: GetSecurityFirewallConfigResponseDraftCrsJava,
-  }),
-).annotate({
-  identifier: "GetSecurityFirewallConfigResponseDraftCrs",
-}) as any as S.Schema<GetSecurityFirewallConfigResponseDraftCrs>;
 
 export type GetSecurityFirewallConfigResponseDraftRulesItemCase0ConditionGroupItemConditionsItemType =
   | "bot_category"
@@ -5587,25 +6037,6 @@ export type GetSecurityFirewallConfigResponseDraftRulesItemCase0ConditionGroupIt
 export const GetSecurityFirewallConfigResponseDraftRulesItemCase0ConditionGroupItemConditionsItemType =
   S.String;
 
-export type GetSecurityFirewallConfigResponseDraftRulesItemCase0ConditionGroupItemConditionsItemOp =
-  | "eq"
-  | "ex"
-  | "gt"
-  | "gte"
-  | "inc"
-  | "list"
-  | "lt"
-  | "lte"
-  | "neq"
-  | "nex"
-  | "ninc"
-  | "pre"
-  | "re"
-  | "sub"
-  | "suf";
-export const GetSecurityFirewallConfigResponseDraftRulesItemCase0ConditionGroupItemConditionsItemOp =
-  S.String;
-
 export type GetSecurityFirewallConfigResponseDraftRulesItemCase0ConditionGroupItemConditionsItemValueCase2List =
   Array<string>;
 export const GetSecurityFirewallConfigResponseDraftRulesItemCase0ConditionGroupItemConditionsItemValueCase2List =
@@ -5621,19 +6052,19 @@ export const GetSecurityFirewallConfigResponseDraftRulesItemCase0ConditionGroupI
   S.Unknown as any as S.Schema<GetSecurityFirewallConfigResponseDraftRulesItemCase0ConditionGroupItemConditionsItemValue>;
 
 export interface GetSecurityFirewallConfigResponseDraftRulesItemCase0ConditionGroupItemConditionsItem {
-  type: GetSecurityFirewallConfigResponseDraftRulesItemCase0ConditionGroupItemConditionsItemType;
-  op: GetSecurityFirewallConfigResponseDraftRulesItemCase0ConditionGroupItemConditionsItemOp;
-  neg?: boolean;
   key?: string;
+  neg?: boolean;
+  op: GetSecurityFirewallConfigResponseDraftRulesItemCase0ConditionGroupItemConditionsItemOp;
+  type: GetSecurityFirewallConfigResponseDraftRulesItemCase0ConditionGroupItemConditionsItemType;
   value?: GetSecurityFirewallConfigResponseDraftRulesItemCase0ConditionGroupItemConditionsItemValue;
 }
 export const GetSecurityFirewallConfigResponseDraftRulesItemCase0ConditionGroupItemConditionsItem =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      type: GetSecurityFirewallConfigResponseDraftRulesItemCase0ConditionGroupItemConditionsItemType,
-      op: GetSecurityFirewallConfigResponseDraftRulesItemCase0ConditionGroupItemConditionsItemOp,
-      neg: S.optional(S.Boolean),
       key: S.optional(S.String),
+      neg: S.optional(S.Boolean),
+      op: GetSecurityFirewallConfigResponseDraftRulesItemCase0ConditionGroupItemConditionsItemOp,
+      type: GetSecurityFirewallConfigResponseDraftRulesItemCase0ConditionGroupItemConditionsItemType,
       value: S.optional(
         GetSecurityFirewallConfigResponseDraftRulesItemCase0ConditionGroupItemConditionsItemValue,
       ),
@@ -5670,7 +6101,32 @@ export const GetSecurityFirewallConfigResponseDraftRulesItemCase0ConditionGroupL
     GetSecurityFirewallConfigResponseDraftRulesItemCase0ConditionGroupItem,
   ) as any as S.Schema<GetSecurityFirewallConfigResponseDraftRulesItemCase0ConditionGroupList>;
 
-export type GetSecurityFirewallConfigResponseDraftRulesItemCase0ActionMitigateAction =
+export interface GetSecurityFirewallConfigResponseDraftRulesItemCase0 {
+  action: GetSecurityFirewallConfigResponseDraftRulesItemCase0Action;
+  active: boolean;
+  conditionGroup: GetSecurityFirewallConfigResponseDraftRulesItemCase0ConditionGroupList;
+  description?: string;
+  id: string;
+  name: string;
+  valid: boolean;
+  validationErrors: unknown | null;
+}
+export const GetSecurityFirewallConfigResponseDraftRulesItemCase0 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    action: GetSecurityFirewallConfigResponseDraftRulesItemCase0Action,
+    active: S.Boolean,
+    conditionGroup: GetSecurityFirewallConfigResponseDraftRulesItemCase0ConditionGroupList,
+    description: S.optional(S.String),
+    id: S.String,
+    name: S.String,
+    valid: S.Boolean,
+    validationErrors: S.NullOr(S.Unknown),
+  }),
+).annotate({
+  identifier: "GetSecurityFirewallConfigResponseDraftRulesItemCase0",
+}) as any as S.Schema<GetSecurityFirewallConfigResponseDraftRulesItemCase0>;
+
+export type GetSecurityFirewallConfigResponseDraftRulesItemCase1ActionMitigateAction =
   | "allow"
   | "bypass"
   | "challenge"
@@ -5678,139 +6134,133 @@ export type GetSecurityFirewallConfigResponseDraftRulesItemCase0ActionMitigateAc
   | "log"
   | "rate_limit"
   | "redirect";
-export const GetSecurityFirewallConfigResponseDraftRulesItemCase0ActionMitigateAction = S.String;
+export const GetSecurityFirewallConfigResponseDraftRulesItemCase1ActionMitigateAction = S.String;
 
-export type GetSecurityFirewallConfigResponseDraftRulesItemCase0ActionMitigateRateLimitAlgo =
-  | "fixed_window"
-  | "token_bucket";
-export const GetSecurityFirewallConfigResponseDraftRulesItemCase0ActionMitigateRateLimitAlgo =
-  S.String;
-
-export type GetSecurityFirewallConfigResponseDraftRulesItemCase0ActionMitigateRateLimitKeysList =
+export type GetSecurityFirewallConfigResponseDraftRulesItemCase1ActionMitigateLogHeadersCase0List =
   Array<string>;
-export const GetSecurityFirewallConfigResponseDraftRulesItemCase0ActionMitigateRateLimitKeysList =
+export const GetSecurityFirewallConfigResponseDraftRulesItemCase1ActionMitigateLogHeadersCase0List =
   /*@__PURE__*/ S.Array(
     S.String,
-  ) as any as S.Schema<GetSecurityFirewallConfigResponseDraftRulesItemCase0ActionMitigateRateLimitKeysList>;
+  ) as any as S.Schema<GetSecurityFirewallConfigResponseDraftRulesItemCase1ActionMitigateLogHeadersCase0List>;
 
-export type GetSecurityFirewallConfigResponseDraftRulesItemCase0ActionMitigateRateLimitAction =
+export type GetSecurityFirewallConfigResponseDraftRulesItemCase1ActionMitigateLogHeadersCase1 = "*";
+export const GetSecurityFirewallConfigResponseDraftRulesItemCase1ActionMitigateLogHeadersCase1 =
+  S.String;
+
+export type GetSecurityFirewallConfigResponseDraftRulesItemCase1ActionMitigateLogHeaders =
+  | GetSecurityFirewallConfigResponseDraftRulesItemCase1ActionMitigateLogHeadersCase0List
+  | GetSecurityFirewallConfigResponseDraftRulesItemCase1ActionMitigateLogHeadersCase1;
+export const GetSecurityFirewallConfigResponseDraftRulesItemCase1ActionMitigateLogHeaders =
+  S.Unknown as any as S.Schema<GetSecurityFirewallConfigResponseDraftRulesItemCase1ActionMitigateLogHeaders>;
+
+export type GetSecurityFirewallConfigResponseDraftRulesItemCase1ActionMitigateRateLimitAction =
   | "challenge"
   | "deny"
   | "log"
   | "rate_limit";
-export const GetSecurityFirewallConfigResponseDraftRulesItemCase0ActionMitigateRateLimitAction =
+export const GetSecurityFirewallConfigResponseDraftRulesItemCase1ActionMitigateRateLimitAction =
   S.String;
 
-export interface GetSecurityFirewallConfigResponseDraftRulesItemCase0ActionMitigateRateLimit {
-  algo: GetSecurityFirewallConfigResponseDraftRulesItemCase0ActionMitigateRateLimitAlgo;
-  window: number;
-  limit: number;
-  keys: GetSecurityFirewallConfigResponseDraftRulesItemCase0ActionMitigateRateLimitKeysList;
-  action?: GetSecurityFirewallConfigResponseDraftRulesItemCase0ActionMitigateRateLimitAction | null;
-}
-export const GetSecurityFirewallConfigResponseDraftRulesItemCase0ActionMitigateRateLimit =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      algo: GetSecurityFirewallConfigResponseDraftRulesItemCase0ActionMitigateRateLimitAlgo,
-      window: S.Number,
-      limit: S.Number,
-      keys: GetSecurityFirewallConfigResponseDraftRulesItemCase0ActionMitigateRateLimitKeysList,
-      action: S.optional(
-        S.NullOr(GetSecurityFirewallConfigResponseDraftRulesItemCase0ActionMitigateRateLimitAction),
-      ),
-    }),
-  ).annotate({
-    identifier: "GetSecurityFirewallConfigResponseDraftRulesItemCase0ActionMitigateRateLimit",
-  }) as any as S.Schema<GetSecurityFirewallConfigResponseDraftRulesItemCase0ActionMitigateRateLimit>;
+export type GetSecurityFirewallConfigResponseDraftRulesItemCase1ActionMitigateRateLimitAlgo =
+  | "fixed_window"
+  | "token_bucket";
+export const GetSecurityFirewallConfigResponseDraftRulesItemCase1ActionMitigateRateLimitAlgo =
+  S.String;
 
-export type GetSecurityFirewallConfigResponseDraftRulesItemCase0ActionMitigateRedirect =
-  CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
-export const GetSecurityFirewallConfigResponseDraftRulesItemCase0ActionMitigateRedirect =
-  CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
-
-export type GetSecurityFirewallConfigResponseDraftRulesItemCase0ActionMitigateLogHeadersCase0List =
+export type GetSecurityFirewallConfigResponseDraftRulesItemCase1ActionMitigateRateLimitKeysList =
   Array<string>;
-export const GetSecurityFirewallConfigResponseDraftRulesItemCase0ActionMitigateLogHeadersCase0List =
+export const GetSecurityFirewallConfigResponseDraftRulesItemCase1ActionMitigateRateLimitKeysList =
   /*@__PURE__*/ S.Array(
     S.String,
-  ) as any as S.Schema<GetSecurityFirewallConfigResponseDraftRulesItemCase0ActionMitigateLogHeadersCase0List>;
+  ) as any as S.Schema<GetSecurityFirewallConfigResponseDraftRulesItemCase1ActionMitigateRateLimitKeysList>;
 
-export type GetSecurityFirewallConfigResponseDraftRulesItemCase0ActionMitigateLogHeadersCase1 = "*";
-export const GetSecurityFirewallConfigResponseDraftRulesItemCase0ActionMitigateLogHeadersCase1 =
-  S.String;
-
-export type GetSecurityFirewallConfigResponseDraftRulesItemCase0ActionMitigateLogHeaders =
-  | GetSecurityFirewallConfigResponseDraftRulesItemCase0ActionMitigateLogHeadersCase0List
-  | GetSecurityFirewallConfigResponseDraftRulesItemCase0ActionMitigateLogHeadersCase1;
-export const GetSecurityFirewallConfigResponseDraftRulesItemCase0ActionMitigateLogHeaders =
-  S.Unknown as any as S.Schema<GetSecurityFirewallConfigResponseDraftRulesItemCase0ActionMitigateLogHeaders>;
-
-export interface GetSecurityFirewallConfigResponseDraftRulesItemCase0ActionMitigate {
-  action: GetSecurityFirewallConfigResponseDraftRulesItemCase0ActionMitigateAction;
-  rateLimit?: GetSecurityFirewallConfigResponseDraftRulesItemCase0ActionMitigateRateLimit | null;
-  redirect?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect | null;
-  actionDuration?: string | null;
-  bypassSystem?: boolean | null;
-  logHeaders?: GetSecurityFirewallConfigResponseDraftRulesItemCase0ActionMitigateLogHeaders;
+export interface GetSecurityFirewallConfigResponseDraftRulesItemCase1ActionMitigateRateLimit {
+  action?: GetSecurityFirewallConfigResponseDraftRulesItemCase1ActionMitigateRateLimitAction | null;
+  algo: GetSecurityFirewallConfigResponseDraftRulesItemCase1ActionMitigateRateLimitAlgo;
+  keys: GetSecurityFirewallConfigResponseDraftRulesItemCase1ActionMitigateRateLimitKeysList;
+  limit: number;
+  window: number;
 }
-export const GetSecurityFirewallConfigResponseDraftRulesItemCase0ActionMitigate =
+export const GetSecurityFirewallConfigResponseDraftRulesItemCase1ActionMitigateRateLimit =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      action: GetSecurityFirewallConfigResponseDraftRulesItemCase0ActionMitigateAction,
+      action: S.optional(
+        S.NullOr(GetSecurityFirewallConfigResponseDraftRulesItemCase1ActionMitigateRateLimitAction),
+      ),
+      algo: GetSecurityFirewallConfigResponseDraftRulesItemCase1ActionMitigateRateLimitAlgo,
+      keys: GetSecurityFirewallConfigResponseDraftRulesItemCase1ActionMitigateRateLimitKeysList,
+      limit: S.Number,
+      window: S.Number,
+    }),
+  ).annotate({
+    identifier: "GetSecurityFirewallConfigResponseDraftRulesItemCase1ActionMitigateRateLimit",
+  }) as any as S.Schema<GetSecurityFirewallConfigResponseDraftRulesItemCase1ActionMitigateRateLimit>;
+
+export type GetSecurityFirewallConfigResponseDraftRulesItemCase1ActionMitigateRedirect =
+  CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
+export const GetSecurityFirewallConfigResponseDraftRulesItemCase1ActionMitigateRedirect =
+  CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
+
+export interface GetSecurityFirewallConfigResponseDraftRulesItemCase1ActionMitigate {
+  action: GetSecurityFirewallConfigResponseDraftRulesItemCase1ActionMitigateAction;
+  actionDuration?: string | null;
+  bypassSystem?: boolean | null;
+  logHeaders?: GetSecurityFirewallConfigResponseDraftRulesItemCase1ActionMitigateLogHeaders;
+  rateLimit?: GetSecurityFirewallConfigResponseDraftRulesItemCase1ActionMitigateRateLimit | null;
+  redirect?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect | null;
+}
+export const GetSecurityFirewallConfigResponseDraftRulesItemCase1ActionMitigate =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      action: GetSecurityFirewallConfigResponseDraftRulesItemCase1ActionMitigateAction,
+      actionDuration: S.optional(S.NullOr(S.String)),
+      bypassSystem: S.optional(S.NullOr(S.Boolean)),
+      logHeaders: S.optional(
+        GetSecurityFirewallConfigResponseDraftRulesItemCase1ActionMitigateLogHeaders,
+      ),
       rateLimit: S.optional(
-        S.NullOr(GetSecurityFirewallConfigResponseDraftRulesItemCase0ActionMitigateRateLimit),
+        S.NullOr(GetSecurityFirewallConfigResponseDraftRulesItemCase1ActionMitigateRateLimit),
       ),
       redirect: S.optional(
         S.NullOr(
           CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect,
         ),
       ),
-      actionDuration: S.optional(S.NullOr(S.String)),
-      bypassSystem: S.optional(S.NullOr(S.Boolean)),
-      logHeaders: S.optional(
-        GetSecurityFirewallConfigResponseDraftRulesItemCase0ActionMitigateLogHeaders,
-      ),
     }),
   ).annotate({
-    identifier: "GetSecurityFirewallConfigResponseDraftRulesItemCase0ActionMitigate",
-  }) as any as S.Schema<GetSecurityFirewallConfigResponseDraftRulesItemCase0ActionMitigate>;
+    identifier: "GetSecurityFirewallConfigResponseDraftRulesItemCase1ActionMitigate",
+  }) as any as S.Schema<GetSecurityFirewallConfigResponseDraftRulesItemCase1ActionMitigate>;
 
-export interface GetSecurityFirewallConfigResponseDraftRulesItemCase0Action {
-  mitigate?: GetSecurityFirewallConfigResponseDraftRulesItemCase0ActionMitigate;
+export interface GetSecurityFirewallConfigResponseDraftRulesItemCase1Action {
+  mitigate?: GetSecurityFirewallConfigResponseDraftRulesItemCase1ActionMitigate;
 }
-export const GetSecurityFirewallConfigResponseDraftRulesItemCase0Action = /*@__PURE__*/ S.suspend(
+export const GetSecurityFirewallConfigResponseDraftRulesItemCase1Action = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      mitigate: S.optional(GetSecurityFirewallConfigResponseDraftRulesItemCase0ActionMitigate),
+      mitigate: S.optional(GetSecurityFirewallConfigResponseDraftRulesItemCase1ActionMitigate),
     }),
 ).annotate({
-  identifier: "GetSecurityFirewallConfigResponseDraftRulesItemCase0Action",
-}) as any as S.Schema<GetSecurityFirewallConfigResponseDraftRulesItemCase0Action>;
+  identifier: "GetSecurityFirewallConfigResponseDraftRulesItemCase1Action",
+}) as any as S.Schema<GetSecurityFirewallConfigResponseDraftRulesItemCase1Action>;
 
-export interface GetSecurityFirewallConfigResponseDraftRulesItemCase0 {
-  id: string;
-  name: string;
-  description?: string;
-  active: boolean;
-  conditionGroup: GetSecurityFirewallConfigResponseDraftRulesItemCase0ConditionGroupList;
-  action: GetSecurityFirewallConfigResponseDraftRulesItemCase0Action;
-  valid: boolean;
-  validationErrors: unknown | null;
-}
-export const GetSecurityFirewallConfigResponseDraftRulesItemCase0 = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    name: S.String,
-    description: S.optional(S.String),
-    active: S.Boolean,
-    conditionGroup: GetSecurityFirewallConfigResponseDraftRulesItemCase0ConditionGroupList,
-    action: GetSecurityFirewallConfigResponseDraftRulesItemCase0Action,
-    valid: S.Boolean,
-    validationErrors: S.NullOr(S.Unknown),
-  }),
-).annotate({
-  identifier: "GetSecurityFirewallConfigResponseDraftRulesItemCase0",
-}) as any as S.Schema<GetSecurityFirewallConfigResponseDraftRulesItemCase0>;
+export type GetSecurityFirewallConfigResponseDraftRulesItemCase1ConditionGroupItemConditionsItemOp =
+  | "eq"
+  | "ex"
+  | "gt"
+  | "gte"
+  | "inc"
+  | "list"
+  | "lt"
+  | "lte"
+  | "neq"
+  | "nex"
+  | "ninc"
+  | "pre"
+  | "re"
+  | "sub"
+  | "suf";
+export const GetSecurityFirewallConfigResponseDraftRulesItemCase1ConditionGroupItemConditionsItemOp =
+  S.String;
 
 export type GetSecurityFirewallConfigResponseDraftRulesItemCase1ConditionGroupItemConditionsItemType =
   | "bot_category"
@@ -5849,25 +6299,6 @@ export type GetSecurityFirewallConfigResponseDraftRulesItemCase1ConditionGroupIt
 export const GetSecurityFirewallConfigResponseDraftRulesItemCase1ConditionGroupItemConditionsItemType =
   S.String;
 
-export type GetSecurityFirewallConfigResponseDraftRulesItemCase1ConditionGroupItemConditionsItemOp =
-  | "eq"
-  | "ex"
-  | "gt"
-  | "gte"
-  | "inc"
-  | "list"
-  | "lt"
-  | "lte"
-  | "neq"
-  | "nex"
-  | "ninc"
-  | "pre"
-  | "re"
-  | "sub"
-  | "suf";
-export const GetSecurityFirewallConfigResponseDraftRulesItemCase1ConditionGroupItemConditionsItemOp =
-  S.String;
-
 export type GetSecurityFirewallConfigResponseDraftRulesItemCase1ConditionGroupItemConditionsItemValueCase2List =
   Array<string>;
 export const GetSecurityFirewallConfigResponseDraftRulesItemCase1ConditionGroupItemConditionsItemValueCase2List =
@@ -5883,19 +6314,19 @@ export const GetSecurityFirewallConfigResponseDraftRulesItemCase1ConditionGroupI
   S.Unknown as any as S.Schema<GetSecurityFirewallConfigResponseDraftRulesItemCase1ConditionGroupItemConditionsItemValue>;
 
 export interface GetSecurityFirewallConfigResponseDraftRulesItemCase1ConditionGroupItemConditionsItem {
-  type: GetSecurityFirewallConfigResponseDraftRulesItemCase1ConditionGroupItemConditionsItemType;
-  op: GetSecurityFirewallConfigResponseDraftRulesItemCase1ConditionGroupItemConditionsItemOp;
-  neg?: boolean;
   key?: string;
+  neg?: boolean;
+  op: GetSecurityFirewallConfigResponseDraftRulesItemCase1ConditionGroupItemConditionsItemOp;
+  type: GetSecurityFirewallConfigResponseDraftRulesItemCase1ConditionGroupItemConditionsItemType;
   value?: GetSecurityFirewallConfigResponseDraftRulesItemCase1ConditionGroupItemConditionsItemValue;
 }
 export const GetSecurityFirewallConfigResponseDraftRulesItemCase1ConditionGroupItemConditionsItem =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      type: GetSecurityFirewallConfigResponseDraftRulesItemCase1ConditionGroupItemConditionsItemType,
-      op: GetSecurityFirewallConfigResponseDraftRulesItemCase1ConditionGroupItemConditionsItemOp,
-      neg: S.optional(S.Boolean),
       key: S.optional(S.String),
+      neg: S.optional(S.Boolean),
+      op: GetSecurityFirewallConfigResponseDraftRulesItemCase1ConditionGroupItemConditionsItemOp,
+      type: GetSecurityFirewallConfigResponseDraftRulesItemCase1ConditionGroupItemConditionsItemType,
       value: S.optional(
         GetSecurityFirewallConfigResponseDraftRulesItemCase1ConditionGroupItemConditionsItemValue,
       ),
@@ -5932,123 +6363,6 @@ export const GetSecurityFirewallConfigResponseDraftRulesItemCase1ConditionGroupL
     GetSecurityFirewallConfigResponseDraftRulesItemCase1ConditionGroupItem,
   ) as any as S.Schema<GetSecurityFirewallConfigResponseDraftRulesItemCase1ConditionGroupList>;
 
-export type GetSecurityFirewallConfigResponseDraftRulesItemCase1ActionMitigateAction =
-  | "allow"
-  | "bypass"
-  | "challenge"
-  | "deny"
-  | "log"
-  | "rate_limit"
-  | "redirect";
-export const GetSecurityFirewallConfigResponseDraftRulesItemCase1ActionMitigateAction = S.String;
-
-export type GetSecurityFirewallConfigResponseDraftRulesItemCase1ActionMitigateRateLimitAlgo =
-  | "fixed_window"
-  | "token_bucket";
-export const GetSecurityFirewallConfigResponseDraftRulesItemCase1ActionMitigateRateLimitAlgo =
-  S.String;
-
-export type GetSecurityFirewallConfigResponseDraftRulesItemCase1ActionMitigateRateLimitKeysList =
-  Array<string>;
-export const GetSecurityFirewallConfigResponseDraftRulesItemCase1ActionMitigateRateLimitKeysList =
-  /*@__PURE__*/ S.Array(
-    S.String,
-  ) as any as S.Schema<GetSecurityFirewallConfigResponseDraftRulesItemCase1ActionMitigateRateLimitKeysList>;
-
-export type GetSecurityFirewallConfigResponseDraftRulesItemCase1ActionMitigateRateLimitAction =
-  | "challenge"
-  | "deny"
-  | "log"
-  | "rate_limit";
-export const GetSecurityFirewallConfigResponseDraftRulesItemCase1ActionMitigateRateLimitAction =
-  S.String;
-
-export interface GetSecurityFirewallConfigResponseDraftRulesItemCase1ActionMitigateRateLimit {
-  algo: GetSecurityFirewallConfigResponseDraftRulesItemCase1ActionMitigateRateLimitAlgo;
-  window: number;
-  limit: number;
-  keys: GetSecurityFirewallConfigResponseDraftRulesItemCase1ActionMitigateRateLimitKeysList;
-  action?: GetSecurityFirewallConfigResponseDraftRulesItemCase1ActionMitigateRateLimitAction | null;
-}
-export const GetSecurityFirewallConfigResponseDraftRulesItemCase1ActionMitigateRateLimit =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      algo: GetSecurityFirewallConfigResponseDraftRulesItemCase1ActionMitigateRateLimitAlgo,
-      window: S.Number,
-      limit: S.Number,
-      keys: GetSecurityFirewallConfigResponseDraftRulesItemCase1ActionMitigateRateLimitKeysList,
-      action: S.optional(
-        S.NullOr(GetSecurityFirewallConfigResponseDraftRulesItemCase1ActionMitigateRateLimitAction),
-      ),
-    }),
-  ).annotate({
-    identifier: "GetSecurityFirewallConfigResponseDraftRulesItemCase1ActionMitigateRateLimit",
-  }) as any as S.Schema<GetSecurityFirewallConfigResponseDraftRulesItemCase1ActionMitigateRateLimit>;
-
-export type GetSecurityFirewallConfigResponseDraftRulesItemCase1ActionMitigateRedirect =
-  CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
-export const GetSecurityFirewallConfigResponseDraftRulesItemCase1ActionMitigateRedirect =
-  CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
-
-export type GetSecurityFirewallConfigResponseDraftRulesItemCase1ActionMitigateLogHeadersCase0List =
-  Array<string>;
-export const GetSecurityFirewallConfigResponseDraftRulesItemCase1ActionMitigateLogHeadersCase0List =
-  /*@__PURE__*/ S.Array(
-    S.String,
-  ) as any as S.Schema<GetSecurityFirewallConfigResponseDraftRulesItemCase1ActionMitigateLogHeadersCase0List>;
-
-export type GetSecurityFirewallConfigResponseDraftRulesItemCase1ActionMitigateLogHeadersCase1 = "*";
-export const GetSecurityFirewallConfigResponseDraftRulesItemCase1ActionMitigateLogHeadersCase1 =
-  S.String;
-
-export type GetSecurityFirewallConfigResponseDraftRulesItemCase1ActionMitigateLogHeaders =
-  | GetSecurityFirewallConfigResponseDraftRulesItemCase1ActionMitigateLogHeadersCase0List
-  | GetSecurityFirewallConfigResponseDraftRulesItemCase1ActionMitigateLogHeadersCase1;
-export const GetSecurityFirewallConfigResponseDraftRulesItemCase1ActionMitigateLogHeaders =
-  S.Unknown as any as S.Schema<GetSecurityFirewallConfigResponseDraftRulesItemCase1ActionMitigateLogHeaders>;
-
-export interface GetSecurityFirewallConfigResponseDraftRulesItemCase1ActionMitigate {
-  action: GetSecurityFirewallConfigResponseDraftRulesItemCase1ActionMitigateAction;
-  rateLimit?: GetSecurityFirewallConfigResponseDraftRulesItemCase1ActionMitigateRateLimit | null;
-  redirect?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect | null;
-  actionDuration?: string | null;
-  bypassSystem?: boolean | null;
-  logHeaders?: GetSecurityFirewallConfigResponseDraftRulesItemCase1ActionMitigateLogHeaders;
-}
-export const GetSecurityFirewallConfigResponseDraftRulesItemCase1ActionMitigate =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      action: GetSecurityFirewallConfigResponseDraftRulesItemCase1ActionMitigateAction,
-      rateLimit: S.optional(
-        S.NullOr(GetSecurityFirewallConfigResponseDraftRulesItemCase1ActionMitigateRateLimit),
-      ),
-      redirect: S.optional(
-        S.NullOr(
-          CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect,
-        ),
-      ),
-      actionDuration: S.optional(S.NullOr(S.String)),
-      bypassSystem: S.optional(S.NullOr(S.Boolean)),
-      logHeaders: S.optional(
-        GetSecurityFirewallConfigResponseDraftRulesItemCase1ActionMitigateLogHeaders,
-      ),
-    }),
-  ).annotate({
-    identifier: "GetSecurityFirewallConfigResponseDraftRulesItemCase1ActionMitigate",
-  }) as any as S.Schema<GetSecurityFirewallConfigResponseDraftRulesItemCase1ActionMitigate>;
-
-export interface GetSecurityFirewallConfigResponseDraftRulesItemCase1Action {
-  mitigate?: GetSecurityFirewallConfigResponseDraftRulesItemCase1ActionMitigate;
-}
-export const GetSecurityFirewallConfigResponseDraftRulesItemCase1Action = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      mitigate: S.optional(GetSecurityFirewallConfigResponseDraftRulesItemCase1ActionMitigate),
-    }),
-).annotate({
-  identifier: "GetSecurityFirewallConfigResponseDraftRulesItemCase1Action",
-}) as any as S.Schema<GetSecurityFirewallConfigResponseDraftRulesItemCase1Action>;
-
 export type GetSecurityFirewallConfigResponseDraftRulesItemCase1ValidationErrorsList =
   Array<string>;
 export const GetSecurityFirewallConfigResponseDraftRulesItemCase1ValidationErrorsList =
@@ -6057,23 +6371,23 @@ export const GetSecurityFirewallConfigResponseDraftRulesItemCase1ValidationError
   ) as any as S.Schema<GetSecurityFirewallConfigResponseDraftRulesItemCase1ValidationErrorsList>;
 
 export interface GetSecurityFirewallConfigResponseDraftRulesItemCase1 {
-  id: string;
-  name: string;
-  description?: string;
+  action: GetSecurityFirewallConfigResponseDraftRulesItemCase1Action;
   active: boolean;
   conditionGroup: GetSecurityFirewallConfigResponseDraftRulesItemCase1ConditionGroupList;
-  action: GetSecurityFirewallConfigResponseDraftRulesItemCase1Action;
+  description?: string;
+  id: string;
+  name: string;
   valid: boolean;
   validationErrors: GetSecurityFirewallConfigResponseDraftRulesItemCase1ValidationErrorsList;
 }
 export const GetSecurityFirewallConfigResponseDraftRulesItemCase1 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    id: S.String,
-    name: S.String,
-    description: S.optional(S.String),
+    action: GetSecurityFirewallConfigResponseDraftRulesItemCase1Action,
     active: S.Boolean,
     conditionGroup: GetSecurityFirewallConfigResponseDraftRulesItemCase1ConditionGroupList,
-    action: GetSecurityFirewallConfigResponseDraftRulesItemCase1Action,
+    description: S.optional(S.String),
+    id: S.String,
+    name: S.String,
     valid: S.Boolean,
     validationErrors: GetSecurityFirewallConfigResponseDraftRulesItemCase1ValidationErrorsList,
   }),
@@ -6093,37 +6407,24 @@ export const GetSecurityFirewallConfigResponseDraftRulesList = /*@__PURE__*/ S.A
   GetSecurityFirewallConfigResponseDraftRulesItem,
 ) as any as S.Schema<GetSecurityFirewallConfigResponseDraftRulesList>;
 
-export type GetSecurityFirewallConfigResponseDraftIpsItemAction =
-  | "bypass"
-  | "challenge"
-  | "deny"
-  | "log";
-export const GetSecurityFirewallConfigResponseDraftIpsItemAction = S.String;
-
-export interface GetSecurityFirewallConfigResponseDraftIpsItem {
-  id: string;
-  hostname: string;
-  ip: string;
-  notes?: string;
-  action: GetSecurityFirewallConfigResponseDraftIpsItemAction;
-}
-export const GetSecurityFirewallConfigResponseDraftIpsItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    hostname: S.String,
-    ip: S.String,
-    notes: S.optional(S.String),
-    action: GetSecurityFirewallConfigResponseDraftIpsItemAction,
-  }),
-).annotate({
-  identifier: "GetSecurityFirewallConfigResponseDraftIpsItem",
-}) as any as S.Schema<GetSecurityFirewallConfigResponseDraftIpsItem>;
-
-export type GetSecurityFirewallConfigResponseDraftIpsList =
-  Array<GetSecurityFirewallConfigResponseDraftIpsItem>;
-export const GetSecurityFirewallConfigResponseDraftIpsList = /*@__PURE__*/ S.Array(
-  GetSecurityFirewallConfigResponseDraftIpsItem,
-) as any as S.Schema<GetSecurityFirewallConfigResponseDraftIpsList>;
+export type GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemConditionGroupItemConditionsItemOp =
+  | "eq"
+  | "ex"
+  | "gt"
+  | "gte"
+  | "inc"
+  | "list"
+  | "lt"
+  | "lte"
+  | "neq"
+  | "nex"
+  | "ninc"
+  | "pre"
+  | "re"
+  | "sub"
+  | "suf";
+export const GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemConditionGroupItemConditionsItemOp =
+  S.String;
 
 export type GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemConditionGroupItemConditionsItemType =
   | "bot_category"
@@ -6162,25 +6463,6 @@ export type GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemConditionGrou
 export const GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemConditionGroupItemConditionsItemType =
   S.String;
 
-export type GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemConditionGroupItemConditionsItemOp =
-  | "eq"
-  | "ex"
-  | "gt"
-  | "gte"
-  | "inc"
-  | "list"
-  | "lt"
-  | "lte"
-  | "neq"
-  | "nex"
-  | "ninc"
-  | "pre"
-  | "re"
-  | "sub"
-  | "suf";
-export const GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemConditionGroupItemConditionsItemOp =
-  S.String;
-
 export type GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemConditionGroupItemConditionsItemValueCase2List =
   Array<string>;
 export const GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemConditionGroupItemConditionsItemValueCase2List =
@@ -6196,19 +6478,19 @@ export const GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemConditionGro
   S.Unknown as any as S.Schema<GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemConditionGroupItemConditionsItemValue>;
 
 export interface GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemConditionGroupItemConditionsItem {
-  type: GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemConditionGroupItemConditionsItemType;
-  op: GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemConditionGroupItemConditionsItemOp;
-  neg?: boolean;
   key?: string;
+  neg?: boolean;
+  op: GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemConditionGroupItemConditionsItemOp;
+  type: GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemConditionGroupItemConditionsItemType;
   value?: GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemConditionGroupItemConditionsItemValue;
 }
 export const GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemConditionGroupItemConditionsItem =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      type: GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemConditionGroupItemConditionsItemType,
-      op: GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemConditionGroupItemConditionsItemOp,
-      neg: S.optional(S.Boolean),
       key: S.optional(S.String),
+      neg: S.optional(S.Boolean),
+      op: GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemConditionGroupItemConditionsItemOp,
+      type: GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemConditionGroupItemConditionsItemType,
       value: S.optional(
         GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemConditionGroupItemConditionsItemValue,
       ),
@@ -6255,56 +6537,6 @@ export type GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemActionMitigat
   | "redirect";
 export const GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemActionMitigateAction = S.String;
 
-export type GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemActionMitigateRateLimitAlgo =
-  | "fixed_window"
-  | "token_bucket";
-export const GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemActionMitigateRateLimitAlgo =
-  S.String;
-
-export type GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemActionMitigateRateLimitKeysList =
-  Array<string>;
-export const GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemActionMitigateRateLimitKeysList =
-  /*@__PURE__*/ S.Array(
-    S.String,
-  ) as any as S.Schema<GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemActionMitigateRateLimitKeysList>;
-
-export type GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemActionMitigateRateLimitAction =
-  | "challenge"
-  | "deny"
-  | "log"
-  | "rate_limit";
-export const GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemActionMitigateRateLimitAction =
-  S.String;
-
-export interface GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemActionMitigateRateLimit {
-  algo: GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemActionMitigateRateLimitAlgo;
-  window: number;
-  limit: number;
-  keys: GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemActionMitigateRateLimitKeysList;
-  action?: GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemActionMitigateRateLimitAction | null;
-}
-export const GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemActionMitigateRateLimit =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      algo: GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemActionMitigateRateLimitAlgo,
-      window: S.Number,
-      limit: S.Number,
-      keys: GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemActionMitigateRateLimitKeysList,
-      action: S.optional(
-        S.NullOr(
-          GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemActionMitigateRateLimitAction,
-        ),
-      ),
-    }),
-  ).annotate({
-    identifier: "GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemActionMitigateRateLimit",
-  }) as any as S.Schema<GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemActionMitigateRateLimit>;
-
-export type GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemActionMitigateRedirect =
-  CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
-export const GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemActionMitigateRedirect =
-  CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
-
 export type GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemActionMitigateLogHeadersCase0List =
   Array<string>;
 export const GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemActionMitigateLogHeadersCase0List =
@@ -6323,18 +6555,73 @@ export type GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemActionMitigat
 export const GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemActionMitigateLogHeaders =
   S.Unknown as any as S.Schema<GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemActionMitigateLogHeaders>;
 
+export type GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemActionMitigateRateLimitAction =
+  | "challenge"
+  | "deny"
+  | "log"
+  | "rate_limit";
+export const GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemActionMitigateRateLimitAction =
+  S.String;
+
+export type GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemActionMitigateRateLimitAlgo =
+  | "fixed_window"
+  | "token_bucket";
+export const GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemActionMitigateRateLimitAlgo =
+  S.String;
+
+export type GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemActionMitigateRateLimitKeysList =
+  Array<string>;
+export const GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemActionMitigateRateLimitKeysList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemActionMitigateRateLimitKeysList>;
+
+export interface GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemActionMitigateRateLimit {
+  action?: GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemActionMitigateRateLimitAction | null;
+  algo: GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemActionMitigateRateLimitAlgo;
+  keys: GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemActionMitigateRateLimitKeysList;
+  limit: number;
+  window: number;
+}
+export const GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemActionMitigateRateLimit =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      action: S.optional(
+        S.NullOr(
+          GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemActionMitigateRateLimitAction,
+        ),
+      ),
+      algo: GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemActionMitigateRateLimitAlgo,
+      keys: GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemActionMitigateRateLimitKeysList,
+      limit: S.Number,
+      window: S.Number,
+    }),
+  ).annotate({
+    identifier: "GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemActionMitigateRateLimit",
+  }) as any as S.Schema<GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemActionMitigateRateLimit>;
+
+export type GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemActionMitigateRedirect =
+  CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
+export const GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemActionMitigateRedirect =
+  CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
+
 export interface GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemActionMitigate {
   action: GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemActionMitigateAction;
-  rateLimit?: GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemActionMitigateRateLimit | null;
-  redirect?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect | null;
   actionDuration?: string | null;
   bypassSystem?: boolean | null;
   logHeaders?: GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemActionMitigateLogHeaders;
+  rateLimit?: GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemActionMitigateRateLimit | null;
+  redirect?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect | null;
 }
 export const GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemActionMitigate =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       action: GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemActionMitigateAction,
+      actionDuration: S.optional(S.NullOr(S.String)),
+      bypassSystem: S.optional(S.NullOr(S.Boolean)),
+      logHeaders: S.optional(
+        GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemActionMitigateLogHeaders,
+      ),
       rateLimit: S.optional(
         S.NullOr(GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemActionMitigateRateLimit),
       ),
@@ -6342,11 +6629,6 @@ export const GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemActionMitiga
         S.NullOr(
           CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect,
         ),
-      ),
-      actionDuration: S.optional(S.NullOr(S.String)),
-      bypassSystem: S.optional(S.NullOr(S.Boolean)),
-      logHeaders: S.optional(
-        GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemActionMitigateLogHeaders,
       ),
     }),
   ).annotate({
@@ -6366,20 +6648,20 @@ export const GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemAction =
   }) as any as S.Schema<GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemAction>;
 
 export interface GetSecurityFirewallConfigResponseDraftRulesetsCase0Item {
+  active: boolean;
+  conditionGroup: GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemConditionGroupList;
   description?: string;
   id: string;
   name: string;
-  active: boolean;
-  conditionGroup: GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemConditionGroupList;
   action?: GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemAction;
 }
 export const GetSecurityFirewallConfigResponseDraftRulesetsCase0Item = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    active: S.Boolean,
+    conditionGroup: GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemConditionGroupList,
     description: S.optional(S.String),
     id: S.String,
     name: S.String,
-    active: S.Boolean,
-    conditionGroup: GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemConditionGroupList,
     action: S.optional(GetSecurityFirewallConfigResponseDraftRulesetsCase0ItemAction),
   }),
 ).annotate({
@@ -6402,52 +6684,6 @@ export type GetSecurityFirewallConfigResponseDraftRulesetsCase1ValueAction =
   | "redirect";
 export const GetSecurityFirewallConfigResponseDraftRulesetsCase1ValueAction = S.String;
 
-export type GetSecurityFirewallConfigResponseDraftRulesetsCase1ValueRateLimitAlgo =
-  | "fixed_window"
-  | "token_bucket";
-export const GetSecurityFirewallConfigResponseDraftRulesetsCase1ValueRateLimitAlgo = S.String;
-
-export type GetSecurityFirewallConfigResponseDraftRulesetsCase1ValueRateLimitKeysList =
-  Array<string>;
-export const GetSecurityFirewallConfigResponseDraftRulesetsCase1ValueRateLimitKeysList =
-  /*@__PURE__*/ S.Array(
-    S.String,
-  ) as any as S.Schema<GetSecurityFirewallConfigResponseDraftRulesetsCase1ValueRateLimitKeysList>;
-
-export type GetSecurityFirewallConfigResponseDraftRulesetsCase1ValueRateLimitAction =
-  | "challenge"
-  | "deny"
-  | "log"
-  | "rate_limit";
-export const GetSecurityFirewallConfigResponseDraftRulesetsCase1ValueRateLimitAction = S.String;
-
-export interface GetSecurityFirewallConfigResponseDraftRulesetsCase1ValueRateLimit {
-  algo: GetSecurityFirewallConfigResponseDraftRulesetsCase1ValueRateLimitAlgo;
-  window: number;
-  limit: number;
-  keys: GetSecurityFirewallConfigResponseDraftRulesetsCase1ValueRateLimitKeysList;
-  action?: GetSecurityFirewallConfigResponseDraftRulesetsCase1ValueRateLimitAction | null;
-}
-export const GetSecurityFirewallConfigResponseDraftRulesetsCase1ValueRateLimit =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      algo: GetSecurityFirewallConfigResponseDraftRulesetsCase1ValueRateLimitAlgo,
-      window: S.Number,
-      limit: S.Number,
-      keys: GetSecurityFirewallConfigResponseDraftRulesetsCase1ValueRateLimitKeysList,
-      action: S.optional(
-        S.NullOr(GetSecurityFirewallConfigResponseDraftRulesetsCase1ValueRateLimitAction),
-      ),
-    }),
-  ).annotate({
-    identifier: "GetSecurityFirewallConfigResponseDraftRulesetsCase1ValueRateLimit",
-  }) as any as S.Schema<GetSecurityFirewallConfigResponseDraftRulesetsCase1ValueRateLimit>;
-
-export type GetSecurityFirewallConfigResponseDraftRulesetsCase1ValueRedirect =
-  CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
-export const GetSecurityFirewallConfigResponseDraftRulesetsCase1ValueRedirect =
-  CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
-
 export type GetSecurityFirewallConfigResponseDraftRulesetsCase1ValueLogHeadersCase0List =
   Array<string>;
 export const GetSecurityFirewallConfigResponseDraftRulesetsCase1ValueLogHeadersCase0List =
@@ -6464,18 +6700,67 @@ export type GetSecurityFirewallConfigResponseDraftRulesetsCase1ValueLogHeaders =
 export const GetSecurityFirewallConfigResponseDraftRulesetsCase1ValueLogHeaders =
   S.Unknown as any as S.Schema<GetSecurityFirewallConfigResponseDraftRulesetsCase1ValueLogHeaders>;
 
+export type GetSecurityFirewallConfigResponseDraftRulesetsCase1ValueRateLimitAction =
+  | "challenge"
+  | "deny"
+  | "log"
+  | "rate_limit";
+export const GetSecurityFirewallConfigResponseDraftRulesetsCase1ValueRateLimitAction = S.String;
+
+export type GetSecurityFirewallConfigResponseDraftRulesetsCase1ValueRateLimitAlgo =
+  | "fixed_window"
+  | "token_bucket";
+export const GetSecurityFirewallConfigResponseDraftRulesetsCase1ValueRateLimitAlgo = S.String;
+
+export type GetSecurityFirewallConfigResponseDraftRulesetsCase1ValueRateLimitKeysList =
+  Array<string>;
+export const GetSecurityFirewallConfigResponseDraftRulesetsCase1ValueRateLimitKeysList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<GetSecurityFirewallConfigResponseDraftRulesetsCase1ValueRateLimitKeysList>;
+
+export interface GetSecurityFirewallConfigResponseDraftRulesetsCase1ValueRateLimit {
+  action?: GetSecurityFirewallConfigResponseDraftRulesetsCase1ValueRateLimitAction | null;
+  algo: GetSecurityFirewallConfigResponseDraftRulesetsCase1ValueRateLimitAlgo;
+  keys: GetSecurityFirewallConfigResponseDraftRulesetsCase1ValueRateLimitKeysList;
+  limit: number;
+  window: number;
+}
+export const GetSecurityFirewallConfigResponseDraftRulesetsCase1ValueRateLimit =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      action: S.optional(
+        S.NullOr(GetSecurityFirewallConfigResponseDraftRulesetsCase1ValueRateLimitAction),
+      ),
+      algo: GetSecurityFirewallConfigResponseDraftRulesetsCase1ValueRateLimitAlgo,
+      keys: GetSecurityFirewallConfigResponseDraftRulesetsCase1ValueRateLimitKeysList,
+      limit: S.Number,
+      window: S.Number,
+    }),
+  ).annotate({
+    identifier: "GetSecurityFirewallConfigResponseDraftRulesetsCase1ValueRateLimit",
+  }) as any as S.Schema<GetSecurityFirewallConfigResponseDraftRulesetsCase1ValueRateLimit>;
+
+export type GetSecurityFirewallConfigResponseDraftRulesetsCase1ValueRedirect =
+  CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
+export const GetSecurityFirewallConfigResponseDraftRulesetsCase1ValueRedirect =
+  CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
+
 export interface GetSecurityFirewallConfigResponseDraftRulesetsCase1Value {
   action: GetSecurityFirewallConfigResponseDraftRulesetsCase1ValueAction;
-  rateLimit?: GetSecurityFirewallConfigResponseDraftRulesetsCase1ValueRateLimit | null;
-  redirect?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect | null;
   actionDuration?: string | null;
   bypassSystem?: boolean | null;
   logHeaders?: GetSecurityFirewallConfigResponseDraftRulesetsCase1ValueLogHeaders;
+  rateLimit?: GetSecurityFirewallConfigResponseDraftRulesetsCase1ValueRateLimit | null;
+  redirect?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect | null;
 }
 export const GetSecurityFirewallConfigResponseDraftRulesetsCase1Value = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
       action: GetSecurityFirewallConfigResponseDraftRulesetsCase1ValueAction,
+      actionDuration: S.optional(S.NullOr(S.String)),
+      bypassSystem: S.optional(S.NullOr(S.Boolean)),
+      logHeaders: S.optional(GetSecurityFirewallConfigResponseDraftRulesetsCase1ValueLogHeaders),
       rateLimit: S.optional(
         S.NullOr(GetSecurityFirewallConfigResponseDraftRulesetsCase1ValueRateLimit),
       ),
@@ -6484,9 +6769,6 @@ export const GetSecurityFirewallConfigResponseDraftRulesetsCase1Value = /*@__PUR
           CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect,
         ),
       ),
-      actionDuration: S.optional(S.NullOr(S.String)),
-      bypassSystem: S.optional(S.NullOr(S.Boolean)),
-      logHeaders: S.optional(GetSecurityFirewallConfigResponseDraftRulesetsCase1ValueLogHeaders),
     }),
 ).annotate({
   identifier: "GetSecurityFirewallConfigResponseDraftRulesetsCase1Value",
@@ -6506,7 +6788,70 @@ export type GetSecurityFirewallConfigResponseDraftRulesets =
 export const GetSecurityFirewallConfigResponseDraftRulesets =
   S.Unknown as any as S.Schema<GetSecurityFirewallConfigResponseDraftRulesets>;
 
-export type GetSecurityFirewallConfigResponseDraftConditionsItemConditionGroupItemConditionsItemType =
+export interface GetSecurityFirewallConfigResponseDraft {
+  botIdEnabled?: boolean;
+  changes: GetSecurityFirewallConfigResponseDraftChangesList;
+  conditions?: GetSecurityFirewallConfigResponseDraftConditionsList;
+  crs?: GetSecurityFirewallConfigResponseDraftCrs;
+  firewallEnabled: boolean;
+  id: string;
+  ips: GetSecurityFirewallConfigResponseDraftIpsList;
+  logHeaders?: GetSecurityFirewallConfigResponseDraftLogHeaders;
+  managedRules?: GetSecurityFirewallConfigResponseDraftManagedRules;
+  ownerId: string;
+  projectKey: string;
+  rules: GetSecurityFirewallConfigResponseDraftRulesList;
+  rulesets?: GetSecurityFirewallConfigResponseDraftRulesets;
+  updatedAt: string;
+  version: number;
+}
+export const GetSecurityFirewallConfigResponseDraft = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    botIdEnabled: S.optional(S.Boolean),
+    changes: GetSecurityFirewallConfigResponseDraftChangesList,
+    conditions: S.optional(GetSecurityFirewallConfigResponseDraftConditionsList),
+    crs: S.optional(GetSecurityFirewallConfigResponseDraftCrs),
+    firewallEnabled: S.Boolean,
+    id: S.String,
+    ips: GetSecurityFirewallConfigResponseDraftIpsList,
+    logHeaders: S.optional(GetSecurityFirewallConfigResponseDraftLogHeaders),
+    managedRules: S.optional(GetSecurityFirewallConfigResponseDraftManagedRules),
+    ownerId: S.String,
+    projectKey: S.String,
+    rules: GetSecurityFirewallConfigResponseDraftRulesList,
+    rulesets: S.optional(GetSecurityFirewallConfigResponseDraftRulesets),
+    updatedAt: S.String,
+    version: S.Number,
+  }),
+).annotate({
+  identifier: "GetSecurityFirewallConfigResponseDraft",
+}) as any as S.Schema<GetSecurityFirewallConfigResponseDraft>;
+
+export type GetSecurityFirewallConfigResponseVersionsItemChangesList = Array<unknown>;
+export const GetSecurityFirewallConfigResponseVersionsItemChangesList = /*@__PURE__*/ S.Array(
+  S.Unknown,
+) as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemChangesList>;
+
+export type GetSecurityFirewallConfigResponseVersionsItemConditionsItemConditionGroupItemConditionsItemOp =
+  | "eq"
+  | "ex"
+  | "gt"
+  | "gte"
+  | "inc"
+  | "list"
+  | "lt"
+  | "lte"
+  | "neq"
+  | "nex"
+  | "ninc"
+  | "pre"
+  | "re"
+  | "sub"
+  | "suf";
+export const GetSecurityFirewallConfigResponseVersionsItemConditionsItemConditionGroupItemConditionsItemOp =
+  S.String;
+
+export type GetSecurityFirewallConfigResponseVersionsItemConditionsItemConditionGroupItemConditionsItemType =
   | "bot_category"
   | "bot_name"
   | "bot_protection"
@@ -6540,10 +6885,645 @@ export type GetSecurityFirewallConfigResponseDraftConditionsItemConditionGroupIt
   | "traffic_source"
   | "trusted_source"
   | "user_agent";
-export const GetSecurityFirewallConfigResponseDraftConditionsItemConditionGroupItemConditionsItemType =
+export const GetSecurityFirewallConfigResponseVersionsItemConditionsItemConditionGroupItemConditionsItemType =
   S.String;
 
-export type GetSecurityFirewallConfigResponseDraftConditionsItemConditionGroupItemConditionsItemOp =
+export type GetSecurityFirewallConfigResponseVersionsItemConditionsItemConditionGroupItemConditionsItemValueCase2List =
+  Array<string>;
+export const GetSecurityFirewallConfigResponseVersionsItemConditionsItemConditionGroupItemConditionsItemValueCase2List =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemConditionsItemConditionGroupItemConditionsItemValueCase2List>;
+
+export type GetSecurityFirewallConfigResponseVersionsItemConditionsItemConditionGroupItemConditionsItemValue =
+  | string
+  | number
+  | GetSecurityFirewallConfigResponseVersionsItemConditionsItemConditionGroupItemConditionsItemValueCase2List;
+export const GetSecurityFirewallConfigResponseVersionsItemConditionsItemConditionGroupItemConditionsItemValue =
+  S.Unknown as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemConditionsItemConditionGroupItemConditionsItemValue>;
+
+export interface GetSecurityFirewallConfigResponseVersionsItemConditionsItemConditionGroupItemConditionsItem {
+  key?: string;
+  neg?: boolean;
+  op: GetSecurityFirewallConfigResponseVersionsItemConditionsItemConditionGroupItemConditionsItemOp;
+  type: GetSecurityFirewallConfigResponseVersionsItemConditionsItemConditionGroupItemConditionsItemType;
+  value?: GetSecurityFirewallConfigResponseVersionsItemConditionsItemConditionGroupItemConditionsItemValue;
+}
+export const GetSecurityFirewallConfigResponseVersionsItemConditionsItemConditionGroupItemConditionsItem =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      key: S.optional(S.String),
+      neg: S.optional(S.Boolean),
+      op: GetSecurityFirewallConfigResponseVersionsItemConditionsItemConditionGroupItemConditionsItemOp,
+      type: GetSecurityFirewallConfigResponseVersionsItemConditionsItemConditionGroupItemConditionsItemType,
+      value: S.optional(
+        GetSecurityFirewallConfigResponseVersionsItemConditionsItemConditionGroupItemConditionsItemValue,
+      ),
+    }),
+  ).annotate({
+    identifier:
+      "GetSecurityFirewallConfigResponseVersionsItemConditionsItemConditionGroupItemConditionsItem",
+  }) as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemConditionsItemConditionGroupItemConditionsItem>;
+
+export type GetSecurityFirewallConfigResponseVersionsItemConditionsItemConditionGroupItemConditionsList =
+  Array<GetSecurityFirewallConfigResponseVersionsItemConditionsItemConditionGroupItemConditionsItem>;
+export const GetSecurityFirewallConfigResponseVersionsItemConditionsItemConditionGroupItemConditionsList =
+  /*@__PURE__*/ S.Array(
+    GetSecurityFirewallConfigResponseVersionsItemConditionsItemConditionGroupItemConditionsItem,
+  ) as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemConditionsItemConditionGroupItemConditionsList>;
+
+export interface GetSecurityFirewallConfigResponseVersionsItemConditionsItemConditionGroupItem {
+  conditions: GetSecurityFirewallConfigResponseVersionsItemConditionsItemConditionGroupItemConditionsList;
+}
+export const GetSecurityFirewallConfigResponseVersionsItemConditionsItemConditionGroupItem =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      conditions:
+        GetSecurityFirewallConfigResponseVersionsItemConditionsItemConditionGroupItemConditionsList,
+    }),
+  ).annotate({
+    identifier: "GetSecurityFirewallConfigResponseVersionsItemConditionsItemConditionGroupItem",
+  }) as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemConditionsItemConditionGroupItem>;
+
+export type GetSecurityFirewallConfigResponseVersionsItemConditionsItemConditionGroupList =
+  Array<GetSecurityFirewallConfigResponseVersionsItemConditionsItemConditionGroupItem>;
+export const GetSecurityFirewallConfigResponseVersionsItemConditionsItemConditionGroupList =
+  /*@__PURE__*/ S.Array(
+    GetSecurityFirewallConfigResponseVersionsItemConditionsItemConditionGroupItem,
+  ) as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemConditionsItemConditionGroupList>;
+
+export interface GetSecurityFirewallConfigResponseVersionsItemConditionsItem {
+  active: boolean;
+  conditionGroup: GetSecurityFirewallConfigResponseVersionsItemConditionsItemConditionGroupList;
+  description?: string;
+  id: string;
+  name: string;
+}
+export const GetSecurityFirewallConfigResponseVersionsItemConditionsItem = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      active: S.Boolean,
+      conditionGroup: GetSecurityFirewallConfigResponseVersionsItemConditionsItemConditionGroupList,
+      description: S.optional(S.String),
+      id: S.String,
+      name: S.String,
+    }),
+).annotate({
+  identifier: "GetSecurityFirewallConfigResponseVersionsItemConditionsItem",
+}) as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemConditionsItem>;
+
+export type GetSecurityFirewallConfigResponseVersionsItemConditionsList =
+  Array<GetSecurityFirewallConfigResponseVersionsItemConditionsItem>;
+export const GetSecurityFirewallConfigResponseVersionsItemConditionsList = /*@__PURE__*/ S.Array(
+  GetSecurityFirewallConfigResponseVersionsItemConditionsItem,
+) as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemConditionsList>;
+
+export type GetSecurityFirewallConfigResponseVersionsItemCrsGenAction = "deny" | "log";
+export const GetSecurityFirewallConfigResponseVersionsItemCrsGenAction = S.String;
+
+export interface GetSecurityFirewallConfigResponseVersionsItemCrsGen {
+  action: GetSecurityFirewallConfigResponseVersionsItemCrsGenAction;
+  active: boolean;
+}
+export const GetSecurityFirewallConfigResponseVersionsItemCrsGen = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    action: GetSecurityFirewallConfigResponseVersionsItemCrsGenAction,
+    active: S.Boolean,
+  }),
+).annotate({
+  identifier: "GetSecurityFirewallConfigResponseVersionsItemCrsGen",
+}) as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemCrsGen>;
+
+export type GetSecurityFirewallConfigResponseVersionsItemCrsJavaAction = "deny" | "log";
+export const GetSecurityFirewallConfigResponseVersionsItemCrsJavaAction = S.String;
+
+export interface GetSecurityFirewallConfigResponseVersionsItemCrsJava {
+  action: GetSecurityFirewallConfigResponseVersionsItemCrsJavaAction;
+  active: boolean;
+}
+export const GetSecurityFirewallConfigResponseVersionsItemCrsJava = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    action: GetSecurityFirewallConfigResponseVersionsItemCrsJavaAction,
+    active: S.Boolean,
+  }),
+).annotate({
+  identifier: "GetSecurityFirewallConfigResponseVersionsItemCrsJava",
+}) as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemCrsJava>;
+
+export type GetSecurityFirewallConfigResponseVersionsItemCrsLfiAction = "deny" | "log";
+export const GetSecurityFirewallConfigResponseVersionsItemCrsLfiAction = S.String;
+
+export interface GetSecurityFirewallConfigResponseVersionsItemCrsLfi {
+  action: GetSecurityFirewallConfigResponseVersionsItemCrsLfiAction;
+  active: boolean;
+}
+export const GetSecurityFirewallConfigResponseVersionsItemCrsLfi = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    action: GetSecurityFirewallConfigResponseVersionsItemCrsLfiAction,
+    active: S.Boolean,
+  }),
+).annotate({
+  identifier: "GetSecurityFirewallConfigResponseVersionsItemCrsLfi",
+}) as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemCrsLfi>;
+
+export type GetSecurityFirewallConfigResponseVersionsItemCrsMaAction = "deny" | "log";
+export const GetSecurityFirewallConfigResponseVersionsItemCrsMaAction = S.String;
+
+export interface GetSecurityFirewallConfigResponseVersionsItemCrsMa {
+  action: GetSecurityFirewallConfigResponseVersionsItemCrsMaAction;
+  active: boolean;
+}
+export const GetSecurityFirewallConfigResponseVersionsItemCrsMa = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    action: GetSecurityFirewallConfigResponseVersionsItemCrsMaAction,
+    active: S.Boolean,
+  }),
+).annotate({
+  identifier: "GetSecurityFirewallConfigResponseVersionsItemCrsMa",
+}) as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemCrsMa>;
+
+export type GetSecurityFirewallConfigResponseVersionsItemCrsPhpAction = "deny" | "log";
+export const GetSecurityFirewallConfigResponseVersionsItemCrsPhpAction = S.String;
+
+export interface GetSecurityFirewallConfigResponseVersionsItemCrsPhp {
+  action: GetSecurityFirewallConfigResponseVersionsItemCrsPhpAction;
+  active: boolean;
+}
+export const GetSecurityFirewallConfigResponseVersionsItemCrsPhp = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    action: GetSecurityFirewallConfigResponseVersionsItemCrsPhpAction,
+    active: S.Boolean,
+  }),
+).annotate({
+  identifier: "GetSecurityFirewallConfigResponseVersionsItemCrsPhp",
+}) as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemCrsPhp>;
+
+export type GetSecurityFirewallConfigResponseVersionsItemCrsRceAction = "deny" | "log";
+export const GetSecurityFirewallConfigResponseVersionsItemCrsRceAction = S.String;
+
+export interface GetSecurityFirewallConfigResponseVersionsItemCrsRce {
+  action: GetSecurityFirewallConfigResponseVersionsItemCrsRceAction;
+  active: boolean;
+}
+export const GetSecurityFirewallConfigResponseVersionsItemCrsRce = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    action: GetSecurityFirewallConfigResponseVersionsItemCrsRceAction,
+    active: S.Boolean,
+  }),
+).annotate({
+  identifier: "GetSecurityFirewallConfigResponseVersionsItemCrsRce",
+}) as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemCrsRce>;
+
+export type GetSecurityFirewallConfigResponseVersionsItemCrsRfiAction = "deny" | "log";
+export const GetSecurityFirewallConfigResponseVersionsItemCrsRfiAction = S.String;
+
+export interface GetSecurityFirewallConfigResponseVersionsItemCrsRfi {
+  action: GetSecurityFirewallConfigResponseVersionsItemCrsRfiAction;
+  active: boolean;
+}
+export const GetSecurityFirewallConfigResponseVersionsItemCrsRfi = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    action: GetSecurityFirewallConfigResponseVersionsItemCrsRfiAction,
+    active: S.Boolean,
+  }),
+).annotate({
+  identifier: "GetSecurityFirewallConfigResponseVersionsItemCrsRfi",
+}) as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemCrsRfi>;
+
+export type GetSecurityFirewallConfigResponseVersionsItemCrsSdAction = "deny" | "log";
+export const GetSecurityFirewallConfigResponseVersionsItemCrsSdAction = S.String;
+
+export interface GetSecurityFirewallConfigResponseVersionsItemCrsSd {
+  action: GetSecurityFirewallConfigResponseVersionsItemCrsSdAction;
+  active: boolean;
+}
+export const GetSecurityFirewallConfigResponseVersionsItemCrsSd = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    action: GetSecurityFirewallConfigResponseVersionsItemCrsSdAction,
+    active: S.Boolean,
+  }),
+).annotate({
+  identifier: "GetSecurityFirewallConfigResponseVersionsItemCrsSd",
+}) as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemCrsSd>;
+
+export type GetSecurityFirewallConfigResponseVersionsItemCrsSfAction = "deny" | "log";
+export const GetSecurityFirewallConfigResponseVersionsItemCrsSfAction = S.String;
+
+export interface GetSecurityFirewallConfigResponseVersionsItemCrsSf {
+  action: GetSecurityFirewallConfigResponseVersionsItemCrsSfAction;
+  active: boolean;
+}
+export const GetSecurityFirewallConfigResponseVersionsItemCrsSf = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    action: GetSecurityFirewallConfigResponseVersionsItemCrsSfAction,
+    active: S.Boolean,
+  }),
+).annotate({
+  identifier: "GetSecurityFirewallConfigResponseVersionsItemCrsSf",
+}) as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemCrsSf>;
+
+export type GetSecurityFirewallConfigResponseVersionsItemCrsSqliAction = "deny" | "log";
+export const GetSecurityFirewallConfigResponseVersionsItemCrsSqliAction = S.String;
+
+export interface GetSecurityFirewallConfigResponseVersionsItemCrsSqli {
+  action: GetSecurityFirewallConfigResponseVersionsItemCrsSqliAction;
+  active: boolean;
+}
+export const GetSecurityFirewallConfigResponseVersionsItemCrsSqli = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    action: GetSecurityFirewallConfigResponseVersionsItemCrsSqliAction,
+    active: S.Boolean,
+  }),
+).annotate({
+  identifier: "GetSecurityFirewallConfigResponseVersionsItemCrsSqli",
+}) as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemCrsSqli>;
+
+export type GetSecurityFirewallConfigResponseVersionsItemCrsXssAction = "deny" | "log";
+export const GetSecurityFirewallConfigResponseVersionsItemCrsXssAction = S.String;
+
+export interface GetSecurityFirewallConfigResponseVersionsItemCrsXss {
+  action: GetSecurityFirewallConfigResponseVersionsItemCrsXssAction;
+  active: boolean;
+}
+export const GetSecurityFirewallConfigResponseVersionsItemCrsXss = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    action: GetSecurityFirewallConfigResponseVersionsItemCrsXssAction,
+    active: S.Boolean,
+  }),
+).annotate({
+  identifier: "GetSecurityFirewallConfigResponseVersionsItemCrsXss",
+}) as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemCrsXss>;
+
+export interface GetSecurityFirewallConfigResponseVersionsItemCrs {
+  gen: GetSecurityFirewallConfigResponseVersionsItemCrsGen;
+  java: GetSecurityFirewallConfigResponseVersionsItemCrsJava;
+  lfi: GetSecurityFirewallConfigResponseVersionsItemCrsLfi;
+  ma: GetSecurityFirewallConfigResponseVersionsItemCrsMa;
+  php: GetSecurityFirewallConfigResponseVersionsItemCrsPhp;
+  rce: GetSecurityFirewallConfigResponseVersionsItemCrsRce;
+  rfi: GetSecurityFirewallConfigResponseVersionsItemCrsRfi;
+  sd: GetSecurityFirewallConfigResponseVersionsItemCrsSd;
+  sf: GetSecurityFirewallConfigResponseVersionsItemCrsSf;
+  sqli: GetSecurityFirewallConfigResponseVersionsItemCrsSqli;
+  xss: GetSecurityFirewallConfigResponseVersionsItemCrsXss;
+}
+export const GetSecurityFirewallConfigResponseVersionsItemCrs = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    gen: GetSecurityFirewallConfigResponseVersionsItemCrsGen,
+    java: GetSecurityFirewallConfigResponseVersionsItemCrsJava,
+    lfi: GetSecurityFirewallConfigResponseVersionsItemCrsLfi,
+    ma: GetSecurityFirewallConfigResponseVersionsItemCrsMa,
+    php: GetSecurityFirewallConfigResponseVersionsItemCrsPhp,
+    rce: GetSecurityFirewallConfigResponseVersionsItemCrsRce,
+    rfi: GetSecurityFirewallConfigResponseVersionsItemCrsRfi,
+    sd: GetSecurityFirewallConfigResponseVersionsItemCrsSd,
+    sf: GetSecurityFirewallConfigResponseVersionsItemCrsSf,
+    sqli: GetSecurityFirewallConfigResponseVersionsItemCrsSqli,
+    xss: GetSecurityFirewallConfigResponseVersionsItemCrsXss,
+  }),
+).annotate({
+  identifier: "GetSecurityFirewallConfigResponseVersionsItemCrs",
+}) as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemCrs>;
+
+export type GetSecurityFirewallConfigResponseVersionsItemIpsItemAction =
+  | "bypass"
+  | "challenge"
+  | "deny"
+  | "log";
+export const GetSecurityFirewallConfigResponseVersionsItemIpsItemAction = S.String;
+
+export interface GetSecurityFirewallConfigResponseVersionsItemIpsItem {
+  action: GetSecurityFirewallConfigResponseVersionsItemIpsItemAction;
+  hostname: string;
+  id: string;
+  ip: string;
+  notes?: string;
+}
+export const GetSecurityFirewallConfigResponseVersionsItemIpsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    action: GetSecurityFirewallConfigResponseVersionsItemIpsItemAction,
+    hostname: S.String,
+    id: S.String,
+    ip: S.String,
+    notes: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GetSecurityFirewallConfigResponseVersionsItemIpsItem",
+}) as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemIpsItem>;
+
+export type GetSecurityFirewallConfigResponseVersionsItemIpsList =
+  Array<GetSecurityFirewallConfigResponseVersionsItemIpsItem>;
+export const GetSecurityFirewallConfigResponseVersionsItemIpsList = /*@__PURE__*/ S.Array(
+  GetSecurityFirewallConfigResponseVersionsItemIpsItem,
+) as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemIpsList>;
+
+export type GetSecurityFirewallConfigResponseVersionsItemLogHeadersCase0List = Array<string>;
+export const GetSecurityFirewallConfigResponseVersionsItemLogHeadersCase0List =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemLogHeadersCase0List>;
+
+export type GetSecurityFirewallConfigResponseVersionsItemLogHeadersCase1 = "*";
+export const GetSecurityFirewallConfigResponseVersionsItemLogHeadersCase1 = S.String;
+
+export type GetSecurityFirewallConfigResponseVersionsItemLogHeaders =
+  | GetSecurityFirewallConfigResponseVersionsItemLogHeadersCase0List
+  | GetSecurityFirewallConfigResponseVersionsItemLogHeadersCase1;
+export const GetSecurityFirewallConfigResponseVersionsItemLogHeaders =
+  S.Unknown as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemLogHeaders>;
+
+export type GetSecurityFirewallConfigResponseVersionsItemManagedRulesAiBotsAction =
+  | "challenge"
+  | "deny"
+  | "log";
+export const GetSecurityFirewallConfigResponseVersionsItemManagedRulesAiBotsAction = S.String;
+
+export interface GetSecurityFirewallConfigResponseVersionsItemManagedRulesAiBots {
+  action?: GetSecurityFirewallConfigResponseVersionsItemManagedRulesAiBotsAction;
+  active: boolean;
+  updatedAt?: string;
+  userId?: string;
+  username?: string;
+}
+export const GetSecurityFirewallConfigResponseVersionsItemManagedRulesAiBots =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      action: S.optional(GetSecurityFirewallConfigResponseVersionsItemManagedRulesAiBotsAction),
+      active: S.Boolean,
+      updatedAt: S.optional(S.String),
+      userId: S.optional(S.String),
+      username: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "GetSecurityFirewallConfigResponseVersionsItemManagedRulesAiBots",
+  }) as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemManagedRulesAiBots>;
+
+export type GetSecurityFirewallConfigResponseVersionsItemManagedRulesBotProtectionAction =
+  | "challenge"
+  | "deny"
+  | "log";
+export const GetSecurityFirewallConfigResponseVersionsItemManagedRulesBotProtectionAction =
+  S.String;
+
+export interface GetSecurityFirewallConfigResponseVersionsItemManagedRulesBotProtection {
+  action?: GetSecurityFirewallConfigResponseVersionsItemManagedRulesBotProtectionAction;
+  active: boolean;
+  updatedAt?: string;
+  userId?: string;
+  username?: string;
+}
+export const GetSecurityFirewallConfigResponseVersionsItemManagedRulesBotProtection =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      action: S.optional(
+        GetSecurityFirewallConfigResponseVersionsItemManagedRulesBotProtectionAction,
+      ),
+      active: S.Boolean,
+      updatedAt: S.optional(S.String),
+      userId: S.optional(S.String),
+      username: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "GetSecurityFirewallConfigResponseVersionsItemManagedRulesBotProtection",
+  }) as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemManagedRulesBotProtection>;
+
+export type GetSecurityFirewallConfigResponseVersionsItemManagedRulesOwaspAction =
+  | "challenge"
+  | "deny"
+  | "log";
+export const GetSecurityFirewallConfigResponseVersionsItemManagedRulesOwaspAction = S.String;
+
+export interface GetSecurityFirewallConfigResponseVersionsItemManagedRulesOwasp {
+  action?: GetSecurityFirewallConfigResponseVersionsItemManagedRulesOwaspAction;
+  active: boolean;
+  updatedAt?: string;
+  userId?: string;
+  username?: string;
+}
+export const GetSecurityFirewallConfigResponseVersionsItemManagedRulesOwasp =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      action: S.optional(GetSecurityFirewallConfigResponseVersionsItemManagedRulesOwaspAction),
+      active: S.Boolean,
+      updatedAt: S.optional(S.String),
+      userId: S.optional(S.String),
+      username: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "GetSecurityFirewallConfigResponseVersionsItemManagedRulesOwasp",
+  }) as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemManagedRulesOwasp>;
+
+export type GetSecurityFirewallConfigResponseVersionsItemManagedRulesTrafficSourcesAction =
+  | "challenge"
+  | "deny"
+  | "log";
+export const GetSecurityFirewallConfigResponseVersionsItemManagedRulesTrafficSourcesAction =
+  S.String;
+
+export interface GetSecurityFirewallConfigResponseVersionsItemManagedRulesTrafficSources {
+  action?: GetSecurityFirewallConfigResponseVersionsItemManagedRulesTrafficSourcesAction;
+  active: boolean;
+  updatedAt?: string;
+  userId?: string;
+  username?: string;
+}
+export const GetSecurityFirewallConfigResponseVersionsItemManagedRulesTrafficSources =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      action: S.optional(
+        GetSecurityFirewallConfigResponseVersionsItemManagedRulesTrafficSourcesAction,
+      ),
+      active: S.Boolean,
+      updatedAt: S.optional(S.String),
+      userId: S.optional(S.String),
+      username: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "GetSecurityFirewallConfigResponseVersionsItemManagedRulesTrafficSources",
+  }) as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemManagedRulesTrafficSources>;
+
+export type GetSecurityFirewallConfigResponseVersionsItemManagedRulesVercelRulesetAction =
+  | "challenge"
+  | "deny"
+  | "log";
+export const GetSecurityFirewallConfigResponseVersionsItemManagedRulesVercelRulesetAction =
+  S.String;
+
+export interface GetSecurityFirewallConfigResponseVersionsItemManagedRulesVercelRuleset {
+  action?: GetSecurityFirewallConfigResponseVersionsItemManagedRulesVercelRulesetAction;
+  active: boolean;
+  updatedAt?: string;
+  userId?: string;
+  username?: string;
+}
+export const GetSecurityFirewallConfigResponseVersionsItemManagedRulesVercelRuleset =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      action: S.optional(
+        GetSecurityFirewallConfigResponseVersionsItemManagedRulesVercelRulesetAction,
+      ),
+      active: S.Boolean,
+      updatedAt: S.optional(S.String),
+      userId: S.optional(S.String),
+      username: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "GetSecurityFirewallConfigResponseVersionsItemManagedRulesVercelRuleset",
+  }) as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemManagedRulesVercelRuleset>;
+
+export interface GetSecurityFirewallConfigResponseVersionsItemManagedRules {
+  ai_bots?: GetSecurityFirewallConfigResponseVersionsItemManagedRulesAiBots;
+  bot_protection?: GetSecurityFirewallConfigResponseVersionsItemManagedRulesBotProtection;
+  owasp?: GetSecurityFirewallConfigResponseVersionsItemManagedRulesOwasp;
+  traffic_sources?: GetSecurityFirewallConfigResponseVersionsItemManagedRulesTrafficSources;
+  vercel_ruleset?: GetSecurityFirewallConfigResponseVersionsItemManagedRulesVercelRuleset;
+}
+export const GetSecurityFirewallConfigResponseVersionsItemManagedRules = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      ai_bots: S.optional(GetSecurityFirewallConfigResponseVersionsItemManagedRulesAiBots),
+      bot_protection: S.optional(
+        GetSecurityFirewallConfigResponseVersionsItemManagedRulesBotProtection,
+      ),
+      owasp: S.optional(GetSecurityFirewallConfigResponseVersionsItemManagedRulesOwasp),
+      traffic_sources: S.optional(
+        GetSecurityFirewallConfigResponseVersionsItemManagedRulesTrafficSources,
+      ),
+      vercel_ruleset: S.optional(
+        GetSecurityFirewallConfigResponseVersionsItemManagedRulesVercelRuleset,
+      ),
+    }),
+).annotate({
+  identifier: "GetSecurityFirewallConfigResponseVersionsItemManagedRules",
+}) as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemManagedRules>;
+
+export type GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ActionMitigateAction =
+  | "allow"
+  | "bypass"
+  | "challenge"
+  | "deny"
+  | "log"
+  | "rate_limit"
+  | "redirect";
+export const GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ActionMitigateAction =
+  S.String;
+
+export type GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ActionMitigateLogHeadersCase0List =
+  Array<string>;
+export const GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ActionMitigateLogHeadersCase0List =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ActionMitigateLogHeadersCase0List>;
+
+export type GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ActionMitigateLogHeadersCase1 =
+  "*";
+export const GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ActionMitigateLogHeadersCase1 =
+  S.String;
+
+export type GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ActionMitigateLogHeaders =
+  | GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ActionMitigateLogHeadersCase0List
+  | GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ActionMitigateLogHeadersCase1;
+export const GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ActionMitigateLogHeaders =
+  S.Unknown as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ActionMitigateLogHeaders>;
+
+export type GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ActionMitigateRateLimitAction =
+  | "challenge"
+  | "deny"
+  | "log"
+  | "rate_limit";
+export const GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ActionMitigateRateLimitAction =
+  S.String;
+
+export type GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ActionMitigateRateLimitAlgo =
+  | "fixed_window"
+  | "token_bucket";
+export const GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ActionMitigateRateLimitAlgo =
+  S.String;
+
+export type GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ActionMitigateRateLimitKeysList =
+  Array<string>;
+export const GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ActionMitigateRateLimitKeysList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ActionMitigateRateLimitKeysList>;
+
+export interface GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ActionMitigateRateLimit {
+  action?: GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ActionMitigateRateLimitAction | null;
+  algo: GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ActionMitigateRateLimitAlgo;
+  keys: GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ActionMitigateRateLimitKeysList;
+  limit: number;
+  window: number;
+}
+export const GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ActionMitigateRateLimit =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      action: S.optional(
+        S.NullOr(
+          GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ActionMitigateRateLimitAction,
+        ),
+      ),
+      algo: GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ActionMitigateRateLimitAlgo,
+      keys: GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ActionMitigateRateLimitKeysList,
+      limit: S.Number,
+      window: S.Number,
+    }),
+  ).annotate({
+    identifier:
+      "GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ActionMitigateRateLimit",
+  }) as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ActionMitigateRateLimit>;
+
+export type GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ActionMitigateRedirect =
+  CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
+export const GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ActionMitigateRedirect =
+  CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
+
+export interface GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ActionMitigate {
+  action: GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ActionMitigateAction;
+  actionDuration?: string | null;
+  bypassSystem?: boolean | null;
+  logHeaders?: GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ActionMitigateLogHeaders;
+  rateLimit?: GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ActionMitigateRateLimit | null;
+  redirect?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect | null;
+}
+export const GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ActionMitigate =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      action: GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ActionMitigateAction,
+      actionDuration: S.optional(S.NullOr(S.String)),
+      bypassSystem: S.optional(S.NullOr(S.Boolean)),
+      logHeaders: S.optional(
+        GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ActionMitigateLogHeaders,
+      ),
+      rateLimit: S.optional(
+        S.NullOr(
+          GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ActionMitigateRateLimit,
+        ),
+      ),
+      redirect: S.optional(
+        S.NullOr(
+          CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect,
+        ),
+      ),
+    }),
+  ).annotate({
+    identifier: "GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ActionMitigate",
+  }) as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ActionMitigate>;
+
+export interface GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0Action {
+  mitigate?: GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ActionMitigate;
+}
+export const GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0Action =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      mitigate: S.optional(
+        GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ActionMitigate,
+      ),
+    }),
+  ).annotate({
+    identifier: "GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0Action",
+  }) as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0Action>;
+
+export type GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ConditionGroupItemConditionsItemOp =
   | "eq"
   | "ex"
   | "gt"
@@ -6559,510 +7539,8 @@ export type GetSecurityFirewallConfigResponseDraftConditionsItemConditionGroupIt
   | "re"
   | "sub"
   | "suf";
-export const GetSecurityFirewallConfigResponseDraftConditionsItemConditionGroupItemConditionsItemOp =
+export const GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ConditionGroupItemConditionsItemOp =
   S.String;
-
-export type GetSecurityFirewallConfigResponseDraftConditionsItemConditionGroupItemConditionsItemValueCase2List =
-  Array<string>;
-export const GetSecurityFirewallConfigResponseDraftConditionsItemConditionGroupItemConditionsItemValueCase2List =
-  /*@__PURE__*/ S.Array(
-    S.String,
-  ) as any as S.Schema<GetSecurityFirewallConfigResponseDraftConditionsItemConditionGroupItemConditionsItemValueCase2List>;
-
-export type GetSecurityFirewallConfigResponseDraftConditionsItemConditionGroupItemConditionsItemValue =
-  | string
-  | number
-  | GetSecurityFirewallConfigResponseDraftConditionsItemConditionGroupItemConditionsItemValueCase2List;
-export const GetSecurityFirewallConfigResponseDraftConditionsItemConditionGroupItemConditionsItemValue =
-  S.Unknown as any as S.Schema<GetSecurityFirewallConfigResponseDraftConditionsItemConditionGroupItemConditionsItemValue>;
-
-export interface GetSecurityFirewallConfigResponseDraftConditionsItemConditionGroupItemConditionsItem {
-  type: GetSecurityFirewallConfigResponseDraftConditionsItemConditionGroupItemConditionsItemType;
-  op: GetSecurityFirewallConfigResponseDraftConditionsItemConditionGroupItemConditionsItemOp;
-  neg?: boolean;
-  key?: string;
-  value?: GetSecurityFirewallConfigResponseDraftConditionsItemConditionGroupItemConditionsItemValue;
-}
-export const GetSecurityFirewallConfigResponseDraftConditionsItemConditionGroupItemConditionsItem =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      type: GetSecurityFirewallConfigResponseDraftConditionsItemConditionGroupItemConditionsItemType,
-      op: GetSecurityFirewallConfigResponseDraftConditionsItemConditionGroupItemConditionsItemOp,
-      neg: S.optional(S.Boolean),
-      key: S.optional(S.String),
-      value: S.optional(
-        GetSecurityFirewallConfigResponseDraftConditionsItemConditionGroupItemConditionsItemValue,
-      ),
-    }),
-  ).annotate({
-    identifier:
-      "GetSecurityFirewallConfigResponseDraftConditionsItemConditionGroupItemConditionsItem",
-  }) as any as S.Schema<GetSecurityFirewallConfigResponseDraftConditionsItemConditionGroupItemConditionsItem>;
-
-export type GetSecurityFirewallConfigResponseDraftConditionsItemConditionGroupItemConditionsList =
-  Array<GetSecurityFirewallConfigResponseDraftConditionsItemConditionGroupItemConditionsItem>;
-export const GetSecurityFirewallConfigResponseDraftConditionsItemConditionGroupItemConditionsList =
-  /*@__PURE__*/ S.Array(
-    GetSecurityFirewallConfigResponseDraftConditionsItemConditionGroupItemConditionsItem,
-  ) as any as S.Schema<GetSecurityFirewallConfigResponseDraftConditionsItemConditionGroupItemConditionsList>;
-
-export interface GetSecurityFirewallConfigResponseDraftConditionsItemConditionGroupItem {
-  conditions: GetSecurityFirewallConfigResponseDraftConditionsItemConditionGroupItemConditionsList;
-}
-export const GetSecurityFirewallConfigResponseDraftConditionsItemConditionGroupItem =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      conditions:
-        GetSecurityFirewallConfigResponseDraftConditionsItemConditionGroupItemConditionsList,
-    }),
-  ).annotate({
-    identifier: "GetSecurityFirewallConfigResponseDraftConditionsItemConditionGroupItem",
-  }) as any as S.Schema<GetSecurityFirewallConfigResponseDraftConditionsItemConditionGroupItem>;
-
-export type GetSecurityFirewallConfigResponseDraftConditionsItemConditionGroupList =
-  Array<GetSecurityFirewallConfigResponseDraftConditionsItemConditionGroupItem>;
-export const GetSecurityFirewallConfigResponseDraftConditionsItemConditionGroupList =
-  /*@__PURE__*/ S.Array(
-    GetSecurityFirewallConfigResponseDraftConditionsItemConditionGroupItem,
-  ) as any as S.Schema<GetSecurityFirewallConfigResponseDraftConditionsItemConditionGroupList>;
-
-export interface GetSecurityFirewallConfigResponseDraftConditionsItem {
-  description?: string;
-  id: string;
-  name: string;
-  active: boolean;
-  conditionGroup: GetSecurityFirewallConfigResponseDraftConditionsItemConditionGroupList;
-}
-export const GetSecurityFirewallConfigResponseDraftConditionsItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    description: S.optional(S.String),
-    id: S.String,
-    name: S.String,
-    active: S.Boolean,
-    conditionGroup: GetSecurityFirewallConfigResponseDraftConditionsItemConditionGroupList,
-  }),
-).annotate({
-  identifier: "GetSecurityFirewallConfigResponseDraftConditionsItem",
-}) as any as S.Schema<GetSecurityFirewallConfigResponseDraftConditionsItem>;
-
-export type GetSecurityFirewallConfigResponseDraftConditionsList =
-  Array<GetSecurityFirewallConfigResponseDraftConditionsItem>;
-export const GetSecurityFirewallConfigResponseDraftConditionsList = /*@__PURE__*/ S.Array(
-  GetSecurityFirewallConfigResponseDraftConditionsItem,
-) as any as S.Schema<GetSecurityFirewallConfigResponseDraftConditionsList>;
-
-export type GetSecurityFirewallConfigResponseDraftChangesList = Array<unknown>;
-export const GetSecurityFirewallConfigResponseDraftChangesList = /*@__PURE__*/ S.Array(
-  S.Unknown,
-) as any as S.Schema<GetSecurityFirewallConfigResponseDraftChangesList>;
-
-export type GetSecurityFirewallConfigResponseDraftManagedRulesBotProtectionAction =
-  | "challenge"
-  | "deny"
-  | "log";
-export const GetSecurityFirewallConfigResponseDraftManagedRulesBotProtectionAction = S.String;
-
-export interface GetSecurityFirewallConfigResponseDraftManagedRulesBotProtection {
-  active: boolean;
-  action?: GetSecurityFirewallConfigResponseDraftManagedRulesBotProtectionAction;
-  updatedAt?: string;
-  userId?: string;
-  username?: string;
-}
-export const GetSecurityFirewallConfigResponseDraftManagedRulesBotProtection =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      active: S.Boolean,
-      action: S.optional(GetSecurityFirewallConfigResponseDraftManagedRulesBotProtectionAction),
-      updatedAt: S.optional(S.String),
-      userId: S.optional(S.String),
-      username: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "GetSecurityFirewallConfigResponseDraftManagedRulesBotProtection",
-  }) as any as S.Schema<GetSecurityFirewallConfigResponseDraftManagedRulesBotProtection>;
-
-export type GetSecurityFirewallConfigResponseDraftManagedRulesAiBotsAction =
-  | "challenge"
-  | "deny"
-  | "log";
-export const GetSecurityFirewallConfigResponseDraftManagedRulesAiBotsAction = S.String;
-
-export interface GetSecurityFirewallConfigResponseDraftManagedRulesAiBots {
-  active: boolean;
-  action?: GetSecurityFirewallConfigResponseDraftManagedRulesAiBotsAction;
-  updatedAt?: string;
-  userId?: string;
-  username?: string;
-}
-export const GetSecurityFirewallConfigResponseDraftManagedRulesAiBots = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      active: S.Boolean,
-      action: S.optional(GetSecurityFirewallConfigResponseDraftManagedRulesAiBotsAction),
-      updatedAt: S.optional(S.String),
-      userId: S.optional(S.String),
-      username: S.optional(S.String),
-    }),
-).annotate({
-  identifier: "GetSecurityFirewallConfigResponseDraftManagedRulesAiBots",
-}) as any as S.Schema<GetSecurityFirewallConfigResponseDraftManagedRulesAiBots>;
-
-export type GetSecurityFirewallConfigResponseDraftManagedRulesOwaspAction =
-  | "challenge"
-  | "deny"
-  | "log";
-export const GetSecurityFirewallConfigResponseDraftManagedRulesOwaspAction = S.String;
-
-export interface GetSecurityFirewallConfigResponseDraftManagedRulesOwasp {
-  active: boolean;
-  action?: GetSecurityFirewallConfigResponseDraftManagedRulesOwaspAction;
-  updatedAt?: string;
-  userId?: string;
-  username?: string;
-}
-export const GetSecurityFirewallConfigResponseDraftManagedRulesOwasp = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    active: S.Boolean,
-    action: S.optional(GetSecurityFirewallConfigResponseDraftManagedRulesOwaspAction),
-    updatedAt: S.optional(S.String),
-    userId: S.optional(S.String),
-    username: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GetSecurityFirewallConfigResponseDraftManagedRulesOwasp",
-}) as any as S.Schema<GetSecurityFirewallConfigResponseDraftManagedRulesOwasp>;
-
-export type GetSecurityFirewallConfigResponseDraftManagedRulesVercelRulesetAction =
-  | "challenge"
-  | "deny"
-  | "log";
-export const GetSecurityFirewallConfigResponseDraftManagedRulesVercelRulesetAction = S.String;
-
-export interface GetSecurityFirewallConfigResponseDraftManagedRulesVercelRuleset {
-  active: boolean;
-  action?: GetSecurityFirewallConfigResponseDraftManagedRulesVercelRulesetAction;
-  updatedAt?: string;
-  userId?: string;
-  username?: string;
-}
-export const GetSecurityFirewallConfigResponseDraftManagedRulesVercelRuleset =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      active: S.Boolean,
-      action: S.optional(GetSecurityFirewallConfigResponseDraftManagedRulesVercelRulesetAction),
-      updatedAt: S.optional(S.String),
-      userId: S.optional(S.String),
-      username: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "GetSecurityFirewallConfigResponseDraftManagedRulesVercelRuleset",
-  }) as any as S.Schema<GetSecurityFirewallConfigResponseDraftManagedRulesVercelRuleset>;
-
-export type GetSecurityFirewallConfigResponseDraftManagedRulesTrafficSourcesAction =
-  | "challenge"
-  | "deny"
-  | "log";
-export const GetSecurityFirewallConfigResponseDraftManagedRulesTrafficSourcesAction = S.String;
-
-export interface GetSecurityFirewallConfigResponseDraftManagedRulesTrafficSources {
-  active: boolean;
-  action?: GetSecurityFirewallConfigResponseDraftManagedRulesTrafficSourcesAction;
-  updatedAt?: string;
-  userId?: string;
-  username?: string;
-}
-export const GetSecurityFirewallConfigResponseDraftManagedRulesTrafficSources =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      active: S.Boolean,
-      action: S.optional(GetSecurityFirewallConfigResponseDraftManagedRulesTrafficSourcesAction),
-      updatedAt: S.optional(S.String),
-      userId: S.optional(S.String),
-      username: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "GetSecurityFirewallConfigResponseDraftManagedRulesTrafficSources",
-  }) as any as S.Schema<GetSecurityFirewallConfigResponseDraftManagedRulesTrafficSources>;
-
-export interface GetSecurityFirewallConfigResponseDraftManagedRules {
-  bot_protection?: GetSecurityFirewallConfigResponseDraftManagedRulesBotProtection;
-  ai_bots?: GetSecurityFirewallConfigResponseDraftManagedRulesAiBots;
-  owasp?: GetSecurityFirewallConfigResponseDraftManagedRulesOwasp;
-  vercel_ruleset?: GetSecurityFirewallConfigResponseDraftManagedRulesVercelRuleset;
-  traffic_sources?: GetSecurityFirewallConfigResponseDraftManagedRulesTrafficSources;
-}
-export const GetSecurityFirewallConfigResponseDraftManagedRules = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    bot_protection: S.optional(GetSecurityFirewallConfigResponseDraftManagedRulesBotProtection),
-    ai_bots: S.optional(GetSecurityFirewallConfigResponseDraftManagedRulesAiBots),
-    owasp: S.optional(GetSecurityFirewallConfigResponseDraftManagedRulesOwasp),
-    vercel_ruleset: S.optional(GetSecurityFirewallConfigResponseDraftManagedRulesVercelRuleset),
-    traffic_sources: S.optional(GetSecurityFirewallConfigResponseDraftManagedRulesTrafficSources),
-  }),
-).annotate({
-  identifier: "GetSecurityFirewallConfigResponseDraftManagedRules",
-}) as any as S.Schema<GetSecurityFirewallConfigResponseDraftManagedRules>;
-
-export type GetSecurityFirewallConfigResponseDraftLogHeadersCase0List = Array<string>;
-export const GetSecurityFirewallConfigResponseDraftLogHeadersCase0List = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<GetSecurityFirewallConfigResponseDraftLogHeadersCase0List>;
-
-export type GetSecurityFirewallConfigResponseDraftLogHeadersCase1 = "*";
-export const GetSecurityFirewallConfigResponseDraftLogHeadersCase1 = S.String;
-
-export type GetSecurityFirewallConfigResponseDraftLogHeaders =
-  | GetSecurityFirewallConfigResponseDraftLogHeadersCase0List
-  | GetSecurityFirewallConfigResponseDraftLogHeadersCase1;
-export const GetSecurityFirewallConfigResponseDraftLogHeaders =
-  S.Unknown as any as S.Schema<GetSecurityFirewallConfigResponseDraftLogHeaders>;
-
-export interface GetSecurityFirewallConfigResponseDraft {
-  ownerId: string;
-  projectKey: string;
-  id: string;
-  version: number;
-  updatedAt: string;
-  firewallEnabled: boolean;
-  crs?: GetSecurityFirewallConfigResponseDraftCrs;
-  rules: GetSecurityFirewallConfigResponseDraftRulesList;
-  ips: GetSecurityFirewallConfigResponseDraftIpsList;
-  rulesets?: GetSecurityFirewallConfigResponseDraftRulesets;
-  conditions?: GetSecurityFirewallConfigResponseDraftConditionsList;
-  changes: GetSecurityFirewallConfigResponseDraftChangesList;
-  managedRules?: GetSecurityFirewallConfigResponseDraftManagedRules;
-  botIdEnabled?: boolean;
-  logHeaders?: GetSecurityFirewallConfigResponseDraftLogHeaders;
-}
-export const GetSecurityFirewallConfigResponseDraft = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ownerId: S.String,
-    projectKey: S.String,
-    id: S.String,
-    version: S.Number,
-    updatedAt: S.String,
-    firewallEnabled: S.Boolean,
-    crs: S.optional(GetSecurityFirewallConfigResponseDraftCrs),
-    rules: GetSecurityFirewallConfigResponseDraftRulesList,
-    ips: GetSecurityFirewallConfigResponseDraftIpsList,
-    rulesets: S.optional(GetSecurityFirewallConfigResponseDraftRulesets),
-    conditions: S.optional(GetSecurityFirewallConfigResponseDraftConditionsList),
-    changes: GetSecurityFirewallConfigResponseDraftChangesList,
-    managedRules: S.optional(GetSecurityFirewallConfigResponseDraftManagedRules),
-    botIdEnabled: S.optional(S.Boolean),
-    logHeaders: S.optional(GetSecurityFirewallConfigResponseDraftLogHeaders),
-  }),
-).annotate({
-  identifier: "GetSecurityFirewallConfigResponseDraft",
-}) as any as S.Schema<GetSecurityFirewallConfigResponseDraft>;
-
-export type GetSecurityFirewallConfigResponseVersionsItemCrsSdAction = "deny" | "log";
-export const GetSecurityFirewallConfigResponseVersionsItemCrsSdAction = S.String;
-
-export interface GetSecurityFirewallConfigResponseVersionsItemCrsSd {
-  active: boolean;
-  action: GetSecurityFirewallConfigResponseVersionsItemCrsSdAction;
-}
-export const GetSecurityFirewallConfigResponseVersionsItemCrsSd = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    active: S.Boolean,
-    action: GetSecurityFirewallConfigResponseVersionsItemCrsSdAction,
-  }),
-).annotate({
-  identifier: "GetSecurityFirewallConfigResponseVersionsItemCrsSd",
-}) as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemCrsSd>;
-
-export type GetSecurityFirewallConfigResponseVersionsItemCrsMaAction = "deny" | "log";
-export const GetSecurityFirewallConfigResponseVersionsItemCrsMaAction = S.String;
-
-export interface GetSecurityFirewallConfigResponseVersionsItemCrsMa {
-  active: boolean;
-  action: GetSecurityFirewallConfigResponseVersionsItemCrsMaAction;
-}
-export const GetSecurityFirewallConfigResponseVersionsItemCrsMa = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    active: S.Boolean,
-    action: GetSecurityFirewallConfigResponseVersionsItemCrsMaAction,
-  }),
-).annotate({
-  identifier: "GetSecurityFirewallConfigResponseVersionsItemCrsMa",
-}) as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemCrsMa>;
-
-export type GetSecurityFirewallConfigResponseVersionsItemCrsLfiAction = "deny" | "log";
-export const GetSecurityFirewallConfigResponseVersionsItemCrsLfiAction = S.String;
-
-export interface GetSecurityFirewallConfigResponseVersionsItemCrsLfi {
-  active: boolean;
-  action: GetSecurityFirewallConfigResponseVersionsItemCrsLfiAction;
-}
-export const GetSecurityFirewallConfigResponseVersionsItemCrsLfi = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    active: S.Boolean,
-    action: GetSecurityFirewallConfigResponseVersionsItemCrsLfiAction,
-  }),
-).annotate({
-  identifier: "GetSecurityFirewallConfigResponseVersionsItemCrsLfi",
-}) as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemCrsLfi>;
-
-export type GetSecurityFirewallConfigResponseVersionsItemCrsRfiAction = "deny" | "log";
-export const GetSecurityFirewallConfigResponseVersionsItemCrsRfiAction = S.String;
-
-export interface GetSecurityFirewallConfigResponseVersionsItemCrsRfi {
-  active: boolean;
-  action: GetSecurityFirewallConfigResponseVersionsItemCrsRfiAction;
-}
-export const GetSecurityFirewallConfigResponseVersionsItemCrsRfi = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    active: S.Boolean,
-    action: GetSecurityFirewallConfigResponseVersionsItemCrsRfiAction,
-  }),
-).annotate({
-  identifier: "GetSecurityFirewallConfigResponseVersionsItemCrsRfi",
-}) as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemCrsRfi>;
-
-export type GetSecurityFirewallConfigResponseVersionsItemCrsRceAction = "deny" | "log";
-export const GetSecurityFirewallConfigResponseVersionsItemCrsRceAction = S.String;
-
-export interface GetSecurityFirewallConfigResponseVersionsItemCrsRce {
-  active: boolean;
-  action: GetSecurityFirewallConfigResponseVersionsItemCrsRceAction;
-}
-export const GetSecurityFirewallConfigResponseVersionsItemCrsRce = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    active: S.Boolean,
-    action: GetSecurityFirewallConfigResponseVersionsItemCrsRceAction,
-  }),
-).annotate({
-  identifier: "GetSecurityFirewallConfigResponseVersionsItemCrsRce",
-}) as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemCrsRce>;
-
-export type GetSecurityFirewallConfigResponseVersionsItemCrsPhpAction = "deny" | "log";
-export const GetSecurityFirewallConfigResponseVersionsItemCrsPhpAction = S.String;
-
-export interface GetSecurityFirewallConfigResponseVersionsItemCrsPhp {
-  active: boolean;
-  action: GetSecurityFirewallConfigResponseVersionsItemCrsPhpAction;
-}
-export const GetSecurityFirewallConfigResponseVersionsItemCrsPhp = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    active: S.Boolean,
-    action: GetSecurityFirewallConfigResponseVersionsItemCrsPhpAction,
-  }),
-).annotate({
-  identifier: "GetSecurityFirewallConfigResponseVersionsItemCrsPhp",
-}) as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemCrsPhp>;
-
-export type GetSecurityFirewallConfigResponseVersionsItemCrsGenAction = "deny" | "log";
-export const GetSecurityFirewallConfigResponseVersionsItemCrsGenAction = S.String;
-
-export interface GetSecurityFirewallConfigResponseVersionsItemCrsGen {
-  active: boolean;
-  action: GetSecurityFirewallConfigResponseVersionsItemCrsGenAction;
-}
-export const GetSecurityFirewallConfigResponseVersionsItemCrsGen = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    active: S.Boolean,
-    action: GetSecurityFirewallConfigResponseVersionsItemCrsGenAction,
-  }),
-).annotate({
-  identifier: "GetSecurityFirewallConfigResponseVersionsItemCrsGen",
-}) as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemCrsGen>;
-
-export type GetSecurityFirewallConfigResponseVersionsItemCrsXssAction = "deny" | "log";
-export const GetSecurityFirewallConfigResponseVersionsItemCrsXssAction = S.String;
-
-export interface GetSecurityFirewallConfigResponseVersionsItemCrsXss {
-  active: boolean;
-  action: GetSecurityFirewallConfigResponseVersionsItemCrsXssAction;
-}
-export const GetSecurityFirewallConfigResponseVersionsItemCrsXss = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    active: S.Boolean,
-    action: GetSecurityFirewallConfigResponseVersionsItemCrsXssAction,
-  }),
-).annotate({
-  identifier: "GetSecurityFirewallConfigResponseVersionsItemCrsXss",
-}) as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemCrsXss>;
-
-export type GetSecurityFirewallConfigResponseVersionsItemCrsSqliAction = "deny" | "log";
-export const GetSecurityFirewallConfigResponseVersionsItemCrsSqliAction = S.String;
-
-export interface GetSecurityFirewallConfigResponseVersionsItemCrsSqli {
-  active: boolean;
-  action: GetSecurityFirewallConfigResponseVersionsItemCrsSqliAction;
-}
-export const GetSecurityFirewallConfigResponseVersionsItemCrsSqli = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    active: S.Boolean,
-    action: GetSecurityFirewallConfigResponseVersionsItemCrsSqliAction,
-  }),
-).annotate({
-  identifier: "GetSecurityFirewallConfigResponseVersionsItemCrsSqli",
-}) as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemCrsSqli>;
-
-export type GetSecurityFirewallConfigResponseVersionsItemCrsSfAction = "deny" | "log";
-export const GetSecurityFirewallConfigResponseVersionsItemCrsSfAction = S.String;
-
-export interface GetSecurityFirewallConfigResponseVersionsItemCrsSf {
-  active: boolean;
-  action: GetSecurityFirewallConfigResponseVersionsItemCrsSfAction;
-}
-export const GetSecurityFirewallConfigResponseVersionsItemCrsSf = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    active: S.Boolean,
-    action: GetSecurityFirewallConfigResponseVersionsItemCrsSfAction,
-  }),
-).annotate({
-  identifier: "GetSecurityFirewallConfigResponseVersionsItemCrsSf",
-}) as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemCrsSf>;
-
-export type GetSecurityFirewallConfigResponseVersionsItemCrsJavaAction = "deny" | "log";
-export const GetSecurityFirewallConfigResponseVersionsItemCrsJavaAction = S.String;
-
-export interface GetSecurityFirewallConfigResponseVersionsItemCrsJava {
-  active: boolean;
-  action: GetSecurityFirewallConfigResponseVersionsItemCrsJavaAction;
-}
-export const GetSecurityFirewallConfigResponseVersionsItemCrsJava = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    active: S.Boolean,
-    action: GetSecurityFirewallConfigResponseVersionsItemCrsJavaAction,
-  }),
-).annotate({
-  identifier: "GetSecurityFirewallConfigResponseVersionsItemCrsJava",
-}) as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemCrsJava>;
-
-export interface GetSecurityFirewallConfigResponseVersionsItemCrs {
-  sd: GetSecurityFirewallConfigResponseVersionsItemCrsSd;
-  ma: GetSecurityFirewallConfigResponseVersionsItemCrsMa;
-  lfi: GetSecurityFirewallConfigResponseVersionsItemCrsLfi;
-  rfi: GetSecurityFirewallConfigResponseVersionsItemCrsRfi;
-  rce: GetSecurityFirewallConfigResponseVersionsItemCrsRce;
-  php: GetSecurityFirewallConfigResponseVersionsItemCrsPhp;
-  gen: GetSecurityFirewallConfigResponseVersionsItemCrsGen;
-  xss: GetSecurityFirewallConfigResponseVersionsItemCrsXss;
-  sqli: GetSecurityFirewallConfigResponseVersionsItemCrsSqli;
-  sf: GetSecurityFirewallConfigResponseVersionsItemCrsSf;
-  java: GetSecurityFirewallConfigResponseVersionsItemCrsJava;
-}
-export const GetSecurityFirewallConfigResponseVersionsItemCrs = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    sd: GetSecurityFirewallConfigResponseVersionsItemCrsSd,
-    ma: GetSecurityFirewallConfigResponseVersionsItemCrsMa,
-    lfi: GetSecurityFirewallConfigResponseVersionsItemCrsLfi,
-    rfi: GetSecurityFirewallConfigResponseVersionsItemCrsRfi,
-    rce: GetSecurityFirewallConfigResponseVersionsItemCrsRce,
-    php: GetSecurityFirewallConfigResponseVersionsItemCrsPhp,
-    gen: GetSecurityFirewallConfigResponseVersionsItemCrsGen,
-    xss: GetSecurityFirewallConfigResponseVersionsItemCrsXss,
-    sqli: GetSecurityFirewallConfigResponseVersionsItemCrsSqli,
-    sf: GetSecurityFirewallConfigResponseVersionsItemCrsSf,
-    java: GetSecurityFirewallConfigResponseVersionsItemCrsJava,
-  }),
-).annotate({
-  identifier: "GetSecurityFirewallConfigResponseVersionsItemCrs",
-}) as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemCrs>;
 
 export type GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ConditionGroupItemConditionsItemType =
   | "bot_category"
@@ -7101,25 +7579,6 @@ export type GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0Condition
 export const GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ConditionGroupItemConditionsItemType =
   S.String;
 
-export type GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ConditionGroupItemConditionsItemOp =
-  | "eq"
-  | "ex"
-  | "gt"
-  | "gte"
-  | "inc"
-  | "list"
-  | "lt"
-  | "lte"
-  | "neq"
-  | "nex"
-  | "ninc"
-  | "pre"
-  | "re"
-  | "sub"
-  | "suf";
-export const GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ConditionGroupItemConditionsItemOp =
-  S.String;
-
 export type GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ConditionGroupItemConditionsItemValueCase2List =
   Array<string>;
 export const GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ConditionGroupItemConditionsItemValueCase2List =
@@ -7135,19 +7594,19 @@ export const GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0Conditio
   S.Unknown as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ConditionGroupItemConditionsItemValue>;
 
 export interface GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ConditionGroupItemConditionsItem {
-  type: GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ConditionGroupItemConditionsItemType;
-  op: GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ConditionGroupItemConditionsItemOp;
-  neg?: boolean;
   key?: string;
+  neg?: boolean;
+  op: GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ConditionGroupItemConditionsItemOp;
+  type: GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ConditionGroupItemConditionsItemType;
   value?: GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ConditionGroupItemConditionsItemValue;
 }
 export const GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ConditionGroupItemConditionsItem =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      type: GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ConditionGroupItemConditionsItemType,
-      op: GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ConditionGroupItemConditionsItemOp,
-      neg: S.optional(S.Boolean),
       key: S.optional(S.String),
+      neg: S.optional(S.Boolean),
+      op: GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ConditionGroupItemConditionsItemOp,
+      type: GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ConditionGroupItemConditionsItemType,
       value: S.optional(
         GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ConditionGroupItemConditionsItemValue,
       ),
@@ -7184,7 +7643,33 @@ export const GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0Conditio
     GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ConditionGroupItem,
   ) as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ConditionGroupList>;
 
-export type GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ActionMitigateAction =
+export interface GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0 {
+  action: GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0Action;
+  active: boolean;
+  conditionGroup: GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ConditionGroupList;
+  description?: string;
+  id: string;
+  name: string;
+  valid: boolean;
+  validationErrors: unknown | null;
+}
+export const GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0 = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      action: GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0Action,
+      active: S.Boolean,
+      conditionGroup: GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ConditionGroupList,
+      description: S.optional(S.String),
+      id: S.String,
+      name: S.String,
+      valid: S.Boolean,
+      validationErrors: S.NullOr(S.Unknown),
+    }),
+).annotate({
+  identifier: "GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0",
+}) as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0>;
+
+export type GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ActionMitigateAction =
   | "allow"
   | "bypass"
   | "challenge"
@@ -7192,93 +7677,98 @@ export type GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ActionMit
   | "log"
   | "rate_limit"
   | "redirect";
-export const GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ActionMitigateAction =
+export const GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ActionMitigateAction =
   S.String;
 
-export type GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ActionMitigateRateLimitAlgo =
-  | "fixed_window"
-  | "token_bucket";
-export const GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ActionMitigateRateLimitAlgo =
-  S.String;
-
-export type GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ActionMitigateRateLimitKeysList =
+export type GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ActionMitigateLogHeadersCase0List =
   Array<string>;
-export const GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ActionMitigateRateLimitKeysList =
+export const GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ActionMitigateLogHeadersCase0List =
   /*@__PURE__*/ S.Array(
     S.String,
-  ) as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ActionMitigateRateLimitKeysList>;
+  ) as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ActionMitigateLogHeadersCase0List>;
 
-export type GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ActionMitigateRateLimitAction =
+export type GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ActionMitigateLogHeadersCase1 =
+  "*";
+export const GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ActionMitigateLogHeadersCase1 =
+  S.String;
+
+export type GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ActionMitigateLogHeaders =
+  | GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ActionMitigateLogHeadersCase0List
+  | GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ActionMitigateLogHeadersCase1;
+export const GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ActionMitigateLogHeaders =
+  S.Unknown as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ActionMitigateLogHeaders>;
+
+export type GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ActionMitigateRateLimitAction =
   | "challenge"
   | "deny"
   | "log"
   | "rate_limit";
-export const GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ActionMitigateRateLimitAction =
+export const GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ActionMitigateRateLimitAction =
   S.String;
 
-export interface GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ActionMitigateRateLimit {
-  algo: GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ActionMitigateRateLimitAlgo;
-  window: number;
+export type GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ActionMitigateRateLimitAlgo =
+  | "fixed_window"
+  | "token_bucket";
+export const GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ActionMitigateRateLimitAlgo =
+  S.String;
+
+export type GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ActionMitigateRateLimitKeysList =
+  Array<string>;
+export const GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ActionMitigateRateLimitKeysList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ActionMitigateRateLimitKeysList>;
+
+export interface GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ActionMitigateRateLimit {
+  action?: GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ActionMitigateRateLimitAction | null;
+  algo: GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ActionMitigateRateLimitAlgo;
+  keys: GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ActionMitigateRateLimitKeysList;
   limit: number;
-  keys: GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ActionMitigateRateLimitKeysList;
-  action?: GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ActionMitigateRateLimitAction | null;
+  window: number;
 }
-export const GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ActionMitigateRateLimit =
+export const GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ActionMitigateRateLimit =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      algo: GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ActionMitigateRateLimitAlgo,
-      window: S.Number,
-      limit: S.Number,
-      keys: GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ActionMitigateRateLimitKeysList,
       action: S.optional(
         S.NullOr(
-          GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ActionMitigateRateLimitAction,
+          GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ActionMitigateRateLimitAction,
         ),
       ),
+      algo: GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ActionMitigateRateLimitAlgo,
+      keys: GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ActionMitigateRateLimitKeysList,
+      limit: S.Number,
+      window: S.Number,
     }),
   ).annotate({
     identifier:
-      "GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ActionMitigateRateLimit",
-  }) as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ActionMitigateRateLimit>;
+      "GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ActionMitigateRateLimit",
+  }) as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ActionMitigateRateLimit>;
 
-export type GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ActionMitigateRedirect =
+export type GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ActionMitigateRedirect =
   CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
-export const GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ActionMitigateRedirect =
+export const GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ActionMitigateRedirect =
   CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
 
-export type GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ActionMitigateLogHeadersCase0List =
-  Array<string>;
-export const GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ActionMitigateLogHeadersCase0List =
-  /*@__PURE__*/ S.Array(
-    S.String,
-  ) as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ActionMitigateLogHeadersCase0List>;
-
-export type GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ActionMitigateLogHeadersCase1 =
-  "*";
-export const GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ActionMitigateLogHeadersCase1 =
-  S.String;
-
-export type GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ActionMitigateLogHeaders =
-  | GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ActionMitigateLogHeadersCase0List
-  | GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ActionMitigateLogHeadersCase1;
-export const GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ActionMitigateLogHeaders =
-  S.Unknown as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ActionMitigateLogHeaders>;
-
-export interface GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ActionMitigate {
-  action: GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ActionMitigateAction;
-  rateLimit?: GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ActionMitigateRateLimit | null;
-  redirect?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect | null;
+export interface GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ActionMitigate {
+  action: GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ActionMitigateAction;
   actionDuration?: string | null;
   bypassSystem?: boolean | null;
-  logHeaders?: GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ActionMitigateLogHeaders;
+  logHeaders?: GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ActionMitigateLogHeaders;
+  rateLimit?: GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ActionMitigateRateLimit | null;
+  redirect?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect | null;
 }
-export const GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ActionMitigate =
+export const GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ActionMitigate =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      action: GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ActionMitigateAction,
+      action: GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ActionMitigateAction,
+      actionDuration: S.optional(S.NullOr(S.String)),
+      bypassSystem: S.optional(S.NullOr(S.Boolean)),
+      logHeaders: S.optional(
+        GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ActionMitigateLogHeaders,
+      ),
       rateLimit: S.optional(
         S.NullOr(
-          GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ActionMitigateRateLimit,
+          GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ActionMitigateRateLimit,
         ),
       ),
       redirect: S.optional(
@@ -7286,55 +7776,43 @@ export const GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ActionMi
           CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect,
         ),
       ),
-      actionDuration: S.optional(S.NullOr(S.String)),
-      bypassSystem: S.optional(S.NullOr(S.Boolean)),
-      logHeaders: S.optional(
-        GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ActionMitigateLogHeaders,
-      ),
     }),
   ).annotate({
-    identifier: "GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ActionMitigate",
-  }) as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ActionMitigate>;
+    identifier: "GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ActionMitigate",
+  }) as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ActionMitigate>;
 
-export interface GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0Action {
-  mitigate?: GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ActionMitigate;
+export interface GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1Action {
+  mitigate?: GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ActionMitigate;
 }
-export const GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0Action =
+export const GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1Action =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       mitigate: S.optional(
-        GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ActionMitigate,
+        GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ActionMitigate,
       ),
     }),
   ).annotate({
-    identifier: "GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0Action",
-  }) as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0Action>;
+    identifier: "GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1Action",
+  }) as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1Action>;
 
-export interface GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0 {
-  id: string;
-  name: string;
-  description?: string;
-  active: boolean;
-  conditionGroup: GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ConditionGroupList;
-  action: GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0Action;
-  valid: boolean;
-  validationErrors: unknown | null;
-}
-export const GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0 = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      id: S.String,
-      name: S.String,
-      description: S.optional(S.String),
-      active: S.Boolean,
-      conditionGroup: GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0ConditionGroupList,
-      action: GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0Action,
-      valid: S.Boolean,
-      validationErrors: S.NullOr(S.Unknown),
-    }),
-).annotate({
-  identifier: "GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0",
-}) as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemRulesItemCase0>;
+export type GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ConditionGroupItemConditionsItemOp =
+  | "eq"
+  | "ex"
+  | "gt"
+  | "gte"
+  | "inc"
+  | "list"
+  | "lt"
+  | "lte"
+  | "neq"
+  | "nex"
+  | "ninc"
+  | "pre"
+  | "re"
+  | "sub"
+  | "suf";
+export const GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ConditionGroupItemConditionsItemOp =
+  S.String;
 
 export type GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ConditionGroupItemConditionsItemType =
   | "bot_category"
@@ -7373,25 +7851,6 @@ export type GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1Condition
 export const GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ConditionGroupItemConditionsItemType =
   S.String;
 
-export type GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ConditionGroupItemConditionsItemOp =
-  | "eq"
-  | "ex"
-  | "gt"
-  | "gte"
-  | "inc"
-  | "list"
-  | "lt"
-  | "lte"
-  | "neq"
-  | "nex"
-  | "ninc"
-  | "pre"
-  | "re"
-  | "sub"
-  | "suf";
-export const GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ConditionGroupItemConditionsItemOp =
-  S.String;
-
 export type GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ConditionGroupItemConditionsItemValueCase2List =
   Array<string>;
 export const GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ConditionGroupItemConditionsItemValueCase2List =
@@ -7407,19 +7866,19 @@ export const GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1Conditio
   S.Unknown as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ConditionGroupItemConditionsItemValue>;
 
 export interface GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ConditionGroupItemConditionsItem {
-  type: GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ConditionGroupItemConditionsItemType;
-  op: GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ConditionGroupItemConditionsItemOp;
-  neg?: boolean;
   key?: string;
+  neg?: boolean;
+  op: GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ConditionGroupItemConditionsItemOp;
+  type: GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ConditionGroupItemConditionsItemType;
   value?: GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ConditionGroupItemConditionsItemValue;
 }
 export const GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ConditionGroupItemConditionsItem =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      type: GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ConditionGroupItemConditionsItemType,
-      op: GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ConditionGroupItemConditionsItemOp,
-      neg: S.optional(S.Boolean),
       key: S.optional(S.String),
+      neg: S.optional(S.Boolean),
+      op: GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ConditionGroupItemConditionsItemOp,
+      type: GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ConditionGroupItemConditionsItemType,
       value: S.optional(
         GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ConditionGroupItemConditionsItemValue,
       ),
@@ -7456,132 +7915,6 @@ export const GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1Conditio
     GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ConditionGroupItem,
   ) as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ConditionGroupList>;
 
-export type GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ActionMitigateAction =
-  | "allow"
-  | "bypass"
-  | "challenge"
-  | "deny"
-  | "log"
-  | "rate_limit"
-  | "redirect";
-export const GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ActionMitigateAction =
-  S.String;
-
-export type GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ActionMitigateRateLimitAlgo =
-  | "fixed_window"
-  | "token_bucket";
-export const GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ActionMitigateRateLimitAlgo =
-  S.String;
-
-export type GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ActionMitigateRateLimitKeysList =
-  Array<string>;
-export const GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ActionMitigateRateLimitKeysList =
-  /*@__PURE__*/ S.Array(
-    S.String,
-  ) as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ActionMitigateRateLimitKeysList>;
-
-export type GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ActionMitigateRateLimitAction =
-  | "challenge"
-  | "deny"
-  | "log"
-  | "rate_limit";
-export const GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ActionMitigateRateLimitAction =
-  S.String;
-
-export interface GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ActionMitigateRateLimit {
-  algo: GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ActionMitigateRateLimitAlgo;
-  window: number;
-  limit: number;
-  keys: GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ActionMitigateRateLimitKeysList;
-  action?: GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ActionMitigateRateLimitAction | null;
-}
-export const GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ActionMitigateRateLimit =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      algo: GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ActionMitigateRateLimitAlgo,
-      window: S.Number,
-      limit: S.Number,
-      keys: GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ActionMitigateRateLimitKeysList,
-      action: S.optional(
-        S.NullOr(
-          GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ActionMitigateRateLimitAction,
-        ),
-      ),
-    }),
-  ).annotate({
-    identifier:
-      "GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ActionMitigateRateLimit",
-  }) as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ActionMitigateRateLimit>;
-
-export type GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ActionMitigateRedirect =
-  CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
-export const GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ActionMitigateRedirect =
-  CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
-
-export type GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ActionMitigateLogHeadersCase0List =
-  Array<string>;
-export const GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ActionMitigateLogHeadersCase0List =
-  /*@__PURE__*/ S.Array(
-    S.String,
-  ) as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ActionMitigateLogHeadersCase0List>;
-
-export type GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ActionMitigateLogHeadersCase1 =
-  "*";
-export const GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ActionMitigateLogHeadersCase1 =
-  S.String;
-
-export type GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ActionMitigateLogHeaders =
-  | GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ActionMitigateLogHeadersCase0List
-  | GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ActionMitigateLogHeadersCase1;
-export const GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ActionMitigateLogHeaders =
-  S.Unknown as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ActionMitigateLogHeaders>;
-
-export interface GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ActionMitigate {
-  action: GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ActionMitigateAction;
-  rateLimit?: GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ActionMitigateRateLimit | null;
-  redirect?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect | null;
-  actionDuration?: string | null;
-  bypassSystem?: boolean | null;
-  logHeaders?: GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ActionMitigateLogHeaders;
-}
-export const GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ActionMitigate =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      action: GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ActionMitigateAction,
-      rateLimit: S.optional(
-        S.NullOr(
-          GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ActionMitigateRateLimit,
-        ),
-      ),
-      redirect: S.optional(
-        S.NullOr(
-          CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect,
-        ),
-      ),
-      actionDuration: S.optional(S.NullOr(S.String)),
-      bypassSystem: S.optional(S.NullOr(S.Boolean)),
-      logHeaders: S.optional(
-        GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ActionMitigateLogHeaders,
-      ),
-    }),
-  ).annotate({
-    identifier: "GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ActionMitigate",
-  }) as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ActionMitigate>;
-
-export interface GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1Action {
-  mitigate?: GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ActionMitigate;
-}
-export const GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1Action =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      mitigate: S.optional(
-        GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ActionMitigate,
-      ),
-    }),
-  ).annotate({
-    identifier: "GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1Action",
-  }) as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1Action>;
-
 export type GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ValidationErrorsList =
   Array<string>;
 export const GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ValidationErrorsList =
@@ -7590,24 +7923,24 @@ export const GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1Validati
   ) as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ValidationErrorsList>;
 
 export interface GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1 {
-  id: string;
-  name: string;
-  description?: string;
+  action: GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1Action;
   active: boolean;
   conditionGroup: GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ConditionGroupList;
-  action: GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1Action;
+  description?: string;
+  id: string;
+  name: string;
   valid: boolean;
   validationErrors: GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ValidationErrorsList;
 }
 export const GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1 = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      id: S.String,
-      name: S.String,
-      description: S.optional(S.String),
+      action: GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1Action,
       active: S.Boolean,
       conditionGroup: GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ConditionGroupList,
-      action: GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1Action,
+      description: S.optional(S.String),
+      id: S.String,
+      name: S.String,
       valid: S.Boolean,
       validationErrors:
         GetSecurityFirewallConfigResponseVersionsItemRulesItemCase1ValidationErrorsList,
@@ -7628,37 +7961,24 @@ export const GetSecurityFirewallConfigResponseVersionsItemRulesList = /*@__PURE_
   GetSecurityFirewallConfigResponseVersionsItemRulesItem,
 ) as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemRulesList>;
 
-export type GetSecurityFirewallConfigResponseVersionsItemIpsItemAction =
-  | "bypass"
-  | "challenge"
-  | "deny"
-  | "log";
-export const GetSecurityFirewallConfigResponseVersionsItemIpsItemAction = S.String;
-
-export interface GetSecurityFirewallConfigResponseVersionsItemIpsItem {
-  id: string;
-  hostname: string;
-  ip: string;
-  notes?: string;
-  action: GetSecurityFirewallConfigResponseVersionsItemIpsItemAction;
-}
-export const GetSecurityFirewallConfigResponseVersionsItemIpsItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    hostname: S.String,
-    ip: S.String,
-    notes: S.optional(S.String),
-    action: GetSecurityFirewallConfigResponseVersionsItemIpsItemAction,
-  }),
-).annotate({
-  identifier: "GetSecurityFirewallConfigResponseVersionsItemIpsItem",
-}) as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemIpsItem>;
-
-export type GetSecurityFirewallConfigResponseVersionsItemIpsList =
-  Array<GetSecurityFirewallConfigResponseVersionsItemIpsItem>;
-export const GetSecurityFirewallConfigResponseVersionsItemIpsList = /*@__PURE__*/ S.Array(
-  GetSecurityFirewallConfigResponseVersionsItemIpsItem,
-) as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemIpsList>;
+export type GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemConditionGroupItemConditionsItemOp =
+  | "eq"
+  | "ex"
+  | "gt"
+  | "gte"
+  | "inc"
+  | "list"
+  | "lt"
+  | "lte"
+  | "neq"
+  | "nex"
+  | "ninc"
+  | "pre"
+  | "re"
+  | "sub"
+  | "suf";
+export const GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemConditionGroupItemConditionsItemOp =
+  S.String;
 
 export type GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemConditionGroupItemConditionsItemType =
   | "bot_category"
@@ -7697,25 +8017,6 @@ export type GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemCondit
 export const GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemConditionGroupItemConditionsItemType =
   S.String;
 
-export type GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemConditionGroupItemConditionsItemOp =
-  | "eq"
-  | "ex"
-  | "gt"
-  | "gte"
-  | "inc"
-  | "list"
-  | "lt"
-  | "lte"
-  | "neq"
-  | "nex"
-  | "ninc"
-  | "pre"
-  | "re"
-  | "sub"
-  | "suf";
-export const GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemConditionGroupItemConditionsItemOp =
-  S.String;
-
 export type GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemConditionGroupItemConditionsItemValueCase2List =
   Array<string>;
 export const GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemConditionGroupItemConditionsItemValueCase2List =
@@ -7731,19 +8032,19 @@ export const GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemCondi
   S.Unknown as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemConditionGroupItemConditionsItemValue>;
 
 export interface GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemConditionGroupItemConditionsItem {
-  type: GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemConditionGroupItemConditionsItemType;
-  op: GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemConditionGroupItemConditionsItemOp;
-  neg?: boolean;
   key?: string;
+  neg?: boolean;
+  op: GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemConditionGroupItemConditionsItemOp;
+  type: GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemConditionGroupItemConditionsItemType;
   value?: GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemConditionGroupItemConditionsItemValue;
 }
 export const GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemConditionGroupItemConditionsItem =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      type: GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemConditionGroupItemConditionsItemType,
-      op: GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemConditionGroupItemConditionsItemOp,
-      neg: S.optional(S.Boolean),
       key: S.optional(S.String),
+      neg: S.optional(S.Boolean),
+      op: GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemConditionGroupItemConditionsItemOp,
+      type: GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemConditionGroupItemConditionsItemType,
       value: S.optional(
         GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemConditionGroupItemConditionsItemValue,
       ),
@@ -7791,57 +8092,6 @@ export type GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemAction
 export const GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemActionMitigateAction =
   S.String;
 
-export type GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemActionMitigateRateLimitAlgo =
-  | "fixed_window"
-  | "token_bucket";
-export const GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemActionMitigateRateLimitAlgo =
-  S.String;
-
-export type GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemActionMitigateRateLimitKeysList =
-  Array<string>;
-export const GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemActionMitigateRateLimitKeysList =
-  /*@__PURE__*/ S.Array(
-    S.String,
-  ) as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemActionMitigateRateLimitKeysList>;
-
-export type GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemActionMitigateRateLimitAction =
-  | "challenge"
-  | "deny"
-  | "log"
-  | "rate_limit";
-export const GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemActionMitigateRateLimitAction =
-  S.String;
-
-export interface GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemActionMitigateRateLimit {
-  algo: GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemActionMitigateRateLimitAlgo;
-  window: number;
-  limit: number;
-  keys: GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemActionMitigateRateLimitKeysList;
-  action?: GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemActionMitigateRateLimitAction | null;
-}
-export const GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemActionMitigateRateLimit =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      algo: GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemActionMitigateRateLimitAlgo,
-      window: S.Number,
-      limit: S.Number,
-      keys: GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemActionMitigateRateLimitKeysList,
-      action: S.optional(
-        S.NullOr(
-          GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemActionMitigateRateLimitAction,
-        ),
-      ),
-    }),
-  ).annotate({
-    identifier:
-      "GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemActionMitigateRateLimit",
-  }) as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemActionMitigateRateLimit>;
-
-export type GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemActionMitigateRedirect =
-  CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
-export const GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemActionMitigateRedirect =
-  CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
-
 export type GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemActionMitigateLogHeadersCase0List =
   Array<string>;
 export const GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemActionMitigateLogHeadersCase0List =
@@ -7860,18 +8110,74 @@ export type GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemAction
 export const GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemActionMitigateLogHeaders =
   S.Unknown as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemActionMitigateLogHeaders>;
 
+export type GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemActionMitigateRateLimitAction =
+  | "challenge"
+  | "deny"
+  | "log"
+  | "rate_limit";
+export const GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemActionMitigateRateLimitAction =
+  S.String;
+
+export type GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemActionMitigateRateLimitAlgo =
+  | "fixed_window"
+  | "token_bucket";
+export const GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemActionMitigateRateLimitAlgo =
+  S.String;
+
+export type GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemActionMitigateRateLimitKeysList =
+  Array<string>;
+export const GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemActionMitigateRateLimitKeysList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemActionMitigateRateLimitKeysList>;
+
+export interface GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemActionMitigateRateLimit {
+  action?: GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemActionMitigateRateLimitAction | null;
+  algo: GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemActionMitigateRateLimitAlgo;
+  keys: GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemActionMitigateRateLimitKeysList;
+  limit: number;
+  window: number;
+}
+export const GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemActionMitigateRateLimit =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      action: S.optional(
+        S.NullOr(
+          GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemActionMitigateRateLimitAction,
+        ),
+      ),
+      algo: GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemActionMitigateRateLimitAlgo,
+      keys: GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemActionMitigateRateLimitKeysList,
+      limit: S.Number,
+      window: S.Number,
+    }),
+  ).annotate({
+    identifier:
+      "GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemActionMitigateRateLimit",
+  }) as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemActionMitigateRateLimit>;
+
+export type GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemActionMitigateRedirect =
+  CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
+export const GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemActionMitigateRedirect =
+  CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
+
 export interface GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemActionMitigate {
   action: GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemActionMitigateAction;
-  rateLimit?: GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemActionMitigateRateLimit | null;
-  redirect?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect | null;
   actionDuration?: string | null;
   bypassSystem?: boolean | null;
   logHeaders?: GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemActionMitigateLogHeaders;
+  rateLimit?: GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemActionMitigateRateLimit | null;
+  redirect?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect | null;
 }
 export const GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemActionMitigate =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       action: GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemActionMitigateAction,
+      actionDuration: S.optional(S.NullOr(S.String)),
+      bypassSystem: S.optional(S.NullOr(S.Boolean)),
+      logHeaders: S.optional(
+        GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemActionMitigateLogHeaders,
+      ),
       rateLimit: S.optional(
         S.NullOr(
           GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemActionMitigateRateLimit,
@@ -7881,11 +8187,6 @@ export const GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemActio
         S.NullOr(
           CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect,
         ),
-      ),
-      actionDuration: S.optional(S.NullOr(S.String)),
-      bypassSystem: S.optional(S.NullOr(S.Boolean)),
-      logHeaders: S.optional(
-        GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemActionMitigateLogHeaders,
       ),
     }),
   ).annotate({
@@ -7907,22 +8208,22 @@ export const GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemActio
   }) as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemAction>;
 
 export interface GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0Item {
+  active: boolean;
+  conditionGroup: GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemConditionGroupList;
   description?: string;
   id: string;
   name: string;
-  active: boolean;
-  conditionGroup: GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemConditionGroupList;
   action?: GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemAction;
 }
 export const GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0Item =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      description: S.optional(S.String),
-      id: S.String,
-      name: S.String,
       active: S.Boolean,
       conditionGroup:
         GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemConditionGroupList,
+      description: S.optional(S.String),
+      id: S.String,
+      name: S.String,
       action: S.optional(GetSecurityFirewallConfigResponseVersionsItemRulesetsCase0ItemAction),
     }),
   ).annotate({
@@ -7945,54 +8246,6 @@ export type GetSecurityFirewallConfigResponseVersionsItemRulesetsCase1ValueActio
   | "redirect";
 export const GetSecurityFirewallConfigResponseVersionsItemRulesetsCase1ValueAction = S.String;
 
-export type GetSecurityFirewallConfigResponseVersionsItemRulesetsCase1ValueRateLimitAlgo =
-  | "fixed_window"
-  | "token_bucket";
-export const GetSecurityFirewallConfigResponseVersionsItemRulesetsCase1ValueRateLimitAlgo =
-  S.String;
-
-export type GetSecurityFirewallConfigResponseVersionsItemRulesetsCase1ValueRateLimitKeysList =
-  Array<string>;
-export const GetSecurityFirewallConfigResponseVersionsItemRulesetsCase1ValueRateLimitKeysList =
-  /*@__PURE__*/ S.Array(
-    S.String,
-  ) as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemRulesetsCase1ValueRateLimitKeysList>;
-
-export type GetSecurityFirewallConfigResponseVersionsItemRulesetsCase1ValueRateLimitAction =
-  | "challenge"
-  | "deny"
-  | "log"
-  | "rate_limit";
-export const GetSecurityFirewallConfigResponseVersionsItemRulesetsCase1ValueRateLimitAction =
-  S.String;
-
-export interface GetSecurityFirewallConfigResponseVersionsItemRulesetsCase1ValueRateLimit {
-  algo: GetSecurityFirewallConfigResponseVersionsItemRulesetsCase1ValueRateLimitAlgo;
-  window: number;
-  limit: number;
-  keys: GetSecurityFirewallConfigResponseVersionsItemRulesetsCase1ValueRateLimitKeysList;
-  action?: GetSecurityFirewallConfigResponseVersionsItemRulesetsCase1ValueRateLimitAction | null;
-}
-export const GetSecurityFirewallConfigResponseVersionsItemRulesetsCase1ValueRateLimit =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      algo: GetSecurityFirewallConfigResponseVersionsItemRulesetsCase1ValueRateLimitAlgo,
-      window: S.Number,
-      limit: S.Number,
-      keys: GetSecurityFirewallConfigResponseVersionsItemRulesetsCase1ValueRateLimitKeysList,
-      action: S.optional(
-        S.NullOr(GetSecurityFirewallConfigResponseVersionsItemRulesetsCase1ValueRateLimitAction),
-      ),
-    }),
-  ).annotate({
-    identifier: "GetSecurityFirewallConfigResponseVersionsItemRulesetsCase1ValueRateLimit",
-  }) as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemRulesetsCase1ValueRateLimit>;
-
-export type GetSecurityFirewallConfigResponseVersionsItemRulesetsCase1ValueRedirect =
-  CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
-export const GetSecurityFirewallConfigResponseVersionsItemRulesetsCase1ValueRedirect =
-  CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
-
 export type GetSecurityFirewallConfigResponseVersionsItemRulesetsCase1ValueLogHeadersCase0List =
   Array<string>;
 export const GetSecurityFirewallConfigResponseVersionsItemRulesetsCase1ValueLogHeadersCase0List =
@@ -8010,18 +8263,71 @@ export type GetSecurityFirewallConfigResponseVersionsItemRulesetsCase1ValueLogHe
 export const GetSecurityFirewallConfigResponseVersionsItemRulesetsCase1ValueLogHeaders =
   S.Unknown as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemRulesetsCase1ValueLogHeaders>;
 
+export type GetSecurityFirewallConfigResponseVersionsItemRulesetsCase1ValueRateLimitAction =
+  | "challenge"
+  | "deny"
+  | "log"
+  | "rate_limit";
+export const GetSecurityFirewallConfigResponseVersionsItemRulesetsCase1ValueRateLimitAction =
+  S.String;
+
+export type GetSecurityFirewallConfigResponseVersionsItemRulesetsCase1ValueRateLimitAlgo =
+  | "fixed_window"
+  | "token_bucket";
+export const GetSecurityFirewallConfigResponseVersionsItemRulesetsCase1ValueRateLimitAlgo =
+  S.String;
+
+export type GetSecurityFirewallConfigResponseVersionsItemRulesetsCase1ValueRateLimitKeysList =
+  Array<string>;
+export const GetSecurityFirewallConfigResponseVersionsItemRulesetsCase1ValueRateLimitKeysList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemRulesetsCase1ValueRateLimitKeysList>;
+
+export interface GetSecurityFirewallConfigResponseVersionsItemRulesetsCase1ValueRateLimit {
+  action?: GetSecurityFirewallConfigResponseVersionsItemRulesetsCase1ValueRateLimitAction | null;
+  algo: GetSecurityFirewallConfigResponseVersionsItemRulesetsCase1ValueRateLimitAlgo;
+  keys: GetSecurityFirewallConfigResponseVersionsItemRulesetsCase1ValueRateLimitKeysList;
+  limit: number;
+  window: number;
+}
+export const GetSecurityFirewallConfigResponseVersionsItemRulesetsCase1ValueRateLimit =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      action: S.optional(
+        S.NullOr(GetSecurityFirewallConfigResponseVersionsItemRulesetsCase1ValueRateLimitAction),
+      ),
+      algo: GetSecurityFirewallConfigResponseVersionsItemRulesetsCase1ValueRateLimitAlgo,
+      keys: GetSecurityFirewallConfigResponseVersionsItemRulesetsCase1ValueRateLimitKeysList,
+      limit: S.Number,
+      window: S.Number,
+    }),
+  ).annotate({
+    identifier: "GetSecurityFirewallConfigResponseVersionsItemRulesetsCase1ValueRateLimit",
+  }) as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemRulesetsCase1ValueRateLimit>;
+
+export type GetSecurityFirewallConfigResponseVersionsItemRulesetsCase1ValueRedirect =
+  CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
+export const GetSecurityFirewallConfigResponseVersionsItemRulesetsCase1ValueRedirect =
+  CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
+
 export interface GetSecurityFirewallConfigResponseVersionsItemRulesetsCase1Value {
   action: GetSecurityFirewallConfigResponseVersionsItemRulesetsCase1ValueAction;
-  rateLimit?: GetSecurityFirewallConfigResponseVersionsItemRulesetsCase1ValueRateLimit | null;
-  redirect?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect | null;
   actionDuration?: string | null;
   bypassSystem?: boolean | null;
   logHeaders?: GetSecurityFirewallConfigResponseVersionsItemRulesetsCase1ValueLogHeaders;
+  rateLimit?: GetSecurityFirewallConfigResponseVersionsItemRulesetsCase1ValueRateLimit | null;
+  redirect?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect | null;
 }
 export const GetSecurityFirewallConfigResponseVersionsItemRulesetsCase1Value =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       action: GetSecurityFirewallConfigResponseVersionsItemRulesetsCase1ValueAction,
+      actionDuration: S.optional(S.NullOr(S.String)),
+      bypassSystem: S.optional(S.NullOr(S.Boolean)),
+      logHeaders: S.optional(
+        GetSecurityFirewallConfigResponseVersionsItemRulesetsCase1ValueLogHeaders,
+      ),
       rateLimit: S.optional(
         S.NullOr(GetSecurityFirewallConfigResponseVersionsItemRulesetsCase1ValueRateLimit),
       ),
@@ -8029,11 +8335,6 @@ export const GetSecurityFirewallConfigResponseVersionsItemRulesetsCase1Value =
         S.NullOr(
           CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect,
         ),
-      ),
-      actionDuration: S.optional(S.NullOr(S.String)),
-      bypassSystem: S.optional(S.NullOr(S.Boolean)),
-      logHeaders: S.optional(
-        GetSecurityFirewallConfigResponseVersionsItemRulesetsCase1ValueLogHeaders,
       ),
     }),
   ).annotate({
@@ -8054,371 +8355,40 @@ export type GetSecurityFirewallConfigResponseVersionsItemRulesets =
 export const GetSecurityFirewallConfigResponseVersionsItemRulesets =
   S.Unknown as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemRulesets>;
 
-export type GetSecurityFirewallConfigResponseVersionsItemConditionsItemConditionGroupItemConditionsItemType =
-  | "bot_category"
-  | "bot_name"
-  | "bot_protection"
-  | "bot_status"
-  | "cookie"
-  | "domain_environment"
-  | "environment"
-  | "geo_as_number"
-  | "geo_city"
-  | "geo_continent"
-  | "geo_country"
-  | "geo_country_region"
-  | "header"
-  | "host"
-  | "ip_address"
-  | "ja3_digest"
-  | "ja4_digest"
-  | "method"
-  | "path"
-  | "protocol"
-  | "query"
-  | "rate_limit_api_id"
-  | "raw_path"
-  | "region"
-  | "route"
-  | "ruleset"
-  | "scheme"
-  | "server_action"
-  | "shared_condition"
-  | "target_path"
-  | "traffic_source"
-  | "trusted_source"
-  | "user_agent";
-export const GetSecurityFirewallConfigResponseVersionsItemConditionsItemConditionGroupItemConditionsItemType =
-  S.String;
-
-export type GetSecurityFirewallConfigResponseVersionsItemConditionsItemConditionGroupItemConditionsItemOp =
-  | "eq"
-  | "ex"
-  | "gt"
-  | "gte"
-  | "inc"
-  | "list"
-  | "lt"
-  | "lte"
-  | "neq"
-  | "nex"
-  | "ninc"
-  | "pre"
-  | "re"
-  | "sub"
-  | "suf";
-export const GetSecurityFirewallConfigResponseVersionsItemConditionsItemConditionGroupItemConditionsItemOp =
-  S.String;
-
-export type GetSecurityFirewallConfigResponseVersionsItemConditionsItemConditionGroupItemConditionsItemValueCase2List =
-  Array<string>;
-export const GetSecurityFirewallConfigResponseVersionsItemConditionsItemConditionGroupItemConditionsItemValueCase2List =
-  /*@__PURE__*/ S.Array(
-    S.String,
-  ) as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemConditionsItemConditionGroupItemConditionsItemValueCase2List>;
-
-export type GetSecurityFirewallConfigResponseVersionsItemConditionsItemConditionGroupItemConditionsItemValue =
-  | string
-  | number
-  | GetSecurityFirewallConfigResponseVersionsItemConditionsItemConditionGroupItemConditionsItemValueCase2List;
-export const GetSecurityFirewallConfigResponseVersionsItemConditionsItemConditionGroupItemConditionsItemValue =
-  S.Unknown as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemConditionsItemConditionGroupItemConditionsItemValue>;
-
-export interface GetSecurityFirewallConfigResponseVersionsItemConditionsItemConditionGroupItemConditionsItem {
-  type: GetSecurityFirewallConfigResponseVersionsItemConditionsItemConditionGroupItemConditionsItemType;
-  op: GetSecurityFirewallConfigResponseVersionsItemConditionsItemConditionGroupItemConditionsItemOp;
-  neg?: boolean;
-  key?: string;
-  value?: GetSecurityFirewallConfigResponseVersionsItemConditionsItemConditionGroupItemConditionsItemValue;
-}
-export const GetSecurityFirewallConfigResponseVersionsItemConditionsItemConditionGroupItemConditionsItem =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      type: GetSecurityFirewallConfigResponseVersionsItemConditionsItemConditionGroupItemConditionsItemType,
-      op: GetSecurityFirewallConfigResponseVersionsItemConditionsItemConditionGroupItemConditionsItemOp,
-      neg: S.optional(S.Boolean),
-      key: S.optional(S.String),
-      value: S.optional(
-        GetSecurityFirewallConfigResponseVersionsItemConditionsItemConditionGroupItemConditionsItemValue,
-      ),
-    }),
-  ).annotate({
-    identifier:
-      "GetSecurityFirewallConfigResponseVersionsItemConditionsItemConditionGroupItemConditionsItem",
-  }) as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemConditionsItemConditionGroupItemConditionsItem>;
-
-export type GetSecurityFirewallConfigResponseVersionsItemConditionsItemConditionGroupItemConditionsList =
-  Array<GetSecurityFirewallConfigResponseVersionsItemConditionsItemConditionGroupItemConditionsItem>;
-export const GetSecurityFirewallConfigResponseVersionsItemConditionsItemConditionGroupItemConditionsList =
-  /*@__PURE__*/ S.Array(
-    GetSecurityFirewallConfigResponseVersionsItemConditionsItemConditionGroupItemConditionsItem,
-  ) as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemConditionsItemConditionGroupItemConditionsList>;
-
-export interface GetSecurityFirewallConfigResponseVersionsItemConditionsItemConditionGroupItem {
-  conditions: GetSecurityFirewallConfigResponseVersionsItemConditionsItemConditionGroupItemConditionsList;
-}
-export const GetSecurityFirewallConfigResponseVersionsItemConditionsItemConditionGroupItem =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      conditions:
-        GetSecurityFirewallConfigResponseVersionsItemConditionsItemConditionGroupItemConditionsList,
-    }),
-  ).annotate({
-    identifier: "GetSecurityFirewallConfigResponseVersionsItemConditionsItemConditionGroupItem",
-  }) as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemConditionsItemConditionGroupItem>;
-
-export type GetSecurityFirewallConfigResponseVersionsItemConditionsItemConditionGroupList =
-  Array<GetSecurityFirewallConfigResponseVersionsItemConditionsItemConditionGroupItem>;
-export const GetSecurityFirewallConfigResponseVersionsItemConditionsItemConditionGroupList =
-  /*@__PURE__*/ S.Array(
-    GetSecurityFirewallConfigResponseVersionsItemConditionsItemConditionGroupItem,
-  ) as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemConditionsItemConditionGroupList>;
-
-export interface GetSecurityFirewallConfigResponseVersionsItemConditionsItem {
-  description?: string;
-  id: string;
-  name: string;
-  active: boolean;
-  conditionGroup: GetSecurityFirewallConfigResponseVersionsItemConditionsItemConditionGroupList;
-}
-export const GetSecurityFirewallConfigResponseVersionsItemConditionsItem = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      description: S.optional(S.String),
-      id: S.String,
-      name: S.String,
-      active: S.Boolean,
-      conditionGroup: GetSecurityFirewallConfigResponseVersionsItemConditionsItemConditionGroupList,
-    }),
-).annotate({
-  identifier: "GetSecurityFirewallConfigResponseVersionsItemConditionsItem",
-}) as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemConditionsItem>;
-
-export type GetSecurityFirewallConfigResponseVersionsItemConditionsList =
-  Array<GetSecurityFirewallConfigResponseVersionsItemConditionsItem>;
-export const GetSecurityFirewallConfigResponseVersionsItemConditionsList = /*@__PURE__*/ S.Array(
-  GetSecurityFirewallConfigResponseVersionsItemConditionsItem,
-) as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemConditionsList>;
-
-export type GetSecurityFirewallConfigResponseVersionsItemChangesList = Array<unknown>;
-export const GetSecurityFirewallConfigResponseVersionsItemChangesList = /*@__PURE__*/ S.Array(
-  S.Unknown,
-) as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemChangesList>;
-
-export type GetSecurityFirewallConfigResponseVersionsItemManagedRulesBotProtectionAction =
-  | "challenge"
-  | "deny"
-  | "log";
-export const GetSecurityFirewallConfigResponseVersionsItemManagedRulesBotProtectionAction =
-  S.String;
-
-export interface GetSecurityFirewallConfigResponseVersionsItemManagedRulesBotProtection {
-  active: boolean;
-  action?: GetSecurityFirewallConfigResponseVersionsItemManagedRulesBotProtectionAction;
-  updatedAt?: string;
-  userId?: string;
-  username?: string;
-}
-export const GetSecurityFirewallConfigResponseVersionsItemManagedRulesBotProtection =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      active: S.Boolean,
-      action: S.optional(
-        GetSecurityFirewallConfigResponseVersionsItemManagedRulesBotProtectionAction,
-      ),
-      updatedAt: S.optional(S.String),
-      userId: S.optional(S.String),
-      username: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "GetSecurityFirewallConfigResponseVersionsItemManagedRulesBotProtection",
-  }) as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemManagedRulesBotProtection>;
-
-export type GetSecurityFirewallConfigResponseVersionsItemManagedRulesAiBotsAction =
-  | "challenge"
-  | "deny"
-  | "log";
-export const GetSecurityFirewallConfigResponseVersionsItemManagedRulesAiBotsAction = S.String;
-
-export interface GetSecurityFirewallConfigResponseVersionsItemManagedRulesAiBots {
-  active: boolean;
-  action?: GetSecurityFirewallConfigResponseVersionsItemManagedRulesAiBotsAction;
-  updatedAt?: string;
-  userId?: string;
-  username?: string;
-}
-export const GetSecurityFirewallConfigResponseVersionsItemManagedRulesAiBots =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      active: S.Boolean,
-      action: S.optional(GetSecurityFirewallConfigResponseVersionsItemManagedRulesAiBotsAction),
-      updatedAt: S.optional(S.String),
-      userId: S.optional(S.String),
-      username: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "GetSecurityFirewallConfigResponseVersionsItemManagedRulesAiBots",
-  }) as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemManagedRulesAiBots>;
-
-export type GetSecurityFirewallConfigResponseVersionsItemManagedRulesOwaspAction =
-  | "challenge"
-  | "deny"
-  | "log";
-export const GetSecurityFirewallConfigResponseVersionsItemManagedRulesOwaspAction = S.String;
-
-export interface GetSecurityFirewallConfigResponseVersionsItemManagedRulesOwasp {
-  active: boolean;
-  action?: GetSecurityFirewallConfigResponseVersionsItemManagedRulesOwaspAction;
-  updatedAt?: string;
-  userId?: string;
-  username?: string;
-}
-export const GetSecurityFirewallConfigResponseVersionsItemManagedRulesOwasp =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      active: S.Boolean,
-      action: S.optional(GetSecurityFirewallConfigResponseVersionsItemManagedRulesOwaspAction),
-      updatedAt: S.optional(S.String),
-      userId: S.optional(S.String),
-      username: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "GetSecurityFirewallConfigResponseVersionsItemManagedRulesOwasp",
-  }) as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemManagedRulesOwasp>;
-
-export type GetSecurityFirewallConfigResponseVersionsItemManagedRulesVercelRulesetAction =
-  | "challenge"
-  | "deny"
-  | "log";
-export const GetSecurityFirewallConfigResponseVersionsItemManagedRulesVercelRulesetAction =
-  S.String;
-
-export interface GetSecurityFirewallConfigResponseVersionsItemManagedRulesVercelRuleset {
-  active: boolean;
-  action?: GetSecurityFirewallConfigResponseVersionsItemManagedRulesVercelRulesetAction;
-  updatedAt?: string;
-  userId?: string;
-  username?: string;
-}
-export const GetSecurityFirewallConfigResponseVersionsItemManagedRulesVercelRuleset =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      active: S.Boolean,
-      action: S.optional(
-        GetSecurityFirewallConfigResponseVersionsItemManagedRulesVercelRulesetAction,
-      ),
-      updatedAt: S.optional(S.String),
-      userId: S.optional(S.String),
-      username: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "GetSecurityFirewallConfigResponseVersionsItemManagedRulesVercelRuleset",
-  }) as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemManagedRulesVercelRuleset>;
-
-export type GetSecurityFirewallConfigResponseVersionsItemManagedRulesTrafficSourcesAction =
-  | "challenge"
-  | "deny"
-  | "log";
-export const GetSecurityFirewallConfigResponseVersionsItemManagedRulesTrafficSourcesAction =
-  S.String;
-
-export interface GetSecurityFirewallConfigResponseVersionsItemManagedRulesTrafficSources {
-  active: boolean;
-  action?: GetSecurityFirewallConfigResponseVersionsItemManagedRulesTrafficSourcesAction;
-  updatedAt?: string;
-  userId?: string;
-  username?: string;
-}
-export const GetSecurityFirewallConfigResponseVersionsItemManagedRulesTrafficSources =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      active: S.Boolean,
-      action: S.optional(
-        GetSecurityFirewallConfigResponseVersionsItemManagedRulesTrafficSourcesAction,
-      ),
-      updatedAt: S.optional(S.String),
-      userId: S.optional(S.String),
-      username: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "GetSecurityFirewallConfigResponseVersionsItemManagedRulesTrafficSources",
-  }) as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemManagedRulesTrafficSources>;
-
-export interface GetSecurityFirewallConfigResponseVersionsItemManagedRules {
-  bot_protection?: GetSecurityFirewallConfigResponseVersionsItemManagedRulesBotProtection;
-  ai_bots?: GetSecurityFirewallConfigResponseVersionsItemManagedRulesAiBots;
-  owasp?: GetSecurityFirewallConfigResponseVersionsItemManagedRulesOwasp;
-  vercel_ruleset?: GetSecurityFirewallConfigResponseVersionsItemManagedRulesVercelRuleset;
-  traffic_sources?: GetSecurityFirewallConfigResponseVersionsItemManagedRulesTrafficSources;
-}
-export const GetSecurityFirewallConfigResponseVersionsItemManagedRules = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      bot_protection: S.optional(
-        GetSecurityFirewallConfigResponseVersionsItemManagedRulesBotProtection,
-      ),
-      ai_bots: S.optional(GetSecurityFirewallConfigResponseVersionsItemManagedRulesAiBots),
-      owasp: S.optional(GetSecurityFirewallConfigResponseVersionsItemManagedRulesOwasp),
-      vercel_ruleset: S.optional(
-        GetSecurityFirewallConfigResponseVersionsItemManagedRulesVercelRuleset,
-      ),
-      traffic_sources: S.optional(
-        GetSecurityFirewallConfigResponseVersionsItemManagedRulesTrafficSources,
-      ),
-    }),
-).annotate({
-  identifier: "GetSecurityFirewallConfigResponseVersionsItemManagedRules",
-}) as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemManagedRules>;
-
-export type GetSecurityFirewallConfigResponseVersionsItemLogHeadersCase0List = Array<string>;
-export const GetSecurityFirewallConfigResponseVersionsItemLogHeadersCase0List =
-  /*@__PURE__*/ S.Array(
-    S.String,
-  ) as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemLogHeadersCase0List>;
-
-export type GetSecurityFirewallConfigResponseVersionsItemLogHeadersCase1 = "*";
-export const GetSecurityFirewallConfigResponseVersionsItemLogHeadersCase1 = S.String;
-
-export type GetSecurityFirewallConfigResponseVersionsItemLogHeaders =
-  | GetSecurityFirewallConfigResponseVersionsItemLogHeadersCase0List
-  | GetSecurityFirewallConfigResponseVersionsItemLogHeadersCase1;
-export const GetSecurityFirewallConfigResponseVersionsItemLogHeaders =
-  S.Unknown as any as S.Schema<GetSecurityFirewallConfigResponseVersionsItemLogHeaders>;
-
 export interface GetSecurityFirewallConfigResponseVersionsItem {
+  botIdEnabled?: boolean;
+  changes: GetSecurityFirewallConfigResponseVersionsItemChangesList;
+  conditions?: GetSecurityFirewallConfigResponseVersionsItemConditionsList;
+  crs?: GetSecurityFirewallConfigResponseVersionsItemCrs;
+  firewallEnabled: boolean;
+  id: string;
+  ips: GetSecurityFirewallConfigResponseVersionsItemIpsList;
+  logHeaders?: GetSecurityFirewallConfigResponseVersionsItemLogHeaders;
+  managedRules?: GetSecurityFirewallConfigResponseVersionsItemManagedRules;
   ownerId: string;
   projectKey: string;
-  id: string;
-  version: number;
-  updatedAt: string;
-  firewallEnabled: boolean;
-  crs?: GetSecurityFirewallConfigResponseVersionsItemCrs;
   rules: GetSecurityFirewallConfigResponseVersionsItemRulesList;
-  ips: GetSecurityFirewallConfigResponseVersionsItemIpsList;
   rulesets?: GetSecurityFirewallConfigResponseVersionsItemRulesets;
-  conditions?: GetSecurityFirewallConfigResponseVersionsItemConditionsList;
-  changes: GetSecurityFirewallConfigResponseVersionsItemChangesList;
-  managedRules?: GetSecurityFirewallConfigResponseVersionsItemManagedRules;
-  botIdEnabled?: boolean;
-  logHeaders?: GetSecurityFirewallConfigResponseVersionsItemLogHeaders;
+  updatedAt: string;
+  version: number;
 }
 export const GetSecurityFirewallConfigResponseVersionsItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    botIdEnabled: S.optional(S.Boolean),
+    changes: GetSecurityFirewallConfigResponseVersionsItemChangesList,
+    conditions: S.optional(GetSecurityFirewallConfigResponseVersionsItemConditionsList),
+    crs: S.optional(GetSecurityFirewallConfigResponseVersionsItemCrs),
+    firewallEnabled: S.Boolean,
+    id: S.String,
+    ips: GetSecurityFirewallConfigResponseVersionsItemIpsList,
+    logHeaders: S.optional(GetSecurityFirewallConfigResponseVersionsItemLogHeaders),
+    managedRules: S.optional(GetSecurityFirewallConfigResponseVersionsItemManagedRules),
     ownerId: S.String,
     projectKey: S.String,
-    id: S.String,
-    version: S.Number,
-    updatedAt: S.String,
-    firewallEnabled: S.Boolean,
-    crs: S.optional(GetSecurityFirewallConfigResponseVersionsItemCrs),
     rules: GetSecurityFirewallConfigResponseVersionsItemRulesList,
-    ips: GetSecurityFirewallConfigResponseVersionsItemIpsList,
     rulesets: S.optional(GetSecurityFirewallConfigResponseVersionsItemRulesets),
-    conditions: S.optional(GetSecurityFirewallConfigResponseVersionsItemConditionsList),
-    changes: GetSecurityFirewallConfigResponseVersionsItemChangesList,
-    managedRules: S.optional(GetSecurityFirewallConfigResponseVersionsItemManagedRules),
-    botIdEnabled: S.optional(S.Boolean),
-    logHeaders: S.optional(GetSecurityFirewallConfigResponseVersionsItemLogHeaders),
+    updatedAt: S.String,
+    version: S.Number,
   }),
 ).annotate({
   identifier: "GetSecurityFirewallConfigResponseVersionsItem",
@@ -8445,11 +8415,61 @@ export const GetSecurityFirewallConfigResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetSecurityFirewallConfigResponse",
 }) as any as S.Schema<GetSecurityFirewallConfigResponse>;
 
+export type GetSecurityFirewallEventsRequestSort = "startTime:desc" | "startTime:asc";
+export const GetSecurityFirewallEventsRequestSort = S.String;
+
+export type GetSecurityFirewallEventsRequestIpList = Array<string>;
+export const GetSecurityFirewallEventsRequestIpList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<GetSecurityFirewallEventsRequestIpList>;
+
+export type GetSecurityFirewallEventsRequestActionItem =
+  | "deny"
+  | "challenge"
+  | "log"
+  | "rate_limit"
+  | "bypass";
+export const GetSecurityFirewallEventsRequestActionItem = S.String;
+
+export type GetSecurityFirewallEventsRequestActionList = Array<
+  GetSecurityFirewallEventsRequestActionItem | (string & {})
+>;
+export const GetSecurityFirewallEventsRequestActionList = /*@__PURE__*/ S.Array(
+  GetSecurityFirewallEventsRequestActionItem,
+) as any as S.Schema<GetSecurityFirewallEventsRequestActionList>;
+
+export type GetSecurityFirewallEventsRequestActionTypeItem = "system-action" | "customer-action";
+export const GetSecurityFirewallEventsRequestActionTypeItem = S.String;
+
+export type GetSecurityFirewallEventsRequestActionTypeList = Array<
+  GetSecurityFirewallEventsRequestActionTypeItem | (string & {})
+>;
+export const GetSecurityFirewallEventsRequestActionTypeList = /*@__PURE__*/ S.Array(
+  GetSecurityFirewallEventsRequestActionTypeItem,
+) as any as S.Schema<GetSecurityFirewallEventsRequestActionTypeList>;
+
+export type GetSecurityFirewallEventsRequestRuleKind = "system" | "custom";
+export const GetSecurityFirewallEventsRequestRuleKind = S.String;
+
+export type GetSecurityFirewallEventsRequestRuleIdList = Array<string>;
+export const GetSecurityFirewallEventsRequestRuleIdList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<GetSecurityFirewallEventsRequestRuleIdList>;
+
 export interface GetSecurityFirewallEventsRequest {
+  sort?: GetSecurityFirewallEventsRequestSort | (string & {});
+  limit?: number;
+  cursor?: string;
   projectId: string;
   startTimestamp?: number;
   endTimestamp?: number;
   hosts?: string;
+  ip?: GetSecurityFirewallEventsRequestIpList;
+  isActive?: boolean;
+  action?: GetSecurityFirewallEventsRequestActionList;
+  actionType?: GetSecurityFirewallEventsRequestActionTypeList;
+  ruleKind?: GetSecurityFirewallEventsRequestRuleKind | (string & {});
+  ruleId?: GetSecurityFirewallEventsRequestRuleIdList;
   /** The Team identifier to perform the request on behalf of. */
   teamId?: string;
   /** The Team slug to perform the request on behalf of. */
@@ -8457,10 +8477,19 @@ export interface GetSecurityFirewallEventsRequest {
 }
 export const GetSecurityFirewallEventsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    sort: S.optional(GetSecurityFirewallEventsRequestSort.pipe(T.Query())),
+    limit: S.optional(S.Number.pipe(T.Query())),
+    cursor: S.optional(S.String.pipe(T.Query())),
     projectId: S.String.pipe(T.Query()),
     startTimestamp: S.optional(S.Number.pipe(T.Query())),
     endTimestamp: S.optional(S.Number.pipe(T.Query())),
     hosts: S.optional(S.String.pipe(T.Query())),
+    ip: S.optional(GetSecurityFirewallEventsRequestIpList.pipe(T.Query())),
+    isActive: S.optional(S.Boolean.pipe(T.Query())),
+    action: S.optional(GetSecurityFirewallEventsRequestActionList.pipe(T.Query())),
+    actionType: S.optional(GetSecurityFirewallEventsRequestActionTypeList.pipe(T.Query())),
+    ruleKind: S.optional(GetSecurityFirewallEventsRequestRuleKind.pipe(T.Query())),
+    ruleId: S.optional(GetSecurityFirewallEventsRequestRuleIdList.pipe(T.Query())),
     teamId: S.optional(S.String.pipe(T.Query())),
     slug: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v1/security/firewall/events", code: 200 })),
@@ -8469,29 +8498,29 @@ export const GetSecurityFirewallEventsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetSecurityFirewallEventsRequest>;
 
 export interface GetSecurityFirewallEventsResponseActionsItem {
+  action: string;
+  action_type: string;
+  count: number;
+  endTime: string;
+  host: string;
+  isActive: boolean;
+  public_ip: string;
+  ruleId: string | null;
   ruleName: string | null;
   startTime: string;
-  endTime: string;
-  isActive: boolean;
-  action_type: string;
-  action: string;
-  ruleId: string | null;
-  host: string;
-  public_ip: string;
-  count: number;
 }
 export const GetSecurityFirewallEventsResponseActionsItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    action: S.String,
+    action_type: S.String,
+    count: S.Number,
+    endTime: S.String,
+    host: S.String,
+    isActive: S.Boolean,
+    public_ip: S.String,
+    ruleId: S.NullOr(S.String),
     ruleName: S.NullOr(S.String),
     startTime: S.String,
-    endTime: S.String,
-    isActive: S.Boolean,
-    action_type: S.String,
-    action: S.String,
-    ruleId: S.NullOr(S.String),
-    host: S.String,
-    public_ip: S.String,
-    count: S.Number,
   }),
 ).annotate({
   identifier: "GetSecurityFirewallEventsResponseActionsItem",
@@ -8503,16 +8532,144 @@ export const GetSecurityFirewallEventsResponseActionsList = /*@__PURE__*/ S.Arra
   GetSecurityFirewallEventsResponseActionsItem,
 ) as any as S.Schema<GetSecurityFirewallEventsResponseActionsList>;
 
+export interface GetSecurityFirewallEventsResponsePagination {
+  hasMore: boolean;
+  /** Pass as `cursor` to fetch the next page; null when there are no more. */
+  next: string | null;
+}
+export const GetSecurityFirewallEventsResponsePagination = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    hasMore: S.Boolean,
+    next: S.NullOr(S.String),
+  }),
+).annotate({
+  identifier: "GetSecurityFirewallEventsResponsePagination",
+}) as any as S.Schema<GetSecurityFirewallEventsResponsePagination>;
+
 export interface GetSecurityFirewallEventsResponse {
   actions: GetSecurityFirewallEventsResponseActionsList;
+  pagination: GetSecurityFirewallEventsResponsePagination;
 }
 export const GetSecurityFirewallEventsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     actions: GetSecurityFirewallEventsResponseActionsList,
+    pagination: GetSecurityFirewallEventsResponsePagination,
   }),
 ).annotate({
   identifier: "GetSecurityFirewallEventsResponse",
 }) as any as S.Schema<GetSecurityFirewallEventsResponse>;
+
+export type GetSecurityFirewallEventsSummaryRequestIpList = Array<string>;
+export const GetSecurityFirewallEventsSummaryRequestIpList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<GetSecurityFirewallEventsSummaryRequestIpList>;
+
+export type GetSecurityFirewallEventsSummaryRequestActionItem =
+  | "deny"
+  | "challenge"
+  | "log"
+  | "rate_limit"
+  | "bypass";
+export const GetSecurityFirewallEventsSummaryRequestActionItem = S.String;
+
+export type GetSecurityFirewallEventsSummaryRequestActionList = Array<
+  GetSecurityFirewallEventsSummaryRequestActionItem | (string & {})
+>;
+export const GetSecurityFirewallEventsSummaryRequestActionList = /*@__PURE__*/ S.Array(
+  GetSecurityFirewallEventsSummaryRequestActionItem,
+) as any as S.Schema<GetSecurityFirewallEventsSummaryRequestActionList>;
+
+export type GetSecurityFirewallEventsSummaryRequestActionTypeItem =
+  | "system-action"
+  | "customer-action";
+export const GetSecurityFirewallEventsSummaryRequestActionTypeItem = S.String;
+
+export type GetSecurityFirewallEventsSummaryRequestActionTypeList = Array<
+  GetSecurityFirewallEventsSummaryRequestActionTypeItem | (string & {})
+>;
+export const GetSecurityFirewallEventsSummaryRequestActionTypeList = /*@__PURE__*/ S.Array(
+  GetSecurityFirewallEventsSummaryRequestActionTypeItem,
+) as any as S.Schema<GetSecurityFirewallEventsSummaryRequestActionTypeList>;
+
+export type GetSecurityFirewallEventsSummaryRequestRuleKind = "system" | "custom";
+export const GetSecurityFirewallEventsSummaryRequestRuleKind = S.String;
+
+export type GetSecurityFirewallEventsSummaryRequestRuleIdList = Array<string>;
+export const GetSecurityFirewallEventsSummaryRequestRuleIdList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<GetSecurityFirewallEventsSummaryRequestRuleIdList>;
+
+export interface GetSecurityFirewallEventsSummaryRequest {
+  projectId: string;
+  startTimestamp?: number;
+  endTimestamp?: number;
+  hosts?: string;
+  ip?: GetSecurityFirewallEventsSummaryRequestIpList;
+  isActive?: boolean;
+  action?: GetSecurityFirewallEventsSummaryRequestActionList;
+  actionType?: GetSecurityFirewallEventsSummaryRequestActionTypeList;
+  ruleKind?: GetSecurityFirewallEventsSummaryRequestRuleKind | (string & {});
+  ruleId?: GetSecurityFirewallEventsSummaryRequestRuleIdList;
+  /** The Team identifier to perform the request on behalf of. */
+  teamId?: string;
+  /** The Team slug to perform the request on behalf of. */
+  slug?: string;
+}
+export const GetSecurityFirewallEventsSummaryRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    projectId: S.String.pipe(T.Query()),
+    startTimestamp: S.optional(S.Number.pipe(T.Query())),
+    endTimestamp: S.optional(S.Number.pipe(T.Query())),
+    hosts: S.optional(S.String.pipe(T.Query())),
+    ip: S.optional(GetSecurityFirewallEventsSummaryRequestIpList.pipe(T.Query())),
+    isActive: S.optional(S.Boolean.pipe(T.Query())),
+    action: S.optional(GetSecurityFirewallEventsSummaryRequestActionList.pipe(T.Query())),
+    actionType: S.optional(GetSecurityFirewallEventsSummaryRequestActionTypeList.pipe(T.Query())),
+    ruleKind: S.optional(GetSecurityFirewallEventsSummaryRequestRuleKind.pipe(T.Query())),
+    ruleId: S.optional(GetSecurityFirewallEventsSummaryRequestRuleIdList.pipe(T.Query())),
+    teamId: S.optional(S.String.pipe(T.Query())),
+    slug: S.optional(S.String.pipe(T.Query())),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/security/firewall/events/summary", code: 200 })),
+).annotate({
+  identifier: "GetSecurityFirewallEventsSummaryRequest",
+}) as any as S.Schema<GetSecurityFirewallEventsSummaryRequest>;
+
+export type GetSecurityFirewallEventsSummaryResponseByActionMap = {
+  [key: string]: number | undefined;
+};
+export const GetSecurityFirewallEventsSummaryResponseByActionMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Number,
+) as any as S.Schema<GetSecurityFirewallEventsSummaryResponseByActionMap>;
+
+export type GetSecurityFirewallEventsSummaryResponseByActionTypeMap = {
+  [key: string]: number | undefined;
+};
+export const GetSecurityFirewallEventsSummaryResponseByActionTypeMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Number,
+) as any as S.Schema<GetSecurityFirewallEventsSummaryResponseByActionTypeMap>;
+
+export interface GetSecurityFirewallEventsSummaryResponse {
+  blockingIps: number;
+  byAction: GetSecurityFirewallEventsSummaryResponseByActionMap;
+  byActionType: GetSecurityFirewallEventsSummaryResponseByActionTypeMap;
+  challengingIps: number;
+  other: number;
+  total: number;
+}
+export const GetSecurityFirewallEventsSummaryResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    blockingIps: S.Number,
+    byAction: GetSecurityFirewallEventsSummaryResponseByActionMap,
+    byActionType: GetSecurityFirewallEventsSummaryResponseByActionTypeMap,
+    challengingIps: S.Number,
+    other: S.Number,
+    total: S.Number,
+  }),
+).annotate({
+  identifier: "GetSecurityFirewallEventsSummaryResponse",
+}) as any as S.Schema<GetSecurityFirewallEventsSummaryResponse>;
 
 export type PutFirewallConfigRequestCrsSdAction = "deny" | "log";
 export const PutFirewallConfigRequestCrsSdAction = S.String;
@@ -9302,239 +9459,697 @@ export const PutFirewallConfigRequest = /*@__PURE__*/ S.suspend(() =>
     botIdEnabled: S.optional(S.Boolean),
     logHeaders: S.optional(PutFirewallConfigRequestLogHeaders),
   }).pipe(T.Http({ method: "PUT", uri: "/v1/security/firewall/config", code: 200 })),
-).annotate({
-  identifier: "PutFirewallConfigRequest",
-}) as any as S.Schema<PutFirewallConfigRequest>;
+).annotate({ identifier: "PutFirewallConfigRequest" }) as any as S.Schema<PutFirewallConfigRequest>;
 
-export type PutFirewallConfigResponseActiveCrsSdAction = "deny" | "log";
-export const PutFirewallConfigResponseActiveCrsSdAction = S.String;
+export type PutFirewallConfigResponseActiveChangesList = Array<unknown>;
+export const PutFirewallConfigResponseActiveChangesList = /*@__PURE__*/ S.Array(
+  S.Unknown,
+) as any as S.Schema<PutFirewallConfigResponseActiveChangesList>;
 
-/** Scanner Detection - Detect and prevent reconnaissance activities from network scanning tools. */
-export interface PutFirewallConfigResponseActiveCrsSd {
-  active: boolean;
-  action: PutFirewallConfigResponseActiveCrsSdAction;
+export type PutFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItemOp =
+  | "eq"
+  | "ex"
+  | "gt"
+  | "gte"
+  | "inc"
+  | "list"
+  | "lt"
+  | "lte"
+  | "neq"
+  | "nex"
+  | "ninc"
+  | "pre"
+  | "re"
+  | "sub"
+  | "suf";
+export const PutFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItemOp =
+  S.String;
+
+export type PutFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItemType =
+  | "bot_category"
+  | "bot_name"
+  | "bot_protection"
+  | "bot_status"
+  | "cookie"
+  | "domain_environment"
+  | "environment"
+  | "geo_as_number"
+  | "geo_city"
+  | "geo_continent"
+  | "geo_country"
+  | "geo_country_region"
+  | "header"
+  | "host"
+  | "ip_address"
+  | "ja3_digest"
+  | "ja4_digest"
+  | "method"
+  | "path"
+  | "protocol"
+  | "query"
+  | "rate_limit_api_id"
+  | "raw_path"
+  | "region"
+  | "route"
+  | "ruleset"
+  | "scheme"
+  | "server_action"
+  | "shared_condition"
+  | "target_path"
+  | "traffic_source"
+  | "trusted_source"
+  | "user_agent";
+export const PutFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItemType =
+  S.String;
+
+export type PutFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItemValueCase2List =
+  Array<string>;
+export const PutFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItemValueCase2List =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<PutFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItemValueCase2List>;
+
+export type PutFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItemValue =
+  | string
+  | number
+  | PutFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItemValueCase2List;
+export const PutFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItemValue =
+  S.Unknown as any as S.Schema<PutFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItemValue>;
+
+export interface PutFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItem {
+  key?: string;
+  neg?: boolean;
+  op: PutFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItemOp;
+  type: PutFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItemType;
+  value?: PutFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItemValue;
 }
-export const PutFirewallConfigResponseActiveCrsSd = /*@__PURE__*/ S.suspend(() =>
+export const PutFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItem =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      key: S.optional(S.String),
+      neg: S.optional(S.Boolean),
+      op: PutFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItemOp,
+      type: PutFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItemType,
+      value: S.optional(
+        PutFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItemValue,
+      ),
+    }),
+  ).annotate({
+    identifier: "PutFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItem",
+  }) as any as S.Schema<PutFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItem>;
+
+export type PutFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsList =
+  Array<PutFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItem>;
+export const PutFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsList =
+  /*@__PURE__*/ S.Array(
+    PutFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItem,
+  ) as any as S.Schema<PutFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsList>;
+
+export interface PutFirewallConfigResponseActiveConditionsItemConditionGroupItem {
+  conditions: PutFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsList;
+}
+export const PutFirewallConfigResponseActiveConditionsItemConditionGroupItem =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      conditions: PutFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsList,
+    }),
+  ).annotate({
+    identifier: "PutFirewallConfigResponseActiveConditionsItemConditionGroupItem",
+  }) as any as S.Schema<PutFirewallConfigResponseActiveConditionsItemConditionGroupItem>;
+
+export type PutFirewallConfigResponseActiveConditionsItemConditionGroupList =
+  Array<PutFirewallConfigResponseActiveConditionsItemConditionGroupItem>;
+export const PutFirewallConfigResponseActiveConditionsItemConditionGroupList =
+  /*@__PURE__*/ S.Array(
+    PutFirewallConfigResponseActiveConditionsItemConditionGroupItem,
+  ) as any as S.Schema<PutFirewallConfigResponseActiveConditionsItemConditionGroupList>;
+
+export interface PutFirewallConfigResponseActiveConditionsItem {
+  active: boolean;
+  conditionGroup: PutFirewallConfigResponseActiveConditionsItemConditionGroupList;
+  description?: string;
+  id: string;
+  name: string;
+}
+export const PutFirewallConfigResponseActiveConditionsItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     active: S.Boolean,
-    action: PutFirewallConfigResponseActiveCrsSdAction,
+    conditionGroup: PutFirewallConfigResponseActiveConditionsItemConditionGroupList,
+    description: S.optional(S.String),
+    id: S.String,
+    name: S.String,
   }),
 ).annotate({
-  identifier: "PutFirewallConfigResponseActiveCrsSd",
-}) as any as S.Schema<PutFirewallConfigResponseActiveCrsSd>;
+  identifier: "PutFirewallConfigResponseActiveConditionsItem",
+}) as any as S.Schema<PutFirewallConfigResponseActiveConditionsItem>;
 
-export type PutFirewallConfigResponseActiveCrsMaAction = "deny" | "log";
-export const PutFirewallConfigResponseActiveCrsMaAction = S.String;
-
-/** Multipart Attack - Block attempts to bypass security controls using multipart/form-data encoding. */
-export interface PutFirewallConfigResponseActiveCrsMa {
-  active: boolean;
-  action: PutFirewallConfigResponseActiveCrsMaAction;
-}
-export const PutFirewallConfigResponseActiveCrsMa = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    active: S.Boolean,
-    action: PutFirewallConfigResponseActiveCrsMaAction,
-  }),
-).annotate({
-  identifier: "PutFirewallConfigResponseActiveCrsMa",
-}) as any as S.Schema<PutFirewallConfigResponseActiveCrsMa>;
-
-export type PutFirewallConfigResponseActiveCrsLfiAction = "deny" | "log";
-export const PutFirewallConfigResponseActiveCrsLfiAction = S.String;
-
-/** Local File Inclusion Attack - Prevent unauthorized access to local files through web applications. */
-export interface PutFirewallConfigResponseActiveCrsLfi {
-  active: boolean;
-  action: PutFirewallConfigResponseActiveCrsLfiAction;
-}
-export const PutFirewallConfigResponseActiveCrsLfi = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    active: S.Boolean,
-    action: PutFirewallConfigResponseActiveCrsLfiAction,
-  }),
-).annotate({
-  identifier: "PutFirewallConfigResponseActiveCrsLfi",
-}) as any as S.Schema<PutFirewallConfigResponseActiveCrsLfi>;
-
-export type PutFirewallConfigResponseActiveCrsRfiAction = "deny" | "log";
-export const PutFirewallConfigResponseActiveCrsRfiAction = S.String;
-
-/** Remote File Inclusion Attack - Prohibit unauthorized upload or execution of remote files. */
-export interface PutFirewallConfigResponseActiveCrsRfi {
-  active: boolean;
-  action: PutFirewallConfigResponseActiveCrsRfiAction;
-}
-export const PutFirewallConfigResponseActiveCrsRfi = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    active: S.Boolean,
-    action: PutFirewallConfigResponseActiveCrsRfiAction,
-  }),
-).annotate({
-  identifier: "PutFirewallConfigResponseActiveCrsRfi",
-}) as any as S.Schema<PutFirewallConfigResponseActiveCrsRfi>;
-
-export type PutFirewallConfigResponseActiveCrsRceAction = "deny" | "log";
-export const PutFirewallConfigResponseActiveCrsRceAction = S.String;
-
-/** Remote Execution Attack - Prevent unauthorized execution of remote scripts or commands. */
-export interface PutFirewallConfigResponseActiveCrsRce {
-  active: boolean;
-  action: PutFirewallConfigResponseActiveCrsRceAction;
-}
-export const PutFirewallConfigResponseActiveCrsRce = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    active: S.Boolean,
-    action: PutFirewallConfigResponseActiveCrsRceAction,
-  }),
-).annotate({
-  identifier: "PutFirewallConfigResponseActiveCrsRce",
-}) as any as S.Schema<PutFirewallConfigResponseActiveCrsRce>;
-
-export type PutFirewallConfigResponseActiveCrsPhpAction = "deny" | "log";
-export const PutFirewallConfigResponseActiveCrsPhpAction = S.String;
-
-/** PHP Attack - Safeguard against vulnerability exploits in PHP-based applications. */
-export interface PutFirewallConfigResponseActiveCrsPhp {
-  active: boolean;
-  action: PutFirewallConfigResponseActiveCrsPhpAction;
-}
-export const PutFirewallConfigResponseActiveCrsPhp = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    active: S.Boolean,
-    action: PutFirewallConfigResponseActiveCrsPhpAction,
-  }),
-).annotate({
-  identifier: "PutFirewallConfigResponseActiveCrsPhp",
-}) as any as S.Schema<PutFirewallConfigResponseActiveCrsPhp>;
+export type PutFirewallConfigResponseActiveConditionsList =
+  Array<PutFirewallConfigResponseActiveConditionsItem>;
+export const PutFirewallConfigResponseActiveConditionsList = /*@__PURE__*/ S.Array(
+  PutFirewallConfigResponseActiveConditionsItem,
+) as any as S.Schema<PutFirewallConfigResponseActiveConditionsList>;
 
 export type PutFirewallConfigResponseActiveCrsGenAction = "deny" | "log";
 export const PutFirewallConfigResponseActiveCrsGenAction = S.String;
 
 /** Generic Attack - Provide broad protection from various undefined or novel attack vectors. */
 export interface PutFirewallConfigResponseActiveCrsGen {
-  active: boolean;
   action: PutFirewallConfigResponseActiveCrsGenAction;
+  active: boolean;
 }
 export const PutFirewallConfigResponseActiveCrsGen = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    active: S.Boolean,
     action: PutFirewallConfigResponseActiveCrsGenAction,
+    active: S.Boolean,
   }),
 ).annotate({
   identifier: "PutFirewallConfigResponseActiveCrsGen",
 }) as any as S.Schema<PutFirewallConfigResponseActiveCrsGen>;
-
-export type PutFirewallConfigResponseActiveCrsXssAction = "deny" | "log";
-export const PutFirewallConfigResponseActiveCrsXssAction = S.String;
-
-/** XSS Attack - Prevent injection of malicious scripts into trusted webpages. */
-export interface PutFirewallConfigResponseActiveCrsXss {
-  active: boolean;
-  action: PutFirewallConfigResponseActiveCrsXssAction;
-}
-export const PutFirewallConfigResponseActiveCrsXss = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    active: S.Boolean,
-    action: PutFirewallConfigResponseActiveCrsXssAction,
-  }),
-).annotate({
-  identifier: "PutFirewallConfigResponseActiveCrsXss",
-}) as any as S.Schema<PutFirewallConfigResponseActiveCrsXss>;
-
-export type PutFirewallConfigResponseActiveCrsSqliAction = "deny" | "log";
-export const PutFirewallConfigResponseActiveCrsSqliAction = S.String;
-
-/** SQL Injection Attack - Prohibit unauthorized use of SQL commands to manipulate databases. */
-export interface PutFirewallConfigResponseActiveCrsSqli {
-  active: boolean;
-  action: PutFirewallConfigResponseActiveCrsSqliAction;
-}
-export const PutFirewallConfigResponseActiveCrsSqli = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    active: S.Boolean,
-    action: PutFirewallConfigResponseActiveCrsSqliAction,
-  }),
-).annotate({
-  identifier: "PutFirewallConfigResponseActiveCrsSqli",
-}) as any as S.Schema<PutFirewallConfigResponseActiveCrsSqli>;
-
-export type PutFirewallConfigResponseActiveCrsSfAction = "deny" | "log";
-export const PutFirewallConfigResponseActiveCrsSfAction = S.String;
-
-/** Session Fixation Attack - Prevent unauthorized takeover of user sessions by enforcing unique session IDs. */
-export interface PutFirewallConfigResponseActiveCrsSf {
-  active: boolean;
-  action: PutFirewallConfigResponseActiveCrsSfAction;
-}
-export const PutFirewallConfigResponseActiveCrsSf = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    active: S.Boolean,
-    action: PutFirewallConfigResponseActiveCrsSfAction,
-  }),
-).annotate({
-  identifier: "PutFirewallConfigResponseActiveCrsSf",
-}) as any as S.Schema<PutFirewallConfigResponseActiveCrsSf>;
 
 export type PutFirewallConfigResponseActiveCrsJavaAction = "deny" | "log";
 export const PutFirewallConfigResponseActiveCrsJavaAction = S.String;
 
 /** Java Attack - Mitigate risks of exploitation targeting Java-based applications or components. */
 export interface PutFirewallConfigResponseActiveCrsJava {
-  active: boolean;
   action: PutFirewallConfigResponseActiveCrsJavaAction;
+  active: boolean;
 }
 export const PutFirewallConfigResponseActiveCrsJava = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    active: S.Boolean,
     action: PutFirewallConfigResponseActiveCrsJavaAction,
+    active: S.Boolean,
   }),
 ).annotate({
   identifier: "PutFirewallConfigResponseActiveCrsJava",
 }) as any as S.Schema<PutFirewallConfigResponseActiveCrsJava>;
 
+export type PutFirewallConfigResponseActiveCrsLfiAction = "deny" | "log";
+export const PutFirewallConfigResponseActiveCrsLfiAction = S.String;
+
+/** Local File Inclusion Attack - Prevent unauthorized access to local files through web applications. */
+export interface PutFirewallConfigResponseActiveCrsLfi {
+  action: PutFirewallConfigResponseActiveCrsLfiAction;
+  active: boolean;
+}
+export const PutFirewallConfigResponseActiveCrsLfi = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    action: PutFirewallConfigResponseActiveCrsLfiAction,
+    active: S.Boolean,
+  }),
+).annotate({
+  identifier: "PutFirewallConfigResponseActiveCrsLfi",
+}) as any as S.Schema<PutFirewallConfigResponseActiveCrsLfi>;
+
+export type PutFirewallConfigResponseActiveCrsMaAction = "deny" | "log";
+export const PutFirewallConfigResponseActiveCrsMaAction = S.String;
+
+/** Multipart Attack - Block attempts to bypass security controls using multipart/form-data encoding. */
+export interface PutFirewallConfigResponseActiveCrsMa {
+  action: PutFirewallConfigResponseActiveCrsMaAction;
+  active: boolean;
+}
+export const PutFirewallConfigResponseActiveCrsMa = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    action: PutFirewallConfigResponseActiveCrsMaAction,
+    active: S.Boolean,
+  }),
+).annotate({
+  identifier: "PutFirewallConfigResponseActiveCrsMa",
+}) as any as S.Schema<PutFirewallConfigResponseActiveCrsMa>;
+
+export type PutFirewallConfigResponseActiveCrsPhpAction = "deny" | "log";
+export const PutFirewallConfigResponseActiveCrsPhpAction = S.String;
+
+/** PHP Attack - Safeguard against vulnerability exploits in PHP-based applications. */
+export interface PutFirewallConfigResponseActiveCrsPhp {
+  action: PutFirewallConfigResponseActiveCrsPhpAction;
+  active: boolean;
+}
+export const PutFirewallConfigResponseActiveCrsPhp = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    action: PutFirewallConfigResponseActiveCrsPhpAction,
+    active: S.Boolean,
+  }),
+).annotate({
+  identifier: "PutFirewallConfigResponseActiveCrsPhp",
+}) as any as S.Schema<PutFirewallConfigResponseActiveCrsPhp>;
+
+export type PutFirewallConfigResponseActiveCrsRceAction = "deny" | "log";
+export const PutFirewallConfigResponseActiveCrsRceAction = S.String;
+
+/** Remote Execution Attack - Prevent unauthorized execution of remote scripts or commands. */
+export interface PutFirewallConfigResponseActiveCrsRce {
+  action: PutFirewallConfigResponseActiveCrsRceAction;
+  active: boolean;
+}
+export const PutFirewallConfigResponseActiveCrsRce = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    action: PutFirewallConfigResponseActiveCrsRceAction,
+    active: S.Boolean,
+  }),
+).annotate({
+  identifier: "PutFirewallConfigResponseActiveCrsRce",
+}) as any as S.Schema<PutFirewallConfigResponseActiveCrsRce>;
+
+export type PutFirewallConfigResponseActiveCrsRfiAction = "deny" | "log";
+export const PutFirewallConfigResponseActiveCrsRfiAction = S.String;
+
+/** Remote File Inclusion Attack - Prohibit unauthorized upload or execution of remote files. */
+export interface PutFirewallConfigResponseActiveCrsRfi {
+  action: PutFirewallConfigResponseActiveCrsRfiAction;
+  active: boolean;
+}
+export const PutFirewallConfigResponseActiveCrsRfi = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    action: PutFirewallConfigResponseActiveCrsRfiAction,
+    active: S.Boolean,
+  }),
+).annotate({
+  identifier: "PutFirewallConfigResponseActiveCrsRfi",
+}) as any as S.Schema<PutFirewallConfigResponseActiveCrsRfi>;
+
+export type PutFirewallConfigResponseActiveCrsSdAction = "deny" | "log";
+export const PutFirewallConfigResponseActiveCrsSdAction = S.String;
+
+/** Scanner Detection - Detect and prevent reconnaissance activities from network scanning tools. */
+export interface PutFirewallConfigResponseActiveCrsSd {
+  action: PutFirewallConfigResponseActiveCrsSdAction;
+  active: boolean;
+}
+export const PutFirewallConfigResponseActiveCrsSd = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    action: PutFirewallConfigResponseActiveCrsSdAction,
+    active: S.Boolean,
+  }),
+).annotate({
+  identifier: "PutFirewallConfigResponseActiveCrsSd",
+}) as any as S.Schema<PutFirewallConfigResponseActiveCrsSd>;
+
+export type PutFirewallConfigResponseActiveCrsSfAction = "deny" | "log";
+export const PutFirewallConfigResponseActiveCrsSfAction = S.String;
+
+/** Session Fixation Attack - Prevent unauthorized takeover of user sessions by enforcing unique session IDs. */
+export interface PutFirewallConfigResponseActiveCrsSf {
+  action: PutFirewallConfigResponseActiveCrsSfAction;
+  active: boolean;
+}
+export const PutFirewallConfigResponseActiveCrsSf = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    action: PutFirewallConfigResponseActiveCrsSfAction,
+    active: S.Boolean,
+  }),
+).annotate({
+  identifier: "PutFirewallConfigResponseActiveCrsSf",
+}) as any as S.Schema<PutFirewallConfigResponseActiveCrsSf>;
+
+export type PutFirewallConfigResponseActiveCrsSqliAction = "deny" | "log";
+export const PutFirewallConfigResponseActiveCrsSqliAction = S.String;
+
+/** SQL Injection Attack - Prohibit unauthorized use of SQL commands to manipulate databases. */
+export interface PutFirewallConfigResponseActiveCrsSqli {
+  action: PutFirewallConfigResponseActiveCrsSqliAction;
+  active: boolean;
+}
+export const PutFirewallConfigResponseActiveCrsSqli = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    action: PutFirewallConfigResponseActiveCrsSqliAction,
+    active: S.Boolean,
+  }),
+).annotate({
+  identifier: "PutFirewallConfigResponseActiveCrsSqli",
+}) as any as S.Schema<PutFirewallConfigResponseActiveCrsSqli>;
+
+export type PutFirewallConfigResponseActiveCrsXssAction = "deny" | "log";
+export const PutFirewallConfigResponseActiveCrsXssAction = S.String;
+
+/** XSS Attack - Prevent injection of malicious scripts into trusted webpages. */
+export interface PutFirewallConfigResponseActiveCrsXss {
+  action: PutFirewallConfigResponseActiveCrsXssAction;
+  active: boolean;
+}
+export const PutFirewallConfigResponseActiveCrsXss = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    action: PutFirewallConfigResponseActiveCrsXssAction,
+    active: S.Boolean,
+  }),
+).annotate({
+  identifier: "PutFirewallConfigResponseActiveCrsXss",
+}) as any as S.Schema<PutFirewallConfigResponseActiveCrsXss>;
+
 /** Custom Ruleset */
 export interface PutFirewallConfigResponseActiveCrs {
-  /** Scanner Detection - Detect and prevent reconnaissance activities from network scanning tools. */
-  sd: PutFirewallConfigResponseActiveCrsSd;
-  /** Multipart Attack - Block attempts to bypass security controls using multipart/form-data encoding. */
-  ma: PutFirewallConfigResponseActiveCrsMa;
-  /** Local File Inclusion Attack - Prevent unauthorized access to local files through web applications. */
-  lfi: PutFirewallConfigResponseActiveCrsLfi;
-  /** Remote File Inclusion Attack - Prohibit unauthorized upload or execution of remote files. */
-  rfi: PutFirewallConfigResponseActiveCrsRfi;
-  /** Remote Execution Attack - Prevent unauthorized execution of remote scripts or commands. */
-  rce: PutFirewallConfigResponseActiveCrsRce;
-  /** PHP Attack - Safeguard against vulnerability exploits in PHP-based applications. */
-  php: PutFirewallConfigResponseActiveCrsPhp;
   /** Generic Attack - Provide broad protection from various undefined or novel attack vectors. */
   gen: PutFirewallConfigResponseActiveCrsGen;
-  /** XSS Attack - Prevent injection of malicious scripts into trusted webpages. */
-  xss: PutFirewallConfigResponseActiveCrsXss;
-  /** SQL Injection Attack - Prohibit unauthorized use of SQL commands to manipulate databases. */
-  sqli: PutFirewallConfigResponseActiveCrsSqli;
-  /** Session Fixation Attack - Prevent unauthorized takeover of user sessions by enforcing unique session IDs. */
-  sf: PutFirewallConfigResponseActiveCrsSf;
   /** Java Attack - Mitigate risks of exploitation targeting Java-based applications or components. */
   java: PutFirewallConfigResponseActiveCrsJava;
+  /** Local File Inclusion Attack - Prevent unauthorized access to local files through web applications. */
+  lfi: PutFirewallConfigResponseActiveCrsLfi;
+  /** Multipart Attack - Block attempts to bypass security controls using multipart/form-data encoding. */
+  ma: PutFirewallConfigResponseActiveCrsMa;
+  /** PHP Attack - Safeguard against vulnerability exploits in PHP-based applications. */
+  php: PutFirewallConfigResponseActiveCrsPhp;
+  /** Remote Execution Attack - Prevent unauthorized execution of remote scripts or commands. */
+  rce: PutFirewallConfigResponseActiveCrsRce;
+  /** Remote File Inclusion Attack - Prohibit unauthorized upload or execution of remote files. */
+  rfi: PutFirewallConfigResponseActiveCrsRfi;
+  /** Scanner Detection - Detect and prevent reconnaissance activities from network scanning tools. */
+  sd: PutFirewallConfigResponseActiveCrsSd;
+  /** Session Fixation Attack - Prevent unauthorized takeover of user sessions by enforcing unique session IDs. */
+  sf: PutFirewallConfigResponseActiveCrsSf;
+  /** SQL Injection Attack - Prohibit unauthorized use of SQL commands to manipulate databases. */
+  sqli: PutFirewallConfigResponseActiveCrsSqli;
+  /** XSS Attack - Prevent injection of malicious scripts into trusted webpages. */
+  xss: PutFirewallConfigResponseActiveCrsXss;
 }
 export const PutFirewallConfigResponseActiveCrs = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    sd: PutFirewallConfigResponseActiveCrsSd,
-    ma: PutFirewallConfigResponseActiveCrsMa,
-    lfi: PutFirewallConfigResponseActiveCrsLfi,
-    rfi: PutFirewallConfigResponseActiveCrsRfi,
-    rce: PutFirewallConfigResponseActiveCrsRce,
-    php: PutFirewallConfigResponseActiveCrsPhp,
     gen: PutFirewallConfigResponseActiveCrsGen,
-    xss: PutFirewallConfigResponseActiveCrsXss,
-    sqli: PutFirewallConfigResponseActiveCrsSqli,
-    sf: PutFirewallConfigResponseActiveCrsSf,
     java: PutFirewallConfigResponseActiveCrsJava,
+    lfi: PutFirewallConfigResponseActiveCrsLfi,
+    ma: PutFirewallConfigResponseActiveCrsMa,
+    php: PutFirewallConfigResponseActiveCrsPhp,
+    rce: PutFirewallConfigResponseActiveCrsRce,
+    rfi: PutFirewallConfigResponseActiveCrsRfi,
+    sd: PutFirewallConfigResponseActiveCrsSd,
+    sf: PutFirewallConfigResponseActiveCrsSf,
+    sqli: PutFirewallConfigResponseActiveCrsSqli,
+    xss: PutFirewallConfigResponseActiveCrsXss,
   }),
 ).annotate({
   identifier: "PutFirewallConfigResponseActiveCrs",
 }) as any as S.Schema<PutFirewallConfigResponseActiveCrs>;
+
+export type PutFirewallConfigResponseActiveIpsItemAction = "bypass" | "challenge" | "deny" | "log";
+export const PutFirewallConfigResponseActiveIpsItemAction = S.String;
+
+export interface PutFirewallConfigResponseActiveIpsItem {
+  action: PutFirewallConfigResponseActiveIpsItemAction;
+  hostname: string;
+  id: string;
+  ip: string;
+  notes?: string;
+}
+export const PutFirewallConfigResponseActiveIpsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    action: PutFirewallConfigResponseActiveIpsItemAction,
+    hostname: S.String,
+    id: S.String,
+    ip: S.String,
+    notes: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "PutFirewallConfigResponseActiveIpsItem",
+}) as any as S.Schema<PutFirewallConfigResponseActiveIpsItem>;
+
+export type PutFirewallConfigResponseActiveIpsList = Array<PutFirewallConfigResponseActiveIpsItem>;
+export const PutFirewallConfigResponseActiveIpsList = /*@__PURE__*/ S.Array(
+  PutFirewallConfigResponseActiveIpsItem,
+) as any as S.Schema<PutFirewallConfigResponseActiveIpsList>;
+
+export type PutFirewallConfigResponseActiveLogHeadersCase0List = Array<string>;
+export const PutFirewallConfigResponseActiveLogHeadersCase0List = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<PutFirewallConfigResponseActiveLogHeadersCase0List>;
+
+export type PutFirewallConfigResponseActiveLogHeadersCase1 = "*";
+export const PutFirewallConfigResponseActiveLogHeadersCase1 = S.String;
+
+export type PutFirewallConfigResponseActiveLogHeaders =
+  | PutFirewallConfigResponseActiveLogHeadersCase0List
+  | PutFirewallConfigResponseActiveLogHeadersCase1;
+export const PutFirewallConfigResponseActiveLogHeaders =
+  S.Unknown as any as S.Schema<PutFirewallConfigResponseActiveLogHeaders>;
+
+export type PutFirewallConfigResponseActiveManagedRulesAiBotsAction = "challenge" | "deny" | "log";
+export const PutFirewallConfigResponseActiveManagedRulesAiBotsAction = S.String;
+
+export interface PutFirewallConfigResponseActiveManagedRulesAiBots {
+  action?: PutFirewallConfigResponseActiveManagedRulesAiBotsAction;
+  active: boolean;
+  updatedAt?: string;
+  userId?: string;
+  username?: string;
+}
+export const PutFirewallConfigResponseActiveManagedRulesAiBots = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    action: S.optional(PutFirewallConfigResponseActiveManagedRulesAiBotsAction),
+    active: S.Boolean,
+    updatedAt: S.optional(S.String),
+    userId: S.optional(S.String),
+    username: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "PutFirewallConfigResponseActiveManagedRulesAiBots",
+}) as any as S.Schema<PutFirewallConfigResponseActiveManagedRulesAiBots>;
+
+export type PutFirewallConfigResponseActiveManagedRulesBotProtectionAction =
+  | "challenge"
+  | "deny"
+  | "log";
+export const PutFirewallConfigResponseActiveManagedRulesBotProtectionAction = S.String;
+
+export interface PutFirewallConfigResponseActiveManagedRulesBotProtection {
+  action?: PutFirewallConfigResponseActiveManagedRulesBotProtectionAction;
+  active: boolean;
+  updatedAt?: string;
+  userId?: string;
+  username?: string;
+}
+export const PutFirewallConfigResponseActiveManagedRulesBotProtection = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      action: S.optional(PutFirewallConfigResponseActiveManagedRulesBotProtectionAction),
+      active: S.Boolean,
+      updatedAt: S.optional(S.String),
+      userId: S.optional(S.String),
+      username: S.optional(S.String),
+    }),
+).annotate({
+  identifier: "PutFirewallConfigResponseActiveManagedRulesBotProtection",
+}) as any as S.Schema<PutFirewallConfigResponseActiveManagedRulesBotProtection>;
+
+export type PutFirewallConfigResponseActiveManagedRulesOwaspAction = "challenge" | "deny" | "log";
+export const PutFirewallConfigResponseActiveManagedRulesOwaspAction = S.String;
+
+export interface PutFirewallConfigResponseActiveManagedRulesOwasp {
+  action?: PutFirewallConfigResponseActiveManagedRulesOwaspAction;
+  active: boolean;
+  updatedAt?: string;
+  userId?: string;
+  username?: string;
+}
+export const PutFirewallConfigResponseActiveManagedRulesOwasp = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    action: S.optional(PutFirewallConfigResponseActiveManagedRulesOwaspAction),
+    active: S.Boolean,
+    updatedAt: S.optional(S.String),
+    userId: S.optional(S.String),
+    username: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "PutFirewallConfigResponseActiveManagedRulesOwasp",
+}) as any as S.Schema<PutFirewallConfigResponseActiveManagedRulesOwasp>;
+
+export type PutFirewallConfigResponseActiveManagedRulesTrafficSourcesAction =
+  | "challenge"
+  | "deny"
+  | "log";
+export const PutFirewallConfigResponseActiveManagedRulesTrafficSourcesAction = S.String;
+
+export interface PutFirewallConfigResponseActiveManagedRulesTrafficSources {
+  action?: PutFirewallConfigResponseActiveManagedRulesTrafficSourcesAction;
+  active: boolean;
+  updatedAt?: string;
+  userId?: string;
+  username?: string;
+}
+export const PutFirewallConfigResponseActiveManagedRulesTrafficSources = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      action: S.optional(PutFirewallConfigResponseActiveManagedRulesTrafficSourcesAction),
+      active: S.Boolean,
+      updatedAt: S.optional(S.String),
+      userId: S.optional(S.String),
+      username: S.optional(S.String),
+    }),
+).annotate({
+  identifier: "PutFirewallConfigResponseActiveManagedRulesTrafficSources",
+}) as any as S.Schema<PutFirewallConfigResponseActiveManagedRulesTrafficSources>;
+
+export type PutFirewallConfigResponseActiveManagedRulesVercelRulesetAction =
+  | "challenge"
+  | "deny"
+  | "log";
+export const PutFirewallConfigResponseActiveManagedRulesVercelRulesetAction = S.String;
+
+export interface PutFirewallConfigResponseActiveManagedRulesVercelRuleset {
+  action?: PutFirewallConfigResponseActiveManagedRulesVercelRulesetAction;
+  active: boolean;
+  updatedAt?: string;
+  userId?: string;
+  username?: string;
+}
+export const PutFirewallConfigResponseActiveManagedRulesVercelRuleset = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      action: S.optional(PutFirewallConfigResponseActiveManagedRulesVercelRulesetAction),
+      active: S.Boolean,
+      updatedAt: S.optional(S.String),
+      userId: S.optional(S.String),
+      username: S.optional(S.String),
+    }),
+).annotate({
+  identifier: "PutFirewallConfigResponseActiveManagedRulesVercelRuleset",
+}) as any as S.Schema<PutFirewallConfigResponseActiveManagedRulesVercelRuleset>;
+
+export interface PutFirewallConfigResponseActiveManagedRules {
+  ai_bots?: PutFirewallConfigResponseActiveManagedRulesAiBots;
+  bot_protection?: PutFirewallConfigResponseActiveManagedRulesBotProtection;
+  owasp?: PutFirewallConfigResponseActiveManagedRulesOwasp;
+  traffic_sources?: PutFirewallConfigResponseActiveManagedRulesTrafficSources;
+  vercel_ruleset?: PutFirewallConfigResponseActiveManagedRulesVercelRuleset;
+}
+export const PutFirewallConfigResponseActiveManagedRules = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ai_bots: S.optional(PutFirewallConfigResponseActiveManagedRulesAiBots),
+    bot_protection: S.optional(PutFirewallConfigResponseActiveManagedRulesBotProtection),
+    owasp: S.optional(PutFirewallConfigResponseActiveManagedRulesOwasp),
+    traffic_sources: S.optional(PutFirewallConfigResponseActiveManagedRulesTrafficSources),
+    vercel_ruleset: S.optional(PutFirewallConfigResponseActiveManagedRulesVercelRuleset),
+  }),
+).annotate({
+  identifier: "PutFirewallConfigResponseActiveManagedRules",
+}) as any as S.Schema<PutFirewallConfigResponseActiveManagedRules>;
+
+export type PutFirewallConfigResponseActiveRulesItemCase0ActionMitigateAction =
+  | "allow"
+  | "bypass"
+  | "challenge"
+  | "deny"
+  | "log"
+  | "rate_limit"
+  | "redirect";
+export const PutFirewallConfigResponseActiveRulesItemCase0ActionMitigateAction = S.String;
+
+export type PutFirewallConfigResponseActiveRulesItemCase0ActionMitigateLogHeadersCase0List =
+  Array<string>;
+export const PutFirewallConfigResponseActiveRulesItemCase0ActionMitigateLogHeadersCase0List =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<PutFirewallConfigResponseActiveRulesItemCase0ActionMitigateLogHeadersCase0List>;
+
+export type PutFirewallConfigResponseActiveRulesItemCase0ActionMitigateLogHeadersCase1 = "*";
+export const PutFirewallConfigResponseActiveRulesItemCase0ActionMitigateLogHeadersCase1 = S.String;
+
+export type PutFirewallConfigResponseActiveRulesItemCase0ActionMitigateLogHeaders =
+  | PutFirewallConfigResponseActiveRulesItemCase0ActionMitigateLogHeadersCase0List
+  | PutFirewallConfigResponseActiveRulesItemCase0ActionMitigateLogHeadersCase1;
+export const PutFirewallConfigResponseActiveRulesItemCase0ActionMitigateLogHeaders =
+  S.Unknown as any as S.Schema<PutFirewallConfigResponseActiveRulesItemCase0ActionMitigateLogHeaders>;
+
+export type PutFirewallConfigResponseActiveRulesItemCase0ActionMitigateRateLimitAction =
+  | "challenge"
+  | "deny"
+  | "log"
+  | "rate_limit";
+export const PutFirewallConfigResponseActiveRulesItemCase0ActionMitigateRateLimitAction = S.String;
+
+export type PutFirewallConfigResponseActiveRulesItemCase0ActionMitigateRateLimitAlgo =
+  | "fixed_window"
+  | "token_bucket";
+export const PutFirewallConfigResponseActiveRulesItemCase0ActionMitigateRateLimitAlgo = S.String;
+
+export type PutFirewallConfigResponseActiveRulesItemCase0ActionMitigateRateLimitKeysList =
+  Array<string>;
+export const PutFirewallConfigResponseActiveRulesItemCase0ActionMitigateRateLimitKeysList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<PutFirewallConfigResponseActiveRulesItemCase0ActionMitigateRateLimitKeysList>;
+
+export interface PutFirewallConfigResponseActiveRulesItemCase0ActionMitigateRateLimit {
+  action?: PutFirewallConfigResponseActiveRulesItemCase0ActionMitigateRateLimitAction | null;
+  algo: PutFirewallConfigResponseActiveRulesItemCase0ActionMitigateRateLimitAlgo;
+  keys: PutFirewallConfigResponseActiveRulesItemCase0ActionMitigateRateLimitKeysList;
+  limit: number;
+  window: number;
+}
+export const PutFirewallConfigResponseActiveRulesItemCase0ActionMitigateRateLimit =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      action: S.optional(
+        S.NullOr(PutFirewallConfigResponseActiveRulesItemCase0ActionMitigateRateLimitAction),
+      ),
+      algo: PutFirewallConfigResponseActiveRulesItemCase0ActionMitigateRateLimitAlgo,
+      keys: PutFirewallConfigResponseActiveRulesItemCase0ActionMitigateRateLimitKeysList,
+      limit: S.Number,
+      window: S.Number,
+    }),
+  ).annotate({
+    identifier: "PutFirewallConfigResponseActiveRulesItemCase0ActionMitigateRateLimit",
+  }) as any as S.Schema<PutFirewallConfigResponseActiveRulesItemCase0ActionMitigateRateLimit>;
+
+export type PutFirewallConfigResponseActiveRulesItemCase0ActionMitigateRedirect =
+  CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
+export const PutFirewallConfigResponseActiveRulesItemCase0ActionMitigateRedirect =
+  CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
+
+export interface PutFirewallConfigResponseActiveRulesItemCase0ActionMitigate {
+  action: PutFirewallConfigResponseActiveRulesItemCase0ActionMitigateAction;
+  actionDuration?: string | null;
+  bypassSystem?: boolean | null;
+  logHeaders?: PutFirewallConfigResponseActiveRulesItemCase0ActionMitigateLogHeaders;
+  rateLimit?: PutFirewallConfigResponseActiveRulesItemCase0ActionMitigateRateLimit | null;
+  redirect?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect | null;
+}
+export const PutFirewallConfigResponseActiveRulesItemCase0ActionMitigate = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      action: PutFirewallConfigResponseActiveRulesItemCase0ActionMitigateAction,
+      actionDuration: S.optional(S.NullOr(S.String)),
+      bypassSystem: S.optional(S.NullOr(S.Boolean)),
+      logHeaders: S.optional(PutFirewallConfigResponseActiveRulesItemCase0ActionMitigateLogHeaders),
+      rateLimit: S.optional(
+        S.NullOr(PutFirewallConfigResponseActiveRulesItemCase0ActionMitigateRateLimit),
+      ),
+      redirect: S.optional(
+        S.NullOr(
+          CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect,
+        ),
+      ),
+    }),
+).annotate({
+  identifier: "PutFirewallConfigResponseActiveRulesItemCase0ActionMitigate",
+}) as any as S.Schema<PutFirewallConfigResponseActiveRulesItemCase0ActionMitigate>;
+
+export interface PutFirewallConfigResponseActiveRulesItemCase0Action {
+  mitigate?: PutFirewallConfigResponseActiveRulesItemCase0ActionMitigate;
+}
+export const PutFirewallConfigResponseActiveRulesItemCase0Action = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    mitigate: S.optional(PutFirewallConfigResponseActiveRulesItemCase0ActionMitigate),
+  }),
+).annotate({
+  identifier: "PutFirewallConfigResponseActiveRulesItemCase0Action",
+}) as any as S.Schema<PutFirewallConfigResponseActiveRulesItemCase0Action>;
+
+export type PutFirewallConfigResponseActiveRulesItemCase0ConditionGroupItemConditionsItemOp =
+  | "eq"
+  | "ex"
+  | "gt"
+  | "gte"
+  | "inc"
+  | "list"
+  | "lt"
+  | "lte"
+  | "neq"
+  | "nex"
+  | "ninc"
+  | "pre"
+  | "re"
+  | "sub"
+  | "suf";
+export const PutFirewallConfigResponseActiveRulesItemCase0ConditionGroupItemConditionsItemOp =
+  S.String;
 
 export type PutFirewallConfigResponseActiveRulesItemCase0ConditionGroupItemConditionsItemType =
   | "bot_category"
@@ -9573,25 +10188,6 @@ export type PutFirewallConfigResponseActiveRulesItemCase0ConditionGroupItemCondi
 export const PutFirewallConfigResponseActiveRulesItemCase0ConditionGroupItemConditionsItemType =
   S.String;
 
-export type PutFirewallConfigResponseActiveRulesItemCase0ConditionGroupItemConditionsItemOp =
-  | "eq"
-  | "ex"
-  | "gt"
-  | "gte"
-  | "inc"
-  | "list"
-  | "lt"
-  | "lte"
-  | "neq"
-  | "nex"
-  | "ninc"
-  | "pre"
-  | "re"
-  | "sub"
-  | "suf";
-export const PutFirewallConfigResponseActiveRulesItemCase0ConditionGroupItemConditionsItemOp =
-  S.String;
-
 export type PutFirewallConfigResponseActiveRulesItemCase0ConditionGroupItemConditionsItemValueCase2List =
   Array<string>;
 export const PutFirewallConfigResponseActiveRulesItemCase0ConditionGroupItemConditionsItemValueCase2List =
@@ -9607,19 +10203,19 @@ export const PutFirewallConfigResponseActiveRulesItemCase0ConditionGroupItemCond
   S.Unknown as any as S.Schema<PutFirewallConfigResponseActiveRulesItemCase0ConditionGroupItemConditionsItemValue>;
 
 export interface PutFirewallConfigResponseActiveRulesItemCase0ConditionGroupItemConditionsItem {
-  type: PutFirewallConfigResponseActiveRulesItemCase0ConditionGroupItemConditionsItemType;
-  op: PutFirewallConfigResponseActiveRulesItemCase0ConditionGroupItemConditionsItemOp;
-  neg?: boolean;
   key?: string;
+  neg?: boolean;
+  op: PutFirewallConfigResponseActiveRulesItemCase0ConditionGroupItemConditionsItemOp;
+  type: PutFirewallConfigResponseActiveRulesItemCase0ConditionGroupItemConditionsItemType;
   value?: PutFirewallConfigResponseActiveRulesItemCase0ConditionGroupItemConditionsItemValue;
 }
 export const PutFirewallConfigResponseActiveRulesItemCase0ConditionGroupItemConditionsItem =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      type: PutFirewallConfigResponseActiveRulesItemCase0ConditionGroupItemConditionsItemType,
-      op: PutFirewallConfigResponseActiveRulesItemCase0ConditionGroupItemConditionsItemOp,
-      neg: S.optional(S.Boolean),
       key: S.optional(S.String),
+      neg: S.optional(S.Boolean),
+      op: PutFirewallConfigResponseActiveRulesItemCase0ConditionGroupItemConditionsItemOp,
+      type: PutFirewallConfigResponseActiveRulesItemCase0ConditionGroupItemConditionsItemType,
       value: S.optional(
         PutFirewallConfigResponseActiveRulesItemCase0ConditionGroupItemConditionsItemValue,
       ),
@@ -9654,7 +10250,32 @@ export const PutFirewallConfigResponseActiveRulesItemCase0ConditionGroupList =
     PutFirewallConfigResponseActiveRulesItemCase0ConditionGroupItem,
   ) as any as S.Schema<PutFirewallConfigResponseActiveRulesItemCase0ConditionGroupList>;
 
-export type PutFirewallConfigResponseActiveRulesItemCase0ActionMitigateAction =
+export interface PutFirewallConfigResponseActiveRulesItemCase0 {
+  action: PutFirewallConfigResponseActiveRulesItemCase0Action;
+  active: boolean;
+  conditionGroup: PutFirewallConfigResponseActiveRulesItemCase0ConditionGroupList;
+  description?: string;
+  id: string;
+  name: string;
+  valid: boolean;
+  validationErrors: unknown | null;
+}
+export const PutFirewallConfigResponseActiveRulesItemCase0 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    action: PutFirewallConfigResponseActiveRulesItemCase0Action,
+    active: S.Boolean,
+    conditionGroup: PutFirewallConfigResponseActiveRulesItemCase0ConditionGroupList,
+    description: S.optional(S.String),
+    id: S.String,
+    name: S.String,
+    valid: S.Boolean,
+    validationErrors: S.NullOr(S.Unknown),
+  }),
+).annotate({
+  identifier: "PutFirewallConfigResponseActiveRulesItemCase0",
+}) as any as S.Schema<PutFirewallConfigResponseActiveRulesItemCase0>;
+
+export type PutFirewallConfigResponseActiveRulesItemCase1ActionMitigateAction =
   | "allow"
   | "bypass"
   | "challenge"
@@ -9662,133 +10283,127 @@ export type PutFirewallConfigResponseActiveRulesItemCase0ActionMitigateAction =
   | "log"
   | "rate_limit"
   | "redirect";
-export const PutFirewallConfigResponseActiveRulesItemCase0ActionMitigateAction = S.String;
+export const PutFirewallConfigResponseActiveRulesItemCase1ActionMitigateAction = S.String;
 
-export type PutFirewallConfigResponseActiveRulesItemCase0ActionMitigateRateLimitAlgo =
-  | "fixed_window"
-  | "token_bucket";
-export const PutFirewallConfigResponseActiveRulesItemCase0ActionMitigateRateLimitAlgo = S.String;
-
-export type PutFirewallConfigResponseActiveRulesItemCase0ActionMitigateRateLimitKeysList =
+export type PutFirewallConfigResponseActiveRulesItemCase1ActionMitigateLogHeadersCase0List =
   Array<string>;
-export const PutFirewallConfigResponseActiveRulesItemCase0ActionMitigateRateLimitKeysList =
+export const PutFirewallConfigResponseActiveRulesItemCase1ActionMitigateLogHeadersCase0List =
   /*@__PURE__*/ S.Array(
     S.String,
-  ) as any as S.Schema<PutFirewallConfigResponseActiveRulesItemCase0ActionMitigateRateLimitKeysList>;
+  ) as any as S.Schema<PutFirewallConfigResponseActiveRulesItemCase1ActionMitigateLogHeadersCase0List>;
 
-export type PutFirewallConfigResponseActiveRulesItemCase0ActionMitigateRateLimitAction =
+export type PutFirewallConfigResponseActiveRulesItemCase1ActionMitigateLogHeadersCase1 = "*";
+export const PutFirewallConfigResponseActiveRulesItemCase1ActionMitigateLogHeadersCase1 = S.String;
+
+export type PutFirewallConfigResponseActiveRulesItemCase1ActionMitigateLogHeaders =
+  | PutFirewallConfigResponseActiveRulesItemCase1ActionMitigateLogHeadersCase0List
+  | PutFirewallConfigResponseActiveRulesItemCase1ActionMitigateLogHeadersCase1;
+export const PutFirewallConfigResponseActiveRulesItemCase1ActionMitigateLogHeaders =
+  S.Unknown as any as S.Schema<PutFirewallConfigResponseActiveRulesItemCase1ActionMitigateLogHeaders>;
+
+export type PutFirewallConfigResponseActiveRulesItemCase1ActionMitigateRateLimitAction =
   | "challenge"
   | "deny"
   | "log"
   | "rate_limit";
-export const PutFirewallConfigResponseActiveRulesItemCase0ActionMitigateRateLimitAction = S.String;
+export const PutFirewallConfigResponseActiveRulesItemCase1ActionMitigateRateLimitAction = S.String;
 
-export interface PutFirewallConfigResponseActiveRulesItemCase0ActionMitigateRateLimit {
-  algo: PutFirewallConfigResponseActiveRulesItemCase0ActionMitigateRateLimitAlgo;
-  window: number;
-  limit: number;
-  keys: PutFirewallConfigResponseActiveRulesItemCase0ActionMitigateRateLimitKeysList;
-  action?: PutFirewallConfigResponseActiveRulesItemCase0ActionMitigateRateLimitAction | null;
-}
-export const PutFirewallConfigResponseActiveRulesItemCase0ActionMitigateRateLimit =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      algo: PutFirewallConfigResponseActiveRulesItemCase0ActionMitigateRateLimitAlgo,
-      window: S.Number,
-      limit: S.Number,
-      keys: PutFirewallConfigResponseActiveRulesItemCase0ActionMitigateRateLimitKeysList,
-      action: S.optional(
-        S.NullOr(PutFirewallConfigResponseActiveRulesItemCase0ActionMitigateRateLimitAction),
-      ),
-    }),
-  ).annotate({
-    identifier: "PutFirewallConfigResponseActiveRulesItemCase0ActionMitigateRateLimit",
-  }) as any as S.Schema<PutFirewallConfigResponseActiveRulesItemCase0ActionMitigateRateLimit>;
+export type PutFirewallConfigResponseActiveRulesItemCase1ActionMitigateRateLimitAlgo =
+  | "fixed_window"
+  | "token_bucket";
+export const PutFirewallConfigResponseActiveRulesItemCase1ActionMitigateRateLimitAlgo = S.String;
 
-export type PutFirewallConfigResponseActiveRulesItemCase0ActionMitigateRedirect =
-  CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
-export const PutFirewallConfigResponseActiveRulesItemCase0ActionMitigateRedirect =
-  CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
-
-export type PutFirewallConfigResponseActiveRulesItemCase0ActionMitigateLogHeadersCase0List =
+export type PutFirewallConfigResponseActiveRulesItemCase1ActionMitigateRateLimitKeysList =
   Array<string>;
-export const PutFirewallConfigResponseActiveRulesItemCase0ActionMitigateLogHeadersCase0List =
+export const PutFirewallConfigResponseActiveRulesItemCase1ActionMitigateRateLimitKeysList =
   /*@__PURE__*/ S.Array(
     S.String,
-  ) as any as S.Schema<PutFirewallConfigResponseActiveRulesItemCase0ActionMitigateLogHeadersCase0List>;
+  ) as any as S.Schema<PutFirewallConfigResponseActiveRulesItemCase1ActionMitigateRateLimitKeysList>;
 
-export type PutFirewallConfigResponseActiveRulesItemCase0ActionMitigateLogHeadersCase1 = "*";
-export const PutFirewallConfigResponseActiveRulesItemCase0ActionMitigateLogHeadersCase1 = S.String;
+export interface PutFirewallConfigResponseActiveRulesItemCase1ActionMitigateRateLimit {
+  action?: PutFirewallConfigResponseActiveRulesItemCase1ActionMitigateRateLimitAction | null;
+  algo: PutFirewallConfigResponseActiveRulesItemCase1ActionMitigateRateLimitAlgo;
+  keys: PutFirewallConfigResponseActiveRulesItemCase1ActionMitigateRateLimitKeysList;
+  limit: number;
+  window: number;
+}
+export const PutFirewallConfigResponseActiveRulesItemCase1ActionMitigateRateLimit =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      action: S.optional(
+        S.NullOr(PutFirewallConfigResponseActiveRulesItemCase1ActionMitigateRateLimitAction),
+      ),
+      algo: PutFirewallConfigResponseActiveRulesItemCase1ActionMitigateRateLimitAlgo,
+      keys: PutFirewallConfigResponseActiveRulesItemCase1ActionMitigateRateLimitKeysList,
+      limit: S.Number,
+      window: S.Number,
+    }),
+  ).annotate({
+    identifier: "PutFirewallConfigResponseActiveRulesItemCase1ActionMitigateRateLimit",
+  }) as any as S.Schema<PutFirewallConfigResponseActiveRulesItemCase1ActionMitigateRateLimit>;
 
-export type PutFirewallConfigResponseActiveRulesItemCase0ActionMitigateLogHeaders =
-  | PutFirewallConfigResponseActiveRulesItemCase0ActionMitigateLogHeadersCase0List
-  | PutFirewallConfigResponseActiveRulesItemCase0ActionMitigateLogHeadersCase1;
-export const PutFirewallConfigResponseActiveRulesItemCase0ActionMitigateLogHeaders =
-  S.Unknown as any as S.Schema<PutFirewallConfigResponseActiveRulesItemCase0ActionMitigateLogHeaders>;
+export type PutFirewallConfigResponseActiveRulesItemCase1ActionMitigateRedirect =
+  CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
+export const PutFirewallConfigResponseActiveRulesItemCase1ActionMitigateRedirect =
+  CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
 
-export interface PutFirewallConfigResponseActiveRulesItemCase0ActionMitigate {
-  action: PutFirewallConfigResponseActiveRulesItemCase0ActionMitigateAction;
-  rateLimit?: PutFirewallConfigResponseActiveRulesItemCase0ActionMitigateRateLimit | null;
-  redirect?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect | null;
+export interface PutFirewallConfigResponseActiveRulesItemCase1ActionMitigate {
+  action: PutFirewallConfigResponseActiveRulesItemCase1ActionMitigateAction;
   actionDuration?: string | null;
   bypassSystem?: boolean | null;
-  logHeaders?: PutFirewallConfigResponseActiveRulesItemCase0ActionMitigateLogHeaders;
+  logHeaders?: PutFirewallConfigResponseActiveRulesItemCase1ActionMitigateLogHeaders;
+  rateLimit?: PutFirewallConfigResponseActiveRulesItemCase1ActionMitigateRateLimit | null;
+  redirect?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect | null;
 }
-export const PutFirewallConfigResponseActiveRulesItemCase0ActionMitigate = /*@__PURE__*/ S.suspend(
+export const PutFirewallConfigResponseActiveRulesItemCase1ActionMitigate = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      action: PutFirewallConfigResponseActiveRulesItemCase0ActionMitigateAction,
+      action: PutFirewallConfigResponseActiveRulesItemCase1ActionMitigateAction,
+      actionDuration: S.optional(S.NullOr(S.String)),
+      bypassSystem: S.optional(S.NullOr(S.Boolean)),
+      logHeaders: S.optional(PutFirewallConfigResponseActiveRulesItemCase1ActionMitigateLogHeaders),
       rateLimit: S.optional(
-        S.NullOr(PutFirewallConfigResponseActiveRulesItemCase0ActionMitigateRateLimit),
+        S.NullOr(PutFirewallConfigResponseActiveRulesItemCase1ActionMitigateRateLimit),
       ),
       redirect: S.optional(
         S.NullOr(
           CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect,
         ),
       ),
-      actionDuration: S.optional(S.NullOr(S.String)),
-      bypassSystem: S.optional(S.NullOr(S.Boolean)),
-      logHeaders: S.optional(PutFirewallConfigResponseActiveRulesItemCase0ActionMitigateLogHeaders),
     }),
 ).annotate({
-  identifier: "PutFirewallConfigResponseActiveRulesItemCase0ActionMitigate",
-}) as any as S.Schema<PutFirewallConfigResponseActiveRulesItemCase0ActionMitigate>;
+  identifier: "PutFirewallConfigResponseActiveRulesItemCase1ActionMitigate",
+}) as any as S.Schema<PutFirewallConfigResponseActiveRulesItemCase1ActionMitigate>;
 
-export interface PutFirewallConfigResponseActiveRulesItemCase0Action {
-  mitigate?: PutFirewallConfigResponseActiveRulesItemCase0ActionMitigate;
+export interface PutFirewallConfigResponseActiveRulesItemCase1Action {
+  mitigate?: PutFirewallConfigResponseActiveRulesItemCase1ActionMitigate;
 }
-export const PutFirewallConfigResponseActiveRulesItemCase0Action = /*@__PURE__*/ S.suspend(() =>
+export const PutFirewallConfigResponseActiveRulesItemCase1Action = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    mitigate: S.optional(PutFirewallConfigResponseActiveRulesItemCase0ActionMitigate),
+    mitigate: S.optional(PutFirewallConfigResponseActiveRulesItemCase1ActionMitigate),
   }),
 ).annotate({
-  identifier: "PutFirewallConfigResponseActiveRulesItemCase0Action",
-}) as any as S.Schema<PutFirewallConfigResponseActiveRulesItemCase0Action>;
+  identifier: "PutFirewallConfigResponseActiveRulesItemCase1Action",
+}) as any as S.Schema<PutFirewallConfigResponseActiveRulesItemCase1Action>;
 
-export interface PutFirewallConfigResponseActiveRulesItemCase0 {
-  id: string;
-  name: string;
-  description?: string;
-  active: boolean;
-  conditionGroup: PutFirewallConfigResponseActiveRulesItemCase0ConditionGroupList;
-  action: PutFirewallConfigResponseActiveRulesItemCase0Action;
-  valid: boolean;
-  validationErrors: unknown | null;
-}
-export const PutFirewallConfigResponseActiveRulesItemCase0 = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    name: S.String,
-    description: S.optional(S.String),
-    active: S.Boolean,
-    conditionGroup: PutFirewallConfigResponseActiveRulesItemCase0ConditionGroupList,
-    action: PutFirewallConfigResponseActiveRulesItemCase0Action,
-    valid: S.Boolean,
-    validationErrors: S.NullOr(S.Unknown),
-  }),
-).annotate({
-  identifier: "PutFirewallConfigResponseActiveRulesItemCase0",
-}) as any as S.Schema<PutFirewallConfigResponseActiveRulesItemCase0>;
+export type PutFirewallConfigResponseActiveRulesItemCase1ConditionGroupItemConditionsItemOp =
+  | "eq"
+  | "ex"
+  | "gt"
+  | "gte"
+  | "inc"
+  | "list"
+  | "lt"
+  | "lte"
+  | "neq"
+  | "nex"
+  | "ninc"
+  | "pre"
+  | "re"
+  | "sub"
+  | "suf";
+export const PutFirewallConfigResponseActiveRulesItemCase1ConditionGroupItemConditionsItemOp =
+  S.String;
 
 export type PutFirewallConfigResponseActiveRulesItemCase1ConditionGroupItemConditionsItemType =
   | "bot_category"
@@ -9827,25 +10442,6 @@ export type PutFirewallConfigResponseActiveRulesItemCase1ConditionGroupItemCondi
 export const PutFirewallConfigResponseActiveRulesItemCase1ConditionGroupItemConditionsItemType =
   S.String;
 
-export type PutFirewallConfigResponseActiveRulesItemCase1ConditionGroupItemConditionsItemOp =
-  | "eq"
-  | "ex"
-  | "gt"
-  | "gte"
-  | "inc"
-  | "list"
-  | "lt"
-  | "lte"
-  | "neq"
-  | "nex"
-  | "ninc"
-  | "pre"
-  | "re"
-  | "sub"
-  | "suf";
-export const PutFirewallConfigResponseActiveRulesItemCase1ConditionGroupItemConditionsItemOp =
-  S.String;
-
 export type PutFirewallConfigResponseActiveRulesItemCase1ConditionGroupItemConditionsItemValueCase2List =
   Array<string>;
 export const PutFirewallConfigResponseActiveRulesItemCase1ConditionGroupItemConditionsItemValueCase2List =
@@ -9861,19 +10457,19 @@ export const PutFirewallConfigResponseActiveRulesItemCase1ConditionGroupItemCond
   S.Unknown as any as S.Schema<PutFirewallConfigResponseActiveRulesItemCase1ConditionGroupItemConditionsItemValue>;
 
 export interface PutFirewallConfigResponseActiveRulesItemCase1ConditionGroupItemConditionsItem {
-  type: PutFirewallConfigResponseActiveRulesItemCase1ConditionGroupItemConditionsItemType;
-  op: PutFirewallConfigResponseActiveRulesItemCase1ConditionGroupItemConditionsItemOp;
-  neg?: boolean;
   key?: string;
+  neg?: boolean;
+  op: PutFirewallConfigResponseActiveRulesItemCase1ConditionGroupItemConditionsItemOp;
+  type: PutFirewallConfigResponseActiveRulesItemCase1ConditionGroupItemConditionsItemType;
   value?: PutFirewallConfigResponseActiveRulesItemCase1ConditionGroupItemConditionsItemValue;
 }
 export const PutFirewallConfigResponseActiveRulesItemCase1ConditionGroupItemConditionsItem =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      type: PutFirewallConfigResponseActiveRulesItemCase1ConditionGroupItemConditionsItemType,
-      op: PutFirewallConfigResponseActiveRulesItemCase1ConditionGroupItemConditionsItemOp,
-      neg: S.optional(S.Boolean),
       key: S.optional(S.String),
+      neg: S.optional(S.Boolean),
+      op: PutFirewallConfigResponseActiveRulesItemCase1ConditionGroupItemConditionsItemOp,
+      type: PutFirewallConfigResponseActiveRulesItemCase1ConditionGroupItemConditionsItemType,
       value: S.optional(
         PutFirewallConfigResponseActiveRulesItemCase1ConditionGroupItemConditionsItemValue,
       ),
@@ -9908,117 +10504,6 @@ export const PutFirewallConfigResponseActiveRulesItemCase1ConditionGroupList =
     PutFirewallConfigResponseActiveRulesItemCase1ConditionGroupItem,
   ) as any as S.Schema<PutFirewallConfigResponseActiveRulesItemCase1ConditionGroupList>;
 
-export type PutFirewallConfigResponseActiveRulesItemCase1ActionMitigateAction =
-  | "allow"
-  | "bypass"
-  | "challenge"
-  | "deny"
-  | "log"
-  | "rate_limit"
-  | "redirect";
-export const PutFirewallConfigResponseActiveRulesItemCase1ActionMitigateAction = S.String;
-
-export type PutFirewallConfigResponseActiveRulesItemCase1ActionMitigateRateLimitAlgo =
-  | "fixed_window"
-  | "token_bucket";
-export const PutFirewallConfigResponseActiveRulesItemCase1ActionMitigateRateLimitAlgo = S.String;
-
-export type PutFirewallConfigResponseActiveRulesItemCase1ActionMitigateRateLimitKeysList =
-  Array<string>;
-export const PutFirewallConfigResponseActiveRulesItemCase1ActionMitigateRateLimitKeysList =
-  /*@__PURE__*/ S.Array(
-    S.String,
-  ) as any as S.Schema<PutFirewallConfigResponseActiveRulesItemCase1ActionMitigateRateLimitKeysList>;
-
-export type PutFirewallConfigResponseActiveRulesItemCase1ActionMitigateRateLimitAction =
-  | "challenge"
-  | "deny"
-  | "log"
-  | "rate_limit";
-export const PutFirewallConfigResponseActiveRulesItemCase1ActionMitigateRateLimitAction = S.String;
-
-export interface PutFirewallConfigResponseActiveRulesItemCase1ActionMitigateRateLimit {
-  algo: PutFirewallConfigResponseActiveRulesItemCase1ActionMitigateRateLimitAlgo;
-  window: number;
-  limit: number;
-  keys: PutFirewallConfigResponseActiveRulesItemCase1ActionMitigateRateLimitKeysList;
-  action?: PutFirewallConfigResponseActiveRulesItemCase1ActionMitigateRateLimitAction | null;
-}
-export const PutFirewallConfigResponseActiveRulesItemCase1ActionMitigateRateLimit =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      algo: PutFirewallConfigResponseActiveRulesItemCase1ActionMitigateRateLimitAlgo,
-      window: S.Number,
-      limit: S.Number,
-      keys: PutFirewallConfigResponseActiveRulesItemCase1ActionMitigateRateLimitKeysList,
-      action: S.optional(
-        S.NullOr(PutFirewallConfigResponseActiveRulesItemCase1ActionMitigateRateLimitAction),
-      ),
-    }),
-  ).annotate({
-    identifier: "PutFirewallConfigResponseActiveRulesItemCase1ActionMitigateRateLimit",
-  }) as any as S.Schema<PutFirewallConfigResponseActiveRulesItemCase1ActionMitigateRateLimit>;
-
-export type PutFirewallConfigResponseActiveRulesItemCase1ActionMitigateRedirect =
-  CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
-export const PutFirewallConfigResponseActiveRulesItemCase1ActionMitigateRedirect =
-  CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
-
-export type PutFirewallConfigResponseActiveRulesItemCase1ActionMitigateLogHeadersCase0List =
-  Array<string>;
-export const PutFirewallConfigResponseActiveRulesItemCase1ActionMitigateLogHeadersCase0List =
-  /*@__PURE__*/ S.Array(
-    S.String,
-  ) as any as S.Schema<PutFirewallConfigResponseActiveRulesItemCase1ActionMitigateLogHeadersCase0List>;
-
-export type PutFirewallConfigResponseActiveRulesItemCase1ActionMitigateLogHeadersCase1 = "*";
-export const PutFirewallConfigResponseActiveRulesItemCase1ActionMitigateLogHeadersCase1 = S.String;
-
-export type PutFirewallConfigResponseActiveRulesItemCase1ActionMitigateLogHeaders =
-  | PutFirewallConfigResponseActiveRulesItemCase1ActionMitigateLogHeadersCase0List
-  | PutFirewallConfigResponseActiveRulesItemCase1ActionMitigateLogHeadersCase1;
-export const PutFirewallConfigResponseActiveRulesItemCase1ActionMitigateLogHeaders =
-  S.Unknown as any as S.Schema<PutFirewallConfigResponseActiveRulesItemCase1ActionMitigateLogHeaders>;
-
-export interface PutFirewallConfigResponseActiveRulesItemCase1ActionMitigate {
-  action: PutFirewallConfigResponseActiveRulesItemCase1ActionMitigateAction;
-  rateLimit?: PutFirewallConfigResponseActiveRulesItemCase1ActionMitigateRateLimit | null;
-  redirect?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect | null;
-  actionDuration?: string | null;
-  bypassSystem?: boolean | null;
-  logHeaders?: PutFirewallConfigResponseActiveRulesItemCase1ActionMitigateLogHeaders;
-}
-export const PutFirewallConfigResponseActiveRulesItemCase1ActionMitigate = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      action: PutFirewallConfigResponseActiveRulesItemCase1ActionMitigateAction,
-      rateLimit: S.optional(
-        S.NullOr(PutFirewallConfigResponseActiveRulesItemCase1ActionMitigateRateLimit),
-      ),
-      redirect: S.optional(
-        S.NullOr(
-          CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect,
-        ),
-      ),
-      actionDuration: S.optional(S.NullOr(S.String)),
-      bypassSystem: S.optional(S.NullOr(S.Boolean)),
-      logHeaders: S.optional(PutFirewallConfigResponseActiveRulesItemCase1ActionMitigateLogHeaders),
-    }),
-).annotate({
-  identifier: "PutFirewallConfigResponseActiveRulesItemCase1ActionMitigate",
-}) as any as S.Schema<PutFirewallConfigResponseActiveRulesItemCase1ActionMitigate>;
-
-export interface PutFirewallConfigResponseActiveRulesItemCase1Action {
-  mitigate?: PutFirewallConfigResponseActiveRulesItemCase1ActionMitigate;
-}
-export const PutFirewallConfigResponseActiveRulesItemCase1Action = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    mitigate: S.optional(PutFirewallConfigResponseActiveRulesItemCase1ActionMitigate),
-  }),
-).annotate({
-  identifier: "PutFirewallConfigResponseActiveRulesItemCase1Action",
-}) as any as S.Schema<PutFirewallConfigResponseActiveRulesItemCase1Action>;
-
 export type PutFirewallConfigResponseActiveRulesItemCase1ValidationErrorsList = Array<string>;
 export const PutFirewallConfigResponseActiveRulesItemCase1ValidationErrorsList =
   /*@__PURE__*/ S.Array(
@@ -10026,23 +10511,23 @@ export const PutFirewallConfigResponseActiveRulesItemCase1ValidationErrorsList =
   ) as any as S.Schema<PutFirewallConfigResponseActiveRulesItemCase1ValidationErrorsList>;
 
 export interface PutFirewallConfigResponseActiveRulesItemCase1 {
-  id: string;
-  name: string;
-  description?: string;
+  action: PutFirewallConfigResponseActiveRulesItemCase1Action;
   active: boolean;
   conditionGroup: PutFirewallConfigResponseActiveRulesItemCase1ConditionGroupList;
-  action: PutFirewallConfigResponseActiveRulesItemCase1Action;
+  description?: string;
+  id: string;
+  name: string;
   valid: boolean;
   validationErrors: PutFirewallConfigResponseActiveRulesItemCase1ValidationErrorsList;
 }
 export const PutFirewallConfigResponseActiveRulesItemCase1 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    id: S.String,
-    name: S.String,
-    description: S.optional(S.String),
+    action: PutFirewallConfigResponseActiveRulesItemCase1Action,
     active: S.Boolean,
     conditionGroup: PutFirewallConfigResponseActiveRulesItemCase1ConditionGroupList,
-    action: PutFirewallConfigResponseActiveRulesItemCase1Action,
+    description: S.optional(S.String),
+    id: S.String,
+    name: S.String,
     valid: S.Boolean,
     validationErrors: PutFirewallConfigResponseActiveRulesItemCase1ValidationErrorsList,
   }),
@@ -10062,32 +10547,24 @@ export const PutFirewallConfigResponseActiveRulesList = /*@__PURE__*/ S.Array(
   PutFirewallConfigResponseActiveRulesItem,
 ) as any as S.Schema<PutFirewallConfigResponseActiveRulesList>;
 
-export type PutFirewallConfigResponseActiveIpsItemAction = "bypass" | "challenge" | "deny" | "log";
-export const PutFirewallConfigResponseActiveIpsItemAction = S.String;
-
-export interface PutFirewallConfigResponseActiveIpsItem {
-  id: string;
-  hostname: string;
-  ip: string;
-  notes?: string;
-  action: PutFirewallConfigResponseActiveIpsItemAction;
-}
-export const PutFirewallConfigResponseActiveIpsItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    hostname: S.String,
-    ip: S.String,
-    notes: S.optional(S.String),
-    action: PutFirewallConfigResponseActiveIpsItemAction,
-  }),
-).annotate({
-  identifier: "PutFirewallConfigResponseActiveIpsItem",
-}) as any as S.Schema<PutFirewallConfigResponseActiveIpsItem>;
-
-export type PutFirewallConfigResponseActiveIpsList = Array<PutFirewallConfigResponseActiveIpsItem>;
-export const PutFirewallConfigResponseActiveIpsList = /*@__PURE__*/ S.Array(
-  PutFirewallConfigResponseActiveIpsItem,
-) as any as S.Schema<PutFirewallConfigResponseActiveIpsList>;
+export type PutFirewallConfigResponseActiveRulesetsCase0ItemConditionGroupItemConditionsItemOp =
+  | "eq"
+  | "ex"
+  | "gt"
+  | "gte"
+  | "inc"
+  | "list"
+  | "lt"
+  | "lte"
+  | "neq"
+  | "nex"
+  | "ninc"
+  | "pre"
+  | "re"
+  | "sub"
+  | "suf";
+export const PutFirewallConfigResponseActiveRulesetsCase0ItemConditionGroupItemConditionsItemOp =
+  S.String;
 
 export type PutFirewallConfigResponseActiveRulesetsCase0ItemConditionGroupItemConditionsItemType =
   | "bot_category"
@@ -10126,25 +10603,6 @@ export type PutFirewallConfigResponseActiveRulesetsCase0ItemConditionGroupItemCo
 export const PutFirewallConfigResponseActiveRulesetsCase0ItemConditionGroupItemConditionsItemType =
   S.String;
 
-export type PutFirewallConfigResponseActiveRulesetsCase0ItemConditionGroupItemConditionsItemOp =
-  | "eq"
-  | "ex"
-  | "gt"
-  | "gte"
-  | "inc"
-  | "list"
-  | "lt"
-  | "lte"
-  | "neq"
-  | "nex"
-  | "ninc"
-  | "pre"
-  | "re"
-  | "sub"
-  | "suf";
-export const PutFirewallConfigResponseActiveRulesetsCase0ItemConditionGroupItemConditionsItemOp =
-  S.String;
-
 export type PutFirewallConfigResponseActiveRulesetsCase0ItemConditionGroupItemConditionsItemValueCase2List =
   Array<string>;
 export const PutFirewallConfigResponseActiveRulesetsCase0ItemConditionGroupItemConditionsItemValueCase2List =
@@ -10160,19 +10618,19 @@ export const PutFirewallConfigResponseActiveRulesetsCase0ItemConditionGroupItemC
   S.Unknown as any as S.Schema<PutFirewallConfigResponseActiveRulesetsCase0ItemConditionGroupItemConditionsItemValue>;
 
 export interface PutFirewallConfigResponseActiveRulesetsCase0ItemConditionGroupItemConditionsItem {
-  type: PutFirewallConfigResponseActiveRulesetsCase0ItemConditionGroupItemConditionsItemType;
-  op: PutFirewallConfigResponseActiveRulesetsCase0ItemConditionGroupItemConditionsItemOp;
-  neg?: boolean;
   key?: string;
+  neg?: boolean;
+  op: PutFirewallConfigResponseActiveRulesetsCase0ItemConditionGroupItemConditionsItemOp;
+  type: PutFirewallConfigResponseActiveRulesetsCase0ItemConditionGroupItemConditionsItemType;
   value?: PutFirewallConfigResponseActiveRulesetsCase0ItemConditionGroupItemConditionsItemValue;
 }
 export const PutFirewallConfigResponseActiveRulesetsCase0ItemConditionGroupItemConditionsItem =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      type: PutFirewallConfigResponseActiveRulesetsCase0ItemConditionGroupItemConditionsItemType,
-      op: PutFirewallConfigResponseActiveRulesetsCase0ItemConditionGroupItemConditionsItemOp,
-      neg: S.optional(S.Boolean),
       key: S.optional(S.String),
+      neg: S.optional(S.Boolean),
+      op: PutFirewallConfigResponseActiveRulesetsCase0ItemConditionGroupItemConditionsItemOp,
+      type: PutFirewallConfigResponseActiveRulesetsCase0ItemConditionGroupItemConditionsItemType,
       value: S.optional(
         PutFirewallConfigResponseActiveRulesetsCase0ItemConditionGroupItemConditionsItemValue,
       ),
@@ -10217,53 +10675,6 @@ export type PutFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateAction
   | "redirect";
 export const PutFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateAction = S.String;
 
-export type PutFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateRateLimitAlgo =
-  | "fixed_window"
-  | "token_bucket";
-export const PutFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateRateLimitAlgo = S.String;
-
-export type PutFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateRateLimitKeysList =
-  Array<string>;
-export const PutFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateRateLimitKeysList =
-  /*@__PURE__*/ S.Array(
-    S.String,
-  ) as any as S.Schema<PutFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateRateLimitKeysList>;
-
-export type PutFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateRateLimitAction =
-  | "challenge"
-  | "deny"
-  | "log"
-  | "rate_limit";
-export const PutFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateRateLimitAction =
-  S.String;
-
-export interface PutFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateRateLimit {
-  algo: PutFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateRateLimitAlgo;
-  window: number;
-  limit: number;
-  keys: PutFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateRateLimitKeysList;
-  action?: PutFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateRateLimitAction | null;
-}
-export const PutFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateRateLimit =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      algo: PutFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateRateLimitAlgo,
-      window: S.Number,
-      limit: S.Number,
-      keys: PutFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateRateLimitKeysList,
-      action: S.optional(
-        S.NullOr(PutFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateRateLimitAction),
-      ),
-    }),
-  ).annotate({
-    identifier: "PutFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateRateLimit",
-  }) as any as S.Schema<PutFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateRateLimit>;
-
-export type PutFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateRedirect =
-  CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
-export const PutFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateRedirect =
-  CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
-
 export type PutFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateLogHeadersCase0List =
   Array<string>;
 export const PutFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateLogHeadersCase0List =
@@ -10281,18 +10692,70 @@ export type PutFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateLogHea
 export const PutFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateLogHeaders =
   S.Unknown as any as S.Schema<PutFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateLogHeaders>;
 
+export type PutFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateRateLimitAction =
+  | "challenge"
+  | "deny"
+  | "log"
+  | "rate_limit";
+export const PutFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateRateLimitAction =
+  S.String;
+
+export type PutFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateRateLimitAlgo =
+  | "fixed_window"
+  | "token_bucket";
+export const PutFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateRateLimitAlgo = S.String;
+
+export type PutFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateRateLimitKeysList =
+  Array<string>;
+export const PutFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateRateLimitKeysList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<PutFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateRateLimitKeysList>;
+
+export interface PutFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateRateLimit {
+  action?: PutFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateRateLimitAction | null;
+  algo: PutFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateRateLimitAlgo;
+  keys: PutFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateRateLimitKeysList;
+  limit: number;
+  window: number;
+}
+export const PutFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateRateLimit =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      action: S.optional(
+        S.NullOr(PutFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateRateLimitAction),
+      ),
+      algo: PutFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateRateLimitAlgo,
+      keys: PutFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateRateLimitKeysList,
+      limit: S.Number,
+      window: S.Number,
+    }),
+  ).annotate({
+    identifier: "PutFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateRateLimit",
+  }) as any as S.Schema<PutFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateRateLimit>;
+
+export type PutFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateRedirect =
+  CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
+export const PutFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateRedirect =
+  CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
+
 export interface PutFirewallConfigResponseActiveRulesetsCase0ItemActionMitigate {
   action: PutFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateAction;
-  rateLimit?: PutFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateRateLimit | null;
-  redirect?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect | null;
   actionDuration?: string | null;
   bypassSystem?: boolean | null;
   logHeaders?: PutFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateLogHeaders;
+  rateLimit?: PutFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateRateLimit | null;
+  redirect?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect | null;
 }
 export const PutFirewallConfigResponseActiveRulesetsCase0ItemActionMitigate =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       action: PutFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateAction,
+      actionDuration: S.optional(S.NullOr(S.String)),
+      bypassSystem: S.optional(S.NullOr(S.Boolean)),
+      logHeaders: S.optional(
+        PutFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateLogHeaders,
+      ),
       rateLimit: S.optional(
         S.NullOr(PutFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateRateLimit),
       ),
@@ -10300,11 +10763,6 @@ export const PutFirewallConfigResponseActiveRulesetsCase0ItemActionMitigate =
         S.NullOr(
           CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect,
         ),
-      ),
-      actionDuration: S.optional(S.NullOr(S.String)),
-      bypassSystem: S.optional(S.NullOr(S.Boolean)),
-      logHeaders: S.optional(
-        PutFirewallConfigResponseActiveRulesetsCase0ItemActionMitigateLogHeaders,
       ),
     }),
   ).annotate({
@@ -10323,20 +10781,20 @@ export const PutFirewallConfigResponseActiveRulesetsCase0ItemAction = /*@__PURE_
 }) as any as S.Schema<PutFirewallConfigResponseActiveRulesetsCase0ItemAction>;
 
 export interface PutFirewallConfigResponseActiveRulesetsCase0Item {
+  active: boolean;
+  conditionGroup: PutFirewallConfigResponseActiveRulesetsCase0ItemConditionGroupList;
   description?: string;
   id: string;
   name: string;
-  active: boolean;
-  conditionGroup: PutFirewallConfigResponseActiveRulesetsCase0ItemConditionGroupList;
   action?: PutFirewallConfigResponseActiveRulesetsCase0ItemAction;
 }
 export const PutFirewallConfigResponseActiveRulesetsCase0Item = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    active: S.Boolean,
+    conditionGroup: PutFirewallConfigResponseActiveRulesetsCase0ItemConditionGroupList,
     description: S.optional(S.String),
     id: S.String,
     name: S.String,
-    active: S.Boolean,
-    conditionGroup: PutFirewallConfigResponseActiveRulesetsCase0ItemConditionGroupList,
     action: S.optional(PutFirewallConfigResponseActiveRulesetsCase0ItemAction),
   }),
 ).annotate({
@@ -10359,51 +10817,6 @@ export type PutFirewallConfigResponseActiveRulesetsCase1ValueAction =
   | "redirect";
 export const PutFirewallConfigResponseActiveRulesetsCase1ValueAction = S.String;
 
-export type PutFirewallConfigResponseActiveRulesetsCase1ValueRateLimitAlgo =
-  | "fixed_window"
-  | "token_bucket";
-export const PutFirewallConfigResponseActiveRulesetsCase1ValueRateLimitAlgo = S.String;
-
-export type PutFirewallConfigResponseActiveRulesetsCase1ValueRateLimitKeysList = Array<string>;
-export const PutFirewallConfigResponseActiveRulesetsCase1ValueRateLimitKeysList =
-  /*@__PURE__*/ S.Array(
-    S.String,
-  ) as any as S.Schema<PutFirewallConfigResponseActiveRulesetsCase1ValueRateLimitKeysList>;
-
-export type PutFirewallConfigResponseActiveRulesetsCase1ValueRateLimitAction =
-  | "challenge"
-  | "deny"
-  | "log"
-  | "rate_limit";
-export const PutFirewallConfigResponseActiveRulesetsCase1ValueRateLimitAction = S.String;
-
-export interface PutFirewallConfigResponseActiveRulesetsCase1ValueRateLimit {
-  algo: PutFirewallConfigResponseActiveRulesetsCase1ValueRateLimitAlgo;
-  window: number;
-  limit: number;
-  keys: PutFirewallConfigResponseActiveRulesetsCase1ValueRateLimitKeysList;
-  action?: PutFirewallConfigResponseActiveRulesetsCase1ValueRateLimitAction | null;
-}
-export const PutFirewallConfigResponseActiveRulesetsCase1ValueRateLimit = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      algo: PutFirewallConfigResponseActiveRulesetsCase1ValueRateLimitAlgo,
-      window: S.Number,
-      limit: S.Number,
-      keys: PutFirewallConfigResponseActiveRulesetsCase1ValueRateLimitKeysList,
-      action: S.optional(
-        S.NullOr(PutFirewallConfigResponseActiveRulesetsCase1ValueRateLimitAction),
-      ),
-    }),
-).annotate({
-  identifier: "PutFirewallConfigResponseActiveRulesetsCase1ValueRateLimit",
-}) as any as S.Schema<PutFirewallConfigResponseActiveRulesetsCase1ValueRateLimit>;
-
-export type PutFirewallConfigResponseActiveRulesetsCase1ValueRedirect =
-  CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
-export const PutFirewallConfigResponseActiveRulesetsCase1ValueRedirect =
-  CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
-
 export type PutFirewallConfigResponseActiveRulesetsCase1ValueLogHeadersCase0List = Array<string>;
 export const PutFirewallConfigResponseActiveRulesetsCase1ValueLogHeadersCase0List =
   /*@__PURE__*/ S.Array(
@@ -10419,26 +10832,71 @@ export type PutFirewallConfigResponseActiveRulesetsCase1ValueLogHeaders =
 export const PutFirewallConfigResponseActiveRulesetsCase1ValueLogHeaders =
   S.Unknown as any as S.Schema<PutFirewallConfigResponseActiveRulesetsCase1ValueLogHeaders>;
 
+export type PutFirewallConfigResponseActiveRulesetsCase1ValueRateLimitAction =
+  | "challenge"
+  | "deny"
+  | "log"
+  | "rate_limit";
+export const PutFirewallConfigResponseActiveRulesetsCase1ValueRateLimitAction = S.String;
+
+export type PutFirewallConfigResponseActiveRulesetsCase1ValueRateLimitAlgo =
+  | "fixed_window"
+  | "token_bucket";
+export const PutFirewallConfigResponseActiveRulesetsCase1ValueRateLimitAlgo = S.String;
+
+export type PutFirewallConfigResponseActiveRulesetsCase1ValueRateLimitKeysList = Array<string>;
+export const PutFirewallConfigResponseActiveRulesetsCase1ValueRateLimitKeysList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<PutFirewallConfigResponseActiveRulesetsCase1ValueRateLimitKeysList>;
+
+export interface PutFirewallConfigResponseActiveRulesetsCase1ValueRateLimit {
+  action?: PutFirewallConfigResponseActiveRulesetsCase1ValueRateLimitAction | null;
+  algo: PutFirewallConfigResponseActiveRulesetsCase1ValueRateLimitAlgo;
+  keys: PutFirewallConfigResponseActiveRulesetsCase1ValueRateLimitKeysList;
+  limit: number;
+  window: number;
+}
+export const PutFirewallConfigResponseActiveRulesetsCase1ValueRateLimit = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      action: S.optional(
+        S.NullOr(PutFirewallConfigResponseActiveRulesetsCase1ValueRateLimitAction),
+      ),
+      algo: PutFirewallConfigResponseActiveRulesetsCase1ValueRateLimitAlgo,
+      keys: PutFirewallConfigResponseActiveRulesetsCase1ValueRateLimitKeysList,
+      limit: S.Number,
+      window: S.Number,
+    }),
+).annotate({
+  identifier: "PutFirewallConfigResponseActiveRulesetsCase1ValueRateLimit",
+}) as any as S.Schema<PutFirewallConfigResponseActiveRulesetsCase1ValueRateLimit>;
+
+export type PutFirewallConfigResponseActiveRulesetsCase1ValueRedirect =
+  CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
+export const PutFirewallConfigResponseActiveRulesetsCase1ValueRedirect =
+  CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect;
+
 export interface PutFirewallConfigResponseActiveRulesetsCase1Value {
   action: PutFirewallConfigResponseActiveRulesetsCase1ValueAction;
-  rateLimit?: PutFirewallConfigResponseActiveRulesetsCase1ValueRateLimit | null;
-  redirect?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect | null;
   actionDuration?: string | null;
   bypassSystem?: boolean | null;
   logHeaders?: PutFirewallConfigResponseActiveRulesetsCase1ValueLogHeaders;
+  rateLimit?: PutFirewallConfigResponseActiveRulesetsCase1ValueRateLimit | null;
+  redirect?: CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect | null;
 }
 export const PutFirewallConfigResponseActiveRulesetsCase1Value = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     action: PutFirewallConfigResponseActiveRulesetsCase1ValueAction,
+    actionDuration: S.optional(S.NullOr(S.String)),
+    bypassSystem: S.optional(S.NullOr(S.Boolean)),
+    logHeaders: S.optional(PutFirewallConfigResponseActiveRulesetsCase1ValueLogHeaders),
     rateLimit: S.optional(S.NullOr(PutFirewallConfigResponseActiveRulesetsCase1ValueRateLimit)),
     redirect: S.optional(
       S.NullOr(
         CreateSecurityFirewallConfigByConfigVersionActivateResponseRulesItemCase0ActionMitigateRedirect,
       ),
     ),
-    actionDuration: S.optional(S.NullOr(S.String)),
-    bypassSystem: S.optional(S.NullOr(S.Boolean)),
-    logHeaders: S.optional(PutFirewallConfigResponseActiveRulesetsCase1ValueLogHeaders),
   }),
 ).annotate({
   identifier: "PutFirewallConfigResponseActiveRulesetsCase1Value",
@@ -10458,344 +10916,41 @@ export type PutFirewallConfigResponseActiveRulesets =
 export const PutFirewallConfigResponseActiveRulesets =
   S.Unknown as any as S.Schema<PutFirewallConfigResponseActiveRulesets>;
 
-export type PutFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItemType =
-  | "bot_category"
-  | "bot_name"
-  | "bot_protection"
-  | "bot_status"
-  | "cookie"
-  | "domain_environment"
-  | "environment"
-  | "geo_as_number"
-  | "geo_city"
-  | "geo_continent"
-  | "geo_country"
-  | "geo_country_region"
-  | "header"
-  | "host"
-  | "ip_address"
-  | "ja3_digest"
-  | "ja4_digest"
-  | "method"
-  | "path"
-  | "protocol"
-  | "query"
-  | "rate_limit_api_id"
-  | "raw_path"
-  | "region"
-  | "route"
-  | "ruleset"
-  | "scheme"
-  | "server_action"
-  | "shared_condition"
-  | "target_path"
-  | "traffic_source"
-  | "trusted_source"
-  | "user_agent";
-export const PutFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItemType =
-  S.String;
-
-export type PutFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItemOp =
-  | "eq"
-  | "ex"
-  | "gt"
-  | "gte"
-  | "inc"
-  | "list"
-  | "lt"
-  | "lte"
-  | "neq"
-  | "nex"
-  | "ninc"
-  | "pre"
-  | "re"
-  | "sub"
-  | "suf";
-export const PutFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItemOp =
-  S.String;
-
-export type PutFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItemValueCase2List =
-  Array<string>;
-export const PutFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItemValueCase2List =
-  /*@__PURE__*/ S.Array(
-    S.String,
-  ) as any as S.Schema<PutFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItemValueCase2List>;
-
-export type PutFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItemValue =
-  | string
-  | number
-  | PutFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItemValueCase2List;
-export const PutFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItemValue =
-  S.Unknown as any as S.Schema<PutFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItemValue>;
-
-export interface PutFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItem {
-  type: PutFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItemType;
-  op: PutFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItemOp;
-  neg?: boolean;
-  key?: string;
-  value?: PutFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItemValue;
-}
-export const PutFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItem =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      type: PutFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItemType,
-      op: PutFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItemOp,
-      neg: S.optional(S.Boolean),
-      key: S.optional(S.String),
-      value: S.optional(
-        PutFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItemValue,
-      ),
-    }),
-  ).annotate({
-    identifier: "PutFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItem",
-  }) as any as S.Schema<PutFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItem>;
-
-export type PutFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsList =
-  Array<PutFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItem>;
-export const PutFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsList =
-  /*@__PURE__*/ S.Array(
-    PutFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsItem,
-  ) as any as S.Schema<PutFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsList>;
-
-export interface PutFirewallConfigResponseActiveConditionsItemConditionGroupItem {
-  conditions: PutFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsList;
-}
-export const PutFirewallConfigResponseActiveConditionsItemConditionGroupItem =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      conditions: PutFirewallConfigResponseActiveConditionsItemConditionGroupItemConditionsList,
-    }),
-  ).annotate({
-    identifier: "PutFirewallConfigResponseActiveConditionsItemConditionGroupItem",
-  }) as any as S.Schema<PutFirewallConfigResponseActiveConditionsItemConditionGroupItem>;
-
-export type PutFirewallConfigResponseActiveConditionsItemConditionGroupList =
-  Array<PutFirewallConfigResponseActiveConditionsItemConditionGroupItem>;
-export const PutFirewallConfigResponseActiveConditionsItemConditionGroupList =
-  /*@__PURE__*/ S.Array(
-    PutFirewallConfigResponseActiveConditionsItemConditionGroupItem,
-  ) as any as S.Schema<PutFirewallConfigResponseActiveConditionsItemConditionGroupList>;
-
-export interface PutFirewallConfigResponseActiveConditionsItem {
-  description?: string;
-  id: string;
-  name: string;
-  active: boolean;
-  conditionGroup: PutFirewallConfigResponseActiveConditionsItemConditionGroupList;
-}
-export const PutFirewallConfigResponseActiveConditionsItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    description: S.optional(S.String),
-    id: S.String,
-    name: S.String,
-    active: S.Boolean,
-    conditionGroup: PutFirewallConfigResponseActiveConditionsItemConditionGroupList,
-  }),
-).annotate({
-  identifier: "PutFirewallConfigResponseActiveConditionsItem",
-}) as any as S.Schema<PutFirewallConfigResponseActiveConditionsItem>;
-
-export type PutFirewallConfigResponseActiveConditionsList =
-  Array<PutFirewallConfigResponseActiveConditionsItem>;
-export const PutFirewallConfigResponseActiveConditionsList = /*@__PURE__*/ S.Array(
-  PutFirewallConfigResponseActiveConditionsItem,
-) as any as S.Schema<PutFirewallConfigResponseActiveConditionsList>;
-
-export type PutFirewallConfigResponseActiveChangesList = Array<unknown>;
-export const PutFirewallConfigResponseActiveChangesList = /*@__PURE__*/ S.Array(
-  S.Unknown,
-) as any as S.Schema<PutFirewallConfigResponseActiveChangesList>;
-
-export type PutFirewallConfigResponseActiveManagedRulesBotProtectionAction =
-  | "challenge"
-  | "deny"
-  | "log";
-export const PutFirewallConfigResponseActiveManagedRulesBotProtectionAction = S.String;
-
-export interface PutFirewallConfigResponseActiveManagedRulesBotProtection {
-  active: boolean;
-  action?: PutFirewallConfigResponseActiveManagedRulesBotProtectionAction;
-  updatedAt?: string;
-  userId?: string;
-  username?: string;
-}
-export const PutFirewallConfigResponseActiveManagedRulesBotProtection = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      active: S.Boolean,
-      action: S.optional(PutFirewallConfigResponseActiveManagedRulesBotProtectionAction),
-      updatedAt: S.optional(S.String),
-      userId: S.optional(S.String),
-      username: S.optional(S.String),
-    }),
-).annotate({
-  identifier: "PutFirewallConfigResponseActiveManagedRulesBotProtection",
-}) as any as S.Schema<PutFirewallConfigResponseActiveManagedRulesBotProtection>;
-
-export type PutFirewallConfigResponseActiveManagedRulesAiBotsAction = "challenge" | "deny" | "log";
-export const PutFirewallConfigResponseActiveManagedRulesAiBotsAction = S.String;
-
-export interface PutFirewallConfigResponseActiveManagedRulesAiBots {
-  active: boolean;
-  action?: PutFirewallConfigResponseActiveManagedRulesAiBotsAction;
-  updatedAt?: string;
-  userId?: string;
-  username?: string;
-}
-export const PutFirewallConfigResponseActiveManagedRulesAiBots = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    active: S.Boolean,
-    action: S.optional(PutFirewallConfigResponseActiveManagedRulesAiBotsAction),
-    updatedAt: S.optional(S.String),
-    userId: S.optional(S.String),
-    username: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "PutFirewallConfigResponseActiveManagedRulesAiBots",
-}) as any as S.Schema<PutFirewallConfigResponseActiveManagedRulesAiBots>;
-
-export type PutFirewallConfigResponseActiveManagedRulesOwaspAction = "challenge" | "deny" | "log";
-export const PutFirewallConfigResponseActiveManagedRulesOwaspAction = S.String;
-
-export interface PutFirewallConfigResponseActiveManagedRulesOwasp {
-  active: boolean;
-  action?: PutFirewallConfigResponseActiveManagedRulesOwaspAction;
-  updatedAt?: string;
-  userId?: string;
-  username?: string;
-}
-export const PutFirewallConfigResponseActiveManagedRulesOwasp = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    active: S.Boolean,
-    action: S.optional(PutFirewallConfigResponseActiveManagedRulesOwaspAction),
-    updatedAt: S.optional(S.String),
-    userId: S.optional(S.String),
-    username: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "PutFirewallConfigResponseActiveManagedRulesOwasp",
-}) as any as S.Schema<PutFirewallConfigResponseActiveManagedRulesOwasp>;
-
-export type PutFirewallConfigResponseActiveManagedRulesVercelRulesetAction =
-  | "challenge"
-  | "deny"
-  | "log";
-export const PutFirewallConfigResponseActiveManagedRulesVercelRulesetAction = S.String;
-
-export interface PutFirewallConfigResponseActiveManagedRulesVercelRuleset {
-  active: boolean;
-  action?: PutFirewallConfigResponseActiveManagedRulesVercelRulesetAction;
-  updatedAt?: string;
-  userId?: string;
-  username?: string;
-}
-export const PutFirewallConfigResponseActiveManagedRulesVercelRuleset = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      active: S.Boolean,
-      action: S.optional(PutFirewallConfigResponseActiveManagedRulesVercelRulesetAction),
-      updatedAt: S.optional(S.String),
-      userId: S.optional(S.String),
-      username: S.optional(S.String),
-    }),
-).annotate({
-  identifier: "PutFirewallConfigResponseActiveManagedRulesVercelRuleset",
-}) as any as S.Schema<PutFirewallConfigResponseActiveManagedRulesVercelRuleset>;
-
-export type PutFirewallConfigResponseActiveManagedRulesTrafficSourcesAction =
-  | "challenge"
-  | "deny"
-  | "log";
-export const PutFirewallConfigResponseActiveManagedRulesTrafficSourcesAction = S.String;
-
-export interface PutFirewallConfigResponseActiveManagedRulesTrafficSources {
-  active: boolean;
-  action?: PutFirewallConfigResponseActiveManagedRulesTrafficSourcesAction;
-  updatedAt?: string;
-  userId?: string;
-  username?: string;
-}
-export const PutFirewallConfigResponseActiveManagedRulesTrafficSources = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      active: S.Boolean,
-      action: S.optional(PutFirewallConfigResponseActiveManagedRulesTrafficSourcesAction),
-      updatedAt: S.optional(S.String),
-      userId: S.optional(S.String),
-      username: S.optional(S.String),
-    }),
-).annotate({
-  identifier: "PutFirewallConfigResponseActiveManagedRulesTrafficSources",
-}) as any as S.Schema<PutFirewallConfigResponseActiveManagedRulesTrafficSources>;
-
-export interface PutFirewallConfigResponseActiveManagedRules {
-  bot_protection?: PutFirewallConfigResponseActiveManagedRulesBotProtection;
-  ai_bots?: PutFirewallConfigResponseActiveManagedRulesAiBots;
-  owasp?: PutFirewallConfigResponseActiveManagedRulesOwasp;
-  vercel_ruleset?: PutFirewallConfigResponseActiveManagedRulesVercelRuleset;
-  traffic_sources?: PutFirewallConfigResponseActiveManagedRulesTrafficSources;
-}
-export const PutFirewallConfigResponseActiveManagedRules = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    bot_protection: S.optional(PutFirewallConfigResponseActiveManagedRulesBotProtection),
-    ai_bots: S.optional(PutFirewallConfigResponseActiveManagedRulesAiBots),
-    owasp: S.optional(PutFirewallConfigResponseActiveManagedRulesOwasp),
-    vercel_ruleset: S.optional(PutFirewallConfigResponseActiveManagedRulesVercelRuleset),
-    traffic_sources: S.optional(PutFirewallConfigResponseActiveManagedRulesTrafficSources),
-  }),
-).annotate({
-  identifier: "PutFirewallConfigResponseActiveManagedRules",
-}) as any as S.Schema<PutFirewallConfigResponseActiveManagedRules>;
-
-export type PutFirewallConfigResponseActiveLogHeadersCase0List = Array<string>;
-export const PutFirewallConfigResponseActiveLogHeadersCase0List = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<PutFirewallConfigResponseActiveLogHeadersCase0List>;
-
-export type PutFirewallConfigResponseActiveLogHeadersCase1 = "*";
-export const PutFirewallConfigResponseActiveLogHeadersCase1 = S.String;
-
-export type PutFirewallConfigResponseActiveLogHeaders =
-  | PutFirewallConfigResponseActiveLogHeadersCase0List
-  | PutFirewallConfigResponseActiveLogHeadersCase1;
-export const PutFirewallConfigResponseActiveLogHeaders =
-  S.Unknown as any as S.Schema<PutFirewallConfigResponseActiveLogHeaders>;
-
 export interface PutFirewallConfigResponseActive {
-  ownerId: string;
-  projectKey: string;
-  id: string;
-  version: number;
-  updatedAt: string;
-  firewallEnabled: boolean;
+  botIdEnabled?: boolean;
+  changes: PutFirewallConfigResponseActiveChangesList;
+  conditions?: PutFirewallConfigResponseActiveConditionsList;
   /** Custom Ruleset */
   crs?: PutFirewallConfigResponseActiveCrs;
-  rules: PutFirewallConfigResponseActiveRulesList;
+  firewallEnabled: boolean;
+  id: string;
   ips: PutFirewallConfigResponseActiveIpsList;
-  rulesets?: PutFirewallConfigResponseActiveRulesets;
-  conditions?: PutFirewallConfigResponseActiveConditionsList;
-  changes: PutFirewallConfigResponseActiveChangesList;
-  managedRules?: PutFirewallConfigResponseActiveManagedRules;
-  botIdEnabled?: boolean;
   logHeaders?: PutFirewallConfigResponseActiveLogHeaders;
+  managedRules?: PutFirewallConfigResponseActiveManagedRules;
+  ownerId: string;
+  projectKey: string;
+  rules: PutFirewallConfigResponseActiveRulesList;
+  rulesets?: PutFirewallConfigResponseActiveRulesets;
+  updatedAt: string;
+  version: number;
 }
 export const PutFirewallConfigResponseActive = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    botIdEnabled: S.optional(S.Boolean),
+    changes: PutFirewallConfigResponseActiveChangesList,
+    conditions: S.optional(PutFirewallConfigResponseActiveConditionsList),
+    crs: S.optional(PutFirewallConfigResponseActiveCrs),
+    firewallEnabled: S.Boolean,
+    id: S.String,
+    ips: PutFirewallConfigResponseActiveIpsList,
+    logHeaders: S.optional(PutFirewallConfigResponseActiveLogHeaders),
+    managedRules: S.optional(PutFirewallConfigResponseActiveManagedRules),
     ownerId: S.String,
     projectKey: S.String,
-    id: S.String,
-    version: S.Number,
-    updatedAt: S.String,
-    firewallEnabled: S.Boolean,
-    crs: S.optional(PutFirewallConfigResponseActiveCrs),
     rules: PutFirewallConfigResponseActiveRulesList,
-    ips: PutFirewallConfigResponseActiveIpsList,
     rulesets: S.optional(PutFirewallConfigResponseActiveRulesets),
-    conditions: S.optional(PutFirewallConfigResponseActiveConditionsList),
-    changes: PutFirewallConfigResponseActiveChangesList,
-    managedRules: S.optional(PutFirewallConfigResponseActiveManagedRules),
-    botIdEnabled: S.optional(S.Boolean),
-    logHeaders: S.optional(PutFirewallConfigResponseActiveLogHeaders),
+    updatedAt: S.String,
+    version: S.Number,
   }),
 ).annotate({
   identifier: "PutFirewallConfigResponseActive",
@@ -10834,16 +10989,8 @@ export const RemoveBypassIpRequest = /*@__PURE__*/ S.suspend(() =>
     sourceIp: S.optional(S.String),
     allSources: S.optional(S.Boolean),
     note: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v1/security/firewall/bypass",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "RemoveBypassIpRequest",
-}) as any as S.Schema<RemoveBypassIpRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/v1/security/firewall/bypass", code: 200 })),
+).annotate({ identifier: "RemoveBypassIpRequest" }) as any as S.Schema<RemoveBypassIpRequest>;
 
 export interface RemoveBypassIpResponse {
   ok: boolean;
@@ -10852,9 +10999,7 @@ export const RemoveBypassIpResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ok: S.Boolean,
   }),
-).annotate({
-  identifier: "RemoveBypassIpResponse",
-}) as any as S.Schema<RemoveBypassIpResponse>;
+).annotate({ identifier: "RemoveBypassIpResponse" }) as any as S.Schema<RemoveBypassIpResponse>;
 
 export interface UpdateAttackChallengeModeRequestBodyCase0 {
   projectId: string;
@@ -12859,7 +13004,7 @@ export const getSecurityFirewallConfig: API.OperationMethod<
 }));
 
 export type GetSecurityFirewallEventsError = BadRequest | Forbidden | NotFound | VercelOpError;
-/** Read Firewall Actions by Project Retrieve firewall actions for a project Rule names are resolved against the project's *current* active firewall configuration and the team's active rulesets, so a rule that has since been renamed reports its new name and one that has been deleted reports `null`. System rules such as `sys_dos_mitigation` and `ip_blocking` have no configured name and always report `null`. */
+/** Read Firewall Actions by Project Retrieve firewall actions for a project Rule names are resolved against the project's *current* active firewall configuration and the team's active rulesets, so a rule that has since been renamed reports its new name and one that has been deleted reports `null`. System rules such as `sys_dos_mitigation` and `ip_blocking` have no configured name and always report `null`. Filters (`ip`, `isActive`, `action`, `actionType`, `ruleKind`, `ruleId`, `hosts`) are ANDed across params and ORed within a repeated param. They are applied to the policies before `limit`/`cursor`, so pages only count matching policies. A policy with no matching requests yields no action row, so a page can hold fewer than `limit` actions; only `pagination.next` signals the end. A `cursor` is only valid with the filters it was issued for. */
 export const getSecurityFirewallEvents: API.OperationMethod<
   GetSecurityFirewallEventsRequest,
   GetSecurityFirewallEventsResponse,
@@ -12868,6 +13013,25 @@ export const getSecurityFirewallEvents: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetSecurityFirewallEventsRequest,
   output: GetSecurityFirewallEventsResponse,
+  errors: [BadRequest, Forbidden, NotFound],
+  protocol: VercelProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetSecurityFirewallEventsSummaryError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | VercelOpError;
+/** Read Firewall Actions Summary by Project Aggregate counts over the firewall actions matched by the same filters as `GET /v1/security/firewall/events`, without fetching any rows. Counts are of policies (mitigations), including ones that matched no requests. */
+export const getSecurityFirewallEventsSummary: API.OperationMethod<
+  GetSecurityFirewallEventsSummaryRequest,
+  GetSecurityFirewallEventsSummaryResponse,
+  GetSecurityFirewallEventsSummaryError,
+  VercelOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetSecurityFirewallEventsSummaryRequest,
+  output: GetSecurityFirewallEventsSummaryResponse,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,

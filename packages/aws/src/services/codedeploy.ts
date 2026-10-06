@@ -8,10 +8,7 @@ import { AwsProtocol } from "../protocol.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 const ns = T.XmlNamespace("http://codedeploy.amazonaws.com/doc/2014-10-06/");
-const svc = T.AwsApiService({
-  sdkId: "CodeDeploy",
-  serviceShapeName: "CodeDeploy_20141006",
-});
+const svc = T.AwsApiService({ sdkId: "CodeDeploy", serviceShapeName: "CodeDeploy_20141006" });
 const auth = T.AwsAuthSigv4({ name: "codedeploy" });
 const ver = T.ServiceVersion("2014-10-06");
 const proto = T.AwsProtocolsAwsJson1_1();
@@ -666,10 +663,7 @@ export interface GitHubLocation {
   commitId?: string;
 }
 export const GitHubLocation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    repository: S.optional(S.String),
-    commitId: S.optional(S.String),
-  }),
+  S.Struct({ repository: S.optional(S.String), commitId: S.optional(S.String) }),
 ).annotate({ identifier: "GitHubLocation" }) as any as S.Schema<GitHubLocation>;
 export type RawStringContent = string;
 export type RawStringSha256 = string;
@@ -702,9 +696,7 @@ export const RevisionLocation = /*@__PURE__*/ S.suspend(() =>
     string: S.optional(RawString),
     appSpecContent: S.optional(AppSpecContent),
   }),
-).annotate({
-  identifier: "RevisionLocation",
-}) as any as S.Schema<RevisionLocation>;
+).annotate({ identifier: "RevisionLocation" }) as any as S.Schema<RevisionLocation>;
 export type RevisionLocationList = RevisionLocation[];
 export const RevisionLocationList = /*@__PURE__*/ S.Array(RevisionLocation);
 export interface BatchGetApplicationRevisionsInput {
@@ -738,9 +730,7 @@ export const GenericRevisionInfo = /*@__PURE__*/ S.suspend(() =>
     lastUsedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     registerTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
-).annotate({
-  identifier: "GenericRevisionInfo",
-}) as any as S.Schema<GenericRevisionInfo>;
+).annotate({ identifier: "GenericRevisionInfo" }) as any as S.Schema<GenericRevisionInfo>;
 export interface RevisionInfo {
   revisionLocation?: RevisionLocation;
   genericRevisionInfo?: GenericRevisionInfo;
@@ -801,9 +791,7 @@ export const ApplicationInfo = /*@__PURE__*/ S.suspend(() =>
     gitHubAccountName: S.optional(S.String),
     computePlatform: S.optional(ComputePlatform),
   }),
-).annotate({
-  identifier: "ApplicationInfo",
-}) as any as S.Schema<ApplicationInfo>;
+).annotate({ identifier: "ApplicationInfo" }) as any as S.Schema<ApplicationInfo>;
 export type ApplicationsInfoList = ApplicationInfo[];
 export const ApplicationsInfoList = /*@__PURE__*/ S.Array(ApplicationInfo);
 export interface BatchGetApplicationsOutput {
@@ -819,10 +807,9 @@ export interface BatchGetDeploymentGroupsInput {
   deploymentGroupNames: string[];
 }
 export const BatchGetDeploymentGroupsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    applicationName: S.String,
-    deploymentGroupNames: DeploymentGroupsList,
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+  S.Struct({ applicationName: S.String, deploymentGroupNames: DeploymentGroupsList }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "BatchGetDeploymentGroupsInput",
 }) as any as S.Schema<BatchGetDeploymentGroupsInput>;
@@ -875,9 +862,7 @@ export const AutoScalingGroup = /*@__PURE__*/ S.suspend(() =>
     hook: S.optional(S.String),
     terminationHook: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AutoScalingGroup",
-}) as any as S.Schema<AutoScalingGroup>;
+).annotate({ identifier: "AutoScalingGroup" }) as any as S.Schema<AutoScalingGroup>;
 export type AutoScalingGroupList = AutoScalingGroup[];
 export const AutoScalingGroupList = /*@__PURE__*/ S.Array(AutoScalingGroup);
 export type Role = string;
@@ -933,9 +918,7 @@ export const AlarmConfiguration = /*@__PURE__*/ S.suspend(() =>
     ignorePollAlarmFailure: S.optional(S.Boolean),
     alarms: S.optional(AlarmList),
   }),
-).annotate({
-  identifier: "AlarmConfiguration",
-}) as any as S.Schema<AlarmConfiguration>;
+).annotate({ identifier: "AlarmConfiguration" }) as any as S.Schema<AlarmConfiguration>;
 export type AutoRollbackEvent =
   | "DEPLOYMENT_FAILURE"
   | "DEPLOYMENT_STOP_ON_ALARM"
@@ -950,10 +933,7 @@ export interface AutoRollbackConfiguration {
   events?: AutoRollbackEvent[];
 }
 export const AutoRollbackConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    enabled: S.optional(S.Boolean),
-    events: S.optional(AutoRollbackEventsList),
-  }),
+  S.Struct({ enabled: S.optional(S.Boolean), events: S.optional(AutoRollbackEventsList) }),
 ).annotate({
   identifier: "AutoRollbackConfiguration",
 }) as any as S.Schema<AutoRollbackConfiguration>;
@@ -972,9 +952,7 @@ export const DeploymentStyle = /*@__PURE__*/ S.suspend(() =>
     deploymentType: S.optional(DeploymentType),
     deploymentOption: S.optional(DeploymentOption),
   }),
-).annotate({
-  identifier: "DeploymentStyle",
-}) as any as S.Schema<DeploymentStyle>;
+).annotate({ identifier: "DeploymentStyle" }) as any as S.Schema<DeploymentStyle>;
 export type OutdatedInstancesStrategy = "UPDATE" | "IGNORE" | (string & {});
 export const OutdatedInstancesStrategy = S.String;
 
@@ -1006,9 +984,7 @@ export const DeploymentReadyOption = /*@__PURE__*/ S.suspend(() =>
     actionOnTimeout: S.optional(DeploymentReadyAction),
     waitTimeInMinutes: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "DeploymentReadyOption",
-}) as any as S.Schema<DeploymentReadyOption>;
+).annotate({ identifier: "DeploymentReadyOption" }) as any as S.Schema<DeploymentReadyOption>;
 export type GreenFleetProvisioningAction =
   | "DISCOVER_EXISTING"
   | "COPY_AUTO_SCALING_GROUP"
@@ -1052,9 +1028,7 @@ export interface TargetGroupInfo {
 }
 export const TargetGroupInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ name: S.optional(S.String) }),
-).annotate({
-  identifier: "TargetGroupInfo",
-}) as any as S.Schema<TargetGroupInfo>;
+).annotate({ identifier: "TargetGroupInfo" }) as any as S.Schema<TargetGroupInfo>;
 export type TargetGroupInfoList = TargetGroupInfo[];
 export const TargetGroupInfoList = /*@__PURE__*/ S.Array(TargetGroupInfo);
 export type ListenerArn = string;
@@ -1077,9 +1051,7 @@ export const TargetGroupPairInfo = /*@__PURE__*/ S.suspend(() =>
     prodTrafficRoute: S.optional(TrafficRoute),
     testTrafficRoute: S.optional(TrafficRoute),
   }),
-).annotate({
-  identifier: "TargetGroupPairInfo",
-}) as any as S.Schema<TargetGroupPairInfo>;
+).annotate({ identifier: "TargetGroupPairInfo" }) as any as S.Schema<TargetGroupPairInfo>;
 export type TargetGroupPairInfoList = TargetGroupPairInfo[];
 export const TargetGroupPairInfoList = /*@__PURE__*/ S.Array(TargetGroupPairInfo);
 export interface LoadBalancerInfo {
@@ -1093,9 +1065,7 @@ export const LoadBalancerInfo = /*@__PURE__*/ S.suspend(() =>
     targetGroupInfoList: S.optional(TargetGroupInfoList),
     targetGroupPairInfoList: S.optional(TargetGroupPairInfoList),
   }),
-).annotate({
-  identifier: "LoadBalancerInfo",
-}) as any as S.Schema<LoadBalancerInfo>;
+).annotate({ identifier: "LoadBalancerInfo" }) as any as S.Schema<LoadBalancerInfo>;
 export type DeploymentId = string;
 export type DeploymentStatus =
   | "Created"
@@ -1122,9 +1092,7 @@ export const LastDeploymentInfo = /*@__PURE__*/ S.suspend(() =>
     endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     createTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
-).annotate({
-  identifier: "LastDeploymentInfo",
-}) as any as S.Schema<LastDeploymentInfo>;
+).annotate({ identifier: "LastDeploymentInfo" }) as any as S.Schema<LastDeploymentInfo>;
 export type EC2TagSetList = EC2TagFilter[][];
 export const EC2TagSetList = /*@__PURE__*/ S.Array(EC2TagFilterList);
 export interface EC2TagSet {
@@ -1140,9 +1108,7 @@ export interface OnPremisesTagSet {
 }
 export const OnPremisesTagSet = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ onPremisesTagSetList: S.optional(OnPremisesTagSetList) }),
-).annotate({
-  identifier: "OnPremisesTagSet",
-}) as any as S.Schema<OnPremisesTagSet>;
+).annotate({ identifier: "OnPremisesTagSet" }) as any as S.Schema<OnPremisesTagSet>;
 export type ECSServiceName = string;
 export type ECSClusterName = string;
 export interface ECSService {
@@ -1150,10 +1116,7 @@ export interface ECSService {
   clusterName?: string;
 }
 export const ECSService = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    serviceName: S.optional(S.String),
-    clusterName: S.optional(S.String),
-  }),
+  S.Struct({ serviceName: S.optional(S.String), clusterName: S.optional(S.String) }),
 ).annotate({ identifier: "ECSService" }) as any as S.Schema<ECSService>;
 export type ECSServiceList = ECSService[];
 export const ECSServiceList = /*@__PURE__*/ S.Array(ECSService);
@@ -1208,9 +1171,7 @@ export const DeploymentGroupInfo = /*@__PURE__*/ S.suspend(() =>
     ecsServices: S.optional(ECSServiceList),
     terminationHookEnabled: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "DeploymentGroupInfo",
-}) as any as S.Schema<DeploymentGroupInfo>;
+).annotate({ identifier: "DeploymentGroupInfo" }) as any as S.Schema<DeploymentGroupInfo>;
 export type DeploymentGroupInfoList = DeploymentGroupInfo[];
 export const DeploymentGroupInfoList = /*@__PURE__*/ S.Array(DeploymentGroupInfo);
 export interface BatchGetDeploymentGroupsOutput {
@@ -1326,9 +1287,7 @@ export const InstanceSummary = /*@__PURE__*/ S.suspend(() =>
     lifecycleEvents: S.optional(LifecycleEventList),
     instanceType: S.optional(InstanceType),
   }),
-).annotate({
-  identifier: "InstanceSummary",
-}) as any as S.Schema<InstanceSummary>;
+).annotate({ identifier: "InstanceSummary" }) as any as S.Schema<InstanceSummary>;
 export type InstanceSummaryList = InstanceSummary[];
 export const InstanceSummaryList = /*@__PURE__*/ S.Array(InstanceSummary);
 export interface BatchGetDeploymentInstancesOutput {
@@ -1352,9 +1311,7 @@ export const BatchGetDeploymentsInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ deploymentIds: DeploymentsList }).pipe(
     T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "BatchGetDeploymentsInput",
-}) as any as S.Schema<BatchGetDeploymentsInput>;
+).annotate({ identifier: "BatchGetDeploymentsInput" }) as any as S.Schema<BatchGetDeploymentsInput>;
 export type ErrorCode =
   | "AGENT_ISSUE"
   | "ALARM_ACTIVE"
@@ -1399,9 +1356,7 @@ export interface ErrorInformation {
 }
 export const ErrorInformation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ code: S.optional(ErrorCode), message: S.optional(S.String) }),
-).annotate({
-  identifier: "ErrorInformation",
-}) as any as S.Schema<ErrorInformation>;
+).annotate({ identifier: "ErrorInformation" }) as any as S.Schema<ErrorInformation>;
 export type InstanceCount = number;
 export interface DeploymentOverview {
   Pending?: number;
@@ -1420,9 +1375,7 @@ export const DeploymentOverview = /*@__PURE__*/ S.suspend(() =>
     Skipped: S.optional(S.Number),
     Ready: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "DeploymentOverview",
-}) as any as S.Schema<DeploymentOverview>;
+).annotate({ identifier: "DeploymentOverview" }) as any as S.Schema<DeploymentOverview>;
 export type DeploymentCreator =
   | "user"
   | "autoscaling"
@@ -1460,12 +1413,13 @@ export const TargetInstances = /*@__PURE__*/ S.suspend(() =>
     autoScalingGroups: S.optional(AutoScalingGroupNameList),
     ec2TagSet: S.optional(EC2TagSet),
   }),
-).annotate({
-  identifier: "TargetInstances",
-}) as any as S.Schema<TargetInstances>;
+).annotate({ identifier: "TargetInstances" }) as any as S.Schema<TargetInstances>;
 export type AdditionalDeploymentStatusInfo = string;
 export type FileExistsBehavior = "DISALLOW" | "OVERWRITE" | "RETAIN" | (string & {});
 export const FileExistsBehavior = S.String;
+
+export type DeploymentMode = "STANDARD" | "RESTART" | (string & {});
+export const DeploymentMode = S.String;
 
 export type DeploymentStatusMessageList = string[];
 export const DeploymentStatusMessageList = /*@__PURE__*/ S.Array(S.String);
@@ -1479,9 +1433,7 @@ export const RelatedDeployments = /*@__PURE__*/ S.suspend(() =>
     autoUpdateOutdatedInstancesRootDeploymentId: S.optional(S.String),
     autoUpdateOutdatedInstancesDeploymentIds: S.optional(DeploymentsList),
   }),
-).annotate({
-  identifier: "RelatedDeployments",
-}) as any as S.Schema<RelatedDeployments>;
+).annotate({ identifier: "RelatedDeployments" }) as any as S.Schema<RelatedDeployments>;
 export interface DeploymentInfo {
   applicationName?: string;
   deploymentGroupName?: string;
@@ -1508,6 +1460,7 @@ export interface DeploymentInfo {
   loadBalancerInfo?: LoadBalancerInfo;
   additionalDeploymentStatusInfo?: string;
   fileExistsBehavior?: FileExistsBehavior;
+  deploymentMode?: DeploymentMode;
   deploymentStatusMessages?: string[];
   computePlatform?: ComputePlatform;
   externalId?: string;
@@ -1541,6 +1494,7 @@ export const DeploymentInfo = /*@__PURE__*/ S.suspend(() =>
     loadBalancerInfo: S.optional(LoadBalancerInfo),
     additionalDeploymentStatusInfo: S.optional(S.String),
     fileExistsBehavior: S.optional(FileExistsBehavior),
+    deploymentMode: S.optional(DeploymentMode),
     deploymentStatusMessages: S.optional(DeploymentStatusMessageList),
     computePlatform: S.optional(ComputePlatform),
     externalId: S.optional(S.String),
@@ -1634,9 +1588,7 @@ export const LambdaFunctionInfo = /*@__PURE__*/ S.suspend(() =>
     targetVersion: S.optional(S.String),
     targetVersionWeight: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "LambdaFunctionInfo",
-}) as any as S.Schema<LambdaFunctionInfo>;
+).annotate({ identifier: "LambdaFunctionInfo" }) as any as S.Schema<LambdaFunctionInfo>;
 export interface LambdaTarget {
   deploymentId?: string;
   targetId?: string;
@@ -1724,9 +1676,7 @@ export const CloudFormationTarget = /*@__PURE__*/ S.suspend(() =>
     resourceType: S.optional(S.String),
     targetVersionWeight: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "CloudFormationTarget",
-}) as any as S.Schema<CloudFormationTarget>;
+).annotate({ identifier: "CloudFormationTarget" }) as any as S.Schema<CloudFormationTarget>;
 export interface DeploymentTarget {
   deploymentTargetType?: DeploymentTargetType;
   instanceTarget?: InstanceTarget;
@@ -1742,9 +1692,7 @@ export const DeploymentTarget = /*@__PURE__*/ S.suspend(() =>
     ecsTarget: S.optional(ECSTarget),
     cloudFormationTarget: S.optional(CloudFormationTarget),
   }),
-).annotate({
-  identifier: "DeploymentTarget",
-}) as any as S.Schema<DeploymentTarget>;
+).annotate({ identifier: "DeploymentTarget" }) as any as S.Schema<DeploymentTarget>;
 export type DeploymentTargetList = DeploymentTarget[];
 export const DeploymentTargetList = /*@__PURE__*/ S.Array(DeploymentTarget);
 export interface BatchGetDeploymentTargetsOutput {
@@ -1810,9 +1758,7 @@ export const ContinueDeploymentInput = /*@__PURE__*/ S.suspend(() =>
     deploymentId: S.optional(S.String),
     deploymentWaitType: S.optional(DeploymentWaitType),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ContinueDeploymentInput",
-}) as any as S.Schema<ContinueDeploymentInput>;
+).annotate({ identifier: "ContinueDeploymentInput" }) as any as S.Schema<ContinueDeploymentInput>;
 export interface ContinueDeploymentResponse {}
 export const ContinueDeploymentResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(ns),
@@ -1830,20 +1776,13 @@ export const CreateApplicationInput = /*@__PURE__*/ S.suspend(() =>
     computePlatform: S.optional(ComputePlatform),
     tags: S.optional(TagList),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateApplicationInput",
-}) as any as S.Schema<CreateApplicationInput>;
+).annotate({ identifier: "CreateApplicationInput" }) as any as S.Schema<CreateApplicationInput>;
 export interface CreateApplicationOutput {
   applicationId?: string;
 }
 export const CreateApplicationOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ applicationId: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "CreateApplicationOutput",
-}) as any as S.Schema<CreateApplicationOutput>;
-export type DeploymentMode = "STANDARD" | "RESTART" | (string & {});
-export const DeploymentMode = S.String;
-
+).annotate({ identifier: "CreateApplicationOutput" }) as any as S.Schema<CreateApplicationOutput>;
 export interface CreateDeploymentInput {
   applicationName: string;
   deploymentGroupName?: string;
@@ -1873,17 +1812,13 @@ export const CreateDeploymentInput = /*@__PURE__*/ S.suspend(() =>
     deploymentMode: S.optional(DeploymentMode),
     overrideAlarmConfiguration: S.optional(AlarmConfiguration),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateDeploymentInput",
-}) as any as S.Schema<CreateDeploymentInput>;
+).annotate({ identifier: "CreateDeploymentInput" }) as any as S.Schema<CreateDeploymentInput>;
 export interface CreateDeploymentOutput {
   deploymentId?: string;
 }
 export const CreateDeploymentOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ deploymentId: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "CreateDeploymentOutput",
-}) as any as S.Schema<CreateDeploymentOutput>;
+).annotate({ identifier: "CreateDeploymentOutput" }) as any as S.Schema<CreateDeploymentOutput>;
 export type MinimumHealthyHostsType = "HOST_COUNT" | "FLEET_PERCENT" | (string & {});
 export const MinimumHealthyHostsType = S.String;
 
@@ -1893,13 +1828,8 @@ export interface MinimumHealthyHosts {
   value?: number;
 }
 export const MinimumHealthyHosts = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.optional(MinimumHealthyHostsType),
-    value: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "MinimumHealthyHosts",
-}) as any as S.Schema<MinimumHealthyHosts>;
+  S.Struct({ type: S.optional(MinimumHealthyHostsType), value: S.optional(S.Number) }),
+).annotate({ identifier: "MinimumHealthyHosts" }) as any as S.Schema<MinimumHealthyHosts>;
 export type TrafficRoutingType =
   | "TimeBasedCanary"
   | "TimeBasedLinear"
@@ -1914,25 +1844,15 @@ export interface TimeBasedCanary {
   canaryInterval?: number;
 }
 export const TimeBasedCanary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    canaryPercentage: S.optional(S.Number),
-    canaryInterval: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "TimeBasedCanary",
-}) as any as S.Schema<TimeBasedCanary>;
+  S.Struct({ canaryPercentage: S.optional(S.Number), canaryInterval: S.optional(S.Number) }),
+).annotate({ identifier: "TimeBasedCanary" }) as any as S.Schema<TimeBasedCanary>;
 export interface TimeBasedLinear {
   linearPercentage?: number;
   linearInterval?: number;
 }
 export const TimeBasedLinear = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    linearPercentage: S.optional(S.Number),
-    linearInterval: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "TimeBasedLinear",
-}) as any as S.Schema<TimeBasedLinear>;
+  S.Struct({ linearPercentage: S.optional(S.Number), linearInterval: S.optional(S.Number) }),
+).annotate({ identifier: "TimeBasedLinear" }) as any as S.Schema<TimeBasedLinear>;
 export interface TrafficRoutingConfig {
   type?: TrafficRoutingType;
   timeBasedCanary?: TimeBasedCanary;
@@ -1944,9 +1864,7 @@ export const TrafficRoutingConfig = /*@__PURE__*/ S.suspend(() =>
     timeBasedCanary: S.optional(TimeBasedCanary),
     timeBasedLinear: S.optional(TimeBasedLinear),
   }),
-).annotate({
-  identifier: "TrafficRoutingConfig",
-}) as any as S.Schema<TrafficRoutingConfig>;
+).annotate({ identifier: "TrafficRoutingConfig" }) as any as S.Schema<TrafficRoutingConfig>;
 export type WaitTimeInSeconds = number;
 export type MinimumHealthyHostsPerZoneType = "HOST_COUNT" | "FLEET_PERCENT" | (string & {});
 export const MinimumHealthyHostsPerZoneType = S.String;
@@ -1957,10 +1875,7 @@ export interface MinimumHealthyHostsPerZone {
   value?: number;
 }
 export const MinimumHealthyHostsPerZone = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.optional(MinimumHealthyHostsPerZoneType),
-    value: S.optional(S.Number),
-  }),
+  S.Struct({ type: S.optional(MinimumHealthyHostsPerZoneType), value: S.optional(S.Number) }),
 ).annotate({
   identifier: "MinimumHealthyHostsPerZone",
 }) as any as S.Schema<MinimumHealthyHostsPerZone>;
@@ -2064,9 +1979,7 @@ export const DeleteApplicationInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ applicationName: S.String }).pipe(
     T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteApplicationInput",
-}) as any as S.Schema<DeleteApplicationInput>;
+).annotate({ identifier: "DeleteApplicationInput" }) as any as S.Schema<DeleteApplicationInput>;
 export interface DeleteApplicationResponse {}
 export const DeleteApplicationResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(ns),
@@ -2165,17 +2078,13 @@ export const GetApplicationInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ applicationName: S.String }).pipe(
     T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetApplicationInput",
-}) as any as S.Schema<GetApplicationInput>;
+).annotate({ identifier: "GetApplicationInput" }) as any as S.Schema<GetApplicationInput>;
 export interface GetApplicationOutput {
   application?: ApplicationInfo;
 }
 export const GetApplicationOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ application: S.optional(ApplicationInfo) }).pipe(ns),
-).annotate({
-  identifier: "GetApplicationOutput",
-}) as any as S.Schema<GetApplicationOutput>;
+).annotate({ identifier: "GetApplicationOutput" }) as any as S.Schema<GetApplicationOutput>;
 export interface GetApplicationRevisionInput {
   applicationName: string;
   revision: RevisionLocation;
@@ -2208,17 +2117,13 @@ export const GetDeploymentInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ deploymentId: S.String }).pipe(
     T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetDeploymentInput",
-}) as any as S.Schema<GetDeploymentInput>;
+).annotate({ identifier: "GetDeploymentInput" }) as any as S.Schema<GetDeploymentInput>;
 export interface GetDeploymentOutput {
   deploymentInfo?: DeploymentInfo;
 }
 export const GetDeploymentOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ deploymentInfo: S.optional(DeploymentInfo) }).pipe(ns),
-).annotate({
-  identifier: "GetDeploymentOutput",
-}) as any as S.Schema<GetDeploymentOutput>;
+).annotate({ identifier: "GetDeploymentOutput" }) as any as S.Schema<GetDeploymentOutput>;
 export interface GetDeploymentConfigInput {
   deploymentConfigName: string;
 }
@@ -2226,9 +2131,7 @@ export const GetDeploymentConfigInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ deploymentConfigName: S.String }).pipe(
     T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetDeploymentConfigInput",
-}) as any as S.Schema<GetDeploymentConfigInput>;
+).annotate({ identifier: "GetDeploymentConfigInput" }) as any as S.Schema<GetDeploymentConfigInput>;
 export interface DeploymentConfigInfo {
   deploymentConfigId?: string;
   deploymentConfigName?: string;
@@ -2248,9 +2151,7 @@ export const DeploymentConfigInfo = /*@__PURE__*/ S.suspend(() =>
     trafficRoutingConfig: S.optional(TrafficRoutingConfig),
     zonalConfig: S.optional(ZonalConfig),
   }),
-).annotate({
-  identifier: "DeploymentConfigInfo",
-}) as any as S.Schema<DeploymentConfigInfo>;
+).annotate({ identifier: "DeploymentConfigInfo" }) as any as S.Schema<DeploymentConfigInfo>;
 export interface GetDeploymentConfigOutput {
   deploymentConfigInfo?: DeploymentConfigInfo;
 }
@@ -2267,17 +2168,13 @@ export const GetDeploymentGroupInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ applicationName: S.String, deploymentGroupName: S.String }).pipe(
     T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetDeploymentGroupInput",
-}) as any as S.Schema<GetDeploymentGroupInput>;
+).annotate({ identifier: "GetDeploymentGroupInput" }) as any as S.Schema<GetDeploymentGroupInput>;
 export interface GetDeploymentGroupOutput {
   deploymentGroupInfo?: DeploymentGroupInfo;
 }
 export const GetDeploymentGroupOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ deploymentGroupInfo: S.optional(DeploymentGroupInfo) }).pipe(ns),
-).annotate({
-  identifier: "GetDeploymentGroupOutput",
-}) as any as S.Schema<GetDeploymentGroupOutput>;
+).annotate({ identifier: "GetDeploymentGroupOutput" }) as any as S.Schema<GetDeploymentGroupOutput>;
 export interface GetDeploymentInstanceInput {
   deploymentId: string;
   instanceId: string;
@@ -2305,9 +2202,7 @@ export const GetDeploymentTargetInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ deploymentId: S.String, targetId: S.String }).pipe(
     T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetDeploymentTargetInput",
-}) as any as S.Schema<GetDeploymentTargetInput>;
+).annotate({ identifier: "GetDeploymentTargetInput" }) as any as S.Schema<GetDeploymentTargetInput>;
 export interface GetDeploymentTargetOutput {
   deploymentTarget?: DeploymentTarget;
 }
@@ -2375,10 +2270,9 @@ export interface ListApplicationRevisionsOutput {
   nextToken?: string;
 }
 export const ListApplicationRevisionsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    revisions: S.optional(RevisionLocationList),
-    nextToken: S.optional(S.String),
-  }).pipe(ns),
+  S.Struct({ revisions: S.optional(RevisionLocationList), nextToken: S.optional(S.String) }).pipe(
+    ns,
+  ),
 ).annotate({
   identifier: "ListApplicationRevisionsOutput",
 }) as any as S.Schema<ListApplicationRevisionsOutput>;
@@ -2389,21 +2283,16 @@ export const ListApplicationsInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ nextToken: S.optional(S.String) }).pipe(
     T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "ListApplicationsInput",
-}) as any as S.Schema<ListApplicationsInput>;
+).annotate({ identifier: "ListApplicationsInput" }) as any as S.Schema<ListApplicationsInput>;
 export interface ListApplicationsOutput {
   applications?: string[];
   nextToken?: string;
 }
 export const ListApplicationsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    applications: S.optional(ApplicationsList),
-    nextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListApplicationsOutput",
-}) as any as S.Schema<ListApplicationsOutput>;
+  S.Struct({ applications: S.optional(ApplicationsList), nextToken: S.optional(S.String) }).pipe(
+    ns,
+  ),
+).annotate({ identifier: "ListApplicationsOutput" }) as any as S.Schema<ListApplicationsOutput>;
 export interface ListDeploymentConfigsInput {
   nextToken?: string;
 }
@@ -2478,10 +2367,7 @@ export interface ListDeploymentInstancesOutput {
   nextToken?: string;
 }
 export const ListDeploymentInstancesOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    instancesList: S.optional(InstancesList),
-    nextToken: S.optional(S.String),
-  }).pipe(ns),
+  S.Struct({ instancesList: S.optional(InstancesList), nextToken: S.optional(S.String) }).pipe(ns),
 ).annotate({
   identifier: "ListDeploymentInstancesOutput",
 }) as any as S.Schema<ListDeploymentInstancesOutput>;
@@ -2514,21 +2400,14 @@ export const ListDeploymentsInput = /*@__PURE__*/ S.suspend(() =>
     createTimeRange: S.optional(TimeRange),
     nextToken: S.optional(S.String),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListDeploymentsInput",
-}) as any as S.Schema<ListDeploymentsInput>;
+).annotate({ identifier: "ListDeploymentsInput" }) as any as S.Schema<ListDeploymentsInput>;
 export interface ListDeploymentsOutput {
   deployments?: string[];
   nextToken?: string;
 }
 export const ListDeploymentsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    deployments: S.optional(DeploymentsList),
-    nextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListDeploymentsOutput",
-}) as any as S.Schema<ListDeploymentsOutput>;
+  S.Struct({ deployments: S.optional(DeploymentsList), nextToken: S.optional(S.String) }).pipe(ns),
+).annotate({ identifier: "ListDeploymentsOutput" }) as any as S.Schema<ListDeploymentsOutput>;
 export type TargetFilterName = "TargetStatus" | "ServerInstanceLabel" | (string & {});
 export const TargetFilterName = S.String;
 
@@ -2559,10 +2438,7 @@ export interface ListDeploymentTargetsOutput {
   nextToken?: string;
 }
 export const ListDeploymentTargetsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    targetIds: S.optional(TargetIdList),
-    nextToken: S.optional(S.String),
-  }).pipe(ns),
+  S.Struct({ targetIds: S.optional(TargetIdList), nextToken: S.optional(S.String) }).pipe(ns),
 ).annotate({
   identifier: "ListDeploymentTargetsOutput",
 }) as any as S.Schema<ListDeploymentTargetsOutput>;
@@ -2612,10 +2488,9 @@ export interface ListOnPremisesInstancesOutput {
   nextToken?: string;
 }
 export const ListOnPremisesInstancesOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    instanceNames: S.optional(InstanceNameList),
-    nextToken: S.optional(S.String),
-  }).pipe(ns),
+  S.Struct({ instanceNames: S.optional(InstanceNameList), nextToken: S.optional(S.String) }).pipe(
+    ns,
+  ),
 ).annotate({
   identifier: "ListOnPremisesInstancesOutput",
 }) as any as S.Schema<ListOnPremisesInstancesOutput>;
@@ -2628,9 +2503,7 @@ export const ListTagsForResourceInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceArn: S.String, NextToken: S.optional(S.String) }).pipe(
     T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "ListTagsForResourceInput",
-}) as any as S.Schema<ListTagsForResourceInput>;
+).annotate({ identifier: "ListTagsForResourceInput" }) as any as S.Schema<ListTagsForResourceInput>;
 export interface ListTagsForResourceOutput {
   Tags?: Tag[];
   NextToken?: string;
@@ -2741,13 +2614,10 @@ export interface StopDeploymentInput {
   autoRollbackEnabled?: boolean;
 }
 export const StopDeploymentInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    deploymentId: S.String,
-    autoRollbackEnabled: S.optional(S.Boolean),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "StopDeploymentInput",
-}) as any as S.Schema<StopDeploymentInput>;
+  S.Struct({ deploymentId: S.String, autoRollbackEnabled: S.optional(S.Boolean) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({ identifier: "StopDeploymentInput" }) as any as S.Schema<StopDeploymentInput>;
 export type StopStatus = "Pending" | "Succeeded" | (string & {});
 export const StopStatus = S.String;
 
@@ -2757,13 +2627,8 @@ export interface StopDeploymentOutput {
   statusMessage?: string;
 }
 export const StopDeploymentOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    status: S.optional(StopStatus),
-    statusMessage: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "StopDeploymentOutput",
-}) as any as S.Schema<StopDeploymentOutput>;
+  S.Struct({ status: S.optional(StopStatus), statusMessage: S.optional(S.String) }).pipe(ns),
+).annotate({ identifier: "StopDeploymentOutput" }) as any as S.Schema<StopDeploymentOutput>;
 export interface TagResourceInput {
   ResourceArn: string;
   Tags: Tag[];
@@ -2772,9 +2637,7 @@ export const TagResourceInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceArn: S.String, Tags: TagList }).pipe(
     T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "TagResourceInput",
-}) as any as S.Schema<TagResourceInput>;
+).annotate({ identifier: "TagResourceInput" }) as any as S.Schema<TagResourceInput>;
 export interface TagResourceOutput {}
 export const TagResourceOutput = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "TagResourceOutput",
@@ -2789,9 +2652,7 @@ export const UntagResourceInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceArn: S.String, TagKeys: TagKeyList }).pipe(
     T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UntagResourceInput",
-}) as any as S.Schema<UntagResourceInput>;
+).annotate({ identifier: "UntagResourceInput" }) as any as S.Schema<UntagResourceInput>;
 export interface UntagResourceOutput {}
 export const UntagResourceOutput = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "UntagResourceOutput",
@@ -2805,9 +2666,7 @@ export const UpdateApplicationInput = /*@__PURE__*/ S.suspend(() =>
     applicationName: S.optional(S.String),
     newApplicationName: S.optional(S.String),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "UpdateApplicationInput",
-}) as any as S.Schema<UpdateApplicationInput>;
+).annotate({ identifier: "UpdateApplicationInput" }) as any as S.Schema<UpdateApplicationInput>;
 export interface UpdateApplicationResponse {}
 export const UpdateApplicationResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(ns),
@@ -3865,11 +3724,7 @@ export const listApplicationRevisions: API.PaginatedOperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListApplicationRevisions",
-  pagination: {
-    inputToken: "nextToken",
-    outputToken: "nextToken",
-    items: "revisions",
-  } as const,
+  pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "revisions" } as const,
 })) as any;
 
 export type ListApplicationsError = InvalidNextTokenException | CommonErrors;
@@ -3889,11 +3744,7 @@ export const listApplications: API.PaginatedOperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListApplications",
-  pagination: {
-    inputToken: "nextToken",
-    outputToken: "nextToken",
-    items: "applications",
-  } as const,
+  pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "applications" } as const,
 })) as any;
 
 export type ListDeploymentConfigsError = InvalidNextTokenException | CommonErrors;
@@ -4052,11 +3903,7 @@ export const listDeployments: API.PaginatedOperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDeployments",
-  pagination: {
-    inputToken: "nextToken",
-    outputToken: "nextToken",
-    items: "deployments",
-  } as const,
+  pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "deployments" } as const,
 })) as any;
 
 export type ListDeploymentTargetsError =

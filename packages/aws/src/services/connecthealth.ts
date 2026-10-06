@@ -10,10 +10,7 @@ import { AwsProtocol } from "../protocol.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
-const svc = T.AwsApiService({
-  sdkId: "ConnectHealth",
-  serviceShapeName: "ConnectHealth",
-});
+const svc = T.AwsApiService({ sdkId: "ConnectHealth", serviceShapeName: "ConnectHealth" });
 const auth = T.AwsAuthSigv4({ name: "health-agent" });
 const ver = T.ServiceVersion("2025-01-29");
 const proto = T.AwsProtocolsRestJson1();
@@ -144,9 +141,7 @@ export const SubscriptionDescription = /*@__PURE__*/ S.suspend(() =>
     activatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     deactivatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
-).annotate({
-  identifier: "SubscriptionDescription",
-}) as any as S.Schema<SubscriptionDescription>;
+).annotate({ identifier: "SubscriptionDescription" }) as any as S.Schema<SubscriptionDescription>;
 export interface ActivateSubscriptionOutput {
   subscription?: SubscriptionDescription;
 }
@@ -184,9 +179,7 @@ export const CreateDomainInput = /*@__PURE__*/ S.suspend(() =>
     webAppSetupConfiguration: S.optional(CreateWebAppConfiguration),
     tags: S.optional(TagMap),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/domain" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateDomainInput",
-}) as any as S.Schema<CreateDomainInput>;
+).annotate({ identifier: "CreateDomainInput" }) as any as S.Schema<CreateDomainInput>;
 export type DomainArn = string;
 export type EncryptionType = "AWS_OWNED_KEY" | "CUSTOMER_MANAGED_KEY" | (string & {});
 export const EncryptionType = S.String;
@@ -197,9 +190,7 @@ export interface EncryptionContext {
 }
 export const EncryptionContext = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ encryptionType: EncryptionType, kmsKeyArn: S.optional(S.String) }),
-).annotate({
-  identifier: "EncryptionContext",
-}) as any as S.Schema<EncryptionContext>;
+).annotate({ identifier: "EncryptionContext" }) as any as S.Schema<EncryptionContext>;
 export type DomainStatus = "ACTIVE" | "DELETING" | "DELETED" | (string & {});
 export const DomainStatus = S.String;
 
@@ -210,14 +201,8 @@ export interface WebAppConfiguration {
   idcRegion: string;
 }
 export const WebAppConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ehrRole: S.String,
-    idcApplicationId: S.String,
-    idcRegion: S.String,
-  }),
-).annotate({
-  identifier: "WebAppConfiguration",
-}) as any as S.Schema<WebAppConfiguration>;
+  S.Struct({ ehrRole: S.String, idcApplicationId: S.String, idcRegion: S.String }),
+).annotate({ identifier: "WebAppConfiguration" }) as any as S.Schema<WebAppConfiguration>;
 export interface CreateDomainOutput {
   domainId: string;
   arn: string;
@@ -241,9 +226,7 @@ export const CreateDomainOutput = /*@__PURE__*/ S.suspend(() =>
     webAppConfiguration: S.optional(WebAppConfiguration),
     createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
   }),
-).annotate({
-  identifier: "CreateDomainOutput",
-}) as any as S.Schema<CreateDomainOutput>;
+).annotate({ identifier: "CreateDomainOutput" }) as any as S.Schema<CreateDomainOutput>;
 export interface CreateSubscriptionInput {
   domainId: string;
 }
@@ -258,9 +241,7 @@ export const CreateSubscriptionInput = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "CreateSubscriptionInput",
-}) as any as S.Schema<CreateSubscriptionInput>;
+).annotate({ identifier: "CreateSubscriptionInput" }) as any as S.Schema<CreateSubscriptionInput>;
 export interface CreateSubscriptionOutput {
   domainId: string;
   subscriptionId: string;
@@ -282,9 +263,7 @@ export const CreateSubscriptionOutput = /*@__PURE__*/ S.suspend(() =>
     activatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     deactivatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
-).annotate({
-  identifier: "CreateSubscriptionOutput",
-}) as any as S.Schema<CreateSubscriptionOutput>;
+).annotate({ identifier: "CreateSubscriptionOutput" }) as any as S.Schema<CreateSubscriptionOutput>;
 export interface DeactivateSubscriptionInput {
   domainId: string;
   subscriptionId: string;
@@ -324,9 +303,7 @@ export const DeleteDomainInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ domainId: S.String.pipe(T.HttpLabel("domainId")) }).pipe(
     T.all(T.Http({ method: "DELETE", uri: "/domain/{domainId}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteDomainInput",
-}) as any as S.Schema<DeleteDomainInput>;
+).annotate({ identifier: "DeleteDomainInput" }) as any as S.Schema<DeleteDomainInput>;
 export interface DeleteDomainOutput {
   domainId: string;
   arn: string;
@@ -334,9 +311,7 @@ export interface DeleteDomainOutput {
 }
 export const DeleteDomainOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ domainId: S.String, arn: S.String, status: DomainStatus }),
-).annotate({
-  identifier: "DeleteDomainOutput",
-}) as any as S.Schema<DeleteDomainOutput>;
+).annotate({ identifier: "DeleteDomainOutput" }) as any as S.Schema<DeleteDomainOutput>;
 export interface GetDomainInput {
   domainId: string;
 }
@@ -370,9 +345,7 @@ export const GetDomainOutput = /*@__PURE__*/ S.suspend(() =>
     createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     tags: S.optional(TagMap),
   }),
-).annotate({
-  identifier: "GetDomainOutput",
-}) as any as S.Schema<GetDomainOutput>;
+).annotate({ identifier: "GetDomainOutput" }) as any as S.Schema<GetDomainOutput>;
 export type ScribeSessionId = string;
 export interface GetMedicalScribeListeningSessionInput {
   sessionId: string;
@@ -400,7 +373,7 @@ export const GetMedicalScribeListeningSessionInput = /*@__PURE__*/ S.suspend(() 
 ).annotate({
   identifier: "GetMedicalScribeListeningSessionInput",
 }) as any as S.Schema<GetMedicalScribeListeningSessionInput>;
-export type MedicalScribeLanguageCode = "en-US" | (string & {});
+export type MedicalScribeLanguageCode = "en-US" | "multi" | (string & {});
 export const MedicalScribeLanguageCode = S.String;
 
 export type MedicalScribeMediaSampleRateHertz = number;
@@ -416,10 +389,7 @@ export interface MedicalScribeChannelDefinition {
   participantRole: MedicalScribeParticipantRole;
 }
 export const MedicalScribeChannelDefinition = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    channelId: S.Number,
-    participantRole: MedicalScribeParticipantRole,
-  }),
+  S.Struct({ channelId: S.Number, participantRole: MedicalScribeParticipantRole }),
 ).annotate({
   identifier: "MedicalScribeChannelDefinition",
 }) as any as S.Schema<MedicalScribeChannelDefinition>;
@@ -444,9 +414,7 @@ export interface ManagedTemplateResponse {
 }
 export const ManagedTemplateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ templateType: S.optional(ManagedNoteTemplate) }),
-).annotate({
-  identifier: "ManagedTemplateResponse",
-}) as any as S.Schema<ManagedTemplateResponse>;
+).annotate({ identifier: "ManagedTemplateResponse" }) as any as S.Schema<ManagedTemplateResponse>;
 export type CustomTemplateBase =
   | "HISTORY_AND_PHYSICAL"
   | "GIRPP"
@@ -462,9 +430,7 @@ export interface CustomTemplateResponse {
 }
 export const CustomTemplateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ templateType: S.optional(CustomTemplateBase) }),
-).annotate({
-  identifier: "CustomTemplateResponse",
-}) as any as S.Schema<CustomTemplateResponse>;
+).annotate({ identifier: "CustomTemplateResponse" }) as any as S.Schema<CustomTemplateResponse>;
 export type NoteTemplateSettingsResponse =
   | { managedTemplate: ManagedTemplateResponse; customTemplate?: never }
   | { managedTemplate?: never; customTemplate: CustomTemplateResponse };
@@ -476,9 +442,7 @@ export interface ClinicalNoteGenerationSettingsResponse {
   noteTemplateSettings?: NoteTemplateSettingsResponse;
 }
 export const ClinicalNoteGenerationSettingsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    noteTemplateSettings: S.optional(NoteTemplateSettingsResponse),
-  }),
+  S.Struct({ noteTemplateSettings: S.optional(NoteTemplateSettingsResponse) }),
 ).annotate({
   identifier: "ClinicalNoteGenerationSettingsResponse",
 }) as any as S.Schema<ClinicalNoteGenerationSettingsResponse>;
@@ -514,9 +478,7 @@ export const ArtifactDetails = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(PostStreamArtifactGenerationStatus),
     failureReason: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ArtifactDetails",
-}) as any as S.Schema<ArtifactDetails>;
+).annotate({ identifier: "ArtifactDetails" }) as any as S.Schema<ArtifactDetails>;
 export interface ClinicalNoteGenerationResult {
   noteResult?: ArtifactDetails;
   transcriptResult?: ArtifactDetails;
@@ -535,9 +497,7 @@ export interface MedicalScribePostStreamActionsResult {
   clinicalNoteGenerationResult?: ClinicalNoteGenerationResult;
 }
 export const MedicalScribePostStreamActionsResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    clinicalNoteGenerationResult: S.optional(ClinicalNoteGenerationResult),
-  }),
+  S.Struct({ clinicalNoteGenerationResult: S.optional(ClinicalNoteGenerationResult) }),
 ).annotate({
   identifier: "MedicalScribePostStreamActionsResult",
 }) as any as S.Schema<MedicalScribePostStreamActionsResult>;
@@ -605,10 +565,7 @@ export const GetPatientInsightsJobRequest = /*@__PURE__*/ S.suspend(() =>
     jobId: S.String.pipe(T.HttpLabel("jobId")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/domain/{domainId}/patient-insights-job/{jobId}",
-      }),
+      T.Http({ method: "GET", uri: "/domain/{domainId}/patient-insights-job/{jobId}" }),
       svc,
       auth,
       proto,
@@ -657,9 +614,7 @@ export interface InsightsContext {
 }
 export const InsightsContext = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ insightsType: InsightsType }),
-).annotate({
-  identifier: "InsightsContext",
-}) as any as S.Schema<InsightsContext>;
+).annotate({ identifier: "InsightsContext" }) as any as S.Schema<InsightsContext>;
 export interface PatientInsightsEncounterContext {
   encounterReason: string | redacted.Redacted<string>;
 }
@@ -680,11 +635,7 @@ export interface UserContext {
   specialty?: Specialty;
 }
 export const UserContext = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    role: ProviderRole,
-    userId: SensitiveString,
-    specialty: S.optional(Specialty),
-  }),
+  S.Struct({ role: ProviderRole, userId: SensitiveString, specialty: S.optional(Specialty) }),
 ).annotate({ identifier: "UserContext" }) as any as S.Schema<UserContext>;
 export interface FHIRServer {
   fhirEndpoint: string;
@@ -706,21 +657,14 @@ export interface InputDataConfig {
   s3Sources?: S3Source[];
 }
 export const InputDataConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    fhirServer: S.optional(FHIRServer),
-    s3Sources: S.optional(S3Sources),
-  }),
-).annotate({
-  identifier: "InputDataConfig",
-}) as any as S.Schema<InputDataConfig>;
+  S.Struct({ fhirServer: S.optional(FHIRServer), s3Sources: S.optional(S3Sources) }),
+).annotate({ identifier: "InputDataConfig" }) as any as S.Schema<InputDataConfig>;
 export interface OutputDataConfig {
   s3OutputPath: string;
 }
 export const OutputDataConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ s3OutputPath: S.String }),
-).annotate({
-  identifier: "OutputDataConfig",
-}) as any as S.Schema<OutputDataConfig>;
+).annotate({ identifier: "OutputDataConfig" }) as any as S.Schema<OutputDataConfig>;
 export interface GetPatientInsightsJobResponse {
   jobId: string;
   jobArn: string;
@@ -765,10 +709,7 @@ export const GetSubscriptionInput = /*@__PURE__*/ S.suspend(() =>
     subscriptionId: S.String.pipe(T.HttpLabel("subscriptionId")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/domains/{domainId}/subscriptions/{subscriptionId}",
-      }),
+      T.Http({ method: "GET", uri: "/domains/{domainId}/subscriptions/{subscriptionId}" }),
       svc,
       auth,
       proto,
@@ -776,17 +717,13 @@ export const GetSubscriptionInput = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetSubscriptionInput",
-}) as any as S.Schema<GetSubscriptionInput>;
+).annotate({ identifier: "GetSubscriptionInput" }) as any as S.Schema<GetSubscriptionInput>;
 export interface GetSubscriptionOutput {
   subscription?: SubscriptionDescription;
 }
 export const GetSubscriptionOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ subscription: S.optional(SubscriptionDescription) }),
-).annotate({
-  identifier: "GetSubscriptionOutput",
-}) as any as S.Schema<GetSubscriptionOutput>;
+).annotate({ identifier: "GetSubscriptionOutput" }) as any as S.Schema<GetSubscriptionOutput>;
 export interface ListDomainsInput {
   status?: DomainStatus;
   maxResults?: number;
@@ -798,9 +735,7 @@ export const ListDomainsInput = /*@__PURE__*/ S.suspend(() =>
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   }).pipe(T.all(T.Http({ method: "GET", uri: "/domain" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListDomainsInput",
-}) as any as S.Schema<ListDomainsInput>;
+).annotate({ identifier: "ListDomainsInput" }) as any as S.Schema<ListDomainsInput>;
 export interface DomainSummary {
   domainId: string;
   arn: string;
@@ -825,9 +760,7 @@ export interface ListDomainsOutput {
 }
 export const ListDomainsOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ domains: DomainSummaryList, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListDomainsOutput",
-}) as any as S.Schema<ListDomainsOutput>;
+).annotate({ identifier: "ListDomainsOutput" }) as any as S.Schema<ListDomainsOutput>;
 export interface ListSubscriptionsInput {
   domainId: string;
   maxResults?: number;
@@ -848,9 +781,7 @@ export const ListSubscriptionsInput = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "ListSubscriptionsInput",
-}) as any as S.Schema<ListSubscriptionsInput>;
+).annotate({ identifier: "ListSubscriptionsInput" }) as any as S.Schema<ListSubscriptionsInput>;
 export type SubscriptionList = SubscriptionDescription[];
 export const SubscriptionList = /*@__PURE__*/ S.Array(SubscriptionDescription);
 export interface ListSubscriptionsOutput {
@@ -858,13 +789,8 @@ export interface ListSubscriptionsOutput {
   nextToken?: string;
 }
 export const ListSubscriptionsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    subscriptions: SubscriptionList,
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListSubscriptionsOutput",
-}) as any as S.Schema<ListSubscriptionsOutput>;
+  S.Struct({ subscriptions: SubscriptionList, nextToken: S.optional(S.String) }),
+).annotate({ identifier: "ListSubscriptionsOutput" }) as any as S.Schema<ListSubscriptionsOutput>;
 export interface ListTagsForResourceInput {
   resourceArn: string;
 }
@@ -872,9 +798,7 @@ export const ListTagsForResourceInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
     T.all(T.Http({ method: "GET", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "ListTagsForResourceInput",
-}) as any as S.Schema<ListTagsForResourceInput>;
+).annotate({ identifier: "ListTagsForResourceInput" }) as any as S.Schema<ListTagsForResourceInput>;
 export interface ListTagsForResourceOutput {
   tags?: { [key: string]: string | undefined };
 }
@@ -889,9 +813,7 @@ export interface MedicalScribeAudioEvent {
 }
 export const MedicalScribeAudioEvent = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ audioChunk: T.Blob }),
-).annotate({
-  identifier: "MedicalScribeAudioEvent",
-}) as any as S.Schema<MedicalScribeAudioEvent>;
+).annotate({ identifier: "MedicalScribeAudioEvent" }) as any as S.Schema<MedicalScribeAudioEvent>;
 export interface MedicalScribeBinaryAudioEvent {
   audioChunk: Uint8Array;
 }
@@ -916,20 +838,15 @@ export interface ManagedTemplate {
 }
 export const ManagedTemplate = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ templateType: ManagedNoteTemplate }),
-).annotate({
-  identifier: "ManagedTemplate",
-}) as any as S.Schema<ManagedTemplate>;
-export type SensitiveAlphanumericString = string | redacted.Redacted<string>;
+).annotate({ identifier: "ManagedTemplate" }) as any as S.Schema<ManagedTemplate>;
+export type SensitiveSectionHeaderString = string | redacted.Redacted<string>;
 export type SensitiveMarkdownString = string | redacted.Redacted<string>;
 export interface TemplateSectionInstruction {
   sectionHeader: string | redacted.Redacted<string>;
   sectionInstruction: string | redacted.Redacted<string>;
 }
 export const TemplateSectionInstruction = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    sectionHeader: SensitiveString,
-    sectionInstruction: SensitiveString,
-  }),
+  S.Struct({ sectionHeader: SensitiveString, sectionInstruction: SensitiveString }),
 ).annotate({
   identifier: "TemplateSectionInstruction",
 }) as any as S.Schema<TemplateSectionInstruction>;
@@ -940,10 +857,7 @@ export interface CustomTemplate {
   templateInstructions: TemplateSectionInstruction[];
 }
 export const CustomTemplate = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    templateType: CustomTemplateBase,
-    templateInstructions: TemplateInstructions,
-  }),
+  S.Struct({ templateType: CustomTemplateBase, templateInstructions: TemplateInstructions }),
 ).annotate({ identifier: "CustomTemplate" }) as any as S.Schema<CustomTemplate>;
 export type NoteTemplateSettings =
   | { managedTemplate: ManagedTemplate; customTemplate?: never }
@@ -977,9 +891,7 @@ export interface EncounterContext {
 }
 export const EncounterContext = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ unstructuredContext: S.optional(SensitiveString) }),
-).annotate({
-  identifier: "EncounterContext",
-}) as any as S.Schema<EncounterContext>;
+).annotate({ identifier: "EncounterContext" }) as any as S.Schema<EncounterContext>;
 export interface MedicalScribeConfigurationEvent {
   postStreamActionSettings: MedicalScribePostStreamActionSettings;
   channelDefinitions?: MedicalScribeChannelDefinition[];
@@ -1162,10 +1074,7 @@ export const StartPatientInsightsJobRequest = /*@__PURE__*/ S.suspend(() =>
     clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/domain/{domainId}/patient-insights-job",
-      }),
+      T.Http({ method: "POST", uri: "/domain/{domainId}/patient-insights-job" }),
       svc,
       auth,
       proto,
@@ -1195,15 +1104,10 @@ export interface TagResourceInput {
   tags: { [key: string]: string | undefined };
 }
 export const TagResourceInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-    tags: TagMap,
-  }).pipe(
+  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tags: TagMap }).pipe(
     T.all(T.Http({ method: "POST", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "TagResourceInput",
-}) as any as S.Schema<TagResourceInput>;
+).annotate({ identifier: "TagResourceInput" }) as any as S.Schema<TagResourceInput>;
 export interface TagResourceResponse {}
 export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
@@ -1221,9 +1125,7 @@ export const UntagResourceInput = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UntagResourceInput",
-}) as any as S.Schema<UntagResourceInput>;
+).annotate({ identifier: "UntagResourceInput" }) as any as S.Schema<UntagResourceInput>;
 export interface UntagResourceResponse {}
 export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",

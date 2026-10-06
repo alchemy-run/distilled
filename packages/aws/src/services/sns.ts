@@ -10,10 +10,7 @@ import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
 const ns = T.XmlNamespace("http://sns.amazonaws.com/doc/2010-03-31/");
-const svc = T.AwsApiService({
-  sdkId: "SNS",
-  serviceShapeName: "AmazonSimpleNotificationService",
-});
+const svc = T.AwsApiService({ sdkId: "SNS", serviceShapeName: "AmazonSimpleNotificationService" });
 const auth = T.AwsAuthSigv4({ name: "sns" });
 const ver = T.ServiceVersion("2010-03-31");
 const proto = T.AwsProtocolsAwsQuery();
@@ -89,10 +86,7 @@ export class BatchEntryIdsNotDistinctException
     "BatchEntryIdsNotDistinctException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "BatchEntryIdsNotDistinct",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "BatchEntryIdsNotDistinct", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -128,10 +122,7 @@ export class FilterPolicyLimitExceededException
     "FilterPolicyLimitExceededException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "FilterPolicyLimitExceeded",
-        httpResponseCode: 403,
-      }),
+      T.AwsQueryError({ code: "FilterPolicyLimitExceeded", httpResponseCode: 403 }),
       T.HttpError(403),
     ),
   ).pipe(C.withAuthError) {}
@@ -234,10 +225,7 @@ export class PlatformApplicationDisabledException
     "PlatformApplicationDisabledException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "PlatformApplicationDisabled",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "PlatformApplicationDisabled", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -271,10 +259,7 @@ export class SubscriptionLimitExceededException
     "SubscriptionLimitExceededException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "SubscriptionLimitExceeded",
-        httpResponseCode: 403,
-      }),
+      T.AwsQueryError({ code: "SubscriptionLimitExceeded", httpResponseCode: 403 }),
       T.HttpError(403),
     ),
   ).pipe(C.withAuthError) {}
@@ -301,10 +286,7 @@ export class TooManyEntriesInBatchRequestException
     "TooManyEntriesInBatchRequestException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "TooManyEntriesInBatchRequest",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "TooManyEntriesInBatchRequest", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -355,9 +337,7 @@ export const AddPermissionInput = /*@__PURE__*/ S.suspend(() =>
     AWSAccountId: DelegatesList,
     ActionName: ActionsList,
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "AddPermissionInput",
-}) as any as S.Schema<AddPermissionInput>;
+).annotate({ identifier: "AddPermissionInput" }) as any as S.Schema<AddPermissionInput>;
 export interface AddPermissionResponse {}
 export const AddPermissionResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "AddPermissionResponse",
@@ -394,9 +374,7 @@ export const ConfirmSubscriptionInput = /*@__PURE__*/ S.suspend(() =>
     Token: S.String,
     AuthenticateOnUnsubscribe: S.optional(S.String),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ConfirmSubscriptionInput",
-}) as any as S.Schema<ConfirmSubscriptionInput>;
+).annotate({ identifier: "ConfirmSubscriptionInput" }) as any as S.Schema<ConfirmSubscriptionInput>;
 export type SubscriptionARN = string;
 export interface ConfirmSubscriptionResponse {
   SubscriptionArn?: string;
@@ -414,11 +392,9 @@ export interface CreatePlatformApplicationInput {
   Attributes: { [key: string]: string | undefined };
 }
 export const CreatePlatformApplicationInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.String,
-    Platform: S.String,
-    Attributes: MapStringToString,
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+  S.Struct({ Name: S.String, Platform: S.String, Attributes: MapStringToString }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "CreatePlatformApplicationInput",
 }) as any as S.Schema<CreatePlatformApplicationInput>;
@@ -451,9 +427,7 @@ export interface CreateEndpointResponse {
 }
 export const CreateEndpointResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ EndpointArn: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "CreateEndpointResponse",
-}) as any as S.Schema<CreateEndpointResponse>;
+).annotate({ identifier: "CreateEndpointResponse" }) as any as S.Schema<CreateEndpointResponse>;
 export type PhoneNumberString = string | redacted.Redacted<string>;
 export type LanguageCodeString =
   | "en-US"
@@ -477,10 +451,9 @@ export interface CreateSMSSandboxPhoneNumberInput {
   LanguageCode?: LanguageCodeString;
 }
 export const CreateSMSSandboxPhoneNumberInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PhoneNumber: SensitiveString,
-    LanguageCode: S.optional(LanguageCodeString),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+  S.Struct({ PhoneNumber: SensitiveString, LanguageCode: S.optional(LanguageCodeString) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "CreateSMSSandboxPhoneNumberInput",
 }) as any as S.Schema<CreateSMSSandboxPhoneNumberInput>;
@@ -519,17 +492,13 @@ export const CreateTopicInput = /*@__PURE__*/ S.suspend(() =>
     Tags: S.optional(TagList),
     DataProtectionPolicy: S.optional(S.String),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateTopicInput",
-}) as any as S.Schema<CreateTopicInput>;
+).annotate({ identifier: "CreateTopicInput" }) as any as S.Schema<CreateTopicInput>;
 export interface CreateTopicResponse {
   TopicArn?: string;
 }
 export const CreateTopicResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ TopicArn: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "CreateTopicResponse",
-}) as any as S.Schema<CreateTopicResponse>;
+).annotate({ identifier: "CreateTopicResponse" }) as any as S.Schema<CreateTopicResponse>;
 export interface DeleteEndpointInput {
   EndpointArn: string;
 }
@@ -537,14 +506,10 @@ export const DeleteEndpointInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ EndpointArn: S.String }).pipe(
     T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteEndpointInput",
-}) as any as S.Schema<DeleteEndpointInput>;
+).annotate({ identifier: "DeleteEndpointInput" }) as any as S.Schema<DeleteEndpointInput>;
 export interface DeleteEndpointResponse {}
 export const DeleteEndpointResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate(
-  {
-    identifier: "DeleteEndpointResponse",
-  },
+  { identifier: "DeleteEndpointResponse" },
 ) as any as S.Schema<DeleteEndpointResponse>;
 export interface DeletePlatformApplicationInput {
   PlatformApplicationArn: string;
@@ -585,9 +550,7 @@ export const DeleteTopicInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ TopicArn: S.String }).pipe(
     T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteTopicInput",
-}) as any as S.Schema<DeleteTopicInput>;
+).annotate({ identifier: "DeleteTopicInput" }) as any as S.Schema<DeleteTopicInput>;
 export interface DeleteTopicResponse {}
 export const DeleteTopicResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "DeleteTopicResponse",
@@ -655,17 +618,13 @@ export const GetSMSAttributesInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ attributes: S.optional(ListString) }).pipe(
     T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetSMSAttributesInput",
-}) as any as S.Schema<GetSMSAttributesInput>;
+).annotate({ identifier: "GetSMSAttributesInput" }) as any as S.Schema<GetSMSAttributesInput>;
 export interface GetSMSAttributesResponse {
   attributes?: { [key: string]: string | undefined };
 }
 export const GetSMSAttributesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ attributes: S.optional(MapStringToString) }).pipe(ns),
-).annotate({
-  identifier: "GetSMSAttributesResponse",
-}) as any as S.Schema<GetSMSAttributesResponse>;
+).annotate({ identifier: "GetSMSAttributesResponse" }) as any as S.Schema<GetSMSAttributesResponse>;
 export interface GetSMSSandboxAccountStatusInput {}
 export const GetSMSSandboxAccountStatusInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
@@ -710,9 +669,7 @@ export const GetTopicAttributesInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ TopicArn: S.String }).pipe(
     T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetTopicAttributesInput",
-}) as any as S.Schema<GetTopicAttributesInput>;
+).annotate({ identifier: "GetTopicAttributesInput" }) as any as S.Schema<GetTopicAttributesInput>;
 export interface GetTopicAttributesResponse {
   Attributes?: { [key: string]: string | undefined };
 }
@@ -726,10 +683,9 @@ export interface ListEndpointsByPlatformApplicationInput {
   NextToken?: string;
 }
 export const ListEndpointsByPlatformApplicationInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PlatformApplicationArn: S.String,
-    NextToken: S.optional(S.String),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+  S.Struct({ PlatformApplicationArn: S.String, NextToken: S.optional(S.String) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "ListEndpointsByPlatformApplicationInput",
 }) as any as S.Schema<ListEndpointsByPlatformApplicationInput>;
@@ -738,10 +694,7 @@ export interface Endpoint {
   Attributes?: { [key: string]: string | undefined };
 }
 export const Endpoint = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    EndpointArn: S.optional(S.String),
-    Attributes: S.optional(MapStringToString),
-  }),
+  S.Struct({ EndpointArn: S.optional(S.String), Attributes: S.optional(MapStringToString) }),
 ).annotate({ identifier: "Endpoint" }) as any as S.Schema<Endpoint>;
 export type ListOfEndpoints = Endpoint[];
 export const ListOfEndpoints = /*@__PURE__*/ S.Array(Endpoint);
@@ -750,10 +703,7 @@ export interface ListEndpointsByPlatformApplicationResponse {
   NextToken?: string;
 }
 export const ListEndpointsByPlatformApplicationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Endpoints: S.optional(ListOfEndpoints),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
+  S.Struct({ Endpoints: S.optional(ListOfEndpoints), NextToken: S.optional(S.String) }).pipe(ns),
 ).annotate({
   identifier: "ListEndpointsByPlatformApplicationResponse",
 }) as any as S.Schema<ListEndpointsByPlatformApplicationResponse>;
@@ -764,10 +714,9 @@ export interface ListOriginationNumbersRequest {
   MaxResults?: number;
 }
 export const ListOriginationNumbersRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+  S.Struct({ NextToken: S.optional(S.String), MaxResults: S.optional(S.Number) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "ListOriginationNumbersRequest",
 }) as any as S.Schema<ListOriginationNumbersRequest>;
@@ -797,9 +746,7 @@ export const PhoneNumberInformation = /*@__PURE__*/ S.suspend(() =>
     RouteType: S.optional(RouteType),
     NumberCapabilities: S.optional(NumberCapabilityList),
   }),
-).annotate({
-  identifier: "PhoneNumberInformation",
-}) as any as S.Schema<PhoneNumberInformation>;
+).annotate({ identifier: "PhoneNumberInformation" }) as any as S.Schema<PhoneNumberInformation>;
 export type PhoneNumberInformationList = PhoneNumberInformation[];
 export const PhoneNumberInformationList = /*@__PURE__*/ S.Array(PhoneNumberInformation);
 export interface ListOriginationNumbersResult {
@@ -831,10 +778,7 @@ export interface ListPhoneNumbersOptedOutResponse {
   nextToken?: string;
 }
 export const ListPhoneNumbersOptedOutResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    phoneNumbers: S.optional(PhoneNumberList),
-    nextToken: S.optional(S.String),
-  }).pipe(ns),
+  S.Struct({ phoneNumbers: S.optional(PhoneNumberList), nextToken: S.optional(S.String) }).pipe(ns),
 ).annotate({
   identifier: "ListPhoneNumbersOptedOutResponse",
 }) as any as S.Schema<ListPhoneNumbersOptedOutResponse>;
@@ -857,9 +801,7 @@ export const PlatformApplication = /*@__PURE__*/ S.suspend(() =>
     PlatformApplicationArn: S.optional(S.String),
     Attributes: S.optional(MapStringToString),
   }),
-).annotate({
-  identifier: "PlatformApplication",
-}) as any as S.Schema<PlatformApplication>;
+).annotate({ identifier: "PlatformApplication" }) as any as S.Schema<PlatformApplication>;
 export type ListOfPlatformApplications = PlatformApplication[];
 export const ListOfPlatformApplications = /*@__PURE__*/ S.Array(PlatformApplication);
 export interface ListPlatformApplicationsResponse {
@@ -880,10 +822,9 @@ export interface ListSMSSandboxPhoneNumbersInput {
   MaxResults?: number;
 }
 export const ListSMSSandboxPhoneNumbersInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+  S.Struct({ NextToken: S.optional(S.String), MaxResults: S.optional(S.Number) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "ListSMSSandboxPhoneNumbersInput",
 }) as any as S.Schema<ListSMSSandboxPhoneNumbersInput>;
@@ -899,9 +840,7 @@ export const SMSSandboxPhoneNumber = /*@__PURE__*/ S.suspend(() =>
     PhoneNumber: S.optional(SensitiveString),
     Status: S.optional(SMSSandboxPhoneNumberVerificationStatus),
   }),
-).annotate({
-  identifier: "SMSSandboxPhoneNumber",
-}) as any as S.Schema<SMSSandboxPhoneNumber>;
+).annotate({ identifier: "SMSSandboxPhoneNumber" }) as any as S.Schema<SMSSandboxPhoneNumber>;
 export type SMSSandboxPhoneNumberList = SMSSandboxPhoneNumber[];
 export const SMSSandboxPhoneNumberList = /*@__PURE__*/ S.Array(SMSSandboxPhoneNumber);
 export interface ListSMSSandboxPhoneNumbersResult {
@@ -909,10 +848,7 @@ export interface ListSMSSandboxPhoneNumbersResult {
   NextToken?: string;
 }
 export const ListSMSSandboxPhoneNumbersResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PhoneNumbers: SMSSandboxPhoneNumberList,
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
+  S.Struct({ PhoneNumbers: SMSSandboxPhoneNumberList, NextToken: S.optional(S.String) }).pipe(ns),
 ).annotate({
   identifier: "ListSMSSandboxPhoneNumbersResult",
 }) as any as S.Schema<ListSMSSandboxPhoneNumbersResult>;
@@ -923,9 +859,7 @@ export const ListSubscriptionsInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ NextToken: S.optional(S.String) }).pipe(
     T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "ListSubscriptionsInput",
-}) as any as S.Schema<ListSubscriptionsInput>;
+).annotate({ identifier: "ListSubscriptionsInput" }) as any as S.Schema<ListSubscriptionsInput>;
 export type Account = string;
 export type Protocol = string;
 export type Endpoint2 = string;
@@ -952,10 +886,9 @@ export interface ListSubscriptionsResponse {
   NextToken?: string;
 }
 export const ListSubscriptionsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Subscriptions: S.optional(SubscriptionsList),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
+  S.Struct({ Subscriptions: S.optional(SubscriptionsList), NextToken: S.optional(S.String) }).pipe(
+    ns,
+  ),
 ).annotate({
   identifier: "ListSubscriptionsResponse",
 }) as any as S.Schema<ListSubscriptionsResponse>;
@@ -975,10 +908,9 @@ export interface ListSubscriptionsByTopicResponse {
   NextToken?: string;
 }
 export const ListSubscriptionsByTopicResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Subscriptions: S.optional(SubscriptionsList),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
+  S.Struct({ Subscriptions: S.optional(SubscriptionsList), NextToken: S.optional(S.String) }).pipe(
+    ns,
+  ),
 ).annotate({
   identifier: "ListSubscriptionsByTopicResponse",
 }) as any as S.Schema<ListSubscriptionsByTopicResponse>;
@@ -1008,9 +940,7 @@ export const ListTopicsInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ NextToken: S.optional(S.String) }).pipe(
     T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "ListTopicsInput",
-}) as any as S.Schema<ListTopicsInput>;
+).annotate({ identifier: "ListTopicsInput" }) as any as S.Schema<ListTopicsInput>;
 export interface Topic {
   TopicArn?: string;
 }
@@ -1024,13 +954,8 @@ export interface ListTopicsResponse {
   NextToken?: string;
 }
 export const ListTopicsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Topics: S.optional(TopicsList),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListTopicsResponse",
-}) as any as S.Schema<ListTopicsResponse>;
+  S.Struct({ Topics: S.optional(TopicsList), NextToken: S.optional(S.String) }).pipe(ns),
+).annotate({ identifier: "ListTopicsResponse" }) as any as S.Schema<ListTopicsResponse>;
 export interface OptInPhoneNumberInput {
   phoneNumber: string | redacted.Redacted<string>;
 }
@@ -1038,15 +963,11 @@ export const OptInPhoneNumberInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ phoneNumber: SensitiveString }).pipe(
     T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "OptInPhoneNumberInput",
-}) as any as S.Schema<OptInPhoneNumberInput>;
+).annotate({ identifier: "OptInPhoneNumberInput" }) as any as S.Schema<OptInPhoneNumberInput>;
 export interface OptInPhoneNumberResponse {}
 export const OptInPhoneNumberResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "OptInPhoneNumberResponse",
-}) as any as S.Schema<OptInPhoneNumberResponse>;
+).annotate({ identifier: "OptInPhoneNumberResponse" }) as any as S.Schema<OptInPhoneNumberResponse>;
 export type Message = string;
 export type Subject = string;
 export type MessageStructure = string;
@@ -1062,12 +983,8 @@ export const MessageAttributeValue = /*@__PURE__*/ S.suspend(() =>
     StringValue: S.optional(S.String),
     BinaryValue: S.optional(T.Blob),
   }),
-).annotate({
-  identifier: "MessageAttributeValue",
-}) as any as S.Schema<MessageAttributeValue>;
-export type MessageAttributeMap = {
-  [key: string]: MessageAttributeValue | undefined;
-};
+).annotate({ identifier: "MessageAttributeValue" }) as any as S.Schema<MessageAttributeValue>;
+export type MessageAttributeMap = { [key: string]: MessageAttributeValue | undefined };
 export const MessageAttributeMap = /*@__PURE__*/ S.Record(
   S.String.pipe(T.XmlName("Name")),
   MessageAttributeValue.pipe(T.XmlName("Value"))
@@ -1104,13 +1021,8 @@ export interface PublishResponse {
   SequenceNumber?: string;
 }
 export const PublishResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MessageId: S.optional(S.String),
-    SequenceNumber: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "PublishResponse",
-}) as any as S.Schema<PublishResponse>;
+  S.Struct({ MessageId: S.optional(S.String), SequenceNumber: S.optional(S.String) }).pipe(ns),
+).annotate({ identifier: "PublishResponse" }) as any as S.Schema<PublishResponse>;
 export interface PublishBatchRequestEntry {
   Id: string;
   Message: string;
@@ -1130,9 +1042,7 @@ export const PublishBatchRequestEntry = /*@__PURE__*/ S.suspend(() =>
     MessageDeduplicationId: S.optional(S.String),
     MessageGroupId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PublishBatchRequestEntry",
-}) as any as S.Schema<PublishBatchRequestEntry>;
+).annotate({ identifier: "PublishBatchRequestEntry" }) as any as S.Schema<PublishBatchRequestEntry>;
 export type PublishBatchRequestEntryList = PublishBatchRequestEntry[];
 export const PublishBatchRequestEntryList = /*@__PURE__*/ S.Array(PublishBatchRequestEntry);
 export interface PublishBatchInput {
@@ -1140,13 +1050,10 @@ export interface PublishBatchInput {
   PublishBatchRequestEntries: PublishBatchRequestEntry[];
 }
 export const PublishBatchInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TopicArn: S.String,
-    PublishBatchRequestEntries: PublishBatchRequestEntryList,
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "PublishBatchInput",
-}) as any as S.Schema<PublishBatchInput>;
+  S.Struct({ TopicArn: S.String, PublishBatchRequestEntries: PublishBatchRequestEntryList }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({ identifier: "PublishBatchInput" }) as any as S.Schema<PublishBatchInput>;
 export interface PublishBatchResultEntry {
   Id?: string;
   MessageId?: string;
@@ -1158,9 +1065,7 @@ export const PublishBatchResultEntry = /*@__PURE__*/ S.suspend(() =>
     MessageId: S.optional(S.String),
     SequenceNumber: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PublishBatchResultEntry",
-}) as any as S.Schema<PublishBatchResultEntry>;
+).annotate({ identifier: "PublishBatchResultEntry" }) as any as S.Schema<PublishBatchResultEntry>;
 export type PublishBatchResultEntryList = PublishBatchResultEntry[];
 export const PublishBatchResultEntryList = /*@__PURE__*/ S.Array(PublishBatchResultEntry);
 export interface BatchResultErrorEntry {
@@ -1170,15 +1075,8 @@ export interface BatchResultErrorEntry {
   SenderFault: boolean;
 }
 export const BatchResultErrorEntry = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.String,
-    Code: S.String,
-    Message: S.optional(S.String),
-    SenderFault: S.Boolean,
-  }),
-).annotate({
-  identifier: "BatchResultErrorEntry",
-}) as any as S.Schema<BatchResultErrorEntry>;
+  S.Struct({ Id: S.String, Code: S.String, Message: S.optional(S.String), SenderFault: S.Boolean }),
+).annotate({ identifier: "BatchResultErrorEntry" }) as any as S.Schema<BatchResultErrorEntry>;
 export type BatchResultErrorEntryList = BatchResultErrorEntry[];
 export const BatchResultErrorEntryList = /*@__PURE__*/ S.Array(BatchResultErrorEntry);
 export interface PublishBatchResponse {
@@ -1190,9 +1088,7 @@ export const PublishBatchResponse = /*@__PURE__*/ S.suspend(() =>
     Successful: S.optional(PublishBatchResultEntryList),
     Failed: S.optional(BatchResultErrorEntryList),
   }).pipe(ns),
-).annotate({
-  identifier: "PublishBatchResponse",
-}) as any as S.Schema<PublishBatchResponse>;
+).annotate({ identifier: "PublishBatchResponse" }) as any as S.Schema<PublishBatchResponse>;
 export interface PutDataProtectionPolicyInput {
   ResourceArn: string;
   DataProtectionPolicy: string;
@@ -1218,15 +1114,11 @@ export const RemovePermissionInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ TopicArn: S.String, Label: S.String }).pipe(
     T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "RemovePermissionInput",
-}) as any as S.Schema<RemovePermissionInput>;
+).annotate({ identifier: "RemovePermissionInput" }) as any as S.Schema<RemovePermissionInput>;
 export interface RemovePermissionResponse {}
 export const RemovePermissionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "RemovePermissionResponse",
-}) as any as S.Schema<RemovePermissionResponse>;
+).annotate({ identifier: "RemovePermissionResponse" }) as any as S.Schema<RemovePermissionResponse>;
 export interface SetEndpointAttributesInput {
   EndpointArn: string;
   Attributes: { [key: string]: string | undefined };
@@ -1249,10 +1141,9 @@ export interface SetPlatformApplicationAttributesInput {
   Attributes: { [key: string]: string | undefined };
 }
 export const SetPlatformApplicationAttributesInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PlatformApplicationArn: S.String,
-    Attributes: MapStringToString,
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+  S.Struct({ PlatformApplicationArn: S.String, Attributes: MapStringToString }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "SetPlatformApplicationAttributesInput",
 }) as any as S.Schema<SetPlatformApplicationAttributesInput>;
@@ -1269,15 +1160,11 @@ export const SetSMSAttributesInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ attributes: MapStringToString }).pipe(
     T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "SetSMSAttributesInput",
-}) as any as S.Schema<SetSMSAttributesInput>;
+).annotate({ identifier: "SetSMSAttributesInput" }) as any as S.Schema<SetSMSAttributesInput>;
 export interface SetSMSAttributesResponse {}
 export const SetSMSAttributesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "SetSMSAttributesResponse",
-}) as any as S.Schema<SetSMSAttributesResponse>;
+).annotate({ identifier: "SetSMSAttributesResponse" }) as any as S.Schema<SetSMSAttributesResponse>;
 export interface SetSubscriptionAttributesInput {
   SubscriptionArn: string;
   AttributeName: string;
@@ -1309,9 +1196,7 @@ export const SetTopicAttributesInput = /*@__PURE__*/ S.suspend(() =>
     AttributeName: S.String,
     AttributeValue: S.optional(S.String),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "SetTopicAttributesInput",
-}) as any as S.Schema<SetTopicAttributesInput>;
+).annotate({ identifier: "SetTopicAttributesInput" }) as any as S.Schema<SetTopicAttributesInput>;
 export interface SetTopicAttributesResponse {}
 export const SetTopicAttributesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(ns),
@@ -1339,9 +1224,7 @@ export interface SubscribeResponse {
 }
 export const SubscribeResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ SubscriptionArn: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "SubscribeResponse",
-}) as any as S.Schema<SubscribeResponse>;
+).annotate({ identifier: "SubscribeResponse" }) as any as S.Schema<SubscribeResponse>;
 export interface TagResourceRequest {
   ResourceArn: string;
   Tags: Tag[];
@@ -1350,9 +1233,7 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceArn: S.String, Tags: TagList }).pipe(
     T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
+).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
 export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "TagResourceResponse",
@@ -1364,9 +1245,7 @@ export const UnsubscribeInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ SubscriptionArn: S.String }).pipe(
     T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UnsubscribeInput",
-}) as any as S.Schema<UnsubscribeInput>;
+).annotate({ identifier: "UnsubscribeInput" }) as any as S.Schema<UnsubscribeInput>;
 export interface UnsubscribeResponse {}
 export const UnsubscribeResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "UnsubscribeResponse",
@@ -1381,9 +1260,7 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceArn: S.String, TagKeys: TagKeyList }).pipe(
     T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
+).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
 export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "UntagResourceResponse",
@@ -1866,6 +1743,10 @@ export type GetDataProtectionPolicyError =
   | InvalidClientTokenId
   | CommonErrors;
 /**
+ * Amazon SNS message data protection is no longer available to new customers.
+ * For more information and guidance on alternatives, see
+ * Amazon SNS message data protection availability change.
+ *
  * Retrieves the specified inline `DataProtectionPolicy` document that is
  * stored in the specified Amazon SNS topic.
  */
@@ -2125,11 +2006,7 @@ export const listEndpointsByPlatformApplication: API.PaginatedOperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListEndpointsByPlatformApplication",
-  pagination: {
-    inputToken: "NextToken",
-    outputToken: "NextToken",
-    items: "Endpoints",
-  } as const,
+  pagination: { inputToken: "NextToken", outputToken: "NextToken", items: "Endpoints" } as const,
 })) as any;
 
 export type ListOriginationNumbersError =
@@ -2206,11 +2083,7 @@ export const listPhoneNumbersOptedOut: API.PaginatedOperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListPhoneNumbersOptedOut",
-  pagination: {
-    inputToken: "nextToken",
-    outputToken: "nextToken",
-    items: "phoneNumbers",
-  } as const,
+  pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "phoneNumbers" } as const,
 })) as any;
 
 export type ListPlatformApplicationsError =
@@ -2435,11 +2308,7 @@ export const listTopics: API.PaginatedOperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTopics",
-  pagination: {
-    inputToken: "NextToken",
-    outputToken: "NextToken",
-    items: "Topics",
-  } as const,
+  pagination: { inputToken: "NextToken", outputToken: "NextToken", items: "Topics" } as const,
 })) as any;
 
 export type OptInPhoneNumberError =
@@ -2584,9 +2453,16 @@ export type PublishBatchError =
  * actions, you should check for batch errors even when the call returns an HTTP status
  * code of 200.
  *
- * The maximum allowed individual message size and the maximum total payload size (the sum
- * of the individual lengths of all of the batched messages) are both 256 KB (262,144
- * bytes).
+ * By default, the maximum allowed individual message size and the maximum total payload
+ * size (the sum of the individual lengths of all of the batched messages) are both 256 KiB
+ * (262,144 bytes). To publish larger batches, set the topic's
+ * `MaximumMessageSize` attribute, which supports values up to 1 MiB
+ * (1,048,576 bytes). The combined size of all messages in the batch, including each
+ * message's body and attributes, must not exceed the topic's
+ * `MaximumMessageSize`.
+ *
+ * For more information, see Large message payloads in
+ * the *Amazon SNS Developer Guide.*
  *
  * The `PublishBatch` API can send up to 10 messages at a time. If you
  * attempt to send more than 10 messages in one request, you will encounter a
@@ -2654,6 +2530,10 @@ export type PutDataProtectionPolicyError =
   | InvalidClientTokenId
   | CommonErrors;
 /**
+ * Amazon SNS message data protection is no longer available to new customers.
+ * For more information and guidance on alternatives, see
+ * Amazon SNS message data protection availability change.
+ *
  * Adds or updates an inline policy document that is stored in the specified Amazon SNS
  * topic.
  */

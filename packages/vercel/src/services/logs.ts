@@ -26,6 +26,15 @@ export class Forbidden
     [{ status: 403 }],
   ) {}
 
+export class NotFound
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
+      code: S.Number,
+      message: S.String,
+    }).pipe(C.withBadRequestError),
+    [{ status: 404 }],
+  ) {}
+
 export interface GetRuntimeLogsRequest {
   projectId: string;
   deploymentId: string;
@@ -47,16 +56,14 @@ export const GetRuntimeLogsRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetRuntimeLogsRequest",
-}) as any as S.Schema<GetRuntimeLogsRequest>;
+).annotate({ identifier: "GetRuntimeLogsRequest" }) as any as S.Schema<GetRuntimeLogsRequest>;
 
 export interface GetRuntimeLogsResponse {}
 export const GetRuntimeLogsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "GetRuntimeLogsResponse",
 }) as any as S.Schema<GetRuntimeLogsResponse>;
 
-export type GetRuntimeLogsError = BadRequest | Forbidden | VercelOpError;
+export type GetRuntimeLogsError = BadRequest | Forbidden | NotFound | VercelOpError;
 /** Get logs for a deployment Returns a stream of logs for a given deployment. */
 export const getRuntimeLogs: API.OperationMethod<
   GetRuntimeLogsRequest,
@@ -66,7 +73,7 @@ export const getRuntimeLogs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetRuntimeLogsRequest,
   output: GetRuntimeLogsResponse,
-  errors: [BadRequest, Forbidden],
+  errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
 }));

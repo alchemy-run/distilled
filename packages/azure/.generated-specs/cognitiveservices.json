@@ -31,10 +31,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/commitmentPlans/{commitmentPlanName}/accountAssociations/{commitmentPlanAssociationName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Deletes the association of the Cognitive Services commitment plan.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#DeleteCommitmentPlanAssociationRequest": {
@@ -90,10 +90,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/commitmentPlans/{commitmentPlanName}/accountAssociations/{commitmentPlanAssociationName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Create or update the association of the Cognitive Services commitment plan.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#CommitmentPlansCreateOrUpdateAssociationResponse": {
@@ -357,10 +357,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/commitmentPlans/{commitmentPlanName}/accountAssociations/{commitmentPlanAssociationName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Gets the association of the Cognitive Services commitment plan.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#GetCommitmentPlanAssociationResponse": {
@@ -478,10 +478,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/commitmentPlans/{commitmentPlanName}/accountAssociations",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Gets the associations of the Cognitive Services commitment plan.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#CommitmentPlanAccountAssociationListResult": {
@@ -620,10 +620,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/commitmentPlans/{commitmentPlanName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Deletes a Cognitive Services commitment plan from the resource group.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#DeleteCommitmentPlanPlanRequest": {
@@ -671,10 +671,10 @@
           "method": "PATCH",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/commitmentPlans/{commitmentPlanName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Create Cognitive Services commitment plan.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#UpdateCommitmentPlanPlanResponse": {
@@ -1114,10 +1114,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/commitmentPlans/{commitmentPlanName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Create Cognitive Services commitment plan.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#CommitmentPlansCreateOrUpdatePlanResponse": {
@@ -1351,10 +1351,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/commitmentPlans/{commitmentPlanName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Returns a Cognitive Services commitment plan specified by the parameters.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#GetCommitmentPlanPlanResponse": {
@@ -1482,10 +1482,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/commitmentPlans",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Returns all the resources of a particular type belonging to a resource group",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#CommitmentPlanListResult": {
@@ -1634,10 +1634,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/usages",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Get usages for the requested Cognitive Services account",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#UsageListResult": {
@@ -1919,10 +1919,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/testRaiExternalSafetyProvider/{safetyProviderName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Test the rai safety provider associated with the subscription.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#TestRaiExternalSafetyProviderCreateOrUpdateResponse": {
@@ -2158,10 +2158,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/skus",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "List available SKUs for the requested Cognitive Services account",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#AccountSkuListResult": {
@@ -2252,10 +2252,10 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/regenerateKey",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Regenerates the specified account key for the specified Cognitive Services account.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#ApiKeys": {
@@ -2350,10 +2350,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/raitopics/{raiTopicName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Deletes the specified custom topic associated with the Azure OpenAI account.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#DeleteRaiTopicRequest": {
@@ -2409,10 +2409,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/raitopics/{raiTopicName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Create the rai topic associated with the Azure OpenAI account.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#RaiTopicsCreateOrUpdateResponse": {
@@ -2610,10 +2610,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/raitopics/{raiTopicName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Gets the specified custom topic associated with the Azure OpenAI account.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#GetRaiTopicResponse": {
@@ -2731,10 +2731,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/raitopics",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Gets the custom topics associated with the Azure OpenAI account.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#RaiTopicResult": {
@@ -2873,10 +2873,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/raiToolLabels/{raiToolConnectionName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Deletes the specified RAI Tool Label associated with the Azure OpenAI account.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#DeleteRaiToolLabelRequest": {
@@ -2932,10 +2932,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/raiToolLabels/{raiToolConnectionName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Creates the RAI Tool Label associated with the Azure OpenAI account.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#RaiToolLabelsCreateOrUpdateResponse": {
@@ -3171,10 +3171,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/raiToolLabels/{raiToolConnectionName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Gets the specified RAI Tool Label associated with the Azure OpenAI account.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#GetRaiToolLabelResponse": {
@@ -3292,10 +3292,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/raiToolLabels",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Lists all RAI Tool Labels associated with the Azure OpenAI account.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#RaiToolLabelResult": {
@@ -3434,10 +3434,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/raiPolicies/{raiPolicyName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Deletes the specified Content Filters associated with the Azure OpenAI account.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#DeleteRaiPolicyRequest": {
@@ -3493,10 +3493,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/raiPolicies/{raiPolicyName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Update the state of specified Content Filters associated with the Azure OpenAI account.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#RaiPoliciesCreateOrUpdateResponse": {
@@ -3599,10 +3599,415 @@
           "traits": {
             "smithy.api#documentation": "The list of Safety Providers."
           }
+        },
+        "egressPolicy": {
+          "target": "com.azure.cognitiveservices#RaiEgressPolicyConfig",
+          "traits": {
+            "smithy.api#documentation": "Egress (outbound network) policy controlling which external endpoints sandboxed\nagents can reach. Includes rules with Allow/Deny/Transform/Rewrite actions."
+          }
         }
       },
       "traits": {
         "smithy.api#documentation": "Azure OpenAI Content Filters properties."
+      }
+    },
+    "com.azure.cognitiveservices#RaiEgressPolicyConfig": {
+      "type": "structure",
+      "members": {
+        "mode": {
+          "target": "com.azure.cognitiveservices#RaiEgressMode",
+          "traits": {
+            "smithy.api#documentation": "The enforcement mode for egress rules.\nIf omitted on create, the server defaults to Enforced. On subsequent GET\nrequests, the server always returns the effective mode."
+          }
+        },
+        "defaultAction": {
+          "target": "com.azure.cognitiveservices#RaiEgressDefaultAction",
+          "traits": {
+            "smithy.api#documentation": "The default action when no user-defined rules match.\nDeny blocks unmatched traffic; Allow permits it. Transform and Rewrite rules\nare always applied to their matched traffic regardless of this setting —\ndefaultAction only governs traffic that does not match any rule.\nIf omitted on create, the server defaults to Deny (fail-closed). On subsequent\nGET requests, the server always returns the effective value."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Description of the egress policy."
+          }
+        },
+        "rules": {
+          "target": "com.azure.cognitiveservices#RaiEgressPolicyConfigRulesList",
+          "traits": {
+            "smithy.api#documentation": "Ordered list of egress rules. First matching rule wins.\nRules are evaluated in declaration order; the first rule whose match criteria\nare satisfied determines the action taken on the request."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Egress (outbound network) policy configuration nested within an RAI policy.\nControls which external endpoints sandboxed agents can reach and what\ntransformations (header injection, URL rewrite) are applied to matching traffic."
+      }
+    },
+    "com.azure.cognitiveservices#RaiEgressPolicyConfigRulesList": {
+      "type": "list",
+      "member": {
+        "target": "com.azure.cognitiveservices#RaiEgressRule"
+      },
+      "traits": {
+        "smithy.api#documentation": "Ordered list of egress rules. First matching rule wins.\nRules are evaluated in declaration order; the first rule whose match criteria\nare satisfied determines the action taken on the request."
+      }
+    },
+    "com.azure.cognitiveservices#RaiEgressRule": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the rule. Must be unique within the policy.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Description of the rule."
+          }
+        },
+        "ruleType": {
+          "target": "com.azure.cognitiveservices#RaiEgressRuleType",
+          "traits": {
+            "smithy.api#documentation": "The type of rule (e.g., Fqdn). Determines how match criteria are interpreted.",
+            "smithy.api#required": {}
+          }
+        },
+        "match": {
+          "target": "com.azure.cognitiveservices#RaiEgressRuleMatch",
+          "traits": {
+            "smithy.api#documentation": "The match criteria for this rule."
+          }
+        },
+        "action": {
+          "target": "com.azure.cognitiveservices#RaiEgressRuleAction",
+          "traits": {
+            "smithy.api#documentation": "The action to take when this rule matches, including the action type and any\ntype-specific configuration (headers for Transform, rewrite target for Rewrite).",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A single egress rule. Rules are evaluated in order; first match wins."
+      }
+    },
+    "com.azure.cognitiveservices#RaiEgressRuleAction": {
+      "type": "structure",
+      "members": {
+        "actionType": {
+          "target": "com.azure.cognitiveservices#RaiEgressRuleActionType",
+          "traits": {
+            "smithy.api#documentation": "The kind of action.",
+            "smithy.api#required": {}
+          }
+        },
+        "headers": {
+          "target": "com.azure.cognitiveservices#RaiEgressRuleActionHeadersList",
+          "traits": {
+            "smithy.api#documentation": "Header transforms to apply. Required for Transform; optional for Rewrite;\nnot allowed for Allow or Deny."
+          }
+        },
+        "rewrite": {
+          "target": "com.azure.cognitiveservices#RaiEgressRewriteTarget",
+          "traits": {
+            "smithy.api#documentation": "Destination override. Required for Rewrite; not allowed otherwise."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The action an egress rule takes when it matches.\n- Allow/Deny: no additional fields needed; headers and rewrite must not be set.\n- Transform: headers is required with at least one entry; rewrite must not be set.\n- Rewrite: rewrite is required with at least one of scheme/host/path;\nheaders is optional for injecting headers alongside the redirect."
+      }
+    },
+    "com.azure.cognitiveservices#RaiEgressRewriteTarget": {
+      "type": "structure",
+      "members": {
+        "scheme": {
+          "target": "com.azure.cognitiveservices#RaiEgressScheme",
+          "traits": {
+            "smithy.api#documentation": "Target scheme. Original scheme is kept if omitted."
+          }
+        },
+        "host": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Target host. Original host is kept if omitted."
+          }
+        },
+        "path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Target path (literal string). Original path (and query) is kept if omitted."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Where a Rewrite action sends matched traffic. At least one field must be set;\nomitted fields retain the original request values. This constraint is enforced\nby the server (400 Bad Request if all fields are omitted)."
+      }
+    },
+    "com.azure.cognitiveservices#RaiEgressScheme": {
+      "type": "enum",
+      "members": {
+        "HTTP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "http"
+          }
+        },
+        "HTTPS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "https"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "URL scheme for rewrite targets. Only HTTP and HTTPS are supported."
+      }
+    },
+    "com.azure.cognitiveservices#RaiEgressRuleActionHeadersList": {
+      "type": "list",
+      "member": {
+        "target": "com.azure.cognitiveservices#RaiEgressHeaderTransform"
+      },
+      "traits": {
+        "smithy.api#documentation": "Header transforms to apply. Required for Transform; optional for Rewrite;\nnot allowed for Allow or Deny."
+      }
+    },
+    "com.azure.cognitiveservices#RaiEgressHeaderTransform": {
+      "type": "structure",
+      "members": {
+        "operation": {
+          "target": "com.azure.cognitiveservices#RaiEgressHeaderOperation",
+          "traits": {
+            "smithy.api#documentation": "The operation to perform on this header.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The HTTP header name (e.g., \"Authorization\", \"X-Custom-Auth\").",
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A static header value. Write-only: accepted on create/update, never returned on read.\nIf omitted on update, the existing value is preserved. Use this for non-sensitive values;\nfor credentials, use valueRef instead."
+          }
+        },
+        "valueRef": {
+          "target": "com.azure.cognitiveservices#RaiEgressHeaderValueRef",
+          "traits": {
+            "smithy.api#documentation": "A dynamic header value resolved at request time from a secret or managed identity."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A header transformation applied to matched traffic.\nFor Set or Insert operations, exactly one of value or valueRef must be provided.\nFor Remove operations, neither value nor valueRef should be set."
+      }
+    },
+    "com.azure.cognitiveservices#RaiEgressHeaderValueRef": {
+      "type": "structure",
+      "members": {
+        "secretRef": {
+          "target": "com.azure.cognitiveservices#RaiEgressSecretRef",
+          "traits": {
+            "smithy.api#documentation": "Resolve the value from a stored secret."
+          }
+        },
+        "managedIdentityRef": {
+          "target": "com.azure.cognitiveservices#RaiEgressManagedIdentityRef",
+          "traits": {
+            "smithy.api#documentation": "Resolve the value from a managed-identity token."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A dynamic source for a header value. Exactly one of secretRef or managedIdentityRef must be set."
+      }
+    },
+    "com.azure.cognitiveservices#RaiEgressManagedIdentityRef": {
+      "type": "structure",
+      "members": {
+        "resource": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The resource/audience the token is requested for.",
+            "smithy.api#required": {}
+          }
+        },
+        "format": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional format for the resolved token; \"{value}\" is the placeholder, e.g. \"Bearer {value}\"."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A reference to a managed-identity token used as a header value."
+      }
+    },
+    "com.azure.cognitiveservices#RaiEgressSecretRef": {
+      "type": "structure",
+      "members": {
+        "secretId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier of the secret to inject.",
+            "smithy.api#required": {}
+          }
+        },
+        "secretKey": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional key within the secret.",
+            "smithy.api#sensitive": {}
+          }
+        },
+        "format": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional format for the resolved value; \"{value}\" is the placeholder, e.g. \"Bearer {value}\"."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A reference to a stored secret used as a header value."
+      }
+    },
+    "com.azure.cognitiveservices#RaiEgressHeaderOperation": {
+      "type": "enum",
+      "members": {
+        "SET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Set"
+          }
+        },
+        "INSERT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Insert"
+          }
+        },
+        "REMOVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Remove"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The operation to apply to a header in a Transform or Rewrite action."
+      }
+    },
+    "com.azure.cognitiveservices#RaiEgressRuleActionType": {
+      "type": "enum",
+      "members": {
+        "ALLOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Allow"
+          }
+        },
+        "DENY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Deny"
+          }
+        },
+        "TRANSFORM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Transform"
+          }
+        },
+        "REWRITE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Rewrite"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The kind of action an egress rule takes when it matches."
+      }
+    },
+    "com.azure.cognitiveservices#RaiEgressRuleMatch": {
+      "type": "structure",
+      "members": {
+        "host": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Host pattern to match using DNS wildcard syntax (e.g., \"\\*.openai.com\").\nA leading \"\\*.\" matches any subdomain. Omit to match all hosts."
+          }
+        },
+        "path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Path pattern to match using URI prefix matching.\nAn asterisk serves as a single-segment wildcard.\nFor example, \"/v1/\\*\" matches \"/v1/chat\". Omit to match all paths."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The match criteria for an egress rule.\nIf both host and path are omitted, the rule matches all traffic.\nHost uses DNS wildcard syntax (e.g., \"\\*.openai.com\" matches \"api.openai.com\").\nPath uses URI prefix matching with an asterisk as a single-segment wildcard.\nFor example, \"/v1/\\*\" matches \"/v1/chat\"."
+      }
+    },
+    "com.azure.cognitiveservices#RaiEgressRuleType": {
+      "type": "enum",
+      "members": {
+        "FQDN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Fqdn"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The type of an egress rule, determining what kind of traffic matching it performs."
+      }
+    },
+    "com.azure.cognitiveservices#RaiEgressDefaultAction": {
+      "type": "enum",
+      "members": {
+        "ALLOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Allow"
+          }
+        },
+        "DENY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Deny"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The default action when no user-defined egress rules match."
+      }
+    },
+    "com.azure.cognitiveservices#RaiEgressMode": {
+      "type": "enum",
+      "members": {
+        "ENFORCED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Enforced"
+          }
+        },
+        "AUDIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Audit"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The enforcement mode for egress rules.\nIf omitted on create, the server defaults to Enforced."
       }
     },
     "com.azure.cognitiveservices#RaiPolicyPropertiesSafetyProvidersList": {
@@ -3965,10 +4370,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/raiPolicies/{raiPolicyName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Gets the specified Content Filters associated with the Azure OpenAI account.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#GetRaiPolicyResponse": {
@@ -4086,10 +4491,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/raiPolicies",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Gets the content filters associated with the Azure OpenAI account.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#RaiPolicyListResult": {
@@ -4228,10 +4633,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/raiBlocklists/{raiBlocklistName}/raiBlocklistItems/{raiBlocklistItemName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Deletes the specified blocklist Item associated with the custom blocklist.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#DeleteRaiBlocklistItemRequest": {
@@ -4295,10 +4700,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/raiBlocklists/{raiBlocklistName}/raiBlocklistItems/{raiBlocklistItemName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Update the state of specified blocklist item associated with the Azure OpenAI account.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#RaiBlocklistItemsCreateOrUpdateResponse": {
@@ -4468,10 +4873,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/raiBlocklists/{raiBlocklistName}/raiBlocklistItems/{raiBlocklistItemName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Gets the specified custom blocklist Item associated with the custom blocklist.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#GetRaiBlocklistItemResponse": {
@@ -4597,10 +5002,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/raiBlocklists/{raiBlocklistName}/raiBlocklistItems",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Gets the blocklist items associated with the custom blocklist.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#RaiBlockListItemsResult": {
@@ -4747,10 +5152,10 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/raiBlocklists/{raiBlocklistName}/deleteRaiBlocklistItems",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Batch operation to delete blocklist items.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#DeleteRaiBlocklistItemBatchRequest": {
@@ -4822,10 +5227,10 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/raiBlocklists/{raiBlocklistName}/addRaiBlocklistItems",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Batch operation to add blocklist items.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#AddRaiBlocklistItemBatchResponse": {
@@ -4990,10 +5395,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/raiBlocklists/{raiBlocklistName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Deletes the specified custom blocklist associated with the Azure OpenAI account.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#DeleteRaiBlocklistRequest": {
@@ -5049,10 +5454,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/raiBlocklists/{raiBlocklistName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Update the state of specified blocklist associated with the Azure OpenAI account.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#RaiBlocklistsCreateOrUpdateResponse": {
@@ -5194,10 +5599,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/raiBlocklists/{raiBlocklistName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Gets the specified custom blocklist associated with the Azure OpenAI account.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#GetRaiBlocklistResponse": {
@@ -5315,10 +5720,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/raiBlocklists",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Gets the custom blocklists associated with the Azure OpenAI account.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#RaiBlockListResult": {
@@ -5457,10 +5862,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/projects/{projectName}/connections/{connectionName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Delete Cognitive Services project connection by name.\n\nDelete Cognitive Services project connection by name.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#DeleteProjectConnectionRequest": {
@@ -5524,10 +5929,10 @@
           "method": "PATCH",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/projects/{projectName}/connections/{connectionName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Update Cognitive Services project connection under the specified project.\n\nUpdate Cognitive Services project connection under the specified project.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#UpdateProjectConnectionResponse": {
@@ -6760,10 +7165,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/projects/{projectName}/connections/{connectionName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Create or update Cognitive Services project connection under the specified project.\n\nCreate or update Cognitive Services project connection under the specified project.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#CreateProjectConnectionResponse": {
@@ -6873,10 +7278,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/projects/{projectName}/connections/{connectionName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Lists Cognitive Services project connection by name.\n\nLists Cognitive Services project connection by name.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#GetProjectConnectionResponse": {
@@ -6979,10 +7384,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/projects/{projectName}/connections",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Lists all the available Cognitive Services project connections under the specified project.\n\nLists all the available Cognitive Services project connections under the specified project.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#ConnectionPropertiesV2BasicResourceArmPaginatedResult": {
@@ -7117,10 +7522,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/projects/{projectName}/capabilityHosts/{capabilityHostName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Delete project capabilityHost.\n\nDelete project capabilityHost.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#DeleteProjectCapabilityHostRequest": {
@@ -7184,10 +7589,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/projects/{projectName}/capabilityHosts/{capabilityHostName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Create or update project capabilityHost.\n\nCreate or update project capabilityHost.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#ProjectCapabilityHostsCreateOrUpdateResponse": {
@@ -7487,10 +7892,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/projects/{projectName}/capabilityHosts/{capabilityHostName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Get project capabilityHost.\n\nGet project capabilityHost.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#GetProjectCapabilityHostResponse": {
@@ -7593,10 +7998,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/projects/{projectName}/capabilityHosts",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "List capabilityHost.\n\nList capabilityHost.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#ProjectCapabilityHostResourceArmPaginatedResult": {
@@ -7721,10 +8126,10 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/projects/{projectName}/applications/{name}/listAgents",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Lists agents for an Agent Application.\n\nLists agents for an Agent Application.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#AgentReferenceResourceArmPaginatedResult": {
@@ -7880,10 +8285,10 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/projects/{projectName}/applications/{name}/enable",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Enables an Agent Application.\n\nEnables an Agent Application.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#EnableAgentApplicationRequest": {
@@ -7947,10 +8352,10 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/projects/{projectName}/applications/{name}/disable",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Disables an Agent Application.\n\nDisables an Agent Application.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#DisableAgentApplicationRequest": {
@@ -8014,10 +8419,10 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/projects/{projectName}/applications/{appName}/agentDeployments/{deploymentName}/stop",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Stops an Agent Deployment.\n\nStops an Agent Deployment.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#StopAgentDeploymentRequest": {
@@ -8089,10 +8494,10 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/projects/{projectName}/applications/{appName}/agentDeployments/{deploymentName}/start",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Starts an Agent Deployment.\n\nStarts an Agent Deployment.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#StartAgentDeploymentRequest": {
@@ -8164,10 +8569,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/projects/{projectName}/applications/{appName}/agentDeployments/{deploymentName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Delete Agent Deployment.\n\nDelete Agent Deployment.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#DeleteAgentDeploymentRequest": {
@@ -8239,10 +8644,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/projects/{projectName}/applications/{appName}/agentDeployments/{deploymentName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Creates or updates an Agent Deployment (asynchronous).\n\nCreates or updates an Agent Deployment (asynchronous).",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#AgentDeploymentsCreateOrUpdateResponse": {
@@ -8756,10 +9161,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/projects/{projectName}/applications/{appName}/agentDeployments/{deploymentName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Gets an Agent Deployment by name.\n\nGets an Agent Deployment by name.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#GetAgentDeploymentResponse": {
@@ -8870,10 +9275,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/projects/{projectName}/applications/{appName}/agentDeployments",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Lists Agent Deployments in the application.\n\nLists Agent Deployments in the application.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#AgentDeploymentResourceArmPaginatedResult": {
@@ -9048,10 +9453,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/projects/{projectName}/applications/{name}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Delete Agent Application.\n\nDelete Agent Application.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#DeleteAgentApplicationRequest": {
@@ -9115,10 +9520,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/projects/{projectName}/applications/{name}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Creates or updates an Agent Application (asynchronous).\n\nCreates or updates an Agent Application (asynchronous).",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#AgentApplicationsCreateOrUpdateResponse": {
@@ -9808,10 +10213,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/projects/{projectName}/applications/{name}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Gets an Agent Application by name.\n\nGets an Agent Application by name.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#GetAgentApplicationResponse": {
@@ -9914,10 +10319,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/projects/{projectName}/applications",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Lists Agent Applications in the project.\n\nLists Agent Applications in the project.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#AgentApplicationResourceArmPaginatedResult": {
@@ -10098,10 +10503,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/projects/{projectName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Deletes a Cognitive Services project from the resource group.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#DeleteProjectRequest": {
@@ -10157,10 +10562,10 @@
           "method": "PATCH",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/projects/{projectName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Updates a Cognitive Services Project",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#UpdateProjectResponse": {
@@ -10587,10 +10992,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/projects/{projectName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Create Cognitive Services Account's Project. Project is a sub-resource of an account which give AI developer it's individual container to work on.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#CreateProjectResponse": {
@@ -10756,10 +11161,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/projects/{projectName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Returns a Cognitive Services project specified by the parameters.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#GetProjectResponse": {
@@ -10889,10 +11294,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/projects",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Returns all the projects in a Cognitive Services account.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#ProjectListResult": {
@@ -11043,10 +11448,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/privateLinkResources",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Gets the private link resources that need to be created for a Cognitive Services account.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#PrivateLinkResourceListResult": {
@@ -11205,10 +11610,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/privateEndpointConnections/{privateEndpointConnectionName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Deletes the specified private endpoint connection associated with the Cognitive Services account.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#DeletePrivateEndpointConnectionRequest": {
@@ -11264,10 +11669,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/privateEndpointConnections/{privateEndpointConnectionName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Update the state of specified private endpoint connection associated with the Cognitive Services account.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#PrivateEndpointConnectionsCreateOrUpdateResponse": {
@@ -11594,10 +11999,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/privateEndpointConnections/{privateEndpointConnectionName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Gets the specified private endpoint connection associated with the Cognitive Services account.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#GetPrivateEndpointConnectionResponse": {
@@ -11703,10 +12108,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/privateEndpointConnections",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Gets the private endpoint connections associated with the Cognitive Services account.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#PrivateEndpointConnectionListResult": {
@@ -11827,10 +12232,10 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/networkSecurityPerimeterConfigurations/{nspConfigurationName}/reconcile",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Reconcile the NSP configuration for an account.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#NetworkSecurityPerimeterConfigurationsReconcileResponse": {
@@ -12270,10 +12675,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/networkSecurityPerimeterConfigurations/{nspConfigurationName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Gets the specified NSP configurations for an account.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#GetNetworkSecurityPerimeterConfigurationResponse": {
@@ -12367,10 +12772,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/networkSecurityPerimeterConfigurations",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Gets a list of NSP configurations for an account.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#NetworkSecurityPerimeterConfigurationList": {
@@ -12485,10 +12890,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/models",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "List available Models for the requested Cognitive Services account",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#AccountModelListResult": {
@@ -13185,10 +13590,10 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/managedNetworks/{managedNetworkName}/provision",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Provisions the managed network of a cognitive services account.\n\nProvisions the managed network of a cognitive services account.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#ManagedNetworkProvisionStatus": {
@@ -13278,10 +13683,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/managedNetworks/{managedNetworkName}/outboundRules/{ruleName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "The DELETE API for deleting a single outbound rule of the managed network associated with the cognitive services account.\n\nThe DELETE API for deleting a single outbound rule of the managed network associated with the cognitive services account.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#DeleteOutboundRuleRequest": {
@@ -13345,10 +13750,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/managedNetworks/{managedNetworkName}/outboundRules/{ruleName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "The PUT API for creating or updating a single outbound rule of the managed network associated with the cognitive services account.\n\nThe PUT API for creating or updating a single outbound rule of the managed network associated with the cognitive services account.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#OutboundRuleCreateOrUpdateResponse": {
@@ -13624,10 +14029,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/managedNetworks/{managedNetworkName}/outboundRules/{ruleName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "The GET API for retrieving a single outbound rule of the managed network associated with the cognitive services account.\n\nThe GET API for retrieving a single outbound rule of the managed network associated with the cognitive services account.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#GetOutboundRuleResponse": {
@@ -13730,10 +14135,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/managedNetworks/{managedNetworkName}/outboundRules",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "The GET API for retrieving the list of outbound rules of the managed network associated with the cognitive services account.\n\nThe GET API for retrieving the list of outbound rules of the managed network associated with the cognitive services account.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#OutboundRuleListResult": {
@@ -13857,10 +14262,10 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/managedNetworks/{managedNetworkName}/batchOutboundRules",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "The POST API for updating the outbound rules of the managed network associated with the cognitive services account.\n\nThe POST API for updating the outbound rules of the managed network associated with the cognitive services account.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#PostOutboundRuleRequest": {
@@ -14039,10 +14444,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/managedNetworks/{managedNetworkName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Delete API for managed network settings of a cognitive services account.\n\nDelete API for managed network settings of a cognitive services account.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#DeleteManagedNetworkSettingsRequest": {
@@ -14098,10 +14503,10 @@
           "method": "PATCH",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/managedNetworks/{managedNetworkName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Patch API for managed network settings of a cognitive services account.\n\nPatch API for managed network settings of a cognitive services account.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#PatchManagedNetworkSettingsResponse": {
@@ -14401,10 +14806,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/managedNetworks/{managedNetworkName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "PUT API for managed network settings of a cognitive services account.\n\nPUT API for managed network settings of a cognitive services account.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#PutManagedNetworkSettingsResponse": {
@@ -14504,10 +14909,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/managedNetworks/{managedNetworkName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Get API for managed network settings of a cognitive services account.\n\nGet API for managed network settings of a cognitive services account.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#GetManagedNetworkSettingsResponse": {
@@ -14601,10 +15006,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/managedNetworks",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "List API for managed network settings of a cognitive services account.\n\nList API for managed network settings of a cognitive services account.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#ManagedNetworkListResult": {
@@ -14719,10 +15124,10 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/listKeys",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Lists the account keys for the specified Cognitive Services account.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#ListAccountKeysRequest": {
@@ -14770,10 +15175,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/encryptionScopes/{encryptionScopeName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Deletes the specified encryptionScope associated with the Cognitive Services account.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#DeleteEncryptionScopeRequest": {
@@ -14829,10 +15234,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/encryptionScopes/{encryptionScopeName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Update the state of specified encryptionScope associated with the Cognitive Services account.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#EncryptionScopesCreateOrUpdateResponse": {
@@ -15171,10 +15576,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/encryptionScopes/{encryptionScopeName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Gets the specified EncryptionScope associated with the Cognitive Services account.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#GetEncryptionScopeResponse": {
@@ -15292,10 +15697,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/encryptionScopes",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Gets the content filters associated with the Azure OpenAI account.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#EncryptionScopeListResult": {
@@ -15434,10 +15839,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/deployments/{deploymentName}/skus",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Lists the specified deployments skus associated with the Cognitive Services account.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#DeploymentSkuListResult": {
@@ -15548,10 +15953,10 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/deployments/{deploymentName}/resume",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Resume a deployment\n\nResumes inferencing on a previously paused deployment by setting the deploymentState to 'Running' (see #/definitions/DeploymentProperties/properties/deploymentState). This operation is idempotent and can be safely called on already running deployments.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#ResumeDeploymentResponse": {
@@ -15635,6 +16040,12 @@
           "target": "com.azure.cognitiveservices#DeploymentModel",
           "traits": {
             "smithy.api#documentation": "Properties of Cognitive Services account deployment model."
+          }
+        },
+        "contextCacheContainerId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The resource ID of the context cache container associated with this deployment."
           }
         },
         "scaleSettings": {
@@ -16040,10 +16451,10 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/deployments/{deploymentName}/pause",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Pause a deployment\n\nPauses inferencing on a deployment by setting the deploymentState to 'Paused' (see #/definitions/DeploymentProperties/properties/deploymentState). Only Standard, DataZoneStandard, and GlobalStandard SKUs support this operation. Inference requests to the paused deployment endpoint will receive HTTP 423 (Locked). This operation is idempotent.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#PauseDeploymentResponse": {
@@ -16167,10 +16578,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/deployments/{deploymentName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Deletes the specified deployment associated with the Cognitive Services account.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#DeleteDeploymentRequest": {
@@ -16226,10 +16637,10 @@
           "method": "PATCH",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/deployments/{deploymentName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Update specified deployments associated with the Cognitive Services account.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#UpdateDeploymentResponse": {
@@ -16377,10 +16788,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/deployments/{deploymentName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Update the state of specified deployments associated with the Cognitive Services account.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#DeploymentsCreateOrUpdateResponse": {
@@ -16530,6 +16941,12 @@
             "smithy.api#documentation": "Properties of Cognitive Services account deployment model."
           }
         },
+        "contextCacheContainerId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The resource ID of the context cache container associated with this deployment."
+          }
+        },
         "scaleSettings": {
           "target": "com.azure.cognitiveservices#DeploymentScaleSettingsInput",
           "traits": {
@@ -16630,10 +17047,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/deployments/{deploymentName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Gets the specified deployments associated with the Cognitive Services account.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#GetDeploymentResponse": {
@@ -16757,10 +17174,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/deployments",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Gets the deployments associated with the Cognitive Services account.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#DeploymentListResult": {
@@ -16905,10 +17322,10 @@
           "method": "PATCH",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/defenderForAISettings/{defenderForAISettingName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Updates the specified Defender for AI setting.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#UpdateDefenderForAISettingsResponse": {
@@ -17084,10 +17501,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/defenderForAISettings/{defenderForAISettingName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Creates or Updates the specified Defender for AI setting.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#DefenderForAISettingsCreateOrUpdateResponse": {
@@ -17229,10 +17646,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/defenderForAISettings/{defenderForAISettingName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Gets the specified Defender for AI setting by name.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#GetDefenderForAISettingsResponse": {
@@ -17350,10 +17767,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/defenderForAISettings",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Lists the Defender for AI settings.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#DefenderForAISettingResult": {
@@ -17492,10 +17909,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/connections/{connectionName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Delete Cognitive Services account connection by name.\n\nDelete Cognitive Services account connection by name.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#DeleteAccountConnectionRequest": {
@@ -17551,10 +17968,10 @@
           "method": "PATCH",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/connections/{connectionName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Update Cognitive Services account connection under the specified account.\n\nUpdate Cognitive Services account connection under the specified account.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#UpdateAccountConnectionResponse": {
@@ -17655,10 +18072,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/connections/{connectionName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Create or update Cognitive Services account connection under the specified account.\n\nCreate or update Cognitive Services account connection under the specified account.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#CreateAccountConnectionResponse": {
@@ -17760,10 +18177,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/connections/{connectionName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Lists Cognitive Services account connection by name.\n\nLists Cognitive Services account connection by name.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#GetAccountConnectionResponse": {
@@ -17858,10 +18275,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/connections",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Lists all the available  Cognitive Services account connections under the specified account.\n\nLists all the available  Cognitive Services account connections under the specified account.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#ListAccountConnectionsRequest": {
@@ -17930,10 +18347,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/commitmentPlans/{commitmentPlanName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Deletes the specified commitmentPlan associated with the Cognitive Services account.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#DeleteCommitmentPlanRequest": {
@@ -17989,10 +18406,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/commitmentPlans/{commitmentPlanName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Update the state of specified commitmentPlans associated with the Cognitive Services account.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#CommitmentPlansCreateOrUpdateResponse": {
@@ -18170,10 +18587,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/commitmentPlans/{commitmentPlanName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Gets the specified commitmentPlans associated with the Cognitive Services account.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#GetCommitmentPlanResponse": {
@@ -18309,10 +18726,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/commitmentPlans",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Gets the commitmentPlans associated with the Cognitive Services account.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#ListCommitmentPlansRequest": {
@@ -18360,10 +18777,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/capabilityHosts/{capabilityHostName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Delete account capabilityHost.\n\nDelete account capabilityHost.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#DeleteAccountCapabilityHostRequest": {
@@ -18419,10 +18836,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/capabilityHosts/{capabilityHostName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Create or update account capabilityHost.\n\nCreate or update account capabilityHost.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#AccountCapabilityHostsCreateOrUpdateResponse": {
@@ -18772,10 +19189,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/capabilityHosts/{capabilityHostName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Get account capabilityHost.\n\nGet account capabilityHost.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#GetAccountCapabilityHostResponse": {
@@ -18870,10 +19287,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/capabilityHosts",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "List capabilityHost.\n\nList capabilityHost.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#CapabilityHostResourceArmPaginatedResult": {
@@ -18990,10 +19407,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Deletes a Cognitive Services account from the resource group.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#DeleteAccountRequest": {
@@ -19041,10 +19458,10 @@
           "method": "PATCH",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Updates a Cognitive Services account",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#UpdateAccountResponse": {
@@ -19248,6 +19665,12 @@
           "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#documentation": "The flag to disable stored completions."
+          }
+        },
+        "a365LoggingEnabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Specifies whether A365 logging is enabled. Defaults to true. Set to false to opt out."
           }
         },
         "quotaLimit": {
@@ -20120,6 +20543,12 @@
             "smithy.api#documentation": "The flag to disable stored completions."
           }
         },
+        "a365LoggingEnabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Specifies whether A365 logging is enabled. Defaults to true. Set to false to opt out."
+          }
+        },
         "restrictOutboundNetworkAccess": {
           "target": "smithy.api#Boolean"
         },
@@ -20215,10 +20644,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Create Cognitive Services Account. Accounts is a resource group wide resource type. It holds the keys for developer to access intelligent APIs. It's also the resource type for billing.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#CreateAccountResponse": {
@@ -20400,10 +20829,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Returns a Cognitive Services account specified by the parameters.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#GetAccountResponse": {
@@ -20537,10 +20966,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Returns all the resources of a particular type belonging to a resource group",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#AccountListResult": {
@@ -20695,10 +21124,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/skus",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Gets the list of Microsoft.CognitiveServices SKUs available for your Subscription.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#ResourceSkuListResult": {
@@ -20939,10 +21368,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/raiPolicy/{raiPolicyName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Deletes the specified Content Filters associated with the subscription.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#DeleteSubscriptionRaiPolicyRequest": {
@@ -20982,10 +21411,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/raiPolicy/{raiPolicyName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Update the state of specified Content Filters associated with the subscription.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#SubscriptionRaiPolicyCreateOrUpdateResponse": {
@@ -21111,10 +21540,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/raiPolicy/{raiPolicyName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Gets the specified Content Filters associated with the Subscription.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#GetSubscriptionRaiPolicyResponse": {
@@ -21216,10 +21645,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/raiExternalSafetyProviders/{safetyProviderName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Deletes the specified custom topic associated with the subscription.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#DeleteRaiExternalSafetyProviderRequest": {
@@ -21259,10 +21688,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/raiExternalSafetyProviders/{safetyProviderName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Create the rai safety provider associated with the subscription.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#RaiExternalSafetyProviderCreateOrUpdateResponse": {
@@ -21370,10 +21799,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/raiExternalSafetyProviders/{safetyProviderName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Gets the specified external safety provider associated with the Subscription",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#GetRaiExternalSafetyProviderResponse": {
@@ -21475,10 +21904,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/raiExternalSafetyProviders",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Gets the safety providers associated with the subscription",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#RaiExternalSafetyProviderResult": {
@@ -21601,10 +22030,10 @@
           "method": "PATCH",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/quotaTiers/{default}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Updates the Quota Tier resource for a subscription. The only properties that can be updated are  \"tierUpgradePolicy\"\n\nUpdate the Quota Tier information for the given subscription. QuotaTiers is a subscription wide resource type. It holds current tier information.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#UpdateQuotaTierResponse": {
@@ -21810,10 +22239,10 @@
           "method": "PUT",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/quotaTiers/{default}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Updates the Quota Tier resource for a subscription.\n\nUpdate the Quota Tier information for the given subscription. QuotaTiers is a subscription wide resource type. It holds current tier information.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#QuotaTiersCreateOrUpdateResponse": {
@@ -21897,10 +22326,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/quotaTiers/{default}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Gets the Quota Tier for a subscription\n\nGets the Quota Tier information for the given subscription. QuotaTiers is a subscription wide resource type. It holds current tier information.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#GetQuotaTierResponse": {
@@ -21978,10 +22407,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/quotaTiers",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Returns all the resources of a particular type belonging to a subscription.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#QuotaTierListResult": {
@@ -22080,10 +22509,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/modelCapacities",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "List ModelCapacities.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#ModelCapacityListResult": {
@@ -22253,10 +22682,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/locations/{location}/usages",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Get usages for the requested subscription",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#ListUsagesRequest": {
@@ -22303,10 +22732,10 @@
           "method": "DELETE",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/locations/{location}/resourceGroups/{resourceGroupName}/deletedAccounts/{accountName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Deletes a Cognitive Services account from the resource group.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#PurgeDeletedAccountRequest": {
@@ -22362,10 +22791,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/locations/{location}/resourceGroups/{resourceGroupName}/deletedAccounts/{accountName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Returns a Cognitive Services account specified by the parameters.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#GetDeletedAccountResponse": {
@@ -22507,10 +22936,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/locations/{location}/raiContentFilters/{filterName}",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Get Content Filters by Name.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#GetRaiContentFilterResponse": {
@@ -22622,10 +23051,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/locations/{location}/raiContentFilters",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "List Content Filters types.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#RaiContentFilterListResult": {
@@ -22732,10 +23161,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/locations/{location}/models",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "List Models.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#ModelListResult": {
@@ -22836,10 +23265,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/locations/{location}/modelCapacities",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "List Location Based ModelCapacities.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#ListLocationBasedModelCapacitiesRequest": {
@@ -22903,10 +23332,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/locations/{location}/commitmentTiers",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "List Commitment Tiers.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#CommitmentTierListResult": {
@@ -23051,10 +23480,10 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/locations/{location}/checkSkuAvailability",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Check available SKUs.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#SkuAvailabilityListResult": {
@@ -23191,10 +23620,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/deletedAccounts",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Returns all the resources of a particular type belonging to a subscription.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#ListDeletedAccountsRequest": {
@@ -23226,10 +23655,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/commitmentPlans",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Returns all the resources of a particular type belonging to a subscription.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#ListCommitmentPlanPlansBySubscriptionRequest": {
@@ -23261,10 +23690,10 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/checkDomainAvailability",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Check whether a domain is available.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#DomainAvailability": {
@@ -23354,10 +23783,10 @@
           "method": "POST",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/calculateModelCapacity",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Model capacity calculator.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#CalculateModelCapacityResult": {
@@ -23493,10 +23922,10 @@
           "method": "GET",
           "uri": "/subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/accounts",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Returns all the resources of a particular type belonging to a subscription.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#ListAccountsRequest": {
@@ -23528,10 +23957,10 @@
           "method": "GET",
           "uri": "/providers/Microsoft.CognitiveServices/operations",
           "code": 200,
-          "apiVersion": "2026-07-01"
+          "apiVersion": "2026-09-01"
         },
         "smithy.api#documentation": "Lists all the available Cognitive Services account operations.",
-        "com.distilled.openapi#apiVersion": "2026-07-01"
+        "com.distilled.openapi#apiVersion": "2026-09-01"
       }
     },
     "com.azure.cognitiveservices#ListOperationsResponse": {

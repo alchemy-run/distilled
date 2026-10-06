@@ -80,10 +80,7 @@ export class CloudHsmClusterInUseException
     "CloudHsmClusterInUseException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "CloudHsmClusterInUseException",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "CloudHsmClusterInUseException", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -104,10 +101,7 @@ export class CloudHsmClusterNotActiveException
     "CloudHsmClusterNotActiveException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "CloudHsmClusterNotActiveException",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "CloudHsmClusterNotActiveException", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -116,10 +110,7 @@ export class CloudHsmClusterNotFoundException
     "CloudHsmClusterNotFoundException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "CloudHsmClusterNotFoundException",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "CloudHsmClusterNotFoundException", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -128,10 +119,7 @@ export class CloudHsmClusterNotRelatedException
     "CloudHsmClusterNotRelatedException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "CloudHsmClusterNotRelatedException",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "CloudHsmClusterNotRelatedException", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -146,10 +134,7 @@ export class CustomKeyStoreHasCMKsException
     "CustomKeyStoreHasCMKsException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "CustomKeyStoreHasCMKsException",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "CustomKeyStoreHasCMKsException", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -158,10 +143,7 @@ export class CustomKeyStoreInvalidStateException
     "CustomKeyStoreInvalidStateException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "CustomKeyStoreInvalidStateException",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "CustomKeyStoreInvalidStateException", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -170,10 +152,7 @@ export class CustomKeyStoreNameInUseException
     "CustomKeyStoreNameInUseException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "CustomKeyStoreNameInUseException",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "CustomKeyStoreNameInUseException", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -182,10 +161,7 @@ export class CustomKeyStoreNotFoundException
     "CustomKeyStoreNotFoundException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "CustomKeyStoreNotFoundException",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "CustomKeyStoreNotFoundException", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -212,10 +188,7 @@ export class ExpiredImportTokenException
     "ExpiredImportTokenException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "ExpiredImportTokenException",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "ExpiredImportTokenException", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -233,10 +206,7 @@ export class IncorrectKeyMaterialException
     "IncorrectKeyMaterialException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "IncorrectKeyMaterialException",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "IncorrectKeyMaterialException", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -245,10 +215,7 @@ export class IncorrectTrustAnchorException
     "IncorrectTrustAnchorException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "IncorrectTrustAnchorException",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "IncorrectTrustAnchorException", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -287,10 +254,7 @@ export class InvalidImportTokenException
     "InvalidImportTokenException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "InvalidImportTokenException",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "InvalidImportTokenException", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -338,10 +302,7 @@ export class KMSInvalidStateException
     "KMSInvalidStateException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "KMSInvalidStateException",
-        httpResponseCode: 409,
-      }),
+      T.AwsQueryError({ code: "KMSInvalidStateException", httpResponseCode: 409 }),
       T.HttpError(409),
     ),
   ).pipe(C.withConflictError) {}
@@ -356,10 +317,7 @@ export class MalformedPolicyDocumentException
     "MalformedPolicyDocumentException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "MalformedPolicyDocument",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "MalformedPolicyDocument", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -395,10 +353,7 @@ export class XksKeyInvalidConfigurationException
     "XksKeyInvalidConfigurationException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "XksKeyInvalidConfiguration",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "XksKeyInvalidConfiguration", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -407,10 +362,7 @@ export class XksKeyNotFoundException
     "XksKeyNotFoundException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "XksKeyNotFoundException",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "XksKeyNotFoundException", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -431,10 +383,7 @@ export class XksProxyInvalidConfigurationException
     "XksProxyInvalidConfigurationException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "XksProxyInvalidConfigurationException",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "XksProxyInvalidConfigurationException", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -443,10 +392,7 @@ export class XksProxyInvalidResponseException
     "XksProxyInvalidResponseException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "XksProxyInvalidResponseException",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "XksProxyInvalidResponseException", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -455,10 +401,7 @@ export class XksProxyUriEndpointInUseException
     "XksProxyUriEndpointInUseException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "XksProxyUriEndpointInUseException",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "XksProxyUriEndpointInUseException", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -467,10 +410,7 @@ export class XksProxyUriInUseException
     "XksProxyUriInUseException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "XksProxyUriInUseException",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "XksProxyUriInUseException", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -479,10 +419,7 @@ export class XksProxyUriUnreachableException
     "XksProxyUriUnreachableException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "XksProxyUriUnreachableException",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "XksProxyUriUnreachableException", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -491,10 +428,7 @@ export class XksProxyVpcEndpointServiceInUseException
     "XksProxyVpcEndpointServiceInUseException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "XksProxyVpcEndpointServiceInUseException",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "XksProxyVpcEndpointServiceInUseException", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -530,9 +464,7 @@ export const CancelKeyDeletionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ KeyId: S.String }).pipe(
     T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "CancelKeyDeletionRequest",
-}) as any as S.Schema<CancelKeyDeletionRequest>;
+).annotate({ identifier: "CancelKeyDeletionRequest" }) as any as S.Schema<CancelKeyDeletionRequest>;
 export interface CancelKeyDeletionResponse {
   KeyId?: string;
 }
@@ -567,9 +499,7 @@ export const CreateAliasRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ AliasName: S.String, TargetKeyId: S.String }).pipe(
     T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "CreateAliasRequest",
-}) as any as S.Schema<CreateAliasRequest>;
+).annotate({ identifier: "CreateAliasRequest" }) as any as S.Schema<CreateAliasRequest>;
 export interface CreateAliasResponse {}
 export const CreateAliasResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "CreateAliasResponse",
@@ -592,10 +522,7 @@ export interface XksProxyAuthenticationCredentialType {
   RawSecretAccessKey: string | redacted.Redacted<string>;
 }
 export const XksProxyAuthenticationCredentialType = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AccessKeyId: SensitiveString,
-    RawSecretAccessKey: SensitiveString,
-  }),
+  S.Struct({ AccessKeyId: SensitiveString, RawSecretAccessKey: SensitiveString }),
 ).annotate({
   identifier: "XksProxyAuthenticationCredentialType",
 }) as any as S.Schema<XksProxyAuthenticationCredentialType>;
@@ -680,9 +607,7 @@ export const GrantConstraints = /*@__PURE__*/ S.suspend(() =>
     EncryptionContextEquals: S.optional(EncryptionContextType),
     SourceArn: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GrantConstraints",
-}) as any as S.Schema<GrantConstraints>;
+).annotate({ identifier: "GrantConstraints" }) as any as S.Schema<GrantConstraints>;
 export type GrantTokenType = string;
 export type GrantTokenList = string[];
 export const GrantTokenList = /*@__PURE__*/ S.Array(S.String);
@@ -714,22 +639,15 @@ export const CreateGrantRequest = /*@__PURE__*/ S.suspend(() =>
     GranteeServicePrincipal: S.optional(S.String),
     RetiringServicePrincipal: S.optional(S.String),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateGrantRequest",
-}) as any as S.Schema<CreateGrantRequest>;
+).annotate({ identifier: "CreateGrantRequest" }) as any as S.Schema<CreateGrantRequest>;
 export type GrantIdType = string;
 export interface CreateGrantResponse {
   GrantToken?: string;
   GrantId?: string;
 }
 export const CreateGrantResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GrantToken: S.optional(S.String),
-    GrantId: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "CreateGrantResponse",
-}) as any as S.Schema<CreateGrantResponse>;
+  S.Struct({ GrantToken: S.optional(S.String), GrantId: S.optional(S.String) }).pipe(ns),
+).annotate({ identifier: "CreateGrantResponse" }) as any as S.Schema<CreateGrantResponse>;
 export type PolicyType = string;
 export type DescriptionType = string;
 export type KeyUsageType =
@@ -825,9 +743,7 @@ export const CreateKeyRequest = /*@__PURE__*/ S.suspend(() =>
     MultiRegion: S.optional(S.Boolean),
     XksKeyId: S.optional(S.String),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateKeyRequest",
-}) as any as S.Schema<CreateKeyRequest>;
+).annotate({ identifier: "CreateKeyRequest" }) as any as S.Schema<CreateKeyRequest>;
 export type AWSAccountIdType = string;
 export type ArnType = string;
 export type KeyState =
@@ -909,9 +825,7 @@ export const MultiRegionConfiguration = /*@__PURE__*/ S.suspend(() =>
     PrimaryKey: S.optional(MultiRegionKey),
     ReplicaKeys: S.optional(MultiRegionKeyList),
   }),
-).annotate({
-  identifier: "MultiRegionConfiguration",
-}) as any as S.Schema<MultiRegionConfiguration>;
+).annotate({ identifier: "MultiRegionConfiguration" }) as any as S.Schema<MultiRegionConfiguration>;
 export type PendingWindowInDaysType = number;
 export type MacAlgorithmSpec =
   | "HMAC_SHA_224"
@@ -928,9 +842,7 @@ export interface XksKeyConfigurationType {
 }
 export const XksKeyConfigurationType = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Id: S.optional(S.String) }),
-).annotate({
-  identifier: "XksKeyConfigurationType",
-}) as any as S.Schema<XksKeyConfigurationType>;
+).annotate({ identifier: "XksKeyConfigurationType" }) as any as S.Schema<XksKeyConfigurationType>;
 export type BackingKeyIdType = string;
 export interface KeyMetadata {
   AWSAccountId?: string;
@@ -995,9 +907,7 @@ export interface CreateKeyResponse {
 }
 export const CreateKeyResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ KeyMetadata: S.optional(KeyMetadata) }).pipe(ns),
-).annotate({
-  identifier: "CreateKeyResponse",
-}) as any as S.Schema<CreateKeyResponse>;
+).annotate({ identifier: "CreateKeyResponse" }) as any as S.Schema<CreateKeyResponse>;
 export type CiphertextType = Uint8Array;
 export type KeyEncryptionMechanism = "RSAES_OAEP_SHA_256" | (string & {});
 export const KeyEncryptionMechanism = S.String;
@@ -1056,9 +966,7 @@ export const DecryptResponse = /*@__PURE__*/ S.suspend(() =>
     CiphertextForRecipient: S.optional(T.Blob),
     KeyMaterialId: S.optional(S.String),
   }).pipe(ns),
-).annotate({
-  identifier: "DecryptResponse",
-}) as any as S.Schema<DecryptResponse>;
+).annotate({ identifier: "DecryptResponse" }) as any as S.Schema<DecryptResponse>;
 export interface DeleteAliasRequest {
   AliasName: string;
 }
@@ -1066,9 +974,7 @@ export const DeleteAliasRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ AliasName: S.String }).pipe(
     T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteAliasRequest",
-}) as any as S.Schema<DeleteAliasRequest>;
+).annotate({ identifier: "DeleteAliasRequest" }) as any as S.Schema<DeleteAliasRequest>;
 export interface DeleteAliasResponse {}
 export const DeleteAliasResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "DeleteAliasResponse",
@@ -1106,10 +1012,7 @@ export interface DeleteImportedKeyMaterialResponse {
   KeyMaterialId?: string;
 }
 export const DeleteImportedKeyMaterialResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    KeyId: S.optional(S.String),
-    KeyMaterialId: S.optional(S.String),
-  }).pipe(ns),
+  S.Struct({ KeyId: S.optional(S.String), KeyMaterialId: S.optional(S.String) }).pipe(ns),
 ).annotate({
   identifier: "DeleteImportedKeyMaterialResponse",
 }) as any as S.Schema<DeleteImportedKeyMaterialResponse>;
@@ -1244,9 +1147,7 @@ export const CustomKeyStoresListEntry = /*@__PURE__*/ S.suspend(() =>
     CustomKeyStoreType: S.optional(CustomKeyStoreType),
     XksProxyConfiguration: S.optional(XksProxyConfigurationType),
   }),
-).annotate({
-  identifier: "CustomKeyStoresListEntry",
-}) as any as S.Schema<CustomKeyStoresListEntry>;
+).annotate({ identifier: "CustomKeyStoresListEntry" }) as any as S.Schema<CustomKeyStoresListEntry>;
 export type CustomKeyStoresList = CustomKeyStoresListEntry[];
 export const CustomKeyStoresList = /*@__PURE__*/ S.Array(CustomKeyStoresListEntry);
 export interface DescribeCustomKeyStoresResponse {
@@ -1271,17 +1172,13 @@ export const DescribeKeyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ KeyId: S.String, GrantTokens: S.optional(GrantTokenList) }).pipe(
     T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DescribeKeyRequest",
-}) as any as S.Schema<DescribeKeyRequest>;
+).annotate({ identifier: "DescribeKeyRequest" }) as any as S.Schema<DescribeKeyRequest>;
 export interface DescribeKeyResponse {
   KeyMetadata?: KeyMetadata;
 }
 export const DescribeKeyResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ KeyMetadata: S.optional(KeyMetadata) }).pipe(ns),
-).annotate({
-  identifier: "DescribeKeyResponse",
-}) as any as S.Schema<DescribeKeyResponse>;
+).annotate({ identifier: "DescribeKeyResponse" }) as any as S.Schema<DescribeKeyResponse>;
 export interface DisableKeyRequest {
   KeyId: string;
 }
@@ -1289,9 +1186,7 @@ export const DisableKeyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ KeyId: S.String }).pipe(
     T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DisableKeyRequest",
-}) as any as S.Schema<DisableKeyRequest>;
+).annotate({ identifier: "DisableKeyRequest" }) as any as S.Schema<DisableKeyRequest>;
 export interface DisableKeyResponse {}
 export const DisableKeyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "DisableKeyResponse",
@@ -1335,9 +1230,7 @@ export const EnableKeyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ KeyId: S.String }).pipe(
     T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "EnableKeyRequest",
-}) as any as S.Schema<EnableKeyRequest>;
+).annotate({ identifier: "EnableKeyRequest" }) as any as S.Schema<EnableKeyRequest>;
 export interface EnableKeyResponse {}
 export const EnableKeyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "EnableKeyResponse",
@@ -1348,13 +1241,10 @@ export interface EnableKeyRotationRequest {
   RotationPeriodInDays?: number;
 }
 export const EnableKeyRotationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    KeyId: S.String,
-    RotationPeriodInDays: S.optional(S.Number),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "EnableKeyRotationRequest",
-}) as any as S.Schema<EnableKeyRotationRequest>;
+  S.Struct({ KeyId: S.String, RotationPeriodInDays: S.optional(S.Number) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({ identifier: "EnableKeyRotationRequest" }) as any as S.Schema<EnableKeyRotationRequest>;
 export interface EnableKeyRotationResponse {}
 export const EnableKeyRotationResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(ns),
@@ -1390,9 +1280,7 @@ export const EncryptResponse = /*@__PURE__*/ S.suspend(() =>
     KeyId: S.optional(S.String),
     EncryptionAlgorithm: S.optional(EncryptionAlgorithmSpec),
   }).pipe(ns),
-).annotate({
-  identifier: "EncryptResponse",
-}) as any as S.Schema<EncryptResponse>;
+).annotate({ identifier: "EncryptResponse" }) as any as S.Schema<EncryptResponse>;
 export type NumberOfBytesType = number;
 export type DataKeySpec = "AES_256" | "AES_128" | (string & {});
 export const DataKeySpec = S.String;
@@ -1416,9 +1304,7 @@ export const GenerateDataKeyRequest = /*@__PURE__*/ S.suspend(() =>
     Recipient: S.optional(RecipientInfo),
     DryRun: S.optional(S.Boolean),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "GenerateDataKeyRequest",
-}) as any as S.Schema<GenerateDataKeyRequest>;
+).annotate({ identifier: "GenerateDataKeyRequest" }) as any as S.Schema<GenerateDataKeyRequest>;
 export interface GenerateDataKeyResponse {
   CiphertextBlob?: Uint8Array;
   Plaintext?: Uint8Array | redacted.Redacted<Uint8Array>;
@@ -1434,9 +1320,7 @@ export const GenerateDataKeyResponse = /*@__PURE__*/ S.suspend(() =>
     CiphertextForRecipient: S.optional(T.Blob),
     KeyMaterialId: S.optional(S.String),
   }).pipe(ns),
-).annotate({
-  identifier: "GenerateDataKeyResponse",
-}) as any as S.Schema<GenerateDataKeyResponse>;
+).annotate({ identifier: "GenerateDataKeyResponse" }) as any as S.Schema<GenerateDataKeyResponse>;
 export type DataKeyPairSpec =
   | "RSA_2048"
   | "RSA_3072"
@@ -1577,9 +1461,7 @@ export const GenerateMacRequest = /*@__PURE__*/ S.suspend(() =>
     GrantTokens: S.optional(GrantTokenList),
     DryRun: S.optional(S.Boolean),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "GenerateMacRequest",
-}) as any as S.Schema<GenerateMacRequest>;
+).annotate({ identifier: "GenerateMacRequest" }) as any as S.Schema<GenerateMacRequest>;
 export interface GenerateMacResponse {
   Mac?: Uint8Array;
   MacAlgorithm?: MacAlgorithmSpec;
@@ -1591,9 +1473,7 @@ export const GenerateMacResponse = /*@__PURE__*/ S.suspend(() =>
     MacAlgorithm: S.optional(MacAlgorithmSpec),
     KeyId: S.optional(S.String),
   }).pipe(ns),
-).annotate({
-  identifier: "GenerateMacResponse",
-}) as any as S.Schema<GenerateMacResponse>;
+).annotate({ identifier: "GenerateMacResponse" }) as any as S.Schema<GenerateMacResponse>;
 export interface GenerateRandomRequest {
   NumberOfBytes?: number;
   CustomKeyStoreId?: string;
@@ -1605,9 +1485,7 @@ export const GenerateRandomRequest = /*@__PURE__*/ S.suspend(() =>
     CustomKeyStoreId: S.optional(S.String),
     Recipient: S.optional(RecipientInfo),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "GenerateRandomRequest",
-}) as any as S.Schema<GenerateRandomRequest>;
+).annotate({ identifier: "GenerateRandomRequest" }) as any as S.Schema<GenerateRandomRequest>;
 export interface GenerateRandomResponse {
   Plaintext?: Uint8Array | redacted.Redacted<Uint8Array>;
   CiphertextForRecipient?: Uint8Array;
@@ -1617,9 +1495,7 @@ export const GenerateRandomResponse = /*@__PURE__*/ S.suspend(() =>
     Plaintext: S.optional(SensitiveBlob),
     CiphertextForRecipient: S.optional(T.Blob),
   }).pipe(ns),
-).annotate({
-  identifier: "GenerateRandomResponse",
-}) as any as S.Schema<GenerateRandomResponse>;
+).annotate({ identifier: "GenerateRandomResponse" }) as any as S.Schema<GenerateRandomResponse>;
 export interface GetKeyLastUsageRequest {
   KeyId: string;
 }
@@ -1627,9 +1503,7 @@ export const GetKeyLastUsageRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ KeyId: S.String }).pipe(
     T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetKeyLastUsageRequest",
-}) as any as S.Schema<GetKeyLastUsageRequest>;
+).annotate({ identifier: "GetKeyLastUsageRequest" }) as any as S.Schema<GetKeyLastUsageRequest>;
 export type KeyLastUsageTrackingOperation =
   | "Decrypt"
   | "DeriveSharedSecret"
@@ -1661,9 +1535,7 @@ export const KeyLastUsageData = /*@__PURE__*/ S.suspend(() =>
     CloudTrailEventId: S.optional(S.String),
     KmsRequestId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "KeyLastUsageData",
-}) as any as S.Schema<KeyLastUsageData>;
+).annotate({ identifier: "KeyLastUsageData" }) as any as S.Schema<KeyLastUsageData>;
 export interface GetKeyLastUsageResponse {
   KeyId?: string;
   KeyLastUsage?: KeyLastUsageData;
@@ -1677,9 +1549,7 @@ export const GetKeyLastUsageResponse = /*@__PURE__*/ S.suspend(() =>
     TrackingStartDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     KeyCreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }).pipe(ns),
-).annotate({
-  identifier: "GetKeyLastUsageResponse",
-}) as any as S.Schema<GetKeyLastUsageResponse>;
+).annotate({ identifier: "GetKeyLastUsageResponse" }) as any as S.Schema<GetKeyLastUsageResponse>;
 export type PolicyNameType = string;
 export interface GetKeyPolicyRequest {
   KeyId: string;
@@ -1689,21 +1559,14 @@ export const GetKeyPolicyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ KeyId: S.String, PolicyName: S.optional(S.String) }).pipe(
     T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetKeyPolicyRequest",
-}) as any as S.Schema<GetKeyPolicyRequest>;
+).annotate({ identifier: "GetKeyPolicyRequest" }) as any as S.Schema<GetKeyPolicyRequest>;
 export interface GetKeyPolicyResponse {
   Policy?: string;
   PolicyName?: string;
 }
 export const GetKeyPolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Policy: S.optional(S.String),
-    PolicyName: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetKeyPolicyResponse",
-}) as any as S.Schema<GetKeyPolicyResponse>;
+  S.Struct({ Policy: S.optional(S.String), PolicyName: S.optional(S.String) }).pipe(ns),
+).annotate({ identifier: "GetKeyPolicyResponse" }) as any as S.Schema<GetKeyPolicyResponse>;
 export interface GetKeyRotationStatusRequest {
   KeyId: string;
 }
@@ -1783,9 +1646,7 @@ export const GetPublicKeyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ KeyId: S.String, GrantTokens: S.optional(GrantTokenList) }).pipe(
     T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetPublicKeyRequest",
-}) as any as S.Schema<GetPublicKeyRequest>;
+).annotate({ identifier: "GetPublicKeyRequest" }) as any as S.Schema<GetPublicKeyRequest>;
 export interface GetPublicKeyResponse {
   KeyId?: string;
   PublicKey?: Uint8Array;
@@ -1807,9 +1668,7 @@ export const GetPublicKeyResponse = /*@__PURE__*/ S.suspend(() =>
     SigningAlgorithms: S.optional(SigningAlgorithmSpecList),
     KeyAgreementAlgorithms: S.optional(KeyAgreementAlgorithmSpecList),
   }).pipe(ns),
-).annotate({
-  identifier: "GetPublicKeyResponse",
-}) as any as S.Schema<GetPublicKeyResponse>;
+).annotate({ identifier: "GetPublicKeyResponse" }) as any as S.Schema<GetPublicKeyResponse>;
 export type ImportType = "NEW_KEY_MATERIAL" | "EXISTING_KEY_MATERIAL" | (string & {});
 export const ImportType = S.String;
 
@@ -1835,18 +1694,13 @@ export const ImportKeyMaterialRequest = /*@__PURE__*/ S.suspend(() =>
     KeyMaterialDescription: S.optional(S.String),
     KeyMaterialId: S.optional(S.String),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ImportKeyMaterialRequest",
-}) as any as S.Schema<ImportKeyMaterialRequest>;
+).annotate({ identifier: "ImportKeyMaterialRequest" }) as any as S.Schema<ImportKeyMaterialRequest>;
 export interface ImportKeyMaterialResponse {
   KeyId?: string;
   KeyMaterialId?: string;
 }
 export const ImportKeyMaterialResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    KeyId: S.optional(S.String),
-    KeyMaterialId: S.optional(S.String),
-  }).pipe(ns),
+  S.Struct({ KeyId: S.optional(S.String), KeyMaterialId: S.optional(S.String) }).pipe(ns),
 ).annotate({
   identifier: "ImportKeyMaterialResponse",
 }) as any as S.Schema<ImportKeyMaterialResponse>;
@@ -1861,9 +1715,7 @@ export const ListAliasesRequest = /*@__PURE__*/ S.suspend(() =>
     Limit: S.optional(S.Number),
     Marker: S.optional(S.String),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListAliasesRequest",
-}) as any as S.Schema<ListAliasesRequest>;
+).annotate({ identifier: "ListAliasesRequest" }) as any as S.Schema<ListAliasesRequest>;
 export interface AliasListEntry {
   AliasName?: string;
   AliasArn?: string;
@@ -1893,9 +1745,7 @@ export const ListAliasesResponse = /*@__PURE__*/ S.suspend(() =>
     NextMarker: S.optional(S.String),
     Truncated: S.optional(S.Boolean),
   }).pipe(ns),
-).annotate({
-  identifier: "ListAliasesResponse",
-}) as any as S.Schema<ListAliasesResponse>;
+).annotate({ identifier: "ListAliasesResponse" }) as any as S.Schema<ListAliasesResponse>;
 export interface ListGrantsRequest {
   Limit?: number;
   Marker?: string;
@@ -1913,9 +1763,7 @@ export const ListGrantsRequest = /*@__PURE__*/ S.suspend(() =>
     GranteePrincipal: S.optional(S.String),
     GranteeServicePrincipal: S.optional(S.String),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListGrantsRequest",
-}) as any as S.Schema<ListGrantsRequest>;
+).annotate({ identifier: "ListGrantsRequest" }) as any as S.Schema<ListGrantsRequest>;
 export interface GrantListEntry {
   KeyId?: string;
   GrantId?: string;
@@ -1957,23 +1805,17 @@ export const ListGrantsResponse = /*@__PURE__*/ S.suspend(() =>
     NextMarker: S.optional(S.String),
     Truncated: S.optional(S.Boolean),
   }).pipe(ns),
-).annotate({
-  identifier: "ListGrantsResponse",
-}) as any as S.Schema<ListGrantsResponse>;
+).annotate({ identifier: "ListGrantsResponse" }) as any as S.Schema<ListGrantsResponse>;
 export interface ListKeyPoliciesRequest {
   KeyId: string;
   Limit?: number;
   Marker?: string;
 }
 export const ListKeyPoliciesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    KeyId: S.String,
-    Limit: S.optional(S.Number),
-    Marker: S.optional(S.String),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListKeyPoliciesRequest",
-}) as any as S.Schema<ListKeyPoliciesRequest>;
+  S.Struct({ KeyId: S.String, Limit: S.optional(S.Number), Marker: S.optional(S.String) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({ identifier: "ListKeyPoliciesRequest" }) as any as S.Schema<ListKeyPoliciesRequest>;
 export type PolicyNameList = string[];
 export const PolicyNameList = /*@__PURE__*/ S.Array(S.String);
 export interface ListKeyPoliciesResponse {
@@ -1987,9 +1829,7 @@ export const ListKeyPoliciesResponse = /*@__PURE__*/ S.suspend(() =>
     NextMarker: S.optional(S.String),
     Truncated: S.optional(S.Boolean),
   }).pipe(ns),
-).annotate({
-  identifier: "ListKeyPoliciesResponse",
-}) as any as S.Schema<ListKeyPoliciesResponse>;
+).annotate({ identifier: "ListKeyPoliciesResponse" }) as any as S.Schema<ListKeyPoliciesResponse>;
 export type IncludeKeyMaterial = "ALL_KEY_MATERIAL" | "ROTATIONS_ONLY" | (string & {});
 export const IncludeKeyMaterial = S.String;
 
@@ -2006,9 +1846,7 @@ export const ListKeyRotationsRequest = /*@__PURE__*/ S.suspend(() =>
     Limit: S.optional(S.Number),
     Marker: S.optional(S.String),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListKeyRotationsRequest",
-}) as any as S.Schema<ListKeyRotationsRequest>;
+).annotate({ identifier: "ListKeyRotationsRequest" }) as any as S.Schema<ListKeyRotationsRequest>;
 export type ImportState = "IMPORTED" | "PENDING_IMPORT" | (string & {});
 export const ImportState = S.String;
 
@@ -2046,9 +1884,7 @@ export const RotationsListEntry = /*@__PURE__*/ S.suspend(() =>
     RotationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     RotationType: S.optional(RotationType),
   }),
-).annotate({
-  identifier: "RotationsListEntry",
-}) as any as S.Schema<RotationsListEntry>;
+).annotate({ identifier: "RotationsListEntry" }) as any as S.Schema<RotationsListEntry>;
 export type RotationsList = RotationsListEntry[];
 export const RotationsList = /*@__PURE__*/ S.Array(RotationsListEntry);
 export interface ListKeyRotationsResponse {
@@ -2062,9 +1898,7 @@ export const ListKeyRotationsResponse = /*@__PURE__*/ S.suspend(() =>
     NextMarker: S.optional(S.String),
     Truncated: S.optional(S.Boolean),
   }).pipe(ns),
-).annotate({
-  identifier: "ListKeyRotationsResponse",
-}) as any as S.Schema<ListKeyRotationsResponse>;
+).annotate({ identifier: "ListKeyRotationsResponse" }) as any as S.Schema<ListKeyRotationsResponse>;
 export interface ListKeysRequest {
   Limit?: number;
   Marker?: string;
@@ -2073,9 +1907,7 @@ export const ListKeysRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Limit: S.optional(S.Number), Marker: S.optional(S.String) }).pipe(
     T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "ListKeysRequest",
-}) as any as S.Schema<ListKeysRequest>;
+).annotate({ identifier: "ListKeysRequest" }) as any as S.Schema<ListKeysRequest>;
 export interface KeyListEntry {
   KeyId?: string;
   KeyArn?: string;
@@ -2096,23 +1928,17 @@ export const ListKeysResponse = /*@__PURE__*/ S.suspend(() =>
     NextMarker: S.optional(S.String),
     Truncated: S.optional(S.Boolean),
   }).pipe(ns),
-).annotate({
-  identifier: "ListKeysResponse",
-}) as any as S.Schema<ListKeysResponse>;
+).annotate({ identifier: "ListKeysResponse" }) as any as S.Schema<ListKeysResponse>;
 export interface ListResourceTagsRequest {
   KeyId: string;
   Limit?: number;
   Marker?: string;
 }
 export const ListResourceTagsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    KeyId: S.String,
-    Limit: S.optional(S.Number),
-    Marker: S.optional(S.String),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListResourceTagsRequest",
-}) as any as S.Schema<ListResourceTagsRequest>;
+  S.Struct({ KeyId: S.String, Limit: S.optional(S.Number), Marker: S.optional(S.String) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({ identifier: "ListResourceTagsRequest" }) as any as S.Schema<ListResourceTagsRequest>;
 export interface ListResourceTagsResponse {
   Tags?: Tag[];
   NextMarker?: string;
@@ -2124,9 +1950,7 @@ export const ListResourceTagsResponse = /*@__PURE__*/ S.suspend(() =>
     NextMarker: S.optional(S.String),
     Truncated: S.optional(S.Boolean),
   }).pipe(ns),
-).annotate({
-  identifier: "ListResourceTagsResponse",
-}) as any as S.Schema<ListResourceTagsResponse>;
+).annotate({ identifier: "ListResourceTagsResponse" }) as any as S.Schema<ListResourceTagsResponse>;
 export interface ListRetirableGrantsRequest {
   Limit?: number;
   Marker?: string;
@@ -2156,9 +1980,7 @@ export const PutKeyPolicyRequest = /*@__PURE__*/ S.suspend(() =>
     Policy: S.String,
     BypassPolicyLockoutSafetyCheck: S.optional(S.Boolean),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "PutKeyPolicyRequest",
-}) as any as S.Schema<PutKeyPolicyRequest>;
+).annotate({ identifier: "PutKeyPolicyRequest" }) as any as S.Schema<PutKeyPolicyRequest>;
 export interface PutKeyPolicyResponse {}
 export const PutKeyPolicyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "PutKeyPolicyResponse",
@@ -2188,9 +2010,7 @@ export const ReEncryptRequest = /*@__PURE__*/ S.suspend(() =>
     DryRun: S.optional(S.Boolean),
     DryRunModifiers: S.optional(DryRunModifierList),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ReEncryptRequest",
-}) as any as S.Schema<ReEncryptRequest>;
+).annotate({ identifier: "ReEncryptRequest" }) as any as S.Schema<ReEncryptRequest>;
 export interface ReEncryptResponse {
   CiphertextBlob?: Uint8Array;
   SourceKeyId?: string;
@@ -2210,9 +2030,7 @@ export const ReEncryptResponse = /*@__PURE__*/ S.suspend(() =>
     SourceKeyMaterialId: S.optional(S.String),
     DestinationKeyMaterialId: S.optional(S.String),
   }).pipe(ns),
-).annotate({
-  identifier: "ReEncryptResponse",
-}) as any as S.Schema<ReEncryptResponse>;
+).annotate({ identifier: "ReEncryptResponse" }) as any as S.Schema<ReEncryptResponse>;
 export interface ReplicateKeyRequest {
   KeyId: string;
   ReplicaRegion: string;
@@ -2230,9 +2048,7 @@ export const ReplicateKeyRequest = /*@__PURE__*/ S.suspend(() =>
     Description: S.optional(S.String),
     Tags: S.optional(TagList),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ReplicateKeyRequest",
-}) as any as S.Schema<ReplicateKeyRequest>;
+).annotate({ identifier: "ReplicateKeyRequest" }) as any as S.Schema<ReplicateKeyRequest>;
 export interface ReplicateKeyResponse {
   ReplicaKeyMetadata?: KeyMetadata;
   ReplicaPolicy?: string;
@@ -2244,9 +2060,7 @@ export const ReplicateKeyResponse = /*@__PURE__*/ S.suspend(() =>
     ReplicaPolicy: S.optional(S.String),
     ReplicaTags: S.optional(TagList),
   }).pipe(ns),
-).annotate({
-  identifier: "ReplicateKeyResponse",
-}) as any as S.Schema<ReplicateKeyResponse>;
+).annotate({ identifier: "ReplicateKeyResponse" }) as any as S.Schema<ReplicateKeyResponse>;
 export interface RetireGrantRequest {
   GrantToken?: string;
   KeyId?: string;
@@ -2260,9 +2074,7 @@ export const RetireGrantRequest = /*@__PURE__*/ S.suspend(() =>
     GrantId: S.optional(S.String),
     DryRun: S.optional(S.Boolean),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "RetireGrantRequest",
-}) as any as S.Schema<RetireGrantRequest>;
+).annotate({ identifier: "RetireGrantRequest" }) as any as S.Schema<RetireGrantRequest>;
 export interface RetireGrantResponse {}
 export const RetireGrantResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "RetireGrantResponse",
@@ -2273,14 +2085,10 @@ export interface RevokeGrantRequest {
   DryRun?: boolean;
 }
 export const RevokeGrantRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    KeyId: S.String,
-    GrantId: S.String,
-    DryRun: S.optional(S.Boolean),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "RevokeGrantRequest",
-}) as any as S.Schema<RevokeGrantRequest>;
+  S.Struct({ KeyId: S.String, GrantId: S.String, DryRun: S.optional(S.Boolean) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({ identifier: "RevokeGrantRequest" }) as any as S.Schema<RevokeGrantRequest>;
 export interface RevokeGrantResponse {}
 export const RevokeGrantResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "RevokeGrantResponse",
@@ -2292,9 +2100,7 @@ export const RotateKeyOnDemandRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ KeyId: S.String }).pipe(
     T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "RotateKeyOnDemandRequest",
-}) as any as S.Schema<RotateKeyOnDemandRequest>;
+).annotate({ identifier: "RotateKeyOnDemandRequest" }) as any as S.Schema<RotateKeyOnDemandRequest>;
 export interface RotateKeyOnDemandResponse {
   KeyId?: string;
 }
@@ -2371,9 +2177,7 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ KeyId: S.String, Tags: TagList }).pipe(
     T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
+).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
 export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "TagResourceResponse",
@@ -2388,9 +2192,7 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ KeyId: S.String, TagKeys: TagKeyList }).pipe(
     T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
+).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
 export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "UntagResourceResponse",
@@ -2403,9 +2205,7 @@ export const UpdateAliasRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ AliasName: S.String, TargetKeyId: S.String }).pipe(
     T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UpdateAliasRequest",
-}) as any as S.Schema<UpdateAliasRequest>;
+).annotate({ identifier: "UpdateAliasRequest" }) as any as S.Schema<UpdateAliasRequest>;
 export interface UpdateAliasResponse {}
 export const UpdateAliasResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "UpdateAliasResponse",
@@ -2527,9 +2327,7 @@ export const VerifyMacRequest = /*@__PURE__*/ S.suspend(() =>
     GrantTokens: S.optional(GrantTokenList),
     DryRun: S.optional(S.Boolean),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "VerifyMacRequest",
-}) as any as S.Schema<VerifyMacRequest>;
+).annotate({ identifier: "VerifyMacRequest" }) as any as S.Schema<VerifyMacRequest>;
 export interface VerifyMacResponse {
   KeyId?: string;
   MacValid?: boolean;
@@ -2541,9 +2339,7 @@ export const VerifyMacResponse = /*@__PURE__*/ S.suspend(() =>
     MacValid: S.optional(S.Boolean),
     MacAlgorithm: S.optional(MacAlgorithmSpec),
   }).pipe(ns),
-).annotate({
-  identifier: "VerifyMacResponse",
-}) as any as S.Schema<VerifyMacResponse>;
+).annotate({ identifier: "VerifyMacResponse" }) as any as S.Schema<VerifyMacResponse>;
 export type ErrorMessageType = string;
 export type CancelKeyDeletionError =
   | DependencyTimeoutException

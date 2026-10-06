@@ -7,10 +7,7 @@ import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
-const svc = T.AwsApiService({
-  sdkId: "Redshift Data",
-  serviceShapeName: "RedshiftData",
-});
+const svc = T.AwsApiService({ sdkId: "Redshift Data", serviceShapeName: "RedshiftData" });
 const auth = T.AwsAuthSigv4({ name: "redshift-data" });
 const ver = T.ServiceVersion("2019-12-20");
 const proto = T.AwsProtocolsAwsJson1_1();
@@ -239,17 +236,13 @@ export const CancelStatementRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Id: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "CancelStatementRequest",
-}) as any as S.Schema<CancelStatementRequest>;
+).annotate({ identifier: "CancelStatementRequest" }) as any as S.Schema<CancelStatementRequest>;
 export interface CancelStatementResponse {
   Status?: boolean;
 }
 export const CancelStatementResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Status: S.optional(S.Boolean) }),
-).annotate({
-  identifier: "CancelStatementResponse",
-}) as any as S.Schema<CancelStatementResponse>;
+).annotate({ identifier: "CancelStatementResponse" }) as any as S.Schema<CancelStatementResponse>;
 export interface DescribeStatementRequest {
   Id: string;
   WaitTimeSeconds?: number;
@@ -258,9 +251,7 @@ export const DescribeStatementRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Id: S.String, WaitTimeSeconds: S.optional(S.Number) }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DescribeStatementRequest",
-}) as any as S.Schema<DescribeStatementRequest>;
+).annotate({ identifier: "DescribeStatementRequest" }) as any as S.Schema<DescribeStatementRequest>;
 export type StatusString = string;
 export interface SubStatementData {
   Id: string;
@@ -289,9 +280,7 @@ export const SubStatementData = /*@__PURE__*/ S.suspend(() =>
     RedshiftQueryId: S.optional(S.Number),
     HasResultSet: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "SubStatementData",
-}) as any as S.Schema<SubStatementData>;
+).annotate({ identifier: "SubStatementData" }) as any as S.Schema<SubStatementData>;
 export type SubStatementList = SubStatementData[];
 export const SubStatementList = /*@__PURE__*/ S.Array(SubStatementData);
 export interface DescribeStatementResponse {
@@ -372,9 +361,7 @@ export const DescribeTableRequest = /*@__PURE__*/ S.suspend(() =>
     MaxResults: S.optional(S.Number),
     WorkgroupName: S.optional(S.String),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DescribeTableRequest",
-}) as any as S.Schema<DescribeTableRequest>;
+).annotate({ identifier: "DescribeTableRequest" }) as any as S.Schema<DescribeTableRequest>;
 export interface ColumnMetadata {
   isCaseSensitive?: boolean;
   isCurrency?: boolean;
@@ -420,9 +407,7 @@ export const DescribeTableResponse = /*@__PURE__*/ S.suspend(() =>
     ColumnList: S.optional(ColumnList),
     NextToken: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DescribeTableResponse",
-}) as any as S.Schema<DescribeTableResponse>;
+).annotate({ identifier: "DescribeTableResponse" }) as any as S.Schema<DescribeTableResponse>;
 export interface ExecuteStatementInput {
   Sql: string;
   ClusterIdentifier?: string;
@@ -456,9 +441,7 @@ export const ExecuteStatementInput = /*@__PURE__*/ S.suspend(() =>
     SessionId: S.optional(S.String),
     WaitTimeSeconds: S.optional(S.Number),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ExecuteStatementInput",
-}) as any as S.Schema<ExecuteStatementInput>;
+).annotate({ identifier: "ExecuteStatementInput" }) as any as S.Schema<ExecuteStatementInput>;
 export interface ExecuteStatementOutput {
   Id?: string;
   CreatedAt?: Date;
@@ -488,9 +471,7 @@ export const ExecuteStatementOutput = /*@__PURE__*/ S.suspend(() =>
     RedshiftPid: S.optional(S.Number),
     HasResultSet: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "ExecuteStatementOutput",
-}) as any as S.Schema<ExecuteStatementOutput>;
+).annotate({ identifier: "ExecuteStatementOutput" }) as any as S.Schema<ExecuteStatementOutput>;
 export interface GetStatementResultRequest {
   Id: string;
   NextToken?: string;
@@ -623,7 +604,7 @@ export const GetStatementResultV2Response = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetStatementResultV2Response>;
 export interface ListDatabasesRequest {
   ClusterIdentifier?: string;
-  Database: string;
+  Database?: string;
   SecretArn?: string;
   DbUser?: string;
   NextToken?: string;
@@ -633,16 +614,14 @@ export interface ListDatabasesRequest {
 export const ListDatabasesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ClusterIdentifier: S.optional(S.String),
-    Database: S.String,
+    Database: S.optional(S.String),
     SecretArn: S.optional(S.String),
     DbUser: S.optional(S.String),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     WorkgroupName: S.optional(S.String),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListDatabasesRequest",
-}) as any as S.Schema<ListDatabasesRequest>;
+).annotate({ identifier: "ListDatabasesRequest" }) as any as S.Schema<ListDatabasesRequest>;
 export type DatabaseList = string[];
 export const DatabaseList = /*@__PURE__*/ S.Array(S.String);
 export interface ListDatabasesResponse {
@@ -650,13 +629,8 @@ export interface ListDatabasesResponse {
   NextToken?: string;
 }
 export const ListDatabasesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Databases: S.optional(DatabaseList),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListDatabasesResponse",
-}) as any as S.Schema<ListDatabasesResponse>;
+  S.Struct({ Databases: S.optional(DatabaseList), NextToken: S.optional(S.String) }),
+).annotate({ identifier: "ListDatabasesResponse" }) as any as S.Schema<ListDatabasesResponse>;
 export interface ListSchemasRequest {
   ClusterIdentifier?: string;
   SecretArn?: string;
@@ -680,9 +654,7 @@ export const ListSchemasRequest = /*@__PURE__*/ S.suspend(() =>
     MaxResults: S.optional(S.Number),
     WorkgroupName: S.optional(S.String),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListSchemasRequest",
-}) as any as S.Schema<ListSchemasRequest>;
+).annotate({ identifier: "ListSchemasRequest" }) as any as S.Schema<ListSchemasRequest>;
 export type SchemaList = string[];
 export const SchemaList = /*@__PURE__*/ S.Array(S.String);
 export interface ListSchemasResponse {
@@ -690,13 +662,8 @@ export interface ListSchemasResponse {
   NextToken?: string;
 }
 export const ListSchemasResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Schemas: S.optional(SchemaList),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListSchemasResponse",
-}) as any as S.Schema<ListSchemasResponse>;
+  S.Struct({ Schemas: S.optional(SchemaList), NextToken: S.optional(S.String) }),
+).annotate({ identifier: "ListSchemasResponse" }) as any as S.Schema<ListSchemasResponse>;
 export type ListStatementsLimit = number;
 export type SessionStatusString = string;
 export interface ListSessionsRequest {
@@ -720,9 +687,7 @@ export const ListSessionsRequest = /*@__PURE__*/ S.suspend(() =>
     WorkgroupName: S.optional(S.String),
     Database: S.optional(S.String),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListSessionsRequest",
-}) as any as S.Schema<ListSessionsRequest>;
+).annotate({ identifier: "ListSessionsRequest" }) as any as S.Schema<ListSessionsRequest>;
 export interface SessionData {
   SessionId: string;
   Status: string;
@@ -759,9 +724,7 @@ export interface ListSessionsResponse {
 }
 export const ListSessionsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Sessions: SessionList, NextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListSessionsResponse",
-}) as any as S.Schema<ListSessionsResponse>;
+).annotate({ identifier: "ListSessionsResponse" }) as any as S.Schema<ListSessionsResponse>;
 export interface ListStatementsRequest {
   NextToken?: string;
   MaxResults?: number;
@@ -783,9 +746,7 @@ export const ListStatementsRequest = /*@__PURE__*/ S.suspend(() =>
     ClusterIdentifier: S.optional(S.String),
     WorkgroupName: S.optional(S.String),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListStatementsRequest",
-}) as any as S.Schema<ListStatementsRequest>;
+).annotate({ identifier: "ListStatementsRequest" }) as any as S.Schema<ListStatementsRequest>;
 export type StatementStringList = string[];
 export const StatementStringList = /*@__PURE__*/ S.Array(S.String);
 export interface StatementData {
@@ -826,9 +787,7 @@ export interface ListStatementsResponse {
 }
 export const ListStatementsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Statements: StatementList, NextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListStatementsResponse",
-}) as any as S.Schema<ListStatementsResponse>;
+).annotate({ identifier: "ListStatementsResponse" }) as any as S.Schema<ListStatementsResponse>;
 export interface ListTablesRequest {
   ClusterIdentifier?: string;
   SecretArn?: string;
@@ -854,9 +813,7 @@ export const ListTablesRequest = /*@__PURE__*/ S.suspend(() =>
     MaxResults: S.optional(S.Number),
     WorkgroupName: S.optional(S.String),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListTablesRequest",
-}) as any as S.Schema<ListTablesRequest>;
+).annotate({ identifier: "ListTablesRequest" }) as any as S.Schema<ListTablesRequest>;
 export interface TableMember {
   name?: string;
   type?: string;
@@ -877,9 +834,7 @@ export interface ListTablesResponse {
 }
 export const ListTablesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Tables: S.optional(TableList), NextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListTablesResponse",
-}) as any as S.Schema<ListTablesResponse>;
+).annotate({ identifier: "ListTablesResponse" }) as any as S.Schema<ListTablesResponse>;
 export type BatchExecuteStatementError =
   | ActiveSessionsExceededException
   | ActiveStatementsExceededException
@@ -1108,11 +1063,7 @@ export const getStatementResult: API.PaginatedOperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetStatementResult",
-  pagination: {
-    inputToken: "NextToken",
-    outputToken: "NextToken",
-    items: "Records",
-  } as const,
+  pagination: { inputToken: "NextToken", outputToken: "NextToken", items: "Records" } as const,
 })) as any;
 
 export type GetStatementResultV2Error =
@@ -1144,11 +1095,7 @@ export const getStatementResultV2: API.PaginatedOperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetStatementResultV2",
-  pagination: {
-    inputToken: "NextToken",
-    outputToken: "NextToken",
-    items: "Records",
-  } as const,
+  pagination: { inputToken: "NextToken", outputToken: "NextToken", items: "Records" } as const,
 })) as any;
 
 export type ListDatabasesError =
@@ -1257,7 +1204,7 @@ export type ListSessionsError =
 /**
  * Lists the sessions that the caller created in the last 24 hours. By default, only sessions with a status of `AVAILABLE` or `BUSY` are returned. You can filter the results by session status, compute target (cluster or serverless workgroup), or database. To retrieve the metadata for a single session, provide the `SessionId` parameter. Use `NextToken` to page through the session list.
  *
- * Returns only the sessions that the caller created. When identity-enhanced role sessions are used, you must provide either the `ClusterIdentifier` or `WorkgroupName` parameter to ensure that the AWS IAM Identity Center user can only access the Amazon Redshift IAM Identity Center applications they are assigned. For more information, see Trusted identity propagation overview.
+ * Returns only the sessions that the caller created. When identity-enhanced role sessions are used, you must provide either the `ClusterIdentifier` or `WorkgroupName` parameter to ensure that the IAM Identity Center user can only access the Amazon Redshift IAM Identity Center applications they are assigned. For more information, see Trusted identity propagation overview.
  */
 export const listSessions: API.PaginatedOperationMethod<
   ListSessionsRequest,

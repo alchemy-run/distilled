@@ -17,6 +17,15 @@ export class BadRequest
     [{ status: 400 }],
   ) {}
 
+export class Conflict
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
+      code: S.Number,
+      message: S.String,
+    }).pipe(C.withConflictError),
+    [{ status: 409 }],
+  ) {}
+
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
@@ -87,19 +96,11 @@ export const CreateCustomEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
     branchMatcher: S.optional(CreateCustomEnvironmentRequestBranchMatcher),
     copyEnvVarsFrom: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v9/projects/{idOrName}/custom-environments",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/v9/projects/{idOrName}/custom-environments", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateCustomEnvironmentRequest",
 }) as any as S.Schema<CreateCustomEnvironmentRequest>;
-
-/** The type of environment (production, preview, or development) */
-export type CreateCustomEnvironmentResponseType = "development" | "preview" | "production";
-export const CreateCustomEnvironmentResponseType = S.String;
 
 /** The type of matching to perform */
 export type CreateCustomEnvironmentResponseBranchMatcherType = "endsWith" | "equals" | "startsWith";
@@ -107,37 +108,43 @@ export const CreateCustomEnvironmentResponseBranchMatcherType = S.String;
 
 /** Configuration for matching git branches to this environment */
 export interface CreateCustomEnvironmentResponseBranchMatcher {
-  /** The type of matching to perform */
-  type: CreateCustomEnvironmentResponseBranchMatcherType;
   /** The pattern to match against branch names */
   pattern: string;
+  /** The type of matching to perform */
+  type: CreateCustomEnvironmentResponseBranchMatcherType;
 }
 export const CreateCustomEnvironmentResponseBranchMatcher = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    type: CreateCustomEnvironmentResponseBranchMatcherType,
     pattern: S.String,
+    type: CreateCustomEnvironmentResponseBranchMatcherType,
   }),
 ).annotate({
   identifier: "CreateCustomEnvironmentResponseBranchMatcher",
 }) as any as S.Schema<CreateCustomEnvironmentResponseBranchMatcher>;
+
+/** List of aliases for the current deployment */
+export type CreateCustomEnvironmentResponseCurrentDeploymentAliasesList = Array<string>;
+export const CreateCustomEnvironmentResponseCurrentDeploymentAliasesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<CreateCustomEnvironmentResponseCurrentDeploymentAliasesList>;
 
 export type CreateCustomEnvironmentResponseDomainsItemRedirectStatusCode = 301 | 302 | 307 | 308;
 export const CreateCustomEnvironmentResponseDomainsItemRedirectStatusCode = S.Number;
 
 /** A list of verification challenges, one of which must be completed to verify the domain for use on the project. After the challenge is complete `POST /projects/:idOrName/domains/:domain/verify` to verify the domain. Possible challenges: - If `verification.type = TXT` the `verification.domain` will be checked for a TXT record matching `verification.value`. */
 export interface CreateCustomEnvironmentResponseDomainsItemVerificationItem {
-  type: string;
   domain: string;
-  value: string;
   reason: string;
+  type: string;
+  value: string;
 }
 export const CreateCustomEnvironmentResponseDomainsItemVerificationItem = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      type: S.String,
       domain: S.String,
-      value: S.String,
       reason: S.String,
+      type: S.String,
+      value: S.String,
     }),
 ).annotate({
   identifier: "CreateCustomEnvironmentResponseDomainsItemVerificationItem",
@@ -152,35 +159,35 @@ export const CreateCustomEnvironmentResponseDomainsItemVerificationList = /*@__P
 
 /** List of domains associated with this environment */
 export interface CreateCustomEnvironmentResponseDomainsItem {
-  name: string;
   apexName: string;
+  createdAt?: number;
+  customEnvironmentId?: string | null;
+  gitBranch?: string | null;
+  name: string;
   projectId: string;
   redirect?: string | null;
   redirectStatusCode?: CreateCustomEnvironmentResponseDomainsItemRedirectStatusCode | null;
-  gitBranch?: string | null;
-  customEnvironmentId?: string | null;
   updatedAt?: number;
-  createdAt?: number;
-  /** `true` if the domain is verified for use with the project. If `false` it will not be used as an alias on this project until the challenge in `verification` is completed. */
-  verified: boolean;
   /** A list of verification challenges, one of which must be completed to verify the domain for use on the project. After the challenge is complete `POST /projects/:idOrName/domains/:domain/verify` to verify the domain. Possible challenges: - If `verification.type = TXT` the `verification.domain` will be checked for a TXT record matching `verification.value`. */
   verification?: CreateCustomEnvironmentResponseDomainsItemVerificationList;
+  /** `true` if the domain is verified for use with the project. If `false` it will not be used as an alias on this project until the challenge in `verification` is completed. */
+  verified: boolean;
 }
 export const CreateCustomEnvironmentResponseDomainsItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String,
     apexName: S.String,
+    createdAt: S.optional(S.Number),
+    customEnvironmentId: S.optional(S.NullOr(S.String)),
+    gitBranch: S.optional(S.NullOr(S.String)),
+    name: S.String,
     projectId: S.String,
     redirect: S.optional(S.NullOr(S.String)),
     redirectStatusCode: S.optional(
       S.NullOr(CreateCustomEnvironmentResponseDomainsItemRedirectStatusCode),
     ),
-    gitBranch: S.optional(S.NullOr(S.String)),
-    customEnvironmentId: S.optional(S.NullOr(S.String)),
     updatedAt: S.optional(S.Number),
-    createdAt: S.optional(S.Number),
-    verified: S.Boolean,
     verification: S.optional(CreateCustomEnvironmentResponseDomainsItemVerificationList),
+    verified: S.Boolean,
   }),
 ).annotate({
   identifier: "CreateCustomEnvironmentResponseDomainsItem",
@@ -193,44 +200,42 @@ export const CreateCustomEnvironmentResponseDomainsList = /*@__PURE__*/ S.Array(
   CreateCustomEnvironmentResponseDomainsItem,
 ) as any as S.Schema<CreateCustomEnvironmentResponseDomainsList>;
 
-/** List of aliases for the current deployment */
-export type CreateCustomEnvironmentResponseCurrentDeploymentAliasesList = Array<string>;
-export const CreateCustomEnvironmentResponseCurrentDeploymentAliasesList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<CreateCustomEnvironmentResponseCurrentDeploymentAliasesList>;
+/** The type of environment (production, preview, or development) */
+export type CreateCustomEnvironmentResponseType = "development" | "preview" | "production";
+export const CreateCustomEnvironmentResponseType = S.String;
 
 export interface CreateCustomEnvironmentResponse {
+  /** Configuration for matching git branches to this environment */
+  branchMatcher?: CreateCustomEnvironmentResponseBranchMatcher;
+  /** Timestamp when the environment was created */
+  createdAt: number;
+  /** List of aliases for the current deployment */
+  currentDeploymentAliases?: CreateCustomEnvironmentResponseCurrentDeploymentAliasesList;
+  /** Optional description of the environment's purpose */
+  description?: string;
+  /** List of domains associated with this environment */
+  domains?: CreateCustomEnvironmentResponseDomainsList;
   /** Unique identifier for the custom environment (format: env_*) */
   id: string;
   /** URL-friendly name of the environment */
   slug: string;
   /** The type of environment (production, preview, or development) */
   type: CreateCustomEnvironmentResponseType;
-  /** Optional description of the environment's purpose */
-  description?: string;
-  /** Configuration for matching git branches to this environment */
-  branchMatcher?: CreateCustomEnvironmentResponseBranchMatcher;
-  /** List of domains associated with this environment */
-  domains?: CreateCustomEnvironmentResponseDomainsList;
-  /** List of aliases for the current deployment */
-  currentDeploymentAliases?: CreateCustomEnvironmentResponseCurrentDeploymentAliasesList;
-  /** Timestamp when the environment was created */
-  createdAt: number;
   /** Timestamp when the environment was last updated */
   updatedAt: number;
 }
 export const CreateCustomEnvironmentResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    id: S.String,
-    slug: S.String,
-    type: CreateCustomEnvironmentResponseType,
-    description: S.optional(S.String),
     branchMatcher: S.optional(CreateCustomEnvironmentResponseBranchMatcher),
-    domains: S.optional(CreateCustomEnvironmentResponseDomainsList),
+    createdAt: S.Number,
     currentDeploymentAliases: S.optional(
       CreateCustomEnvironmentResponseCurrentDeploymentAliasesList,
     ),
-    createdAt: S.Number,
+    description: S.optional(S.String),
+    domains: S.optional(CreateCustomEnvironmentResponseDomainsList),
+    id: S.String,
+    slug: S.String,
+    type: CreateCustomEnvironmentResponseType,
     updatedAt: S.Number,
   }),
 ).annotate({
@@ -307,19 +312,70 @@ export const CreateSharedEnvVariableRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateSharedEnvVariableRequest",
 }) as any as S.Schema<CreateSharedEnvVariableRequest>;
 
+/** The custom environment IDs that this Shared Env Var is scoped to. */
+export type CreateSharedEnvVariableResponseCreatedItemCustomEnvironmentIdsList = Array<string>;
+export const CreateSharedEnvVariableResponseCreatedItemCustomEnvironmentIdsList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<CreateSharedEnvVariableResponseCreatedItemCustomEnvironmentIdsList>;
+
+export type CreateSharedEnvVariableResponseCreatedItemLastEditedByPrincipalCase0Type = "user";
+export const CreateSharedEnvVariableResponseCreatedItemLastEditedByPrincipalCase0Type = S.String;
+
+/** The principal that last edited this env var, when the editor id resolves to a known user or app. Lets clients render the right avatar instead of assuming every editor is a user. */
+export interface CreateSharedEnvVariableResponseCreatedItemLastEditedByPrincipalCase0 {
+  avatar?: string;
+  id: string;
+  name?: string | null;
+  type: CreateSharedEnvVariableResponseCreatedItemLastEditedByPrincipalCase0Type;
+  username: string;
+}
+export const CreateSharedEnvVariableResponseCreatedItemLastEditedByPrincipalCase0 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      avatar: S.optional(S.String),
+      id: S.String,
+      name: S.optional(S.NullOr(S.String)),
+      type: CreateSharedEnvVariableResponseCreatedItemLastEditedByPrincipalCase0Type,
+      username: S.String,
+    }),
+  ).annotate({
+    identifier: "CreateSharedEnvVariableResponseCreatedItemLastEditedByPrincipalCase0",
+  }) as any as S.Schema<CreateSharedEnvVariableResponseCreatedItemLastEditedByPrincipalCase0>;
+
+export type CreateSharedEnvVariableResponseCreatedItemLastEditedByPrincipalCase1Type = "app";
+export const CreateSharedEnvVariableResponseCreatedItemLastEditedByPrincipalCase1Type = S.String;
+
+/** The principal that last edited this env var, when the editor id resolves to a known user or app. Lets clients render the right avatar instead of assuming every editor is a user. */
+export interface CreateSharedEnvVariableResponseCreatedItemLastEditedByPrincipalCase1 {
+  avatar?: string;
+  id: string;
+  name: string;
+  type: CreateSharedEnvVariableResponseCreatedItemLastEditedByPrincipalCase1Type;
+}
+export const CreateSharedEnvVariableResponseCreatedItemLastEditedByPrincipalCase1 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      avatar: S.optional(S.String),
+      id: S.String,
+      name: S.String,
+      type: CreateSharedEnvVariableResponseCreatedItemLastEditedByPrincipalCase1Type,
+    }),
+  ).annotate({
+    identifier: "CreateSharedEnvVariableResponseCreatedItemLastEditedByPrincipalCase1",
+  }) as any as S.Schema<CreateSharedEnvVariableResponseCreatedItemLastEditedByPrincipalCase1>;
+
+export type CreateSharedEnvVariableResponseCreatedItemLastEditedByPrincipal =
+  | CreateSharedEnvVariableResponseCreatedItemLastEditedByPrincipalCase0
+  | CreateSharedEnvVariableResponseCreatedItemLastEditedByPrincipalCase1;
+export const CreateSharedEnvVariableResponseCreatedItemLastEditedByPrincipal =
+  S.Unknown as any as S.Schema<CreateSharedEnvVariableResponseCreatedItemLastEditedByPrincipal>;
+
 /** The unique identifiers of the projects which the Shared Env Var is linked to. */
 export type CreateSharedEnvVariableResponseCreatedItemProjectIdList = Array<string>;
 export const CreateSharedEnvVariableResponseCreatedItemProjectIdList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<CreateSharedEnvVariableResponseCreatedItemProjectIdList>;
-
-/** The type of this cosmos doc instance, if blank, assume secret. */
-export type CreateSharedEnvVariableResponseCreatedItemType =
-  | "encrypted"
-  | "plain"
-  | "sensitive"
-  | "system";
-export const CreateSharedEnvVariableResponseCreatedItemType = S.String;
 
 /** environments this env variable targets */
 export type CreateSharedEnvVariableResponseCreatedItemTargetItem =
@@ -335,76 +391,81 @@ export const CreateSharedEnvVariableResponseCreatedItemTargetList = /*@__PURE__*
   CreateSharedEnvVariableResponseCreatedItemTargetItem,
 ) as any as S.Schema<CreateSharedEnvVariableResponseCreatedItemTargetList>;
 
-/** The custom environment IDs that this Shared Env Var is scoped to. */
-export type CreateSharedEnvVariableResponseCreatedItemCustomEnvironmentIdsList = Array<string>;
-export const CreateSharedEnvVariableResponseCreatedItemCustomEnvironmentIdsList =
-  /*@__PURE__*/ S.Array(
-    S.String,
-  ) as any as S.Schema<CreateSharedEnvVariableResponseCreatedItemCustomEnvironmentIdsList>;
+/** The type of this cosmos doc instance, if blank, assume secret. */
+export type CreateSharedEnvVariableResponseCreatedItemType =
+  | "encrypted"
+  | "plain"
+  | "sensitive"
+  | "system";
+export const CreateSharedEnvVariableResponseCreatedItemType = S.String;
 
 export interface CreateSharedEnvVariableResponseCreatedItem {
-  /** The date when the Shared Env Var was created. */
-  created?: string;
-  /** The name of the Shared Env Var. */
-  key?: string;
-  /** The unique identifier of the owner (team) the Shared Env Var was created for. */
-  ownerId?: string | null;
-  /** The unique identifier of the Shared Env Var. */
-  id?: string;
-  /** The unique identifier of the user who created the Shared Env Var. */
-  createdBy?: string | null;
-  /** The unique identifier of the user who deleted the Shared Env Var. */
-  deletedBy?: string | null;
-  /** The unique identifier of the user who last updated the Shared Env Var. */
-  updatedBy?: string | null;
-  /** Timestamp for when the Shared Env Var was created. */
-  createdAt?: number;
-  /** Timestamp for when the Shared Env Var was (soft) deleted. */
-  deletedAt?: number;
-  /** Timestamp for when the Shared Env Var was last updated. */
-  updatedAt?: number;
-  /** The value of the Shared Env Var. */
-  value?: string;
-  /** The unique identifiers of the projects which the Shared Env Var is linked to. */
-  projectId?: CreateSharedEnvVariableResponseCreatedItemProjectIdList;
-  /** The type of this cosmos doc instance, if blank, assume secret. */
-  type?: CreateSharedEnvVariableResponseCreatedItemType;
-  /** environments this env variable targets */
-  target?: CreateSharedEnvVariableResponseCreatedItemTargetList;
   /** whether or not this env varible applies to custom environments */
   applyToAllCustomEnvironments?: boolean;
+  /** A user provided comment that describes what this Shared Env Var is for. */
+  comment?: string;
+  /** The date when the Shared Env Var was created. */
+  created?: string;
+  /** Timestamp for when the Shared Env Var was created. */
+  createdAt?: number;
+  /** The unique identifier of the user who created the Shared Env Var. */
+  createdBy?: string | null;
   /** The custom environment IDs that this Shared Env Var is scoped to. */
   customEnvironmentIds?: CreateSharedEnvVariableResponseCreatedItemCustomEnvironmentIdsList;
   /** whether or not this env variable is decrypted */
   decrypted?: boolean;
-  /** A user provided comment that describes what this Shared Env Var is for. */
-  comment?: string;
+  /** Timestamp for when the Shared Env Var was (soft) deleted. */
+  deletedAt?: number;
+  /** The unique identifier of the user who deleted the Shared Env Var. */
+  deletedBy?: string | null;
+  /** The unique identifier of the Shared Env Var. */
+  id?: string;
+  /** The name of the Shared Env Var. */
+  key?: string;
   /** The last editor full name or username. */
   lastEditedByDisplayName?: string;
+  lastEditedByPrincipal?: CreateSharedEnvVariableResponseCreatedItemLastEditedByPrincipal;
+  /** The unique identifier of the owner (team) the Shared Env Var was created for. */
+  ownerId?: string | null;
+  /** The unique identifiers of the projects which the Shared Env Var is linked to. */
+  projectId?: CreateSharedEnvVariableResponseCreatedItemProjectIdList;
+  /** environments this env variable targets */
+  target?: CreateSharedEnvVariableResponseCreatedItemTargetList;
+  /** The type of this cosmos doc instance, if blank, assume secret. */
+  type?: CreateSharedEnvVariableResponseCreatedItemType;
+  /** Timestamp for when the Shared Env Var was last updated. */
+  updatedAt?: number;
+  /** The unique identifier of the user who last updated the Shared Env Var. */
+  updatedBy?: string | null;
+  /** The value of the Shared Env Var. */
+  value?: string;
 }
 export const CreateSharedEnvVariableResponseCreatedItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    created: S.optional(S.String),
-    key: S.optional(S.String),
-    ownerId: S.optional(S.NullOr(S.String)),
-    id: S.optional(S.String),
-    createdBy: S.optional(S.NullOr(S.String)),
-    deletedBy: S.optional(S.NullOr(S.String)),
-    updatedBy: S.optional(S.NullOr(S.String)),
-    createdAt: S.optional(S.Number),
-    deletedAt: S.optional(S.Number),
-    updatedAt: S.optional(S.Number),
-    value: S.optional(S.String),
-    projectId: S.optional(CreateSharedEnvVariableResponseCreatedItemProjectIdList),
-    type: S.optional(CreateSharedEnvVariableResponseCreatedItemType),
-    target: S.optional(CreateSharedEnvVariableResponseCreatedItemTargetList),
     applyToAllCustomEnvironments: S.optional(S.Boolean),
+    comment: S.optional(S.String),
+    created: S.optional(S.String),
+    createdAt: S.optional(S.Number),
+    createdBy: S.optional(S.NullOr(S.String)),
     customEnvironmentIds: S.optional(
       CreateSharedEnvVariableResponseCreatedItemCustomEnvironmentIdsList,
     ),
     decrypted: S.optional(S.Boolean),
-    comment: S.optional(S.String),
+    deletedAt: S.optional(S.Number),
+    deletedBy: S.optional(S.NullOr(S.String)),
+    id: S.optional(S.String),
+    key: S.optional(S.String),
     lastEditedByDisplayName: S.optional(S.String),
+    lastEditedByPrincipal: S.optional(
+      CreateSharedEnvVariableResponseCreatedItemLastEditedByPrincipal,
+    ),
+    ownerId: S.optional(S.NullOr(S.String)),
+    projectId: S.optional(CreateSharedEnvVariableResponseCreatedItemProjectIdList),
+    target: S.optional(CreateSharedEnvVariableResponseCreatedItemTargetList),
+    type: S.optional(CreateSharedEnvVariableResponseCreatedItemType),
+    updatedAt: S.optional(S.Number),
+    updatedBy: S.optional(S.NullOr(S.String)),
+    value: S.optional(S.String),
   }),
 ).annotate({
   identifier: "CreateSharedEnvVariableResponseCreatedItem",
@@ -415,26 +476,6 @@ export type CreateSharedEnvVariableResponseCreatedList =
 export const CreateSharedEnvVariableResponseCreatedList = /*@__PURE__*/ S.Array(
   CreateSharedEnvVariableResponseCreatedItem,
 ) as any as S.Schema<CreateSharedEnvVariableResponseCreatedList>;
-
-export type CreateSharedEnvVariableResponseFailedItemErrorValueCase1Item =
-  | "development"
-  | "development"
-  | "preview"
-  | "preview"
-  | "production";
-export const CreateSharedEnvVariableResponseFailedItemErrorValueCase1Item = S.String;
-
-export type CreateSharedEnvVariableResponseFailedItemErrorValueCase1List =
-  Array<CreateSharedEnvVariableResponseFailedItemErrorValueCase1Item>;
-export const CreateSharedEnvVariableResponseFailedItemErrorValueCase1List = /*@__PURE__*/ S.Array(
-  CreateSharedEnvVariableResponseFailedItemErrorValueCase1Item,
-) as any as S.Schema<CreateSharedEnvVariableResponseFailedItemErrorValueCase1List>;
-
-export type CreateSharedEnvVariableResponseFailedItemErrorValue =
-  | string
-  | CreateSharedEnvVariableResponseFailedItemErrorValueCase1List;
-export const CreateSharedEnvVariableResponseFailedItemErrorValue =
-  S.Unknown as any as S.Schema<CreateSharedEnvVariableResponseFailedItemErrorValue>;
 
 export type CreateSharedEnvVariableResponseFailedItemErrorTargetCase0Item =
   | "development"
@@ -464,32 +505,52 @@ export type CreateSharedEnvVariableResponseFailedItemErrorTarget =
 export const CreateSharedEnvVariableResponseFailedItemErrorTarget =
   S.Unknown as any as S.Schema<CreateSharedEnvVariableResponseFailedItemErrorTarget>;
 
+export type CreateSharedEnvVariableResponseFailedItemErrorValueCase1Item =
+  | "development"
+  | "development"
+  | "preview"
+  | "preview"
+  | "production";
+export const CreateSharedEnvVariableResponseFailedItemErrorValueCase1Item = S.String;
+
+export type CreateSharedEnvVariableResponseFailedItemErrorValueCase1List =
+  Array<CreateSharedEnvVariableResponseFailedItemErrorValueCase1Item>;
+export const CreateSharedEnvVariableResponseFailedItemErrorValueCase1List = /*@__PURE__*/ S.Array(
+  CreateSharedEnvVariableResponseFailedItemErrorValueCase1Item,
+) as any as S.Schema<CreateSharedEnvVariableResponseFailedItemErrorValueCase1List>;
+
+export type CreateSharedEnvVariableResponseFailedItemErrorValue =
+  | string
+  | CreateSharedEnvVariableResponseFailedItemErrorValueCase1List;
+export const CreateSharedEnvVariableResponseFailedItemErrorValue =
+  S.Unknown as any as S.Schema<CreateSharedEnvVariableResponseFailedItemErrorValue>;
+
 export interface CreateSharedEnvVariableResponseFailedItemError {
+  action?: string;
   code: string;
-  message: string;
-  key?: string;
   envVarId?: string;
   envVarKey?: string;
-  action?: string;
-  link?: string;
-  value?: CreateSharedEnvVariableResponseFailedItemErrorValue;
   gitBranch?: string;
-  target?: CreateSharedEnvVariableResponseFailedItemErrorTarget;
+  key?: string;
+  link?: string;
+  message: string;
   project?: string;
+  target?: CreateSharedEnvVariableResponseFailedItemErrorTarget;
+  value?: CreateSharedEnvVariableResponseFailedItemErrorValue;
 }
 export const CreateSharedEnvVariableResponseFailedItemError = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    action: S.optional(S.String),
     code: S.String,
-    message: S.String,
-    key: S.optional(S.String),
     envVarId: S.optional(S.String),
     envVarKey: S.optional(S.String),
-    action: S.optional(S.String),
-    link: S.optional(S.String),
-    value: S.optional(CreateSharedEnvVariableResponseFailedItemErrorValue),
     gitBranch: S.optional(S.String),
-    target: S.optional(CreateSharedEnvVariableResponseFailedItemErrorTarget),
+    key: S.optional(S.String),
+    link: S.optional(S.String),
+    message: S.String,
     project: S.optional(S.String),
+    target: S.optional(CreateSharedEnvVariableResponseFailedItemErrorTarget),
+    value: S.optional(CreateSharedEnvVariableResponseFailedItemErrorValue),
   }),
 ).annotate({
   identifier: "CreateSharedEnvVariableResponseFailedItemError",
@@ -554,26 +615,6 @@ export const DeleteSharedEnvVariableResponseDeletedList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<DeleteSharedEnvVariableResponseDeletedList>;
 
-export type DeleteSharedEnvVariableResponseFailedItemErrorValueCase1Item =
-  | "development"
-  | "development"
-  | "preview"
-  | "preview"
-  | "production";
-export const DeleteSharedEnvVariableResponseFailedItemErrorValueCase1Item = S.String;
-
-export type DeleteSharedEnvVariableResponseFailedItemErrorValueCase1List =
-  Array<DeleteSharedEnvVariableResponseFailedItemErrorValueCase1Item>;
-export const DeleteSharedEnvVariableResponseFailedItemErrorValueCase1List = /*@__PURE__*/ S.Array(
-  DeleteSharedEnvVariableResponseFailedItemErrorValueCase1Item,
-) as any as S.Schema<DeleteSharedEnvVariableResponseFailedItemErrorValueCase1List>;
-
-export type DeleteSharedEnvVariableResponseFailedItemErrorValue =
-  | string
-  | DeleteSharedEnvVariableResponseFailedItemErrorValueCase1List;
-export const DeleteSharedEnvVariableResponseFailedItemErrorValue =
-  S.Unknown as any as S.Schema<DeleteSharedEnvVariableResponseFailedItemErrorValue>;
-
 export type DeleteSharedEnvVariableResponseFailedItemErrorTargetCase0Item =
   | "development"
   | "development"
@@ -602,32 +643,52 @@ export type DeleteSharedEnvVariableResponseFailedItemErrorTarget =
 export const DeleteSharedEnvVariableResponseFailedItemErrorTarget =
   S.Unknown as any as S.Schema<DeleteSharedEnvVariableResponseFailedItemErrorTarget>;
 
+export type DeleteSharedEnvVariableResponseFailedItemErrorValueCase1Item =
+  | "development"
+  | "development"
+  | "preview"
+  | "preview"
+  | "production";
+export const DeleteSharedEnvVariableResponseFailedItemErrorValueCase1Item = S.String;
+
+export type DeleteSharedEnvVariableResponseFailedItemErrorValueCase1List =
+  Array<DeleteSharedEnvVariableResponseFailedItemErrorValueCase1Item>;
+export const DeleteSharedEnvVariableResponseFailedItemErrorValueCase1List = /*@__PURE__*/ S.Array(
+  DeleteSharedEnvVariableResponseFailedItemErrorValueCase1Item,
+) as any as S.Schema<DeleteSharedEnvVariableResponseFailedItemErrorValueCase1List>;
+
+export type DeleteSharedEnvVariableResponseFailedItemErrorValue =
+  | string
+  | DeleteSharedEnvVariableResponseFailedItemErrorValueCase1List;
+export const DeleteSharedEnvVariableResponseFailedItemErrorValue =
+  S.Unknown as any as S.Schema<DeleteSharedEnvVariableResponseFailedItemErrorValue>;
+
 export interface DeleteSharedEnvVariableResponseFailedItemError {
+  action?: string;
   code: string;
-  message: string;
-  key?: string;
   envVarId?: string;
   envVarKey?: string;
-  action?: string;
-  link?: string;
-  value?: DeleteSharedEnvVariableResponseFailedItemErrorValue;
   gitBranch?: string;
-  target?: DeleteSharedEnvVariableResponseFailedItemErrorTarget;
+  key?: string;
+  link?: string;
+  message: string;
   project?: string;
+  target?: DeleteSharedEnvVariableResponseFailedItemErrorTarget;
+  value?: DeleteSharedEnvVariableResponseFailedItemErrorValue;
 }
 export const DeleteSharedEnvVariableResponseFailedItemError = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    action: S.optional(S.String),
     code: S.String,
-    message: S.String,
-    key: S.optional(S.String),
     envVarId: S.optional(S.String),
     envVarKey: S.optional(S.String),
-    action: S.optional(S.String),
-    link: S.optional(S.String),
-    value: S.optional(DeleteSharedEnvVariableResponseFailedItemErrorValue),
     gitBranch: S.optional(S.String),
-    target: S.optional(DeleteSharedEnvVariableResponseFailedItemErrorTarget),
+    key: S.optional(S.String),
+    link: S.optional(S.String),
+    message: S.String,
     project: S.optional(S.String),
+    target: S.optional(DeleteSharedEnvVariableResponseFailedItemErrorTarget),
+    value: S.optional(DeleteSharedEnvVariableResponseFailedItemErrorValue),
   }),
 ).annotate({
   identifier: "DeleteSharedEnvVariableResponseFailedItemError",
@@ -690,29 +751,31 @@ export const GetCustomEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetCustomEnvironmentRequest",
 }) as any as S.Schema<GetCustomEnvironmentRequest>;
 
-/** The type of environment (production, preview, or development) */
-export type GetCustomEnvironmentResponseType = "development" | "preview" | "production";
-export const GetCustomEnvironmentResponseType = S.String;
-
 /** The type of matching to perform */
 export type GetCustomEnvironmentResponseBranchMatcherType = "endsWith" | "equals" | "startsWith";
 export const GetCustomEnvironmentResponseBranchMatcherType = S.String;
 
 /** Configuration for matching git branches to this environment */
 export interface GetCustomEnvironmentResponseBranchMatcher {
-  /** The type of matching to perform */
-  type: GetCustomEnvironmentResponseBranchMatcherType;
   /** The pattern to match against branch names */
   pattern: string;
+  /** The type of matching to perform */
+  type: GetCustomEnvironmentResponseBranchMatcherType;
 }
 export const GetCustomEnvironmentResponseBranchMatcher = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    type: GetCustomEnvironmentResponseBranchMatcherType,
     pattern: S.String,
+    type: GetCustomEnvironmentResponseBranchMatcherType,
   }),
 ).annotate({
   identifier: "GetCustomEnvironmentResponseBranchMatcher",
 }) as any as S.Schema<GetCustomEnvironmentResponseBranchMatcher>;
+
+/** List of aliases for the current deployment */
+export type GetCustomEnvironmentResponseCurrentDeploymentAliasesList = Array<string>;
+export const GetCustomEnvironmentResponseCurrentDeploymentAliasesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<GetCustomEnvironmentResponseCurrentDeploymentAliasesList>;
 
 export type GetCustomEnvironmentResponseDomainsItemRedirectStatusCode = 301 | 302 | 307 | 308;
 export const GetCustomEnvironmentResponseDomainsItemRedirectStatusCode = S.Number;
@@ -732,35 +795,35 @@ export const GetCustomEnvironmentResponseDomainsItemVerificationList = /*@__PURE
 
 /** List of domains associated with this environment */
 export interface GetCustomEnvironmentResponseDomainsItem {
-  name: string;
   apexName: string;
+  createdAt?: number;
+  customEnvironmentId?: string | null;
+  gitBranch?: string | null;
+  name: string;
   projectId: string;
   redirect?: string | null;
   redirectStatusCode?: GetCustomEnvironmentResponseDomainsItemRedirectStatusCode | null;
-  gitBranch?: string | null;
-  customEnvironmentId?: string | null;
   updatedAt?: number;
-  createdAt?: number;
-  /** `true` if the domain is verified for use with the project. If `false` it will not be used as an alias on this project until the challenge in `verification` is completed. */
-  verified: boolean;
   /** A list of verification challenges, one of which must be completed to verify the domain for use on the project. After the challenge is complete `POST /projects/:idOrName/domains/:domain/verify` to verify the domain. Possible challenges: - If `verification.type = TXT` the `verification.domain` will be checked for a TXT record matching `verification.value`. */
   verification?: GetCustomEnvironmentResponseDomainsItemVerificationList;
+  /** `true` if the domain is verified for use with the project. If `false` it will not be used as an alias on this project until the challenge in `verification` is completed. */
+  verified: boolean;
 }
 export const GetCustomEnvironmentResponseDomainsItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String,
     apexName: S.String,
+    createdAt: S.optional(S.Number),
+    customEnvironmentId: S.optional(S.NullOr(S.String)),
+    gitBranch: S.optional(S.NullOr(S.String)),
+    name: S.String,
     projectId: S.String,
     redirect: S.optional(S.NullOr(S.String)),
     redirectStatusCode: S.optional(
       S.NullOr(GetCustomEnvironmentResponseDomainsItemRedirectStatusCode),
     ),
-    gitBranch: S.optional(S.NullOr(S.String)),
-    customEnvironmentId: S.optional(S.NullOr(S.String)),
     updatedAt: S.optional(S.Number),
-    createdAt: S.optional(S.Number),
-    verified: S.Boolean,
     verification: S.optional(GetCustomEnvironmentResponseDomainsItemVerificationList),
+    verified: S.Boolean,
   }),
 ).annotate({
   identifier: "GetCustomEnvironmentResponseDomainsItem",
@@ -773,42 +836,40 @@ export const GetCustomEnvironmentResponseDomainsList = /*@__PURE__*/ S.Array(
   GetCustomEnvironmentResponseDomainsItem,
 ) as any as S.Schema<GetCustomEnvironmentResponseDomainsList>;
 
-/** List of aliases for the current deployment */
-export type GetCustomEnvironmentResponseCurrentDeploymentAliasesList = Array<string>;
-export const GetCustomEnvironmentResponseCurrentDeploymentAliasesList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<GetCustomEnvironmentResponseCurrentDeploymentAliasesList>;
+/** The type of environment (production, preview, or development) */
+export type GetCustomEnvironmentResponseType = "development" | "preview" | "production";
+export const GetCustomEnvironmentResponseType = S.String;
 
 export interface GetCustomEnvironmentResponse {
+  /** Configuration for matching git branches to this environment */
+  branchMatcher?: GetCustomEnvironmentResponseBranchMatcher;
+  /** Timestamp when the environment was created */
+  createdAt: number;
+  /** List of aliases for the current deployment */
+  currentDeploymentAliases?: GetCustomEnvironmentResponseCurrentDeploymentAliasesList;
+  /** Optional description of the environment's purpose */
+  description?: string;
+  /** List of domains associated with this environment */
+  domains?: GetCustomEnvironmentResponseDomainsList;
   /** Unique identifier for the custom environment (format: env_*) */
   id: string;
   /** URL-friendly name of the environment */
   slug: string;
   /** The type of environment (production, preview, or development) */
   type: GetCustomEnvironmentResponseType;
-  /** Optional description of the environment's purpose */
-  description?: string;
-  /** Configuration for matching git branches to this environment */
-  branchMatcher?: GetCustomEnvironmentResponseBranchMatcher;
-  /** List of domains associated with this environment */
-  domains?: GetCustomEnvironmentResponseDomainsList;
-  /** List of aliases for the current deployment */
-  currentDeploymentAliases?: GetCustomEnvironmentResponseCurrentDeploymentAliasesList;
-  /** Timestamp when the environment was created */
-  createdAt: number;
   /** Timestamp when the environment was last updated */
   updatedAt: number;
 }
 export const GetCustomEnvironmentResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    branchMatcher: S.optional(GetCustomEnvironmentResponseBranchMatcher),
+    createdAt: S.Number,
+    currentDeploymentAliases: S.optional(GetCustomEnvironmentResponseCurrentDeploymentAliasesList),
+    description: S.optional(S.String),
+    domains: S.optional(GetCustomEnvironmentResponseDomainsList),
     id: S.String,
     slug: S.String,
     type: GetCustomEnvironmentResponseType,
-    description: S.optional(S.String),
-    branchMatcher: S.optional(GetCustomEnvironmentResponseBranchMatcher),
-    domains: S.optional(GetCustomEnvironmentResponseDomainsList),
-    currentDeploymentAliases: S.optional(GetCustomEnvironmentResponseCurrentDeploymentAliasesList),
-    createdAt: S.Number,
     updatedAt: S.Number,
   }),
 ).annotate({
@@ -831,13 +892,7 @@ export const GetProjectCustomEnvironmentsRequest = /*@__PURE__*/ S.suspend(() =>
     gitBranch: S.optional(S.String.pipe(T.Query())),
     teamId: S.optional(S.String.pipe(T.Query())),
     slug: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v9/projects/{idOrName}/custom-environments",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v9/projects/{idOrName}/custom-environments", code: 200 })),
 ).annotate({
   identifier: "GetProjectCustomEnvironmentsRequest",
 }) as any as S.Schema<GetProjectCustomEnvironmentsRequest>;
@@ -854,12 +909,37 @@ export const GetProjectCustomEnvironmentsResponseAccountLimit = /*@__PURE__*/ S.
   identifier: "GetProjectCustomEnvironmentsResponseAccountLimit",
 }) as any as S.Schema<GetProjectCustomEnvironmentsResponseAccountLimit>;
 
-/** The type of environment (production, preview, or development) */
-export type GetProjectCustomEnvironmentsResponseEnvironmentsItemType =
-  | "development"
-  | "preview"
-  | "production";
-export const GetProjectCustomEnvironmentsResponseEnvironmentsItemType = S.String;
+/** The type of matching to perform */
+export type GetProjectCustomEnvironmentsResponseEnvironmentsItemBranchMatcherType =
+  | "endsWith"
+  | "equals"
+  | "startsWith";
+export const GetProjectCustomEnvironmentsResponseEnvironmentsItemBranchMatcherType = S.String;
+
+/** Configuration for matching git branches to this environment */
+export interface GetProjectCustomEnvironmentsResponseEnvironmentsItemBranchMatcher {
+  /** The pattern to match against branch names */
+  pattern: string;
+  /** The type of matching to perform */
+  type: GetProjectCustomEnvironmentsResponseEnvironmentsItemBranchMatcherType;
+}
+export const GetProjectCustomEnvironmentsResponseEnvironmentsItemBranchMatcher =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      pattern: S.String,
+      type: GetProjectCustomEnvironmentsResponseEnvironmentsItemBranchMatcherType,
+    }),
+  ).annotate({
+    identifier: "GetProjectCustomEnvironmentsResponseEnvironmentsItemBranchMatcher",
+  }) as any as S.Schema<GetProjectCustomEnvironmentsResponseEnvironmentsItemBranchMatcher>;
+
+/** List of aliases for the current deployment */
+export type GetProjectCustomEnvironmentsResponseEnvironmentsItemCurrentDeploymentAliasesList =
+  Array<string>;
+export const GetProjectCustomEnvironmentsResponseEnvironmentsItemCurrentDeploymentAliasesList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<GetProjectCustomEnvironmentsResponseEnvironmentsItemCurrentDeploymentAliasesList>;
 
 export type GetProjectCustomEnvironmentsResponseEnvironmentsItemDomainsItemRedirectStatusCode =
   | 301
@@ -885,38 +965,38 @@ export const GetProjectCustomEnvironmentsResponseEnvironmentsItemDomainsItemVeri
 
 /** List of domains associated with this environment */
 export interface GetProjectCustomEnvironmentsResponseEnvironmentsItemDomainsItem {
-  name: string;
   apexName: string;
+  createdAt?: number;
+  customEnvironmentId?: string | null;
+  gitBranch?: string | null;
+  name: string;
   projectId: string;
   redirect?: string | null;
   redirectStatusCode?: GetProjectCustomEnvironmentsResponseEnvironmentsItemDomainsItemRedirectStatusCode | null;
-  gitBranch?: string | null;
-  customEnvironmentId?: string | null;
   updatedAt?: number;
-  createdAt?: number;
-  /** `true` if the domain is verified for use with the project. If `false` it will not be used as an alias on this project until the challenge in `verification` is completed. */
-  verified: boolean;
   /** A list of verification challenges, one of which must be completed to verify the domain for use on the project. After the challenge is complete `POST /projects/:idOrName/domains/:domain/verify` to verify the domain. Possible challenges: - If `verification.type = TXT` the `verification.domain` will be checked for a TXT record matching `verification.value`. */
   verification?: GetProjectCustomEnvironmentsResponseEnvironmentsItemDomainsItemVerificationList;
+  /** `true` if the domain is verified for use with the project. If `false` it will not be used as an alias on this project until the challenge in `verification` is completed. */
+  verified: boolean;
 }
 export const GetProjectCustomEnvironmentsResponseEnvironmentsItemDomainsItem =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      name: S.String,
       apexName: S.String,
+      createdAt: S.optional(S.Number),
+      customEnvironmentId: S.optional(S.NullOr(S.String)),
+      gitBranch: S.optional(S.NullOr(S.String)),
+      name: S.String,
       projectId: S.String,
       redirect: S.optional(S.NullOr(S.String)),
       redirectStatusCode: S.optional(
         S.NullOr(GetProjectCustomEnvironmentsResponseEnvironmentsItemDomainsItemRedirectStatusCode),
       ),
-      gitBranch: S.optional(S.NullOr(S.String)),
-      customEnvironmentId: S.optional(S.NullOr(S.String)),
       updatedAt: S.optional(S.Number),
-      createdAt: S.optional(S.Number),
-      verified: S.Boolean,
       verification: S.optional(
         GetProjectCustomEnvironmentsResponseEnvironmentsItemDomainsItemVerificationList,
       ),
+      verified: S.Boolean,
     }),
   ).annotate({
     identifier: "GetProjectCustomEnvironmentsResponseEnvironmentsItemDomainsItem",
@@ -930,71 +1010,46 @@ export const GetProjectCustomEnvironmentsResponseEnvironmentsItemDomainsList =
     GetProjectCustomEnvironmentsResponseEnvironmentsItemDomainsItem,
   ) as any as S.Schema<GetProjectCustomEnvironmentsResponseEnvironmentsItemDomainsList>;
 
-/** The type of matching to perform */
-export type GetProjectCustomEnvironmentsResponseEnvironmentsItemBranchMatcherType =
-  | "endsWith"
-  | "equals"
-  | "startsWith";
-export const GetProjectCustomEnvironmentsResponseEnvironmentsItemBranchMatcherType = S.String;
-
-/** Configuration for matching git branches to this environment */
-export interface GetProjectCustomEnvironmentsResponseEnvironmentsItemBranchMatcher {
-  /** The type of matching to perform */
-  type: GetProjectCustomEnvironmentsResponseEnvironmentsItemBranchMatcherType;
-  /** The pattern to match against branch names */
-  pattern: string;
-}
-export const GetProjectCustomEnvironmentsResponseEnvironmentsItemBranchMatcher =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      type: GetProjectCustomEnvironmentsResponseEnvironmentsItemBranchMatcherType,
-      pattern: S.String,
-    }),
-  ).annotate({
-    identifier: "GetProjectCustomEnvironmentsResponseEnvironmentsItemBranchMatcher",
-  }) as any as S.Schema<GetProjectCustomEnvironmentsResponseEnvironmentsItemBranchMatcher>;
-
-/** List of aliases for the current deployment */
-export type GetProjectCustomEnvironmentsResponseEnvironmentsItemCurrentDeploymentAliasesList =
-  Array<string>;
-export const GetProjectCustomEnvironmentsResponseEnvironmentsItemCurrentDeploymentAliasesList =
-  /*@__PURE__*/ S.Array(
-    S.String,
-  ) as any as S.Schema<GetProjectCustomEnvironmentsResponseEnvironmentsItemCurrentDeploymentAliasesList>;
+/** The type of environment (production, preview, or development) */
+export type GetProjectCustomEnvironmentsResponseEnvironmentsItemType =
+  | "development"
+  | "preview"
+  | "production";
+export const GetProjectCustomEnvironmentsResponseEnvironmentsItemType = S.String;
 
 export interface GetProjectCustomEnvironmentsResponseEnvironmentsItem {
-  /** The type of environment (production, preview, or development) */
-  type: GetProjectCustomEnvironmentsResponseEnvironmentsItemType;
-  /** Optional description of the environment's purpose */
-  description?: string;
-  /** Timestamp when the environment was created */
-  createdAt: number;
-  /** Timestamp when the environment was last updated */
-  updatedAt: number;
-  /** URL-friendly name of the environment */
-  slug: string;
-  /** Unique identifier for the custom environment (format: env_*) */
-  id: string;
-  /** List of domains associated with this environment */
-  domains?: GetProjectCustomEnvironmentsResponseEnvironmentsItemDomainsList;
   /** Configuration for matching git branches to this environment */
   branchMatcher?: GetProjectCustomEnvironmentsResponseEnvironmentsItemBranchMatcher;
+  /** Timestamp when the environment was created */
+  createdAt: number;
   /** List of aliases for the current deployment */
   currentDeploymentAliases?: GetProjectCustomEnvironmentsResponseEnvironmentsItemCurrentDeploymentAliasesList;
+  /** Optional description of the environment's purpose */
+  description?: string;
+  /** List of domains associated with this environment */
+  domains?: GetProjectCustomEnvironmentsResponseEnvironmentsItemDomainsList;
+  /** Unique identifier for the custom environment (format: env_*) */
+  id: string;
+  /** URL-friendly name of the environment */
+  slug: string;
+  /** The type of environment (production, preview, or development) */
+  type: GetProjectCustomEnvironmentsResponseEnvironmentsItemType;
+  /** Timestamp when the environment was last updated */
+  updatedAt: number;
 }
 export const GetProjectCustomEnvironmentsResponseEnvironmentsItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    type: GetProjectCustomEnvironmentsResponseEnvironmentsItemType,
-    description: S.optional(S.String),
-    createdAt: S.Number,
-    updatedAt: S.Number,
-    slug: S.String,
-    id: S.String,
-    domains: S.optional(GetProjectCustomEnvironmentsResponseEnvironmentsItemDomainsList),
     branchMatcher: S.optional(GetProjectCustomEnvironmentsResponseEnvironmentsItemBranchMatcher),
+    createdAt: S.Number,
     currentDeploymentAliases: S.optional(
       GetProjectCustomEnvironmentsResponseEnvironmentsItemCurrentDeploymentAliasesList,
     ),
+    description: S.optional(S.String),
+    domains: S.optional(GetProjectCustomEnvironmentsResponseEnvironmentsItemDomainsList),
+    id: S.String,
+    slug: S.String,
+    type: GetProjectCustomEnvironmentsResponseEnvironmentsItemType,
+    updatedAt: S.Number,
   }),
 ).annotate({
   identifier: "GetProjectCustomEnvironmentsResponseEnvironmentsItem",
@@ -1034,19 +1089,69 @@ export const GetSharedEnvVarRequest = /*@__PURE__*/ S.suspend(() =>
     teamId: S.optional(S.String.pipe(T.Query())),
     slug: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v1/env/{id}", code: 200 })),
+).annotate({ identifier: "GetSharedEnvVarRequest" }) as any as S.Schema<GetSharedEnvVarRequest>;
+
+/** The custom environment IDs that this Shared Env Var is scoped to. */
+export type GetSharedEnvVarResponseCustomEnvironmentIdsList = Array<string>;
+export const GetSharedEnvVarResponseCustomEnvironmentIdsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<GetSharedEnvVarResponseCustomEnvironmentIdsList>;
+
+export type GetSharedEnvVarResponseLastEditedByPrincipalCase0Type = "user";
+export const GetSharedEnvVarResponseLastEditedByPrincipalCase0Type = S.String;
+
+/** The principal that last edited this env var, when the editor id resolves to a known user or app. Lets clients render the right avatar instead of assuming every editor is a user. */
+export interface GetSharedEnvVarResponseLastEditedByPrincipalCase0 {
+  avatar?: string;
+  id: string;
+  name?: string | null;
+  type: GetSharedEnvVarResponseLastEditedByPrincipalCase0Type;
+  username: string;
+}
+export const GetSharedEnvVarResponseLastEditedByPrincipalCase0 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    avatar: S.optional(S.String),
+    id: S.String,
+    name: S.optional(S.NullOr(S.String)),
+    type: GetSharedEnvVarResponseLastEditedByPrincipalCase0Type,
+    username: S.String,
+  }),
 ).annotate({
-  identifier: "GetSharedEnvVarRequest",
-}) as any as S.Schema<GetSharedEnvVarRequest>;
+  identifier: "GetSharedEnvVarResponseLastEditedByPrincipalCase0",
+}) as any as S.Schema<GetSharedEnvVarResponseLastEditedByPrincipalCase0>;
+
+export type GetSharedEnvVarResponseLastEditedByPrincipalCase1Type = "app";
+export const GetSharedEnvVarResponseLastEditedByPrincipalCase1Type = S.String;
+
+/** The principal that last edited this env var, when the editor id resolves to a known user or app. Lets clients render the right avatar instead of assuming every editor is a user. */
+export interface GetSharedEnvVarResponseLastEditedByPrincipalCase1 {
+  avatar?: string;
+  id: string;
+  name: string;
+  type: GetSharedEnvVarResponseLastEditedByPrincipalCase1Type;
+}
+export const GetSharedEnvVarResponseLastEditedByPrincipalCase1 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    avatar: S.optional(S.String),
+    id: S.String,
+    name: S.String,
+    type: GetSharedEnvVarResponseLastEditedByPrincipalCase1Type,
+  }),
+).annotate({
+  identifier: "GetSharedEnvVarResponseLastEditedByPrincipalCase1",
+}) as any as S.Schema<GetSharedEnvVarResponseLastEditedByPrincipalCase1>;
+
+export type GetSharedEnvVarResponseLastEditedByPrincipal =
+  | GetSharedEnvVarResponseLastEditedByPrincipalCase0
+  | GetSharedEnvVarResponseLastEditedByPrincipalCase1;
+export const GetSharedEnvVarResponseLastEditedByPrincipal =
+  S.Unknown as any as S.Schema<GetSharedEnvVarResponseLastEditedByPrincipal>;
 
 /** The unique identifiers of the projects which the Shared Env Var is linked to. */
 export type GetSharedEnvVarResponseProjectIdList = Array<string>;
 export const GetSharedEnvVarResponseProjectIdList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<GetSharedEnvVarResponseProjectIdList>;
-
-/** The type of this cosmos doc instance, if blank, assume secret. */
-export type GetSharedEnvVarResponseType = "encrypted" | "plain" | "sensitive" | "system";
-export const GetSharedEnvVarResponseType = S.String;
 
 /** environments this env variable targets */
 export type GetSharedEnvVarResponseTargetItem = "development" | "preview" | "production";
@@ -1058,77 +1163,75 @@ export const GetSharedEnvVarResponseTargetList = /*@__PURE__*/ S.Array(
   GetSharedEnvVarResponseTargetItem,
 ) as any as S.Schema<GetSharedEnvVarResponseTargetList>;
 
-/** The custom environment IDs that this Shared Env Var is scoped to. */
-export type GetSharedEnvVarResponseCustomEnvironmentIdsList = Array<string>;
-export const GetSharedEnvVarResponseCustomEnvironmentIdsList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<GetSharedEnvVarResponseCustomEnvironmentIdsList>;
+/** The type of this cosmos doc instance, if blank, assume secret. */
+export type GetSharedEnvVarResponseType = "encrypted" | "plain" | "sensitive" | "system";
+export const GetSharedEnvVarResponseType = S.String;
 
 export interface GetSharedEnvVarResponse {
-  /** The date when the Shared Env Var was created. */
-  created?: string;
-  /** The name of the Shared Env Var. */
-  key?: string;
-  /** The unique identifier of the owner (team) the Shared Env Var was created for. */
-  ownerId?: string | null;
-  /** The unique identifier of the Shared Env Var. */
-  id?: string;
-  /** The unique identifier of the user who created the Shared Env Var. */
-  createdBy?: string | null;
-  /** The unique identifier of the user who deleted the Shared Env Var. */
-  deletedBy?: string | null;
-  /** The unique identifier of the user who last updated the Shared Env Var. */
-  updatedBy?: string | null;
-  /** Timestamp for when the Shared Env Var was created. */
-  createdAt?: number;
-  /** Timestamp for when the Shared Env Var was (soft) deleted. */
-  deletedAt?: number;
-  /** Timestamp for when the Shared Env Var was last updated. */
-  updatedAt?: number;
-  /** The value of the Shared Env Var. */
-  value?: string;
-  /** The unique identifiers of the projects which the Shared Env Var is linked to. */
-  projectId?: GetSharedEnvVarResponseProjectIdList;
-  /** The type of this cosmos doc instance, if blank, assume secret. */
-  type?: GetSharedEnvVarResponseType;
-  /** environments this env variable targets */
-  target?: GetSharedEnvVarResponseTargetList;
   /** whether or not this env varible applies to custom environments */
   applyToAllCustomEnvironments?: boolean;
+  /** A user provided comment that describes what this Shared Env Var is for. */
+  comment?: string;
+  /** The date when the Shared Env Var was created. */
+  created?: string;
+  /** Timestamp for when the Shared Env Var was created. */
+  createdAt?: number;
+  /** The unique identifier of the user who created the Shared Env Var. */
+  createdBy?: string | null;
   /** The custom environment IDs that this Shared Env Var is scoped to. */
   customEnvironmentIds?: GetSharedEnvVarResponseCustomEnvironmentIdsList;
   /** whether or not this env variable is decrypted */
   decrypted?: boolean;
-  /** A user provided comment that describes what this Shared Env Var is for. */
-  comment?: string;
+  /** Timestamp for when the Shared Env Var was (soft) deleted. */
+  deletedAt?: number;
+  /** The unique identifier of the user who deleted the Shared Env Var. */
+  deletedBy?: string | null;
+  /** The unique identifier of the Shared Env Var. */
+  id?: string;
+  /** The name of the Shared Env Var. */
+  key?: string;
   /** The last editor full name or username. */
   lastEditedByDisplayName?: string;
+  lastEditedByPrincipal?: GetSharedEnvVarResponseLastEditedByPrincipal;
+  /** The unique identifier of the owner (team) the Shared Env Var was created for. */
+  ownerId?: string | null;
+  /** The unique identifiers of the projects which the Shared Env Var is linked to. */
+  projectId?: GetSharedEnvVarResponseProjectIdList;
+  /** environments this env variable targets */
+  target?: GetSharedEnvVarResponseTargetList;
+  /** The type of this cosmos doc instance, if blank, assume secret. */
+  type?: GetSharedEnvVarResponseType;
+  /** Timestamp for when the Shared Env Var was last updated. */
+  updatedAt?: number;
+  /** The unique identifier of the user who last updated the Shared Env Var. */
+  updatedBy?: string | null;
+  /** The value of the Shared Env Var. */
+  value?: string;
 }
 export const GetSharedEnvVarResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    created: S.optional(S.String),
-    key: S.optional(S.String),
-    ownerId: S.optional(S.NullOr(S.String)),
-    id: S.optional(S.String),
-    createdBy: S.optional(S.NullOr(S.String)),
-    deletedBy: S.optional(S.NullOr(S.String)),
-    updatedBy: S.optional(S.NullOr(S.String)),
-    createdAt: S.optional(S.Number),
-    deletedAt: S.optional(S.Number),
-    updatedAt: S.optional(S.Number),
-    value: S.optional(S.String),
-    projectId: S.optional(GetSharedEnvVarResponseProjectIdList),
-    type: S.optional(GetSharedEnvVarResponseType),
-    target: S.optional(GetSharedEnvVarResponseTargetList),
     applyToAllCustomEnvironments: S.optional(S.Boolean),
+    comment: S.optional(S.String),
+    created: S.optional(S.String),
+    createdAt: S.optional(S.Number),
+    createdBy: S.optional(S.NullOr(S.String)),
     customEnvironmentIds: S.optional(GetSharedEnvVarResponseCustomEnvironmentIdsList),
     decrypted: S.optional(S.Boolean),
-    comment: S.optional(S.String),
+    deletedAt: S.optional(S.Number),
+    deletedBy: S.optional(S.NullOr(S.String)),
+    id: S.optional(S.String),
+    key: S.optional(S.String),
     lastEditedByDisplayName: S.optional(S.String),
+    lastEditedByPrincipal: S.optional(GetSharedEnvVarResponseLastEditedByPrincipal),
+    ownerId: S.optional(S.NullOr(S.String)),
+    projectId: S.optional(GetSharedEnvVarResponseProjectIdList),
+    target: S.optional(GetSharedEnvVarResponseTargetList),
+    type: S.optional(GetSharedEnvVarResponseType),
+    updatedAt: S.optional(S.Number),
+    updatedBy: S.optional(S.NullOr(S.String)),
+    value: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetSharedEnvVarResponse",
-}) as any as S.Schema<GetSharedEnvVarResponse>;
+).annotate({ identifier: "GetSharedEnvVarResponse" }) as any as S.Schema<GetSharedEnvVarResponse>;
 
 export interface ListSharedEnvVariableRequest {
   search?: string;
@@ -1159,19 +1262,80 @@ export const ListSharedEnvVariableRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListSharedEnvVariableRequest",
 }) as any as S.Schema<ListSharedEnvVariableRequest>;
 
+/** The custom environment IDs that this Shared Env Var is scoped to. */
+export type ListSharedEnvVariableResponseDataItemCustomEnvironmentIdsList = Array<string>;
+export const ListSharedEnvVariableResponseDataItemCustomEnvironmentIdsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ListSharedEnvVariableResponseDataItemCustomEnvironmentIdsList>;
+
+export type ListSharedEnvVariableResponseDataItemLastEditedByPrincipalCase0Type = "user";
+export const ListSharedEnvVariableResponseDataItemLastEditedByPrincipalCase0Type = S.String;
+
+/** The principal that last edited this env var, when the editor id resolves to a known user or app. Lets clients render the right avatar instead of assuming every editor is a user. */
+export interface ListSharedEnvVariableResponseDataItemLastEditedByPrincipalCase0 {
+  avatar?: string;
+  id: string;
+  name?: string | null;
+  type: ListSharedEnvVariableResponseDataItemLastEditedByPrincipalCase0Type;
+  username: string;
+}
+export const ListSharedEnvVariableResponseDataItemLastEditedByPrincipalCase0 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      avatar: S.optional(S.String),
+      id: S.String,
+      name: S.optional(S.NullOr(S.String)),
+      type: ListSharedEnvVariableResponseDataItemLastEditedByPrincipalCase0Type,
+      username: S.String,
+    }),
+  ).annotate({
+    identifier: "ListSharedEnvVariableResponseDataItemLastEditedByPrincipalCase0",
+  }) as any as S.Schema<ListSharedEnvVariableResponseDataItemLastEditedByPrincipalCase0>;
+
+export type ListSharedEnvVariableResponseDataItemLastEditedByPrincipalCase1Type = "app";
+export const ListSharedEnvVariableResponseDataItemLastEditedByPrincipalCase1Type = S.String;
+
+/** The principal that last edited this env var, when the editor id resolves to a known user or app. Lets clients render the right avatar instead of assuming every editor is a user. */
+export interface ListSharedEnvVariableResponseDataItemLastEditedByPrincipalCase1 {
+  avatar?: string;
+  id: string;
+  name: string;
+  type: ListSharedEnvVariableResponseDataItemLastEditedByPrincipalCase1Type;
+}
+export const ListSharedEnvVariableResponseDataItemLastEditedByPrincipalCase1 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      avatar: S.optional(S.String),
+      id: S.String,
+      name: S.String,
+      type: ListSharedEnvVariableResponseDataItemLastEditedByPrincipalCase1Type,
+    }),
+  ).annotate({
+    identifier: "ListSharedEnvVariableResponseDataItemLastEditedByPrincipalCase1",
+  }) as any as S.Schema<ListSharedEnvVariableResponseDataItemLastEditedByPrincipalCase1>;
+
+export type ListSharedEnvVariableResponseDataItemLastEditedByPrincipal =
+  | ListSharedEnvVariableResponseDataItemLastEditedByPrincipalCase0
+  | ListSharedEnvVariableResponseDataItemLastEditedByPrincipalCase1;
+export const ListSharedEnvVariableResponseDataItemLastEditedByPrincipal =
+  S.Unknown as any as S.Schema<ListSharedEnvVariableResponseDataItemLastEditedByPrincipal>;
+
 /** The unique identifiers of the projects which the Shared Env Var is linked to. */
 export type ListSharedEnvVariableResponseDataItemProjectIdList = Array<string>;
 export const ListSharedEnvVariableResponseDataItemProjectIdList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<ListSharedEnvVariableResponseDataItemProjectIdList>;
 
-/** The type of this cosmos doc instance, if blank, assume secret. */
-export type ListSharedEnvVariableResponseDataItemType =
-  | "encrypted"
-  | "plain"
-  | "sensitive"
-  | "system";
-export const ListSharedEnvVariableResponseDataItemType = S.String;
+export type ListSharedEnvVariableResponseDataItemSecurityIssuesItem =
+  | "flags-secret-needs-split"
+  | "readable-secret";
+export const ListSharedEnvVariableResponseDataItemSecurityIssuesItem = S.String;
+
+export type ListSharedEnvVariableResponseDataItemSecurityIssuesList =
+  Array<ListSharedEnvVariableResponseDataItemSecurityIssuesItem>;
+export const ListSharedEnvVariableResponseDataItemSecurityIssuesList = /*@__PURE__*/ S.Array(
+  ListSharedEnvVariableResponseDataItemSecurityIssuesItem,
+) as any as S.Schema<ListSharedEnvVariableResponseDataItemSecurityIssuesList>;
 
 /** environments this env variable targets */
 export type ListSharedEnvVariableResponseDataItemTargetItem =
@@ -1187,73 +1351,79 @@ export const ListSharedEnvVariableResponseDataItemTargetList = /*@__PURE__*/ S.A
   ListSharedEnvVariableResponseDataItemTargetItem,
 ) as any as S.Schema<ListSharedEnvVariableResponseDataItemTargetList>;
 
-/** The custom environment IDs that this Shared Env Var is scoped to. */
-export type ListSharedEnvVariableResponseDataItemCustomEnvironmentIdsList = Array<string>;
-export const ListSharedEnvVariableResponseDataItemCustomEnvironmentIdsList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<ListSharedEnvVariableResponseDataItemCustomEnvironmentIdsList>;
+/** The type of this cosmos doc instance, if blank, assume secret. */
+export type ListSharedEnvVariableResponseDataItemType =
+  | "encrypted"
+  | "plain"
+  | "sensitive"
+  | "system";
+export const ListSharedEnvVariableResponseDataItemType = S.String;
 
 export interface ListSharedEnvVariableResponseDataItem {
-  /** The date when the Shared Env Var was created. */
-  created?: string;
-  /** The name of the Shared Env Var. */
-  key?: string;
-  /** The unique identifier of the owner (team) the Shared Env Var was created for. */
-  ownerId?: string | null;
-  /** The unique identifier of the Shared Env Var. */
-  id?: string;
-  /** The unique identifier of the user who created the Shared Env Var. */
-  createdBy?: string | null;
-  /** The unique identifier of the user who deleted the Shared Env Var. */
-  deletedBy?: string | null;
-  /** The unique identifier of the user who last updated the Shared Env Var. */
-  updatedBy?: string | null;
-  /** Timestamp for when the Shared Env Var was created. */
-  createdAt?: number;
-  /** Timestamp for when the Shared Env Var was (soft) deleted. */
-  deletedAt?: number;
-  /** Timestamp for when the Shared Env Var was last updated. */
-  updatedAt?: number;
-  /** The value of the Shared Env Var. */
-  value?: string;
-  /** The unique identifiers of the projects which the Shared Env Var is linked to. */
-  projectId?: ListSharedEnvVariableResponseDataItemProjectIdList;
-  /** The type of this cosmos doc instance, if blank, assume secret. */
-  type?: ListSharedEnvVariableResponseDataItemType;
-  /** environments this env variable targets */
-  target?: ListSharedEnvVariableResponseDataItemTargetList;
   /** whether or not this env varible applies to custom environments */
   applyToAllCustomEnvironments?: boolean;
+  /** A user provided comment that describes what this Shared Env Var is for. */
+  comment?: string;
+  /** The date when the Shared Env Var was created. */
+  created: string;
+  /** Timestamp for when the Shared Env Var was created. */
+  createdAt?: number;
+  /** The unique identifier of the user who created the Shared Env Var. */
+  createdBy?: string | null;
   /** The custom environment IDs that this Shared Env Var is scoped to. */
   customEnvironmentIds?: ListSharedEnvVariableResponseDataItemCustomEnvironmentIdsList;
   /** whether or not this env variable is decrypted */
-  decrypted?: boolean;
-  /** A user provided comment that describes what this Shared Env Var is for. */
-  comment?: string;
+  decrypted: boolean;
+  /** Timestamp for when the Shared Env Var was (soft) deleted. */
+  deletedAt?: number;
+  /** The unique identifier of the user who deleted the Shared Env Var. */
+  deletedBy?: string | null;
+  /** The unique identifier of the Shared Env Var. */
+  id: string;
+  /** The name of the Shared Env Var. */
+  key: string;
   /** The last editor full name or username. */
   lastEditedByDisplayName?: string;
+  lastEditedByPrincipal?: ListSharedEnvVariableResponseDataItemLastEditedByPrincipal;
+  /** The unique identifier of the owner (team) the Shared Env Var was created for. */
+  ownerId?: string | null;
+  /** The unique identifiers of the projects which the Shared Env Var is linked to. */
+  projectId?: ListSharedEnvVariableResponseDataItemProjectIdList;
+  securityIssues: ListSharedEnvVariableResponseDataItemSecurityIssuesList;
+  /** environments this env variable targets */
+  target?: ListSharedEnvVariableResponseDataItemTargetList;
+  /** The type of this cosmos doc instance, if blank, assume secret. */
+  type?: ListSharedEnvVariableResponseDataItemType;
+  /** Timestamp for when the Shared Env Var was last updated. */
+  updatedAt?: number;
+  /** The unique identifier of the user who last updated the Shared Env Var. */
+  updatedBy?: string | null;
+  /** The value of the Shared Env Var. */
+  value?: string;
 }
 export const ListSharedEnvVariableResponseDataItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    created: S.optional(S.String),
-    key: S.optional(S.String),
-    ownerId: S.optional(S.NullOr(S.String)),
-    id: S.optional(S.String),
-    createdBy: S.optional(S.NullOr(S.String)),
-    deletedBy: S.optional(S.NullOr(S.String)),
-    updatedBy: S.optional(S.NullOr(S.String)),
-    createdAt: S.optional(S.Number),
-    deletedAt: S.optional(S.Number),
-    updatedAt: S.optional(S.Number),
-    value: S.optional(S.String),
-    projectId: S.optional(ListSharedEnvVariableResponseDataItemProjectIdList),
-    type: S.optional(ListSharedEnvVariableResponseDataItemType),
-    target: S.optional(ListSharedEnvVariableResponseDataItemTargetList),
     applyToAllCustomEnvironments: S.optional(S.Boolean),
-    customEnvironmentIds: S.optional(ListSharedEnvVariableResponseDataItemCustomEnvironmentIdsList),
-    decrypted: S.optional(S.Boolean),
     comment: S.optional(S.String),
+    created: S.String,
+    createdAt: S.optional(S.Number),
+    createdBy: S.optional(S.NullOr(S.String)),
+    customEnvironmentIds: S.optional(ListSharedEnvVariableResponseDataItemCustomEnvironmentIdsList),
+    decrypted: S.Boolean,
+    deletedAt: S.optional(S.Number),
+    deletedBy: S.optional(S.NullOr(S.String)),
+    id: S.String,
+    key: S.String,
     lastEditedByDisplayName: S.optional(S.String),
+    lastEditedByPrincipal: S.optional(ListSharedEnvVariableResponseDataItemLastEditedByPrincipal),
+    ownerId: S.optional(S.NullOr(S.String)),
+    projectId: S.optional(ListSharedEnvVariableResponseDataItemProjectIdList),
+    securityIssues: ListSharedEnvVariableResponseDataItemSecurityIssuesList,
+    target: S.optional(ListSharedEnvVariableResponseDataItemTargetList),
+    type: S.optional(ListSharedEnvVariableResponseDataItemType),
+    updatedAt: S.optional(S.Number),
+    updatedBy: S.optional(S.NullOr(S.String)),
+    value: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ListSharedEnvVariableResponseDataItem",
@@ -1324,29 +1494,31 @@ export const RemoveCustomEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "RemoveCustomEnvironmentRequest",
 }) as any as S.Schema<RemoveCustomEnvironmentRequest>;
 
-/** The type of environment (production, preview, or development) */
-export type RemoveCustomEnvironmentResponseType = "development" | "preview" | "production";
-export const RemoveCustomEnvironmentResponseType = S.String;
-
 /** The type of matching to perform */
 export type RemoveCustomEnvironmentResponseBranchMatcherType = "endsWith" | "equals" | "startsWith";
 export const RemoveCustomEnvironmentResponseBranchMatcherType = S.String;
 
 /** Configuration for matching git branches to this environment */
 export interface RemoveCustomEnvironmentResponseBranchMatcher {
-  /** The type of matching to perform */
-  type: RemoveCustomEnvironmentResponseBranchMatcherType;
   /** The pattern to match against branch names */
   pattern: string;
+  /** The type of matching to perform */
+  type: RemoveCustomEnvironmentResponseBranchMatcherType;
 }
 export const RemoveCustomEnvironmentResponseBranchMatcher = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    type: RemoveCustomEnvironmentResponseBranchMatcherType,
     pattern: S.String,
+    type: RemoveCustomEnvironmentResponseBranchMatcherType,
   }),
 ).annotate({
   identifier: "RemoveCustomEnvironmentResponseBranchMatcher",
 }) as any as S.Schema<RemoveCustomEnvironmentResponseBranchMatcher>;
+
+/** List of aliases for the current deployment */
+export type RemoveCustomEnvironmentResponseCurrentDeploymentAliasesList = Array<string>;
+export const RemoveCustomEnvironmentResponseCurrentDeploymentAliasesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<RemoveCustomEnvironmentResponseCurrentDeploymentAliasesList>;
 
 export type RemoveCustomEnvironmentResponseDomainsItemRedirectStatusCode = 301 | 302 | 307 | 308;
 export const RemoveCustomEnvironmentResponseDomainsItemRedirectStatusCode = S.Number;
@@ -1366,35 +1538,35 @@ export const RemoveCustomEnvironmentResponseDomainsItemVerificationList = /*@__P
 
 /** List of domains associated with this environment */
 export interface RemoveCustomEnvironmentResponseDomainsItem {
-  name: string;
   apexName: string;
+  createdAt?: number;
+  customEnvironmentId?: string | null;
+  gitBranch?: string | null;
+  name: string;
   projectId: string;
   redirect?: string | null;
   redirectStatusCode?: RemoveCustomEnvironmentResponseDomainsItemRedirectStatusCode | null;
-  gitBranch?: string | null;
-  customEnvironmentId?: string | null;
   updatedAt?: number;
-  createdAt?: number;
-  /** `true` if the domain is verified for use with the project. If `false` it will not be used as an alias on this project until the challenge in `verification` is completed. */
-  verified: boolean;
   /** A list of verification challenges, one of which must be completed to verify the domain for use on the project. After the challenge is complete `POST /projects/:idOrName/domains/:domain/verify` to verify the domain. Possible challenges: - If `verification.type = TXT` the `verification.domain` will be checked for a TXT record matching `verification.value`. */
   verification?: RemoveCustomEnvironmentResponseDomainsItemVerificationList;
+  /** `true` if the domain is verified for use with the project. If `false` it will not be used as an alias on this project until the challenge in `verification` is completed. */
+  verified: boolean;
 }
 export const RemoveCustomEnvironmentResponseDomainsItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String,
     apexName: S.String,
+    createdAt: S.optional(S.Number),
+    customEnvironmentId: S.optional(S.NullOr(S.String)),
+    gitBranch: S.optional(S.NullOr(S.String)),
+    name: S.String,
     projectId: S.String,
     redirect: S.optional(S.NullOr(S.String)),
     redirectStatusCode: S.optional(
       S.NullOr(RemoveCustomEnvironmentResponseDomainsItemRedirectStatusCode),
     ),
-    gitBranch: S.optional(S.NullOr(S.String)),
-    customEnvironmentId: S.optional(S.NullOr(S.String)),
     updatedAt: S.optional(S.Number),
-    createdAt: S.optional(S.Number),
-    verified: S.Boolean,
     verification: S.optional(RemoveCustomEnvironmentResponseDomainsItemVerificationList),
+    verified: S.Boolean,
   }),
 ).annotate({
   identifier: "RemoveCustomEnvironmentResponseDomainsItem",
@@ -1407,44 +1579,42 @@ export const RemoveCustomEnvironmentResponseDomainsList = /*@__PURE__*/ S.Array(
   RemoveCustomEnvironmentResponseDomainsItem,
 ) as any as S.Schema<RemoveCustomEnvironmentResponseDomainsList>;
 
-/** List of aliases for the current deployment */
-export type RemoveCustomEnvironmentResponseCurrentDeploymentAliasesList = Array<string>;
-export const RemoveCustomEnvironmentResponseCurrentDeploymentAliasesList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<RemoveCustomEnvironmentResponseCurrentDeploymentAliasesList>;
+/** The type of environment (production, preview, or development) */
+export type RemoveCustomEnvironmentResponseType = "development" | "preview" | "production";
+export const RemoveCustomEnvironmentResponseType = S.String;
 
 export interface RemoveCustomEnvironmentResponse {
+  /** Configuration for matching git branches to this environment */
+  branchMatcher?: RemoveCustomEnvironmentResponseBranchMatcher;
+  /** Timestamp when the environment was created */
+  createdAt: number;
+  /** List of aliases for the current deployment */
+  currentDeploymentAliases?: RemoveCustomEnvironmentResponseCurrentDeploymentAliasesList;
+  /** Optional description of the environment's purpose */
+  description?: string;
+  /** List of domains associated with this environment */
+  domains?: RemoveCustomEnvironmentResponseDomainsList;
   /** Unique identifier for the custom environment (format: env_*) */
   id: string;
   /** URL-friendly name of the environment */
   slug: string;
   /** The type of environment (production, preview, or development) */
   type: RemoveCustomEnvironmentResponseType;
-  /** Optional description of the environment's purpose */
-  description?: string;
-  /** Configuration for matching git branches to this environment */
-  branchMatcher?: RemoveCustomEnvironmentResponseBranchMatcher;
-  /** List of domains associated with this environment */
-  domains?: RemoveCustomEnvironmentResponseDomainsList;
-  /** List of aliases for the current deployment */
-  currentDeploymentAliases?: RemoveCustomEnvironmentResponseCurrentDeploymentAliasesList;
-  /** Timestamp when the environment was created */
-  createdAt: number;
   /** Timestamp when the environment was last updated */
   updatedAt: number;
 }
 export const RemoveCustomEnvironmentResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    id: S.String,
-    slug: S.String,
-    type: RemoveCustomEnvironmentResponseType,
-    description: S.optional(S.String),
     branchMatcher: S.optional(RemoveCustomEnvironmentResponseBranchMatcher),
-    domains: S.optional(RemoveCustomEnvironmentResponseDomainsList),
+    createdAt: S.Number,
     currentDeploymentAliases: S.optional(
       RemoveCustomEnvironmentResponseCurrentDeploymentAliasesList,
     ),
-    createdAt: S.Number,
+    description: S.optional(S.String),
+    domains: S.optional(RemoveCustomEnvironmentResponseDomainsList),
+    id: S.String,
+    slug: S.String,
+    type: RemoveCustomEnvironmentResponseType,
     updatedAt: S.Number,
   }),
 ).annotate({
@@ -1466,13 +1636,7 @@ export const UnlinkSharedEnvVariableRequest = /*@__PURE__*/ S.suspend(() =>
     projectId: S.String.pipe(T.Label()),
     teamId: S.optional(S.String.pipe(T.Query())),
     slug: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/v1/env/{id}/unlink/{projectId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PATCH", uri: "/v1/env/{id}/unlink/{projectId}", code: 200 })),
 ).annotate({
   identifier: "UnlinkSharedEnvVariableRequest",
 }) as any as S.Schema<UnlinkSharedEnvVariableRequest>;
@@ -1541,29 +1705,31 @@ export const UpdateCustomEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "UpdateCustomEnvironmentRequest",
 }) as any as S.Schema<UpdateCustomEnvironmentRequest>;
 
-/** The type of environment (production, preview, or development) */
-export type UpdateCustomEnvironmentResponseType = "development" | "preview" | "production";
-export const UpdateCustomEnvironmentResponseType = S.String;
-
 /** The type of matching to perform */
 export type UpdateCustomEnvironmentResponseBranchMatcherType = "endsWith" | "equals" | "startsWith";
 export const UpdateCustomEnvironmentResponseBranchMatcherType = S.String;
 
 /** Configuration for matching git branches to this environment */
 export interface UpdateCustomEnvironmentResponseBranchMatcher {
-  /** The type of matching to perform */
-  type: UpdateCustomEnvironmentResponseBranchMatcherType;
   /** The pattern to match against branch names */
   pattern: string;
+  /** The type of matching to perform */
+  type: UpdateCustomEnvironmentResponseBranchMatcherType;
 }
 export const UpdateCustomEnvironmentResponseBranchMatcher = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    type: UpdateCustomEnvironmentResponseBranchMatcherType,
     pattern: S.String,
+    type: UpdateCustomEnvironmentResponseBranchMatcherType,
   }),
 ).annotate({
   identifier: "UpdateCustomEnvironmentResponseBranchMatcher",
 }) as any as S.Schema<UpdateCustomEnvironmentResponseBranchMatcher>;
+
+/** List of aliases for the current deployment */
+export type UpdateCustomEnvironmentResponseCurrentDeploymentAliasesList = Array<string>;
+export const UpdateCustomEnvironmentResponseCurrentDeploymentAliasesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<UpdateCustomEnvironmentResponseCurrentDeploymentAliasesList>;
 
 export type UpdateCustomEnvironmentResponseDomainsItemRedirectStatusCode = 301 | 302 | 307 | 308;
 export const UpdateCustomEnvironmentResponseDomainsItemRedirectStatusCode = S.Number;
@@ -1583,35 +1749,35 @@ export const UpdateCustomEnvironmentResponseDomainsItemVerificationList = /*@__P
 
 /** List of domains associated with this environment */
 export interface UpdateCustomEnvironmentResponseDomainsItem {
-  name: string;
   apexName: string;
+  createdAt?: number;
+  customEnvironmentId?: string | null;
+  gitBranch?: string | null;
+  name: string;
   projectId: string;
   redirect?: string | null;
   redirectStatusCode?: UpdateCustomEnvironmentResponseDomainsItemRedirectStatusCode | null;
-  gitBranch?: string | null;
-  customEnvironmentId?: string | null;
   updatedAt?: number;
-  createdAt?: number;
-  /** `true` if the domain is verified for use with the project. If `false` it will not be used as an alias on this project until the challenge in `verification` is completed. */
-  verified: boolean;
   /** A list of verification challenges, one of which must be completed to verify the domain for use on the project. After the challenge is complete `POST /projects/:idOrName/domains/:domain/verify` to verify the domain. Possible challenges: - If `verification.type = TXT` the `verification.domain` will be checked for a TXT record matching `verification.value`. */
   verification?: UpdateCustomEnvironmentResponseDomainsItemVerificationList;
+  /** `true` if the domain is verified for use with the project. If `false` it will not be used as an alias on this project until the challenge in `verification` is completed. */
+  verified: boolean;
 }
 export const UpdateCustomEnvironmentResponseDomainsItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String,
     apexName: S.String,
+    createdAt: S.optional(S.Number),
+    customEnvironmentId: S.optional(S.NullOr(S.String)),
+    gitBranch: S.optional(S.NullOr(S.String)),
+    name: S.String,
     projectId: S.String,
     redirect: S.optional(S.NullOr(S.String)),
     redirectStatusCode: S.optional(
       S.NullOr(UpdateCustomEnvironmentResponseDomainsItemRedirectStatusCode),
     ),
-    gitBranch: S.optional(S.NullOr(S.String)),
-    customEnvironmentId: S.optional(S.NullOr(S.String)),
     updatedAt: S.optional(S.Number),
-    createdAt: S.optional(S.Number),
-    verified: S.Boolean,
     verification: S.optional(UpdateCustomEnvironmentResponseDomainsItemVerificationList),
+    verified: S.Boolean,
   }),
 ).annotate({
   identifier: "UpdateCustomEnvironmentResponseDomainsItem",
@@ -1624,44 +1790,42 @@ export const UpdateCustomEnvironmentResponseDomainsList = /*@__PURE__*/ S.Array(
   UpdateCustomEnvironmentResponseDomainsItem,
 ) as any as S.Schema<UpdateCustomEnvironmentResponseDomainsList>;
 
-/** List of aliases for the current deployment */
-export type UpdateCustomEnvironmentResponseCurrentDeploymentAliasesList = Array<string>;
-export const UpdateCustomEnvironmentResponseCurrentDeploymentAliasesList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<UpdateCustomEnvironmentResponseCurrentDeploymentAliasesList>;
+/** The type of environment (production, preview, or development) */
+export type UpdateCustomEnvironmentResponseType = "development" | "preview" | "production";
+export const UpdateCustomEnvironmentResponseType = S.String;
 
 export interface UpdateCustomEnvironmentResponse {
+  /** Configuration for matching git branches to this environment */
+  branchMatcher?: UpdateCustomEnvironmentResponseBranchMatcher;
+  /** Timestamp when the environment was created */
+  createdAt: number;
+  /** List of aliases for the current deployment */
+  currentDeploymentAliases?: UpdateCustomEnvironmentResponseCurrentDeploymentAliasesList;
+  /** Optional description of the environment's purpose */
+  description?: string;
+  /** List of domains associated with this environment */
+  domains?: UpdateCustomEnvironmentResponseDomainsList;
   /** Unique identifier for the custom environment (format: env_*) */
   id: string;
   /** URL-friendly name of the environment */
   slug: string;
   /** The type of environment (production, preview, or development) */
   type: UpdateCustomEnvironmentResponseType;
-  /** Optional description of the environment's purpose */
-  description?: string;
-  /** Configuration for matching git branches to this environment */
-  branchMatcher?: UpdateCustomEnvironmentResponseBranchMatcher;
-  /** List of domains associated with this environment */
-  domains?: UpdateCustomEnvironmentResponseDomainsList;
-  /** List of aliases for the current deployment */
-  currentDeploymentAliases?: UpdateCustomEnvironmentResponseCurrentDeploymentAliasesList;
-  /** Timestamp when the environment was created */
-  createdAt: number;
   /** Timestamp when the environment was last updated */
   updatedAt: number;
 }
 export const UpdateCustomEnvironmentResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    id: S.String,
-    slug: S.String,
-    type: UpdateCustomEnvironmentResponseType,
-    description: S.optional(S.String),
     branchMatcher: S.optional(UpdateCustomEnvironmentResponseBranchMatcher),
-    domains: S.optional(UpdateCustomEnvironmentResponseDomainsList),
+    createdAt: S.Number,
     currentDeploymentAliases: S.optional(
       UpdateCustomEnvironmentResponseCurrentDeploymentAliasesList,
     ),
-    createdAt: S.Number,
+    description: S.optional(S.String),
+    domains: S.optional(UpdateCustomEnvironmentResponseDomainsList),
+    id: S.String,
+    slug: S.String,
+    type: UpdateCustomEnvironmentResponseType,
     updatedAt: S.Number,
   }),
 ).annotate({
@@ -1780,135 +1944,6 @@ export const UpdateSharedEnvVariableRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "UpdateSharedEnvVariableRequest",
 }) as any as S.Schema<UpdateSharedEnvVariableRequest>;
 
-/** The unique identifiers of the projects which the Shared Env Var is linked to. */
-export type UpdateSharedEnvVariableResponseUpdatedItemProjectIdList = Array<string>;
-export const UpdateSharedEnvVariableResponseUpdatedItemProjectIdList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<UpdateSharedEnvVariableResponseUpdatedItemProjectIdList>;
-
-/** The type of this cosmos doc instance, if blank, assume secret. */
-export type UpdateSharedEnvVariableResponseUpdatedItemType =
-  | "encrypted"
-  | "plain"
-  | "sensitive"
-  | "system";
-export const UpdateSharedEnvVariableResponseUpdatedItemType = S.String;
-
-/** environments this env variable targets */
-export type UpdateSharedEnvVariableResponseUpdatedItemTargetItem =
-  | "development"
-  | "preview"
-  | "production";
-export const UpdateSharedEnvVariableResponseUpdatedItemTargetItem = S.String;
-
-/** environments this env variable targets */
-export type UpdateSharedEnvVariableResponseUpdatedItemTargetList =
-  Array<UpdateSharedEnvVariableResponseUpdatedItemTargetItem>;
-export const UpdateSharedEnvVariableResponseUpdatedItemTargetList = /*@__PURE__*/ S.Array(
-  UpdateSharedEnvVariableResponseUpdatedItemTargetItem,
-) as any as S.Schema<UpdateSharedEnvVariableResponseUpdatedItemTargetList>;
-
-/** The custom environment IDs that this Shared Env Var is scoped to. */
-export type UpdateSharedEnvVariableResponseUpdatedItemCustomEnvironmentIdsList = Array<string>;
-export const UpdateSharedEnvVariableResponseUpdatedItemCustomEnvironmentIdsList =
-  /*@__PURE__*/ S.Array(
-    S.String,
-  ) as any as S.Schema<UpdateSharedEnvVariableResponseUpdatedItemCustomEnvironmentIdsList>;
-
-export interface UpdateSharedEnvVariableResponseUpdatedItem {
-  /** The date when the Shared Env Var was created. */
-  created?: string;
-  /** The name of the Shared Env Var. */
-  key?: string;
-  /** The unique identifier of the owner (team) the Shared Env Var was created for. */
-  ownerId?: string | null;
-  /** The unique identifier of the Shared Env Var. */
-  id?: string;
-  /** The unique identifier of the user who created the Shared Env Var. */
-  createdBy?: string | null;
-  /** The unique identifier of the user who deleted the Shared Env Var. */
-  deletedBy?: string | null;
-  /** The unique identifier of the user who last updated the Shared Env Var. */
-  updatedBy?: string | null;
-  /** Timestamp for when the Shared Env Var was created. */
-  createdAt?: number;
-  /** Timestamp for when the Shared Env Var was (soft) deleted. */
-  deletedAt?: number;
-  /** Timestamp for when the Shared Env Var was last updated. */
-  updatedAt?: number;
-  /** The value of the Shared Env Var. */
-  value?: string;
-  /** The unique identifiers of the projects which the Shared Env Var is linked to. */
-  projectId?: UpdateSharedEnvVariableResponseUpdatedItemProjectIdList;
-  /** The type of this cosmos doc instance, if blank, assume secret. */
-  type?: UpdateSharedEnvVariableResponseUpdatedItemType;
-  /** environments this env variable targets */
-  target?: UpdateSharedEnvVariableResponseUpdatedItemTargetList;
-  /** whether or not this env varible applies to custom environments */
-  applyToAllCustomEnvironments?: boolean;
-  /** The custom environment IDs that this Shared Env Var is scoped to. */
-  customEnvironmentIds?: UpdateSharedEnvVariableResponseUpdatedItemCustomEnvironmentIdsList;
-  /** whether or not this env variable is decrypted */
-  decrypted?: boolean;
-  /** A user provided comment that describes what this Shared Env Var is for. */
-  comment?: string;
-  /** The last editor full name or username. */
-  lastEditedByDisplayName?: string;
-}
-export const UpdateSharedEnvVariableResponseUpdatedItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    created: S.optional(S.String),
-    key: S.optional(S.String),
-    ownerId: S.optional(S.NullOr(S.String)),
-    id: S.optional(S.String),
-    createdBy: S.optional(S.NullOr(S.String)),
-    deletedBy: S.optional(S.NullOr(S.String)),
-    updatedBy: S.optional(S.NullOr(S.String)),
-    createdAt: S.optional(S.Number),
-    deletedAt: S.optional(S.Number),
-    updatedAt: S.optional(S.Number),
-    value: S.optional(S.String),
-    projectId: S.optional(UpdateSharedEnvVariableResponseUpdatedItemProjectIdList),
-    type: S.optional(UpdateSharedEnvVariableResponseUpdatedItemType),
-    target: S.optional(UpdateSharedEnvVariableResponseUpdatedItemTargetList),
-    applyToAllCustomEnvironments: S.optional(S.Boolean),
-    customEnvironmentIds: S.optional(
-      UpdateSharedEnvVariableResponseUpdatedItemCustomEnvironmentIdsList,
-    ),
-    decrypted: S.optional(S.Boolean),
-    comment: S.optional(S.String),
-    lastEditedByDisplayName: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "UpdateSharedEnvVariableResponseUpdatedItem",
-}) as any as S.Schema<UpdateSharedEnvVariableResponseUpdatedItem>;
-
-export type UpdateSharedEnvVariableResponseUpdatedList =
-  Array<UpdateSharedEnvVariableResponseUpdatedItem>;
-export const UpdateSharedEnvVariableResponseUpdatedList = /*@__PURE__*/ S.Array(
-  UpdateSharedEnvVariableResponseUpdatedItem,
-) as any as S.Schema<UpdateSharedEnvVariableResponseUpdatedList>;
-
-export type UpdateSharedEnvVariableResponseFailedItemErrorValueCase1Item =
-  | "development"
-  | "development"
-  | "preview"
-  | "preview"
-  | "production";
-export const UpdateSharedEnvVariableResponseFailedItemErrorValueCase1Item = S.String;
-
-export type UpdateSharedEnvVariableResponseFailedItemErrorValueCase1List =
-  Array<UpdateSharedEnvVariableResponseFailedItemErrorValueCase1Item>;
-export const UpdateSharedEnvVariableResponseFailedItemErrorValueCase1List = /*@__PURE__*/ S.Array(
-  UpdateSharedEnvVariableResponseFailedItemErrorValueCase1Item,
-) as any as S.Schema<UpdateSharedEnvVariableResponseFailedItemErrorValueCase1List>;
-
-export type UpdateSharedEnvVariableResponseFailedItemErrorValue =
-  | string
-  | UpdateSharedEnvVariableResponseFailedItemErrorValueCase1List;
-export const UpdateSharedEnvVariableResponseFailedItemErrorValue =
-  S.Unknown as any as S.Schema<UpdateSharedEnvVariableResponseFailedItemErrorValue>;
-
 export type UpdateSharedEnvVariableResponseFailedItemErrorTargetCase0Item =
   | "development"
   | "development"
@@ -1937,32 +1972,52 @@ export type UpdateSharedEnvVariableResponseFailedItemErrorTarget =
 export const UpdateSharedEnvVariableResponseFailedItemErrorTarget =
   S.Unknown as any as S.Schema<UpdateSharedEnvVariableResponseFailedItemErrorTarget>;
 
+export type UpdateSharedEnvVariableResponseFailedItemErrorValueCase1Item =
+  | "development"
+  | "development"
+  | "preview"
+  | "preview"
+  | "production";
+export const UpdateSharedEnvVariableResponseFailedItemErrorValueCase1Item = S.String;
+
+export type UpdateSharedEnvVariableResponseFailedItemErrorValueCase1List =
+  Array<UpdateSharedEnvVariableResponseFailedItemErrorValueCase1Item>;
+export const UpdateSharedEnvVariableResponseFailedItemErrorValueCase1List = /*@__PURE__*/ S.Array(
+  UpdateSharedEnvVariableResponseFailedItemErrorValueCase1Item,
+) as any as S.Schema<UpdateSharedEnvVariableResponseFailedItemErrorValueCase1List>;
+
+export type UpdateSharedEnvVariableResponseFailedItemErrorValue =
+  | string
+  | UpdateSharedEnvVariableResponseFailedItemErrorValueCase1List;
+export const UpdateSharedEnvVariableResponseFailedItemErrorValue =
+  S.Unknown as any as S.Schema<UpdateSharedEnvVariableResponseFailedItemErrorValue>;
+
 export interface UpdateSharedEnvVariableResponseFailedItemError {
+  action?: string;
   code: string;
-  message: string;
-  key?: string;
   envVarId?: string;
   envVarKey?: string;
-  action?: string;
-  link?: string;
-  value?: UpdateSharedEnvVariableResponseFailedItemErrorValue;
   gitBranch?: string;
-  target?: UpdateSharedEnvVariableResponseFailedItemErrorTarget;
+  key?: string;
+  link?: string;
+  message: string;
   project?: string;
+  target?: UpdateSharedEnvVariableResponseFailedItemErrorTarget;
+  value?: UpdateSharedEnvVariableResponseFailedItemErrorValue;
 }
 export const UpdateSharedEnvVariableResponseFailedItemError = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    action: S.optional(S.String),
     code: S.String,
-    message: S.String,
-    key: S.optional(S.String),
     envVarId: S.optional(S.String),
     envVarKey: S.optional(S.String),
-    action: S.optional(S.String),
-    link: S.optional(S.String),
-    value: S.optional(UpdateSharedEnvVariableResponseFailedItemErrorValue),
     gitBranch: S.optional(S.String),
-    target: S.optional(UpdateSharedEnvVariableResponseFailedItemErrorTarget),
+    key: S.optional(S.String),
+    link: S.optional(S.String),
+    message: S.String,
     project: S.optional(S.String),
+    target: S.optional(UpdateSharedEnvVariableResponseFailedItemErrorTarget),
+    value: S.optional(UpdateSharedEnvVariableResponseFailedItemErrorValue),
   }),
 ).annotate({
   identifier: "UpdateSharedEnvVariableResponseFailedItemError",
@@ -1985,20 +2040,191 @@ export const UpdateSharedEnvVariableResponseFailedList = /*@__PURE__*/ S.Array(
   UpdateSharedEnvVariableResponseFailedItem,
 ) as any as S.Schema<UpdateSharedEnvVariableResponseFailedList>;
 
+/** The custom environment IDs that this Shared Env Var is scoped to. */
+export type UpdateSharedEnvVariableResponseUpdatedItemCustomEnvironmentIdsList = Array<string>;
+export const UpdateSharedEnvVariableResponseUpdatedItemCustomEnvironmentIdsList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<UpdateSharedEnvVariableResponseUpdatedItemCustomEnvironmentIdsList>;
+
+export type UpdateSharedEnvVariableResponseUpdatedItemLastEditedByPrincipalCase0Type = "user";
+export const UpdateSharedEnvVariableResponseUpdatedItemLastEditedByPrincipalCase0Type = S.String;
+
+/** The principal that last edited this env var, when the editor id resolves to a known user or app. Lets clients render the right avatar instead of assuming every editor is a user. */
+export interface UpdateSharedEnvVariableResponseUpdatedItemLastEditedByPrincipalCase0 {
+  avatar?: string;
+  id: string;
+  name?: string | null;
+  type: UpdateSharedEnvVariableResponseUpdatedItemLastEditedByPrincipalCase0Type;
+  username: string;
+}
+export const UpdateSharedEnvVariableResponseUpdatedItemLastEditedByPrincipalCase0 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      avatar: S.optional(S.String),
+      id: S.String,
+      name: S.optional(S.NullOr(S.String)),
+      type: UpdateSharedEnvVariableResponseUpdatedItemLastEditedByPrincipalCase0Type,
+      username: S.String,
+    }),
+  ).annotate({
+    identifier: "UpdateSharedEnvVariableResponseUpdatedItemLastEditedByPrincipalCase0",
+  }) as any as S.Schema<UpdateSharedEnvVariableResponseUpdatedItemLastEditedByPrincipalCase0>;
+
+export type UpdateSharedEnvVariableResponseUpdatedItemLastEditedByPrincipalCase1Type = "app";
+export const UpdateSharedEnvVariableResponseUpdatedItemLastEditedByPrincipalCase1Type = S.String;
+
+/** The principal that last edited this env var, when the editor id resolves to a known user or app. Lets clients render the right avatar instead of assuming every editor is a user. */
+export interface UpdateSharedEnvVariableResponseUpdatedItemLastEditedByPrincipalCase1 {
+  avatar?: string;
+  id: string;
+  name: string;
+  type: UpdateSharedEnvVariableResponseUpdatedItemLastEditedByPrincipalCase1Type;
+}
+export const UpdateSharedEnvVariableResponseUpdatedItemLastEditedByPrincipalCase1 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      avatar: S.optional(S.String),
+      id: S.String,
+      name: S.String,
+      type: UpdateSharedEnvVariableResponseUpdatedItemLastEditedByPrincipalCase1Type,
+    }),
+  ).annotate({
+    identifier: "UpdateSharedEnvVariableResponseUpdatedItemLastEditedByPrincipalCase1",
+  }) as any as S.Schema<UpdateSharedEnvVariableResponseUpdatedItemLastEditedByPrincipalCase1>;
+
+export type UpdateSharedEnvVariableResponseUpdatedItemLastEditedByPrincipal =
+  | UpdateSharedEnvVariableResponseUpdatedItemLastEditedByPrincipalCase0
+  | UpdateSharedEnvVariableResponseUpdatedItemLastEditedByPrincipalCase1;
+export const UpdateSharedEnvVariableResponseUpdatedItemLastEditedByPrincipal =
+  S.Unknown as any as S.Schema<UpdateSharedEnvVariableResponseUpdatedItemLastEditedByPrincipal>;
+
+/** The unique identifiers of the projects which the Shared Env Var is linked to. */
+export type UpdateSharedEnvVariableResponseUpdatedItemProjectIdList = Array<string>;
+export const UpdateSharedEnvVariableResponseUpdatedItemProjectIdList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<UpdateSharedEnvVariableResponseUpdatedItemProjectIdList>;
+
+/** environments this env variable targets */
+export type UpdateSharedEnvVariableResponseUpdatedItemTargetItem =
+  | "development"
+  | "preview"
+  | "production";
+export const UpdateSharedEnvVariableResponseUpdatedItemTargetItem = S.String;
+
+/** environments this env variable targets */
+export type UpdateSharedEnvVariableResponseUpdatedItemTargetList =
+  Array<UpdateSharedEnvVariableResponseUpdatedItemTargetItem>;
+export const UpdateSharedEnvVariableResponseUpdatedItemTargetList = /*@__PURE__*/ S.Array(
+  UpdateSharedEnvVariableResponseUpdatedItemTargetItem,
+) as any as S.Schema<UpdateSharedEnvVariableResponseUpdatedItemTargetList>;
+
+/** The type of this cosmos doc instance, if blank, assume secret. */
+export type UpdateSharedEnvVariableResponseUpdatedItemType =
+  | "encrypted"
+  | "plain"
+  | "sensitive"
+  | "system";
+export const UpdateSharedEnvVariableResponseUpdatedItemType = S.String;
+
+export interface UpdateSharedEnvVariableResponseUpdatedItem {
+  /** whether or not this env varible applies to custom environments */
+  applyToAllCustomEnvironments?: boolean;
+  /** A user provided comment that describes what this Shared Env Var is for. */
+  comment?: string;
+  /** The date when the Shared Env Var was created. */
+  created?: string;
+  /** Timestamp for when the Shared Env Var was created. */
+  createdAt?: number;
+  /** The unique identifier of the user who created the Shared Env Var. */
+  createdBy?: string | null;
+  /** The custom environment IDs that this Shared Env Var is scoped to. */
+  customEnvironmentIds?: UpdateSharedEnvVariableResponseUpdatedItemCustomEnvironmentIdsList;
+  /** whether or not this env variable is decrypted */
+  decrypted?: boolean;
+  /** Timestamp for when the Shared Env Var was (soft) deleted. */
+  deletedAt?: number;
+  /** The unique identifier of the user who deleted the Shared Env Var. */
+  deletedBy?: string | null;
+  /** The unique identifier of the Shared Env Var. */
+  id?: string;
+  /** The name of the Shared Env Var. */
+  key?: string;
+  /** The last editor full name or username. */
+  lastEditedByDisplayName?: string;
+  lastEditedByPrincipal?: UpdateSharedEnvVariableResponseUpdatedItemLastEditedByPrincipal;
+  /** The unique identifier of the owner (team) the Shared Env Var was created for. */
+  ownerId?: string | null;
+  /** The unique identifiers of the projects which the Shared Env Var is linked to. */
+  projectId?: UpdateSharedEnvVariableResponseUpdatedItemProjectIdList;
+  /** environments this env variable targets */
+  target?: UpdateSharedEnvVariableResponseUpdatedItemTargetList;
+  /** The type of this cosmos doc instance, if blank, assume secret. */
+  type?: UpdateSharedEnvVariableResponseUpdatedItemType;
+  /** Timestamp for when the Shared Env Var was last updated. */
+  updatedAt?: number;
+  /** The unique identifier of the user who last updated the Shared Env Var. */
+  updatedBy?: string | null;
+  /** The value of the Shared Env Var. */
+  value?: string;
+}
+export const UpdateSharedEnvVariableResponseUpdatedItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    applyToAllCustomEnvironments: S.optional(S.Boolean),
+    comment: S.optional(S.String),
+    created: S.optional(S.String),
+    createdAt: S.optional(S.Number),
+    createdBy: S.optional(S.NullOr(S.String)),
+    customEnvironmentIds: S.optional(
+      UpdateSharedEnvVariableResponseUpdatedItemCustomEnvironmentIdsList,
+    ),
+    decrypted: S.optional(S.Boolean),
+    deletedAt: S.optional(S.Number),
+    deletedBy: S.optional(S.NullOr(S.String)),
+    id: S.optional(S.String),
+    key: S.optional(S.String),
+    lastEditedByDisplayName: S.optional(S.String),
+    lastEditedByPrincipal: S.optional(
+      UpdateSharedEnvVariableResponseUpdatedItemLastEditedByPrincipal,
+    ),
+    ownerId: S.optional(S.NullOr(S.String)),
+    projectId: S.optional(UpdateSharedEnvVariableResponseUpdatedItemProjectIdList),
+    target: S.optional(UpdateSharedEnvVariableResponseUpdatedItemTargetList),
+    type: S.optional(UpdateSharedEnvVariableResponseUpdatedItemType),
+    updatedAt: S.optional(S.Number),
+    updatedBy: S.optional(S.NullOr(S.String)),
+    value: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "UpdateSharedEnvVariableResponseUpdatedItem",
+}) as any as S.Schema<UpdateSharedEnvVariableResponseUpdatedItem>;
+
+export type UpdateSharedEnvVariableResponseUpdatedList =
+  Array<UpdateSharedEnvVariableResponseUpdatedItem>;
+export const UpdateSharedEnvVariableResponseUpdatedList = /*@__PURE__*/ S.Array(
+  UpdateSharedEnvVariableResponseUpdatedItem,
+) as any as S.Schema<UpdateSharedEnvVariableResponseUpdatedList>;
+
 export interface UpdateSharedEnvVariableResponse {
-  updated: UpdateSharedEnvVariableResponseUpdatedList;
   failed: UpdateSharedEnvVariableResponseFailedList;
+  updated: UpdateSharedEnvVariableResponseUpdatedList;
 }
 export const UpdateSharedEnvVariableResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    updated: UpdateSharedEnvVariableResponseUpdatedList,
     failed: UpdateSharedEnvVariableResponseFailedList,
+    updated: UpdateSharedEnvVariableResponseUpdatedList,
   }),
 ).annotate({
   identifier: "UpdateSharedEnvVariableResponse",
 }) as any as S.Schema<UpdateSharedEnvVariableResponse>;
 
-export type CreateCustomEnvironmentError = BadRequest | PaymentRequired | Forbidden | VercelOpError;
+export type CreateCustomEnvironmentError =
+  | BadRequest
+  | PaymentRequired
+  | Forbidden
+  | NotFound
+  | Conflict
+  | VercelOpError;
 /** Create a custom environment for the current project. Creates a custom environment for the current project. Cannot be named 'Production' or 'Preview'. */
 export const createCustomEnvironment: API.OperationMethod<
   CreateCustomEnvironmentRequest,
@@ -2008,12 +2234,17 @@ export const createCustomEnvironment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateCustomEnvironmentRequest,
   output: CreateCustomEnvironmentResponse,
-  errors: [BadRequest, PaymentRequired, Forbidden],
+  errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
 }));
 
-export type CreateSharedEnvVariableError = BadRequest | PaymentRequired | Forbidden | VercelOpError;
+export type CreateSharedEnvVariableError =
+  | BadRequest
+  | PaymentRequired
+  | Forbidden
+  | NotFound
+  | VercelOpError;
 /** Create one or more shared environment variables Creates shared environment variable(s) for a team. */
 export const createSharedEnvVariable: API.OperationMethod<
   CreateSharedEnvVariableRequest,
@@ -2023,12 +2254,17 @@ export const createSharedEnvVariable: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateSharedEnvVariableRequest,
   output: CreateSharedEnvVariableResponse,
-  errors: [BadRequest, PaymentRequired, Forbidden],
+  errors: [BadRequest, PaymentRequired, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
 }));
 
-export type DeleteSharedEnvVariableError = BadRequest | PaymentRequired | Forbidden | VercelOpError;
+export type DeleteSharedEnvVariableError =
+  | BadRequest
+  | PaymentRequired
+  | Forbidden
+  | NotFound
+  | VercelOpError;
 /** Delete one or more Env Var Deletes one or many Shared Environment Variables for a given team. */
 export const deleteSharedEnvVariable: API.OperationMethod<
   DeleteSharedEnvVariableRequest,
@@ -2038,7 +2274,7 @@ export const deleteSharedEnvVariable: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteSharedEnvVariableRequest,
   output: DeleteSharedEnvVariableResponse,
-  errors: [BadRequest, PaymentRequired, Forbidden],
+  errors: [BadRequest, PaymentRequired, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
 }));
@@ -2058,7 +2294,7 @@ export const getCustomEnvironment: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type GetProjectCustomEnvironmentsError = BadRequest | Forbidden | VercelOpError;
+export type GetProjectCustomEnvironmentsError = BadRequest | Forbidden | NotFound | VercelOpError;
 /** Retrieve custom environments Retrieve custom environments for the project. Must not be named 'Production' or 'Preview'. */
 export const getProjectCustomEnvironments: API.OperationMethod<
   GetProjectCustomEnvironmentsRequest,
@@ -2068,12 +2304,12 @@ export const getProjectCustomEnvironments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetProjectCustomEnvironmentsRequest,
   output: GetProjectCustomEnvironmentsResponse,
-  errors: [BadRequest, Forbidden],
+  errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetSharedEnvVarError = BadRequest | Forbidden | VercelOpError;
+export type GetSharedEnvVarError = BadRequest | Forbidden | NotFound | VercelOpError;
 /** Retrieve the decrypted value of a Shared Environment Variable by id. Retrieve the decrypted value of a Shared Environment Variable by id. */
 export const getSharedEnvVar: API.OperationMethod<
   GetSharedEnvVarRequest,
@@ -2083,7 +2319,7 @@ export const getSharedEnvVar: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetSharedEnvVarRequest,
   output: GetSharedEnvVarResponse,
-  errors: [BadRequest, Forbidden],
+  errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
 }));
@@ -2103,7 +2339,7 @@ export const listSharedEnvVariable: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type RemoveCustomEnvironmentError = BadRequest | Forbidden | VercelOpError;
+export type RemoveCustomEnvironmentError = BadRequest | Forbidden | NotFound | VercelOpError;
 /** Remove a custom environment Remove a custom environment for the project. Must not be named 'Production' or 'Preview'. */
 export const removeCustomEnvironment: API.OperationMethod<
   RemoveCustomEnvironmentRequest,
@@ -2113,12 +2349,12 @@ export const removeCustomEnvironment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: RemoveCustomEnvironmentRequest,
   output: RemoveCustomEnvironmentResponse,
-  errors: [BadRequest, Forbidden],
+  errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
 }));
 
-export type UnlinkSharedEnvVariableError = BadRequest | Forbidden | VercelOpError;
+export type UnlinkSharedEnvVariableError = BadRequest | Forbidden | NotFound | VercelOpError;
 /** Disconnects a shared environment variable for a given project Disconnects a shared environment variable for a given project */
 export const unlinkSharedEnvVariable: API.OperationMethod<
   UnlinkSharedEnvVariableRequest,
@@ -2128,12 +2364,17 @@ export const unlinkSharedEnvVariable: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UnlinkSharedEnvVariableRequest,
   output: UnlinkSharedEnvVariableResponse,
-  errors: [BadRequest, Forbidden],
+  errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
 }));
 
-export type UpdateCustomEnvironmentError = BadRequest | PaymentRequired | Forbidden | VercelOpError;
+export type UpdateCustomEnvironmentError =
+  | BadRequest
+  | PaymentRequired
+  | Forbidden
+  | NotFound
+  | VercelOpError;
 /** Update a custom environment Update a custom environment for the project. Must not be named 'Production' or 'Preview'. */
 export const updateCustomEnvironment: API.OperationMethod<
   UpdateCustomEnvironmentRequest,
@@ -2143,12 +2384,17 @@ export const updateCustomEnvironment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateCustomEnvironmentRequest,
   output: UpdateCustomEnvironmentResponse,
-  errors: [BadRequest, PaymentRequired, Forbidden],
+  errors: [BadRequest, PaymentRequired, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
 }));
 
-export type UpdateSharedEnvVariableError = BadRequest | PaymentRequired | Forbidden | VercelOpError;
+export type UpdateSharedEnvVariableError =
+  | BadRequest
+  | PaymentRequired
+  | Forbidden
+  | NotFound
+  | VercelOpError;
 /** Updates one or more shared environment variables Updates a given Shared Environment Variable for a Team. */
 export const updateSharedEnvVariable: API.OperationMethod<
   UpdateSharedEnvVariableRequest,
@@ -2158,7 +2404,7 @@ export const updateSharedEnvVariable: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateSharedEnvVariableRequest,
   output: UpdateSharedEnvVariableResponse,
-  errors: [BadRequest, PaymentRequired, Forbidden],
+  errors: [BadRequest, PaymentRequired, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
 }));

@@ -9,10 +9,7 @@ import { AwsProtocol } from "../protocol.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
-const svc = T.AwsApiService({
-  sdkId: "RolesAnywhere",
-  serviceShapeName: "RolesAnywhere",
-});
+const svc = T.AwsApiService({ sdkId: "RolesAnywhere", serviceShapeName: "RolesAnywhere" });
 const auth = T.AwsAuthSigv4({ name: "rolesanywhere" });
 const ver = T.ServiceVersion("2018-05-10");
 const proto = T.AwsProtocolsRestJson1();
@@ -139,9 +136,7 @@ export const CreateProfileRequest = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(TagList),
     acceptRoleSessionName: S.optional(S.Boolean),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/profiles" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateProfileRequest",
-}) as any as S.Schema<CreateProfileRequest>;
+).annotate({ identifier: "CreateProfileRequest" }) as any as S.Schema<CreateProfileRequest>;
 export type Uuid = string;
 export type ProfileArn = string;
 export type CertificateField = string;
@@ -158,13 +153,8 @@ export interface AttributeMapping {
   mappingRules?: MappingRule[];
 }
 export const AttributeMapping = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    certificateField: S.optional(S.String),
-    mappingRules: S.optional(MappingRules),
-  }),
-).annotate({
-  identifier: "AttributeMapping",
-}) as any as S.Schema<AttributeMapping>;
+  S.Struct({ certificateField: S.optional(S.String), mappingRules: S.optional(MappingRules) }),
+).annotate({ identifier: "AttributeMapping" }) as any as S.Schema<AttributeMapping>;
 export type AttributeMappings = AttributeMapping[];
 export const AttributeMappings = /*@__PURE__*/ S.Array(AttributeMapping);
 export interface ProfileDetail {
@@ -206,9 +196,7 @@ export interface ProfileDetailResponse {
 }
 export const ProfileDetailResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ profile: S.optional(ProfileDetail) }),
-).annotate({
-  identifier: "ProfileDetailResponse",
-}) as any as S.Schema<ProfileDetailResponse>;
+).annotate({ identifier: "ProfileDetailResponse" }) as any as S.Schema<ProfileDetailResponse>;
 export type TrustAnchorType = string;
 export type SourceData =
   | { x509CertificateData: string; acmPcaArn?: never }
@@ -222,10 +210,7 @@ export interface Source {
   sourceData?: SourceData;
 }
 export const Source = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    sourceType: S.optional(S.String),
-    sourceData: S.optional(SourceData),
-  }),
+  S.Struct({ sourceType: S.optional(S.String), sourceData: S.optional(SourceData) }),
 ).annotate({ identifier: "Source" }) as any as S.Schema<Source>;
 export type NotificationEvent = string;
 export type NotificationChannel = string;
@@ -242,9 +227,7 @@ export const NotificationSetting = /*@__PURE__*/ S.suspend(() =>
     threshold: S.optional(S.Number),
     channel: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NotificationSetting",
-}) as any as S.Schema<NotificationSetting>;
+).annotate({ identifier: "NotificationSetting" }) as any as S.Schema<NotificationSetting>;
 export type NotificationSettings = NotificationSetting[];
 export const NotificationSettings = /*@__PURE__*/ S.Array(NotificationSetting);
 export interface CreateTrustAnchorRequest {
@@ -262,9 +245,7 @@ export const CreateTrustAnchorRequest = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(TagList),
     notificationSettings: S.optional(NotificationSettings),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/trustanchors" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateTrustAnchorRequest",
-}) as any as S.Schema<CreateTrustAnchorRequest>;
+).annotate({ identifier: "CreateTrustAnchorRequest" }) as any as S.Schema<CreateTrustAnchorRequest>;
 export interface NotificationSettingDetail {
   enabled: boolean;
   event: string;
@@ -306,9 +287,7 @@ export const TrustAnchorDetail = /*@__PURE__*/ S.suspend(() =>
     updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     notificationSettings: S.optional(NotificationSettingDetails),
   }),
-).annotate({
-  identifier: "TrustAnchorDetail",
-}) as any as S.Schema<TrustAnchorDetail>;
+).annotate({ identifier: "TrustAnchorDetail" }) as any as S.Schema<TrustAnchorDetail>;
 export interface TrustAnchorDetailResponse {
   trustAnchor: TrustAnchorDetail;
 }
@@ -357,9 +336,7 @@ export const ScalarCrlRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ crlId: S.String.pipe(T.HttpLabel("crlId")) }).pipe(
     T.all(T.Http({ method: "DELETE", uri: "/crl/{crlId}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "ScalarCrlRequest",
-}) as any as S.Schema<ScalarCrlRequest>;
+).annotate({ identifier: "ScalarCrlRequest" }) as any as S.Schema<ScalarCrlRequest>;
 export interface CrlDetail {
   crlId?: string;
   crlArn?: string;
@@ -387,9 +364,7 @@ export interface CrlDetailResponse {
 }
 export const CrlDetailResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ crl: CrlDetail }),
-).annotate({
-  identifier: "CrlDetailResponse",
-}) as any as S.Schema<CrlDetailResponse>;
+).annotate({ identifier: "CrlDetailResponse" }) as any as S.Schema<CrlDetailResponse>;
 export interface ScalarProfileRequest {
   profileId: string;
 }
@@ -397,9 +372,7 @@ export const ScalarProfileRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ profileId: S.String.pipe(T.HttpLabel("profileId")) }).pipe(
     T.all(T.Http({ method: "DELETE", uri: "/profile/{profileId}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "ScalarProfileRequest",
-}) as any as S.Schema<ScalarProfileRequest>;
+).annotate({ identifier: "ScalarProfileRequest" }) as any as S.Schema<ScalarProfileRequest>;
 export interface ScalarTrustAnchorRequest {
   trustAnchorId: string;
 }
@@ -414,9 +387,7 @@ export const ScalarTrustAnchorRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "ScalarTrustAnchorRequest",
-}) as any as S.Schema<ScalarTrustAnchorRequest>;
+).annotate({ identifier: "ScalarTrustAnchorRequest" }) as any as S.Schema<ScalarTrustAnchorRequest>;
 export interface ScalarSubjectRequest {
   subjectId: string;
 }
@@ -424,9 +395,7 @@ export const ScalarSubjectRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ subjectId: S.String.pipe(T.HttpLabel("subjectId")) }).pipe(
     T.all(T.Http({ method: "GET", uri: "/subject/{subjectId}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "ScalarSubjectRequest",
-}) as any as S.Schema<ScalarSubjectRequest>;
+).annotate({ identifier: "ScalarSubjectRequest" }) as any as S.Schema<ScalarSubjectRequest>;
 export interface CredentialSummary {
   seenAt?: Date;
   serialNumber?: string;
@@ -444,9 +413,7 @@ export const CredentialSummary = /*@__PURE__*/ S.suspend(() =>
     x509CertificateData: S.optional(S.String),
     failed: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "CredentialSummary",
-}) as any as S.Schema<CredentialSummary>;
+).annotate({ identifier: "CredentialSummary" }) as any as S.Schema<CredentialSummary>;
 export type CredentialSummaries = CredentialSummary[];
 export const CredentialSummaries = /*@__PURE__*/ S.Array(CredentialSummary);
 export type InstancePropertyMap = { [key: string]: string | undefined };
@@ -462,9 +429,7 @@ export const InstanceProperty = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(InstancePropertyMap),
     failed: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "InstanceProperty",
-}) as any as S.Schema<InstanceProperty>;
+).annotate({ identifier: "InstanceProperty" }) as any as S.Schema<InstanceProperty>;
 export type InstanceProperties = InstanceProperty[];
 export const InstanceProperties = /*@__PURE__*/ S.Array(InstanceProperty);
 export interface SubjectDetail {
@@ -496,9 +461,7 @@ export interface SubjectDetailResponse {
 }
 export const SubjectDetailResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ subject: S.optional(SubjectDetail) }),
-).annotate({
-  identifier: "SubjectDetailResponse",
-}) as any as S.Schema<SubjectDetailResponse>;
+).annotate({ identifier: "SubjectDetailResponse" }) as any as S.Schema<SubjectDetailResponse>;
 export type TrustAnchorArn = string;
 export interface ImportCrlRequest {
   name: string;
@@ -515,9 +478,7 @@ export const ImportCrlRequest = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(TagList),
     trustAnchorArn: S.String,
   }).pipe(T.all(T.Http({ method: "POST", uri: "/crls" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ImportCrlRequest",
-}) as any as S.Schema<ImportCrlRequest>;
+).annotate({ identifier: "ImportCrlRequest" }) as any as S.Schema<ImportCrlRequest>;
 export interface ListRequest {
   nextToken?: string;
   pageSize?: number;
@@ -536,9 +497,7 @@ export interface ListCrlsResponse {
 }
 export const ListCrlsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ nextToken: S.optional(S.String), crls: S.optional(CrlDetails) }),
-).annotate({
-  identifier: "ListCrlsResponse",
-}) as any as S.Schema<ListCrlsResponse>;
+).annotate({ identifier: "ListCrlsResponse" }) as any as S.Schema<ListCrlsResponse>;
 export type ProfileDetails = ProfileDetail[];
 export const ProfileDetails = /*@__PURE__*/ S.Array(ProfileDetail);
 export interface ListProfilesResponse {
@@ -546,13 +505,8 @@ export interface ListProfilesResponse {
   profiles?: ProfileDetail[];
 }
 export const ListProfilesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    nextToken: S.optional(S.String),
-    profiles: S.optional(ProfileDetails),
-  }),
-).annotate({
-  identifier: "ListProfilesResponse",
-}) as any as S.Schema<ListProfilesResponse>;
+  S.Struct({ nextToken: S.optional(S.String), profiles: S.optional(ProfileDetails) }),
+).annotate({ identifier: "ListProfilesResponse" }) as any as S.Schema<ListProfilesResponse>;
 export interface SubjectSummary {
   subjectArn?: string;
   subjectId?: string;
@@ -580,13 +534,8 @@ export interface ListSubjectsResponse {
   nextToken?: string;
 }
 export const ListSubjectsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    subjects: S.optional(SubjectSummaries),
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListSubjectsResponse",
-}) as any as S.Schema<ListSubjectsResponse>;
+  S.Struct({ subjects: S.optional(SubjectSummaries), nextToken: S.optional(S.String) }),
+).annotate({ identifier: "ListSubjectsResponse" }) as any as S.Schema<ListSubjectsResponse>;
 export type AmazonResourceName = string;
 export interface ListTagsForResourceRequest {
   resourceArn: string;
@@ -613,13 +562,8 @@ export interface ListTrustAnchorsResponse {
   trustAnchors?: TrustAnchorDetail[];
 }
 export const ListTrustAnchorsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    nextToken: S.optional(S.String),
-    trustAnchors: S.optional(TrustAnchorDetails),
-  }),
-).annotate({
-  identifier: "ListTrustAnchorsResponse",
-}) as any as S.Schema<ListTrustAnchorsResponse>;
+  S.Struct({ nextToken: S.optional(S.String), trustAnchors: S.optional(TrustAnchorDetails) }),
+).annotate({ identifier: "ListTrustAnchorsResponse" }) as any as S.Schema<ListTrustAnchorsResponse>;
 export interface PutAttributeMappingRequest {
   profileId: string;
   certificateField: string;
@@ -656,10 +600,7 @@ export interface PutNotificationSettingsRequest {
   notificationSettings: NotificationSetting[];
 }
 export const PutNotificationSettingsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    trustAnchorId: S.String,
-    notificationSettings: NotificationSettings,
-  }).pipe(
+  S.Struct({ trustAnchorId: S.String, notificationSettings: NotificationSettings }).pipe(
     T.all(
       T.Http({ method: "PATCH", uri: "/put-notifications-settings" }),
       svc,
@@ -686,9 +627,7 @@ export interface NotificationSettingKey {
 }
 export const NotificationSettingKey = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ event: S.String, channel: S.optional(S.String) }),
-).annotate({
-  identifier: "NotificationSettingKey",
-}) as any as S.Schema<NotificationSettingKey>;
+).annotate({ identifier: "NotificationSettingKey" }) as any as S.Schema<NotificationSettingKey>;
 export type NotificationSettingKeys = NotificationSettingKey[];
 export const NotificationSettingKeys = /*@__PURE__*/ S.Array(NotificationSettingKey);
 export interface ResetNotificationSettingsRequest {
@@ -696,10 +635,7 @@ export interface ResetNotificationSettingsRequest {
   notificationSettingKeys: NotificationSettingKey[];
 }
 export const ResetNotificationSettingsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    trustAnchorId: S.String,
-    notificationSettingKeys: NotificationSettingKeys,
-  }).pipe(
+  S.Struct({ trustAnchorId: S.String, notificationSettingKeys: NotificationSettingKeys }).pipe(
     T.all(
       T.Http({ method: "PATCH", uri: "/reset-notifications-settings" }),
       svc,
@@ -728,9 +664,7 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ resourceArn: S.String, tags: TagList }).pipe(
     T.all(T.Http({ method: "POST", uri: "/TagResource" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
+).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
 export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
@@ -745,9 +679,7 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ resourceArn: S.String, tagKeys: TagKeyList }).pipe(
     T.all(T.Http({ method: "POST", uri: "/UntagResource" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
+).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
 export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
@@ -763,9 +695,7 @@ export const UpdateCrlRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     crlData: S.optional(T.Blob),
   }).pipe(T.all(T.Http({ method: "PATCH", uri: "/crl/{crlId}" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "UpdateCrlRequest",
-}) as any as S.Schema<UpdateCrlRequest>;
+).annotate({ identifier: "UpdateCrlRequest" }) as any as S.Schema<UpdateCrlRequest>;
 export interface UpdateProfileRequest {
   profileId: string;
   name?: string;
@@ -787,9 +717,7 @@ export const UpdateProfileRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "PATCH", uri: "/profile/{profileId}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UpdateProfileRequest",
-}) as any as S.Schema<UpdateProfileRequest>;
+).annotate({ identifier: "UpdateProfileRequest" }) as any as S.Schema<UpdateProfileRequest>;
 export interface UpdateTrustAnchorRequest {
   trustAnchorId: string;
   name?: string;
@@ -810,9 +738,7 @@ export const UpdateTrustAnchorRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "UpdateTrustAnchorRequest",
-}) as any as S.Schema<UpdateTrustAnchorRequest>;
+).annotate({ identifier: "UpdateTrustAnchorRequest" }) as any as S.Schema<UpdateTrustAnchorRequest>;
 export type CreateProfileError = AccessDeniedException | ValidationException | CommonErrors;
 /**
  * Creates a *profile*, a list of the roles that Roles Anywhere service is trusted to assume. You use profiles to intersect permissions with IAM managed policies.
@@ -941,9 +867,7 @@ export const deleteTrustAnchor: API.OperationMethod<
 export interface DisableCrlRequest extends ScalarCrlRequest {}
 export const DisableCrlRequest = /*@__PURE__*/ ScalarCrlRequest.pipe(
   T.Http({ method: "POST", uri: "/crl/{crlId}/disable" }),
-).annotate({
-  identifier: "DisableCrlRequest",
-}) as any as S.Schema<DisableCrlRequest>;
+).annotate({ identifier: "DisableCrlRequest" }) as any as S.Schema<DisableCrlRequest>;
 export type DisableCrlError = AccessDeniedException | ResourceNotFoundException | CommonErrors;
 /**
  * Disables a certificate revocation list (CRL).
@@ -967,9 +891,7 @@ export const disableCrl: API.OperationMethod<
 export interface DisableProfileRequest extends ScalarProfileRequest {}
 export const DisableProfileRequest = /*@__PURE__*/ ScalarProfileRequest.pipe(
   T.Http({ method: "POST", uri: "/profile/{profileId}/disable" }),
-).annotate({
-  identifier: "DisableProfileRequest",
-}) as any as S.Schema<DisableProfileRequest>;
+).annotate({ identifier: "DisableProfileRequest" }) as any as S.Schema<DisableProfileRequest>;
 export type DisableProfileError = AccessDeniedException | ResourceNotFoundException | CommonErrors;
 /**
  * Disables a profile. When disabled, temporary credential requests with this profile fail.
@@ -1022,9 +944,7 @@ export const disableTrustAnchor: API.OperationMethod<
 export interface EnableCrlRequest extends ScalarCrlRequest {}
 export const EnableCrlRequest = /*@__PURE__*/ ScalarCrlRequest.pipe(
   T.Http({ method: "POST", uri: "/crl/{crlId}/enable" }),
-).annotate({
-  identifier: "EnableCrlRequest",
-}) as any as S.Schema<EnableCrlRequest>;
+).annotate({ identifier: "EnableCrlRequest" }) as any as S.Schema<EnableCrlRequest>;
 export type EnableCrlError = AccessDeniedException | ResourceNotFoundException | CommonErrors;
 /**
  * Enables a certificate revocation list (CRL). When enabled, certificates stored in the CRL are unauthorized to receive session credentials.
@@ -1048,9 +968,7 @@ export const enableCrl: API.OperationMethod<
 export interface EnableProfileRequest extends ScalarProfileRequest {}
 export const EnableProfileRequest = /*@__PURE__*/ ScalarProfileRequest.pipe(
   T.Http({ method: "POST", uri: "/profile/{profileId}/enable" }),
-).annotate({
-  identifier: "EnableProfileRequest",
-}) as any as S.Schema<EnableProfileRequest>;
+).annotate({ identifier: "EnableProfileRequest" }) as any as S.Schema<EnableProfileRequest>;
 export type EnableProfileError = AccessDeniedException | ResourceNotFoundException | CommonErrors;
 /**
  * Enables temporary credential requests for a profile.
@@ -1074,9 +992,7 @@ export const enableProfile: API.OperationMethod<
 export interface EnableTrustAnchorRequest extends ScalarTrustAnchorRequest {}
 export const EnableTrustAnchorRequest = /*@__PURE__*/ ScalarTrustAnchorRequest.pipe(
   T.Http({ method: "POST", uri: "/trustanchor/{trustAnchorId}/enable" }),
-).annotate({
-  identifier: "EnableTrustAnchorRequest",
-}) as any as S.Schema<EnableTrustAnchorRequest>;
+).annotate({ identifier: "EnableTrustAnchorRequest" }) as any as S.Schema<EnableTrustAnchorRequest>;
 export type EnableTrustAnchorError =
   | AccessDeniedException
   | ResourceNotFoundException
@@ -1127,9 +1043,7 @@ export const getCrl: API.OperationMethod<
 export interface GetProfileRequest extends ScalarProfileRequest {}
 export const GetProfileRequest = /*@__PURE__*/ ScalarProfileRequest.pipe(
   T.Http({ method: "GET", uri: "/profile/{profileId}" }),
-).annotate({
-  identifier: "GetProfileRequest",
-}) as any as S.Schema<GetProfileRequest>;
+).annotate({ identifier: "GetProfileRequest" }) as any as S.Schema<GetProfileRequest>;
 export type GetProfileError = AccessDeniedException | ResourceNotFoundException | CommonErrors;
 /**
  * Gets a profile.
@@ -1173,9 +1087,7 @@ export const getSubject: API.OperationMethod<
 export interface GetTrustAnchorRequest extends ScalarTrustAnchorRequest {}
 export const GetTrustAnchorRequest = /*@__PURE__*/ ScalarTrustAnchorRequest.pipe(
   T.Http({ method: "GET", uri: "/trustanchor/{trustAnchorId}" }),
-).annotate({
-  identifier: "GetTrustAnchorRequest",
-}) as any as S.Schema<GetTrustAnchorRequest>;
+).annotate({ identifier: "GetTrustAnchorRequest" }) as any as S.Schema<GetTrustAnchorRequest>;
 export type GetTrustAnchorError =
   | AccessDeniedException
   | ResourceNotFoundException
@@ -1239,19 +1151,13 @@ export const listCrls: API.PaginatedOperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListCrls",
-  pagination: {
-    inputToken: "nextToken",
-    outputToken: "nextToken",
-    items: "crls",
-  } as const,
+  pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "crls" } as const,
 })) as any;
 
 export interface ListProfilesRequest extends ListRequest {}
 export const ListProfilesRequest = /*@__PURE__*/ ListRequest.pipe(
   T.Http({ method: "GET", uri: "/profiles" }),
-).annotate({
-  identifier: "ListProfilesRequest",
-}) as any as S.Schema<ListProfilesRequest>;
+).annotate({ identifier: "ListProfilesRequest" }) as any as S.Schema<ListProfilesRequest>;
 export type ListProfilesError = AccessDeniedException | ValidationException | CommonErrors;
 /**
  * Lists all profiles in the authenticated account and Amazon Web Services Region.
@@ -1271,19 +1177,13 @@ export const listProfiles: API.PaginatedOperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListProfiles",
-  pagination: {
-    inputToken: "nextToken",
-    outputToken: "nextToken",
-    items: "profiles",
-  } as const,
+  pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "profiles" } as const,
 })) as any;
 
 export interface ListSubjectsRequest extends ListRequest {}
 export const ListSubjectsRequest = /*@__PURE__*/ ListRequest.pipe(
   T.Http({ method: "GET", uri: "/subjects" }),
-).annotate({
-  identifier: "ListSubjectsRequest",
-}) as any as S.Schema<ListSubjectsRequest>;
+).annotate({ identifier: "ListSubjectsRequest" }) as any as S.Schema<ListSubjectsRequest>;
 export type ListSubjectsError = AccessDeniedException | ValidationException | CommonErrors;
 /**
  * Lists the subjects in the authenticated account and Amazon Web Services Region.
@@ -1303,11 +1203,7 @@ export const listSubjects: API.PaginatedOperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListSubjects",
-  pagination: {
-    inputToken: "nextToken",
-    outputToken: "nextToken",
-    items: "subjects",
-  } as const,
+  pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "subjects" } as const,
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1337,9 +1233,7 @@ export const listTagsForResource: API.OperationMethod<
 export interface ListTrustAnchorsRequest extends ListRequest {}
 export const ListTrustAnchorsRequest = /*@__PURE__*/ ListRequest.pipe(
   T.Http({ method: "GET", uri: "/trustanchors" }),
-).annotate({
-  identifier: "ListTrustAnchorsRequest",
-}) as any as S.Schema<ListTrustAnchorsRequest>;
+).annotate({ identifier: "ListTrustAnchorsRequest" }) as any as S.Schema<ListTrustAnchorsRequest>;
 export type ListTrustAnchorsError = AccessDeniedException | ValidationException | CommonErrors;
 /**
  * Lists the trust anchors in the authenticated account and Amazon Web Services Region.
@@ -1359,11 +1253,7 @@ export const listTrustAnchors: API.PaginatedOperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTrustAnchors",
-  pagination: {
-    inputToken: "nextToken",
-    outputToken: "nextToken",
-    items: "trustAnchors",
-  } as const,
+  pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "trustAnchors" } as const,
 })) as any;
 
 export type PutAttributeMappingError =

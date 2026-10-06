@@ -149,9 +149,7 @@ export interface DefinitionDocument {
 }
 export const DefinitionDocument = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ language: DefinitionLanguage, text: S.String }),
-).annotate({
-  identifier: "DefinitionDocument",
-}) as any as S.Schema<DefinitionDocument>;
+).annotate({ identifier: "DefinitionDocument" }) as any as S.Schema<DefinitionDocument>;
 export interface CreateFlowTemplateRequest {
   definition: DefinitionDocument;
   compatibleNamespaceVersion?: number;
@@ -178,9 +176,7 @@ export const FlowTemplateSummary = /*@__PURE__*/ S.suspend(() =>
     revisionNumber: S.optional(S.Number),
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
-).annotate({
-  identifier: "FlowTemplateSummary",
-}) as any as S.Schema<FlowTemplateSummary>;
+).annotate({ identifier: "FlowTemplateSummary" }) as any as S.Schema<FlowTemplateSummary>;
 export interface CreateFlowTemplateResponse {
   summary?: FlowTemplateSummary;
 }
@@ -212,13 +208,8 @@ export interface MetricsConfiguration {
   metricRuleRoleArn?: string;
 }
 export const MetricsConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    cloudMetricEnabled: S.optional(S.Boolean),
-    metricRuleRoleArn: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "MetricsConfiguration",
-}) as any as S.Schema<MetricsConfiguration>;
+  S.Struct({ cloudMetricEnabled: S.optional(S.Boolean), metricRuleRoleArn: S.optional(S.String) }),
+).annotate({ identifier: "MetricsConfiguration" }) as any as S.Schema<MetricsConfiguration>;
 export interface CreateSystemInstanceRequest {
   tags?: Tag[];
   definition: DefinitionDocument;
@@ -278,9 +269,7 @@ export const SystemInstanceSummary = /*@__PURE__*/ S.suspend(() =>
     greengrassGroupId: S.optional(S.String),
     greengrassGroupVersionId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SystemInstanceSummary",
-}) as any as S.Schema<SystemInstanceSummary>;
+).annotate({ identifier: "SystemInstanceSummary" }) as any as S.Schema<SystemInstanceSummary>;
 export interface CreateSystemInstanceResponse {
   summary?: SystemInstanceSummary;
 }
@@ -314,9 +303,7 @@ export const SystemTemplateSummary = /*@__PURE__*/ S.suspend(() =>
     revisionNumber: S.optional(S.Number),
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
-).annotate({
-  identifier: "SystemTemplateSummary",
-}) as any as S.Schema<SystemTemplateSummary>;
+).annotate({ identifier: "SystemTemplateSummary" }) as any as S.Schema<SystemTemplateSummary>;
 export interface CreateSystemTemplateResponse {
   summary?: SystemTemplateSummary;
 }
@@ -342,22 +329,15 @@ export const DeleteFlowTemplateResponse = /*@__PURE__*/ S.suspend(() => S.Struct
 export interface DeleteNamespaceRequest {}
 export const DeleteNamespaceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DeleteNamespaceRequest",
-}) as any as S.Schema<DeleteNamespaceRequest>;
+).annotate({ identifier: "DeleteNamespaceRequest" }) as any as S.Schema<DeleteNamespaceRequest>;
 export type NamespaceName = string;
 export interface DeleteNamespaceResponse {
   namespaceArn?: string;
   namespaceName?: string;
 }
 export const DeleteNamespaceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    namespaceArn: S.optional(S.String),
-    namespaceName: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DeleteNamespaceResponse",
-}) as any as S.Schema<DeleteNamespaceResponse>;
+  S.Struct({ namespaceArn: S.optional(S.String), namespaceName: S.optional(S.String) }),
+).annotate({ identifier: "DeleteNamespaceResponse" }) as any as S.Schema<DeleteNamespaceResponse>;
 export interface DeleteSystemInstanceRequest {
   id?: string;
 }
@@ -402,10 +382,7 @@ export interface DeploySystemInstanceResponse {
   greengrassDeploymentId?: string;
 }
 export const DeploySystemInstanceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    summary: SystemInstanceSummary,
-    greengrassDeploymentId: S.optional(S.String),
-  }),
+  S.Struct({ summary: SystemInstanceSummary, greengrassDeploymentId: S.optional(S.String) }),
 ).annotate({
   identifier: "DeploySystemInstanceResponse",
 }) as any as S.Schema<DeploySystemInstanceResponse>;
@@ -435,9 +412,7 @@ export const DeprecateSystemTemplateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<DeprecateSystemTemplateRequest>;
 export interface DeprecateSystemTemplateResponse {}
 export const DeprecateSystemTemplateResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "DeprecateSystemTemplateResponse",
-  },
+  { identifier: "DeprecateSystemTemplateResponse" },
 ) as any as S.Schema<DeprecateSystemTemplateResponse>;
 export interface DescribeNamespaceRequest {
   namespaceName?: string;
@@ -446,9 +421,7 @@ export const DescribeNamespaceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ namespaceName: S.optional(S.String) }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DescribeNamespaceRequest",
-}) as any as S.Schema<DescribeNamespaceRequest>;
+).annotate({ identifier: "DescribeNamespaceRequest" }) as any as S.Schema<DescribeNamespaceRequest>;
 export interface DescribeNamespaceResponse {
   namespaceArn?: string;
   namespaceName?: string;
@@ -508,9 +481,7 @@ export const GetEntitiesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ids: Urns, namespaceVersion: S.optional(S.Number) }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetEntitiesRequest",
-}) as any as S.Schema<GetEntitiesRequest>;
+).annotate({ identifier: "GetEntitiesRequest" }) as any as S.Schema<GetEntitiesRequest>;
 export interface EntityDescription {
   id?: string;
   arn?: string;
@@ -526,9 +497,7 @@ export const EntityDescription = /*@__PURE__*/ S.suspend(() =>
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     definition: S.optional(DefinitionDocument),
   }),
-).annotate({
-  identifier: "EntityDescription",
-}) as any as S.Schema<EntityDescription>;
+).annotate({ identifier: "EntityDescription" }) as any as S.Schema<EntityDescription>;
 export type EntityDescriptions = EntityDescription[];
 export const EntityDescriptions = /*@__PURE__*/ S.Array(EntityDescription);
 export interface GetEntitiesResponse {
@@ -536,9 +505,7 @@ export interface GetEntitiesResponse {
 }
 export const GetEntitiesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ descriptions: S.optional(EntityDescriptions) }),
-).annotate({
-  identifier: "GetEntitiesResponse",
-}) as any as S.Schema<GetEntitiesResponse>;
+).annotate({ identifier: "GetEntitiesResponse" }) as any as S.Schema<GetEntitiesResponse>;
 export interface GetFlowTemplateRequest {
   id: string;
   revisionNumber?: number;
@@ -547,9 +514,7 @@ export const GetFlowTemplateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ id: S.String, revisionNumber: S.optional(S.Number) }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetFlowTemplateRequest",
-}) as any as S.Schema<GetFlowTemplateRequest>;
+).annotate({ identifier: "GetFlowTemplateRequest" }) as any as S.Schema<GetFlowTemplateRequest>;
 export interface FlowTemplateDescription {
   summary?: FlowTemplateSummary;
   definition?: DefinitionDocument;
@@ -561,17 +526,13 @@ export const FlowTemplateDescription = /*@__PURE__*/ S.suspend(() =>
     definition: S.optional(DefinitionDocument),
     validatedNamespaceVersion: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "FlowTemplateDescription",
-}) as any as S.Schema<FlowTemplateDescription>;
+).annotate({ identifier: "FlowTemplateDescription" }) as any as S.Schema<FlowTemplateDescription>;
 export interface GetFlowTemplateResponse {
   description?: FlowTemplateDescription;
 }
 export const GetFlowTemplateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ description: S.optional(FlowTemplateDescription) }),
-).annotate({
-  identifier: "GetFlowTemplateResponse",
-}) as any as S.Schema<GetFlowTemplateResponse>;
+).annotate({ identifier: "GetFlowTemplateResponse" }) as any as S.Schema<GetFlowTemplateResponse>;
 export type NextToken = string;
 export type MaxResults = number;
 export interface GetFlowTemplateRevisionsRequest {
@@ -595,10 +556,7 @@ export interface GetFlowTemplateRevisionsResponse {
   nextToken?: string;
 }
 export const GetFlowTemplateRevisionsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    summaries: S.optional(FlowTemplateSummaries),
-    nextToken: S.optional(S.String),
-  }),
+  S.Struct({ summaries: S.optional(FlowTemplateSummaries), nextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "GetFlowTemplateRevisionsResponse",
 }) as any as S.Schema<GetFlowTemplateRevisionsResponse>;
@@ -639,18 +597,14 @@ export const GetSystemInstanceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ id: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetSystemInstanceRequest",
-}) as any as S.Schema<GetSystemInstanceRequest>;
+).annotate({ identifier: "GetSystemInstanceRequest" }) as any as S.Schema<GetSystemInstanceRequest>;
 export interface DependencyRevision {
   id?: string;
   revisionNumber?: number;
 }
 export const DependencyRevision = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ id: S.optional(S.String), revisionNumber: S.optional(S.Number) }),
-).annotate({
-  identifier: "DependencyRevision",
-}) as any as S.Schema<DependencyRevision>;
+).annotate({ identifier: "DependencyRevision" }) as any as S.Schema<DependencyRevision>;
 export type DependencyRevisions = DependencyRevision[];
 export const DependencyRevisions = /*@__PURE__*/ S.Array(DependencyRevision);
 export interface SystemInstanceDescription {
@@ -691,9 +645,7 @@ export const GetSystemTemplateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ id: S.String, revisionNumber: S.optional(S.Number) }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetSystemTemplateRequest",
-}) as any as S.Schema<GetSystemTemplateRequest>;
+).annotate({ identifier: "GetSystemTemplateRequest" }) as any as S.Schema<GetSystemTemplateRequest>;
 export interface SystemTemplateDescription {
   summary?: SystemTemplateSummary;
   definition?: DefinitionDocument;
@@ -737,10 +689,7 @@ export interface GetSystemTemplateRevisionsResponse {
   nextToken?: string;
 }
 export const GetSystemTemplateRevisionsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    summaries: S.optional(SystemTemplateSummaries),
-    nextToken: S.optional(S.String),
-  }),
+  S.Struct({ summaries: S.optional(SystemTemplateSummaries), nextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "GetSystemTemplateRevisionsResponse",
 }) as any as S.Schema<GetSystemTemplateRevisionsResponse>;
@@ -752,9 +701,7 @@ export const GetUploadStatusRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ uploadId: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetUploadStatusRequest",
-}) as any as S.Schema<GetUploadStatusRequest>;
+).annotate({ identifier: "GetUploadStatusRequest" }) as any as S.Schema<GetUploadStatusRequest>;
 export type UploadStatus = "IN_PROGRESS" | "SUCCEEDED" | "FAILED" | (string & {});
 export const UploadStatus = S.String;
 
@@ -779,9 +726,7 @@ export const GetUploadStatusResponse = /*@__PURE__*/ S.suspend(() =>
     failureReason: S.optional(StringList),
     createdDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
   }),
-).annotate({
-  identifier: "GetUploadStatusResponse",
-}) as any as S.Schema<GetUploadStatusResponse>;
+).annotate({ identifier: "GetUploadStatusResponse" }) as any as S.Schema<GetUploadStatusResponse>;
 export type FlowExecutionId = string;
 export interface ListFlowExecutionMessagesRequest {
   flowExecutionId: string;
@@ -833,9 +778,7 @@ export const FlowExecutionMessage = /*@__PURE__*/ S.suspend(() =>
     timestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     payload: S.optional(S.String),
   }),
-).annotate({
-  identifier: "FlowExecutionMessage",
-}) as any as S.Schema<FlowExecutionMessage>;
+).annotate({ identifier: "FlowExecutionMessage" }) as any as S.Schema<FlowExecutionMessage>;
 export type FlowExecutionMessages = FlowExecutionMessage[];
 export const FlowExecutionMessages = /*@__PURE__*/ S.Array(FlowExecutionMessage);
 export interface ListFlowExecutionMessagesResponse {
@@ -843,10 +786,7 @@ export interface ListFlowExecutionMessagesResponse {
   nextToken?: string;
 }
 export const ListFlowExecutionMessagesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    messages: S.optional(FlowExecutionMessages),
-    nextToken: S.optional(S.String),
-  }),
+  S.Struct({ messages: S.optional(FlowExecutionMessages), nextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListFlowExecutionMessagesResponse",
 }) as any as S.Schema<ListFlowExecutionMessagesResponse>;
@@ -892,10 +832,7 @@ export interface EntityFilter {
   value?: string[];
 }
 export const EntityFilter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(EntityFilterName),
-    value: S.optional(EntityFilterValues),
-  }),
+  S.Struct({ name: S.optional(EntityFilterName), value: S.optional(EntityFilterValues) }),
 ).annotate({ identifier: "EntityFilter" }) as any as S.Schema<EntityFilter>;
 export type EntityFilters = EntityFilter[];
 export const EntityFilters = /*@__PURE__*/ S.Array(EntityFilter);
@@ -914,21 +851,14 @@ export const SearchEntitiesRequest = /*@__PURE__*/ S.suspend(() =>
     maxResults: S.optional(S.Number),
     namespaceVersion: S.optional(S.Number),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "SearchEntitiesRequest",
-}) as any as S.Schema<SearchEntitiesRequest>;
+).annotate({ identifier: "SearchEntitiesRequest" }) as any as S.Schema<SearchEntitiesRequest>;
 export interface SearchEntitiesResponse {
   descriptions?: EntityDescription[];
   nextToken?: string;
 }
 export const SearchEntitiesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    descriptions: S.optional(EntityDescriptions),
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "SearchEntitiesResponse",
-}) as any as S.Schema<SearchEntitiesResponse>;
+  S.Struct({ descriptions: S.optional(EntityDescriptions), nextToken: S.optional(S.String) }),
+).annotate({ identifier: "SearchEntitiesResponse" }) as any as S.Schema<SearchEntitiesResponse>;
 export interface SearchFlowExecutionsRequest {
   systemInstanceId: string;
   flowExecutionId?: string;
@@ -969,9 +899,7 @@ export const FlowExecutionSummary = /*@__PURE__*/ S.suspend(() =>
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
-).annotate({
-  identifier: "FlowExecutionSummary",
-}) as any as S.Schema<FlowExecutionSummary>;
+).annotate({ identifier: "FlowExecutionSummary" }) as any as S.Schema<FlowExecutionSummary>;
 export type FlowExecutionSummaries = FlowExecutionSummary[];
 export const FlowExecutionSummaries = /*@__PURE__*/ S.Array(FlowExecutionSummary);
 export interface SearchFlowExecutionsResponse {
@@ -979,10 +907,7 @@ export interface SearchFlowExecutionsResponse {
   nextToken?: string;
 }
 export const SearchFlowExecutionsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    summaries: S.optional(FlowExecutionSummaries),
-    nextToken: S.optional(S.String),
-  }),
+  S.Struct({ summaries: S.optional(FlowExecutionSummaries), nextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "SearchFlowExecutionsResponse",
 }) as any as S.Schema<SearchFlowExecutionsResponse>;
@@ -998,9 +923,7 @@ export interface FlowTemplateFilter {
 }
 export const FlowTemplateFilter = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ name: FlowTemplateFilterName, value: FlowTemplateFilterValues }),
-).annotate({
-  identifier: "FlowTemplateFilter",
-}) as any as S.Schema<FlowTemplateFilter>;
+).annotate({ identifier: "FlowTemplateFilter" }) as any as S.Schema<FlowTemplateFilter>;
 export type FlowTemplateFilters = FlowTemplateFilter[];
 export const FlowTemplateFilters = /*@__PURE__*/ S.Array(FlowTemplateFilter);
 export interface SearchFlowTemplatesRequest {
@@ -1022,10 +945,7 @@ export interface SearchFlowTemplatesResponse {
   nextToken?: string;
 }
 export const SearchFlowTemplatesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    summaries: S.optional(FlowTemplateSummaries),
-    nextToken: S.optional(S.String),
-  }),
+  S.Struct({ summaries: S.optional(FlowTemplateSummaries), nextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "SearchFlowTemplatesResponse",
 }) as any as S.Schema<SearchFlowTemplatesResponse>;
@@ -1048,9 +968,7 @@ export const SystemInstanceFilter = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(SystemInstanceFilterName),
     value: S.optional(SystemInstanceFilterValues),
   }),
-).annotate({
-  identifier: "SystemInstanceFilter",
-}) as any as S.Schema<SystemInstanceFilter>;
+).annotate({ identifier: "SystemInstanceFilter" }) as any as S.Schema<SystemInstanceFilter>;
 export type SystemInstanceFilters = SystemInstanceFilter[];
 export const SystemInstanceFilters = /*@__PURE__*/ S.Array(SystemInstanceFilter);
 export interface SearchSystemInstancesRequest {
@@ -1074,10 +992,7 @@ export interface SearchSystemInstancesResponse {
   nextToken?: string;
 }
 export const SearchSystemInstancesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    summaries: S.optional(SystemInstanceSummaries),
-    nextToken: S.optional(S.String),
-  }),
+  S.Struct({ summaries: S.optional(SystemInstanceSummaries), nextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "SearchSystemInstancesResponse",
 }) as any as S.Schema<SearchSystemInstancesResponse>;
@@ -1092,13 +1007,8 @@ export interface SystemTemplateFilter {
   value: string[];
 }
 export const SystemTemplateFilter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: SystemTemplateFilterName,
-    value: SystemTemplateFilterValues,
-  }),
-).annotate({
-  identifier: "SystemTemplateFilter",
-}) as any as S.Schema<SystemTemplateFilter>;
+  S.Struct({ name: SystemTemplateFilterName, value: SystemTemplateFilterValues }),
+).annotate({ identifier: "SystemTemplateFilter" }) as any as S.Schema<SystemTemplateFilter>;
 export type SystemTemplateFilters = SystemTemplateFilter[];
 export const SystemTemplateFilters = /*@__PURE__*/ S.Array(SystemTemplateFilter);
 export interface SearchSystemTemplatesRequest {
@@ -1120,10 +1030,7 @@ export interface SearchSystemTemplatesResponse {
   nextToken?: string;
 }
 export const SearchSystemTemplatesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    summaries: S.optional(SystemTemplateSummaries),
-    nextToken: S.optional(S.String),
-  }),
+  S.Struct({ summaries: S.optional(SystemTemplateSummaries), nextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "SearchSystemTemplatesResponse",
 }) as any as S.Schema<SearchSystemTemplatesResponse>;
@@ -1140,9 +1047,7 @@ export const SearchThingsRequest = /*@__PURE__*/ S.suspend(() =>
     maxResults: S.optional(S.Number),
     namespaceVersion: S.optional(S.Number),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "SearchThingsRequest",
-}) as any as S.Schema<SearchThingsRequest>;
+).annotate({ identifier: "SearchThingsRequest" }) as any as S.Schema<SearchThingsRequest>;
 export type ThingArn = string;
 export interface Thing {
   thingArn?: string;
@@ -1159,9 +1064,7 @@ export interface SearchThingsResponse {
 }
 export const SearchThingsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ things: S.optional(Things), nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "SearchThingsResponse",
-}) as any as S.Schema<SearchThingsResponse>;
+).annotate({ identifier: "SearchThingsResponse" }) as any as S.Schema<SearchThingsResponse>;
 export interface TagResourceRequest {
   resourceArn: string;
   tags: Tag[];
@@ -1170,9 +1073,7 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ resourceArn: S.String, tags: TagList }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
+).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
 export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
@@ -1205,9 +1106,7 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ resourceArn: S.String, tagKeys: TagKeyList }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
+).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
 export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",

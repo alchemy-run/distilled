@@ -123,9 +123,7 @@ export const ActionInteraction = /*@__PURE__*/ S.suspend(() =>
     impression: S.optional(ActionImpression),
     properties: S.optional(SensitiveString),
   }),
-).annotate({
-  identifier: "ActionInteraction",
-}) as any as S.Schema<ActionInteraction>;
+).annotate({ identifier: "ActionInteraction" }) as any as S.Schema<ActionInteraction>;
 export type ActionInteractionsList = ActionInteraction[];
 export const ActionInteractionsList = /*@__PURE__*/ S.Array(ActionInteraction);
 export interface PutActionInteractionsRequest {
@@ -133,10 +131,7 @@ export interface PutActionInteractionsRequest {
   actionInteractions: ActionInteraction[];
 }
 export const PutActionInteractionsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    trackingId: S.String,
-    actionInteractions: ActionInteractionsList,
-  }).pipe(
+  S.Struct({ trackingId: S.String, actionInteractions: ActionInteractionsList }).pipe(
     T.all(T.Http({ method: "POST", uri: "/action-interactions" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
@@ -165,9 +160,7 @@ export const PutActionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ datasetArn: S.String, actions: ActionList }).pipe(
     T.all(T.Http({ method: "POST", uri: "/actions" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "PutActionsRequest",
-}) as any as S.Schema<PutActionsRequest>;
+).annotate({ identifier: "PutActionsRequest" }) as any as S.Schema<PutActionsRequest>;
 export interface PutActionsResponse {}
 export const PutActionsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "PutActionsResponse",
@@ -183,9 +176,7 @@ export interface MetricAttribution {
 }
 export const MetricAttribution = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ eventAttributionSource: S.String }),
-).annotate({
-  identifier: "MetricAttribution",
-}) as any as S.Schema<MetricAttribution>;
+).annotate({ identifier: "MetricAttribution" }) as any as S.Schema<MetricAttribution>;
 export interface Event {
   eventId?: string;
   eventType: string;
@@ -225,9 +216,7 @@ export const PutEventsRequest = /*@__PURE__*/ S.suspend(() =>
     sessionId: S.String,
     eventList: EventList,
   }).pipe(T.all(T.Http({ method: "POST", uri: "/events" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "PutEventsRequest",
-}) as any as S.Schema<PutEventsRequest>;
+).annotate({ identifier: "PutEventsRequest" }) as any as S.Schema<PutEventsRequest>;
 export interface PutEventsResponse {}
 export const PutEventsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "PutEventsResponse",
@@ -250,9 +239,7 @@ export const PutItemsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ datasetArn: S.String, items: ItemList }).pipe(
     T.all(T.Http({ method: "POST", uri: "/items" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "PutItemsRequest",
-}) as any as S.Schema<PutItemsRequest>;
+).annotate({ identifier: "PutItemsRequest" }) as any as S.Schema<PutItemsRequest>;
 export interface PutItemsResponse {}
 export const PutItemsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "PutItemsResponse",
@@ -275,9 +262,7 @@ export const PutUsersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ datasetArn: S.String, users: UserList }).pipe(
     T.all(T.Http({ method: "POST", uri: "/users" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "PutUsersRequest",
-}) as any as S.Schema<PutUsersRequest>;
+).annotate({ identifier: "PutUsersRequest" }) as any as S.Schema<PutUsersRequest>;
 export interface PutUsersResponse {}
 export const PutUsersResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "PutUsersResponse",

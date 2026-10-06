@@ -1806,7 +1806,7 @@
         "data_storage_bytes_hour": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "Bytes-Hour. Project consumed that much Postgres storage hourly during the billing period. The value has some lag.\nThe value is reset at the beginning of each billing period.\n",
+            "smithy.api#documentation": "Deprecated: always returns 0. Use the consumption history v2 endpoints (`/consumption_history/v2/projects`, `/consumption_history/v2/branches`) instead.\nBytes-Hour. Project consumed that much Postgres storage hourly during the billing period. The value has some lag.\nThe value is reset at the beginning of each billing period.\n",
             "smithy.api#required": {}
           }
         },
@@ -11619,14 +11619,14 @@
           "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#httpQuery": "include_v1_metrics",
-            "smithy.api#documentation": "The field is deprecated. Please use `metrics` instead.\nIf `metrics` is specified, this field is ignored.\nInclude metrics utilized in previous pricing models.\n- **data_storage_bytes_hour**: The sum of the maximum observed storage values for each hour,\n  which never decreases.\n"
+            "smithy.api#documentation": "The field is deprecated and no longer has any effect: the only metric it used to add\n(`data_storage_bytes_hour`) is retired and always returns 0. Please use `metrics` instead.\nIf `metrics` is specified, this field is ignored.\n"
           }
         },
         "metrics": {
           "target": "com.neon.api#ConsumptionHistoryQueryMetrics",
           "traits": {
             "smithy.api#httpQuery": "metrics",
-            "smithy.api#documentation": "Specify a list of metrics to include in the response.\nIf omitted, active_time, compute_time, written_data, synthetic_storage_size are returned.\nPossible values:\n- `active_time_seconds`\n- `compute_time_seconds`\n- `written_data_bytes`\n- `synthetic_storage_size_bytes`\n- `data_storage_bytes_hour`\n- `logical_size_bytes`\n- `logical_size_bytes_hour`\n\nA list of metrics can be specified as an array of parameter values or as a comma-separated list in a single parameter value.\n- As an array of parameter values: `metrics=cpu_seconds&metrics=ram_bytes`\n- As a comma-separated list in a single parameter value: `metrics=cpu_seconds,ram_bytes`\n"
+            "smithy.api#documentation": "Specify a list of metrics to include in the response.\nIf omitted, active_time, compute_time, written_data are returned.\nPossible values:\n- `active_time_seconds`\n- `compute_time_seconds`\n- `written_data_bytes`\n- `synthetic_storage_size_bytes` (deprecated: always returns 0; use the consumption history v2 endpoints instead)\n- `data_storage_bytes_hour` (deprecated: always returns 0; use the consumption history v2 endpoints instead)\n- `logical_size_bytes`\n- `logical_size_bytes_hour`\n\nA list of metrics can be specified as an array of parameter values or as a comma-separated list in a single parameter value.\n- As an array of parameter values: `metrics=cpu_seconds&metrics=ram_bytes`\n- As a comma-separated list in a single parameter value: `metrics=cpu_seconds,ram_bytes`\n"
           }
         }
       },
@@ -11735,14 +11735,15 @@
         "synthetic_storage_size_bytes": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "Bytes. The space occupied in Postgres storage. Synthetic Postgres storage size combines the logical data size and Write-Ahead Log (WAL) size for all branches.\n",
+            "smithy.api#documentation": "Deprecated: always returns 0. Use the consumption history v2 endpoints (`/consumption_history/v2/projects`, `/consumption_history/v2/branches`) instead.\nBytes. The space occupied in Postgres storage. Synthetic Postgres storage size combines the logical data size and Write-Ahead Log (WAL) size for all branches.\n",
             "smithy.api#required": {}
           }
         },
         "data_storage_bytes_hour": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "Bytes-Hour. The amount of Postgres storage consumed hourly.\n"
+            "smithy.api#documentation": "Deprecated: always returns 0. Use the consumption history v2 endpoints (`/consumption_history/v2/projects`, `/consumption_history/v2/branches`) instead.\nBytes-Hour. The amount of Postgres storage consumed hourly.\n",
+            "smithy.api#required": {}
           }
         },
         "logical_size_bytes": {

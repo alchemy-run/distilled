@@ -153,9 +153,7 @@ export const DeleteSessionRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteSessionRequest",
-}) as any as S.Schema<DeleteSessionRequest>;
+).annotate({ identifier: "DeleteSessionRequest" }) as any as S.Schema<DeleteSessionRequest>;
 export interface DeleteSessionResponse {
   botId?: string;
   botAliasId?: string;
@@ -169,9 +167,7 @@ export const DeleteSessionResponse = /*@__PURE__*/ S.suspend(() =>
     localeId: S.optional(S.String),
     sessionId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DeleteSessionResponse",
-}) as any as S.Schema<DeleteSessionResponse>;
+).annotate({ identifier: "DeleteSessionResponse" }) as any as S.Schema<DeleteSessionResponse>;
 export interface GetSessionRequest {
   botId: string;
   botAliasId: string;
@@ -197,9 +193,7 @@ export const GetSessionRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetSessionRequest",
-}) as any as S.Schema<GetSessionRequest>;
+).annotate({ identifier: "GetSessionRequest" }) as any as S.Schema<GetSessionRequest>;
 export type NonEmptyString = string;
 export type Text = string | redacted.Redacted<string>;
 export type MessageContentType =
@@ -236,9 +230,7 @@ export const ImageResponseCard = /*@__PURE__*/ S.suspend(() =>
     imageUrl: S.optional(S.String),
     buttons: S.optional(ButtonsList),
   }),
-).annotate({
-  identifier: "ImageResponseCard",
-}) as any as S.Schema<ImageResponseCard>;
+).annotate({ identifier: "ImageResponseCard" }) as any as S.Schema<ImageResponseCard>;
 export interface Message {
   content?: string | redacted.Redacted<string>;
   contentType: MessageContentType;
@@ -258,9 +250,7 @@ export interface ConfidenceScore {
 }
 export const ConfidenceScore = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ score: S.optional(S.Number) }),
-).annotate({
-  identifier: "ConfidenceScore",
-}) as any as S.Schema<ConfidenceScore>;
+).annotate({ identifier: "ConfidenceScore" }) as any as S.Schema<ConfidenceScore>;
 export type SentimentType = "MIXED" | "NEGATIVE" | "NEUTRAL" | "POSITIVE" | (string & {});
 export const SentimentType = S.String;
 
@@ -283,13 +273,8 @@ export interface SentimentResponse {
   sentimentScore?: SentimentScore;
 }
 export const SentimentResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    sentiment: S.optional(SentimentType),
-    sentimentScore: S.optional(SentimentScore),
-  }),
-).annotate({
-  identifier: "SentimentResponse",
-}) as any as S.Schema<SentimentResponse>;
+  S.Struct({ sentiment: S.optional(SentimentType), sentimentScore: S.optional(SentimentScore) }),
+).annotate({ identifier: "SentimentResponse" }) as any as S.Schema<SentimentResponse>;
 export type StringList = string[];
 export const StringList = /*@__PURE__*/ S.Array(S.String);
 export interface Value {
@@ -428,9 +413,7 @@ export interface ActiveContextTimeToLive {
 }
 export const ActiveContextTimeToLive = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ timeToLiveInSeconds: S.Number, turnsToLive: S.Number }),
-).annotate({
-  identifier: "ActiveContextTimeToLive",
-}) as any as S.Schema<ActiveContextTimeToLive>;
+).annotate({ identifier: "ActiveContextTimeToLive" }) as any as S.Schema<ActiveContextTimeToLive>;
 export type ParameterName = string;
 export type ActiveContextParametersMap = {
   [key: string]: string | redacted.Redacted<string> | undefined;
@@ -442,9 +425,7 @@ export const ActiveContextParametersMap = /*@__PURE__*/ S.Record(
 export interface ActiveContext {
   name: string;
   timeToLive: ActiveContextTimeToLive;
-  contextAttributes: {
-    [key: string]: string | redacted.Redacted<string> | undefined;
-  };
+  contextAttributes: { [key: string]: string | redacted.Redacted<string> | undefined };
 }
 export const ActiveContext = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -464,9 +445,7 @@ export interface RuntimeHintValue {
 }
 export const RuntimeHintValue = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ phrase: S.String }),
-).annotate({
-  identifier: "RuntimeHintValue",
-}) as any as S.Schema<RuntimeHintValue>;
+).annotate({ identifier: "RuntimeHintValue" }) as any as S.Schema<RuntimeHintValue>;
 export type RuntimeHintValuesList = RuntimeHintValue[];
 export const RuntimeHintValuesList = /*@__PURE__*/ S.Array(RuntimeHintValue);
 export interface RuntimeHintDetails {
@@ -477,17 +456,11 @@ export const RuntimeHintDetails = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     runtimeHintValues: S.optional(RuntimeHintValuesList),
     subSlotHints: S.optional(
-      S.suspend(() => SlotHintsSlotMap).annotate({
-        identifier: "SlotHintsSlotMap",
-      }),
+      S.suspend(() => SlotHintsSlotMap).annotate({ identifier: "SlotHintsSlotMap" }),
     ),
   }),
-).annotate({
-  identifier: "RuntimeHintDetails",
-}) as any as S.Schema<RuntimeHintDetails>;
-export type SlotHintsSlotMap = {
-  [key: string]: RuntimeHintDetails | undefined;
-};
+).annotate({ identifier: "RuntimeHintDetails" }) as any as S.Schema<RuntimeHintDetails>;
+export type SlotHintsSlotMap = { [key: string]: RuntimeHintDetails | undefined };
 export const SlotHintsSlotMap = /*@__PURE__*/ S.Record(
   S.String,
   S.suspend((): S.Schema<RuntimeHintDetails> => RuntimeHintDetails)
@@ -504,9 +477,7 @@ export const SlotHintsIntentMap = /*@__PURE__*/ S.Record(
     .pipe(S.optional),
 );
 export interface RuntimeHints {
-  slotHints?: {
-    [key: string]: { [key: string]: RuntimeHintDetails | undefined } | undefined;
-  };
+  slotHints?: { [key: string]: { [key: string]: RuntimeHintDetails | undefined } | undefined };
 }
 export const RuntimeHints = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ slotHints: S.optional(SlotHintsIntentMap) }),
@@ -542,9 +513,7 @@ export const GetSessionResponse = /*@__PURE__*/ S.suspend(() =>
     interpretations: S.optional(Interpretations),
     sessionState: S.optional(SessionState),
   }),
-).annotate({
-  identifier: "GetSessionResponse",
-}) as any as S.Schema<GetSessionResponse>;
+).annotate({ identifier: "GetSessionResponse" }) as any as S.Schema<GetSessionResponse>;
 export interface PutSessionRequest {
   botId: string;
   botAliasId: string;
@@ -578,9 +547,7 @@ export const PutSessionRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "PutSessionRequest",
-}) as any as S.Schema<PutSessionRequest>;
+).annotate({ identifier: "PutSessionRequest" }) as any as S.Schema<PutSessionRequest>;
 export interface PutSessionResponse {
   contentType?: string;
   messages?: string;
@@ -598,9 +565,7 @@ export const PutSessionResponse = /*@__PURE__*/ S.suspend(() =>
     sessionId: S.optional(S.String).pipe(T.HttpHeader("x-amz-lex-session-id")),
     audioStream: S.optional(T.StreamingOutput).pipe(T.HttpPayload()),
   }),
-).annotate({
-  identifier: "PutSessionResponse",
-}) as any as S.Schema<PutSessionResponse>;
+).annotate({ identifier: "PutSessionResponse" }) as any as S.Schema<PutSessionResponse>;
 export interface RecognizeTextRequest {
   botId: string;
   botAliasId: string;
@@ -632,18 +597,14 @@ export const RecognizeTextRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "RecognizeTextRequest",
-}) as any as S.Schema<RecognizeTextRequest>;
+).annotate({ identifier: "RecognizeTextRequest" }) as any as S.Schema<RecognizeTextRequest>;
 export interface RecognizedBotMember {
   botId: string;
   botName?: string;
 }
 export const RecognizedBotMember = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ botId: S.String, botName: S.optional(S.String) }),
-).annotate({
-  identifier: "RecognizedBotMember",
-}) as any as S.Schema<RecognizedBotMember>;
+).annotate({ identifier: "RecognizedBotMember" }) as any as S.Schema<RecognizedBotMember>;
 export interface RecognizeTextResponse {
   messages?: Message[];
   sessionState?: SessionState;
@@ -661,9 +622,7 @@ export const RecognizeTextResponse = /*@__PURE__*/ S.suspend(() =>
     sessionId: S.optional(S.String),
     recognizedBotMember: S.optional(RecognizedBotMember),
   }),
-).annotate({
-  identifier: "RecognizeTextResponse",
-}) as any as S.Schema<RecognizeTextResponse>;
+).annotate({ identifier: "RecognizeTextResponse" }) as any as S.Schema<RecognizeTextResponse>;
 export type SensitiveNonEmptyString = string | redacted.Redacted<string>;
 export interface RecognizeUtteranceRequest {
   botId: string;
@@ -757,9 +716,7 @@ export const ConfigurationEvent = /*@__PURE__*/ S.suspend(() =>
     eventId: S.optional(S.String),
     clientTimestampMillis: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ConfigurationEvent",
-}) as any as S.Schema<ConfigurationEvent>;
+).annotate({ identifier: "ConfigurationEvent" }) as any as S.Schema<ConfigurationEvent>;
 export type AudioChunk = Uint8Array;
 export interface AudioInputEvent {
   audioChunk?: Uint8Array;
@@ -774,9 +731,7 @@ export const AudioInputEvent = /*@__PURE__*/ S.suspend(() =>
     eventId: S.optional(S.String),
     clientTimestampMillis: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "AudioInputEvent",
-}) as any as S.Schema<AudioInputEvent>;
+).annotate({ identifier: "AudioInputEvent" }) as any as S.Schema<AudioInputEvent>;
 export type DTMFRegex = string | redacted.Redacted<string>;
 export interface DTMFInputEvent {
   inputCharacter: string | redacted.Redacted<string>;
@@ -807,25 +762,15 @@ export interface PlaybackCompletionEvent {
   clientTimestampMillis?: number;
 }
 export const PlaybackCompletionEvent = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    eventId: S.optional(S.String),
-    clientTimestampMillis: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "PlaybackCompletionEvent",
-}) as any as S.Schema<PlaybackCompletionEvent>;
+  S.Struct({ eventId: S.optional(S.String), clientTimestampMillis: S.optional(S.Number) }),
+).annotate({ identifier: "PlaybackCompletionEvent" }) as any as S.Schema<PlaybackCompletionEvent>;
 export interface DisconnectionEvent {
   eventId?: string;
   clientTimestampMillis?: number;
 }
 export const DisconnectionEvent = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    eventId: S.optional(S.String),
-    clientTimestampMillis: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "DisconnectionEvent",
-}) as any as S.Schema<DisconnectionEvent>;
+  S.Struct({ eventId: S.optional(S.String), clientTimestampMillis: S.optional(S.Number) }),
+).annotate({ identifier: "DisconnectionEvent" }) as any as S.Schema<DisconnectionEvent>;
 export type StartConversationRequestEventStream =
   | {
       ConfigurationEvent: ConfigurationEvent;
@@ -916,9 +861,7 @@ export const StartConversationRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "StartConversationRequest",
-}) as any as S.Schema<StartConversationRequest>;
+).annotate({ identifier: "StartConversationRequest" }) as any as S.Schema<StartConversationRequest>;
 export type PlaybackInterruptionReason =
   | "DTMF_START_DETECTED"
   | "TEXT_DETECTED"
@@ -946,9 +889,7 @@ export interface TranscriptEvent {
 }
 export const TranscriptEvent = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ transcript: S.optional(S.String), eventId: S.optional(S.String) }),
-).annotate({
-  identifier: "TranscriptEvent",
-}) as any as S.Schema<TranscriptEvent>;
+).annotate({ identifier: "TranscriptEvent" }) as any as S.Schema<TranscriptEvent>;
 export type InputMode = "Text" | "Speech" | "DTMF" | (string & {});
 export const InputMode = S.String;
 
@@ -971,18 +912,14 @@ export const IntentResultEvent = /*@__PURE__*/ S.suspend(() =>
     eventId: S.optional(S.String),
     recognizedBotMember: S.optional(RecognizedBotMember),
   }),
-).annotate({
-  identifier: "IntentResultEvent",
-}) as any as S.Schema<IntentResultEvent>;
+).annotate({ identifier: "IntentResultEvent" }) as any as S.Schema<IntentResultEvent>;
 export interface TextResponseEvent {
   messages?: Message[];
   eventId?: string;
 }
 export const TextResponseEvent = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ messages: S.optional(Messages), eventId: S.optional(S.String) }),
-).annotate({
-  identifier: "TextResponseEvent",
-}) as any as S.Schema<TextResponseEvent>;
+).annotate({ identifier: "TextResponseEvent" }) as any as S.Schema<TextResponseEvent>;
 export interface AudioResponseEvent {
   audioChunk?: Uint8Array;
   contentType?: string;
@@ -994,9 +931,7 @@ export const AudioResponseEvent = /*@__PURE__*/ S.suspend(() =>
     contentType: S.optional(S.String),
     eventId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AudioResponseEvent",
-}) as any as S.Schema<AudioResponseEvent>;
+).annotate({ identifier: "AudioResponseEvent" }) as any as S.Schema<AudioResponseEvent>;
 export interface HeartbeatEvent {
   eventId?: string;
 }

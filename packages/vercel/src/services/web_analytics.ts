@@ -116,16 +116,124 @@ export const AggregateEventsRequest = /*@__PURE__*/ S.suspend(() =>
     filter: S.optional(S.String.pipe(T.Query())),
     teamId: S.optional(S.String.pipe(T.Query())),
     slug: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/query/web-analytics/events/aggregate",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/query/web-analytics/events/aggregate", code: 200 })),
+).annotate({ identifier: "AggregateEventsRequest" }) as any as S.Schema<AggregateEventsRequest>;
+
+export interface AggregateEventsResponseDataCase0Item {
+  browserName?: string;
+  country?: string;
+  deviceType?: string;
+  environment?: string;
+  eventData?: string;
+  eventName?: string;
+  flags?: string;
+  osName?: string;
+  projectId?: string;
+  projectName?: string;
+  referrerHostname?: string;
+  requestHostname?: string;
+  requestPath?: string;
+  route?: string;
+  utmCampaign?: string;
+  utmContent?: string;
+  utmMedium?: string;
+  utmSource?: string;
+  utmTerm?: string;
+  visitorId?: string;
+  timestamp: string;
+}
+export const AggregateEventsResponseDataCase0Item = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    browserName: S.optional(S.String),
+    country: S.optional(S.String),
+    deviceType: S.optional(S.String),
+    environment: S.optional(S.String),
+    eventData: S.optional(S.String),
+    eventName: S.optional(S.String),
+    flags: S.optional(S.String),
+    osName: S.optional(S.String),
+    projectId: S.optional(S.String),
+    projectName: S.optional(S.String),
+    referrerHostname: S.optional(S.String),
+    requestHostname: S.optional(S.String),
+    requestPath: S.optional(S.String),
+    route: S.optional(S.String),
+    utmCampaign: S.optional(S.String),
+    utmContent: S.optional(S.String),
+    utmMedium: S.optional(S.String),
+    utmSource: S.optional(S.String),
+    utmTerm: S.optional(S.String),
+    visitorId: S.optional(S.String),
+    timestamp: S.String,
+  }),
 ).annotate({
-  identifier: "AggregateEventsRequest",
-}) as any as S.Schema<AggregateEventsRequest>;
+  identifier: "AggregateEventsResponseDataCase0Item",
+}) as any as S.Schema<AggregateEventsResponseDataCase0Item>;
+
+export type AggregateEventsResponseDataCase0List = Array<AggregateEventsResponseDataCase0Item>;
+export const AggregateEventsResponseDataCase0List = /*@__PURE__*/ S.Array(
+  AggregateEventsResponseDataCase0Item,
+) as any as S.Schema<AggregateEventsResponseDataCase0List>;
+
+export interface AggregateEventsResponseDataCase1Item {
+  browserName: string;
+  country: string;
+  deviceType: string;
+  environment: string;
+  eventData: string;
+  eventName: string;
+  flags: string;
+  osName: string;
+  projectId: string;
+  projectName: string;
+  referrerHostname: string;
+  requestHostname: string;
+  requestPath: string;
+  route: string;
+  utmCampaign: string;
+  utmContent: string;
+  utmMedium: string;
+  utmSource: string;
+  utmTerm: string;
+  visitorId: string;
+}
+export const AggregateEventsResponseDataCase1Item = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    browserName: S.String,
+    country: S.String,
+    deviceType: S.String,
+    environment: S.String,
+    eventData: S.String,
+    eventName: S.String,
+    flags: S.String,
+    osName: S.String,
+    projectId: S.String,
+    projectName: S.String,
+    referrerHostname: S.String,
+    requestHostname: S.String,
+    requestPath: S.String,
+    route: S.String,
+    utmCampaign: S.String,
+    utmContent: S.String,
+    utmMedium: S.String,
+    utmSource: S.String,
+    utmTerm: S.String,
+    visitorId: S.String,
+  }),
+).annotate({
+  identifier: "AggregateEventsResponseDataCase1Item",
+}) as any as S.Schema<AggregateEventsResponseDataCase1Item>;
+
+export type AggregateEventsResponseDataCase1List = Array<AggregateEventsResponseDataCase1Item>;
+export const AggregateEventsResponseDataCase1List = /*@__PURE__*/ S.Array(
+  AggregateEventsResponseDataCase1Item,
+) as any as S.Schema<AggregateEventsResponseDataCase1List>;
+
+export type AggregateEventsResponseData =
+  | AggregateEventsResponseDataCase0List
+  | AggregateEventsResponseDataCase1List;
+export const AggregateEventsResponseData =
+  S.Unknown as any as S.Schema<AggregateEventsResponseData>;
 
 export type AggregateEventsResponseQueryGroupByItemCase1 =
   | "browserName"
@@ -159,954 +267,36 @@ export const AggregateEventsResponseQueryGroupByList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<AggregateEventsResponseQueryGroupByList>;
 
 export interface AggregateEventsResponseQuery {
+  filter?: string;
+  groupBy?: AggregateEventsResponseQueryGroupByList;
+  limit: number;
   since: string;
   until: string;
-  groupBy?: AggregateEventsResponseQueryGroupByList;
-  filter?: string;
-  limit: number;
 }
 export const AggregateEventsResponseQuery = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    filter: S.optional(S.String),
+    groupBy: S.optional(AggregateEventsResponseQueryGroupByList),
+    limit: S.Number,
     since: S.String,
     until: S.String,
-    groupBy: S.optional(AggregateEventsResponseQueryGroupByList),
-    filter: S.optional(S.String),
-    limit: S.Number,
   }),
 ).annotate({
   identifier: "AggregateEventsResponseQuery",
 }) as any as S.Schema<AggregateEventsResponseQuery>;
 
-export interface AggregateEventsResponseDataCase0Item {
-  projectId?: string;
-  country?: string;
-  deviceType?: string;
-  environment?: string;
-  requestPath?: string;
-  referrerHostname?: string;
-  osName?: string;
-  browserName?: string;
-  route?: string;
-  utmSource?: string;
-  utmMedium?: string;
-  utmCampaign?: string;
-  utmContent?: string;
-  utmTerm?: string;
-  flags?: string;
-  errorMessage?: string;
-  entryRevalidateSeconds?: string;
-  projectName?: string;
-  deploymentId?: string;
-  pathType?: string;
-  pathTypeVariant?: string;
-  requestHostname?: string;
-  requestResolvedIp?: string;
-  requestMethod?: string;
-  requestExtension?: string;
-  requestId?: string;
-  requestApi?: string;
-  referrerUrl?: string;
-  serverActionName?: string;
-  httpStatus?: string;
-  errorCode?: string;
-  source?: string;
-  edgeType?: string;
-  reason?: string;
-  edgeNetworkRegion?: string;
-  functionRegion?: string;
-  imageTransformationRegion?: string;
-  dataCacheRegion?: string;
-  cause?: string;
-  runtime?: string;
-  provider?: string;
-  isrCacheRegion?: string;
-  isrAction?: string;
-  cacheResult?: string;
-  cacheOperation?: string;
-  cacheHostname?: string;
-  cachePath?: string;
-  cacheHitState?: string;
-  cacheHitLevel?: string;
-  cacheApi?: string;
-  cacheReason?: string;
-  pprState?: string;
-  clientIp?: string;
-  clientIpCountry?: string;
-  clientUserAgent?: string;
-  httpAccept?: string;
-  clientJa4Digest?: string;
-  asnId?: string;
-  asnName?: string;
-  botName?: string;
-  botCategory?: string;
-  botCategoryLegacy?: string;
-  botVerified?: string;
-  botCheckResult?: string;
-  deepAnalysisCheck?: string;
-  wafAction?: string;
-  wafRuleId?: string;
-  ruleCategory?: string;
-  skewProtection?: string;
-  functionStartType?: string;
-  functionDispatcher?: string;
-  isAdditionalRequest?: string;
-  originHostname?: string;
-  originPath?: string;
-  originRoute?: string;
-  fetchType?: string;
-  fetchIndex?: string;
-  imageSource?: string;
-  sourceImage?: string;
-  sourceImagePathname?: string;
-  sourceImageHostname?: string;
-  sourceImageHash?: string;
-  optimizedQuality?: string;
-  optimizedWidthPixels?: string;
-  optimizedFormatMimeType?: string;
-  vdcOperationOrigin?: string;
-  entryName?: string;
-  entryId?: string;
-  entryItemId?: string;
-  tagName?: string;
-  cacheTags?: string;
-  storeId?: string;
-  storeName?: string;
-  blobOperationType?: string;
-  blobOperationLevel?: string;
-  visitorId?: string;
-  eventName?: string;
-  attributionTarget?: string;
-  attributionEventName?: string;
-  metricName?: string;
-  attributes?: string;
-  flagKey?: string;
-  flagVariant?: string;
-  flagEvaluationReason?: string;
-  flagClientName?: string;
-  sdkKeyId?: string;
-  sdkKeyEnvironment?: string;
-  reportingProjectId?: string;
-  reportingProjectName?: string;
-  eventData?: string;
-  middlewareAction?: string;
-  middlewareActionTarget?: string;
-  aiModel?: string;
-  aiGatewayModelId?: string;
-  aiProvider?: string;
-  aiModelType?: string;
-  servedSpeed?: string;
-  virtualModelSlug?: string;
-  virtualModelKind?: string;
-  inferenceEndpointSlug?: string;
-  inferenceScope?: string;
-  inferenceGeoRegion?: string;
-  inferenceProviderRegion?: string;
-  requestedInferenceRegion?: string;
-  costCurrency?: string;
-  marketCostCurrency?: string;
-  cachedInputTokensCurrency?: string;
-  cacheCreationInputTokensCurrency?: string;
-  cacheCreation1hInputTokensCurrency?: string;
-  surchargeCostCurrency?: string;
-  gatewayCostCurrency?: string;
-  keyId?: string;
-  keyName?: string;
-  authMethod?: string;
-  appName?: string;
-  codingAgent?: string;
-  isByok?: string;
-  spendAttribution?: string;
-  isPrivateModel?: string;
-  isRequestZdr?: string;
-  hipaaRequested?: string;
-  quotaRequested?: string;
-  quotaEntityId?: string;
-  quotaEntityType?: string;
-  videoResolution?: string;
-  videoAspectRatio?: string;
-  piiRedactionApplied?: string;
-  moderationApplied?: string;
-  queueName?: string;
-  consumerGroup?: string;
-  messageId?: string;
-  eventType?: string;
-  notificationUrl?: string;
-  queueRegion?: string;
-  sandboxSessionId?: string;
-  sandboxName?: string;
-  workflowRunId?: string;
-  workflowName?: string;
-  workflowStatus?: string;
-  stepRunId?: string;
-  workflowStepName?: string;
-  workflowEventType?: string;
-  region?: string;
-  specVersion?: string;
-  contentType?: string;
-  rewriteDestinationHostname?: string;
-  externalRewriteTargetHost?: string;
-  externalRewriteTargetPath?: string;
-  commitSha?: string;
-  reviewConclusion?: string;
-  pullRequestNumber?: string;
-  repositoryName?: string;
-  repositoryOwner?: string;
-  reviewStatus?: string;
-  pullRequestState?: string;
-  triggeringTag?: string;
-  redirectLocation?: string;
-  microfrontendsResponseReason?: string;
-  microfrontendsMatchedPath?: string;
-  microfrontendsDefaultAppDeploymentId?: string;
-  microfrontendsDefaultAppProjectId?: string;
-  service?: string;
-  isPrefetchRequest?: string;
-  spendReportGroupBy?: string;
-  spendReportDatePart?: string;
-  providerAttemptCanonicalSlug?: string;
-  providerAttemptCredentialType?: string;
-  providerAttemptSuccess?: string;
-  providerAttemptStatusCode?: string;
-  providerAttemptTimeout?: string;
-  providerAttemptIsFinal?: string;
-  providerAttemptNumber?: string;
-  providerAttemptTotalInRequest?: string;
-  generationId?: string;
-  sessionId?: string;
-  contentCaptureStatus?: string;
-  contentCaptureInputs?: string;
-  contentCaptureOutputs?: string;
-  transcriptStatus?: string;
-  transcriptInputs?: string;
-  transcriptOutputs?: string;
-  providerAttemptError?: string;
-  providerAttemptSafetyIdentifier?: string;
-  providerAttemptDevSafetyIdentifier?: string;
-  providerAttemptRegion?: string;
-  providerAttemptModelIndex?: string;
-  toolCallType?: string;
-  toolCallProvider?: string;
-  toolCallSuccess?: string;
-  toolCallErrorType?: string;
-  toolCallStatusCode?: string;
-  environmentId?: string;
-  billableRegion?: string;
-  direction?: string;
-  networkTenancy?: string;
-  trafficSource?: string;
-  networkId?: string;
-  privatelinkEndpointId?: string;
-  privatelinkDnsName?: string;
-  privatelinkIpAddress?: string;
-  timestamp: string;
-}
-export const AggregateEventsResponseDataCase0Item = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    projectId: S.optional(S.String),
-    country: S.optional(S.String),
-    deviceType: S.optional(S.String),
-    environment: S.optional(S.String),
-    requestPath: S.optional(S.String),
-    referrerHostname: S.optional(S.String),
-    osName: S.optional(S.String),
-    browserName: S.optional(S.String),
-    route: S.optional(S.String),
-    utmSource: S.optional(S.String),
-    utmMedium: S.optional(S.String),
-    utmCampaign: S.optional(S.String),
-    utmContent: S.optional(S.String),
-    utmTerm: S.optional(S.String),
-    flags: S.optional(S.String),
-    errorMessage: S.optional(S.String),
-    entryRevalidateSeconds: S.optional(S.String),
-    projectName: S.optional(S.String),
-    deploymentId: S.optional(S.String),
-    pathType: S.optional(S.String),
-    pathTypeVariant: S.optional(S.String),
-    requestHostname: S.optional(S.String),
-    requestResolvedIp: S.optional(S.String),
-    requestMethod: S.optional(S.String),
-    requestExtension: S.optional(S.String),
-    requestId: S.optional(S.String),
-    requestApi: S.optional(S.String),
-    referrerUrl: S.optional(S.String),
-    serverActionName: S.optional(S.String),
-    httpStatus: S.optional(S.String),
-    errorCode: S.optional(S.String),
-    source: S.optional(S.String),
-    edgeType: S.optional(S.String),
-    reason: S.optional(S.String),
-    edgeNetworkRegion: S.optional(S.String),
-    functionRegion: S.optional(S.String),
-    imageTransformationRegion: S.optional(S.String),
-    dataCacheRegion: S.optional(S.String),
-    cause: S.optional(S.String),
-    runtime: S.optional(S.String),
-    provider: S.optional(S.String),
-    isrCacheRegion: S.optional(S.String),
-    isrAction: S.optional(S.String),
-    cacheResult: S.optional(S.String),
-    cacheOperation: S.optional(S.String),
-    cacheHostname: S.optional(S.String),
-    cachePath: S.optional(S.String),
-    cacheHitState: S.optional(S.String),
-    cacheHitLevel: S.optional(S.String),
-    cacheApi: S.optional(S.String),
-    cacheReason: S.optional(S.String),
-    pprState: S.optional(S.String),
-    clientIp: S.optional(S.String),
-    clientIpCountry: S.optional(S.String),
-    clientUserAgent: S.optional(S.String),
-    httpAccept: S.optional(S.String),
-    clientJa4Digest: S.optional(S.String),
-    asnId: S.optional(S.String),
-    asnName: S.optional(S.String),
-    botName: S.optional(S.String),
-    botCategory: S.optional(S.String),
-    botCategoryLegacy: S.optional(S.String),
-    botVerified: S.optional(S.String),
-    botCheckResult: S.optional(S.String),
-    deepAnalysisCheck: S.optional(S.String),
-    wafAction: S.optional(S.String),
-    wafRuleId: S.optional(S.String),
-    ruleCategory: S.optional(S.String),
-    skewProtection: S.optional(S.String),
-    functionStartType: S.optional(S.String),
-    functionDispatcher: S.optional(S.String),
-    isAdditionalRequest: S.optional(S.String),
-    originHostname: S.optional(S.String),
-    originPath: S.optional(S.String),
-    originRoute: S.optional(S.String),
-    fetchType: S.optional(S.String),
-    fetchIndex: S.optional(S.String),
-    imageSource: S.optional(S.String),
-    sourceImage: S.optional(S.String),
-    sourceImagePathname: S.optional(S.String),
-    sourceImageHostname: S.optional(S.String),
-    sourceImageHash: S.optional(S.String),
-    optimizedQuality: S.optional(S.String),
-    optimizedWidthPixels: S.optional(S.String),
-    optimizedFormatMimeType: S.optional(S.String),
-    vdcOperationOrigin: S.optional(S.String),
-    entryName: S.optional(S.String),
-    entryId: S.optional(S.String),
-    entryItemId: S.optional(S.String),
-    tagName: S.optional(S.String),
-    cacheTags: S.optional(S.String),
-    storeId: S.optional(S.String),
-    storeName: S.optional(S.String),
-    blobOperationType: S.optional(S.String),
-    blobOperationLevel: S.optional(S.String),
-    visitorId: S.optional(S.String),
-    eventName: S.optional(S.String),
-    attributionTarget: S.optional(S.String),
-    attributionEventName: S.optional(S.String),
-    metricName: S.optional(S.String),
-    attributes: S.optional(S.String),
-    flagKey: S.optional(S.String),
-    flagVariant: S.optional(S.String),
-    flagEvaluationReason: S.optional(S.String),
-    flagClientName: S.optional(S.String),
-    sdkKeyId: S.optional(S.String),
-    sdkKeyEnvironment: S.optional(S.String),
-    reportingProjectId: S.optional(S.String),
-    reportingProjectName: S.optional(S.String),
-    eventData: S.optional(S.String),
-    middlewareAction: S.optional(S.String),
-    middlewareActionTarget: S.optional(S.String),
-    aiModel: S.optional(S.String),
-    aiGatewayModelId: S.optional(S.String),
-    aiProvider: S.optional(S.String),
-    aiModelType: S.optional(S.String),
-    servedSpeed: S.optional(S.String),
-    virtualModelSlug: S.optional(S.String),
-    virtualModelKind: S.optional(S.String),
-    inferenceEndpointSlug: S.optional(S.String),
-    inferenceScope: S.optional(S.String),
-    inferenceGeoRegion: S.optional(S.String),
-    inferenceProviderRegion: S.optional(S.String),
-    requestedInferenceRegion: S.optional(S.String),
-    costCurrency: S.optional(S.String),
-    marketCostCurrency: S.optional(S.String),
-    cachedInputTokensCurrency: S.optional(S.String),
-    cacheCreationInputTokensCurrency: S.optional(S.String),
-    cacheCreation1hInputTokensCurrency: S.optional(S.String),
-    surchargeCostCurrency: S.optional(S.String),
-    gatewayCostCurrency: S.optional(S.String),
-    keyId: S.optional(S.String),
-    keyName: S.optional(S.String),
-    authMethod: S.optional(S.String),
-    appName: S.optional(S.String),
-    codingAgent: S.optional(S.String),
-    isByok: S.optional(S.String),
-    spendAttribution: S.optional(S.String),
-    isPrivateModel: S.optional(S.String),
-    isRequestZdr: S.optional(S.String),
-    hipaaRequested: S.optional(S.String),
-    quotaRequested: S.optional(S.String),
-    quotaEntityId: S.optional(S.String),
-    quotaEntityType: S.optional(S.String),
-    videoResolution: S.optional(S.String),
-    videoAspectRatio: S.optional(S.String),
-    piiRedactionApplied: S.optional(S.String),
-    moderationApplied: S.optional(S.String),
-    queueName: S.optional(S.String),
-    consumerGroup: S.optional(S.String),
-    messageId: S.optional(S.String),
-    eventType: S.optional(S.String),
-    notificationUrl: S.optional(S.String),
-    queueRegion: S.optional(S.String),
-    sandboxSessionId: S.optional(S.String),
-    sandboxName: S.optional(S.String),
-    workflowRunId: S.optional(S.String),
-    workflowName: S.optional(S.String),
-    workflowStatus: S.optional(S.String),
-    stepRunId: S.optional(S.String),
-    workflowStepName: S.optional(S.String),
-    workflowEventType: S.optional(S.String),
-    region: S.optional(S.String),
-    specVersion: S.optional(S.String),
-    contentType: S.optional(S.String),
-    rewriteDestinationHostname: S.optional(S.String),
-    externalRewriteTargetHost: S.optional(S.String),
-    externalRewriteTargetPath: S.optional(S.String),
-    commitSha: S.optional(S.String),
-    reviewConclusion: S.optional(S.String),
-    pullRequestNumber: S.optional(S.String),
-    repositoryName: S.optional(S.String),
-    repositoryOwner: S.optional(S.String),
-    reviewStatus: S.optional(S.String),
-    pullRequestState: S.optional(S.String),
-    triggeringTag: S.optional(S.String),
-    redirectLocation: S.optional(S.String),
-    microfrontendsResponseReason: S.optional(S.String),
-    microfrontendsMatchedPath: S.optional(S.String),
-    microfrontendsDefaultAppDeploymentId: S.optional(S.String),
-    microfrontendsDefaultAppProjectId: S.optional(S.String),
-    service: S.optional(S.String),
-    isPrefetchRequest: S.optional(S.String),
-    spendReportGroupBy: S.optional(S.String),
-    spendReportDatePart: S.optional(S.String),
-    providerAttemptCanonicalSlug: S.optional(S.String),
-    providerAttemptCredentialType: S.optional(S.String),
-    providerAttemptSuccess: S.optional(S.String),
-    providerAttemptStatusCode: S.optional(S.String),
-    providerAttemptTimeout: S.optional(S.String),
-    providerAttemptIsFinal: S.optional(S.String),
-    providerAttemptNumber: S.optional(S.String),
-    providerAttemptTotalInRequest: S.optional(S.String),
-    generationId: S.optional(S.String),
-    sessionId: S.optional(S.String),
-    contentCaptureStatus: S.optional(S.String),
-    contentCaptureInputs: S.optional(S.String),
-    contentCaptureOutputs: S.optional(S.String),
-    transcriptStatus: S.optional(S.String),
-    transcriptInputs: S.optional(S.String),
-    transcriptOutputs: S.optional(S.String),
-    providerAttemptError: S.optional(S.String),
-    providerAttemptSafetyIdentifier: S.optional(S.String),
-    providerAttemptDevSafetyIdentifier: S.optional(S.String),
-    providerAttemptRegion: S.optional(S.String),
-    providerAttemptModelIndex: S.optional(S.String),
-    toolCallType: S.optional(S.String),
-    toolCallProvider: S.optional(S.String),
-    toolCallSuccess: S.optional(S.String),
-    toolCallErrorType: S.optional(S.String),
-    toolCallStatusCode: S.optional(S.String),
-    environmentId: S.optional(S.String),
-    billableRegion: S.optional(S.String),
-    direction: S.optional(S.String),
-    networkTenancy: S.optional(S.String),
-    trafficSource: S.optional(S.String),
-    networkId: S.optional(S.String),
-    privatelinkEndpointId: S.optional(S.String),
-    privatelinkDnsName: S.optional(S.String),
-    privatelinkIpAddress: S.optional(S.String),
-    timestamp: S.String,
-  }),
-).annotate({
-  identifier: "AggregateEventsResponseDataCase0Item",
-}) as any as S.Schema<AggregateEventsResponseDataCase0Item>;
-
-export type AggregateEventsResponseDataCase0List = Array<AggregateEventsResponseDataCase0Item>;
-export const AggregateEventsResponseDataCase0List = /*@__PURE__*/ S.Array(
-  AggregateEventsResponseDataCase0Item,
-) as any as S.Schema<AggregateEventsResponseDataCase0List>;
-
-export interface AggregateEventsResponseDataCase1Item {
-  projectId: string;
-  country: string;
-  deviceType: string;
-  environment: string;
-  requestPath: string;
-  referrerHostname: string;
-  osName: string;
-  browserName: string;
-  route: string;
-  utmSource: string;
-  utmMedium: string;
-  utmCampaign: string;
-  utmContent: string;
-  utmTerm: string;
-  flags: string;
-  errorMessage: string;
-  entryRevalidateSeconds: string;
-  projectName: string;
-  deploymentId: string;
-  pathType: string;
-  pathTypeVariant: string;
-  requestHostname: string;
-  requestResolvedIp: string;
-  requestMethod: string;
-  requestExtension: string;
-  requestId: string;
-  requestApi: string;
-  referrerUrl: string;
-  serverActionName: string;
-  httpStatus: string;
-  errorCode: string;
-  source: string;
-  edgeType: string;
-  reason: string;
-  edgeNetworkRegion: string;
-  functionRegion: string;
-  imageTransformationRegion: string;
-  dataCacheRegion: string;
-  cause: string;
-  runtime: string;
-  provider: string;
-  isrCacheRegion: string;
-  isrAction: string;
-  cacheResult: string;
-  cacheOperation: string;
-  cacheHostname: string;
-  cachePath: string;
-  cacheHitState: string;
-  cacheHitLevel: string;
-  cacheApi: string;
-  cacheReason: string;
-  pprState: string;
-  clientIp: string;
-  clientIpCountry: string;
-  clientUserAgent: string;
-  httpAccept: string;
-  clientJa4Digest: string;
-  asnId: string;
-  asnName: string;
-  botName: string;
-  botCategory: string;
-  botCategoryLegacy: string;
-  botVerified: string;
-  botCheckResult: string;
-  deepAnalysisCheck: string;
-  wafAction: string;
-  wafRuleId: string;
-  ruleCategory: string;
-  skewProtection: string;
-  functionStartType: string;
-  functionDispatcher: string;
-  isAdditionalRequest: string;
-  originHostname: string;
-  originPath: string;
-  originRoute: string;
-  fetchType: string;
-  fetchIndex: string;
-  imageSource: string;
-  sourceImage: string;
-  sourceImagePathname: string;
-  sourceImageHostname: string;
-  sourceImageHash: string;
-  optimizedQuality: string;
-  optimizedWidthPixels: string;
-  optimizedFormatMimeType: string;
-  vdcOperationOrigin: string;
-  entryName: string;
-  entryId: string;
-  entryItemId: string;
-  tagName: string;
-  cacheTags: string;
-  storeId: string;
-  storeName: string;
-  blobOperationType: string;
-  blobOperationLevel: string;
-  visitorId: string;
-  eventName: string;
-  attributionTarget: string;
-  attributionEventName: string;
-  metricName: string;
-  attributes: string;
-  flagKey: string;
-  flagVariant: string;
-  flagEvaluationReason: string;
-  flagClientName: string;
-  sdkKeyId: string;
-  sdkKeyEnvironment: string;
-  reportingProjectId: string;
-  reportingProjectName: string;
-  eventData: string;
-  middlewareAction: string;
-  middlewareActionTarget: string;
-  aiModel: string;
-  aiGatewayModelId: string;
-  aiProvider: string;
-  aiModelType: string;
-  servedSpeed: string;
-  virtualModelSlug: string;
-  virtualModelKind: string;
-  inferenceEndpointSlug: string;
-  inferenceScope: string;
-  inferenceGeoRegion: string;
-  inferenceProviderRegion: string;
-  requestedInferenceRegion: string;
-  costCurrency: string;
-  marketCostCurrency: string;
-  cachedInputTokensCurrency: string;
-  cacheCreationInputTokensCurrency: string;
-  cacheCreation1hInputTokensCurrency: string;
-  surchargeCostCurrency: string;
-  gatewayCostCurrency: string;
-  keyId: string;
-  keyName: string;
-  authMethod: string;
-  appName: string;
-  codingAgent: string;
-  isByok: string;
-  spendAttribution: string;
-  isPrivateModel: string;
-  isRequestZdr: string;
-  hipaaRequested: string;
-  quotaRequested: string;
-  quotaEntityId: string;
-  quotaEntityType: string;
-  videoResolution: string;
-  videoAspectRatio: string;
-  piiRedactionApplied: string;
-  moderationApplied: string;
-  queueName: string;
-  consumerGroup: string;
-  messageId: string;
-  eventType: string;
-  notificationUrl: string;
-  queueRegion: string;
-  sandboxSessionId: string;
-  sandboxName: string;
-  workflowRunId: string;
-  workflowName: string;
-  workflowStatus: string;
-  stepRunId: string;
-  workflowStepName: string;
-  workflowEventType: string;
-  region: string;
-  specVersion: string;
-  contentType: string;
-  rewriteDestinationHostname: string;
-  externalRewriteTargetHost: string;
-  externalRewriteTargetPath: string;
-  commitSha: string;
-  reviewConclusion: string;
-  pullRequestNumber: string;
-  repositoryName: string;
-  repositoryOwner: string;
-  reviewStatus: string;
-  pullRequestState: string;
-  triggeringTag: string;
-  redirectLocation: string;
-  microfrontendsResponseReason: string;
-  microfrontendsMatchedPath: string;
-  microfrontendsDefaultAppDeploymentId: string;
-  microfrontendsDefaultAppProjectId: string;
-  service: string;
-  isPrefetchRequest: string;
-  spendReportGroupBy: string;
-  spendReportDatePart: string;
-  providerAttemptCanonicalSlug: string;
-  providerAttemptCredentialType: string;
-  providerAttemptSuccess: string;
-  providerAttemptStatusCode: string;
-  providerAttemptTimeout: string;
-  providerAttemptIsFinal: string;
-  providerAttemptNumber: string;
-  providerAttemptTotalInRequest: string;
-  generationId: string;
-  sessionId: string;
-  contentCaptureStatus: string;
-  contentCaptureInputs: string;
-  contentCaptureOutputs: string;
-  transcriptStatus: string;
-  transcriptInputs: string;
-  transcriptOutputs: string;
-  providerAttemptError: string;
-  providerAttemptSafetyIdentifier: string;
-  providerAttemptDevSafetyIdentifier: string;
-  providerAttemptRegion: string;
-  providerAttemptModelIndex: string;
-  toolCallType: string;
-  toolCallProvider: string;
-  toolCallSuccess: string;
-  toolCallErrorType: string;
-  toolCallStatusCode: string;
-  environmentId: string;
-  billableRegion: string;
-  direction: string;
-  networkTenancy: string;
-  trafficSource: string;
-  networkId: string;
-  privatelinkEndpointId: string;
-  privatelinkDnsName: string;
-  privatelinkIpAddress: string;
-}
-export const AggregateEventsResponseDataCase1Item = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    projectId: S.String,
-    country: S.String,
-    deviceType: S.String,
-    environment: S.String,
-    requestPath: S.String,
-    referrerHostname: S.String,
-    osName: S.String,
-    browserName: S.String,
-    route: S.String,
-    utmSource: S.String,
-    utmMedium: S.String,
-    utmCampaign: S.String,
-    utmContent: S.String,
-    utmTerm: S.String,
-    flags: S.String,
-    errorMessage: S.String,
-    entryRevalidateSeconds: S.String,
-    projectName: S.String,
-    deploymentId: S.String,
-    pathType: S.String,
-    pathTypeVariant: S.String,
-    requestHostname: S.String,
-    requestResolvedIp: S.String,
-    requestMethod: S.String,
-    requestExtension: S.String,
-    requestId: S.String,
-    requestApi: S.String,
-    referrerUrl: S.String,
-    serverActionName: S.String,
-    httpStatus: S.String,
-    errorCode: S.String,
-    source: S.String,
-    edgeType: S.String,
-    reason: S.String,
-    edgeNetworkRegion: S.String,
-    functionRegion: S.String,
-    imageTransformationRegion: S.String,
-    dataCacheRegion: S.String,
-    cause: S.String,
-    runtime: S.String,
-    provider: S.String,
-    isrCacheRegion: S.String,
-    isrAction: S.String,
-    cacheResult: S.String,
-    cacheOperation: S.String,
-    cacheHostname: S.String,
-    cachePath: S.String,
-    cacheHitState: S.String,
-    cacheHitLevel: S.String,
-    cacheApi: S.String,
-    cacheReason: S.String,
-    pprState: S.String,
-    clientIp: S.String,
-    clientIpCountry: S.String,
-    clientUserAgent: S.String,
-    httpAccept: S.String,
-    clientJa4Digest: S.String,
-    asnId: S.String,
-    asnName: S.String,
-    botName: S.String,
-    botCategory: S.String,
-    botCategoryLegacy: S.String,
-    botVerified: S.String,
-    botCheckResult: S.String,
-    deepAnalysisCheck: S.String,
-    wafAction: S.String,
-    wafRuleId: S.String,
-    ruleCategory: S.String,
-    skewProtection: S.String,
-    functionStartType: S.String,
-    functionDispatcher: S.String,
-    isAdditionalRequest: S.String,
-    originHostname: S.String,
-    originPath: S.String,
-    originRoute: S.String,
-    fetchType: S.String,
-    fetchIndex: S.String,
-    imageSource: S.String,
-    sourceImage: S.String,
-    sourceImagePathname: S.String,
-    sourceImageHostname: S.String,
-    sourceImageHash: S.String,
-    optimizedQuality: S.String,
-    optimizedWidthPixels: S.String,
-    optimizedFormatMimeType: S.String,
-    vdcOperationOrigin: S.String,
-    entryName: S.String,
-    entryId: S.String,
-    entryItemId: S.String,
-    tagName: S.String,
-    cacheTags: S.String,
-    storeId: S.String,
-    storeName: S.String,
-    blobOperationType: S.String,
-    blobOperationLevel: S.String,
-    visitorId: S.String,
-    eventName: S.String,
-    attributionTarget: S.String,
-    attributionEventName: S.String,
-    metricName: S.String,
-    attributes: S.String,
-    flagKey: S.String,
-    flagVariant: S.String,
-    flagEvaluationReason: S.String,
-    flagClientName: S.String,
-    sdkKeyId: S.String,
-    sdkKeyEnvironment: S.String,
-    reportingProjectId: S.String,
-    reportingProjectName: S.String,
-    eventData: S.String,
-    middlewareAction: S.String,
-    middlewareActionTarget: S.String,
-    aiModel: S.String,
-    aiGatewayModelId: S.String,
-    aiProvider: S.String,
-    aiModelType: S.String,
-    servedSpeed: S.String,
-    virtualModelSlug: S.String,
-    virtualModelKind: S.String,
-    inferenceEndpointSlug: S.String,
-    inferenceScope: S.String,
-    inferenceGeoRegion: S.String,
-    inferenceProviderRegion: S.String,
-    requestedInferenceRegion: S.String,
-    costCurrency: S.String,
-    marketCostCurrency: S.String,
-    cachedInputTokensCurrency: S.String,
-    cacheCreationInputTokensCurrency: S.String,
-    cacheCreation1hInputTokensCurrency: S.String,
-    surchargeCostCurrency: S.String,
-    gatewayCostCurrency: S.String,
-    keyId: S.String,
-    keyName: S.String,
-    authMethod: S.String,
-    appName: S.String,
-    codingAgent: S.String,
-    isByok: S.String,
-    spendAttribution: S.String,
-    isPrivateModel: S.String,
-    isRequestZdr: S.String,
-    hipaaRequested: S.String,
-    quotaRequested: S.String,
-    quotaEntityId: S.String,
-    quotaEntityType: S.String,
-    videoResolution: S.String,
-    videoAspectRatio: S.String,
-    piiRedactionApplied: S.String,
-    moderationApplied: S.String,
-    queueName: S.String,
-    consumerGroup: S.String,
-    messageId: S.String,
-    eventType: S.String,
-    notificationUrl: S.String,
-    queueRegion: S.String,
-    sandboxSessionId: S.String,
-    sandboxName: S.String,
-    workflowRunId: S.String,
-    workflowName: S.String,
-    workflowStatus: S.String,
-    stepRunId: S.String,
-    workflowStepName: S.String,
-    workflowEventType: S.String,
-    region: S.String,
-    specVersion: S.String,
-    contentType: S.String,
-    rewriteDestinationHostname: S.String,
-    externalRewriteTargetHost: S.String,
-    externalRewriteTargetPath: S.String,
-    commitSha: S.String,
-    reviewConclusion: S.String,
-    pullRequestNumber: S.String,
-    repositoryName: S.String,
-    repositoryOwner: S.String,
-    reviewStatus: S.String,
-    pullRequestState: S.String,
-    triggeringTag: S.String,
-    redirectLocation: S.String,
-    microfrontendsResponseReason: S.String,
-    microfrontendsMatchedPath: S.String,
-    microfrontendsDefaultAppDeploymentId: S.String,
-    microfrontendsDefaultAppProjectId: S.String,
-    service: S.String,
-    isPrefetchRequest: S.String,
-    spendReportGroupBy: S.String,
-    spendReportDatePart: S.String,
-    providerAttemptCanonicalSlug: S.String,
-    providerAttemptCredentialType: S.String,
-    providerAttemptSuccess: S.String,
-    providerAttemptStatusCode: S.String,
-    providerAttemptTimeout: S.String,
-    providerAttemptIsFinal: S.String,
-    providerAttemptNumber: S.String,
-    providerAttemptTotalInRequest: S.String,
-    generationId: S.String,
-    sessionId: S.String,
-    contentCaptureStatus: S.String,
-    contentCaptureInputs: S.String,
-    contentCaptureOutputs: S.String,
-    transcriptStatus: S.String,
-    transcriptInputs: S.String,
-    transcriptOutputs: S.String,
-    providerAttemptError: S.String,
-    providerAttemptSafetyIdentifier: S.String,
-    providerAttemptDevSafetyIdentifier: S.String,
-    providerAttemptRegion: S.String,
-    providerAttemptModelIndex: S.String,
-    toolCallType: S.String,
-    toolCallProvider: S.String,
-    toolCallSuccess: S.String,
-    toolCallErrorType: S.String,
-    toolCallStatusCode: S.String,
-    environmentId: S.String,
-    billableRegion: S.String,
-    direction: S.String,
-    networkTenancy: S.String,
-    trafficSource: S.String,
-    networkId: S.String,
-    privatelinkEndpointId: S.String,
-    privatelinkDnsName: S.String,
-    privatelinkIpAddress: S.String,
-  }),
-).annotate({
-  identifier: "AggregateEventsResponseDataCase1Item",
-}) as any as S.Schema<AggregateEventsResponseDataCase1Item>;
-
-export type AggregateEventsResponseDataCase1List = Array<AggregateEventsResponseDataCase1Item>;
-export const AggregateEventsResponseDataCase1List = /*@__PURE__*/ S.Array(
-  AggregateEventsResponseDataCase1Item,
-) as any as S.Schema<AggregateEventsResponseDataCase1List>;
-
-export type AggregateEventsResponseData =
-  | AggregateEventsResponseDataCase0List
-  | AggregateEventsResponseDataCase1List;
-export const AggregateEventsResponseData =
-  S.Unknown as any as S.Schema<AggregateEventsResponseData>;
-
 export interface AggregateEventsResponse {
-  version: number;
-  query: AggregateEventsResponseQuery;
   data: AggregateEventsResponseData;
+  query: AggregateEventsResponseQuery;
+  version: number;
 }
 export const AggregateEventsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    version: S.Number,
-    query: AggregateEventsResponseQuery,
     data: AggregateEventsResponseData,
+    query: AggregateEventsResponseQuery,
+    version: S.Number,
   }),
-).annotate({
-  identifier: "AggregateEventsResponse",
-}) as any as S.Schema<AggregateEventsResponse>;
+).annotate({ identifier: "AggregateEventsResponse" }) as any as S.Schema<AggregateEventsResponse>;
 
 export type AggregatePageviewsRequestByItemCase0 =
   | "hour"
@@ -1178,16 +368,120 @@ export const AggregatePageviewsRequest = /*@__PURE__*/ S.suspend(() =>
     filter: S.optional(S.String.pipe(T.Query())),
     teamId: S.optional(S.String.pipe(T.Query())),
     slug: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/query/web-analytics/visits/aggregate",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/query/web-analytics/visits/aggregate", code: 200 })),
 ).annotate({
   identifier: "AggregatePageviewsRequest",
 }) as any as S.Schema<AggregatePageviewsRequest>;
+
+export interface AggregatePageviewsResponseDataCase0Item {
+  browserName?: string;
+  country?: string;
+  deviceType?: string;
+  environment?: string;
+  flags?: string;
+  osName?: string;
+  projectId?: string;
+  projectName?: string;
+  referrerHostname?: string;
+  requestHostname?: string;
+  requestPath?: string;
+  route?: string;
+  utmCampaign?: string;
+  utmContent?: string;
+  utmMedium?: string;
+  utmSource?: string;
+  utmTerm?: string;
+  visitorId?: string;
+  timestamp: string;
+}
+export const AggregatePageviewsResponseDataCase0Item = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    browserName: S.optional(S.String),
+    country: S.optional(S.String),
+    deviceType: S.optional(S.String),
+    environment: S.optional(S.String),
+    flags: S.optional(S.String),
+    osName: S.optional(S.String),
+    projectId: S.optional(S.String),
+    projectName: S.optional(S.String),
+    referrerHostname: S.optional(S.String),
+    requestHostname: S.optional(S.String),
+    requestPath: S.optional(S.String),
+    route: S.optional(S.String),
+    utmCampaign: S.optional(S.String),
+    utmContent: S.optional(S.String),
+    utmMedium: S.optional(S.String),
+    utmSource: S.optional(S.String),
+    utmTerm: S.optional(S.String),
+    visitorId: S.optional(S.String),
+    timestamp: S.String,
+  }),
+).annotate({
+  identifier: "AggregatePageviewsResponseDataCase0Item",
+}) as any as S.Schema<AggregatePageviewsResponseDataCase0Item>;
+
+export type AggregatePageviewsResponseDataCase0List =
+  Array<AggregatePageviewsResponseDataCase0Item>;
+export const AggregatePageviewsResponseDataCase0List = /*@__PURE__*/ S.Array(
+  AggregatePageviewsResponseDataCase0Item,
+) as any as S.Schema<AggregatePageviewsResponseDataCase0List>;
+
+export interface AggregatePageviewsResponseDataCase1Item {
+  browserName: string;
+  country: string;
+  deviceType: string;
+  environment: string;
+  flags: string;
+  osName: string;
+  projectId: string;
+  projectName: string;
+  referrerHostname: string;
+  requestHostname: string;
+  requestPath: string;
+  route: string;
+  utmCampaign: string;
+  utmContent: string;
+  utmMedium: string;
+  utmSource: string;
+  utmTerm: string;
+  visitorId: string;
+}
+export const AggregatePageviewsResponseDataCase1Item = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    browserName: S.String,
+    country: S.String,
+    deviceType: S.String,
+    environment: S.String,
+    flags: S.String,
+    osName: S.String,
+    projectId: S.String,
+    projectName: S.String,
+    referrerHostname: S.String,
+    requestHostname: S.String,
+    requestPath: S.String,
+    route: S.String,
+    utmCampaign: S.String,
+    utmContent: S.String,
+    utmMedium: S.String,
+    utmSource: S.String,
+    utmTerm: S.String,
+    visitorId: S.String,
+  }),
+).annotate({
+  identifier: "AggregatePageviewsResponseDataCase1Item",
+}) as any as S.Schema<AggregatePageviewsResponseDataCase1Item>;
+
+export type AggregatePageviewsResponseDataCase1List =
+  Array<AggregatePageviewsResponseDataCase1Item>;
+export const AggregatePageviewsResponseDataCase1List = /*@__PURE__*/ S.Array(
+  AggregatePageviewsResponseDataCase1Item,
+) as any as S.Schema<AggregatePageviewsResponseDataCase1List>;
+
+export type AggregatePageviewsResponseData =
+  | AggregatePageviewsResponseDataCase0List
+  | AggregatePageviewsResponseDataCase1List;
+export const AggregatePageviewsResponseData =
+  S.Unknown as any as S.Schema<AggregatePageviewsResponseData>;
 
 export type AggregatePageviewsResponseQueryGroupByItemCase1 =
   | "browserName"
@@ -1219,56 +513,34 @@ export const AggregatePageviewsResponseQueryGroupByList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<AggregatePageviewsResponseQueryGroupByList>;
 
 export interface AggregatePageviewsResponseQuery {
+  filter?: string;
+  groupBy?: AggregatePageviewsResponseQueryGroupByList;
+  limit: number;
   since: string;
   until: string;
-  groupBy?: AggregatePageviewsResponseQueryGroupByList;
-  filter?: string;
-  limit: number;
 }
 export const AggregatePageviewsResponseQuery = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    filter: S.optional(S.String),
+    groupBy: S.optional(AggregatePageviewsResponseQueryGroupByList),
+    limit: S.Number,
     since: S.String,
     until: S.String,
-    groupBy: S.optional(AggregatePageviewsResponseQueryGroupByList),
-    filter: S.optional(S.String),
-    limit: S.Number,
   }),
 ).annotate({
   identifier: "AggregatePageviewsResponseQuery",
 }) as any as S.Schema<AggregatePageviewsResponseQuery>;
 
-export type AggregatePageviewsResponseDataCase0Item = AggregateEventsResponseDataCase0Item;
-export const AggregatePageviewsResponseDataCase0Item = AggregateEventsResponseDataCase0Item;
-
-export type AggregatePageviewsResponseDataCase0List = Array<AggregateEventsResponseDataCase0Item>;
-export const AggregatePageviewsResponseDataCase0List = /*@__PURE__*/ S.Array(
-  AggregateEventsResponseDataCase0Item,
-) as any as S.Schema<AggregatePageviewsResponseDataCase0List>;
-
-export type AggregatePageviewsResponseDataCase1Item = AggregateEventsResponseDataCase1Item;
-export const AggregatePageviewsResponseDataCase1Item = AggregateEventsResponseDataCase1Item;
-
-export type AggregatePageviewsResponseDataCase1List = Array<AggregateEventsResponseDataCase1Item>;
-export const AggregatePageviewsResponseDataCase1List = /*@__PURE__*/ S.Array(
-  AggregateEventsResponseDataCase1Item,
-) as any as S.Schema<AggregatePageviewsResponseDataCase1List>;
-
-export type AggregatePageviewsResponseData =
-  | AggregatePageviewsResponseDataCase0List
-  | AggregatePageviewsResponseDataCase1List;
-export const AggregatePageviewsResponseData =
-  S.Unknown as any as S.Schema<AggregatePageviewsResponseData>;
-
 export interface AggregatePageviewsResponse {
-  version: number;
-  query: AggregatePageviewsResponseQuery;
   data: AggregatePageviewsResponseData;
+  query: AggregatePageviewsResponseQuery;
+  version: number;
 }
 export const AggregatePageviewsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    version: S.Number,
-    query: AggregatePageviewsResponseQuery,
     data: AggregatePageviewsResponseData,
+    query: AggregatePageviewsResponseQuery,
+    version: S.Number,
   }),
 ).annotate({
   identifier: "AggregatePageviewsResponse",
@@ -1304,43 +576,20 @@ export const CountEventsRequest = /*@__PURE__*/ S.suspend(() =>
     filter: S.optional(S.String.pipe(T.Query())),
     teamId: S.optional(S.String.pipe(T.Query())),
     slug: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/query/web-analytics/events/count",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CountEventsRequest",
-}) as any as S.Schema<CountEventsRequest>;
-
-export interface CountEventsResponseQuery {
-  since: string;
-  until: string;
-  filter?: string;
-}
-export const CountEventsResponseQuery = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    since: S.String,
-    until: S.String,
-    filter: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CountEventsResponseQuery",
-}) as any as S.Schema<CountEventsResponseQuery>;
+  }).pipe(T.Http({ method: "GET", uri: "/v1/query/web-analytics/events/count", code: 200 })),
+).annotate({ identifier: "CountEventsRequest" }) as any as S.Schema<CountEventsRequest>;
 
 export type CountEventsResponseDataCase0 = AggregateEventsResponseDataCase1Item;
 export const CountEventsResponseDataCase0 = AggregateEventsResponseDataCase1Item;
 
 export interface CountEventsResponseDataCase1 {
-  visitors: number;
   count: number;
+  visitors: number;
 }
 export const CountEventsResponseDataCase1 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    visitors: S.Number,
     count: S.Number,
+    visitors: S.Number,
   }),
 ).annotate({
   identifier: "CountEventsResponseDataCase1",
@@ -1351,20 +600,31 @@ export type CountEventsResponseData =
   | CountEventsResponseDataCase1;
 export const CountEventsResponseData = S.Unknown as any as S.Schema<CountEventsResponseData>;
 
+export interface CountEventsResponseQuery {
+  filter?: string;
+  since: string;
+  until: string;
+}
+export const CountEventsResponseQuery = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    filter: S.optional(S.String),
+    since: S.String,
+    until: S.String,
+  }),
+).annotate({ identifier: "CountEventsResponseQuery" }) as any as S.Schema<CountEventsResponseQuery>;
+
 export interface CountEventsResponse {
-  version: number;
-  query: CountEventsResponseQuery;
   data: CountEventsResponseData;
+  query: CountEventsResponseQuery;
+  version: number;
 }
 export const CountEventsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    version: S.Number,
-    query: CountEventsResponseQuery,
     data: CountEventsResponseData,
+    query: CountEventsResponseQuery,
+    version: S.Number,
   }),
-).annotate({
-  identifier: "CountEventsResponse",
-}) as any as S.Schema<CountEventsResponse>;
+).annotate({ identifier: "CountEventsResponse" }) as any as S.Schema<CountEventsResponse>;
 
 /** Timestamp in milliseconds, or a valid Date string. Selects data from (including) this date and time. Will be adjusted according to the desired time granularity. */
 export type CountPageviewsRequestSince = number | string;
@@ -1396,55 +656,45 @@ export const CountPageviewsRequest = /*@__PURE__*/ S.suspend(() =>
     filter: S.optional(S.String.pipe(T.Query())),
     teamId: S.optional(S.String.pipe(T.Query())),
     slug: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/query/web-analytics/visits/count",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CountPageviewsRequest",
-}) as any as S.Schema<CountPageviewsRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/v1/query/web-analytics/visits/count", code: 200 })),
+).annotate({ identifier: "CountPageviewsRequest" }) as any as S.Schema<CountPageviewsRequest>;
 
-export type CountPageviewsResponseQuery = CountEventsResponseQuery;
-export const CountPageviewsResponseQuery = CountEventsResponseQuery;
-
-export type CountPageviewsResponseDataCase0 = AggregateEventsResponseDataCase1Item;
-export const CountPageviewsResponseDataCase0 = AggregateEventsResponseDataCase1Item;
+export type CountPageviewsResponseDataCase0 = AggregatePageviewsResponseDataCase1Item;
+export const CountPageviewsResponseDataCase0 = AggregatePageviewsResponseDataCase1Item;
 
 export interface CountPageviewsResponseDataCase1 {
-  visitors: number;
   pageviews: number;
+  visitors: number;
 }
 export const CountPageviewsResponseDataCase1 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    visitors: S.Number,
     pageviews: S.Number,
+    visitors: S.Number,
   }),
 ).annotate({
   identifier: "CountPageviewsResponseDataCase1",
 }) as any as S.Schema<CountPageviewsResponseDataCase1>;
 
 export type CountPageviewsResponseData =
-  | AggregateEventsResponseDataCase1Item
+  | AggregatePageviewsResponseDataCase1Item
   | CountPageviewsResponseDataCase1;
 export const CountPageviewsResponseData = S.Unknown as any as S.Schema<CountPageviewsResponseData>;
 
+export type CountPageviewsResponseQuery = CountEventsResponseQuery;
+export const CountPageviewsResponseQuery = CountEventsResponseQuery;
+
 export interface CountPageviewsResponse {
-  version: number;
-  query: CountEventsResponseQuery;
   data: CountPageviewsResponseData;
+  query: CountEventsResponseQuery;
+  version: number;
 }
 export const CountPageviewsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    version: S.Number,
-    query: CountEventsResponseQuery,
     data: CountPageviewsResponseData,
+    query: CountEventsResponseQuery,
+    version: S.Number,
   }),
-).annotate({
-  identifier: "CountPageviewsResponse",
-}) as any as S.Schema<CountPageviewsResponse>;
+).annotate({ identifier: "CountPageviewsResponse" }) as any as S.Schema<CountPageviewsResponse>;
 
 export interface CreateSpeedInsightsToggleRequest {
   projectId: string;
@@ -1573,6 +823,7 @@ export type CreateSpeedInsightsToggleError =
   | BadRequest
   | PaymentRequired
   | Forbidden
+  | NotFound
   | VercelOpError;
 export const createSpeedInsightsToggle: API.OperationMethod<
   CreateSpeedInsightsToggleRequest,
@@ -1582,12 +833,12 @@ export const createSpeedInsightsToggle: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateSpeedInsightsToggleRequest,
   output: CreateSpeedInsightsToggleResponse,
-  errors: [BadRequest, PaymentRequired, Forbidden],
+  errors: [BadRequest, PaymentRequired, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
 }));
 
-export type CreateWebInsightsToggleError = BadRequest | Forbidden | VercelOpError;
+export type CreateWebInsightsToggleError = BadRequest | Forbidden | NotFound | VercelOpError;
 export const createWebInsightsToggle: API.OperationMethod<
   CreateWebInsightsToggleRequest,
   CreateWebInsightsToggleResponse,
@@ -1596,7 +847,7 @@ export const createWebInsightsToggle: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateWebInsightsToggleRequest,
   output: CreateWebInsightsToggleResponse,
-  errors: [BadRequest, Forbidden],
+  errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
 }));

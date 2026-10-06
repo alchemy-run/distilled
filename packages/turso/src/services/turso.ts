@@ -129,11 +129,7 @@ export const AddOrganizationMemberRequest = /*@__PURE__*/ S.suspend(() =>
     username: S.optional(S.String),
     role: S.optional(AddOrganizationMemberRequestRole),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/organizations/{organizationSlug}/members",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/v1/organizations/{organizationSlug}/members", code: 200 }),
   ),
 ).annotate({
   identifier: "AddOrganizationMemberRequest",
@@ -194,16 +190,8 @@ export const CreateAPITokenRequest = /*@__PURE__*/ S.suspend(() =>
     organization: S.optional(S.String),
     group: S.optional(S.String),
     scopes: S.optional(CreateAPITokenRequestScopesList),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/auth/api-tokens/{tokenName}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CreateAPITokenRequest",
-}) as any as S.Schema<CreateAPITokenRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/v1/auth/api-tokens/{tokenName}", code: 200 })),
+).annotate({ identifier: "CreateAPITokenRequest" }) as any as S.Schema<CreateAPITokenRequest>;
 
 export interface CreateAPITokenResponse {
   name?: string;
@@ -217,9 +205,7 @@ export const CreateAPITokenResponse = /*@__PURE__*/ S.suspend(() =>
     id: S.optional(S.String),
     token: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CreateAPITokenResponse",
-}) as any as S.Schema<CreateAPITokenResponse>;
+).annotate({ identifier: "CreateAPITokenResponse" }) as any as S.Schema<CreateAPITokenResponse>;
 
 /** The type of seed to be used to create a new database. Use `database` to copy from an existing database, or `database_upload` to [upload a SQLite database file](/api-reference/databases/upload). */
 export type CreateDatabaseRequestSeedType = "database" | "database_upload";
@@ -294,15 +280,9 @@ export const CreateDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
     size_limit: S.optional(S.String),
     remote_encryption: S.optional(CreateDatabaseRequestRemoteEncryption),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/organizations/{organizationSlug}/databases",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/v1/organizations/{organizationSlug}/databases", code: 200 }),
   ),
-).annotate({
-  identifier: "CreateDatabaseRequest",
-}) as any as S.Schema<CreateDatabaseRequest>;
+).annotate({ identifier: "CreateDatabaseRequest" }) as any as S.Schema<CreateDatabaseRequest>;
 
 export interface CreateDatabaseOutput {
   DbId?: string;
@@ -315,9 +295,7 @@ export const CreateDatabaseOutput = /*@__PURE__*/ S.suspend(() =>
     Hostname: S.optional(S.String),
     Name: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CreateDatabaseOutput",
-}) as any as S.Schema<CreateDatabaseOutput>;
+).annotate({ identifier: "CreateDatabaseOutput" }) as any as S.Schema<CreateDatabaseOutput>;
 
 export interface CreateDatabaseResponse {
   /** The newly created database */
@@ -327,9 +305,7 @@ export const CreateDatabaseResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     database: S.optional(CreateDatabaseOutput),
   }),
-).annotate({
-  identifier: "CreateDatabaseResponse",
-}) as any as S.Schema<CreateDatabaseResponse>;
+).annotate({ identifier: "CreateDatabaseResponse" }) as any as S.Schema<CreateDatabaseResponse>;
 
 export type CreateDatabaseTokenRequestAuthorization = "full-access" | "read-only";
 export const CreateDatabaseTokenRequestAuthorization = S.String;
@@ -449,15 +425,9 @@ export const CreateGroupRequest = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     extensions: S.optional(Extensions),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/organizations/{organizationSlug}/groups",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/v1/organizations/{organizationSlug}/groups", code: 200 }),
   ),
-).annotate({
-  identifier: "CreateGroupRequest",
-}) as any as S.Schema<CreateGroupRequest>;
+).annotate({ identifier: "CreateGroupRequest" }) as any as S.Schema<CreateGroupRequest>;
 
 export interface CreateGroupResponse {
   /** The newly created group */
@@ -467,9 +437,7 @@ export const CreateGroupResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     group: S.optional(Group),
   }),
-).annotate({
-  identifier: "CreateGroupResponse",
-}) as any as S.Schema<CreateGroupResponse>;
+).annotate({ identifier: "CreateGroupResponse" }) as any as S.Schema<CreateGroupResponse>;
 
 export type CreateGroupTokenRequestAuthorization = "full-access" | "read-only";
 export const CreateGroupTokenRequestAuthorization = S.String;
@@ -530,9 +498,7 @@ export const CreateGroupTokenRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "CreateGroupTokenRequest",
-}) as any as S.Schema<CreateGroupTokenRequest>;
+).annotate({ identifier: "CreateGroupTokenRequest" }) as any as S.Schema<CreateGroupTokenRequest>;
 
 export interface CreateGroupTokenResponse {
   /** The generated authorization token (JWT). */
@@ -542,9 +508,7 @@ export const CreateGroupTokenResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     jwt: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CreateGroupTokenResponse",
-}) as any as S.Schema<CreateGroupTokenResponse>;
+).annotate({ identifier: "CreateGroupTokenResponse" }) as any as S.Schema<CreateGroupTokenResponse>;
 
 export interface DeleteDatabaseRequest {
   /** The slug of the organization or user account. */
@@ -563,9 +527,7 @@ export const DeleteDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "DeleteDatabaseRequest",
-}) as any as S.Schema<DeleteDatabaseRequest>;
+).annotate({ identifier: "DeleteDatabaseRequest" }) as any as S.Schema<DeleteDatabaseRequest>;
 
 export interface DeleteDatabaseResponse {
   /** The name of the database that was deleted. */
@@ -575,9 +537,7 @@ export const DeleteDatabaseResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     database: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DeleteDatabaseResponse",
-}) as any as S.Schema<DeleteDatabaseResponse>;
+).annotate({ identifier: "DeleteDatabaseResponse" }) as any as S.Schema<DeleteDatabaseResponse>;
 
 export interface DeleteGroupRequest {
   /** The slug of the organization or user account. */
@@ -596,9 +556,7 @@ export const DeleteGroupRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "DeleteGroupRequest",
-}) as any as S.Schema<DeleteGroupRequest>;
+).annotate({ identifier: "DeleteGroupRequest" }) as any as S.Schema<DeleteGroupRequest>;
 
 export interface DeleteGroupResponse {
   group?: Group;
@@ -607,9 +565,7 @@ export const DeleteGroupResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     group: S.optional(Group),
   }),
-).annotate({
-  identifier: "DeleteGroupResponse",
-}) as any as S.Schema<DeleteGroupResponse>;
+).annotate({ identifier: "DeleteGroupResponse" }) as any as S.Schema<DeleteGroupResponse>;
 
 export interface DeleteOrganizationInviteByEmailV2Request {
   /** The slug of the organization or user account. */
@@ -641,9 +597,7 @@ export const DeleteOrganizationInviteByEmailV2Response = /*@__PURE__*/ S.suspend
 export interface GetCurrentUserRequest {}
 export const GetCurrentUserRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v1/user", code: 200 })),
-).annotate({
-  identifier: "GetCurrentUserRequest",
-}) as any as S.Schema<GetCurrentUserRequest>;
+).annotate({ identifier: "GetCurrentUserRequest" }) as any as S.Schema<GetCurrentUserRequest>;
 
 export interface GetCurrentUserResponseUser {
   /** The username of the user. */
@@ -682,9 +636,7 @@ export const GetCurrentUserResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     user: S.optional(GetCurrentUserResponseUser),
   }),
-).annotate({
-  identifier: "GetCurrentUserResponse",
-}) as any as S.Schema<GetCurrentUserResponse>;
+).annotate({ identifier: "GetCurrentUserResponse" }) as any as S.Schema<GetCurrentUserResponse>;
 
 export interface GetDatabaseRequest {
   /** The slug of the organization or user account. */
@@ -703,9 +655,7 @@ export const GetDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetDatabaseRequest",
-}) as any as S.Schema<GetDatabaseRequest>;
+).annotate({ identifier: "GetDatabaseRequest" }) as any as S.Schema<GetDatabaseRequest>;
 
 /** A list of regions for the group the database belongs to. */
 export type DatabaseRegionsList = Array<string>;
@@ -772,9 +722,7 @@ export const GetDatabaseResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     database: S.optional(Database),
   }),
-).annotate({
-  identifier: "GetDatabaseResponse",
-}) as any as S.Schema<GetDatabaseResponse>;
+).annotate({ identifier: "GetDatabaseResponse" }) as any as S.Schema<GetDatabaseResponse>;
 
 export interface GetDatabaseConfigurationRequest {
   /** The slug of the organization or user account. */
@@ -917,9 +865,7 @@ export const GetDatabaseStatsRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetDatabaseStatsRequest",
-}) as any as S.Schema<GetDatabaseStatsRequest>;
+).annotate({ identifier: "GetDatabaseStatsRequest" }) as any as S.Schema<GetDatabaseStatsRequest>;
 
 export interface DatabaseStatsOutput {
   /** A string representing the SQL query executed. */
@@ -935,9 +881,7 @@ export const DatabaseStatsOutput = /*@__PURE__*/ S.suspend(() =>
     rows_read: S.optional(S.Number),
     rows_written: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "DatabaseStatsOutput",
-}) as any as S.Schema<DatabaseStatsOutput>;
+).annotate({ identifier: "DatabaseStatsOutput" }) as any as S.Schema<DatabaseStatsOutput>;
 
 /** The top queries performed on the given database as well as the total rows read and written. */
 export type GetDatabaseStatsResponseTopQueriesList = Array<DatabaseStatsOutput>;
@@ -953,9 +897,7 @@ export const GetDatabaseStatsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     top_queries: S.optional(S.NullOr(GetDatabaseStatsResponseTopQueriesList)),
   }),
-).annotate({
-  identifier: "GetDatabaseStatsResponse",
-}) as any as S.Schema<GetDatabaseStatsResponse>;
+).annotate({ identifier: "GetDatabaseStatsResponse" }) as any as S.Schema<GetDatabaseStatsResponse>;
 
 export interface GetDatabaseUsageRequest {
   /** The slug of the organization or user account. */
@@ -980,9 +922,7 @@ export const GetDatabaseUsageRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetDatabaseUsageRequest",
-}) as any as S.Schema<GetDatabaseUsageRequest>;
+).annotate({ identifier: "GetDatabaseUsageRequest" }) as any as S.Schema<GetDatabaseUsageRequest>;
 
 export interface DatabaseUsageObject {
   /** The total rows read in the time period. */
@@ -1001,9 +941,7 @@ export const DatabaseUsageObject = /*@__PURE__*/ S.suspend(() =>
     storage_bytes: S.optional(S.Number),
     bytes_synced: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "DatabaseUsageObject",
-}) as any as S.Schema<DatabaseUsageObject>;
+).annotate({ identifier: "DatabaseUsageObject" }) as any as S.Schema<DatabaseUsageObject>;
 
 export interface DatabaseUsageOutputInstancesItem {
   /** The instance universal unique identifier (UUID). */
@@ -1039,9 +977,7 @@ export const DatabaseUsageOutput = /*@__PURE__*/ S.suspend(() =>
     instances: S.optional(DatabaseUsageOutputInstancesList),
     total: S.optional(DatabaseUsageObject),
   }),
-).annotate({
-  identifier: "DatabaseUsageOutput",
-}) as any as S.Schema<DatabaseUsageOutput>;
+).annotate({ identifier: "DatabaseUsageOutput" }) as any as S.Schema<DatabaseUsageOutput>;
 
 export interface GetDatabaseUsageResponse {
   /** The database usage object, containg the total and individual instance usage for rows read and written, as well as the total storage size (in bytes). */
@@ -1051,9 +987,7 @@ export const GetDatabaseUsageResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     database: S.optional(DatabaseUsageOutput),
   }),
-).annotate({
-  identifier: "GetDatabaseUsageResponse",
-}) as any as S.Schema<GetDatabaseUsageResponse>;
+).annotate({ identifier: "GetDatabaseUsageResponse" }) as any as S.Schema<GetDatabaseUsageResponse>;
 
 export interface GetGroupRequest {
   /** The slug of the organization or user account. */
@@ -1072,9 +1006,7 @@ export const GetGroupRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetGroupRequest",
-}) as any as S.Schema<GetGroupRequest>;
+).annotate({ identifier: "GetGroupRequest" }) as any as S.Schema<GetGroupRequest>;
 
 export interface GetGroupResponse {
   group?: Group;
@@ -1083,9 +1015,7 @@ export const GetGroupResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     group: S.optional(Group),
   }),
-).annotate({
-  identifier: "GetGroupResponse",
-}) as any as S.Schema<GetGroupResponse>;
+).annotate({ identifier: "GetGroupResponse" }) as any as S.Schema<GetGroupResponse>;
 
 export interface GetGroupConfigurationRequest {
   /** The slug of the organization or user account. */
@@ -1127,16 +1057,8 @@ export interface GetOrganizationRequest {
 export const GetOrganizationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     organizationSlug: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/organizations/{organizationSlug}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetOrganizationRequest",
-}) as any as S.Schema<GetOrganizationRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/v1/organizations/{organizationSlug}", code: 200 })),
+).annotate({ identifier: "GetOrganizationRequest" }) as any as S.Schema<GetOrganizationRequest>;
 
 /** The type of account this organization is. Will always be `personal` or `team`. */
 export type OrganizationType = "personal" | "team";
@@ -1163,6 +1085,8 @@ export interface Organization {
   plan_timeline?: string;
   /** The external platform this organization is managed by. Will be empty for Turso managed organizations. */
   platform?: string;
+  /** Whether deleted database and group recovery is enabled for the organization. Returned when retrieving a single organization. */
+  restore_enabled?: boolean;
 }
 export const Organization = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1176,6 +1100,7 @@ export const Organization = /*@__PURE__*/ S.suspend(() =>
     plan_id: S.optional(S.String),
     plan_timeline: S.optional(S.String),
     platform: S.optional(S.String),
+    restore_enabled: S.optional(S.Boolean),
   }),
 ).annotate({ identifier: "Organization" }) as any as S.Schema<Organization>;
 
@@ -1186,9 +1111,7 @@ export const GetOrganizationResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     organization: S.optional(Organization),
   }),
-).annotate({
-  identifier: "GetOrganizationResponse",
-}) as any as S.Schema<GetOrganizationResponse>;
+).annotate({ identifier: "GetOrganizationResponse" }) as any as S.Schema<GetOrganizationResponse>;
 
 export interface GetOrganizationMemberRequest {
   /** The slug of the organization or user account. */
@@ -1250,11 +1173,7 @@ export const GetOrganizationSubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     organizationSlug: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/organizations/{organizationSlug}/subscription",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v1/organizations/{organizationSlug}/subscription", code: 200 }),
   ),
 ).annotate({
   identifier: "GetOrganizationSubscriptionRequest",
@@ -1299,13 +1218,7 @@ export interface GetOrganizationUsageRequest {
 export const GetOrganizationUsageRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     organizationSlug: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/organizations/{organizationSlug}/usage",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/organizations/{organizationSlug}/usage", code: 200 })),
 ).annotate({
   identifier: "GetOrganizationUsageRequest",
 }) as any as S.Schema<GetOrganizationUsageRequest>;
@@ -1453,11 +1366,7 @@ export const InviteOrganizationMemberV2Request = /*@__PURE__*/ S.suspend(() =>
     username: S.optional(S.String),
     role: S.optional(InviteOrganizationMemberV2RequestRole),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v2/organizations/{organizationSlug}/invites",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/v2/organizations/{organizationSlug}/invites", code: 200 }),
   ),
 ).annotate({
   identifier: "InviteOrganizationMemberV2Request",
@@ -1481,9 +1390,7 @@ export const InviteCreatedV2 = /*@__PURE__*/ S.suspend(() =>
     role: S.optional(InviteCreatedV2Role),
     organization: S.optional(S.String),
   }),
-).annotate({
-  identifier: "InviteCreatedV2",
-}) as any as S.Schema<InviteCreatedV2>;
+).annotate({ identifier: "InviteCreatedV2" }) as any as S.Schema<InviteCreatedV2>;
 
 export interface InviteOrganizationMemberV2Response {
   invited?: InviteCreatedV2;
@@ -1499,9 +1406,7 @@ export const InviteOrganizationMemberV2Response = /*@__PURE__*/ S.suspend(() =>
 export interface ListAPITokensRequest {}
 export const ListAPITokensRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v1/auth/api-tokens", code: 200 })),
-).annotate({
-  identifier: "ListAPITokensRequest",
-}) as any as S.Schema<ListAPITokensRequest>;
+).annotate({ identifier: "ListAPITokensRequest" }) as any as S.Schema<ListAPITokensRequest>;
 
 /** The expanded list of scopes granted to this token. Present only for group-scoped tokens. Presets passed at creation time (`read-only`, `full-access`) are stored as the underlying individual scopes and are returned in that form. */
 export type APITokenScopesList = Array<string>;
@@ -1546,9 +1451,7 @@ export const ListAPITokensResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     tokens: S.optional(ListAPITokensResponseTokensList),
   }),
-).annotate({
-  identifier: "ListAPITokensResponse",
-}) as any as S.Schema<ListAPITokensResponse>;
+).annotate({ identifier: "ListAPITokensResponse" }) as any as S.Schema<ListAPITokensResponse>;
 
 export interface ListDatabaseInstancesRequest {
   /** The slug of the organization or user account. */
@@ -1604,15 +1507,9 @@ export const ListDatabasesRequest = /*@__PURE__*/ S.suspend(() =>
     schema: S.optional(S.String.pipe(T.Query())),
     parent: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/organizations/{organizationSlug}/databases",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v1/organizations/{organizationSlug}/databases", code: 200 }),
   ),
-).annotate({
-  identifier: "ListDatabasesRequest",
-}) as any as S.Schema<ListDatabasesRequest>;
+).annotate({ identifier: "ListDatabasesRequest" }) as any as S.Schema<ListDatabasesRequest>;
 
 export type ListDatabasesResponseDatabasesList = Array<Database>;
 export const ListDatabasesResponseDatabasesList = /*@__PURE__*/ S.Array(
@@ -1626,9 +1523,162 @@ export const ListDatabasesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     databases: S.optional(ListDatabasesResponseDatabasesList),
   }),
+).annotate({ identifier: "ListDatabasesResponse" }) as any as S.Schema<ListDatabasesResponse>;
+
+export interface ListDeletedDatabasesRequest {
+  /** The UUID of the organization. Retrieve it with the Retrieve Organization endpoint (the `id` field). */
+  organizationId: string;
+  /** Must be `true` to list deleted databases. */
+  deleted: boolean;
+  /** Filter deleted databases by name. */
+  search?: string;
+  /** Page size, from 1 to 1000. */
+  limit?: number;
+  /** Opaque pagination cursor from the previous page's `pagination.next`. */
+  cursor?: string;
+}
+export const ListDeletedDatabasesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organizationId: S.String.pipe(T.Label()),
+    deleted: S.Boolean.pipe(T.Query()),
+    search: S.optional(S.String.pipe(T.Query())),
+    limit: S.optional(S.Number.pipe(T.Query())),
+    cursor: S.optional(S.String.pipe(T.Query())),
+  }).pipe(
+    T.Http({ method: "GET", uri: "/v3/organizations/{organizationId}/databases", code: 200 }),
+  ),
 ).annotate({
-  identifier: "ListDatabasesResponse",
-}) as any as S.Schema<ListDatabasesResponse>;
+  identifier: "ListDeletedDatabasesRequest",
+}) as any as S.Schema<ListDeletedDatabasesRequest>;
+
+/** The regions the database was located in. */
+export type DeletedDatabaseRegionsList = Array<string>;
+export const DeletedDatabaseRegionsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<DeletedDatabaseRegionsList>;
+
+export interface DeletedDatabase {
+  /** The database name. */
+  Name?: string;
+  /** The database UUID. Use it to restore the database. */
+  DbId?: string;
+  /** The DNS hostname the database had, used for client and HTTP connections. */
+  Hostname?: string;
+  /** The name of the group the database belonged to. */
+  group?: string;
+  /** The UUID of the group the database belonged to. */
+  group_id?: string;
+  /** The UUID of the organization. */
+  organization_id?: string;
+  /** The regions the database was located in. */
+  regions?: DeletedDatabaseRegionsList;
+  /** The primary region of the database. */
+  primaryRegion?: string;
+  /** Whether delete protection was enabled for the database. */
+  delete_protection?: boolean;
+  /** When the database was deleted. */
+  deleted_at?: string;
+  /** Set when the database's group was deleted with it. Restoring the database also restores the group. */
+  group_deleted_at?: string;
+}
+export const DeletedDatabase = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Name: S.optional(S.String),
+    DbId: S.optional(S.String),
+    Hostname: S.optional(S.String),
+    group: S.optional(S.String),
+    group_id: S.optional(S.String),
+    organization_id: S.optional(S.String),
+    regions: S.optional(DeletedDatabaseRegionsList),
+    primaryRegion: S.optional(S.String),
+    delete_protection: S.optional(S.Boolean),
+    deleted_at: S.optional(S.String),
+    group_deleted_at: S.optional(S.String),
+  }),
+).annotate({ identifier: "DeletedDatabase" }) as any as S.Schema<DeletedDatabase>;
+
+export type ListDeletedDatabasesResponseDatabasesList = Array<DeletedDatabase>;
+export const ListDeletedDatabasesResponseDatabasesList = /*@__PURE__*/ S.Array(
+  DeletedDatabase,
+) as any as S.Schema<ListDeletedDatabasesResponseDatabasesList>;
+
+export interface Pagination {
+  /** Opaque cursor for the next page. Pass it back as the `cursor` query parameter. Absent on the last page. */
+  next?: string;
+}
+export const Pagination = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    next: S.optional(S.String),
+  }),
+).annotate({ identifier: "Pagination" }) as any as S.Schema<Pagination>;
+
+export interface ListDeletedDatabasesResponse {
+  databases?: ListDeletedDatabasesResponseDatabasesList;
+  pagination?: Pagination;
+}
+export const ListDeletedDatabasesResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    databases: S.optional(ListDeletedDatabasesResponseDatabasesList),
+    pagination: S.optional(Pagination),
+  }),
+).annotate({
+  identifier: "ListDeletedDatabasesResponse",
+}) as any as S.Schema<ListDeletedDatabasesResponse>;
+
+export interface ListDeletedGroupsRequest {
+  /** The UUID of the organization. Retrieve it with the Retrieve Organization endpoint (the `id` field). */
+  organizationId: string;
+  /** Page size, from 1 to 1000. */
+  limit?: number;
+  /** Opaque pagination cursor from the previous page's `pagination.next`. */
+  cursor?: string;
+}
+export const ListDeletedGroupsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organizationId: S.String.pipe(T.Label()),
+    limit: S.optional(S.Number.pipe(T.Query())),
+    cursor: S.optional(S.String.pipe(T.Query())),
+  }).pipe(
+    T.Http({ method: "GET", uri: "/v3/organizations/{organizationId}/deleted-groups", code: 200 }),
+  ),
+).annotate({ identifier: "ListDeletedGroupsRequest" }) as any as S.Schema<ListDeletedGroupsRequest>;
+
+export interface DeletedGroup {
+  /** The group UUID. Use it to restore the group. */
+  uuid?: string;
+  /** The group name. */
+  name?: string;
+  /** When the group was deleted. */
+  deleted_at?: string;
+  /** The number of member databases that restoring the group would bring back with it. */
+  cascade_databases?: number;
+}
+export const DeletedGroup = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    uuid: S.optional(S.String),
+    name: S.optional(S.String),
+    deleted_at: S.optional(S.String),
+    cascade_databases: S.optional(S.Number),
+  }),
+).annotate({ identifier: "DeletedGroup" }) as any as S.Schema<DeletedGroup>;
+
+export type ListDeletedGroupsResponseGroupsList = Array<DeletedGroup>;
+export const ListDeletedGroupsResponseGroupsList = /*@__PURE__*/ S.Array(
+  DeletedGroup,
+) as any as S.Schema<ListDeletedGroupsResponseGroupsList>;
+
+export interface ListDeletedGroupsResponse {
+  groups?: ListDeletedGroupsResponseGroupsList;
+  pagination?: Pagination;
+}
+export const ListDeletedGroupsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    groups: S.optional(ListDeletedGroupsResponseGroupsList),
+    pagination: S.optional(Pagination),
+  }),
+).annotate({
+  identifier: "ListDeletedGroupsResponse",
+}) as any as S.Schema<ListDeletedGroupsResponse>;
 
 export interface ListGroupsRequest {
   /** The slug of the organization or user account. */
@@ -1637,16 +1687,8 @@ export interface ListGroupsRequest {
 export const ListGroupsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     organizationSlug: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/organizations/{organizationSlug}/groups",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListGroupsRequest",
-}) as any as S.Schema<ListGroupsRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/v1/organizations/{organizationSlug}/groups", code: 200 })),
+).annotate({ identifier: "ListGroupsRequest" }) as any as S.Schema<ListGroupsRequest>;
 
 export type ListGroupsResponseGroupsList = Array<Group>;
 export const ListGroupsResponseGroupsList = /*@__PURE__*/ S.Array(
@@ -1660,21 +1702,15 @@ export const ListGroupsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     groups: S.optional(ListGroupsResponseGroupsList),
   }),
-).annotate({
-  identifier: "ListGroupsResponse",
-}) as any as S.Schema<ListGroupsResponse>;
+).annotate({ identifier: "ListGroupsResponse" }) as any as S.Schema<ListGroupsResponse>;
 
 export interface ListLocationsRequest {}
 export const ListLocationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v1/locations", code: 200 })),
-).annotate({
-  identifier: "ListLocationsRequest",
-}) as any as S.Schema<ListLocationsRequest>;
+).annotate({ identifier: "ListLocationsRequest" }) as any as S.Schema<ListLocationsRequest>;
 
 /** A mapping of location codes to location names. */
-export type ListLocationsResponseLocationsMap = {
-  [key: string]: string | undefined;
-};
+export type ListLocationsResponseLocationsMap = { [key: string]: string | undefined };
 export const ListLocationsResponseLocationsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1688,9 +1724,7 @@ export const ListLocationsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     locations: S.optional(ListLocationsResponseLocationsMap),
   }),
-).annotate({
-  identifier: "ListLocationsResponse",
-}) as any as S.Schema<ListLocationsResponse>;
+).annotate({ identifier: "ListLocationsResponse" }) as any as S.Schema<ListLocationsResponse>;
 
 export interface ListOrganizationAPITokensRequest {
   /** The slug of the organization or user account. */
@@ -1700,11 +1734,7 @@ export const ListOrganizationAPITokensRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     organizationSlug: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/organizations/{organizationSlug}/api-tokens",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v1/organizations/{organizationSlug}/api-tokens", code: 200 }),
   ),
 ).annotate({
   identifier: "ListOrganizationAPITokensRequest",
@@ -1791,11 +1821,7 @@ export const ListOrganizationAuditLogsRequest = /*@__PURE__*/ S.suspend(() =>
     page_size: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/organizations/{organizationSlug}/audit-logs",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v1/organizations/{organizationSlug}/audit-logs", code: 200 }),
   ),
 ).annotate({
   identifier: "ListOrganizationAuditLogsRequest",
@@ -1901,11 +1927,7 @@ export const ListOrganizationInvitesV2Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     organizationSlug: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/organizations/{organizationSlug}/invites",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v2/organizations/{organizationSlug}/invites", code: 200 }),
   ),
 ).annotate({
   identifier: "ListOrganizationInvitesV2Request",
@@ -1964,11 +1986,7 @@ export const ListOrganizationInvoicesRequest = /*@__PURE__*/ S.suspend(() =>
     organizationSlug: S.String.pipe(T.Label()),
     type: S.optional(ListOrganizationInvoicesRequestType.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/organizations/{organizationSlug}/invoices",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v1/organizations/{organizationSlug}/invoices", code: 200 }),
   ),
 ).annotate({
   identifier: "ListOrganizationInvoicesRequest",
@@ -2028,11 +2046,7 @@ export const ListOrganizationMembersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     organizationSlug: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/organizations/{organizationSlug}/members",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v1/organizations/{organizationSlug}/members", code: 200 }),
   ),
 ).annotate({
   identifier: "ListOrganizationMembersRequest",
@@ -2061,13 +2075,7 @@ export interface ListOrganizationPlansRequest {
 export const ListOrganizationPlansRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     organizationSlug: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/organizations/{organizationSlug}/plans",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/organizations/{organizationSlug}/plans", code: 200 })),
 ).annotate({
   identifier: "ListOrganizationPlansRequest",
 }) as any as S.Schema<ListOrganizationPlansRequest>;
@@ -2133,9 +2141,7 @@ export const OrganizationPlan = /*@__PURE__*/ S.suspend(() =>
     prices: S.optional(OrganizationPlanPricesList),
     quotas: S.optional(PlanQuotas),
   }),
-).annotate({
-  identifier: "OrganizationPlan",
-}) as any as S.Schema<OrganizationPlan>;
+).annotate({ identifier: "OrganizationPlan" }) as any as S.Schema<OrganizationPlan>;
 
 /** List of available plans. */
 export type ListOrganizationPlansResponsePlansList = Array<OrganizationPlan>;
@@ -2158,9 +2164,7 @@ export const ListOrganizationPlansResponse = /*@__PURE__*/ S.suspend(() =>
 export interface ListOrganizationsRequest {}
 export const ListOrganizationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v1/organizations", code: 200 })),
-).annotate({
-  identifier: "ListOrganizationsRequest",
-}) as any as S.Schema<ListOrganizationsRequest>;
+).annotate({ identifier: "ListOrganizationsRequest" }) as any as S.Schema<ListOrganizationsRequest>;
 
 export type ListOrganizationsResponseBodyList = Array<Organization>;
 export const ListOrganizationsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -2242,6 +2246,86 @@ export const RemoveOrganizationMemberResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "RemoveOrganizationMemberResponse",
 }) as any as S.Schema<RemoveOrganizationMemberResponse>;
 
+export interface RestoreDatabaseRequest {
+  /** The UUID of the organization. Retrieve it with the Retrieve Organization endpoint (the `id` field). */
+  organizationId: string;
+  /** The UUID of the database, as returned when listing deleted databases (the `DbId` field). */
+  databaseId: string;
+  /** Optional new name for the restored database. If omitted, the original name is reused. The hostname is re-derived from the name. */
+  name?: string;
+}
+export const RestoreDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organizationId: S.String.pipe(T.Label()),
+    databaseId: S.String.pipe(T.Label()),
+    name: S.optional(S.String),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/v3/organizations/{organizationId}/databases/{databaseId}/restore",
+      code: 200,
+    }),
+  ),
+).annotate({ identifier: "RestoreDatabaseRequest" }) as any as S.Schema<RestoreDatabaseRequest>;
+
+export interface RestoreDatabaseResponse {
+  /** The restored database. */
+  database?: DeletedDatabase;
+}
+export const RestoreDatabaseResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    database: S.optional(DeletedDatabase),
+  }),
+).annotate({ identifier: "RestoreDatabaseResponse" }) as any as S.Schema<RestoreDatabaseResponse>;
+
+export interface RestoreGroupRequest {
+  /** The UUID of the organization. Retrieve it with the Retrieve Organization endpoint (the `id` field). */
+  organizationId: string;
+  /** The UUID of the group, as returned when listing deleted groups (the `uuid` field). */
+  groupId: string;
+}
+export const RestoreGroupRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organizationId: S.String.pipe(T.Label()),
+    groupId: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/v3/organizations/{organizationId}/groups/{groupId}/restore",
+      code: 200,
+    }),
+  ),
+).annotate({ identifier: "RestoreGroupRequest" }) as any as S.Schema<RestoreGroupRequest>;
+
+/** The member databases restored with the group, in restore order. */
+export type RestoreGroupResponseDatabasesList = Array<DeletedDatabase>;
+export const RestoreGroupResponseDatabasesList = /*@__PURE__*/ S.Array(
+  DeletedDatabase,
+) as any as S.Schema<RestoreGroupResponseDatabasesList>;
+
+/** Maps database UUID to error message for members whose restore failed. Retry them individually with Restore Database. */
+export type RestoreGroupResponseFailuresMap = { [key: string]: string | undefined };
+export const RestoreGroupResponseFailuresMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<RestoreGroupResponseFailuresMap>;
+
+export interface RestoreGroupResponse {
+  /** The restored group. */
+  group?: Group;
+  /** The member databases restored with the group, in restore order. */
+  databases?: RestoreGroupResponseDatabasesList;
+  /** Maps database UUID to error message for members whose restore failed. Retry them individually with Restore Database. */
+  failures?: RestoreGroupResponseFailuresMap;
+}
+export const RestoreGroupResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    group: S.optional(Group),
+    databases: S.optional(RestoreGroupResponseDatabasesList),
+    failures: S.optional(RestoreGroupResponseFailuresMap),
+  }),
+).annotate({ identifier: "RestoreGroupResponse" }) as any as S.Schema<RestoreGroupResponse>;
+
 export interface RevokeAPITokenRequest {
   /** The name of the api token. */
   tokenName: string;
@@ -2249,16 +2333,8 @@ export interface RevokeAPITokenRequest {
 export const RevokeAPITokenRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     tokenName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v1/auth/api-tokens/{tokenName}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "RevokeAPITokenRequest",
-}) as any as S.Schema<RevokeAPITokenRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/v1/auth/api-tokens/{tokenName}", code: 200 })),
+).annotate({ identifier: "RevokeAPITokenRequest" }) as any as S.Schema<RevokeAPITokenRequest>;
 
 export interface RevokeAPITokenResponse {
   /** The revoked token name. */
@@ -2268,9 +2344,7 @@ export const RevokeAPITokenResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     token: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RevokeAPITokenResponse",
-}) as any as S.Schema<RevokeAPITokenResponse>;
+).annotate({ identifier: "RevokeAPITokenResponse" }) as any as S.Schema<RevokeAPITokenResponse>;
 
 export interface RevokeOrganizationAPITokenRequest {
   /** The slug of the organization or user account. */
@@ -2325,9 +2399,7 @@ export const TransferGroupRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "TransferGroupRequest",
-}) as any as S.Schema<TransferGroupRequest>;
+).annotate({ identifier: "TransferGroupRequest" }) as any as S.Schema<TransferGroupRequest>;
 
 /** An array of location keys the group is located. */
 export type TransferGroupResponseLocationsList = Array<string>;
@@ -2358,9 +2430,7 @@ export const TransferGroupResponse = /*@__PURE__*/ S.suspend(() =>
     primary: S.optional(S.String),
     delete_protection: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "TransferGroupResponse",
-}) as any as S.Schema<TransferGroupResponse>;
+).annotate({ identifier: "TransferGroupResponse" }) as any as S.Schema<TransferGroupResponse>;
 
 export interface UnarchiveGroupRequest {
   /** The slug of the organization or user account. */
@@ -2379,9 +2449,7 @@ export const UnarchiveGroupRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "UnarchiveGroupRequest",
-}) as any as S.Schema<UnarchiveGroupRequest>;
+).annotate({ identifier: "UnarchiveGroupRequest" }) as any as S.Schema<UnarchiveGroupRequest>;
 
 export interface UnarchiveGroupResponse {
   /** The group that was unarchived */
@@ -2391,9 +2459,7 @@ export const UnarchiveGroupResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     group: S.optional(Group),
   }),
-).annotate({
-  identifier: "UnarchiveGroupResponse",
-}) as any as S.Schema<UnarchiveGroupResponse>;
+).annotate({ identifier: "UnarchiveGroupResponse" }) as any as S.Schema<UnarchiveGroupResponse>;
 
 /** List of allowed IP addresses and CIDR blocks. Only connections from these sources are accepted. Pass an empty array to clear the list. Omit to leave unchanged. */
 export type UpdateDatabaseConfigurationRequestAllowedIpsList = Array<string>;
@@ -2523,9 +2589,7 @@ export const UpdateMemberRoleRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "UpdateMemberRoleRequest",
-}) as any as S.Schema<UpdateMemberRoleRequest>;
+).annotate({ identifier: "UpdateMemberRoleRequest" }) as any as S.Schema<UpdateMemberRoleRequest>;
 
 /** The new role of the updated member. */
 export type UpdateMemberRoleResponseMemberRole = "admin" | "member" | "viewer";
@@ -2556,9 +2620,7 @@ export const UpdateMemberRoleResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     member: S.optional(UpdateMemberRoleResponseMember),
   }),
-).annotate({
-  identifier: "UpdateMemberRoleResponse",
-}) as any as S.Schema<UpdateMemberRoleResponse>;
+).annotate({ identifier: "UpdateMemberRoleResponse" }) as any as S.Schema<UpdateMemberRoleResponse>;
 
 export interface UpdateOrganizationRequest {
   /** The slug of the organization or user account. */
@@ -2567,19 +2629,16 @@ export interface UpdateOrganizationRequest {
   overages?: boolean;
   /** Require all members of the organization to have multi-factor authentication enabled. The requesting user must have MFA enabled on their own account before enabling this requirement. */
   require_mfa?: boolean;
+  /** Enable or disable deleted database and group recovery for the organization. Must be updated separately from other organization settings. Requires an admin or owner. */
+  restore_enabled?: boolean;
 }
 export const UpdateOrganizationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     organizationSlug: S.String.pipe(T.Label()),
     overages: S.optional(S.Boolean),
     require_mfa: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/v1/organizations/{organizationSlug}",
-      code: 200,
-    }),
-  ),
+    restore_enabled: S.optional(S.Boolean),
+  }).pipe(T.Http({ method: "PATCH", uri: "/v1/organizations/{organizationSlug}", code: 200 })),
 ).annotate({
   identifier: "UpdateOrganizationRequest",
 }) as any as S.Schema<UpdateOrganizationRequest>;
@@ -2599,9 +2658,7 @@ export const UpdateOrganizationResponse = /*@__PURE__*/ S.suspend(() =>
 export interface ValidateAPITokenRequest {}
 export const ValidateAPITokenRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v1/auth/validate", code: 200 })),
-).annotate({
-  identifier: "ValidateAPITokenRequest",
-}) as any as S.Schema<ValidateAPITokenRequest>;
+).annotate({ identifier: "ValidateAPITokenRequest" }) as any as S.Schema<ValidateAPITokenRequest>;
 
 export interface ValidateAPITokenResponse {
   /** The time of expiration for the provided token in unix epoch seconds, or `-1` if there is no expiration. */
@@ -2611,9 +2668,7 @@ export const ValidateAPITokenResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     exp: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ValidateAPITokenResponse",
-}) as any as S.Schema<ValidateAPITokenResponse>;
+).annotate({ identifier: "ValidateAPITokenResponse" }) as any as S.Schema<ValidateAPITokenResponse>;
 
 export type AddLocationToGroupError = BadRequest | NotFound | TursoOpError;
 /** Add Location to Group Adds a location to the specified group. */
@@ -3035,6 +3090,36 @@ export const listDatabases: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type ListDeletedDatabasesError = Forbidden | TursoOpError;
+/** List Deleted Databases Returns databases deleted within the last five days, which can still be restored. Requires a paid plan. Available even while recovery is disabled for the organization. */
+export const listDeletedDatabases: API.OperationMethod<
+  ListDeletedDatabasesRequest,
+  ListDeletedDatabasesResponse,
+  ListDeletedDatabasesError,
+  TursoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListDeletedDatabasesRequest,
+  output: ListDeletedDatabasesResponse,
+  errors: [Forbidden],
+  protocol: TursoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListDeletedGroupsError = Forbidden | TursoOpError;
+/** List Deleted Groups Returns groups deleted within the last five days, including empty groups, which can still be restored. Requires a paid plan and an organization-level token. Available even while recovery is disabled for the organization. */
+export const listDeletedGroups: API.OperationMethod<
+  ListDeletedGroupsRequest,
+  ListDeletedGroupsResponse,
+  ListDeletedGroupsError,
+  TursoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListDeletedGroupsRequest,
+  output: ListDeletedGroupsResponse,
+  errors: [Forbidden],
+  protocol: TursoProtocol,
+  retry: Retry.Retry,
+}));
+
 export type ListGroupsError = TursoOpError;
 /** List Groups Returns a list of groups belonging to the organization or user. */
 export const listGroups: API.OperationMethod<
@@ -3196,6 +3281,36 @@ export const removeOrganizationMember: API.OperationMethod<
   input: RemoveOrganizationMemberRequest,
   output: RemoveOrganizationMemberResponse,
   errors: [NotFound],
+  protocol: TursoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type RestoreDatabaseError = BadRequest | Forbidden | NotFound | TursoOpError;
+/** Restore Database Restore a database deleted within the last five days, exactly as it was at the moment it was deleted. Requires a paid plan, an admin or owner of the organization, and recovery enabled for the organization. */
+export const restoreDatabase: API.OperationMethod<
+  RestoreDatabaseRequest,
+  RestoreDatabaseResponse,
+  RestoreDatabaseError,
+  TursoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: RestoreDatabaseRequest,
+  output: RestoreDatabaseResponse,
+  errors: [BadRequest, Forbidden, NotFound],
+  protocol: TursoProtocol,
+  retry: Retry.Retry,
+}));
+
+export type RestoreGroupError = BadRequest | Forbidden | NotFound | TursoOpError;
+/** Restore Group Restore a group deleted within the last five days, along with the member databases that were deleted with it. Requires a paid plan, an admin or owner of the organization, and recovery enabled for the organization. If some databases fail to restore, the group still becomes active: retry the failed database UUIDs individually with Restore Database. */
+export const restoreGroup: API.OperationMethod<
+  RestoreGroupRequest,
+  RestoreGroupResponse,
+  RestoreGroupError,
+  TursoOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: RestoreGroupRequest,
+  output: RestoreGroupResponse,
+  errors: [BadRequest, Forbidden, NotFound],
   protocol: TursoProtocol,
   retry: Retry.Retry,
 }));
