@@ -90,18 +90,18 @@ export class PlatformCredentials extends Context.Service<
 >()("ClerkPlatformCredentials") {}
 
 /**
- * Layer from a plain Platform API key + optional host-only base URL
+ * Layer from a redacted Platform API key + optional host-only base URL
  * (default {@link DEFAULT_PLATFORM_API_BASE_URL}; an empty string also means
  * the default).
  */
 export const platformFromApiKey = (config: {
-  readonly apiKey: string;
+  readonly apiKey: Redacted.Redacted<string>;
   readonly apiBaseUrl?: string;
 }): Layer.Layer<PlatformCredentials> =>
   Layer.succeed(
     PlatformCredentials,
     Effect.succeed({
-      apiKey: Redacted.make(config.apiKey),
+      apiKey: config.apiKey,
       apiBaseUrl: config.apiBaseUrl || DEFAULT_PLATFORM_API_BASE_URL,
     }),
   );

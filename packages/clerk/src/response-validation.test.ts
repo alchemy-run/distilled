@@ -46,7 +46,7 @@ const runPlatform = (body: string) => {
   const result = runValidationModes(
     Platform.getApplication({ applicationID: "app_123" }).pipe(
       Retry.none,
-      Effect.provide(platformFromApiKey({ apiKey: "ak_test" })),
+      Effect.provide(platformFromApiKey({ apiKey: Redacted.make("ak_test") })),
     ),
     (request) => {
       requests.push({ url: request.url, headers: request.headers });

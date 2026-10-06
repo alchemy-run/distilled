@@ -1,16 +1,13 @@
-import { describe, expect, test } from "bun:test";
-import {
-  mockHttpClient,
-  type MockResponse,
-} from "@distilled.cloud/core/testing";
 import { ConfigError } from "@distilled.cloud/core/errors";
 import * as ResponseValidation from "@distilled.cloud/core/response-validation";
+import { mockHttpClient, type MockResponse } from "@distilled.cloud/core/testing";
 import * as Cause from "effect/Cause";
 import * as Effect from "effect/Effect";
 import * as Exit from "effect/Exit";
+import type * as HttpClientRequest from "effect/http/HttpClientRequest";
 import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import type * as HttpClientRequest from "effect/http/HttpClientRequest";
+import { describe, expect, test } from "vitest";
 import {
   platformFromApiKey,
   PlatformCredentialsFromEnv,
@@ -34,10 +31,7 @@ const record = (request: HttpClientRequest.HttpClientRequest): Sent => {
     url: request.url,
     headers: request.headers,
     contentType: body.contentType,
-    body:
-      body._tag === "Uint8Array"
-        ? JSON.parse(new TextDecoder().decode(body.body))
-        : undefined,
+    body: body._tag === "Uint8Array" ? JSON.parse(new TextDecoder().decode(body.body)) : undefined,
   };
 };
 
@@ -46,7 +40,7 @@ const run = <A, E>(
   effect: Effect.Effect<A, E, Platform.ClerkPlatformOpContext>,
   response: MockResponse,
   credentials: Layer.Layer<PlatformCredentials> = platformFromApiKey({
-    apiKey: "ak_test",
+    apiKey: Redacted.make("ak_test"),
   }),
 ): Promise<{ readonly exit: unknown; readonly sent: Sent[] }> => {
   const sent: Sent[] = [];
@@ -82,9 +76,7 @@ const versionConflict: MockResponse = {
 
 describe("Platform requests", () => {
   const listApplications = (credentials?: Layer.Layer<PlatformCredentials>) =>
-    run(Platform.listApplications({}), { body: "[]" }, credentials).then(
-      ({ sent }) => sent[0]!,
-    );
+    run(Platform.listApplications({}), { body: "[]" }, credentials).then(({ sent }) => sent[0]!);
 
   test("sends a Bearer key to /v1/platform with no Clerk-API-Version", async () => {
     const sent = await listApplications();
@@ -96,14 +88,11 @@ describe("Platform requests", () => {
   test.each([
     ["https://x.test/", "https://x.test/v1/platform/applications"],
     ["https://x.test/proxy", "https://x.test/proxy/v1/platform/applications"],
-    [
-      "https://api.clerk.com/v1",
-      "https://api.clerk.com/v1/platform/applications",
-    ],
+    ["https://api.clerk.com/v1", "https://api.clerk.com/v1/platform/applications"],
     ["", "https://api.clerk.com/v1/platform/applications"],
   ])("apiBaseUrl %p sends to %s", async (apiBaseUrl, url) => {
     const sent = await listApplications(
-      platformFromApiKey({ apiKey: "ak_test", apiBaseUrl }),
+      platformFromApiKey({ apiKey: Redacted.make("ak_test"), apiBaseUrl }),
     );
     expect(sent.url).toBe(url);
   });
@@ -114,9 +103,7 @@ describe("PlatformCredentialsFromEnv", () => {
     env: Record<string, string | undefined>,
     f: () => Promise<A>,
   ): Promise<A> => {
-    const saved = Object.fromEntries(
-      Object.keys(env).map((k) => [k, process.env[k]]),
-    );
+    const saved = Object.fromEntries(Object.keys(env).map((k) => [k, process.env[k]]));
     const assign = (values: Record<string, string | undefined>) => {
       for (const [k, v] of Object.entries(values)) {
         if (v === undefined) delete process.env[k];
@@ -132,20 +119,15 @@ describe("PlatformCredentialsFromEnv", () => {
   };
 
   test("an empty CLERK_PLATFORM_API_URL falls back to the default host", () =>
-    withEnv(
-      { CLERK_PLATFORM_API_KEY: "ak_env", CLERK_PLATFORM_API_URL: "" },
-      async () => {
-        const { sent } = await run(
-          Platform.listApplications({}),
-          { body: "[]" },
-          PlatformCredentialsFromEnv,
-        );
-        expect(sent[0]?.url).toBe(
-          "https://api.clerk.com/v1/platform/applications",
-        );
-        expect(sent[0]?.headers["authorization"]).toBe("Bearer ak_env");
-      },
-    ));
+    withEnv({ CLERK_PLATFORM_API_KEY: "ak_env", CLERK_PLATFORM_API_URL: "" }, async () => {
+      const { sent } = await run(
+        Platform.listApplications({}),
+        { body: "[]" },
+        PlatformCredentialsFromEnv,
+      );
+      expect(sent[0]?.url).toBe("https://api.clerk.com/v1/platform/applications");
+      expect(sent[0]?.headers["authorization"]).toBe("Bearer ak_env");
+    }));
 
   test("an unset CLERK_PLATFORM_API_KEY is a ConfigError", () =>
     withEnv({ CLERK_PLATFORM_API_KEY: undefined }, async () => {
@@ -172,9 +154,7 @@ describe("Platform config writes", () => {
       versionConflict,
     );
     expect(sent[0]?.headers["if-match"]).toBe("v1_54fe44e5");
-    expect((exit as any).failure).toBeInstanceOf(
-      Platform.ConfigVersionConflict,
-    );
+    expect((exit as any).failure).toBeInstanceOf(Platform.ConfigVersionConflict);
     expect((exit as any).failure.code).toBe("config_version_conflict");
   });
 
@@ -183,9 +163,7 @@ describe("Platform config writes", () => {
       Platform.putConfig({ ...config, ifMatch: "v1_deadbeef", body: {} }),
       versionConflict,
     );
-    expect((exit as any).failure).toBeInstanceOf(
-      Platform.ConfigVersionConflict,
-    );
+    expect((exit as any).failure).toBeInstanceOf(Platform.ConfigVersionConflict);
   });
 
   test("a stale version can be caught by tag", async () => {
@@ -205,21 +183,16 @@ describe("Platform config writes", () => {
     });
     expect((exit as any).failure).toBeInstanceOf(Platform.Conflict);
     expect((exit as any).failure.code).toBe("some_other_conflict");
-    expect((exit as any).failure).not.toBeInstanceOf(
-      Platform.ConfigVersionConflict,
-    );
+    expect((exit as any).failure).not.toBeInstanceOf(Platform.ConfigVersionConflict);
   });
 });
 
 describe("Platform typed error codes", () => {
   test("a typed error carries the envelope's string code", async () => {
-    const { exit } = await run(
-      Platform.getApplication({ applicationID: "app_missing" }),
-      {
-        status: 404,
-        body: clerkErrors("resource_not_found", "Resource not found"),
-      },
-    );
+    const { exit } = await run(Platform.getApplication({ applicationID: "app_missing" }), {
+      status: 404,
+      body: clerkErrors("resource_not_found", "Resource not found"),
+    });
     expect((exit as any).failure).toBeInstanceOf(Platform.NotFound);
     expect((exit as any).failure.code).toBe("resource_not_found");
   });
@@ -251,9 +224,7 @@ describe("Platform request-side secrets", () => {
       }),
       { body: "{}" },
     );
-    expect((sent[0]!.body as any).signing_key).toBe(
-      "-----BEGIN PRIVATE KEY-----",
-    );
+    expect((sent[0]!.body as any).signing_key).toBe("-----BEGIN PRIVATE KEY-----");
   });
 
   test("claimAccountlessApplication accepts a Redacted token and sends its value", async () => {

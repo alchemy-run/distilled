@@ -75,7 +75,7 @@ program.pipe(Effect.provide(Live), Effect.runPromise);
   and a URL that already ends in `/v1` is accepted).
 
 `Clerk.fromApiKey` and `Clerk.platformFromApiKey` build the same layers from
-values instead of the environment. Backend credentials never satisfy a
+`Redacted` key values instead of the environment. Backend credentials never satisfy a
 Platform operation, and the reverse: each operation's context requires its
 own credentials service.
 
