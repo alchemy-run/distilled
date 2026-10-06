@@ -57,16 +57,12 @@ export const AbortSessionRequest = /*@__PURE__*/ S.suspend(() =>
     directory: S.optional(S.String.pipe(T.Query())),
     workspace: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "POST", uri: "/session/{sessionID}/abort", code: 200 })),
-).annotate({
-  identifier: "AbortSessionRequest",
-}) as any as S.Schema<AbortSessionRequest>;
+).annotate({ identifier: "AbortSessionRequest" }) as any as S.Schema<AbortSessionRequest>;
 
 export type AbortSessionResponse = boolean;
 export const AbortSessionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Boolean.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "AbortSessionResponse",
-}) as any as S.Schema<AbortSessionResponse>;
+).annotate({ identifier: "AbortSessionResponse" }) as any as S.Schema<AbortSessionResponse>;
 
 /** Type of MCP server connection */
 export type McpLocalConfigType = "local";
@@ -78,9 +74,7 @@ export const McpLocalConfigCommandList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<McpLocalConfigCommandList>;
 
-export type McpLocalConfigEnvironmentMap = {
-  [key: string]: string | undefined;
-};
+export type McpLocalConfigEnvironmentMap = { [key: string]: string | undefined };
 export const McpLocalConfigEnvironmentMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -158,9 +152,7 @@ export const McpRemoteConfig = /*@__PURE__*/ S.suspend(() =>
     oauth: S.optional(McpRemoteConfigOauth),
     timeout: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "McpRemoteConfig",
-}) as any as S.Schema<McpRemoteConfig>;
+).annotate({ identifier: "McpRemoteConfig" }) as any as S.Schema<McpRemoteConfig>;
 
 export type AddMcpRequestConfig = McpLocalConfig | McpRemoteConfig;
 export const AddMcpRequestConfig = S.Unknown as any as S.Schema<AddMcpRequestConfig>;
@@ -190,9 +182,7 @@ export const MCPStatusConnected = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     status: MCPStatusConnectedStatus,
   }),
-).annotate({
-  identifier: "MCPStatusConnected",
-}) as any as S.Schema<MCPStatusConnected>;
+).annotate({ identifier: "MCPStatusConnected" }) as any as S.Schema<MCPStatusConnected>;
 
 export type MCPStatusDisabledStatus = "disabled";
 export const MCPStatusDisabledStatus = S.String;
@@ -204,9 +194,7 @@ export const MCPStatusDisabled = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     status: MCPStatusDisabledStatus,
   }),
-).annotate({
-  identifier: "MCPStatusDisabled",
-}) as any as S.Schema<MCPStatusDisabled>;
+).annotate({ identifier: "MCPStatusDisabled" }) as any as S.Schema<MCPStatusDisabled>;
 
 export type MCPStatusFailedStatus = "failed";
 export const MCPStatusFailedStatus = S.String;
@@ -220,9 +208,7 @@ export const MCPStatusFailed = /*@__PURE__*/ S.suspend(() =>
     status: MCPStatusFailedStatus,
     error: S.String,
   }),
-).annotate({
-  identifier: "MCPStatusFailed",
-}) as any as S.Schema<MCPStatusFailed>;
+).annotate({ identifier: "MCPStatusFailed" }) as any as S.Schema<MCPStatusFailed>;
 
 export type MCPStatusNeedsAuthStatus = "needs_auth";
 export const MCPStatusNeedsAuthStatus = S.String;
@@ -234,9 +220,7 @@ export const MCPStatusNeedsAuth = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     status: MCPStatusNeedsAuthStatus,
   }),
-).annotate({
-  identifier: "MCPStatusNeedsAuth",
-}) as any as S.Schema<MCPStatusNeedsAuth>;
+).annotate({ identifier: "MCPStatusNeedsAuth" }) as any as S.Schema<MCPStatusNeedsAuth>;
 
 export type MCPStatusNeedsClientRegistrationStatus = "needs_client_registration";
 export const MCPStatusNeedsClientRegistrationStatus = S.String;
@@ -283,9 +267,7 @@ export const AppAgentsRequest = /*@__PURE__*/ S.suspend(() =>
     directory: S.optional(S.String.pipe(T.Query())),
     workspace: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/agent", code: 200 })),
-).annotate({
-  identifier: "AppAgentsRequest",
-}) as any as S.Schema<AppAgentsRequest>;
+).annotate({ identifier: "AppAgentsRequest" }) as any as S.Schema<AppAgentsRequest>;
 
 export type AgentMode = "subagent" | "primary" | "all";
 export const AgentMode = S.String;
@@ -366,9 +348,7 @@ export const AppAgentsResponseBodyList = /*@__PURE__*/ S.Array(
 export type AppAgentsResponse = AppAgentsResponseBodyList;
 export const AppAgentsResponse = /*@__PURE__*/ S.suspend(() =>
   AppAgentsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "AppAgentsResponse",
-}) as any as S.Schema<AppAgentsResponse>;
+).annotate({ identifier: "AppAgentsResponse" }) as any as S.Schema<AppAgentsResponse>;
 
 /** Log level */
 export type AppLogRequestLevel = "debug" | "info" | "error" | "warn";
@@ -412,9 +392,7 @@ export const ApplyVcsRequest = /*@__PURE__*/ S.suspend(() =>
     workspace: S.optional(S.String.pipe(T.Query())),
     patch: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/vcs/apply", code: 200 })),
-).annotate({
-  identifier: "ApplyVcsRequest",
-}) as any as S.Schema<ApplyVcsRequest>;
+).annotate({ identifier: "ApplyVcsRequest" }) as any as S.Schema<ApplyVcsRequest>;
 
 export interface ApplyVcsResponse {
   applied: boolean;
@@ -423,9 +401,7 @@ export const ApplyVcsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     applied: S.Boolean,
   }),
-).annotate({
-  identifier: "ApplyVcsResponse",
-}) as any as S.Schema<ApplyVcsResponse>;
+).annotate({ identifier: "ApplyVcsResponse" }) as any as S.Schema<ApplyVcsResponse>;
 
 export interface AppSkillsRequest {
   directory?: string;
@@ -436,9 +412,7 @@ export const AppSkillsRequest = /*@__PURE__*/ S.suspend(() =>
     directory: S.optional(S.String.pipe(T.Query())),
     workspace: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/skill", code: 200 })),
-).annotate({
-  identifier: "AppSkillsRequest",
-}) as any as S.Schema<AppSkillsRequest>;
+).annotate({ identifier: "AppSkillsRequest" }) as any as S.Schema<AppSkillsRequest>;
 
 export interface AppSkillsResponseBodyItem {
   name: string;
@@ -466,9 +440,7 @@ export const AppSkillsResponseBodyList = /*@__PURE__*/ S.Array(
 export type AppSkillsResponse = AppSkillsResponseBodyList;
 export const AppSkillsResponse = /*@__PURE__*/ S.suspend(() =>
   AppSkillsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "AppSkillsResponse",
-}) as any as S.Schema<AppSkillsResponse>;
+).annotate({ identifier: "AppSkillsResponse" }) as any as S.Schema<AppSkillsResponse>;
 
 export interface AuthenticateMcpAuthRequest {
   name: string;
@@ -492,9 +464,7 @@ export const AuthenticateMcpAuthResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "AuthenticateMcpAuthResponse",
 }) as any as S.Schema<AuthenticateMcpAuthResponse>;
 
-export type AuthorizeProviderOauthRequestInputsMap = {
-  [key: string]: string | undefined;
-};
+export type AuthorizeProviderOauthRequestInputsMap = { [key: string]: string | undefined };
 export const AuthorizeProviderOauthRequestInputsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -515,13 +485,7 @@ export const AuthorizeProviderOauthRequest = /*@__PURE__*/ S.suspend(() =>
     workspace: S.optional(S.String.pipe(T.Query())),
     method: S.Number,
     inputs: S.optional(AuthorizeProviderOauthRequestInputsMap),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/provider/{providerID}/oauth/authorize",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/provider/{providerID}/oauth/authorize", code: 200 })),
 ).annotate({
   identifier: "AuthorizeProviderOauthRequest",
 }) as any as S.Schema<AuthorizeProviderOauthRequest>;
@@ -565,13 +529,7 @@ export const CancelV2IntegrationAttemptRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     attemptID: S.String.pipe(T.Label()),
     location: S.optional(CancelV2IntegrationAttemptRequestLocation.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/integration/attempt/{attemptID}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/integration/attempt/{attemptID}", code: 200 })),
 ).annotate({
   identifier: "CancelV2IntegrationAttemptRequest",
 }) as any as S.Schema<CancelV2IntegrationAttemptRequest>;
@@ -589,13 +547,7 @@ export interface ClearV2SessionRevertRequest {
 export const ClearV2SessionRevertRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     sessionID: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/session/{sessionID}/revert/clear",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/session/{sessionID}/revert/clear", code: 200 })),
 ).annotate({
   identifier: "ClearV2SessionRevertRequest",
 }) as any as S.Schema<ClearV2SessionRevertRequest>;
@@ -611,13 +563,7 @@ export interface CommitV2SessionRevertRequest {
 export const CommitV2SessionRevertRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     sessionID: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/session/{sessionID}/revert/commit",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/session/{sessionID}/revert/commit", code: 200 })),
 ).annotate({
   identifier: "CommitV2SessionRevertRequest",
 }) as any as S.Schema<CommitV2SessionRevertRequest>;
@@ -633,16 +579,8 @@ export interface CompactV2SessionRequest {
 export const CompactV2SessionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     sessionID: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/session/{sessionID}/compact",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CompactV2SessionRequest",
-}) as any as S.Schema<CompactV2SessionRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/api/session/{sessionID}/compact", code: 200 })),
+).annotate({ identifier: "CompactV2SessionRequest" }) as any as S.Schema<CompactV2SessionRequest>;
 
 export interface CompactV2SessionResponse {}
 export const CompactV2SessionResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -664,11 +602,7 @@ export const CompleteV2IntegrationAttemptRequest = /*@__PURE__*/ S.suspend(() =>
     location: S.optional(CancelV2IntegrationAttemptRequestLocation.pipe(T.Query())),
     code: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/integration/attempt/{attemptID}/complete",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/integration/attempt/{attemptID}/complete", code: 200 }),
   ),
 ).annotate({
   identifier: "CompleteV2IntegrationAttemptRequest",
@@ -690,9 +624,7 @@ export const ConfigProvidersRequest = /*@__PURE__*/ S.suspend(() =>
     directory: S.optional(S.String.pipe(T.Query())),
     workspace: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/config/providers", code: 200 })),
-).annotate({
-  identifier: "ConfigProvidersRequest",
-}) as any as S.Schema<ConfigProvidersRequest>;
+).annotate({ identifier: "ConfigProvidersRequest" }) as any as S.Schema<ConfigProvidersRequest>;
 
 export type ProviderSource = "env" | "config" | "custom" | "api";
 export const ProviderSource = S.String;
@@ -728,9 +660,7 @@ export const ModelCapabilitiesInput = /*@__PURE__*/ S.suspend(() =>
     video: S.Boolean,
     pdf: S.Boolean,
   }),
-).annotate({
-  identifier: "ModelCapabilitiesInput",
-}) as any as S.Schema<ModelCapabilitiesInput>;
+).annotate({ identifier: "ModelCapabilitiesInput" }) as any as S.Schema<ModelCapabilitiesInput>;
 
 export type ModelCapabilitiesOutput = ModelCapabilitiesInput;
 export const ModelCapabilitiesOutput = ModelCapabilitiesInput;
@@ -781,9 +711,7 @@ export const ModelCapabilities = /*@__PURE__*/ S.suspend(() =>
     output: ModelCapabilitiesInput,
     interleaved: ModelCapabilitiesInterleaved,
   }),
-).annotate({
-  identifier: "ModelCapabilities",
-}) as any as S.Schema<ModelCapabilities>;
+).annotate({ identifier: "ModelCapabilities" }) as any as S.Schema<ModelCapabilities>;
 
 export interface ModelCostCache {
   read: number;
@@ -811,9 +739,7 @@ export const ModelCostTiersItemTier = /*@__PURE__*/ S.suspend(() =>
     type: ModelCostTiersItemTierType,
     size: S.Number,
   }),
-).annotate({
-  identifier: "ModelCostTiersItemTier",
-}) as any as S.Schema<ModelCostTiersItemTier>;
+).annotate({ identifier: "ModelCostTiersItemTier" }) as any as S.Schema<ModelCostTiersItemTier>;
 
 export interface ModelCostTiersItem {
   input: number;
@@ -828,9 +754,7 @@ export const ModelCostTiersItem = /*@__PURE__*/ S.suspend(() =>
     cache: ModelCostCache,
     tier: ModelCostTiersItemTier,
   }),
-).annotate({
-  identifier: "ModelCostTiersItem",
-}) as any as S.Schema<ModelCostTiersItem>;
+).annotate({ identifier: "ModelCostTiersItem" }) as any as S.Schema<ModelCostTiersItem>;
 
 export type ModelCostTiersList = Array<ModelCostTiersItem>;
 export const ModelCostTiersList = /*@__PURE__*/ S.Array(
@@ -965,9 +889,7 @@ export const ConfigProvidersResponseProvidersList = /*@__PURE__*/ S.Array(
   Provider,
 ) as any as S.Schema<ConfigProvidersResponseProvidersList>;
 
-export type ConfigProvidersResponseDefaultMap = {
-  [key: string]: string | undefined;
-};
+export type ConfigProvidersResponseDefaultMap = { [key: string]: string | undefined };
 export const ConfigProvidersResponseDefaultMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -982,9 +904,7 @@ export const ConfigProvidersResponse = /*@__PURE__*/ S.suspend(() =>
     providers: ConfigProvidersResponseProvidersList,
     default: ConfigProvidersResponseDefaultMap,
   }),
-).annotate({
-  identifier: "ConfigProvidersResponse",
-}) as any as S.Schema<ConfigProvidersResponse>;
+).annotate({ identifier: "ConfigProvidersResponse" }) as any as S.Schema<ConfigProvidersResponse>;
 
 export interface ConnectMcpRequest {
   name: string;
@@ -997,16 +917,12 @@ export const ConnectMcpRequest = /*@__PURE__*/ S.suspend(() =>
     directory: S.optional(S.String.pipe(T.Query())),
     workspace: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "POST", uri: "/mcp/{name}/connect", code: 200 })),
-).annotate({
-  identifier: "ConnectMcpRequest",
-}) as any as S.Schema<ConnectMcpRequest>;
+).annotate({ identifier: "ConnectMcpRequest" }) as any as S.Schema<ConnectMcpRequest>;
 
 export type ConnectMcpResponse = boolean;
 export const ConnectMcpResponse = /*@__PURE__*/ S.suspend(() =>
   S.Boolean.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ConnectMcpResponse",
-}) as any as S.Schema<ConnectMcpResponse>;
+).annotate({ identifier: "ConnectMcpResponse" }) as any as S.Schema<ConnectMcpResponse>;
 
 export interface ConnectPtyRequest {
   ptyID: string;
@@ -1023,16 +939,12 @@ export const ConnectPtyRequest = /*@__PURE__*/ S.suspend(() =>
     cursor: S.optional(S.String.pipe(T.Query())),
     ticket: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/pty/{ptyID}/connect", code: 200 })),
-).annotate({
-  identifier: "ConnectPtyRequest",
-}) as any as S.Schema<ConnectPtyRequest>;
+).annotate({ identifier: "ConnectPtyRequest" }) as any as S.Schema<ConnectPtyRequest>;
 
 export type ConnectPtyResponse = boolean;
 export const ConnectPtyResponse = /*@__PURE__*/ S.suspend(() =>
   S.Boolean.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ConnectPtyResponse",
-}) as any as S.Schema<ConnectPtyResponse>;
+).annotate({ identifier: "ConnectPtyResponse" }) as any as S.Schema<ConnectPtyResponse>;
 
 export interface ConnectV2PtyRequest {
   ptyID: string;
@@ -1049,16 +961,12 @@ export const ConnectV2PtyRequest = /*@__PURE__*/ S.suspend(() =>
     cursor: S.optional(S.String.pipe(T.Query())),
     ticket: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/pty/{ptyID}/connect", code: 200 })),
-).annotate({
-  identifier: "ConnectV2PtyRequest",
-}) as any as S.Schema<ConnectV2PtyRequest>;
+).annotate({ identifier: "ConnectV2PtyRequest" }) as any as S.Schema<ConnectV2PtyRequest>;
 
 export type ConnectV2PtyResponse = boolean;
 export const ConnectV2PtyResponse = /*@__PURE__*/ S.suspend(() =>
   S.Boolean.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ConnectV2PtyResponse",
-}) as any as S.Schema<ConnectV2PtyResponse>;
+).annotate({ identifier: "ConnectV2PtyResponse" }) as any as S.Schema<ConnectV2PtyResponse>;
 
 export interface CreateExperimentalWorkspaceRequest {
   directory?: string;
@@ -1154,9 +1062,7 @@ export const CreatePtyRequest = /*@__PURE__*/ S.suspend(() =>
     title: S.optional(S.String),
     env: S.optional(CreatePtyRequestEnvMap),
   }).pipe(T.Http({ method: "POST", uri: "/pty", code: 200 })),
-).annotate({
-  identifier: "CreatePtyRequest",
-}) as any as S.Schema<CreatePtyRequest>;
+).annotate({ identifier: "CreatePtyRequest" }) as any as S.Schema<CreatePtyRequest>;
 
 export type PtyArgsList = Array<string>;
 export const PtyArgsList = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<PtyArgsList>;
@@ -1225,9 +1131,7 @@ export const CreateSessionRequest = /*@__PURE__*/ S.suspend(() =>
     permission: S.optional(PermissionRuleset),
     workspaceID: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/session", code: 200 })),
-).annotate({
-  identifier: "CreateSessionRequest",
-}) as any as S.Schema<CreateSessionRequest>;
+).annotate({ identifier: "CreateSessionRequest" }) as any as S.Schema<CreateSessionRequest>;
 
 export type SnapshotFileDiffStatus = "added" | "deleted" | "modified";
 export const SnapshotFileDiffStatus = S.String;
@@ -1247,9 +1151,7 @@ export const SnapshotFileDiff = /*@__PURE__*/ S.suspend(() =>
     deletions: S.Number,
     status: S.optional(SnapshotFileDiffStatus),
   }),
-).annotate({
-  identifier: "SnapshotFileDiff",
-}) as any as S.Schema<SnapshotFileDiff>;
+).annotate({ identifier: "SnapshotFileDiff" }) as any as S.Schema<SnapshotFileDiff>;
 
 export type SessionSummaryDiffsList = Array<SnapshotFileDiff>;
 export const SessionSummaryDiffsList = /*@__PURE__*/ S.Array(
@@ -1407,9 +1309,7 @@ export const CreateV2PtyRequest = /*@__PURE__*/ S.suspend(() =>
     title: S.optional(S.String),
     env: S.optional(CreateV2PtyRequestEnvMap),
   }).pipe(T.Http({ method: "POST", uri: "/api/pty", code: 200 })),
-).annotate({
-  identifier: "CreateV2PtyRequest",
-}) as any as S.Schema<CreateV2PtyRequest>;
+).annotate({ identifier: "CreateV2PtyRequest" }) as any as S.Schema<CreateV2PtyRequest>;
 
 export interface LocationInfoProject {
   id: string;
@@ -1420,9 +1320,7 @@ export const LocationInfoProject = /*@__PURE__*/ S.suspend(() =>
     id: S.String,
     directory: S.String,
   }),
-).annotate({
-  identifier: "LocationInfoProject",
-}) as any as S.Schema<LocationInfoProject>;
+).annotate({ identifier: "LocationInfoProject" }) as any as S.Schema<LocationInfoProject>;
 
 export interface LocationInfo {
   directory: string;
@@ -1446,9 +1344,7 @@ export const CreateV2PtyResponse = /*@__PURE__*/ S.suspend(() =>
     location: LocationInfo,
     data: Pty,
   }),
-).annotate({
-  identifier: "CreateV2PtyResponse",
-}) as any as S.Schema<CreateV2PtyResponse>;
+).annotate({ identifier: "CreateV2PtyResponse" }) as any as S.Schema<CreateV2PtyResponse>;
 
 export type ModelRef = CreateSessionRequestModel;
 export const ModelRef = CreateSessionRequestModel;
@@ -1477,9 +1373,7 @@ export const CreateV2SessionRequest = /*@__PURE__*/ S.suspend(() =>
     model: S.optional(CreateSessionRequestModel),
     location: S.optional(LocationRef),
   }).pipe(T.Http({ method: "POST", uri: "/api/session", code: 200 })),
-).annotate({
-  identifier: "CreateV2SessionRequest",
-}) as any as S.Schema<CreateV2SessionRequest>;
+).annotate({ identifier: "CreateV2SessionRequest" }) as any as S.Schema<CreateV2SessionRequest>;
 
 export type SessionV2InfoTokensCache = ModelCostCache;
 export const SessionV2InfoTokensCache = ModelCostCache;
@@ -1498,9 +1392,7 @@ export const SessionV2InfoTime = /*@__PURE__*/ S.suspend(() =>
     updated: S.Number,
     archived: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "SessionV2InfoTime",
-}) as any as S.Schema<SessionV2InfoTime>;
+).annotate({ identifier: "SessionV2InfoTime" }) as any as S.Schema<SessionV2InfoTime>;
 
 export type FileDiffStatus = "added" | "modified" | "deleted";
 export const FileDiffStatus = S.String;
@@ -1582,9 +1474,7 @@ export const CreateV2SessionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: SessionV2Info,
   }),
-).annotate({
-  identifier: "CreateV2SessionResponse",
-}) as any as S.Schema<CreateV2SessionResponse>;
+).annotate({ identifier: "CreateV2SessionResponse" }) as any as S.Schema<CreateV2SessionResponse>;
 
 export type CreateV2SessionPermissionRequestResourcesList = Array<string>;
 export const CreateV2SessionPermissionRequestResourcesList = /*@__PURE__*/ S.Array(
@@ -1610,9 +1500,7 @@ export const PermissionV2Source = /*@__PURE__*/ S.suspend(() =>
     messageID: S.String,
     callID: S.String,
   }),
-).annotate({
-  identifier: "PermissionV2Source",
-}) as any as S.Schema<PermissionV2Source>;
+).annotate({ identifier: "PermissionV2Source" }) as any as S.Schema<PermissionV2Source>;
 
 export interface CreateV2SessionPermissionRequest {
   sessionID: string;
@@ -1634,13 +1522,7 @@ export const CreateV2SessionPermissionRequest = /*@__PURE__*/ S.suspend(() =>
     metadata: S.optional(S.Unknown),
     source: S.optional(PermissionV2Source),
     agent: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/session/{sessionID}/permission",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/session/{sessionID}/permission", code: 200 })),
 ).annotate({
   identifier: "CreateV2SessionPermissionRequest",
 }) as any as S.Schema<CreateV2SessionPermissionRequest>;
@@ -1686,9 +1568,7 @@ export const CreateWorktreeRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     startCommand: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/experimental/worktree", code: 200 })),
-).annotate({
-  identifier: "CreateWorktreeRequest",
-}) as any as S.Schema<CreateWorktreeRequest>;
+).annotate({ identifier: "CreateWorktreeRequest" }) as any as S.Schema<CreateWorktreeRequest>;
 
 export interface Worktree {
   name: string;
@@ -1724,16 +1604,12 @@ export const DeletePartRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "DeletePartRequest",
-}) as any as S.Schema<DeletePartRequest>;
+).annotate({ identifier: "DeletePartRequest" }) as any as S.Schema<DeletePartRequest>;
 
 export type DeletePartResponse = boolean;
 export const DeletePartResponse = /*@__PURE__*/ S.suspend(() =>
   S.Boolean.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "DeletePartResponse",
-}) as any as S.Schema<DeletePartResponse>;
+).annotate({ identifier: "DeletePartResponse" }) as any as S.Schema<DeletePartResponse>;
 
 export interface DeleteSessionRequest {
   sessionID: string;
@@ -1746,16 +1622,12 @@ export const DeleteSessionRequest = /*@__PURE__*/ S.suspend(() =>
     directory: S.optional(S.String.pipe(T.Query())),
     workspace: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "DELETE", uri: "/session/{sessionID}", code: 200 })),
-).annotate({
-  identifier: "DeleteSessionRequest",
-}) as any as S.Schema<DeleteSessionRequest>;
+).annotate({ identifier: "DeleteSessionRequest" }) as any as S.Schema<DeleteSessionRequest>;
 
 export type DeleteSessionResponse = boolean;
 export const DeleteSessionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Boolean.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "DeleteSessionResponse",
-}) as any as S.Schema<DeleteSessionResponse>;
+).annotate({ identifier: "DeleteSessionResponse" }) as any as S.Schema<DeleteSessionResponse>;
 
 export interface DisconnectMcpRequest {
   name: string;
@@ -1768,16 +1640,12 @@ export const DisconnectMcpRequest = /*@__PURE__*/ S.suspend(() =>
     directory: S.optional(S.String.pipe(T.Query())),
     workspace: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "POST", uri: "/mcp/{name}/disconnect", code: 200 })),
-).annotate({
-  identifier: "DisconnectMcpRequest",
-}) as any as S.Schema<DisconnectMcpRequest>;
+).annotate({ identifier: "DisconnectMcpRequest" }) as any as S.Schema<DisconnectMcpRequest>;
 
 export type DisconnectMcpResponse = boolean;
 export const DisconnectMcpResponse = /*@__PURE__*/ S.suspend(() =>
   S.Boolean.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "DisconnectMcpResponse",
-}) as any as S.Schema<DisconnectMcpResponse>;
+).annotate({ identifier: "DisconnectMcpResponse" }) as any as S.Schema<DisconnectMcpResponse>;
 
 export interface ExperimentalConsoleListOrgsRequest {
   directory?: string;
@@ -1861,9 +1729,7 @@ export const MoveSessionDestination = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     directory: S.String,
   }),
-).annotate({
-  identifier: "MoveSessionDestination",
-}) as any as S.Schema<MoveSessionDestination>;
+).annotate({ identifier: "MoveSessionDestination" }) as any as S.Schema<MoveSessionDestination>;
 
 export interface ExperimentalControlPlaneMoveSessionRequest {
   sessionID: string;
@@ -1875,13 +1741,7 @@ export const ExperimentalControlPlaneMoveSessionRequest = /*@__PURE__*/ S.suspen
     sessionID: S.String,
     destination: MoveSessionDestination,
     moveChanges: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/experimental/control-plane/move-session",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/experimental/control-plane/move-session", code: 200 })),
 ).annotate({
   identifier: "ExperimentalControlPlaneMoveSessionRequest",
 }) as any as S.Schema<ExperimentalControlPlaneMoveSessionRequest>;
@@ -1938,11 +1798,7 @@ export const ExperimentalSessionBackgroundRequest = /*@__PURE__*/ S.suspend(() =
     directory: S.optional(S.String.pipe(T.Query())),
     workspace: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/experimental/session/{sessionID}/background",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/experimental/session/{sessionID}/background", code: 200 }),
   ),
 ).annotate({
   identifier: "ExperimentalSessionBackgroundRequest",
@@ -2036,9 +1892,7 @@ export const FileStatusRequest = /*@__PURE__*/ S.suspend(() =>
     directory: S.optional(S.String.pipe(T.Query())),
     workspace: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/file/status", code: 200 })),
-).annotate({
-  identifier: "FileStatusRequest",
-}) as any as S.Schema<FileStatusRequest>;
+).annotate({ identifier: "FileStatusRequest" }) as any as S.Schema<FileStatusRequest>;
 
 export type FileStatus = "added" | "deleted" | "modified";
 export const FileStatus = S.String;
@@ -2067,9 +1921,7 @@ export const FileStatusResponseBodyList = /*@__PURE__*/ S.Array(
 export type FileStatusResponse = FileStatusResponseBodyList;
 export const FileStatusResponse = /*@__PURE__*/ S.suspend(() =>
   FileStatusResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "FileStatusResponse",
-}) as any as S.Schema<FileStatusResponse>;
+).annotate({ identifier: "FileStatusResponse" }) as any as S.Schema<FileStatusResponse>;
 
 export type FindFilesRequestType = "file" | "directory";
 export const FindFilesRequestType = S.String;
@@ -2091,9 +1943,7 @@ export const FindFilesRequest = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(FindFilesRequestType.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/find/file", code: 200 })),
-).annotate({
-  identifier: "FindFilesRequest",
-}) as any as S.Schema<FindFilesRequest>;
+).annotate({ identifier: "FindFilesRequest" }) as any as S.Schema<FindFilesRequest>;
 
 /** File paths */
 export type FindFilesResponseBodyList = Array<string>;
@@ -2104,9 +1954,7 @@ export const FindFilesResponseBodyList = /*@__PURE__*/ S.Array(
 export type FindFilesResponse = FindFilesResponseBodyList;
 export const FindFilesResponse = /*@__PURE__*/ S.suspend(() =>
   FindFilesResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "FindFilesResponse",
-}) as any as S.Schema<FindFilesResponse>;
+).annotate({ identifier: "FindFilesResponse" }) as any as S.Schema<FindFilesResponse>;
 
 export interface FindSymbolsRequest {
   directory?: string;
@@ -2119,9 +1967,7 @@ export const FindSymbolsRequest = /*@__PURE__*/ S.suspend(() =>
     workspace: S.optional(S.String.pipe(T.Query())),
     query: S.String.pipe(T.Query()),
   }).pipe(T.Http({ method: "GET", uri: "/find/symbol", code: 200 })),
-).annotate({
-  identifier: "FindSymbolsRequest",
-}) as any as S.Schema<FindSymbolsRequest>;
+).annotate({ identifier: "FindSymbolsRequest" }) as any as S.Schema<FindSymbolsRequest>;
 
 export interface RangeStart {
   line: number;
@@ -2181,9 +2027,7 @@ export const FindSymbolsResponseBodyList = /*@__PURE__*/ S.Array(
 export type FindSymbolsResponse = FindSymbolsResponseBodyList;
 export const FindSymbolsResponse = /*@__PURE__*/ S.suspend(() =>
   FindSymbolsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "FindSymbolsResponse",
-}) as any as S.Schema<FindSymbolsResponse>;
+).annotate({ identifier: "FindSymbolsResponse" }) as any as S.Schema<FindSymbolsResponse>;
 
 export interface FindTextRequest {
   directory?: string;
@@ -2196,9 +2040,7 @@ export const FindTextRequest = /*@__PURE__*/ S.suspend(() =>
     workspace: S.optional(S.String.pipe(T.Query())),
     pattern: S.String.pipe(T.Query()),
   }).pipe(T.Http({ method: "GET", uri: "/find", code: 200 })),
-).annotate({
-  identifier: "FindTextRequest",
-}) as any as S.Schema<FindTextRequest>;
+).annotate({ identifier: "FindTextRequest" }) as any as S.Schema<FindTextRequest>;
 
 export interface FindTextResponseBodyItemPath {
   text: string;
@@ -2252,9 +2094,7 @@ export const FindTextResponseBodyItem = /*@__PURE__*/ S.suspend(() =>
     absolute_offset: S.Number,
     submatches: FindTextResponseBodyItemSubmatchesList,
   }),
-).annotate({
-  identifier: "FindTextResponseBodyItem",
-}) as any as S.Schema<FindTextResponseBodyItem>;
+).annotate({ identifier: "FindTextResponseBodyItem" }) as any as S.Schema<FindTextResponseBodyItem>;
 
 /** Matches */
 export type FindTextResponseBodyList = Array<FindTextResponseBodyItem>;
@@ -2265,9 +2105,7 @@ export const FindTextResponseBodyList = /*@__PURE__*/ S.Array(
 export type FindTextResponse = FindTextResponseBodyList;
 export const FindTextResponse = /*@__PURE__*/ S.suspend(() =>
   FindTextResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "FindTextResponse",
-}) as any as S.Schema<FindTextResponse>;
+).annotate({ identifier: "FindTextResponse" }) as any as S.Schema<FindTextResponse>;
 
 export interface ForkSessionRequest {
   sessionID: string;
@@ -2282,9 +2120,7 @@ export const ForkSessionRequest = /*@__PURE__*/ S.suspend(() =>
     workspace: S.optional(S.String.pipe(T.Query())),
     messageID: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/session/{sessionID}/fork", code: 200 })),
-).annotate({
-  identifier: "ForkSessionRequest",
-}) as any as S.Schema<ForkSessionRequest>;
+).annotate({ identifier: "ForkSessionRequest" }) as any as S.Schema<ForkSessionRequest>;
 
 export interface FormatterStatusRequest {
   directory?: string;
@@ -2295,9 +2131,7 @@ export const FormatterStatusRequest = /*@__PURE__*/ S.suspend(() =>
     directory: S.optional(S.String.pipe(T.Query())),
     workspace: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/formatter", code: 200 })),
-).annotate({
-  identifier: "FormatterStatusRequest",
-}) as any as S.Schema<FormatterStatusRequest>;
+).annotate({ identifier: "FormatterStatusRequest" }) as any as S.Schema<FormatterStatusRequest>;
 
 export type FormatterStatusExtensionsList = Array<string>;
 export const FormatterStatusExtensionsList = /*@__PURE__*/ S.Array(
@@ -2315,9 +2149,7 @@ export const FormatterStatus = /*@__PURE__*/ S.suspend(() =>
     extensions: FormatterStatusExtensionsList,
     enabled: S.Boolean,
   }),
-).annotate({
-  identifier: "FormatterStatus",
-}) as any as S.Schema<FormatterStatus>;
+).annotate({ identifier: "FormatterStatus" }) as any as S.Schema<FormatterStatus>;
 
 /** Formatter status */
 export type FormatterStatusResponseBodyList = Array<FormatterStatus>;
@@ -2328,9 +2160,7 @@ export const FormatterStatusResponseBodyList = /*@__PURE__*/ S.Array(
 export type FormatterStatusResponse = FormatterStatusResponseBodyList;
 export const FormatterStatusResponse = /*@__PURE__*/ S.suspend(() =>
   FormatterStatusResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "FormatterStatusResponse",
-}) as any as S.Schema<FormatterStatusResponse>;
+).annotate({ identifier: "FormatterStatusResponse" }) as any as S.Schema<FormatterStatusResponse>;
 
 export interface GetConfigRequest {
   directory?: string;
@@ -2341,9 +2171,7 @@ export const GetConfigRequest = /*@__PURE__*/ S.suspend(() =>
     directory: S.optional(S.String.pipe(T.Query())),
     workspace: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/config", code: 200 })),
-).annotate({
-  identifier: "GetConfigRequest",
-}) as any as S.Schema<GetConfigRequest>;
+).annotate({ identifier: "GetConfigRequest" }) as any as S.Schema<GetConfigRequest>;
 
 /** Log level */
 export type LogLevel = "DEBUG" | "INFO" | "WARN" | "ERROR";
@@ -2389,13 +2217,9 @@ export const ConfigCommandValue = /*@__PURE__*/ S.suspend(() =>
     variant: S.optional(S.String),
     subtask: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "ConfigCommandValue",
-}) as any as S.Schema<ConfigCommandValue>;
+).annotate({ identifier: "ConfigCommandValue" }) as any as S.Schema<ConfigCommandValue>;
 
-export type ConfigCommandMap = {
-  [key: string]: ConfigCommandValue | undefined;
-};
+export type ConfigCommandMap = { [key: string]: ConfigCommandValue | undefined };
 export const ConfigCommandMap = /*@__PURE__*/ S.Record(
   S.String,
   ConfigCommandValue,
@@ -2435,9 +2259,7 @@ export const ConfigV2ReferenceGit = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     hidden: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "ConfigV2ReferenceGit",
-}) as any as S.Schema<ConfigV2ReferenceGit>;
+).annotate({ identifier: "ConfigV2ReferenceGit" }) as any as S.Schema<ConfigV2ReferenceGit>;
 
 export interface ConfigV2ReferenceLocal {
   path: string;
@@ -2450,16 +2272,12 @@ export const ConfigV2ReferenceLocal = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     hidden: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "ConfigV2ReferenceLocal",
-}) as any as S.Schema<ConfigV2ReferenceLocal>;
+).annotate({ identifier: "ConfigV2ReferenceLocal" }) as any as S.Schema<ConfigV2ReferenceLocal>;
 
 export type ConfigReferencesValue = string | ConfigV2ReferenceGit | ConfigV2ReferenceLocal;
 export const ConfigReferencesValue = S.Unknown as any as S.Schema<ConfigReferencesValue>;
 
-export type ConfigReferencesMap = {
-  [key: string]: ConfigReferencesValue | undefined;
-};
+export type ConfigReferencesMap = { [key: string]: ConfigReferencesValue | undefined };
 export const ConfigReferencesMap = /*@__PURE__*/ S.Record(
   S.String,
   ConfigReferencesValue,
@@ -2468,9 +2286,7 @@ export const ConfigReferencesMap = /*@__PURE__*/ S.Record(
 export type ConfigReferenceValue = string | ConfigV2ReferenceGit | ConfigV2ReferenceLocal;
 export const ConfigReferenceValue = S.Unknown as any as S.Schema<ConfigReferenceValue>;
 
-export type ConfigReferenceMap = {
-  [key: string]: ConfigReferenceValue | undefined;
-};
+export type ConfigReferenceMap = { [key: string]: ConfigReferenceValue | undefined };
 export const ConfigReferenceMap = /*@__PURE__*/ S.Record(
   S.String,
   ConfigReferenceValue,
@@ -2595,9 +2411,7 @@ export const PermissionConfigCase1 = /*@__PURE__*/ S.suspend(() =>
     doom_loop: S.optional(PermissionActionConfig),
     skill: S.optional(PermissionRuleConfig),
   }),
-).annotate({
-  identifier: "PermissionConfigCase1",
-}) as any as S.Schema<PermissionConfigCase1>;
+).annotate({ identifier: "PermissionConfigCase1" }) as any as S.Schema<PermissionConfigCase1>;
 
 export type PermissionConfig = PermissionActionConfig | PermissionConfigCase1;
 export const PermissionConfig = S.Unknown as any as S.Schema<PermissionConfig>;
@@ -2692,10 +2506,15 @@ export type ProviderConfigOptionsTimeout = number | boolean;
 export const ProviderConfigOptionsTimeout =
   S.Unknown as any as S.Schema<ProviderConfigOptionsTimeout>;
 
-/** Timeout in milliseconds to wait for response headers. Provider integrations may set defaults. Set to false to disable timeout. */
+/** Timeout in milliseconds to wait for response headers (default: 300000). Set to false to disable timeout. */
 export type ProviderConfigOptionsHeaderTimeout = number | boolean;
 export const ProviderConfigOptionsHeaderTimeout =
   S.Unknown as any as S.Schema<ProviderConfigOptionsHeaderTimeout>;
+
+/** Timeout in milliseconds between streamed SSE chunks for this provider (default: 300000). If no chunk arrives within this window, the request is aborted. Set to false to disable timeout. */
+export type ProviderConfigOptionsChunkTimeout = number | boolean;
+export const ProviderConfigOptionsChunkTimeout =
+  S.Unknown as any as S.Schema<ProviderConfigOptionsChunkTimeout>;
 
 export interface ProviderConfigOptions {
   apiKey?: string | Redacted.Redacted<string>;
@@ -2704,9 +2523,10 @@ export interface ProviderConfigOptions {
   setCacheKey?: boolean;
   /** Timeout in milliseconds for full requests to this provider. Set to false to disable timeout. */
   timeout?: ProviderConfigOptionsTimeout;
-  /** Timeout in milliseconds to wait for response headers. Provider integrations may set defaults. Set to false to disable timeout. */
+  /** Timeout in milliseconds to wait for response headers (default: 300000). Set to false to disable timeout. */
   headerTimeout?: ProviderConfigOptionsHeaderTimeout;
-  chunkTimeout?: number;
+  /** Timeout in milliseconds between streamed SSE chunks for this provider (default: 300000). If no chunk arrives within this window, the request is aborted. Set to false to disable timeout. */
+  chunkTimeout?: ProviderConfigOptionsChunkTimeout;
 }
 export const ProviderConfigOptions = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2716,11 +2536,9 @@ export const ProviderConfigOptions = /*@__PURE__*/ S.suspend(() =>
     setCacheKey: S.optional(S.Boolean),
     timeout: S.optional(ProviderConfigOptionsTimeout),
     headerTimeout: S.optional(ProviderConfigOptionsHeaderTimeout),
-    chunkTimeout: S.optional(S.Number),
+    chunkTimeout: S.optional(ProviderConfigOptionsChunkTimeout),
   }),
-).annotate({
-  identifier: "ProviderConfigOptions",
-}) as any as S.Schema<ProviderConfigOptions>;
+).annotate({ identifier: "ProviderConfigOptions" }) as any as S.Schema<ProviderConfigOptions>;
 
 export type ProviderConfigModelsValueInterleavedCase1 =
   | "reasoning"
@@ -2857,9 +2675,7 @@ export const ProviderConfigModelsValueProvider = /*@__PURE__*/ S.suspend(() =>
   identifier: "ProviderConfigModelsValueProvider",
 }) as any as S.Schema<ProviderConfigModelsValueProvider>;
 
-export type ProviderConfigModelsValueHeadersMap = {
-  [key: string]: string | undefined;
-};
+export type ProviderConfigModelsValueHeadersMap = { [key: string]: string | undefined };
 export const ProviderConfigModelsValueHeadersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2931,9 +2747,7 @@ export const ProviderConfigModelsValue = /*@__PURE__*/ S.suspend(() =>
   identifier: "ProviderConfigModelsValue",
 }) as any as S.Schema<ProviderConfigModelsValue>;
 
-export type ProviderConfigModelsMap = {
-  [key: string]: ProviderConfigModelsValue | undefined;
-};
+export type ProviderConfigModelsMap = { [key: string]: ProviderConfigModelsValue | undefined };
 export const ProviderConfigModelsMap = /*@__PURE__*/ S.Record(
   S.String,
   ProviderConfigModelsValue,
@@ -2977,9 +2791,7 @@ export const ConfigMcpValueCase2 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     enabled: S.Boolean,
   }),
-).annotate({
-  identifier: "ConfigMcpValueCase2",
-}) as any as S.Schema<ConfigMcpValueCase2>;
+).annotate({ identifier: "ConfigMcpValueCase2" }) as any as S.Schema<ConfigMcpValueCase2>;
 
 export type ConfigMcpValue = McpLocalConfig | McpRemoteConfig | ConfigMcpValueCase2;
 export const ConfigMcpValue = S.Unknown as any as S.Schema<ConfigMcpValue>;
@@ -2995,9 +2807,7 @@ export const ConfigFormatterCase1ValueCommandList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<ConfigFormatterCase1ValueCommandList>;
 
-export type ConfigFormatterCase1ValueEnvironmentMap = {
-  [key: string]: string | undefined;
-};
+export type ConfigFormatterCase1ValueEnvironmentMap = { [key: string]: string | undefined };
 export const ConfigFormatterCase1ValueEnvironmentMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3025,9 +2835,7 @@ export const ConfigFormatterCase1Value = /*@__PURE__*/ S.suspend(() =>
   identifier: "ConfigFormatterCase1Value",
 }) as any as S.Schema<ConfigFormatterCase1Value>;
 
-export type ConfigFormatterCase1Map = {
-  [key: string]: ConfigFormatterCase1Value | undefined;
-};
+export type ConfigFormatterCase1Map = { [key: string]: ConfigFormatterCase1Value | undefined };
 export const ConfigFormatterCase1Map = /*@__PURE__*/ S.Record(
   S.String,
   ConfigFormatterCase1Value,
@@ -3044,9 +2852,7 @@ export const ConfigLspCase1ValueCase0 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     disabled: S.Boolean,
   }),
-).annotate({
-  identifier: "ConfigLspCase1ValueCase0",
-}) as any as S.Schema<ConfigLspCase1ValueCase0>;
+).annotate({ identifier: "ConfigLspCase1ValueCase0" }) as any as S.Schema<ConfigLspCase1ValueCase0>;
 
 export type ConfigLspCase1ValueCase1CommandList = Array<string>;
 export const ConfigLspCase1ValueCase1CommandList = /*@__PURE__*/ S.Array(
@@ -3058,9 +2864,7 @@ export const ConfigLspCase1ValueCase1ExtensionsList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<ConfigLspCase1ValueCase1ExtensionsList>;
 
-export type ConfigLspCase1ValueCase1EnvMap = {
-  [key: string]: string | undefined;
-};
+export type ConfigLspCase1ValueCase1EnvMap = { [key: string]: string | undefined };
 export const ConfigLspCase1ValueCase1EnvMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3081,16 +2885,12 @@ export const ConfigLspCase1ValueCase1 = /*@__PURE__*/ S.suspend(() =>
     env: S.optional(ConfigLspCase1ValueCase1EnvMap),
     initialization: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "ConfigLspCase1ValueCase1",
-}) as any as S.Schema<ConfigLspCase1ValueCase1>;
+).annotate({ identifier: "ConfigLspCase1ValueCase1" }) as any as S.Schema<ConfigLspCase1ValueCase1>;
 
 export type ConfigLspCase1Value = ConfigLspCase1ValueCase0 | ConfigLspCase1ValueCase1;
 export const ConfigLspCase1Value = S.Unknown as any as S.Schema<ConfigLspCase1Value>;
 
-export type ConfigLspCase1Map = {
-  [key: string]: ConfigLspCase1Value | undefined;
-};
+export type ConfigLspCase1Map = { [key: string]: ConfigLspCase1Value | undefined };
 export const ConfigLspCase1Map = /*@__PURE__*/ S.Record(
   S.String,
   ConfigLspCase1Value,
@@ -3128,9 +2928,7 @@ export const ImageAttachmentConfig = /*@__PURE__*/ S.suspend(() =>
     max_height: S.optional(S.Number),
     max_base64_bytes: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ImageAttachmentConfig",
-}) as any as S.Schema<ImageAttachmentConfig>;
+).annotate({ identifier: "ImageAttachmentConfig" }) as any as S.Schema<ImageAttachmentConfig>;
 
 export interface AttachmentConfig {
   image?: ImageAttachmentConfig;
@@ -3139,9 +2937,7 @@ export const AttachmentConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     image: S.optional(ImageAttachmentConfig),
   }),
-).annotate({
-  identifier: "AttachmentConfig",
-}) as any as S.Schema<AttachmentConfig>;
+).annotate({ identifier: "AttachmentConfig" }) as any as S.Schema<AttachmentConfig>;
 
 export interface ConfigEnterprise {
   url?: string;
@@ -3150,9 +2946,7 @@ export const ConfigEnterprise = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     url: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ConfigEnterprise",
-}) as any as S.Schema<ConfigEnterprise>;
+).annotate({ identifier: "ConfigEnterprise" }) as any as S.Schema<ConfigEnterprise>;
 
 export interface ConfigToolOutput {
   max_lines?: number;
@@ -3163,9 +2957,7 @@ export const ConfigToolOutput = /*@__PURE__*/ S.suspend(() =>
     max_lines: S.optional(S.Number),
     max_bytes: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ConfigToolOutput",
-}) as any as S.Schema<ConfigToolOutput>;
+).annotate({ identifier: "ConfigToolOutput" }) as any as S.Schema<ConfigToolOutput>;
 
 export interface ConfigCompaction {
   auto?: boolean;
@@ -3182,9 +2974,7 @@ export const ConfigCompaction = /*@__PURE__*/ S.suspend(() =>
     preserve_recent_tokens: S.optional(S.Number),
     reserved: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ConfigCompaction",
-}) as any as S.Schema<ConfigCompaction>;
+).annotate({ identifier: "ConfigCompaction" }) as any as S.Schema<ConfigCompaction>;
 
 export type ConfigExperimentalPrimaryToolsList = Array<string>;
 export const ConfigExperimentalPrimaryToolsList = /*@__PURE__*/ S.Array(
@@ -3236,9 +3026,7 @@ export const ConfigExperimental = /*@__PURE__*/ S.suspend(() =>
     mcp_timeout: S.optional(S.Number),
     policies: S.optional(ConfigExperimentalPoliciesList),
   }),
-).annotate({
-  identifier: "ConfigExperimental",
-}) as any as S.Schema<ConfigExperimental>;
+).annotate({ identifier: "ConfigExperimental" }) as any as S.Schema<ConfigExperimental>;
 
 export interface Config {
   _schema?: string;
@@ -3342,9 +3130,7 @@ export const ExperimentalCapabilities = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     backgroundSubagents: S.Boolean,
   }),
-).annotate({
-  identifier: "ExperimentalCapabilities",
-}) as any as S.Schema<ExperimentalCapabilities>;
+).annotate({ identifier: "ExperimentalCapabilities" }) as any as S.Schema<ExperimentalCapabilities>;
 
 export interface GetExperimentalConsoleRequest {
   directory?: string;
@@ -3380,9 +3166,7 @@ export const ConsoleState = /*@__PURE__*/ S.suspend(() =>
 export interface GetGlobalConfigRequest {}
 export const GetGlobalConfigRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/global/config", code: 200 })),
-).annotate({
-  identifier: "GetGlobalConfigRequest",
-}) as any as S.Schema<GetGlobalConfigRequest>;
+).annotate({ identifier: "GetGlobalConfigRequest" }) as any as S.Schema<GetGlobalConfigRequest>;
 
 export interface GetPathRequest {
   directory?: string;
@@ -3436,16 +3220,12 @@ export const GetSessionRequest = /*@__PURE__*/ S.suspend(() =>
     directory: S.optional(S.String.pipe(T.Query())),
     workspace: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/session/{sessionID}", code: 200 })),
-).annotate({
-  identifier: "GetSessionRequest",
-}) as any as S.Schema<GetSessionRequest>;
+).annotate({ identifier: "GetSessionRequest" }) as any as S.Schema<GetSessionRequest>;
 
 export interface GetV2HealthRequest {}
 export const GetV2HealthRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/health", code: 200 })),
-).annotate({
-  identifier: "GetV2HealthRequest",
-}) as any as S.Schema<GetV2HealthRequest>;
+).annotate({ identifier: "GetV2HealthRequest" }) as any as S.Schema<GetV2HealthRequest>;
 
 export interface GetV2HealthResponse {
   healthy: boolean;
@@ -3454,9 +3234,7 @@ export const GetV2HealthResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     healthy: S.Boolean,
   }),
-).annotate({
-  identifier: "GetV2HealthResponse",
-}) as any as S.Schema<GetV2HealthResponse>;
+).annotate({ identifier: "GetV2HealthResponse" }) as any as S.Schema<GetV2HealthResponse>;
 
 export type GetV2IntegrationRequestLocation = CancelV2IntegrationAttemptRequestLocation;
 export const GetV2IntegrationRequestLocation = CancelV2IntegrationAttemptRequestLocation;
@@ -3469,16 +3247,8 @@ export const GetV2IntegrationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     integrationID: S.String.pipe(T.Label()),
     location: S.optional(CancelV2IntegrationAttemptRequestLocation.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/integration/{integrationID}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetV2IntegrationRequest",
-}) as any as S.Schema<GetV2IntegrationRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/integration/{integrationID}", code: 200 })),
+).annotate({ identifier: "GetV2IntegrationRequest" }) as any as S.Schema<GetV2IntegrationRequest>;
 
 export type IntegrationOAuthMethodType = "oauth";
 export const IntegrationOAuthMethodType = S.String;
@@ -3500,9 +3270,7 @@ export const IntegrationWhen = /*@__PURE__*/ S.suspend(() =>
     op: IntegrationWhenOp,
     value: S.String,
   }),
-).annotate({
-  identifier: "IntegrationWhen",
-}) as any as S.Schema<IntegrationWhen>;
+).annotate({ identifier: "IntegrationWhen" }) as any as S.Schema<IntegrationWhen>;
 
 export interface IntegrationTextPrompt {
   type: IntegrationTextPromptType;
@@ -3519,9 +3287,7 @@ export const IntegrationTextPrompt = /*@__PURE__*/ S.suspend(() =>
     placeholder: S.optional(S.String),
     when: S.optional(IntegrationWhen),
   }),
-).annotate({
-  identifier: "IntegrationTextPrompt",
-}) as any as S.Schema<IntegrationTextPrompt>;
+).annotate({ identifier: "IntegrationTextPrompt" }) as any as S.Schema<IntegrationTextPrompt>;
 
 export type IntegrationSelectPromptType = "select";
 export const IntegrationSelectPromptType = S.String;
@@ -3561,9 +3327,7 @@ export const IntegrationSelectPrompt = /*@__PURE__*/ S.suspend(() =>
     options: IntegrationSelectPromptOptionsList,
     when: S.optional(IntegrationWhen),
   }),
-).annotate({
-  identifier: "IntegrationSelectPrompt",
-}) as any as S.Schema<IntegrationSelectPrompt>;
+).annotate({ identifier: "IntegrationSelectPrompt" }) as any as S.Schema<IntegrationSelectPrompt>;
 
 export type IntegrationOAuthMethodPromptsItem = IntegrationTextPrompt | IntegrationSelectPrompt;
 export const IntegrationOAuthMethodPromptsItem =
@@ -3587,9 +3351,7 @@ export const IntegrationOAuthMethod = /*@__PURE__*/ S.suspend(() =>
     label: S.String,
     prompts: S.optional(IntegrationOAuthMethodPromptsList),
   }),
-).annotate({
-  identifier: "IntegrationOAuthMethod",
-}) as any as S.Schema<IntegrationOAuthMethod>;
+).annotate({ identifier: "IntegrationOAuthMethod" }) as any as S.Schema<IntegrationOAuthMethod>;
 
 export type IntegrationKeyMethodType = "key";
 export const IntegrationKeyMethodType = S.String;
@@ -3603,9 +3365,7 @@ export const IntegrationKeyMethod = /*@__PURE__*/ S.suspend(() =>
     type: IntegrationKeyMethodType,
     label: S.optional(S.String),
   }),
-).annotate({
-  identifier: "IntegrationKeyMethod",
-}) as any as S.Schema<IntegrationKeyMethod>;
+).annotate({ identifier: "IntegrationKeyMethod" }) as any as S.Schema<IntegrationKeyMethod>;
 
 export type IntegrationEnvMethodType = "env";
 export const IntegrationEnvMethodType = S.String;
@@ -3624,9 +3384,7 @@ export const IntegrationEnvMethod = /*@__PURE__*/ S.suspend(() =>
     type: IntegrationEnvMethodType,
     names: IntegrationEnvMethodNamesList,
   }),
-).annotate({
-  identifier: "IntegrationEnvMethod",
-}) as any as S.Schema<IntegrationEnvMethod>;
+).annotate({ identifier: "IntegrationEnvMethod" }) as any as S.Schema<IntegrationEnvMethod>;
 
 export type IntegrationMethod =
   | IntegrationOAuthMethod
@@ -3653,9 +3411,7 @@ export const ConnectionCredentialInfo = /*@__PURE__*/ S.suspend(() =>
     id: S.String,
     label: S.String,
   }),
-).annotate({
-  identifier: "ConnectionCredentialInfo",
-}) as any as S.Schema<ConnectionCredentialInfo>;
+).annotate({ identifier: "ConnectionCredentialInfo" }) as any as S.Schema<ConnectionCredentialInfo>;
 
 export type ConnectionEnvInfoType = "env";
 export const ConnectionEnvInfoType = S.String;
@@ -3669,9 +3425,7 @@ export const ConnectionEnvInfo = /*@__PURE__*/ S.suspend(() =>
     type: ConnectionEnvInfoType,
     name: S.String,
   }),
-).annotate({
-  identifier: "ConnectionEnvInfo",
-}) as any as S.Schema<ConnectionEnvInfo>;
+).annotate({ identifier: "ConnectionEnvInfo" }) as any as S.Schema<ConnectionEnvInfo>;
 
 export type ConnectionInfo = ConnectionCredentialInfo | ConnectionEnvInfo;
 export const ConnectionInfo = S.Unknown as any as S.Schema<ConnectionInfo>;
@@ -3694,9 +3448,7 @@ export const IntegrationInfo = /*@__PURE__*/ S.suspend(() =>
     methods: IntegrationInfoMethodsList,
     connections: IntegrationInfoConnectionsList,
   }),
-).annotate({
-  identifier: "IntegrationInfo",
-}) as any as S.Schema<IntegrationInfo>;
+).annotate({ identifier: "IntegrationInfo" }) as any as S.Schema<IntegrationInfo>;
 
 export interface GetV2IntegrationResponse {
   location: LocationInfo;
@@ -3707,9 +3459,7 @@ export const GetV2IntegrationResponse = /*@__PURE__*/ S.suspend(() =>
     location: LocationInfo,
     data: IntegrationInfo,
   }),
-).annotate({
-  identifier: "GetV2IntegrationResponse",
-}) as any as S.Schema<GetV2IntegrationResponse>;
+).annotate({ identifier: "GetV2IntegrationResponse" }) as any as S.Schema<GetV2IntegrationResponse>;
 
 export type GetV2LocationRequestLocation = CancelV2IntegrationAttemptRequestLocation;
 export const GetV2LocationRequestLocation = CancelV2IntegrationAttemptRequestLocation;
@@ -3721,9 +3471,7 @@ export const GetV2LocationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     location: S.optional(CancelV2IntegrationAttemptRequestLocation.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/location", code: 200 })),
-).annotate({
-  identifier: "GetV2LocationRequest",
-}) as any as S.Schema<GetV2LocationRequest>;
+).annotate({ identifier: "GetV2LocationRequest" }) as any as S.Schema<GetV2LocationRequest>;
 
 export type GetV2ProviderRequestLocation = CancelV2IntegrationAttemptRequestLocation;
 export const GetV2ProviderRequestLocation = CancelV2IntegrationAttemptRequestLocation;
@@ -3737,9 +3485,7 @@ export const GetV2ProviderRequest = /*@__PURE__*/ S.suspend(() =>
     providerID: S.String.pipe(T.Label()),
     location: S.optional(CancelV2IntegrationAttemptRequestLocation.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/provider/{providerID}", code: 200 })),
-).annotate({
-  identifier: "GetV2ProviderRequest",
-}) as any as S.Schema<GetV2ProviderRequest>;
+).annotate({ identifier: "GetV2ProviderRequest" }) as any as S.Schema<GetV2ProviderRequest>;
 
 export type ProviderAISDKType = "aisdk";
 export const ProviderAISDKType = S.String;
@@ -3793,9 +3539,7 @@ export const ProviderRequest = /*@__PURE__*/ S.suspend(() =>
     headers: ProviderRequestHeadersMap,
     body: S.Unknown,
   }),
-).annotate({
-  identifier: "ProviderRequest",
-}) as any as S.Schema<ProviderRequest>;
+).annotate({ identifier: "ProviderRequest" }) as any as S.Schema<ProviderRequest>;
 
 export interface ProviderV2Info {
   id: string;
@@ -3825,9 +3569,7 @@ export const GetV2ProviderResponse = /*@__PURE__*/ S.suspend(() =>
     location: LocationInfo,
     data: ProviderV2Info,
   }),
-).annotate({
-  identifier: "GetV2ProviderResponse",
-}) as any as S.Schema<GetV2ProviderResponse>;
+).annotate({ identifier: "GetV2ProviderResponse" }) as any as S.Schema<GetV2ProviderResponse>;
 
 export type GetV2PtyRequestLocation = CancelV2IntegrationAttemptRequestLocation;
 export const GetV2PtyRequestLocation = CancelV2IntegrationAttemptRequestLocation;
@@ -3841,9 +3583,7 @@ export const GetV2PtyRequest = /*@__PURE__*/ S.suspend(() =>
     ptyID: S.String.pipe(T.Label()),
     location: S.optional(CancelV2IntegrationAttemptRequestLocation.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/pty/{ptyID}", code: 200 })),
-).annotate({
-  identifier: "GetV2PtyRequest",
-}) as any as S.Schema<GetV2PtyRequest>;
+).annotate({ identifier: "GetV2PtyRequest" }) as any as S.Schema<GetV2PtyRequest>;
 
 export interface GetV2PtyResponse {
   location: LocationInfo;
@@ -3854,9 +3594,7 @@ export const GetV2PtyResponse = /*@__PURE__*/ S.suspend(() =>
     location: LocationInfo,
     data: Pty,
   }),
-).annotate({
-  identifier: "GetV2PtyResponse",
-}) as any as S.Schema<GetV2PtyResponse>;
+).annotate({ identifier: "GetV2PtyResponse" }) as any as S.Schema<GetV2PtyResponse>;
 
 export interface GetV2SessionRequest {
   sessionID: string;
@@ -3865,9 +3603,7 @@ export const GetV2SessionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     sessionID: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/api/session/{sessionID}", code: 200 })),
-).annotate({
-  identifier: "GetV2SessionRequest",
-}) as any as S.Schema<GetV2SessionRequest>;
+).annotate({ identifier: "GetV2SessionRequest" }) as any as S.Schema<GetV2SessionRequest>;
 
 export interface GetV2SessionResponse {
   data: SessionV2Info;
@@ -3876,9 +3612,7 @@ export const GetV2SessionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: SessionV2Info,
   }),
-).annotate({
-  identifier: "GetV2SessionResponse",
-}) as any as S.Schema<GetV2SessionResponse>;
+).annotate({ identifier: "GetV2SessionResponse" }) as any as S.Schema<GetV2SessionResponse>;
 
 export interface GetV2SessionPermissionRequest {
   sessionID: string;
@@ -3889,11 +3623,7 @@ export const GetV2SessionPermissionRequest = /*@__PURE__*/ S.suspend(() =>
     sessionID: S.String.pipe(T.Label()),
     requestID: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/session/{sessionID}/permission/{requestID}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/session/{sessionID}/permission/{requestID}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetV2SessionPermissionRequest",
@@ -3928,9 +3658,7 @@ export const PermissionV2Request = /*@__PURE__*/ S.suspend(() =>
     metadata: S.optional(S.Unknown),
     source: S.optional(PermissionV2Source),
   }),
-).annotate({
-  identifier: "PermissionV2Request",
-}) as any as S.Schema<PermissionV2Request>;
+).annotate({ identifier: "PermissionV2Request" }) as any as S.Schema<PermissionV2Request>;
 
 export interface GetV2SessionPermissionResponse {
   data: PermissionV2Request;
@@ -3968,23 +3696,17 @@ export const VcsInfo = /*@__PURE__*/ S.suspend(() =>
 export interface GlobalDisposeRequest {}
 export const GlobalDisposeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "POST", uri: "/global/dispose", code: 200 })),
-).annotate({
-  identifier: "GlobalDisposeRequest",
-}) as any as S.Schema<GlobalDisposeRequest>;
+).annotate({ identifier: "GlobalDisposeRequest" }) as any as S.Schema<GlobalDisposeRequest>;
 
 export type GlobalDisposeResponse = boolean;
 export const GlobalDisposeResponse = /*@__PURE__*/ S.suspend(() =>
   S.Boolean.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GlobalDisposeResponse",
-}) as any as S.Schema<GlobalDisposeResponse>;
+).annotate({ identifier: "GlobalDisposeResponse" }) as any as S.Schema<GlobalDisposeResponse>;
 
 export interface GlobalEventRequest {}
 export const GlobalEventRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/global/event", code: 200 })),
-).annotate({
-  identifier: "GlobalEventRequest",
-}) as any as S.Schema<GlobalEventRequest>;
+).annotate({ identifier: "GlobalEventRequest" }) as any as S.Schema<GlobalEventRequest>;
 
 export interface GlobalEventResponse {}
 export const GlobalEventResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -3994,9 +3716,7 @@ export const GlobalEventResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).a
 export interface GlobalHealthRequest {}
 export const GlobalHealthRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/global/health", code: 200 })),
-).annotate({
-  identifier: "GlobalHealthRequest",
-}) as any as S.Schema<GlobalHealthRequest>;
+).annotate({ identifier: "GlobalHealthRequest" }) as any as S.Schema<GlobalHealthRequest>;
 
 export interface GlobalHealthResponse {
   healthy: boolean;
@@ -4007,9 +3727,7 @@ export const GlobalHealthResponse = /*@__PURE__*/ S.suspend(() =>
     healthy: S.Boolean,
     version: S.String,
   }),
-).annotate({
-  identifier: "GlobalHealthResponse",
-}) as any as S.Schema<GlobalHealthResponse>;
+).annotate({ identifier: "GlobalHealthResponse" }) as any as S.Schema<GlobalHealthResponse>;
 
 export interface GlobalUpgradeRequest {
   target: string;
@@ -4018,9 +3736,7 @@ export const GlobalUpgradeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     target: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/global/upgrade", code: 200 })),
-).annotate({
-  identifier: "GlobalUpgradeRequest",
-}) as any as S.Schema<GlobalUpgradeRequest>;
+).annotate({ identifier: "GlobalUpgradeRequest" }) as any as S.Schema<GlobalUpgradeRequest>;
 
 export interface GlobalUpgradeResponseBodyCase0 {
   success: boolean;
@@ -4057,9 +3773,7 @@ export const GlobalUpgradeResponseBody = S.Unknown as any as S.Schema<GlobalUpgr
 export type GlobalUpgradeResponse = GlobalUpgradeResponseBody;
 export const GlobalUpgradeResponse = /*@__PURE__*/ S.suspend(() =>
   GlobalUpgradeResponseBody.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GlobalUpgradeResponse",
-}) as any as S.Schema<GlobalUpgradeResponse>;
+).annotate({ identifier: "GlobalUpgradeResponse" }) as any as S.Schema<GlobalUpgradeResponse>;
 
 export interface InstanceDisposeRequest {
   directory?: string;
@@ -4070,16 +3784,12 @@ export const InstanceDisposeRequest = /*@__PURE__*/ S.suspend(() =>
     directory: S.optional(S.String.pipe(T.Query())),
     workspace: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "POST", uri: "/instance/dispose", code: 200 })),
-).annotate({
-  identifier: "InstanceDisposeRequest",
-}) as any as S.Schema<InstanceDisposeRequest>;
+).annotate({ identifier: "InstanceDisposeRequest" }) as any as S.Schema<InstanceDisposeRequest>;
 
 export type InstanceDisposeResponse = boolean;
 export const InstanceDisposeResponse = /*@__PURE__*/ S.suspend(() =>
   S.Boolean.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "InstanceDisposeResponse",
-}) as any as S.Schema<InstanceDisposeResponse>;
+).annotate({ identifier: "InstanceDisposeResponse" }) as any as S.Schema<InstanceDisposeResponse>;
 
 export interface ListCommandRequest {
   directory?: string;
@@ -4090,9 +3800,7 @@ export const ListCommandRequest = /*@__PURE__*/ S.suspend(() =>
     directory: S.optional(S.String.pipe(T.Query())),
     workspace: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/command", code: 200 })),
-).annotate({
-  identifier: "ListCommandRequest",
-}) as any as S.Schema<ListCommandRequest>;
+).annotate({ identifier: "ListCommandRequest" }) as any as S.Schema<ListCommandRequest>;
 
 export type CommandSource = "command" | "mcp" | "skill";
 export const CommandSource = S.String;
@@ -4134,9 +3842,7 @@ export const ListCommandResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListCommandResponse = ListCommandResponseBodyList;
 export const ListCommandResponse = /*@__PURE__*/ S.suspend(() =>
   ListCommandResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListCommandResponse",
-}) as any as S.Schema<ListCommandResponse>;
+).annotate({ identifier: "ListCommandResponse" }) as any as S.Schema<ListCommandResponse>;
 
 export interface ListExperimentalResourceRequest {
   directory?: string;
@@ -4169,9 +3875,7 @@ export const McpResource = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "McpResource" }) as any as S.Schema<McpResource>;
 
 /** MCP resources */
-export type ListExperimentalResourceResponseBodyMap = {
-  [key: string]: McpResource | undefined;
-};
+export type ListExperimentalResourceResponseBodyMap = { [key: string]: McpResource | undefined };
 export const ListExperimentalResourceResponseBodyMap = /*@__PURE__*/ S.Record(
   S.String,
   McpResource,
@@ -4245,9 +3949,7 @@ export const GlobalSessionSummary = /*@__PURE__*/ S.suspend(() =>
     files: S.Number,
     diffs: S.optional(GlobalSessionSummaryDiffsList),
   }),
-).annotate({
-  identifier: "GlobalSessionSummary",
-}) as any as S.Schema<GlobalSessionSummary>;
+).annotate({ identifier: "GlobalSessionSummary" }) as any as S.Schema<GlobalSessionSummary>;
 
 export type GlobalSessionTokensCache = ModelCostCache;
 export const GlobalSessionTokensCache = ModelCostCache;
@@ -4374,13 +4076,7 @@ export const ListExperimentalWorkspaceAdapterRequest = /*@__PURE__*/ S.suspend((
   S.Struct({
     directory: S.optional(S.String.pipe(T.Query())),
     workspace: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/experimental/workspace/adapter",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/experimental/workspace/adapter", code: 200 })),
 ).annotate({
   identifier: "ListExperimentalWorkspaceAdapterRequest",
 }) as any as S.Schema<ListExperimentalWorkspaceAdapterRequest>;
@@ -4423,13 +4119,7 @@ export const ListExperimentalWorkspaceSyncRequest = /*@__PURE__*/ S.suspend(() =
   S.Struct({
     directory: S.optional(S.String.pipe(T.Query())),
     workspace: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/experimental/workspace/sync-list",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/experimental/workspace/sync-list", code: 200 })),
 ).annotate({
   identifier: "ListExperimentalWorkspaceSyncRequest",
 }) as any as S.Schema<ListExperimentalWorkspaceSyncRequest>;
@@ -4452,9 +4142,7 @@ export const ListFileRequest = /*@__PURE__*/ S.suspend(() =>
     workspace: S.optional(S.String.pipe(T.Query())),
     path: S.String.pipe(T.Query()),
   }).pipe(T.Http({ method: "GET", uri: "/file", code: 200 })),
-).annotate({
-  identifier: "ListFileRequest",
-}) as any as S.Schema<ListFileRequest>;
+).annotate({ identifier: "ListFileRequest" }) as any as S.Schema<ListFileRequest>;
 
 export type FileNodeType = "file" | "directory";
 export const FileNodeType = S.String;
@@ -4485,9 +4173,7 @@ export const ListFileResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListFileResponse = ListFileResponseBodyList;
 export const ListFileResponse = /*@__PURE__*/ S.suspend(() =>
   ListFileResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListFileResponse",
-}) as any as S.Schema<ListFileResponse>;
+).annotate({ identifier: "ListFileResponse" }) as any as S.Schema<ListFileResponse>;
 
 export interface ListPermissionRequest {
   directory?: string;
@@ -4498,9 +4184,7 @@ export const ListPermissionRequest = /*@__PURE__*/ S.suspend(() =>
     directory: S.optional(S.String.pipe(T.Query())),
     workspace: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/permission", code: 200 })),
-).annotate({
-  identifier: "ListPermissionRequest",
-}) as any as S.Schema<ListPermissionRequest>;
+).annotate({ identifier: "ListPermissionRequest" }) as any as S.Schema<ListPermissionRequest>;
 
 export type PermissionRequestPatternsList = Array<string>;
 export const PermissionRequestPatternsList = /*@__PURE__*/ S.Array(
@@ -4521,9 +4205,7 @@ export const PermissionRequestTool = /*@__PURE__*/ S.suspend(() =>
     messageID: S.String,
     callID: S.String,
   }),
-).annotate({
-  identifier: "PermissionRequestTool",
-}) as any as S.Schema<PermissionRequestTool>;
+).annotate({ identifier: "PermissionRequestTool" }) as any as S.Schema<PermissionRequestTool>;
 
 export interface PermissionRequest {
   id: string;
@@ -4544,9 +4226,7 @@ export const PermissionRequest = /*@__PURE__*/ S.suspend(() =>
     always: PermissionRequestAlwaysList,
     tool: S.optional(PermissionRequestTool),
   }),
-).annotate({
-  identifier: "PermissionRequest",
-}) as any as S.Schema<PermissionRequest>;
+).annotate({ identifier: "PermissionRequest" }) as any as S.Schema<PermissionRequest>;
 
 /** List of pending permissions */
 export type ListPermissionResponseBodyList = Array<PermissionRequest>;
@@ -4557,9 +4237,7 @@ export const ListPermissionResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListPermissionResponse = ListPermissionResponseBodyList;
 export const ListPermissionResponse = /*@__PURE__*/ S.suspend(() =>
   ListPermissionResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListPermissionResponse",
-}) as any as S.Schema<ListPermissionResponse>;
+).annotate({ identifier: "ListPermissionResponse" }) as any as S.Schema<ListPermissionResponse>;
 
 export interface ListProjectRequest {
   directory?: string;
@@ -4570,9 +4248,7 @@ export const ListProjectRequest = /*@__PURE__*/ S.suspend(() =>
     directory: S.optional(S.String.pipe(T.Query())),
     workspace: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/project", code: 200 })),
-).annotate({
-  identifier: "ListProjectRequest",
-}) as any as S.Schema<ListProjectRequest>;
+).annotate({ identifier: "ListProjectRequest" }) as any as S.Schema<ListProjectRequest>;
 
 export type ProjectVcs = "git";
 export const ProjectVcs = S.String;
@@ -4598,9 +4274,7 @@ export const ProjectCommands = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     start: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ProjectCommands",
-}) as any as S.Schema<ProjectCommands>;
+).annotate({ identifier: "ProjectCommands" }) as any as S.Schema<ProjectCommands>;
 
 export interface ProjectTime {
   created: number;
@@ -4652,9 +4326,7 @@ export const ListProjectResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListProjectResponse = ListProjectResponseBodyList;
 export const ListProjectResponse = /*@__PURE__*/ S.suspend(() =>
   ListProjectResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListProjectResponse",
-}) as any as S.Schema<ListProjectResponse>;
+).annotate({ identifier: "ListProjectResponse" }) as any as S.Schema<ListProjectResponse>;
 
 export interface ListProviderRequest {
   directory?: string;
@@ -4665,18 +4337,14 @@ export const ListProviderRequest = /*@__PURE__*/ S.suspend(() =>
     directory: S.optional(S.String.pipe(T.Query())),
     workspace: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/provider", code: 200 })),
-).annotate({
-  identifier: "ListProviderRequest",
-}) as any as S.Schema<ListProviderRequest>;
+).annotate({ identifier: "ListProviderRequest" }) as any as S.Schema<ListProviderRequest>;
 
 export type ListProviderResponseAllList = Array<Provider>;
 export const ListProviderResponseAllList = /*@__PURE__*/ S.Array(
   Provider,
 ) as any as S.Schema<ListProviderResponseAllList>;
 
-export type ListProviderResponseDefaultMap = {
-  [key: string]: string | undefined;
-};
+export type ListProviderResponseDefaultMap = { [key: string]: string | undefined };
 export const ListProviderResponseDefaultMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -4698,9 +4366,7 @@ export const ListProviderResponse = /*@__PURE__*/ S.suspend(() =>
     default: ListProviderResponseDefaultMap,
     connected: ListProviderResponseConnectedList,
   }),
-).annotate({
-  identifier: "ListProviderResponse",
-}) as any as S.Schema<ListProviderResponse>;
+).annotate({ identifier: "ListProviderResponse" }) as any as S.Schema<ListProviderResponse>;
 
 export interface ListProviderAuthMethodsRequest {
   directory?: string;
@@ -4829,9 +4495,7 @@ export const ProviderAuthMethod = /*@__PURE__*/ S.suspend(() =>
     label: S.String,
     prompts: S.optional(ProviderAuthMethodPromptsList),
   }),
-).annotate({
-  identifier: "ProviderAuthMethod",
-}) as any as S.Schema<ProviderAuthMethod>;
+).annotate({ identifier: "ProviderAuthMethod" }) as any as S.Schema<ProviderAuthMethod>;
 
 export type ListProviderAuthMethodsResponseBodyValueList = Array<ProviderAuthMethod>;
 export const ListProviderAuthMethodsResponseBodyValueList = /*@__PURE__*/ S.Array(
@@ -4874,9 +4538,7 @@ export const ListPtyResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListPtyResponse = ListPtyResponseBodyList;
 export const ListPtyResponse = /*@__PURE__*/ S.suspend(() =>
   ListPtyResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListPtyResponse",
-}) as any as S.Schema<ListPtyResponse>;
+).annotate({ identifier: "ListPtyResponse" }) as any as S.Schema<ListPtyResponse>;
 
 export interface ListQuestionRequest {
   directory?: string;
@@ -4887,9 +4549,7 @@ export const ListQuestionRequest = /*@__PURE__*/ S.suspend(() =>
     directory: S.optional(S.String.pipe(T.Query())),
     workspace: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/question", code: 200 })),
-).annotate({
-  identifier: "ListQuestionRequest",
-}) as any as S.Schema<ListQuestionRequest>;
+).annotate({ identifier: "ListQuestionRequest" }) as any as S.Schema<ListQuestionRequest>;
 
 export interface QuestionOption {
   /** Display text (1-5 words, concise) */
@@ -4953,9 +4613,7 @@ export const QuestionRequest = /*@__PURE__*/ S.suspend(() =>
     questions: QuestionRequestQuestionsList,
     tool: S.optional(PermissionRequestTool),
   }),
-).annotate({
-  identifier: "QuestionRequest",
-}) as any as S.Schema<QuestionRequest>;
+).annotate({ identifier: "QuestionRequest" }) as any as S.Schema<QuestionRequest>;
 
 /** List of pending questions */
 export type ListQuestionResponseBodyList = Array<QuestionRequest>;
@@ -4966,9 +4624,7 @@ export const ListQuestionResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListQuestionResponse = ListQuestionResponseBodyList;
 export const ListQuestionResponse = /*@__PURE__*/ S.suspend(() =>
   ListQuestionResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListQuestionResponse",
-}) as any as S.Schema<ListQuestionResponse>;
+).annotate({ identifier: "ListQuestionResponse" }) as any as S.Schema<ListQuestionResponse>;
 
 export type ListSessionRequestScope = "project";
 export const ListSessionRequestScope = S.String;
@@ -5000,9 +4656,7 @@ export const ListSessionRequest = /*@__PURE__*/ S.suspend(() =>
     search: S.optional(S.String.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/session", code: 200 })),
-).annotate({
-  identifier: "ListSessionRequest",
-}) as any as S.Schema<ListSessionRequest>;
+).annotate({ identifier: "ListSessionRequest" }) as any as S.Schema<ListSessionRequest>;
 
 /** List of sessions */
 export type ListSessionResponseBodyList = Array<Session>;
@@ -5013,13 +4667,9 @@ export const ListSessionResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListSessionResponse = ListSessionResponseBodyList;
 export const ListSessionResponse = /*@__PURE__*/ S.suspend(() =>
   ListSessionResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListSessionResponse",
-}) as any as S.Schema<ListSessionResponse>;
+).annotate({ identifier: "ListSessionResponse" }) as any as S.Schema<ListSessionResponse>;
 
-export type ListSyncHistoryRequestBodyMap = {
-  [key: string]: number | undefined;
-};
+export type ListSyncHistoryRequestBodyMap = { [key: string]: number | undefined };
 export const ListSyncHistoryRequestBodyMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Number,
@@ -5036,9 +4686,7 @@ export const ListSyncHistoryRequest = /*@__PURE__*/ S.suspend(() =>
     workspace: S.optional(S.String.pipe(T.Query())),
     body: S.optional(ListSyncHistoryRequestBodyMap.pipe(T.HttpBody())),
   }).pipe(T.Http({ method: "POST", uri: "/sync/history", code: 200 })),
-).annotate({
-  identifier: "ListSyncHistoryRequest",
-}) as any as S.Schema<ListSyncHistoryRequest>;
+).annotate({ identifier: "ListSyncHistoryRequest" }) as any as S.Schema<ListSyncHistoryRequest>;
 
 export interface ListSyncHistoryResponseBodyItem {
   id: string;
@@ -5068,9 +4716,7 @@ export const ListSyncHistoryResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListSyncHistoryResponse = ListSyncHistoryResponseBodyList;
 export const ListSyncHistoryResponse = /*@__PURE__*/ S.suspend(() =>
   ListSyncHistoryResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListSyncHistoryResponse",
-}) as any as S.Schema<ListSyncHistoryResponse>;
+).annotate({ identifier: "ListSyncHistoryResponse" }) as any as S.Schema<ListSyncHistoryResponse>;
 
 export interface ListToolRequest {
   directory?: string;
@@ -5085,9 +4731,7 @@ export const ListToolRequest = /*@__PURE__*/ S.suspend(() =>
     provider: S.String.pipe(T.Query()),
     model: S.String.pipe(T.Query()),
   }).pipe(T.Http({ method: "GET", uri: "/experimental/tool", code: 200 })),
-).annotate({
-  identifier: "ListToolRequest",
-}) as any as S.Schema<ListToolRequest>;
+).annotate({ identifier: "ListToolRequest" }) as any as S.Schema<ListToolRequest>;
 
 export interface ToolListItem {
   id: string;
@@ -5108,9 +4752,7 @@ export const ToolList = /*@__PURE__*/ S.Array(ToolListItem) as any as S.Schema<T
 export type ListToolResponse = ToolList;
 export const ListToolResponse = /*@__PURE__*/ S.suspend(() =>
   ToolList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListToolResponse",
-}) as any as S.Schema<ListToolResponse>;
+).annotate({ identifier: "ListToolResponse" }) as any as S.Schema<ListToolResponse>;
 
 export type ListV2AgentRequestLocation = CancelV2IntegrationAttemptRequestLocation;
 export const ListV2AgentRequestLocation = CancelV2IntegrationAttemptRequestLocation;
@@ -5122,9 +4764,7 @@ export const ListV2AgentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     location: S.optional(CancelV2IntegrationAttemptRequestLocation.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/agent", code: 200 })),
-).annotate({
-  identifier: "ListV2AgentRequest",
-}) as any as S.Schema<ListV2AgentRequest>;
+).annotate({ identifier: "ListV2AgentRequest" }) as any as S.Schema<ListV2AgentRequest>;
 
 export type AgentV2InfoMode = "subagent" | "primary" | "all";
 export const AgentV2InfoMode = S.String;
@@ -5153,9 +4793,7 @@ export const PermissionV2Rule = /*@__PURE__*/ S.suspend(() =>
     resource: S.String,
     effect: PermissionV2Effect,
   }),
-).annotate({
-  identifier: "PermissionV2Rule",
-}) as any as S.Schema<PermissionV2Rule>;
+).annotate({ identifier: "PermissionV2Rule" }) as any as S.Schema<PermissionV2Rule>;
 
 export type PermissionV2Ruleset = Array<PermissionV2Rule>;
 export const PermissionV2Ruleset = /*@__PURE__*/ S.Array(
@@ -5203,9 +4841,7 @@ export const ListV2AgentResponse = /*@__PURE__*/ S.suspend(() =>
     location: LocationInfo,
     data: ListV2AgentResponseDataList,
   }),
-).annotate({
-  identifier: "ListV2AgentResponse",
-}) as any as S.Schema<ListV2AgentResponse>;
+).annotate({ identifier: "ListV2AgentResponse" }) as any as S.Schema<ListV2AgentResponse>;
 
 export type ListV2CommandRequestLocation = CancelV2IntegrationAttemptRequestLocation;
 export const ListV2CommandRequestLocation = CancelV2IntegrationAttemptRequestLocation;
@@ -5217,9 +4853,7 @@ export const ListV2CommandRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     location: S.optional(CancelV2IntegrationAttemptRequestLocation.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/command", code: 200 })),
-).annotate({
-  identifier: "ListV2CommandRequest",
-}) as any as S.Schema<ListV2CommandRequest>;
+).annotate({ identifier: "ListV2CommandRequest" }) as any as S.Schema<ListV2CommandRequest>;
 
 export interface CommandV2Info {
   name: string;
@@ -5254,9 +4888,7 @@ export const ListV2CommandResponse = /*@__PURE__*/ S.suspend(() =>
     location: LocationInfo,
     data: ListV2CommandResponseDataList,
   }),
-).annotate({
-  identifier: "ListV2CommandResponse",
-}) as any as S.Schema<ListV2CommandResponse>;
+).annotate({ identifier: "ListV2CommandResponse" }) as any as S.Schema<ListV2CommandResponse>;
 
 export type ListV2FsRequestLocation = CancelV2IntegrationAttemptRequestLocation;
 export const ListV2FsRequestLocation = CancelV2IntegrationAttemptRequestLocation;
@@ -5270,9 +4902,7 @@ export const ListV2FsRequest = /*@__PURE__*/ S.suspend(() =>
     location: S.optional(CancelV2IntegrationAttemptRequestLocation.pipe(T.Query())),
     path: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/fs/list", code: 200 })),
-).annotate({
-  identifier: "ListV2FsRequest",
-}) as any as S.Schema<ListV2FsRequest>;
+).annotate({ identifier: "ListV2FsRequest" }) as any as S.Schema<ListV2FsRequest>;
 
 export type FileSystemEntryType = "file" | "directory";
 export const FileSystemEntryType = S.String;
@@ -5286,9 +4916,7 @@ export const FileSystemEntry = /*@__PURE__*/ S.suspend(() =>
     path: S.String,
     type: FileSystemEntryType,
   }),
-).annotate({
-  identifier: "FileSystemEntry",
-}) as any as S.Schema<FileSystemEntry>;
+).annotate({ identifier: "FileSystemEntry" }) as any as S.Schema<FileSystemEntry>;
 
 export type ListV2FsResponseDataList = Array<FileSystemEntry>;
 export const ListV2FsResponseDataList = /*@__PURE__*/ S.Array(
@@ -5304,9 +4932,7 @@ export const ListV2FsResponse = /*@__PURE__*/ S.suspend(() =>
     location: LocationInfo,
     data: ListV2FsResponseDataList,
   }),
-).annotate({
-  identifier: "ListV2FsResponse",
-}) as any as S.Schema<ListV2FsResponse>;
+).annotate({ identifier: "ListV2FsResponse" }) as any as S.Schema<ListV2FsResponse>;
 
 export type ListV2IntegrationRequestLocation = CancelV2IntegrationAttemptRequestLocation;
 export const ListV2IntegrationRequestLocation = CancelV2IntegrationAttemptRequestLocation;
@@ -5318,9 +4944,7 @@ export const ListV2IntegrationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     location: S.optional(CancelV2IntegrationAttemptRequestLocation.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/integration", code: 200 })),
-).annotate({
-  identifier: "ListV2IntegrationRequest",
-}) as any as S.Schema<ListV2IntegrationRequest>;
+).annotate({ identifier: "ListV2IntegrationRequest" }) as any as S.Schema<ListV2IntegrationRequest>;
 
 export type ListV2IntegrationResponseDataList = Array<IntegrationInfo>;
 export const ListV2IntegrationResponseDataList = /*@__PURE__*/ S.Array(
@@ -5350,9 +4974,7 @@ export const ListV2ModelRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     location: S.optional(CancelV2IntegrationAttemptRequestLocation.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/model", code: 200 })),
-).annotate({
-  identifier: "ListV2ModelRequest",
-}) as any as S.Schema<ListV2ModelRequest>;
+).annotate({ identifier: "ListV2ModelRequest" }) as any as S.Schema<ListV2ModelRequest>;
 
 export type ModelApiCase0Type = "aisdk";
 export const ModelApiCase0Type = S.String;
@@ -5416,13 +5038,9 @@ export const ModelCapabilities2 = /*@__PURE__*/ S.suspend(() =>
     input: ModelCapabilitiesInputList,
     output: ModelCapabilitiesOutputList,
   }),
-).annotate({
-  identifier: "ModelCapabilities2",
-}) as any as S.Schema<ModelCapabilities2>;
+).annotate({ identifier: "ModelCapabilities2" }) as any as S.Schema<ModelCapabilities2>;
 
-export type ModelV2InfoRequestHeadersMap = {
-  [key: string]: string | undefined;
-};
+export type ModelV2InfoRequestHeadersMap = { [key: string]: string | undefined };
 export const ModelV2InfoRequestHeadersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5439,13 +5057,9 @@ export const ModelV2InfoRequest = /*@__PURE__*/ S.suspend(() =>
     body: S.Unknown,
     variant: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ModelV2InfoRequest",
-}) as any as S.Schema<ModelV2InfoRequest>;
+).annotate({ identifier: "ModelV2InfoRequest" }) as any as S.Schema<ModelV2InfoRequest>;
 
-export type ModelV2InfoVariantsItemHeadersMap = {
-  [key: string]: string | undefined;
-};
+export type ModelV2InfoVariantsItemHeadersMap = { [key: string]: string | undefined };
 export const ModelV2InfoVariantsItemHeadersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5462,9 +5076,7 @@ export const ModelV2InfoVariantsItem = /*@__PURE__*/ S.suspend(() =>
     headers: ModelV2InfoVariantsItemHeadersMap,
     body: S.Unknown,
   }),
-).annotate({
-  identifier: "ModelV2InfoVariantsItem",
-}) as any as S.Schema<ModelV2InfoVariantsItem>;
+).annotate({ identifier: "ModelV2InfoVariantsItem" }) as any as S.Schema<ModelV2InfoVariantsItem>;
 
 export type ModelV2InfoVariantsList = Array<ModelV2InfoVariantsItem>;
 export const ModelV2InfoVariantsList = /*@__PURE__*/ S.Array(
@@ -5478,9 +5090,7 @@ export const ModelV2InfoTime = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     released: S.Number,
   }),
-).annotate({
-  identifier: "ModelV2InfoTime",
-}) as any as S.Schema<ModelV2InfoTime>;
+).annotate({ identifier: "ModelV2InfoTime" }) as any as S.Schema<ModelV2InfoTime>;
 
 export type ModelCostTierType = "context";
 export const ModelCostTierType = S.String;
@@ -5572,9 +5182,7 @@ export const ListV2ModelResponse = /*@__PURE__*/ S.suspend(() =>
     location: LocationInfo,
     data: ListV2ModelResponseDataList,
   }),
-).annotate({
-  identifier: "ListV2ModelResponse",
-}) as any as S.Schema<ListV2ModelResponse>;
+).annotate({ identifier: "ListV2ModelResponse" }) as any as S.Schema<ListV2ModelResponse>;
 
 export type ListV2PermissionRequestRequestLocation = CancelV2IntegrationAttemptRequestLocation;
 export const ListV2PermissionRequestRequestLocation = CancelV2IntegrationAttemptRequestLocation;
@@ -5632,9 +5240,7 @@ export const PermissionSavedInfo = /*@__PURE__*/ S.suspend(() =>
     action: S.String,
     resource: S.String,
   }),
-).annotate({
-  identifier: "PermissionSavedInfo",
-}) as any as S.Schema<PermissionSavedInfo>;
+).annotate({ identifier: "PermissionSavedInfo" }) as any as S.Schema<PermissionSavedInfo>;
 
 export type ListV2PermissionSavedResponseDataList = Array<PermissionSavedInfo>;
 export const ListV2PermissionSavedResponseDataList = /*@__PURE__*/ S.Array(
@@ -5662,9 +5268,7 @@ export const ListV2ProviderRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     location: S.optional(CancelV2IntegrationAttemptRequestLocation.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/provider", code: 200 })),
-).annotate({
-  identifier: "ListV2ProviderRequest",
-}) as any as S.Schema<ListV2ProviderRequest>;
+).annotate({ identifier: "ListV2ProviderRequest" }) as any as S.Schema<ListV2ProviderRequest>;
 
 export type ListV2ProviderResponseDataList = Array<ProviderV2Info>;
 export const ListV2ProviderResponseDataList = /*@__PURE__*/ S.Array(
@@ -5680,9 +5284,7 @@ export const ListV2ProviderResponse = /*@__PURE__*/ S.suspend(() =>
     location: LocationInfo,
     data: ListV2ProviderResponseDataList,
   }),
-).annotate({
-  identifier: "ListV2ProviderResponse",
-}) as any as S.Schema<ListV2ProviderResponse>;
+).annotate({ identifier: "ListV2ProviderResponse" }) as any as S.Schema<ListV2ProviderResponse>;
 
 export type ListV2PtyRequestLocation = CancelV2IntegrationAttemptRequestLocation;
 export const ListV2PtyRequestLocation = CancelV2IntegrationAttemptRequestLocation;
@@ -5694,9 +5296,7 @@ export const ListV2PtyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     location: S.optional(CancelV2IntegrationAttemptRequestLocation.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/pty", code: 200 })),
-).annotate({
-  identifier: "ListV2PtyRequest",
-}) as any as S.Schema<ListV2PtyRequest>;
+).annotate({ identifier: "ListV2PtyRequest" }) as any as S.Schema<ListV2PtyRequest>;
 
 export type ListV2PtyResponseDataList = Array<Pty>;
 export const ListV2PtyResponseDataList = /*@__PURE__*/ S.Array(
@@ -5712,9 +5312,7 @@ export const ListV2PtyResponse = /*@__PURE__*/ S.suspend(() =>
     location: LocationInfo,
     data: ListV2PtyResponseDataList,
   }),
-).annotate({
-  identifier: "ListV2PtyResponse",
-}) as any as S.Schema<ListV2PtyResponse>;
+).annotate({ identifier: "ListV2PtyResponse" }) as any as S.Schema<ListV2PtyResponse>;
 
 export type ListV2QuestionRequestRequestLocation = CancelV2IntegrationAttemptRequestLocation;
 export const ListV2QuestionRequestRequestLocation = CancelV2IntegrationAttemptRequestLocation;
@@ -5782,9 +5380,7 @@ export const QuestionV2Request = /*@__PURE__*/ S.suspend(() =>
     questions: QuestionV2RequestQuestionsList,
     tool: S.optional(PermissionRequestTool),
   }),
-).annotate({
-  identifier: "QuestionV2Request",
-}) as any as S.Schema<QuestionV2Request>;
+).annotate({ identifier: "QuestionV2Request" }) as any as S.Schema<QuestionV2Request>;
 
 export type ListV2QuestionRequestResponseDataList = Array<QuestionV2Request>;
 export const ListV2QuestionRequestResponseDataList = /*@__PURE__*/ S.Array(
@@ -5814,9 +5410,7 @@ export const ListV2ReferenceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     location: S.optional(CancelV2IntegrationAttemptRequestLocation.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/reference", code: 200 })),
-).annotate({
-  identifier: "ListV2ReferenceRequest",
-}) as any as S.Schema<ListV2ReferenceRequest>;
+).annotate({ identifier: "ListV2ReferenceRequest" }) as any as S.Schema<ListV2ReferenceRequest>;
 
 export type ReferenceLocalSourceType = "local";
 export const ReferenceLocalSourceType = S.String;
@@ -5834,9 +5428,7 @@ export const ReferenceLocalSource = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     hidden: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "ReferenceLocalSource",
-}) as any as S.Schema<ReferenceLocalSource>;
+).annotate({ identifier: "ReferenceLocalSource" }) as any as S.Schema<ReferenceLocalSource>;
 
 export type ReferenceGitSourceType = "git";
 export const ReferenceGitSourceType = S.String;
@@ -5856,9 +5448,7 @@ export const ReferenceGitSource = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     hidden: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "ReferenceGitSource",
-}) as any as S.Schema<ReferenceGitSource>;
+).annotate({ identifier: "ReferenceGitSource" }) as any as S.Schema<ReferenceGitSource>;
 
 export type ReferenceSource = ReferenceLocalSource | ReferenceGitSource;
 export const ReferenceSource = S.Unknown as any as S.Schema<ReferenceSource>;
@@ -5894,9 +5484,7 @@ export const ListV2ReferenceResponse = /*@__PURE__*/ S.suspend(() =>
     location: LocationInfo,
     data: ListV2ReferenceResponseDataList,
   }),
-).annotate({
-  identifier: "ListV2ReferenceResponse",
-}) as any as S.Schema<ListV2ReferenceResponse>;
+).annotate({ identifier: "ListV2ReferenceResponse" }) as any as S.Schema<ListV2ReferenceResponse>;
 
 export type ListV2SessionRequestOrder = "asc" | "desc";
 export const ListV2SessionRequestOrder = S.String;
@@ -5922,9 +5510,7 @@ export const ListV2SessionRequest = /*@__PURE__*/ S.suspend(() =>
     subpath: S.optional(S.String.pipe(T.Query())),
     cursor: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/session", code: 200 })),
-).annotate({
-  identifier: "ListV2SessionRequest",
-}) as any as S.Schema<ListV2SessionRequest>;
+).annotate({ identifier: "ListV2SessionRequest" }) as any as S.Schema<ListV2SessionRequest>;
 
 export type SessionsResponseDataList = Array<SessionV2Info>;
 export const SessionsResponseDataList = /*@__PURE__*/ S.Array(
@@ -5940,9 +5526,7 @@ export const SessionsResponseCursor = /*@__PURE__*/ S.suspend(() =>
     previous: S.optional(S.String),
     next: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SessionsResponseCursor",
-}) as any as S.Schema<SessionsResponseCursor>;
+).annotate({ identifier: "SessionsResponseCursor" }) as any as S.Schema<SessionsResponseCursor>;
 
 export interface SessionsResponse {
   data: SessionsResponseDataList;
@@ -5953,9 +5537,7 @@ export const SessionsResponse = /*@__PURE__*/ S.suspend(() =>
     data: SessionsResponseDataList,
     cursor: SessionsResponseCursor,
   }),
-).annotate({
-  identifier: "SessionsResponse",
-}) as any as S.Schema<SessionsResponse>;
+).annotate({ identifier: "SessionsResponse" }) as any as S.Schema<SessionsResponse>;
 
 export interface ListV2SessionPermissionRequest {
   sessionID: string;
@@ -5963,13 +5545,7 @@ export interface ListV2SessionPermissionRequest {
 export const ListV2SessionPermissionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     sessionID: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/session/{sessionID}/permission",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/session/{sessionID}/permission", code: 200 })),
 ).annotate({
   identifier: "ListV2SessionPermissionRequest",
 }) as any as S.Schema<ListV2SessionPermissionRequest>;
@@ -5996,13 +5572,7 @@ export interface ListV2SessionQuestionRequest {
 export const ListV2SessionQuestionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     sessionID: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/session/{sessionID}/question",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/session/{sessionID}/question", code: 200 })),
 ).annotate({
   identifier: "ListV2SessionQuestionRequest",
 }) as any as S.Schema<ListV2SessionQuestionRequest>;
@@ -6033,9 +5603,7 @@ export const ListV2SkillRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     location: S.optional(CancelV2IntegrationAttemptRequestLocation.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/skill", code: 200 })),
-).annotate({
-  identifier: "ListV2SkillRequest",
-}) as any as S.Schema<ListV2SkillRequest>;
+).annotate({ identifier: "ListV2SkillRequest" }) as any as S.Schema<ListV2SkillRequest>;
 
 export interface SkillV2Info {
   name: string;
@@ -6068,9 +5636,7 @@ export const ListV2SkillResponse = /*@__PURE__*/ S.suspend(() =>
     location: LocationInfo,
     data: ListV2SkillResponseDataList,
   }),
-).annotate({
-  identifier: "ListV2SkillResponse",
-}) as any as S.Schema<ListV2SkillResponse>;
+).annotate({ identifier: "ListV2SkillResponse" }) as any as S.Schema<ListV2SkillResponse>;
 
 export interface ListWorktreeRequest {
   directory?: string;
@@ -6081,9 +5647,7 @@ export const ListWorktreeRequest = /*@__PURE__*/ S.suspend(() =>
     directory: S.optional(S.String.pipe(T.Query())),
     workspace: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/experimental/worktree", code: 200 })),
-).annotate({
-  identifier: "ListWorktreeRequest",
-}) as any as S.Schema<ListWorktreeRequest>;
+).annotate({ identifier: "ListWorktreeRequest" }) as any as S.Schema<ListWorktreeRequest>;
 
 /** List of worktree directories */
 export type ListWorktreeResponseBodyList = Array<string>;
@@ -6094,9 +5658,7 @@ export const ListWorktreeResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListWorktreeResponse = ListWorktreeResponseBodyList;
 export const ListWorktreeResponse = /*@__PURE__*/ S.suspend(() =>
   ListWorktreeResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListWorktreeResponse",
-}) as any as S.Schema<ListWorktreeResponse>;
+).annotate({ identifier: "ListWorktreeResponse" }) as any as S.Schema<ListWorktreeResponse>;
 
 export interface LspStatusRequest {
   directory?: string;
@@ -6107,9 +5669,7 @@ export const LspStatusRequest = /*@__PURE__*/ S.suspend(() =>
     directory: S.optional(S.String.pipe(T.Query())),
     workspace: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/lsp", code: 200 })),
-).annotate({
-  identifier: "LspStatusRequest",
-}) as any as S.Schema<LspStatusRequest>;
+).annotate({ identifier: "LspStatusRequest" }) as any as S.Schema<LspStatusRequest>;
 
 export type LSPStatusStatus = "connected" | "error";
 export const LSPStatusStatus = S.String;
@@ -6138,9 +5698,7 @@ export const LspStatusResponseBodyList = /*@__PURE__*/ S.Array(
 export type LspStatusResponse = LspStatusResponseBodyList;
 export const LspStatusResponse = /*@__PURE__*/ S.suspend(() =>
   LspStatusResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "LspStatusResponse",
-}) as any as S.Schema<LspStatusResponse>;
+).annotate({ identifier: "LspStatusResponse" }) as any as S.Schema<LspStatusResponse>;
 
 export interface McpAuthCallbackRequest {
   name: string;
@@ -6155,16 +5713,12 @@ export const McpAuthCallbackRequest = /*@__PURE__*/ S.suspend(() =>
     workspace: S.optional(S.String.pipe(T.Query())),
     code: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/mcp/{name}/auth/callback", code: 200 })),
-).annotate({
-  identifier: "McpAuthCallbackRequest",
-}) as any as S.Schema<McpAuthCallbackRequest>;
+).annotate({ identifier: "McpAuthCallbackRequest" }) as any as S.Schema<McpAuthCallbackRequest>;
 
 export type McpAuthCallbackResponse = MCPStatus;
 export const McpAuthCallbackResponse = /*@__PURE__*/ S.suspend(() =>
   MCPStatus.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "McpAuthCallbackResponse",
-}) as any as S.Schema<McpAuthCallbackResponse>;
+).annotate({ identifier: "McpAuthCallbackResponse" }) as any as S.Schema<McpAuthCallbackResponse>;
 
 export interface McpStatusRequest {
   directory?: string;
@@ -6175,9 +5729,7 @@ export const McpStatusRequest = /*@__PURE__*/ S.suspend(() =>
     directory: S.optional(S.String.pipe(T.Query())),
     workspace: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/mcp", code: 200 })),
-).annotate({
-  identifier: "McpStatusRequest",
-}) as any as S.Schema<McpStatusRequest>;
+).annotate({ identifier: "McpStatusRequest" }) as any as S.Schema<McpStatusRequest>;
 
 /** MCP server status */
 export type McpStatusResponseBodyMap = { [key: string]: MCPStatus | undefined };
@@ -6189,9 +5741,7 @@ export const McpStatusResponseBodyMap = /*@__PURE__*/ S.Record(
 export type McpStatusResponse = McpStatusResponseBodyMap;
 export const McpStatusResponse = /*@__PURE__*/ S.suspend(() =>
   McpStatusResponseBodyMap.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "McpStatusResponse",
-}) as any as S.Schema<McpStatusResponse>;
+).annotate({ identifier: "McpStatusResponse" }) as any as S.Schema<McpStatusResponse>;
 
 export interface ProjectCurrentRequest {
   directory?: string;
@@ -6202,9 +5752,7 @@ export const ProjectCurrentRequest = /*@__PURE__*/ S.suspend(() =>
     directory: S.optional(S.String.pipe(T.Query())),
     workspace: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/project/current", code: 200 })),
-).annotate({
-  identifier: "ProjectCurrentRequest",
-}) as any as S.Schema<ProjectCurrentRequest>;
+).annotate({ identifier: "ProjectCurrentRequest" }) as any as S.Schema<ProjectCurrentRequest>;
 
 export interface ProjectDirectoriesRequest {
   projectID: string;
@@ -6216,13 +5764,7 @@ export const ProjectDirectoriesRequest = /*@__PURE__*/ S.suspend(() =>
     projectID: S.String.pipe(T.Label()),
     directory: S.optional(S.String.pipe(T.Query())),
     workspace: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/project/{projectID}/directories",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/project/{projectID}/directories", code: 200 })),
 ).annotate({
   identifier: "ProjectDirectoriesRequest",
 }) as any as S.Schema<ProjectDirectoriesRequest>;
@@ -6236,9 +5778,7 @@ export const ProjectDirectoriesItem = /*@__PURE__*/ S.suspend(() =>
     directory: S.String,
     strategy: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ProjectDirectoriesItem",
-}) as any as S.Schema<ProjectDirectoriesItem>;
+).annotate({ identifier: "ProjectDirectoriesItem" }) as any as S.Schema<ProjectDirectoriesItem>;
 
 export type ProjectDirectories = Array<ProjectDirectoriesItem>;
 export const ProjectDirectories = /*@__PURE__*/ S.Array(
@@ -6261,9 +5801,7 @@ export const ProjectInitGitRequest = /*@__PURE__*/ S.suspend(() =>
     directory: S.optional(S.String.pipe(T.Query())),
     workspace: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "POST", uri: "/project/git/init", code: 200 })),
-).annotate({
-  identifier: "ProjectInitGitRequest",
-}) as any as S.Schema<ProjectInitGitRequest>;
+).annotate({ identifier: "ProjectInitGitRequest" }) as any as S.Schema<ProjectInitGitRequest>;
 
 export interface ProviderOauthCallbackRequest {
   providerID: string;
@@ -6280,13 +5818,7 @@ export const ProviderOauthCallbackRequest = /*@__PURE__*/ S.suspend(() =>
     workspace: S.optional(S.String.pipe(T.Query())),
     method: S.Number,
     code: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/provider/{providerID}/oauth/callback",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/provider/{providerID}/oauth/callback", code: 200 })),
 ).annotate({
   identifier: "ProviderOauthCallbackRequest",
 }) as any as S.Schema<ProviderOauthCallbackRequest>;
@@ -6309,9 +5841,7 @@ export const PtyConnectTokenRequest = /*@__PURE__*/ S.suspend(() =>
     directory: S.optional(S.String.pipe(T.Query())),
     workspace: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "POST", uri: "/pty/{ptyID}/connect-token", code: 200 })),
-).annotate({
-  identifier: "PtyConnectTokenRequest",
-}) as any as S.Schema<PtyConnectTokenRequest>;
+).annotate({ identifier: "PtyConnectTokenRequest" }) as any as S.Schema<PtyConnectTokenRequest>;
 
 export interface PtyTicketConnectToken {
   ticket: string;
@@ -6322,9 +5852,7 @@ export const PtyTicketConnectToken = /*@__PURE__*/ S.suspend(() =>
     ticket: S.String,
     expires_in: S.Number,
   }),
-).annotate({
-  identifier: "PtyTicketConnectToken",
-}) as any as S.Schema<PtyTicketConnectToken>;
+).annotate({ identifier: "PtyTicketConnectToken" }) as any as S.Schema<PtyTicketConnectToken>;
 
 export interface PtyShellsRequest {
   directory?: string;
@@ -6335,9 +5863,7 @@ export const PtyShellsRequest = /*@__PURE__*/ S.suspend(() =>
     directory: S.optional(S.String.pipe(T.Query())),
     workspace: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/pty/shells", code: 200 })),
-).annotate({
-  identifier: "PtyShellsRequest",
-}) as any as S.Schema<PtyShellsRequest>;
+).annotate({ identifier: "PtyShellsRequest" }) as any as S.Schema<PtyShellsRequest>;
 
 export interface PtyShellsResponseBodyItem {
   path: string;
@@ -6363,9 +5889,7 @@ export const PtyShellsResponseBodyList = /*@__PURE__*/ S.Array(
 export type PtyShellsResponse = PtyShellsResponseBodyList;
 export const PtyShellsResponse = /*@__PURE__*/ S.suspend(() =>
   PtyShellsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "PtyShellsResponse",
-}) as any as S.Schema<PtyShellsResponse>;
+).annotate({ identifier: "PtyShellsResponse" }) as any as S.Schema<PtyShellsResponse>;
 
 export type EventTuiPromptAppendType = "tui.prompt.append";
 export const EventTuiPromptAppendType = S.String;
@@ -6382,9 +5906,7 @@ export const EventTuiPromptAppend = /*@__PURE__*/ S.suspend(() =>
     type: EventTuiPromptAppendType,
     properties: FindTextResponseBodyItemPath,
   }),
-).annotate({
-  identifier: "EventTuiPromptAppend",
-}) as any as S.Schema<EventTuiPromptAppend>;
+).annotate({ identifier: "EventTuiPromptAppend" }) as any as S.Schema<EventTuiPromptAppend>;
 
 export type EventTuiCommandExecuteType = "tui.command.execute";
 export const EventTuiCommandExecuteType = S.String;
@@ -6434,9 +5956,7 @@ export const EventTuiCommandExecute = /*@__PURE__*/ S.suspend(() =>
     type: EventTuiCommandExecuteType,
     properties: EventTuiCommandExecuteProperties,
   }),
-).annotate({
-  identifier: "EventTuiCommandExecute",
-}) as any as S.Schema<EventTuiCommandExecute>;
+).annotate({ identifier: "EventTuiCommandExecute" }) as any as S.Schema<EventTuiCommandExecute>;
 
 export type EventTuiToastShowType = "tui.toast.show";
 export const EventTuiToastShowType = S.String;
@@ -6470,9 +5990,7 @@ export const EventTuiToastShow = /*@__PURE__*/ S.suspend(() =>
     type: EventTuiToastShowType,
     properties: EventTuiToastShowProperties,
   }),
-).annotate({
-  identifier: "EventTuiToastShow",
-}) as any as S.Schema<EventTuiToastShow>;
+).annotate({ identifier: "EventTuiToastShow" }) as any as S.Schema<EventTuiToastShow>;
 
 export type EventTuiSessionSelectType = "tui.session.select";
 export const EventTuiSessionSelectType = S.String;
@@ -6498,9 +6016,7 @@ export const EventTuiSessionSelect = /*@__PURE__*/ S.suspend(() =>
     type: EventTuiSessionSelectType,
     properties: EventTuiSessionSelectProperties,
   }),
-).annotate({
-  identifier: "EventTuiSessionSelect",
-}) as any as S.Schema<EventTuiSessionSelect>;
+).annotate({ identifier: "EventTuiSessionSelect" }) as any as S.Schema<EventTuiSessionSelect>;
 
 export type PublishTuiRequestBody =
   | EventTuiPromptAppend
@@ -6520,16 +6036,12 @@ export const PublishTuiRequest = /*@__PURE__*/ S.suspend(() =>
     workspace: S.optional(S.String.pipe(T.Query())),
     body: S.optional(PublishTuiRequestBody.pipe(T.HttpBody())),
   }).pipe(T.Http({ method: "POST", uri: "/tui/publish", code: 200 })),
-).annotate({
-  identifier: "PublishTuiRequest",
-}) as any as S.Schema<PublishTuiRequest>;
+).annotate({ identifier: "PublishTuiRequest" }) as any as S.Schema<PublishTuiRequest>;
 
 export type PublishTuiResponse = boolean;
 export const PublishTuiResponse = /*@__PURE__*/ S.suspend(() =>
   S.Boolean.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "PublishTuiResponse",
-}) as any as S.Schema<PublishTuiResponse>;
+).annotate({ identifier: "PublishTuiResponse" }) as any as S.Schema<PublishTuiResponse>;
 
 export interface ReadFileRequest {
   directory?: string;
@@ -6542,9 +6054,7 @@ export const ReadFileRequest = /*@__PURE__*/ S.suspend(() =>
     workspace: S.optional(S.String.pipe(T.Query())),
     path: S.String.pipe(T.Query()),
   }).pipe(T.Http({ method: "GET", uri: "/file/content", code: 200 })),
-).annotate({
-  identifier: "ReadFileRequest",
-}) as any as S.Schema<ReadFileRequest>;
+).annotate({ identifier: "ReadFileRequest" }) as any as S.Schema<ReadFileRequest>;
 
 export type FileContentType = "text" | "binary";
 export const FileContentType = S.String;
@@ -6595,9 +6105,7 @@ export const FileContentPatch = /*@__PURE__*/ S.suspend(() =>
     hunks: FileContentPatchHunksList,
     index: S.optional(S.String),
   }),
-).annotate({
-  identifier: "FileContentPatch",
-}) as any as S.Schema<FileContentPatch>;
+).annotate({ identifier: "FileContentPatch" }) as any as S.Schema<FileContentPatch>;
 
 export type FileContentEncoding = "base64";
 export const FileContentEncoding = S.String;
@@ -6631,9 +6139,7 @@ export const ReadV2FsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     location: S.optional(CancelV2IntegrationAttemptRequestLocation.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/fs/read/*", code: 200 })),
-).annotate({
-  identifier: "ReadV2FsRequest",
-}) as any as S.Schema<ReadV2FsRequest>;
+).annotate({ identifier: "ReadV2FsRequest" }) as any as S.Schema<ReadV2FsRequest>;
 
 export interface ReadV2FsResponse {}
 export const ReadV2FsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -6651,16 +6157,12 @@ export const RejectQuestionRequest = /*@__PURE__*/ S.suspend(() =>
     directory: S.optional(S.String.pipe(T.Query())),
     workspace: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "POST", uri: "/question/{requestID}/reject", code: 200 })),
-).annotate({
-  identifier: "RejectQuestionRequest",
-}) as any as S.Schema<RejectQuestionRequest>;
+).annotate({ identifier: "RejectQuestionRequest" }) as any as S.Schema<RejectQuestionRequest>;
 
 export type RejectQuestionResponse = boolean;
 export const RejectQuestionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Boolean.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "RejectQuestionResponse",
-}) as any as S.Schema<RejectQuestionResponse>;
+).annotate({ identifier: "RejectQuestionResponse" }) as any as S.Schema<RejectQuestionResponse>;
 
 export interface RejectV2SessionQuestionRequest {
   sessionID: string;
@@ -6683,9 +6185,7 @@ export const RejectV2SessionQuestionRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface RejectV2SessionQuestionResponse {}
 export const RejectV2SessionQuestionResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "RejectV2SessionQuestionResponse",
-  },
+  { identifier: "RejectV2SessionQuestionResponse" },
 ) as any as S.Schema<RejectV2SessionQuestionResponse>;
 
 export interface RemoveAuthRequest {
@@ -6695,16 +6195,12 @@ export const RemoveAuthRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     providerID: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/auth/{providerID}", code: 200 })),
-).annotate({
-  identifier: "RemoveAuthRequest",
-}) as any as S.Schema<RemoveAuthRequest>;
+).annotate({ identifier: "RemoveAuthRequest" }) as any as S.Schema<RemoveAuthRequest>;
 
 export type RemoveAuthResponse = boolean;
 export const RemoveAuthResponse = /*@__PURE__*/ S.suspend(() =>
   S.Boolean.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "RemoveAuthResponse",
-}) as any as S.Schema<RemoveAuthResponse>;
+).annotate({ identifier: "RemoveAuthResponse" }) as any as S.Schema<RemoveAuthResponse>;
 
 export interface RemoveExperimentalWorkspaceRequest {
   id: string;
@@ -6716,13 +6212,7 @@ export const RemoveExperimentalWorkspaceRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String.pipe(T.Label()),
     directory: S.optional(S.String.pipe(T.Query())),
     workspace: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/experimental/workspace/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/experimental/workspace/{id}", code: 200 })),
 ).annotate({
   identifier: "RemoveExperimentalWorkspaceRequest",
 }) as any as S.Schema<RemoveExperimentalWorkspaceRequest>;
@@ -6738,9 +6228,7 @@ export const RemoveMcpAuthRequest = /*@__PURE__*/ S.suspend(() =>
     directory: S.optional(S.String.pipe(T.Query())),
     workspace: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "DELETE", uri: "/mcp/{name}/auth", code: 200 })),
-).annotate({
-  identifier: "RemoveMcpAuthRequest",
-}) as any as S.Schema<RemoveMcpAuthRequest>;
+).annotate({ identifier: "RemoveMcpAuthRequest" }) as any as S.Schema<RemoveMcpAuthRequest>;
 
 export interface RemoveMcpAuthResponse {
   success: boolean;
@@ -6749,9 +6237,7 @@ export const RemoveMcpAuthResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     success: S.Boolean,
   }),
-).annotate({
-  identifier: "RemoveMcpAuthResponse",
-}) as any as S.Schema<RemoveMcpAuthResponse>;
+).annotate({ identifier: "RemoveMcpAuthResponse" }) as any as S.Schema<RemoveMcpAuthResponse>;
 
 export interface RemovePtyRequest {
   ptyID: string;
@@ -6764,16 +6250,12 @@ export const RemovePtyRequest = /*@__PURE__*/ S.suspend(() =>
     directory: S.optional(S.String.pipe(T.Query())),
     workspace: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "DELETE", uri: "/pty/{ptyID}", code: 200 })),
-).annotate({
-  identifier: "RemovePtyRequest",
-}) as any as S.Schema<RemovePtyRequest>;
+).annotate({ identifier: "RemovePtyRequest" }) as any as S.Schema<RemovePtyRequest>;
 
 export type RemovePtyResponse = boolean;
 export const RemovePtyResponse = /*@__PURE__*/ S.suspend(() =>
   S.Boolean.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "RemovePtyResponse",
-}) as any as S.Schema<RemovePtyResponse>;
+).annotate({ identifier: "RemovePtyResponse" }) as any as S.Schema<RemovePtyResponse>;
 
 export type RemoveV2CredentialRequestLocation = CancelV2IntegrationAttemptRequestLocation;
 export const RemoveV2CredentialRequestLocation = CancelV2IntegrationAttemptRequestLocation;
@@ -6786,13 +6268,7 @@ export const RemoveV2CredentialRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     credentialID: S.String.pipe(T.Label()),
     location: S.optional(CancelV2IntegrationAttemptRequestLocation.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/credential/{credentialID}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/credential/{credentialID}", code: 200 })),
 ).annotate({
   identifier: "RemoveV2CredentialRequest",
 }) as any as S.Schema<RemoveV2CredentialRequest>;
@@ -6815,9 +6291,7 @@ export const RemoveV2PermissionSavedRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface RemoveV2PermissionSavedResponse {}
 export const RemoveV2PermissionSavedResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "RemoveV2PermissionSavedResponse",
-  },
+  { identifier: "RemoveV2PermissionSavedResponse" },
 ) as any as S.Schema<RemoveV2PermissionSavedResponse>;
 
 export type RemoveV2PtyRequestLocation = CancelV2IntegrationAttemptRequestLocation;
@@ -6832,9 +6306,7 @@ export const RemoveV2PtyRequest = /*@__PURE__*/ S.suspend(() =>
     ptyID: S.String.pipe(T.Label()),
     location: S.optional(CancelV2IntegrationAttemptRequestLocation.pipe(T.Query())),
   }).pipe(T.Http({ method: "DELETE", uri: "/api/pty/{ptyID}", code: 200 })),
-).annotate({
-  identifier: "RemoveV2PtyRequest",
-}) as any as S.Schema<RemoveV2PtyRequest>;
+).annotate({ identifier: "RemoveV2PtyRequest" }) as any as S.Schema<RemoveV2PtyRequest>;
 
 export interface RemoveV2PtyResponse {}
 export const RemoveV2PtyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -6850,16 +6322,12 @@ export const RemoveWorktreeRequest = /*@__PURE__*/ S.suspend(() =>
     directory: S.optional(S.String.pipe(T.Query())),
     workspace: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "DELETE", uri: "/experimental/worktree", code: 200 })),
-).annotate({
-  identifier: "RemoveWorktreeRequest",
-}) as any as S.Schema<RemoveWorktreeRequest>;
+).annotate({ identifier: "RemoveWorktreeRequest" }) as any as S.Schema<RemoveWorktreeRequest>;
 
 export type RemoveWorktreeResponse = boolean;
 export const RemoveWorktreeResponse = /*@__PURE__*/ S.suspend(() =>
   S.Boolean.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "RemoveWorktreeResponse",
-}) as any as S.Schema<RemoveWorktreeResponse>;
+).annotate({ identifier: "RemoveWorktreeResponse" }) as any as S.Schema<RemoveWorktreeResponse>;
 
 export type ReplyPermissionRequestReply = "once" | "always" | "reject";
 export const ReplyPermissionRequestReply = S.String;
@@ -6879,16 +6347,12 @@ export const ReplyPermissionRequest = /*@__PURE__*/ S.suspend(() =>
     reply: ReplyPermissionRequestReply,
     message: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/permission/{requestID}/reply", code: 200 })),
-).annotate({
-  identifier: "ReplyPermissionRequest",
-}) as any as S.Schema<ReplyPermissionRequest>;
+).annotate({ identifier: "ReplyPermissionRequest" }) as any as S.Schema<ReplyPermissionRequest>;
 
 export type ReplyPermissionResponse = boolean;
 export const ReplyPermissionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Boolean.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ReplyPermissionResponse",
-}) as any as S.Schema<ReplyPermissionResponse>;
+).annotate({ identifier: "ReplyPermissionResponse" }) as any as S.Schema<ReplyPermissionResponse>;
 
 export type QuestionAnswer = Array<string>;
 export const QuestionAnswer = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<QuestionAnswer>;
@@ -6913,16 +6377,12 @@ export const ReplyQuestionRequest = /*@__PURE__*/ S.suspend(() =>
     workspace: S.optional(S.String.pipe(T.Query())),
     answers: ReplyQuestionRequestAnswersList,
   }).pipe(T.Http({ method: "POST", uri: "/question/{requestID}/reply", code: 200 })),
-).annotate({
-  identifier: "ReplyQuestionRequest",
-}) as any as S.Schema<ReplyQuestionRequest>;
+).annotate({ identifier: "ReplyQuestionRequest" }) as any as S.Schema<ReplyQuestionRequest>;
 
 export type ReplyQuestionResponse = boolean;
 export const ReplyQuestionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Boolean.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ReplyQuestionResponse",
-}) as any as S.Schema<ReplyQuestionResponse>;
+).annotate({ identifier: "ReplyQuestionResponse" }) as any as S.Schema<ReplyQuestionResponse>;
 
 export type PermissionV2Reply = "once" | "always" | "reject";
 export const PermissionV2Reply = S.String;
@@ -7004,16 +6464,12 @@ export const ResetWorktreeRequest = /*@__PURE__*/ S.suspend(() =>
     directory: S.optional(S.String.pipe(T.Query())),
     workspace: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "POST", uri: "/experimental/worktree/reset", code: 200 })),
-).annotate({
-  identifier: "ResetWorktreeRequest",
-}) as any as S.Schema<ResetWorktreeRequest>;
+).annotate({ identifier: "ResetWorktreeRequest" }) as any as S.Schema<ResetWorktreeRequest>;
 
 export type ResetWorktreeResponse = boolean;
 export const ResetWorktreeResponse = /*@__PURE__*/ S.suspend(() =>
   S.Boolean.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ResetWorktreeResponse",
-}) as any as S.Schema<ResetWorktreeResponse>;
+).annotate({ identifier: "ResetWorktreeResponse" }) as any as S.Schema<ResetWorktreeResponse>;
 
 export interface SessionChildrenRequest {
   sessionID: string;
@@ -7026,9 +6482,7 @@ export const SessionChildrenRequest = /*@__PURE__*/ S.suspend(() =>
     directory: S.optional(S.String.pipe(T.Query())),
     workspace: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/session/{sessionID}/children", code: 200 })),
-).annotate({
-  identifier: "SessionChildrenRequest",
-}) as any as S.Schema<SessionChildrenRequest>;
+).annotate({ identifier: "SessionChildrenRequest" }) as any as S.Schema<SessionChildrenRequest>;
 
 /** List of children */
 export type SessionChildrenResponseBodyList = Array<Session>;
@@ -7039,9 +6493,7 @@ export const SessionChildrenResponseBodyList = /*@__PURE__*/ S.Array(
 export type SessionChildrenResponse = SessionChildrenResponseBodyList;
 export const SessionChildrenResponse = /*@__PURE__*/ S.suspend(() =>
   SessionChildrenResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "SessionChildrenResponse",
-}) as any as S.Schema<SessionChildrenResponse>;
+).annotate({ identifier: "SessionChildrenResponse" }) as any as S.Schema<SessionChildrenResponse>;
 
 export type SessionCommandRequestPartsItemType = "file";
 export const SessionCommandRequestPartsItemType = S.String;
@@ -7057,9 +6509,7 @@ export const FilePartSourceText = /*@__PURE__*/ S.suspend(() =>
     start: S.Number,
     end: S.Number,
   }),
-).annotate({
-  identifier: "FilePartSourceText",
-}) as any as S.Schema<FilePartSourceText>;
+).annotate({ identifier: "FilePartSourceText" }) as any as S.Schema<FilePartSourceText>;
 
 export type FileSourceType = "file";
 export const FileSourceType = S.String;
@@ -7171,9 +6621,7 @@ export const SessionCommandRequest = /*@__PURE__*/ S.suspend(() =>
     variant: S.optional(S.String),
     parts: S.optional(SessionCommandRequestPartsList),
   }).pipe(T.Http({ method: "POST", uri: "/session/{sessionID}/command", code: 200 })),
-).annotate({
-  identifier: "SessionCommandRequest",
-}) as any as S.Schema<SessionCommandRequest>;
+).annotate({ identifier: "SessionCommandRequest" }) as any as S.Schema<SessionCommandRequest>;
 
 export type AssistantMessageRole = "assistant";
 export const AssistantMessageRole = S.String;
@@ -7187,9 +6635,7 @@ export const AssistantMessageTime = /*@__PURE__*/ S.suspend(() =>
     created: S.Number,
     completed: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "AssistantMessageTime",
-}) as any as S.Schema<AssistantMessageTime>;
+).annotate({ identifier: "AssistantMessageTime" }) as any as S.Schema<AssistantMessageTime>;
 
 export type ProviderAuthErrorName = "ProviderAuthError";
 export const ProviderAuthErrorName = S.String;
@@ -7203,9 +6649,7 @@ export const ProviderAuthErrorData = /*@__PURE__*/ S.suspend(() =>
     providerID: S.String,
     message: S.String,
   }),
-).annotate({
-  identifier: "ProviderAuthErrorData",
-}) as any as S.Schema<ProviderAuthErrorData>;
+).annotate({ identifier: "ProviderAuthErrorData" }) as any as S.Schema<ProviderAuthErrorData>;
 
 export interface ProviderAuthError {
   name: ProviderAuthErrorName;
@@ -7216,9 +6660,7 @@ export const ProviderAuthError = /*@__PURE__*/ S.suspend(() =>
     name: ProviderAuthErrorName,
     data: ProviderAuthErrorData,
   }),
-).annotate({
-  identifier: "ProviderAuthError",
-}) as any as S.Schema<ProviderAuthError>;
+).annotate({ identifier: "ProviderAuthError" }) as any as S.Schema<ProviderAuthError>;
 
 export type UnknownErrorName = "UnknownError";
 export const UnknownErrorName = S.String;
@@ -7232,9 +6674,7 @@ export const UnknownErrorData = /*@__PURE__*/ S.suspend(() =>
     message: S.String,
     ref: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UnknownErrorData",
-}) as any as S.Schema<UnknownErrorData>;
+).annotate({ identifier: "UnknownErrorData" }) as any as S.Schema<UnknownErrorData>;
 
 export interface UnknownError {
   name: UnknownErrorName;
@@ -7259,9 +6699,7 @@ export const MessageOutputLengthError = /*@__PURE__*/ S.suspend(() =>
     name: MessageOutputLengthErrorName,
     data: S.Unknown,
   }),
-).annotate({
-  identifier: "MessageOutputLengthError",
-}) as any as S.Schema<MessageOutputLengthError>;
+).annotate({ identifier: "MessageOutputLengthError" }) as any as S.Schema<MessageOutputLengthError>;
 
 export type MessageAbortedErrorName = "MessageAbortedError";
 export const MessageAbortedErrorName = S.String;
@@ -7273,9 +6711,7 @@ export const MessageAbortedErrorData = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     message: S.String,
   }),
-).annotate({
-  identifier: "MessageAbortedErrorData",
-}) as any as S.Schema<MessageAbortedErrorData>;
+).annotate({ identifier: "MessageAbortedErrorData" }) as any as S.Schema<MessageAbortedErrorData>;
 
 export interface MessageAbortedError {
   name: MessageAbortedErrorName;
@@ -7286,9 +6722,7 @@ export const MessageAbortedError = /*@__PURE__*/ S.suspend(() =>
     name: MessageAbortedErrorName,
     data: MessageAbortedErrorData,
   }),
-).annotate({
-  identifier: "MessageAbortedError",
-}) as any as S.Schema<MessageAbortedError>;
+).annotate({ identifier: "MessageAbortedError" }) as any as S.Schema<MessageAbortedError>;
 
 export type StructuredOutputErrorName = "StructuredOutputError";
 export const StructuredOutputErrorName = S.String;
@@ -7315,9 +6749,7 @@ export const StructuredOutputError = /*@__PURE__*/ S.suspend(() =>
     name: StructuredOutputErrorName,
     data: StructuredOutputErrorData,
   }),
-).annotate({
-  identifier: "StructuredOutputError",
-}) as any as S.Schema<StructuredOutputError>;
+).annotate({ identifier: "StructuredOutputError" }) as any as S.Schema<StructuredOutputError>;
 
 export type ContextOverflowErrorName = "ContextOverflowError";
 export const ContextOverflowErrorName = S.String;
@@ -7331,9 +6763,7 @@ export const ContextOverflowErrorData = /*@__PURE__*/ S.suspend(() =>
     message: S.String,
     responseBody: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ContextOverflowErrorData",
-}) as any as S.Schema<ContextOverflowErrorData>;
+).annotate({ identifier: "ContextOverflowErrorData" }) as any as S.Schema<ContextOverflowErrorData>;
 
 export interface ContextOverflowError {
   name: ContextOverflowErrorName;
@@ -7344,9 +6774,7 @@ export const ContextOverflowError = /*@__PURE__*/ S.suspend(() =>
     name: ContextOverflowErrorName,
     data: ContextOverflowErrorData,
   }),
-).annotate({
-  identifier: "ContextOverflowError",
-}) as any as S.Schema<ContextOverflowError>;
+).annotate({ identifier: "ContextOverflowError" }) as any as S.Schema<ContextOverflowError>;
 
 export type ContentFilterErrorName = "ContentFilterError";
 export const ContentFilterErrorName = S.String;
@@ -7363,16 +6791,12 @@ export const ContentFilterError = /*@__PURE__*/ S.suspend(() =>
     name: ContentFilterErrorName,
     data: MessageAbortedErrorData,
   }),
-).annotate({
-  identifier: "ContentFilterError",
-}) as any as S.Schema<ContentFilterError>;
+).annotate({ identifier: "ContentFilterError" }) as any as S.Schema<ContentFilterError>;
 
 export type APIErrorName = "APIError";
 export const APIErrorName = S.String;
 
-export type APIErrorDataResponseHeadersMap = {
-  [key: string]: string | undefined;
-};
+export type APIErrorDataResponseHeadersMap = { [key: string]: string | undefined };
 export const APIErrorDataResponseHeadersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -7434,9 +6858,7 @@ export const AssistantMessagePath = /*@__PURE__*/ S.suspend(() =>
     cwd: S.String,
     root: S.String,
   }),
-).annotate({
-  identifier: "AssistantMessagePath",
-}) as any as S.Schema<AssistantMessagePath>;
+).annotate({ identifier: "AssistantMessagePath" }) as any as S.Schema<AssistantMessagePath>;
 
 export type AssistantMessageTokensCache = ModelCostCache;
 export const AssistantMessageTokensCache = ModelCostCache;
@@ -7456,9 +6878,7 @@ export const AssistantMessageTokens = /*@__PURE__*/ S.suspend(() =>
     reasoning: S.Number,
     cache: ModelCostCache,
   }),
-).annotate({
-  identifier: "AssistantMessageTokens",
-}) as any as S.Schema<AssistantMessageTokens>;
+).annotate({ identifier: "AssistantMessageTokens" }) as any as S.Schema<AssistantMessageTokens>;
 
 export interface AssistantMessage {
   id: string;
@@ -7499,9 +6919,7 @@ export const AssistantMessage = /*@__PURE__*/ S.suspend(() =>
     variant: S.optional(S.String),
     finish: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AssistantMessage",
-}) as any as S.Schema<AssistantMessage>;
+).annotate({ identifier: "AssistantMessage" }) as any as S.Schema<AssistantMessage>;
 
 export type TextPartType = "text";
 export const TextPartType = S.String;
@@ -7554,9 +6972,7 @@ export const SubtaskPartModel = /*@__PURE__*/ S.suspend(() =>
     providerID: S.String,
     modelID: S.String,
   }),
-).annotate({
-  identifier: "SubtaskPartModel",
-}) as any as S.Schema<SubtaskPartModel>;
+).annotate({ identifier: "SubtaskPartModel" }) as any as S.Schema<SubtaskPartModel>;
 
 export interface SubtaskPart {
   id: string;
@@ -7653,9 +7069,7 @@ export const ToolStatePending = /*@__PURE__*/ S.suspend(() =>
     input: S.Unknown,
     raw: S.String,
   }),
-).annotate({
-  identifier: "ToolStatePending",
-}) as any as S.Schema<ToolStatePending>;
+).annotate({ identifier: "ToolStatePending" }) as any as S.Schema<ToolStatePending>;
 
 export type ToolStateRunningStatus = "running";
 export const ToolStateRunningStatus = S.String;
@@ -7667,9 +7081,7 @@ export const ToolStateRunningTime = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     start: S.Number,
   }),
-).annotate({
-  identifier: "ToolStateRunningTime",
-}) as any as S.Schema<ToolStateRunningTime>;
+).annotate({ identifier: "ToolStateRunningTime" }) as any as S.Schema<ToolStateRunningTime>;
 
 export interface ToolStateRunning {
   status: ToolStateRunningStatus;
@@ -7686,9 +7098,7 @@ export const ToolStateRunning = /*@__PURE__*/ S.suspend(() =>
     metadata: S.optional(S.Unknown),
     time: ToolStateRunningTime,
   }),
-).annotate({
-  identifier: "ToolStateRunning",
-}) as any as S.Schema<ToolStateRunning>;
+).annotate({ identifier: "ToolStateRunning" }) as any as S.Schema<ToolStateRunning>;
 
 export type ToolStateCompletedStatus = "completed";
 export const ToolStateCompletedStatus = S.String;
@@ -7704,9 +7114,7 @@ export const ToolStateCompletedTime = /*@__PURE__*/ S.suspend(() =>
     end: S.Number,
     compacted: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ToolStateCompletedTime",
-}) as any as S.Schema<ToolStateCompletedTime>;
+).annotate({ identifier: "ToolStateCompletedTime" }) as any as S.Schema<ToolStateCompletedTime>;
 
 export type ToolStateCompletedAttachmentsList = Array<FilePart>;
 export const ToolStateCompletedAttachmentsList = /*@__PURE__*/ S.Array(
@@ -7732,9 +7140,7 @@ export const ToolStateCompleted = /*@__PURE__*/ S.suspend(() =>
     time: ToolStateCompletedTime,
     attachments: S.optional(ToolStateCompletedAttachmentsList),
   }),
-).annotate({
-  identifier: "ToolStateCompleted",
-}) as any as S.Schema<ToolStateCompleted>;
+).annotate({ identifier: "ToolStateCompleted" }) as any as S.Schema<ToolStateCompleted>;
 
 export type ToolStateErrorStatus = "error";
 export const ToolStateErrorStatus = S.String;
@@ -7748,9 +7154,7 @@ export const ToolStateErrorTime = /*@__PURE__*/ S.suspend(() =>
     start: S.Number,
     end: S.Number,
   }),
-).annotate({
-  identifier: "ToolStateErrorTime",
-}) as any as S.Schema<ToolStateErrorTime>;
+).annotate({ identifier: "ToolStateErrorTime" }) as any as S.Schema<ToolStateErrorTime>;
 
 export interface ToolStateError {
   status: ToolStateErrorStatus;
@@ -8005,9 +7409,7 @@ export const SessionCommandResponse = /*@__PURE__*/ S.suspend(() =>
     info: AssistantMessage,
     parts: SessionCommandResponsePartsList,
   }),
-).annotate({
-  identifier: "SessionCommandResponse",
-}) as any as S.Schema<SessionCommandResponse>;
+).annotate({ identifier: "SessionCommandResponse" }) as any as S.Schema<SessionCommandResponse>;
 
 export interface SessionDeleteMessageRequest {
   sessionID: string;
@@ -8021,13 +7423,7 @@ export const SessionDeleteMessageRequest = /*@__PURE__*/ S.suspend(() =>
     messageID: S.String.pipe(T.Label()),
     directory: S.optional(S.String.pipe(T.Query())),
     workspace: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/session/{sessionID}/message/{messageID}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/session/{sessionID}/message/{messageID}", code: 200 })),
 ).annotate({
   identifier: "SessionDeleteMessageRequest",
 }) as any as S.Schema<SessionDeleteMessageRequest>;
@@ -8052,9 +7448,7 @@ export const SessionDiffRequest = /*@__PURE__*/ S.suspend(() =>
     workspace: S.optional(S.String.pipe(T.Query())),
     messageID: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/session/{sessionID}/diff", code: 200 })),
-).annotate({
-  identifier: "SessionDiffRequest",
-}) as any as S.Schema<SessionDiffRequest>;
+).annotate({ identifier: "SessionDiffRequest" }) as any as S.Schema<SessionDiffRequest>;
 
 /** Successfully retrieved diff */
 export type SessionDiffResponseBodyList = Array<SnapshotFileDiff>;
@@ -8065,9 +7459,7 @@ export const SessionDiffResponseBodyList = /*@__PURE__*/ S.Array(
 export type SessionDiffResponse = SessionDiffResponseBodyList;
 export const SessionDiffResponse = /*@__PURE__*/ S.suspend(() =>
   SessionDiffResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "SessionDiffResponse",
-}) as any as S.Schema<SessionDiffResponse>;
+).annotate({ identifier: "SessionDiffResponse" }) as any as S.Schema<SessionDiffResponse>;
 
 export interface SessionInitRequest {
   sessionID: string;
@@ -8086,16 +7478,12 @@ export const SessionInitRequest = /*@__PURE__*/ S.suspend(() =>
     providerID: S.String,
     messageID: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/session/{sessionID}/init", code: 200 })),
-).annotate({
-  identifier: "SessionInitRequest",
-}) as any as S.Schema<SessionInitRequest>;
+).annotate({ identifier: "SessionInitRequest" }) as any as S.Schema<SessionInitRequest>;
 
 export type SessionInitResponse = boolean;
 export const SessionInitResponse = /*@__PURE__*/ S.suspend(() =>
   S.Boolean.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "SessionInitResponse",
-}) as any as S.Schema<SessionInitResponse>;
+).annotate({ identifier: "SessionInitResponse" }) as any as S.Schema<SessionInitResponse>;
 
 export interface SessionMessageRequest {
   sessionID: string;
@@ -8109,16 +7497,8 @@ export const SessionMessageRequest = /*@__PURE__*/ S.suspend(() =>
     messageID: S.String.pipe(T.Label()),
     directory: S.optional(S.String.pipe(T.Query())),
     workspace: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/session/{sessionID}/message/{messageID}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "SessionMessageRequest",
-}) as any as S.Schema<SessionMessageRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/session/{sessionID}/message/{messageID}", code: 200 })),
+).annotate({ identifier: "SessionMessageRequest" }) as any as S.Schema<SessionMessageRequest>;
 
 export type UserMessageRole = "user";
 export const UserMessageRole = S.String;
@@ -8136,9 +7516,7 @@ export const OutputFormatText = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     type: OutputFormatTextType,
   }),
-).annotate({
-  identifier: "OutputFormatText",
-}) as any as S.Schema<OutputFormatText>;
+).annotate({ identifier: "OutputFormatText" }) as any as S.Schema<OutputFormatText>;
 
 export type OutputFormatJsonSchemaType = "json_schema";
 export const OutputFormatJsonSchemaType = S.String;
@@ -8154,9 +7532,7 @@ export const OutputFormatJsonSchema = /*@__PURE__*/ S.suspend(() =>
     schema: S.Unknown,
     retryCount: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "OutputFormatJsonSchema",
-}) as any as S.Schema<OutputFormatJsonSchema>;
+).annotate({ identifier: "OutputFormatJsonSchema" }) as any as S.Schema<OutputFormatJsonSchema>;
 
 export type OutputFormat = OutputFormatText | OutputFormatJsonSchema;
 export const OutputFormat = S.Unknown as any as S.Schema<OutputFormat>;
@@ -8177,9 +7553,7 @@ export const UserMessageSummary = /*@__PURE__*/ S.suspend(() =>
     body: S.optional(S.String),
     diffs: UserMessageSummaryDiffsList,
   }),
-).annotate({
-  identifier: "UserMessageSummary",
-}) as any as S.Schema<UserMessageSummary>;
+).annotate({ identifier: "UserMessageSummary" }) as any as S.Schema<UserMessageSummary>;
 
 export interface UserMessageModel {
   providerID: string;
@@ -8192,9 +7566,7 @@ export const UserMessageModel = /*@__PURE__*/ S.suspend(() =>
     modelID: S.String,
     variant: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UserMessageModel",
-}) as any as S.Schema<UserMessageModel>;
+).annotate({ identifier: "UserMessageModel" }) as any as S.Schema<UserMessageModel>;
 
 export type UserMessageToolsMap = { [key: string]: boolean | undefined };
 export const UserMessageToolsMap = /*@__PURE__*/ S.Record(
@@ -8246,9 +7618,7 @@ export const SessionMessageResponse = /*@__PURE__*/ S.suspend(() =>
     info: Message,
     parts: SessionMessageResponsePartsList,
   }),
-).annotate({
-  identifier: "SessionMessageResponse",
-}) as any as S.Schema<SessionMessageResponse>;
+).annotate({ identifier: "SessionMessageResponse" }) as any as S.Schema<SessionMessageResponse>;
 
 export interface SessionMessagesRequest {
   sessionID: string;
@@ -8265,9 +7635,7 @@ export const SessionMessagesRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number.pipe(T.Query())),
     before: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/session/{sessionID}/message", code: 200 })),
-).annotate({
-  identifier: "SessionMessagesRequest",
-}) as any as S.Schema<SessionMessagesRequest>;
+).annotate({ identifier: "SessionMessagesRequest" }) as any as S.Schema<SessionMessagesRequest>;
 
 export type SessionMessagesResponseBodyItemPartsList = Array<Part>;
 export const SessionMessagesResponseBodyItemPartsList = /*@__PURE__*/ S.Array(
@@ -8296,16 +7664,12 @@ export const SessionMessagesResponseBodyList = /*@__PURE__*/ S.Array(
 export type SessionMessagesResponse = SessionMessagesResponseBodyList;
 export const SessionMessagesResponse = /*@__PURE__*/ S.suspend(() =>
   SessionMessagesResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "SessionMessagesResponse",
-}) as any as S.Schema<SessionMessagesResponse>;
+).annotate({ identifier: "SessionMessagesResponse" }) as any as S.Schema<SessionMessagesResponse>;
 
 export type SessionPromptRequestModel = SubtaskPartModel;
 export const SessionPromptRequestModel = SubtaskPartModel;
 
-export type SessionPromptRequestToolsMap = {
-  [key: string]: boolean | undefined;
-};
+export type SessionPromptRequestToolsMap = { [key: string]: boolean | undefined };
 export const SessionPromptRequestToolsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Boolean,
@@ -8406,9 +7770,7 @@ export const SubtaskPartInput = /*@__PURE__*/ S.suspend(() =>
     model: S.optional(SubtaskPartModel),
     command: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SubtaskPartInput",
-}) as any as S.Schema<SubtaskPartInput>;
+).annotate({ identifier: "SubtaskPartInput" }) as any as S.Schema<SubtaskPartInput>;
 
 export type SessionPromptRequestPartsItem =
   | TextPartInput
@@ -8452,9 +7814,7 @@ export const SessionPromptRequest = /*@__PURE__*/ S.suspend(() =>
     variant: S.optional(S.String),
     parts: SessionPromptRequestPartsList,
   }).pipe(T.Http({ method: "POST", uri: "/session/{sessionID}/message", code: 200 })),
-).annotate({
-  identifier: "SessionPromptRequest",
-}) as any as S.Schema<SessionPromptRequest>;
+).annotate({ identifier: "SessionPromptRequest" }) as any as S.Schema<SessionPromptRequest>;
 
 export type SessionPromptResponsePartsList = Array<Part>;
 export const SessionPromptResponsePartsList = /*@__PURE__*/ S.Array(
@@ -8470,16 +7830,12 @@ export const SessionPromptResponse = /*@__PURE__*/ S.suspend(() =>
     info: AssistantMessage,
     parts: SessionPromptResponsePartsList,
   }),
-).annotate({
-  identifier: "SessionPromptResponse",
-}) as any as S.Schema<SessionPromptResponse>;
+).annotate({ identifier: "SessionPromptResponse" }) as any as S.Schema<SessionPromptResponse>;
 
 export type SessionPromptAsyncRequestModel = SubtaskPartModel;
 export const SessionPromptAsyncRequestModel = SubtaskPartModel;
 
-export type SessionPromptAsyncRequestToolsMap = {
-  [key: string]: boolean | undefined;
-};
+export type SessionPromptAsyncRequestToolsMap = { [key: string]: boolean | undefined };
 export const SessionPromptAsyncRequestToolsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Boolean,
@@ -8526,13 +7882,7 @@ export const SessionPromptAsyncRequest = /*@__PURE__*/ S.suspend(() =>
     system: S.optional(S.String),
     variant: S.optional(S.String),
     parts: SessionPromptAsyncRequestPartsList,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/session/{sessionID}/prompt_async",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/session/{sessionID}/prompt_async", code: 200 })),
 ).annotate({
   identifier: "SessionPromptAsyncRequest",
 }) as any as S.Schema<SessionPromptAsyncRequest>;
@@ -8557,9 +7907,7 @@ export const SessionRevertRequest = /*@__PURE__*/ S.suspend(() =>
     messageID: S.String,
     partID: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/session/{sessionID}/revert", code: 200 })),
-).annotate({
-  identifier: "SessionRevertRequest",
-}) as any as S.Schema<SessionRevertRequest>;
+).annotate({ identifier: "SessionRevertRequest" }) as any as S.Schema<SessionRevertRequest>;
 
 export type SessionShellRequestModel = SubtaskPartModel;
 export const SessionShellRequestModel = SubtaskPartModel;
@@ -8583,9 +7931,7 @@ export const SessionShellRequest = /*@__PURE__*/ S.suspend(() =>
     model: S.optional(SubtaskPartModel),
     command: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/session/{sessionID}/shell", code: 200 })),
-).annotate({
-  identifier: "SessionShellRequest",
-}) as any as S.Schema<SessionShellRequest>;
+).annotate({ identifier: "SessionShellRequest" }) as any as S.Schema<SessionShellRequest>;
 
 export type SessionShellResponsePartsList = Array<Part>;
 export const SessionShellResponsePartsList = /*@__PURE__*/ S.Array(
@@ -8601,9 +7947,7 @@ export const SessionShellResponse = /*@__PURE__*/ S.suspend(() =>
     info: Message,
     parts: SessionShellResponsePartsList,
   }),
-).annotate({
-  identifier: "SessionShellResponse",
-}) as any as S.Schema<SessionShellResponse>;
+).annotate({ identifier: "SessionShellResponse" }) as any as S.Schema<SessionShellResponse>;
 
 export interface SessionStatusRequest {
   directory?: string;
@@ -8614,9 +7958,7 @@ export const SessionStatusRequest = /*@__PURE__*/ S.suspend(() =>
     directory: S.optional(S.String.pipe(T.Query())),
     workspace: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/session/status", code: 200 })),
-).annotate({
-  identifier: "SessionStatusRequest",
-}) as any as S.Schema<SessionStatusRequest>;
+).annotate({ identifier: "SessionStatusRequest" }) as any as S.Schema<SessionStatusRequest>;
 
 export type SessionStatusCase0Type = "idle";
 export const SessionStatusCase0Type = S.String;
@@ -8628,9 +7970,7 @@ export const SessionStatusCase0 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     type: SessionStatusCase0Type,
   }),
-).annotate({
-  identifier: "SessionStatusCase0",
-}) as any as S.Schema<SessionStatusCase0>;
+).annotate({ identifier: "SessionStatusCase0" }) as any as S.Schema<SessionStatusCase0>;
 
 export type SessionStatusCase1Type = "retry";
 export const SessionStatusCase1Type = S.String;
@@ -8652,9 +7992,7 @@ export const SessionStatusCase1Action = /*@__PURE__*/ S.suspend(() =>
     label: S.String,
     link: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SessionStatusCase1Action",
-}) as any as S.Schema<SessionStatusCase1Action>;
+).annotate({ identifier: "SessionStatusCase1Action" }) as any as S.Schema<SessionStatusCase1Action>;
 
 export interface SessionStatusCase1 {
   type: SessionStatusCase1Type;
@@ -8671,9 +8009,7 @@ export const SessionStatusCase1 = /*@__PURE__*/ S.suspend(() =>
     action: S.optional(SessionStatusCase1Action),
     next: S.Number,
   }),
-).annotate({
-  identifier: "SessionStatusCase1",
-}) as any as S.Schema<SessionStatusCase1>;
+).annotate({ identifier: "SessionStatusCase1" }) as any as S.Schema<SessionStatusCase1>;
 
 export type SessionStatusCase2Type = "busy";
 export const SessionStatusCase2Type = S.String;
@@ -8685,17 +8021,13 @@ export const SessionStatusCase2 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     type: SessionStatusCase2Type,
   }),
-).annotate({
-  identifier: "SessionStatusCase2",
-}) as any as S.Schema<SessionStatusCase2>;
+).annotate({ identifier: "SessionStatusCase2" }) as any as S.Schema<SessionStatusCase2>;
 
 export type SessionStatus = SessionStatusCase0 | SessionStatusCase1 | SessionStatusCase2;
 export const SessionStatus = S.Unknown as any as S.Schema<SessionStatus>;
 
 /** Get session status */
-export type SessionStatusResponseBodyMap = {
-  [key: string]: SessionStatus | undefined;
-};
+export type SessionStatusResponseBodyMap = { [key: string]: SessionStatus | undefined };
 export const SessionStatusResponseBodyMap = /*@__PURE__*/ S.Record(
   S.String,
   SessionStatus,
@@ -8704,9 +8036,7 @@ export const SessionStatusResponseBodyMap = /*@__PURE__*/ S.Record(
 export type SessionStatusResponse = SessionStatusResponseBodyMap;
 export const SessionStatusResponse = /*@__PURE__*/ S.suspend(() =>
   SessionStatusResponseBodyMap.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "SessionStatusResponse",
-}) as any as S.Schema<SessionStatusResponse>;
+).annotate({ identifier: "SessionStatusResponse" }) as any as S.Schema<SessionStatusResponse>;
 
 export interface SessionSummarizeRequest {
   sessionID: string;
@@ -8724,23 +8054,13 @@ export const SessionSummarizeRequest = /*@__PURE__*/ S.suspend(() =>
     providerID: S.String,
     modelID: S.String,
     auto: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/session/{sessionID}/summarize",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "SessionSummarizeRequest",
-}) as any as S.Schema<SessionSummarizeRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/session/{sessionID}/summarize", code: 200 })),
+).annotate({ identifier: "SessionSummarizeRequest" }) as any as S.Schema<SessionSummarizeRequest>;
 
 export type SessionSummarizeResponse = boolean;
 export const SessionSummarizeResponse = /*@__PURE__*/ S.suspend(() =>
   S.Boolean.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "SessionSummarizeResponse",
-}) as any as S.Schema<SessionSummarizeResponse>;
+).annotate({ identifier: "SessionSummarizeResponse" }) as any as S.Schema<SessionSummarizeResponse>;
 
 export interface SessionTodoRequest {
   sessionID: string;
@@ -8753,9 +8073,7 @@ export const SessionTodoRequest = /*@__PURE__*/ S.suspend(() =>
     directory: S.optional(S.String.pipe(T.Query())),
     workspace: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/session/{sessionID}/todo", code: 200 })),
-).annotate({
-  identifier: "SessionTodoRequest",
-}) as any as S.Schema<SessionTodoRequest>;
+).annotate({ identifier: "SessionTodoRequest" }) as any as S.Schema<SessionTodoRequest>;
 
 export interface Todo {
   /** Brief description of the task */
@@ -8782,9 +8100,7 @@ export const SessionTodoResponseBodyList = /*@__PURE__*/ S.Array(
 export type SessionTodoResponse = SessionTodoResponseBodyList;
 export const SessionTodoResponse = /*@__PURE__*/ S.suspend(() =>
   SessionTodoResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "SessionTodoResponse",
-}) as any as S.Schema<SessionTodoResponse>;
+).annotate({ identifier: "SessionTodoResponse" }) as any as S.Schema<SessionTodoResponse>;
 
 export interface SessionUnrevertRequest {
   sessionID: string;
@@ -8797,9 +8113,7 @@ export const SessionUnrevertRequest = /*@__PURE__*/ S.suspend(() =>
     directory: S.optional(S.String.pipe(T.Query())),
     workspace: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "POST", uri: "/session/{sessionID}/unrevert", code: 200 })),
-).annotate({
-  identifier: "SessionUnrevertRequest",
-}) as any as S.Schema<SessionUnrevertRequest>;
+).annotate({ identifier: "SessionUnrevertRequest" }) as any as S.Schema<SessionUnrevertRequest>;
 
 export type OAuthType = "oauth";
 export const OAuthType = S.String;
@@ -8878,9 +8192,7 @@ export const SetAuthRequest = /*@__PURE__*/ S.suspend(() =>
 export type SetAuthResponse = boolean;
 export const SetAuthResponse = /*@__PURE__*/ S.suspend(() =>
   S.Boolean.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "SetAuthResponse",
-}) as any as S.Schema<SetAuthResponse>;
+).annotate({ identifier: "SetAuthResponse" }) as any as S.Schema<SetAuthResponse>;
 
 export interface ShareSessionRequest {
   sessionID: string;
@@ -8893,9 +8205,7 @@ export const ShareSessionRequest = /*@__PURE__*/ S.suspend(() =>
     directory: S.optional(S.String.pipe(T.Query())),
     workspace: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "POST", uri: "/session/{sessionID}/share", code: 200 })),
-).annotate({
-  identifier: "ShareSessionRequest",
-}) as any as S.Schema<ShareSessionRequest>;
+).annotate({ identifier: "ShareSessionRequest" }) as any as S.Schema<ShareSessionRequest>;
 
 export interface StartMcpAuthRequest {
   name: string;
@@ -8908,9 +8218,7 @@ export const StartMcpAuthRequest = /*@__PURE__*/ S.suspend(() =>
     directory: S.optional(S.String.pipe(T.Query())),
     workspace: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "POST", uri: "/mcp/{name}/auth", code: 200 })),
-).annotate({
-  identifier: "StartMcpAuthRequest",
-}) as any as S.Schema<StartMcpAuthRequest>;
+).annotate({ identifier: "StartMcpAuthRequest" }) as any as S.Schema<StartMcpAuthRequest>;
 
 export interface StartMcpAuthResponse {
   authorizationUrl: string;
@@ -8921,9 +8229,7 @@ export const StartMcpAuthResponse = /*@__PURE__*/ S.suspend(() =>
     authorizationUrl: S.String,
     oauthState: S.String,
   }),
-).annotate({
-  identifier: "StartMcpAuthResponse",
-}) as any as S.Schema<StartMcpAuthResponse>;
+).annotate({ identifier: "StartMcpAuthResponse" }) as any as S.Schema<StartMcpAuthResponse>;
 
 export interface StartSyncRequest {
   directory?: string;
@@ -8934,16 +8240,12 @@ export const StartSyncRequest = /*@__PURE__*/ S.suspend(() =>
     directory: S.optional(S.String.pipe(T.Query())),
     workspace: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "POST", uri: "/sync/start", code: 200 })),
-).annotate({
-  identifier: "StartSyncRequest",
-}) as any as S.Schema<StartSyncRequest>;
+).annotate({ identifier: "StartSyncRequest" }) as any as S.Schema<StartSyncRequest>;
 
 export type StartSyncResponse = boolean;
 export const StartSyncResponse = /*@__PURE__*/ S.suspend(() =>
   S.Boolean.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "StartSyncResponse",
-}) as any as S.Schema<StartSyncResponse>;
+).annotate({ identifier: "StartSyncResponse" }) as any as S.Schema<StartSyncResponse>;
 
 export interface SubscribeEventRequest {
   directory?: string;
@@ -8954,9 +8256,7 @@ export const SubscribeEventRequest = /*@__PURE__*/ S.suspend(() =>
     directory: S.optional(S.String.pipe(T.Query())),
     workspace: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/event", code: 200 })),
-).annotate({
-  identifier: "SubscribeEventRequest",
-}) as any as S.Schema<SubscribeEventRequest>;
+).annotate({ identifier: "SubscribeEventRequest" }) as any as S.Schema<SubscribeEventRequest>;
 
 export interface SubscribeEventResponse {}
 export const SubscribeEventResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -8966,9 +8266,7 @@ export const SubscribeEventResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})
 export interface SubscribeV2EventRequest {}
 export const SubscribeV2EventRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/event", code: 200 })),
-).annotate({
-  identifier: "SubscribeV2EventRequest",
-}) as any as S.Schema<SubscribeV2EventRequest>;
+).annotate({ identifier: "SubscribeV2EventRequest" }) as any as S.Schema<SubscribeV2EventRequest>;
 
 export interface SubscribeV2EventResponse {}
 export const SubscribeV2EventResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -9010,9 +8308,7 @@ export const SyncReplayRequest = /*@__PURE__*/ S.suspend(() =>
     workspace: S.optional(S.String.pipe(T.Query())),
     events: SyncReplayRequestEventsList,
   }).pipe(T.Http({ method: "POST", uri: "/sync/replay", code: 200 })),
-).annotate({
-  identifier: "SyncReplayRequest",
-}) as any as S.Schema<SyncReplayRequest>;
+).annotate({ identifier: "SyncReplayRequest" }) as any as S.Schema<SyncReplayRequest>;
 
 export interface SyncReplayResponse {
   sessionID: string;
@@ -9021,9 +8317,7 @@ export const SyncReplayResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     sessionID: S.String,
   }),
-).annotate({
-  identifier: "SyncReplayResponse",
-}) as any as S.Schema<SyncReplayResponse>;
+).annotate({ identifier: "SyncReplayResponse" }) as any as S.Schema<SyncReplayResponse>;
 
 export interface SyncStealRequest {
   directory?: string;
@@ -9036,9 +8330,7 @@ export const SyncStealRequest = /*@__PURE__*/ S.suspend(() =>
     workspace: S.optional(S.String.pipe(T.Query())),
     sessionID: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/sync/steal", code: 200 })),
-).annotate({
-  identifier: "SyncStealRequest",
-}) as any as S.Schema<SyncStealRequest>;
+).annotate({ identifier: "SyncStealRequest" }) as any as S.Schema<SyncStealRequest>;
 
 export interface SyncStealResponse {
   sessionID: string;
@@ -9047,9 +8339,7 @@ export const SyncStealResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     sessionID: S.String,
   }),
-).annotate({
-  identifier: "SyncStealResponse",
-}) as any as S.Schema<SyncStealResponse>;
+).annotate({ identifier: "SyncStealResponse" }) as any as S.Schema<SyncStealResponse>;
 
 export interface ToolIdsRequest {
   directory?: string;
@@ -9068,9 +8358,7 @@ export const ToolIDs = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<ToolID
 export type ToolIdsResponse = ToolIDs;
 export const ToolIdsResponse = /*@__PURE__*/ S.suspend(() =>
   ToolIDs.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ToolIdsResponse",
-}) as any as S.Schema<ToolIdsResponse>;
+).annotate({ identifier: "ToolIdsResponse" }) as any as S.Schema<ToolIdsResponse>;
 
 export interface TuiAppendPromptRequest {
   directory?: string;
@@ -9083,16 +8371,12 @@ export const TuiAppendPromptRequest = /*@__PURE__*/ S.suspend(() =>
     workspace: S.optional(S.String.pipe(T.Query())),
     text: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/tui/append-prompt", code: 200 })),
-).annotate({
-  identifier: "TuiAppendPromptRequest",
-}) as any as S.Schema<TuiAppendPromptRequest>;
+).annotate({ identifier: "TuiAppendPromptRequest" }) as any as S.Schema<TuiAppendPromptRequest>;
 
 export type TuiAppendPromptResponse = boolean;
 export const TuiAppendPromptResponse = /*@__PURE__*/ S.suspend(() =>
   S.Boolean.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "TuiAppendPromptResponse",
-}) as any as S.Schema<TuiAppendPromptResponse>;
+).annotate({ identifier: "TuiAppendPromptResponse" }) as any as S.Schema<TuiAppendPromptResponse>;
 
 export interface TuiClearPromptRequest {
   directory?: string;
@@ -9103,16 +8387,12 @@ export const TuiClearPromptRequest = /*@__PURE__*/ S.suspend(() =>
     directory: S.optional(S.String.pipe(T.Query())),
     workspace: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "POST", uri: "/tui/clear-prompt", code: 200 })),
-).annotate({
-  identifier: "TuiClearPromptRequest",
-}) as any as S.Schema<TuiClearPromptRequest>;
+).annotate({ identifier: "TuiClearPromptRequest" }) as any as S.Schema<TuiClearPromptRequest>;
 
 export type TuiClearPromptResponse = boolean;
 export const TuiClearPromptResponse = /*@__PURE__*/ S.suspend(() =>
   S.Boolean.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "TuiClearPromptResponse",
-}) as any as S.Schema<TuiClearPromptResponse>;
+).annotate({ identifier: "TuiClearPromptResponse" }) as any as S.Schema<TuiClearPromptResponse>;
 
 export interface TuiControlNextRequest {
   directory?: string;
@@ -9123,9 +8403,7 @@ export const TuiControlNextRequest = /*@__PURE__*/ S.suspend(() =>
     directory: S.optional(S.String.pipe(T.Query())),
     workspace: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/tui/control/next", code: 200 })),
-).annotate({
-  identifier: "TuiControlNextRequest",
-}) as any as S.Schema<TuiControlNextRequest>;
+).annotate({ identifier: "TuiControlNextRequest" }) as any as S.Schema<TuiControlNextRequest>;
 
 export interface TuiControlNextResponse {
   path: string;
@@ -9136,9 +8414,7 @@ export const TuiControlNextResponse = /*@__PURE__*/ S.suspend(() =>
     path: S.String,
     body: S.Unknown,
   }),
-).annotate({
-  identifier: "TuiControlNextResponse",
-}) as any as S.Schema<TuiControlNextResponse>;
+).annotate({ identifier: "TuiControlNextResponse" }) as any as S.Schema<TuiControlNextResponse>;
 
 export interface TuiControlResponseRequest {
   directory?: string;
@@ -9171,9 +8447,7 @@ export const TuiExecuteCommandRequest = /*@__PURE__*/ S.suspend(() =>
     workspace: S.optional(S.String.pipe(T.Query())),
     command: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/tui/execute-command", code: 200 })),
-).annotate({
-  identifier: "TuiExecuteCommandRequest",
-}) as any as S.Schema<TuiExecuteCommandRequest>;
+).annotate({ identifier: "TuiExecuteCommandRequest" }) as any as S.Schema<TuiExecuteCommandRequest>;
 
 export type TuiExecuteCommandResponse = boolean;
 export const TuiExecuteCommandResponse = /*@__PURE__*/ S.suspend(() =>
@@ -9191,16 +8465,12 @@ export const TuiOpenHelpRequest = /*@__PURE__*/ S.suspend(() =>
     directory: S.optional(S.String.pipe(T.Query())),
     workspace: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "POST", uri: "/tui/open-help", code: 200 })),
-).annotate({
-  identifier: "TuiOpenHelpRequest",
-}) as any as S.Schema<TuiOpenHelpRequest>;
+).annotate({ identifier: "TuiOpenHelpRequest" }) as any as S.Schema<TuiOpenHelpRequest>;
 
 export type TuiOpenHelpResponse = boolean;
 export const TuiOpenHelpResponse = /*@__PURE__*/ S.suspend(() =>
   S.Boolean.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "TuiOpenHelpResponse",
-}) as any as S.Schema<TuiOpenHelpResponse>;
+).annotate({ identifier: "TuiOpenHelpResponse" }) as any as S.Schema<TuiOpenHelpResponse>;
 
 export interface TuiOpenModelsRequest {
   directory?: string;
@@ -9211,16 +8481,12 @@ export const TuiOpenModelsRequest = /*@__PURE__*/ S.suspend(() =>
     directory: S.optional(S.String.pipe(T.Query())),
     workspace: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "POST", uri: "/tui/open-models", code: 200 })),
-).annotate({
-  identifier: "TuiOpenModelsRequest",
-}) as any as S.Schema<TuiOpenModelsRequest>;
+).annotate({ identifier: "TuiOpenModelsRequest" }) as any as S.Schema<TuiOpenModelsRequest>;
 
 export type TuiOpenModelsResponse = boolean;
 export const TuiOpenModelsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Boolean.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "TuiOpenModelsResponse",
-}) as any as S.Schema<TuiOpenModelsResponse>;
+).annotate({ identifier: "TuiOpenModelsResponse" }) as any as S.Schema<TuiOpenModelsResponse>;
 
 export interface TuiOpenSessionsRequest {
   directory?: string;
@@ -9231,16 +8497,12 @@ export const TuiOpenSessionsRequest = /*@__PURE__*/ S.suspend(() =>
     directory: S.optional(S.String.pipe(T.Query())),
     workspace: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "POST", uri: "/tui/open-sessions", code: 200 })),
-).annotate({
-  identifier: "TuiOpenSessionsRequest",
-}) as any as S.Schema<TuiOpenSessionsRequest>;
+).annotate({ identifier: "TuiOpenSessionsRequest" }) as any as S.Schema<TuiOpenSessionsRequest>;
 
 export type TuiOpenSessionsResponse = boolean;
 export const TuiOpenSessionsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Boolean.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "TuiOpenSessionsResponse",
-}) as any as S.Schema<TuiOpenSessionsResponse>;
+).annotate({ identifier: "TuiOpenSessionsResponse" }) as any as S.Schema<TuiOpenSessionsResponse>;
 
 export interface TuiOpenThemesRequest {
   directory?: string;
@@ -9251,16 +8513,12 @@ export const TuiOpenThemesRequest = /*@__PURE__*/ S.suspend(() =>
     directory: S.optional(S.String.pipe(T.Query())),
     workspace: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "POST", uri: "/tui/open-themes", code: 200 })),
-).annotate({
-  identifier: "TuiOpenThemesRequest",
-}) as any as S.Schema<TuiOpenThemesRequest>;
+).annotate({ identifier: "TuiOpenThemesRequest" }) as any as S.Schema<TuiOpenThemesRequest>;
 
 export type TuiOpenThemesResponse = boolean;
 export const TuiOpenThemesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Boolean.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "TuiOpenThemesResponse",
-}) as any as S.Schema<TuiOpenThemesResponse>;
+).annotate({ identifier: "TuiOpenThemesResponse" }) as any as S.Schema<TuiOpenThemesResponse>;
 
 export interface TuiSelectSessionRequest {
   directory?: string;
@@ -9274,16 +8532,12 @@ export const TuiSelectSessionRequest = /*@__PURE__*/ S.suspend(() =>
     workspace: S.optional(S.String.pipe(T.Query())),
     sessionID: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/tui/select-session", code: 200 })),
-).annotate({
-  identifier: "TuiSelectSessionRequest",
-}) as any as S.Schema<TuiSelectSessionRequest>;
+).annotate({ identifier: "TuiSelectSessionRequest" }) as any as S.Schema<TuiSelectSessionRequest>;
 
 export type TuiSelectSessionResponse = boolean;
 export const TuiSelectSessionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Boolean.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "TuiSelectSessionResponse",
-}) as any as S.Schema<TuiSelectSessionResponse>;
+).annotate({ identifier: "TuiSelectSessionResponse" }) as any as S.Schema<TuiSelectSessionResponse>;
 
 export type TuiShowToastRequestVariant = "info" | "success" | "warning" | "error";
 export const TuiShowToastRequestVariant = S.String;
@@ -9305,16 +8559,12 @@ export const TuiShowToastRequest = /*@__PURE__*/ S.suspend(() =>
     variant: TuiShowToastRequestVariant,
     duration: S.optional(S.Number),
   }).pipe(T.Http({ method: "POST", uri: "/tui/show-toast", code: 200 })),
-).annotate({
-  identifier: "TuiShowToastRequest",
-}) as any as S.Schema<TuiShowToastRequest>;
+).annotate({ identifier: "TuiShowToastRequest" }) as any as S.Schema<TuiShowToastRequest>;
 
 export type TuiShowToastResponse = boolean;
 export const TuiShowToastResponse = /*@__PURE__*/ S.suspend(() =>
   S.Boolean.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "TuiShowToastResponse",
-}) as any as S.Schema<TuiShowToastResponse>;
+).annotate({ identifier: "TuiShowToastResponse" }) as any as S.Schema<TuiShowToastResponse>;
 
 export interface TuiSubmitPromptRequest {
   directory?: string;
@@ -9325,16 +8575,12 @@ export const TuiSubmitPromptRequest = /*@__PURE__*/ S.suspend(() =>
     directory: S.optional(S.String.pipe(T.Query())),
     workspace: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "POST", uri: "/tui/submit-prompt", code: 200 })),
-).annotate({
-  identifier: "TuiSubmitPromptRequest",
-}) as any as S.Schema<TuiSubmitPromptRequest>;
+).annotate({ identifier: "TuiSubmitPromptRequest" }) as any as S.Schema<TuiSubmitPromptRequest>;
 
 export type TuiSubmitPromptResponse = boolean;
 export const TuiSubmitPromptResponse = /*@__PURE__*/ S.suspend(() =>
   S.Boolean.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "TuiSubmitPromptResponse",
-}) as any as S.Schema<TuiSubmitPromptResponse>;
+).annotate({ identifier: "TuiSubmitPromptResponse" }) as any as S.Schema<TuiSubmitPromptResponse>;
 
 export interface UnshareSessionRequest {
   sessionID: string;
@@ -9347,16 +8593,12 @@ export const UnshareSessionRequest = /*@__PURE__*/ S.suspend(() =>
     directory: S.optional(S.String.pipe(T.Query())),
     workspace: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "DELETE", uri: "/session/{sessionID}/share", code: 200 })),
-).annotate({
-  identifier: "UnshareSessionRequest",
-}) as any as S.Schema<UnshareSessionRequest>;
+).annotate({ identifier: "UnshareSessionRequest" }) as any as S.Schema<UnshareSessionRequest>;
 
 export type UpdateConfigRequestCommandValue = ConfigCommandValue;
 export const UpdateConfigRequestCommandValue = ConfigCommandValue;
 
-export type UpdateConfigRequestCommandMap = {
-  [key: string]: ConfigCommandValue | undefined;
-};
+export type UpdateConfigRequestCommandMap = { [key: string]: ConfigCommandValue | undefined };
 export const UpdateConfigRequestCommandMap = /*@__PURE__*/ S.Record(
   S.String,
   ConfigCommandValue,
@@ -9472,9 +8714,7 @@ export const UpdateConfigRequestMode = ConfigMode;
 export type UpdateConfigRequestAgent = ConfigAgent;
 export const UpdateConfigRequestAgent = ConfigAgent;
 
-export type UpdateConfigRequestProviderMap = {
-  [key: string]: ProviderConfig | undefined;
-};
+export type UpdateConfigRequestProviderMap = { [key: string]: ProviderConfig | undefined };
 export const UpdateConfigRequestProviderMap = /*@__PURE__*/ S.Record(
   S.String,
   ProviderConfig,
@@ -9487,9 +8727,7 @@ export type UpdateConfigRequestMcpValue = McpLocalConfig | McpRemoteConfig | Con
 export const UpdateConfigRequestMcpValue =
   S.Unknown as any as S.Schema<UpdateConfigRequestMcpValue>;
 
-export type UpdateConfigRequestMcpMap = {
-  [key: string]: UpdateConfigRequestMcpValue | undefined;
-};
+export type UpdateConfigRequestMcpMap = { [key: string]: UpdateConfigRequestMcpValue | undefined };
 export const UpdateConfigRequestMcpMap = /*@__PURE__*/ S.Record(
   S.String,
   UpdateConfigRequestMcpValue,
@@ -9556,9 +8794,7 @@ export const UpdateConfigRequestLspCase1ValueCase1ExtensionsList = /*@__PURE__*/
   S.String,
 ) as any as S.Schema<UpdateConfigRequestLspCase1ValueCase1ExtensionsList>;
 
-export type UpdateConfigRequestLspCase1ValueCase1EnvMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateConfigRequestLspCase1ValueCase1EnvMap = { [key: string]: string | undefined };
 export const UpdateConfigRequestLspCase1ValueCase1EnvMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -9606,9 +8842,7 @@ export const UpdateConfigRequestInstructionsList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<UpdateConfigRequestInstructionsList>;
 
-export type UpdateConfigRequestToolsMap = {
-  [key: string]: boolean | undefined;
-};
+export type UpdateConfigRequestToolsMap = { [key: string]: boolean | undefined };
 export const UpdateConfigRequestToolsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Boolean,
@@ -9740,16 +8974,12 @@ export const UpdateConfigRequest = /*@__PURE__*/ S.suspend(() =>
     compaction: S.optional(ConfigCompaction),
     experimental: S.optional(UpdateConfigRequestExperimental),
   }).pipe(T.Http({ method: "PATCH", uri: "/config", code: 200 })),
-).annotate({
-  identifier: "UpdateConfigRequest",
-}) as any as S.Schema<UpdateConfigRequest>;
+).annotate({ identifier: "UpdateConfigRequest" }) as any as S.Schema<UpdateConfigRequest>;
 
 export type UpdateGlobalConfigRequestCommandValue = ConfigCommandValue;
 export const UpdateGlobalConfigRequestCommandValue = ConfigCommandValue;
 
-export type UpdateGlobalConfigRequestCommandMap = {
-  [key: string]: ConfigCommandValue | undefined;
-};
+export type UpdateGlobalConfigRequestCommandMap = { [key: string]: ConfigCommandValue | undefined };
 export const UpdateGlobalConfigRequestCommandMap = /*@__PURE__*/ S.Record(
   S.String,
   ConfigCommandValue,
@@ -9869,9 +9099,7 @@ export const UpdateGlobalConfigRequestMode = ConfigMode;
 export type UpdateGlobalConfigRequestAgent = ConfigAgent;
 export const UpdateGlobalConfigRequestAgent = ConfigAgent;
 
-export type UpdateGlobalConfigRequestProviderMap = {
-  [key: string]: ProviderConfig | undefined;
-};
+export type UpdateGlobalConfigRequestProviderMap = { [key: string]: ProviderConfig | undefined };
 export const UpdateGlobalConfigRequestProviderMap = /*@__PURE__*/ S.Record(
   S.String,
   ProviderConfig,
@@ -10009,9 +9237,7 @@ export const UpdateGlobalConfigRequestInstructionsList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<UpdateGlobalConfigRequestInstructionsList>;
 
-export type UpdateGlobalConfigRequestToolsMap = {
-  [key: string]: boolean | undefined;
-};
+export type UpdateGlobalConfigRequestToolsMap = { [key: string]: boolean | undefined };
 export const UpdateGlobalConfigRequestToolsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Boolean,
@@ -10166,16 +9392,12 @@ export const UpdatePartRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "UpdatePartRequest",
-}) as any as S.Schema<UpdatePartRequest>;
+).annotate({ identifier: "UpdatePartRequest" }) as any as S.Schema<UpdatePartRequest>;
 
 export type UpdatePartResponse = Part;
 export const UpdatePartResponse = /*@__PURE__*/ S.suspend(() =>
   Part.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "UpdatePartResponse",
-}) as any as S.Schema<UpdatePartResponse>;
+).annotate({ identifier: "UpdatePartResponse" }) as any as S.Schema<UpdatePartResponse>;
 
 export interface UpdateProjectRequest {
   projectID: string;
@@ -10194,9 +9416,7 @@ export const UpdateProjectRequest = /*@__PURE__*/ S.suspend(() =>
     icon: S.optional(ProjectIcon),
     commands: S.optional(ProjectCommands),
   }).pipe(T.Http({ method: "PATCH", uri: "/project/{projectID}", code: 200 })),
-).annotate({
-  identifier: "UpdateProjectRequest",
-}) as any as S.Schema<UpdateProjectRequest>;
+).annotate({ identifier: "UpdateProjectRequest" }) as any as S.Schema<UpdateProjectRequest>;
 
 export interface UpdatePtyRequestSize {
   rows: number;
@@ -10207,9 +9427,7 @@ export const UpdatePtyRequestSize = /*@__PURE__*/ S.suspend(() =>
     rows: S.Number,
     cols: S.Number,
   }),
-).annotate({
-  identifier: "UpdatePtyRequestSize",
-}) as any as S.Schema<UpdatePtyRequestSize>;
+).annotate({ identifier: "UpdatePtyRequestSize" }) as any as S.Schema<UpdatePtyRequestSize>;
 
 export interface UpdatePtyRequest {
   ptyID: string;
@@ -10226,9 +9444,7 @@ export const UpdatePtyRequest = /*@__PURE__*/ S.suspend(() =>
     title: S.optional(S.String),
     size: S.optional(UpdatePtyRequestSize),
   }).pipe(T.Http({ method: "PUT", uri: "/pty/{ptyID}", code: 200 })),
-).annotate({
-  identifier: "UpdatePtyRequest",
-}) as any as S.Schema<UpdatePtyRequest>;
+).annotate({ identifier: "UpdatePtyRequest" }) as any as S.Schema<UpdatePtyRequest>;
 
 export interface UpdateSessionRequestTime {
   archived?: number;
@@ -10237,9 +9453,7 @@ export const UpdateSessionRequestTime = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     archived: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "UpdateSessionRequestTime",
-}) as any as S.Schema<UpdateSessionRequestTime>;
+).annotate({ identifier: "UpdateSessionRequestTime" }) as any as S.Schema<UpdateSessionRequestTime>;
 
 export interface UpdateSessionRequest {
   sessionID: string;
@@ -10260,9 +9474,7 @@ export const UpdateSessionRequest = /*@__PURE__*/ S.suspend(() =>
     permission: S.optional(PermissionRuleset),
     time: S.optional(UpdateSessionRequestTime),
   }).pipe(T.Http({ method: "PATCH", uri: "/session/{sessionID}", code: 200 })),
-).annotate({
-  identifier: "UpdateSessionRequest",
-}) as any as S.Schema<UpdateSessionRequest>;
+).annotate({ identifier: "UpdateSessionRequest" }) as any as S.Schema<UpdateSessionRequest>;
 
 export type UpdateV2CredentialRequestLocation = CancelV2IntegrationAttemptRequestLocation;
 export const UpdateV2CredentialRequestLocation = CancelV2IntegrationAttemptRequestLocation;
@@ -10277,13 +9489,7 @@ export const UpdateV2CredentialRequest = /*@__PURE__*/ S.suspend(() =>
     credentialID: S.String.pipe(T.Label()),
     location: S.optional(CancelV2IntegrationAttemptRequestLocation.pipe(T.Query())),
     label: S.String,
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/api/credential/{credentialID}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PATCH", uri: "/api/credential/{credentialID}", code: 200 })),
 ).annotate({
   identifier: "UpdateV2CredentialRequest",
 }) as any as S.Schema<UpdateV2CredentialRequest>;
@@ -10312,9 +9518,7 @@ export const UpdateV2PtyRequest = /*@__PURE__*/ S.suspend(() =>
     title: S.optional(S.String),
     size: S.optional(UpdatePtyRequestSize),
   }).pipe(T.Http({ method: "PUT", uri: "/api/pty/{ptyID}", code: 200 })),
-).annotate({
-  identifier: "UpdateV2PtyRequest",
-}) as any as S.Schema<UpdateV2PtyRequest>;
+).annotate({ identifier: "UpdateV2PtyRequest" }) as any as S.Schema<UpdateV2PtyRequest>;
 
 export interface UpdateV2PtyResponse {
   location: LocationInfo;
@@ -10325,9 +9529,7 @@ export const UpdateV2PtyResponse = /*@__PURE__*/ S.suspend(() =>
     location: LocationInfo,
     data: Pty,
   }),
-).annotate({
-  identifier: "UpdateV2PtyResponse",
-}) as any as S.Schema<UpdateV2PtyResponse>;
+).annotate({ identifier: "UpdateV2PtyResponse" }) as any as S.Schema<UpdateV2PtyResponse>;
 
 export type V2FsFindRequestLocation = CancelV2IntegrationAttemptRequestLocation;
 export const V2FsFindRequestLocation = CancelV2IntegrationAttemptRequestLocation;
@@ -10348,9 +9550,7 @@ export const V2FsFindRequest = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(V2FsFindRequestType.pipe(T.Query())),
     limit: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/fs/find", code: 200 })),
-).annotate({
-  identifier: "V2FsFindRequest",
-}) as any as S.Schema<V2FsFindRequest>;
+).annotate({ identifier: "V2FsFindRequest" }) as any as S.Schema<V2FsFindRequest>;
 
 export type V2FsFindResponseDataList = Array<FileSystemEntry>;
 export const V2FsFindResponseDataList = /*@__PURE__*/ S.Array(
@@ -10366,9 +9566,7 @@ export const V2FsFindResponse = /*@__PURE__*/ S.suspend(() =>
     location: LocationInfo,
     data: V2FsFindResponseDataList,
   }),
-).annotate({
-  identifier: "V2FsFindResponse",
-}) as any as S.Schema<V2FsFindResponse>;
+).annotate({ identifier: "V2FsFindResponse" }) as any as S.Schema<V2FsFindResponse>;
 
 export type V2IntegrationAttemptStatusRequestLocation = CancelV2IntegrationAttemptRequestLocation;
 export const V2IntegrationAttemptStatusRequestLocation = CancelV2IntegrationAttemptRequestLocation;
@@ -10381,13 +9579,7 @@ export const V2IntegrationAttemptStatusRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     attemptID: S.String.pipe(T.Label()),
     location: S.optional(CancelV2IntegrationAttemptRequestLocation.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/integration/attempt/{attemptID}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/integration/attempt/{attemptID}", code: 200 })),
 ).annotate({
   identifier: "V2IntegrationAttemptStatusRequest",
 }) as any as S.Schema<V2IntegrationAttemptStatusRequest>;
@@ -10714,11 +9906,7 @@ export const V2IntegrationConnectKeyRequest = /*@__PURE__*/ S.suspend(() =>
     key: S.String,
     label: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/integration/{integrationID}/connect/key",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/integration/{integrationID}/connect/key", code: 200 }),
   ),
 ).annotate({
   identifier: "V2IntegrationConnectKeyRequest",
@@ -10726,17 +9914,13 @@ export const V2IntegrationConnectKeyRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface V2IntegrationConnectKeyResponse {}
 export const V2IntegrationConnectKeyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "V2IntegrationConnectKeyResponse",
-  },
+  { identifier: "V2IntegrationConnectKeyResponse" },
 ) as any as S.Schema<V2IntegrationConnectKeyResponse>;
 
 export type V2IntegrationConnectOauthRequestLocation = CancelV2IntegrationAttemptRequestLocation;
 export const V2IntegrationConnectOauthRequestLocation = CancelV2IntegrationAttemptRequestLocation;
 
-export type V2IntegrationConnectOauthRequestInputsMap = {
-  [key: string]: string | undefined;
-};
+export type V2IntegrationConnectOauthRequestInputsMap = { [key: string]: string | undefined };
 export const V2IntegrationConnectOauthRequestInputsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -10757,11 +9941,7 @@ export const V2IntegrationConnectOauthRequest = /*@__PURE__*/ S.suspend(() =>
     inputs: V2IntegrationConnectOauthRequestInputsMap,
     label: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/integration/{integrationID}/connect/oauth",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/integration/{integrationID}/connect/oauth", code: 200 }),
   ),
 ).annotate({
   identifier: "V2IntegrationConnectOauthRequest",
@@ -10821,9 +10001,7 @@ export const IntegrationAttemptTime = /*@__PURE__*/ S.suspend(() =>
     created: IntegrationAttemptTimeCreated,
     expires: IntegrationAttemptTimeExpires,
   }),
-).annotate({
-  identifier: "IntegrationAttemptTime",
-}) as any as S.Schema<IntegrationAttemptTime>;
+).annotate({ identifier: "IntegrationAttemptTime" }) as any as S.Schema<IntegrationAttemptTime>;
 
 export interface IntegrationAttempt {
   attemptID: string;
@@ -10840,9 +10018,7 @@ export const IntegrationAttempt = /*@__PURE__*/ S.suspend(() =>
     mode: IntegrationAttemptMode,
     time: IntegrationAttemptTime,
   }),
-).annotate({
-  identifier: "IntegrationAttempt",
-}) as any as S.Schema<IntegrationAttempt>;
+).annotate({ identifier: "IntegrationAttempt" }) as any as S.Schema<IntegrationAttempt>;
 
 export interface V2IntegrationConnectOauthResponse {
   location: LocationInfo;
@@ -10874,13 +10050,7 @@ export const V2ProjectCopyCreateRequest = /*@__PURE__*/ S.suspend(() =>
     strategy: S.String,
     directory: S.String,
     name: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/experimental/project/{projectID}/copy",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/experimental/project/{projectID}/copy", code: 200 })),
 ).annotate({
   identifier: "V2ProjectCopyCreateRequest",
 }) as any as S.Schema<V2ProjectCopyCreateRequest>;
@@ -10892,9 +10062,7 @@ export const ProjectCopyCopy = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     directory: S.String,
   }),
-).annotate({
-  identifier: "ProjectCopyCopy",
-}) as any as S.Schema<ProjectCopyCopy>;
+).annotate({ identifier: "ProjectCopyCopy" }) as any as S.Schema<ProjectCopyCopy>;
 
 export type V2ProjectCopyRefreshRequestLocation = CancelV2IntegrationAttemptRequestLocation;
 export const V2ProjectCopyRefreshRequestLocation = CancelV2IntegrationAttemptRequestLocation;
@@ -10908,11 +10076,7 @@ export const V2ProjectCopyRefreshRequest = /*@__PURE__*/ S.suspend(() =>
     projectID: S.String.pipe(T.Label()),
     location: S.optional(CancelV2IntegrationAttemptRequestLocation.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/experimental/project/{projectID}/copy/refresh",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/experimental/project/{projectID}/copy/refresh", code: 200 }),
   ),
 ).annotate({
   identifier: "V2ProjectCopyRefreshRequest",
@@ -10938,13 +10102,7 @@ export const V2ProjectCopyRemoveRequest = /*@__PURE__*/ S.suspend(() =>
     location: S.optional(CancelV2IntegrationAttemptRequestLocation.pipe(T.Query())),
     directory: S.String,
     force: S.Boolean,
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/experimental/project/{projectID}/copy",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/experimental/project/{projectID}/copy", code: 200 })),
 ).annotate({
   identifier: "V2ProjectCopyRemoveRequest",
 }) as any as S.Schema<V2ProjectCopyRemoveRequest>;
@@ -10965,16 +10123,8 @@ export const V2PtyConnectTokenRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ptyID: S.String.pipe(T.Label()),
     location: S.optional(CancelV2IntegrationAttemptRequestLocation.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/pty/{ptyID}/connect-token",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "V2PtyConnectTokenRequest",
-}) as any as S.Schema<V2PtyConnectTokenRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/api/pty/{ptyID}/connect-token", code: 200 })),
+).annotate({ identifier: "V2PtyConnectTokenRequest" }) as any as S.Schema<V2PtyConnectTokenRequest>;
 
 export interface V2PtyConnectTokenResponse {
   location: LocationInfo;
@@ -10992,9 +10142,7 @@ export const V2PtyConnectTokenResponse = /*@__PURE__*/ S.suspend(() =>
 export interface V2SessionActiveRequest {}
 export const V2SessionActiveRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/session/active", code: 200 })),
-).annotate({
-  identifier: "V2SessionActiveRequest",
-}) as any as S.Schema<V2SessionActiveRequest>;
+).annotate({ identifier: "V2SessionActiveRequest" }) as any as S.Schema<V2SessionActiveRequest>;
 
 export interface V2SessionActiveResponse {
   data: unknown;
@@ -11003,9 +10151,7 @@ export const V2SessionActiveResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: S.Unknown,
   }),
-).annotate({
-  identifier: "V2SessionActiveResponse",
-}) as any as S.Schema<V2SessionActiveResponse>;
+).annotate({ identifier: "V2SessionActiveResponse" }) as any as S.Schema<V2SessionActiveResponse>;
 
 export interface V2SessionContextRequest {
   sessionID: string;
@@ -11013,16 +10159,8 @@ export interface V2SessionContextRequest {
 export const V2SessionContextRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     sessionID: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/session/{sessionID}/context",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "V2SessionContextRequest",
-}) as any as S.Schema<V2SessionContextRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/session/{sessionID}/context", code: 200 })),
+).annotate({ identifier: "V2SessionContextRequest" }) as any as S.Schema<V2SessionContextRequest>;
 
 export type SessionMessageAgentSwitchedTime = RetryPartTime;
 export const SessionMessageAgentSwitchedTime = RetryPartTime;
@@ -11105,9 +10243,7 @@ export const PromptFileAttachment = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     source: S.optional(PromptSource),
   }),
-).annotate({
-  identifier: "PromptFileAttachment",
-}) as any as S.Schema<PromptFileAttachment>;
+).annotate({ identifier: "PromptFileAttachment" }) as any as S.Schema<PromptFileAttachment>;
 
 export type SessionMessageUserFilesList = Array<PromptFileAttachment>;
 export const SessionMessageUserFilesList = /*@__PURE__*/ S.Array(
@@ -11123,9 +10259,7 @@ export const PromptAgentAttachment = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     source: S.optional(PromptSource),
   }),
-).annotate({
-  identifier: "PromptAgentAttachment",
-}) as any as S.Schema<PromptAgentAttachment>;
+).annotate({ identifier: "PromptAgentAttachment" }) as any as S.Schema<PromptAgentAttachment>;
 
 export type SessionMessageUserAgentsList = Array<PromptAgentAttachment>;
 export const SessionMessageUserAgentsList = /*@__PURE__*/ S.Array(
@@ -11154,9 +10288,7 @@ export const SessionMessageUser = /*@__PURE__*/ S.suspend(() =>
     agents: S.optional(SessionMessageUserAgentsList),
     type: SessionMessageUserType,
   }),
-).annotate({
-  identifier: "SessionMessageUser",
-}) as any as S.Schema<SessionMessageUser>;
+).annotate({ identifier: "SessionMessageUser" }) as any as S.Schema<SessionMessageUser>;
 
 export type SessionMessageSyntheticTime = RetryPartTime;
 export const SessionMessageSyntheticTime = RetryPartTime;
@@ -11181,9 +10313,7 @@ export const SessionMessageSynthetic = /*@__PURE__*/ S.suspend(() =>
     text: S.String,
     type: SessionMessageSyntheticType,
   }),
-).annotate({
-  identifier: "SessionMessageSynthetic",
-}) as any as S.Schema<SessionMessageSynthetic>;
+).annotate({ identifier: "SessionMessageSynthetic" }) as any as S.Schema<SessionMessageSynthetic>;
 
 export type SessionMessageSystemTime = RetryPartTime;
 export const SessionMessageSystemTime = RetryPartTime;
@@ -11206,9 +10336,7 @@ export const SessionMessageSystem = /*@__PURE__*/ S.suspend(() =>
     type: SessionMessageSystemType,
     text: S.String,
   }),
-).annotate({
-  identifier: "SessionMessageSystem",
-}) as any as S.Schema<SessionMessageSystem>;
+).annotate({ identifier: "SessionMessageSystem" }) as any as S.Schema<SessionMessageSystem>;
 
 export type SessionMessageShellTime = AssistantMessageTime;
 export const SessionMessageShellTime = AssistantMessageTime;
@@ -11235,9 +10363,7 @@ export const SessionMessageShell = /*@__PURE__*/ S.suspend(() =>
     command: S.String,
     output: S.String,
   }),
-).annotate({
-  identifier: "SessionMessageShell",
-}) as any as S.Schema<SessionMessageShell>;
+).annotate({ identifier: "SessionMessageShell" }) as any as S.Schema<SessionMessageShell>;
 
 export type SessionMessageAssistantTime = AssistantMessageTime;
 export const SessionMessageAssistantTime = AssistantMessageTime;
@@ -11343,9 +10469,7 @@ export const ToolTextContent = /*@__PURE__*/ S.suspend(() =>
     type: ToolTextContentType,
     text: S.String,
   }),
-).annotate({
-  identifier: "ToolTextContent",
-}) as any as S.Schema<ToolTextContent>;
+).annotate({ identifier: "ToolTextContent" }) as any as S.Schema<ToolTextContent>;
 
 export type ToolFileContentType = "file";
 export const ToolFileContentType = S.String;
@@ -11363,9 +10487,7 @@ export const ToolFileContent = /*@__PURE__*/ S.suspend(() =>
     mime: S.String,
     name: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ToolFileContent",
-}) as any as S.Schema<ToolFileContent>;
+).annotate({ identifier: "ToolFileContent" }) as any as S.Schema<ToolFileContent>;
 
 export type LLMToolContent = ToolTextContent | ToolFileContent;
 export const LLMToolContent = S.Unknown as any as S.Schema<LLMToolContent>;
@@ -11453,9 +10575,7 @@ export const SessionErrorUnknown = /*@__PURE__*/ S.suspend(() =>
     type: SessionErrorUnknownType,
     message: S.String,
   }),
-).annotate({
-  identifier: "SessionErrorUnknown",
-}) as any as S.Schema<SessionErrorUnknown>;
+).annotate({ identifier: "SessionErrorUnknown" }) as any as S.Schema<SessionErrorUnknown>;
 
 export interface SessionMessageToolStateError {
   status: SessionMessageToolStateErrorStatus;
@@ -11591,9 +10711,7 @@ export const SessionMessageAssistant = /*@__PURE__*/ S.suspend(() =>
     tokens: S.optional(SessionTokens),
     error: S.optional(SessionErrorUnknown),
   }),
-).annotate({
-  identifier: "SessionMessageAssistant",
-}) as any as S.Schema<SessionMessageAssistant>;
+).annotate({ identifier: "SessionMessageAssistant" }) as any as S.Schema<SessionMessageAssistant>;
 
 export type SessionMessageCompactionType = "compaction";
 export const SessionMessageCompactionType = S.String;
@@ -11623,9 +10741,7 @@ export const SessionMessageCompaction = /*@__PURE__*/ S.suspend(() =>
     metadata: S.optional(S.Unknown),
     time: RetryPartTime,
   }),
-).annotate({
-  identifier: "SessionMessageCompaction",
-}) as any as S.Schema<SessionMessageCompaction>;
+).annotate({ identifier: "SessionMessageCompaction" }) as any as S.Schema<SessionMessageCompaction>;
 
 export type SessionMessage2 =
   | SessionMessageAgentSwitched
@@ -11650,9 +10766,7 @@ export const V2SessionContextResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: V2SessionContextResponseDataList,
   }),
-).annotate({
-  identifier: "V2SessionContextResponse",
-}) as any as S.Schema<V2SessionContextResponse>;
+).annotate({ identifier: "V2SessionContextResponse" }) as any as S.Schema<V2SessionContextResponse>;
 
 export interface V2SessionEventsRequest {
   sessionID: string;
@@ -11663,9 +10777,7 @@ export const V2SessionEventsRequest = /*@__PURE__*/ S.suspend(() =>
     sessionID: S.String.pipe(T.Label()),
     after: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/session/{sessionID}/event", code: 200 })),
-).annotate({
-  identifier: "V2SessionEventsRequest",
-}) as any as S.Schema<V2SessionEventsRequest>;
+).annotate({ identifier: "V2SessionEventsRequest" }) as any as S.Schema<V2SessionEventsRequest>;
 
 export interface V2SessionEventsResponse {}
 export const V2SessionEventsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -11682,16 +10794,8 @@ export const V2SessionHistoryRequest = /*@__PURE__*/ S.suspend(() =>
     sessionID: S.String.pipe(T.Label()),
     limit: S.optional(S.String.pipe(T.Query())),
     after: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/session/{sessionID}/history",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "V2SessionHistoryRequest",
-}) as any as S.Schema<V2SessionHistoryRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/session/{sessionID}/history", code: 200 })),
+).annotate({ identifier: "V2SessionHistoryRequest" }) as any as S.Schema<V2SessionHistoryRequest>;
 
 export type SessionNextAgentSwitchedType = "session.next.agent.switched";
 export const SessionNextAgentSwitchedType = S.String;
@@ -11745,9 +10849,7 @@ export const SessionNextAgentSwitched = /*@__PURE__*/ S.suspend(() =>
     location: S.optional(LocationRef),
     data: SessionNextAgentSwitchedData,
   }),
-).annotate({
-  identifier: "SessionNextAgentSwitched",
-}) as any as S.Schema<SessionNextAgentSwitched>;
+).annotate({ identifier: "SessionNextAgentSwitched" }) as any as S.Schema<SessionNextAgentSwitched>;
 
 export type SessionNextModelSwitchedType = "session.next.model.switched";
 export const SessionNextModelSwitchedType = S.String;
@@ -11789,9 +10891,7 @@ export const SessionNextModelSwitched = /*@__PURE__*/ S.suspend(() =>
     location: S.optional(LocationRef),
     data: SessionNextModelSwitchedData,
   }),
-).annotate({
-  identifier: "SessionNextModelSwitched",
-}) as any as S.Schema<SessionNextModelSwitched>;
+).annotate({ identifier: "SessionNextModelSwitched" }) as any as S.Schema<SessionNextModelSwitched>;
 
 export type SessionNextMovedType = "session.next.moved";
 export const SessionNextMovedType = S.String;
@@ -11812,9 +10912,7 @@ export const SessionNextMovedData = /*@__PURE__*/ S.suspend(() =>
     location: LocationRef,
     subdirectory: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SessionNextMovedData",
-}) as any as S.Schema<SessionNextMovedData>;
+).annotate({ identifier: "SessionNextMovedData" }) as any as S.Schema<SessionNextMovedData>;
 
 export interface SessionNextMoved {
   id: string;
@@ -11833,9 +10931,7 @@ export const SessionNextMoved = /*@__PURE__*/ S.suspend(() =>
     location: S.optional(LocationRef),
     data: SessionNextMovedData,
   }),
-).annotate({
-  identifier: "SessionNextMoved",
-}) as any as S.Schema<SessionNextMoved>;
+).annotate({ identifier: "SessionNextMoved" }) as any as S.Schema<SessionNextMoved>;
 
 export type SessionNextPromptedType = "session.next.prompted";
 export const SessionNextPromptedType = S.String;
@@ -11884,9 +10980,7 @@ export const SessionNextPromptedData = /*@__PURE__*/ S.suspend(() =>
     prompt: Prompt,
     delivery: SessionNextPromptedDataDelivery,
   }),
-).annotate({
-  identifier: "SessionNextPromptedData",
-}) as any as S.Schema<SessionNextPromptedData>;
+).annotate({ identifier: "SessionNextPromptedData" }) as any as S.Schema<SessionNextPromptedData>;
 
 export interface SessionNextPrompted {
   id: string;
@@ -11905,9 +10999,7 @@ export const SessionNextPrompted = /*@__PURE__*/ S.suspend(() =>
     location: S.optional(LocationRef),
     data: SessionNextPromptedData,
   }),
-).annotate({
-  identifier: "SessionNextPrompted",
-}) as any as S.Schema<SessionNextPrompted>;
+).annotate({ identifier: "SessionNextPrompted" }) as any as S.Schema<SessionNextPrompted>;
 
 export type SessionNextPromptAdmittedType = "session.next.prompt.admitted";
 export const SessionNextPromptAdmittedType = S.String;
@@ -12028,9 +11120,7 @@ export const SessionNextSynthetic = /*@__PURE__*/ S.suspend(() =>
     location: S.optional(LocationRef),
     data: SessionNextContextUpdatedData,
   }),
-).annotate({
-  identifier: "SessionNextSynthetic",
-}) as any as S.Schema<SessionNextSynthetic>;
+).annotate({ identifier: "SessionNextSynthetic" }) as any as S.Schema<SessionNextSynthetic>;
 
 export type SessionNextShellStartedType = "session.next.shell.started";
 export const SessionNextShellStartedType = S.String;
@@ -12074,9 +11164,7 @@ export const SessionNextShellStarted = /*@__PURE__*/ S.suspend(() =>
     location: S.optional(LocationRef),
     data: SessionNextShellStartedData,
   }),
-).annotate({
-  identifier: "SessionNextShellStarted",
-}) as any as S.Schema<SessionNextShellStarted>;
+).annotate({ identifier: "SessionNextShellStarted" }) as any as S.Schema<SessionNextShellStarted>;
 
 export type SessionNextShellEndedType = "session.next.shell.ended";
 export const SessionNextShellEndedType = S.String;
@@ -12118,9 +11206,7 @@ export const SessionNextShellEnded = /*@__PURE__*/ S.suspend(() =>
     location: S.optional(LocationRef),
     data: SessionNextShellEndedData,
   }),
-).annotate({
-  identifier: "SessionNextShellEnded",
-}) as any as S.Schema<SessionNextShellEnded>;
+).annotate({ identifier: "SessionNextShellEnded" }) as any as S.Schema<SessionNextShellEnded>;
 
 export type SessionNextStepStartedType = "session.next.step.started";
 export const SessionNextStepStartedType = S.String;
@@ -12166,9 +11252,7 @@ export const SessionNextStepStarted = /*@__PURE__*/ S.suspend(() =>
     location: S.optional(LocationRef),
     data: SessionNextStepStartedData,
   }),
-).annotate({
-  identifier: "SessionNextStepStarted",
-}) as any as S.Schema<SessionNextStepStarted>;
+).annotate({ identifier: "SessionNextStepStarted" }) as any as S.Schema<SessionNextStepStarted>;
 
 export type SessionNextStepEndedType = "session.next.step.ended";
 export const SessionNextStepEndedType = S.String;
@@ -12208,9 +11292,7 @@ export const SessionNextStepEndedData = /*@__PURE__*/ S.suspend(() =>
     snapshot: S.optional(S.String),
     files: S.optional(SessionNextStepEndedDataFilesList),
   }),
-).annotate({
-  identifier: "SessionNextStepEndedData",
-}) as any as S.Schema<SessionNextStepEndedData>;
+).annotate({ identifier: "SessionNextStepEndedData" }) as any as S.Schema<SessionNextStepEndedData>;
 
 export interface SessionNextStepEnded {
   id: string;
@@ -12229,9 +11311,7 @@ export const SessionNextStepEnded = /*@__PURE__*/ S.suspend(() =>
     location: S.optional(LocationRef),
     data: SessionNextStepEndedData,
   }),
-).annotate({
-  identifier: "SessionNextStepEnded",
-}) as any as S.Schema<SessionNextStepEnded>;
+).annotate({ identifier: "SessionNextStepEnded" }) as any as S.Schema<SessionNextStepEnded>;
 
 export type SessionNextStepFailedType = "session.next.step.failed";
 export const SessionNextStepFailedType = S.String;
@@ -12273,9 +11353,7 @@ export const SessionNextStepFailed = /*@__PURE__*/ S.suspend(() =>
     location: S.optional(LocationRef),
     data: SessionNextStepFailedData,
   }),
-).annotate({
-  identifier: "SessionNextStepFailed",
-}) as any as S.Schema<SessionNextStepFailed>;
+).annotate({ identifier: "SessionNextStepFailed" }) as any as S.Schema<SessionNextStepFailed>;
 
 export type SessionNextTextStartedType = "session.next.text.started";
 export const SessionNextTextStartedType = S.String;
@@ -12317,9 +11395,7 @@ export const SessionNextTextStarted = /*@__PURE__*/ S.suspend(() =>
     location: S.optional(LocationRef),
     data: SessionNextTextStartedData,
   }),
-).annotate({
-  identifier: "SessionNextTextStarted",
-}) as any as S.Schema<SessionNextTextStarted>;
+).annotate({ identifier: "SessionNextTextStarted" }) as any as S.Schema<SessionNextTextStarted>;
 
 export type SessionNextTextEndedType = "session.next.text.ended";
 export const SessionNextTextEndedType = S.String;
@@ -12342,9 +11418,7 @@ export const SessionNextTextEndedData = /*@__PURE__*/ S.suspend(() =>
     textID: S.String,
     text: S.String,
   }),
-).annotate({
-  identifier: "SessionNextTextEndedData",
-}) as any as S.Schema<SessionNextTextEndedData>;
+).annotate({ identifier: "SessionNextTextEndedData" }) as any as S.Schema<SessionNextTextEndedData>;
 
 export interface SessionNextTextEnded {
   id: string;
@@ -12363,9 +11437,7 @@ export const SessionNextTextEnded = /*@__PURE__*/ S.suspend(() =>
     location: S.optional(LocationRef),
     data: SessionNextTextEndedData,
   }),
-).annotate({
-  identifier: "SessionNextTextEnded",
-}) as any as S.Schema<SessionNextTextEnded>;
+).annotate({ identifier: "SessionNextTextEnded" }) as any as S.Schema<SessionNextTextEnded>;
 
 export type SessionNextToolInputStartedType = "session.next.tool.input.started";
 export const SessionNextToolInputStartedType = S.String;
@@ -12518,9 +11590,7 @@ export const SessionNextToolCalled = /*@__PURE__*/ S.suspend(() =>
     location: S.optional(LocationRef),
     data: SessionNextToolCalledData,
   }),
-).annotate({
-  identifier: "SessionNextToolCalled",
-}) as any as S.Schema<SessionNextToolCalled>;
+).annotate({ identifier: "SessionNextToolCalled" }) as any as S.Schema<SessionNextToolCalled>;
 
 export type SessionNextToolProgressType = "session.next.tool.progress";
 export const SessionNextToolProgressType = S.String;
@@ -12571,9 +11641,7 @@ export const SessionNextToolProgress = /*@__PURE__*/ S.suspend(() =>
     location: S.optional(LocationRef),
     data: SessionNextToolProgressData,
   }),
-).annotate({
-  identifier: "SessionNextToolProgress",
-}) as any as S.Schema<SessionNextToolProgress>;
+).annotate({ identifier: "SessionNextToolProgress" }) as any as S.Schema<SessionNextToolProgress>;
 
 export type SessionNextToolSuccessType = "session.next.tool.success";
 export const SessionNextToolSuccessType = S.String;
@@ -12638,9 +11706,7 @@ export const SessionNextToolSuccess = /*@__PURE__*/ S.suspend(() =>
     location: S.optional(LocationRef),
     data: SessionNextToolSuccessData,
   }),
-).annotate({
-  identifier: "SessionNextToolSuccess",
-}) as any as S.Schema<SessionNextToolSuccess>;
+).annotate({ identifier: "SessionNextToolSuccess" }) as any as S.Schema<SessionNextToolSuccess>;
 
 export type SessionNextToolFailedType = "session.next.tool.failed";
 export const SessionNextToolFailedType = S.String;
@@ -12691,9 +11757,7 @@ export const SessionNextToolFailed = /*@__PURE__*/ S.suspend(() =>
     location: S.optional(LocationRef),
     data: SessionNextToolFailedData,
   }),
-).annotate({
-  identifier: "SessionNextToolFailed",
-}) as any as S.Schema<SessionNextToolFailed>;
+).annotate({ identifier: "SessionNextToolFailed" }) as any as S.Schema<SessionNextToolFailed>;
 
 export type SessionNextReasoningStartedType = "session.next.reasoning.started";
 export const SessionNextReasoningStartedType = S.String;
@@ -12795,17 +11859,13 @@ export const SessionNextRetriedType = S.String;
 export type SessionNextRetriedDurable = SessionNextAgentSwitchedDurable;
 export const SessionNextRetriedDurable = SessionNextAgentSwitchedDurable;
 
-export type SessionNextRetryErrorResponseHeadersMap = {
-  [key: string]: string | undefined;
-};
+export type SessionNextRetryErrorResponseHeadersMap = { [key: string]: string | undefined };
 export const SessionNextRetryErrorResponseHeadersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
 ) as any as S.Schema<SessionNextRetryErrorResponseHeadersMap>;
 
-export type SessionNextRetryErrorMetadataMap = {
-  [key: string]: string | undefined;
-};
+export type SessionNextRetryErrorMetadataMap = { [key: string]: string | undefined };
 export const SessionNextRetryErrorMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -12828,9 +11888,7 @@ export const SessionNextRetryError = /*@__PURE__*/ S.suspend(() =>
     responseBody: S.optional(S.String),
     metadata: S.optional(SessionNextRetryErrorMetadataMap),
   }),
-).annotate({
-  identifier: "SessionNextRetryError",
-}) as any as S.Schema<SessionNextRetryError>;
+).annotate({ identifier: "SessionNextRetryError" }) as any as S.Schema<SessionNextRetryError>;
 
 export interface SessionNextRetriedData {
   timestamp: number;
@@ -12845,9 +11903,7 @@ export const SessionNextRetriedData = /*@__PURE__*/ S.suspend(() =>
     attempt: S.Number,
     error: SessionNextRetryError,
   }),
-).annotate({
-  identifier: "SessionNextRetriedData",
-}) as any as S.Schema<SessionNextRetriedData>;
+).annotate({ identifier: "SessionNextRetriedData" }) as any as S.Schema<SessionNextRetriedData>;
 
 export interface SessionNextRetried {
   id: string;
@@ -12866,9 +11922,7 @@ export const SessionNextRetried = /*@__PURE__*/ S.suspend(() =>
     location: S.optional(LocationRef),
     data: SessionNextRetriedData,
   }),
-).annotate({
-  identifier: "SessionNextRetried",
-}) as any as S.Schema<SessionNextRetried>;
+).annotate({ identifier: "SessionNextRetried" }) as any as S.Schema<SessionNextRetried>;
 
 export type SessionNextCompactionStartedType = "session.next.compaction.started";
 export const SessionNextCompactionStartedType = S.String;
@@ -13006,9 +12060,7 @@ export const SessionNextRevertStaged = /*@__PURE__*/ S.suspend(() =>
     location: S.optional(LocationRef),
     data: SessionNextRevertStagedData,
   }),
-).annotate({
-  identifier: "SessionNextRevertStaged",
-}) as any as S.Schema<SessionNextRevertStaged>;
+).annotate({ identifier: "SessionNextRevertStaged" }) as any as S.Schema<SessionNextRevertStaged>;
 
 export type SessionNextRevertClearedType = "session.next.revert.cleared";
 export const SessionNextRevertClearedType = S.String;
@@ -13046,9 +12098,7 @@ export const SessionNextRevertCleared = /*@__PURE__*/ S.suspend(() =>
     location: S.optional(LocationRef),
     data: SessionNextRevertClearedData,
   }),
-).annotate({
-  identifier: "SessionNextRevertCleared",
-}) as any as S.Schema<SessionNextRevertCleared>;
+).annotate({ identifier: "SessionNextRevertCleared" }) as any as S.Schema<SessionNextRevertCleared>;
 
 export type SessionNextRevertCommittedType = "session.next.revert.committed";
 export const SessionNextRevertCommittedType = S.String;
@@ -13145,13 +12195,7 @@ export interface V2SessionInterruptRequest {
 export const V2SessionInterruptRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     sessionID: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/session/{sessionID}/interrupt",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/session/{sessionID}/interrupt", code: 200 })),
 ).annotate({
   identifier: "V2SessionInterruptRequest",
 }) as any as S.Schema<V2SessionInterruptRequest>;
@@ -13170,15 +12214,9 @@ export const V2SessionMessageRequest = /*@__PURE__*/ S.suspend(() =>
     sessionID: S.String.pipe(T.Label()),
     messageID: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/session/{sessionID}/message/{messageID}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/session/{sessionID}/message/{messageID}", code: 200 }),
   ),
-).annotate({
-  identifier: "V2SessionMessageRequest",
-}) as any as S.Schema<V2SessionMessageRequest>;
+).annotate({ identifier: "V2SessionMessageRequest" }) as any as S.Schema<V2SessionMessageRequest>;
 
 export interface V2SessionMessageResponse {
   data: SessionMessage2;
@@ -13187,9 +12225,7 @@ export const V2SessionMessageResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: SessionMessage2,
   }),
-).annotate({
-  identifier: "V2SessionMessageResponse",
-}) as any as S.Schema<V2SessionMessageResponse>;
+).annotate({ identifier: "V2SessionMessageResponse" }) as any as S.Schema<V2SessionMessageResponse>;
 
 export type V2SessionMessagesRequestOrder = "asc" | "desc";
 export const V2SessionMessagesRequestOrder = S.String;
@@ -13206,16 +12242,8 @@ export const V2SessionMessagesRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number.pipe(T.Query())),
     order: S.optional(V2SessionMessagesRequestOrder.pipe(T.Query())),
     cursor: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/session/{sessionID}/message",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "V2SessionMessagesRequest",
-}) as any as S.Schema<V2SessionMessagesRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/session/{sessionID}/message", code: 200 })),
+).annotate({ identifier: "V2SessionMessagesRequest" }) as any as S.Schema<V2SessionMessagesRequest>;
 
 export type SessionMessagesResponseDataList = Array<SessionMessage2>;
 export const SessionMessagesResponseDataList = /*@__PURE__*/ S.Array(
@@ -13234,9 +12262,7 @@ export const SessionMessagesResponse2 = /*@__PURE__*/ S.suspend(() =>
     data: SessionMessagesResponseDataList,
     cursor: SessionsResponseCursor,
   }),
-).annotate({
-  identifier: "SessionMessagesResponse2",
-}) as any as S.Schema<SessionMessagesResponse2>;
+).annotate({ identifier: "SessionMessagesResponse2" }) as any as S.Schema<SessionMessagesResponse2>;
 
 export interface PromptInputFileAttachment {
   uri: string;
@@ -13295,16 +12321,8 @@ export const V2SessionPromptRequest = /*@__PURE__*/ S.suspend(() =>
     prompt: PromptInput,
     delivery: S.optional(V2SessionPromptRequestDelivery),
     resume: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/session/{sessionID}/prompt",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "V2SessionPromptRequest",
-}) as any as S.Schema<V2SessionPromptRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/api/session/{sessionID}/prompt", code: 200 })),
+).annotate({ identifier: "V2SessionPromptRequest" }) as any as S.Schema<V2SessionPromptRequest>;
 
 export type SessionInputAdmittedDelivery = "steer" | "queue";
 export const SessionInputAdmittedDelivery = S.String;
@@ -13328,9 +12346,7 @@ export const SessionInputAdmitted = /*@__PURE__*/ S.suspend(() =>
     timeCreated: S.Number,
     promotedSeq: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "SessionInputAdmitted",
-}) as any as S.Schema<SessionInputAdmitted>;
+).annotate({ identifier: "SessionInputAdmitted" }) as any as S.Schema<SessionInputAdmitted>;
 
 export interface V2SessionPromptResponse {
   data: SessionInputAdmitted;
@@ -13339,9 +12355,7 @@ export const V2SessionPromptResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: SessionInputAdmitted,
   }),
-).annotate({
-  identifier: "V2SessionPromptResponse",
-}) as any as S.Schema<V2SessionPromptResponse>;
+).annotate({ identifier: "V2SessionPromptResponse" }) as any as S.Schema<V2SessionPromptResponse>;
 
 export interface V2SessionRevertStageRequest {
   sessionID: string;
@@ -13353,13 +12367,7 @@ export const V2SessionRevertStageRequest = /*@__PURE__*/ S.suspend(() =>
     sessionID: S.String.pipe(T.Label()),
     messageID: S.String,
     files: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/session/{sessionID}/revert/stage",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/session/{sessionID}/revert/stage", code: 200 })),
 ).annotate({
   identifier: "V2SessionRevertStageRequest",
 }) as any as S.Schema<V2SessionRevertStageRequest>;
@@ -13383,13 +12391,7 @@ export const V2SessionSwitchAgentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     sessionID: S.String.pipe(T.Label()),
     agent: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/session/{sessionID}/agent",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/session/{sessionID}/agent", code: 200 })),
 ).annotate({
   identifier: "V2SessionSwitchAgentRequest",
 }) as any as S.Schema<V2SessionSwitchAgentRequest>;
@@ -13407,13 +12409,7 @@ export const V2SessionSwitchModelRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     sessionID: S.String.pipe(T.Label()),
     model: CreateSessionRequestModel,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/session/{sessionID}/model",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/session/{sessionID}/model", code: 200 })),
 ).annotate({
   identifier: "V2SessionSwitchModelRequest",
 }) as any as S.Schema<V2SessionSwitchModelRequest>;
@@ -13470,9 +12466,7 @@ export const VcsDiffResponseBodyList = /*@__PURE__*/ S.Array(
 export type VcsDiffResponse = VcsDiffResponseBodyList;
 export const VcsDiffResponse = /*@__PURE__*/ S.suspend(() =>
   VcsDiffResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "VcsDiffResponse",
-}) as any as S.Schema<VcsDiffResponse>;
+).annotate({ identifier: "VcsDiffResponse" }) as any as S.Schema<VcsDiffResponse>;
 
 export interface VcsDiffRawRequest {
   directory?: string;
@@ -13483,9 +12477,7 @@ export const VcsDiffRawRequest = /*@__PURE__*/ S.suspend(() =>
     directory: S.optional(S.String.pipe(T.Query())),
     workspace: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/vcs/diff/raw", code: 200 })),
-).annotate({
-  identifier: "VcsDiffRawRequest",
-}) as any as S.Schema<VcsDiffRawRequest>;
+).annotate({ identifier: "VcsDiffRawRequest" }) as any as S.Schema<VcsDiffRawRequest>;
 
 export interface VcsDiffRawResponse {}
 export const VcsDiffRawResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -13501,9 +12493,7 @@ export const VcsStatusRequest = /*@__PURE__*/ S.suspend(() =>
     directory: S.optional(S.String.pipe(T.Query())),
     workspace: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/vcs/status", code: 200 })),
-).annotate({
-  identifier: "VcsStatusRequest",
-}) as any as S.Schema<VcsStatusRequest>;
+).annotate({ identifier: "VcsStatusRequest" }) as any as S.Schema<VcsStatusRequest>;
 
 export type VcsFileStatusStatus = "added" | "deleted" | "modified";
 export const VcsFileStatusStatus = S.String;
@@ -13532,9 +12522,7 @@ export const VcsStatusResponseBodyList = /*@__PURE__*/ S.Array(
 export type VcsStatusResponse = VcsStatusResponseBodyList;
 export const VcsStatusResponse = /*@__PURE__*/ S.suspend(() =>
   VcsStatusResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "VcsStatusResponse",
-}) as any as S.Schema<VcsStatusResponse>;
+).annotate({ identifier: "VcsStatusResponse" }) as any as S.Schema<VcsStatusResponse>;
 
 export interface WaitV2SessionRequest {
   sessionID: string;
@@ -13543,9 +12531,7 @@ export const WaitV2SessionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     sessionID: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "POST", uri: "/api/session/{sessionID}/wait", code: 200 })),
-).annotate({
-  identifier: "WaitV2SessionRequest",
-}) as any as S.Schema<WaitV2SessionRequest>;
+).annotate({ identifier: "WaitV2SessionRequest" }) as any as S.Schema<WaitV2SessionRequest>;
 
 export interface WaitV2SessionResponse {}
 export const WaitV2SessionResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
