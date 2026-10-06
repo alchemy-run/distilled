@@ -126,9 +126,7 @@ export const FieldInputSection = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "FieldInputSection",
-}) as any as S.Schema<FieldInputSection>;
+).annotate({ identifier: "FieldInputSection" }) as any as S.Schema<FieldInputSection>;
 
 export type FieldInputType =
   | "STRING"
@@ -169,9 +167,7 @@ export const GeneratorRecipe = /*@__PURE__*/ S.suspend(() =>
     characterSets: S.optional(GeneratorRecipeCharacterSetsList),
     excludeCharacters: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GeneratorRecipe",
-}) as any as S.Schema<GeneratorRecipe>;
+).annotate({ identifier: "GeneratorRecipe" }) as any as S.Schema<GeneratorRecipe>;
 
 export interface FieldInput {
   id: string;
@@ -264,9 +260,7 @@ export const CreateVaultItemRequest = /*@__PURE__*/ S.suspend(() =>
     fields: S.optional(CreateVaultItemRequestFieldsList),
     files: S.optional(CreateVaultItemRequestFilesList),
   }).pipe(T.Http({ method: "POST", uri: "/vaults/{vaultUuid}/items", code: 200 })),
-).annotate({
-  identifier: "CreateVaultItemRequest",
-}) as any as S.Schema<CreateVaultItemRequest>;
+).annotate({ identifier: "CreateVaultItemRequest" }) as any as S.Schema<CreateVaultItemRequest>;
 
 export type CreateVaultItemResponseVault = CreateVaultItemRequestVault;
 export const CreateVaultItemResponseVault = CreateVaultItemRequestVault;
@@ -440,9 +434,7 @@ export const CreateVaultItemResponse = /*@__PURE__*/ S.suspend(() =>
     fields: S.optional(CreateVaultItemResponseFieldsList),
     files: S.optional(CreateVaultItemResponseFilesList),
   }),
-).annotate({
-  identifier: "CreateVaultItemResponse",
-}) as any as S.Schema<CreateVaultItemResponse>;
+).annotate({ identifier: "CreateVaultItemResponse" }) as any as S.Schema<CreateVaultItemResponse>;
 
 export interface DeleteVaultItemRequest {
   /** The UUID of the Vault the item is in */
@@ -454,16 +446,8 @@ export const DeleteVaultItemRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     vaultUuid: S.String.pipe(T.Label()),
     itemUuid: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/vaults/{vaultUuid}/items/{itemUuid}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteVaultItemRequest",
-}) as any as S.Schema<DeleteVaultItemRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/vaults/{vaultUuid}/items/{itemUuid}", code: 200 })),
+).annotate({ identifier: "DeleteVaultItemRequest" }) as any as S.Schema<DeleteVaultItemRequest>;
 
 export interface DeleteVaultItemResponse {}
 export const DeleteVaultItemResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -490,9 +474,7 @@ export const DownloadFileByIDRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "DownloadFileByIDRequest",
-}) as any as S.Schema<DownloadFileByIDRequest>;
+).annotate({ identifier: "DownloadFileByIDRequest" }) as any as S.Schema<DownloadFileByIDRequest>;
 
 export interface DownloadFileByIDResponse {}
 export const DownloadFileByIDResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -510,9 +492,7 @@ export const GetApiActivityRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number.pipe(T.Query())),
     offset: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/activity", code: 200 })),
-).annotate({
-  identifier: "GetApiActivityRequest",
-}) as any as S.Schema<GetApiActivityRequest>;
+).annotate({ identifier: "GetApiActivityRequest" }) as any as S.Schema<GetApiActivityRequest>;
 
 export type APIRequestAction = "READ" | "CREATE" | "UPDATE" | "DELETE";
 export const APIRequestAction = S.String;
@@ -535,9 +515,7 @@ export const APIRequestActor = /*@__PURE__*/ S.suspend(() =>
     userAgent: S.optional(S.String),
     requestIp: S.optional(S.String),
   }),
-).annotate({
-  identifier: "APIRequestActor",
-}) as any as S.Schema<APIRequestActor>;
+).annotate({ identifier: "APIRequestActor" }) as any as S.Schema<APIRequestActor>;
 
 export type APIRequestResourceType = "ITEM" | "VAULT";
 export const APIRequestResourceType = S.String;
@@ -561,9 +539,7 @@ export const APIRequestResource = /*@__PURE__*/ S.suspend(() =>
     item: S.optional(FieldInputSection),
     itemVersion: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "APIRequestResource",
-}) as any as S.Schema<APIRequestResource>;
+).annotate({ identifier: "APIRequestResource" }) as any as S.Schema<APIRequestResource>;
 
 /** Represents a request that was made to the API. Including what Token was used and what resource was accessed. */
 export interface APIRequest {
@@ -595,9 +571,7 @@ export const GetApiActivityResponseBodyList = /*@__PURE__*/ S.Array(
 export type GetApiActivityResponse = GetApiActivityResponseBodyList;
 export const GetApiActivityResponse = /*@__PURE__*/ S.suspend(() =>
   GetApiActivityResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetApiActivityResponse",
-}) as any as S.Schema<GetApiActivityResponse>;
+).annotate({ identifier: "GetApiActivityResponse" }) as any as S.Schema<GetApiActivityResponse>;
 
 export interface GetDetailsOfFileByIdRequest {
   /** The UUID of the Vault to fetch Item from */
@@ -629,9 +603,7 @@ export const GetDetailsOfFileByIdRequest = /*@__PURE__*/ S.suspend(() =>
 export interface GetHeartbeatRequest {}
 export const GetHeartbeatRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/heartbeat", code: 200 })),
-).annotate({
-  identifier: "GetHeartbeatRequest",
-}) as any as S.Schema<GetHeartbeatRequest>;
+).annotate({ identifier: "GetHeartbeatRequest" }) as any as S.Schema<GetHeartbeatRequest>;
 
 export interface GetHeartbeatResponse {}
 export const GetHeartbeatResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -651,16 +623,8 @@ export const GetItemFilesRequest = /*@__PURE__*/ S.suspend(() =>
     vaultUuid: S.String.pipe(T.Label()),
     itemUuid: S.String.pipe(T.Label()),
     inline_files: S.optional(S.Boolean.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/vaults/{vaultUuid}/items/{itemUuid}/files",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetItemFilesRequest",
-}) as any as S.Schema<GetItemFilesRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/vaults/{vaultUuid}/items/{itemUuid}/files", code: 200 })),
+).annotate({ identifier: "GetItemFilesRequest" }) as any as S.Schema<GetItemFilesRequest>;
 
 export type GetItemFilesResponseBodyList = Array<File>;
 export const GetItemFilesResponseBodyList = /*@__PURE__*/ S.Array(
@@ -670,9 +634,7 @@ export const GetItemFilesResponseBodyList = /*@__PURE__*/ S.Array(
 export type GetItemFilesResponse = GetItemFilesResponseBodyList;
 export const GetItemFilesResponse = /*@__PURE__*/ S.suspend(() =>
   GetItemFilesResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetItemFilesResponse",
-}) as any as S.Schema<GetItemFilesResponse>;
+).annotate({ identifier: "GetItemFilesResponse" }) as any as S.Schema<GetItemFilesResponse>;
 
 export interface GetPrometheusMetricsRequest {}
 export const GetPrometheusMetricsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -689,9 +651,7 @@ export const GetPrometheusMetricsResponse = /*@__PURE__*/ S.suspend(() => S.Stru
 export interface GetServerHealthRequest {}
 export const GetServerHealthRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/health", code: 200 })),
-).annotate({
-  identifier: "GetServerHealthRequest",
-}) as any as S.Schema<GetServerHealthRequest>;
+).annotate({ identifier: "GetServerHealthRequest" }) as any as S.Schema<GetServerHealthRequest>;
 
 /** The state of a registered server dependency. */
 export interface ServiceDependency {
@@ -706,9 +666,7 @@ export const ServiceDependency = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(S.String),
     message: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ServiceDependency",
-}) as any as S.Schema<ServiceDependency>;
+).annotate({ identifier: "ServiceDependency" }) as any as S.Schema<ServiceDependency>;
 
 export type GetServerHealthResponseDependenciesList = Array<ServiceDependency>;
 export const GetServerHealthResponseDependenciesList = /*@__PURE__*/ S.Array(
@@ -727,9 +685,7 @@ export const GetServerHealthResponse = /*@__PURE__*/ S.suspend(() =>
     version: S.String,
     dependencies: S.optional(GetServerHealthResponseDependenciesList),
   }),
-).annotate({
-  identifier: "GetServerHealthResponse",
-}) as any as S.Schema<GetServerHealthResponse>;
+).annotate({ identifier: "GetServerHealthResponse" }) as any as S.Schema<GetServerHealthResponse>;
 
 export interface GetVaultByIdRequest {
   /** The UUID of the Vault to fetch Items from */
@@ -739,9 +695,7 @@ export const GetVaultByIdRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     vaultUuid: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/vaults/{vaultUuid}", code: 200 })),
-).annotate({
-  identifier: "GetVaultByIdRequest",
-}) as any as S.Schema<GetVaultByIdRequest>;
+).annotate({ identifier: "GetVaultByIdRequest" }) as any as S.Schema<GetVaultByIdRequest>;
 
 export type VaultType = "USER_CREATED" | "PERSONAL" | "EVERYONE" | "TRANSFER";
 export const VaultType = S.String;
@@ -784,16 +738,8 @@ export const GetVaultItemByIdRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     vaultUuid: S.String.pipe(T.Label()),
     itemUuid: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/vaults/{vaultUuid}/items/{itemUuid}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetVaultItemByIdRequest",
-}) as any as S.Schema<GetVaultItemByIdRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/vaults/{vaultUuid}/items/{itemUuid}", code: 200 })),
+).annotate({ identifier: "GetVaultItemByIdRequest" }) as any as S.Schema<GetVaultItemByIdRequest>;
 
 export type GetVaultItemByIdResponseVault = CreateVaultItemRequestVault;
 export const GetVaultItemByIdResponseVault = CreateVaultItemRequestVault;
@@ -892,9 +838,7 @@ export const GetVaultItemByIdResponse = /*@__PURE__*/ S.suspend(() =>
     fields: S.optional(GetVaultItemByIdResponseFieldsList),
     files: S.optional(GetVaultItemByIdResponseFilesList),
   }),
-).annotate({
-  identifier: "GetVaultItemByIdResponse",
-}) as any as S.Schema<GetVaultItemByIdResponse>;
+).annotate({ identifier: "GetVaultItemByIdResponse" }) as any as S.Schema<GetVaultItemByIdResponse>;
 
 export interface GetVaultItemsRequest {
   /** The UUID of the Vault to fetch Items from */
@@ -907,9 +851,7 @@ export const GetVaultItemsRequest = /*@__PURE__*/ S.suspend(() =>
     vaultUuid: S.String.pipe(T.Label()),
     filter: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/vaults/{vaultUuid}/items", code: 200 })),
-).annotate({
-  identifier: "GetVaultItemsRequest",
-}) as any as S.Schema<GetVaultItemsRequest>;
+).annotate({ identifier: "GetVaultItemsRequest" }) as any as S.Schema<GetVaultItemsRequest>;
 
 export type ItemVault = CreateVaultItemRequestVault;
 export const ItemVault = CreateVaultItemRequestVault;
@@ -992,9 +934,7 @@ export const GetVaultItemsResponseBodyList = /*@__PURE__*/ S.Array(
 export type GetVaultItemsResponse = GetVaultItemsResponseBodyList;
 export const GetVaultItemsResponse = /*@__PURE__*/ S.suspend(() =>
   GetVaultItemsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetVaultItemsResponse",
-}) as any as S.Schema<GetVaultItemsResponse>;
+).annotate({ identifier: "GetVaultItemsResponse" }) as any as S.Schema<GetVaultItemsResponse>;
 
 export interface GetVaultsRequest {
   /** Filter the Vault collection based on Vault name using SCIM eq filter */
@@ -1004,9 +944,7 @@ export const GetVaultsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     filter: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/vaults", code: 200 })),
-).annotate({
-  identifier: "GetVaultsRequest",
-}) as any as S.Schema<GetVaultsRequest>;
+).annotate({ identifier: "GetVaultsRequest" }) as any as S.Schema<GetVaultsRequest>;
 
 export type GetVaultsResponseBodyList = Array<Vault>;
 export const GetVaultsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -1016,9 +954,7 @@ export const GetVaultsResponseBodyList = /*@__PURE__*/ S.Array(
 export type GetVaultsResponse = GetVaultsResponseBodyList;
 export const GetVaultsResponse = /*@__PURE__*/ S.suspend(() =>
   GetVaultsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetVaultsResponse",
-}) as any as S.Schema<GetVaultsResponse>;
+).annotate({ identifier: "GetVaultsResponse" }) as any as S.Schema<GetVaultsResponse>;
 
 export type UpdateVaultItemRequestVault = CreateVaultItemRequestVault;
 export const UpdateVaultItemRequestVault = CreateVaultItemRequestVault;
@@ -1111,16 +1047,8 @@ export const UpdateVaultItemRequest = /*@__PURE__*/ S.suspend(() =>
     sections: S.optional(UpdateVaultItemRequestSectionsList),
     fields: S.optional(UpdateVaultItemRequestFieldsList),
     files: S.optional(UpdateVaultItemRequestFilesList),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/vaults/{vaultUuid}/items/{itemUuid}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "UpdateVaultItemRequest",
-}) as any as S.Schema<UpdateVaultItemRequest>;
+  }).pipe(T.Http({ method: "PUT", uri: "/vaults/{vaultUuid}/items/{itemUuid}", code: 200 })),
+).annotate({ identifier: "UpdateVaultItemRequest" }) as any as S.Schema<UpdateVaultItemRequest>;
 
 export type UpdateVaultItemResponseVault = CreateVaultItemRequestVault;
 export const UpdateVaultItemResponseVault = CreateVaultItemRequestVault;
@@ -1219,9 +1147,7 @@ export const UpdateVaultItemResponse = /*@__PURE__*/ S.suspend(() =>
     fields: S.optional(UpdateVaultItemResponseFieldsList),
     files: S.optional(UpdateVaultItemResponseFilesList),
   }),
-).annotate({
-  identifier: "UpdateVaultItemResponse",
-}) as any as S.Schema<UpdateVaultItemResponse>;
+).annotate({ identifier: "UpdateVaultItemResponse" }) as any as S.Schema<UpdateVaultItemResponse>;
 
 export type PatchItemOp = "add" | "remove" | "replace";
 export const PatchItemOp = S.String;
@@ -1255,13 +1181,7 @@ export const UpdateVaultItemByItemUuidRequest = /*@__PURE__*/ S.suspend(() =>
     vaultUuid: S.String.pipe(T.Label()),
     itemUuid: S.String.pipe(T.Label()),
     body: S.optional(Patch.pipe(T.HttpBody())),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/vaults/{vaultUuid}/items/{itemUuid}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PATCH", uri: "/vaults/{vaultUuid}/items/{itemUuid}", code: 200 })),
 ).annotate({
   identifier: "UpdateVaultItemByItemUuidRequest",
 }) as any as S.Schema<UpdateVaultItemByItemUuidRequest>;
