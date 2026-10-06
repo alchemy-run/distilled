@@ -71,10 +71,6 @@
     },
     {
       "op": "remove",
-      "path": "/components/schemas/AddRolePermissionDto/required"
-    },
-    {
-      "op": "remove",
       "path": "/components/schemas/CreateOrganizationRoleDto/required"
     },
     {
@@ -156,10 +152,6 @@
     {
       "op": "remove",
       "path": "/components/schemas/CreateWebhookEndpointDto/required"
-    },
-    {
-      "op": "remove",
-      "path": "/components/schemas/TokenQueryDto/required"
     },
     {
       "op": "remove",
@@ -303,19 +295,7 @@
     },
     {
       "op": "remove",
-      "path": "/components/schemas/EventContextActorDto/required"
-    },
-    {
-      "op": "remove",
-      "path": "/components/schemas/DirectoryUser/required"
-    },
-    {
-      "op": "remove",
       "path": "/components/schemas/UserlandUser/required"
-    },
-    {
-      "op": "remove",
-      "path": "/components/schemas/WaitlistUser/required"
     },
     {
       "op": "remove",
