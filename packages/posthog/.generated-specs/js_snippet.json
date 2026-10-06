@@ -67,14 +67,6 @@
       "output": {
         "target": "com.posthog.js_snippet#GetJsSnippetResolveResponse"
       },
-      "errors": [
-        {
-          "target": "com.posthog.js_snippet#Forbidden"
-        },
-        {
-          "target": "com.posthog.js_snippet#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -82,7 +74,15 @@
           "code": 200
         },
         "smithy.api#documentation": "Preview what a given pin would resolve to, without saving it."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.posthog.js_snippet#Forbidden"
+        },
+        {
+          "target": "com.posthog.js_snippet#NotFound"
+        }
+      ]
     },
     "com.posthog.js_snippet#GetJsSnippetVersionRequest": {
       "type": "structure",
@@ -133,14 +133,6 @@
       "output": {
         "target": "com.posthog.js_snippet#GetJsSnippetVersionResponse"
       },
-      "errors": [
-        {
-          "target": "com.posthog.js_snippet#Forbidden"
-        },
-        {
-          "target": "com.posthog.js_snippet#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -148,7 +140,15 @@
           "code": 200
         },
         "smithy.api#documentation": "Return the team's current version pin and resolved version."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.posthog.js_snippet#Forbidden"
+        },
+        {
+          "target": "com.posthog.js_snippet#NotFound"
+        }
+      ]
     },
     "com.posthog.js_snippet#UpdateJsSnippetVersionPartialRequest": {
       "type": "structure",
@@ -206,6 +206,14 @@
       "output": {
         "target": "com.posthog.js_snippet#UpdateJsSnippetVersionPartialResponse"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/projects/{project_id}/js-snippet/version/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update the team's version pin."
+      },
       "errors": [
         {
           "target": "com.posthog.js_snippet#BadRequest"
@@ -216,14 +224,24 @@
         {
           "target": "com.posthog.js_snippet#NotFound"
         }
+      ]
+    },
+    "com.posthog.js_snippet#JsSnippet": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.posthog.js_snippet#GetJsSnippetResolve"
+        },
+        {
+          "target": "com.posthog.js_snippet#GetJsSnippetVersion"
+        },
+        {
+          "target": "com.posthog.js_snippet#UpdateJsSnippetVersionPartial"
+        }
       ],
       "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/api/projects/{project_id}/js-snippet/version/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Update the team's version pin."
+        "smithy.api#title": "PostHog API"
       }
     },
     "com.posthog.js_snippet#Forbidden": {
@@ -263,24 +281,6 @@
             "status": 400
           }
         ]
-      }
-    },
-    "com.posthog.js_snippet#JsSnippet": {
-      "type": "service",
-      "version": "1.0.0",
-      "operations": [
-        {
-          "target": "com.posthog.js_snippet#GetJsSnippetResolve"
-        },
-        {
-          "target": "com.posthog.js_snippet#GetJsSnippetVersion"
-        },
-        {
-          "target": "com.posthog.js_snippet#UpdateJsSnippetVersionPartial"
-        }
-      ],
-      "traits": {
-        "smithy.api#title": "PostHog API"
       }
     }
   }

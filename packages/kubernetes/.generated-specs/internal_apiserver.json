@@ -1013,14 +1013,6 @@
       "output": {
         "target": "com.kubernetes.internal_apiserver#IoK8sApiApiserverinternalV1alpha1StorageVersion"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.internal_apiserver#Conflict"
-        },
-        {
-          "target": "com.kubernetes.internal_apiserver#UnprocessableEntity"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -1028,7 +1020,15 @@
           "code": 200
         },
         "smithy.api#documentation": "create a StorageVersion"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.internal_apiserver#Conflict"
+        },
+        {
+          "target": "com.kubernetes.internal_apiserver#UnprocessableEntity"
+        }
+      ]
     },
     "com.kubernetes.internal_apiserver#DeleteInternalApiserverV1alpha1CollectionStorageVersionRequestDryRunList": {
       "type": "list",
@@ -1373,11 +1373,6 @@
       "output": {
         "target": "com.kubernetes.internal_apiserver#IoK8sApiApiserverinternalV1alpha1StorageVersion"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.internal_apiserver#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -1385,7 +1380,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read the specified StorageVersion"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.internal_apiserver#NotFound"
+        }
+      ]
     },
     "com.kubernetes.internal_apiserver#ReplaceInternalApiserverV1alpha1StorageVersionRequest": {
       "type": "structure",
@@ -1470,6 +1470,14 @@
       "output": {
         "target": "com.kubernetes.internal_apiserver#IoK8sApiApiserverinternalV1alpha1StorageVersion"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/apis/internal.apiserver.k8s.io/v1alpha1/storageversions/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace the specified StorageVersion"
+      },
       "errors": [
         {
           "target": "com.kubernetes.internal_apiserver#NotFound"
@@ -1480,15 +1488,7 @@
         {
           "target": "com.kubernetes.internal_apiserver#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/apis/internal.apiserver.k8s.io/v1alpha1/storageversions/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace the specified StorageVersion"
-      }
+      ]
     },
     "com.kubernetes.internal_apiserver#PatchInternalApiserverV1alpha1StorageVersionRequest": {
       "type": "structure",
@@ -1549,6 +1549,14 @@
       "output": {
         "target": "com.kubernetes.internal_apiserver#IoK8sApiApiserverinternalV1alpha1StorageVersion"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/apis/internal.apiserver.k8s.io/v1alpha1/storageversions/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update the specified StorageVersion"
+      },
       "errors": [
         {
           "target": "com.kubernetes.internal_apiserver#NotFound"
@@ -1559,15 +1567,7 @@
         {
           "target": "com.kubernetes.internal_apiserver#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/apis/internal.apiserver.k8s.io/v1alpha1/storageversions/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update the specified StorageVersion"
-      }
+      ]
     },
     "com.kubernetes.internal_apiserver#DeleteInternalApiserverV1alpha1StorageVersionRequestDryRunList": {
       "type": "list",
@@ -1662,14 +1662,6 @@
       "output": {
         "target": "com.kubernetes.internal_apiserver#IoK8sApimachineryPkgApisMetaV1Status"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.internal_apiserver#NotFound"
-        },
-        {
-          "target": "com.kubernetes.internal_apiserver#Conflict"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -1677,7 +1669,15 @@
           "code": 200
         },
         "smithy.api#documentation": "delete a StorageVersion"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.internal_apiserver#NotFound"
+        },
+        {
+          "target": "com.kubernetes.internal_apiserver#Conflict"
+        }
+      ]
     },
     "com.kubernetes.internal_apiserver#ReadInternalApiserverV1alpha1StorageVersionStatusRequest": {
       "type": "structure",
@@ -1710,11 +1710,6 @@
       "output": {
         "target": "com.kubernetes.internal_apiserver#IoK8sApiApiserverinternalV1alpha1StorageVersion"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.internal_apiserver#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -1722,7 +1717,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read status of the specified StorageVersion"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.internal_apiserver#NotFound"
+        }
+      ]
     },
     "com.kubernetes.internal_apiserver#ReplaceInternalApiserverV1alpha1StorageVersionStatusRequest": {
       "type": "structure",
@@ -1807,6 +1807,14 @@
       "output": {
         "target": "com.kubernetes.internal_apiserver#IoK8sApiApiserverinternalV1alpha1StorageVersion"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/apis/internal.apiserver.k8s.io/v1alpha1/storageversions/{name}/status",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace status of the specified StorageVersion"
+      },
       "errors": [
         {
           "target": "com.kubernetes.internal_apiserver#NotFound"
@@ -1817,15 +1825,7 @@
         {
           "target": "com.kubernetes.internal_apiserver#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/apis/internal.apiserver.k8s.io/v1alpha1/storageversions/{name}/status",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace status of the specified StorageVersion"
-      }
+      ]
     },
     "com.kubernetes.internal_apiserver#PatchInternalApiserverV1alpha1StorageVersionStatusRequest": {
       "type": "structure",
@@ -1886,6 +1886,14 @@
       "output": {
         "target": "com.kubernetes.internal_apiserver#IoK8sApiApiserverinternalV1alpha1StorageVersion"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/apis/internal.apiserver.k8s.io/v1alpha1/storageversions/{name}/status",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update status of the specified StorageVersion"
+      },
       "errors": [
         {
           "target": "com.kubernetes.internal_apiserver#NotFound"
@@ -1896,15 +1904,7 @@
         {
           "target": "com.kubernetes.internal_apiserver#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/apis/internal.apiserver.k8s.io/v1alpha1/storageversions/{name}/status",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update status of the specified StorageVersion"
-      }
+      ]
     },
     "com.kubernetes.internal_apiserver#WatchInternalApiserverV1alpha1StorageVersionListRequest": {
       "type": "structure",
@@ -2153,45 +2153,6 @@
         "smithy.api#documentation": "watch changes to an object of kind StorageVersion. deprecated: use the 'watch' parameter with a list operation instead, filtered to a single item with the 'fieldSelector' parameter."
       }
     },
-    "com.kubernetes.internal_apiserver#Conflict": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 409,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 409
-          }
-        ]
-      }
-    },
-    "com.kubernetes.internal_apiserver#UnprocessableEntity": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 422,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 422
-          }
-        ]
-      }
-    },
-    "com.kubernetes.internal_apiserver#NotFound": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 404,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 404
-          }
-        ]
-      }
-    },
     "com.kubernetes.internal_apiserver#InternalApiserver": {
       "type": "service",
       "version": "unversioned",
@@ -2241,6 +2202,45 @@
       ],
       "traits": {
         "smithy.api#title": "Kubernetes"
+      }
+    },
+    "com.kubernetes.internal_apiserver#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.kubernetes.internal_apiserver#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.kubernetes.internal_apiserver#UnprocessableEntity": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 422,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 422
+          }
+        ]
       }
     }
   }

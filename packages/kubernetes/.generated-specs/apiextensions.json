@@ -1735,14 +1735,6 @@
       "output": {
         "target": "com.kubernetes.apiextensions#IoK8sApiextensionsApiserverPkgApisApiextensionsV1CustomResourceDefinition"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.apiextensions#Conflict"
-        },
-        {
-          "target": "com.kubernetes.apiextensions#UnprocessableEntity"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -1750,7 +1742,15 @@
           "code": 200
         },
         "smithy.api#documentation": "create a CustomResourceDefinition"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.apiextensions#Conflict"
+        },
+        {
+          "target": "com.kubernetes.apiextensions#UnprocessableEntity"
+        }
+      ]
     },
     "com.kubernetes.apiextensions#DeleteApiextensionsV1CollectionCustomResourceDefinitionRequestDryRunList": {
       "type": "list",
@@ -2095,11 +2095,6 @@
       "output": {
         "target": "com.kubernetes.apiextensions#IoK8sApiextensionsApiserverPkgApisApiextensionsV1CustomResourceDefinition"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.apiextensions#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -2107,7 +2102,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read the specified CustomResourceDefinition"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.apiextensions#NotFound"
+        }
+      ]
     },
     "com.kubernetes.apiextensions#ReplaceApiextensionsV1CustomResourceDefinitionRequest": {
       "type": "structure",
@@ -2192,6 +2192,14 @@
       "output": {
         "target": "com.kubernetes.apiextensions#IoK8sApiextensionsApiserverPkgApisApiextensionsV1CustomResourceDefinition"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/apis/apiextensions.k8s.io/v1/customresourcedefinitions/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace the specified CustomResourceDefinition"
+      },
       "errors": [
         {
           "target": "com.kubernetes.apiextensions#NotFound"
@@ -2202,15 +2210,7 @@
         {
           "target": "com.kubernetes.apiextensions#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/apis/apiextensions.k8s.io/v1/customresourcedefinitions/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace the specified CustomResourceDefinition"
-      }
+      ]
     },
     "com.kubernetes.apiextensions#PatchApiextensionsV1CustomResourceDefinitionRequest": {
       "type": "structure",
@@ -2271,6 +2271,14 @@
       "output": {
         "target": "com.kubernetes.apiextensions#IoK8sApiextensionsApiserverPkgApisApiextensionsV1CustomResourceDefinition"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/apis/apiextensions.k8s.io/v1/customresourcedefinitions/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update the specified CustomResourceDefinition"
+      },
       "errors": [
         {
           "target": "com.kubernetes.apiextensions#NotFound"
@@ -2281,15 +2289,7 @@
         {
           "target": "com.kubernetes.apiextensions#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/apis/apiextensions.k8s.io/v1/customresourcedefinitions/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update the specified CustomResourceDefinition"
-      }
+      ]
     },
     "com.kubernetes.apiextensions#DeleteApiextensionsV1CustomResourceDefinitionRequestDryRunList": {
       "type": "list",
@@ -2384,14 +2384,6 @@
       "output": {
         "target": "com.kubernetes.apiextensions#IoK8sApimachineryPkgApisMetaV1Status"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.apiextensions#NotFound"
-        },
-        {
-          "target": "com.kubernetes.apiextensions#Conflict"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -2399,7 +2391,15 @@
           "code": 200
         },
         "smithy.api#documentation": "delete a CustomResourceDefinition"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.apiextensions#NotFound"
+        },
+        {
+          "target": "com.kubernetes.apiextensions#Conflict"
+        }
+      ]
     },
     "com.kubernetes.apiextensions#ReadApiextensionsV1CustomResourceDefinitionStatusRequest": {
       "type": "structure",
@@ -2432,11 +2432,6 @@
       "output": {
         "target": "com.kubernetes.apiextensions#IoK8sApiextensionsApiserverPkgApisApiextensionsV1CustomResourceDefinition"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.apiextensions#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -2444,7 +2439,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read status of the specified CustomResourceDefinition"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.apiextensions#NotFound"
+        }
+      ]
     },
     "com.kubernetes.apiextensions#ReplaceApiextensionsV1CustomResourceDefinitionStatusRequest": {
       "type": "structure",
@@ -2529,6 +2529,14 @@
       "output": {
         "target": "com.kubernetes.apiextensions#IoK8sApiextensionsApiserverPkgApisApiextensionsV1CustomResourceDefinition"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/apis/apiextensions.k8s.io/v1/customresourcedefinitions/{name}/status",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace status of the specified CustomResourceDefinition"
+      },
       "errors": [
         {
           "target": "com.kubernetes.apiextensions#NotFound"
@@ -2539,15 +2547,7 @@
         {
           "target": "com.kubernetes.apiextensions#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/apis/apiextensions.k8s.io/v1/customresourcedefinitions/{name}/status",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace status of the specified CustomResourceDefinition"
-      }
+      ]
     },
     "com.kubernetes.apiextensions#PatchApiextensionsV1CustomResourceDefinitionStatusRequest": {
       "type": "structure",
@@ -2608,6 +2608,14 @@
       "output": {
         "target": "com.kubernetes.apiextensions#IoK8sApiextensionsApiserverPkgApisApiextensionsV1CustomResourceDefinition"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/apis/apiextensions.k8s.io/v1/customresourcedefinitions/{name}/status",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update status of the specified CustomResourceDefinition"
+      },
       "errors": [
         {
           "target": "com.kubernetes.apiextensions#NotFound"
@@ -2618,15 +2626,7 @@
         {
           "target": "com.kubernetes.apiextensions#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/apis/apiextensions.k8s.io/v1/customresourcedefinitions/{name}/status",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update status of the specified CustomResourceDefinition"
-      }
+      ]
     },
     "com.kubernetes.apiextensions#WatchApiextensionsV1CustomResourceDefinitionListRequest": {
       "type": "structure",
@@ -2875,45 +2875,6 @@
         "smithy.api#documentation": "watch changes to an object of kind CustomResourceDefinition. deprecated: use the 'watch' parameter with a list operation instead, filtered to a single item with the 'fieldSelector' parameter."
       }
     },
-    "com.kubernetes.apiextensions#Conflict": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 409,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 409
-          }
-        ]
-      }
-    },
-    "com.kubernetes.apiextensions#UnprocessableEntity": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 422,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 422
-          }
-        ]
-      }
-    },
-    "com.kubernetes.apiextensions#NotFound": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 404,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 404
-          }
-        ]
-      }
-    },
     "com.kubernetes.apiextensions#Apiextensions": {
       "type": "service",
       "version": "unversioned",
@@ -2963,6 +2924,45 @@
       ],
       "traits": {
         "smithy.api#title": "Kubernetes"
+      }
+    },
+    "com.kubernetes.apiextensions#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.kubernetes.apiextensions#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.kubernetes.apiextensions#UnprocessableEntity": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 422,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 422
+          }
+        ]
       }
     }
   }

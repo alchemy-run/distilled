@@ -985,14 +985,6 @@
       "output": {
         "target": "com.kubernetes.node#IoK8sApiNodeV1RuntimeClass"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.node#Conflict"
-        },
-        {
-          "target": "com.kubernetes.node#UnprocessableEntity"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -1000,7 +992,15 @@
           "code": 200
         },
         "smithy.api#documentation": "create a RuntimeClass"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.node#Conflict"
+        },
+        {
+          "target": "com.kubernetes.node#UnprocessableEntity"
+        }
+      ]
     },
     "com.kubernetes.node#DeleteNodeV1CollectionRuntimeClassRequestDryRunList": {
       "type": "list",
@@ -1345,11 +1345,6 @@
       "output": {
         "target": "com.kubernetes.node#IoK8sApiNodeV1RuntimeClass"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.node#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -1357,7 +1352,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read the specified RuntimeClass"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.node#NotFound"
+        }
+      ]
     },
     "com.kubernetes.node#ReplaceNodeV1RuntimeClassRequest": {
       "type": "structure",
@@ -1448,6 +1448,14 @@
       "output": {
         "target": "com.kubernetes.node#IoK8sApiNodeV1RuntimeClass"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/apis/node.k8s.io/v1/runtimeclasses/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace the specified RuntimeClass"
+      },
       "errors": [
         {
           "target": "com.kubernetes.node#NotFound"
@@ -1458,15 +1466,7 @@
         {
           "target": "com.kubernetes.node#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/apis/node.k8s.io/v1/runtimeclasses/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace the specified RuntimeClass"
-      }
+      ]
     },
     "com.kubernetes.node#PatchNodeV1RuntimeClassRequest": {
       "type": "structure",
@@ -1527,6 +1527,14 @@
       "output": {
         "target": "com.kubernetes.node#IoK8sApiNodeV1RuntimeClass"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/apis/node.k8s.io/v1/runtimeclasses/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update the specified RuntimeClass"
+      },
       "errors": [
         {
           "target": "com.kubernetes.node#NotFound"
@@ -1537,15 +1545,7 @@
         {
           "target": "com.kubernetes.node#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/apis/node.k8s.io/v1/runtimeclasses/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update the specified RuntimeClass"
-      }
+      ]
     },
     "com.kubernetes.node#DeleteNodeV1RuntimeClassRequestDryRunList": {
       "type": "list",
@@ -1640,14 +1640,6 @@
       "output": {
         "target": "com.kubernetes.node#IoK8sApimachineryPkgApisMetaV1Status"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.node#NotFound"
-        },
-        {
-          "target": "com.kubernetes.node#Conflict"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -1655,7 +1647,15 @@
           "code": 200
         },
         "smithy.api#documentation": "delete a RuntimeClass"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.node#NotFound"
+        },
+        {
+          "target": "com.kubernetes.node#Conflict"
+        }
+      ]
     },
     "com.kubernetes.node#WatchNodeV1RuntimeClassListRequest": {
       "type": "structure",
@@ -1904,45 +1904,6 @@
         "smithy.api#documentation": "watch changes to an object of kind RuntimeClass. deprecated: use the 'watch' parameter with a list operation instead, filtered to a single item with the 'fieldSelector' parameter."
       }
     },
-    "com.kubernetes.node#Conflict": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 409,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 409
-          }
-        ]
-      }
-    },
-    "com.kubernetes.node#UnprocessableEntity": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 422,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 422
-          }
-        ]
-      }
-    },
-    "com.kubernetes.node#NotFound": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 404,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 404
-          }
-        ]
-      }
-    },
     "com.kubernetes.node#Node": {
       "type": "service",
       "version": "unversioned",
@@ -1983,6 +1944,45 @@
       ],
       "traits": {
         "smithy.api#title": "Kubernetes"
+      }
+    },
+    "com.kubernetes.node#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.kubernetes.node#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.kubernetes.node#UnprocessableEntity": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 422,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 422
+          }
+        ]
       }
     }
   }

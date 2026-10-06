@@ -948,14 +948,6 @@
       "output": {
         "target": "com.kubernetes.rbac_authorization#IoK8sApiRbacV1ClusterRoleBinding"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.rbac_authorization#Conflict"
-        },
-        {
-          "target": "com.kubernetes.rbac_authorization#UnprocessableEntity"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -963,7 +955,15 @@
           "code": 200
         },
         "smithy.api#documentation": "create a ClusterRoleBinding"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.rbac_authorization#Conflict"
+        },
+        {
+          "target": "com.kubernetes.rbac_authorization#UnprocessableEntity"
+        }
+      ]
     },
     "com.kubernetes.rbac_authorization#DeleteRbacAuthorizationV1CollectionClusterRoleBindingRequestDryRunList": {
       "type": "list",
@@ -1308,11 +1308,6 @@
       "output": {
         "target": "com.kubernetes.rbac_authorization#IoK8sApiRbacV1ClusterRoleBinding"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.rbac_authorization#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -1320,7 +1315,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read the specified ClusterRoleBinding"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.rbac_authorization#NotFound"
+        }
+      ]
     },
     "com.kubernetes.rbac_authorization#ReplaceRbacAuthorizationV1ClusterRoleBindingRequestSubjectsList": {
       "type": "list",
@@ -1414,6 +1414,14 @@
       "output": {
         "target": "com.kubernetes.rbac_authorization#IoK8sApiRbacV1ClusterRoleBinding"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/apis/rbac.authorization.k8s.io/v1/clusterrolebindings/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace the specified ClusterRoleBinding"
+      },
       "errors": [
         {
           "target": "com.kubernetes.rbac_authorization#NotFound"
@@ -1424,15 +1432,7 @@
         {
           "target": "com.kubernetes.rbac_authorization#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/apis/rbac.authorization.k8s.io/v1/clusterrolebindings/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace the specified ClusterRoleBinding"
-      }
+      ]
     },
     "com.kubernetes.rbac_authorization#PatchRbacAuthorizationV1ClusterRoleBindingRequest": {
       "type": "structure",
@@ -1493,6 +1493,14 @@
       "output": {
         "target": "com.kubernetes.rbac_authorization#IoK8sApiRbacV1ClusterRoleBinding"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/apis/rbac.authorization.k8s.io/v1/clusterrolebindings/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update the specified ClusterRoleBinding"
+      },
       "errors": [
         {
           "target": "com.kubernetes.rbac_authorization#NotFound"
@@ -1503,15 +1511,7 @@
         {
           "target": "com.kubernetes.rbac_authorization#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/apis/rbac.authorization.k8s.io/v1/clusterrolebindings/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update the specified ClusterRoleBinding"
-      }
+      ]
     },
     "com.kubernetes.rbac_authorization#DeleteRbacAuthorizationV1ClusterRoleBindingRequestDryRunList": {
       "type": "list",
@@ -1606,14 +1606,6 @@
       "output": {
         "target": "com.kubernetes.rbac_authorization#IoK8sApimachineryPkgApisMetaV1Status"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.rbac_authorization#NotFound"
-        },
-        {
-          "target": "com.kubernetes.rbac_authorization#Conflict"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -1621,7 +1613,15 @@
           "code": 200
         },
         "smithy.api#documentation": "delete a ClusterRoleBinding"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.rbac_authorization#NotFound"
+        },
+        {
+          "target": "com.kubernetes.rbac_authorization#Conflict"
+        }
+      ]
     },
     "com.kubernetes.rbac_authorization#ListRbacAuthorizationV1ClusterRoleRequest": {
       "type": "structure",
@@ -2089,14 +2089,6 @@
       "output": {
         "target": "com.kubernetes.rbac_authorization#IoK8sApiRbacV1ClusterRole"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.rbac_authorization#Conflict"
-        },
-        {
-          "target": "com.kubernetes.rbac_authorization#UnprocessableEntity"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -2104,7 +2096,15 @@
           "code": 200
         },
         "smithy.api#documentation": "create a ClusterRole"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.rbac_authorization#Conflict"
+        },
+        {
+          "target": "com.kubernetes.rbac_authorization#UnprocessableEntity"
+        }
+      ]
     },
     "com.kubernetes.rbac_authorization#DeleteRbacAuthorizationV1CollectionClusterRoleRequestDryRunList": {
       "type": "list",
@@ -2294,11 +2294,6 @@
       "output": {
         "target": "com.kubernetes.rbac_authorization#IoK8sApiRbacV1ClusterRole"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.rbac_authorization#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -2306,7 +2301,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read the specified ClusterRole"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.rbac_authorization#NotFound"
+        }
+      ]
     },
     "com.kubernetes.rbac_authorization#ReplaceRbacAuthorizationV1ClusterRoleRequestRulesList": {
       "type": "list",
@@ -2399,6 +2399,14 @@
       "output": {
         "target": "com.kubernetes.rbac_authorization#IoK8sApiRbacV1ClusterRole"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/apis/rbac.authorization.k8s.io/v1/clusterroles/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace the specified ClusterRole"
+      },
       "errors": [
         {
           "target": "com.kubernetes.rbac_authorization#NotFound"
@@ -2409,15 +2417,7 @@
         {
           "target": "com.kubernetes.rbac_authorization#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/apis/rbac.authorization.k8s.io/v1/clusterroles/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace the specified ClusterRole"
-      }
+      ]
     },
     "com.kubernetes.rbac_authorization#PatchRbacAuthorizationV1ClusterRoleRequest": {
       "type": "structure",
@@ -2478,6 +2478,14 @@
       "output": {
         "target": "com.kubernetes.rbac_authorization#IoK8sApiRbacV1ClusterRole"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/apis/rbac.authorization.k8s.io/v1/clusterroles/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update the specified ClusterRole"
+      },
       "errors": [
         {
           "target": "com.kubernetes.rbac_authorization#NotFound"
@@ -2488,15 +2496,7 @@
         {
           "target": "com.kubernetes.rbac_authorization#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/apis/rbac.authorization.k8s.io/v1/clusterroles/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update the specified ClusterRole"
-      }
+      ]
     },
     "com.kubernetes.rbac_authorization#DeleteRbacAuthorizationV1ClusterRoleRequestDryRunList": {
       "type": "list",
@@ -2591,14 +2591,6 @@
       "output": {
         "target": "com.kubernetes.rbac_authorization#IoK8sApimachineryPkgApisMetaV1Status"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.rbac_authorization#NotFound"
-        },
-        {
-          "target": "com.kubernetes.rbac_authorization#Conflict"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -2606,7 +2598,15 @@
           "code": 200
         },
         "smithy.api#documentation": "delete a ClusterRole"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.rbac_authorization#NotFound"
+        },
+        {
+          "target": "com.kubernetes.rbac_authorization#Conflict"
+        }
+      ]
     },
     "com.kubernetes.rbac_authorization#ListRbacAuthorizationV1NamespacedRoleBindingRequest": {
       "type": "structure",
@@ -2907,14 +2907,6 @@
       "output": {
         "target": "com.kubernetes.rbac_authorization#IoK8sApiRbacV1RoleBinding"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.rbac_authorization#Conflict"
-        },
-        {
-          "target": "com.kubernetes.rbac_authorization#UnprocessableEntity"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -2922,7 +2914,15 @@
           "code": 200
         },
         "smithy.api#documentation": "create a RoleBinding"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.rbac_authorization#Conflict"
+        },
+        {
+          "target": "com.kubernetes.rbac_authorization#UnprocessableEntity"
+        }
+      ]
     },
     "com.kubernetes.rbac_authorization#DeleteRbacAuthorizationV1CollectionNamespacedRoleBindingRequestDryRunList": {
       "type": "list",
@@ -3128,11 +3128,6 @@
       "output": {
         "target": "com.kubernetes.rbac_authorization#IoK8sApiRbacV1RoleBinding"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.rbac_authorization#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -3140,7 +3135,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read the specified RoleBinding"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.rbac_authorization#NotFound"
+        }
+      ]
     },
     "com.kubernetes.rbac_authorization#ReplaceRbacAuthorizationV1NamespacedRoleBindingRequestSubjectsList": {
       "type": "list",
@@ -3242,6 +3242,14 @@
       "output": {
         "target": "com.kubernetes.rbac_authorization#IoK8sApiRbacV1RoleBinding"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/apis/rbac.authorization.k8s.io/v1/namespaces/{namespace}/rolebindings/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace the specified RoleBinding"
+      },
       "errors": [
         {
           "target": "com.kubernetes.rbac_authorization#NotFound"
@@ -3252,15 +3260,7 @@
         {
           "target": "com.kubernetes.rbac_authorization#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/apis/rbac.authorization.k8s.io/v1/namespaces/{namespace}/rolebindings/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace the specified RoleBinding"
-      }
+      ]
     },
     "com.kubernetes.rbac_authorization#PatchRbacAuthorizationV1NamespacedRoleBindingRequest": {
       "type": "structure",
@@ -3329,6 +3329,14 @@
       "output": {
         "target": "com.kubernetes.rbac_authorization#IoK8sApiRbacV1RoleBinding"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/apis/rbac.authorization.k8s.io/v1/namespaces/{namespace}/rolebindings/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update the specified RoleBinding"
+      },
       "errors": [
         {
           "target": "com.kubernetes.rbac_authorization#NotFound"
@@ -3339,15 +3347,7 @@
         {
           "target": "com.kubernetes.rbac_authorization#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/apis/rbac.authorization.k8s.io/v1/namespaces/{namespace}/rolebindings/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update the specified RoleBinding"
-      }
+      ]
     },
     "com.kubernetes.rbac_authorization#DeleteRbacAuthorizationV1NamespacedRoleBindingRequestDryRunList": {
       "type": "list",
@@ -3450,14 +3450,6 @@
       "output": {
         "target": "com.kubernetes.rbac_authorization#IoK8sApimachineryPkgApisMetaV1Status"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.rbac_authorization#NotFound"
-        },
-        {
-          "target": "com.kubernetes.rbac_authorization#Conflict"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -3465,7 +3457,15 @@
           "code": 200
         },
         "smithy.api#documentation": "delete a RoleBinding"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.rbac_authorization#NotFound"
+        },
+        {
+          "target": "com.kubernetes.rbac_authorization#Conflict"
+        }
+      ]
     },
     "com.kubernetes.rbac_authorization#ListRbacAuthorizationV1NamespacedRoleRequest": {
       "type": "structure",
@@ -3752,14 +3752,6 @@
       "output": {
         "target": "com.kubernetes.rbac_authorization#IoK8sApiRbacV1Role"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.rbac_authorization#Conflict"
-        },
-        {
-          "target": "com.kubernetes.rbac_authorization#UnprocessableEntity"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -3767,7 +3759,15 @@
           "code": 200
         },
         "smithy.api#documentation": "create a Role"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.rbac_authorization#Conflict"
+        },
+        {
+          "target": "com.kubernetes.rbac_authorization#UnprocessableEntity"
+        }
+      ]
     },
     "com.kubernetes.rbac_authorization#DeleteRbacAuthorizationV1CollectionNamespacedRoleRequestDryRunList": {
       "type": "list",
@@ -3973,11 +3973,6 @@
       "output": {
         "target": "com.kubernetes.rbac_authorization#IoK8sApiRbacV1Role"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.rbac_authorization#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -3985,7 +3980,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read the specified Role"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.rbac_authorization#NotFound"
+        }
+      ]
     },
     "com.kubernetes.rbac_authorization#ReplaceRbacAuthorizationV1NamespacedRoleRequestRulesList": {
       "type": "list",
@@ -4080,6 +4080,14 @@
       "output": {
         "target": "com.kubernetes.rbac_authorization#IoK8sApiRbacV1Role"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/apis/rbac.authorization.k8s.io/v1/namespaces/{namespace}/roles/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace the specified Role"
+      },
       "errors": [
         {
           "target": "com.kubernetes.rbac_authorization#NotFound"
@@ -4090,15 +4098,7 @@
         {
           "target": "com.kubernetes.rbac_authorization#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/apis/rbac.authorization.k8s.io/v1/namespaces/{namespace}/roles/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace the specified Role"
-      }
+      ]
     },
     "com.kubernetes.rbac_authorization#PatchRbacAuthorizationV1NamespacedRoleRequest": {
       "type": "structure",
@@ -4167,6 +4167,14 @@
       "output": {
         "target": "com.kubernetes.rbac_authorization#IoK8sApiRbacV1Role"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/apis/rbac.authorization.k8s.io/v1/namespaces/{namespace}/roles/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update the specified Role"
+      },
       "errors": [
         {
           "target": "com.kubernetes.rbac_authorization#NotFound"
@@ -4177,15 +4185,7 @@
         {
           "target": "com.kubernetes.rbac_authorization#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/apis/rbac.authorization.k8s.io/v1/namespaces/{namespace}/roles/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update the specified Role"
-      }
+      ]
     },
     "com.kubernetes.rbac_authorization#DeleteRbacAuthorizationV1NamespacedRoleRequestDryRunList": {
       "type": "list",
@@ -4288,14 +4288,6 @@
       "output": {
         "target": "com.kubernetes.rbac_authorization#IoK8sApimachineryPkgApisMetaV1Status"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.rbac_authorization#NotFound"
-        },
-        {
-          "target": "com.kubernetes.rbac_authorization#Conflict"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -4303,7 +4295,15 @@
           "code": 200
         },
         "smithy.api#documentation": "delete a Role"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.rbac_authorization#NotFound"
+        },
+        {
+          "target": "com.kubernetes.rbac_authorization#Conflict"
+        }
+      ]
     },
     "com.kubernetes.rbac_authorization#ListRbacAuthorizationV1RoleBindingForAllNamespacesRequest": {
       "type": "structure",
@@ -5698,45 +5698,6 @@
         "smithy.api#documentation": "watch individual changes to a list of Role. deprecated: use the 'watch' parameter with a list operation instead."
       }
     },
-    "com.kubernetes.rbac_authorization#Conflict": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 409,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 409
-          }
-        ]
-      }
-    },
-    "com.kubernetes.rbac_authorization#UnprocessableEntity": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 422,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 422
-          }
-        ]
-      }
-    },
-    "com.kubernetes.rbac_authorization#NotFound": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 404,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 404
-          }
-        ]
-      }
-    },
     "com.kubernetes.rbac_authorization#RbacAuthorization": {
       "type": "service",
       "version": "unversioned",
@@ -5870,6 +5831,45 @@
       ],
       "traits": {
         "smithy.api#title": "Kubernetes"
+      }
+    },
+    "com.kubernetes.rbac_authorization#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.kubernetes.rbac_authorization#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.kubernetes.rbac_authorization#UnprocessableEntity": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 422,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 422
+          }
+        ]
       }
     }
   }

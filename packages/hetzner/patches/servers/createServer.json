@@ -3,9 +3,23 @@
   "patches": [
     {
       "op": "replace",
-      "path": "/paths/~1servers/post/requestBody/content/application~1json/schema/properties/ssh_keys/items",
+      "path": "/shapes/com.hetzner.servers#CreateServerRequestSshKeysList/member/target",
+      "value": "com.hetzner.servers#CreateServerRequestSshKeysItem"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.hetzner.servers#CreateServerRequestSshKeysItem",
       "value": {
-        "oneOf": [{ "type": "integer", "format": "int64" }, { "type": "string" }]
+        "type": "union",
+        "members": {
+          "Case0": {
+            "target": "smithy.api#Integer"
+          },
+          "Case1": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {}
       }
     }
   ]

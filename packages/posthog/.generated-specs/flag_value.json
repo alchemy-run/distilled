@@ -110,19 +110,6 @@
         ]
       }
     },
-    "com.posthog.flag_value#Forbidden": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 403,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 403
-          }
-        ]
-      }
-    },
     "com.posthog.flag_value#NotFound": {
       "type": "structure",
       "members": {},
@@ -146,6 +133,19 @@
       ],
       "traits": {
         "smithy.api#title": "PostHog API"
+      }
+    },
+    "com.posthog.flag_value#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
       }
     }
   }

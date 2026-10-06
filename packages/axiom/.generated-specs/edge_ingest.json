@@ -133,6 +133,13 @@
       "output": {
         "target": "com.axiom.api#IngestStatus"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1/datasets/{dataset_id}/ingest",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.axiom.api#BadRequest"
@@ -143,13 +150,19 @@
         {
           "target": "com.axiom.api#UnprocessableEntity"
         }
+      ]
+    },
+    "com.axiom.api#AxiomEdgeIngest": {
+      "type": "service",
+      "version": "2.0.0",
+      "operations": [
+        {
+          "target": "com.axiom.api#IngestToDataset"
+        }
       ],
       "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/v1/datasets/{dataset_id}/ingest",
-          "code": 200
-        }
+        "smithy.api#title": "Axiom",
+        "smithy.api#documentation": "A public and stable API for interacting with axiom services"
       }
     },
     "com.axiom.api#BadRequest": {
@@ -189,19 +202,6 @@
             "status": 422
           }
         ]
-      }
-    },
-    "com.axiom.api#AxiomEdgeIngest": {
-      "type": "service",
-      "version": "2.0.0",
-      "operations": [
-        {
-          "target": "com.axiom.api#IngestToDataset"
-        }
-      ],
-      "traits": {
-        "smithy.api#title": "Axiom",
-        "smithy.api#documentation": "A public and stable API for interacting with axiom services"
       }
     }
   }

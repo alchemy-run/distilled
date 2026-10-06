@@ -1,0 +1,57 @@
+{
+  "description": "From 003-add-missing-422-responses.patch.json: Add 422 UnprocessableEntity responses to create, replace, and patch operations",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.apiextensions#CreateApiextensionsV1CustomResourceDefinition/errors/-",
+      "value": {
+        "target": "com.kubernetes.apiextensions#UnprocessableEntity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.apiextensions#ReplaceApiextensionsV1CustomResourceDefinition/errors/-",
+      "value": {
+        "target": "com.kubernetes.apiextensions#UnprocessableEntity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.apiextensions#PatchApiextensionsV1CustomResourceDefinition/errors/-",
+      "value": {
+        "target": "com.kubernetes.apiextensions#UnprocessableEntity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.apiextensions#ReplaceApiextensionsV1CustomResourceDefinitionStatus/errors/-",
+      "value": {
+        "target": "com.kubernetes.apiextensions#UnprocessableEntity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.apiextensions#PatchApiextensionsV1CustomResourceDefinitionStatus/errors/-",
+      "value": {
+        "target": "com.kubernetes.apiextensions#UnprocessableEntity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.apiextensions#UnprocessableEntity",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 422,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 422
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

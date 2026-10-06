@@ -2,32 +2,28 @@
   "description": "ServiceToken: name, expires_at, and last_used_at are listed required but omitted or null on many responses (name is optional at create; timestamps are null until used/expired).",
   "patches": [
     {
-      "op": "replace",
-      "path": "/definitions/ServiceToken/required",
-      "value": [
-        "id",
-        "display_name",
-        "avatar_url",
-        "created_at",
-        "updated_at",
-        "actor_id",
-        "actor_display_name",
-        "actor_type"
-      ]
+      "op": "remove",
+      "path": "/shapes/com.planetscale.api#PaginatedServiceTokenDataItem/members/name/traits/smithy.api#required"
     },
     {
-      "op": "replace",
-      "path": "/definitions/PaginatedServiceToken/properties/data/items/required",
-      "value": [
-        "id",
-        "display_name",
-        "avatar_url",
-        "created_at",
-        "updated_at",
-        "actor_id",
-        "actor_display_name",
-        "actor_type"
-      ]
+      "op": "remove",
+      "path": "/shapes/com.planetscale.api#PaginatedServiceTokenDataItem/members/expires_at/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.planetscale.api#PaginatedServiceTokenDataItem/members/last_used_at/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.planetscale.api#ServiceToken/members/name/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.planetscale.api#ServiceToken/members/expires_at/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.planetscale.api#ServiceToken/members/last_used_at/traits/smithy.api#required"
     }
   ]
 }

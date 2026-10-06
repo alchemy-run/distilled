@@ -1,0 +1,886 @@
+{
+  "description": "From 001-add-missing-404-responses.patch.json: Add 404 NotFound responses to read, replace, delete, and patch operations",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#ReadCoreV1ComponentStatus/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#ReadCoreV1NamespacedConfigMap/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#ReplaceCoreV1NamespacedConfigMap/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#PatchCoreV1NamespacedConfigMap/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#DeleteCoreV1NamespacedConfigMap/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#ReadCoreV1NamespacedEndpoints/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#ReplaceCoreV1NamespacedEndpoints/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#PatchCoreV1NamespacedEndpoints/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#DeleteCoreV1NamespacedEndpoints/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#ReadCoreV1NamespacedEvent/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#ReplaceCoreV1NamespacedEvent/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#PatchCoreV1NamespacedEvent/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#DeleteCoreV1NamespacedEvent/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#ReadCoreV1NamespacedLimitRange/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#ReplaceCoreV1NamespacedLimitRange/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#PatchCoreV1NamespacedLimitRange/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#DeleteCoreV1NamespacedLimitRange/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#ReadCoreV1NamespacedPersistentVolumeClaim/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#ReplaceCoreV1NamespacedPersistentVolumeClaim/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#PatchCoreV1NamespacedPersistentVolumeClaim/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#DeleteCoreV1NamespacedPersistentVolumeClaim/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#ReadCoreV1NamespacedPersistentVolumeClaimStatus/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#ReplaceCoreV1NamespacedPersistentVolumeClaimStatus/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#PatchCoreV1NamespacedPersistentVolumeClaimStatus/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#ReadCoreV1NamespacedPod/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#ReplaceCoreV1NamespacedPod/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#PatchCoreV1NamespacedPod/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#DeleteCoreV1NamespacedPod/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#ReadCoreV1NamespacedPodEphemeralcontainers/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#ReplaceCoreV1NamespacedPodEphemeralcontainers/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#PatchCoreV1NamespacedPodEphemeralcontainers/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#ReadCoreV1NamespacedPodLog/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#ReadCoreV1NamespacedPodResize/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#ReplaceCoreV1NamespacedPodResize/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#PatchCoreV1NamespacedPodResize/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#ReadCoreV1NamespacedPodStatus/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#ReplaceCoreV1NamespacedPodStatus/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#PatchCoreV1NamespacedPodStatus/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#ReadCoreV1NamespacedPodTemplate/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#ReplaceCoreV1NamespacedPodTemplate/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#PatchCoreV1NamespacedPodTemplate/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#DeleteCoreV1NamespacedPodTemplate/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#ReadCoreV1NamespacedReplicationController/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#ReplaceCoreV1NamespacedReplicationController/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#PatchCoreV1NamespacedReplicationController/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#DeleteCoreV1NamespacedReplicationController/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#ReadCoreV1NamespacedReplicationControllerScale/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#ReplaceCoreV1NamespacedReplicationControllerScale/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#PatchCoreV1NamespacedReplicationControllerScale/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#ReadCoreV1NamespacedReplicationControllerStatus/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#ReplaceCoreV1NamespacedReplicationControllerStatus/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#PatchCoreV1NamespacedReplicationControllerStatus/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#ReadCoreV1NamespacedResourceQuota/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#ReplaceCoreV1NamespacedResourceQuota/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#PatchCoreV1NamespacedResourceQuota/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#DeleteCoreV1NamespacedResourceQuota/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#ReadCoreV1NamespacedResourceQuotaStatus/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#ReplaceCoreV1NamespacedResourceQuotaStatus/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#PatchCoreV1NamespacedResourceQuotaStatus/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#ReadCoreV1NamespacedSecret/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#ReplaceCoreV1NamespacedSecret/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#PatchCoreV1NamespacedSecret/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#DeleteCoreV1NamespacedSecret/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#ReadCoreV1NamespacedServiceAccount/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#ReplaceCoreV1NamespacedServiceAccount/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#PatchCoreV1NamespacedServiceAccount/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#DeleteCoreV1NamespacedServiceAccount/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#ReadCoreV1NamespacedService/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#ReplaceCoreV1NamespacedService/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#PatchCoreV1NamespacedService/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#DeleteCoreV1NamespacedService/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#ReadCoreV1NamespacedServiceStatus/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#ReplaceCoreV1NamespacedServiceStatus/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#PatchCoreV1NamespacedServiceStatus/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#ReadCoreV1Namespace/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#ReplaceCoreV1Namespace/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#PatchCoreV1Namespace/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#DeleteCoreV1Namespace/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#ReplaceCoreV1NamespaceFinalize/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#ReadCoreV1NamespaceStatus/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#ReplaceCoreV1NamespaceStatus/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#PatchCoreV1NamespaceStatus/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#ReadCoreV1Node/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#ReplaceCoreV1Node/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#PatchCoreV1Node/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#DeleteCoreV1Node/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#ReadCoreV1NodeStatus/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#ReplaceCoreV1NodeStatus/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#PatchCoreV1NodeStatus/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#ReadCoreV1PersistentVolume/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#ReplaceCoreV1PersistentVolume/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#PatchCoreV1PersistentVolume/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#DeleteCoreV1PersistentVolume/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#ReadCoreV1PersistentVolumeStatus/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#ReplaceCoreV1PersistentVolumeStatus/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#PatchCoreV1PersistentVolumeStatus/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#NotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

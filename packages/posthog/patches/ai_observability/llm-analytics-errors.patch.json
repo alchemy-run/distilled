@@ -1,0 +1,110 @@
+{
+  "description": "From llm-analytics-errors.patch.json: Auto-generated PostHog error responses (400/403/404) for tag \"llm_analytics\". See generate-error-patches.ts.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.ai_observability#DatasetItemsList/errors",
+      "value": [
+        {
+          "target": "com.posthog.ai_observability#BadRequest"
+        },
+        {
+          "target": "com.posthog.ai_observability#Forbidden"
+        },
+        {
+          "target": "com.posthog.ai_observability#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.ai_observability#DatasetItemsCreate/errors/0",
+      "value": {
+        "target": "com.posthog.ai_observability#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.ai_observability#DatasetItemsCreate/errors/1",
+      "value": {
+        "target": "com.posthog.ai_observability#Forbidden"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.ai_observability#DatasetItemsCreate/errors/2",
+      "value": {
+        "target": "com.posthog.ai_observability#NotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.ai_observability#DatasetsList/errors",
+      "value": [
+        {
+          "target": "com.posthog.ai_observability#BadRequest"
+        },
+        {
+          "target": "com.posthog.ai_observability#Forbidden"
+        },
+        {
+          "target": "com.posthog.ai_observability#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.ai_observability#DatasetsCreate/errors/0",
+      "value": {
+        "target": "com.posthog.ai_observability#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.ai_observability#DatasetsCreate/errors/1",
+      "value": {
+        "target": "com.posthog.ai_observability#Forbidden"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.ai_observability#DatasetsCreate/errors/2",
+      "value": {
+        "target": "com.posthog.ai_observability#NotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.ai_observability#DatasetsRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.ai_observability#Forbidden"
+        },
+        {
+          "target": "com.posthog.ai_observability#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.ai_observability#DatasetsPartialUpdate/errors/0",
+      "value": {
+        "target": "com.posthog.ai_observability#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.ai_observability#DatasetsPartialUpdate/errors/1",
+      "value": {
+        "target": "com.posthog.ai_observability#Forbidden"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.ai_observability#DatasetsPartialUpdate/errors/2",
+      "value": {
+        "target": "com.posthog.ai_observability#NotFound"
+      }
+    }
+  ]
+}

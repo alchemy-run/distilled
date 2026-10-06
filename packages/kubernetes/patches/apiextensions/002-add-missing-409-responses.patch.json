@@ -1,0 +1,66 @@
+{
+  "description": "From 002-add-missing-409-responses.patch.json: Add 409 Conflict responses to create, replace, delete, and patch operations",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.apiextensions#CreateApiextensionsV1CustomResourceDefinition/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.apiextensions#Conflict"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.apiextensions#ReplaceApiextensionsV1CustomResourceDefinition/errors/-",
+      "value": {
+        "target": "com.kubernetes.apiextensions#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.apiextensions#PatchApiextensionsV1CustomResourceDefinition/errors/-",
+      "value": {
+        "target": "com.kubernetes.apiextensions#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.apiextensions#DeleteApiextensionsV1CustomResourceDefinition/errors/-",
+      "value": {
+        "target": "com.kubernetes.apiextensions#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.apiextensions#ReplaceApiextensionsV1CustomResourceDefinitionStatus/errors/-",
+      "value": {
+        "target": "com.kubernetes.apiextensions#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.apiextensions#PatchApiextensionsV1CustomResourceDefinitionStatus/errors/-",
+      "value": {
+        "target": "com.kubernetes.apiextensions#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.apiextensions#Conflict",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 409,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 409
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

@@ -126,6 +126,14 @@
       "output": {
         "target": "com.posthog.groups#ListGroupsResponse"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/groups/",
+          "code": 200
+        },
+        "smithy.api#documentation": "List all groups of a specific group type. You must pass ?group_type_index= in the URL.\nTo get a list of valid group types, call /api/:project_id/groups_types/.\n\nUses forward-only keyset pagination via the `cursor` parameter.\nThe `previous` field in the response envelope is always null."
+      },
       "errors": [
         {
           "target": "com.posthog.groups#BadRequest"
@@ -136,15 +144,7 @@
         {
           "target": "com.posthog.groups#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/groups/",
-          "code": 200
-        },
-        "smithy.api#documentation": "List all groups of a specific group type. You must pass ?group_type_index= in the URL.\nTo get a list of valid group types, call /api/:project_id/groups_types/.\n\nUses forward-only keyset pagination via the `cursor` parameter.\nThe `previous` field in the response envelope is always null."
-      }
+      ]
     },
     "com.posthog.groups#CreateGroupRequest": {
       "type": "structure",
@@ -179,6 +179,13 @@
       "output": {
         "target": "com.posthog.groups#Group"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/groups/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.groups#BadRequest"
@@ -189,14 +196,7 @@
         {
           "target": "com.posthog.groups#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/groups/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.groups#GetGroupsActivityRequest": {
       "type": "structure",
@@ -238,6 +238,13 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/groups/activity/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.groups#BadRequest"
@@ -248,14 +255,7 @@
         {
           "target": "com.posthog.groups#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/groups/activity/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.groups#GroupsDeletePropertyCreateRequest": {
       "type": "structure",
@@ -305,6 +305,13 @@
       "output": {
         "target": "com.posthog.groups#Group"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/groups/delete_property/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.groups#BadRequest"
@@ -315,14 +322,7 @@
         {
           "target": "com.posthog.groups#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/groups/delete_property/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.groups#GetGroupsFindRequest": {
       "type": "structure",
@@ -421,6 +421,13 @@
       "output": {
         "target": "com.posthog.groups#FindGroup"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/groups/find/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.groups#BadRequest"
@@ -431,14 +438,7 @@
         {
           "target": "com.posthog.groups#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/groups/find/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.groups#GetGroupsPropertyValueRequest": {
       "type": "structure",
@@ -464,6 +464,13 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/groups/property_values/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.groups#Forbidden"
@@ -471,14 +478,7 @@
         {
           "target": "com.posthog.groups#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/groups/property_values/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.groups#ListGroupsRelatedRequest": {
       "type": "structure",
@@ -775,6 +775,13 @@
       "output": {
         "target": "com.posthog.groups#ListGroupsRelatedResponse"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/groups/related/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.groups#BadRequest"
@@ -785,14 +792,7 @@
         {
           "target": "com.posthog.groups#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/groups/related/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.groups#GroupsUpdatePropertyCreateRequestValueCase4List": {
       "type": "list",
@@ -878,6 +878,13 @@
       "output": {
         "target": "com.posthog.groups#Group"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/groups/update_property/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.groups#BadRequest"
@@ -888,13 +895,39 @@
         {
           "target": "com.posthog.groups#NotFound"
         }
+      ]
+    },
+    "com.posthog.groups#Groups": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.posthog.groups#ListGroups"
+        },
+        {
+          "target": "com.posthog.groups#CreateGroup"
+        },
+        {
+          "target": "com.posthog.groups#GetGroupsActivity"
+        },
+        {
+          "target": "com.posthog.groups#GroupsDeletePropertyCreate"
+        },
+        {
+          "target": "com.posthog.groups#GetGroupsFind"
+        },
+        {
+          "target": "com.posthog.groups#GetGroupsPropertyValue"
+        },
+        {
+          "target": "com.posthog.groups#ListGroupsRelated"
+        },
+        {
+          "target": "com.posthog.groups#GroupsUpdatePropertyCreate"
+        }
       ],
       "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/groups/update_property/",
-          "code": 200
-        }
+        "smithy.api#title": "PostHog API"
       }
     },
     "com.posthog.groups#BadRequest": {
@@ -934,39 +967,6 @@
             "status": 404
           }
         ]
-      }
-    },
-    "com.posthog.groups#Groups": {
-      "type": "service",
-      "version": "1.0.0",
-      "operations": [
-        {
-          "target": "com.posthog.groups#ListGroups"
-        },
-        {
-          "target": "com.posthog.groups#CreateGroup"
-        },
-        {
-          "target": "com.posthog.groups#GetGroupsActivity"
-        },
-        {
-          "target": "com.posthog.groups#GroupsDeletePropertyCreate"
-        },
-        {
-          "target": "com.posthog.groups#GetGroupsFind"
-        },
-        {
-          "target": "com.posthog.groups#GetGroupsPropertyValue"
-        },
-        {
-          "target": "com.posthog.groups#ListGroupsRelated"
-        },
-        {
-          "target": "com.posthog.groups#GroupsUpdatePropertyCreate"
-        }
-      ],
-      "traits": {
-        "smithy.api#title": "PostHog API"
       }
     }
   }

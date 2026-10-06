@@ -138,6 +138,13 @@
       "output": {
         "target": "com.posthog.file_system_shortcut#PaginatedFileSystemShortcutList"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/file_system_shortcut/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.file_system_shortcut#BadRequest"
@@ -148,14 +155,7 @@
         {
           "target": "com.posthog.file_system_shortcut#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/file_system_shortcut/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.file_system_shortcut#CreateFileSystemShortcutRequest": {
       "type": "structure",
@@ -213,6 +213,13 @@
       "output": {
         "target": "com.posthog.file_system_shortcut#FileSystemShortcut2"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/file_system_shortcut/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.file_system_shortcut#BadRequest"
@@ -223,14 +230,7 @@
         {
           "target": "com.posthog.file_system_shortcut#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/file_system_shortcut/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.file_system_shortcut#GetFileSystemShortcutRequest": {
       "type": "structure",
@@ -264,6 +264,13 @@
       "output": {
         "target": "com.posthog.file_system_shortcut#FileSystemShortcut2"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/file_system_shortcut/{id}/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.file_system_shortcut#Forbidden"
@@ -271,14 +278,7 @@
         {
           "target": "com.posthog.file_system_shortcut#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/file_system_shortcut/{id}/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.file_system_shortcut#UpdateFileSystemShortcutRequest": {
       "type": "structure",
@@ -344,6 +344,13 @@
       "output": {
         "target": "com.posthog.file_system_shortcut#FileSystemShortcut2"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/api/projects/{project_id}/file_system_shortcut/{id}/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.file_system_shortcut#BadRequest"
@@ -354,14 +361,7 @@
         {
           "target": "com.posthog.file_system_shortcut#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/api/projects/{project_id}/file_system_shortcut/{id}/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.file_system_shortcut#UpdateFileSystemShortcutPartialRequest": {
       "type": "structure",
@@ -427,6 +427,13 @@
       "output": {
         "target": "com.posthog.file_system_shortcut#FileSystemShortcut2"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/projects/{project_id}/file_system_shortcut/{id}/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.file_system_shortcut#BadRequest"
@@ -437,14 +444,7 @@
         {
           "target": "com.posthog.file_system_shortcut#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/api/projects/{project_id}/file_system_shortcut/{id}/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.file_system_shortcut#FileSystemShortcutDestroyRequest": {
       "type": "structure",
@@ -478,6 +478,13 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/api/projects/{project_id}/file_system_shortcut/{id}/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.file_system_shortcut#Forbidden"
@@ -485,14 +492,7 @@
         {
           "target": "com.posthog.file_system_shortcut#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "DELETE",
-          "uri": "/api/projects/{project_id}/file_system_shortcut/{id}/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.file_system_shortcut#FileSystemShortcutBulkItem": {
       "type": "structure",
@@ -661,6 +661,39 @@
         "smithy.api#documentation": "Set the display order of the current user's shortcuts. `ordered_ids` becomes the new top-to-bottom order; any unknown IDs are rejected."
       }
     },
+    "com.posthog.file_system_shortcut#FileSystemShortcut": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.posthog.file_system_shortcut#ListFileSystemShortcut"
+        },
+        {
+          "target": "com.posthog.file_system_shortcut#CreateFileSystemShortcut"
+        },
+        {
+          "target": "com.posthog.file_system_shortcut#GetFileSystemShortcut"
+        },
+        {
+          "target": "com.posthog.file_system_shortcut#UpdateFileSystemShortcut"
+        },
+        {
+          "target": "com.posthog.file_system_shortcut#UpdateFileSystemShortcutPartial"
+        },
+        {
+          "target": "com.posthog.file_system_shortcut#FileSystemShortcutDestroy"
+        },
+        {
+          "target": "com.posthog.file_system_shortcut#FileSystemShortcutBulkUpdateCreate"
+        },
+        {
+          "target": "com.posthog.file_system_shortcut#CreateFileSystemShortcutReorder"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "PostHog API"
+      }
+    },
     "com.posthog.file_system_shortcut#BadRequest": {
       "type": "structure",
       "members": {},
@@ -698,39 +731,6 @@
             "status": 404
           }
         ]
-      }
-    },
-    "com.posthog.file_system_shortcut#FileSystemShortcut": {
-      "type": "service",
-      "version": "1.0.0",
-      "operations": [
-        {
-          "target": "com.posthog.file_system_shortcut#ListFileSystemShortcut"
-        },
-        {
-          "target": "com.posthog.file_system_shortcut#CreateFileSystemShortcut"
-        },
-        {
-          "target": "com.posthog.file_system_shortcut#GetFileSystemShortcut"
-        },
-        {
-          "target": "com.posthog.file_system_shortcut#UpdateFileSystemShortcut"
-        },
-        {
-          "target": "com.posthog.file_system_shortcut#UpdateFileSystemShortcutPartial"
-        },
-        {
-          "target": "com.posthog.file_system_shortcut#FileSystemShortcutDestroy"
-        },
-        {
-          "target": "com.posthog.file_system_shortcut#FileSystemShortcutBulkUpdateCreate"
-        },
-        {
-          "target": "com.posthog.file_system_shortcut#CreateFileSystemShortcutReorder"
-        }
-      ],
-      "traits": {
-        "smithy.api#title": "PostHog API"
       }
     }
   }

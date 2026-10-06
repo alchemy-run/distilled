@@ -262,6 +262,14 @@
       "output": {
         "target": "com.posthog.heatmaps#ListHeatmapsResponse"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/heatmaps/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Aggregated heatmap interactions for a page. For type 'click'/'rageclick'/'mousemove' each result is a point with relative x, absolute client-y, and a count. For type 'scrolldepth' the response is scroll-depth buckets instead (cumulative reach down the page)."
+      },
       "errors": [
         {
           "target": "com.posthog.heatmaps#BadRequest"
@@ -272,15 +280,7 @@
         {
           "target": "com.posthog.heatmaps#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/heatmaps/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Aggregated heatmap interactions for a page. For type 'click'/'rageclick'/'mousemove' each result is a point with relative x, absolute client-y, and a count. For type 'scrolldepth' the response is scroll-depth buckets instead (cumulative reach down the page)."
-      }
+      ]
     },
     "com.posthog.heatmaps#GetHeatmapsEventRequestAggregation": {
       "type": "enum",
@@ -509,14 +509,6 @@
       "output": {
         "target": "com.posthog.heatmaps#HeatmapEventsResponse"
       },
-      "errors": [
-        {
-          "target": "com.posthog.heatmaps#Forbidden"
-        },
-        {
-          "target": "com.posthog.heatmaps#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -524,6 +516,29 @@
           "code": 200
         },
         "smithy.api#documentation": "Drill into the individual session interactions behind one or more heatmap coordinates. Pass the 'points' you want to inspect (from the heatmaps list response) to get the underlying per-session events, so you can jump to the session recordings that produced a hotspot."
+      },
+      "errors": [
+        {
+          "target": "com.posthog.heatmaps#Forbidden"
+        },
+        {
+          "target": "com.posthog.heatmaps#NotFound"
+        }
+      ]
+    },
+    "com.posthog.heatmaps#Heatmaps": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.posthog.heatmaps#ListHeatmaps"
+        },
+        {
+          "target": "com.posthog.heatmaps#GetHeatmapsEvent"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "PostHog API"
       }
     },
     "com.posthog.heatmaps#BadRequest": {
@@ -563,21 +578,6 @@
             "status": 404
           }
         ]
-      }
-    },
-    "com.posthog.heatmaps#Heatmaps": {
-      "type": "service",
-      "version": "1.0.0",
-      "operations": [
-        {
-          "target": "com.posthog.heatmaps#ListHeatmaps"
-        },
-        {
-          "target": "com.posthog.heatmaps#GetHeatmapsEvent"
-        }
-      ],
-      "traits": {
-        "smithy.api#title": "PostHog API"
       }
     }
   }

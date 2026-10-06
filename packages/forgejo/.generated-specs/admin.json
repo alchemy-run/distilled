@@ -3110,6 +3110,103 @@
         "smithy.api#documentation": "Remove a public key from user's account"
       }
     },
+    "com.forgejo.admin#AdminCreateOrgRequestVisibility": {
+      "type": "enum",
+      "members": {
+        "PUBLIC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "public"
+          }
+        },
+        "LIMITED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "limited"
+          }
+        },
+        "PRIVATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "private"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "possible values are `public` (default), `limited` or `private`"
+      }
+    },
+    "com.forgejo.admin#AdminCreateOrgRequest": {
+      "type": "structure",
+      "members": {
+        "owner": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "username of the user that will own the created organization"
+          }
+        },
+        "description": {
+          "target": "smithy.api#String"
+        },
+        "email": {
+          "target": "smithy.api#String"
+        },
+        "full_name": {
+          "target": "smithy.api#String"
+        },
+        "location": {
+          "target": "smithy.api#String"
+        },
+        "repo_admin_change_team_access": {
+          "target": "smithy.api#Boolean"
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "visibility": {
+          "target": "com.forgejo.admin#AdminCreateOrgRequestVisibility",
+          "traits": {
+            "smithy.api#documentation": "possible values are `public` (default), `limited` or `private`"
+          }
+        },
+        "website": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.forgejo.admin#AdminCreateOrg": {
+      "type": "operation",
+      "input": {
+        "target": "com.forgejo.admin#AdminCreateOrgRequest"
+      },
+      "output": {
+        "target": "com.forgejo.admin#Organization"
+      },
+      "errors": [
+        {
+          "target": "com.forgejo.admin#Forbidden"
+        },
+        {
+          "target": "com.forgejo.admin#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/admin/users/{owner}/orgs",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create an organization"
+      }
+    },
     "com.forgejo.admin#AdminGetUserQuotaRequest": {
       "type": "structure",
       "members": {
@@ -4355,103 +4452,6 @@
           "code": 200
         },
         "smithy.api#documentation": "Delete an access token for the specified user"
-      }
-    },
-    "com.forgejo.admin#AdminCreateOrgRequestVisibility": {
-      "type": "enum",
-      "members": {
-        "PUBLIC": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "public"
-          }
-        },
-        "LIMITED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "limited"
-          }
-        },
-        "PRIVATE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "private"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "possible values are `public` (default), `limited` or `private`"
-      }
-    },
-    "com.forgejo.admin#AdminCreateOrgRequest": {
-      "type": "structure",
-      "members": {
-        "owner": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {},
-            "smithy.api#documentation": "username of the user that will own the created organization"
-          }
-        },
-        "description": {
-          "target": "smithy.api#String"
-        },
-        "email": {
-          "target": "smithy.api#String"
-        },
-        "full_name": {
-          "target": "smithy.api#String"
-        },
-        "location": {
-          "target": "smithy.api#String"
-        },
-        "repo_admin_change_team_access": {
-          "target": "smithy.api#Boolean"
-        },
-        "username": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "visibility": {
-          "target": "com.forgejo.admin#AdminCreateOrgRequestVisibility",
-          "traits": {
-            "smithy.api#documentation": "possible values are `public` (default), `limited` or `private`"
-          }
-        },
-        "website": {
-          "target": "smithy.api#String"
-        }
-      },
-      "traits": {
-        "smithy.api#input": {}
-      }
-    },
-    "com.forgejo.admin#AdminCreateOrg": {
-      "type": "operation",
-      "input": {
-        "target": "com.forgejo.admin#AdminCreateOrgRequest"
-      },
-      "output": {
-        "target": "com.forgejo.admin#Organization"
-      },
-      "errors": [
-        {
-          "target": "com.forgejo.admin#Forbidden"
-        },
-        {
-          "target": "com.forgejo.admin#UnprocessableEntity"
-        }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/admin/users/{owner}/orgs",
-          "code": 200
-        },
-        "smithy.api#documentation": "Create an organization"
       }
     },
     "com.forgejo.admin#BadRequest": {

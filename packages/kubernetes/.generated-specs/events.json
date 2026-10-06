@@ -1239,14 +1239,6 @@
       "output": {
         "target": "com.kubernetes.events#IoK8sApiEventsV1Event"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.events#Conflict"
-        },
-        {
-          "target": "com.kubernetes.events#UnprocessableEntity"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -1254,7 +1246,15 @@
           "code": 200
         },
         "smithy.api#documentation": "create an Event"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.events#Conflict"
+        },
+        {
+          "target": "com.kubernetes.events#UnprocessableEntity"
+        }
+      ]
     },
     "com.kubernetes.events#DeleteEventsV1CollectionNamespacedEventRequestDryRunList": {
       "type": "list",
@@ -1615,11 +1615,6 @@
       "output": {
         "target": "com.kubernetes.events#IoK8sApiEventsV1Event"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.events#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -1627,7 +1622,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read the specified Event"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.events#NotFound"
+        }
+      ]
     },
     "com.kubernetes.events#ReplaceEventsV1NamespacedEventRequest": {
       "type": "structure",
@@ -1797,6 +1797,14 @@
       "output": {
         "target": "com.kubernetes.events#IoK8sApiEventsV1Event"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/apis/events.k8s.io/v1/namespaces/{namespace}/events/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace the specified Event"
+      },
       "errors": [
         {
           "target": "com.kubernetes.events#NotFound"
@@ -1807,15 +1815,7 @@
         {
           "target": "com.kubernetes.events#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/apis/events.k8s.io/v1/namespaces/{namespace}/events/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace the specified Event"
-      }
+      ]
     },
     "com.kubernetes.events#PatchEventsV1NamespacedEventRequest": {
       "type": "structure",
@@ -1884,6 +1884,14 @@
       "output": {
         "target": "com.kubernetes.events#IoK8sApiEventsV1Event"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/apis/events.k8s.io/v1/namespaces/{namespace}/events/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update the specified Event"
+      },
       "errors": [
         {
           "target": "com.kubernetes.events#NotFound"
@@ -1894,15 +1902,7 @@
         {
           "target": "com.kubernetes.events#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/apis/events.k8s.io/v1/namespaces/{namespace}/events/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update the specified Event"
-      }
+      ]
     },
     "com.kubernetes.events#DeleteEventsV1NamespacedEventRequestDryRunList": {
       "type": "list",
@@ -2005,14 +2005,6 @@
       "output": {
         "target": "com.kubernetes.events#IoK8sApimachineryPkgApisMetaV1Status"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.events#NotFound"
-        },
-        {
-          "target": "com.kubernetes.events#Conflict"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -2020,7 +2012,15 @@
           "code": 200
         },
         "smithy.api#documentation": "delete an Event"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.events#NotFound"
+        },
+        {
+          "target": "com.kubernetes.events#Conflict"
+        }
+      ]
     },
     "com.kubernetes.events#WatchEventsV1EventListForAllNamespacesRequest": {
       "type": "structure",
@@ -2394,45 +2394,6 @@
         "smithy.api#documentation": "watch changes to an object of kind Event. deprecated: use the 'watch' parameter with a list operation instead, filtered to a single item with the 'fieldSelector' parameter."
       }
     },
-    "com.kubernetes.events#Conflict": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 409,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 409
-          }
-        ]
-      }
-    },
-    "com.kubernetes.events#UnprocessableEntity": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 422,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 422
-          }
-        ]
-      }
-    },
-    "com.kubernetes.events#NotFound": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 404,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 404
-          }
-        ]
-      }
-    },
     "com.kubernetes.events#Events": {
       "type": "service",
       "version": "unversioned",
@@ -2479,6 +2440,45 @@
       ],
       "traits": {
         "smithy.api#title": "Kubernetes"
+      }
+    },
+    "com.kubernetes.events#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.kubernetes.events#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.kubernetes.events#UnprocessableEntity": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 422,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 422
+          }
+        ]
       }
     }
   }

@@ -267061,32 +267061,6 @@
         "smithy.api#documentation": "The dimensions of this product for shipping purposes."
       }
     },
-    "com.stripe.api#UpdateProductRequestShippableCase1": {
-      "type": "enum",
-      "members": {
-        "VALUE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": ""
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.stripe.api#UpdateProductRequestShippable": {
-      "type": "union",
-      "members": {
-        "Case0": {
-          "target": "smithy.api#Boolean"
-        },
-        "Case1": {
-          "target": "com.stripe.api#UpdateProductRequestShippableCase1"
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Whether this product is shipped (i.e., physical goods)."
-      }
-    },
     "com.stripe.api#UpdateProductRequestTaxCodeCase1": {
       "type": "enum",
       "members": {
@@ -428350,6 +428324,32 @@
             }
           }
         ]
+      }
+    },
+    "com.stripe.api#UpdateProductRequestShippableCase1": {
+      "type": "enum",
+      "members": {
+        "VALUE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": ""
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stripe.api#UpdateProductRequestShippable": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#Boolean"
+        },
+        "Case1": {
+          "target": "com.stripe.api#UpdateProductRequestShippableCase1"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Whether this product is shipped (i.e., physical goods)."
       }
     }
   }

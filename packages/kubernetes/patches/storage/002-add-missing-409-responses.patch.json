@@ -1,0 +1,216 @@
+{
+  "description": "From 002-add-missing-409-responses.patch.json: Add 409 Conflict responses to create, replace, delete, and patch operations",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.storage#CreateStorageV1CSIDriver/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.storage#Conflict"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.storage#ReplaceStorageV1CSIDriver/errors/-",
+      "value": {
+        "target": "com.kubernetes.storage#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.storage#PatchStorageV1CSIDriver/errors/-",
+      "value": {
+        "target": "com.kubernetes.storage#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.storage#DeleteStorageV1CSIDriver/errors/-",
+      "value": {
+        "target": "com.kubernetes.storage#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.storage#CreateStorageV1CSINode/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.storage#Conflict"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.storage#ReplaceStorageV1CSINode/errors/-",
+      "value": {
+        "target": "com.kubernetes.storage#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.storage#PatchStorageV1CSINode/errors/-",
+      "value": {
+        "target": "com.kubernetes.storage#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.storage#DeleteStorageV1CSINode/errors/-",
+      "value": {
+        "target": "com.kubernetes.storage#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.storage#CreateStorageV1NamespacedCSIStorageCapacity/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.storage#Conflict"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.storage#ReplaceStorageV1NamespacedCSIStorageCapacity/errors/-",
+      "value": {
+        "target": "com.kubernetes.storage#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.storage#PatchStorageV1NamespacedCSIStorageCapacity/errors/-",
+      "value": {
+        "target": "com.kubernetes.storage#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.storage#DeleteStorageV1NamespacedCSIStorageCapacity/errors/-",
+      "value": {
+        "target": "com.kubernetes.storage#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.storage#CreateStorageV1StorageClass/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.storage#Conflict"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.storage#ReplaceStorageV1StorageClass/errors/-",
+      "value": {
+        "target": "com.kubernetes.storage#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.storage#PatchStorageV1StorageClass/errors/-",
+      "value": {
+        "target": "com.kubernetes.storage#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.storage#DeleteStorageV1StorageClass/errors/-",
+      "value": {
+        "target": "com.kubernetes.storage#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.storage#CreateStorageV1VolumeAttachment/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.storage#Conflict"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.storage#ReplaceStorageV1VolumeAttachment/errors/-",
+      "value": {
+        "target": "com.kubernetes.storage#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.storage#PatchStorageV1VolumeAttachment/errors/-",
+      "value": {
+        "target": "com.kubernetes.storage#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.storage#DeleteStorageV1VolumeAttachment/errors/-",
+      "value": {
+        "target": "com.kubernetes.storage#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.storage#ReplaceStorageV1VolumeAttachmentStatus/errors/-",
+      "value": {
+        "target": "com.kubernetes.storage#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.storage#PatchStorageV1VolumeAttachmentStatus/errors/-",
+      "value": {
+        "target": "com.kubernetes.storage#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.storage#CreateStorageV1VolumeAttributesClass/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.storage#Conflict"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.storage#ReplaceStorageV1VolumeAttributesClass/errors/-",
+      "value": {
+        "target": "com.kubernetes.storage#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.storage#PatchStorageV1VolumeAttributesClass/errors/-",
+      "value": {
+        "target": "com.kubernetes.storage#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.storage#DeleteStorageV1VolumeAttributesClass/errors/-",
+      "value": {
+        "target": "com.kubernetes.storage#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.storage#Conflict",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 409,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 409
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

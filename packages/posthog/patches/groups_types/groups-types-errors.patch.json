@@ -1,0 +1,74 @@
+{
+  "description": "From groups-types-errors.patch.json: Auto-generated PostHog error responses (400/403/404) for tag \"groups_types\". See generate-error-patches.ts.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.groups_types#GroupsTypesList/errors",
+      "value": [
+        {
+          "target": "com.posthog.groups_types#Forbidden"
+        },
+        {
+          "target": "com.posthog.groups_types#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.groups_types#GroupsTypesDestroy/errors",
+      "value": [
+        {
+          "target": "com.posthog.groups_types#Forbidden"
+        },
+        {
+          "target": "com.posthog.groups_types#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.groups_types#GroupsTypesCreateDetailDashboardUpdate/errors",
+      "value": [
+        {
+          "target": "com.posthog.groups_types#BadRequest"
+        },
+        {
+          "target": "com.posthog.groups_types#Forbidden"
+        },
+        {
+          "target": "com.posthog.groups_types#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.groups_types#GroupsTypesSetDefaultColumnsUpdate/errors",
+      "value": [
+        {
+          "target": "com.posthog.groups_types#BadRequest"
+        },
+        {
+          "target": "com.posthog.groups_types#Forbidden"
+        },
+        {
+          "target": "com.posthog.groups_types#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.groups_types#GroupsTypesUpdateMetadataPartialUpdate/errors",
+      "value": [
+        {
+          "target": "com.posthog.groups_types#BadRequest"
+        },
+        {
+          "target": "com.posthog.groups_types#Forbidden"
+        },
+        {
+          "target": "com.posthog.groups_types#NotFound"
+        }
+      ]
+    }
+  ]
+}

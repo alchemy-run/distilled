@@ -378,6 +378,14 @@
       "output": {
         "target": "com.posthog.replay#PaginatedSessionRecordingPlaylistListOutput"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/session_recording_playlists/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Override list to include synthetic playlists.\n\nSynthetics have no DB row, so we compute each one's position in the merged\nsort and split the requested page between synthetics and a DB queryset slice.\nThe merge/rank/sort is all in-memory, so each phase is wrapped in a span and\nthe input sizes are recorded as span attributes — a slow response on a team\nwith many playlists then shows up as a wide span against a large db_count."
+      },
       "errors": [
         {
           "target": "com.posthog.replay#BadRequest"
@@ -388,15 +396,7 @@
         {
           "target": "com.posthog.replay#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/session_recording_playlists/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Override list to include synthetic playlists.\n\nSynthetics have no DB row, so we compute each one's position in the merged\nsort and split the requested page between synthetics and a DB queryset slice.\nThe merge/rank/sort is all in-memory, so each phase is wrapped in a span and\nthe input sizes are recorded as span attributes — a slow response on a team\nwith many playlists then shows up as a wide span against a large db_count."
-      }
+      ]
     },
     "com.posthog.replay#SessionRecordingPlaylistCreationMethodEnum": {
       "type": "enum",
@@ -501,6 +501,13 @@
       "output": {
         "target": "com.posthog.replay#SessionRecordingPlaylistOutput"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/session_recording_playlists/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.replay#BadRequest"
@@ -511,14 +518,7 @@
         {
           "target": "com.posthog.replay#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/session_recording_playlists/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.replay#GetSessionRecordingPlaylistRequest": {
       "type": "structure",
@@ -551,6 +551,13 @@
       "output": {
         "target": "com.posthog.replay#SessionRecordingPlaylistOutput"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/session_recording_playlists/{short_id}/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.replay#Forbidden"
@@ -558,14 +565,7 @@
         {
           "target": "com.posthog.replay#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/session_recording_playlists/{short_id}/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.replay#UpdateSessionRecordingPlaylistRequest": {
       "type": "structure",
@@ -651,6 +651,13 @@
       "output": {
         "target": "com.posthog.replay#SessionRecordingPlaylistOutput"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/api/projects/{project_id}/session_recording_playlists/{short_id}/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.replay#BadRequest"
@@ -661,14 +668,7 @@
         {
           "target": "com.posthog.replay#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/api/projects/{project_id}/session_recording_playlists/{short_id}/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.replay#UpdateSessionRecordingPlaylistsPartialRequest": {
       "type": "structure",
@@ -754,6 +754,13 @@
       "output": {
         "target": "com.posthog.replay#SessionRecordingPlaylistOutput"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/projects/{project_id}/session_recording_playlists/{short_id}/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.replay#BadRequest"
@@ -764,14 +771,7 @@
         {
           "target": "com.posthog.replay#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/api/projects/{project_id}/session_recording_playlists/{short_id}/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.replay#SessionRecordingPlaylistsDestroyRequest": {
       "type": "structure",
@@ -804,14 +804,6 @@
       "output": {
         "target": "smithy.api#Unit"
       },
-      "errors": [
-        {
-          "target": "com.posthog.replay#Forbidden"
-        },
-        {
-          "target": "com.posthog.replay#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -819,7 +811,15 @@
           "code": 200
         },
         "smithy.api#documentation": "Hard delete of this model is not allowed. Use a patch API call to set \"deleted\" to true"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.posthog.replay#Forbidden"
+        },
+        {
+          "target": "com.posthog.replay#NotFound"
+        }
+      ]
     },
     "com.posthog.replay#GetSessionRecordingPlaylistsRecordingRequest": {
       "type": "structure",
@@ -852,6 +852,13 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/session_recording_playlists/{short_id}/recordings/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.replay#Forbidden"
@@ -859,14 +866,7 @@
         {
           "target": "com.posthog.replay#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/session_recording_playlists/{short_id}/recordings/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.replay#CreateSessionRecordingPlaylistsRecordingRequest": {
       "type": "structure",
@@ -959,6 +959,13 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/session_recording_playlists/{short_id}/recordings/{session_recording_id}/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.replay#BadRequest"
@@ -969,14 +976,7 @@
         {
           "target": "com.posthog.replay#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/session_recording_playlists/{short_id}/recordings/{session_recording_id}/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.replay#SessionRecordingPlaylistsRecordingsDestroyRequest": {
       "type": "structure",
@@ -1016,6 +1016,13 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/api/projects/{project_id}/session_recording_playlists/{short_id}/recordings/{session_recording_id}/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.replay#Forbidden"
@@ -1023,14 +1030,7 @@
         {
           "target": "com.posthog.replay#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "DELETE",
-          "uri": "/api/projects/{project_id}/session_recording_playlists/{short_id}/recordings/{session_recording_id}/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.replay#ListSessionRecordingsRequest": {
       "type": "structure",
@@ -1338,6 +1338,13 @@
       "output": {
         "target": "com.posthog.replay#PaginatedSessionRecordingList"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/session_recordings/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.replay#BadRequest"
@@ -1348,14 +1355,7 @@
         {
           "target": "com.posthog.replay#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/session_recordings/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.replay#GetSessionRecordingRequest": {
       "type": "structure",
@@ -1389,6 +1389,13 @@
       "output": {
         "target": "com.posthog.replay#SessionRecording"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/session_recordings/{id}/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.replay#Forbidden"
@@ -1396,14 +1403,7 @@
         {
           "target": "com.posthog.replay#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/session_recordings/{id}/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.replay#MinimalPersonInput": {
       "type": "structure",
@@ -1452,6 +1452,13 @@
       "output": {
         "target": "com.posthog.replay#SessionRecording"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/api/projects/{project_id}/session_recordings/{id}/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.replay#BadRequest"
@@ -1462,14 +1469,7 @@
         {
           "target": "com.posthog.replay#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/api/projects/{project_id}/session_recordings/{id}/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.replay#UpdateSessionRecordingsPartialRequest": {
       "type": "structure",
@@ -1506,6 +1506,13 @@
       "output": {
         "target": "com.posthog.replay#SessionRecording"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/projects/{project_id}/session_recordings/{id}/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.replay#BadRequest"
@@ -1516,14 +1523,7 @@
         {
           "target": "com.posthog.replay#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/api/projects/{project_id}/session_recordings/{id}/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.replay#SessionRecordingsDestroyRequest": {
       "type": "structure",
@@ -1557,6 +1557,13 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/api/projects/{project_id}/session_recordings/{id}/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.replay#Forbidden"
@@ -1564,14 +1571,7 @@
         {
           "target": "com.posthog.replay#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "DELETE",
-          "uri": "/api/projects/{project_id}/session_recordings/{id}/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.replay#SessionRecordingsBulkDeleteCreateRequestSessionRecordingIdsList": {
       "type": "list",
@@ -1672,45 +1672,6 @@
         "smithy.api#documentation": "Delete a batch of session recordings by session ID. Deletion is permanent and cannot be undone. IDs that don't match an existing recording are skipped and counted in `total_requested` but not `deleted_count`."
       }
     },
-    "com.posthog.replay#BadRequest": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 400,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 400
-          }
-        ]
-      }
-    },
-    "com.posthog.replay#Forbidden": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 403,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 403
-          }
-        ]
-      }
-    },
-    "com.posthog.replay#NotFound": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 404,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 404
-          }
-        ]
-      }
-    },
     "com.posthog.replay#Replay": {
       "type": "service",
       "version": "1.0.0",
@@ -1763,6 +1724,45 @@
       ],
       "traits": {
         "smithy.api#title": "PostHog API"
+      }
+    },
+    "com.posthog.replay#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.posthog.replay#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.posthog.replay#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
       }
     }
   }

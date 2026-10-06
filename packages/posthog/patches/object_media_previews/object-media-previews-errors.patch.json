@@ -1,0 +1,152 @@
+{
+  "description": "From object-media-previews-errors.patch.json: Auto-generated PostHog error responses (400/403/404) for tag \"object_media_previews\". See generate-error-patches.ts.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.object_media_previews#ObjectMediaPreviewsList/errors",
+      "value": [
+        {
+          "target": "com.posthog.object_media_previews#BadRequest"
+        },
+        {
+          "target": "com.posthog.object_media_previews#Forbidden"
+        },
+        {
+          "target": "com.posthog.object_media_previews#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.object_media_previews#ObjectMediaPreviewsCreate/errors",
+      "value": [
+        {
+          "target": "com.posthog.object_media_previews#BadRequest"
+        },
+        {
+          "target": "com.posthog.object_media_previews#Forbidden"
+        },
+        {
+          "target": "com.posthog.object_media_previews#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.object_media_previews#ObjectMediaPreviewsRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.object_media_previews#Forbidden"
+        },
+        {
+          "target": "com.posthog.object_media_previews#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.object_media_previews#ObjectMediaPreviewsUpdate/errors",
+      "value": [
+        {
+          "target": "com.posthog.object_media_previews#BadRequest"
+        },
+        {
+          "target": "com.posthog.object_media_previews#Forbidden"
+        },
+        {
+          "target": "com.posthog.object_media_previews#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.object_media_previews#ObjectMediaPreviewsPartialUpdate/errors",
+      "value": [
+        {
+          "target": "com.posthog.object_media_previews#BadRequest"
+        },
+        {
+          "target": "com.posthog.object_media_previews#Forbidden"
+        },
+        {
+          "target": "com.posthog.object_media_previews#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.object_media_previews#ObjectMediaPreviewsDestroy/errors",
+      "value": [
+        {
+          "target": "com.posthog.object_media_previews#Forbidden"
+        },
+        {
+          "target": "com.posthog.object_media_previews#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.object_media_previews#ObjectMediaPreviewsPreferredForEventRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.object_media_previews#Forbidden"
+        },
+        {
+          "target": "com.posthog.object_media_previews#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.object_media_previews#BadRequest",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 400
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.object_media_previews#Forbidden",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 403
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.object_media_previews#NotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

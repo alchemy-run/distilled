@@ -83,7 +83,12 @@ export function getValueAtPath(obj: unknown, pointer: string): unknown {
 }
 
 /** Set a value at a JSON Pointer path. */
-export function setValueAtPath(obj: unknown, pointer: string, value: unknown): void {
+export function setValueAtPath(
+  obj: unknown,
+  pointer: string,
+  value: unknown,
+  mode: "add" | "replace" = "add",
+): void {
   const segments = parseJsonPointer(pointer);
   if (segments.length === 0) {
     throw new Error("Cannot set value at root path");
@@ -111,8 +116,17 @@ export function setValueAtPath(obj: unknown, pointer: string, value: unknown): v
   if (Array.isArray(current)) {
     if (lastSegment === "-") {
       current.push(value);
-    } else {
+    } else if (mode === "replace") {
       current[parseInt(lastSegment, 10)] = value;
+    } else {
+      // RFC 6902 §4.1: `add` at an array index inserts before it.
+      const index = parseInt(lastSegment, 10);
+      if (Number.isNaN(index) || index < 0 || index > current.length) {
+        throw new StaleTargetError(
+          `JSON pointer ${pointer} index '${lastSegment}' is out of bounds`,
+        );
+      }
+      current.splice(index, 0, value);
     }
   } else {
     (current as Record<string, unknown>)[lastSegment] = value;
@@ -179,7 +193,7 @@ export function applyOperation(obj: unknown, operation: JsonPatchOperation): voi
       if (existing === undefined) {
         throw new StaleTargetError(`JSON pointer ${operation.path} does not exist`);
       }
-      setValueAtPath(obj, operation.path, operation.value);
+      setValueAtPath(obj, operation.path, operation.value, "replace");
       break;
     }
     case "move": {

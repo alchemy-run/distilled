@@ -1,0 +1,140 @@
+{
+  "description": "From experiment-saved-metrics-errors.patch.json: Auto-generated PostHog error responses (400/403/404) for tag \"experiment_saved_metrics\". See generate-error-patches.ts.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.experiment_saved_metrics#ExperimentSavedMetricsList/errors",
+      "value": [
+        {
+          "target": "com.posthog.experiment_saved_metrics#BadRequest"
+        },
+        {
+          "target": "com.posthog.experiment_saved_metrics#Forbidden"
+        },
+        {
+          "target": "com.posthog.experiment_saved_metrics#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.experiment_saved_metrics#ExperimentSavedMetricsCreate/errors",
+      "value": [
+        {
+          "target": "com.posthog.experiment_saved_metrics#BadRequest"
+        },
+        {
+          "target": "com.posthog.experiment_saved_metrics#Forbidden"
+        },
+        {
+          "target": "com.posthog.experiment_saved_metrics#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.experiment_saved_metrics#ExperimentSavedMetricsRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.experiment_saved_metrics#Forbidden"
+        },
+        {
+          "target": "com.posthog.experiment_saved_metrics#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.experiment_saved_metrics#ExperimentSavedMetricsUpdate/errors",
+      "value": [
+        {
+          "target": "com.posthog.experiment_saved_metrics#BadRequest"
+        },
+        {
+          "target": "com.posthog.experiment_saved_metrics#Forbidden"
+        },
+        {
+          "target": "com.posthog.experiment_saved_metrics#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.experiment_saved_metrics#ExperimentSavedMetricsPartialUpdate/errors",
+      "value": [
+        {
+          "target": "com.posthog.experiment_saved_metrics#BadRequest"
+        },
+        {
+          "target": "com.posthog.experiment_saved_metrics#Forbidden"
+        },
+        {
+          "target": "com.posthog.experiment_saved_metrics#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.experiment_saved_metrics#ExperimentSavedMetricsDestroy/errors",
+      "value": [
+        {
+          "target": "com.posthog.experiment_saved_metrics#Forbidden"
+        },
+        {
+          "target": "com.posthog.experiment_saved_metrics#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.experiment_saved_metrics#BadRequest",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 400
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.experiment_saved_metrics#Forbidden",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 403
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.experiment_saved_metrics#NotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

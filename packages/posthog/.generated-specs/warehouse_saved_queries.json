@@ -441,6 +441,14 @@
       "output": {
         "target": "com.posthog.warehouse_saved_queries#PaginatedDataWarehouseSavedQueryMinimalList"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/warehouse_saved_queries/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create, Read, Update and Delete Warehouse Tables."
+      },
       "errors": [
         {
           "target": "com.posthog.warehouse_saved_queries#BadRequest"
@@ -451,15 +459,7 @@
         {
           "target": "com.posthog.warehouse_saved_queries#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/warehouse_saved_queries/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Create, Read, Update and Delete Warehouse Tables."
-      }
+      ]
     },
     "com.posthog.warehouse_saved_queries#CreateWarehouseSavedQueryRequestQueryKind": {
       "type": "enum",
@@ -1247,6 +1247,14 @@
       "output": {
         "target": "com.posthog.warehouse_saved_queries#DataWarehouseSavedQueryOutput"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/warehouse_saved_queries/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create, Read, Update and Delete Warehouse Tables."
+      },
       "errors": [
         {
           "target": "com.posthog.warehouse_saved_queries#BadRequest"
@@ -1257,15 +1265,7 @@
         {
           "target": "com.posthog.warehouse_saved_queries#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/warehouse_saved_queries/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Create, Read, Update and Delete Warehouse Tables."
-      }
+      ]
     },
     "com.posthog.warehouse_saved_queries#GetWarehouseSavedQueryRequest": {
       "type": "structure",
@@ -1299,14 +1299,6 @@
       "output": {
         "target": "com.posthog.warehouse_saved_queries#DataWarehouseSavedQueryOutput"
       },
-      "errors": [
-        {
-          "target": "com.posthog.warehouse_saved_queries#Forbidden"
-        },
-        {
-          "target": "com.posthog.warehouse_saved_queries#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -1314,7 +1306,15 @@
           "code": 200
         },
         "smithy.api#documentation": "Create, Read, Update and Delete Warehouse Tables."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.posthog.warehouse_saved_queries#Forbidden"
+        },
+        {
+          "target": "com.posthog.warehouse_saved_queries#NotFound"
+        }
+      ]
     },
     "com.posthog.warehouse_saved_queries#UpdateWarehouseSavedQueryRequestQueryKind": {
       "type": "enum",
@@ -1444,6 +1444,14 @@
       "output": {
         "target": "com.posthog.warehouse_saved_queries#DataWarehouseSavedQueryOutput"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/api/projects/{project_id}/warehouse_saved_queries/{id}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create, Read, Update and Delete Warehouse Tables."
+      },
       "errors": [
         {
           "target": "com.posthog.warehouse_saved_queries#BadRequest"
@@ -1454,15 +1462,7 @@
         {
           "target": "com.posthog.warehouse_saved_queries#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/api/projects/{project_id}/warehouse_saved_queries/{id}/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Create, Read, Update and Delete Warehouse Tables."
-      }
+      ]
     },
     "com.posthog.warehouse_saved_queries#UpdateWarehouseSavedQueriesPartialRequestQueryKind": {
       "type": "enum",
@@ -1592,6 +1592,14 @@
       "output": {
         "target": "com.posthog.warehouse_saved_queries#DataWarehouseSavedQueryOutput"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/projects/{project_id}/warehouse_saved_queries/{id}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create, Read, Update and Delete Warehouse Tables."
+      },
       "errors": [
         {
           "target": "com.posthog.warehouse_saved_queries#BadRequest"
@@ -1602,15 +1610,7 @@
         {
           "target": "com.posthog.warehouse_saved_queries#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/api/projects/{project_id}/warehouse_saved_queries/{id}/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Create, Read, Update and Delete Warehouse Tables."
-      }
+      ]
     },
     "com.posthog.warehouse_saved_queries#WarehouseSavedQueriesDestroyRequest": {
       "type": "structure",
@@ -1644,14 +1644,6 @@
       "output": {
         "target": "smithy.api#Unit"
       },
-      "errors": [
-        {
-          "target": "com.posthog.warehouse_saved_queries#Forbidden"
-        },
-        {
-          "target": "com.posthog.warehouse_saved_queries#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -1659,7 +1651,15 @@
           "code": 200
         },
         "smithy.api#documentation": "Create, Read, Update and Delete Warehouse Tables."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.posthog.warehouse_saved_queries#Forbidden"
+        },
+        {
+          "target": "com.posthog.warehouse_saved_queries#NotFound"
+        }
+      ]
     },
     "com.posthog.warehouse_saved_queries#GetWarehouseSavedQueriesActivityRequest": {
       "type": "structure",
@@ -1693,14 +1693,6 @@
       "output": {
         "target": "com.posthog.warehouse_saved_queries#DataWarehouseSavedQueryOutput"
       },
-      "errors": [
-        {
-          "target": "com.posthog.warehouse_saved_queries#Forbidden"
-        },
-        {
-          "target": "com.posthog.warehouse_saved_queries#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -1708,7 +1700,15 @@
           "code": 200
         },
         "smithy.api#documentation": "Create, Read, Update and Delete Warehouse Tables."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.posthog.warehouse_saved_queries#Forbidden"
+        },
+        {
+          "target": "com.posthog.warehouse_saved_queries#NotFound"
+        }
+      ]
     },
     "com.posthog.warehouse_saved_queries#CreateWarehouseSavedQueriesAncestorRequest": {
       "type": "structure",
@@ -1771,6 +1771,14 @@
       "output": {
         "target": "com.posthog.warehouse_saved_queries#SavedQueryAncestors"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/warehouse_saved_queries/{id}/ancestors/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Return the ancestors of this saved query.\n\nBy default, we return every ancestor. The `level` parameter bounds how many hops back\nto walk, so 1 gives the immediate parents."
+      },
       "errors": [
         {
           "target": "com.posthog.warehouse_saved_queries#BadRequest"
@@ -1781,15 +1789,7 @@
         {
           "target": "com.posthog.warehouse_saved_queries#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/warehouse_saved_queries/{id}/ancestors/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Return the ancestors of this saved query.\n\nBy default, we return every ancestor. The `level` parameter bounds how many hops back\nto walk, so 1 gives the immediate parents."
-      }
+      ]
     },
     "com.posthog.warehouse_saved_queries#WarehouseSavedQueriesCancelCreateRequestQueryKind": {
       "type": "enum",
@@ -1919,6 +1919,14 @@
       "output": {
         "target": "com.posthog.warehouse_saved_queries#DataWarehouseSavedQueryOutput"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/warehouse_saved_queries/{id}/cancel/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Cancel a running saved query workflow."
+      },
       "errors": [
         {
           "target": "com.posthog.warehouse_saved_queries#BadRequest"
@@ -1929,15 +1937,7 @@
         {
           "target": "com.posthog.warehouse_saved_queries#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/warehouse_saved_queries/{id}/cancel/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Cancel a running saved query workflow."
-      }
+      ]
     },
     "com.posthog.warehouse_saved_queries#GetWarehouseSavedQueriesDependencyRequest": {
       "type": "structure",
@@ -1991,14 +1991,6 @@
       "output": {
         "target": "com.posthog.warehouse_saved_queries#SavedQueryDependencies"
       },
-      "errors": [
-        {
-          "target": "com.posthog.warehouse_saved_queries#Forbidden"
-        },
-        {
-          "target": "com.posthog.warehouse_saved_queries#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -2006,7 +1998,15 @@
           "code": 200
         },
         "smithy.api#documentation": "Return the count of immediate upstream and downstream dependencies for this saved query."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.posthog.warehouse_saved_queries#Forbidden"
+        },
+        {
+          "target": "com.posthog.warehouse_saved_queries#NotFound"
+        }
+      ]
     },
     "com.posthog.warehouse_saved_queries#CreateWarehouseSavedQueriesDescendantRequest": {
       "type": "structure",
@@ -2069,6 +2069,14 @@
       "output": {
         "target": "com.posthog.warehouse_saved_queries#SavedQueryDescendants"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/warehouse_saved_queries/{id}/descendants/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Return the descendants of this saved query.\n\nBy default, we return every descendant. The `level` parameter bounds how many hops\nforward to walk, so 1 gives the immediate children."
+      },
       "errors": [
         {
           "target": "com.posthog.warehouse_saved_queries#BadRequest"
@@ -2079,15 +2087,7 @@
         {
           "target": "com.posthog.warehouse_saved_queries#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/warehouse_saved_queries/{id}/descendants/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Return the descendants of this saved query.\n\nBy default, we return every descendant. The `level` parameter bounds how many hops\nforward to walk, so 1 gives the immediate children."
-      }
+      ]
     },
     "com.posthog.warehouse_saved_queries#CreateWarehouseSavedQueriesMaterializeRequest": {
       "type": "structure",
@@ -2127,6 +2127,14 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/warehouse_saved_queries/{id}/materialize/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Enable materialization for this saved query, at the requested sync frequency or daily."
+      },
       "errors": [
         {
           "target": "com.posthog.warehouse_saved_queries#BadRequest"
@@ -2137,15 +2145,7 @@
         {
           "target": "com.posthog.warehouse_saved_queries#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/warehouse_saved_queries/{id}/materialize/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Enable materialization for this saved query, at the requested sync frequency or daily."
-      }
+      ]
     },
     "com.posthog.warehouse_saved_queries#WarehouseSavedQueriesResumeCreateRequest": {
       "type": "structure",
@@ -2329,6 +2329,14 @@
       "output": {
         "target": "com.posthog.warehouse_saved_queries#DataWarehouseSavedQueryOutput"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/warehouse_saved_queries/{id}/revert_materialization/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Undo materialization, revert back to the original view.\n(i.e. delete the materialized table and the schedule)"
+      },
       "errors": [
         {
           "target": "com.posthog.warehouse_saved_queries#BadRequest"
@@ -2339,15 +2347,7 @@
         {
           "target": "com.posthog.warehouse_saved_queries#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/warehouse_saved_queries/{id}/revert_materialization/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Undo materialization, revert back to the original view.\n(i.e. delete the materialized table and the schedule)"
-      }
+      ]
     },
     "com.posthog.warehouse_saved_queries#CreateWarehouseSavedQueriesRunRequest": {
       "type": "structure",
@@ -2387,6 +2387,14 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/warehouse_saved_queries/{id}/run/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Run this saved query."
+      },
       "errors": [
         {
           "target": "com.posthog.warehouse_saved_queries#BadRequest"
@@ -2397,15 +2405,7 @@
         {
           "target": "com.posthog.warehouse_saved_queries#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/warehouse_saved_queries/{id}/run/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Run this saved query."
-      }
+      ]
     },
     "com.posthog.warehouse_saved_queries#GetWarehouseSavedQueriesRunHistoryRequest": {
       "type": "structure",
@@ -2439,14 +2439,6 @@
       "output": {
         "target": "com.posthog.warehouse_saved_queries#DataWarehouseSavedQueryOutput"
       },
-      "errors": [
-        {
-          "target": "com.posthog.warehouse_saved_queries#Forbidden"
-        },
-        {
-          "target": "com.posthog.warehouse_saved_queries#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -2454,7 +2446,15 @@
           "code": 200
         },
         "smithy.api#documentation": "Return the recent run history (up to 5 most recent) for this materialized view."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.posthog.warehouse_saved_queries#Forbidden"
+        },
+        {
+          "target": "com.posthog.warehouse_saved_queries#NotFound"
+        }
+      ]
     },
     "com.posthog.warehouse_saved_queries#CreateWarehouseSavedQueriesCheckIncrementalRequestUniqueKeyList": {
       "type": "list",
@@ -2663,6 +2663,14 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/warehouse_saved_queries/resume_schedules/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Resume materialization for several models that were suspended after repeated failures.\n\nAccepts a list of view IDs in the request body: {\"view_ids\": [\"id1\", \"id2\", ...]}\nThis endpoint is idempotent - calling it on models that are already running is safe."
+      },
       "errors": [
         {
           "target": "com.posthog.warehouse_saved_queries#BadRequest"
@@ -2673,54 +2681,7 @@
         {
           "target": "com.posthog.warehouse_saved_queries#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/warehouse_saved_queries/resume_schedules/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Resume materialization for several models that were suspended after repeated failures.\n\nAccepts a list of view IDs in the request body: {\"view_ids\": [\"id1\", \"id2\", ...]}\nThis endpoint is idempotent - calling it on models that are already running is safe."
-      }
-    },
-    "com.posthog.warehouse_saved_queries#BadRequest": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 400,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 400
-          }
-        ]
-      }
-    },
-    "com.posthog.warehouse_saved_queries#Forbidden": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 403,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 403
-          }
-        ]
-      }
-    },
-    "com.posthog.warehouse_saved_queries#NotFound": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 404,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 404
-          }
-        ]
-      }
+      ]
     },
     "com.posthog.warehouse_saved_queries#WarehouseSavedQueries": {
       "type": "service",
@@ -2783,6 +2744,45 @@
       ],
       "traits": {
         "smithy.api#title": "PostHog API"
+      }
+    },
+    "com.posthog.warehouse_saved_queries#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.posthog.warehouse_saved_queries#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.posthog.warehouse_saved_queries#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
       }
     }
   }

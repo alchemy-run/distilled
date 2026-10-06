@@ -1,0 +1,140 @@
+{
+  "description": "From web-experiments-errors.patch.json: Auto-generated PostHog error responses (400/403/404) for tag \"web_experiments\". See generate-error-patches.ts.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.web_experiments#WebExperimentsList/errors",
+      "value": [
+        {
+          "target": "com.posthog.web_experiments#BadRequest"
+        },
+        {
+          "target": "com.posthog.web_experiments#Forbidden"
+        },
+        {
+          "target": "com.posthog.web_experiments#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.web_experiments#WebExperimentsCreate/errors",
+      "value": [
+        {
+          "target": "com.posthog.web_experiments#BadRequest"
+        },
+        {
+          "target": "com.posthog.web_experiments#Forbidden"
+        },
+        {
+          "target": "com.posthog.web_experiments#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.web_experiments#WebExperimentsRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.web_experiments#Forbidden"
+        },
+        {
+          "target": "com.posthog.web_experiments#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.web_experiments#WebExperimentsUpdate/errors",
+      "value": [
+        {
+          "target": "com.posthog.web_experiments#BadRequest"
+        },
+        {
+          "target": "com.posthog.web_experiments#Forbidden"
+        },
+        {
+          "target": "com.posthog.web_experiments#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.web_experiments#WebExperimentsPartialUpdate/errors",
+      "value": [
+        {
+          "target": "com.posthog.web_experiments#BadRequest"
+        },
+        {
+          "target": "com.posthog.web_experiments#Forbidden"
+        },
+        {
+          "target": "com.posthog.web_experiments#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.web_experiments#WebExperimentsDestroy/errors",
+      "value": [
+        {
+          "target": "com.posthog.web_experiments#Forbidden"
+        },
+        {
+          "target": "com.posthog.web_experiments#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.web_experiments#BadRequest",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 400
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.web_experiments#Forbidden",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 403
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.web_experiments#NotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

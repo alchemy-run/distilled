@@ -229,14 +229,6 @@
       "output": {
         "target": "com.axiom.api#Annotation"
       },
-      "errors": [
-        {
-          "target": "com.axiom.api#BadRequest"
-        },
-        {
-          "target": "com.axiom.api#UnprocessableEntity"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -244,7 +236,15 @@
           "code": 200
         },
         "smithy.api#documentation": "Create annotation"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.axiom.api#BadRequest"
+        },
+        {
+          "target": "com.axiom.api#UnprocessableEntity"
+        }
+      ]
     },
     "com.axiom.api#GetAnnotationRequest": {
       "type": "structure",
@@ -270,14 +270,6 @@
       "output": {
         "target": "com.axiom.api#Annotation"
       },
-      "errors": [
-        {
-          "target": "com.axiom.api#BadRequest"
-        },
-        {
-          "target": "com.axiom.api#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -285,7 +277,15 @@
           "code": 200
         },
         "smithy.api#documentation": "Get annotation by ID"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.axiom.api#BadRequest"
+        },
+        {
+          "target": "com.axiom.api#NotFound"
+        }
+      ]
     },
     "com.axiom.api#UpdateAnnotationRequestDatasetsList": {
       "type": "list",
@@ -362,6 +362,14 @@
       "output": {
         "target": "com.axiom.api#Annotation"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/v2/annotations/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update annotation"
+      },
       "errors": [
         {
           "target": "com.axiom.api#BadRequest"
@@ -372,15 +380,7 @@
         {
           "target": "com.axiom.api#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/v2/annotations/{id}",
-          "code": 200
-        },
-        "smithy.api#documentation": "Update annotation"
-      }
+      ]
     },
     "com.axiom.api#DeleteAnnotationRequest": {
       "type": "structure",
@@ -406,14 +406,6 @@
       "output": {
         "target": "smithy.api#Unit"
       },
-      "errors": [
-        {
-          "target": "com.axiom.api#BadRequest"
-        },
-        {
-          "target": "com.axiom.api#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -421,7 +413,15 @@
           "code": 200
         },
         "smithy.api#documentation": "Delete annotation"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.axiom.api#BadRequest"
+        },
+        {
+          "target": "com.axiom.api#NotFound"
+        }
+      ]
     },
     "com.axiom.api#Dataset": {
       "type": "structure",
@@ -1128,18 +1128,18 @@
       "output": {
         "target": "com.axiom.api#DatasetField"
       },
-      "errors": [
-        {
-          "target": "com.axiom.api#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
           "uri": "/v2/datasets/{dataset_id}/fields/{field_id}",
           "code": 200
         }
-      }
+      },
+      "errors": [
+        {
+          "target": "com.axiom.api#NotFound"
+        }
+      ]
     },
     "com.axiom.api#UpdateFieldForDatasetRequest": {
       "type": "structure",
@@ -1203,6 +1203,13 @@
       "output": {
         "target": "com.axiom.api#DatasetField"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/v2/datasets/{dataset_id}/fields/{field_id}",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.axiom.api#NotFound"
@@ -1210,14 +1217,7 @@
         {
           "target": "com.axiom.api#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/v2/datasets/{dataset_id}/fields/{field_id}",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.axiom.api#DeleteFieldForDatasetRequest": {
       "type": "structure",
@@ -1316,18 +1316,18 @@
       "output": {
         "target": "com.axiom.api#GetMapFieldsResponse"
       },
-      "errors": [
-        {
-          "target": "com.axiom.api#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
           "uri": "/v2/datasets/{dataset_id}/mapfields",
           "code": 200
         }
-      }
+      },
+      "errors": [
+        {
+          "target": "com.axiom.api#NotFound"
+        }
+      ]
     },
     "com.axiom.api#CreateMapFieldRequest": {
       "type": "structure",
@@ -1372,6 +1372,13 @@
       "output": {
         "target": "com.axiom.api#MapField"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v2/datasets/{dataset_id}/mapfields",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.axiom.api#NotFound"
@@ -1379,14 +1386,7 @@
         {
           "target": "com.axiom.api#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/v2/datasets/{dataset_id}/mapfields",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.axiom.api#UpdateMapFieldsRequest": {
       "type": "structure",
@@ -1433,18 +1433,18 @@
       "output": {
         "target": "com.axiom.api#UpdateMapFieldsResponse"
       },
-      "errors": [
-        {
-          "target": "com.axiom.api#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "PUT",
           "uri": "/v2/datasets/{dataset_id}/mapfields",
           "code": 200
         }
-      }
+      },
+      "errors": [
+        {
+          "target": "com.axiom.api#NotFound"
+        }
+      ]
     },
     "com.axiom.api#DeleteMapFieldRequest": {
       "type": "structure",
@@ -1476,18 +1476,18 @@
       "output": {
         "target": "smithy.api#Unit"
       },
-      "errors": [
-        {
-          "target": "com.axiom.api#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
           "uri": "/v2/datasets/{dataset_id}/mapfields/{map_field_name}",
           "code": 200
         }
-      }
+      },
+      "errors": [
+        {
+          "target": "com.axiom.api#NotFound"
+        }
+      ]
     },
     "com.axiom.api#MonitorWithId": {
       "type": "structure",
@@ -2270,11 +2270,6 @@
       "output": {
         "target": "com.axiom.api#CreateMonitorResponse"
       },
-      "errors": [
-        {
-          "target": "com.axiom.api#UnprocessableEntity"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -2282,7 +2277,12 @@
           "code": 200
         },
         "smithy.api#documentation": "Create monitor"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.axiom.api#UnprocessableEntity"
+        }
+      ]
     },
     "com.axiom.api#GetMonitorRequest": {
       "type": "structure",
@@ -2555,11 +2555,6 @@
       "output": {
         "target": "com.axiom.api#GetMonitorResponse"
       },
-      "errors": [
-        {
-          "target": "com.axiom.api#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -2567,7 +2562,12 @@
           "code": 200
         },
         "smithy.api#documentation": "Retrieves detailed configuration for a specific monitor by its unique identifier"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.axiom.api#NotFound"
+        }
+      ]
     },
     "com.axiom.api#UpdateMonitorRequestNotifierIdsList": {
       "type": "list",
@@ -3071,14 +3071,6 @@
       "output": {
         "target": "com.axiom.api#UpdateMonitorResponse"
       },
-      "errors": [
-        {
-          "target": "com.axiom.api#NotFound"
-        },
-        {
-          "target": "com.axiom.api#UnprocessableEntity"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "PUT",
@@ -3086,7 +3078,15 @@
           "code": 200
         },
         "smithy.api#documentation": "Update monitor"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.axiom.api#NotFound"
+        },
+        {
+          "target": "com.axiom.api#UnprocessableEntity"
+        }
+      ]
     },
     "com.axiom.api#DeleteMonitorRequest": {
       "type": "structure",
@@ -3111,11 +3111,6 @@
       "output": {
         "target": "smithy.api#Unit"
       },
-      "errors": [
-        {
-          "target": "com.axiom.api#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -3123,7 +3118,12 @@
           "code": 200
         },
         "smithy.api#documentation": "Delete monitor"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.axiom.api#NotFound"
+        }
+      ]
     },
     "com.axiom.api#GetMonitorHistoryRequest": {
       "type": "structure",
@@ -3242,14 +3242,6 @@
       "output": {
         "target": "com.axiom.api#GetMonitorHistoryResponse"
       },
-      "errors": [
-        {
-          "target": "com.axiom.api#NotFound"
-        },
-        {
-          "target": "com.axiom.api#UnprocessableEntity"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -3257,7 +3249,15 @@
           "code": 200
         },
         "smithy.api#documentation": "Get monitor history"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.axiom.api#NotFound"
+        },
+        {
+          "target": "com.axiom.api#UnprocessableEntity"
+        }
+      ]
     },
     "com.axiom.api#NotifierWithId": {
       "type": "structure",
@@ -3668,11 +3668,6 @@
       "output": {
         "target": "com.axiom.api#CreateNotifierResponse"
       },
-      "errors": [
-        {
-          "target": "com.axiom.api#UnprocessableEntity"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -3680,7 +3675,12 @@
           "code": 200
         },
         "smithy.api#documentation": "Creates a new notifier configuration for sending alerts through various channels (Slack, Email, etc)"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.axiom.api#UnprocessableEntity"
+        }
+      ]
     },
     "com.axiom.api#GetNotifierRequest": {
       "type": "structure",
@@ -3757,11 +3757,6 @@
       "output": {
         "target": "com.axiom.api#GetNotifierResponse"
       },
-      "errors": [
-        {
-          "target": "com.axiom.api#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -3769,7 +3764,12 @@
           "code": 200
         },
         "smithy.api#documentation": "Retrieves detailed configuration for a specific notifier by its unique identifier"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.axiom.api#NotFound"
+        }
+      ]
     },
     "com.axiom.api#UpdateNotifierRequest": {
       "type": "structure",
@@ -3864,14 +3864,6 @@
       "output": {
         "target": "com.axiom.api#UpdateNotifierResponse"
       },
-      "errors": [
-        {
-          "target": "com.axiom.api#NotFound"
-        },
-        {
-          "target": "com.axiom.api#UnprocessableEntity"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "PUT",
@@ -3879,7 +3871,15 @@
           "code": 200
         },
         "smithy.api#documentation": "Update notifier"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.axiom.api#NotFound"
+        },
+        {
+          "target": "com.axiom.api#UnprocessableEntity"
+        }
+      ]
     },
     "com.axiom.api#DeleteNotifierRequest": {
       "type": "structure",
@@ -3904,11 +3904,6 @@
       "output": {
         "target": "smithy.api#Unit"
       },
-      "errors": [
-        {
-          "target": "com.axiom.api#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -3916,7 +3911,12 @@
           "code": 200
         },
         "smithy.api#documentation": "Delete notifier"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.axiom.api#NotFound"
+        }
+      ]
     },
     "com.axiom.api#Org": {
       "type": "structure",
@@ -4405,18 +4405,18 @@
       "output": {
         "target": "com.axiom.api#Org"
       },
-      "errors": [
-        {
-          "target": "com.axiom.api#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
           "uri": "/v2/orgs/{id}",
           "code": 200
         }
-      }
+      },
+      "errors": [
+        {
+          "target": "com.axiom.api#NotFound"
+        }
+      ]
     },
     "com.axiom.api#UpdateOrgRequest": {
       "type": "structure",
@@ -4447,18 +4447,18 @@
       "output": {
         "target": "com.axiom.api#Org"
       },
-      "errors": [
-        {
-          "target": "com.axiom.api#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "PUT",
           "uri": "/v2/orgs/{id}",
           "code": 200
         }
-      }
+      },
+      "errors": [
+        {
+          "target": "com.axiom.api#NotFound"
+        }
+      ]
     },
     "com.axiom.api#RoleWithID": {
       "type": "structure",
@@ -5663,11 +5663,6 @@
       "output": {
         "target": "com.axiom.api#CreateRoleResponse"
       },
-      "errors": [
-        {
-          "target": "com.axiom.api#UnprocessableEntity"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -5675,7 +5670,12 @@
           "code": 200
         },
         "smithy.api#documentation": "Create role\n\nCreates a new role in the organization with the specified permissions and member assignments."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.axiom.api#UnprocessableEntity"
+        }
+      ]
     },
     "com.axiom.api#GetRoleByIdRequest": {
       "type": "structure",
@@ -5753,11 +5753,6 @@
       "output": {
         "target": "com.axiom.api#GetRoleByIdResponse"
       },
-      "errors": [
-        {
-          "target": "com.axiom.api#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -5765,7 +5760,12 @@
           "code": 200
         },
         "smithy.api#documentation": "Get role by ID\n\nRetrieves detailed information about a specific role by its unique identifier."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.axiom.api#NotFound"
+        }
+      ]
     },
     "com.axiom.api#UpdateRoleRequestMembersList": {
       "type": "list",
@@ -5880,14 +5880,6 @@
       "output": {
         "target": "com.axiom.api#UpdateRoleResponse"
       },
-      "errors": [
-        {
-          "target": "com.axiom.api#NotFound"
-        },
-        {
-          "target": "com.axiom.api#UnprocessableEntity"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "PUT",
@@ -5895,7 +5887,15 @@
           "code": 200
         },
         "smithy.api#documentation": "Update role\n\nUpdates an existing role's configuration including its permissions and member assignments."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.axiom.api#NotFound"
+        },
+        {
+          "target": "com.axiom.api#UnprocessableEntity"
+        }
+      ]
     },
     "com.axiom.api#DeleteRoleRequest": {
       "type": "structure",
@@ -5921,11 +5921,6 @@
       "output": {
         "target": "smithy.api#Unit"
       },
-      "errors": [
-        {
-          "target": "com.axiom.api#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -5933,7 +5928,12 @@
           "code": 200
         },
         "smithy.api#documentation": "Delete role\n\nPermanently removes a role from the organization."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.axiom.api#NotFound"
+        }
+      ]
     },
     "com.axiom.api#GroupWithID": {
       "type": "structure",
@@ -6161,11 +6161,6 @@
       "output": {
         "target": "com.axiom.api#CreateGroupResponse"
       },
-      "errors": [
-        {
-          "target": "com.axiom.api#UnprocessableEntity"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -6173,7 +6168,12 @@
           "code": 200
         },
         "smithy.api#documentation": "Create group\n\nCreates a new group in the organization."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.axiom.api#UnprocessableEntity"
+        }
+      ]
     },
     "com.axiom.api#GetGroupByIdRequest": {
       "type": "structure",
@@ -6263,11 +6263,6 @@
       "output": {
         "target": "com.axiom.api#GetGroupByIdResponse"
       },
-      "errors": [
-        {
-          "target": "com.axiom.api#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -6275,7 +6270,12 @@
           "code": 200
         },
         "smithy.api#documentation": "Get group by ID\n\nRetrieves detailed information about a specific group by its unique identifier."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.axiom.api#NotFound"
+        }
+      ]
     },
     "com.axiom.api#UpdateGroupRequestMembersList": {
       "type": "list",
@@ -6408,14 +6408,6 @@
       "output": {
         "target": "com.axiom.api#UpdateGroupResponse"
       },
-      "errors": [
-        {
-          "target": "com.axiom.api#NotFound"
-        },
-        {
-          "target": "com.axiom.api#UnprocessableEntity"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "PUT",
@@ -6423,7 +6415,15 @@
           "code": 200
         },
         "smithy.api#documentation": "Update group\n\nUpdates an existing group's configuration."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.axiom.api#NotFound"
+        },
+        {
+          "target": "com.axiom.api#UnprocessableEntity"
+        }
+      ]
     },
     "com.axiom.api#DeleteGroupRequest": {
       "type": "structure",
@@ -6449,11 +6449,6 @@
       "output": {
         "target": "smithy.api#Unit"
       },
-      "errors": [
-        {
-          "target": "com.axiom.api#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -6461,7 +6456,12 @@
           "code": 200
         },
         "smithy.api#documentation": "Delete group\n\nPermanently removes a group from the organization."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.axiom.api#NotFound"
+        }
+      ]
     },
     "com.axiom.api#GetStarredQueriesRequest": {
       "type": "structure",
@@ -7024,18 +7024,18 @@
       "output": {
         "target": "com.axiom.api#CreateStarredResponse"
       },
-      "errors": [
-        {
-          "target": "com.axiom.api#UnprocessableEntity"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
           "uri": "/v2/apl-starred-queries",
           "code": 200
         }
-      }
+      },
+      "errors": [
+        {
+          "target": "com.axiom.api#UnprocessableEntity"
+        }
+      ]
     },
     "com.axiom.api#GetStarredRequest": {
       "type": "structure",
@@ -7129,18 +7129,18 @@
       "output": {
         "target": "com.axiom.api#GetStarredResponse"
       },
-      "errors": [
-        {
-          "target": "com.axiom.api#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
           "uri": "/v2/apl-starred-queries/{id}",
           "code": 200
         }
-      }
+      },
+      "errors": [
+        {
+          "target": "com.axiom.api#NotFound"
+        }
+      ]
     },
     "com.axiom.api#UpdateStarredRequestKind": {
       "type": "enum",
@@ -7289,6 +7289,13 @@
       "output": {
         "target": "com.axiom.api#UpdateStarredResponse"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/v2/apl-starred-queries/{id}",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.axiom.api#NotFound"
@@ -7296,14 +7303,7 @@
         {
           "target": "com.axiom.api#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/v2/apl-starred-queries/{id}",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.axiom.api#DeleteStarredRequest": {
       "type": "structure",
@@ -7328,18 +7328,18 @@
       "output": {
         "target": "smithy.api#Unit"
       },
-      "errors": [
-        {
-          "target": "com.axiom.api#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
           "uri": "/v2/apl-starred-queries/{id}",
           "code": 200
         }
-      }
+      },
+      "errors": [
+        {
+          "target": "com.axiom.api#NotFound"
+        }
+      ]
     },
     "com.axiom.api#APIToken": {
       "type": "structure",
@@ -8533,11 +8533,6 @@
       "output": {
         "target": "com.axiom.api#CreateAPITokenResponse"
       },
-      "errors": [
-        {
-          "target": "com.axiom.api#UnprocessableEntity"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -8545,7 +8540,12 @@
           "code": 200
         },
         "smithy.api#documentation": "Create API token"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.axiom.api#UnprocessableEntity"
+        }
+      ]
     },
     "com.axiom.api#GetAPITokenRequest": {
       "type": "structure",
@@ -8570,11 +8570,6 @@
       "output": {
         "target": "com.axiom.api#APIToken"
       },
-      "errors": [
-        {
-          "target": "com.axiom.api#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -8582,7 +8577,12 @@
           "code": 200
         },
         "smithy.api#documentation": "Get API token by ID"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.axiom.api#NotFound"
+        }
+      ]
     },
     "com.axiom.api#DeleteAPITokenRequest": {
       "type": "structure",
@@ -8607,11 +8607,6 @@
       "output": {
         "target": "smithy.api#Unit"
       },
-      "errors": [
-        {
-          "target": "com.axiom.api#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -8619,7 +8614,12 @@
           "code": 200
         },
         "smithy.api#documentation": "Delete API token"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.axiom.api#NotFound"
+        }
+      ]
     },
     "com.axiom.api#CreateAPIToken2": {
       "type": "structure",
@@ -8752,14 +8752,6 @@
       "output": {
         "target": "com.axiom.api#RegenerateAPITokenResponse"
       },
-      "errors": [
-        {
-          "target": "com.axiom.api#NotFound"
-        },
-        {
-          "target": "com.axiom.api#UnprocessableEntity"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -8767,7 +8759,15 @@
           "code": 200
         },
         "smithy.api#documentation": "Regenerate API token"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.axiom.api#NotFound"
+        },
+        {
+          "target": "com.axiom.api#UnprocessableEntity"
+        }
+      ]
     },
     "com.axiom.api#User": {
       "type": "structure",
@@ -8948,14 +8948,6 @@
       "output": {
         "target": "com.axiom.api#User"
       },
-      "errors": [
-        {
-          "target": "com.axiom.api#BadRequest"
-        },
-        {
-          "target": "com.axiom.api#UnprocessableEntity"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -8963,7 +8955,15 @@
           "code": 200
         },
         "smithy.api#documentation": "Create user"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.axiom.api#BadRequest"
+        },
+        {
+          "target": "com.axiom.api#UnprocessableEntity"
+        }
+      ]
     },
     "com.axiom.api#GetUserRequest": {
       "type": "structure",
@@ -8988,11 +8988,6 @@
       "output": {
         "target": "com.axiom.api#User"
       },
-      "errors": [
-        {
-          "target": "com.axiom.api#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -9000,7 +8995,12 @@
           "code": 200
         },
         "smithy.api#documentation": "Get user by ID"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.axiom.api#NotFound"
+        }
+      ]
     },
     "com.axiom.api#RemoveUserFromOrgRequest": {
       "type": "structure",
@@ -9025,11 +9025,6 @@
       "output": {
         "target": "smithy.api#Unit"
       },
-      "errors": [
-        {
-          "target": "com.axiom.api#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -9037,7 +9032,12 @@
           "code": 200
         },
         "smithy.api#documentation": "Remove user from org"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.axiom.api#NotFound"
+        }
+      ]
     },
     "com.axiom.api#UpdateUserRoleRequest": {
       "type": "structure",
@@ -9069,14 +9069,6 @@
       "output": {
         "target": "com.axiom.api#User"
       },
-      "errors": [
-        {
-          "target": "com.axiom.api#NotFound"
-        },
-        {
-          "target": "com.axiom.api#UnprocessableEntity"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "PUT",
@@ -9084,7 +9076,15 @@
           "code": 200
         },
         "smithy.api#documentation": "Update user role"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.axiom.api#NotFound"
+        },
+        {
+          "target": "com.axiom.api#UnprocessableEntity"
+        }
+      ]
     },
     "com.axiom.api#GetVirtualFieldsRequest": {
       "type": "structure",
@@ -9262,18 +9262,18 @@
       "output": {
         "target": "com.axiom.api#CreateVirtualFieldResponse"
       },
-      "errors": [
-        {
-          "target": "com.axiom.api#UnprocessableEntity"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
           "uri": "/v2/vfields",
           "code": 200
         }
-      }
+      },
+      "errors": [
+        {
+          "target": "com.axiom.api#UnprocessableEntity"
+        }
+      ]
     },
     "com.axiom.api#GetVirtualFieldRequest": {
       "type": "structure",
@@ -9339,18 +9339,18 @@
       "output": {
         "target": "com.axiom.api#GetVirtualFieldResponse"
       },
-      "errors": [
-        {
-          "target": "com.axiom.api#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
           "uri": "/v2/vfields/{id}",
           "code": 200
         }
-      }
+      },
+      "errors": [
+        {
+          "target": "com.axiom.api#NotFound"
+        }
+      ]
     },
     "com.axiom.api#UpdateVirtualFieldRequest": {
       "type": "structure",
@@ -9443,6 +9443,13 @@
       "output": {
         "target": "com.axiom.api#UpdateVirtualFieldResponse"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/v2/vfields/{id}",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.axiom.api#NotFound"
@@ -9450,14 +9457,7 @@
         {
           "target": "com.axiom.api#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/v2/vfields/{id}",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.axiom.api#DeleteVirtualFieldRequest": {
       "type": "structure",
@@ -9482,18 +9482,18 @@
       "output": {
         "target": "smithy.api#Unit"
       },
-      "errors": [
-        {
-          "target": "com.axiom.api#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
           "uri": "/v2/vfields/{id}",
           "code": 200
         }
-      }
+      },
+      "errors": [
+        {
+          "target": "com.axiom.api#NotFound"
+        }
+      ]
     },
     "com.axiom.api#View": {
       "type": "structure",
@@ -9629,18 +9629,18 @@
       "output": {
         "target": "com.axiom.api#View"
       },
-      "errors": [
-        {
-          "target": "com.axiom.api#UnprocessableEntity"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
           "uri": "/v2/views",
           "code": 200
         }
-      }
+      },
+      "errors": [
+        {
+          "target": "com.axiom.api#UnprocessableEntity"
+        }
+      ]
     },
     "com.axiom.api#GetViewRequest": {
       "type": "structure",
@@ -9665,18 +9665,18 @@
       "output": {
         "target": "com.axiom.api#View"
       },
-      "errors": [
-        {
-          "target": "com.axiom.api#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
           "uri": "/v2/views/{id}",
           "code": 200
         }
-      }
+      },
+      "errors": [
+        {
+          "target": "com.axiom.api#NotFound"
+        }
+      ]
     },
     "com.axiom.api#UpdateViewRequestDatasetsList": {
       "type": "list",
@@ -9738,6 +9738,13 @@
       "output": {
         "target": "com.axiom.api#View"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/v2/views/{id}",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.axiom.api#NotFound"
@@ -9745,14 +9752,7 @@
         {
           "target": "com.axiom.api#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/v2/views/{id}",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.axiom.api#DeleteViewRequest": {
       "type": "structure",
@@ -9777,18 +9777,18 @@
       "output": {
         "target": "smithy.api#Unit"
       },
-      "errors": [
-        {
-          "target": "com.axiom.api#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
           "uri": "/v2/views/{id}",
           "code": 200
         }
-      }
+      },
+      "errors": [
+        {
+          "target": "com.axiom.api#NotFound"
+        }
+      ]
     },
     "com.axiom.api#ListDashboardsRequest": {
       "type": "structure",
@@ -9858,8 +9858,8 @@
         "version": {
           "target": "com.axiom.api#DashboardResourceVersion",
           "traits": {
-            "smithy.api#documentation": "64-bit server-assigned version (hybrid-logical-clock timestamp). Emitted as either JSON number or JSON string, sometimes exceeding JavaScript Number precision.",
-            "smithy.api#required": {}
+            "smithy.api#required": {},
+            "smithy.api#documentation": "64-bit server-assigned version (hybrid-logical-clock timestamp). Emitted as either JSON number or JSON string, sometimes exceeding JavaScript Number precision."
           }
         }
       },
@@ -11623,20 +11623,6 @@
         "smithy.api#documentation": "Relative time comparison offset. Compares the current time window against a previous period offset by this duration. Mutually exclusive with `againstTimestamp` — setting one clears the other. Use an empty string or omit to disable comparison."
       }
     },
-    "com.axiom.api#DashboardResourceVersion": {
-      "type": "union",
-      "members": {
-        "Case0": {
-          "target": "smithy.api#String"
-        },
-        "Case1": {
-          "target": "smithy.api#Integer"
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "64-bit server-assigned version (hybrid-logical-clock timestamp). Emitted as either JSON number or JSON string, sometimes exceeding JavaScript Number precision."
-      }
-    },
     "com.axiom.api#ListDashboardsResponseBodyList": {
       "type": "list",
       "member": {
@@ -11674,20 +11660,6 @@
           "code": 200
         },
         "smithy.api#documentation": "List dashboards\n\nList dashboards visible to the caller."
-      }
-    },
-    "com.axiom.api#CreateDashboardRequestVersion": {
-      "type": "union",
-      "members": {
-        "Case0": {
-          "target": "smithy.api#String"
-        },
-        "Case1": {
-          "target": "smithy.api#Integer"
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Required for updates when overwrite is false. Pass back the version value received from the server verbatim (string or number)."
       }
     },
     "com.axiom.api#CreateDashboardRequest": {
@@ -11821,20 +11793,6 @@
           "code": 200
         },
         "smithy.api#documentation": "Get dashboard\n\nGet a dashboard by UID."
-      }
-    },
-    "com.axiom.api#UpdateDashboardRequestVersion": {
-      "type": "union",
-      "members": {
-        "Case0": {
-          "target": "smithy.api#String"
-        },
-        "Case1": {
-          "target": "smithy.api#Integer"
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Required for updates when overwrite is false. Pass back the version value received from the server verbatim (string or number)."
       }
     },
     "com.axiom.api#UpdateDashboardRequest": {
@@ -12008,28 +11966,15 @@
         "smithy.api#documentation": "Patch dashboard chart\n\nPatch a single chart in a dashboard by chart ID."
       }
     },
-    "com.axiom.api#BadRequest": {
+    "com.axiom.api#Forbidden": {
       "type": "structure",
       "members": {},
       "traits": {
         "smithy.api#error": "client",
-        "smithy.api#httpError": 400,
+        "smithy.api#httpError": 403,
         "com.distilled.openapi#errorMatchers": [
           {
-            "status": 400
-          }
-        ]
-      }
-    },
-    "com.axiom.api#UnprocessableEntity": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 422,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 422
+            "status": 403
           }
         ]
       }
@@ -12047,15 +11992,15 @@
         ]
       }
     },
-    "com.axiom.api#Forbidden": {
+    "com.axiom.api#BadRequest": {
       "type": "structure",
       "members": {},
       "traits": {
         "smithy.api#error": "client",
-        "smithy.api#httpError": 403,
+        "smithy.api#httpError": 400,
         "com.distilled.openapi#errorMatchers": [
           {
-            "status": 403
+            "status": 400
           }
         ]
       }
@@ -12321,6 +12266,61 @@
       "traits": {
         "smithy.api#title": "Axiom",
         "smithy.api#documentation": "A public and stable API for interacting with axiom services"
+      }
+    },
+    "com.axiom.api#UnprocessableEntity": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 422,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 422
+          }
+        ]
+      }
+    },
+    "com.axiom.api#DashboardResourceVersion": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#String"
+        },
+        "Case1": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "64-bit server-assigned version (hybrid-logical-clock timestamp). Emitted as either JSON number or JSON string, sometimes exceeding JavaScript Number precision."
+      }
+    },
+    "com.axiom.api#CreateDashboardRequestVersion": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#String"
+        },
+        "Case1": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Required for updates when overwrite is false. Pass back the version value received from the server verbatim (string or number)."
+      }
+    },
+    "com.axiom.api#UpdateDashboardRequestVersion": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#String"
+        },
+        "Case1": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Required for updates when overwrite is false. Pass back the version value received from the server verbatim (string or number)."
       }
     }
   }

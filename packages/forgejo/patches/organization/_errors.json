@@ -3,28 +3,55 @@
   "patches": [
     {
       "op": "add",
-      "path": "/paths/~1orgs~1{org}~1teams/get/responses/403",
-      "value": { "$ref": "#/responses/forbidden" }
+      "path": "/shapes/com.forgejo.organization#OrgListActionsSecrets/errors/0",
+      "value": {
+        "target": "com.forgejo.organization#Forbidden"
+      }
     },
     {
       "op": "add",
-      "path": "/paths/~1teams~1{id}~1members/get/responses/403",
-      "value": { "$ref": "#/responses/forbidden" }
+      "path": "/shapes/com.forgejo.organization#GetOrgVariablesList/errors/1",
+      "value": {
+        "target": "com.forgejo.organization#Forbidden"
+      }
     },
     {
       "op": "add",
-      "path": "/paths/~1orgs~1{org}~1actions~1secrets/get/responses/403",
-      "value": { "$ref": "#/responses/forbidden" }
+      "path": "/shapes/com.forgejo.organization#CreateOrgRepo/errors/-",
+      "value": {
+        "target": "com.forgejo.organization#Conflict"
+      }
     },
     {
       "op": "add",
-      "path": "/paths/~1orgs~1{org}~1actions~1variables/get/responses/403",
-      "value": { "$ref": "#/responses/forbidden" }
+      "path": "/shapes/com.forgejo.organization#OrgListTeams/errors/0",
+      "value": {
+        "target": "com.forgejo.organization#Forbidden"
+      }
     },
     {
       "op": "add",
-      "path": "/paths/~1orgs~1{org}~1repos/post/responses/409",
-      "value": { "$ref": "#/responses/conflict" }
+      "path": "/shapes/com.forgejo.organization#OrgListTeamMembers/errors/0",
+      "value": {
+        "target": "com.forgejo.organization#Forbidden"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.forgejo.organization#Conflict",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 409,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 409
+            }
+          ]
+        }
+      }
     }
   ]
 }

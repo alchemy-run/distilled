@@ -1,0 +1,29 @@
+{
+  "description": "From flag-value-errors.patch.json: Auto-generated PostHog error responses (400/403/404) for tag \"flag_value\". See generate-error-patches.ts.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.flag_value#FlagValueValuesRetrieve/errors/1",
+      "value": {
+        "target": "com.posthog.flag_value#Forbidden"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.flag_value#Forbidden",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 403
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

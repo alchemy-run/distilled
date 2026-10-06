@@ -3,33 +3,41 @@
   "patches": [
     {
       "op": "add",
-      "path": "/components/schemas/NeonFunction/properties/current_deployment/nullable",
-      "value": true
+      "path": "/shapes/com.neon.api#NeonFunction/members/current_deployment/traits/com.distilled.openapi#nullable",
+      "value": {}
     },
     {
       "op": "add",
-      "path": "/components/schemas/NeonFunction/properties/active_deployment/nullable",
-      "value": true
+      "path": "/shapes/com.neon.api#NeonFunction/members/active_deployment/traits/com.distilled.openapi#nullable",
+      "value": {}
     },
     {
       "op": "add",
-      "path": "/components/schemas/NeonFunctionDeployment/properties/error/nullable",
-      "value": true
+      "path": "/shapes/com.neon.api#NeonFunctionDeployment/members/environment/traits/com.distilled.openapi#nullable",
+      "value": {}
     },
     {
       "op": "add",
-      "path": "/components/schemas/NeonFunctionDeployment/properties/environment/nullable",
-      "value": true
+      "path": "/shapes/com.neon.api#NeonFunctionDeployment/members/error/traits/com.distilled.openapi#nullable",
+      "value": {}
     },
     {
       "op": "add",
-      "path": "/paths/~1projects~1{project_id}~1branches~1{branch_id}~1functions~1{slug}/get/responses/404",
-      "value": { "$ref": "#/components/responses/GeneralError" }
+      "path": "/shapes/com.neon.api#GetProjectBranchFunction/errors",
+      "value": [
+        {
+          "target": "com.neon.api#NotFound"
+        }
+      ]
     },
     {
       "op": "add",
-      "path": "/paths/~1projects~1{project_id}~1branches~1{branch_id}~1triggers~1{trigger_id}/get/responses/404",
-      "value": { "$ref": "#/components/responses/GeneralError" }
+      "path": "/shapes/com.neon.api#GetProjectBranchTrigger/errors",
+      "value": [
+        {
+          "target": "com.neon.api#NotFound"
+        }
+      ]
     }
   ]
 }

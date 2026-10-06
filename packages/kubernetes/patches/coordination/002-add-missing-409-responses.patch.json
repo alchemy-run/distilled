@@ -1,0 +1,112 @@
+{
+  "description": "From 002-add-missing-409-responses.patch.json: Add 409 Conflict responses to create, replace, delete, and patch operations",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.coordination#CreateCoordinationV1NamespacedLease/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.coordination#Conflict"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.coordination#ReplaceCoordinationV1NamespacedLease/errors/-",
+      "value": {
+        "target": "com.kubernetes.coordination#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.coordination#PatchCoordinationV1NamespacedLease/errors/-",
+      "value": {
+        "target": "com.kubernetes.coordination#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.coordination#DeleteCoordinationV1NamespacedLease/errors/-",
+      "value": {
+        "target": "com.kubernetes.coordination#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.coordination#CreateCoordinationV1alpha2NamespacedLeaseCandidate/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.coordination#Conflict"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.coordination#ReplaceCoordinationV1alpha2NamespacedLeaseCandidate/errors/-",
+      "value": {
+        "target": "com.kubernetes.coordination#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.coordination#PatchCoordinationV1alpha2NamespacedLeaseCandidate/errors/-",
+      "value": {
+        "target": "com.kubernetes.coordination#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.coordination#DeleteCoordinationV1alpha2NamespacedLeaseCandidate/errors/-",
+      "value": {
+        "target": "com.kubernetes.coordination#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.coordination#CreateCoordinationV1beta1NamespacedLeaseCandidate/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.coordination#Conflict"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.coordination#ReplaceCoordinationV1beta1NamespacedLeaseCandidate/errors/-",
+      "value": {
+        "target": "com.kubernetes.coordination#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.coordination#PatchCoordinationV1beta1NamespacedLeaseCandidate/errors/-",
+      "value": {
+        "target": "com.kubernetes.coordination#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.coordination#DeleteCoordinationV1beta1NamespacedLeaseCandidate/errors/-",
+      "value": {
+        "target": "com.kubernetes.coordination#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.coordination#Conflict",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 409,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 409
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

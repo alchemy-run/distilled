@@ -1,0 +1,148 @@
+{
+  "description": "From 001-add-missing-404-responses.patch.json: Add 404 NotFound responses to read, replace, delete, and patch operations",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.batch#ReadBatchV1NamespacedCronJob/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.batch#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.batch#ReplaceBatchV1NamespacedCronJob/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.batch#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.batch#PatchBatchV1NamespacedCronJob/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.batch#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.batch#DeleteBatchV1NamespacedCronJob/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.batch#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.batch#ReadBatchV1NamespacedCronJobStatus/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.batch#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.batch#ReplaceBatchV1NamespacedCronJobStatus/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.batch#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.batch#PatchBatchV1NamespacedCronJobStatus/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.batch#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.batch#ReadBatchV1NamespacedJob/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.batch#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.batch#ReplaceBatchV1NamespacedJob/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.batch#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.batch#PatchBatchV1NamespacedJob/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.batch#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.batch#DeleteBatchV1NamespacedJob/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.batch#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.batch#ReadBatchV1NamespacedJobStatus/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.batch#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.batch#ReplaceBatchV1NamespacedJobStatus/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.batch#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.batch#PatchBatchV1NamespacedJobStatus/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.batch#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.batch#NotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

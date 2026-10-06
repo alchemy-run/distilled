@@ -1,0 +1,142 @@
+{
+  "description": "From 002-add-missing-409-responses.patch.json: Add 409 Conflict responses to create, replace, delete, and patch operations",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.rbac_authorization#CreateRbacAuthorizationV1ClusterRoleBinding/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.rbac_authorization#Conflict"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.rbac_authorization#ReplaceRbacAuthorizationV1ClusterRoleBinding/errors/-",
+      "value": {
+        "target": "com.kubernetes.rbac_authorization#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.rbac_authorization#PatchRbacAuthorizationV1ClusterRoleBinding/errors/-",
+      "value": {
+        "target": "com.kubernetes.rbac_authorization#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.rbac_authorization#DeleteRbacAuthorizationV1ClusterRoleBinding/errors/-",
+      "value": {
+        "target": "com.kubernetes.rbac_authorization#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.rbac_authorization#CreateRbacAuthorizationV1ClusterRole/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.rbac_authorization#Conflict"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.rbac_authorization#ReplaceRbacAuthorizationV1ClusterRole/errors/-",
+      "value": {
+        "target": "com.kubernetes.rbac_authorization#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.rbac_authorization#PatchRbacAuthorizationV1ClusterRole/errors/-",
+      "value": {
+        "target": "com.kubernetes.rbac_authorization#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.rbac_authorization#DeleteRbacAuthorizationV1ClusterRole/errors/-",
+      "value": {
+        "target": "com.kubernetes.rbac_authorization#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.rbac_authorization#CreateRbacAuthorizationV1NamespacedRoleBinding/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.rbac_authorization#Conflict"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.rbac_authorization#ReplaceRbacAuthorizationV1NamespacedRoleBinding/errors/-",
+      "value": {
+        "target": "com.kubernetes.rbac_authorization#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.rbac_authorization#PatchRbacAuthorizationV1NamespacedRoleBinding/errors/-",
+      "value": {
+        "target": "com.kubernetes.rbac_authorization#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.rbac_authorization#DeleteRbacAuthorizationV1NamespacedRoleBinding/errors/-",
+      "value": {
+        "target": "com.kubernetes.rbac_authorization#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.rbac_authorization#CreateRbacAuthorizationV1NamespacedRole/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.rbac_authorization#Conflict"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.rbac_authorization#ReplaceRbacAuthorizationV1NamespacedRole/errors/-",
+      "value": {
+        "target": "com.kubernetes.rbac_authorization#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.rbac_authorization#PatchRbacAuthorizationV1NamespacedRole/errors/-",
+      "value": {
+        "target": "com.kubernetes.rbac_authorization#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.rbac_authorization#DeleteRbacAuthorizationV1NamespacedRole/errors/-",
+      "value": {
+        "target": "com.kubernetes.rbac_authorization#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.rbac_authorization#Conflict",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 409,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 409
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

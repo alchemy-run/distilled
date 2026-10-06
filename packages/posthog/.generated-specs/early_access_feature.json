@@ -543,6 +543,13 @@
       "output": {
         "target": "com.posthog.early_access_feature#PaginatedEarlyAccessFeatureList"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/early_access_feature/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.early_access_feature#BadRequest"
@@ -553,14 +560,7 @@
         {
           "target": "com.posthog.early_access_feature#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/early_access_feature/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.early_access_feature#CreateEarlyAccessFeatureRequest": {
       "type": "structure",
@@ -737,6 +737,13 @@
       "output": {
         "target": "com.posthog.early_access_feature#EarlyAccessFeatureSerializerCreateOnlyOutput"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/early_access_feature/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.early_access_feature#BadRequest"
@@ -747,14 +754,7 @@
         {
           "target": "com.posthog.early_access_feature#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/early_access_feature/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.early_access_feature#GetEarlyAccessFeatureRequest": {
       "type": "structure",
@@ -788,6 +788,13 @@
       "output": {
         "target": "com.posthog.early_access_feature#EarlyAccessFeature2"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/early_access_feature/{id}/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.early_access_feature#Forbidden"
@@ -795,14 +802,7 @@
         {
           "target": "com.posthog.early_access_feature#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/early_access_feature/{id}/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.early_access_feature#UpdateEarlyAccessFeatureRequest": {
       "type": "structure",
@@ -860,6 +860,13 @@
       "output": {
         "target": "com.posthog.early_access_feature#EarlyAccessFeature2"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/api/projects/{project_id}/early_access_feature/{id}/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.early_access_feature#BadRequest"
@@ -870,14 +877,7 @@
         {
           "target": "com.posthog.early_access_feature#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/api/projects/{project_id}/early_access_feature/{id}/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.early_access_feature#UpdateEarlyAccessFeaturePartialRequest": {
       "type": "structure",
@@ -935,6 +935,13 @@
       "output": {
         "target": "com.posthog.early_access_feature#EarlyAccessFeature2"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/projects/{project_id}/early_access_feature/{id}/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.early_access_feature#BadRequest"
@@ -945,14 +952,7 @@
         {
           "target": "com.posthog.early_access_feature#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/api/projects/{project_id}/early_access_feature/{id}/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.early_access_feature#EarlyAccessFeatureDestroyRequest": {
       "type": "structure",
@@ -986,6 +986,13 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/api/projects/{project_id}/early_access_feature/{id}/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.early_access_feature#Forbidden"
@@ -993,13 +1000,33 @@
         {
           "target": "com.posthog.early_access_feature#NotFound"
         }
+      ]
+    },
+    "com.posthog.early_access_feature#EarlyAccessFeature": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.posthog.early_access_feature#ListEarlyAccessFeature"
+        },
+        {
+          "target": "com.posthog.early_access_feature#CreateEarlyAccessFeature"
+        },
+        {
+          "target": "com.posthog.early_access_feature#GetEarlyAccessFeature"
+        },
+        {
+          "target": "com.posthog.early_access_feature#UpdateEarlyAccessFeature"
+        },
+        {
+          "target": "com.posthog.early_access_feature#UpdateEarlyAccessFeaturePartial"
+        },
+        {
+          "target": "com.posthog.early_access_feature#EarlyAccessFeatureDestroy"
+        }
       ],
       "traits": {
-        "smithy.api#http": {
-          "method": "DELETE",
-          "uri": "/api/projects/{project_id}/early_access_feature/{id}/",
-          "code": 200
-        }
+        "smithy.api#title": "PostHog API"
       }
     },
     "com.posthog.early_access_feature#BadRequest": {
@@ -1039,33 +1066,6 @@
             "status": 404
           }
         ]
-      }
-    },
-    "com.posthog.early_access_feature#EarlyAccessFeature": {
-      "type": "service",
-      "version": "1.0.0",
-      "operations": [
-        {
-          "target": "com.posthog.early_access_feature#ListEarlyAccessFeature"
-        },
-        {
-          "target": "com.posthog.early_access_feature#CreateEarlyAccessFeature"
-        },
-        {
-          "target": "com.posthog.early_access_feature#GetEarlyAccessFeature"
-        },
-        {
-          "target": "com.posthog.early_access_feature#UpdateEarlyAccessFeature"
-        },
-        {
-          "target": "com.posthog.early_access_feature#UpdateEarlyAccessFeaturePartial"
-        },
-        {
-          "target": "com.posthog.early_access_feature#EarlyAccessFeatureDestroy"
-        }
-      ],
-      "traits": {
-        "smithy.api#title": "PostHog API"
       }
     }
   }

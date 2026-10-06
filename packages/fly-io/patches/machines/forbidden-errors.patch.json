@@ -1,0 +1,585 @@
+{
+  "description": "From forbidden-errors.patch.json: Add 403 Forbidden responses to all operations. Discovered via real API testing: the Fly.io API returns {\"error\": \"unauthorized\"} with HTTP 403 for tokens without proper scope/permissions.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#AppsList/errors",
+      "value": [
+        {
+          "target": "com.flyio.machines#Forbidden"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#AppsCreate/errors/1",
+      "value": {
+        "target": "com.flyio.machines#Forbidden"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#AppsShow/errors",
+      "value": [
+        {
+          "target": "com.flyio.machines#Forbidden"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#AppsDelete/errors",
+      "value": [
+        {
+          "target": "com.flyio.machines#Forbidden"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#AppCertificatesList/errors",
+      "value": [
+        {
+          "target": "com.flyio.machines#Forbidden"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#AppCertificatesAcmeCreate/errors/1",
+      "value": {
+        "target": "com.flyio.machines#Forbidden"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#AppCertificatesCustomCreate/errors/1",
+      "value": {
+        "target": "com.flyio.machines#Forbidden"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#AppCertificatesShow/errors",
+      "value": [
+        {
+          "target": "com.flyio.machines#Forbidden"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#AppCertificatesDelete/errors",
+      "value": [
+        {
+          "target": "com.flyio.machines#Forbidden"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#AppCertificatesAcmeDelete/errors",
+      "value": [
+        {
+          "target": "com.flyio.machines#Forbidden"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#AppCertificatesCheck/errors/1",
+      "value": {
+        "target": "com.flyio.machines#Forbidden"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#AppCertificatesCustomDelete/errors",
+      "value": [
+        {
+          "target": "com.flyio.machines#Forbidden"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#AppCreateDeployToken/errors/1",
+      "value": {
+        "target": "com.flyio.machines#Forbidden"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#AppIPAssignmentsList/errors",
+      "value": [
+        {
+          "target": "com.flyio.machines#Forbidden"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#AppIPAssignmentsCreate/errors/1",
+      "value": {
+        "target": "com.flyio.machines#Forbidden"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#AppIPAssignmentsDelete/errors",
+      "value": [
+        {
+          "target": "com.flyio.machines#Forbidden"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#MachinesList/errors",
+      "value": [
+        {
+          "target": "com.flyio.machines#Forbidden"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#MachinesCreate/errors/1",
+      "value": {
+        "target": "com.flyio.machines#Forbidden"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#MachinesShow/errors",
+      "value": [
+        {
+          "target": "com.flyio.machines#Forbidden"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#MachinesUpdate/errors/1",
+      "value": {
+        "target": "com.flyio.machines#Forbidden"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#MachinesDelete/errors",
+      "value": [
+        {
+          "target": "com.flyio.machines#Forbidden"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#MachinesCordon/errors/1",
+      "value": {
+        "target": "com.flyio.machines#Forbidden"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#MachinesListEvents/errors",
+      "value": [
+        {
+          "target": "com.flyio.machines#Forbidden"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#MachinesExec/errors/1",
+      "value": {
+        "target": "com.flyio.machines#Forbidden"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#MachinesShowLease/errors",
+      "value": [
+        {
+          "target": "com.flyio.machines#Forbidden"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#MachinesCreateLease/errors/1",
+      "value": {
+        "target": "com.flyio.machines#Forbidden"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#MachinesReleaseLease/errors",
+      "value": [
+        {
+          "target": "com.flyio.machines#Forbidden"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#MachinesGetMemory/errors",
+      "value": [
+        {
+          "target": "com.flyio.machines#Forbidden"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#MachinesSetMemoryLimit/errors/1",
+      "value": {
+        "target": "com.flyio.machines#Forbidden"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#MachinesReclaimMemory/errors/1",
+      "value": {
+        "target": "com.flyio.machines#Forbidden"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#MachinesShowMetadata/errors",
+      "value": [
+        {
+          "target": "com.flyio.machines#Forbidden"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#MachinesUpdateMetadata/errors/1",
+      "value": {
+        "target": "com.flyio.machines#Forbidden"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#MachinesUpsertMetadata/errors/1",
+      "value": {
+        "target": "com.flyio.machines#Forbidden"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#MachinesDeleteMetadata/errors",
+      "value": [
+        {
+          "target": "com.flyio.machines#Forbidden"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#MachinesListProcesses/errors/1",
+      "value": {
+        "target": "com.flyio.machines#Forbidden"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#MachinesRestart/errors/1",
+      "value": {
+        "target": "com.flyio.machines#Forbidden"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#MachinesSignal/errors/1",
+      "value": {
+        "target": "com.flyio.machines#Forbidden"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#MachinesStart/errors/1",
+      "value": {
+        "target": "com.flyio.machines#Forbidden"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#MachinesStop/errors/1",
+      "value": {
+        "target": "com.flyio.machines#Forbidden"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#MachinesSuspend/errors/1",
+      "value": {
+        "target": "com.flyio.machines#Forbidden"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#MachinesUncordon/errors/1",
+      "value": {
+        "target": "com.flyio.machines#Forbidden"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#MachinesListVersions/errors",
+      "value": [
+        {
+          "target": "com.flyio.machines#Forbidden"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#MachinesWait/errors/1",
+      "value": {
+        "target": "com.flyio.machines#Forbidden"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#SecretkeysList/errors",
+      "value": [
+        {
+          "target": "com.flyio.machines#Forbidden"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#SecretkeyGet/errors",
+      "value": [
+        {
+          "target": "com.flyio.machines#Forbidden"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#SecretkeySet/errors/1",
+      "value": {
+        "target": "com.flyio.machines#Forbidden"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#SecretkeyDelete/errors",
+      "value": [
+        {
+          "target": "com.flyio.machines#Forbidden"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#SecretkeyDecrypt/errors/1",
+      "value": {
+        "target": "com.flyio.machines#Forbidden"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#SecretkeyEncrypt/errors/1",
+      "value": {
+        "target": "com.flyio.machines#Forbidden"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#SecretkeyGenerate/errors/1",
+      "value": {
+        "target": "com.flyio.machines#Forbidden"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#SecretkeySign/errors/1",
+      "value": {
+        "target": "com.flyio.machines#Forbidden"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#SecretkeyVerify/errors/1",
+      "value": {
+        "target": "com.flyio.machines#Forbidden"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#SecretsList/errors",
+      "value": [
+        {
+          "target": "com.flyio.machines#Forbidden"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#SecretsUpdate/errors/1",
+      "value": {
+        "target": "com.flyio.machines#Forbidden"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#SecretGet/errors",
+      "value": [
+        {
+          "target": "com.flyio.machines#Forbidden"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#SecretCreate/errors/1",
+      "value": {
+        "target": "com.flyio.machines#Forbidden"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#SecretDelete/errors",
+      "value": [
+        {
+          "target": "com.flyio.machines#Forbidden"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#VolumesList/errors",
+      "value": [
+        {
+          "target": "com.flyio.machines#Forbidden"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#VolumesCreate/errors/1",
+      "value": {
+        "target": "com.flyio.machines#Forbidden"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#VolumesGetById/errors",
+      "value": [
+        {
+          "target": "com.flyio.machines#Forbidden"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#VolumesUpdate/errors/1",
+      "value": {
+        "target": "com.flyio.machines#Forbidden"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#VolumeDelete/errors",
+      "value": [
+        {
+          "target": "com.flyio.machines#Forbidden"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#VolumesExtend/errors/1",
+      "value": {
+        "target": "com.flyio.machines#Forbidden"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#VolumesListSnapshots/errors",
+      "value": [
+        {
+          "target": "com.flyio.machines#Forbidden"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#CreateVolumeSnapshot/errors/1",
+      "value": {
+        "target": "com.flyio.machines#Forbidden"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#MachinesOrgList/errors",
+      "value": [
+        {
+          "target": "com.flyio.machines#Forbidden"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#PlatformPlacementsPost/errors/1",
+      "value": {
+        "target": "com.flyio.machines#Forbidden"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#PlatformRegionsGet/errors",
+      "value": [
+        {
+          "target": "com.flyio.machines#Forbidden"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#CurrentTokenShow/errors",
+      "value": [
+        {
+          "target": "com.flyio.machines#Forbidden"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#TokensRequestKms/errors/1",
+      "value": {
+        "target": "com.flyio.machines#Forbidden"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#TokensRequestOIDC/errors/1",
+      "value": {
+        "target": "com.flyio.machines#Forbidden"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#Forbidden",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 403
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

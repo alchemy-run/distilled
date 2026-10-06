@@ -1,0 +1,122 @@
+{
+  "description": "From data-warehouse-errors.patch.json: Auto-generated PostHog error responses (400/403/404) for tag \"data_warehouse\". See generate-error-patches.ts.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.warehouse_saved_query_folders#WarehouseSavedQueryFoldersList/errors",
+      "value": [
+        {
+          "target": "com.posthog.warehouse_saved_query_folders#Forbidden"
+        },
+        {
+          "target": "com.posthog.warehouse_saved_query_folders#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.warehouse_saved_query_folders#WarehouseSavedQueryFoldersCreate/errors",
+      "value": [
+        {
+          "target": "com.posthog.warehouse_saved_query_folders#BadRequest"
+        },
+        {
+          "target": "com.posthog.warehouse_saved_query_folders#Forbidden"
+        },
+        {
+          "target": "com.posthog.warehouse_saved_query_folders#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.warehouse_saved_query_folders#WarehouseSavedQueryFoldersRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.warehouse_saved_query_folders#Forbidden"
+        },
+        {
+          "target": "com.posthog.warehouse_saved_query_folders#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.warehouse_saved_query_folders#WarehouseSavedQueryFoldersPartialUpdate/errors",
+      "value": [
+        {
+          "target": "com.posthog.warehouse_saved_query_folders#BadRequest"
+        },
+        {
+          "target": "com.posthog.warehouse_saved_query_folders#Forbidden"
+        },
+        {
+          "target": "com.posthog.warehouse_saved_query_folders#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.warehouse_saved_query_folders#WarehouseSavedQueryFoldersDestroy/errors",
+      "value": [
+        {
+          "target": "com.posthog.warehouse_saved_query_folders#Forbidden"
+        },
+        {
+          "target": "com.posthog.warehouse_saved_query_folders#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.warehouse_saved_query_folders#Forbidden",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 403
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.warehouse_saved_query_folders#NotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.warehouse_saved_query_folders#BadRequest",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 400
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

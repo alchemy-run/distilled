@@ -9803,11 +9803,6 @@
       "output": {
         "target": "com.prisma#GetDatabaseConnectionsResponse"
       },
-      "errors": [
-        {
-          "target": "com.prisma#UnprocessableEntity"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -9815,7 +9810,12 @@
           "code": 200
         },
         "smithy.api#documentation": "Get list of database connections\n\nReturns all connections for the given database."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.prisma#UnprocessableEntity"
+        }
+      ]
     },
     "com.prisma#CreateDatabaseConnectionRequest": {
       "type": "structure",

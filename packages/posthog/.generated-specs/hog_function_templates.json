@@ -254,6 +254,13 @@
       "output": {
         "target": "com.posthog.hog_function_templates#PaginatedHogFunctionTemplateList"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/hog_function_templates/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.hog_function_templates#BadRequest"
@@ -264,14 +271,7 @@
         {
           "target": "com.posthog.hog_function_templates#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/hog_function_templates/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.hog_function_templates#GetHogFunctionTemplateRequest": {
       "type": "structure",
@@ -304,6 +304,13 @@
       "output": {
         "target": "com.posthog.hog_function_templates#HogFunctionTemplate"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/hog_function_templates/{template_id}/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.hog_function_templates#Forbidden"
@@ -311,14 +318,7 @@
         {
           "target": "com.posthog.hog_function_templates#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/hog_function_templates/{template_id}/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.hog_function_templates#ListPublicHogFunctionTemplatesRequest": {
       "type": "structure",
@@ -371,6 +371,13 @@
       "output": {
         "target": "com.posthog.hog_function_templates#PaginatedHogFunctionTemplateList"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/public_hog_function_templates/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.hog_function_templates#BadRequest"
@@ -378,13 +385,24 @@
         {
           "target": "com.posthog.hog_function_templates#Forbidden"
         }
+      ]
+    },
+    "com.posthog.hog_function_templates#HogFunctionTemplates": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.posthog.hog_function_templates#ListHogFunctionTemplates"
+        },
+        {
+          "target": "com.posthog.hog_function_templates#GetHogFunctionTemplate"
+        },
+        {
+          "target": "com.posthog.hog_function_templates#ListPublicHogFunctionTemplates"
+        }
       ],
       "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/public_hog_function_templates/",
-          "code": 200
-        }
+        "smithy.api#title": "PostHog API"
       }
     },
     "com.posthog.hog_function_templates#BadRequest": {
@@ -424,24 +442,6 @@
             "status": 404
           }
         ]
-      }
-    },
-    "com.posthog.hog_function_templates#HogFunctionTemplates": {
-      "type": "service",
-      "version": "1.0.0",
-      "operations": [
-        {
-          "target": "com.posthog.hog_function_templates#ListHogFunctionTemplates"
-        },
-        {
-          "target": "com.posthog.hog_function_templates#GetHogFunctionTemplate"
-        },
-        {
-          "target": "com.posthog.hog_function_templates#ListPublicHogFunctionTemplates"
-        }
-      ],
-      "traits": {
-        "smithy.api#title": "PostHog API"
       }
     }
   }

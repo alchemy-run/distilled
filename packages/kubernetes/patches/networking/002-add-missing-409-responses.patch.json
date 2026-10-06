@@ -1,0 +1,200 @@
+{
+  "description": "From 002-add-missing-409-responses.patch.json: Add 409 Conflict responses to create, replace, delete, and patch operations",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.networking#CreateNetworkingV1IngressClass/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.networking#Conflict"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.networking#ReplaceNetworkingV1IngressClass/errors/-",
+      "value": {
+        "target": "com.kubernetes.networking#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.networking#PatchNetworkingV1IngressClass/errors/-",
+      "value": {
+        "target": "com.kubernetes.networking#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.networking#DeleteNetworkingV1IngressClass/errors/-",
+      "value": {
+        "target": "com.kubernetes.networking#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.networking#CreateNetworkingV1IPAddress/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.networking#Conflict"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.networking#ReplaceNetworkingV1IPAddress/errors/-",
+      "value": {
+        "target": "com.kubernetes.networking#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.networking#PatchNetworkingV1IPAddress/errors/-",
+      "value": {
+        "target": "com.kubernetes.networking#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.networking#DeleteNetworkingV1IPAddress/errors/-",
+      "value": {
+        "target": "com.kubernetes.networking#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.networking#CreateNetworkingV1NamespacedIngress/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.networking#Conflict"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.networking#ReplaceNetworkingV1NamespacedIngress/errors/-",
+      "value": {
+        "target": "com.kubernetes.networking#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.networking#PatchNetworkingV1NamespacedIngress/errors/-",
+      "value": {
+        "target": "com.kubernetes.networking#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.networking#DeleteNetworkingV1NamespacedIngress/errors/-",
+      "value": {
+        "target": "com.kubernetes.networking#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.networking#ReplaceNetworkingV1NamespacedIngressStatus/errors/-",
+      "value": {
+        "target": "com.kubernetes.networking#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.networking#PatchNetworkingV1NamespacedIngressStatus/errors/-",
+      "value": {
+        "target": "com.kubernetes.networking#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.networking#CreateNetworkingV1NamespacedNetworkPolicy/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.networking#Conflict"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.networking#ReplaceNetworkingV1NamespacedNetworkPolicy/errors/-",
+      "value": {
+        "target": "com.kubernetes.networking#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.networking#PatchNetworkingV1NamespacedNetworkPolicy/errors/-",
+      "value": {
+        "target": "com.kubernetes.networking#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.networking#DeleteNetworkingV1NamespacedNetworkPolicy/errors/-",
+      "value": {
+        "target": "com.kubernetes.networking#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.networking#CreateNetworkingV1ServiceCIDR/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.networking#Conflict"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.networking#ReplaceNetworkingV1ServiceCIDR/errors/-",
+      "value": {
+        "target": "com.kubernetes.networking#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.networking#PatchNetworkingV1ServiceCIDR/errors/-",
+      "value": {
+        "target": "com.kubernetes.networking#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.networking#DeleteNetworkingV1ServiceCIDR/errors/-",
+      "value": {
+        "target": "com.kubernetes.networking#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.networking#ReplaceNetworkingV1ServiceCIDRStatus/errors/-",
+      "value": {
+        "target": "com.kubernetes.networking#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.networking#PatchNetworkingV1ServiceCIDRStatus/errors/-",
+      "value": {
+        "target": "com.kubernetes.networking#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.networking#Conflict",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 409,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 409
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,92 @@
+{
+  "description": "From 003-add-missing-422-responses.patch.json: Add 422 UnprocessableEntity responses to create, replace, and patch operations",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.batch#CreateBatchV1NamespacedCronJob/errors/-",
+      "value": {
+        "target": "com.kubernetes.batch#UnprocessableEntity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.batch#ReplaceBatchV1NamespacedCronJob/errors/-",
+      "value": {
+        "target": "com.kubernetes.batch#UnprocessableEntity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.batch#PatchBatchV1NamespacedCronJob/errors/-",
+      "value": {
+        "target": "com.kubernetes.batch#UnprocessableEntity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.batch#ReplaceBatchV1NamespacedCronJobStatus/errors/-",
+      "value": {
+        "target": "com.kubernetes.batch#UnprocessableEntity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.batch#PatchBatchV1NamespacedCronJobStatus/errors/-",
+      "value": {
+        "target": "com.kubernetes.batch#UnprocessableEntity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.batch#CreateBatchV1NamespacedJob/errors/-",
+      "value": {
+        "target": "com.kubernetes.batch#UnprocessableEntity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.batch#ReplaceBatchV1NamespacedJob/errors/-",
+      "value": {
+        "target": "com.kubernetes.batch#UnprocessableEntity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.batch#PatchBatchV1NamespacedJob/errors/-",
+      "value": {
+        "target": "com.kubernetes.batch#UnprocessableEntity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.batch#ReplaceBatchV1NamespacedJobStatus/errors/-",
+      "value": {
+        "target": "com.kubernetes.batch#UnprocessableEntity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.batch#PatchBatchV1NamespacedJobStatus/errors/-",
+      "value": {
+        "target": "com.kubernetes.batch#UnprocessableEntity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.batch#UnprocessableEntity",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 422,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 422
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

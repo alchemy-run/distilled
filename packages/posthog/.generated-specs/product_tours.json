@@ -488,6 +488,14 @@
       "output": {
         "target": "com.posthog.product_tours#PaginatedProductTourList"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/product_tours/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create, read, update, and manage product tours and their targeting."
+      },
       "errors": [
         {
           "target": "com.posthog.product_tours#BadRequest"
@@ -498,15 +506,7 @@
         {
           "target": "com.posthog.product_tours#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/product_tours/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Create, read, update, and manage product tours and their targeting."
-      }
+      ]
     },
     "com.posthog.product_tours#ProductTourSerializerCreateUpdateOnlyCreationContextEnum": {
       "type": "enum",
@@ -650,6 +650,14 @@
       "output": {
         "target": "com.posthog.product_tours#ProductTourSerializerCreateUpdateOnlyOutput"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/product_tours/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create, read, update, and manage product tours and their targeting."
+      },
       "errors": [
         {
           "target": "com.posthog.product_tours#BadRequest"
@@ -660,15 +668,7 @@
         {
           "target": "com.posthog.product_tours#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/product_tours/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Create, read, update, and manage product tours and their targeting."
-      }
+      ]
     },
     "com.posthog.product_tours#GetProductTourRequest": {
       "type": "structure",
@@ -702,14 +702,6 @@
       "output": {
         "target": "com.posthog.product_tours#ProductTour"
       },
-      "errors": [
-        {
-          "target": "com.posthog.product_tours#Forbidden"
-        },
-        {
-          "target": "com.posthog.product_tours#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -717,7 +709,15 @@
           "code": 200
         },
         "smithy.api#documentation": "Create, read, update, and manage product tours and their targeting."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.posthog.product_tours#Forbidden"
+        },
+        {
+          "target": "com.posthog.product_tours#NotFound"
+        }
+      ]
     },
     "com.posthog.product_tours#UpdateProductTourRequest": {
       "type": "structure",
@@ -778,6 +778,14 @@
       "output": {
         "target": "com.posthog.product_tours#ProductTour"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/api/projects/{project_id}/product_tours/{id}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create, read, update, and manage product tours and their targeting."
+      },
       "errors": [
         {
           "target": "com.posthog.product_tours#BadRequest"
@@ -788,15 +796,7 @@
         {
           "target": "com.posthog.product_tours#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/api/projects/{project_id}/product_tours/{id}/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Create, read, update, and manage product tours and their targeting."
-      }
+      ]
     },
     "com.posthog.product_tours#UpdateProductToursPartialRequest": {
       "type": "structure",
@@ -872,6 +872,14 @@
       "output": {
         "target": "com.posthog.product_tours#ProductTourSerializerCreateUpdateOnlyOutput"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/projects/{project_id}/product_tours/{id}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create, read, update, and manage product tours and their targeting."
+      },
       "errors": [
         {
           "target": "com.posthog.product_tours#BadRequest"
@@ -882,15 +890,7 @@
         {
           "target": "com.posthog.product_tours#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/api/projects/{project_id}/product_tours/{id}/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Create, read, update, and manage product tours and their targeting."
-      }
+      ]
     },
     "com.posthog.product_tours#ProductToursDestroyRequest": {
       "type": "structure",
@@ -924,14 +924,6 @@
       "output": {
         "target": "smithy.api#Unit"
       },
-      "errors": [
-        {
-          "target": "com.posthog.product_tours#Forbidden"
-        },
-        {
-          "target": "com.posthog.product_tours#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -939,7 +931,15 @@
           "code": 200
         },
         "smithy.api#documentation": "Create, read, update, and manage product tours and their targeting."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.posthog.product_tours#Forbidden"
+        },
+        {
+          "target": "com.posthog.product_tours#NotFound"
+        }
+      ]
     },
     "com.posthog.product_tours#ProductToursDiscardDraftDestroyRequest": {
       "type": "structure",
@@ -973,14 +973,6 @@
       "output": {
         "target": "com.posthog.product_tours#ProductTour"
       },
-      "errors": [
-        {
-          "target": "com.posthog.product_tours#Forbidden"
-        },
-        {
-          "target": "com.posthog.product_tours#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -988,7 +980,15 @@
           "code": 200
         },
         "smithy.api#documentation": "Discard draft content."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.posthog.product_tours#Forbidden"
+        },
+        {
+          "target": "com.posthog.product_tours#NotFound"
+        }
+      ]
     },
     "com.posthog.product_tours#UpdateProductToursDraftPartialRequest": {
       "type": "structure",
@@ -1064,6 +1064,14 @@
       "output": {
         "target": "com.posthog.product_tours#ProductTour"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/projects/{project_id}/product_tours/{id}/draft/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Save draft content (server-side merge). No side effects triggered."
+      },
       "errors": [
         {
           "target": "com.posthog.product_tours#BadRequest"
@@ -1074,15 +1082,7 @@
         {
           "target": "com.posthog.product_tours#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/api/projects/{project_id}/product_tours/{id}/draft/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Save draft content (server-side merge). No side effects triggered."
-      }
+      ]
     },
     "com.posthog.product_tours#GetProductToursDraftStatusRequest": {
       "type": "structure",
@@ -1128,14 +1128,6 @@
       "output": {
         "target": "com.posthog.product_tours#DraftStatusResponse"
       },
-      "errors": [
-        {
-          "target": "com.posthog.product_tours#Forbidden"
-        },
-        {
-          "target": "com.posthog.product_tours#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -1143,7 +1135,15 @@
           "code": 200
         },
         "smithy.api#documentation": "Lightweight polling endpoint for draft change detection."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.posthog.product_tours#Forbidden"
+        },
+        {
+          "target": "com.posthog.product_tours#NotFound"
+        }
+      ]
     },
     "com.posthog.product_tours#ProductToursGenerateCreateRequestStepsItemMap": {
       "type": "map",
@@ -1234,6 +1234,14 @@
       "output": {
         "target": "com.posthog.product_tours#GenerateResponse"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/product_tours/{id}/generate/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Generate tour step content using AI."
+      },
       "errors": [
         {
           "target": "com.posthog.product_tours#BadRequest"
@@ -1244,15 +1252,7 @@
         {
           "target": "com.posthog.product_tours#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/product_tours/{id}/generate/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Generate tour step content using AI."
-      }
+      ]
     },
     "com.posthog.product_tours#ProductToursPublishDraftCreateRequest": {
       "type": "structure",
@@ -1328,6 +1328,14 @@
       "output": {
         "target": "com.posthog.product_tours#ProductTour"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/product_tours/{id}/publish_draft/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Commit draft to live tour. Runs full validation and triggers side effects.\n\nAccepts an optional body payload. If provided, merges it into the draft\nbefore publishing so the caller can save + publish in a single request."
+      },
       "errors": [
         {
           "target": "com.posthog.product_tours#BadRequest"
@@ -1338,54 +1346,7 @@
         {
           "target": "com.posthog.product_tours#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/product_tours/{id}/publish_draft/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Commit draft to live tour. Runs full validation and triggers side effects.\n\nAccepts an optional body payload. If provided, merges it into the draft\nbefore publishing so the caller can save + publish in a single request."
-      }
-    },
-    "com.posthog.product_tours#BadRequest": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 400,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 400
-          }
-        ]
-      }
-    },
-    "com.posthog.product_tours#Forbidden": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 403,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 403
-          }
-        ]
-      }
-    },
-    "com.posthog.product_tours#NotFound": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 404,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 404
-          }
-        ]
-      }
+      ]
     },
     "com.posthog.product_tours#ProductTours": {
       "type": "service",
@@ -1427,6 +1388,45 @@
       ],
       "traits": {
         "smithy.api#title": "PostHog API"
+      }
+    },
+    "com.posthog.product_tours#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.posthog.product_tours#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.posthog.product_tours#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
       }
     }
   }

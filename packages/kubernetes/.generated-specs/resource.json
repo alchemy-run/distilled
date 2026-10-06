@@ -963,14 +963,6 @@
       "output": {
         "target": "com.kubernetes.resource#IoK8sApiResourceV1DeviceClass"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.resource#Conflict"
-        },
-        {
-          "target": "com.kubernetes.resource#UnprocessableEntity"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -978,7 +970,15 @@
           "code": 200
         },
         "smithy.api#documentation": "create a DeviceClass"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.resource#Conflict"
+        },
+        {
+          "target": "com.kubernetes.resource#UnprocessableEntity"
+        }
+      ]
     },
     "com.kubernetes.resource#DeleteResourceV1CollectionDeviceClassRequestDryRunList": {
       "type": "list",
@@ -1323,11 +1323,6 @@
       "output": {
         "target": "com.kubernetes.resource#IoK8sApiResourceV1DeviceClass"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.resource#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -1335,7 +1330,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read the specified DeviceClass"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.resource#NotFound"
+        }
+      ]
     },
     "com.kubernetes.resource#ReplaceResourceV1DeviceClassRequest": {
       "type": "structure",
@@ -1413,6 +1413,14 @@
       "output": {
         "target": "com.kubernetes.resource#IoK8sApiResourceV1DeviceClass"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/apis/resource.k8s.io/v1/deviceclasses/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace the specified DeviceClass"
+      },
       "errors": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -1423,15 +1431,7 @@
         {
           "target": "com.kubernetes.resource#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/apis/resource.k8s.io/v1/deviceclasses/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace the specified DeviceClass"
-      }
+      ]
     },
     "com.kubernetes.resource#PatchResourceV1DeviceClassRequest": {
       "type": "structure",
@@ -1492,6 +1492,14 @@
       "output": {
         "target": "com.kubernetes.resource#IoK8sApiResourceV1DeviceClass"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/apis/resource.k8s.io/v1/deviceclasses/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update the specified DeviceClass"
+      },
       "errors": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -1502,15 +1510,7 @@
         {
           "target": "com.kubernetes.resource#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/apis/resource.k8s.io/v1/deviceclasses/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update the specified DeviceClass"
-      }
+      ]
     },
     "com.kubernetes.resource#DeleteResourceV1DeviceClassRequestDryRunList": {
       "type": "list",
@@ -1605,14 +1605,6 @@
       "output": {
         "target": "com.kubernetes.resource#IoK8sApiResourceV1DeviceClass"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.resource#NotFound"
-        },
-        {
-          "target": "com.kubernetes.resource#Conflict"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -1620,7 +1612,15 @@
           "code": 200
         },
         "smithy.api#documentation": "delete a DeviceClass"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.resource#NotFound"
+        },
+        {
+          "target": "com.kubernetes.resource#Conflict"
+        }
+      ]
     },
     "com.kubernetes.resource#ListResourceV1DeviceTaintRuleRequest": {
       "type": "structure",
@@ -3909,14 +3909,6 @@
       "output": {
         "target": "com.kubernetes.resource#IoK8sApiResourceV1ResourceClaim"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.resource#Conflict"
-        },
-        {
-          "target": "com.kubernetes.resource#UnprocessableEntity"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -3924,7 +3916,15 @@
           "code": 200
         },
         "smithy.api#documentation": "create a ResourceClaim"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.resource#Conflict"
+        },
+        {
+          "target": "com.kubernetes.resource#UnprocessableEntity"
+        }
+      ]
     },
     "com.kubernetes.resource#DeleteResourceV1CollectionNamespacedResourceClaimRequestDryRunList": {
       "type": "list",
@@ -4130,11 +4130,6 @@
       "output": {
         "target": "com.kubernetes.resource#IoK8sApiResourceV1ResourceClaim"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.resource#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -4142,7 +4137,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read the specified ResourceClaim"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.resource#NotFound"
+        }
+      ]
     },
     "com.kubernetes.resource#ReplaceResourceV1NamespacedResourceClaimRequest": {
       "type": "structure",
@@ -4234,6 +4234,14 @@
       "output": {
         "target": "com.kubernetes.resource#IoK8sApiResourceV1ResourceClaim"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/apis/resource.k8s.io/v1/namespaces/{namespace}/resourceclaims/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace the specified ResourceClaim"
+      },
       "errors": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -4244,15 +4252,7 @@
         {
           "target": "com.kubernetes.resource#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/apis/resource.k8s.io/v1/namespaces/{namespace}/resourceclaims/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace the specified ResourceClaim"
-      }
+      ]
     },
     "com.kubernetes.resource#PatchResourceV1NamespacedResourceClaimRequest": {
       "type": "structure",
@@ -4321,6 +4321,14 @@
       "output": {
         "target": "com.kubernetes.resource#IoK8sApiResourceV1ResourceClaim"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/apis/resource.k8s.io/v1/namespaces/{namespace}/resourceclaims/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update the specified ResourceClaim"
+      },
       "errors": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -4331,15 +4339,7 @@
         {
           "target": "com.kubernetes.resource#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/apis/resource.k8s.io/v1/namespaces/{namespace}/resourceclaims/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update the specified ResourceClaim"
-      }
+      ]
     },
     "com.kubernetes.resource#DeleteResourceV1NamespacedResourceClaimRequestDryRunList": {
       "type": "list",
@@ -4442,14 +4442,6 @@
       "output": {
         "target": "com.kubernetes.resource#IoK8sApiResourceV1ResourceClaim"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.resource#NotFound"
-        },
-        {
-          "target": "com.kubernetes.resource#Conflict"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -4457,7 +4449,15 @@
           "code": 200
         },
         "smithy.api#documentation": "delete a ResourceClaim"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.resource#NotFound"
+        },
+        {
+          "target": "com.kubernetes.resource#Conflict"
+        }
+      ]
     },
     "com.kubernetes.resource#ReadResourceV1NamespacedResourceClaimStatusRequest": {
       "type": "structure",
@@ -4498,11 +4498,6 @@
       "output": {
         "target": "com.kubernetes.resource#IoK8sApiResourceV1ResourceClaim"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.resource#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -4510,7 +4505,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read status of the specified ResourceClaim"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.resource#NotFound"
+        }
+      ]
     },
     "com.kubernetes.resource#ReplaceResourceV1NamespacedResourceClaimStatusRequest": {
       "type": "structure",
@@ -4602,6 +4602,14 @@
       "output": {
         "target": "com.kubernetes.resource#IoK8sApiResourceV1ResourceClaim"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/apis/resource.k8s.io/v1/namespaces/{namespace}/resourceclaims/{name}/status",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace status of the specified ResourceClaim"
+      },
       "errors": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -4612,15 +4620,7 @@
         {
           "target": "com.kubernetes.resource#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/apis/resource.k8s.io/v1/namespaces/{namespace}/resourceclaims/{name}/status",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace status of the specified ResourceClaim"
-      }
+      ]
     },
     "com.kubernetes.resource#PatchResourceV1NamespacedResourceClaimStatusRequest": {
       "type": "structure",
@@ -4689,6 +4689,14 @@
       "output": {
         "target": "com.kubernetes.resource#IoK8sApiResourceV1ResourceClaim"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/apis/resource.k8s.io/v1/namespaces/{namespace}/resourceclaims/{name}/status",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update status of the specified ResourceClaim"
+      },
       "errors": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -4699,15 +4707,7 @@
         {
           "target": "com.kubernetes.resource#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/apis/resource.k8s.io/v1/namespaces/{namespace}/resourceclaims/{name}/status",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update status of the specified ResourceClaim"
-      }
+      ]
     },
     "com.kubernetes.resource#ListResourceV1NamespacedResourceClaimTemplateRequest": {
       "type": "structure",
@@ -4996,14 +4996,6 @@
       "output": {
         "target": "com.kubernetes.resource#IoK8sApiResourceV1ResourceClaimTemplate"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.resource#Conflict"
-        },
-        {
-          "target": "com.kubernetes.resource#UnprocessableEntity"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -5011,7 +5003,15 @@
           "code": 200
         },
         "smithy.api#documentation": "create a ResourceClaimTemplate"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.resource#Conflict"
+        },
+        {
+          "target": "com.kubernetes.resource#UnprocessableEntity"
+        }
+      ]
     },
     "com.kubernetes.resource#DeleteResourceV1CollectionNamespacedResourceClaimTemplateRequestDryRunList": {
       "type": "list",
@@ -5217,11 +5217,6 @@
       "output": {
         "target": "com.kubernetes.resource#IoK8sApiResourceV1ResourceClaimTemplate"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.resource#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -5229,7 +5224,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read the specified ResourceClaimTemplate"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.resource#NotFound"
+        }
+      ]
     },
     "com.kubernetes.resource#ReplaceResourceV1NamespacedResourceClaimTemplateRequest": {
       "type": "structure",
@@ -5315,6 +5315,14 @@
       "output": {
         "target": "com.kubernetes.resource#IoK8sApiResourceV1ResourceClaimTemplate"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/apis/resource.k8s.io/v1/namespaces/{namespace}/resourceclaimtemplates/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace the specified ResourceClaimTemplate"
+      },
       "errors": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -5325,15 +5333,7 @@
         {
           "target": "com.kubernetes.resource#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/apis/resource.k8s.io/v1/namespaces/{namespace}/resourceclaimtemplates/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace the specified ResourceClaimTemplate"
-      }
+      ]
     },
     "com.kubernetes.resource#PatchResourceV1NamespacedResourceClaimTemplateRequest": {
       "type": "structure",
@@ -5402,6 +5402,14 @@
       "output": {
         "target": "com.kubernetes.resource#IoK8sApiResourceV1ResourceClaimTemplate"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/apis/resource.k8s.io/v1/namespaces/{namespace}/resourceclaimtemplates/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update the specified ResourceClaimTemplate"
+      },
       "errors": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -5412,15 +5420,7 @@
         {
           "target": "com.kubernetes.resource#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/apis/resource.k8s.io/v1/namespaces/{namespace}/resourceclaimtemplates/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update the specified ResourceClaimTemplate"
-      }
+      ]
     },
     "com.kubernetes.resource#DeleteResourceV1NamespacedResourceClaimTemplateRequestDryRunList": {
       "type": "list",
@@ -5523,14 +5523,6 @@
       "output": {
         "target": "com.kubernetes.resource#IoK8sApiResourceV1ResourceClaimTemplate"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.resource#NotFound"
-        },
-        {
-          "target": "com.kubernetes.resource#Conflict"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -5538,7 +5530,15 @@
           "code": 200
         },
         "smithy.api#documentation": "delete a ResourceClaimTemplate"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.resource#NotFound"
+        },
+        {
+          "target": "com.kubernetes.resource#Conflict"
+        }
+      ]
     },
     "com.kubernetes.resource#ListResourceV1ResourceClaimForAllNamespacesRequest": {
       "type": "structure",
@@ -6635,14 +6635,6 @@
       "output": {
         "target": "com.kubernetes.resource#IoK8sApiResourceV1ResourceSlice"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.resource#Conflict"
-        },
-        {
-          "target": "com.kubernetes.resource#UnprocessableEntity"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -6650,7 +6642,15 @@
           "code": 200
         },
         "smithy.api#documentation": "create a ResourceSlice"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.resource#Conflict"
+        },
+        {
+          "target": "com.kubernetes.resource#UnprocessableEntity"
+        }
+      ]
     },
     "com.kubernetes.resource#DeleteResourceV1CollectionResourceSliceRequestDryRunList": {
       "type": "list",
@@ -6840,11 +6840,6 @@
       "output": {
         "target": "com.kubernetes.resource#IoK8sApiResourceV1ResourceSlice"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.resource#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -6852,7 +6847,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read the specified ResourceSlice"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.resource#NotFound"
+        }
+      ]
     },
     "com.kubernetes.resource#ReplaceResourceV1ResourceSliceRequest": {
       "type": "structure",
@@ -6931,6 +6931,14 @@
       "output": {
         "target": "com.kubernetes.resource#IoK8sApiResourceV1ResourceSlice"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/apis/resource.k8s.io/v1/resourceslices/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace the specified ResourceSlice"
+      },
       "errors": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -6941,15 +6949,7 @@
         {
           "target": "com.kubernetes.resource#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/apis/resource.k8s.io/v1/resourceslices/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace the specified ResourceSlice"
-      }
+      ]
     },
     "com.kubernetes.resource#PatchResourceV1ResourceSliceRequest": {
       "type": "structure",
@@ -7010,6 +7010,14 @@
       "output": {
         "target": "com.kubernetes.resource#IoK8sApiResourceV1ResourceSlice"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/apis/resource.k8s.io/v1/resourceslices/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update the specified ResourceSlice"
+      },
       "errors": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -7020,15 +7028,7 @@
         {
           "target": "com.kubernetes.resource#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/apis/resource.k8s.io/v1/resourceslices/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update the specified ResourceSlice"
-      }
+      ]
     },
     "com.kubernetes.resource#DeleteResourceV1ResourceSliceRequestDryRunList": {
       "type": "list",
@@ -7123,14 +7123,6 @@
       "output": {
         "target": "com.kubernetes.resource#IoK8sApiResourceV1ResourceSlice"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.resource#NotFound"
-        },
-        {
-          "target": "com.kubernetes.resource#Conflict"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -7138,7 +7130,15 @@
           "code": 200
         },
         "smithy.api#documentation": "delete a ResourceSlice"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.resource#NotFound"
+        },
+        {
+          "target": "com.kubernetes.resource#Conflict"
+        }
+      ]
     },
     "com.kubernetes.resource#WatchResourceV1DeviceClassListRequest": {
       "type": "structure",
@@ -8927,14 +8927,6 @@
       "output": {
         "target": "com.kubernetes.resource#IoK8sApiResourceV1alpha3DeviceTaintRule"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.resource#Conflict"
-        },
-        {
-          "target": "com.kubernetes.resource#UnprocessableEntity"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -8942,7 +8934,15 @@
           "code": 200
         },
         "smithy.api#documentation": "create a DeviceTaintRule"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.resource#Conflict"
+        },
+        {
+          "target": "com.kubernetes.resource#UnprocessableEntity"
+        }
+      ]
     },
     "com.kubernetes.resource#DeleteResourceV1alpha3CollectionDeviceTaintRuleRequestDryRunList": {
       "type": "list",
@@ -9132,11 +9132,6 @@
       "output": {
         "target": "com.kubernetes.resource#IoK8sApiResourceV1alpha3DeviceTaintRule"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.resource#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -9144,7 +9139,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read the specified DeviceTaintRule"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.resource#NotFound"
+        }
+      ]
     },
     "com.kubernetes.resource#ReplaceResourceV1alpha3DeviceTaintRuleRequest": {
       "type": "structure",
@@ -9229,6 +9229,14 @@
       "output": {
         "target": "com.kubernetes.resource#IoK8sApiResourceV1alpha3DeviceTaintRule"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/apis/resource.k8s.io/v1alpha3/devicetaintrules/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace the specified DeviceTaintRule"
+      },
       "errors": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -9239,15 +9247,7 @@
         {
           "target": "com.kubernetes.resource#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/apis/resource.k8s.io/v1alpha3/devicetaintrules/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace the specified DeviceTaintRule"
-      }
+      ]
     },
     "com.kubernetes.resource#PatchResourceV1alpha3DeviceTaintRuleRequest": {
       "type": "structure",
@@ -9308,6 +9308,14 @@
       "output": {
         "target": "com.kubernetes.resource#IoK8sApiResourceV1alpha3DeviceTaintRule"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/apis/resource.k8s.io/v1alpha3/devicetaintrules/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update the specified DeviceTaintRule"
+      },
       "errors": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -9318,15 +9326,7 @@
         {
           "target": "com.kubernetes.resource#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/apis/resource.k8s.io/v1alpha3/devicetaintrules/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update the specified DeviceTaintRule"
-      }
+      ]
     },
     "com.kubernetes.resource#DeleteResourceV1alpha3DeviceTaintRuleRequestDryRunList": {
       "type": "list",
@@ -9421,14 +9421,6 @@
       "output": {
         "target": "com.kubernetes.resource#IoK8sApiResourceV1alpha3DeviceTaintRule"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.resource#NotFound"
-        },
-        {
-          "target": "com.kubernetes.resource#Conflict"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -9436,7 +9428,15 @@
           "code": 200
         },
         "smithy.api#documentation": "delete a DeviceTaintRule"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.resource#NotFound"
+        },
+        {
+          "target": "com.kubernetes.resource#Conflict"
+        }
+      ]
     },
     "com.kubernetes.resource#ReadResourceV1alpha3DeviceTaintRuleStatusRequest": {
       "type": "structure",
@@ -9469,11 +9469,6 @@
       "output": {
         "target": "com.kubernetes.resource#IoK8sApiResourceV1alpha3DeviceTaintRule"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.resource#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -9481,7 +9476,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read status of the specified DeviceTaintRule"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.resource#NotFound"
+        }
+      ]
     },
     "com.kubernetes.resource#ReplaceResourceV1alpha3DeviceTaintRuleStatusRequest": {
       "type": "structure",
@@ -9566,6 +9566,14 @@
       "output": {
         "target": "com.kubernetes.resource#IoK8sApiResourceV1alpha3DeviceTaintRule"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/apis/resource.k8s.io/v1alpha3/devicetaintrules/{name}/status",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace status of the specified DeviceTaintRule"
+      },
       "errors": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -9576,15 +9584,7 @@
         {
           "target": "com.kubernetes.resource#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/apis/resource.k8s.io/v1alpha3/devicetaintrules/{name}/status",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace status of the specified DeviceTaintRule"
-      }
+      ]
     },
     "com.kubernetes.resource#PatchResourceV1alpha3DeviceTaintRuleStatusRequest": {
       "type": "structure",
@@ -9645,6 +9645,14 @@
       "output": {
         "target": "com.kubernetes.resource#IoK8sApiResourceV1alpha3DeviceTaintRule"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/apis/resource.k8s.io/v1alpha3/devicetaintrules/{name}/status",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update status of the specified DeviceTaintRule"
+      },
       "errors": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -9655,15 +9663,7 @@
         {
           "target": "com.kubernetes.resource#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/apis/resource.k8s.io/v1alpha3/devicetaintrules/{name}/status",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update status of the specified DeviceTaintRule"
-      }
+      ]
     },
     "com.kubernetes.resource#ListResourceV1alpha3ResourcePoolStatusRequestRequest": {
       "type": "structure",
@@ -11710,14 +11710,6 @@
       "output": {
         "target": "com.kubernetes.resource#IoK8sApiResourceV1beta1DeviceClass"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.resource#Conflict"
-        },
-        {
-          "target": "com.kubernetes.resource#UnprocessableEntity"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -11725,7 +11717,15 @@
           "code": 200
         },
         "smithy.api#documentation": "create a DeviceClass"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.resource#Conflict"
+        },
+        {
+          "target": "com.kubernetes.resource#UnprocessableEntity"
+        }
+      ]
     },
     "com.kubernetes.resource#DeleteResourceV1beta1CollectionDeviceClassRequestDryRunList": {
       "type": "list",
@@ -11915,11 +11915,6 @@
       "output": {
         "target": "com.kubernetes.resource#IoK8sApiResourceV1beta1DeviceClass"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.resource#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -11927,7 +11922,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read the specified DeviceClass"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.resource#NotFound"
+        }
+      ]
     },
     "com.kubernetes.resource#ReplaceResourceV1beta1DeviceClassRequest": {
       "type": "structure",
@@ -12005,6 +12005,14 @@
       "output": {
         "target": "com.kubernetes.resource#IoK8sApiResourceV1beta1DeviceClass"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/apis/resource.k8s.io/v1beta1/deviceclasses/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace the specified DeviceClass"
+      },
       "errors": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -12015,15 +12023,7 @@
         {
           "target": "com.kubernetes.resource#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/apis/resource.k8s.io/v1beta1/deviceclasses/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace the specified DeviceClass"
-      }
+      ]
     },
     "com.kubernetes.resource#PatchResourceV1beta1DeviceClassRequest": {
       "type": "structure",
@@ -12084,6 +12084,14 @@
       "output": {
         "target": "com.kubernetes.resource#IoK8sApiResourceV1beta1DeviceClass"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/apis/resource.k8s.io/v1beta1/deviceclasses/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update the specified DeviceClass"
+      },
       "errors": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -12094,15 +12102,7 @@
         {
           "target": "com.kubernetes.resource#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/apis/resource.k8s.io/v1beta1/deviceclasses/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update the specified DeviceClass"
-      }
+      ]
     },
     "com.kubernetes.resource#DeleteResourceV1beta1DeviceClassRequestDryRunList": {
       "type": "list",
@@ -12197,14 +12197,6 @@
       "output": {
         "target": "com.kubernetes.resource#IoK8sApiResourceV1beta1DeviceClass"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.resource#NotFound"
-        },
-        {
-          "target": "com.kubernetes.resource#Conflict"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -12212,7 +12204,15 @@
           "code": 200
         },
         "smithy.api#documentation": "delete a DeviceClass"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.resource#NotFound"
+        },
+        {
+          "target": "com.kubernetes.resource#Conflict"
+        }
+      ]
     },
     "com.kubernetes.resource#ListResourceV1beta1NamespacedResourceClaimRequest": {
       "type": "structure",
@@ -13302,14 +13302,6 @@
       "output": {
         "target": "com.kubernetes.resource#IoK8sApiResourceV1beta1ResourceClaim"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.resource#Conflict"
-        },
-        {
-          "target": "com.kubernetes.resource#UnprocessableEntity"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -13317,7 +13309,15 @@
           "code": 200
         },
         "smithy.api#documentation": "create a ResourceClaim"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.resource#Conflict"
+        },
+        {
+          "target": "com.kubernetes.resource#UnprocessableEntity"
+        }
+      ]
     },
     "com.kubernetes.resource#DeleteResourceV1beta1CollectionNamespacedResourceClaimRequestDryRunList": {
       "type": "list",
@@ -13523,11 +13523,6 @@
       "output": {
         "target": "com.kubernetes.resource#IoK8sApiResourceV1beta1ResourceClaim"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.resource#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -13535,7 +13530,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read the specified ResourceClaim"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.resource#NotFound"
+        }
+      ]
     },
     "com.kubernetes.resource#ReplaceResourceV1beta1NamespacedResourceClaimRequest": {
       "type": "structure",
@@ -13627,6 +13627,14 @@
       "output": {
         "target": "com.kubernetes.resource#IoK8sApiResourceV1beta1ResourceClaim"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/apis/resource.k8s.io/v1beta1/namespaces/{namespace}/resourceclaims/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace the specified ResourceClaim"
+      },
       "errors": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -13637,15 +13645,7 @@
         {
           "target": "com.kubernetes.resource#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/apis/resource.k8s.io/v1beta1/namespaces/{namespace}/resourceclaims/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace the specified ResourceClaim"
-      }
+      ]
     },
     "com.kubernetes.resource#PatchResourceV1beta1NamespacedResourceClaimRequest": {
       "type": "structure",
@@ -13714,6 +13714,14 @@
       "output": {
         "target": "com.kubernetes.resource#IoK8sApiResourceV1beta1ResourceClaim"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/apis/resource.k8s.io/v1beta1/namespaces/{namespace}/resourceclaims/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update the specified ResourceClaim"
+      },
       "errors": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -13724,15 +13732,7 @@
         {
           "target": "com.kubernetes.resource#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/apis/resource.k8s.io/v1beta1/namespaces/{namespace}/resourceclaims/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update the specified ResourceClaim"
-      }
+      ]
     },
     "com.kubernetes.resource#DeleteResourceV1beta1NamespacedResourceClaimRequestDryRunList": {
       "type": "list",
@@ -13835,14 +13835,6 @@
       "output": {
         "target": "com.kubernetes.resource#IoK8sApiResourceV1beta1ResourceClaim"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.resource#NotFound"
-        },
-        {
-          "target": "com.kubernetes.resource#Conflict"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -13850,7 +13842,15 @@
           "code": 200
         },
         "smithy.api#documentation": "delete a ResourceClaim"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.resource#NotFound"
+        },
+        {
+          "target": "com.kubernetes.resource#Conflict"
+        }
+      ]
     },
     "com.kubernetes.resource#ReadResourceV1beta1NamespacedResourceClaimStatusRequest": {
       "type": "structure",
@@ -13891,11 +13891,6 @@
       "output": {
         "target": "com.kubernetes.resource#IoK8sApiResourceV1beta1ResourceClaim"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.resource#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -13903,7 +13898,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read status of the specified ResourceClaim"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.resource#NotFound"
+        }
+      ]
     },
     "com.kubernetes.resource#ReplaceResourceV1beta1NamespacedResourceClaimStatusRequest": {
       "type": "structure",
@@ -13995,6 +13995,14 @@
       "output": {
         "target": "com.kubernetes.resource#IoK8sApiResourceV1beta1ResourceClaim"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/apis/resource.k8s.io/v1beta1/namespaces/{namespace}/resourceclaims/{name}/status",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace status of the specified ResourceClaim"
+      },
       "errors": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -14005,15 +14013,7 @@
         {
           "target": "com.kubernetes.resource#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/apis/resource.k8s.io/v1beta1/namespaces/{namespace}/resourceclaims/{name}/status",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace status of the specified ResourceClaim"
-      }
+      ]
     },
     "com.kubernetes.resource#PatchResourceV1beta1NamespacedResourceClaimStatusRequest": {
       "type": "structure",
@@ -14082,6 +14082,14 @@
       "output": {
         "target": "com.kubernetes.resource#IoK8sApiResourceV1beta1ResourceClaim"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/apis/resource.k8s.io/v1beta1/namespaces/{namespace}/resourceclaims/{name}/status",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update status of the specified ResourceClaim"
+      },
       "errors": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -14092,15 +14100,7 @@
         {
           "target": "com.kubernetes.resource#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/apis/resource.k8s.io/v1beta1/namespaces/{namespace}/resourceclaims/{name}/status",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update status of the specified ResourceClaim"
-      }
+      ]
     },
     "com.kubernetes.resource#ListResourceV1beta1NamespacedResourceClaimTemplateRequest": {
       "type": "structure",
@@ -14389,14 +14389,6 @@
       "output": {
         "target": "com.kubernetes.resource#IoK8sApiResourceV1beta1ResourceClaimTemplate"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.resource#Conflict"
-        },
-        {
-          "target": "com.kubernetes.resource#UnprocessableEntity"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -14404,7 +14396,15 @@
           "code": 200
         },
         "smithy.api#documentation": "create a ResourceClaimTemplate"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.resource#Conflict"
+        },
+        {
+          "target": "com.kubernetes.resource#UnprocessableEntity"
+        }
+      ]
     },
     "com.kubernetes.resource#DeleteResourceV1beta1CollectionNamespacedResourceClaimTemplateRequestDryRunList": {
       "type": "list",
@@ -14610,11 +14610,6 @@
       "output": {
         "target": "com.kubernetes.resource#IoK8sApiResourceV1beta1ResourceClaimTemplate"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.resource#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -14622,7 +14617,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read the specified ResourceClaimTemplate"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.resource#NotFound"
+        }
+      ]
     },
     "com.kubernetes.resource#ReplaceResourceV1beta1NamespacedResourceClaimTemplateRequest": {
       "type": "structure",
@@ -14708,6 +14708,14 @@
       "output": {
         "target": "com.kubernetes.resource#IoK8sApiResourceV1beta1ResourceClaimTemplate"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/apis/resource.k8s.io/v1beta1/namespaces/{namespace}/resourceclaimtemplates/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace the specified ResourceClaimTemplate"
+      },
       "errors": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -14718,15 +14726,7 @@
         {
           "target": "com.kubernetes.resource#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/apis/resource.k8s.io/v1beta1/namespaces/{namespace}/resourceclaimtemplates/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace the specified ResourceClaimTemplate"
-      }
+      ]
     },
     "com.kubernetes.resource#PatchResourceV1beta1NamespacedResourceClaimTemplateRequest": {
       "type": "structure",
@@ -14795,6 +14795,14 @@
       "output": {
         "target": "com.kubernetes.resource#IoK8sApiResourceV1beta1ResourceClaimTemplate"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/apis/resource.k8s.io/v1beta1/namespaces/{namespace}/resourceclaimtemplates/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update the specified ResourceClaimTemplate"
+      },
       "errors": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -14805,15 +14813,7 @@
         {
           "target": "com.kubernetes.resource#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/apis/resource.k8s.io/v1beta1/namespaces/{namespace}/resourceclaimtemplates/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update the specified ResourceClaimTemplate"
-      }
+      ]
     },
     "com.kubernetes.resource#DeleteResourceV1beta1NamespacedResourceClaimTemplateRequestDryRunList": {
       "type": "list",
@@ -14916,14 +14916,6 @@
       "output": {
         "target": "com.kubernetes.resource#IoK8sApiResourceV1beta1ResourceClaimTemplate"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.resource#NotFound"
-        },
-        {
-          "target": "com.kubernetes.resource#Conflict"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -14931,7 +14923,15 @@
           "code": 200
         },
         "smithy.api#documentation": "delete a ResourceClaimTemplate"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.resource#NotFound"
+        },
+        {
+          "target": "com.kubernetes.resource#Conflict"
+        }
+      ]
     },
     "com.kubernetes.resource#ListResourceV1beta1ResourceClaimForAllNamespacesRequest": {
       "type": "structure",
@@ -16076,14 +16076,6 @@
       "output": {
         "target": "com.kubernetes.resource#IoK8sApiResourceV1beta1ResourceSlice"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.resource#Conflict"
-        },
-        {
-          "target": "com.kubernetes.resource#UnprocessableEntity"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -16091,7 +16083,15 @@
           "code": 200
         },
         "smithy.api#documentation": "create a ResourceSlice"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.resource#Conflict"
+        },
+        {
+          "target": "com.kubernetes.resource#UnprocessableEntity"
+        }
+      ]
     },
     "com.kubernetes.resource#DeleteResourceV1beta1CollectionResourceSliceRequestDryRunList": {
       "type": "list",
@@ -16281,11 +16281,6 @@
       "output": {
         "target": "com.kubernetes.resource#IoK8sApiResourceV1beta1ResourceSlice"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.resource#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -16293,7 +16288,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read the specified ResourceSlice"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.resource#NotFound"
+        }
+      ]
     },
     "com.kubernetes.resource#ReplaceResourceV1beta1ResourceSliceRequest": {
       "type": "structure",
@@ -16372,6 +16372,14 @@
       "output": {
         "target": "com.kubernetes.resource#IoK8sApiResourceV1beta1ResourceSlice"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/apis/resource.k8s.io/v1beta1/resourceslices/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace the specified ResourceSlice"
+      },
       "errors": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -16382,15 +16390,7 @@
         {
           "target": "com.kubernetes.resource#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/apis/resource.k8s.io/v1beta1/resourceslices/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace the specified ResourceSlice"
-      }
+      ]
     },
     "com.kubernetes.resource#PatchResourceV1beta1ResourceSliceRequest": {
       "type": "structure",
@@ -16451,6 +16451,14 @@
       "output": {
         "target": "com.kubernetes.resource#IoK8sApiResourceV1beta1ResourceSlice"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/apis/resource.k8s.io/v1beta1/resourceslices/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update the specified ResourceSlice"
+      },
       "errors": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -16461,15 +16469,7 @@
         {
           "target": "com.kubernetes.resource#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/apis/resource.k8s.io/v1beta1/resourceslices/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update the specified ResourceSlice"
-      }
+      ]
     },
     "com.kubernetes.resource#DeleteResourceV1beta1ResourceSliceRequestDryRunList": {
       "type": "list",
@@ -16564,14 +16564,6 @@
       "output": {
         "target": "com.kubernetes.resource#IoK8sApiResourceV1beta1ResourceSlice"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.resource#NotFound"
-        },
-        {
-          "target": "com.kubernetes.resource#Conflict"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -16579,7 +16571,15 @@
           "code": 200
         },
         "smithy.api#documentation": "delete a ResourceSlice"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.resource#NotFound"
+        },
+        {
+          "target": "com.kubernetes.resource#Conflict"
+        }
+      ]
     },
     "com.kubernetes.resource#WatchResourceV1beta1DeviceClassListRequest": {
       "type": "structure",
@@ -18112,14 +18112,6 @@
       "output": {
         "target": "com.kubernetes.resource#IoK8sApiResourceV1beta2DeviceClass"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.resource#Conflict"
-        },
-        {
-          "target": "com.kubernetes.resource#UnprocessableEntity"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -18127,7 +18119,15 @@
           "code": 200
         },
         "smithy.api#documentation": "create a DeviceClass"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.resource#Conflict"
+        },
+        {
+          "target": "com.kubernetes.resource#UnprocessableEntity"
+        }
+      ]
     },
     "com.kubernetes.resource#DeleteResourceV1beta2CollectionDeviceClassRequestDryRunList": {
       "type": "list",
@@ -18317,11 +18317,6 @@
       "output": {
         "target": "com.kubernetes.resource#IoK8sApiResourceV1beta2DeviceClass"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.resource#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -18329,7 +18324,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read the specified DeviceClass"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.resource#NotFound"
+        }
+      ]
     },
     "com.kubernetes.resource#ReplaceResourceV1beta2DeviceClassRequest": {
       "type": "structure",
@@ -18407,6 +18407,14 @@
       "output": {
         "target": "com.kubernetes.resource#IoK8sApiResourceV1beta2DeviceClass"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/apis/resource.k8s.io/v1beta2/deviceclasses/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace the specified DeviceClass"
+      },
       "errors": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -18417,15 +18425,7 @@
         {
           "target": "com.kubernetes.resource#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/apis/resource.k8s.io/v1beta2/deviceclasses/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace the specified DeviceClass"
-      }
+      ]
     },
     "com.kubernetes.resource#PatchResourceV1beta2DeviceClassRequest": {
       "type": "structure",
@@ -18486,6 +18486,14 @@
       "output": {
         "target": "com.kubernetes.resource#IoK8sApiResourceV1beta2DeviceClass"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/apis/resource.k8s.io/v1beta2/deviceclasses/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update the specified DeviceClass"
+      },
       "errors": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -18496,15 +18504,7 @@
         {
           "target": "com.kubernetes.resource#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/apis/resource.k8s.io/v1beta2/deviceclasses/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update the specified DeviceClass"
-      }
+      ]
     },
     "com.kubernetes.resource#DeleteResourceV1beta2DeviceClassRequestDryRunList": {
       "type": "list",
@@ -18599,14 +18599,6 @@
       "output": {
         "target": "com.kubernetes.resource#IoK8sApiResourceV1beta2DeviceClass"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.resource#NotFound"
-        },
-        {
-          "target": "com.kubernetes.resource#Conflict"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -18614,7 +18606,15 @@
           "code": 200
         },
         "smithy.api#documentation": "delete a DeviceClass"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.resource#NotFound"
+        },
+        {
+          "target": "com.kubernetes.resource#Conflict"
+        }
+      ]
     },
     "com.kubernetes.resource#ListResourceV1beta2DeviceTaintRuleRequest": {
       "type": "structure",
@@ -18985,14 +18985,6 @@
       "output": {
         "target": "com.kubernetes.resource#IoK8sApiResourceV1beta2DeviceTaintRule"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.resource#Conflict"
-        },
-        {
-          "target": "com.kubernetes.resource#UnprocessableEntity"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -19000,7 +18992,15 @@
           "code": 200
         },
         "smithy.api#documentation": "create a DeviceTaintRule"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.resource#Conflict"
+        },
+        {
+          "target": "com.kubernetes.resource#UnprocessableEntity"
+        }
+      ]
     },
     "com.kubernetes.resource#DeleteResourceV1beta2CollectionDeviceTaintRuleRequestDryRunList": {
       "type": "list",
@@ -19190,11 +19190,6 @@
       "output": {
         "target": "com.kubernetes.resource#IoK8sApiResourceV1beta2DeviceTaintRule"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.resource#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -19202,7 +19197,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read the specified DeviceTaintRule"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.resource#NotFound"
+        }
+      ]
     },
     "com.kubernetes.resource#ReplaceResourceV1beta2DeviceTaintRuleRequest": {
       "type": "structure",
@@ -19287,6 +19287,14 @@
       "output": {
         "target": "com.kubernetes.resource#IoK8sApiResourceV1beta2DeviceTaintRule"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/apis/resource.k8s.io/v1beta2/devicetaintrules/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace the specified DeviceTaintRule"
+      },
       "errors": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -19297,15 +19305,7 @@
         {
           "target": "com.kubernetes.resource#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/apis/resource.k8s.io/v1beta2/devicetaintrules/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace the specified DeviceTaintRule"
-      }
+      ]
     },
     "com.kubernetes.resource#PatchResourceV1beta2DeviceTaintRuleRequest": {
       "type": "structure",
@@ -19366,6 +19366,14 @@
       "output": {
         "target": "com.kubernetes.resource#IoK8sApiResourceV1beta2DeviceTaintRule"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/apis/resource.k8s.io/v1beta2/devicetaintrules/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update the specified DeviceTaintRule"
+      },
       "errors": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -19376,15 +19384,7 @@
         {
           "target": "com.kubernetes.resource#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/apis/resource.k8s.io/v1beta2/devicetaintrules/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update the specified DeviceTaintRule"
-      }
+      ]
     },
     "com.kubernetes.resource#DeleteResourceV1beta2DeviceTaintRuleRequestDryRunList": {
       "type": "list",
@@ -19479,14 +19479,6 @@
       "output": {
         "target": "com.kubernetes.resource#IoK8sApiResourceV1beta2DeviceTaintRule"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.resource#NotFound"
-        },
-        {
-          "target": "com.kubernetes.resource#Conflict"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -19494,7 +19486,15 @@
           "code": 200
         },
         "smithy.api#documentation": "delete a DeviceTaintRule"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.resource#NotFound"
+        },
+        {
+          "target": "com.kubernetes.resource#Conflict"
+        }
+      ]
     },
     "com.kubernetes.resource#ReadResourceV1beta2DeviceTaintRuleStatusRequest": {
       "type": "structure",
@@ -19527,11 +19527,6 @@
       "output": {
         "target": "com.kubernetes.resource#IoK8sApiResourceV1beta2DeviceTaintRule"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.resource#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -19539,7 +19534,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read status of the specified DeviceTaintRule"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.resource#NotFound"
+        }
+      ]
     },
     "com.kubernetes.resource#ReplaceResourceV1beta2DeviceTaintRuleStatusRequest": {
       "type": "structure",
@@ -19624,6 +19624,14 @@
       "output": {
         "target": "com.kubernetes.resource#IoK8sApiResourceV1beta2DeviceTaintRule"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/apis/resource.k8s.io/v1beta2/devicetaintrules/{name}/status",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace status of the specified DeviceTaintRule"
+      },
       "errors": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -19634,15 +19642,7 @@
         {
           "target": "com.kubernetes.resource#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/apis/resource.k8s.io/v1beta2/devicetaintrules/{name}/status",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace status of the specified DeviceTaintRule"
-      }
+      ]
     },
     "com.kubernetes.resource#PatchResourceV1beta2DeviceTaintRuleStatusRequest": {
       "type": "structure",
@@ -19703,6 +19703,14 @@
       "output": {
         "target": "com.kubernetes.resource#IoK8sApiResourceV1beta2DeviceTaintRule"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/apis/resource.k8s.io/v1beta2/devicetaintrules/{name}/status",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update status of the specified DeviceTaintRule"
+      },
       "errors": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -19713,15 +19721,7 @@
         {
           "target": "com.kubernetes.resource#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/apis/resource.k8s.io/v1beta2/devicetaintrules/{name}/status",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update status of the specified DeviceTaintRule"
-      }
+      ]
     },
     "com.kubernetes.resource#ListResourceV1beta2NamespacedResourceClaimRequest": {
       "type": "structure",
@@ -20826,14 +20826,6 @@
       "output": {
         "target": "com.kubernetes.resource#IoK8sApiResourceV1beta2ResourceClaim"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.resource#Conflict"
-        },
-        {
-          "target": "com.kubernetes.resource#UnprocessableEntity"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -20841,7 +20833,15 @@
           "code": 200
         },
         "smithy.api#documentation": "create a ResourceClaim"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.resource#Conflict"
+        },
+        {
+          "target": "com.kubernetes.resource#UnprocessableEntity"
+        }
+      ]
     },
     "com.kubernetes.resource#DeleteResourceV1beta2CollectionNamespacedResourceClaimRequestDryRunList": {
       "type": "list",
@@ -21047,11 +21047,6 @@
       "output": {
         "target": "com.kubernetes.resource#IoK8sApiResourceV1beta2ResourceClaim"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.resource#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -21059,7 +21054,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read the specified ResourceClaim"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.resource#NotFound"
+        }
+      ]
     },
     "com.kubernetes.resource#ReplaceResourceV1beta2NamespacedResourceClaimRequest": {
       "type": "structure",
@@ -21151,6 +21151,14 @@
       "output": {
         "target": "com.kubernetes.resource#IoK8sApiResourceV1beta2ResourceClaim"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/apis/resource.k8s.io/v1beta2/namespaces/{namespace}/resourceclaims/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace the specified ResourceClaim"
+      },
       "errors": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -21161,15 +21169,7 @@
         {
           "target": "com.kubernetes.resource#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/apis/resource.k8s.io/v1beta2/namespaces/{namespace}/resourceclaims/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace the specified ResourceClaim"
-      }
+      ]
     },
     "com.kubernetes.resource#PatchResourceV1beta2NamespacedResourceClaimRequest": {
       "type": "structure",
@@ -21238,6 +21238,14 @@
       "output": {
         "target": "com.kubernetes.resource#IoK8sApiResourceV1beta2ResourceClaim"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/apis/resource.k8s.io/v1beta2/namespaces/{namespace}/resourceclaims/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update the specified ResourceClaim"
+      },
       "errors": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -21248,15 +21256,7 @@
         {
           "target": "com.kubernetes.resource#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/apis/resource.k8s.io/v1beta2/namespaces/{namespace}/resourceclaims/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update the specified ResourceClaim"
-      }
+      ]
     },
     "com.kubernetes.resource#DeleteResourceV1beta2NamespacedResourceClaimRequestDryRunList": {
       "type": "list",
@@ -21359,14 +21359,6 @@
       "output": {
         "target": "com.kubernetes.resource#IoK8sApiResourceV1beta2ResourceClaim"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.resource#NotFound"
-        },
-        {
-          "target": "com.kubernetes.resource#Conflict"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -21374,7 +21366,15 @@
           "code": 200
         },
         "smithy.api#documentation": "delete a ResourceClaim"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.resource#NotFound"
+        },
+        {
+          "target": "com.kubernetes.resource#Conflict"
+        }
+      ]
     },
     "com.kubernetes.resource#ReadResourceV1beta2NamespacedResourceClaimStatusRequest": {
       "type": "structure",
@@ -21415,11 +21415,6 @@
       "output": {
         "target": "com.kubernetes.resource#IoK8sApiResourceV1beta2ResourceClaim"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.resource#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -21427,7 +21422,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read status of the specified ResourceClaim"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.resource#NotFound"
+        }
+      ]
     },
     "com.kubernetes.resource#ReplaceResourceV1beta2NamespacedResourceClaimStatusRequest": {
       "type": "structure",
@@ -21519,6 +21519,14 @@
       "output": {
         "target": "com.kubernetes.resource#IoK8sApiResourceV1beta2ResourceClaim"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/apis/resource.k8s.io/v1beta2/namespaces/{namespace}/resourceclaims/{name}/status",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace status of the specified ResourceClaim"
+      },
       "errors": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -21529,15 +21537,7 @@
         {
           "target": "com.kubernetes.resource#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/apis/resource.k8s.io/v1beta2/namespaces/{namespace}/resourceclaims/{name}/status",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace status of the specified ResourceClaim"
-      }
+      ]
     },
     "com.kubernetes.resource#PatchResourceV1beta2NamespacedResourceClaimStatusRequest": {
       "type": "structure",
@@ -21606,6 +21606,14 @@
       "output": {
         "target": "com.kubernetes.resource#IoK8sApiResourceV1beta2ResourceClaim"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/apis/resource.k8s.io/v1beta2/namespaces/{namespace}/resourceclaims/{name}/status",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update status of the specified ResourceClaim"
+      },
       "errors": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -21616,15 +21624,7 @@
         {
           "target": "com.kubernetes.resource#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/apis/resource.k8s.io/v1beta2/namespaces/{namespace}/resourceclaims/{name}/status",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update status of the specified ResourceClaim"
-      }
+      ]
     },
     "com.kubernetes.resource#ListResourceV1beta2NamespacedResourceClaimTemplateRequest": {
       "type": "structure",
@@ -21913,14 +21913,6 @@
       "output": {
         "target": "com.kubernetes.resource#IoK8sApiResourceV1beta2ResourceClaimTemplate"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.resource#Conflict"
-        },
-        {
-          "target": "com.kubernetes.resource#UnprocessableEntity"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -21928,7 +21920,15 @@
           "code": 200
         },
         "smithy.api#documentation": "create a ResourceClaimTemplate"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.resource#Conflict"
+        },
+        {
+          "target": "com.kubernetes.resource#UnprocessableEntity"
+        }
+      ]
     },
     "com.kubernetes.resource#DeleteResourceV1beta2CollectionNamespacedResourceClaimTemplateRequestDryRunList": {
       "type": "list",
@@ -22134,11 +22134,6 @@
       "output": {
         "target": "com.kubernetes.resource#IoK8sApiResourceV1beta2ResourceClaimTemplate"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.resource#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -22146,7 +22141,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read the specified ResourceClaimTemplate"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.resource#NotFound"
+        }
+      ]
     },
     "com.kubernetes.resource#ReplaceResourceV1beta2NamespacedResourceClaimTemplateRequest": {
       "type": "structure",
@@ -22232,6 +22232,14 @@
       "output": {
         "target": "com.kubernetes.resource#IoK8sApiResourceV1beta2ResourceClaimTemplate"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/apis/resource.k8s.io/v1beta2/namespaces/{namespace}/resourceclaimtemplates/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace the specified ResourceClaimTemplate"
+      },
       "errors": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -22242,15 +22250,7 @@
         {
           "target": "com.kubernetes.resource#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/apis/resource.k8s.io/v1beta2/namespaces/{namespace}/resourceclaimtemplates/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace the specified ResourceClaimTemplate"
-      }
+      ]
     },
     "com.kubernetes.resource#PatchResourceV1beta2NamespacedResourceClaimTemplateRequest": {
       "type": "structure",
@@ -22319,6 +22319,14 @@
       "output": {
         "target": "com.kubernetes.resource#IoK8sApiResourceV1beta2ResourceClaimTemplate"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/apis/resource.k8s.io/v1beta2/namespaces/{namespace}/resourceclaimtemplates/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update the specified ResourceClaimTemplate"
+      },
       "errors": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -22329,15 +22337,7 @@
         {
           "target": "com.kubernetes.resource#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/apis/resource.k8s.io/v1beta2/namespaces/{namespace}/resourceclaimtemplates/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update the specified ResourceClaimTemplate"
-      }
+      ]
     },
     "com.kubernetes.resource#DeleteResourceV1beta2NamespacedResourceClaimTemplateRequestDryRunList": {
       "type": "list",
@@ -22440,14 +22440,6 @@
       "output": {
         "target": "com.kubernetes.resource#IoK8sApiResourceV1beta2ResourceClaimTemplate"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.resource#NotFound"
-        },
-        {
-          "target": "com.kubernetes.resource#Conflict"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -22455,7 +22447,15 @@
           "code": 200
         },
         "smithy.api#documentation": "delete a ResourceClaimTemplate"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.resource#NotFound"
+        },
+        {
+          "target": "com.kubernetes.resource#Conflict"
+        }
+      ]
     },
     "com.kubernetes.resource#ListResourceV1beta2ResourceClaimForAllNamespacesRequest": {
       "type": "structure",
@@ -23552,14 +23552,6 @@
       "output": {
         "target": "com.kubernetes.resource#IoK8sApiResourceV1beta2ResourceSlice"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.resource#Conflict"
-        },
-        {
-          "target": "com.kubernetes.resource#UnprocessableEntity"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -23567,7 +23559,15 @@
           "code": 200
         },
         "smithy.api#documentation": "create a ResourceSlice"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.resource#Conflict"
+        },
+        {
+          "target": "com.kubernetes.resource#UnprocessableEntity"
+        }
+      ]
     },
     "com.kubernetes.resource#DeleteResourceV1beta2CollectionResourceSliceRequestDryRunList": {
       "type": "list",
@@ -23757,11 +23757,6 @@
       "output": {
         "target": "com.kubernetes.resource#IoK8sApiResourceV1beta2ResourceSlice"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.resource#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -23769,7 +23764,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read the specified ResourceSlice"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.resource#NotFound"
+        }
+      ]
     },
     "com.kubernetes.resource#ReplaceResourceV1beta2ResourceSliceRequest": {
       "type": "structure",
@@ -23848,6 +23848,14 @@
       "output": {
         "target": "com.kubernetes.resource#IoK8sApiResourceV1beta2ResourceSlice"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/apis/resource.k8s.io/v1beta2/resourceslices/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace the specified ResourceSlice"
+      },
       "errors": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -23858,15 +23866,7 @@
         {
           "target": "com.kubernetes.resource#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/apis/resource.k8s.io/v1beta2/resourceslices/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace the specified ResourceSlice"
-      }
+      ]
     },
     "com.kubernetes.resource#PatchResourceV1beta2ResourceSliceRequest": {
       "type": "structure",
@@ -23927,6 +23927,14 @@
       "output": {
         "target": "com.kubernetes.resource#IoK8sApiResourceV1beta2ResourceSlice"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/apis/resource.k8s.io/v1beta2/resourceslices/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update the specified ResourceSlice"
+      },
       "errors": [
         {
           "target": "com.kubernetes.resource#NotFound"
@@ -23937,15 +23945,7 @@
         {
           "target": "com.kubernetes.resource#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/apis/resource.k8s.io/v1beta2/resourceslices/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update the specified ResourceSlice"
-      }
+      ]
     },
     "com.kubernetes.resource#DeleteResourceV1beta2ResourceSliceRequestDryRunList": {
       "type": "list",
@@ -24040,14 +24040,6 @@
       "output": {
         "target": "com.kubernetes.resource#IoK8sApiResourceV1beta2ResourceSlice"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.resource#NotFound"
-        },
-        {
-          "target": "com.kubernetes.resource#Conflict"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -24055,7 +24047,15 @@
           "code": 200
         },
         "smithy.api#documentation": "delete a ResourceSlice"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.resource#NotFound"
+        },
+        {
+          "target": "com.kubernetes.resource#Conflict"
+        }
+      ]
     },
     "com.kubernetes.resource#WatchResourceV1beta2DeviceClassListRequest": {
       "type": "structure",
@@ -25437,45 +25437,6 @@
         "smithy.api#documentation": "watch changes to an object of kind ResourceSlice. deprecated: use the 'watch' parameter with a list operation instead, filtered to a single item with the 'fieldSelector' parameter."
       }
     },
-    "com.kubernetes.resource#Conflict": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 409,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 409
-          }
-        ]
-      }
-    },
-    "com.kubernetes.resource#UnprocessableEntity": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 422,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 422
-          }
-        ]
-      }
-    },
-    "com.kubernetes.resource#NotFound": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 404,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 404
-          }
-        ]
-      }
-    },
     "com.kubernetes.resource#Resource": {
       "type": "service",
       "version": "unversioned",
@@ -26029,6 +25990,45 @@
       ],
       "traits": {
         "smithy.api#title": "Kubernetes"
+      }
+    },
+    "com.kubernetes.resource#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.kubernetes.resource#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.kubernetes.resource#UnprocessableEntity": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 422,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 422
+          }
+        ]
       }
     }
   }

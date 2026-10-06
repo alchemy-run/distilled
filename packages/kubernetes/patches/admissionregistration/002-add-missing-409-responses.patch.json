@@ -1,0 +1,336 @@
+{
+  "description": "From 002-add-missing-409-responses.patch.json: Add 409 Conflict responses to create, replace, delete, and patch operations",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.admissionregistration#CreateAdmissionregistrationV1MutatingAdmissionPolicy/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.admissionregistration#Conflict"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.admissionregistration#ReplaceAdmissionregistrationV1MutatingAdmissionPolicy/errors/-",
+      "value": {
+        "target": "com.kubernetes.admissionregistration#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.admissionregistration#PatchAdmissionregistrationV1MutatingAdmissionPolicy/errors/-",
+      "value": {
+        "target": "com.kubernetes.admissionregistration#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.admissionregistration#DeleteAdmissionregistrationV1MutatingAdmissionPolicy/errors/-",
+      "value": {
+        "target": "com.kubernetes.admissionregistration#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.admissionregistration#CreateAdmissionregistrationV1MutatingAdmissionPolicyBinding/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.admissionregistration#Conflict"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.admissionregistration#ReplaceAdmissionregistrationV1MutatingAdmissionPolicyBinding/errors/-",
+      "value": {
+        "target": "com.kubernetes.admissionregistration#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.admissionregistration#PatchAdmissionregistrationV1MutatingAdmissionPolicyBinding/errors/-",
+      "value": {
+        "target": "com.kubernetes.admissionregistration#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.admissionregistration#DeleteAdmissionregistrationV1MutatingAdmissionPolicyBinding/errors/-",
+      "value": {
+        "target": "com.kubernetes.admissionregistration#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.admissionregistration#CreateAdmissionregistrationV1MutatingWebhookConfiguration/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.admissionregistration#Conflict"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.admissionregistration#ReplaceAdmissionregistrationV1MutatingWebhookConfiguration/errors/-",
+      "value": {
+        "target": "com.kubernetes.admissionregistration#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.admissionregistration#PatchAdmissionregistrationV1MutatingWebhookConfiguration/errors/-",
+      "value": {
+        "target": "com.kubernetes.admissionregistration#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.admissionregistration#DeleteAdmissionregistrationV1MutatingWebhookConfiguration/errors/-",
+      "value": {
+        "target": "com.kubernetes.admissionregistration#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.admissionregistration#CreateAdmissionregistrationV1ValidatingAdmissionPolicy/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.admissionregistration#Conflict"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.admissionregistration#ReplaceAdmissionregistrationV1ValidatingAdmissionPolicy/errors/-",
+      "value": {
+        "target": "com.kubernetes.admissionregistration#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.admissionregistration#PatchAdmissionregistrationV1ValidatingAdmissionPolicy/errors/-",
+      "value": {
+        "target": "com.kubernetes.admissionregistration#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.admissionregistration#DeleteAdmissionregistrationV1ValidatingAdmissionPolicy/errors/-",
+      "value": {
+        "target": "com.kubernetes.admissionregistration#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.admissionregistration#ReplaceAdmissionregistrationV1ValidatingAdmissionPolicyStatus/errors/-",
+      "value": {
+        "target": "com.kubernetes.admissionregistration#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.admissionregistration#PatchAdmissionregistrationV1ValidatingAdmissionPolicyStatus/errors/-",
+      "value": {
+        "target": "com.kubernetes.admissionregistration#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.admissionregistration#CreateAdmissionregistrationV1ValidatingAdmissionPolicyBinding/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.admissionregistration#Conflict"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.admissionregistration#ReplaceAdmissionregistrationV1ValidatingAdmissionPolicyBinding/errors/-",
+      "value": {
+        "target": "com.kubernetes.admissionregistration#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.admissionregistration#PatchAdmissionregistrationV1ValidatingAdmissionPolicyBinding/errors/-",
+      "value": {
+        "target": "com.kubernetes.admissionregistration#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.admissionregistration#DeleteAdmissionregistrationV1ValidatingAdmissionPolicyBinding/errors/-",
+      "value": {
+        "target": "com.kubernetes.admissionregistration#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.admissionregistration#CreateAdmissionregistrationV1ValidatingWebhookConfiguration/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.admissionregistration#Conflict"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.admissionregistration#ReplaceAdmissionregistrationV1ValidatingWebhookConfiguration/errors/-",
+      "value": {
+        "target": "com.kubernetes.admissionregistration#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.admissionregistration#PatchAdmissionregistrationV1ValidatingWebhookConfiguration/errors/-",
+      "value": {
+        "target": "com.kubernetes.admissionregistration#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.admissionregistration#DeleteAdmissionregistrationV1ValidatingWebhookConfiguration/errors/-",
+      "value": {
+        "target": "com.kubernetes.admissionregistration#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.admissionregistration#CreateAdmissionregistrationV1alpha1MutatingAdmissionPolicy/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.admissionregistration#Conflict"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.admissionregistration#ReplaceAdmissionregistrationV1alpha1MutatingAdmissionPolicy/errors/-",
+      "value": {
+        "target": "com.kubernetes.admissionregistration#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.admissionregistration#PatchAdmissionregistrationV1alpha1MutatingAdmissionPolicy/errors/-",
+      "value": {
+        "target": "com.kubernetes.admissionregistration#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.admissionregistration#DeleteAdmissionregistrationV1alpha1MutatingAdmissionPolicy/errors/-",
+      "value": {
+        "target": "com.kubernetes.admissionregistration#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.admissionregistration#CreateAdmissionregistrationV1alpha1MutatingAdmissionPolicyBinding/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.admissionregistration#Conflict"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.admissionregistration#ReplaceAdmissionregistrationV1alpha1MutatingAdmissionPolicyBinding/errors/-",
+      "value": {
+        "target": "com.kubernetes.admissionregistration#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.admissionregistration#PatchAdmissionregistrationV1alpha1MutatingAdmissionPolicyBinding/errors/-",
+      "value": {
+        "target": "com.kubernetes.admissionregistration#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.admissionregistration#DeleteAdmissionregistrationV1alpha1MutatingAdmissionPolicyBinding/errors/-",
+      "value": {
+        "target": "com.kubernetes.admissionregistration#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.admissionregistration#CreateAdmissionregistrationV1beta1MutatingAdmissionPolicy/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.admissionregistration#Conflict"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.admissionregistration#ReplaceAdmissionregistrationV1beta1MutatingAdmissionPolicy/errors/-",
+      "value": {
+        "target": "com.kubernetes.admissionregistration#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.admissionregistration#PatchAdmissionregistrationV1beta1MutatingAdmissionPolicy/errors/-",
+      "value": {
+        "target": "com.kubernetes.admissionregistration#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.admissionregistration#DeleteAdmissionregistrationV1beta1MutatingAdmissionPolicy/errors/-",
+      "value": {
+        "target": "com.kubernetes.admissionregistration#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.admissionregistration#CreateAdmissionregistrationV1beta1MutatingAdmissionPolicyBinding/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.admissionregistration#Conflict"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.admissionregistration#ReplaceAdmissionregistrationV1beta1MutatingAdmissionPolicyBinding/errors/-",
+      "value": {
+        "target": "com.kubernetes.admissionregistration#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.admissionregistration#PatchAdmissionregistrationV1beta1MutatingAdmissionPolicyBinding/errors/-",
+      "value": {
+        "target": "com.kubernetes.admissionregistration#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.admissionregistration#DeleteAdmissionregistrationV1beta1MutatingAdmissionPolicyBinding/errors/-",
+      "value": {
+        "target": "com.kubernetes.admissionregistration#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.admissionregistration#Conflict",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 409,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 409
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

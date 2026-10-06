@@ -3,9 +3,26 @@
   "patches": [
     {
       "op": "add",
-      "path": "/paths/~1v1~1apps~1{app_name}~1machines~1{machine_id}~1wait/get/responses/408",
+      "path": "/shapes/com.flyio.machines#MachinesWait/errors/2",
       "value": {
-        "description": "Request Timeout"
+        "target": "com.flyio.machines#GatewayTimeout"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#GatewayTimeout",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 408,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 408
+            }
+          ]
+        }
       }
     },
     {

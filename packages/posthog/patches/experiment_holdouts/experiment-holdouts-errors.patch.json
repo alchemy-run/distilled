@@ -1,0 +1,140 @@
+{
+  "description": "From experiment-holdouts-errors.patch.json: Auto-generated PostHog error responses (400/403/404) for tag \"experiment_holdouts\". See generate-error-patches.ts.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.experiment_holdouts#ExperimentHoldoutsList/errors",
+      "value": [
+        {
+          "target": "com.posthog.experiment_holdouts#BadRequest"
+        },
+        {
+          "target": "com.posthog.experiment_holdouts#Forbidden"
+        },
+        {
+          "target": "com.posthog.experiment_holdouts#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.experiment_holdouts#ExperimentHoldoutsCreate/errors",
+      "value": [
+        {
+          "target": "com.posthog.experiment_holdouts#BadRequest"
+        },
+        {
+          "target": "com.posthog.experiment_holdouts#Forbidden"
+        },
+        {
+          "target": "com.posthog.experiment_holdouts#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.experiment_holdouts#ExperimentHoldoutsRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.experiment_holdouts#Forbidden"
+        },
+        {
+          "target": "com.posthog.experiment_holdouts#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.experiment_holdouts#ExperimentHoldoutsUpdate/errors",
+      "value": [
+        {
+          "target": "com.posthog.experiment_holdouts#BadRequest"
+        },
+        {
+          "target": "com.posthog.experiment_holdouts#Forbidden"
+        },
+        {
+          "target": "com.posthog.experiment_holdouts#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.experiment_holdouts#ExperimentHoldoutsPartialUpdate/errors",
+      "value": [
+        {
+          "target": "com.posthog.experiment_holdouts#BadRequest"
+        },
+        {
+          "target": "com.posthog.experiment_holdouts#Forbidden"
+        },
+        {
+          "target": "com.posthog.experiment_holdouts#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.experiment_holdouts#ExperimentHoldoutsDestroy/errors",
+      "value": [
+        {
+          "target": "com.posthog.experiment_holdouts#Forbidden"
+        },
+        {
+          "target": "com.posthog.experiment_holdouts#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.experiment_holdouts#BadRequest",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 400
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.experiment_holdouts#Forbidden",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 403
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.experiment_holdouts#NotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

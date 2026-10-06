@@ -3,45 +3,90 @@
   "patches": [
     {
       "op": "add",
-      "path": "/components/schemas/StandardEmailServer/properties/type",
+      "path": "/shapes/com.neon.api#StandardEmailServerResponse/members/type",
       "value": {
-        "type": "string",
-        "enum": ["standard"],
-        "description": "Use a custom SMTP server to send authentication emails."
+        "target": "com.neon.api#StandardEmailServerResponseType",
+        "traits": {
+          "smithy.api#documentation": "Use a custom SMTP server to send authentication emails.",
+          "smithy.api#required": {}
+        }
       }
     },
     {
       "op": "add",
-      "path": "/components/schemas/StandardEmailServer/required",
-      "value": ["type"]
-    },
-    {
-      "op": "add",
-      "path": "/components/schemas/StandardEmailServerResponse/properties/type",
+      "path": "/shapes/com.neon.api#SharedEmailServer/members/type",
       "value": {
-        "type": "string",
-        "enum": ["standard"],
-        "description": "Use a custom SMTP server to send authentication emails."
+        "target": "com.neon.api#SharedEmailServerType",
+        "traits": {
+          "smithy.api#documentation": "Use the shared email server to send authentication emails.",
+          "smithy.api#required": {}
+        }
       }
     },
     {
       "op": "add",
-      "path": "/components/schemas/StandardEmailServerResponse/required/-",
-      "value": "type"
-    },
-    {
-      "op": "add",
-      "path": "/components/schemas/SharedEmailServer/properties/type",
+      "path": "/shapes/com.neon.api#StandardEmailServer/members/type",
       "value": {
-        "type": "string",
-        "enum": ["shared"],
-        "description": "Use the shared email server to send authentication emails."
+        "target": "com.neon.api#StandardEmailServerType",
+        "traits": {
+          "smithy.api#documentation": "Use a custom SMTP server to send authentication emails.",
+          "smithy.api#required": {}
+        }
       }
     },
     {
       "op": "add",
-      "path": "/components/schemas/SharedEmailServer/required",
-      "value": ["type"]
+      "path": "/shapes/com.neon.api#StandardEmailServerResponseType",
+      "value": {
+        "type": "enum",
+        "members": {
+          "STANDARD": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "standard"
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "Use a custom SMTP server to send authentication emails."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.neon.api#SharedEmailServerType",
+      "value": {
+        "type": "enum",
+        "members": {
+          "SHARED": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "shared"
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "Use the shared email server to send authentication emails."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.neon.api#StandardEmailServerType",
+      "value": {
+        "type": "enum",
+        "members": {
+          "STANDARD": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "standard"
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "Use a custom SMTP server to send authentication emails."
+        }
+      }
     }
   ]
 }

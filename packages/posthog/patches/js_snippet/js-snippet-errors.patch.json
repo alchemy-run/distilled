@@ -1,0 +1,95 @@
+{
+  "description": "From js-snippet-errors.patch.json: Auto-generated PostHog error responses (400/403/404) for tag \"js-snippet\". See generate-error-patches.ts.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.js_snippet#JsSnippetResolveRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.js_snippet#Forbidden"
+        },
+        {
+          "target": "com.posthog.js_snippet#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.js_snippet#JsSnippetVersionRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.js_snippet#Forbidden"
+        },
+        {
+          "target": "com.posthog.js_snippet#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.js_snippet#JsSnippetVersionPartialUpdate/errors",
+      "value": [
+        {
+          "target": "com.posthog.js_snippet#BadRequest"
+        },
+        {
+          "target": "com.posthog.js_snippet#Forbidden"
+        },
+        {
+          "target": "com.posthog.js_snippet#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.js_snippet#Forbidden",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 403
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.js_snippet#NotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.js_snippet#BadRequest",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 400
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

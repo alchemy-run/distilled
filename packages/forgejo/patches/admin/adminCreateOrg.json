@@ -2,14 +2,93 @@
   "description": "Rename adminCreateOrg's path parameter from `username` to `owner`. The route is `/admin/users/{username}/orgs` and its body, CreateOrgOption, carries a `username` of its own — the login of the organization being created. Two members cannot share a name on one request shape, and the converter resolves the clash in favour of the path label, so the organization login is silently dropped from the body and the generated input has no way to express it at all. `owner` names what the path parameter is (\"username of the user that will own the created organization\", per the spec) and leaves `username` for the body, where the wire name must stay `username`.",
   "patches": [
     {
-      "op": "move",
-      "from": "/paths/~1admin~1users~1{username}~1orgs",
-      "path": "/paths/~1admin~1users~1{owner}~1orgs"
+      "op": "replace",
+      "path": "/shapes/com.forgejo.admin#AdminCreateOrgRequest/members",
+      "value": {
+        "owner": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "username of the user that will own the created organization"
+          }
+        },
+        "description": {
+          "target": "smithy.api#String"
+        },
+        "email": {
+          "target": "smithy.api#String"
+        },
+        "full_name": {
+          "target": "smithy.api#String"
+        },
+        "location": {
+          "target": "smithy.api#String"
+        },
+        "repo_admin_change_team_access": {
+          "target": "smithy.api#Boolean"
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "visibility": {
+          "target": "com.forgejo.admin#AdminCreateOrgRequestVisibility",
+          "traits": {
+            "smithy.api#documentation": "possible values are `public` (default), `limited` or `private`"
+          }
+        },
+        "website": {
+          "target": "smithy.api#String"
+        }
+      }
     },
     {
       "op": "replace",
-      "path": "/paths/~1admin~1users~1{owner}~1orgs/post/parameters/0/name",
-      "value": "owner"
+      "path": "/shapes/com.forgejo.admin#AdminCreateOrg/traits/smithy.api#http/uri",
+      "value": "/admin/users/{owner}/orgs"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.forgejo.admin#ForgejoAdmin/operations/40/target",
+      "value": "com.forgejo.admin#AdminGetUserQuota"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.forgejo.admin#ForgejoAdmin/operations/41/target",
+      "value": "com.forgejo.admin#AdminSetUserQuotaGroups"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.forgejo.admin#ForgejoAdmin/operations/42/target",
+      "value": "com.forgejo.admin#AdminRenameUser"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.forgejo.admin#ForgejoAdmin/operations/43/target",
+      "value": "com.forgejo.admin#AdminCreateRepo"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.forgejo.admin#ForgejoAdmin/operations/44/target",
+      "value": "com.forgejo.admin#AdminListUserAccessTokens"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.forgejo.admin#ForgejoAdmin/operations/45/target",
+      "value": "com.forgejo.admin#AdminCreateUserAccessToken"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.forgejo.admin#ForgejoAdmin/operations/46/target",
+      "value": "com.forgejo.admin#AdminDeleteUserAccessToken"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.forgejo.admin#ForgejoAdmin/operations/47/target",
+      "value": "com.forgejo.admin#AdminCreateOrg"
     }
   ]
 }

@@ -18,58 +18,6 @@
     "distilled.finalized": true
   },
   "shapes": {
-    "com.axiom.api#QueryAplRequestFormat": {
-      "type": "enum",
-      "members": {
-        "LEGACY": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "legacy"
-          }
-        },
-        "TABULAR": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "tabular"
-          }
-        },
-        "TABULAR_ROWS": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "tabular-rows"
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.axiom.api#QueryAplRequestDefaultOrderItem": {
-      "type": "structure",
-      "members": {
-        "desc": {
-          "target": "smithy.api#Boolean"
-        },
-        "field": {
-          "target": "smithy.api#String"
-        }
-      },
-      "traits": {}
-    },
-    "com.axiom.api#QueryAplRequestDefaultOrderList": {
-      "type": "list",
-      "member": {
-        "target": "com.axiom.api#QueryAplRequestDefaultOrderItem"
-      },
-      "traits": {
-        "smithy.api#documentation": "The default order to use when no order is specified in the query.\n"
-      }
-    },
-    "com.axiom.api#QueryAplRequestLibrariesList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      },
-      "traits": {}
-    },
     "com.axiom.api#QueryOptions": {
       "type": "structure",
       "members": {
@@ -154,6 +102,58 @@
         "timeSeriesView": {
           "target": "smithy.api#String"
         }
+      },
+      "traits": {}
+    },
+    "com.axiom.api#QueryAplRequestFormat": {
+      "type": "enum",
+      "members": {
+        "LEGACY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "legacy"
+          }
+        },
+        "TABULAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tabular"
+          }
+        },
+        "TABULAR_ROWS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tabular-rows"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.axiom.api#QueryAplRequestDefaultOrderItem": {
+      "type": "structure",
+      "members": {
+        "desc": {
+          "target": "smithy.api#Boolean"
+        },
+        "field": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.axiom.api#QueryAplRequestDefaultOrderList": {
+      "type": "list",
+      "member": {
+        "target": "com.axiom.api#QueryAplRequestDefaultOrderItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "The default order to use when no order is specified in the query.\n"
+      }
+    },
+    "com.axiom.api#QueryAplRequestLibrariesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
       },
       "traits": {}
     },

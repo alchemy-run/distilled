@@ -1,0 +1,176 @@
+{
+  "description": "From actions-errors.patch.json: Auto-generated PostHog error responses (400/403/404) for tag \"actions\". See generate-error-patches.ts.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.actions#ActionsList/errors",
+      "value": [
+        {
+          "target": "com.posthog.actions#BadRequest"
+        },
+        {
+          "target": "com.posthog.actions#Forbidden"
+        },
+        {
+          "target": "com.posthog.actions#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.actions#ActionsCreate/errors",
+      "value": [
+        {
+          "target": "com.posthog.actions#BadRequest"
+        },
+        {
+          "target": "com.posthog.actions#Forbidden"
+        },
+        {
+          "target": "com.posthog.actions#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.actions#ActionsRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.actions#BadRequest"
+        },
+        {
+          "target": "com.posthog.actions#Forbidden"
+        },
+        {
+          "target": "com.posthog.actions#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.actions#ActionsUpdate/errors",
+      "value": [
+        {
+          "target": "com.posthog.actions#BadRequest"
+        },
+        {
+          "target": "com.posthog.actions#Forbidden"
+        },
+        {
+          "target": "com.posthog.actions#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.actions#ActionsPartialUpdate/errors",
+      "value": [
+        {
+          "target": "com.posthog.actions#BadRequest"
+        },
+        {
+          "target": "com.posthog.actions#Forbidden"
+        },
+        {
+          "target": "com.posthog.actions#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.actions#ActionsDestroy/errors",
+      "value": [
+        {
+          "target": "com.posthog.actions#BadRequest"
+        },
+        {
+          "target": "com.posthog.actions#Forbidden"
+        },
+        {
+          "target": "com.posthog.actions#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.actions#ActionsReferencesList/errors",
+      "value": [
+        {
+          "target": "com.posthog.actions#BadRequest"
+        },
+        {
+          "target": "com.posthog.actions#Forbidden"
+        },
+        {
+          "target": "com.posthog.actions#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.actions#ActionsBulkUpdateTagsCreate/errors",
+      "value": [
+        {
+          "target": "com.posthog.actions#BadRequest"
+        },
+        {
+          "target": "com.posthog.actions#Forbidden"
+        },
+        {
+          "target": "com.posthog.actions#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.actions#BadRequest",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 400
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.actions#Forbidden",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 403
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.actions#NotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

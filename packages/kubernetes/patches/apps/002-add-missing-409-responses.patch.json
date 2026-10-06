@@ -1,0 +1,270 @@
+{
+  "description": "From 002-add-missing-409-responses.patch.json: Add 409 Conflict responses to create, replace, delete, and patch operations",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.apps#CreateAppsV1NamespacedControllerRevision/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.apps#Conflict"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.apps#ReplaceAppsV1NamespacedControllerRevision/errors/-",
+      "value": {
+        "target": "com.kubernetes.apps#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.apps#PatchAppsV1NamespacedControllerRevision/errors/-",
+      "value": {
+        "target": "com.kubernetes.apps#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.apps#DeleteAppsV1NamespacedControllerRevision/errors/-",
+      "value": {
+        "target": "com.kubernetes.apps#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.apps#CreateAppsV1NamespacedDaemonSet/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.apps#Conflict"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.apps#ReplaceAppsV1NamespacedDaemonSet/errors/-",
+      "value": {
+        "target": "com.kubernetes.apps#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.apps#PatchAppsV1NamespacedDaemonSet/errors/-",
+      "value": {
+        "target": "com.kubernetes.apps#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.apps#DeleteAppsV1NamespacedDaemonSet/errors/-",
+      "value": {
+        "target": "com.kubernetes.apps#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.apps#ReplaceAppsV1NamespacedDaemonSetStatus/errors/-",
+      "value": {
+        "target": "com.kubernetes.apps#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.apps#PatchAppsV1NamespacedDaemonSetStatus/errors/-",
+      "value": {
+        "target": "com.kubernetes.apps#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.apps#CreateAppsV1NamespacedDeployment/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.apps#Conflict"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.apps#ReplaceAppsV1NamespacedDeployment/errors/-",
+      "value": {
+        "target": "com.kubernetes.apps#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.apps#PatchAppsV1NamespacedDeployment/errors/-",
+      "value": {
+        "target": "com.kubernetes.apps#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.apps#DeleteAppsV1NamespacedDeployment/errors/-",
+      "value": {
+        "target": "com.kubernetes.apps#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.apps#ReplaceAppsV1NamespacedDeploymentScale/errors/-",
+      "value": {
+        "target": "com.kubernetes.apps#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.apps#PatchAppsV1NamespacedDeploymentScale/errors/-",
+      "value": {
+        "target": "com.kubernetes.apps#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.apps#ReplaceAppsV1NamespacedDeploymentStatus/errors/-",
+      "value": {
+        "target": "com.kubernetes.apps#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.apps#PatchAppsV1NamespacedDeploymentStatus/errors/-",
+      "value": {
+        "target": "com.kubernetes.apps#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.apps#CreateAppsV1NamespacedReplicaSet/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.apps#Conflict"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.apps#ReplaceAppsV1NamespacedReplicaSet/errors/-",
+      "value": {
+        "target": "com.kubernetes.apps#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.apps#PatchAppsV1NamespacedReplicaSet/errors/-",
+      "value": {
+        "target": "com.kubernetes.apps#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.apps#DeleteAppsV1NamespacedReplicaSet/errors/-",
+      "value": {
+        "target": "com.kubernetes.apps#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.apps#ReplaceAppsV1NamespacedReplicaSetScale/errors/-",
+      "value": {
+        "target": "com.kubernetes.apps#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.apps#PatchAppsV1NamespacedReplicaSetScale/errors/-",
+      "value": {
+        "target": "com.kubernetes.apps#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.apps#ReplaceAppsV1NamespacedReplicaSetStatus/errors/-",
+      "value": {
+        "target": "com.kubernetes.apps#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.apps#PatchAppsV1NamespacedReplicaSetStatus/errors/-",
+      "value": {
+        "target": "com.kubernetes.apps#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.apps#CreateAppsV1NamespacedStatefulSet/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.apps#Conflict"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.apps#ReplaceAppsV1NamespacedStatefulSet/errors/-",
+      "value": {
+        "target": "com.kubernetes.apps#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.apps#PatchAppsV1NamespacedStatefulSet/errors/-",
+      "value": {
+        "target": "com.kubernetes.apps#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.apps#DeleteAppsV1NamespacedStatefulSet/errors/-",
+      "value": {
+        "target": "com.kubernetes.apps#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.apps#ReplaceAppsV1NamespacedStatefulSetScale/errors/-",
+      "value": {
+        "target": "com.kubernetes.apps#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.apps#PatchAppsV1NamespacedStatefulSetScale/errors/-",
+      "value": {
+        "target": "com.kubernetes.apps#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.apps#ReplaceAppsV1NamespacedStatefulSetStatus/errors/-",
+      "value": {
+        "target": "com.kubernetes.apps#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.apps#PatchAppsV1NamespacedStatefulSetStatus/errors/-",
+      "value": {
+        "target": "com.kubernetes.apps#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.apps#Conflict",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 409,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 409
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

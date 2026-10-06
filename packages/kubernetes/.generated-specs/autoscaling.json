@@ -1095,14 +1095,6 @@
       "output": {
         "target": "com.kubernetes.autoscaling#IoK8sApiAutoscalingV1HorizontalPodAutoscaler"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.autoscaling#Conflict"
-        },
-        {
-          "target": "com.kubernetes.autoscaling#UnprocessableEntity"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -1110,7 +1102,15 @@
           "code": 200
         },
         "smithy.api#documentation": "create a HorizontalPodAutoscaler"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.autoscaling#Conflict"
+        },
+        {
+          "target": "com.kubernetes.autoscaling#UnprocessableEntity"
+        }
+      ]
     },
     "com.kubernetes.autoscaling#DeleteAutoscalingV1CollectionNamespacedHorizontalPodAutoscalerRequestDryRunList": {
       "type": "list",
@@ -1471,11 +1471,6 @@
       "output": {
         "target": "com.kubernetes.autoscaling#IoK8sApiAutoscalingV1HorizontalPodAutoscaler"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.autoscaling#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -1483,7 +1478,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read the specified HorizontalPodAutoscaler"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.autoscaling#NotFound"
+        }
+      ]
     },
     "com.kubernetes.autoscaling#ReplaceAutoscalingV1NamespacedHorizontalPodAutoscalerRequest": {
       "type": "structure",
@@ -1576,6 +1576,14 @@
       "output": {
         "target": "com.kubernetes.autoscaling#IoK8sApiAutoscalingV1HorizontalPodAutoscaler"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/apis/autoscaling/v1/namespaces/{namespace}/horizontalpodautoscalers/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace the specified HorizontalPodAutoscaler"
+      },
       "errors": [
         {
           "target": "com.kubernetes.autoscaling#NotFound"
@@ -1586,15 +1594,7 @@
         {
           "target": "com.kubernetes.autoscaling#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/apis/autoscaling/v1/namespaces/{namespace}/horizontalpodautoscalers/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace the specified HorizontalPodAutoscaler"
-      }
+      ]
     },
     "com.kubernetes.autoscaling#PatchAutoscalingV1NamespacedHorizontalPodAutoscalerRequest": {
       "type": "structure",
@@ -1663,6 +1663,14 @@
       "output": {
         "target": "com.kubernetes.autoscaling#IoK8sApiAutoscalingV1HorizontalPodAutoscaler"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/apis/autoscaling/v1/namespaces/{namespace}/horizontalpodautoscalers/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update the specified HorizontalPodAutoscaler"
+      },
       "errors": [
         {
           "target": "com.kubernetes.autoscaling#NotFound"
@@ -1673,15 +1681,7 @@
         {
           "target": "com.kubernetes.autoscaling#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/apis/autoscaling/v1/namespaces/{namespace}/horizontalpodautoscalers/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update the specified HorizontalPodAutoscaler"
-      }
+      ]
     },
     "com.kubernetes.autoscaling#DeleteAutoscalingV1NamespacedHorizontalPodAutoscalerRequestDryRunList": {
       "type": "list",
@@ -1784,14 +1784,6 @@
       "output": {
         "target": "com.kubernetes.autoscaling#IoK8sApimachineryPkgApisMetaV1Status"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.autoscaling#NotFound"
-        },
-        {
-          "target": "com.kubernetes.autoscaling#Conflict"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -1799,7 +1791,15 @@
           "code": 200
         },
         "smithy.api#documentation": "delete a HorizontalPodAutoscaler"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.autoscaling#NotFound"
+        },
+        {
+          "target": "com.kubernetes.autoscaling#Conflict"
+        }
+      ]
     },
     "com.kubernetes.autoscaling#ReadAutoscalingV1NamespacedHorizontalPodAutoscalerStatusRequest": {
       "type": "structure",
@@ -1840,11 +1840,6 @@
       "output": {
         "target": "com.kubernetes.autoscaling#IoK8sApiAutoscalingV1HorizontalPodAutoscaler"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.autoscaling#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -1852,7 +1847,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read status of the specified HorizontalPodAutoscaler"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.autoscaling#NotFound"
+        }
+      ]
     },
     "com.kubernetes.autoscaling#ReplaceAutoscalingV1NamespacedHorizontalPodAutoscalerStatusRequest": {
       "type": "structure",
@@ -1945,6 +1945,14 @@
       "output": {
         "target": "com.kubernetes.autoscaling#IoK8sApiAutoscalingV1HorizontalPodAutoscaler"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/apis/autoscaling/v1/namespaces/{namespace}/horizontalpodautoscalers/{name}/status",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace status of the specified HorizontalPodAutoscaler"
+      },
       "errors": [
         {
           "target": "com.kubernetes.autoscaling#NotFound"
@@ -1955,15 +1963,7 @@
         {
           "target": "com.kubernetes.autoscaling#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/apis/autoscaling/v1/namespaces/{namespace}/horizontalpodautoscalers/{name}/status",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace status of the specified HorizontalPodAutoscaler"
-      }
+      ]
     },
     "com.kubernetes.autoscaling#PatchAutoscalingV1NamespacedHorizontalPodAutoscalerStatusRequest": {
       "type": "structure",
@@ -2032,6 +2032,14 @@
       "output": {
         "target": "com.kubernetes.autoscaling#IoK8sApiAutoscalingV1HorizontalPodAutoscaler"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/apis/autoscaling/v1/namespaces/{namespace}/horizontalpodautoscalers/{name}/status",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update status of the specified HorizontalPodAutoscaler"
+      },
       "errors": [
         {
           "target": "com.kubernetes.autoscaling#NotFound"
@@ -2042,15 +2050,7 @@
         {
           "target": "com.kubernetes.autoscaling#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/apis/autoscaling/v1/namespaces/{namespace}/horizontalpodautoscalers/{name}/status",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update status of the specified HorizontalPodAutoscaler"
-      }
+      ]
     },
     "com.kubernetes.autoscaling#WatchAutoscalingV1HorizontalPodAutoscalerListForAllNamespacesRequest": {
       "type": "structure",
@@ -3603,14 +3603,6 @@
       "output": {
         "target": "com.kubernetes.autoscaling#IoK8sApiAutoscalingV2HorizontalPodAutoscaler"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.autoscaling#Conflict"
-        },
-        {
-          "target": "com.kubernetes.autoscaling#UnprocessableEntity"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -3618,7 +3610,15 @@
           "code": 200
         },
         "smithy.api#documentation": "create a HorizontalPodAutoscaler"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.autoscaling#Conflict"
+        },
+        {
+          "target": "com.kubernetes.autoscaling#UnprocessableEntity"
+        }
+      ]
     },
     "com.kubernetes.autoscaling#DeleteAutoscalingV2CollectionNamespacedHorizontalPodAutoscalerRequestDryRunList": {
       "type": "list",
@@ -3824,11 +3824,6 @@
       "output": {
         "target": "com.kubernetes.autoscaling#IoK8sApiAutoscalingV2HorizontalPodAutoscaler"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.autoscaling#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -3836,7 +3831,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read the specified HorizontalPodAutoscaler"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.autoscaling#NotFound"
+        }
+      ]
     },
     "com.kubernetes.autoscaling#ReplaceAutoscalingV2NamespacedHorizontalPodAutoscalerRequest": {
       "type": "structure",
@@ -3929,6 +3929,14 @@
       "output": {
         "target": "com.kubernetes.autoscaling#IoK8sApiAutoscalingV2HorizontalPodAutoscaler"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/apis/autoscaling/v2/namespaces/{namespace}/horizontalpodautoscalers/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace the specified HorizontalPodAutoscaler"
+      },
       "errors": [
         {
           "target": "com.kubernetes.autoscaling#NotFound"
@@ -3939,15 +3947,7 @@
         {
           "target": "com.kubernetes.autoscaling#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/apis/autoscaling/v2/namespaces/{namespace}/horizontalpodautoscalers/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace the specified HorizontalPodAutoscaler"
-      }
+      ]
     },
     "com.kubernetes.autoscaling#PatchAutoscalingV2NamespacedHorizontalPodAutoscalerRequest": {
       "type": "structure",
@@ -4016,6 +4016,14 @@
       "output": {
         "target": "com.kubernetes.autoscaling#IoK8sApiAutoscalingV2HorizontalPodAutoscaler"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/apis/autoscaling/v2/namespaces/{namespace}/horizontalpodautoscalers/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update the specified HorizontalPodAutoscaler"
+      },
       "errors": [
         {
           "target": "com.kubernetes.autoscaling#NotFound"
@@ -4026,15 +4034,7 @@
         {
           "target": "com.kubernetes.autoscaling#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/apis/autoscaling/v2/namespaces/{namespace}/horizontalpodautoscalers/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update the specified HorizontalPodAutoscaler"
-      }
+      ]
     },
     "com.kubernetes.autoscaling#DeleteAutoscalingV2NamespacedHorizontalPodAutoscalerRequestDryRunList": {
       "type": "list",
@@ -4137,14 +4137,6 @@
       "output": {
         "target": "com.kubernetes.autoscaling#IoK8sApimachineryPkgApisMetaV1Status"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.autoscaling#NotFound"
-        },
-        {
-          "target": "com.kubernetes.autoscaling#Conflict"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -4152,7 +4144,15 @@
           "code": 200
         },
         "smithy.api#documentation": "delete a HorizontalPodAutoscaler"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.autoscaling#NotFound"
+        },
+        {
+          "target": "com.kubernetes.autoscaling#Conflict"
+        }
+      ]
     },
     "com.kubernetes.autoscaling#ReadAutoscalingV2NamespacedHorizontalPodAutoscalerStatusRequest": {
       "type": "structure",
@@ -4193,11 +4193,6 @@
       "output": {
         "target": "com.kubernetes.autoscaling#IoK8sApiAutoscalingV2HorizontalPodAutoscaler"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.autoscaling#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -4205,7 +4200,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read status of the specified HorizontalPodAutoscaler"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.autoscaling#NotFound"
+        }
+      ]
     },
     "com.kubernetes.autoscaling#ReplaceAutoscalingV2NamespacedHorizontalPodAutoscalerStatusRequest": {
       "type": "structure",
@@ -4298,6 +4298,14 @@
       "output": {
         "target": "com.kubernetes.autoscaling#IoK8sApiAutoscalingV2HorizontalPodAutoscaler"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/apis/autoscaling/v2/namespaces/{namespace}/horizontalpodautoscalers/{name}/status",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace status of the specified HorizontalPodAutoscaler"
+      },
       "errors": [
         {
           "target": "com.kubernetes.autoscaling#NotFound"
@@ -4308,15 +4316,7 @@
         {
           "target": "com.kubernetes.autoscaling#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/apis/autoscaling/v2/namespaces/{namespace}/horizontalpodautoscalers/{name}/status",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace status of the specified HorizontalPodAutoscaler"
-      }
+      ]
     },
     "com.kubernetes.autoscaling#PatchAutoscalingV2NamespacedHorizontalPodAutoscalerStatusRequest": {
       "type": "structure",
@@ -4385,6 +4385,14 @@
       "output": {
         "target": "com.kubernetes.autoscaling#IoK8sApiAutoscalingV2HorizontalPodAutoscaler"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/apis/autoscaling/v2/namespaces/{namespace}/horizontalpodautoscalers/{name}/status",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update status of the specified HorizontalPodAutoscaler"
+      },
       "errors": [
         {
           "target": "com.kubernetes.autoscaling#NotFound"
@@ -4395,15 +4403,7 @@
         {
           "target": "com.kubernetes.autoscaling#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/apis/autoscaling/v2/namespaces/{namespace}/horizontalpodautoscalers/{name}/status",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update status of the specified HorizontalPodAutoscaler"
-      }
+      ]
     },
     "com.kubernetes.autoscaling#WatchAutoscalingV2HorizontalPodAutoscalerListForAllNamespacesRequest": {
       "type": "structure",
@@ -4756,45 +4756,6 @@
         "smithy.api#documentation": "watch changes to an object of kind HorizontalPodAutoscaler. deprecated: use the 'watch' parameter with a list operation instead, filtered to a single item with the 'fieldSelector' parameter."
       }
     },
-    "com.kubernetes.autoscaling#Conflict": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 409,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 409
-          }
-        ]
-      }
-    },
-    "com.kubernetes.autoscaling#UnprocessableEntity": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 422,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 422
-          }
-        ]
-      }
-    },
-    "com.kubernetes.autoscaling#NotFound": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 404,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 404
-          }
-        ]
-      }
-    },
     "com.kubernetes.autoscaling#Autoscaling": {
       "type": "service",
       "version": "unversioned",
@@ -4895,6 +4856,45 @@
       ],
       "traits": {
         "smithy.api#title": "Kubernetes"
+      }
+    },
+    "com.kubernetes.autoscaling#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.kubernetes.autoscaling#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.kubernetes.autoscaling#UnprocessableEntity": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 422,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 422
+          }
+        ]
       }
     }
   }

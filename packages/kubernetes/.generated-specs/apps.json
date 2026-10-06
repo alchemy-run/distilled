@@ -6527,14 +6527,6 @@
       "output": {
         "target": "com.kubernetes.apps#IoK8sApiAppsV1ControllerRevision"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.apps#Conflict"
-        },
-        {
-          "target": "com.kubernetes.apps#UnprocessableEntity"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -6542,7 +6534,15 @@
           "code": 200
         },
         "smithy.api#documentation": "create a ControllerRevision"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.apps#Conflict"
+        },
+        {
+          "target": "com.kubernetes.apps#UnprocessableEntity"
+        }
+      ]
     },
     "com.kubernetes.apps#DeleteAppsV1CollectionNamespacedControllerRevisionRequestDryRunList": {
       "type": "list",
@@ -6903,11 +6903,6 @@
       "output": {
         "target": "com.kubernetes.apps#IoK8sApiAppsV1ControllerRevision"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.apps#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -6915,7 +6910,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read the specified ControllerRevision"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.apps#NotFound"
+        }
+      ]
     },
     "com.kubernetes.apps#ReplaceAppsV1NamespacedControllerRevisionRequest": {
       "type": "structure",
@@ -7008,6 +7008,14 @@
       "output": {
         "target": "com.kubernetes.apps#IoK8sApiAppsV1ControllerRevision"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/apis/apps/v1/namespaces/{namespace}/controllerrevisions/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace the specified ControllerRevision"
+      },
       "errors": [
         {
           "target": "com.kubernetes.apps#NotFound"
@@ -7018,15 +7026,7 @@
         {
           "target": "com.kubernetes.apps#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/apis/apps/v1/namespaces/{namespace}/controllerrevisions/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace the specified ControllerRevision"
-      }
+      ]
     },
     "com.kubernetes.apps#PatchAppsV1NamespacedControllerRevisionRequest": {
       "type": "structure",
@@ -7095,6 +7095,14 @@
       "output": {
         "target": "com.kubernetes.apps#IoK8sApiAppsV1ControllerRevision"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/apis/apps/v1/namespaces/{namespace}/controllerrevisions/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update the specified ControllerRevision"
+      },
       "errors": [
         {
           "target": "com.kubernetes.apps#NotFound"
@@ -7105,15 +7113,7 @@
         {
           "target": "com.kubernetes.apps#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/apis/apps/v1/namespaces/{namespace}/controllerrevisions/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update the specified ControllerRevision"
-      }
+      ]
     },
     "com.kubernetes.apps#DeleteAppsV1NamespacedControllerRevisionRequestDryRunList": {
       "type": "list",
@@ -7216,14 +7216,6 @@
       "output": {
         "target": "com.kubernetes.apps#IoK8sApimachineryPkgApisMetaV1Status"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.apps#NotFound"
-        },
-        {
-          "target": "com.kubernetes.apps#Conflict"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -7231,7 +7223,15 @@
           "code": 200
         },
         "smithy.api#documentation": "delete a ControllerRevision"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.apps#NotFound"
+        },
+        {
+          "target": "com.kubernetes.apps#Conflict"
+        }
+      ]
     },
     "com.kubernetes.apps#ListAppsV1NamespacedDaemonSetRequest": {
       "type": "structure",
@@ -7433,14 +7433,6 @@
       "output": {
         "target": "com.kubernetes.apps#IoK8sApiAppsV1DaemonSet"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.apps#Conflict"
-        },
-        {
-          "target": "com.kubernetes.apps#UnprocessableEntity"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -7448,7 +7440,15 @@
           "code": 200
         },
         "smithy.api#documentation": "create a DaemonSet"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.apps#Conflict"
+        },
+        {
+          "target": "com.kubernetes.apps#UnprocessableEntity"
+        }
+      ]
     },
     "com.kubernetes.apps#DeleteAppsV1CollectionNamespacedDaemonSetRequestDryRunList": {
       "type": "list",
@@ -7654,11 +7654,6 @@
       "output": {
         "target": "com.kubernetes.apps#IoK8sApiAppsV1DaemonSet"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.apps#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -7666,7 +7661,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read the specified DaemonSet"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.apps#NotFound"
+        }
+      ]
     },
     "com.kubernetes.apps#ReplaceAppsV1NamespacedDaemonSetRequest": {
       "type": "structure",
@@ -7759,6 +7759,14 @@
       "output": {
         "target": "com.kubernetes.apps#IoK8sApiAppsV1DaemonSet"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/apis/apps/v1/namespaces/{namespace}/daemonsets/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace the specified DaemonSet"
+      },
       "errors": [
         {
           "target": "com.kubernetes.apps#NotFound"
@@ -7769,15 +7777,7 @@
         {
           "target": "com.kubernetes.apps#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/apis/apps/v1/namespaces/{namespace}/daemonsets/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace the specified DaemonSet"
-      }
+      ]
     },
     "com.kubernetes.apps#PatchAppsV1NamespacedDaemonSetRequest": {
       "type": "structure",
@@ -7846,6 +7846,14 @@
       "output": {
         "target": "com.kubernetes.apps#IoK8sApiAppsV1DaemonSet"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/apis/apps/v1/namespaces/{namespace}/daemonsets/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update the specified DaemonSet"
+      },
       "errors": [
         {
           "target": "com.kubernetes.apps#NotFound"
@@ -7856,15 +7864,7 @@
         {
           "target": "com.kubernetes.apps#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/apis/apps/v1/namespaces/{namespace}/daemonsets/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update the specified DaemonSet"
-      }
+      ]
     },
     "com.kubernetes.apps#DeleteAppsV1NamespacedDaemonSetRequestDryRunList": {
       "type": "list",
@@ -7967,14 +7967,6 @@
       "output": {
         "target": "com.kubernetes.apps#IoK8sApimachineryPkgApisMetaV1Status"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.apps#NotFound"
-        },
-        {
-          "target": "com.kubernetes.apps#Conflict"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -7982,7 +7974,15 @@
           "code": 200
         },
         "smithy.api#documentation": "delete a DaemonSet"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.apps#NotFound"
+        },
+        {
+          "target": "com.kubernetes.apps#Conflict"
+        }
+      ]
     },
     "com.kubernetes.apps#ReadAppsV1NamespacedDaemonSetStatusRequest": {
       "type": "structure",
@@ -8023,11 +8023,6 @@
       "output": {
         "target": "com.kubernetes.apps#IoK8sApiAppsV1DaemonSet"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.apps#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -8035,7 +8030,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read status of the specified DaemonSet"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.apps#NotFound"
+        }
+      ]
     },
     "com.kubernetes.apps#ReplaceAppsV1NamespacedDaemonSetStatusRequest": {
       "type": "structure",
@@ -8128,6 +8128,14 @@
       "output": {
         "target": "com.kubernetes.apps#IoK8sApiAppsV1DaemonSet"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/apis/apps/v1/namespaces/{namespace}/daemonsets/{name}/status",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace status of the specified DaemonSet"
+      },
       "errors": [
         {
           "target": "com.kubernetes.apps#NotFound"
@@ -8138,15 +8146,7 @@
         {
           "target": "com.kubernetes.apps#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/apis/apps/v1/namespaces/{namespace}/daemonsets/{name}/status",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace status of the specified DaemonSet"
-      }
+      ]
     },
     "com.kubernetes.apps#PatchAppsV1NamespacedDaemonSetStatusRequest": {
       "type": "structure",
@@ -8215,6 +8215,14 @@
       "output": {
         "target": "com.kubernetes.apps#IoK8sApiAppsV1DaemonSet"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/apis/apps/v1/namespaces/{namespace}/daemonsets/{name}/status",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update status of the specified DaemonSet"
+      },
       "errors": [
         {
           "target": "com.kubernetes.apps#NotFound"
@@ -8225,15 +8233,7 @@
         {
           "target": "com.kubernetes.apps#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/apis/apps/v1/namespaces/{namespace}/daemonsets/{name}/status",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update status of the specified DaemonSet"
-      }
+      ]
     },
     "com.kubernetes.apps#ListAppsV1NamespacedDeploymentRequest": {
       "type": "structure",
@@ -8435,14 +8435,6 @@
       "output": {
         "target": "com.kubernetes.apps#IoK8sApiAppsV1Deployment"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.apps#Conflict"
-        },
-        {
-          "target": "com.kubernetes.apps#UnprocessableEntity"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -8450,7 +8442,15 @@
           "code": 200
         },
         "smithy.api#documentation": "create a Deployment"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.apps#Conflict"
+        },
+        {
+          "target": "com.kubernetes.apps#UnprocessableEntity"
+        }
+      ]
     },
     "com.kubernetes.apps#DeleteAppsV1CollectionNamespacedDeploymentRequestDryRunList": {
       "type": "list",
@@ -8656,11 +8656,6 @@
       "output": {
         "target": "com.kubernetes.apps#IoK8sApiAppsV1Deployment"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.apps#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -8668,7 +8663,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read the specified Deployment"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.apps#NotFound"
+        }
+      ]
     },
     "com.kubernetes.apps#ReplaceAppsV1NamespacedDeploymentRequest": {
       "type": "structure",
@@ -8761,6 +8761,14 @@
       "output": {
         "target": "com.kubernetes.apps#IoK8sApiAppsV1Deployment"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/apis/apps/v1/namespaces/{namespace}/deployments/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace the specified Deployment"
+      },
       "errors": [
         {
           "target": "com.kubernetes.apps#NotFound"
@@ -8771,15 +8779,7 @@
         {
           "target": "com.kubernetes.apps#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/apis/apps/v1/namespaces/{namespace}/deployments/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace the specified Deployment"
-      }
+      ]
     },
     "com.kubernetes.apps#PatchAppsV1NamespacedDeploymentRequest": {
       "type": "structure",
@@ -8848,6 +8848,14 @@
       "output": {
         "target": "com.kubernetes.apps#IoK8sApiAppsV1Deployment"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/apis/apps/v1/namespaces/{namespace}/deployments/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update the specified Deployment"
+      },
       "errors": [
         {
           "target": "com.kubernetes.apps#NotFound"
@@ -8858,15 +8866,7 @@
         {
           "target": "com.kubernetes.apps#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/apis/apps/v1/namespaces/{namespace}/deployments/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update the specified Deployment"
-      }
+      ]
     },
     "com.kubernetes.apps#DeleteAppsV1NamespacedDeploymentRequestDryRunList": {
       "type": "list",
@@ -8969,14 +8969,6 @@
       "output": {
         "target": "com.kubernetes.apps#IoK8sApimachineryPkgApisMetaV1Status"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.apps#NotFound"
-        },
-        {
-          "target": "com.kubernetes.apps#Conflict"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -8984,7 +8976,15 @@
           "code": 200
         },
         "smithy.api#documentation": "delete a Deployment"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.apps#NotFound"
+        },
+        {
+          "target": "com.kubernetes.apps#Conflict"
+        }
+      ]
     },
     "com.kubernetes.apps#ReadAppsV1NamespacedDeploymentScaleRequest": {
       "type": "structure",
@@ -9098,11 +9098,6 @@
       "output": {
         "target": "com.kubernetes.apps#IoK8sApiAutoscalingV1Scale"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.apps#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -9110,7 +9105,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read scale of the specified Deployment"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.apps#NotFound"
+        }
+      ]
     },
     "com.kubernetes.apps#ReplaceAppsV1NamespacedDeploymentScaleRequest": {
       "type": "structure",
@@ -9202,6 +9202,14 @@
       "output": {
         "target": "com.kubernetes.apps#IoK8sApiAutoscalingV1Scale"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/apis/apps/v1/namespaces/{namespace}/deployments/{name}/scale",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace scale of the specified Deployment"
+      },
       "errors": [
         {
           "target": "com.kubernetes.apps#NotFound"
@@ -9212,15 +9220,7 @@
         {
           "target": "com.kubernetes.apps#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/apis/apps/v1/namespaces/{namespace}/deployments/{name}/scale",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace scale of the specified Deployment"
-      }
+      ]
     },
     "com.kubernetes.apps#PatchAppsV1NamespacedDeploymentScaleRequest": {
       "type": "structure",
@@ -9289,6 +9289,14 @@
       "output": {
         "target": "com.kubernetes.apps#IoK8sApiAutoscalingV1Scale"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/apis/apps/v1/namespaces/{namespace}/deployments/{name}/scale",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update scale of the specified Deployment"
+      },
       "errors": [
         {
           "target": "com.kubernetes.apps#NotFound"
@@ -9299,15 +9307,7 @@
         {
           "target": "com.kubernetes.apps#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/apis/apps/v1/namespaces/{namespace}/deployments/{name}/scale",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update scale of the specified Deployment"
-      }
+      ]
     },
     "com.kubernetes.apps#ReadAppsV1NamespacedDeploymentStatusRequest": {
       "type": "structure",
@@ -9348,11 +9348,6 @@
       "output": {
         "target": "com.kubernetes.apps#IoK8sApiAppsV1Deployment"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.apps#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -9360,7 +9355,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read status of the specified Deployment"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.apps#NotFound"
+        }
+      ]
     },
     "com.kubernetes.apps#ReplaceAppsV1NamespacedDeploymentStatusRequest": {
       "type": "structure",
@@ -9453,6 +9453,14 @@
       "output": {
         "target": "com.kubernetes.apps#IoK8sApiAppsV1Deployment"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/apis/apps/v1/namespaces/{namespace}/deployments/{name}/status",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace status of the specified Deployment"
+      },
       "errors": [
         {
           "target": "com.kubernetes.apps#NotFound"
@@ -9463,15 +9471,7 @@
         {
           "target": "com.kubernetes.apps#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/apis/apps/v1/namespaces/{namespace}/deployments/{name}/status",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace status of the specified Deployment"
-      }
+      ]
     },
     "com.kubernetes.apps#PatchAppsV1NamespacedDeploymentStatusRequest": {
       "type": "structure",
@@ -9540,6 +9540,14 @@
       "output": {
         "target": "com.kubernetes.apps#IoK8sApiAppsV1Deployment"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/apis/apps/v1/namespaces/{namespace}/deployments/{name}/status",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update status of the specified Deployment"
+      },
       "errors": [
         {
           "target": "com.kubernetes.apps#NotFound"
@@ -9550,15 +9558,7 @@
         {
           "target": "com.kubernetes.apps#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/apis/apps/v1/namespaces/{namespace}/deployments/{name}/status",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update status of the specified Deployment"
-      }
+      ]
     },
     "com.kubernetes.apps#ListAppsV1NamespacedReplicaSetRequest": {
       "type": "structure",
@@ -9972,14 +9972,6 @@
       "output": {
         "target": "com.kubernetes.apps#IoK8sApiAppsV1ReplicaSet"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.apps#Conflict"
-        },
-        {
-          "target": "com.kubernetes.apps#UnprocessableEntity"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -9987,7 +9979,15 @@
           "code": 200
         },
         "smithy.api#documentation": "create a ReplicaSet"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.apps#Conflict"
+        },
+        {
+          "target": "com.kubernetes.apps#UnprocessableEntity"
+        }
+      ]
     },
     "com.kubernetes.apps#DeleteAppsV1CollectionNamespacedReplicaSetRequestDryRunList": {
       "type": "list",
@@ -10193,11 +10193,6 @@
       "output": {
         "target": "com.kubernetes.apps#IoK8sApiAppsV1ReplicaSet"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.apps#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -10205,7 +10200,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read the specified ReplicaSet"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.apps#NotFound"
+        }
+      ]
     },
     "com.kubernetes.apps#ReplaceAppsV1NamespacedReplicaSetRequest": {
       "type": "structure",
@@ -10298,6 +10298,14 @@
       "output": {
         "target": "com.kubernetes.apps#IoK8sApiAppsV1ReplicaSet"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/apis/apps/v1/namespaces/{namespace}/replicasets/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace the specified ReplicaSet"
+      },
       "errors": [
         {
           "target": "com.kubernetes.apps#NotFound"
@@ -10308,15 +10316,7 @@
         {
           "target": "com.kubernetes.apps#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/apis/apps/v1/namespaces/{namespace}/replicasets/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace the specified ReplicaSet"
-      }
+      ]
     },
     "com.kubernetes.apps#PatchAppsV1NamespacedReplicaSetRequest": {
       "type": "structure",
@@ -10385,6 +10385,14 @@
       "output": {
         "target": "com.kubernetes.apps#IoK8sApiAppsV1ReplicaSet"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/apis/apps/v1/namespaces/{namespace}/replicasets/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update the specified ReplicaSet"
+      },
       "errors": [
         {
           "target": "com.kubernetes.apps#NotFound"
@@ -10395,15 +10403,7 @@
         {
           "target": "com.kubernetes.apps#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/apis/apps/v1/namespaces/{namespace}/replicasets/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update the specified ReplicaSet"
-      }
+      ]
     },
     "com.kubernetes.apps#DeleteAppsV1NamespacedReplicaSetRequestDryRunList": {
       "type": "list",
@@ -10506,14 +10506,6 @@
       "output": {
         "target": "com.kubernetes.apps#IoK8sApimachineryPkgApisMetaV1Status"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.apps#NotFound"
-        },
-        {
-          "target": "com.kubernetes.apps#Conflict"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -10521,7 +10513,15 @@
           "code": 200
         },
         "smithy.api#documentation": "delete a ReplicaSet"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.apps#NotFound"
+        },
+        {
+          "target": "com.kubernetes.apps#Conflict"
+        }
+      ]
     },
     "com.kubernetes.apps#ReadAppsV1NamespacedReplicaSetScaleRequest": {
       "type": "structure",
@@ -10562,11 +10562,6 @@
       "output": {
         "target": "com.kubernetes.apps#IoK8sApiAutoscalingV1Scale"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.apps#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -10574,7 +10569,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read scale of the specified ReplicaSet"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.apps#NotFound"
+        }
+      ]
     },
     "com.kubernetes.apps#ReplaceAppsV1NamespacedReplicaSetScaleRequest": {
       "type": "structure",
@@ -10666,6 +10666,14 @@
       "output": {
         "target": "com.kubernetes.apps#IoK8sApiAutoscalingV1Scale"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/apis/apps/v1/namespaces/{namespace}/replicasets/{name}/scale",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace scale of the specified ReplicaSet"
+      },
       "errors": [
         {
           "target": "com.kubernetes.apps#NotFound"
@@ -10676,15 +10684,7 @@
         {
           "target": "com.kubernetes.apps#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/apis/apps/v1/namespaces/{namespace}/replicasets/{name}/scale",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace scale of the specified ReplicaSet"
-      }
+      ]
     },
     "com.kubernetes.apps#PatchAppsV1NamespacedReplicaSetScaleRequest": {
       "type": "structure",
@@ -10753,6 +10753,14 @@
       "output": {
         "target": "com.kubernetes.apps#IoK8sApiAutoscalingV1Scale"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/apis/apps/v1/namespaces/{namespace}/replicasets/{name}/scale",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update scale of the specified ReplicaSet"
+      },
       "errors": [
         {
           "target": "com.kubernetes.apps#NotFound"
@@ -10763,15 +10771,7 @@
         {
           "target": "com.kubernetes.apps#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/apis/apps/v1/namespaces/{namespace}/replicasets/{name}/scale",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update scale of the specified ReplicaSet"
-      }
+      ]
     },
     "com.kubernetes.apps#ReadAppsV1NamespacedReplicaSetStatusRequest": {
       "type": "structure",
@@ -10812,11 +10812,6 @@
       "output": {
         "target": "com.kubernetes.apps#IoK8sApiAppsV1ReplicaSet"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.apps#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -10824,7 +10819,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read status of the specified ReplicaSet"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.apps#NotFound"
+        }
+      ]
     },
     "com.kubernetes.apps#ReplaceAppsV1NamespacedReplicaSetStatusRequest": {
       "type": "structure",
@@ -10917,6 +10917,14 @@
       "output": {
         "target": "com.kubernetes.apps#IoK8sApiAppsV1ReplicaSet"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/apis/apps/v1/namespaces/{namespace}/replicasets/{name}/status",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace status of the specified ReplicaSet"
+      },
       "errors": [
         {
           "target": "com.kubernetes.apps#NotFound"
@@ -10927,15 +10935,7 @@
         {
           "target": "com.kubernetes.apps#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/apis/apps/v1/namespaces/{namespace}/replicasets/{name}/status",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace status of the specified ReplicaSet"
-      }
+      ]
     },
     "com.kubernetes.apps#PatchAppsV1NamespacedReplicaSetStatusRequest": {
       "type": "structure",
@@ -11004,6 +11004,14 @@
       "output": {
         "target": "com.kubernetes.apps#IoK8sApiAppsV1ReplicaSet"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/apis/apps/v1/namespaces/{namespace}/replicasets/{name}/status",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update status of the specified ReplicaSet"
+      },
       "errors": [
         {
           "target": "com.kubernetes.apps#NotFound"
@@ -11014,15 +11022,7 @@
         {
           "target": "com.kubernetes.apps#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/apis/apps/v1/namespaces/{namespace}/replicasets/{name}/status",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update status of the specified ReplicaSet"
-      }
+      ]
     },
     "com.kubernetes.apps#ListAppsV1NamespacedStatefulSetRequest": {
       "type": "structure",
@@ -11857,14 +11857,6 @@
       "output": {
         "target": "com.kubernetes.apps#IoK8sApiAppsV1StatefulSet"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.apps#Conflict"
-        },
-        {
-          "target": "com.kubernetes.apps#UnprocessableEntity"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -11872,7 +11864,15 @@
           "code": 200
         },
         "smithy.api#documentation": "create a StatefulSet"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.apps#Conflict"
+        },
+        {
+          "target": "com.kubernetes.apps#UnprocessableEntity"
+        }
+      ]
     },
     "com.kubernetes.apps#DeleteAppsV1CollectionNamespacedStatefulSetRequestDryRunList": {
       "type": "list",
@@ -12078,11 +12078,6 @@
       "output": {
         "target": "com.kubernetes.apps#IoK8sApiAppsV1StatefulSet"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.apps#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -12090,7 +12085,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read the specified StatefulSet"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.apps#NotFound"
+        }
+      ]
     },
     "com.kubernetes.apps#ReplaceAppsV1NamespacedStatefulSetRequest": {
       "type": "structure",
@@ -12183,6 +12183,14 @@
       "output": {
         "target": "com.kubernetes.apps#IoK8sApiAppsV1StatefulSet"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/apis/apps/v1/namespaces/{namespace}/statefulsets/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace the specified StatefulSet"
+      },
       "errors": [
         {
           "target": "com.kubernetes.apps#NotFound"
@@ -12193,15 +12201,7 @@
         {
           "target": "com.kubernetes.apps#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/apis/apps/v1/namespaces/{namespace}/statefulsets/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace the specified StatefulSet"
-      }
+      ]
     },
     "com.kubernetes.apps#PatchAppsV1NamespacedStatefulSetRequest": {
       "type": "structure",
@@ -12270,6 +12270,14 @@
       "output": {
         "target": "com.kubernetes.apps#IoK8sApiAppsV1StatefulSet"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/apis/apps/v1/namespaces/{namespace}/statefulsets/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update the specified StatefulSet"
+      },
       "errors": [
         {
           "target": "com.kubernetes.apps#NotFound"
@@ -12280,15 +12288,7 @@
         {
           "target": "com.kubernetes.apps#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/apis/apps/v1/namespaces/{namespace}/statefulsets/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update the specified StatefulSet"
-      }
+      ]
     },
     "com.kubernetes.apps#DeleteAppsV1NamespacedStatefulSetRequestDryRunList": {
       "type": "list",
@@ -12391,14 +12391,6 @@
       "output": {
         "target": "com.kubernetes.apps#IoK8sApimachineryPkgApisMetaV1Status"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.apps#NotFound"
-        },
-        {
-          "target": "com.kubernetes.apps#Conflict"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -12406,7 +12398,15 @@
           "code": 200
         },
         "smithy.api#documentation": "delete a StatefulSet"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.apps#NotFound"
+        },
+        {
+          "target": "com.kubernetes.apps#Conflict"
+        }
+      ]
     },
     "com.kubernetes.apps#ReadAppsV1NamespacedStatefulSetScaleRequest": {
       "type": "structure",
@@ -12447,11 +12447,6 @@
       "output": {
         "target": "com.kubernetes.apps#IoK8sApiAutoscalingV1Scale"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.apps#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -12459,7 +12454,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read scale of the specified StatefulSet"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.apps#NotFound"
+        }
+      ]
     },
     "com.kubernetes.apps#ReplaceAppsV1NamespacedStatefulSetScaleRequest": {
       "type": "structure",
@@ -12551,6 +12551,14 @@
       "output": {
         "target": "com.kubernetes.apps#IoK8sApiAutoscalingV1Scale"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/apis/apps/v1/namespaces/{namespace}/statefulsets/{name}/scale",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace scale of the specified StatefulSet"
+      },
       "errors": [
         {
           "target": "com.kubernetes.apps#NotFound"
@@ -12561,15 +12569,7 @@
         {
           "target": "com.kubernetes.apps#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/apis/apps/v1/namespaces/{namespace}/statefulsets/{name}/scale",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace scale of the specified StatefulSet"
-      }
+      ]
     },
     "com.kubernetes.apps#PatchAppsV1NamespacedStatefulSetScaleRequest": {
       "type": "structure",
@@ -12638,6 +12638,14 @@
       "output": {
         "target": "com.kubernetes.apps#IoK8sApiAutoscalingV1Scale"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/apis/apps/v1/namespaces/{namespace}/statefulsets/{name}/scale",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update scale of the specified StatefulSet"
+      },
       "errors": [
         {
           "target": "com.kubernetes.apps#NotFound"
@@ -12648,15 +12656,7 @@
         {
           "target": "com.kubernetes.apps#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/apis/apps/v1/namespaces/{namespace}/statefulsets/{name}/scale",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update scale of the specified StatefulSet"
-      }
+      ]
     },
     "com.kubernetes.apps#ReadAppsV1NamespacedStatefulSetStatusRequest": {
       "type": "structure",
@@ -12697,11 +12697,6 @@
       "output": {
         "target": "com.kubernetes.apps#IoK8sApiAppsV1StatefulSet"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.apps#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -12709,7 +12704,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read status of the specified StatefulSet"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.apps#NotFound"
+        }
+      ]
     },
     "com.kubernetes.apps#ReplaceAppsV1NamespacedStatefulSetStatusRequest": {
       "type": "structure",
@@ -12802,6 +12802,14 @@
       "output": {
         "target": "com.kubernetes.apps#IoK8sApiAppsV1StatefulSet"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/apis/apps/v1/namespaces/{namespace}/statefulsets/{name}/status",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace status of the specified StatefulSet"
+      },
       "errors": [
         {
           "target": "com.kubernetes.apps#NotFound"
@@ -12812,15 +12820,7 @@
         {
           "target": "com.kubernetes.apps#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/apis/apps/v1/namespaces/{namespace}/statefulsets/{name}/status",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace status of the specified StatefulSet"
-      }
+      ]
     },
     "com.kubernetes.apps#PatchAppsV1NamespacedStatefulSetStatusRequest": {
       "type": "structure",
@@ -12889,6 +12889,14 @@
       "output": {
         "target": "com.kubernetes.apps#IoK8sApiAppsV1StatefulSet"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/apis/apps/v1/namespaces/{namespace}/statefulsets/{name}/status",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update status of the specified StatefulSet"
+      },
       "errors": [
         {
           "target": "com.kubernetes.apps#NotFound"
@@ -12899,15 +12907,7 @@
         {
           "target": "com.kubernetes.apps#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/apis/apps/v1/namespaces/{namespace}/statefulsets/{name}/status",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update status of the specified StatefulSet"
-      }
+      ]
     },
     "com.kubernetes.apps#ListAppsV1ReplicaSetForAllNamespacesRequest": {
       "type": "structure",
@@ -14903,45 +14903,6 @@
         "smithy.api#documentation": "watch individual changes to a list of StatefulSet. deprecated: use the 'watch' parameter with a list operation instead."
       }
     },
-    "com.kubernetes.apps#Conflict": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 409,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 409
-          }
-        ]
-      }
-    },
-    "com.kubernetes.apps#UnprocessableEntity": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 422,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 422
-          }
-        ]
-      }
-    },
-    "com.kubernetes.apps#NotFound": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 404,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 404
-          }
-        ]
-      }
-    },
     "com.kubernetes.apps#Apps": {
       "type": "service",
       "version": "unversioned",
@@ -15183,6 +15144,45 @@
       ],
       "traits": {
         "smithy.api#title": "Kubernetes"
+      }
+    },
+    "com.kubernetes.apps#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.kubernetes.apps#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.kubernetes.apps#UnprocessableEntity": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 422,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 422
+          }
+        ]
       }
     }
   }

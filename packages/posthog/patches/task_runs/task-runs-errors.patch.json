@@ -1,0 +1,151 @@
+{
+  "description": "From task-runs-errors.patch.json: Auto-generated PostHog error responses (400/403/404) for tag \"task-runs\". See generate-error-patches.ts.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.task_runs#TasksRunsList/errors",
+      "value": [
+        {
+          "target": "com.posthog.task_runs#BadRequest"
+        },
+        {
+          "target": "com.posthog.task_runs#Forbidden"
+        },
+        {
+          "target": "com.posthog.task_runs#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.task_runs#TasksRunsCreate/errors/-",
+      "value": {
+        "target": "com.posthog.task_runs#NotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.task_runs#TasksRunsRetrieve/errors/0",
+      "value": {
+        "target": "com.posthog.task_runs#Forbidden"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.task_runs#TasksRunsPartialUpdate/errors/1",
+      "value": {
+        "target": "com.posthog.task_runs#Forbidden"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.task_runs#TasksRunsAppendLogCreate/errors/1",
+      "value": {
+        "target": "com.posthog.task_runs#Forbidden"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.task_runs#TasksRunsArtifactsCreate/errors/1",
+      "value": {
+        "target": "com.posthog.task_runs#Forbidden"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.task_runs#TasksRunsArtifactsDownloadCreate/errors/1",
+      "value": {
+        "target": "com.posthog.task_runs#Forbidden"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.task_runs#TasksRunsArtifactsFinalizeUploadCreate/errors/1",
+      "value": {
+        "target": "com.posthog.task_runs#Forbidden"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.task_runs#TasksRunsArtifactsPrepareUploadCreate/errors/1",
+      "value": {
+        "target": "com.posthog.task_runs#Forbidden"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.task_runs#TasksRunsArtifactsPresignCreate/errors/1",
+      "value": {
+        "target": "com.posthog.task_runs#Forbidden"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.task_runs#TasksRunsLogsRetrieve/errors/0",
+      "value": {
+        "target": "com.posthog.task_runs#Forbidden"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.task_runs#TasksRunsRelayMessageCreate/errors/0",
+      "value": {
+        "target": "com.posthog.task_runs#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.task_runs#TasksRunsRelayMessageCreate/errors/1",
+      "value": {
+        "target": "com.posthog.task_runs#Forbidden"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.task_runs#TasksRunsResumeInCloudCreate/errors/-",
+      "value": {
+        "target": "com.posthog.task_runs#NotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.task_runs#TasksRunsSessionLogsRetrieve/errors/0",
+      "value": {
+        "target": "com.posthog.task_runs#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.task_runs#TasksRunsSessionLogsRetrieve/errors/1",
+      "value": {
+        "target": "com.posthog.task_runs#Forbidden"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.task_runs#TasksRunsSetOutputPartialUpdate/errors/0",
+      "value": {
+        "target": "com.posthog.task_runs#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.task_runs#TasksRunsSetOutputPartialUpdate/errors/1",
+      "value": {
+        "target": "com.posthog.task_runs#Forbidden"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.task_runs#TasksRunsStreamRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.task_runs#Forbidden"
+        },
+        {
+          "target": "com.posthog.task_runs#NotFound"
+        }
+      ]
+    }
+  ]
+}

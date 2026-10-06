@@ -529,11 +529,6 @@
       "output": {
         "target": "com.neon.api#ApiKeyRevokeResponse"
       },
-      "errors": [
-        {
-          "target": "com.neon.api#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -541,7 +536,12 @@
           "code": 200
         },
         "smithy.api#documentation": "Revoke API key\n\nRevokes the specified API key.\nAn API key that is no longer needed can be revoked.\nThis action cannot be reversed.\nAPI keys can also be managed in the Neon Console.\nSee [Manage API keys](https://neon.com/docs/manage/api-keys/)."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.neon.api#NotFound"
+        }
+      ]
     },
     "com.neon.api#GetProjectOperationRequest": {
       "type": "structure",
@@ -954,11 +954,6 @@
       "output": {
         "target": "com.neon.api#OperationResponse"
       },
-      "errors": [
-        {
-          "target": "com.neon.api#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -966,7 +961,12 @@
           "code": 200
         },
         "smithy.api#documentation": "Retrieve operation details\n\nRetrieves details for the specified operation.\nAn operation is an action performed on a Neon project resource."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.neon.api#NotFound"
+        }
+      ]
     },
     "com.neon.api#ListProjectsRequest": {
       "type": "structure",
@@ -3116,14 +3116,6 @@
       "output": {
         "target": "com.neon.api#ProjectResponse"
       },
-      "errors": [
-        {
-          "target": "com.neon.api#BadRequest"
-        },
-        {
-          "target": "com.neon.api#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -3131,7 +3123,15 @@
           "code": 200
         },
         "smithy.api#documentation": "Retrieve project details\n\nRetrieves information about the specified project.\nReturned details include the project settings, compute configuration, history retention, owner information, and current usage metrics."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.neon.api#BadRequest"
+        },
+        {
+          "target": "com.neon.api#NotFound"
+        }
+      ]
     },
     "com.neon.api#UpdateProjectRequestProject": {
       "type": "structure",
@@ -3218,14 +3218,6 @@
       "output": {
         "target": "com.neon.api#UpdateProjectResponse"
       },
-      "errors": [
-        {
-          "target": "com.neon.api#BadRequest"
-        },
-        {
-          "target": "com.neon.api#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "PATCH",
@@ -3233,7 +3225,15 @@
           "code": 200
         },
         "smithy.api#documentation": "Update project\n\nUpdates the specified project.\nConfigurable properties include the project name, default compute settings, history retention period, and IP allowlist."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.neon.api#BadRequest"
+        },
+        {
+          "target": "com.neon.api#NotFound"
+        }
+      ]
     },
     "com.neon.api#DeleteProjectRequest": {
       "type": "structure",
@@ -3259,11 +3259,6 @@
       "output": {
         "target": "com.neon.api#ProjectResponse"
       },
-      "errors": [
-        {
-          "target": "com.neon.api#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -3271,7 +3266,12 @@
           "code": 200
         },
         "smithy.api#documentation": "Delete project\n\nDeletes the specified project and all its endpoints, branches, databases, and users.\nDeleted projects can be recovered within 7 days using `POST /projects/{project_id}/recover`.\nTo list recoverable projects, use `GET /projects?recoverable=true`."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.neon.api#NotFound"
+        }
+      ]
     },
     "com.neon.api#RecoverProjectRequest": {
       "type": "structure",
@@ -3399,11 +3399,6 @@
       "output": {
         "target": "com.neon.api#ListProjectOperationsResponse"
       },
-      "errors": [
-        {
-          "target": "com.neon.api#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -3417,7 +3412,12 @@
           "outputToken": "pagination.cursor",
           "items": "operations"
         }
-      }
+      },
+      "errors": [
+        {
+          "target": "com.neon.api#NotFound"
+        }
+      ]
     },
     "com.neon.api#ListProjectPermissionsRequest": {
       "type": "structure",
@@ -3494,11 +3494,6 @@
       "output": {
         "target": "com.neon.api#ProjectPermissions"
       },
-      "errors": [
-        {
-          "target": "com.neon.api#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -3506,7 +3501,12 @@
           "code": 200
         },
         "smithy.api#documentation": "List project access\n\nRetrieves details about users who have access to the project, including the permission `id`, the granted-to email address, and the date project access was granted."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.neon.api#NotFound"
+        }
+      ]
     },
     "com.neon.api#GrantPermissionToProjectRequest": {
       "type": "structure",
@@ -6502,20 +6502,6 @@
       },
       "traits": {}
     },
-    "com.neon.api#StandardEmailServerResponseType": {
-      "type": "enum",
-      "members": {
-        "STANDARD": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "standard"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Use a custom SMTP server to send authentication emails."
-      }
-    },
     "com.neon.api#SharedEmailServer": {
       "type": "structure",
       "members": {
@@ -6540,20 +6526,6 @@
         }
       },
       "traits": {}
-    },
-    "com.neon.api#SharedEmailServerType": {
-      "type": "enum",
-      "members": {
-        "SHARED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "shared"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Use the shared email server to send authentication emails."
-      }
     },
     "com.neon.api#GetNeonAuthEmailProviderResponse": {
       "type": "structure",
@@ -6648,20 +6620,6 @@
         }
       },
       "traits": {}
-    },
-    "com.neon.api#StandardEmailServerType": {
-      "type": "enum",
-      "members": {
-        "STANDARD": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "standard"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Use a custom SMTP server to send authentication emails."
-      }
     },
     "com.neon.api#UpdateNeonAuthEmailProviderRequest": {
       "type": "structure",
@@ -6800,11 +6758,6 @@
       "output": {
         "target": "com.neon.api#ConnectionURIResponse"
       },
-      "errors": [
-        {
-          "target": "com.neon.api#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -6812,7 +6765,12 @@
           "code": 200
         },
         "smithy.api#documentation": "Retrieve connection URI\n\nRetrieves a connection URI for the specified database.\nThe URI uses the standard PostgreSQL connection string format. Set `pooled=true` to include the `-pooler` suffix for a connection pooler URI."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.neon.api#NotFound"
+        }
+      ]
     },
     "com.neon.api#GetNeonAuthAllowLocalhostRequest": {
       "type": "structure",
@@ -7885,11 +7843,6 @@
       "output": {
         "target": "com.neon.api#ListProjectBranchesResponse"
       },
-      "errors": [
-        {
-          "target": "com.neon.api#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -7903,7 +7856,12 @@
           "outputToken": "pagination.next",
           "items": "branches"
         }
-      }
+      },
+      "errors": [
+        {
+          "target": "com.neon.api#NotFound"
+        }
+      ]
     },
     "com.neon.api#BranchCreateRequestEndpointOptions": {
       "type": "structure",
@@ -8142,11 +8100,6 @@
       "output": {
         "target": "com.neon.api#CreateProjectBranchResponse"
       },
-      "errors": [
-        {
-          "target": "com.neon.api#Conflict"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -8154,7 +8107,12 @@
           "code": 200
         },
         "smithy.api#documentation": "Create branch\n\nCreates a branch in the specified project.\nNo request body is required, but you can specify one to create a compute endpoint or select a non-default parent branch.\nBy default, the branch is created from the project's default branch with no compute endpoint, and the branch name is auto-generated.\nTo access the branch, add a `read_write` endpoint.\nEach branch supports one read-write endpoint and multiple read-only endpoints.\nFor related information, see [Manage branches](https://neon.com/docs/manage/branches/)."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.neon.api#Conflict"
+        }
+      ]
     },
     "com.neon.api#BranchCreateRequest": {
       "type": "structure",
@@ -8482,11 +8440,6 @@
       "output": {
         "target": "com.neon.api#CountProjectBranchesResponse"
       },
-      "errors": [
-        {
-          "target": "com.neon.api#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -8494,7 +8447,12 @@
           "code": 200
         },
         "smithy.api#documentation": "Retrieve number of branches\n\nRetrieves the total number of branches in the specified project.\nSupports an optional `search` parameter to count branches matching a name filter."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.neon.api#NotFound"
+        }
+      ]
     },
     "com.neon.api#GetProjectBranchRequest": {
       "type": "structure",
@@ -8550,11 +8508,6 @@
       "output": {
         "target": "com.neon.api#GetProjectBranchResponse"
       },
-      "errors": [
-        {
-          "target": "com.neon.api#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -8562,7 +8515,12 @@
           "code": 200
         },
         "smithy.api#documentation": "Retrieve branch details\n\nRetrieves information about the specified branch.\nA `branch_id` value has a `br-` prefix.\n\nEach Neon project is initially created with a root and default branch named `main`.\nA project can contain one or more branches.\nA parent branch is identified by a `parent_id` value, which is the `id` of the parent branch.\nFor related information, see [Manage branches](https://neon.com/docs/manage/branches/)."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.neon.api#NotFound"
+        }
+      ]
     },
     "com.neon.api#UpdateProjectBranchRequestBranch": {
       "type": "structure",
@@ -8658,14 +8616,6 @@
       "output": {
         "target": "com.neon.api#UpdateProjectBranchResponse"
       },
-      "errors": [
-        {
-          "target": "com.neon.api#BadRequest"
-        },
-        {
-          "target": "com.neon.api#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "PATCH",
@@ -8673,7 +8623,15 @@
           "code": 200
         },
         "smithy.api#documentation": "Update branch\n\nUpdates the specified branch.\nFor more information, see [Manage branches](https://neon.com/docs/manage/branches/)."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.neon.api#BadRequest"
+        },
+        {
+          "target": "com.neon.api#NotFound"
+        }
+      ]
     },
     "com.neon.api#DeleteProjectBranchRequest": {
       "type": "structure",
@@ -8742,14 +8700,6 @@
       "output": {
         "target": "com.neon.api#DeleteProjectBranchResponse"
       },
-      "errors": [
-        {
-          "target": "com.neon.api#NotFound"
-        },
-        {
-          "target": "com.neon.api#UnprocessableEntity"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -8757,7 +8707,15 @@
           "code": 200
         },
         "smithy.api#documentation": "Delete branch\n\nDeletes the specified branch from a project and places all compute endpoints into an idle state, breaking existing client connections.\n\nThe deletion completes after all operations finish.\nYou cannot delete a project's root or default branch, or a branch that has a child branch.\nA project must have at least one branch.\n\nFor related information, see [Manage branches](https://neon.com/docs/manage/branches/)."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.neon.api#NotFound"
+        },
+        {
+          "target": "com.neon.api#UnprocessableEntity"
+        }
+      ]
     },
     "com.neon.api#RestoreProjectBranchRequest": {
       "type": "structure",
@@ -8844,11 +8802,6 @@
       "output": {
         "target": "com.neon.api#RestoreProjectBranchResponse"
       },
-      "errors": [
-        {
-          "target": "com.neon.api#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -8856,7 +8809,12 @@
           "code": 200
         },
         "smithy.api#documentation": "Restore branch to a historical state\n\nRestores a branch to an earlier state in its own or another branch's history\nby specifying an LSN or timestamp.\nCreates a new branch from the historical state."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.neon.api#NotFound"
+        }
+      ]
     },
     "com.neon.api#GetProjectBranchSchemaRequest": {
       "type": "structure",
@@ -9121,11 +9079,6 @@
       "output": {
         "target": "com.neon.api#BranchSchemaResponse"
       },
-      "errors": [
-        {
-          "target": "com.neon.api#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -9133,7 +9086,12 @@
           "code": 200
         },
         "smithy.api#documentation": "Retrieve database schema\n\nRetrieves the database schema. Specify `lsn` or `timestamp` (not both) to read at a point in time; omit both to read from the database's head."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.neon.api#NotFound"
+        }
+      ]
     },
     "com.neon.api#GetProjectBranchSchemaComparisonRequest": {
       "type": "structure",
@@ -9222,11 +9180,6 @@
       "output": {
         "target": "com.neon.api#BranchSchemaCompareResponse"
       },
-      "errors": [
-        {
-          "target": "com.neon.api#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -9234,7 +9187,12 @@
           "code": 200
         },
         "smithy.api#documentation": "Compare database schema\n\nCompares the schema from the specified database with another branch's schema."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.neon.api#NotFound"
+        }
+      ]
     },
     "com.neon.api#GetMaskingRulesRequest": {
       "type": "structure",
@@ -9592,11 +9550,6 @@
       "output": {
         "target": "com.neon.api#SetDefaultProjectBranchResponse"
       },
-      "errors": [
-        {
-          "target": "com.neon.api#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -9604,7 +9557,12 @@
           "code": 200
         },
         "smithy.api#documentation": "Set branch as default\n\nSets the specified branch as the project's default branch.\nThe default designation is automatically removed from the previous default branch.\nFor more information, see [Manage branches](https://neon.com/docs/manage/branches/)."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.neon.api#NotFound"
+        }
+      ]
     },
     "com.neon.api#FinalizeRestoreBranchRequest": {
       "type": "structure",
@@ -9726,11 +9684,6 @@
       "output": {
         "target": "com.neon.api#EndpointsResponse"
       },
-      "errors": [
-        {
-          "target": "com.neon.api#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -9738,7 +9691,12 @@
           "code": 200
         },
         "smithy.api#documentation": "List branch endpoints\n\nRetrieves a list of compute endpoints for the specified branch.\nNeon permits only one read-write compute endpoint per branch.\nA branch can have multiple read-only compute endpoints."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.neon.api#NotFound"
+        }
+      ]
     },
     "com.neon.api#ListProjectBranchDatabasesRequest": {
       "type": "structure",
@@ -9794,11 +9752,6 @@
       "output": {
         "target": "com.neon.api#DatabasesResponse"
       },
-      "errors": [
-        {
-          "target": "com.neon.api#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -9806,7 +9759,12 @@
           "code": 200
         },
         "smithy.api#documentation": "List databases\n\nRetrieves a list of databases for the specified branch.\nA branch can have multiple databases.\nFor related information, see [Manage databases](https://neon.com/docs/manage/databases/)."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.neon.api#NotFound"
+        }
+      ]
     },
     "com.neon.api#CreateProjectBranchDatabaseRequestDatabase": {
       "type": "structure",
@@ -9897,6 +9855,14 @@
       "output": {
         "target": "com.neon.api#CreateProjectBranchDatabaseResponse"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/projects/{project_id}/branches/{branch_id}/databases",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create database\n\nCreates a database in the specified branch.\nA branch can have multiple databases.\nFor related information, see [Manage databases](https://neon.com/docs/manage/databases/)."
+      },
       "errors": [
         {
           "target": "com.neon.api#BadRequest"
@@ -9910,15 +9876,7 @@
         {
           "target": "com.neon.api#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/projects/{project_id}/branches/{branch_id}/databases",
-          "code": 200
-        },
-        "smithy.api#documentation": "Create database\n\nCreates a database in the specified branch.\nA branch can have multiple databases.\nFor related information, see [Manage databases](https://neon.com/docs/manage/databases/)."
-      }
+      ]
     },
     "com.neon.api#GetProjectBranchDatabaseRequest": {
       "type": "structure",
@@ -9973,11 +9931,6 @@
       "output": {
         "target": "com.neon.api#DatabaseResponse"
       },
-      "errors": [
-        {
-          "target": "com.neon.api#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -9985,7 +9938,12 @@
           "code": 200
         },
         "smithy.api#documentation": "Retrieve database details\n\nRetrieves information about the specified database.\nFor related information, see [Manage databases](https://neon.com/docs/manage/databases/)."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.neon.api#NotFound"
+        }
+      ]
     },
     "com.neon.api#UpdateProjectBranchDatabaseRequestDatabase": {
       "type": "structure",
@@ -10082,11 +10040,6 @@
       "output": {
         "target": "com.neon.api#UpdateProjectBranchDatabaseResponse"
       },
-      "errors": [
-        {
-          "target": "com.neon.api#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "PATCH",
@@ -10094,7 +10047,12 @@
           "code": 200
         },
         "smithy.api#documentation": "Update database\n\nUpdates the specified database in the branch.\nFor related information, see [Manage databases](https://neon.com/docs/manage/databases/)."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.neon.api#NotFound"
+        }
+      ]
     },
     "com.neon.api#DeleteProjectBranchDatabaseRequest": {
       "type": "structure",
@@ -10164,11 +10122,6 @@
       "output": {
         "target": "com.neon.api#DeleteProjectBranchDatabaseResponse"
       },
-      "errors": [
-        {
-          "target": "com.neon.api#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -10176,7 +10129,12 @@
           "code": 200
         },
         "smithy.api#documentation": "Delete database\n\nDeletes the specified database from the branch.\nFor related information, see [Manage databases](https://neon.com/docs/manage/databases/)."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.neon.api#NotFound"
+        }
+      ]
     },
     "com.neon.api#ListProjectBranchRolesRequest": {
       "type": "structure",
@@ -10232,11 +10190,6 @@
       "output": {
         "target": "com.neon.api#RolesResponse"
       },
-      "errors": [
-        {
-          "target": "com.neon.api#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -10244,7 +10197,12 @@
           "code": 200
         },
         "smithy.api#documentation": "List roles\n\nRetrieves a list of Postgres roles from the specified branch.\nFor related information, see [Manage roles](https://neon.com/docs/manage/roles/)."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.neon.api#NotFound"
+        }
+      ]
     },
     "com.neon.api#CreateProjectBranchRoleRequestRole": {
       "type": "structure",
@@ -10334,14 +10292,6 @@
       "output": {
         "target": "com.neon.api#CreateProjectBranchRoleResponse"
       },
-      "errors": [
-        {
-          "target": "com.neon.api#NotFound"
-        },
-        {
-          "target": "com.neon.api#Conflict"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -10349,7 +10299,15 @@
           "code": 200
         },
         "smithy.api#documentation": "Create role\n\nCreates a Postgres role in the specified branch.\nFor related information, see [Manage roles](https://neon.com/docs/manage/roles/).\n\nConnections established to the active compute endpoint will be dropped.\nIf the compute endpoint is idle, the endpoint becomes active for a short period of time and is suspended afterward."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.neon.api#NotFound"
+        },
+        {
+          "target": "com.neon.api#Conflict"
+        }
+      ]
     },
     "com.neon.api#GetProjectBranchRoleRequest": {
       "type": "structure",
@@ -10404,11 +10362,6 @@
       "output": {
         "target": "com.neon.api#RoleResponse"
       },
-      "errors": [
-        {
-          "target": "com.neon.api#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -10416,7 +10369,12 @@
           "code": 200
         },
         "smithy.api#documentation": "Retrieve role details\n\nRetrieves details about the specified role.\nIn Neon, the terms \"role\" and \"user\" are synonymous.\nFor related information, see [Manage roles](https://neon.com/docs/manage/roles/)."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.neon.api#NotFound"
+        }
+      ]
     },
     "com.neon.api#DeleteProjectBranchRoleRequest": {
       "type": "structure",
@@ -10486,14 +10444,6 @@
       "output": {
         "target": "com.neon.api#DeleteProjectBranchRoleResponse"
       },
-      "errors": [
-        {
-          "target": "com.neon.api#NotFound"
-        },
-        {
-          "target": "com.neon.api#UnprocessableEntity"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -10501,7 +10451,15 @@
           "code": 200
         },
         "smithy.api#documentation": "Delete role\n\nDeletes the specified Postgres role from the branch.\nFor related information, see [Manage roles](https://neon.com/docs/manage/roles/)."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.neon.api#NotFound"
+        },
+        {
+          "target": "com.neon.api#UnprocessableEntity"
+        }
+      ]
     },
     "com.neon.api#GetProjectBranchRolePasswordRequest": {
       "type": "structure",
@@ -10639,11 +10597,6 @@
       "output": {
         "target": "com.neon.api#ResetProjectBranchRolePasswordResponse"
       },
-      "errors": [
-        {
-          "target": "com.neon.api#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -10651,7 +10604,12 @@
           "code": 200
         },
         "smithy.api#documentation": "Reset role password\n\nResets the password for the specified Postgres role.\nReturns a new password and operations. The new password is ready to use when the last operation finishes.\nThe old password remains valid until last operation finishes.\nConnections to the compute endpoint are dropped. If idle,\nthe compute endpoint becomes active for a short period of time.\n\nFor related information, see [Manage roles](https://neon.com/docs/manage/roles/)."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.neon.api#NotFound"
+        }
+      ]
     },
     "com.neon.api#ListProjectVPCEndpointsRequest": {
       "type": "structure",
@@ -10841,11 +10799,6 @@
       "output": {
         "target": "com.neon.api#EndpointsResponse"
       },
-      "errors": [
-        {
-          "target": "com.neon.api#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -10853,7 +10806,12 @@
           "code": 200
         },
         "smithy.api#documentation": "List compute endpoints\n\nRetrieves a list of compute endpoints for the specified project.\nA compute endpoint is a Neon compute instance.\nFor information about compute endpoints, see [Manage computes](https://neon.com/docs/manage/endpoints/)."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.neon.api#NotFound"
+        }
+      ]
     },
     "com.neon.api#CreateProjectEndpointRequestEndpoint": {
       "type": "structure",
@@ -10998,14 +10956,6 @@
       "output": {
         "target": "com.neon.api#CreateProjectEndpointResponse"
       },
-      "errors": [
-        {
-          "target": "com.neon.api#NotFound"
-        },
-        {
-          "target": "com.neon.api#Conflict"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -11013,7 +10963,15 @@
           "code": 200
         },
         "smithy.api#documentation": "Create compute endpoint\n\nCreates a compute endpoint for the specified branch.\nA compute endpoint is a Neon compute instance.\nThere is a maximum of one read-write compute endpoint per branch.\nIf the specified branch already has a read-write compute endpoint, the operation fails.\nA branch can have multiple read-only compute endpoints.\n\nFor more information about compute endpoints, see [Manage computes](https://neon.com/docs/manage/endpoints/)."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.neon.api#NotFound"
+        },
+        {
+          "target": "com.neon.api#Conflict"
+        }
+      ]
     },
     "com.neon.api#GetProjectEndpointRequest": {
       "type": "structure",
@@ -11060,11 +11018,6 @@
       "output": {
         "target": "com.neon.api#EndpointResponse"
       },
-      "errors": [
-        {
-          "target": "com.neon.api#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -11072,7 +11025,12 @@
           "code": 200
         },
         "smithy.api#documentation": "Retrieve compute endpoint details\n\nRetrieves information about the specified compute endpoint.\nA compute endpoint is a Neon compute instance.\nAn `endpoint_id` has an `ep-` prefix.\nFor information about compute endpoints, see [Manage computes](https://neon.com/docs/manage/endpoints/)."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.neon.api#NotFound"
+        }
+      ]
     },
     "com.neon.api#UpdateProjectEndpointRequestEndpoint": {
       "type": "structure",
@@ -11212,11 +11170,6 @@
       "output": {
         "target": "com.neon.api#UpdateProjectEndpointResponse"
       },
-      "errors": [
-        {
-          "target": "com.neon.api#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "PATCH",
@@ -11224,7 +11177,12 @@
           "code": 200
         },
         "smithy.api#documentation": "Update compute endpoint\n\nUpdates the specified compute endpoint.\n\nAn `endpoint_id` has an `ep-` prefix. A `branch_id` has a `br-` prefix.\nFor more information about compute endpoints, see [Manage computes](https://neon.com/docs/manage/endpoints/).\n\nIf the returned list of operations is not empty, the compute endpoint is not ready to use.\nThe client must wait for the last operation to finish before using the compute endpoint.\nIf the compute endpoint was idle before the update, it becomes active for a short period of time,\nand the control plane suspends it again after the update."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.neon.api#NotFound"
+        }
+      ]
     },
     "com.neon.api#DeleteProjectEndpointRequest": {
       "type": "structure",
@@ -11286,11 +11244,6 @@
       "output": {
         "target": "com.neon.api#DeleteProjectEndpointResponse"
       },
-      "errors": [
-        {
-          "target": "com.neon.api#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -11298,7 +11251,12 @@
           "code": 200
         },
         "smithy.api#documentation": "Delete compute endpoint\n\nDeletes the specified compute endpoint.\nA compute endpoint is a Neon compute instance.\nDeleting a compute endpoint drops existing network connections to the compute endpoint.\nThe deletion is completed when the last operation in the chain finishes successfully.\n\nAn `endpoint_id` has an `ep-` prefix.\nFor information about compute endpoints, see [Manage computes](https://neon.com/docs/manage/endpoints/)."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.neon.api#NotFound"
+        }
+      ]
     },
     "com.neon.api#StartProjectEndpointRequest": {
       "type": "structure",
@@ -11360,11 +11318,6 @@
       "output": {
         "target": "com.neon.api#StartProjectEndpointResponse"
       },
-      "errors": [
-        {
-          "target": "com.neon.api#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -11372,7 +11325,12 @@
           "code": 200
         },
         "smithy.api#documentation": "Start compute endpoint\n\nStarts a compute endpoint.\nThe compute endpoint is ready to use after the last operation in the chain finishes successfully.\n\nAn `endpoint_id` has an `ep-` prefix.\nFor information about compute endpoints, see [Manage computes](https://neon.com/docs/manage/endpoints/)."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.neon.api#NotFound"
+        }
+      ]
     },
     "com.neon.api#SuspendProjectEndpointRequest": {
       "type": "structure",
@@ -11434,11 +11392,6 @@
       "output": {
         "target": "com.neon.api#SuspendProjectEndpointResponse"
       },
-      "errors": [
-        {
-          "target": "com.neon.api#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -11446,7 +11399,12 @@
           "code": 200
         },
         "smithy.api#documentation": "Suspend compute endpoint\n\nSuspends the specified compute endpoint.\nAn `endpoint_id` has an `ep-` prefix.\nFor information about compute endpoints, see [Manage computes](https://neon.com/docs/manage/endpoints/)."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.neon.api#NotFound"
+        }
+      ]
     },
     "com.neon.api#RestartProjectEndpointRequest": {
       "type": "structure",
@@ -11508,11 +11466,6 @@
       "output": {
         "target": "com.neon.api#RestartProjectEndpointResponse"
       },
-      "errors": [
-        {
-          "target": "com.neon.api#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -11520,7 +11473,12 @@
           "code": 200
         },
         "smithy.api#documentation": "Restart compute endpoint\n\nRestarts the specified compute endpoint by immediately suspending it and then starting it again.\nAn `endpoint_id` has an `ep-` prefix.\nFor information about compute endpoints, see [Manage computes](https://neon.com/docs/manage/endpoints/)."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.neon.api#NotFound"
+        }
+      ]
     },
     "com.neon.api#GetConsumptionHistoryPerProjectRequestProjectIdsList": {
       "type": "list",
@@ -17606,11 +17564,6 @@
       "output": {
         "target": "com.neon.api#NeonFunctionResponse"
       },
-      "errors": [
-        {
-          "target": "com.neon.api#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -17618,7 +17571,12 @@
           "code": 200
         },
         "smithy.api#documentation": "Get function details\n\nReturns the function identified by its slug.\n\n**Note**: This endpoint is currently in Beta."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.neon.api#NotFound"
+        }
+      ]
     },
     "com.neon.api#UpdateProjectBranchFunctionRequest": {
       "type": "structure",
@@ -18331,11 +18289,6 @@
       "output": {
         "target": "com.neon.api#TriggerResponse"
       },
-      "errors": [
-        {
-          "target": "com.neon.api#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -18343,7 +18296,12 @@
           "code": 200
         },
         "smithy.api#documentation": "Get a trigger\n\nReturns the trigger visible on the branch. The supported trigger types\nare `schedule` and `storage_object_created`.\n\n**Note**: This endpoint is currently in Beta."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.neon.api#NotFound"
+        }
+      ]
     },
     "com.neon.api#TriggerUpdateRequest": {
       "type": "union",
@@ -18827,6 +18785,32 @@
         ]
       }
     },
+    "com.neon.api#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.neon.api#UnprocessableEntity": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 422,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 422
+          }
+        ]
+      }
+    },
     "com.neon.api#BadRequest": {
       "type": "structure",
       "members": {},
@@ -18849,32 +18833,6 @@
         "com.distilled.openapi#errorMatchers": [
           {
             "status": 409
-          }
-        ]
-      }
-    },
-    "com.neon.api#UnprocessableEntity": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 422,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 422
-          }
-        ]
-      }
-    },
-    "com.neon.api#Forbidden": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 403,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 403
           }
         ]
       }
@@ -19376,6 +19334,48 @@
       "traits": {
         "smithy.api#title": "Neon API",
         "smithy.api#documentation": "The Neon API is the management API for Neon. Use it to provision, configure, and manage resources such as projects, branches, databases, roles, functions, and object storage.\n\nSee the [Neon API reference](https://neon.com/docs/reference/api) for details, and [Manage API keys](https://neon.com/docs/manage/api-keys/) to create and use API keys."
+      }
+    },
+    "com.neon.api#StandardEmailServerResponseType": {
+      "type": "enum",
+      "members": {
+        "STANDARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "standard"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Use a custom SMTP server to send authentication emails."
+      }
+    },
+    "com.neon.api#SharedEmailServerType": {
+      "type": "enum",
+      "members": {
+        "SHARED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "shared"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Use the shared email server to send authentication emails."
+      }
+    },
+    "com.neon.api#StandardEmailServerType": {
+      "type": "enum",
+      "members": {
+        "STANDARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "standard"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Use a custom SMTP server to send authentication emails."
       }
     }
   }

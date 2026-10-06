@@ -795,6 +795,14 @@
       "output": {
         "target": "com.posthog.surveys#PaginatedSurveyList"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/surveys/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Mixin for ViewSets to handle approval-gate exceptions raised from decorated serializers.\n\nIntercepts ApprovalRequired (409) and PolicyConflict (400) raised by the @approval_gate\ndecorator on serializer methods and converts them into the same responses the viewset path\nproduces (see decorators._result_to_response), so both paths share one contract."
+      },
       "errors": [
         {
           "target": "com.posthog.surveys#BadRequest"
@@ -805,15 +813,7 @@
         {
           "target": "com.posthog.surveys#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/surveys/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Mixin for ViewSets to handle approval-gate exceptions raised from decorated serializers.\n\nIntercepts ApprovalRequired (409) and PolicyConflict (400) raised by the @approval_gate\ndecorator on serializer methods and converts them into the same responses the viewset path\nproduces (see decorators._result_to_response), so both paths share one contract."
-      }
+      ]
     },
     "com.posthog.surveys#SurveyScheduleEnum": {
       "type": "enum",
@@ -2987,6 +2987,14 @@
       "output": {
         "target": "com.posthog.surveys#SurveySerializerCreateUpdateOnlyOutput"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/surveys/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Mixin for ViewSets to handle approval-gate exceptions raised from decorated serializers.\n\nIntercepts ApprovalRequired (409) and PolicyConflict (400) raised by the @approval_gate\ndecorator on serializer methods and converts them into the same responses the viewset path\nproduces (see decorators._result_to_response), so both paths share one contract."
+      },
       "errors": [
         {
           "target": "com.posthog.surveys#BadRequest"
@@ -2997,15 +3005,7 @@
         {
           "target": "com.posthog.surveys#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/surveys/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Mixin for ViewSets to handle approval-gate exceptions raised from decorated serializers.\n\nIntercepts ApprovalRequired (409) and PolicyConflict (400) raised by the @approval_gate\ndecorator on serializer methods and converts them into the same responses the viewset path\nproduces (see decorators._result_to_response), so both paths share one contract."
-      }
+      ]
     },
     "com.posthog.surveys#GetSurveyRequest": {
       "type": "structure",
@@ -3039,14 +3039,6 @@
       "output": {
         "target": "com.posthog.surveys#Survey"
       },
-      "errors": [
-        {
-          "target": "com.posthog.surveys#Forbidden"
-        },
-        {
-          "target": "com.posthog.surveys#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -3054,7 +3046,15 @@
           "code": 200
         },
         "smithy.api#documentation": "Mixin for ViewSets to handle approval-gate exceptions raised from decorated serializers.\n\nIntercepts ApprovalRequired (409) and PolicyConflict (400) raised by the @approval_gate\ndecorator on serializer methods and converts them into the same responses the viewset path\nproduces (see decorators._result_to_response), so both paths share one contract."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.posthog.surveys#Forbidden"
+        },
+        {
+          "target": "com.posthog.surveys#NotFound"
+        }
+      ]
     },
     "com.posthog.surveys#UpdateSurveyRequestQuestionsList": {
       "type": "list",
@@ -3312,6 +3312,14 @@
       "output": {
         "target": "com.posthog.surveys#SurveySerializerCreateUpdateOnlyOutput"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/api/projects/{project_id}/surveys/{id}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Mixin for ViewSets to handle approval-gate exceptions raised from decorated serializers.\n\nIntercepts ApprovalRequired (409) and PolicyConflict (400) raised by the @approval_gate\ndecorator on serializer methods and converts them into the same responses the viewset path\nproduces (see decorators._result_to_response), so both paths share one contract."
+      },
       "errors": [
         {
           "target": "com.posthog.surveys#BadRequest"
@@ -3322,15 +3330,7 @@
         {
           "target": "com.posthog.surveys#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/api/projects/{project_id}/surveys/{id}/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Mixin for ViewSets to handle approval-gate exceptions raised from decorated serializers.\n\nIntercepts ApprovalRequired (409) and PolicyConflict (400) raised by the @approval_gate\ndecorator on serializer methods and converts them into the same responses the viewset path\nproduces (see decorators._result_to_response), so both paths share one contract."
-      }
+      ]
     },
     "com.posthog.surveys#UpdateSurveysPartialRequestQuestionsList": {
       "type": "list",
@@ -3588,6 +3588,14 @@
       "output": {
         "target": "com.posthog.surveys#SurveySerializerCreateUpdateOnlyOutput"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/projects/{project_id}/surveys/{id}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Mixin for ViewSets to handle approval-gate exceptions raised from decorated serializers.\n\nIntercepts ApprovalRequired (409) and PolicyConflict (400) raised by the @approval_gate\ndecorator on serializer methods and converts them into the same responses the viewset path\nproduces (see decorators._result_to_response), so both paths share one contract."
+      },
       "errors": [
         {
           "target": "com.posthog.surveys#BadRequest"
@@ -3598,15 +3606,7 @@
         {
           "target": "com.posthog.surveys#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/api/projects/{project_id}/surveys/{id}/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Mixin for ViewSets to handle approval-gate exceptions raised from decorated serializers.\n\nIntercepts ApprovalRequired (409) and PolicyConflict (400) raised by the @approval_gate\ndecorator on serializer methods and converts them into the same responses the viewset path\nproduces (see decorators._result_to_response), so both paths share one contract."
-      }
+      ]
     },
     "com.posthog.surveys#SurveysDestroyRequest": {
       "type": "structure",
@@ -3640,14 +3640,6 @@
       "output": {
         "target": "smithy.api#Unit"
       },
-      "errors": [
-        {
-          "target": "com.posthog.surveys#Forbidden"
-        },
-        {
-          "target": "com.posthog.surveys#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -3655,7 +3647,15 @@
           "code": 200
         },
         "smithy.api#documentation": "Mixin for ViewSets to handle approval-gate exceptions raised from decorated serializers.\n\nIntercepts ApprovalRequired (409) and PolicyConflict (400) raised by the @approval_gate\ndecorator on serializer methods and converts them into the same responses the viewset path\nproduces (see decorators._result_to_response), so both paths share one contract."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.posthog.surveys#Forbidden"
+        },
+        {
+          "target": "com.posthog.surveys#NotFound"
+        }
+      ]
     },
     "com.posthog.surveys#GetSurveysActivityRequest": {
       "type": "structure",
@@ -3689,14 +3689,6 @@
       "output": {
         "target": "smithy.api#Unit"
       },
-      "errors": [
-        {
-          "target": "com.posthog.surveys#Forbidden"
-        },
-        {
-          "target": "com.posthog.surveys#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -3704,7 +3696,15 @@
           "code": 200
         },
         "smithy.api#documentation": "Mixin for ViewSets to handle approval-gate exceptions raised from decorated serializers.\n\nIntercepts ApprovalRequired (409) and PolicyConflict (400) raised by the @approval_gate\ndecorator on serializer methods and converts them into the same responses the viewset path\nproduces (see decorators._result_to_response), so both paths share one contract."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.posthog.surveys#Forbidden"
+        },
+        {
+          "target": "com.posthog.surveys#NotFound"
+        }
+      ]
     },
     "com.posthog.surveys#GetSurveysArchivedResponseUuidRequest": {
       "type": "structure",
@@ -3738,14 +3738,6 @@
       "output": {
         "target": "smithy.api#Unit"
       },
-      "errors": [
-        {
-          "target": "com.posthog.surveys#Forbidden"
-        },
-        {
-          "target": "com.posthog.surveys#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -3753,7 +3745,15 @@
           "code": 200
         },
         "smithy.api#documentation": "Get list of archived response UUIDs for HogQL filtering.\n\nReturns list of UUIDs that the frontend can use to filter out archived responses\nin HogQL queries."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.posthog.surveys#Forbidden"
+        },
+        {
+          "target": "com.posthog.surveys#NotFound"
+        }
+      ]
     },
     "com.posthog.surveys#SurveysDuplicateToProjectsCreateRequestIterationStartDatesList": {
       "type": "list",
@@ -3965,6 +3965,14 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/surveys/{id}/duplicate_to_projects/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Duplicate a survey to multiple projects in a single transaction.\n\nAccepts a list of target team IDs and creates a copy of the survey in each project.\nUses an all-or-nothing approach - if any duplication fails, all changes are rolled back."
+      },
       "errors": [
         {
           "target": "com.posthog.surveys#BadRequest"
@@ -3975,15 +3983,7 @@
         {
           "target": "com.posthog.surveys#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/surveys/{id}/duplicate_to_projects/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Duplicate a survey to multiple projects in a single transaction.\n\nAccepts a list of target team IDs and creates a copy of the survey in each project.\nUses an all-or-nothing approach - if any duplication fails, all changes are rolled back."
-      }
+      ]
     },
     "com.posthog.surveys#SurveysGenerateTranslationsCreateRequestSurveyMap": {
       "type": "map",
@@ -4805,6 +4805,14 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/surveys/{id}/responses/{response_uuid}/archive/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Archive a single survey response."
+      },
       "errors": [
         {
           "target": "com.posthog.surveys#BadRequest"
@@ -4815,15 +4823,7 @@
         {
           "target": "com.posthog.surveys#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/surveys/{id}/responses/{response_uuid}/archive/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Archive a single survey response."
-      }
+      ]
     },
     "com.posthog.surveys#SurveysResponsesUnarchiveCreateRequestIterationStartDatesList": {
       "type": "list",
@@ -5042,6 +5042,14 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/surveys/{id}/responses/{response_uuid}/unarchive/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Unarchive a single survey response."
+      },
       "errors": [
         {
           "target": "com.posthog.surveys#BadRequest"
@@ -5052,15 +5060,7 @@
         {
           "target": "com.posthog.surveys#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/surveys/{id}/responses/{response_uuid}/unarchive/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Unarchive a single survey response."
-      }
+      ]
     },
     "com.posthog.surveys#GetSurveysStatRequest": {
       "type": "structure",
@@ -5192,6 +5192,14 @@
       "output": {
         "target": "com.posthog.surveys#SurveyStatsResponse"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/surveys/{id}/stats/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get survey response statistics for a specific survey.\n\nArgs:\n    date_from: Optional ISO timestamp for start date (e.g. 2024-01-01T00:00:00Z)\n    date_to: Optional ISO timestamp for end date (e.g. 2024-01-31T23:59:59Z)\n    exclude_archived: Optional boolean to exclude archived responses (default: false, includes archived)\n    include_per_question_stats: Optional boolean to include per-question response counts and distributions\n\nReturns:\n    Survey statistics including event counts, unique respondents, and conversion rates"
+      },
       "errors": [
         {
           "target": "com.posthog.surveys#BadRequest"
@@ -5202,15 +5210,7 @@
         {
           "target": "com.posthog.surveys#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/surveys/{id}/stats/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Get survey response statistics for a specific survey.\n\nArgs:\n    date_from: Optional ISO timestamp for start date (e.g. 2024-01-01T00:00:00Z)\n    date_to: Optional ISO timestamp for end date (e.g. 2024-01-31T23:59:59Z)\n    exclude_archived: Optional boolean to exclude archived responses (default: false, includes archived)\n    include_per_question_stats: Optional boolean to include per-question response counts and distributions\n\nReturns:\n    Survey statistics including event counts, unique respondents, and conversion rates"
-      }
+      ]
     },
     "com.posthog.surveys#StopSurveyRequest": {
       "type": "structure",
@@ -5305,6 +5305,14 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/surveys/{id}/summarize_responses/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Summarize survey responses. When `question_index` or `question_id` is provided, returns a per-question theme summary using cached `survey.question_summaries` when fresh. When neither is provided, returns the survey-wide headline summary (delegates to summary_headline). Pass `force_refresh=true` in the body to bypass caches."
+      },
       "errors": [
         {
           "target": "com.posthog.surveys#BadRequest"
@@ -5315,15 +5323,7 @@
         {
           "target": "com.posthog.surveys#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/surveys/{id}/summarize_responses/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Summarize survey responses. When `question_index` or `question_id` is provided, returns a per-question theme summary using cached `survey.question_summaries` when fresh. When neither is provided, returns the survey-wide headline summary (delegates to summary_headline). Pass `force_refresh=true` in the body to bypass caches."
-      }
+      ]
     },
     "com.posthog.surveys#CreateSurveysSummaryHeadlineRequestIterationStartDatesList": {
       "type": "list",
@@ -5535,6 +5535,14 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/surveys/{id}/summary_headline/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Mixin for ViewSets to handle approval-gate exceptions raised from decorated serializers.\n\nIntercepts ApprovalRequired (409) and PolicyConflict (400) raised by the @approval_gate\ndecorator on serializer methods and converts them into the same responses the viewset path\nproduces (see decorators._result_to_response), so both paths share one contract."
+      },
       "errors": [
         {
           "target": "com.posthog.surveys#BadRequest"
@@ -5545,15 +5553,7 @@
         {
           "target": "com.posthog.surveys#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/surveys/{id}/summary_headline/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Mixin for ViewSets to handle approval-gate exceptions raised from decorated serializers.\n\nIntercepts ApprovalRequired (409) and PolicyConflict (400) raised by the @approval_gate\ndecorator on serializer methods and converts them into the same responses the viewset path\nproduces (see decorators._result_to_response), so both paths share one contract."
-      }
+      ]
     },
     "com.posthog.surveys#GetSurveysAllActivityRequest": {
       "type": "structure",
@@ -5579,14 +5579,6 @@
       "output": {
         "target": "smithy.api#Unit"
       },
-      "errors": [
-        {
-          "target": "com.posthog.surveys#Forbidden"
-        },
-        {
-          "target": "com.posthog.surveys#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -5594,7 +5586,15 @@
           "code": 200
         },
         "smithy.api#documentation": "Mixin for ViewSets to handle approval-gate exceptions raised from decorated serializers.\n\nIntercepts ApprovalRequired (409) and PolicyConflict (400) raised by the @approval_gate\ndecorator on serializer methods and converts them into the same responses the viewset path\nproduces (see decorators._result_to_response), so both paths share one contract."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.posthog.surveys#Forbidden"
+        },
+        {
+          "target": "com.posthog.surveys#NotFound"
+        }
+      ]
     },
     "com.posthog.surveys#SurveysQuestionLabelsRequest": {
       "type": "structure",
@@ -5716,14 +5716,6 @@
       "output": {
         "target": "smithy.api#Unit"
       },
-      "errors": [
-        {
-          "target": "com.posthog.surveys#Forbidden"
-        },
-        {
-          "target": "com.posthog.surveys#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -5731,7 +5723,15 @@
           "code": 200
         },
         "smithy.api#documentation": "Get response counts for all surveys.\n\nArgs:\n    exclude_archived: Optional boolean to exclude archived responses (default: false, includes archived)\n    survey_ids: Optional comma-separated list of survey IDs to filter by\n\nReturns:\n    Dictionary mapping survey IDs to response counts"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.posthog.surveys#Forbidden"
+        },
+        {
+          "target": "com.posthog.surveys#NotFound"
+        }
+      ]
     },
     "com.posthog.surveys#GetSurveysGlobalStatRequest": {
       "type": "structure",
@@ -5813,6 +5813,14 @@
       "output": {
         "target": "com.posthog.surveys#SurveyGlobalStatsResponse"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/surveys/stats/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get aggregated response statistics across all surveys.\n\nArgs:\n    date_from: Optional ISO timestamp for start date (e.g. 2024-01-01T00:00:00Z)\n    date_to: Optional ISO timestamp for end date (e.g. 2024-01-31T23:59:59Z)\n\nReturns:\n    Aggregated statistics across all surveys including total counts and rates"
+      },
       "errors": [
         {
           "target": "com.posthog.surveys#BadRequest"
@@ -5823,54 +5831,7 @@
         {
           "target": "com.posthog.surveys#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/surveys/stats/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Get aggregated response statistics across all surveys.\n\nArgs:\n    date_from: Optional ISO timestamp for start date (e.g. 2024-01-01T00:00:00Z)\n    date_to: Optional ISO timestamp for end date (e.g. 2024-01-31T23:59:59Z)\n\nReturns:\n    Aggregated statistics across all surveys including total counts and rates"
-      }
-    },
-    "com.posthog.surveys#BadRequest": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 400,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 400
-          }
-        ]
-      }
-    },
-    "com.posthog.surveys#Forbidden": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 403,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 403
-          }
-        ]
-      }
-    },
-    "com.posthog.surveys#NotFound": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 404,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 404
-          }
-        ]
-      }
+      ]
     },
     "com.posthog.surveys#Surveys": {
       "type": "service",
@@ -5945,6 +5906,45 @@
       ],
       "traits": {
         "smithy.api#title": "PostHog API"
+      }
+    },
+    "com.posthog.surveys#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.posthog.surveys#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.posthog.surveys#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
       }
     }
   }

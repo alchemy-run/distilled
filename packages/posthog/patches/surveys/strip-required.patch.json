@@ -1,0 +1,381 @@
+{
+  "description": "From strip-required.patch.json: Strip required arrays from all PostHog response schemas. The spec is unreliable about required-ness — many endpoints omit fields the spec marks required (deleted users, cursor pagination omitting count, optional nested objects, etc.). Removing required treats all fields as optional, which lets decoding succeed against real responses without sacrificing type safety.",
+  "patches": [
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.surveys#PaginatedSurveyList/members/count/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.surveys#PaginatedSurveyList/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.surveys#Survey/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.surveys#Survey/members/name/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.surveys#Survey/members/type/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.surveys#Survey/members/linked_flag/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.surveys#Survey/members/targeting_flag/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.surveys#Survey/members/internal_targeting_flag/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.surveys#Survey/members/conditions/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.surveys#Survey/members/created_at/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.surveys#Survey/members/created_by/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.surveys#Survey/members/feature_flag_keys/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.surveys#Survey/members/user_access_level/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.surveys#Survey/members/search_match_type/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.surveys#MinimalFeatureFlag/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.surveys#MinimalFeatureFlag/members/team_id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.surveys#MinimalFeatureFlag/members/key/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.surveys#MinimalFeatureFlag/members/evaluation_contexts/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.surveys#UserBasic/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.surveys#UserBasic/members/uuid/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.surveys#UserBasic/members/email/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.surveys#UserBasic/members/hedgehog_config/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.surveys#FeatureFlagFilterPropertyGenericSchema/members/key/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.surveys#FeatureFlagFilterPropertyGenericSchema/members/value/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.surveys#FeatureFlagFilterPropertyGenericSchema/members/operator/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.surveys#FeatureFlagFilterPropertyExistsSchema/members/key/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.surveys#FeatureFlagFilterPropertyExistsSchema/members/operator/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.surveys#FeatureFlagFilterPropertyDateSchema/members/key/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.surveys#FeatureFlagFilterPropertyDateSchema/members/operator/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.surveys#FeatureFlagFilterPropertyDateSchema/members/value/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.surveys#FeatureFlagFilterPropertySemverSchema/members/key/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.surveys#FeatureFlagFilterPropertySemverSchema/members/operator/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.surveys#FeatureFlagFilterPropertySemverSchema/members/value/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.surveys#FeatureFlagFilterPropertyMultiContainsSchema/members/key/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.surveys#FeatureFlagFilterPropertyMultiContainsSchema/members/operator/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.surveys#FeatureFlagFilterPropertyMultiContainsSchema/members/value/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.surveys#FeatureFlagFilterPropertyCohortInSchema/members/key/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.surveys#FeatureFlagFilterPropertyCohortInSchema/members/type/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.surveys#FeatureFlagFilterPropertyCohortInSchema/members/operator/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.surveys#FeatureFlagFilterPropertyCohortInSchema/members/value/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.surveys#FeatureFlagFilterPropertyFlagEvaluatesSchema/members/key/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.surveys#FeatureFlagFilterPropertyFlagEvaluatesSchema/members/type/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.surveys#FeatureFlagFilterPropertyFlagEvaluatesSchema/members/operator/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.surveys#FeatureFlagFilterPropertyFlagEvaluatesSchema/members/value/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.surveys#FeatureFlagMultivariateSchema/members/variants/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.surveys#FeatureFlagMultivariateVariantSchema/members/key/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.surveys#FeatureFlagMultivariateVariantSchema/members/rollout_percentage/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.surveys#SurveyOpenQuestionSchema/members/type/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.surveys#SurveyOpenQuestionSchema/members/question/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.surveys#SurveyLinkQuestionSchema/members/type/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.surveys#SurveyLinkQuestionSchema/members/question/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.surveys#SurveyLinkQuestionSchema/members/link/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.surveys#SurveyRatingQuestionSchema/members/type/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.surveys#SurveyRatingQuestionSchema/members/question/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.surveys#SurveyNextQuestionBranching/members/type/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.surveys#SurveyEndBranching/members/type/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.surveys#SurveySpecificQuestionBranching/members/type/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.surveys#SurveySpecificQuestionBranching/members/index/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.surveys#SurveyResponseBasedBranching/members/type/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.surveys#SurveyResponseBasedBranching/members/responseValues/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.surveys#SurveySingleChoiceQuestionSchema/members/type/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.surveys#SurveySingleChoiceQuestionSchema/members/question/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.surveys#SurveySingleChoiceQuestionSchema/members/choices/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.surveys#SurveyMultipleChoiceQuestionSchema/members/type/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.surveys#SurveyMultipleChoiceQuestionSchema/members/question/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.surveys#SurveyMultipleChoiceQuestionSchema/members/choices/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.surveys#SurveyConditionEventValueSchema/members/name/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.surveys#SurveysCreateRequest/members/name/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.surveys#SurveysCreateRequest/members/type/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.surveys#SurveySerializerCreateUpdateOnlyOutput/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.surveys#SurveySerializerCreateUpdateOnlyOutput/members/name/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.surveys#SurveySerializerCreateUpdateOnlyOutput/members/type/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.surveys#SurveySerializerCreateUpdateOnlyOutput/members/linked_flag/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.surveys#SurveySerializerCreateUpdateOnlyOutput/members/targeting_flag/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.surveys#SurveySerializerCreateUpdateOnlyOutput/members/internal_targeting_flag/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.surveys#SurveySerializerCreateUpdateOnlyOutput/members/created_at/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.surveys#SurveySerializerCreateUpdateOnlyOutput/members/created_by/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.surveys#SurveysUpdateRequest/members/name/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.surveys#SurveysUpdateRequest/members/type/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.surveys#SurveysDuplicateToProjectsCreateRequest/members/name/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.surveys#SurveysDuplicateToProjectsCreateRequest/members/type/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.surveys#SurveysResponsesArchiveCreateRequest/members/name/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.surveys#SurveysResponsesArchiveCreateRequest/members/type/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.surveys#SurveysResponsesUnarchiveCreateRequest/members/name/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.surveys#SurveysResponsesUnarchiveCreateRequest/members/type/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.surveys#SurveyStatsResponse/members/survey_id/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.surveys#SurveyStatsResponse/members/start_date/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.surveys#SurveyStatsResponse/members/end_date/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.surveys#SurveyStatsResponse/members/stats/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.surveys#SurveyStatsResponse/members/rates/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.surveys#SurveysSummaryHeadlineCreateRequest/members/name/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.surveys#SurveysSummaryHeadlineCreateRequest/members/type/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.surveys#SurveyGlobalStatsResponse/members/stats/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.surveys#SurveyGlobalStatsResponse/members/rates/traits/smithy.api#required"
+    }
+  ]
+}

@@ -1,0 +1,237 @@
+{
+  "description": "From hog-functions-errors.patch.json: Auto-generated PostHog error responses (400/403/404) for tag \"hog_functions\". See generate-error-patches.ts.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.hog_functions#HogFunctionsList/errors",
+      "value": [
+        {
+          "target": "com.posthog.hog_functions#BadRequest"
+        },
+        {
+          "target": "com.posthog.hog_functions#Forbidden"
+        },
+        {
+          "target": "com.posthog.hog_functions#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.hog_functions#HogFunctionsCreate/errors",
+      "value": [
+        {
+          "target": "com.posthog.hog_functions#BadRequest"
+        },
+        {
+          "target": "com.posthog.hog_functions#Forbidden"
+        },
+        {
+          "target": "com.posthog.hog_functions#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.hog_functions#HogFunctionsRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.hog_functions#Forbidden"
+        },
+        {
+          "target": "com.posthog.hog_functions#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.hog_functions#HogFunctionsUpdate/errors",
+      "value": [
+        {
+          "target": "com.posthog.hog_functions#BadRequest"
+        },
+        {
+          "target": "com.posthog.hog_functions#Forbidden"
+        },
+        {
+          "target": "com.posthog.hog_functions#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.hog_functions#HogFunctionsPartialUpdate/errors",
+      "value": [
+        {
+          "target": "com.posthog.hog_functions#BadRequest"
+        },
+        {
+          "target": "com.posthog.hog_functions#Forbidden"
+        },
+        {
+          "target": "com.posthog.hog_functions#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.hog_functions#HogFunctionsDestroy/errors",
+      "value": [
+        {
+          "target": "com.posthog.hog_functions#Forbidden"
+        },
+        {
+          "target": "com.posthog.hog_functions#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.hog_functions#HogFunctionsEnableBackfillsCreate/errors",
+      "value": [
+        {
+          "target": "com.posthog.hog_functions#BadRequest"
+        },
+        {
+          "target": "com.posthog.hog_functions#Forbidden"
+        },
+        {
+          "target": "com.posthog.hog_functions#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.hog_functions#HogFunctionsInvocationsCreate/errors",
+      "value": [
+        {
+          "target": "com.posthog.hog_functions#BadRequest"
+        },
+        {
+          "target": "com.posthog.hog_functions#Forbidden"
+        },
+        {
+          "target": "com.posthog.hog_functions#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.hog_functions#HogFunctionsLogsRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.hog_functions#BadRequest"
+        },
+        {
+          "target": "com.posthog.hog_functions#Forbidden"
+        },
+        {
+          "target": "com.posthog.hog_functions#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.hog_functions#HogFunctionsMetricsRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.hog_functions#BadRequest"
+        },
+        {
+          "target": "com.posthog.hog_functions#Forbidden"
+        },
+        {
+          "target": "com.posthog.hog_functions#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.hog_functions#HogFunctionsMetricsTotalsRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.hog_functions#BadRequest"
+        },
+        {
+          "target": "com.posthog.hog_functions#Forbidden"
+        },
+        {
+          "target": "com.posthog.hog_functions#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.hog_functions#HogFunctionsIconRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.hog_functions#Forbidden"
+        },
+        {
+          "target": "com.posthog.hog_functions#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.hog_functions#HogFunctionsIconsRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.hog_functions#Forbidden"
+        },
+        {
+          "target": "com.posthog.hog_functions#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.hog_functions#HogFunctionsRearrangePartialUpdate/errors",
+      "value": [
+        {
+          "target": "com.posthog.hog_functions#BadRequest"
+        },
+        {
+          "target": "com.posthog.hog_functions#Forbidden"
+        },
+        {
+          "target": "com.posthog.hog_functions#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.hog_functions#Forbidden",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 403
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.hog_functions#NotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

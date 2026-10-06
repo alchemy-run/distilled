@@ -1,0 +1,239 @@
+{
+  "description": "From endpoints-errors.patch.json: Auto-generated PostHog error responses (400/403/404) for tag \"endpoints\". See generate-error-patches.ts.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.endpoints#EndpointsList/errors",
+      "value": [
+        {
+          "target": "com.posthog.endpoints#BadRequest"
+        },
+        {
+          "target": "com.posthog.endpoints#Forbidden"
+        },
+        {
+          "target": "com.posthog.endpoints#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.endpoints#EndpointsCreate/errors",
+      "value": [
+        {
+          "target": "com.posthog.endpoints#BadRequest"
+        },
+        {
+          "target": "com.posthog.endpoints#Forbidden"
+        },
+        {
+          "target": "com.posthog.endpoints#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.endpoints#EndpointsRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.endpoints#Forbidden"
+        },
+        {
+          "target": "com.posthog.endpoints#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.endpoints#EndpointsUpdate/errors",
+      "value": [
+        {
+          "target": "com.posthog.endpoints#BadRequest"
+        },
+        {
+          "target": "com.posthog.endpoints#Forbidden"
+        },
+        {
+          "target": "com.posthog.endpoints#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.endpoints#EndpointsPartialUpdate/errors",
+      "value": [
+        {
+          "target": "com.posthog.endpoints#BadRequest"
+        },
+        {
+          "target": "com.posthog.endpoints#Forbidden"
+        },
+        {
+          "target": "com.posthog.endpoints#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.endpoints#EndpointsDestroy/errors",
+      "value": [
+        {
+          "target": "com.posthog.endpoints#Forbidden"
+        },
+        {
+          "target": "com.posthog.endpoints#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.endpoints#EndpointsMaterializationPreviewCreate/errors",
+      "value": [
+        {
+          "target": "com.posthog.endpoints#BadRequest"
+        },
+        {
+          "target": "com.posthog.endpoints#Forbidden"
+        },
+        {
+          "target": "com.posthog.endpoints#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.endpoints#EndpointsMaterializationStatusRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.endpoints#Forbidden"
+        },
+        {
+          "target": "com.posthog.endpoints#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.endpoints#EndpointsOpenapiSpecRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.endpoints#BadRequest"
+        },
+        {
+          "target": "com.posthog.endpoints#Forbidden"
+        },
+        {
+          "target": "com.posthog.endpoints#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.endpoints#EndpointsRunRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.endpoints#Forbidden"
+        },
+        {
+          "target": "com.posthog.endpoints#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.endpoints#EndpointsRunCreate/errors",
+      "value": [
+        {
+          "target": "com.posthog.endpoints#BadRequest"
+        },
+        {
+          "target": "com.posthog.endpoints#Forbidden"
+        },
+        {
+          "target": "com.posthog.endpoints#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.endpoints#EndpointsVersionsList/errors",
+      "value": [
+        {
+          "target": "com.posthog.endpoints#BadRequest"
+        },
+        {
+          "target": "com.posthog.endpoints#Forbidden"
+        },
+        {
+          "target": "com.posthog.endpoints#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.endpoints#EndpointsLastExecutionTimesCreate/errors",
+      "value": [
+        {
+          "target": "com.posthog.endpoints#BadRequest"
+        },
+        {
+          "target": "com.posthog.endpoints#Forbidden"
+        },
+        {
+          "target": "com.posthog.endpoints#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.endpoints#BadRequest",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 400
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.endpoints#Forbidden",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 403
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.endpoints#NotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

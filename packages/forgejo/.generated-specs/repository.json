@@ -4962,14 +4962,6 @@
       "output": {
         "target": "com.forgejo.repository#RepoListBranchProtectionResponse"
       },
-      "errors": [
-        {
-          "target": "com.forgejo.repository#Forbidden"
-        },
-        {
-          "target": "com.forgejo.repository#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -4977,7 +4969,15 @@
           "code": 200
         },
         "smithy.api#documentation": "List branch protections for a repository"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.forgejo.repository#Forbidden"
+        },
+        {
+          "target": "com.forgejo.repository#NotFound"
+        }
+      ]
     },
     "com.forgejo.repository#RepoCreateBranchProtectionRequestApprovalsWhitelistTeamsList": {
       "type": "list",

@@ -6181,19 +6181,6 @@
         ]
       }
     },
-    "com.forgejo.organization#Conflict": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 409,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 409
-          }
-        ]
-      }
-    },
     "com.forgejo.organization#ForgejoOrganization": {
       "type": "service",
       "version": "16.0.3",
@@ -6403,6 +6390,19 @@
       "traits": {
         "smithy.api#title": "Forgejo API",
         "smithy.api#documentation": "This documentation describes the Forgejo API."
+      }
+    },
+    "com.forgejo.organization#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
       }
     },
     "com.forgejo.organization#OrganizationOwnsRepositories": {

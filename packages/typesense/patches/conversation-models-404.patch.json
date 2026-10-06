@@ -3,59 +3,33 @@
   "patches": [
     {
       "op": "add",
-      "path": "/paths/~1conversations~1models~1{modelId}/get/responses/404",
-      "value": {
-        "description": "Conversation model not found",
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/ApiResponse"
-            }
-          }
+      "path": "/shapes/com.typesense.api#RetrieveConversationModel/errors",
+      "value": [
+        {
+          "target": "com.typesense.api#NotFound"
         }
-      }
+      ]
     },
     {
       "op": "add",
-      "path": "/paths/~1conversations~1models~1{modelId}/put/responses/404",
-      "value": {
-        "description": "Conversation model not found",
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/ApiResponse"
-            }
-          }
+      "path": "/shapes/com.typesense.api#UpdateConversationModel/errors",
+      "value": [
+        {
+          "target": "com.typesense.api#BadRequest"
+        },
+        {
+          "target": "com.typesense.api#NotFound"
         }
-      }
+      ]
     },
     {
       "op": "add",
-      "path": "/paths/~1conversations~1models~1{modelId}/put/responses/400",
-      "value": {
-        "description": "Bad request, see error message for details",
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/ApiResponse"
-            }
-          }
+      "path": "/shapes/com.typesense.api#DeleteConversationModel/errors",
+      "value": [
+        {
+          "target": "com.typesense.api#NotFound"
         }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1conversations~1models~1{modelId}/delete/responses/404",
-      "value": {
-        "description": "Conversation model not found",
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/ApiResponse"
-            }
-          }
-        }
-      }
+      ]
     }
   ]
 }

@@ -1065,6 +1065,14 @@
       "output": {
         "target": "com.posthog.conversations#PaginatedTicketList"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/conversations/tickets/",
+          "code": 200
+        },
+        "smithy.api#documentation": "List tickets with person data attached."
+      },
       "errors": [
         {
           "target": "com.posthog.conversations#BadRequest"
@@ -1075,15 +1083,7 @@
         {
           "target": "com.posthog.conversations#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/conversations/tickets/",
-          "code": 200
-        },
-        "smithy.api#documentation": "List tickets with person data attached."
-      }
+      ]
     },
     "com.posthog.conversations#GetConversationsTicketRequest": {
       "type": "structure",
@@ -1117,14 +1117,6 @@
       "output": {
         "target": "com.posthog.conversations#Ticket"
       },
-      "errors": [
-        {
-          "target": "com.posthog.conversations#Forbidden"
-        },
-        {
-          "target": "com.posthog.conversations#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -1132,7 +1124,15 @@
           "code": 200
         },
         "smithy.api#documentation": "Get single ticket and mark as read by team."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.posthog.conversations#Forbidden"
+        },
+        {
+          "target": "com.posthog.conversations#NotFound"
+        }
+      ]
     },
     "com.posthog.conversations#UpdateConversationsTicketRequestPriority": {
       "type": "union",
@@ -1300,6 +1300,14 @@
       "output": {
         "target": "com.posthog.conversations#Ticket"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/api/projects/{project_id}/conversations/tickets/{id}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Handle ticket updates including assignee changes."
+      },
       "errors": [
         {
           "target": "com.posthog.conversations#BadRequest"
@@ -1310,15 +1318,7 @@
         {
           "target": "com.posthog.conversations#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/api/projects/{project_id}/conversations/tickets/{id}/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Handle ticket updates including assignee changes."
-      }
+      ]
     },
     "com.posthog.conversations#UpdateConversationsTicketsPartialRequestPriority": {
       "type": "union",
@@ -1434,6 +1434,13 @@
       "output": {
         "target": "com.posthog.conversations#Ticket"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/projects/{project_id}/conversations/tickets/{id}/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.conversations#BadRequest"
@@ -1444,14 +1451,7 @@
         {
           "target": "com.posthog.conversations#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/api/projects/{project_id}/conversations/tickets/{id}/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.conversations#ConversationsTicketsDestroyRequest": {
       "type": "structure",
@@ -1485,6 +1485,13 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/api/projects/{project_id}/conversations/tickets/{id}/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.conversations#Forbidden"
@@ -1492,14 +1499,7 @@
         {
           "target": "com.posthog.conversations#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "DELETE",
-          "uri": "/api/projects/{project_id}/conversations/tickets/{id}/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.conversations#RatingEnum": {
       "type": "enum",
@@ -2467,6 +2467,14 @@
       "output": {
         "target": "com.posthog.conversations#BulkUpdateTagsUUIDResponse"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/conversations/tickets/bulk_update_tags/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Bulk update tags on multiple objects.\n\nPAT access: this action has no ``required_scopes=`` on the decorator —\ninheriting viewsets must add ``\"bulk_update_tags\"`` to their\n``scope_object_write_actions`` list to accept personal API keys.\nWithout that opt-in, ``APIScopePermission`` rejects PAT requests with\n\"This action does not support personal API key access\". Done per-viewset\nso granting ``<scope>:write`` for one resource doesn't leak access to\nsibling resources that share this mixin.\n\nAccepts:\n- {\"ids\": [...], \"action\": \"add\"|\"remove\"|\"set\", \"tags\": [\"tag1\", \"tag2\"]}\n\nActions:\n- \"add\": Add tags to existing tags on each object\n- \"remove\": Remove specific tags from each object\n- \"set\": Replace all tags on each object with the provided list"
+      },
       "errors": [
         {
           "target": "com.posthog.conversations#BadRequest"
@@ -2477,15 +2485,7 @@
         {
           "target": "com.posthog.conversations#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/conversations/tickets/bulk_update_tags/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Bulk update tags on multiple objects.\n\nPAT access: this action has no ``required_scopes=`` on the decorator —\ninheriting viewsets must add ``\"bulk_update_tags\"`` to their\n``scope_object_write_actions`` list to accept personal API keys.\nWithout that opt-in, ``APIScopePermission`` rejects PAT requests with\n\"This action does not support personal API key access\". Done per-viewset\nso granting ``<scope>:write`` for one resource doesn't leak access to\nsibling resources that share this mixin.\n\nAccepts:\n- {\"ids\": [...], \"action\": \"add\"|\"remove\"|\"set\", \"tags\": [\"tag1\", \"tag2\"]}\n\nActions:\n- \"add\": Add tags to existing tags on each object\n- \"remove\": Remove specific tags from each object\n- \"set\": Replace all tags on each object with the provided list"
-      }
+      ]
     },
     "com.posthog.conversations#CreateConversationsTicketsComposeRequestTagsList": {
       "type": "list",
@@ -3280,6 +3280,13 @@
       "output": {
         "target": "com.posthog.conversations#PaginatedTicketViewList"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/conversations/views/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.conversations#BadRequest"
@@ -3290,14 +3297,7 @@
         {
           "target": "com.posthog.conversations#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/conversations/views/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.conversations#CreateConversationsViewRequest": {
       "type": "structure",
@@ -3341,6 +3341,13 @@
       "output": {
         "target": "com.posthog.conversations#TicketView"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/conversations/views/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.conversations#BadRequest"
@@ -3351,14 +3358,7 @@
         {
           "target": "com.posthog.conversations#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/conversations/views/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.conversations#GetConversationsViewRequest": {
       "type": "structure",
@@ -3391,6 +3391,13 @@
       "output": {
         "target": "com.posthog.conversations#TicketView"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/conversations/views/{short_id}/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.conversations#Forbidden"
@@ -3398,14 +3405,7 @@
         {
           "target": "com.posthog.conversations#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/conversations/views/{short_id}/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.conversations#UpdateConversationsViewsPartialRequest": {
       "type": "structure",
@@ -3495,6 +3495,13 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/api/projects/{project_id}/conversations/views/{short_id}/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.conversations#Forbidden"
@@ -3502,13 +3509,32 @@
         {
           "target": "com.posthog.conversations#NotFound"
         }
-      ],
+      ]
+    },
+    "com.posthog.conversations#Conflict": {
+      "type": "structure",
+      "members": {},
       "traits": {
-        "smithy.api#http": {
-          "method": "DELETE",
-          "uri": "/api/projects/{project_id}/conversations/views/{short_id}/",
-          "code": 200
-        }
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.posthog.conversations#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
       }
     },
     "com.posthog.conversations#BadRequest": {
@@ -3533,32 +3559,6 @@
         "com.distilled.openapi#errorMatchers": [
           {
             "status": 403
-          }
-        ]
-      }
-    },
-    "com.posthog.conversations#NotFound": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 404,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 404
-          }
-        ]
-      }
-    },
-    "com.posthog.conversations#Conflict": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 409,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 409
           }
         ]
       }

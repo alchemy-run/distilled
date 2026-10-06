@@ -1295,14 +1295,6 @@
       "output": {
         "target": "com.kubernetes.discovery#IoK8sApiDiscoveryV1EndpointSlice"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.discovery#Conflict"
-        },
-        {
-          "target": "com.kubernetes.discovery#UnprocessableEntity"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -1310,7 +1302,15 @@
           "code": 200
         },
         "smithy.api#documentation": "create an EndpointSlice"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.discovery#Conflict"
+        },
+        {
+          "target": "com.kubernetes.discovery#UnprocessableEntity"
+        }
+      ]
     },
     "com.kubernetes.discovery#DeleteDiscoveryV1CollectionNamespacedEndpointSliceRequestDryRunList": {
       "type": "list",
@@ -1671,11 +1671,6 @@
       "output": {
         "target": "com.kubernetes.discovery#IoK8sApiDiscoveryV1EndpointSlice"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.discovery#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -1683,7 +1678,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read the specified EndpointSlice"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.discovery#NotFound"
+        }
+      ]
     },
     "com.kubernetes.discovery#ReplaceDiscoveryV1NamespacedEndpointSliceRequestEndpointsList": {
       "type": "list",
@@ -1800,6 +1800,14 @@
       "output": {
         "target": "com.kubernetes.discovery#IoK8sApiDiscoveryV1EndpointSlice"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/apis/discovery.k8s.io/v1/namespaces/{namespace}/endpointslices/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace the specified EndpointSlice"
+      },
       "errors": [
         {
           "target": "com.kubernetes.discovery#NotFound"
@@ -1810,15 +1818,7 @@
         {
           "target": "com.kubernetes.discovery#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/apis/discovery.k8s.io/v1/namespaces/{namespace}/endpointslices/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace the specified EndpointSlice"
-      }
+      ]
     },
     "com.kubernetes.discovery#PatchDiscoveryV1NamespacedEndpointSliceRequest": {
       "type": "structure",
@@ -1887,6 +1887,14 @@
       "output": {
         "target": "com.kubernetes.discovery#IoK8sApiDiscoveryV1EndpointSlice"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/apis/discovery.k8s.io/v1/namespaces/{namespace}/endpointslices/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update the specified EndpointSlice"
+      },
       "errors": [
         {
           "target": "com.kubernetes.discovery#NotFound"
@@ -1897,15 +1905,7 @@
         {
           "target": "com.kubernetes.discovery#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/apis/discovery.k8s.io/v1/namespaces/{namespace}/endpointslices/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update the specified EndpointSlice"
-      }
+      ]
     },
     "com.kubernetes.discovery#DeleteDiscoveryV1NamespacedEndpointSliceRequestDryRunList": {
       "type": "list",
@@ -2008,14 +2008,6 @@
       "output": {
         "target": "com.kubernetes.discovery#IoK8sApimachineryPkgApisMetaV1Status"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.discovery#NotFound"
-        },
-        {
-          "target": "com.kubernetes.discovery#Conflict"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -2023,7 +2015,15 @@
           "code": 200
         },
         "smithy.api#documentation": "delete an EndpointSlice"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.discovery#NotFound"
+        },
+        {
+          "target": "com.kubernetes.discovery#Conflict"
+        }
+      ]
     },
     "com.kubernetes.discovery#WatchDiscoveryV1EndpointSliceListForAllNamespacesRequest": {
       "type": "structure",
@@ -2397,45 +2397,6 @@
         "smithy.api#documentation": "watch changes to an object of kind EndpointSlice. deprecated: use the 'watch' parameter with a list operation instead, filtered to a single item with the 'fieldSelector' parameter."
       }
     },
-    "com.kubernetes.discovery#Conflict": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 409,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 409
-          }
-        ]
-      }
-    },
-    "com.kubernetes.discovery#UnprocessableEntity": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 422,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 422
-          }
-        ]
-      }
-    },
-    "com.kubernetes.discovery#NotFound": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 404,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 404
-          }
-        ]
-      }
-    },
     "com.kubernetes.discovery#Discovery": {
       "type": "service",
       "version": "unversioned",
@@ -2482,6 +2443,45 @@
       ],
       "traits": {
         "smithy.api#title": "Kubernetes"
+      }
+    },
+    "com.kubernetes.discovery#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.kubernetes.discovery#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.kubernetes.discovery#UnprocessableEntity": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 422,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 422
+          }
+        ]
       }
     }
   }

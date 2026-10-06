@@ -1273,14 +1273,6 @@
       "output": {
         "target": "com.kubernetes.admissionregistration#IoK8sApiAdmissionregistrationV1MutatingAdmissionPolicy"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.admissionregistration#Conflict"
-        },
-        {
-          "target": "com.kubernetes.admissionregistration#UnprocessableEntity"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -1288,7 +1280,15 @@
           "code": 200
         },
         "smithy.api#documentation": "create a MutatingAdmissionPolicy"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.admissionregistration#Conflict"
+        },
+        {
+          "target": "com.kubernetes.admissionregistration#UnprocessableEntity"
+        }
+      ]
     },
     "com.kubernetes.admissionregistration#DeleteAdmissionregistrationV1CollectionMutatingAdmissionPolicyRequestDryRunList": {
       "type": "list",
@@ -1633,11 +1633,6 @@
       "output": {
         "target": "com.kubernetes.admissionregistration#IoK8sApiAdmissionregistrationV1MutatingAdmissionPolicy"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.admissionregistration#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -1645,7 +1640,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read the specified MutatingAdmissionPolicy"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.admissionregistration#NotFound"
+        }
+      ]
     },
     "com.kubernetes.admissionregistration#ReplaceAdmissionregistrationV1MutatingAdmissionPolicyRequest": {
       "type": "structure",
@@ -1723,6 +1723,14 @@
       "output": {
         "target": "com.kubernetes.admissionregistration#IoK8sApiAdmissionregistrationV1MutatingAdmissionPolicy"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/apis/admissionregistration.k8s.io/v1/mutatingadmissionpolicies/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace the specified MutatingAdmissionPolicy"
+      },
       "errors": [
         {
           "target": "com.kubernetes.admissionregistration#NotFound"
@@ -1733,15 +1741,7 @@
         {
           "target": "com.kubernetes.admissionregistration#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/apis/admissionregistration.k8s.io/v1/mutatingadmissionpolicies/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace the specified MutatingAdmissionPolicy"
-      }
+      ]
     },
     "com.kubernetes.admissionregistration#PatchAdmissionregistrationV1MutatingAdmissionPolicyRequest": {
       "type": "structure",
@@ -1802,6 +1802,14 @@
       "output": {
         "target": "com.kubernetes.admissionregistration#IoK8sApiAdmissionregistrationV1MutatingAdmissionPolicy"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/apis/admissionregistration.k8s.io/v1/mutatingadmissionpolicies/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update the specified MutatingAdmissionPolicy"
+      },
       "errors": [
         {
           "target": "com.kubernetes.admissionregistration#NotFound"
@@ -1812,15 +1820,7 @@
         {
           "target": "com.kubernetes.admissionregistration#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/apis/admissionregistration.k8s.io/v1/mutatingadmissionpolicies/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update the specified MutatingAdmissionPolicy"
-      }
+      ]
     },
     "com.kubernetes.admissionregistration#DeleteAdmissionregistrationV1MutatingAdmissionPolicyRequestDryRunList": {
       "type": "list",
@@ -1915,14 +1915,6 @@
       "output": {
         "target": "com.kubernetes.admissionregistration#IoK8sApimachineryPkgApisMetaV1Status"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.admissionregistration#NotFound"
-        },
-        {
-          "target": "com.kubernetes.admissionregistration#Conflict"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -1930,7 +1922,15 @@
           "code": 200
         },
         "smithy.api#documentation": "delete a MutatingAdmissionPolicy"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.admissionregistration#NotFound"
+        },
+        {
+          "target": "com.kubernetes.admissionregistration#Conflict"
+        }
+      ]
     },
     "com.kubernetes.admissionregistration#ListAdmissionregistrationV1MutatingAdmissionPolicyBindingRequest": {
       "type": "structure",
@@ -2242,14 +2242,6 @@
       "output": {
         "target": "com.kubernetes.admissionregistration#IoK8sApiAdmissionregistrationV1MutatingAdmissionPolicyBinding"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.admissionregistration#Conflict"
-        },
-        {
-          "target": "com.kubernetes.admissionregistration#UnprocessableEntity"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -2257,7 +2249,15 @@
           "code": 200
         },
         "smithy.api#documentation": "create a MutatingAdmissionPolicyBinding"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.admissionregistration#Conflict"
+        },
+        {
+          "target": "com.kubernetes.admissionregistration#UnprocessableEntity"
+        }
+      ]
     },
     "com.kubernetes.admissionregistration#DeleteAdmissionregistrationV1CollectionMutatingAdmissionPolicyBindingRequestDryRunList": {
       "type": "list",
@@ -2447,11 +2447,6 @@
       "output": {
         "target": "com.kubernetes.admissionregistration#IoK8sApiAdmissionregistrationV1MutatingAdmissionPolicyBinding"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.admissionregistration#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -2459,7 +2454,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read the specified MutatingAdmissionPolicyBinding"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.admissionregistration#NotFound"
+        }
+      ]
     },
     "com.kubernetes.admissionregistration#ReplaceAdmissionregistrationV1MutatingAdmissionPolicyBindingRequest": {
       "type": "structure",
@@ -2537,6 +2537,14 @@
       "output": {
         "target": "com.kubernetes.admissionregistration#IoK8sApiAdmissionregistrationV1MutatingAdmissionPolicyBinding"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/apis/admissionregistration.k8s.io/v1/mutatingadmissionpolicybindings/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace the specified MutatingAdmissionPolicyBinding"
+      },
       "errors": [
         {
           "target": "com.kubernetes.admissionregistration#NotFound"
@@ -2547,15 +2555,7 @@
         {
           "target": "com.kubernetes.admissionregistration#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/apis/admissionregistration.k8s.io/v1/mutatingadmissionpolicybindings/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace the specified MutatingAdmissionPolicyBinding"
-      }
+      ]
     },
     "com.kubernetes.admissionregistration#PatchAdmissionregistrationV1MutatingAdmissionPolicyBindingRequest": {
       "type": "structure",
@@ -2616,6 +2616,14 @@
       "output": {
         "target": "com.kubernetes.admissionregistration#IoK8sApiAdmissionregistrationV1MutatingAdmissionPolicyBinding"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/apis/admissionregistration.k8s.io/v1/mutatingadmissionpolicybindings/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update the specified MutatingAdmissionPolicyBinding"
+      },
       "errors": [
         {
           "target": "com.kubernetes.admissionregistration#NotFound"
@@ -2626,15 +2634,7 @@
         {
           "target": "com.kubernetes.admissionregistration#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/apis/admissionregistration.k8s.io/v1/mutatingadmissionpolicybindings/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update the specified MutatingAdmissionPolicyBinding"
-      }
+      ]
     },
     "com.kubernetes.admissionregistration#DeleteAdmissionregistrationV1MutatingAdmissionPolicyBindingRequestDryRunList": {
       "type": "list",
@@ -2729,14 +2729,6 @@
       "output": {
         "target": "com.kubernetes.admissionregistration#IoK8sApimachineryPkgApisMetaV1Status"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.admissionregistration#NotFound"
-        },
-        {
-          "target": "com.kubernetes.admissionregistration#Conflict"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -2744,7 +2736,15 @@
           "code": 200
         },
         "smithy.api#documentation": "delete a MutatingAdmissionPolicyBinding"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.admissionregistration#NotFound"
+        },
+        {
+          "target": "com.kubernetes.admissionregistration#Conflict"
+        }
+      ]
     },
     "com.kubernetes.admissionregistration#ListAdmissionregistrationV1MutatingWebhookConfigurationRequest": {
       "type": "structure",
@@ -3260,14 +3260,6 @@
       "output": {
         "target": "com.kubernetes.admissionregistration#IoK8sApiAdmissionregistrationV1MutatingWebhookConfiguration"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.admissionregistration#Conflict"
-        },
-        {
-          "target": "com.kubernetes.admissionregistration#UnprocessableEntity"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -3275,7 +3267,15 @@
           "code": 200
         },
         "smithy.api#documentation": "create a MutatingWebhookConfiguration"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.admissionregistration#Conflict"
+        },
+        {
+          "target": "com.kubernetes.admissionregistration#UnprocessableEntity"
+        }
+      ]
     },
     "com.kubernetes.admissionregistration#DeleteAdmissionregistrationV1CollectionMutatingWebhookConfigurationRequestDryRunList": {
       "type": "list",
@@ -3465,11 +3465,6 @@
       "output": {
         "target": "com.kubernetes.admissionregistration#IoK8sApiAdmissionregistrationV1MutatingWebhookConfiguration"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.admissionregistration#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -3477,7 +3472,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read the specified MutatingWebhookConfiguration"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.admissionregistration#NotFound"
+        }
+      ]
     },
     "com.kubernetes.admissionregistration#ReplaceAdmissionregistrationV1MutatingWebhookConfigurationRequestWebhooksList": {
       "type": "list",
@@ -3564,6 +3564,14 @@
       "output": {
         "target": "com.kubernetes.admissionregistration#IoK8sApiAdmissionregistrationV1MutatingWebhookConfiguration"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/apis/admissionregistration.k8s.io/v1/mutatingwebhookconfigurations/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace the specified MutatingWebhookConfiguration"
+      },
       "errors": [
         {
           "target": "com.kubernetes.admissionregistration#NotFound"
@@ -3574,15 +3582,7 @@
         {
           "target": "com.kubernetes.admissionregistration#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/apis/admissionregistration.k8s.io/v1/mutatingwebhookconfigurations/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace the specified MutatingWebhookConfiguration"
-      }
+      ]
     },
     "com.kubernetes.admissionregistration#PatchAdmissionregistrationV1MutatingWebhookConfigurationRequest": {
       "type": "structure",
@@ -3643,6 +3643,14 @@
       "output": {
         "target": "com.kubernetes.admissionregistration#IoK8sApiAdmissionregistrationV1MutatingWebhookConfiguration"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/apis/admissionregistration.k8s.io/v1/mutatingwebhookconfigurations/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update the specified MutatingWebhookConfiguration"
+      },
       "errors": [
         {
           "target": "com.kubernetes.admissionregistration#NotFound"
@@ -3653,15 +3661,7 @@
         {
           "target": "com.kubernetes.admissionregistration#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/apis/admissionregistration.k8s.io/v1/mutatingwebhookconfigurations/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update the specified MutatingWebhookConfiguration"
-      }
+      ]
     },
     "com.kubernetes.admissionregistration#DeleteAdmissionregistrationV1MutatingWebhookConfigurationRequestDryRunList": {
       "type": "list",
@@ -3756,14 +3756,6 @@
       "output": {
         "target": "com.kubernetes.admissionregistration#IoK8sApimachineryPkgApisMetaV1Status"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.admissionregistration#NotFound"
-        },
-        {
-          "target": "com.kubernetes.admissionregistration#Conflict"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -3771,7 +3763,15 @@
           "code": 200
         },
         "smithy.api#documentation": "delete a MutatingWebhookConfiguration"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.admissionregistration#NotFound"
+        },
+        {
+          "target": "com.kubernetes.admissionregistration#Conflict"
+        }
+      ]
     },
     "com.kubernetes.admissionregistration#ListAdmissionregistrationV1ValidatingAdmissionPolicyRequest": {
       "type": "structure",
@@ -4305,14 +4305,6 @@
       "output": {
         "target": "com.kubernetes.admissionregistration#IoK8sApiAdmissionregistrationV1ValidatingAdmissionPolicy"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.admissionregistration#Conflict"
-        },
-        {
-          "target": "com.kubernetes.admissionregistration#UnprocessableEntity"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -4320,7 +4312,15 @@
           "code": 200
         },
         "smithy.api#documentation": "create a ValidatingAdmissionPolicy"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.admissionregistration#Conflict"
+        },
+        {
+          "target": "com.kubernetes.admissionregistration#UnprocessableEntity"
+        }
+      ]
     },
     "com.kubernetes.admissionregistration#DeleteAdmissionregistrationV1CollectionValidatingAdmissionPolicyRequestDryRunList": {
       "type": "list",
@@ -4510,11 +4510,6 @@
       "output": {
         "target": "com.kubernetes.admissionregistration#IoK8sApiAdmissionregistrationV1ValidatingAdmissionPolicy"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.admissionregistration#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -4522,7 +4517,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read the specified ValidatingAdmissionPolicy"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.admissionregistration#NotFound"
+        }
+      ]
     },
     "com.kubernetes.admissionregistration#ReplaceAdmissionregistrationV1ValidatingAdmissionPolicyRequest": {
       "type": "structure",
@@ -4606,6 +4606,14 @@
       "output": {
         "target": "com.kubernetes.admissionregistration#IoK8sApiAdmissionregistrationV1ValidatingAdmissionPolicy"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/apis/admissionregistration.k8s.io/v1/validatingadmissionpolicies/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace the specified ValidatingAdmissionPolicy"
+      },
       "errors": [
         {
           "target": "com.kubernetes.admissionregistration#NotFound"
@@ -4616,15 +4624,7 @@
         {
           "target": "com.kubernetes.admissionregistration#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/apis/admissionregistration.k8s.io/v1/validatingadmissionpolicies/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace the specified ValidatingAdmissionPolicy"
-      }
+      ]
     },
     "com.kubernetes.admissionregistration#PatchAdmissionregistrationV1ValidatingAdmissionPolicyRequest": {
       "type": "structure",
@@ -4685,6 +4685,14 @@
       "output": {
         "target": "com.kubernetes.admissionregistration#IoK8sApiAdmissionregistrationV1ValidatingAdmissionPolicy"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/apis/admissionregistration.k8s.io/v1/validatingadmissionpolicies/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update the specified ValidatingAdmissionPolicy"
+      },
       "errors": [
         {
           "target": "com.kubernetes.admissionregistration#NotFound"
@@ -4695,15 +4703,7 @@
         {
           "target": "com.kubernetes.admissionregistration#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/apis/admissionregistration.k8s.io/v1/validatingadmissionpolicies/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update the specified ValidatingAdmissionPolicy"
-      }
+      ]
     },
     "com.kubernetes.admissionregistration#DeleteAdmissionregistrationV1ValidatingAdmissionPolicyRequestDryRunList": {
       "type": "list",
@@ -4798,14 +4798,6 @@
       "output": {
         "target": "com.kubernetes.admissionregistration#IoK8sApimachineryPkgApisMetaV1Status"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.admissionregistration#NotFound"
-        },
-        {
-          "target": "com.kubernetes.admissionregistration#Conflict"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -4813,7 +4805,15 @@
           "code": 200
         },
         "smithy.api#documentation": "delete a ValidatingAdmissionPolicy"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.admissionregistration#NotFound"
+        },
+        {
+          "target": "com.kubernetes.admissionregistration#Conflict"
+        }
+      ]
     },
     "com.kubernetes.admissionregistration#ReadAdmissionregistrationV1ValidatingAdmissionPolicyStatusRequest": {
       "type": "structure",
@@ -4846,11 +4846,6 @@
       "output": {
         "target": "com.kubernetes.admissionregistration#IoK8sApiAdmissionregistrationV1ValidatingAdmissionPolicy"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.admissionregistration#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -4858,7 +4853,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read status of the specified ValidatingAdmissionPolicy"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.admissionregistration#NotFound"
+        }
+      ]
     },
     "com.kubernetes.admissionregistration#ReplaceAdmissionregistrationV1ValidatingAdmissionPolicyStatusRequest": {
       "type": "structure",
@@ -4942,6 +4942,14 @@
       "output": {
         "target": "com.kubernetes.admissionregistration#IoK8sApiAdmissionregistrationV1ValidatingAdmissionPolicy"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/apis/admissionregistration.k8s.io/v1/validatingadmissionpolicies/{name}/status",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace status of the specified ValidatingAdmissionPolicy"
+      },
       "errors": [
         {
           "target": "com.kubernetes.admissionregistration#NotFound"
@@ -4952,15 +4960,7 @@
         {
           "target": "com.kubernetes.admissionregistration#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/apis/admissionregistration.k8s.io/v1/validatingadmissionpolicies/{name}/status",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace status of the specified ValidatingAdmissionPolicy"
-      }
+      ]
     },
     "com.kubernetes.admissionregistration#PatchAdmissionregistrationV1ValidatingAdmissionPolicyStatusRequest": {
       "type": "structure",
@@ -5021,6 +5021,14 @@
       "output": {
         "target": "com.kubernetes.admissionregistration#IoK8sApiAdmissionregistrationV1ValidatingAdmissionPolicy"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/apis/admissionregistration.k8s.io/v1/validatingadmissionpolicies/{name}/status",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update status of the specified ValidatingAdmissionPolicy"
+      },
       "errors": [
         {
           "target": "com.kubernetes.admissionregistration#NotFound"
@@ -5031,15 +5039,7 @@
         {
           "target": "com.kubernetes.admissionregistration#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/apis/admissionregistration.k8s.io/v1/validatingadmissionpolicies/{name}/status",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update status of the specified ValidatingAdmissionPolicy"
-      }
+      ]
     },
     "com.kubernetes.admissionregistration#ListAdmissionregistrationV1ValidatingAdmissionPolicyBindingRequest": {
       "type": "structure",
@@ -5337,14 +5337,6 @@
       "output": {
         "target": "com.kubernetes.admissionregistration#IoK8sApiAdmissionregistrationV1ValidatingAdmissionPolicyBinding"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.admissionregistration#Conflict"
-        },
-        {
-          "target": "com.kubernetes.admissionregistration#UnprocessableEntity"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -5352,7 +5344,15 @@
           "code": 200
         },
         "smithy.api#documentation": "create a ValidatingAdmissionPolicyBinding"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.admissionregistration#Conflict"
+        },
+        {
+          "target": "com.kubernetes.admissionregistration#UnprocessableEntity"
+        }
+      ]
     },
     "com.kubernetes.admissionregistration#DeleteAdmissionregistrationV1CollectionValidatingAdmissionPolicyBindingRequestDryRunList": {
       "type": "list",
@@ -5542,11 +5542,6 @@
       "output": {
         "target": "com.kubernetes.admissionregistration#IoK8sApiAdmissionregistrationV1ValidatingAdmissionPolicyBinding"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.admissionregistration#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -5554,7 +5549,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read the specified ValidatingAdmissionPolicyBinding"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.admissionregistration#NotFound"
+        }
+      ]
     },
     "com.kubernetes.admissionregistration#ReplaceAdmissionregistrationV1ValidatingAdmissionPolicyBindingRequest": {
       "type": "structure",
@@ -5633,6 +5633,14 @@
       "output": {
         "target": "com.kubernetes.admissionregistration#IoK8sApiAdmissionregistrationV1ValidatingAdmissionPolicyBinding"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/apis/admissionregistration.k8s.io/v1/validatingadmissionpolicybindings/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace the specified ValidatingAdmissionPolicyBinding"
+      },
       "errors": [
         {
           "target": "com.kubernetes.admissionregistration#NotFound"
@@ -5643,15 +5651,7 @@
         {
           "target": "com.kubernetes.admissionregistration#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/apis/admissionregistration.k8s.io/v1/validatingadmissionpolicybindings/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace the specified ValidatingAdmissionPolicyBinding"
-      }
+      ]
     },
     "com.kubernetes.admissionregistration#PatchAdmissionregistrationV1ValidatingAdmissionPolicyBindingRequest": {
       "type": "structure",
@@ -5712,6 +5712,14 @@
       "output": {
         "target": "com.kubernetes.admissionregistration#IoK8sApiAdmissionregistrationV1ValidatingAdmissionPolicyBinding"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/apis/admissionregistration.k8s.io/v1/validatingadmissionpolicybindings/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update the specified ValidatingAdmissionPolicyBinding"
+      },
       "errors": [
         {
           "target": "com.kubernetes.admissionregistration#NotFound"
@@ -5722,15 +5730,7 @@
         {
           "target": "com.kubernetes.admissionregistration#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/apis/admissionregistration.k8s.io/v1/validatingadmissionpolicybindings/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update the specified ValidatingAdmissionPolicyBinding"
-      }
+      ]
     },
     "com.kubernetes.admissionregistration#DeleteAdmissionregistrationV1ValidatingAdmissionPolicyBindingRequestDryRunList": {
       "type": "list",
@@ -5825,14 +5825,6 @@
       "output": {
         "target": "com.kubernetes.admissionregistration#IoK8sApimachineryPkgApisMetaV1Status"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.admissionregistration#NotFound"
-        },
-        {
-          "target": "com.kubernetes.admissionregistration#Conflict"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -5840,7 +5832,15 @@
           "code": 200
         },
         "smithy.api#documentation": "delete a ValidatingAdmissionPolicyBinding"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.admissionregistration#NotFound"
+        },
+        {
+          "target": "com.kubernetes.admissionregistration#Conflict"
+        }
+      ]
     },
     "com.kubernetes.admissionregistration#ListAdmissionregistrationV1ValidatingWebhookConfigurationRequest": {
       "type": "structure",
@@ -6216,14 +6216,6 @@
       "output": {
         "target": "com.kubernetes.admissionregistration#IoK8sApiAdmissionregistrationV1ValidatingWebhookConfiguration"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.admissionregistration#Conflict"
-        },
-        {
-          "target": "com.kubernetes.admissionregistration#UnprocessableEntity"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -6231,7 +6223,15 @@
           "code": 200
         },
         "smithy.api#documentation": "create a ValidatingWebhookConfiguration"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.admissionregistration#Conflict"
+        },
+        {
+          "target": "com.kubernetes.admissionregistration#UnprocessableEntity"
+        }
+      ]
     },
     "com.kubernetes.admissionregistration#DeleteAdmissionregistrationV1CollectionValidatingWebhookConfigurationRequestDryRunList": {
       "type": "list",
@@ -6421,11 +6421,6 @@
       "output": {
         "target": "com.kubernetes.admissionregistration#IoK8sApiAdmissionregistrationV1ValidatingWebhookConfiguration"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.admissionregistration#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -6433,7 +6428,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read the specified ValidatingWebhookConfiguration"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.admissionregistration#NotFound"
+        }
+      ]
     },
     "com.kubernetes.admissionregistration#ReplaceAdmissionregistrationV1ValidatingWebhookConfigurationRequestWebhooksList": {
       "type": "list",
@@ -6520,6 +6520,14 @@
       "output": {
         "target": "com.kubernetes.admissionregistration#IoK8sApiAdmissionregistrationV1ValidatingWebhookConfiguration"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/apis/admissionregistration.k8s.io/v1/validatingwebhookconfigurations/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace the specified ValidatingWebhookConfiguration"
+      },
       "errors": [
         {
           "target": "com.kubernetes.admissionregistration#NotFound"
@@ -6530,15 +6538,7 @@
         {
           "target": "com.kubernetes.admissionregistration#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/apis/admissionregistration.k8s.io/v1/validatingwebhookconfigurations/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace the specified ValidatingWebhookConfiguration"
-      }
+      ]
     },
     "com.kubernetes.admissionregistration#PatchAdmissionregistrationV1ValidatingWebhookConfigurationRequest": {
       "type": "structure",
@@ -6599,6 +6599,14 @@
       "output": {
         "target": "com.kubernetes.admissionregistration#IoK8sApiAdmissionregistrationV1ValidatingWebhookConfiguration"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/apis/admissionregistration.k8s.io/v1/validatingwebhookconfigurations/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update the specified ValidatingWebhookConfiguration"
+      },
       "errors": [
         {
           "target": "com.kubernetes.admissionregistration#NotFound"
@@ -6609,15 +6617,7 @@
         {
           "target": "com.kubernetes.admissionregistration#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/apis/admissionregistration.k8s.io/v1/validatingwebhookconfigurations/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update the specified ValidatingWebhookConfiguration"
-      }
+      ]
     },
     "com.kubernetes.admissionregistration#DeleteAdmissionregistrationV1ValidatingWebhookConfigurationRequestDryRunList": {
       "type": "list",
@@ -6712,14 +6712,6 @@
       "output": {
         "target": "com.kubernetes.admissionregistration#IoK8sApimachineryPkgApisMetaV1Status"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.admissionregistration#NotFound"
-        },
-        {
-          "target": "com.kubernetes.admissionregistration#Conflict"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -6727,7 +6719,15 @@
           "code": 200
         },
         "smithy.api#documentation": "delete a ValidatingWebhookConfiguration"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.admissionregistration#NotFound"
+        },
+        {
+          "target": "com.kubernetes.admissionregistration#Conflict"
+        }
+      ]
     },
     "com.kubernetes.admissionregistration#WatchAdmissionregistrationV1MutatingAdmissionPolicyListRequest": {
       "type": "structure",
@@ -8713,14 +8713,6 @@
       "output": {
         "target": "com.kubernetes.admissionregistration#IoK8sApiAdmissionregistrationV1alpha1MutatingAdmissionPolicy"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.admissionregistration#Conflict"
-        },
-        {
-          "target": "com.kubernetes.admissionregistration#UnprocessableEntity"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -8728,7 +8720,15 @@
           "code": 200
         },
         "smithy.api#documentation": "create a MutatingAdmissionPolicy"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.admissionregistration#Conflict"
+        },
+        {
+          "target": "com.kubernetes.admissionregistration#UnprocessableEntity"
+        }
+      ]
     },
     "com.kubernetes.admissionregistration#DeleteAdmissionregistrationV1alpha1CollectionMutatingAdmissionPolicyRequestDryRunList": {
       "type": "list",
@@ -8918,11 +8918,6 @@
       "output": {
         "target": "com.kubernetes.admissionregistration#IoK8sApiAdmissionregistrationV1alpha1MutatingAdmissionPolicy"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.admissionregistration#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -8930,7 +8925,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read the specified MutatingAdmissionPolicy"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.admissionregistration#NotFound"
+        }
+      ]
     },
     "com.kubernetes.admissionregistration#ReplaceAdmissionregistrationV1alpha1MutatingAdmissionPolicyRequest": {
       "type": "structure",
@@ -9008,6 +9008,14 @@
       "output": {
         "target": "com.kubernetes.admissionregistration#IoK8sApiAdmissionregistrationV1alpha1MutatingAdmissionPolicy"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/apis/admissionregistration.k8s.io/v1alpha1/mutatingadmissionpolicies/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace the specified MutatingAdmissionPolicy"
+      },
       "errors": [
         {
           "target": "com.kubernetes.admissionregistration#NotFound"
@@ -9018,15 +9026,7 @@
         {
           "target": "com.kubernetes.admissionregistration#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/apis/admissionregistration.k8s.io/v1alpha1/mutatingadmissionpolicies/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace the specified MutatingAdmissionPolicy"
-      }
+      ]
     },
     "com.kubernetes.admissionregistration#PatchAdmissionregistrationV1alpha1MutatingAdmissionPolicyRequest": {
       "type": "structure",
@@ -9087,6 +9087,14 @@
       "output": {
         "target": "com.kubernetes.admissionregistration#IoK8sApiAdmissionregistrationV1alpha1MutatingAdmissionPolicy"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/apis/admissionregistration.k8s.io/v1alpha1/mutatingadmissionpolicies/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update the specified MutatingAdmissionPolicy"
+      },
       "errors": [
         {
           "target": "com.kubernetes.admissionregistration#NotFound"
@@ -9097,15 +9105,7 @@
         {
           "target": "com.kubernetes.admissionregistration#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/apis/admissionregistration.k8s.io/v1alpha1/mutatingadmissionpolicies/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update the specified MutatingAdmissionPolicy"
-      }
+      ]
     },
     "com.kubernetes.admissionregistration#DeleteAdmissionregistrationV1alpha1MutatingAdmissionPolicyRequestDryRunList": {
       "type": "list",
@@ -9200,14 +9200,6 @@
       "output": {
         "target": "com.kubernetes.admissionregistration#IoK8sApimachineryPkgApisMetaV1Status"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.admissionregistration#NotFound"
-        },
-        {
-          "target": "com.kubernetes.admissionregistration#Conflict"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -9215,7 +9207,15 @@
           "code": 200
         },
         "smithy.api#documentation": "delete a MutatingAdmissionPolicy"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.admissionregistration#NotFound"
+        },
+        {
+          "target": "com.kubernetes.admissionregistration#Conflict"
+        }
+      ]
     },
     "com.kubernetes.admissionregistration#ListAdmissionregistrationV1alpha1MutatingAdmissionPolicyBindingRequest": {
       "type": "structure",
@@ -9526,14 +9526,6 @@
       "output": {
         "target": "com.kubernetes.admissionregistration#IoK8sApiAdmissionregistrationV1alpha1MutatingAdmissionPolicyBinding"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.admissionregistration#Conflict"
-        },
-        {
-          "target": "com.kubernetes.admissionregistration#UnprocessableEntity"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -9541,7 +9533,15 @@
           "code": 200
         },
         "smithy.api#documentation": "create a MutatingAdmissionPolicyBinding"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.admissionregistration#Conflict"
+        },
+        {
+          "target": "com.kubernetes.admissionregistration#UnprocessableEntity"
+        }
+      ]
     },
     "com.kubernetes.admissionregistration#DeleteAdmissionregistrationV1alpha1CollectionMutatingAdmissionPolicyBindingRequestDryRunList": {
       "type": "list",
@@ -9731,11 +9731,6 @@
       "output": {
         "target": "com.kubernetes.admissionregistration#IoK8sApiAdmissionregistrationV1alpha1MutatingAdmissionPolicyBinding"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.admissionregistration#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -9743,7 +9738,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read the specified MutatingAdmissionPolicyBinding"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.admissionregistration#NotFound"
+        }
+      ]
     },
     "com.kubernetes.admissionregistration#ReplaceAdmissionregistrationV1alpha1MutatingAdmissionPolicyBindingRequest": {
       "type": "structure",
@@ -9821,6 +9821,14 @@
       "output": {
         "target": "com.kubernetes.admissionregistration#IoK8sApiAdmissionregistrationV1alpha1MutatingAdmissionPolicyBinding"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/apis/admissionregistration.k8s.io/v1alpha1/mutatingadmissionpolicybindings/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace the specified MutatingAdmissionPolicyBinding"
+      },
       "errors": [
         {
           "target": "com.kubernetes.admissionregistration#NotFound"
@@ -9831,15 +9839,7 @@
         {
           "target": "com.kubernetes.admissionregistration#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/apis/admissionregistration.k8s.io/v1alpha1/mutatingadmissionpolicybindings/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace the specified MutatingAdmissionPolicyBinding"
-      }
+      ]
     },
     "com.kubernetes.admissionregistration#PatchAdmissionregistrationV1alpha1MutatingAdmissionPolicyBindingRequest": {
       "type": "structure",
@@ -9900,6 +9900,14 @@
       "output": {
         "target": "com.kubernetes.admissionregistration#IoK8sApiAdmissionregistrationV1alpha1MutatingAdmissionPolicyBinding"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/apis/admissionregistration.k8s.io/v1alpha1/mutatingadmissionpolicybindings/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update the specified MutatingAdmissionPolicyBinding"
+      },
       "errors": [
         {
           "target": "com.kubernetes.admissionregistration#NotFound"
@@ -9910,15 +9918,7 @@
         {
           "target": "com.kubernetes.admissionregistration#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/apis/admissionregistration.k8s.io/v1alpha1/mutatingadmissionpolicybindings/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update the specified MutatingAdmissionPolicyBinding"
-      }
+      ]
     },
     "com.kubernetes.admissionregistration#DeleteAdmissionregistrationV1alpha1MutatingAdmissionPolicyBindingRequestDryRunList": {
       "type": "list",
@@ -10013,14 +10013,6 @@
       "output": {
         "target": "com.kubernetes.admissionregistration#IoK8sApimachineryPkgApisMetaV1Status"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.admissionregistration#NotFound"
-        },
-        {
-          "target": "com.kubernetes.admissionregistration#Conflict"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -10028,7 +10020,15 @@
           "code": 200
         },
         "smithy.api#documentation": "delete a MutatingAdmissionPolicyBinding"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.admissionregistration#NotFound"
+        },
+        {
+          "target": "com.kubernetes.admissionregistration#Conflict"
+        }
+      ]
     },
     "com.kubernetes.admissionregistration#WatchAdmissionregistrationV1alpha1MutatingAdmissionPolicyListRequest": {
       "type": "structure",
@@ -11091,14 +11091,6 @@
       "output": {
         "target": "com.kubernetes.admissionregistration#IoK8sApiAdmissionregistrationV1beta1MutatingAdmissionPolicy"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.admissionregistration#Conflict"
-        },
-        {
-          "target": "com.kubernetes.admissionregistration#UnprocessableEntity"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -11106,7 +11098,15 @@
           "code": 200
         },
         "smithy.api#documentation": "create a MutatingAdmissionPolicy"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.admissionregistration#Conflict"
+        },
+        {
+          "target": "com.kubernetes.admissionregistration#UnprocessableEntity"
+        }
+      ]
     },
     "com.kubernetes.admissionregistration#DeleteAdmissionregistrationV1beta1CollectionMutatingAdmissionPolicyRequestDryRunList": {
       "type": "list",
@@ -11296,11 +11296,6 @@
       "output": {
         "target": "com.kubernetes.admissionregistration#IoK8sApiAdmissionregistrationV1beta1MutatingAdmissionPolicy"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.admissionregistration#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -11308,7 +11303,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read the specified MutatingAdmissionPolicy"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.admissionregistration#NotFound"
+        }
+      ]
     },
     "com.kubernetes.admissionregistration#ReplaceAdmissionregistrationV1beta1MutatingAdmissionPolicyRequest": {
       "type": "structure",
@@ -11386,6 +11386,14 @@
       "output": {
         "target": "com.kubernetes.admissionregistration#IoK8sApiAdmissionregistrationV1beta1MutatingAdmissionPolicy"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/apis/admissionregistration.k8s.io/v1beta1/mutatingadmissionpolicies/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace the specified MutatingAdmissionPolicy"
+      },
       "errors": [
         {
           "target": "com.kubernetes.admissionregistration#NotFound"
@@ -11396,15 +11404,7 @@
         {
           "target": "com.kubernetes.admissionregistration#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/apis/admissionregistration.k8s.io/v1beta1/mutatingadmissionpolicies/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace the specified MutatingAdmissionPolicy"
-      }
+      ]
     },
     "com.kubernetes.admissionregistration#PatchAdmissionregistrationV1beta1MutatingAdmissionPolicyRequest": {
       "type": "structure",
@@ -11465,6 +11465,14 @@
       "output": {
         "target": "com.kubernetes.admissionregistration#IoK8sApiAdmissionregistrationV1beta1MutatingAdmissionPolicy"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/apis/admissionregistration.k8s.io/v1beta1/mutatingadmissionpolicies/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update the specified MutatingAdmissionPolicy"
+      },
       "errors": [
         {
           "target": "com.kubernetes.admissionregistration#NotFound"
@@ -11475,15 +11483,7 @@
         {
           "target": "com.kubernetes.admissionregistration#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/apis/admissionregistration.k8s.io/v1beta1/mutatingadmissionpolicies/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update the specified MutatingAdmissionPolicy"
-      }
+      ]
     },
     "com.kubernetes.admissionregistration#DeleteAdmissionregistrationV1beta1MutatingAdmissionPolicyRequestDryRunList": {
       "type": "list",
@@ -11578,14 +11578,6 @@
       "output": {
         "target": "com.kubernetes.admissionregistration#IoK8sApimachineryPkgApisMetaV1Status"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.admissionregistration#NotFound"
-        },
-        {
-          "target": "com.kubernetes.admissionregistration#Conflict"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -11593,7 +11585,15 @@
           "code": 200
         },
         "smithy.api#documentation": "delete a MutatingAdmissionPolicy"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.admissionregistration#NotFound"
+        },
+        {
+          "target": "com.kubernetes.admissionregistration#Conflict"
+        }
+      ]
     },
     "com.kubernetes.admissionregistration#ListAdmissionregistrationV1beta1MutatingAdmissionPolicyBindingRequest": {
       "type": "structure",
@@ -11905,14 +11905,6 @@
       "output": {
         "target": "com.kubernetes.admissionregistration#IoK8sApiAdmissionregistrationV1beta1MutatingAdmissionPolicyBinding"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.admissionregistration#Conflict"
-        },
-        {
-          "target": "com.kubernetes.admissionregistration#UnprocessableEntity"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -11920,7 +11912,15 @@
           "code": 200
         },
         "smithy.api#documentation": "create a MutatingAdmissionPolicyBinding"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.admissionregistration#Conflict"
+        },
+        {
+          "target": "com.kubernetes.admissionregistration#UnprocessableEntity"
+        }
+      ]
     },
     "com.kubernetes.admissionregistration#DeleteAdmissionregistrationV1beta1CollectionMutatingAdmissionPolicyBindingRequestDryRunList": {
       "type": "list",
@@ -12110,11 +12110,6 @@
       "output": {
         "target": "com.kubernetes.admissionregistration#IoK8sApiAdmissionregistrationV1beta1MutatingAdmissionPolicyBinding"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.admissionregistration#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -12122,7 +12117,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read the specified MutatingAdmissionPolicyBinding"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.admissionregistration#NotFound"
+        }
+      ]
     },
     "com.kubernetes.admissionregistration#ReplaceAdmissionregistrationV1beta1MutatingAdmissionPolicyBindingRequest": {
       "type": "structure",
@@ -12200,6 +12200,14 @@
       "output": {
         "target": "com.kubernetes.admissionregistration#IoK8sApiAdmissionregistrationV1beta1MutatingAdmissionPolicyBinding"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/apis/admissionregistration.k8s.io/v1beta1/mutatingadmissionpolicybindings/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace the specified MutatingAdmissionPolicyBinding"
+      },
       "errors": [
         {
           "target": "com.kubernetes.admissionregistration#NotFound"
@@ -12210,15 +12218,7 @@
         {
           "target": "com.kubernetes.admissionregistration#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/apis/admissionregistration.k8s.io/v1beta1/mutatingadmissionpolicybindings/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace the specified MutatingAdmissionPolicyBinding"
-      }
+      ]
     },
     "com.kubernetes.admissionregistration#PatchAdmissionregistrationV1beta1MutatingAdmissionPolicyBindingRequest": {
       "type": "structure",
@@ -12279,6 +12279,14 @@
       "output": {
         "target": "com.kubernetes.admissionregistration#IoK8sApiAdmissionregistrationV1beta1MutatingAdmissionPolicyBinding"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/apis/admissionregistration.k8s.io/v1beta1/mutatingadmissionpolicybindings/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update the specified MutatingAdmissionPolicyBinding"
+      },
       "errors": [
         {
           "target": "com.kubernetes.admissionregistration#NotFound"
@@ -12289,15 +12297,7 @@
         {
           "target": "com.kubernetes.admissionregistration#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/apis/admissionregistration.k8s.io/v1beta1/mutatingadmissionpolicybindings/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update the specified MutatingAdmissionPolicyBinding"
-      }
+      ]
     },
     "com.kubernetes.admissionregistration#DeleteAdmissionregistrationV1beta1MutatingAdmissionPolicyBindingRequestDryRunList": {
       "type": "list",
@@ -12392,14 +12392,6 @@
       "output": {
         "target": "com.kubernetes.admissionregistration#IoK8sApimachineryPkgApisMetaV1Status"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.admissionregistration#NotFound"
-        },
-        {
-          "target": "com.kubernetes.admissionregistration#Conflict"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -12407,7 +12399,15 @@
           "code": 200
         },
         "smithy.api#documentation": "delete a MutatingAdmissionPolicyBinding"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.admissionregistration#NotFound"
+        },
+        {
+          "target": "com.kubernetes.admissionregistration#Conflict"
+        }
+      ]
     },
     "com.kubernetes.admissionregistration#WatchAdmissionregistrationV1beta1MutatingAdmissionPolicyListRequest": {
       "type": "structure",
@@ -12861,45 +12861,6 @@
         "smithy.api#documentation": "watch changes to an object of kind MutatingAdmissionPolicyBinding. deprecated: use the 'watch' parameter with a list operation instead, filtered to a single item with the 'fieldSelector' parameter."
       }
     },
-    "com.kubernetes.admissionregistration#Conflict": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 409,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 409
-          }
-        ]
-      }
-    },
-    "com.kubernetes.admissionregistration#UnprocessableEntity": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 422,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 422
-          }
-        ]
-      }
-    },
-    "com.kubernetes.admissionregistration#NotFound": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 404,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 404
-          }
-        ]
-      }
-    },
     "com.kubernetes.admissionregistration#Admissionregistration": {
       "type": "service",
       "version": "unversioned",
@@ -13198,6 +13159,45 @@
       ],
       "traits": {
         "smithy.api#title": "Kubernetes"
+      }
+    },
+    "com.kubernetes.admissionregistration#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.kubernetes.admissionregistration#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.kubernetes.admissionregistration#UnprocessableEntity": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 422,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 422
+          }
+        ]
       }
     }
   }

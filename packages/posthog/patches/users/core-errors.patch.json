@@ -1,0 +1,257 @@
+{
+  "description": "From core-errors.patch.json: Auto-generated PostHog error responses (400/403/404) for tag \"core\". See generate-error-patches.ts.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.users#UsersList/errors",
+      "value": [
+        {
+          "target": "com.posthog.users#BadRequest"
+        },
+        {
+          "target": "com.posthog.users#Forbidden"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.users#UsersRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.users#Forbidden"
+        },
+        {
+          "target": "com.posthog.users#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.users#UsersUpdate/errors",
+      "value": [
+        {
+          "target": "com.posthog.users#BadRequest"
+        },
+        {
+          "target": "com.posthog.users#Forbidden"
+        },
+        {
+          "target": "com.posthog.users#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.users#UsersPartialUpdate/errors",
+      "value": [
+        {
+          "target": "com.posthog.users#BadRequest"
+        },
+        {
+          "target": "com.posthog.users#Forbidden"
+        },
+        {
+          "target": "com.posthog.users#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.users#UsersDestroy/errors",
+      "value": [
+        {
+          "target": "com.posthog.users#Forbidden"
+        },
+        {
+          "target": "com.posthog.users#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.users#UsersGithubLoginRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.users#Forbidden"
+        },
+        {
+          "target": "com.posthog.users#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.users#UsersHedgehogConfigRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.users#Forbidden"
+        },
+        {
+          "target": "com.posthog.users#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.users#UsersHedgehogConfigPartialUpdate/errors",
+      "value": [
+        {
+          "target": "com.posthog.users#BadRequest"
+        },
+        {
+          "target": "com.posthog.users#Forbidden"
+        },
+        {
+          "target": "com.posthog.users#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.users#UsersScenePersonalisationCreate/errors",
+      "value": [
+        {
+          "target": "com.posthog.users#BadRequest"
+        },
+        {
+          "target": "com.posthog.users#Forbidden"
+        },
+        {
+          "target": "com.posthog.users#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.users#UsersStart2faSetupRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.users#Forbidden"
+        },
+        {
+          "target": "com.posthog.users#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.users#UsersTwoFactorBackupCodesCreate/errors",
+      "value": [
+        {
+          "target": "com.posthog.users#BadRequest"
+        },
+        {
+          "target": "com.posthog.users#Forbidden"
+        },
+        {
+          "target": "com.posthog.users#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.users#UsersTwoFactorDisableCreate/errors",
+      "value": [
+        {
+          "target": "com.posthog.users#BadRequest"
+        },
+        {
+          "target": "com.posthog.users#Forbidden"
+        },
+        {
+          "target": "com.posthog.users#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.users#UsersTwoFactorStartSetupRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.users#Forbidden"
+        },
+        {
+          "target": "com.posthog.users#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.users#UsersTwoFactorStatusRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.users#Forbidden"
+        },
+        {
+          "target": "com.posthog.users#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.users#UsersTwoFactorValidateCreate/errors",
+      "value": [
+        {
+          "target": "com.posthog.users#BadRequest"
+        },
+        {
+          "target": "com.posthog.users#Forbidden"
+        },
+        {
+          "target": "com.posthog.users#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.users#UsersValidate2faCreate/errors",
+      "value": [
+        {
+          "target": "com.posthog.users#BadRequest"
+        },
+        {
+          "target": "com.posthog.users#Forbidden"
+        },
+        {
+          "target": "com.posthog.users#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.users#UsersCancelEmailChangeRequestPartialUpdate/errors",
+      "value": [
+        {
+          "target": "com.posthog.users#BadRequest"
+        },
+        {
+          "target": "com.posthog.users#Forbidden"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.users#UsersRequestEmailVerificationCreate/errors",
+      "value": [
+        {
+          "target": "com.posthog.users#BadRequest"
+        },
+        {
+          "target": "com.posthog.users#Forbidden"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.users#UsersVerifyEmailCreate/errors",
+      "value": [
+        {
+          "target": "com.posthog.users#BadRequest"
+        },
+        {
+          "target": "com.posthog.users#Forbidden"
+        }
+      ]
+    }
+  ]
+}

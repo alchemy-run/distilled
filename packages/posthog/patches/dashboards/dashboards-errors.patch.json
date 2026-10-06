@@ -1,0 +1,44 @@
+{
+  "description": "From dashboards-errors.patch.json: Auto-generated PostHog error responses (400/403/404) for tag \"dashboards\". See generate-error-patches.ts.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.dashboards#DashboardsCollaboratorsList/errors",
+      "value": [
+        {
+          "target": "com.posthog.dashboards#Forbidden"
+        },
+        {
+          "target": "com.posthog.dashboards#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.dashboards#DashboardsCollaboratorsCreate/errors",
+      "value": [
+        {
+          "target": "com.posthog.dashboards#BadRequest"
+        },
+        {
+          "target": "com.posthog.dashboards#Forbidden"
+        },
+        {
+          "target": "com.posthog.dashboards#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.dashboards#DashboardsCollaboratorsDestroy/errors",
+      "value": [
+        {
+          "target": "com.posthog.dashboards#Forbidden"
+        },
+        {
+          "target": "com.posthog.dashboards#NotFound"
+        }
+      ]
+    }
+  ]
+}

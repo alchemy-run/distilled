@@ -858,11 +858,6 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApiCoreV1ComponentStatus"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.core#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -870,7 +865,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read the specified ComponentStatus"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
     },
     "com.kubernetes.core#ListCoreV1ConfigMapForAllNamespacesRequest": {
       "type": "structure",
@@ -2422,14 +2422,6 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApiCoreV1Namespace"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.core#Conflict"
-        },
-        {
-          "target": "com.kubernetes.core#UnprocessableEntity"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -2437,7 +2429,15 @@
           "code": 200
         },
         "smithy.api#documentation": "create a Namespace"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.core#Conflict"
+        },
+        {
+          "target": "com.kubernetes.core#UnprocessableEntity"
+        }
+      ]
     },
     "com.kubernetes.core#CreateCoreV1NamespacedBindingRequest": {
       "type": "structure",
@@ -2549,14 +2549,6 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApiCoreV1Binding"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.core#Conflict"
-        },
-        {
-          "target": "com.kubernetes.core#UnprocessableEntity"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -2564,7 +2556,15 @@
           "code": 200
         },
         "smithy.api#documentation": "create a Binding"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.core#Conflict"
+        },
+        {
+          "target": "com.kubernetes.core#UnprocessableEntity"
+        }
+      ]
     },
     "com.kubernetes.core#ListCoreV1NamespacedConfigMapRequest": {
       "type": "structure",
@@ -2795,14 +2795,6 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApiCoreV1ConfigMap"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.core#Conflict"
-        },
-        {
-          "target": "com.kubernetes.core#UnprocessableEntity"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -2810,7 +2802,15 @@
           "code": 200
         },
         "smithy.api#documentation": "create a ConfigMap"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.core#Conflict"
+        },
+        {
+          "target": "com.kubernetes.core#UnprocessableEntity"
+        }
+      ]
     },
     "com.kubernetes.core#DeleteCoreV1CollectionNamespacedConfigMapRequestDryRunList": {
       "type": "list",
@@ -3171,11 +3171,6 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApiCoreV1ConfigMap"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.core#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -3183,7 +3178,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read the specified ConfigMap"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
     },
     "com.kubernetes.core#ReplaceCoreV1NamespacedConfigMapRequestBinaryDataMap": {
       "type": "map",
@@ -3305,6 +3305,14 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApiCoreV1ConfigMap"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/api/v1/namespaces/{namespace}/configmaps/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace the specified ConfigMap"
+      },
       "errors": [
         {
           "target": "com.kubernetes.core#NotFound"
@@ -3315,15 +3323,7 @@
         {
           "target": "com.kubernetes.core#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/api/v1/namespaces/{namespace}/configmaps/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace the specified ConfigMap"
-      }
+      ]
     },
     "com.kubernetes.core#PatchCoreV1NamespacedConfigMapRequest": {
       "type": "structure",
@@ -3392,6 +3392,14 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApiCoreV1ConfigMap"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/v1/namespaces/{namespace}/configmaps/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update the specified ConfigMap"
+      },
       "errors": [
         {
           "target": "com.kubernetes.core#NotFound"
@@ -3402,15 +3410,7 @@
         {
           "target": "com.kubernetes.core#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/api/v1/namespaces/{namespace}/configmaps/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update the specified ConfigMap"
-      }
+      ]
     },
     "com.kubernetes.core#DeleteCoreV1NamespacedConfigMapRequestDryRunList": {
       "type": "list",
@@ -3513,14 +3513,6 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApimachineryPkgApisMetaV1Status"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.core#NotFound"
-        },
-        {
-          "target": "com.kubernetes.core#Conflict"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -3528,7 +3520,15 @@
           "code": 200
         },
         "smithy.api#documentation": "delete a ConfigMap"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        },
+        {
+          "target": "com.kubernetes.core#Conflict"
+        }
+      ]
     },
     "com.kubernetes.core#ListCoreV1NamespacedEndpointsRequest": {
       "type": "structure",
@@ -3732,14 +3732,6 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApiCoreV1Endpoints"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.core#Conflict"
-        },
-        {
-          "target": "com.kubernetes.core#UnprocessableEntity"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -3747,7 +3739,15 @@
           "code": 200
         },
         "smithy.api#documentation": "create Endpoints"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.core#Conflict"
+        },
+        {
+          "target": "com.kubernetes.core#UnprocessableEntity"
+        }
+      ]
     },
     "com.kubernetes.core#DeleteCoreV1CollectionNamespacedEndpointsRequestDryRunList": {
       "type": "list",
@@ -3953,11 +3953,6 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApiCoreV1Endpoints"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.core#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -3965,7 +3960,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read the specified Endpoints"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
     },
     "com.kubernetes.core#ReplaceCoreV1NamespacedEndpointsRequestSubsetsList": {
       "type": "list",
@@ -4060,6 +4060,14 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApiCoreV1Endpoints"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/api/v1/namespaces/{namespace}/endpoints/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace the specified Endpoints"
+      },
       "errors": [
         {
           "target": "com.kubernetes.core#NotFound"
@@ -4070,15 +4078,7 @@
         {
           "target": "com.kubernetes.core#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/api/v1/namespaces/{namespace}/endpoints/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace the specified Endpoints"
-      }
+      ]
     },
     "com.kubernetes.core#PatchCoreV1NamespacedEndpointsRequest": {
       "type": "structure",
@@ -4147,6 +4147,14 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApiCoreV1Endpoints"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/v1/namespaces/{namespace}/endpoints/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update the specified Endpoints"
+      },
       "errors": [
         {
           "target": "com.kubernetes.core#NotFound"
@@ -4157,15 +4165,7 @@
         {
           "target": "com.kubernetes.core#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/api/v1/namespaces/{namespace}/endpoints/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update the specified Endpoints"
-      }
+      ]
     },
     "com.kubernetes.core#DeleteCoreV1NamespacedEndpointsRequestDryRunList": {
       "type": "list",
@@ -4268,14 +4268,6 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApimachineryPkgApisMetaV1Status"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.core#NotFound"
-        },
-        {
-          "target": "com.kubernetes.core#Conflict"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -4283,7 +4275,15 @@
           "code": 200
         },
         "smithy.api#documentation": "delete Endpoints"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        },
+        {
+          "target": "com.kubernetes.core#Conflict"
+        }
+      ]
     },
     "com.kubernetes.core#ListCoreV1NamespacedEventRequest": {
       "type": "structure",
@@ -4558,14 +4558,6 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApiCoreV1Event"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.core#Conflict"
-        },
-        {
-          "target": "com.kubernetes.core#UnprocessableEntity"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -4573,7 +4565,15 @@
           "code": 200
         },
         "smithy.api#documentation": "create an Event"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.core#Conflict"
+        },
+        {
+          "target": "com.kubernetes.core#UnprocessableEntity"
+        }
+      ]
     },
     "com.kubernetes.core#DeleteCoreV1CollectionNamespacedEventRequestDryRunList": {
       "type": "list",
@@ -4779,11 +4779,6 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApiCoreV1Event"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.core#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -4791,7 +4786,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read the specified Event"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
     },
     "com.kubernetes.core#ReplaceCoreV1NamespacedEventRequest": {
       "type": "structure",
@@ -4957,6 +4957,14 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApiCoreV1Event"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/api/v1/namespaces/{namespace}/events/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace the specified Event"
+      },
       "errors": [
         {
           "target": "com.kubernetes.core#NotFound"
@@ -4967,15 +4975,7 @@
         {
           "target": "com.kubernetes.core#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/api/v1/namespaces/{namespace}/events/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace the specified Event"
-      }
+      ]
     },
     "com.kubernetes.core#PatchCoreV1NamespacedEventRequest": {
       "type": "structure",
@@ -5044,6 +5044,14 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApiCoreV1Event"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/v1/namespaces/{namespace}/events/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update the specified Event"
+      },
       "errors": [
         {
           "target": "com.kubernetes.core#NotFound"
@@ -5054,15 +5062,7 @@
         {
           "target": "com.kubernetes.core#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/api/v1/namespaces/{namespace}/events/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update the specified Event"
-      }
+      ]
     },
     "com.kubernetes.core#DeleteCoreV1NamespacedEventRequestDryRunList": {
       "type": "list",
@@ -5165,14 +5165,6 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApimachineryPkgApisMetaV1Status"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.core#NotFound"
-        },
-        {
-          "target": "com.kubernetes.core#Conflict"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -5180,7 +5172,15 @@
           "code": 200
         },
         "smithy.api#documentation": "delete an Event"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        },
+        {
+          "target": "com.kubernetes.core#Conflict"
+        }
+      ]
     },
     "com.kubernetes.core#ListCoreV1NamespacedLimitRangeRequest": {
       "type": "structure",
@@ -5375,14 +5375,6 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApiCoreV1LimitRange"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.core#Conflict"
-        },
-        {
-          "target": "com.kubernetes.core#UnprocessableEntity"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -5390,7 +5382,15 @@
           "code": 200
         },
         "smithy.api#documentation": "create a LimitRange"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.core#Conflict"
+        },
+        {
+          "target": "com.kubernetes.core#UnprocessableEntity"
+        }
+      ]
     },
     "com.kubernetes.core#DeleteCoreV1CollectionNamespacedLimitRangeRequestDryRunList": {
       "type": "list",
@@ -5596,11 +5596,6 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApiCoreV1LimitRange"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.core#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -5608,7 +5603,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read the specified LimitRange"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
     },
     "com.kubernetes.core#ReplaceCoreV1NamespacedLimitRangeRequest": {
       "type": "structure",
@@ -5694,6 +5694,14 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApiCoreV1LimitRange"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/api/v1/namespaces/{namespace}/limitranges/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace the specified LimitRange"
+      },
       "errors": [
         {
           "target": "com.kubernetes.core#NotFound"
@@ -5704,15 +5712,7 @@
         {
           "target": "com.kubernetes.core#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/api/v1/namespaces/{namespace}/limitranges/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace the specified LimitRange"
-      }
+      ]
     },
     "com.kubernetes.core#PatchCoreV1NamespacedLimitRangeRequest": {
       "type": "structure",
@@ -5781,6 +5781,14 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApiCoreV1LimitRange"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/v1/namespaces/{namespace}/limitranges/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update the specified LimitRange"
+      },
       "errors": [
         {
           "target": "com.kubernetes.core#NotFound"
@@ -5791,15 +5799,7 @@
         {
           "target": "com.kubernetes.core#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/api/v1/namespaces/{namespace}/limitranges/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update the specified LimitRange"
-      }
+      ]
     },
     "com.kubernetes.core#DeleteCoreV1NamespacedLimitRangeRequestDryRunList": {
       "type": "list",
@@ -5902,14 +5902,6 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApimachineryPkgApisMetaV1Status"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.core#NotFound"
-        },
-        {
-          "target": "com.kubernetes.core#Conflict"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -5917,7 +5909,15 @@
           "code": 200
         },
         "smithy.api#documentation": "delete a LimitRange"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        },
+        {
+          "target": "com.kubernetes.core#Conflict"
+        }
+      ]
     },
     "com.kubernetes.core#ListCoreV1NamespacedPersistentVolumeClaimRequest": {
       "type": "structure",
@@ -6692,14 +6692,6 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApiCoreV1PersistentVolumeClaim"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.core#Conflict"
-        },
-        {
-          "target": "com.kubernetes.core#UnprocessableEntity"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -6707,7 +6699,15 @@
           "code": 200
         },
         "smithy.api#documentation": "create a PersistentVolumeClaim"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.core#Conflict"
+        },
+        {
+          "target": "com.kubernetes.core#UnprocessableEntity"
+        }
+      ]
     },
     "com.kubernetes.core#DeleteCoreV1CollectionNamespacedPersistentVolumeClaimRequestDryRunList": {
       "type": "list",
@@ -6913,11 +6913,6 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApiCoreV1PersistentVolumeClaim"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.core#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -6925,7 +6920,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read the specified PersistentVolumeClaim"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
     },
     "com.kubernetes.core#ReplaceCoreV1NamespacedPersistentVolumeClaimRequest": {
       "type": "structure",
@@ -7017,6 +7017,14 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApiCoreV1PersistentVolumeClaim"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/api/v1/namespaces/{namespace}/persistentvolumeclaims/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace the specified PersistentVolumeClaim"
+      },
       "errors": [
         {
           "target": "com.kubernetes.core#NotFound"
@@ -7027,15 +7035,7 @@
         {
           "target": "com.kubernetes.core#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/api/v1/namespaces/{namespace}/persistentvolumeclaims/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace the specified PersistentVolumeClaim"
-      }
+      ]
     },
     "com.kubernetes.core#PatchCoreV1NamespacedPersistentVolumeClaimRequest": {
       "type": "structure",
@@ -7104,6 +7104,14 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApiCoreV1PersistentVolumeClaim"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/v1/namespaces/{namespace}/persistentvolumeclaims/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update the specified PersistentVolumeClaim"
+      },
       "errors": [
         {
           "target": "com.kubernetes.core#NotFound"
@@ -7114,15 +7122,7 @@
         {
           "target": "com.kubernetes.core#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/api/v1/namespaces/{namespace}/persistentvolumeclaims/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update the specified PersistentVolumeClaim"
-      }
+      ]
     },
     "com.kubernetes.core#DeleteCoreV1NamespacedPersistentVolumeClaimRequestDryRunList": {
       "type": "list",
@@ -7225,14 +7225,6 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApiCoreV1PersistentVolumeClaim"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.core#NotFound"
-        },
-        {
-          "target": "com.kubernetes.core#Conflict"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -7240,7 +7232,15 @@
           "code": 200
         },
         "smithy.api#documentation": "delete a PersistentVolumeClaim"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        },
+        {
+          "target": "com.kubernetes.core#Conflict"
+        }
+      ]
     },
     "com.kubernetes.core#ReadCoreV1NamespacedPersistentVolumeClaimStatusRequest": {
       "type": "structure",
@@ -7281,11 +7281,6 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApiCoreV1PersistentVolumeClaim"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.core#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -7293,7 +7288,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read status of the specified PersistentVolumeClaim"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
     },
     "com.kubernetes.core#ReplaceCoreV1NamespacedPersistentVolumeClaimStatusRequest": {
       "type": "structure",
@@ -7385,6 +7385,14 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApiCoreV1PersistentVolumeClaim"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/api/v1/namespaces/{namespace}/persistentvolumeclaims/{name}/status",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace status of the specified PersistentVolumeClaim"
+      },
       "errors": [
         {
           "target": "com.kubernetes.core#NotFound"
@@ -7395,15 +7403,7 @@
         {
           "target": "com.kubernetes.core#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/api/v1/namespaces/{namespace}/persistentvolumeclaims/{name}/status",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace status of the specified PersistentVolumeClaim"
-      }
+      ]
     },
     "com.kubernetes.core#PatchCoreV1NamespacedPersistentVolumeClaimStatusRequest": {
       "type": "structure",
@@ -7472,6 +7472,14 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApiCoreV1PersistentVolumeClaim"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/v1/namespaces/{namespace}/persistentvolumeclaims/{name}/status",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update status of the specified PersistentVolumeClaim"
+      },
       "errors": [
         {
           "target": "com.kubernetes.core#NotFound"
@@ -7482,15 +7490,7 @@
         {
           "target": "com.kubernetes.core#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/api/v1/namespaces/{namespace}/persistentvolumeclaims/{name}/status",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update status of the specified PersistentVolumeClaim"
-      }
+      ]
     },
     "com.kubernetes.core#ListCoreV1NamespacedPodRequest": {
       "type": "structure",
@@ -13200,14 +13200,6 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApiCoreV1Pod"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.core#Conflict"
-        },
-        {
-          "target": "com.kubernetes.core#UnprocessableEntity"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -13215,7 +13207,15 @@
           "code": 200
         },
         "smithy.api#documentation": "create a Pod"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.core#Conflict"
+        },
+        {
+          "target": "com.kubernetes.core#UnprocessableEntity"
+        }
+      ]
     },
     "com.kubernetes.core#DeleteCoreV1CollectionNamespacedPodRequestDryRunList": {
       "type": "list",
@@ -13421,11 +13421,6 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApiCoreV1Pod"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.core#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -13433,7 +13428,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read the specified Pod"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
     },
     "com.kubernetes.core#ReplaceCoreV1NamespacedPodRequest": {
       "type": "structure",
@@ -13525,6 +13525,14 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApiCoreV1Pod"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/api/v1/namespaces/{namespace}/pods/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace the specified Pod"
+      },
       "errors": [
         {
           "target": "com.kubernetes.core#NotFound"
@@ -13535,15 +13543,7 @@
         {
           "target": "com.kubernetes.core#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/api/v1/namespaces/{namespace}/pods/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace the specified Pod"
-      }
+      ]
     },
     "com.kubernetes.core#PatchCoreV1NamespacedPodRequest": {
       "type": "structure",
@@ -13612,6 +13612,14 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApiCoreV1Pod"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/v1/namespaces/{namespace}/pods/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update the specified Pod"
+      },
       "errors": [
         {
           "target": "com.kubernetes.core#NotFound"
@@ -13622,15 +13630,7 @@
         {
           "target": "com.kubernetes.core#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/api/v1/namespaces/{namespace}/pods/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update the specified Pod"
-      }
+      ]
     },
     "com.kubernetes.core#DeleteCoreV1NamespacedPodRequestDryRunList": {
       "type": "list",
@@ -13733,14 +13733,6 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApiCoreV1Pod"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.core#NotFound"
-        },
-        {
-          "target": "com.kubernetes.core#Conflict"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -13748,7 +13740,15 @@
           "code": 200
         },
         "smithy.api#documentation": "delete a Pod"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        },
+        {
+          "target": "com.kubernetes.core#Conflict"
+        }
+      ]
     },
     "com.kubernetes.core#ConnectCoreV1GetNamespacedPodAttachRequest": {
       "type": "structure",
@@ -14017,14 +14017,6 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApiCoreV1Binding"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.core#Conflict"
-        },
-        {
-          "target": "com.kubernetes.core#UnprocessableEntity"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -14032,7 +14024,15 @@
           "code": 200
         },
         "smithy.api#documentation": "create binding of a Pod"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.core#Conflict"
+        },
+        {
+          "target": "com.kubernetes.core#UnprocessableEntity"
+        }
+      ]
     },
     "com.kubernetes.core#ReadCoreV1NamespacedPodEphemeralcontainersRequest": {
       "type": "structure",
@@ -14073,11 +14073,6 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApiCoreV1Pod"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.core#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -14085,7 +14080,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read ephemeralcontainers of the specified Pod"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
     },
     "com.kubernetes.core#ReplaceCoreV1NamespacedPodEphemeralcontainersRequest": {
       "type": "structure",
@@ -14177,6 +14177,14 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApiCoreV1Pod"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/api/v1/namespaces/{namespace}/pods/{name}/ephemeralcontainers",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace ephemeralcontainers of the specified Pod"
+      },
       "errors": [
         {
           "target": "com.kubernetes.core#NotFound"
@@ -14187,15 +14195,7 @@
         {
           "target": "com.kubernetes.core#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/api/v1/namespaces/{namespace}/pods/{name}/ephemeralcontainers",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace ephemeralcontainers of the specified Pod"
-      }
+      ]
     },
     "com.kubernetes.core#PatchCoreV1NamespacedPodEphemeralcontainersRequest": {
       "type": "structure",
@@ -14264,6 +14264,14 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApiCoreV1Pod"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/v1/namespaces/{namespace}/pods/{name}/ephemeralcontainers",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update ephemeralcontainers of the specified Pod"
+      },
       "errors": [
         {
           "target": "com.kubernetes.core#NotFound"
@@ -14274,15 +14282,7 @@
         {
           "target": "com.kubernetes.core#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/api/v1/namespaces/{namespace}/pods/{name}/ephemeralcontainers",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update ephemeralcontainers of the specified Pod"
-      }
+      ]
     },
     "com.kubernetes.core#IoK8sApimachineryPkgApisMetaV1DeleteOptions": {
       "type": "structure",
@@ -14465,14 +14465,6 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApiPolicyV1Eviction"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.core#Conflict"
-        },
-        {
-          "target": "com.kubernetes.core#UnprocessableEntity"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -14480,7 +14472,15 @@
           "code": 200
         },
         "smithy.api#documentation": "create eviction of a Pod"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.core#Conflict"
+        },
+        {
+          "target": "com.kubernetes.core#UnprocessableEntity"
+        }
+      ]
     },
     "com.kubernetes.core#ConnectCoreV1GetNamespacedPodExecRequest": {
       "type": "structure",
@@ -14795,11 +14795,6 @@
       "output": {
         "target": "com.kubernetes.core#ReadCoreV1NamespacedPodLogResponse"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.core#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -14807,7 +14802,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read log of the specified Pod"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
     },
     "com.kubernetes.core#ConnectCoreV1GetNamespacedPodPortforwardRequest": {
       "type": "structure",
@@ -15609,11 +15609,6 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApiCoreV1Pod"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.core#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -15621,7 +15616,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read resize of the specified Pod"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
     },
     "com.kubernetes.core#ReplaceCoreV1NamespacedPodResizeRequest": {
       "type": "structure",
@@ -15713,6 +15713,14 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApiCoreV1Pod"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/api/v1/namespaces/{namespace}/pods/{name}/resize",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace resize of the specified Pod"
+      },
       "errors": [
         {
           "target": "com.kubernetes.core#NotFound"
@@ -15723,15 +15731,7 @@
         {
           "target": "com.kubernetes.core#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/api/v1/namespaces/{namespace}/pods/{name}/resize",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace resize of the specified Pod"
-      }
+      ]
     },
     "com.kubernetes.core#PatchCoreV1NamespacedPodResizeRequest": {
       "type": "structure",
@@ -15800,6 +15800,14 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApiCoreV1Pod"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/v1/namespaces/{namespace}/pods/{name}/resize",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update resize of the specified Pod"
+      },
       "errors": [
         {
           "target": "com.kubernetes.core#NotFound"
@@ -15810,15 +15818,7 @@
         {
           "target": "com.kubernetes.core#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/api/v1/namespaces/{namespace}/pods/{name}/resize",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update resize of the specified Pod"
-      }
+      ]
     },
     "com.kubernetes.core#ReadCoreV1NamespacedPodStatusRequest": {
       "type": "structure",
@@ -15859,11 +15859,6 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApiCoreV1Pod"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.core#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -15871,7 +15866,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read status of the specified Pod"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
     },
     "com.kubernetes.core#ReplaceCoreV1NamespacedPodStatusRequest": {
       "type": "structure",
@@ -15963,6 +15963,14 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApiCoreV1Pod"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/api/v1/namespaces/{namespace}/pods/{name}/status",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace status of the specified Pod"
+      },
       "errors": [
         {
           "target": "com.kubernetes.core#NotFound"
@@ -15973,15 +15981,7 @@
         {
           "target": "com.kubernetes.core#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/api/v1/namespaces/{namespace}/pods/{name}/status",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace status of the specified Pod"
-      }
+      ]
     },
     "com.kubernetes.core#PatchCoreV1NamespacedPodStatusRequest": {
       "type": "structure",
@@ -16050,6 +16050,14 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApiCoreV1Pod"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/v1/namespaces/{namespace}/pods/{name}/status",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update status of the specified Pod"
+      },
       "errors": [
         {
           "target": "com.kubernetes.core#NotFound"
@@ -16060,15 +16068,7 @@
         {
           "target": "com.kubernetes.core#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/api/v1/namespaces/{namespace}/pods/{name}/status",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update status of the specified Pod"
-      }
+      ]
     },
     "com.kubernetes.core#ListCoreV1NamespacedPodTemplateRequest": {
       "type": "structure",
@@ -16357,14 +16357,6 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApiCoreV1PodTemplate"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.core#Conflict"
-        },
-        {
-          "target": "com.kubernetes.core#UnprocessableEntity"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -16372,7 +16364,15 @@
           "code": 200
         },
         "smithy.api#documentation": "create a PodTemplate"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.core#Conflict"
+        },
+        {
+          "target": "com.kubernetes.core#UnprocessableEntity"
+        }
+      ]
     },
     "com.kubernetes.core#DeleteCoreV1CollectionNamespacedPodTemplateRequestDryRunList": {
       "type": "list",
@@ -16578,11 +16578,6 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApiCoreV1PodTemplate"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.core#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -16590,7 +16585,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read the specified PodTemplate"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
     },
     "com.kubernetes.core#ReplaceCoreV1NamespacedPodTemplateRequest": {
       "type": "structure",
@@ -16676,6 +16676,14 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApiCoreV1PodTemplate"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/api/v1/namespaces/{namespace}/podtemplates/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace the specified PodTemplate"
+      },
       "errors": [
         {
           "target": "com.kubernetes.core#NotFound"
@@ -16686,15 +16694,7 @@
         {
           "target": "com.kubernetes.core#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/api/v1/namespaces/{namespace}/podtemplates/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace the specified PodTemplate"
-      }
+      ]
     },
     "com.kubernetes.core#PatchCoreV1NamespacedPodTemplateRequest": {
       "type": "structure",
@@ -16763,6 +16763,14 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApiCoreV1PodTemplate"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/v1/namespaces/{namespace}/podtemplates/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update the specified PodTemplate"
+      },
       "errors": [
         {
           "target": "com.kubernetes.core#NotFound"
@@ -16773,15 +16781,7 @@
         {
           "target": "com.kubernetes.core#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/api/v1/namespaces/{namespace}/podtemplates/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update the specified PodTemplate"
-      }
+      ]
     },
     "com.kubernetes.core#DeleteCoreV1NamespacedPodTemplateRequestDryRunList": {
       "type": "list",
@@ -16884,14 +16884,6 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApiCoreV1PodTemplate"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.core#NotFound"
-        },
-        {
-          "target": "com.kubernetes.core#Conflict"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -16899,7 +16891,15 @@
           "code": 200
         },
         "smithy.api#documentation": "delete a PodTemplate"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        },
+        {
+          "target": "com.kubernetes.core#Conflict"
+        }
+      ]
     },
     "com.kubernetes.core#ListCoreV1NamespacedReplicationControllerRequest": {
       "type": "structure",
@@ -17318,14 +17318,6 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApiCoreV1ReplicationController"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.core#Conflict"
-        },
-        {
-          "target": "com.kubernetes.core#UnprocessableEntity"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -17333,7 +17325,15 @@
           "code": 200
         },
         "smithy.api#documentation": "create a ReplicationController"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.core#Conflict"
+        },
+        {
+          "target": "com.kubernetes.core#UnprocessableEntity"
+        }
+      ]
     },
     "com.kubernetes.core#DeleteCoreV1CollectionNamespacedReplicationControllerRequestDryRunList": {
       "type": "list",
@@ -17539,11 +17539,6 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApiCoreV1ReplicationController"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.core#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -17551,7 +17546,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read the specified ReplicationController"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
     },
     "com.kubernetes.core#ReplaceCoreV1NamespacedReplicationControllerRequest": {
       "type": "structure",
@@ -17643,6 +17643,14 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApiCoreV1ReplicationController"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/api/v1/namespaces/{namespace}/replicationcontrollers/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace the specified ReplicationController"
+      },
       "errors": [
         {
           "target": "com.kubernetes.core#NotFound"
@@ -17653,15 +17661,7 @@
         {
           "target": "com.kubernetes.core#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/api/v1/namespaces/{namespace}/replicationcontrollers/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace the specified ReplicationController"
-      }
+      ]
     },
     "com.kubernetes.core#PatchCoreV1NamespacedReplicationControllerRequest": {
       "type": "structure",
@@ -17730,6 +17730,14 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApiCoreV1ReplicationController"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/v1/namespaces/{namespace}/replicationcontrollers/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update the specified ReplicationController"
+      },
       "errors": [
         {
           "target": "com.kubernetes.core#NotFound"
@@ -17740,15 +17748,7 @@
         {
           "target": "com.kubernetes.core#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/api/v1/namespaces/{namespace}/replicationcontrollers/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update the specified ReplicationController"
-      }
+      ]
     },
     "com.kubernetes.core#DeleteCoreV1NamespacedReplicationControllerRequestDryRunList": {
       "type": "list",
@@ -17851,14 +17851,6 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApimachineryPkgApisMetaV1Status"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.core#NotFound"
-        },
-        {
-          "target": "com.kubernetes.core#Conflict"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -17866,7 +17858,15 @@
           "code": 200
         },
         "smithy.api#documentation": "delete a ReplicationController"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        },
+        {
+          "target": "com.kubernetes.core#Conflict"
+        }
+      ]
     },
     "com.kubernetes.core#ReadCoreV1NamespacedReplicationControllerScaleRequest": {
       "type": "structure",
@@ -17980,11 +17980,6 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApiAutoscalingV1Scale"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.core#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -17992,7 +17987,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read scale of the specified ReplicationController"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
     },
     "com.kubernetes.core#ReplaceCoreV1NamespacedReplicationControllerScaleRequest": {
       "type": "structure",
@@ -18084,6 +18084,14 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApiAutoscalingV1Scale"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/api/v1/namespaces/{namespace}/replicationcontrollers/{name}/scale",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace scale of the specified ReplicationController"
+      },
       "errors": [
         {
           "target": "com.kubernetes.core#NotFound"
@@ -18094,15 +18102,7 @@
         {
           "target": "com.kubernetes.core#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/api/v1/namespaces/{namespace}/replicationcontrollers/{name}/scale",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace scale of the specified ReplicationController"
-      }
+      ]
     },
     "com.kubernetes.core#PatchCoreV1NamespacedReplicationControllerScaleRequest": {
       "type": "structure",
@@ -18171,6 +18171,14 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApiAutoscalingV1Scale"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/v1/namespaces/{namespace}/replicationcontrollers/{name}/scale",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update scale of the specified ReplicationController"
+      },
       "errors": [
         {
           "target": "com.kubernetes.core#NotFound"
@@ -18181,15 +18189,7 @@
         {
           "target": "com.kubernetes.core#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/api/v1/namespaces/{namespace}/replicationcontrollers/{name}/scale",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update scale of the specified ReplicationController"
-      }
+      ]
     },
     "com.kubernetes.core#ReadCoreV1NamespacedReplicationControllerStatusRequest": {
       "type": "structure",
@@ -18230,11 +18230,6 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApiCoreV1ReplicationController"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.core#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -18242,7 +18237,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read status of the specified ReplicationController"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
     },
     "com.kubernetes.core#ReplaceCoreV1NamespacedReplicationControllerStatusRequest": {
       "type": "structure",
@@ -18334,6 +18334,14 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApiCoreV1ReplicationController"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/api/v1/namespaces/{namespace}/replicationcontrollers/{name}/status",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace status of the specified ReplicationController"
+      },
       "errors": [
         {
           "target": "com.kubernetes.core#NotFound"
@@ -18344,15 +18352,7 @@
         {
           "target": "com.kubernetes.core#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/api/v1/namespaces/{namespace}/replicationcontrollers/{name}/status",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace status of the specified ReplicationController"
-      }
+      ]
     },
     "com.kubernetes.core#PatchCoreV1NamespacedReplicationControllerStatusRequest": {
       "type": "structure",
@@ -18421,6 +18421,14 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApiCoreV1ReplicationController"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/v1/namespaces/{namespace}/replicationcontrollers/{name}/status",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update status of the specified ReplicationController"
+      },
       "errors": [
         {
           "target": "com.kubernetes.core#NotFound"
@@ -18431,15 +18439,7 @@
         {
           "target": "com.kubernetes.core#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/api/v1/namespaces/{namespace}/replicationcontrollers/{name}/status",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update status of the specified ReplicationController"
-      }
+      ]
     },
     "com.kubernetes.core#ListCoreV1NamespacedResourceQuotaRequest": {
       "type": "structure",
@@ -18871,14 +18871,6 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApiCoreV1ResourceQuota"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.core#Conflict"
-        },
-        {
-          "target": "com.kubernetes.core#UnprocessableEntity"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -18886,7 +18878,15 @@
           "code": 200
         },
         "smithy.api#documentation": "create a ResourceQuota"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.core#Conflict"
+        },
+        {
+          "target": "com.kubernetes.core#UnprocessableEntity"
+        }
+      ]
     },
     "com.kubernetes.core#DeleteCoreV1CollectionNamespacedResourceQuotaRequestDryRunList": {
       "type": "list",
@@ -19092,11 +19092,6 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApiCoreV1ResourceQuota"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.core#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -19104,7 +19099,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read the specified ResourceQuota"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
     },
     "com.kubernetes.core#ReplaceCoreV1NamespacedResourceQuotaRequest": {
       "type": "structure",
@@ -19196,6 +19196,14 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApiCoreV1ResourceQuota"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/api/v1/namespaces/{namespace}/resourcequotas/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace the specified ResourceQuota"
+      },
       "errors": [
         {
           "target": "com.kubernetes.core#NotFound"
@@ -19206,15 +19214,7 @@
         {
           "target": "com.kubernetes.core#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/api/v1/namespaces/{namespace}/resourcequotas/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace the specified ResourceQuota"
-      }
+      ]
     },
     "com.kubernetes.core#PatchCoreV1NamespacedResourceQuotaRequest": {
       "type": "structure",
@@ -19283,6 +19283,14 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApiCoreV1ResourceQuota"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/v1/namespaces/{namespace}/resourcequotas/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update the specified ResourceQuota"
+      },
       "errors": [
         {
           "target": "com.kubernetes.core#NotFound"
@@ -19293,15 +19301,7 @@
         {
           "target": "com.kubernetes.core#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/api/v1/namespaces/{namespace}/resourcequotas/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update the specified ResourceQuota"
-      }
+      ]
     },
     "com.kubernetes.core#DeleteCoreV1NamespacedResourceQuotaRequestDryRunList": {
       "type": "list",
@@ -19404,14 +19404,6 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApiCoreV1ResourceQuota"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.core#NotFound"
-        },
-        {
-          "target": "com.kubernetes.core#Conflict"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -19419,7 +19411,15 @@
           "code": 200
         },
         "smithy.api#documentation": "delete a ResourceQuota"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        },
+        {
+          "target": "com.kubernetes.core#Conflict"
+        }
+      ]
     },
     "com.kubernetes.core#ReadCoreV1NamespacedResourceQuotaStatusRequest": {
       "type": "structure",
@@ -19460,11 +19460,6 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApiCoreV1ResourceQuota"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.core#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -19472,7 +19467,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read status of the specified ResourceQuota"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
     },
     "com.kubernetes.core#ReplaceCoreV1NamespacedResourceQuotaStatusRequest": {
       "type": "structure",
@@ -19564,6 +19564,14 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApiCoreV1ResourceQuota"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/api/v1/namespaces/{namespace}/resourcequotas/{name}/status",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace status of the specified ResourceQuota"
+      },
       "errors": [
         {
           "target": "com.kubernetes.core#NotFound"
@@ -19574,15 +19582,7 @@
         {
           "target": "com.kubernetes.core#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/api/v1/namespaces/{namespace}/resourcequotas/{name}/status",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace status of the specified ResourceQuota"
-      }
+      ]
     },
     "com.kubernetes.core#PatchCoreV1NamespacedResourceQuotaStatusRequest": {
       "type": "structure",
@@ -19651,6 +19651,14 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApiCoreV1ResourceQuota"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/v1/namespaces/{namespace}/resourcequotas/{name}/status",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update status of the specified ResourceQuota"
+      },
       "errors": [
         {
           "target": "com.kubernetes.core#NotFound"
@@ -19661,15 +19669,7 @@
         {
           "target": "com.kubernetes.core#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/api/v1/namespaces/{namespace}/resourcequotas/{name}/status",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update status of the specified ResourceQuota"
-      }
+      ]
     },
     "com.kubernetes.core#ListCoreV1NamespacedSecretRequest": {
       "type": "structure",
@@ -20022,14 +20022,6 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApiCoreV1Secret"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.core#Conflict"
-        },
-        {
-          "target": "com.kubernetes.core#UnprocessableEntity"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -20037,7 +20029,15 @@
           "code": 200
         },
         "smithy.api#documentation": "create a Secret"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.core#Conflict"
+        },
+        {
+          "target": "com.kubernetes.core#UnprocessableEntity"
+        }
+      ]
     },
     "com.kubernetes.core#DeleteCoreV1CollectionNamespacedSecretRequestDryRunList": {
       "type": "list",
@@ -20243,11 +20243,6 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApiCoreV1Secret"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.core#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -20255,7 +20250,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read the specified Secret"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
     },
     "com.kubernetes.core#ReplaceCoreV1NamespacedSecretRequestDataMap": {
       "type": "map",
@@ -20383,6 +20383,14 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApiCoreV1Secret"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/api/v1/namespaces/{namespace}/secrets/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace the specified Secret"
+      },
       "errors": [
         {
           "target": "com.kubernetes.core#NotFound"
@@ -20393,15 +20401,7 @@
         {
           "target": "com.kubernetes.core#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/api/v1/namespaces/{namespace}/secrets/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace the specified Secret"
-      }
+      ]
     },
     "com.kubernetes.core#PatchCoreV1NamespacedSecretRequest": {
       "type": "structure",
@@ -20470,6 +20470,14 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApiCoreV1Secret"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/v1/namespaces/{namespace}/secrets/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update the specified Secret"
+      },
       "errors": [
         {
           "target": "com.kubernetes.core#NotFound"
@@ -20480,15 +20488,7 @@
         {
           "target": "com.kubernetes.core#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/api/v1/namespaces/{namespace}/secrets/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update the specified Secret"
-      }
+      ]
     },
     "com.kubernetes.core#DeleteCoreV1NamespacedSecretRequestDryRunList": {
       "type": "list",
@@ -20591,14 +20591,6 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApimachineryPkgApisMetaV1Status"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.core#NotFound"
-        },
-        {
-          "target": "com.kubernetes.core#Conflict"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -20606,7 +20598,15 @@
           "code": 200
         },
         "smithy.api#documentation": "delete a Secret"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        },
+        {
+          "target": "com.kubernetes.core#Conflict"
+        }
+      ]
     },
     "com.kubernetes.core#ListCoreV1NamespacedServiceAccountRequest": {
       "type": "structure",
@@ -20935,14 +20935,6 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApiCoreV1ServiceAccount"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.core#Conflict"
-        },
-        {
-          "target": "com.kubernetes.core#UnprocessableEntity"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -20950,7 +20942,15 @@
           "code": 200
         },
         "smithy.api#documentation": "create a ServiceAccount"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.core#Conflict"
+        },
+        {
+          "target": "com.kubernetes.core#UnprocessableEntity"
+        }
+      ]
     },
     "com.kubernetes.core#DeleteCoreV1CollectionNamespacedServiceAccountRequestDryRunList": {
       "type": "list",
@@ -21156,11 +21156,6 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApiCoreV1ServiceAccount"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.core#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -21168,7 +21163,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read the specified ServiceAccount"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
     },
     "com.kubernetes.core#ReplaceCoreV1NamespacedServiceAccountRequestImagePullSecretsList": {
       "type": "list",
@@ -21284,6 +21284,14 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApiCoreV1ServiceAccount"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/api/v1/namespaces/{namespace}/serviceaccounts/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace the specified ServiceAccount"
+      },
       "errors": [
         {
           "target": "com.kubernetes.core#NotFound"
@@ -21294,15 +21302,7 @@
         {
           "target": "com.kubernetes.core#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/api/v1/namespaces/{namespace}/serviceaccounts/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace the specified ServiceAccount"
-      }
+      ]
     },
     "com.kubernetes.core#PatchCoreV1NamespacedServiceAccountRequest": {
       "type": "structure",
@@ -21371,6 +21371,14 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApiCoreV1ServiceAccount"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/v1/namespaces/{namespace}/serviceaccounts/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update the specified ServiceAccount"
+      },
       "errors": [
         {
           "target": "com.kubernetes.core#NotFound"
@@ -21381,15 +21389,7 @@
         {
           "target": "com.kubernetes.core#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/api/v1/namespaces/{namespace}/serviceaccounts/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update the specified ServiceAccount"
-      }
+      ]
     },
     "com.kubernetes.core#DeleteCoreV1NamespacedServiceAccountRequestDryRunList": {
       "type": "list",
@@ -21492,14 +21492,6 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApiCoreV1ServiceAccount"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.core#NotFound"
-        },
-        {
-          "target": "com.kubernetes.core#Conflict"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -21507,7 +21499,15 @@
           "code": 200
         },
         "smithy.api#documentation": "delete a ServiceAccount"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        },
+        {
+          "target": "com.kubernetes.core#Conflict"
+        }
+      ]
     },
     "com.kubernetes.core#IoK8sApiAuthenticationV1TokenRequestSpec": {
       "type": "structure",
@@ -21749,14 +21749,6 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApiAuthenticationV1TokenRequest"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.core#Conflict"
-        },
-        {
-          "target": "com.kubernetes.core#UnprocessableEntity"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -21764,7 +21756,15 @@
           "code": 200
         },
         "smithy.api#documentation": "create token of a ServiceAccount"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.core#Conflict"
+        },
+        {
+          "target": "com.kubernetes.core#UnprocessableEntity"
+        }
+      ]
     },
     "com.kubernetes.core#ListCoreV1NamespacedServiceRequest": {
       "type": "structure",
@@ -22472,14 +22472,6 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApiCoreV1Service"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.core#Conflict"
-        },
-        {
-          "target": "com.kubernetes.core#UnprocessableEntity"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -22487,7 +22479,15 @@
           "code": 200
         },
         "smithy.api#documentation": "create a Service"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.core#Conflict"
+        },
+        {
+          "target": "com.kubernetes.core#UnprocessableEntity"
+        }
+      ]
     },
     "com.kubernetes.core#DeleteCoreV1CollectionNamespacedServiceRequestDryRunList": {
       "type": "list",
@@ -22693,11 +22693,6 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApiCoreV1Service"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.core#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -22705,7 +22700,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read the specified Service"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
     },
     "com.kubernetes.core#ReplaceCoreV1NamespacedServiceRequest": {
       "type": "structure",
@@ -22797,6 +22797,14 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApiCoreV1Service"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/api/v1/namespaces/{namespace}/services/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace the specified Service"
+      },
       "errors": [
         {
           "target": "com.kubernetes.core#NotFound"
@@ -22807,15 +22815,7 @@
         {
           "target": "com.kubernetes.core#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/api/v1/namespaces/{namespace}/services/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace the specified Service"
-      }
+      ]
     },
     "com.kubernetes.core#PatchCoreV1NamespacedServiceRequest": {
       "type": "structure",
@@ -22884,6 +22884,14 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApiCoreV1Service"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/v1/namespaces/{namespace}/services/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update the specified Service"
+      },
       "errors": [
         {
           "target": "com.kubernetes.core#NotFound"
@@ -22894,15 +22902,7 @@
         {
           "target": "com.kubernetes.core#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/api/v1/namespaces/{namespace}/services/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update the specified Service"
-      }
+      ]
     },
     "com.kubernetes.core#DeleteCoreV1NamespacedServiceRequestDryRunList": {
       "type": "list",
@@ -23005,14 +23005,6 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApiCoreV1Service"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.core#NotFound"
-        },
-        {
-          "target": "com.kubernetes.core#Conflict"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -23020,7 +23012,15 @@
           "code": 200
         },
         "smithy.api#documentation": "delete a Service"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        },
+        {
+          "target": "com.kubernetes.core#Conflict"
+        }
+      ]
     },
     "com.kubernetes.core#ConnectCoreV1GetNamespacedServiceProxyRequest": {
       "type": "structure",
@@ -23696,11 +23696,6 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApiCoreV1Service"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.core#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -23708,7 +23703,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read status of the specified Service"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
     },
     "com.kubernetes.core#ReplaceCoreV1NamespacedServiceStatusRequest": {
       "type": "structure",
@@ -23800,6 +23800,14 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApiCoreV1Service"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/api/v1/namespaces/{namespace}/services/{name}/status",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace status of the specified Service"
+      },
       "errors": [
         {
           "target": "com.kubernetes.core#NotFound"
@@ -23810,15 +23818,7 @@
         {
           "target": "com.kubernetes.core#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/api/v1/namespaces/{namespace}/services/{name}/status",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace status of the specified Service"
-      }
+      ]
     },
     "com.kubernetes.core#PatchCoreV1NamespacedServiceStatusRequest": {
       "type": "structure",
@@ -23887,6 +23887,14 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApiCoreV1Service"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/v1/namespaces/{namespace}/services/{name}/status",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update status of the specified Service"
+      },
       "errors": [
         {
           "target": "com.kubernetes.core#NotFound"
@@ -23897,15 +23905,7 @@
         {
           "target": "com.kubernetes.core#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/api/v1/namespaces/{namespace}/services/{name}/status",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update status of the specified Service"
-      }
+      ]
     },
     "com.kubernetes.core#ReadCoreV1NamespaceRequest": {
       "type": "structure",
@@ -23938,11 +23938,6 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApiCoreV1Namespace"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.core#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -23950,7 +23945,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read the specified Namespace"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
     },
     "com.kubernetes.core#ReplaceCoreV1NamespaceRequest": {
       "type": "structure",
@@ -24034,6 +24034,14 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApiCoreV1Namespace"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/api/v1/namespaces/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace the specified Namespace"
+      },
       "errors": [
         {
           "target": "com.kubernetes.core#NotFound"
@@ -24044,15 +24052,7 @@
         {
           "target": "com.kubernetes.core#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/api/v1/namespaces/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace the specified Namespace"
-      }
+      ]
     },
     "com.kubernetes.core#PatchCoreV1NamespaceRequest": {
       "type": "structure",
@@ -24113,6 +24113,14 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApiCoreV1Namespace"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/v1/namespaces/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update the specified Namespace"
+      },
       "errors": [
         {
           "target": "com.kubernetes.core#NotFound"
@@ -24123,15 +24131,7 @@
         {
           "target": "com.kubernetes.core#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/api/v1/namespaces/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update the specified Namespace"
-      }
+      ]
     },
     "com.kubernetes.core#DeleteCoreV1NamespaceRequestDryRunList": {
       "type": "list",
@@ -24226,14 +24226,6 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApimachineryPkgApisMetaV1Status"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.core#NotFound"
-        },
-        {
-          "target": "com.kubernetes.core#Conflict"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -24241,7 +24233,15 @@
           "code": 200
         },
         "smithy.api#documentation": "delete a Namespace"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        },
+        {
+          "target": "com.kubernetes.core#Conflict"
+        }
+      ]
     },
     "com.kubernetes.core#ReplaceCoreV1NamespaceFinalizeRequest": {
       "type": "structure",
@@ -24325,6 +24325,14 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApiCoreV1Namespace"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/api/v1/namespaces/{name}/finalize",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace finalize of the specified Namespace"
+      },
       "errors": [
         {
           "target": "com.kubernetes.core#NotFound"
@@ -24335,15 +24343,7 @@
         {
           "target": "com.kubernetes.core#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/api/v1/namespaces/{name}/finalize",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace finalize of the specified Namespace"
-      }
+      ]
     },
     "com.kubernetes.core#ReadCoreV1NamespaceStatusRequest": {
       "type": "structure",
@@ -24376,11 +24376,6 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApiCoreV1Namespace"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.core#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -24388,7 +24383,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read status of the specified Namespace"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
     },
     "com.kubernetes.core#ReplaceCoreV1NamespaceStatusRequest": {
       "type": "structure",
@@ -24472,6 +24472,14 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApiCoreV1Namespace"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/api/v1/namespaces/{name}/status",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace status of the specified Namespace"
+      },
       "errors": [
         {
           "target": "com.kubernetes.core#NotFound"
@@ -24482,15 +24490,7 @@
         {
           "target": "com.kubernetes.core#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/api/v1/namespaces/{name}/status",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace status of the specified Namespace"
-      }
+      ]
     },
     "com.kubernetes.core#PatchCoreV1NamespaceStatusRequest": {
       "type": "structure",
@@ -24551,6 +24551,14 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApiCoreV1Namespace"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/v1/namespaces/{name}/status",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update status of the specified Namespace"
+      },
       "errors": [
         {
           "target": "com.kubernetes.core#NotFound"
@@ -24561,15 +24569,7 @@
         {
           "target": "com.kubernetes.core#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/api/v1/namespaces/{name}/status",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update status of the specified Namespace"
-      }
+      ]
     },
     "com.kubernetes.core#ListCoreV1NodeRequest": {
       "type": "structure",
@@ -25537,14 +25537,6 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApiCoreV1Node"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.core#Conflict"
-        },
-        {
-          "target": "com.kubernetes.core#UnprocessableEntity"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -25552,7 +25544,15 @@
           "code": 200
         },
         "smithy.api#documentation": "create a Node"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.core#Conflict"
+        },
+        {
+          "target": "com.kubernetes.core#UnprocessableEntity"
+        }
+      ]
     },
     "com.kubernetes.core#DeleteCoreV1CollectionNodeRequestDryRunList": {
       "type": "list",
@@ -25742,11 +25742,6 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApiCoreV1Node"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.core#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -25754,7 +25749,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read the specified Node"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
     },
     "com.kubernetes.core#ReplaceCoreV1NodeRequest": {
       "type": "structure",
@@ -25838,6 +25838,14 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApiCoreV1Node"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/api/v1/nodes/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace the specified Node"
+      },
       "errors": [
         {
           "target": "com.kubernetes.core#NotFound"
@@ -25848,15 +25856,7 @@
         {
           "target": "com.kubernetes.core#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/api/v1/nodes/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace the specified Node"
-      }
+      ]
     },
     "com.kubernetes.core#PatchCoreV1NodeRequest": {
       "type": "structure",
@@ -25917,6 +25917,14 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApiCoreV1Node"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/v1/nodes/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update the specified Node"
+      },
       "errors": [
         {
           "target": "com.kubernetes.core#NotFound"
@@ -25927,15 +25935,7 @@
         {
           "target": "com.kubernetes.core#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/api/v1/nodes/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update the specified Node"
-      }
+      ]
     },
     "com.kubernetes.core#DeleteCoreV1NodeRequestDryRunList": {
       "type": "list",
@@ -26030,14 +26030,6 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApimachineryPkgApisMetaV1Status"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.core#NotFound"
-        },
-        {
-          "target": "com.kubernetes.core#Conflict"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -26045,7 +26037,15 @@
           "code": 200
         },
         "smithy.api#documentation": "delete a Node"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        },
+        {
+          "target": "com.kubernetes.core#Conflict"
+        }
+      ]
     },
     "com.kubernetes.core#ConnectCoreV1GetNodeProxyRequest": {
       "type": "structure",
@@ -26633,11 +26633,6 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApiCoreV1Node"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.core#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -26645,7 +26640,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read status of the specified Node"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
     },
     "com.kubernetes.core#ReplaceCoreV1NodeStatusRequest": {
       "type": "structure",
@@ -26729,6 +26729,14 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApiCoreV1Node"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/api/v1/nodes/{name}/status",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace status of the specified Node"
+      },
       "errors": [
         {
           "target": "com.kubernetes.core#NotFound"
@@ -26739,15 +26747,7 @@
         {
           "target": "com.kubernetes.core#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/api/v1/nodes/{name}/status",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace status of the specified Node"
-      }
+      ]
     },
     "com.kubernetes.core#PatchCoreV1NodeStatusRequest": {
       "type": "structure",
@@ -26808,6 +26808,14 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApiCoreV1Node"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/v1/nodes/{name}/status",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update status of the specified Node"
+      },
       "errors": [
         {
           "target": "com.kubernetes.core#NotFound"
@@ -26818,15 +26826,7 @@
         {
           "target": "com.kubernetes.core#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/api/v1/nodes/{name}/status",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update status of the specified Node"
-      }
+      ]
     },
     "com.kubernetes.core#ListCoreV1PersistentVolumeClaimForAllNamespacesRequest": {
       "type": "structure",
@@ -28062,14 +28062,6 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApiCoreV1PersistentVolume"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.core#Conflict"
-        },
-        {
-          "target": "com.kubernetes.core#UnprocessableEntity"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -28077,7 +28069,15 @@
           "code": 200
         },
         "smithy.api#documentation": "create a PersistentVolume"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.core#Conflict"
+        },
+        {
+          "target": "com.kubernetes.core#UnprocessableEntity"
+        }
+      ]
     },
     "com.kubernetes.core#DeleteCoreV1CollectionPersistentVolumeRequestDryRunList": {
       "type": "list",
@@ -28267,11 +28267,6 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApiCoreV1PersistentVolume"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.core#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -28279,7 +28274,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read the specified PersistentVolume"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
     },
     "com.kubernetes.core#ReplaceCoreV1PersistentVolumeRequest": {
       "type": "structure",
@@ -28363,6 +28363,14 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApiCoreV1PersistentVolume"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/api/v1/persistentvolumes/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace the specified PersistentVolume"
+      },
       "errors": [
         {
           "target": "com.kubernetes.core#NotFound"
@@ -28373,15 +28381,7 @@
         {
           "target": "com.kubernetes.core#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/api/v1/persistentvolumes/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace the specified PersistentVolume"
-      }
+      ]
     },
     "com.kubernetes.core#PatchCoreV1PersistentVolumeRequest": {
       "type": "structure",
@@ -28442,6 +28442,14 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApiCoreV1PersistentVolume"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/v1/persistentvolumes/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update the specified PersistentVolume"
+      },
       "errors": [
         {
           "target": "com.kubernetes.core#NotFound"
@@ -28452,15 +28460,7 @@
         {
           "target": "com.kubernetes.core#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/api/v1/persistentvolumes/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update the specified PersistentVolume"
-      }
+      ]
     },
     "com.kubernetes.core#DeleteCoreV1PersistentVolumeRequestDryRunList": {
       "type": "list",
@@ -28555,14 +28555,6 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApiCoreV1PersistentVolume"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.core#NotFound"
-        },
-        {
-          "target": "com.kubernetes.core#Conflict"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -28570,7 +28562,15 @@
           "code": 200
         },
         "smithy.api#documentation": "delete a PersistentVolume"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        },
+        {
+          "target": "com.kubernetes.core#Conflict"
+        }
+      ]
     },
     "com.kubernetes.core#ReadCoreV1PersistentVolumeStatusRequest": {
       "type": "structure",
@@ -28603,11 +28603,6 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApiCoreV1PersistentVolume"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.core#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -28615,7 +28610,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read status of the specified PersistentVolume"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.core#NotFound"
+        }
+      ]
     },
     "com.kubernetes.core#ReplaceCoreV1PersistentVolumeStatusRequest": {
       "type": "structure",
@@ -28699,6 +28699,14 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApiCoreV1PersistentVolume"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/api/v1/persistentvolumes/{name}/status",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace status of the specified PersistentVolume"
+      },
       "errors": [
         {
           "target": "com.kubernetes.core#NotFound"
@@ -28709,15 +28717,7 @@
         {
           "target": "com.kubernetes.core#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/api/v1/persistentvolumes/{name}/status",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace status of the specified PersistentVolume"
-      }
+      ]
     },
     "com.kubernetes.core#PatchCoreV1PersistentVolumeStatusRequest": {
       "type": "structure",
@@ -28778,6 +28778,14 @@
       "output": {
         "target": "com.kubernetes.core#IoK8sApiCoreV1PersistentVolume"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/v1/persistentvolumes/{name}/status",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update status of the specified PersistentVolume"
+      },
       "errors": [
         {
           "target": "com.kubernetes.core#NotFound"
@@ -28788,15 +28796,7 @@
         {
           "target": "com.kubernetes.core#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/api/v1/persistentvolumes/{name}/status",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update status of the specified PersistentVolume"
-      }
+      ]
     },
     "com.kubernetes.core#ListCoreV1PodForAllNamespacesRequest": {
       "type": "structure",
@@ -38091,45 +38091,6 @@
         "smithy.api#documentation": "get the version information for this server"
       }
     },
-    "com.kubernetes.core#NotFound": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 404,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 404
-          }
-        ]
-      }
-    },
-    "com.kubernetes.core#Conflict": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 409,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 409
-          }
-        ]
-      }
-    },
-    "com.kubernetes.core#UnprocessableEntity": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 422,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 422
-          }
-        ]
-      }
-    },
     "com.kubernetes.core#Core": {
       "type": "service",
       "version": "unversioned",
@@ -38956,6 +38917,45 @@
       ],
       "traits": {
         "smithy.api#title": "Kubernetes"
+      }
+    },
+    "com.kubernetes.core#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.kubernetes.core#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.kubernetes.core#UnprocessableEntity": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 422,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 422
+          }
+        ]
       }
     }
   }

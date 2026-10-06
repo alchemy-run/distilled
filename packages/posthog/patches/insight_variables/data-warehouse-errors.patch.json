@@ -1,0 +1,140 @@
+{
+  "description": "From data-warehouse-errors.patch.json: Auto-generated PostHog error responses (400/403/404) for tag \"data_warehouse\". See generate-error-patches.ts.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.insight_variables#InsightVariablesList/errors",
+      "value": [
+        {
+          "target": "com.posthog.insight_variables#BadRequest"
+        },
+        {
+          "target": "com.posthog.insight_variables#Forbidden"
+        },
+        {
+          "target": "com.posthog.insight_variables#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.insight_variables#InsightVariablesCreate/errors",
+      "value": [
+        {
+          "target": "com.posthog.insight_variables#BadRequest"
+        },
+        {
+          "target": "com.posthog.insight_variables#Forbidden"
+        },
+        {
+          "target": "com.posthog.insight_variables#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.insight_variables#InsightVariablesRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.insight_variables#Forbidden"
+        },
+        {
+          "target": "com.posthog.insight_variables#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.insight_variables#InsightVariablesUpdate/errors",
+      "value": [
+        {
+          "target": "com.posthog.insight_variables#BadRequest"
+        },
+        {
+          "target": "com.posthog.insight_variables#Forbidden"
+        },
+        {
+          "target": "com.posthog.insight_variables#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.insight_variables#InsightVariablesPartialUpdate/errors",
+      "value": [
+        {
+          "target": "com.posthog.insight_variables#BadRequest"
+        },
+        {
+          "target": "com.posthog.insight_variables#Forbidden"
+        },
+        {
+          "target": "com.posthog.insight_variables#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.insight_variables#InsightVariablesDestroy/errors",
+      "value": [
+        {
+          "target": "com.posthog.insight_variables#Forbidden"
+        },
+        {
+          "target": "com.posthog.insight_variables#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.insight_variables#BadRequest",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 400
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.insight_variables#Forbidden",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 403
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.insight_variables#NotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

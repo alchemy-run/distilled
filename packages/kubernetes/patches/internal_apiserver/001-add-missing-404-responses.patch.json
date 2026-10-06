@@ -1,0 +1,85 @@
+{
+  "description": "From 001-add-missing-404-responses.patch.json: Add 404 NotFound responses to read, replace, delete, and patch operations",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.internal_apiserver#ReadInternalApiserverV1alpha1StorageVersion/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.internal_apiserver#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.internal_apiserver#ReplaceInternalApiserverV1alpha1StorageVersion/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.internal_apiserver#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.internal_apiserver#PatchInternalApiserverV1alpha1StorageVersion/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.internal_apiserver#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.internal_apiserver#DeleteInternalApiserverV1alpha1StorageVersion/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.internal_apiserver#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.internal_apiserver#ReadInternalApiserverV1alpha1StorageVersionStatus/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.internal_apiserver#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.internal_apiserver#ReplaceInternalApiserverV1alpha1StorageVersionStatus/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.internal_apiserver#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.internal_apiserver#PatchInternalApiserverV1alpha1StorageVersionStatus/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.internal_apiserver#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.internal_apiserver#NotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

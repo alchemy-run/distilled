@@ -508,6 +508,13 @@
       "output": {
         "target": "com.posthog.advanced_activity_logs#PaginatedActivityLogList"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/advanced_activity_logs/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.advanced_activity_logs#BadRequest"
@@ -518,14 +525,7 @@
         {
           "target": "com.posthog.advanced_activity_logs#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/advanced_activity_logs/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.advanced_activity_logs#GetAdvancedActivityLogsAvailableFilterRequest": {
       "type": "structure",
@@ -687,6 +687,13 @@
       "output": {
         "target": "com.posthog.advanced_activity_logs#AvailableFiltersResponse"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/advanced_activity_logs/available_filters/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.advanced_activity_logs#Forbidden"
@@ -694,14 +701,7 @@
         {
           "target": "com.posthog.advanced_activity_logs#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/advanced_activity_logs/available_filters/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.advanced_activity_logs#UserBasicInput": {
       "type": "structure",
@@ -832,6 +832,13 @@
       "output": {
         "target": "com.posthog.advanced_activity_logs#ActivityLog"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/advanced_activity_logs/export/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.advanced_activity_logs#BadRequest"
@@ -842,13 +849,24 @@
         {
           "target": "com.posthog.advanced_activity_logs#NotFound"
         }
+      ]
+    },
+    "com.posthog.advanced_activity_logs#AdvancedActivityLogs": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.posthog.advanced_activity_logs#ListAdvancedActivityLogs"
+        },
+        {
+          "target": "com.posthog.advanced_activity_logs#GetAdvancedActivityLogsAvailableFilter"
+        },
+        {
+          "target": "com.posthog.advanced_activity_logs#AdvancedActivityLogsExportCreate"
+        }
       ],
       "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/advanced_activity_logs/export/",
-          "code": 200
-        }
+        "smithy.api#title": "PostHog API"
       }
     },
     "com.posthog.advanced_activity_logs#BadRequest": {
@@ -888,24 +906,6 @@
             "status": 404
           }
         ]
-      }
-    },
-    "com.posthog.advanced_activity_logs#AdvancedActivityLogs": {
-      "type": "service",
-      "version": "1.0.0",
-      "operations": [
-        {
-          "target": "com.posthog.advanced_activity_logs#ListAdvancedActivityLogs"
-        },
-        {
-          "target": "com.posthog.advanced_activity_logs#GetAdvancedActivityLogsAvailableFilter"
-        },
-        {
-          "target": "com.posthog.advanced_activity_logs#AdvancedActivityLogsExportCreate"
-        }
-      ],
-      "traits": {
-        "smithy.api#title": "PostHog API"
       }
     }
   }

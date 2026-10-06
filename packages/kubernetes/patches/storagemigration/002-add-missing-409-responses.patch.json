@@ -1,0 +1,66 @@
+{
+  "description": "From 002-add-missing-409-responses.patch.json: Add 409 Conflict responses to create, replace, delete, and patch operations",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.storagemigration#CreateStoragemigrationV1beta1StorageVersionMigration/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.storagemigration#Conflict"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.storagemigration#ReplaceStoragemigrationV1beta1StorageVersionMigration/errors/-",
+      "value": {
+        "target": "com.kubernetes.storagemigration#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.storagemigration#PatchStoragemigrationV1beta1StorageVersionMigration/errors/-",
+      "value": {
+        "target": "com.kubernetes.storagemigration#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.storagemigration#DeleteStoragemigrationV1beta1StorageVersionMigration/errors/-",
+      "value": {
+        "target": "com.kubernetes.storagemigration#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.storagemigration#ReplaceStoragemigrationV1beta1StorageVersionMigrationStatus/errors/-",
+      "value": {
+        "target": "com.kubernetes.storagemigration#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.storagemigration#PatchStoragemigrationV1beta1StorageVersionMigrationStatus/errors/-",
+      "value": {
+        "target": "com.kubernetes.storagemigration#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.storagemigration#Conflict",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 409,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 409
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

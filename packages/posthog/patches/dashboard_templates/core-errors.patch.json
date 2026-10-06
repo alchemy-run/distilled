@@ -1,0 +1,167 @@
+{
+  "description": "From core-errors.patch.json: Auto-generated PostHog error responses (400/403/404) for tag \"core\". See generate-error-patches.ts.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.dashboard_templates#DashboardTemplatesList/errors",
+      "value": [
+        {
+          "target": "com.posthog.dashboard_templates#BadRequest"
+        },
+        {
+          "target": "com.posthog.dashboard_templates#Forbidden"
+        },
+        {
+          "target": "com.posthog.dashboard_templates#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.dashboard_templates#DashboardTemplatesCreate/errors",
+      "value": [
+        {
+          "target": "com.posthog.dashboard_templates#BadRequest"
+        },
+        {
+          "target": "com.posthog.dashboard_templates#Forbidden"
+        },
+        {
+          "target": "com.posthog.dashboard_templates#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.dashboard_templates#DashboardTemplatesRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.dashboard_templates#Forbidden"
+        },
+        {
+          "target": "com.posthog.dashboard_templates#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.dashboard_templates#DashboardTemplatesUpdate/errors",
+      "value": [
+        {
+          "target": "com.posthog.dashboard_templates#BadRequest"
+        },
+        {
+          "target": "com.posthog.dashboard_templates#Forbidden"
+        },
+        {
+          "target": "com.posthog.dashboard_templates#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.dashboard_templates#DashboardTemplatesPartialUpdate/errors",
+      "value": [
+        {
+          "target": "com.posthog.dashboard_templates#BadRequest"
+        },
+        {
+          "target": "com.posthog.dashboard_templates#Forbidden"
+        },
+        {
+          "target": "com.posthog.dashboard_templates#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.dashboard_templates#DashboardTemplatesDestroy/errors",
+      "value": [
+        {
+          "target": "com.posthog.dashboard_templates#Forbidden"
+        },
+        {
+          "target": "com.posthog.dashboard_templates#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.dashboard_templates#DashboardTemplatesCopyBetweenProjectsCreate/errors",
+      "value": [
+        {
+          "target": "com.posthog.dashboard_templates#BadRequest"
+        },
+        {
+          "target": "com.posthog.dashboard_templates#Forbidden"
+        },
+        {
+          "target": "com.posthog.dashboard_templates#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.dashboard_templates#DashboardTemplatesJsonSchemaRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.dashboard_templates#Forbidden"
+        },
+        {
+          "target": "com.posthog.dashboard_templates#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.dashboard_templates#BadRequest",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 400
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.dashboard_templates#Forbidden",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 403
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.dashboard_templates#NotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

@@ -222,18 +222,6 @@
         "smithy.api#documentation": "Select all records from a table\n\nThis HTTP RESTful endpoint selects all records from a specific table in the database. It is equivalent to running:\n\n``` sql\nSELECT * FROM type::table($table);\n```"
       }
     },
-    "com.surrealdb.api#UpdateKeyRequestBodyMap": {
-      "type": "map",
-      "key": {
-        "target": "smithy.api#String"
-      },
-      "value": {
-        "target": "smithy.api#Document"
-      },
-      "traits": {
-        "smithy.api#documentation": "Record content"
-      }
-    },
     "com.surrealdb.api#UpdateKeyRequest": {
       "type": "structure",
       "members": {
@@ -288,18 +276,6 @@
         "smithy.api#documentation": "Create a new record in a table\n\nThis HTTP RESTful endpoint creates a record in a specific table in the database. The supplied request body is used as the content of the record, and is equivalent to running:\n\n``` sql\nCREATE type::table($table) CONTENT $body;\n```"
       }
     },
-    "com.surrealdb.api#PutKeyRequestBodyMap": {
-      "type": "map",
-      "key": {
-        "target": "smithy.api#String"
-      },
-      "value": {
-        "target": "smithy.api#Document"
-      },
-      "traits": {
-        "smithy.api#documentation": "Record content"
-      }
-    },
     "com.surrealdb.api#PutKeyRequest": {
       "type": "structure",
       "members": {
@@ -352,18 +328,6 @@
           "code": 200
         },
         "smithy.api#documentation": "Update all records in a table\n\nThis HTTP RESTful endpoint updates all records in a specific table in the database. It replaces the record content with the supplied request data, and is equivalent to running:\n\n``` sql\nUPDATE type::table($table) CONTENT $body;\n```"
-      }
-    },
-    "com.surrealdb.api#UpdateKeyByTableRequestBodyMap": {
-      "type": "map",
-      "key": {
-        "target": "smithy.api#String"
-      },
-      "value": {
-        "target": "smithy.api#Document"
-      },
-      "traits": {
-        "smithy.api#documentation": "Fields to merge into each record"
       }
     },
     "com.surrealdb.api#UpdateKeyByTableRequest": {
@@ -578,18 +542,6 @@
         "smithy.api#documentation": "Select a specific record from a table\n\nThis HTTP RESTful endpoint selects a specific record from a table in the database. It is equivalent to running:\n\n``` sql\nSELECT * FROM type::thing($table, $id);\n```"
       }
     },
-    "com.surrealdb.api#UpdateKeyByIdRequestBodyMap": {
-      "type": "map",
-      "key": {
-        "target": "smithy.api#String"
-      },
-      "value": {
-        "target": "smithy.api#Document"
-      },
-      "traits": {
-        "smithy.api#documentation": "Record content"
-      }
-    },
     "com.surrealdb.api#UpdateKeyByIdRequest": {
       "type": "structure",
       "members": {
@@ -650,18 +602,6 @@
           "code": 200
         },
         "smithy.api#documentation": "Create a specific record in a table\n\nThis HTTP RESTful endpoint creates a specific record in a table in the database. The supplied request body is used as the content of the record, and is equivalent to running:\n\n``` sql\nCREATE type::thing($table, $id) CONTENT $body;\n```"
-      }
-    },
-    "com.surrealdb.api#PutKeyByIdRequestBodyMap": {
-      "type": "map",
-      "key": {
-        "target": "smithy.api#String"
-      },
-      "value": {
-        "target": "smithy.api#Document"
-      },
-      "traits": {
-        "smithy.api#documentation": "Record content"
       }
     },
     "com.surrealdb.api#PutKeyByIdRequest": {
@@ -730,18 +670,6 @@
           "code": 200
         },
         "smithy.api#documentation": "Update a specific record in a table\n\nThis HTTP RESTful endpoint updates a specific record in a table in the database. The supplied request body is used as the content of the record, and is equivalent to running:\n\n``` sql\nUPDATE type::thing($table, $id) CONTENT $body;\n```"
-      }
-    },
-    "com.surrealdb.api#UpdateKeyByIdRequestBodyMap2": {
-      "type": "map",
-      "key": {
-        "target": "smithy.api#String"
-      },
-      "value": {
-        "target": "smithy.api#Document"
-      },
-      "traits": {
-        "smithy.api#documentation": "Fields to merge into the record"
       }
     },
     "com.surrealdb.api#UpdateKeyByIdRequest2": {
@@ -963,6 +891,78 @@
       "traits": {
         "smithy.api#title": "SurrealDB HTTP API",
         "smithy.api#documentation": "The HTTP endpoints enable simple selection and modifications of all records or a single record in a table, in addition to support for custom SurrealQL queries with multiple statements, using traditional RESTful HTTP url endpoints."
+      }
+    },
+    "com.surrealdb.api#UpdateKeyRequestBodyMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "Record content"
+      }
+    },
+    "com.surrealdb.api#PutKeyRequestBodyMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "Record content"
+      }
+    },
+    "com.surrealdb.api#UpdateKeyByTableRequestBodyMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "Fields to merge into each record"
+      }
+    },
+    "com.surrealdb.api#UpdateKeyByIdRequestBodyMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "Record content"
+      }
+    },
+    "com.surrealdb.api#PutKeyByIdRequestBodyMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "Record content"
+      }
+    },
+    "com.surrealdb.api#UpdateKeyByIdRequestBodyMap2": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "Fields to merge into the record"
       }
     }
   }

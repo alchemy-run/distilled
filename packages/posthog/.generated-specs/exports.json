@@ -212,6 +212,13 @@
       "output": {
         "target": "com.posthog.exports#PaginatedExportedAssetList"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/exports/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.exports#BadRequest"
@@ -222,14 +229,7 @@
         {
           "target": "com.posthog.exports#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/exports/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.exports#ExportedAssetCreateExportFormatEnum": {
       "type": "enum",
@@ -410,6 +410,13 @@
       "output": {
         "target": "com.posthog.exports#ExportedAssetCreate"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/exports/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.exports#BadRequest"
@@ -420,14 +427,7 @@
         {
           "target": "com.posthog.exports#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/exports/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.exports#GetExportRequest": {
       "type": "structure",
@@ -461,6 +461,13 @@
       "output": {
         "target": "com.posthog.exports#ExportedAsset"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/exports/{id}/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.exports#Forbidden"
@@ -468,14 +475,7 @@
         {
           "target": "com.posthog.exports#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/exports/{id}/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.exports#GetExportsContentRequest": {
       "type": "structure",
@@ -509,6 +509,13 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/exports/{id}/content/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.exports#Forbidden"
@@ -516,13 +523,27 @@
         {
           "target": "com.posthog.exports#NotFound"
         }
+      ]
+    },
+    "com.posthog.exports#Exports": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.posthog.exports#ListExports"
+        },
+        {
+          "target": "com.posthog.exports#CreateExport"
+        },
+        {
+          "target": "com.posthog.exports#GetExport"
+        },
+        {
+          "target": "com.posthog.exports#GetExportsContent"
+        }
       ],
       "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/exports/{id}/content/",
-          "code": 200
-        }
+        "smithy.api#title": "PostHog API"
       }
     },
     "com.posthog.exports#BadRequest": {
@@ -562,27 +583,6 @@
             "status": 404
           }
         ]
-      }
-    },
-    "com.posthog.exports#Exports": {
-      "type": "service",
-      "version": "1.0.0",
-      "operations": [
-        {
-          "target": "com.posthog.exports#ListExports"
-        },
-        {
-          "target": "com.posthog.exports#CreateExport"
-        },
-        {
-          "target": "com.posthog.exports#GetExport"
-        },
-        {
-          "target": "com.posthog.exports#GetExportsContent"
-        }
-      ],
-      "traits": {
-        "smithy.api#title": "PostHog API"
       }
     }
   }

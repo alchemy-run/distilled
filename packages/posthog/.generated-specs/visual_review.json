@@ -127,6 +127,14 @@
       "output": {
         "target": "com.posthog.visual_review#PaginatedRepoList"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/visual_review/repos/",
+          "code": 200
+        },
+        "smithy.api#documentation": "List all projects for the team."
+      },
       "errors": [
         {
           "target": "com.posthog.visual_review#BadRequest"
@@ -137,15 +145,7 @@
         {
           "target": "com.posthog.visual_review#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/visual_review/repos/",
-          "code": 200
-        },
-        "smithy.api#documentation": "List all projects for the team."
-      }
+      ]
     },
     "com.posthog.visual_review#CreateVisualReviewReposRequest": {
       "type": "structure",
@@ -180,6 +180,14 @@
       "output": {
         "target": "com.posthog.visual_review#Repo"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/visual_review/repos/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create a new repo."
+      },
       "errors": [
         {
           "target": "com.posthog.visual_review#BadRequest"
@@ -190,15 +198,7 @@
         {
           "target": "com.posthog.visual_review#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/visual_review/repos/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Create a new repo."
-      }
+      ]
     },
     "com.posthog.visual_review#GetVisualReviewReposRequest": {
       "type": "structure",
@@ -231,14 +231,6 @@
       "output": {
         "target": "com.posthog.visual_review#Repo"
       },
-      "errors": [
-        {
-          "target": "com.posthog.visual_review#Forbidden"
-        },
-        {
-          "target": "com.posthog.visual_review#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -246,7 +238,15 @@
           "code": 200
         },
         "smithy.api#documentation": "Get a repo by ID."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.posthog.visual_review#Forbidden"
+        },
+        {
+          "target": "com.posthog.visual_review#NotFound"
+        }
+      ]
     },
     "com.posthog.visual_review#UpdateVisualReviewReposPartialRequestBaselineFilePathsMap": {
       "type": "map",
@@ -309,6 +309,14 @@
       "output": {
         "target": "com.posthog.visual_review#Repo"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/projects/{project_id}/visual_review/repos/{id}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update a repo's settings."
+      },
       "errors": [
         {
           "target": "com.posthog.visual_review#BadRequest"
@@ -319,15 +327,7 @@
         {
           "target": "com.posthog.visual_review#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/api/projects/{project_id}/visual_review/repos/{id}/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Update a repo's settings."
-      }
+      ]
     },
     "com.posthog.visual_review#GetVisualReviewReposBaselineRequest": {
       "type": "structure",
@@ -1189,6 +1189,14 @@
       "output": {
         "target": "com.posthog.visual_review#PaginatedQuarantinedIdentifierEntryList"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/visual_review/repos/{id}/quarantine/",
+          "code": 200
+        },
+        "smithy.api#documentation": "List quarantined identifiers. Without filter: active only. With identifier: full history."
+      },
       "errors": [
         {
           "target": "com.posthog.visual_review#BadRequest"
@@ -1199,15 +1207,7 @@
         {
           "target": "com.posthog.visual_review#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/visual_review/repos/{id}/quarantine/",
-          "code": 200
-        },
-        "smithy.api#documentation": "List quarantined identifiers. Without filter: active only. With identifier: full history."
-      }
+      ]
     },
     "com.posthog.visual_review#CreateVisualReviewReposQuarantineRequest": {
       "type": "structure",
@@ -1279,6 +1279,14 @@
       "output": {
         "target": "com.posthog.visual_review#QuarantinedIdentifierEntry"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/visual_review/repos/{id}/quarantine/{run_type}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Quarantine a snapshot identifier for a specific run type."
+      },
       "errors": [
         {
           "target": "com.posthog.visual_review#BadRequest"
@@ -1289,15 +1297,7 @@
         {
           "target": "com.posthog.visual_review#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/visual_review/repos/{id}/quarantine/{run_type}/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Quarantine a snapshot identifier for a specific run type."
-      }
+      ]
     },
     "com.posthog.visual_review#CreateVisualReviewReposQuarantineExpireRequest": {
       "type": "structure",
@@ -2290,6 +2290,14 @@
       "output": {
         "target": "com.posthog.visual_review#PaginatedRunList"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/visual_review/runs/",
+          "code": 200
+        },
+        "smithy.api#documentation": "List runs for the team, optionally filtered by review state, PR number, commit SHA, branch, or free-text search."
+      },
       "errors": [
         {
           "target": "com.posthog.visual_review#BadRequest"
@@ -2300,15 +2308,7 @@
         {
           "target": "com.posthog.visual_review#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/visual_review/runs/",
-          "code": 200
-        },
-        "smithy.api#documentation": "List runs for the team, optionally filtered by review state, PR number, commit SHA, branch, or free-text search."
-      }
+      ]
     },
     "com.posthog.visual_review#SnapshotManifestItem": {
       "type": "structure",
@@ -2488,6 +2488,14 @@
       "output": {
         "target": "com.posthog.visual_review#CreateRunResult"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/visual_review/runs/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create a new run from a CI manifest."
+      },
       "errors": [
         {
           "target": "com.posthog.visual_review#BadRequest"
@@ -2498,15 +2506,7 @@
         {
           "target": "com.posthog.visual_review#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/visual_review/runs/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Create a new run from a CI manifest."
-      }
+      ]
     },
     "com.posthog.visual_review#GetVisualReviewRunRequest": {
       "type": "structure",
@@ -2539,14 +2539,6 @@
       "output": {
         "target": "com.posthog.visual_review#Run"
       },
-      "errors": [
-        {
-          "target": "com.posthog.visual_review#Forbidden"
-        },
-        {
-          "target": "com.posthog.visual_review#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -2554,7 +2546,15 @@
           "code": 200
         },
         "smithy.api#documentation": "Get run status and summary."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.posthog.visual_review#Forbidden"
+        },
+        {
+          "target": "com.posthog.visual_review#NotFound"
+        }
+      ]
     },
     "com.posthog.visual_review#VisualReviewRunsAddSnapshotsCreateRequestSnapshotsList": {
       "type": "list",
@@ -2642,6 +2642,14 @@
       "output": {
         "target": "com.posthog.visual_review#AddSnapshotsResult"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/visual_review/runs/{id}/add-snapshots/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Add a batch of snapshots to a pending run (shard-based flow)."
+      },
       "errors": [
         {
           "target": "com.posthog.visual_review#BadRequest"
@@ -2652,15 +2660,7 @@
         {
           "target": "com.posthog.visual_review#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/visual_review/runs/{id}/add-snapshots/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Add a batch of snapshots to a pending run (shard-based flow)."
-      }
+      ]
     },
     "com.posthog.visual_review#ApproveSnapshotInput": {
       "type": "structure",
@@ -2727,6 +2727,14 @@
       "output": {
         "target": "com.posthog.visual_review#Run"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/visual_review/runs/{id}/approve/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Mark snapshots reviewed (DB only).\n\nRecords the per-snapshot \"Accept change\" decision. Does not commit the baseline\nor change the GitHub gate — call finalize to ship the run. Works on a quarantined\nsnapshot too: a quarantined snapshot approved here is committed by finalize, which\nupdates a quarantined story's baseline entry without lifting the quarantine."
+      },
       "errors": [
         {
           "target": "com.posthog.visual_review#BadRequest"
@@ -2737,15 +2745,7 @@
         {
           "target": "com.posthog.visual_review#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/visual_review/runs/{id}/approve/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Mark snapshots reviewed (DB only).\n\nRecords the per-snapshot \"Accept change\" decision. Does not commit the baseline\nor change the GitHub gate — call finalize to ship the run. Works on a quarantined\nsnapshot too: a quarantined snapshot approved here is committed by finalize, which\nupdates a quarantined story's baseline entry without lifting the quarantine."
-      }
+      ]
     },
     "com.posthog.visual_review#CreateVisualReviewRunsCompleteRequest": {
       "type": "structure",
@@ -2784,14 +2784,6 @@
       "output": {
         "target": "com.posthog.visual_review#Run"
       },
-      "errors": [
-        {
-          "target": "com.posthog.visual_review#Forbidden"
-        },
-        {
-          "target": "com.posthog.visual_review#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -2799,7 +2791,15 @@
           "code": 200
         },
         "smithy.api#documentation": "Complete a run: detect removals, verify uploads, trigger diff processing."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.posthog.visual_review#Forbidden"
+        },
+        {
+          "target": "com.posthog.visual_review#NotFound"
+        }
+      ]
     },
     "com.posthog.visual_review#CreateVisualReviewRunsFinalizeRequest": {
       "type": "structure",
@@ -3239,14 +3239,6 @@
       "output": {
         "target": "com.posthog.visual_review#RecomputeResult"
       },
-      "errors": [
-        {
-          "target": "com.posthog.visual_review#Forbidden"
-        },
-        {
-          "target": "com.posthog.visual_review#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -3254,7 +3246,15 @@
           "code": 200
         },
         "smithy.api#documentation": "Re-evaluate quarantine and counts, update commit status, and optionally rerun the CI job."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.posthog.visual_review#Forbidden"
+        },
+        {
+          "target": "com.posthog.visual_review#NotFound"
+        }
+      ]
     },
     "com.posthog.visual_review#ListVisualReviewRunsSnapshotHistoryRequest": {
       "type": "structure",
@@ -3310,6 +3310,14 @@
       "output": {
         "target": "com.posthog.visual_review#PaginatedSnapshotHistoryEntryList"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/visual_review/runs/{id}/snapshot-history/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Recent change history for a snapshot identifier across runs."
+      },
       "errors": [
         {
           "target": "com.posthog.visual_review#BadRequest"
@@ -3320,15 +3328,7 @@
         {
           "target": "com.posthog.visual_review#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/visual_review/runs/{id}/snapshot-history/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Recent change history for a snapshot identifier across runs."
-      }
+      ]
     },
     "com.posthog.visual_review#ListVisualReviewRunsSnapshotsRequest": {
       "type": "structure",
@@ -3634,6 +3634,14 @@
       "output": {
         "target": "com.posthog.visual_review#PaginatedSnapshotList"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/visual_review/runs/{id}/snapshots/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get a run's snapshots with diff results, excluding quarantined ones by default."
+      },
       "errors": [
         {
           "target": "com.posthog.visual_review#BadRequest"
@@ -3644,15 +3652,7 @@
         {
           "target": "com.posthog.visual_review#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/visual_review/runs/{id}/snapshots/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Get a run's snapshots with diff results, excluding quarantined ones by default."
-      }
+      ]
     },
     "com.posthog.visual_review#CreateVisualReviewRunsTolerateRequest": {
       "type": "structure",
@@ -3691,6 +3691,14 @@
       "output": {
         "target": "com.posthog.visual_review#Snapshot"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/visual_review/runs/{id}/tolerate/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Mark a changed snapshot as a known tolerated alternate."
+      },
       "errors": [
         {
           "target": "com.posthog.visual_review#BadRequest"
@@ -3701,15 +3709,7 @@
         {
           "target": "com.posthog.visual_review#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/visual_review/runs/{id}/tolerate/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Mark a changed snapshot as a known tolerated alternate."
-      }
+      ]
     },
     "com.posthog.visual_review#ListVisualReviewRunsToleratedHashesRequest": {
       "type": "structure",
@@ -3829,6 +3829,14 @@
       "output": {
         "target": "com.posthog.visual_review#PaginatedToleratedHashEntryList"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/visual_review/runs/{id}/tolerated-hashes/",
+          "code": 200
+        },
+        "smithy.api#documentation": "List known tolerated hashes for a snapshot identifier."
+      },
       "errors": [
         {
           "target": "com.posthog.visual_review#BadRequest"
@@ -3839,15 +3847,7 @@
         {
           "target": "com.posthog.visual_review#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/visual_review/runs/{id}/tolerated-hashes/",
-          "code": 200
-        },
-        "smithy.api#documentation": "List known tolerated hashes for a snapshot identifier."
-      }
+      ]
     },
     "com.posthog.visual_review#GetVisualReviewRunsCountRequest": {
       "type": "structure",
@@ -3873,14 +3873,6 @@
       "output": {
         "target": "com.posthog.visual_review#ReviewStateCounts"
       },
-      "errors": [
-        {
-          "target": "com.posthog.visual_review#Forbidden"
-        },
-        {
-          "target": "com.posthog.visual_review#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -3888,7 +3880,15 @@
           "code": 200
         },
         "smithy.api#documentation": "Review state counts for the runs list."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.posthog.visual_review#Forbidden"
+        },
+        {
+          "target": "com.posthog.visual_review#NotFound"
+        }
+      ]
     },
     "com.posthog.visual_review#BadRequest": {
       "type": "structure",
@@ -3899,32 +3899,6 @@
         "com.distilled.openapi#errorMatchers": [
           {
             "status": 400
-          }
-        ]
-      }
-    },
-    "com.posthog.visual_review#Forbidden": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 403,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 403
-          }
-        ]
-      }
-    },
-    "com.posthog.visual_review#NotFound": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 404,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 404
           }
         ]
       }
@@ -4026,6 +4000,32 @@
       ],
       "traits": {
         "smithy.api#title": "PostHog API"
+      }
+    },
+    "com.posthog.visual_review#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.posthog.visual_review#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
       }
     }
   }

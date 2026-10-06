@@ -1258,14 +1258,6 @@
       "output": {
         "target": "com.kubernetes.flowcontrol_apiserver#IoK8sApiFlowcontrolV1FlowSchema"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.flowcontrol_apiserver#Conflict"
-        },
-        {
-          "target": "com.kubernetes.flowcontrol_apiserver#UnprocessableEntity"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -1273,7 +1265,15 @@
           "code": 200
         },
         "smithy.api#documentation": "create a FlowSchema"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.flowcontrol_apiserver#Conflict"
+        },
+        {
+          "target": "com.kubernetes.flowcontrol_apiserver#UnprocessableEntity"
+        }
+      ]
     },
     "com.kubernetes.flowcontrol_apiserver#DeleteFlowcontrolApiserverV1CollectionFlowSchemaRequestDryRunList": {
       "type": "list",
@@ -1618,11 +1618,6 @@
       "output": {
         "target": "com.kubernetes.flowcontrol_apiserver#IoK8sApiFlowcontrolV1FlowSchema"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.flowcontrol_apiserver#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -1630,7 +1625,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read the specified FlowSchema"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.flowcontrol_apiserver#NotFound"
+        }
+      ]
     },
     "com.kubernetes.flowcontrol_apiserver#ReplaceFlowcontrolApiserverV1FlowSchemaRequest": {
       "type": "structure",
@@ -1715,6 +1715,14 @@
       "output": {
         "target": "com.kubernetes.flowcontrol_apiserver#IoK8sApiFlowcontrolV1FlowSchema"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/apis/flowcontrol.apiserver.k8s.io/v1/flowschemas/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace the specified FlowSchema"
+      },
       "errors": [
         {
           "target": "com.kubernetes.flowcontrol_apiserver#NotFound"
@@ -1725,15 +1733,7 @@
         {
           "target": "com.kubernetes.flowcontrol_apiserver#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/apis/flowcontrol.apiserver.k8s.io/v1/flowschemas/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace the specified FlowSchema"
-      }
+      ]
     },
     "com.kubernetes.flowcontrol_apiserver#PatchFlowcontrolApiserverV1FlowSchemaRequest": {
       "type": "structure",
@@ -1794,6 +1794,14 @@
       "output": {
         "target": "com.kubernetes.flowcontrol_apiserver#IoK8sApiFlowcontrolV1FlowSchema"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/apis/flowcontrol.apiserver.k8s.io/v1/flowschemas/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update the specified FlowSchema"
+      },
       "errors": [
         {
           "target": "com.kubernetes.flowcontrol_apiserver#NotFound"
@@ -1804,15 +1812,7 @@
         {
           "target": "com.kubernetes.flowcontrol_apiserver#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/apis/flowcontrol.apiserver.k8s.io/v1/flowschemas/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update the specified FlowSchema"
-      }
+      ]
     },
     "com.kubernetes.flowcontrol_apiserver#DeleteFlowcontrolApiserverV1FlowSchemaRequestDryRunList": {
       "type": "list",
@@ -1907,14 +1907,6 @@
       "output": {
         "target": "com.kubernetes.flowcontrol_apiserver#IoK8sApimachineryPkgApisMetaV1Status"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.flowcontrol_apiserver#NotFound"
-        },
-        {
-          "target": "com.kubernetes.flowcontrol_apiserver#Conflict"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -1922,7 +1914,15 @@
           "code": 200
         },
         "smithy.api#documentation": "delete a FlowSchema"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.flowcontrol_apiserver#NotFound"
+        },
+        {
+          "target": "com.kubernetes.flowcontrol_apiserver#Conflict"
+        }
+      ]
     },
     "com.kubernetes.flowcontrol_apiserver#ReadFlowcontrolApiserverV1FlowSchemaStatusRequest": {
       "type": "structure",
@@ -1955,11 +1955,6 @@
       "output": {
         "target": "com.kubernetes.flowcontrol_apiserver#IoK8sApiFlowcontrolV1FlowSchema"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.flowcontrol_apiserver#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -1967,7 +1962,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read status of the specified FlowSchema"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.flowcontrol_apiserver#NotFound"
+        }
+      ]
     },
     "com.kubernetes.flowcontrol_apiserver#ReplaceFlowcontrolApiserverV1FlowSchemaStatusRequest": {
       "type": "structure",
@@ -2052,6 +2052,14 @@
       "output": {
         "target": "com.kubernetes.flowcontrol_apiserver#IoK8sApiFlowcontrolV1FlowSchema"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/apis/flowcontrol.apiserver.k8s.io/v1/flowschemas/{name}/status",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace status of the specified FlowSchema"
+      },
       "errors": [
         {
           "target": "com.kubernetes.flowcontrol_apiserver#NotFound"
@@ -2062,15 +2070,7 @@
         {
           "target": "com.kubernetes.flowcontrol_apiserver#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/apis/flowcontrol.apiserver.k8s.io/v1/flowschemas/{name}/status",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace status of the specified FlowSchema"
-      }
+      ]
     },
     "com.kubernetes.flowcontrol_apiserver#PatchFlowcontrolApiserverV1FlowSchemaStatusRequest": {
       "type": "structure",
@@ -2131,6 +2131,14 @@
       "output": {
         "target": "com.kubernetes.flowcontrol_apiserver#IoK8sApiFlowcontrolV1FlowSchema"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/apis/flowcontrol.apiserver.k8s.io/v1/flowschemas/{name}/status",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update status of the specified FlowSchema"
+      },
       "errors": [
         {
           "target": "com.kubernetes.flowcontrol_apiserver#NotFound"
@@ -2141,15 +2149,7 @@
         {
           "target": "com.kubernetes.flowcontrol_apiserver#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/apis/flowcontrol.apiserver.k8s.io/v1/flowschemas/{name}/status",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update status of the specified FlowSchema"
-      }
+      ]
     },
     "com.kubernetes.flowcontrol_apiserver#ListFlowcontrolApiserverV1PriorityLevelConfigurationRequest": {
       "type": "structure",
@@ -2605,14 +2605,6 @@
       "output": {
         "target": "com.kubernetes.flowcontrol_apiserver#IoK8sApiFlowcontrolV1PriorityLevelConfiguration"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.flowcontrol_apiserver#Conflict"
-        },
-        {
-          "target": "com.kubernetes.flowcontrol_apiserver#UnprocessableEntity"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -2620,7 +2612,15 @@
           "code": 200
         },
         "smithy.api#documentation": "create a PriorityLevelConfiguration"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.flowcontrol_apiserver#Conflict"
+        },
+        {
+          "target": "com.kubernetes.flowcontrol_apiserver#UnprocessableEntity"
+        }
+      ]
     },
     "com.kubernetes.flowcontrol_apiserver#DeleteFlowcontrolApiserverV1CollectionPriorityLevelConfigurationRequestDryRunList": {
       "type": "list",
@@ -2810,11 +2810,6 @@
       "output": {
         "target": "com.kubernetes.flowcontrol_apiserver#IoK8sApiFlowcontrolV1PriorityLevelConfiguration"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.flowcontrol_apiserver#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -2822,7 +2817,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read the specified PriorityLevelConfiguration"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.flowcontrol_apiserver#NotFound"
+        }
+      ]
     },
     "com.kubernetes.flowcontrol_apiserver#ReplaceFlowcontrolApiserverV1PriorityLevelConfigurationRequest": {
       "type": "structure",
@@ -2907,6 +2907,14 @@
       "output": {
         "target": "com.kubernetes.flowcontrol_apiserver#IoK8sApiFlowcontrolV1PriorityLevelConfiguration"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/apis/flowcontrol.apiserver.k8s.io/v1/prioritylevelconfigurations/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace the specified PriorityLevelConfiguration"
+      },
       "errors": [
         {
           "target": "com.kubernetes.flowcontrol_apiserver#NotFound"
@@ -2917,15 +2925,7 @@
         {
           "target": "com.kubernetes.flowcontrol_apiserver#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/apis/flowcontrol.apiserver.k8s.io/v1/prioritylevelconfigurations/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace the specified PriorityLevelConfiguration"
-      }
+      ]
     },
     "com.kubernetes.flowcontrol_apiserver#PatchFlowcontrolApiserverV1PriorityLevelConfigurationRequest": {
       "type": "structure",
@@ -2986,6 +2986,14 @@
       "output": {
         "target": "com.kubernetes.flowcontrol_apiserver#IoK8sApiFlowcontrolV1PriorityLevelConfiguration"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/apis/flowcontrol.apiserver.k8s.io/v1/prioritylevelconfigurations/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update the specified PriorityLevelConfiguration"
+      },
       "errors": [
         {
           "target": "com.kubernetes.flowcontrol_apiserver#NotFound"
@@ -2996,15 +3004,7 @@
         {
           "target": "com.kubernetes.flowcontrol_apiserver#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/apis/flowcontrol.apiserver.k8s.io/v1/prioritylevelconfigurations/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update the specified PriorityLevelConfiguration"
-      }
+      ]
     },
     "com.kubernetes.flowcontrol_apiserver#DeleteFlowcontrolApiserverV1PriorityLevelConfigurationRequestDryRunList": {
       "type": "list",
@@ -3099,14 +3099,6 @@
       "output": {
         "target": "com.kubernetes.flowcontrol_apiserver#IoK8sApimachineryPkgApisMetaV1Status"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.flowcontrol_apiserver#NotFound"
-        },
-        {
-          "target": "com.kubernetes.flowcontrol_apiserver#Conflict"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -3114,7 +3106,15 @@
           "code": 200
         },
         "smithy.api#documentation": "delete a PriorityLevelConfiguration"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.flowcontrol_apiserver#NotFound"
+        },
+        {
+          "target": "com.kubernetes.flowcontrol_apiserver#Conflict"
+        }
+      ]
     },
     "com.kubernetes.flowcontrol_apiserver#ReadFlowcontrolApiserverV1PriorityLevelConfigurationStatusRequest": {
       "type": "structure",
@@ -3147,11 +3147,6 @@
       "output": {
         "target": "com.kubernetes.flowcontrol_apiserver#IoK8sApiFlowcontrolV1PriorityLevelConfiguration"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.flowcontrol_apiserver#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -3159,7 +3154,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read status of the specified PriorityLevelConfiguration"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.flowcontrol_apiserver#NotFound"
+        }
+      ]
     },
     "com.kubernetes.flowcontrol_apiserver#ReplaceFlowcontrolApiserverV1PriorityLevelConfigurationStatusRequest": {
       "type": "structure",
@@ -3244,6 +3244,14 @@
       "output": {
         "target": "com.kubernetes.flowcontrol_apiserver#IoK8sApiFlowcontrolV1PriorityLevelConfiguration"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/apis/flowcontrol.apiserver.k8s.io/v1/prioritylevelconfigurations/{name}/status",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace status of the specified PriorityLevelConfiguration"
+      },
       "errors": [
         {
           "target": "com.kubernetes.flowcontrol_apiserver#NotFound"
@@ -3254,15 +3262,7 @@
         {
           "target": "com.kubernetes.flowcontrol_apiserver#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/apis/flowcontrol.apiserver.k8s.io/v1/prioritylevelconfigurations/{name}/status",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace status of the specified PriorityLevelConfiguration"
-      }
+      ]
     },
     "com.kubernetes.flowcontrol_apiserver#PatchFlowcontrolApiserverV1PriorityLevelConfigurationStatusRequest": {
       "type": "structure",
@@ -3323,6 +3323,14 @@
       "output": {
         "target": "com.kubernetes.flowcontrol_apiserver#IoK8sApiFlowcontrolV1PriorityLevelConfiguration"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/apis/flowcontrol.apiserver.k8s.io/v1/prioritylevelconfigurations/{name}/status",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update status of the specified PriorityLevelConfiguration"
+      },
       "errors": [
         {
           "target": "com.kubernetes.flowcontrol_apiserver#NotFound"
@@ -3333,15 +3341,7 @@
         {
           "target": "com.kubernetes.flowcontrol_apiserver#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/apis/flowcontrol.apiserver.k8s.io/v1/prioritylevelconfigurations/{name}/status",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update status of the specified PriorityLevelConfiguration"
-      }
+      ]
     },
     "com.kubernetes.flowcontrol_apiserver#WatchFlowcontrolApiserverV1FlowSchemaListRequest": {
       "type": "structure",
@@ -3816,45 +3816,6 @@
         "smithy.api#documentation": "watch changes to an object of kind PriorityLevelConfiguration. deprecated: use the 'watch' parameter with a list operation instead, filtered to a single item with the 'fieldSelector' parameter."
       }
     },
-    "com.kubernetes.flowcontrol_apiserver#Conflict": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 409,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 409
-          }
-        ]
-      }
-    },
-    "com.kubernetes.flowcontrol_apiserver#UnprocessableEntity": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 422,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 422
-          }
-        ]
-      }
-    },
-    "com.kubernetes.flowcontrol_apiserver#NotFound": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 404,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 404
-          }
-        ]
-      }
-    },
     "com.kubernetes.flowcontrol_apiserver#FlowcontrolApiserver": {
       "type": "service",
       "version": "unversioned",
@@ -3940,6 +3901,45 @@
       ],
       "traits": {
         "smithy.api#title": "Kubernetes"
+      }
+    },
+    "com.kubernetes.flowcontrol_apiserver#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.kubernetes.flowcontrol_apiserver#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.kubernetes.flowcontrol_apiserver#UnprocessableEntity": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 422,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 422
+          }
+        ]
       }
     }
   }

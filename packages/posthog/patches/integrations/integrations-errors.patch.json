@@ -1,0 +1,353 @@
+{
+  "description": "From integrations-errors.patch.json: Auto-generated PostHog error responses (400/403/404) for tag \"integrations\". See generate-error-patches.ts.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.integrations#IntegrationsList/errors",
+      "value": [
+        {
+          "target": "com.posthog.integrations#BadRequest"
+        },
+        {
+          "target": "com.posthog.integrations#Forbidden"
+        },
+        {
+          "target": "com.posthog.integrations#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.integrations#IntegrationsCreate/errors",
+      "value": [
+        {
+          "target": "com.posthog.integrations#BadRequest"
+        },
+        {
+          "target": "com.posthog.integrations#Forbidden"
+        },
+        {
+          "target": "com.posthog.integrations#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.integrations#IntegrationsRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.integrations#Forbidden"
+        },
+        {
+          "target": "com.posthog.integrations#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.integrations#IntegrationsDestroy/errors",
+      "value": [
+        {
+          "target": "com.posthog.integrations#Forbidden"
+        },
+        {
+          "target": "com.posthog.integrations#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.integrations#IntegrationsChannelsRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.integrations#Forbidden"
+        },
+        {
+          "target": "com.posthog.integrations#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.integrations#IntegrationsClickupListsRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.integrations#Forbidden"
+        },
+        {
+          "target": "com.posthog.integrations#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.integrations#IntegrationsClickupSpacesRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.integrations#Forbidden"
+        },
+        {
+          "target": "com.posthog.integrations#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.integrations#IntegrationsClickupWorkspacesRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.integrations#Forbidden"
+        },
+        {
+          "target": "com.posthog.integrations#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.integrations#IntegrationsEmailPartialUpdate/errors",
+      "value": [
+        {
+          "target": "com.posthog.integrations#BadRequest"
+        },
+        {
+          "target": "com.posthog.integrations#Forbidden"
+        },
+        {
+          "target": "com.posthog.integrations#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.integrations#IntegrationsEmailVerifyCreate/errors",
+      "value": [
+        {
+          "target": "com.posthog.integrations#BadRequest"
+        },
+        {
+          "target": "com.posthog.integrations#Forbidden"
+        },
+        {
+          "target": "com.posthog.integrations#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.integrations#IntegrationsGithubBranchesRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.integrations#BadRequest"
+        },
+        {
+          "target": "com.posthog.integrations#Forbidden"
+        },
+        {
+          "target": "com.posthog.integrations#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.integrations#IntegrationsGithubReposRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.integrations#BadRequest"
+        },
+        {
+          "target": "com.posthog.integrations#Forbidden"
+        },
+        {
+          "target": "com.posthog.integrations#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.integrations#IntegrationsGithubReposRefreshCreate/errors",
+      "value": [
+        {
+          "target": "com.posthog.integrations#Forbidden"
+        },
+        {
+          "target": "com.posthog.integrations#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.integrations#IntegrationsGoogleAccessibleAccountsRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.integrations#Forbidden"
+        },
+        {
+          "target": "com.posthog.integrations#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.integrations#IntegrationsGoogleConversionActionsRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.integrations#Forbidden"
+        },
+        {
+          "target": "com.posthog.integrations#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.integrations#IntegrationsJiraProjectsRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.integrations#Forbidden"
+        },
+        {
+          "target": "com.posthog.integrations#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.integrations#IntegrationsLinearTeamsRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.integrations#Forbidden"
+        },
+        {
+          "target": "com.posthog.integrations#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.integrations#IntegrationsLinkedinAdsAccountsRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.integrations#Forbidden"
+        },
+        {
+          "target": "com.posthog.integrations#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.integrations#IntegrationsLinkedinAdsConversionRulesRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.integrations#Forbidden"
+        },
+        {
+          "target": "com.posthog.integrations#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.integrations#IntegrationsTwilioPhoneNumbersRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.integrations#Forbidden"
+        },
+        {
+          "target": "com.posthog.integrations#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.integrations#IntegrationsAuthorizeRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.integrations#Forbidden"
+        },
+        {
+          "target": "com.posthog.integrations#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.integrations#IntegrationsDomainConnectApplyUrlCreate/errors",
+      "value": [
+        {
+          "target": "com.posthog.integrations#BadRequest"
+        },
+        {
+          "target": "com.posthog.integrations#Forbidden"
+        },
+        {
+          "target": "com.posthog.integrations#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.integrations#IntegrationsDomainConnectCheckRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.integrations#Forbidden"
+        },
+        {
+          "target": "com.posthog.integrations#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.integrations#BadRequest",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 400
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.integrations#Forbidden",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 403
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.integrations#NotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

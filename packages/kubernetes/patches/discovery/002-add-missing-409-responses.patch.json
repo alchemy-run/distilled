@@ -1,0 +1,52 @@
+{
+  "description": "From 002-add-missing-409-responses.patch.json: Add 409 Conflict responses to create, replace, delete, and patch operations",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.discovery#CreateDiscoveryV1NamespacedEndpointSlice/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.discovery#Conflict"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.discovery#ReplaceDiscoveryV1NamespacedEndpointSlice/errors/-",
+      "value": {
+        "target": "com.kubernetes.discovery#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.discovery#PatchDiscoveryV1NamespacedEndpointSlice/errors/-",
+      "value": {
+        "target": "com.kubernetes.discovery#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.discovery#DeleteDiscoveryV1NamespacedEndpointSlice/errors/-",
+      "value": {
+        "target": "com.kubernetes.discovery#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.discovery#Conflict",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 409,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 409
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

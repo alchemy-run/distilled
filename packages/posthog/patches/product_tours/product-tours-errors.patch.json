@@ -1,0 +1,209 @@
+{
+  "description": "From product-tours-errors.patch.json: Auto-generated PostHog error responses (400/403/404) for tag \"product_tours\". See generate-error-patches.ts.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.product_tours#ProductToursList/errors",
+      "value": [
+        {
+          "target": "com.posthog.product_tours#BadRequest"
+        },
+        {
+          "target": "com.posthog.product_tours#Forbidden"
+        },
+        {
+          "target": "com.posthog.product_tours#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.product_tours#ProductToursCreate/errors",
+      "value": [
+        {
+          "target": "com.posthog.product_tours#BadRequest"
+        },
+        {
+          "target": "com.posthog.product_tours#Forbidden"
+        },
+        {
+          "target": "com.posthog.product_tours#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.product_tours#ProductToursRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.product_tours#Forbidden"
+        },
+        {
+          "target": "com.posthog.product_tours#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.product_tours#ProductToursUpdate/errors",
+      "value": [
+        {
+          "target": "com.posthog.product_tours#BadRequest"
+        },
+        {
+          "target": "com.posthog.product_tours#Forbidden"
+        },
+        {
+          "target": "com.posthog.product_tours#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.product_tours#ProductToursPartialUpdate/errors",
+      "value": [
+        {
+          "target": "com.posthog.product_tours#BadRequest"
+        },
+        {
+          "target": "com.posthog.product_tours#Forbidden"
+        },
+        {
+          "target": "com.posthog.product_tours#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.product_tours#ProductToursDestroy/errors",
+      "value": [
+        {
+          "target": "com.posthog.product_tours#Forbidden"
+        },
+        {
+          "target": "com.posthog.product_tours#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.product_tours#ProductToursDiscardDraftDestroy/errors",
+      "value": [
+        {
+          "target": "com.posthog.product_tours#Forbidden"
+        },
+        {
+          "target": "com.posthog.product_tours#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.product_tours#ProductToursDraftPartialUpdate/errors",
+      "value": [
+        {
+          "target": "com.posthog.product_tours#BadRequest"
+        },
+        {
+          "target": "com.posthog.product_tours#Forbidden"
+        },
+        {
+          "target": "com.posthog.product_tours#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.product_tours#ProductToursDraftStatusRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.product_tours#Forbidden"
+        },
+        {
+          "target": "com.posthog.product_tours#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.product_tours#ProductToursGenerateCreate/errors",
+      "value": [
+        {
+          "target": "com.posthog.product_tours#BadRequest"
+        },
+        {
+          "target": "com.posthog.product_tours#Forbidden"
+        },
+        {
+          "target": "com.posthog.product_tours#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.product_tours#ProductToursPublishDraftCreate/errors",
+      "value": [
+        {
+          "target": "com.posthog.product_tours#BadRequest"
+        },
+        {
+          "target": "com.posthog.product_tours#Forbidden"
+        },
+        {
+          "target": "com.posthog.product_tours#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.product_tours#BadRequest",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 400
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.product_tours#Forbidden",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 403
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.product_tours#NotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "description": "From 003-add-missing-422-responses.patch.json: Add 422 UnprocessableEntity responses to create, replace, and patch operations",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.node#CreateNodeV1RuntimeClass/errors/-",
+      "value": {
+        "target": "com.kubernetes.node#UnprocessableEntity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.node#ReplaceNodeV1RuntimeClass/errors/-",
+      "value": {
+        "target": "com.kubernetes.node#UnprocessableEntity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.node#PatchNodeV1RuntimeClass/errors/-",
+      "value": {
+        "target": "com.kubernetes.node#UnprocessableEntity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.node#UnprocessableEntity",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 422,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 422
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

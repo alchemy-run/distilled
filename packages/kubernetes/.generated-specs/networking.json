@@ -917,14 +917,6 @@
       "output": {
         "target": "com.kubernetes.networking#IoK8sApiNetworkingV1IngressClass"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.networking#Conflict"
-        },
-        {
-          "target": "com.kubernetes.networking#UnprocessableEntity"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -932,7 +924,15 @@
           "code": 200
         },
         "smithy.api#documentation": "create an IngressClass"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.networking#Conflict"
+        },
+        {
+          "target": "com.kubernetes.networking#UnprocessableEntity"
+        }
+      ]
     },
     "com.kubernetes.networking#DeleteNetworkingV1CollectionIngressClassRequestDryRunList": {
       "type": "list",
@@ -1277,11 +1277,6 @@
       "output": {
         "target": "com.kubernetes.networking#IoK8sApiNetworkingV1IngressClass"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.networking#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -1289,7 +1284,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read the specified IngressClass"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.networking#NotFound"
+        }
+      ]
     },
     "com.kubernetes.networking#ReplaceNetworkingV1IngressClassRequest": {
       "type": "structure",
@@ -1368,6 +1368,14 @@
       "output": {
         "target": "com.kubernetes.networking#IoK8sApiNetworkingV1IngressClass"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/apis/networking.k8s.io/v1/ingressclasses/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace the specified IngressClass"
+      },
       "errors": [
         {
           "target": "com.kubernetes.networking#NotFound"
@@ -1378,15 +1386,7 @@
         {
           "target": "com.kubernetes.networking#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/apis/networking.k8s.io/v1/ingressclasses/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace the specified IngressClass"
-      }
+      ]
     },
     "com.kubernetes.networking#PatchNetworkingV1IngressClassRequest": {
       "type": "structure",
@@ -1447,6 +1447,14 @@
       "output": {
         "target": "com.kubernetes.networking#IoK8sApiNetworkingV1IngressClass"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/apis/networking.k8s.io/v1/ingressclasses/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update the specified IngressClass"
+      },
       "errors": [
         {
           "target": "com.kubernetes.networking#NotFound"
@@ -1457,15 +1465,7 @@
         {
           "target": "com.kubernetes.networking#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/apis/networking.k8s.io/v1/ingressclasses/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update the specified IngressClass"
-      }
+      ]
     },
     "com.kubernetes.networking#DeleteNetworkingV1IngressClassRequestDryRunList": {
       "type": "list",
@@ -1560,14 +1560,6 @@
       "output": {
         "target": "com.kubernetes.networking#IoK8sApimachineryPkgApisMetaV1Status"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.networking#NotFound"
-        },
-        {
-          "target": "com.kubernetes.networking#Conflict"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -1575,7 +1567,15 @@
           "code": 200
         },
         "smithy.api#documentation": "delete an IngressClass"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.networking#NotFound"
+        },
+        {
+          "target": "com.kubernetes.networking#Conflict"
+        }
+      ]
     },
     "com.kubernetes.networking#ListNetworkingV1IngressForAllNamespacesRequest": {
       "type": "structure",
@@ -2406,14 +2406,6 @@
       "output": {
         "target": "com.kubernetes.networking#IoK8sApiNetworkingV1IPAddress"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.networking#Conflict"
-        },
-        {
-          "target": "com.kubernetes.networking#UnprocessableEntity"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -2421,7 +2413,15 @@
           "code": 200
         },
         "smithy.api#documentation": "create an IPAddress"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.networking#Conflict"
+        },
+        {
+          "target": "com.kubernetes.networking#UnprocessableEntity"
+        }
+      ]
     },
     "com.kubernetes.networking#DeleteNetworkingV1CollectionIPAddressRequestDryRunList": {
       "type": "list",
@@ -2611,11 +2611,6 @@
       "output": {
         "target": "com.kubernetes.networking#IoK8sApiNetworkingV1IPAddress"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.networking#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -2623,7 +2618,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read the specified IPAddress"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.networking#NotFound"
+        }
+      ]
     },
     "com.kubernetes.networking#ReplaceNetworkingV1IPAddressRequest": {
       "type": "structure",
@@ -2702,6 +2702,14 @@
       "output": {
         "target": "com.kubernetes.networking#IoK8sApiNetworkingV1IPAddress"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/apis/networking.k8s.io/v1/ipaddresses/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace the specified IPAddress"
+      },
       "errors": [
         {
           "target": "com.kubernetes.networking#NotFound"
@@ -2712,15 +2720,7 @@
         {
           "target": "com.kubernetes.networking#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/apis/networking.k8s.io/v1/ipaddresses/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace the specified IPAddress"
-      }
+      ]
     },
     "com.kubernetes.networking#PatchNetworkingV1IPAddressRequest": {
       "type": "structure",
@@ -2781,6 +2781,14 @@
       "output": {
         "target": "com.kubernetes.networking#IoK8sApiNetworkingV1IPAddress"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/apis/networking.k8s.io/v1/ipaddresses/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update the specified IPAddress"
+      },
       "errors": [
         {
           "target": "com.kubernetes.networking#NotFound"
@@ -2791,15 +2799,7 @@
         {
           "target": "com.kubernetes.networking#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/apis/networking.k8s.io/v1/ipaddresses/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update the specified IPAddress"
-      }
+      ]
     },
     "com.kubernetes.networking#DeleteNetworkingV1IPAddressRequestDryRunList": {
       "type": "list",
@@ -2894,14 +2894,6 @@
       "output": {
         "target": "com.kubernetes.networking#IoK8sApimachineryPkgApisMetaV1Status"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.networking#NotFound"
-        },
-        {
-          "target": "com.kubernetes.networking#Conflict"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -2909,7 +2901,15 @@
           "code": 200
         },
         "smithy.api#documentation": "delete an IPAddress"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.networking#NotFound"
+        },
+        {
+          "target": "com.kubernetes.networking#Conflict"
+        }
+      ]
     },
     "com.kubernetes.networking#ListNetworkingV1NamespacedIngressRequest": {
       "type": "structure",
@@ -3110,14 +3110,6 @@
       "output": {
         "target": "com.kubernetes.networking#IoK8sApiNetworkingV1Ingress"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.networking#Conflict"
-        },
-        {
-          "target": "com.kubernetes.networking#UnprocessableEntity"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -3125,7 +3117,15 @@
           "code": 200
         },
         "smithy.api#documentation": "create an Ingress"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.networking#Conflict"
+        },
+        {
+          "target": "com.kubernetes.networking#UnprocessableEntity"
+        }
+      ]
     },
     "com.kubernetes.networking#DeleteNetworkingV1CollectionNamespacedIngressRequestDryRunList": {
       "type": "list",
@@ -3331,11 +3331,6 @@
       "output": {
         "target": "com.kubernetes.networking#IoK8sApiNetworkingV1Ingress"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.networking#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -3343,7 +3338,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read the specified Ingress"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.networking#NotFound"
+        }
+      ]
     },
     "com.kubernetes.networking#ReplaceNetworkingV1NamespacedIngressRequest": {
       "type": "structure",
@@ -3435,6 +3435,14 @@
       "output": {
         "target": "com.kubernetes.networking#IoK8sApiNetworkingV1Ingress"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/apis/networking.k8s.io/v1/namespaces/{namespace}/ingresses/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace the specified Ingress"
+      },
       "errors": [
         {
           "target": "com.kubernetes.networking#NotFound"
@@ -3445,15 +3453,7 @@
         {
           "target": "com.kubernetes.networking#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/apis/networking.k8s.io/v1/namespaces/{namespace}/ingresses/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace the specified Ingress"
-      }
+      ]
     },
     "com.kubernetes.networking#PatchNetworkingV1NamespacedIngressRequest": {
       "type": "structure",
@@ -3522,6 +3522,14 @@
       "output": {
         "target": "com.kubernetes.networking#IoK8sApiNetworkingV1Ingress"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/apis/networking.k8s.io/v1/namespaces/{namespace}/ingresses/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update the specified Ingress"
+      },
       "errors": [
         {
           "target": "com.kubernetes.networking#NotFound"
@@ -3532,15 +3540,7 @@
         {
           "target": "com.kubernetes.networking#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/apis/networking.k8s.io/v1/namespaces/{namespace}/ingresses/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update the specified Ingress"
-      }
+      ]
     },
     "com.kubernetes.networking#DeleteNetworkingV1NamespacedIngressRequestDryRunList": {
       "type": "list",
@@ -3643,14 +3643,6 @@
       "output": {
         "target": "com.kubernetes.networking#IoK8sApimachineryPkgApisMetaV1Status"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.networking#NotFound"
-        },
-        {
-          "target": "com.kubernetes.networking#Conflict"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -3658,7 +3650,15 @@
           "code": 200
         },
         "smithy.api#documentation": "delete an Ingress"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.networking#NotFound"
+        },
+        {
+          "target": "com.kubernetes.networking#Conflict"
+        }
+      ]
     },
     "com.kubernetes.networking#ReadNetworkingV1NamespacedIngressStatusRequest": {
       "type": "structure",
@@ -3699,11 +3699,6 @@
       "output": {
         "target": "com.kubernetes.networking#IoK8sApiNetworkingV1Ingress"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.networking#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -3711,7 +3706,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read status of the specified Ingress"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.networking#NotFound"
+        }
+      ]
     },
     "com.kubernetes.networking#ReplaceNetworkingV1NamespacedIngressStatusRequest": {
       "type": "structure",
@@ -3803,6 +3803,14 @@
       "output": {
         "target": "com.kubernetes.networking#IoK8sApiNetworkingV1Ingress"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/apis/networking.k8s.io/v1/namespaces/{namespace}/ingresses/{name}/status",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace status of the specified Ingress"
+      },
       "errors": [
         {
           "target": "com.kubernetes.networking#NotFound"
@@ -3813,15 +3821,7 @@
         {
           "target": "com.kubernetes.networking#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/apis/networking.k8s.io/v1/namespaces/{namespace}/ingresses/{name}/status",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace status of the specified Ingress"
-      }
+      ]
     },
     "com.kubernetes.networking#PatchNetworkingV1NamespacedIngressStatusRequest": {
       "type": "structure",
@@ -3890,6 +3890,14 @@
       "output": {
         "target": "com.kubernetes.networking#IoK8sApiNetworkingV1Ingress"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/apis/networking.k8s.io/v1/namespaces/{namespace}/ingresses/{name}/status",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update status of the specified Ingress"
+      },
       "errors": [
         {
           "target": "com.kubernetes.networking#NotFound"
@@ -3900,15 +3908,7 @@
         {
           "target": "com.kubernetes.networking#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/apis/networking.k8s.io/v1/namespaces/{namespace}/ingresses/{name}/status",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update status of the specified Ingress"
-      }
+      ]
     },
     "com.kubernetes.networking#ListNetworkingV1NamespacedNetworkPolicyRequest": {
       "type": "structure",
@@ -4472,14 +4472,6 @@
       "output": {
         "target": "com.kubernetes.networking#IoK8sApiNetworkingV1NetworkPolicy"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.networking#Conflict"
-        },
-        {
-          "target": "com.kubernetes.networking#UnprocessableEntity"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -4487,7 +4479,15 @@
           "code": 200
         },
         "smithy.api#documentation": "create a NetworkPolicy"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.networking#Conflict"
+        },
+        {
+          "target": "com.kubernetes.networking#UnprocessableEntity"
+        }
+      ]
     },
     "com.kubernetes.networking#DeleteNetworkingV1CollectionNamespacedNetworkPolicyRequestDryRunList": {
       "type": "list",
@@ -4693,11 +4693,6 @@
       "output": {
         "target": "com.kubernetes.networking#IoK8sApiNetworkingV1NetworkPolicy"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.networking#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -4705,7 +4700,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read the specified NetworkPolicy"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.networking#NotFound"
+        }
+      ]
     },
     "com.kubernetes.networking#ReplaceNetworkingV1NamespacedNetworkPolicyRequest": {
       "type": "structure",
@@ -4791,6 +4791,14 @@
       "output": {
         "target": "com.kubernetes.networking#IoK8sApiNetworkingV1NetworkPolicy"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/apis/networking.k8s.io/v1/namespaces/{namespace}/networkpolicies/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace the specified NetworkPolicy"
+      },
       "errors": [
         {
           "target": "com.kubernetes.networking#NotFound"
@@ -4801,15 +4809,7 @@
         {
           "target": "com.kubernetes.networking#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/apis/networking.k8s.io/v1/namespaces/{namespace}/networkpolicies/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace the specified NetworkPolicy"
-      }
+      ]
     },
     "com.kubernetes.networking#PatchNetworkingV1NamespacedNetworkPolicyRequest": {
       "type": "structure",
@@ -4878,6 +4878,14 @@
       "output": {
         "target": "com.kubernetes.networking#IoK8sApiNetworkingV1NetworkPolicy"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/apis/networking.k8s.io/v1/namespaces/{namespace}/networkpolicies/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update the specified NetworkPolicy"
+      },
       "errors": [
         {
           "target": "com.kubernetes.networking#NotFound"
@@ -4888,15 +4896,7 @@
         {
           "target": "com.kubernetes.networking#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/apis/networking.k8s.io/v1/namespaces/{namespace}/networkpolicies/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update the specified NetworkPolicy"
-      }
+      ]
     },
     "com.kubernetes.networking#DeleteNetworkingV1NamespacedNetworkPolicyRequestDryRunList": {
       "type": "list",
@@ -4999,14 +4999,6 @@
       "output": {
         "target": "com.kubernetes.networking#IoK8sApimachineryPkgApisMetaV1Status"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.networking#NotFound"
-        },
-        {
-          "target": "com.kubernetes.networking#Conflict"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -5014,7 +5006,15 @@
           "code": 200
         },
         "smithy.api#documentation": "delete a NetworkPolicy"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.networking#NotFound"
+        },
+        {
+          "target": "com.kubernetes.networking#Conflict"
+        }
+      ]
     },
     "com.kubernetes.networking#ListNetworkingV1NetworkPolicyForAllNamespacesRequest": {
       "type": "structure",
@@ -5482,14 +5482,6 @@
       "output": {
         "target": "com.kubernetes.networking#IoK8sApiNetworkingV1ServiceCIDR"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.networking#Conflict"
-        },
-        {
-          "target": "com.kubernetes.networking#UnprocessableEntity"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -5497,7 +5489,15 @@
           "code": 200
         },
         "smithy.api#documentation": "create a ServiceCIDR"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.networking#Conflict"
+        },
+        {
+          "target": "com.kubernetes.networking#UnprocessableEntity"
+        }
+      ]
     },
     "com.kubernetes.networking#DeleteNetworkingV1CollectionServiceCIDRRequestDryRunList": {
       "type": "list",
@@ -5687,11 +5687,6 @@
       "output": {
         "target": "com.kubernetes.networking#IoK8sApiNetworkingV1ServiceCIDR"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.networking#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -5699,7 +5694,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read the specified ServiceCIDR"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.networking#NotFound"
+        }
+      ]
     },
     "com.kubernetes.networking#ReplaceNetworkingV1ServiceCIDRRequest": {
       "type": "structure",
@@ -5783,6 +5783,14 @@
       "output": {
         "target": "com.kubernetes.networking#IoK8sApiNetworkingV1ServiceCIDR"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/apis/networking.k8s.io/v1/servicecidrs/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace the specified ServiceCIDR"
+      },
       "errors": [
         {
           "target": "com.kubernetes.networking#NotFound"
@@ -5793,15 +5801,7 @@
         {
           "target": "com.kubernetes.networking#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/apis/networking.k8s.io/v1/servicecidrs/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace the specified ServiceCIDR"
-      }
+      ]
     },
     "com.kubernetes.networking#PatchNetworkingV1ServiceCIDRRequest": {
       "type": "structure",
@@ -5862,6 +5862,14 @@
       "output": {
         "target": "com.kubernetes.networking#IoK8sApiNetworkingV1ServiceCIDR"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/apis/networking.k8s.io/v1/servicecidrs/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update the specified ServiceCIDR"
+      },
       "errors": [
         {
           "target": "com.kubernetes.networking#NotFound"
@@ -5872,15 +5880,7 @@
         {
           "target": "com.kubernetes.networking#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/apis/networking.k8s.io/v1/servicecidrs/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update the specified ServiceCIDR"
-      }
+      ]
     },
     "com.kubernetes.networking#DeleteNetworkingV1ServiceCIDRRequestDryRunList": {
       "type": "list",
@@ -5975,14 +5975,6 @@
       "output": {
         "target": "com.kubernetes.networking#IoK8sApimachineryPkgApisMetaV1Status"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.networking#NotFound"
-        },
-        {
-          "target": "com.kubernetes.networking#Conflict"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -5990,7 +5982,15 @@
           "code": 200
         },
         "smithy.api#documentation": "delete a ServiceCIDR"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.networking#NotFound"
+        },
+        {
+          "target": "com.kubernetes.networking#Conflict"
+        }
+      ]
     },
     "com.kubernetes.networking#ReadNetworkingV1ServiceCIDRStatusRequest": {
       "type": "structure",
@@ -6023,11 +6023,6 @@
       "output": {
         "target": "com.kubernetes.networking#IoK8sApiNetworkingV1ServiceCIDR"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.networking#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -6035,7 +6030,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read status of the specified ServiceCIDR"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.networking#NotFound"
+        }
+      ]
     },
     "com.kubernetes.networking#ReplaceNetworkingV1ServiceCIDRStatusRequest": {
       "type": "structure",
@@ -6119,6 +6119,14 @@
       "output": {
         "target": "com.kubernetes.networking#IoK8sApiNetworkingV1ServiceCIDR"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/apis/networking.k8s.io/v1/servicecidrs/{name}/status",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace status of the specified ServiceCIDR"
+      },
       "errors": [
         {
           "target": "com.kubernetes.networking#NotFound"
@@ -6129,15 +6137,7 @@
         {
           "target": "com.kubernetes.networking#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/apis/networking.k8s.io/v1/servicecidrs/{name}/status",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace status of the specified ServiceCIDR"
-      }
+      ]
     },
     "com.kubernetes.networking#PatchNetworkingV1ServiceCIDRStatusRequest": {
       "type": "structure",
@@ -6198,6 +6198,14 @@
       "output": {
         "target": "com.kubernetes.networking#IoK8sApiNetworkingV1ServiceCIDR"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/apis/networking.k8s.io/v1/servicecidrs/{name}/status",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update status of the specified ServiceCIDR"
+      },
       "errors": [
         {
           "target": "com.kubernetes.networking#NotFound"
@@ -6208,15 +6216,7 @@
         {
           "target": "com.kubernetes.networking#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/apis/networking.k8s.io/v1/servicecidrs/{name}/status",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update status of the specified ServiceCIDR"
-      }
+      ]
     },
     "com.kubernetes.networking#WatchNetworkingV1IngressClassListRequest": {
       "type": "structure",
@@ -7619,45 +7619,6 @@
         "smithy.api#documentation": "watch changes to an object of kind ServiceCIDR. deprecated: use the 'watch' parameter with a list operation instead, filtered to a single item with the 'fieldSelector' parameter."
       }
     },
-    "com.kubernetes.networking#Conflict": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 409,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 409
-          }
-        ]
-      }
-    },
-    "com.kubernetes.networking#UnprocessableEntity": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 422,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 422
-          }
-        ]
-      }
-    },
-    "com.kubernetes.networking#NotFound": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 404,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 404
-          }
-        ]
-      }
-    },
     "com.kubernetes.networking#Networking": {
       "type": "service",
       "version": "unversioned",
@@ -7836,6 +7797,45 @@
       ],
       "traits": {
         "smithy.api#title": "Kubernetes"
+      }
+    },
+    "com.kubernetes.networking#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.kubernetes.networking#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.kubernetes.networking#UnprocessableEntity": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 422,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 422
+          }
+        ]
       }
     }
   }

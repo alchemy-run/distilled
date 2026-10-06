@@ -355,6 +355,13 @@
       "output": {
         "target": "com.posthog.schema_property_groups#PaginatedSchemaPropertyGroupList"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/schema_property_groups/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.schema_property_groups#BadRequest"
@@ -365,14 +372,7 @@
         {
           "target": "com.posthog.schema_property_groups#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/schema_property_groups/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.schema_property_groups#SchemaPropertyGroupPropertyInput": {
       "type": "structure",
@@ -435,6 +435,13 @@
       "output": {
         "target": "com.posthog.schema_property_groups#SchemaPropertyGroup"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/schema_property_groups/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.schema_property_groups#BadRequest"
@@ -445,14 +452,7 @@
         {
           "target": "com.posthog.schema_property_groups#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/schema_property_groups/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.schema_property_groups#GetSchemaPropertyGroupRequest": {
       "type": "structure",
@@ -486,6 +486,13 @@
       "output": {
         "target": "com.posthog.schema_property_groups#SchemaPropertyGroup"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/schema_property_groups/{id}/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.schema_property_groups#Forbidden"
@@ -493,14 +500,7 @@
         {
           "target": "com.posthog.schema_property_groups#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/schema_property_groups/{id}/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.schema_property_groups#UpdateSchemaPropertyGroupRequestPropertiesList": {
       "type": "list",
@@ -550,6 +550,13 @@
       "output": {
         "target": "com.posthog.schema_property_groups#SchemaPropertyGroup"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/api/projects/{project_id}/schema_property_groups/{id}/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.schema_property_groups#BadRequest"
@@ -560,14 +567,7 @@
         {
           "target": "com.posthog.schema_property_groups#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/api/projects/{project_id}/schema_property_groups/{id}/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.schema_property_groups#UpdateSchemaPropertyGroupsPartialRequestPropertiesList": {
       "type": "list",
@@ -617,6 +617,13 @@
       "output": {
         "target": "com.posthog.schema_property_groups#SchemaPropertyGroup"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/projects/{project_id}/schema_property_groups/{id}/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.schema_property_groups#BadRequest"
@@ -627,14 +634,7 @@
         {
           "target": "com.posthog.schema_property_groups#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/api/projects/{project_id}/schema_property_groups/{id}/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.schema_property_groups#SchemaPropertyGroupsDestroyRequest": {
       "type": "structure",
@@ -668,6 +668,13 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/api/projects/{project_id}/schema_property_groups/{id}/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.schema_property_groups#Forbidden"
@@ -675,13 +682,33 @@
         {
           "target": "com.posthog.schema_property_groups#NotFound"
         }
+      ]
+    },
+    "com.posthog.schema_property_groups#SchemaPropertyGroups": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.posthog.schema_property_groups#ListSchemaPropertyGroups"
+        },
+        {
+          "target": "com.posthog.schema_property_groups#CreateSchemaPropertyGroup"
+        },
+        {
+          "target": "com.posthog.schema_property_groups#GetSchemaPropertyGroup"
+        },
+        {
+          "target": "com.posthog.schema_property_groups#UpdateSchemaPropertyGroup"
+        },
+        {
+          "target": "com.posthog.schema_property_groups#UpdateSchemaPropertyGroupsPartial"
+        },
+        {
+          "target": "com.posthog.schema_property_groups#SchemaPropertyGroupsDestroy"
+        }
       ],
       "traits": {
-        "smithy.api#http": {
-          "method": "DELETE",
-          "uri": "/api/projects/{project_id}/schema_property_groups/{id}/",
-          "code": 200
-        }
+        "smithy.api#title": "PostHog API"
       }
     },
     "com.posthog.schema_property_groups#BadRequest": {
@@ -721,33 +748,6 @@
             "status": 404
           }
         ]
-      }
-    },
-    "com.posthog.schema_property_groups#SchemaPropertyGroups": {
-      "type": "service",
-      "version": "1.0.0",
-      "operations": [
-        {
-          "target": "com.posthog.schema_property_groups#ListSchemaPropertyGroups"
-        },
-        {
-          "target": "com.posthog.schema_property_groups#CreateSchemaPropertyGroup"
-        },
-        {
-          "target": "com.posthog.schema_property_groups#GetSchemaPropertyGroup"
-        },
-        {
-          "target": "com.posthog.schema_property_groups#UpdateSchemaPropertyGroup"
-        },
-        {
-          "target": "com.posthog.schema_property_groups#UpdateSchemaPropertyGroupsPartial"
-        },
-        {
-          "target": "com.posthog.schema_property_groups#SchemaPropertyGroupsDestroy"
-        }
-      ],
-      "traits": {
-        "smithy.api#title": "PostHog API"
       }
     }
   }

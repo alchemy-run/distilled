@@ -1,0 +1,177 @@
+{
+  "description": "From data-warehouse-errors.patch.json: Auto-generated PostHog error responses (400/403/404) for tag \"data_warehouse\". See generate-error-patches.ts.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.external_data_schemas#ExternalDataSchemasList/errors",
+      "value": [
+        {
+          "target": "com.posthog.external_data_schemas#BadRequest"
+        },
+        {
+          "target": "com.posthog.external_data_schemas#Forbidden"
+        },
+        {
+          "target": "com.posthog.external_data_schemas#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.external_data_schemas#ExternalDataSchemasRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.external_data_schemas#Forbidden"
+        },
+        {
+          "target": "com.posthog.external_data_schemas#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.external_data_schemas#ExternalDataSchemasUpdate/errors",
+      "value": [
+        {
+          "target": "com.posthog.external_data_schemas#BadRequest"
+        },
+        {
+          "target": "com.posthog.external_data_schemas#Forbidden"
+        },
+        {
+          "target": "com.posthog.external_data_schemas#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.external_data_schemas#ExternalDataSchemasPartialUpdate/errors",
+      "value": [
+        {
+          "target": "com.posthog.external_data_schemas#BadRequest"
+        },
+        {
+          "target": "com.posthog.external_data_schemas#Forbidden"
+        },
+        {
+          "target": "com.posthog.external_data_schemas#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.external_data_schemas#ExternalDataSchemasDestroy/errors",
+      "value": [
+        {
+          "target": "com.posthog.external_data_schemas#Forbidden"
+        },
+        {
+          "target": "com.posthog.external_data_schemas#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.external_data_schemas#ExternalDataSchemasCancelCreate/errors/-",
+      "value": {
+        "target": "com.posthog.external_data_schemas#Forbidden"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.external_data_schemas#ExternalDataSchemasCancelCreate/errors/-",
+      "value": {
+        "target": "com.posthog.external_data_schemas#NotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.external_data_schemas#ExternalDataSchemasDeleteDataDestroy/errors",
+      "value": [
+        {
+          "target": "com.posthog.external_data_schemas#Forbidden"
+        },
+        {
+          "target": "com.posthog.external_data_schemas#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.external_data_schemas#ExternalDataSchemasIncrementalFieldsCreate/errors",
+      "value": [
+        {
+          "target": "com.posthog.external_data_schemas#BadRequest"
+        },
+        {
+          "target": "com.posthog.external_data_schemas#Forbidden"
+        },
+        {
+          "target": "com.posthog.external_data_schemas#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.external_data_schemas#ExternalDataSchemasReloadCreate/errors/-",
+      "value": {
+        "target": "com.posthog.external_data_schemas#Forbidden"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.external_data_schemas#ExternalDataSchemasReloadCreate/errors/-",
+      "value": {
+        "target": "com.posthog.external_data_schemas#NotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.external_data_schemas#ExternalDataSchemasResyncCreate/errors/-",
+      "value": {
+        "target": "com.posthog.external_data_schemas#Forbidden"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.external_data_schemas#ExternalDataSchemasResyncCreate/errors/-",
+      "value": {
+        "target": "com.posthog.external_data_schemas#NotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.external_data_schemas#Forbidden",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 403
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.external_data_schemas#NotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

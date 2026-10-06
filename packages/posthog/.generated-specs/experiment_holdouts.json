@@ -979,6 +979,14 @@
       "output": {
         "target": "com.posthog.experiment_holdouts#PaginatedExperimentHoldoutList"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/experiment_holdouts/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create, read, update and delete experiment holdouts."
+      },
       "errors": [
         {
           "target": "com.posthog.experiment_holdouts#BadRequest"
@@ -989,15 +997,7 @@
         {
           "target": "com.posthog.experiment_holdouts#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/experiment_holdouts/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Create, read, update and delete experiment holdouts."
-      }
+      ]
     },
     "com.posthog.experiment_holdouts#CreateExperimentHoldoutRequestFiltersList": {
       "type": "list",
@@ -1051,6 +1051,14 @@
       "output": {
         "target": "com.posthog.experiment_holdouts#ExperimentHoldout"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/experiment_holdouts/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create, read, update and delete experiment holdouts."
+      },
       "errors": [
         {
           "target": "com.posthog.experiment_holdouts#BadRequest"
@@ -1061,15 +1069,7 @@
         {
           "target": "com.posthog.experiment_holdouts#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/experiment_holdouts/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Create, read, update and delete experiment holdouts."
-      }
+      ]
     },
     "com.posthog.experiment_holdouts#GetExperimentHoldoutRequest": {
       "type": "structure",
@@ -1103,14 +1103,6 @@
       "output": {
         "target": "com.posthog.experiment_holdouts#ExperimentHoldout"
       },
-      "errors": [
-        {
-          "target": "com.posthog.experiment_holdouts#Forbidden"
-        },
-        {
-          "target": "com.posthog.experiment_holdouts#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -1118,7 +1110,15 @@
           "code": 200
         },
         "smithy.api#documentation": "Create, read, update and delete experiment holdouts."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.posthog.experiment_holdouts#Forbidden"
+        },
+        {
+          "target": "com.posthog.experiment_holdouts#NotFound"
+        }
+      ]
     },
     "com.posthog.experiment_holdouts#UpdateExperimentHoldoutRequestFiltersList": {
       "type": "list",
@@ -1180,6 +1180,14 @@
       "output": {
         "target": "com.posthog.experiment_holdouts#ExperimentHoldout"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/api/projects/{project_id}/experiment_holdouts/{id}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create, read, update and delete experiment holdouts."
+      },
       "errors": [
         {
           "target": "com.posthog.experiment_holdouts#BadRequest"
@@ -1190,15 +1198,7 @@
         {
           "target": "com.posthog.experiment_holdouts#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/api/projects/{project_id}/experiment_holdouts/{id}/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Create, read, update and delete experiment holdouts."
-      }
+      ]
     },
     "com.posthog.experiment_holdouts#UpdateExperimentHoldoutsPartialRequestFiltersList": {
       "type": "list",
@@ -1260,6 +1260,14 @@
       "output": {
         "target": "com.posthog.experiment_holdouts#ExperimentHoldout"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/projects/{project_id}/experiment_holdouts/{id}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create, read, update and delete experiment holdouts."
+      },
       "errors": [
         {
           "target": "com.posthog.experiment_holdouts#BadRequest"
@@ -1270,15 +1278,7 @@
         {
           "target": "com.posthog.experiment_holdouts#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/api/projects/{project_id}/experiment_holdouts/{id}/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Create, read, update and delete experiment holdouts."
-      }
+      ]
     },
     "com.posthog.experiment_holdouts#ExperimentHoldoutsDestroyRequest": {
       "type": "structure",
@@ -1312,14 +1312,6 @@
       "output": {
         "target": "smithy.api#Unit"
       },
-      "errors": [
-        {
-          "target": "com.posthog.experiment_holdouts#Forbidden"
-        },
-        {
-          "target": "com.posthog.experiment_holdouts#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -1327,6 +1319,41 @@
           "code": 200
         },
         "smithy.api#documentation": "Create, read, update and delete experiment holdouts."
+      },
+      "errors": [
+        {
+          "target": "com.posthog.experiment_holdouts#Forbidden"
+        },
+        {
+          "target": "com.posthog.experiment_holdouts#NotFound"
+        }
+      ]
+    },
+    "com.posthog.experiment_holdouts#ExperimentHoldouts": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.posthog.experiment_holdouts#ListExperimentHoldouts"
+        },
+        {
+          "target": "com.posthog.experiment_holdouts#CreateExperimentHoldout"
+        },
+        {
+          "target": "com.posthog.experiment_holdouts#GetExperimentHoldout"
+        },
+        {
+          "target": "com.posthog.experiment_holdouts#UpdateExperimentHoldout"
+        },
+        {
+          "target": "com.posthog.experiment_holdouts#UpdateExperimentHoldoutsPartial"
+        },
+        {
+          "target": "com.posthog.experiment_holdouts#ExperimentHoldoutsDestroy"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "PostHog API"
       }
     },
     "com.posthog.experiment_holdouts#BadRequest": {
@@ -1366,33 +1393,6 @@
             "status": 404
           }
         ]
-      }
-    },
-    "com.posthog.experiment_holdouts#ExperimentHoldouts": {
-      "type": "service",
-      "version": "1.0.0",
-      "operations": [
-        {
-          "target": "com.posthog.experiment_holdouts#ListExperimentHoldouts"
-        },
-        {
-          "target": "com.posthog.experiment_holdouts#CreateExperimentHoldout"
-        },
-        {
-          "target": "com.posthog.experiment_holdouts#GetExperimentHoldout"
-        },
-        {
-          "target": "com.posthog.experiment_holdouts#UpdateExperimentHoldout"
-        },
-        {
-          "target": "com.posthog.experiment_holdouts#UpdateExperimentHoldoutsPartial"
-        },
-        {
-          "target": "com.posthog.experiment_holdouts#ExperimentHoldoutsDestroy"
-        }
-      ],
-      "traits": {
-        "smithy.api#title": "PostHog API"
       }
     }
   }

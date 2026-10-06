@@ -1,0 +1,308 @@
+{
+  "description": "From visual-review-errors.patch.json: Auto-generated PostHog error responses (400/403/404) for tag \"visual_review\". See generate-error-patches.ts.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.visual_review#VisualReviewReposList/errors",
+      "value": [
+        {
+          "target": "com.posthog.visual_review#BadRequest"
+        },
+        {
+          "target": "com.posthog.visual_review#Forbidden"
+        },
+        {
+          "target": "com.posthog.visual_review#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.visual_review#VisualReviewReposCreate/errors",
+      "value": [
+        {
+          "target": "com.posthog.visual_review#BadRequest"
+        },
+        {
+          "target": "com.posthog.visual_review#Forbidden"
+        },
+        {
+          "target": "com.posthog.visual_review#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.visual_review#VisualReviewReposRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.visual_review#Forbidden"
+        },
+        {
+          "target": "com.posthog.visual_review#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.visual_review#VisualReviewReposPartialUpdate/errors",
+      "value": [
+        {
+          "target": "com.posthog.visual_review#BadRequest"
+        },
+        {
+          "target": "com.posthog.visual_review#Forbidden"
+        },
+        {
+          "target": "com.posthog.visual_review#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.visual_review#VisualReviewReposQuarantineList/errors",
+      "value": [
+        {
+          "target": "com.posthog.visual_review#BadRequest"
+        },
+        {
+          "target": "com.posthog.visual_review#Forbidden"
+        },
+        {
+          "target": "com.posthog.visual_review#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.visual_review#VisualReviewReposQuarantineCreate/errors",
+      "value": [
+        {
+          "target": "com.posthog.visual_review#BadRequest"
+        },
+        {
+          "target": "com.posthog.visual_review#Forbidden"
+        },
+        {
+          "target": "com.posthog.visual_review#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.visual_review#VisualReviewReposQuarantineExpireCreate/errors/-",
+      "value": {
+        "target": "com.posthog.visual_review#Forbidden"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.visual_review#VisualReviewReposQuarantineExpireCreate/errors/-",
+      "value": {
+        "target": "com.posthog.visual_review#NotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.visual_review#VisualReviewRunsList/errors",
+      "value": [
+        {
+          "target": "com.posthog.visual_review#BadRequest"
+        },
+        {
+          "target": "com.posthog.visual_review#Forbidden"
+        },
+        {
+          "target": "com.posthog.visual_review#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.visual_review#VisualReviewRunsCreate/errors",
+      "value": [
+        {
+          "target": "com.posthog.visual_review#BadRequest"
+        },
+        {
+          "target": "com.posthog.visual_review#Forbidden"
+        },
+        {
+          "target": "com.posthog.visual_review#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.visual_review#VisualReviewRunsRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.visual_review#Forbidden"
+        },
+        {
+          "target": "com.posthog.visual_review#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.visual_review#VisualReviewRunsAddSnapshotsCreate/errors",
+      "value": [
+        {
+          "target": "com.posthog.visual_review#BadRequest"
+        },
+        {
+          "target": "com.posthog.visual_review#Forbidden"
+        },
+        {
+          "target": "com.posthog.visual_review#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.visual_review#VisualReviewRunsApproveCreate/errors",
+      "value": [
+        {
+          "target": "com.posthog.visual_review#BadRequest"
+        },
+        {
+          "target": "com.posthog.visual_review#Forbidden"
+        },
+        {
+          "target": "com.posthog.visual_review#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.visual_review#VisualReviewRunsCompleteCreate/errors",
+      "value": [
+        {
+          "target": "com.posthog.visual_review#Forbidden"
+        },
+        {
+          "target": "com.posthog.visual_review#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.visual_review#VisualReviewRunsRecomputeCreate/errors",
+      "value": [
+        {
+          "target": "com.posthog.visual_review#Forbidden"
+        },
+        {
+          "target": "com.posthog.visual_review#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.visual_review#VisualReviewRunsSnapshotHistoryList/errors",
+      "value": [
+        {
+          "target": "com.posthog.visual_review#BadRequest"
+        },
+        {
+          "target": "com.posthog.visual_review#Forbidden"
+        },
+        {
+          "target": "com.posthog.visual_review#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.visual_review#VisualReviewRunsSnapshotsList/errors",
+      "value": [
+        {
+          "target": "com.posthog.visual_review#BadRequest"
+        },
+        {
+          "target": "com.posthog.visual_review#Forbidden"
+        },
+        {
+          "target": "com.posthog.visual_review#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.visual_review#VisualReviewRunsTolerateCreate/errors",
+      "value": [
+        {
+          "target": "com.posthog.visual_review#BadRequest"
+        },
+        {
+          "target": "com.posthog.visual_review#Forbidden"
+        },
+        {
+          "target": "com.posthog.visual_review#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.visual_review#VisualReviewRunsToleratedHashesList/errors",
+      "value": [
+        {
+          "target": "com.posthog.visual_review#BadRequest"
+        },
+        {
+          "target": "com.posthog.visual_review#Forbidden"
+        },
+        {
+          "target": "com.posthog.visual_review#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.visual_review#VisualReviewRunsCountsRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.visual_review#Forbidden"
+        },
+        {
+          "target": "com.posthog.visual_review#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.visual_review#Forbidden",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 403
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.visual_review#NotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

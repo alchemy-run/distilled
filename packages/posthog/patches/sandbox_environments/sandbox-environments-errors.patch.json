@@ -1,0 +1,125 @@
+{
+  "description": "From sandbox-environments-errors.patch.json: Auto-generated PostHog error responses (400/403/404) for tag \"sandbox-environments\". See generate-error-patches.ts.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.sandbox_environments#SandboxList/errors",
+      "value": [
+        {
+          "target": "com.posthog.sandbox_environments#BadRequest"
+        },
+        {
+          "target": "com.posthog.sandbox_environments#Forbidden"
+        },
+        {
+          "target": "com.posthog.sandbox_environments#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.sandbox_environments#SandboxCreate/errors",
+      "value": [
+        {
+          "target": "com.posthog.sandbox_environments#BadRequest"
+        },
+        {
+          "target": "com.posthog.sandbox_environments#Forbidden"
+        },
+        {
+          "target": "com.posthog.sandbox_environments#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.sandbox_environments#SandboxRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.sandbox_environments#Forbidden"
+        },
+        {
+          "target": "com.posthog.sandbox_environments#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.sandbox_environments#SandboxPartialUpdate/errors",
+      "value": [
+        {
+          "target": "com.posthog.sandbox_environments#BadRequest"
+        },
+        {
+          "target": "com.posthog.sandbox_environments#Forbidden"
+        },
+        {
+          "target": "com.posthog.sandbox_environments#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.sandbox_environments#SandboxDestroy/errors",
+      "value": [
+        {
+          "target": "com.posthog.sandbox_environments#Forbidden"
+        },
+        {
+          "target": "com.posthog.sandbox_environments#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.sandbox_environments#BadRequest",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 400
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.sandbox_environments#Forbidden",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 403
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.sandbox_environments#NotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

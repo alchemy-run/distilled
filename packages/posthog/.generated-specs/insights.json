@@ -36439,6 +36439,13 @@
       "output": {
         "target": "com.posthog.insights#PaginatedInsightListOutput"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/insights/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.insights#BadRequest"
@@ -36449,14 +36456,7 @@
         {
           "target": "com.posthog.insights#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/insights/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.insights#CreateInsightRequestFormat": {
       "type": "enum",
@@ -36577,6 +36577,13 @@
       "output": {
         "target": "com.posthog.insights#InsightOutput"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/insights/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.insights#BadRequest"
@@ -36587,14 +36594,7 @@
         {
           "target": "com.posthog.insights#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/insights/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.insights#ListInsightsSharingRequest": {
       "type": "structure",
@@ -36717,6 +36717,13 @@
       "output": {
         "target": "com.posthog.insights#ListInsightsSharingResponse"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/insights/{insight_id}/sharing/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.insights#Forbidden"
@@ -36724,14 +36731,7 @@
         {
           "target": "com.posthog.insights#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/insights/{insight_id}/sharing/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.insights#CreateInsightsSharingPasswordRequest": {
       "type": "structure",
@@ -36773,6 +36773,14 @@
       "output": {
         "target": "com.posthog.insights#SharingConfiguration"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/insights/{insight_id}/sharing/passwords/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create a new password for the sharing configuration."
+      },
       "errors": [
         {
           "target": "com.posthog.insights#BadRequest"
@@ -36783,15 +36791,7 @@
         {
           "target": "com.posthog.insights#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/insights/{insight_id}/sharing/passwords/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Create a new password for the sharing configuration."
-      }
+      ]
     },
     "com.posthog.insights#InsightsSharingPasswordsDestroyRequest": {
       "type": "structure",
@@ -36831,14 +36831,6 @@
       "output": {
         "target": "smithy.api#Unit"
       },
-      "errors": [
-        {
-          "target": "com.posthog.insights#Forbidden"
-        },
-        {
-          "target": "com.posthog.insights#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -36846,7 +36838,15 @@
           "code": 200
         },
         "smithy.api#documentation": "Delete a password from the sharing configuration."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.posthog.insights#Forbidden"
+        },
+        {
+          "target": "com.posthog.insights#NotFound"
+        }
+      ]
     },
     "com.posthog.insights#InsightsSharingRefreshCreateRequest": {
       "type": "structure",
@@ -36888,6 +36888,13 @@
       "output": {
         "target": "com.posthog.insights#SharingConfiguration"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/insights/{insight_id}/sharing/refresh/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.insights#BadRequest"
@@ -36898,14 +36905,7 @@
         {
           "target": "com.posthog.insights#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/insights/{insight_id}/sharing/refresh/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.insights#ListInsightsThresholdsRequest": {
       "type": "structure",
@@ -38496,6 +38496,13 @@
       "output": {
         "target": "com.posthog.insights#PaginatedThresholdWithAlertList"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/insights/{insight_id}/thresholds/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.insights#BadRequest"
@@ -38506,14 +38513,7 @@
         {
           "target": "com.posthog.insights#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/insights/{insight_id}/thresholds/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.insights#GetInsightsThresholdRequest": {
       "type": "structure",
@@ -38554,6 +38554,13 @@
       "output": {
         "target": "com.posthog.insights#ThresholdWithAlert"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/insights/{insight_id}/thresholds/{id}/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.insights#Forbidden"
@@ -38561,14 +38568,7 @@
         {
           "target": "com.posthog.insights#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/insights/{insight_id}/thresholds/{id}/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.insights#GetInsightRequestFormat": {
       "type": "enum",
@@ -38709,6 +38709,13 @@
       "output": {
         "target": "com.posthog.insights#InsightOutput"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/insights/{id}/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.insights#BadRequest"
@@ -38719,14 +38726,7 @@
         {
           "target": "com.posthog.insights#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/insights/{id}/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.insights#UpdateInsightRequestFormat": {
       "type": "enum",
@@ -38855,6 +38855,13 @@
       "output": {
         "target": "com.posthog.insights#InsightOutput"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/api/projects/{project_id}/insights/{id}/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.insights#BadRequest"
@@ -38865,14 +38872,7 @@
         {
           "target": "com.posthog.insights#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/api/projects/{project_id}/insights/{id}/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.insights#UpdateInsightsPartialRequestFormat": {
       "type": "enum",
@@ -39001,6 +39001,13 @@
       "output": {
         "target": "com.posthog.insights#InsightOutput"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/projects/{project_id}/insights/{id}/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.insights#BadRequest"
@@ -39011,14 +39018,7 @@
         {
           "target": "com.posthog.insights#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/api/projects/{project_id}/insights/{id}/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.insights#InsightsDestroyRequestFormat": {
       "type": "enum",
@@ -39076,6 +39076,14 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/api/projects/{project_id}/insights/{id}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Hard delete of this model is not allowed. Use a patch API call to set \"deleted\" to true"
+      },
       "errors": [
         {
           "target": "com.posthog.insights#BadRequest"
@@ -39086,15 +39094,7 @@
         {
           "target": "com.posthog.insights#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "DELETE",
-          "uri": "/api/projects/{project_id}/insights/{id}/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Hard delete of this model is not allowed. Use a patch API call to set \"deleted\" to true"
-      }
+      ]
     },
     "com.posthog.insights#GetInsightsActivityRequestFormat": {
       "type": "enum",
@@ -39333,6 +39333,14 @@
       "output": {
         "target": "com.posthog.insights#ActivityLogPaginatedResponse"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/insights/{id}/activity/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Audit trail for a single insight — every change made to it, by whom, and when. Use this when you want the change history of a specific insight; use the project-wide activity endpoint for a broader view."
+      },
       "errors": [
         {
           "target": "com.posthog.insights#BadRequest"
@@ -39343,15 +39351,7 @@
         {
           "target": "com.posthog.insights#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/insights/{id}/activity/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Audit trail for a single insight — every change made to it, by whom, and when. Use this when you want the change history of a specific insight; use the project-wide activity endpoint for a broader view."
-      }
+      ]
     },
     "com.posthog.insights#GetInsightsAllActivityRequestFormat": {
       "type": "enum",
@@ -39415,6 +39415,14 @@
       "output": {
         "target": "com.posthog.insights#ActivityLogPaginatedResponse"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/insights/activity/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Project-wide audit trail across all insights — who created, edited, deleted, or restored insights, what changed (with before/after diffs), and when. Useful for surfacing what people (or agents) have been working on recently."
+      },
       "errors": [
         {
           "target": "com.posthog.insights#BadRequest"
@@ -39425,15 +39433,7 @@
         {
           "target": "com.posthog.insights#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/insights/activity/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Project-wide audit trail across all insights — who created, edited, deleted, or restored insights, what changed (with before/after diffs), and when. Useful for surfacing what people (or agents) have been working on recently."
-      }
+      ]
     },
     "com.posthog.insights#InsightsBulkDeleteCreateRequestFormat": {
       "type": "enum",
@@ -39970,6 +39970,14 @@
       "output": {
         "target": "com.posthog.insights#BulkUpdateTagsResponse"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/insights/bulk_update_tags/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Bulk update tags on multiple objects.\n\nPAT access: this action has no ``required_scopes=`` on the decorator —\ninheriting viewsets must add ``\"bulk_update_tags\"`` to their\n``scope_object_write_actions`` list to accept personal API keys.\nWithout that opt-in, ``APIScopePermission`` rejects PAT requests with\n\"This action does not support personal API key access\". Done per-viewset\nso granting ``<scope>:write`` for one resource doesn't leak access to\nsibling resources that share this mixin.\n\nAccepts:\n- {\"ids\": [...], \"action\": \"add\"|\"remove\"|\"set\", \"tags\": [\"tag1\", \"tag2\"]}\n\nActions:\n- \"add\": Add tags to existing tags on each object\n- \"remove\": Remove specific tags from each object\n- \"set\": Replace all tags on each object with the provided list"
+      },
       "errors": [
         {
           "target": "com.posthog.insights#BadRequest"
@@ -39980,15 +39988,7 @@
         {
           "target": "com.posthog.insights#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/insights/bulk_update_tags/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Bulk update tags on multiple objects.\n\nPAT access: this action has no ``required_scopes=`` on the decorator —\ninheriting viewsets must add ``\"bulk_update_tags\"`` to their\n``scope_object_write_actions`` list to accept personal API keys.\nWithout that opt-in, ``APIScopePermission`` rejects PAT requests with\n\"This action does not support personal API key access\". Done per-viewset\nso granting ``<scope>:write`` for one resource doesn't leak access to\nsibling resources that share this mixin.\n\nAccepts:\n- {\"ids\": [...], \"action\": \"add\"|\"remove\"|\"set\", \"tags\": [\"tag1\", \"tag2\"]}\n\nActions:\n- \"add\": Add tags to existing tags on each object\n- \"remove\": Remove specific tags from each object\n- \"set\": Replace all tags on each object with the provided list"
-      }
+      ]
     },
     "com.posthog.insights#InsightsCancelCreateRequestFormat": {
       "type": "enum",
@@ -40102,6 +40102,13 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/insights/cancel/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.insights#BadRequest"
@@ -40112,14 +40119,7 @@
         {
           "target": "com.posthog.insights#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/insights/cancel/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.insights#InsightsGenerateMetadataCreateRequestFormat": {
       "type": "enum",
@@ -40233,6 +40233,14 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/insights/generate_metadata/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Generate an AI-suggested name and description for an insight based on its query configuration."
+      },
       "errors": [
         {
           "target": "com.posthog.insights#BadRequest"
@@ -40243,15 +40251,7 @@
         {
           "target": "com.posthog.insights#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/insights/generate_metadata/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Generate an AI-suggested name and description for an insight based on its query configuration."
-      }
+      ]
     },
     "com.posthog.insights#GetInsightsMyLastViewedRequestFormat": {
       "type": "enum",
@@ -40301,6 +40301,14 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/insights/my_last_viewed/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Returns basic details about the last 5 insights viewed by this user. Most recently viewed first."
+      },
       "errors": [
         {
           "target": "com.posthog.insights#BadRequest"
@@ -40311,15 +40319,7 @@
         {
           "target": "com.posthog.insights#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/insights/my_last_viewed/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Returns basic details about the last 5 insights viewed by this user. Most recently viewed first."
-      }
+      ]
     },
     "com.posthog.insights#GetInsightsTrendingRequestFormat": {
       "type": "enum",
@@ -40599,6 +40599,14 @@
       "output": {
         "target": "com.posthog.insights#PaginatedTrendingInsightList"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/insights/trending/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Returns insights ranked by view count over the last N days (default 7), highest first. Each result includes the same metadata as the standard insights list, plus a `view_count` and up to 3 recent `viewers`. Useful for surfacing the most-used insights in a project."
+      },
       "errors": [
         {
           "target": "com.posthog.insights#BadRequest"
@@ -40609,15 +40617,7 @@
         {
           "target": "com.posthog.insights#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/insights/trending/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Returns insights ranked by view count over the last N days (default 7), highest first. Each result includes the same metadata as the standard insights list, plus a `view_count` and up to 3 recent `viewers`. Useful for surfacing the most-used insights in a project."
-      }
+      ]
     },
     "com.posthog.insights#CreateInsightsViewedRequestFormat": {
       "type": "enum",
@@ -40683,6 +40683,14 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/insights/viewed/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Record that the current user has just viewed one or more insights. Submitted ids that do not belong to the current project or that point at deleted insights are silently dropped, as are views from impersonated staff-support sessions. Returns 201 on success regardless of how many ids were retained."
+      },
       "errors": [
         {
           "target": "com.posthog.insights#BadRequest"
@@ -40693,54 +40701,7 @@
         {
           "target": "com.posthog.insights#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/insights/viewed/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Record that the current user has just viewed one or more insights. Submitted ids that do not belong to the current project or that point at deleted insights are silently dropped, as are views from impersonated staff-support sessions. Returns 201 on success regardless of how many ids were retained."
-      }
-    },
-    "com.posthog.insights#BadRequest": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 400,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 400
-          }
-        ]
-      }
-    },
-    "com.posthog.insights#Forbidden": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 403,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 403
-          }
-        ]
-      }
-    },
-    "com.posthog.insights#NotFound": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 404,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 404
-          }
-        ]
-      }
+      ]
     },
     "com.posthog.insights#Insights": {
       "type": "service",
@@ -40818,6 +40779,45 @@
       ],
       "traits": {
         "smithy.api#title": "PostHog API"
+      }
+    },
+    "com.posthog.insights#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.posthog.insights#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.posthog.insights#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
       }
     }
   }

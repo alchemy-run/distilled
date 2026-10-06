@@ -3,18 +3,86 @@
   "patches": [
     {
       "op": "replace",
-      "path": "/components/schemas/DashboardResource/properties/version",
-      "value": {
-        "oneOf": [{ "type": "string" }, { "type": "integer", "format": "int64" }],
-        "description": "64-bit server-assigned version (hybrid-logical-clock timestamp). Emitted as either JSON number or JSON string, sometimes exceeding JavaScript Number precision."
-      }
+      "path": "/shapes/com.axiom.api#DashboardResource/members/version/target",
+      "value": "com.axiom.api#DashboardResourceVersion"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.axiom.api#DashboardResource/members/version/traits/smithy.api#documentation",
+      "value": "64-bit server-assigned version (hybrid-logical-clock timestamp). Emitted as either JSON number or JSON string, sometimes exceeding JavaScript Number precision."
     },
     {
       "op": "replace",
-      "path": "/components/schemas/DashboardUpsertRequest/properties/version",
+      "path": "/shapes/com.axiom.api#CreateDashboardRequest/members/version/target",
+      "value": "com.axiom.api#CreateDashboardRequestVersion"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.axiom.api#CreateDashboardRequest/members/version/traits/smithy.api#documentation",
+      "value": "Required for updates when overwrite is false. Pass back the version value received from the server verbatim (string or number)."
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.axiom.api#UpdateDashboardRequest/members/version/target",
+      "value": "com.axiom.api#UpdateDashboardRequestVersion"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.axiom.api#UpdateDashboardRequest/members/version/traits/smithy.api#documentation",
+      "value": "Required for updates when overwrite is false. Pass back the version value received from the server verbatim (string or number)."
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.axiom.api#DashboardResourceVersion",
       "value": {
-        "oneOf": [{ "type": "string" }, { "type": "integer", "format": "int64" }],
-        "description": "Required for updates when overwrite is false. Pass back the version value received from the server verbatim (string or number)."
+        "type": "union",
+        "members": {
+          "Case0": {
+            "target": "smithy.api#String"
+          },
+          "Case1": {
+            "target": "smithy.api#Integer"
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "64-bit server-assigned version (hybrid-logical-clock timestamp). Emitted as either JSON number or JSON string, sometimes exceeding JavaScript Number precision."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.axiom.api#CreateDashboardRequestVersion",
+      "value": {
+        "type": "union",
+        "members": {
+          "Case0": {
+            "target": "smithy.api#String"
+          },
+          "Case1": {
+            "target": "smithy.api#Integer"
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "Required for updates when overwrite is false. Pass back the version value received from the server verbatim (string or number)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.axiom.api#UpdateDashboardRequestVersion",
+      "value": {
+        "type": "union",
+        "members": {
+          "Case0": {
+            "target": "smithy.api#String"
+          },
+          "Case1": {
+            "target": "smithy.api#Integer"
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "Required for updates when overwrite is false. Pass back the version value received from the server verbatim (string or number)."
+        }
       }
     }
   ]

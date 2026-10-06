@@ -1,0 +1,239 @@
+{
+  "description": "From notebooks-errors.patch.json: Auto-generated PostHog error responses (400/403/404) for tag \"notebooks\". See generate-error-patches.ts.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.notebooks#NotebooksList/errors",
+      "value": [
+        {
+          "target": "com.posthog.notebooks#BadRequest"
+        },
+        {
+          "target": "com.posthog.notebooks#Forbidden"
+        },
+        {
+          "target": "com.posthog.notebooks#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.notebooks#NotebooksCreate/errors",
+      "value": [
+        {
+          "target": "com.posthog.notebooks#BadRequest"
+        },
+        {
+          "target": "com.posthog.notebooks#Forbidden"
+        },
+        {
+          "target": "com.posthog.notebooks#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.notebooks#NotebooksRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.notebooks#Forbidden"
+        },
+        {
+          "target": "com.posthog.notebooks#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.notebooks#NotebooksUpdate/errors",
+      "value": [
+        {
+          "target": "com.posthog.notebooks#BadRequest"
+        },
+        {
+          "target": "com.posthog.notebooks#Forbidden"
+        },
+        {
+          "target": "com.posthog.notebooks#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.notebooks#NotebooksPartialUpdate/errors",
+      "value": [
+        {
+          "target": "com.posthog.notebooks#BadRequest"
+        },
+        {
+          "target": "com.posthog.notebooks#Forbidden"
+        },
+        {
+          "target": "com.posthog.notebooks#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.notebooks#NotebooksDestroy/errors",
+      "value": [
+        {
+          "target": "com.posthog.notebooks#Forbidden"
+        },
+        {
+          "target": "com.posthog.notebooks#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.notebooks#NotebooksActivityRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.notebooks#Forbidden"
+        },
+        {
+          "target": "com.posthog.notebooks#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.notebooks#NotebooksCollabSaveCreate/errors",
+      "value": [
+        {
+          "target": "com.posthog.notebooks#BadRequest"
+        },
+        {
+          "target": "com.posthog.notebooks#Forbidden"
+        },
+        {
+          "target": "com.posthog.notebooks#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.notebooks#NotebooksCollabStreamRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.notebooks#Forbidden"
+        },
+        {
+          "target": "com.posthog.notebooks#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.notebooks#NotebooksKernelConfigCreate/errors",
+      "value": [
+        {
+          "target": "com.posthog.notebooks#BadRequest"
+        },
+        {
+          "target": "com.posthog.notebooks#Forbidden"
+        },
+        {
+          "target": "com.posthog.notebooks#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.notebooks#NotebooksKernelExecuteCreate/errors",
+      "value": [
+        {
+          "target": "com.posthog.notebooks#BadRequest"
+        },
+        {
+          "target": "com.posthog.notebooks#Forbidden"
+        },
+        {
+          "target": "com.posthog.notebooks#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.notebooks#NotebooksKernelRestartCreate/errors",
+      "value": [
+        {
+          "target": "com.posthog.notebooks#BadRequest"
+        },
+        {
+          "target": "com.posthog.notebooks#Forbidden"
+        },
+        {
+          "target": "com.posthog.notebooks#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.notebooks#NotebooksKernelStartCreate/errors",
+      "value": [
+        {
+          "target": "com.posthog.notebooks#BadRequest"
+        },
+        {
+          "target": "com.posthog.notebooks#Forbidden"
+        },
+        {
+          "target": "com.posthog.notebooks#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.notebooks#NotebooksKernelStatusRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.notebooks#Forbidden"
+        },
+        {
+          "target": "com.posthog.notebooks#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.notebooks#NotebooksKernelStopCreate/errors",
+      "value": [
+        {
+          "target": "com.posthog.notebooks#BadRequest"
+        },
+        {
+          "target": "com.posthog.notebooks#Forbidden"
+        },
+        {
+          "target": "com.posthog.notebooks#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.notebooks#NotebooksAllActivityRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.notebooks#Forbidden"
+        },
+        {
+          "target": "com.posthog.notebooks#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.notebooks#NotebooksRecordingCommentsRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.notebooks#Forbidden"
+        },
+        {
+          "target": "com.posthog.notebooks#NotFound"
+        }
+      ]
+    }
+  ]
+}

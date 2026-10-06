@@ -144,14 +144,6 @@
       "output": {
         "target": "com.posthog.user_home_settings#PinnedSceneTabs"
       },
-      "errors": [
-        {
-          "target": "com.posthog.user_home_settings#Forbidden"
-        },
-        {
-          "target": "com.posthog.user_home_settings#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -159,7 +151,15 @@
           "code": 200
         },
         "smithy.api#documentation": "Get the authenticated user's pinned sidebar tabs and configured homepage for the current team. Pass `@me` as the UUID."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.posthog.user_home_settings#Forbidden"
+        },
+        {
+          "target": "com.posthog.user_home_settings#NotFound"
+        }
+      ]
     },
     "com.posthog.user_home_settings#UpdateUserHomeSettingsPartialRequestTabsList": {
       "type": "list",
@@ -206,6 +206,14 @@
       "output": {
         "target": "com.posthog.user_home_settings#PinnedSceneTabs"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/user_home_settings/{uuid}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update the authenticated user's pinned sidebar tabs and/or homepage for the current team. Pass `@me` as the UUID. Send `tabs` to replace the pinned tab list, `homepage` to set the home destination (any PostHog URL — dashboard, insight, search results, scene). Either field may be omitted to leave it unchanged; sending `homepage: null` or `{}` clears the homepage."
+      },
       "errors": [
         {
           "target": "com.posthog.user_home_settings#BadRequest"
@@ -216,14 +224,21 @@
         {
           "target": "com.posthog.user_home_settings#NotFound"
         }
+      ]
+    },
+    "com.posthog.user_home_settings#UserHomeSettings": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.posthog.user_home_settings#GetUserHomeSettings"
+        },
+        {
+          "target": "com.posthog.user_home_settings#UpdateUserHomeSettingsPartial"
+        }
       ],
       "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/api/user_home_settings/{uuid}/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Update the authenticated user's pinned sidebar tabs and/or homepage for the current team. Pass `@me` as the UUID. Send `tabs` to replace the pinned tab list, `homepage` to set the home destination (any PostHog URL — dashboard, insight, search results, scene). Either field may be omitted to leave it unchanged; sending `homepage: null` or `{}` clears the homepage."
+        "smithy.api#title": "PostHog API"
       }
     },
     "com.posthog.user_home_settings#Forbidden": {
@@ -263,21 +278,6 @@
             "status": 400
           }
         ]
-      }
-    },
-    "com.posthog.user_home_settings#UserHomeSettings": {
-      "type": "service",
-      "version": "1.0.0",
-      "operations": [
-        {
-          "target": "com.posthog.user_home_settings#GetUserHomeSettings"
-        },
-        {
-          "target": "com.posthog.user_home_settings#UpdateUserHomeSettingsPartial"
-        }
-      ],
-      "traits": {
-        "smithy.api#title": "PostHog API"
       }
     }
   }

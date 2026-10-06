@@ -518,6 +518,14 @@
       "output": {
         "target": "com.posthog.endpoints#PaginatedEndpointResponseList"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/endpoints/",
+          "code": 200
+        },
+        "smithy.api#documentation": "List all endpoints for the team."
+      },
       "errors": [
         {
           "target": "com.posthog.endpoints#BadRequest"
@@ -528,15 +536,7 @@
         {
           "target": "com.posthog.endpoints#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/endpoints/",
-          "code": 200
-        },
-        "smithy.api#documentation": "List all endpoints for the team."
-      }
+      ]
     },
     "com.posthog.endpoints#CreateEndpointRequestBucketOverridesMap": {
       "type": "map",
@@ -675,6 +675,14 @@
       "output": {
         "target": "com.posthog.endpoints#EndpointResponse"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/endpoints/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create a new endpoint."
+      },
       "errors": [
         {
           "target": "com.posthog.endpoints#BadRequest"
@@ -685,15 +693,7 @@
         {
           "target": "com.posthog.endpoints#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/endpoints/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Create a new endpoint."
-      }
+      ]
     },
     "com.posthog.endpoints#GetEndpointRequest": {
       "type": "structure",
@@ -964,14 +964,6 @@
       "output": {
         "target": "com.posthog.endpoints#EndpointVersionResponse"
       },
-      "errors": [
-        {
-          "target": "com.posthog.endpoints#Forbidden"
-        },
-        {
-          "target": "com.posthog.endpoints#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -979,7 +971,15 @@
           "code": 200
         },
         "smithy.api#documentation": "Retrieve an endpoint, or a specific version via ?version=N."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.posthog.endpoints#Forbidden"
+        },
+        {
+          "target": "com.posthog.endpoints#NotFound"
+        }
+      ]
     },
     "com.posthog.endpoints#UpdateEndpointRequestBucketOverridesMap": {
       "type": "map",
@@ -1118,6 +1118,14 @@
       "output": {
         "target": "com.posthog.endpoints#EndpointResponse"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/api/projects/{project_id}/endpoints/{name}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update an existing endpoint. Parameters are optional. Pass version in body or ?version=N query param to target a specific version."
+      },
       "errors": [
         {
           "target": "com.posthog.endpoints#BadRequest"
@@ -1128,15 +1136,7 @@
         {
           "target": "com.posthog.endpoints#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/api/projects/{project_id}/endpoints/{name}/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Update an existing endpoint. Parameters are optional. Pass version in body or ?version=N query param to target a specific version."
-      }
+      ]
     },
     "com.posthog.endpoints#UpdateEndpointsPartialRequestBucketOverridesMap": {
       "type": "map",
@@ -1275,6 +1275,14 @@
       "output": {
         "target": "com.posthog.endpoints#EndpointResponse"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/projects/{project_id}/endpoints/{name}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update an existing endpoint."
+      },
       "errors": [
         {
           "target": "com.posthog.endpoints#BadRequest"
@@ -1285,15 +1293,7 @@
         {
           "target": "com.posthog.endpoints#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/api/projects/{project_id}/endpoints/{name}/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Update an existing endpoint."
-      }
+      ]
     },
     "com.posthog.endpoints#EndpointsDestroyRequest": {
       "type": "structure",
@@ -1326,14 +1326,6 @@
       "output": {
         "target": "smithy.api#Unit"
       },
-      "errors": [
-        {
-          "target": "com.posthog.endpoints#Forbidden"
-        },
-        {
-          "target": "com.posthog.endpoints#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -1341,7 +1333,15 @@
           "code": 200
         },
         "smithy.api#documentation": "Delete an endpoint and clean up materialized query."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.posthog.endpoints#Forbidden"
+        },
+        {
+          "target": "com.posthog.endpoints#NotFound"
+        }
+      ]
     },
     "com.posthog.endpoints#GetEndpointsLogRequest": {
       "type": "structure",
@@ -1614,6 +1614,14 @@
       "output": {
         "target": "com.posthog.endpoints#MaterializationPreviewResponse"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/endpoints/{name}/materialization_preview/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Preview the materialization transform for an endpoint. Shows what the query will look like after materialization, including range pair detection and bucket functions."
+      },
       "errors": [
         {
           "target": "com.posthog.endpoints#BadRequest"
@@ -1624,15 +1632,7 @@
         {
           "target": "com.posthog.endpoints#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/endpoints/{name}/materialization_preview/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Preview the materialization transform for an endpoint. Shows what the query will look like after materialization, including range pair detection and bucket functions."
-      }
+      ]
     },
     "com.posthog.endpoints#GetEndpointsMaterializationStatusRequest": {
       "type": "structure",
@@ -1672,14 +1672,6 @@
       "output": {
         "target": "com.posthog.endpoints#EndpointMaterialization"
       },
-      "errors": [
-        {
-          "target": "com.posthog.endpoints#Forbidden"
-        },
-        {
-          "target": "com.posthog.endpoints#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -1687,7 +1679,15 @@
           "code": 200
         },
         "smithy.api#documentation": "Get materialization status for an endpoint. Supports ?version=N query param."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.posthog.endpoints#Forbidden"
+        },
+        {
+          "target": "com.posthog.endpoints#NotFound"
+        }
+      ]
     },
     "com.posthog.endpoints#CreateEndpointsMaterializationSuggestionRequest": {
       "type": "structure",
@@ -1859,6 +1859,14 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/endpoints/{name}/openapi.json/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get OpenAPI 3.0 specification for this endpoint. Use this to generate typed SDK clients."
+      },
       "errors": [
         {
           "target": "com.posthog.endpoints#BadRequest"
@@ -1869,15 +1877,7 @@
         {
           "target": "com.posthog.endpoints#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/endpoints/{name}/openapi.json/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Get OpenAPI 3.0 specification for this endpoint. Use this to generate typed SDK clients."
-      }
+      ]
     },
     "com.posthog.endpoints#GetEndpointsRunRequest": {
       "type": "structure",
@@ -1972,14 +1972,6 @@
       "output": {
         "target": "com.posthog.endpoints#EndpointRunResponse"
       },
-      "errors": [
-        {
-          "target": "com.posthog.endpoints#Forbidden"
-        },
-        {
-          "target": "com.posthog.endpoints#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -1987,7 +1979,15 @@
           "code": 200
         },
         "smithy.api#documentation": "Execute endpoint with optional materialization. Supports version parameter, runs latest version if not set."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.posthog.endpoints#Forbidden"
+        },
+        {
+          "target": "com.posthog.endpoints#NotFound"
+        }
+      ]
     },
     "com.posthog.endpoints#DashboardFilter": {
       "type": "structure",
@@ -4595,6 +4595,14 @@
       "output": {
         "target": "com.posthog.endpoints#EndpointRunResponse"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/endpoints/{name}/run/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Execute endpoint with optional materialization. Supports version parameter, runs latest version if not set."
+      },
       "errors": [
         {
           "target": "com.posthog.endpoints#BadRequest"
@@ -4605,15 +4613,7 @@
         {
           "target": "com.posthog.endpoints#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/endpoints/{name}/run/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Execute endpoint with optional materialization. Supports version parameter, runs latest version if not set."
-      }
+      ]
     },
     "com.posthog.endpoints#ListEndpointsVersionsRequest": {
       "type": "structure",
@@ -4703,6 +4703,14 @@
       "output": {
         "target": "com.posthog.endpoints#PaginatedEndpointVersionResponseList"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/endpoints/{name}/versions/",
+          "code": 200
+        },
+        "smithy.api#documentation": "List all versions for an endpoint."
+      },
       "errors": [
         {
           "target": "com.posthog.endpoints#BadRequest"
@@ -4713,15 +4721,7 @@
         {
           "target": "com.posthog.endpoints#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/endpoints/{name}/versions/",
-          "code": 200
-        },
-        "smithy.api#documentation": "List all versions for an endpoint."
-      }
+      ]
     },
     "com.posthog.endpoints#CreateEndpointsLastExecutionTimeRequestNamesList": {
       "type": "list",
@@ -5129,6 +5129,14 @@
       "output": {
         "target": "com.posthog.endpoints#QueryStatusResponse"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/endpoints/last_execution_times/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get the most recent execution time per endpoint (endpoint-level). Timestamps are recorded by the run path for personal-API-key calls. For per-version usage, query the query_log table directly."
+      },
       "errors": [
         {
           "target": "com.posthog.endpoints#BadRequest"
@@ -5139,15 +5147,7 @@
         {
           "target": "com.posthog.endpoints#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/endpoints/last_execution_times/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Get the most recent execution time per endpoint (endpoint-level). Timestamps are recorded by the run path for personal-API-key calls. For per-version usage, query the query_log table directly."
-      }
+      ]
     },
     "com.posthog.endpoints#GetEndpointsMaterializationConditionRequest": {
       "type": "structure",
@@ -5202,45 +5202,6 @@
           "code": 200
         },
         "smithy.api#documentation": "Get the source code of the live materialization checks, plus the rewrite contract. Lets an agent rewrite a rejected endpoint query itself: fetch these conditions, produce a semantically equivalent query that passes every check, update the endpoint with it, then confirm via materialization_status. The source is read from the running system, so it always matches the checks this instance enforces."
-      }
-    },
-    "com.posthog.endpoints#BadRequest": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 400,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 400
-          }
-        ]
-      }
-    },
-    "com.posthog.endpoints#Forbidden": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 403,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 403
-          }
-        ]
-      }
-    },
-    "com.posthog.endpoints#NotFound": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 404,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 404
-          }
-        ]
       }
     },
     "com.posthog.endpoints#Endpoints": {
@@ -5298,6 +5259,45 @@
       ],
       "traits": {
         "smithy.api#title": "PostHog API"
+      }
+    },
+    "com.posthog.endpoints#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.posthog.endpoints#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.posthog.endpoints#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
       }
     }
   }

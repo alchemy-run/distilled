@@ -1,0 +1,140 @@
+{
+  "description": "From dashboards-errors.patch.json: Auto-generated PostHog error responses (400/403/404) for tag \"dashboards\". See generate-error-patches.ts.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.data_color_themes#DataColorThemesList/errors",
+      "value": [
+        {
+          "target": "com.posthog.data_color_themes#BadRequest"
+        },
+        {
+          "target": "com.posthog.data_color_themes#Forbidden"
+        },
+        {
+          "target": "com.posthog.data_color_themes#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.data_color_themes#DataColorThemesCreate/errors",
+      "value": [
+        {
+          "target": "com.posthog.data_color_themes#BadRequest"
+        },
+        {
+          "target": "com.posthog.data_color_themes#Forbidden"
+        },
+        {
+          "target": "com.posthog.data_color_themes#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.data_color_themes#DataColorThemesRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.data_color_themes#Forbidden"
+        },
+        {
+          "target": "com.posthog.data_color_themes#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.data_color_themes#DataColorThemesUpdate/errors",
+      "value": [
+        {
+          "target": "com.posthog.data_color_themes#BadRequest"
+        },
+        {
+          "target": "com.posthog.data_color_themes#Forbidden"
+        },
+        {
+          "target": "com.posthog.data_color_themes#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.data_color_themes#DataColorThemesPartialUpdate/errors",
+      "value": [
+        {
+          "target": "com.posthog.data_color_themes#BadRequest"
+        },
+        {
+          "target": "com.posthog.data_color_themes#Forbidden"
+        },
+        {
+          "target": "com.posthog.data_color_themes#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.data_color_themes#DataColorThemesDestroy/errors",
+      "value": [
+        {
+          "target": "com.posthog.data_color_themes#Forbidden"
+        },
+        {
+          "target": "com.posthog.data_color_themes#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.data_color_themes#BadRequest",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 400
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.data_color_themes#Forbidden",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 403
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.data_color_themes#NotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

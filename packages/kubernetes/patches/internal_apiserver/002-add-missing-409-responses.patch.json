@@ -1,0 +1,66 @@
+{
+  "description": "From 002-add-missing-409-responses.patch.json: Add 409 Conflict responses to create, replace, delete, and patch operations",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.internal_apiserver#CreateInternalApiserverV1alpha1StorageVersion/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.internal_apiserver#Conflict"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.internal_apiserver#ReplaceInternalApiserverV1alpha1StorageVersion/errors/-",
+      "value": {
+        "target": "com.kubernetes.internal_apiserver#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.internal_apiserver#PatchInternalApiserverV1alpha1StorageVersion/errors/-",
+      "value": {
+        "target": "com.kubernetes.internal_apiserver#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.internal_apiserver#DeleteInternalApiserverV1alpha1StorageVersion/errors/-",
+      "value": {
+        "target": "com.kubernetes.internal_apiserver#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.internal_apiserver#ReplaceInternalApiserverV1alpha1StorageVersionStatus/errors/-",
+      "value": {
+        "target": "com.kubernetes.internal_apiserver#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.internal_apiserver#PatchInternalApiserverV1alpha1StorageVersionStatus/errors/-",
+      "value": {
+        "target": "com.kubernetes.internal_apiserver#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.internal_apiserver#Conflict",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 409,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 409
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

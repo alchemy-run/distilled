@@ -2,128 +2,186 @@
   "description": "The upstream spec models write bodies as text/plain with examples only. The converter only reads application/json (and form/multipart) schemas, so those operations would generate with no payload. Promote them to JSON: SurrealQL as a string, record content as a free-form object.",
   "patches": [
     {
-      "op": "replace",
-      "path": "/paths/~1import/post/requestBody",
+      "op": "add",
+      "path": "/shapes/com.surrealdb.api#PostImportRequest/members/body",
       "value": {
-        "required": true,
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "string",
-              "description": "SurrealQL statements to import"
-            }
-          }
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpPayload": {},
+          "smithy.api#required": {}
         }
       }
     },
     {
-      "op": "replace",
-      "path": "/paths/~1sql/post/requestBody",
+      "op": "add",
+      "path": "/shapes/com.surrealdb.api#PostKeyTableRequest/members/body",
       "value": {
-        "required": true,
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "string",
-              "description": "One or more SurrealQL statements, separated by a semicolon"
-            }
-          }
+        "target": "com.surrealdb.api#UpdateKeyRequestBodyMap",
+        "traits": {
+          "smithy.api#httpPayload": {},
+          "smithy.api#required": {}
         }
       }
     },
     {
-      "op": "replace",
-      "path": "/paths/~1key~1{table}/post/requestBody",
+      "op": "add",
+      "path": "/shapes/com.surrealdb.api#PutKeyTableRequest/members/body",
       "value": {
-        "required": true,
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "additionalProperties": true,
-              "description": "Record content"
-            }
-          }
+        "target": "com.surrealdb.api#PutKeyRequestBodyMap",
+        "traits": {
+          "smithy.api#httpPayload": {},
+          "smithy.api#required": {}
         }
       }
     },
     {
-      "op": "replace",
-      "path": "/paths/~1key~1{table}/put/requestBody",
+      "op": "add",
+      "path": "/shapes/com.surrealdb.api#PatchKeyTableRequest/members/body",
       "value": {
-        "required": true,
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "additionalProperties": true,
-              "description": "Record content"
-            }
-          }
+        "target": "com.surrealdb.api#UpdateKeyByTableRequestBodyMap",
+        "traits": {
+          "smithy.api#httpPayload": {},
+          "smithy.api#required": {}
         }
       }
     },
     {
-      "op": "replace",
-      "path": "/paths/~1key~1{table}/patch/requestBody",
+      "op": "add",
+      "path": "/shapes/com.surrealdb.api#PostKeyTableIdRequest/members/body",
       "value": {
-        "required": true,
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "additionalProperties": true,
-              "description": "Fields to merge into each record"
-            }
-          }
+        "target": "com.surrealdb.api#UpdateKeyByIdRequestBodyMap",
+        "traits": {
+          "smithy.api#httpPayload": {},
+          "smithy.api#required": {}
         }
       }
     },
     {
-      "op": "replace",
-      "path": "/paths/~1key~1{table}~1{id}/post/requestBody",
+      "op": "add",
+      "path": "/shapes/com.surrealdb.api#PutKeyTableIdRequest/members/body",
       "value": {
-        "required": true,
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "additionalProperties": true,
-              "description": "Record content"
-            }
-          }
+        "target": "com.surrealdb.api#PutKeyByIdRequestBodyMap",
+        "traits": {
+          "smithy.api#httpPayload": {},
+          "smithy.api#required": {}
         }
       }
     },
     {
-      "op": "replace",
-      "path": "/paths/~1key~1{table}~1{id}/put/requestBody",
+      "op": "add",
+      "path": "/shapes/com.surrealdb.api#PatchKeyTableIdRequest/members/body",
       "value": {
-        "required": true,
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "additionalProperties": true,
-              "description": "Record content"
-            }
-          }
+        "target": "com.surrealdb.api#UpdateKeyByIdRequestBodyMap2",
+        "traits": {
+          "smithy.api#httpPayload": {},
+          "smithy.api#required": {}
         }
       }
     },
     {
-      "op": "replace",
-      "path": "/paths/~1key~1{table}~1{id}/patch/requestBody",
+      "op": "add",
+      "path": "/shapes/com.surrealdb.api#PostSqlRequest/members/body",
       "value": {
-        "required": true,
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "additionalProperties": true,
-              "description": "Fields to merge into the record"
-            }
-          }
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpPayload": {},
+          "smithy.api#required": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.surrealdb.api#UpdateKeyRequestBodyMap",
+      "value": {
+        "type": "map",
+        "key": {
+          "target": "smithy.api#String"
+        },
+        "value": {
+          "target": "smithy.api#Document"
+        },
+        "traits": {
+          "smithy.api#documentation": "Record content"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.surrealdb.api#PutKeyRequestBodyMap",
+      "value": {
+        "type": "map",
+        "key": {
+          "target": "smithy.api#String"
+        },
+        "value": {
+          "target": "smithy.api#Document"
+        },
+        "traits": {
+          "smithy.api#documentation": "Record content"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.surrealdb.api#UpdateKeyByTableRequestBodyMap",
+      "value": {
+        "type": "map",
+        "key": {
+          "target": "smithy.api#String"
+        },
+        "value": {
+          "target": "smithy.api#Document"
+        },
+        "traits": {
+          "smithy.api#documentation": "Fields to merge into each record"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.surrealdb.api#UpdateKeyByIdRequestBodyMap",
+      "value": {
+        "type": "map",
+        "key": {
+          "target": "smithy.api#String"
+        },
+        "value": {
+          "target": "smithy.api#Document"
+        },
+        "traits": {
+          "smithy.api#documentation": "Record content"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.surrealdb.api#PutKeyByIdRequestBodyMap",
+      "value": {
+        "type": "map",
+        "key": {
+          "target": "smithy.api#String"
+        },
+        "value": {
+          "target": "smithy.api#Document"
+        },
+        "traits": {
+          "smithy.api#documentation": "Record content"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.surrealdb.api#UpdateKeyByIdRequestBodyMap2",
+      "value": {
+        "type": "map",
+        "key": {
+          "target": "smithy.api#String"
+        },
+        "value": {
+          "target": "smithy.api#Document"
+        },
+        "traits": {
+          "smithy.api#documentation": "Fields to merge into the record"
         }
       }
     }

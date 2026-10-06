@@ -480,6 +480,13 @@
       "output": {
         "target": "com.posthog.property_definitions#PaginatedEnterprisePropertyDefinitionList"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/property_definitions/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.property_definitions#BadRequest"
@@ -490,14 +497,7 @@
         {
           "target": "com.posthog.property_definitions#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/property_definitions/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.property_definitions#GetPropertyDefinitionRequest": {
       "type": "structure",
@@ -531,6 +531,13 @@
       "output": {
         "target": "com.posthog.property_definitions#EnterprisePropertyDefinition"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/property_definitions/{id}/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.property_definitions#Forbidden"
@@ -538,14 +545,7 @@
         {
           "target": "com.posthog.property_definitions#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/property_definitions/{id}/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.property_definitions#UpdatePropertyDefinitionRequestTagsList": {
       "type": "list",
@@ -622,6 +622,13 @@
       "output": {
         "target": "com.posthog.property_definitions#EnterprisePropertyDefinition"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/api/projects/{project_id}/property_definitions/{id}/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.property_definitions#BadRequest"
@@ -632,14 +639,7 @@
         {
           "target": "com.posthog.property_definitions#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/api/projects/{project_id}/property_definitions/{id}/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.property_definitions#UpdatePropertyDefinitionsPartialRequestTagsList": {
       "type": "list",
@@ -716,6 +716,13 @@
       "output": {
         "target": "com.posthog.property_definitions#EnterprisePropertyDefinition"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/projects/{project_id}/property_definitions/{id}/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.property_definitions#BadRequest"
@@ -726,14 +733,7 @@
         {
           "target": "com.posthog.property_definitions#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/api/projects/{project_id}/property_definitions/{id}/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.property_definitions#PropertyDefinitionsDestroyRequest": {
       "type": "structure",
@@ -767,6 +767,13 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/api/projects/{project_id}/property_definitions/{id}/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.property_definitions#Forbidden"
@@ -774,14 +781,7 @@
         {
           "target": "com.posthog.property_definitions#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "DELETE",
-          "uri": "/api/projects/{project_id}/property_definitions/{id}/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.property_definitions#PropertyDefinitionsBulkUpdateTagsCreateRequestIdsList": {
       "type": "list",
@@ -926,6 +926,14 @@
       "output": {
         "target": "com.posthog.property_definitions#BulkUpdateTagsResponse"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/property_definitions/bulk_update_tags/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Bulk update tags on multiple objects.\n\nPAT access: this action has no ``required_scopes=`` on the decorator —\ninheriting viewsets must add ``\"bulk_update_tags\"`` to their\n``scope_object_write_actions`` list to accept personal API keys.\nWithout that opt-in, ``APIScopePermission`` rejects PAT requests with\n\"This action does not support personal API key access\". Done per-viewset\nso granting ``<scope>:write`` for one resource doesn't leak access to\nsibling resources that share this mixin.\n\nAccepts:\n- {\"ids\": [...], \"action\": \"add\"|\"remove\"|\"set\", \"tags\": [\"tag1\", \"tag2\"]}\n\nActions:\n- \"add\": Add tags to existing tags on each object\n- \"remove\": Remove specific tags from each object\n- \"set\": Replace all tags on each object with the provided list"
+      },
       "errors": [
         {
           "target": "com.posthog.property_definitions#BadRequest"
@@ -936,15 +944,7 @@
         {
           "target": "com.posthog.property_definitions#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/property_definitions/bulk_update_tags/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Bulk update tags on multiple objects.\n\nPAT access: this action has no ``required_scopes=`` on the decorator —\ninheriting viewsets must add ``\"bulk_update_tags\"`` to their\n``scope_object_write_actions`` list to accept personal API keys.\nWithout that opt-in, ``APIScopePermission`` rejects PAT requests with\n\"This action does not support personal API key access\". Done per-viewset\nso granting ``<scope>:write`` for one resource doesn't leak access to\nsibling resources that share this mixin.\n\nAccepts:\n- {\"ids\": [...], \"action\": \"add\"|\"remove\"|\"set\", \"tags\": [\"tag1\", \"tag2\"]}\n\nActions:\n- \"add\": Add tags to existing tags on each object\n- \"remove\": Remove specific tags from each object\n- \"set\": Replace all tags on each object with the provided list"
-      }
+      ]
     },
     "com.posthog.property_definitions#GetPropertyDefinitionsSeenTogetherRequest": {
       "type": "structure",
@@ -970,14 +970,6 @@
       "output": {
         "target": "smithy.api#Unit"
       },
-      "errors": [
-        {
-          "target": "com.posthog.property_definitions#Forbidden"
-        },
-        {
-          "target": "com.posthog.property_definitions#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -985,6 +977,44 @@
           "code": 200
         },
         "smithy.api#documentation": "Allows a caller to provide a list of event names and a single property name\nReturns a map of the event names to a boolean representing whether that property has ever been seen with that event_name"
+      },
+      "errors": [
+        {
+          "target": "com.posthog.property_definitions#Forbidden"
+        },
+        {
+          "target": "com.posthog.property_definitions#NotFound"
+        }
+      ]
+    },
+    "com.posthog.property_definitions#PropertyDefinitions": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.posthog.property_definitions#ListPropertyDefinitions"
+        },
+        {
+          "target": "com.posthog.property_definitions#GetPropertyDefinition"
+        },
+        {
+          "target": "com.posthog.property_definitions#UpdatePropertyDefinition"
+        },
+        {
+          "target": "com.posthog.property_definitions#UpdatePropertyDefinitionsPartial"
+        },
+        {
+          "target": "com.posthog.property_definitions#PropertyDefinitionsDestroy"
+        },
+        {
+          "target": "com.posthog.property_definitions#PropertyDefinitionsBulkUpdateTagsCreate"
+        },
+        {
+          "target": "com.posthog.property_definitions#GetPropertyDefinitionsSeenTogether"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "PostHog API"
       }
     },
     "com.posthog.property_definitions#BadRequest": {
@@ -1024,36 +1054,6 @@
             "status": 404
           }
         ]
-      }
-    },
-    "com.posthog.property_definitions#PropertyDefinitions": {
-      "type": "service",
-      "version": "1.0.0",
-      "operations": [
-        {
-          "target": "com.posthog.property_definitions#ListPropertyDefinitions"
-        },
-        {
-          "target": "com.posthog.property_definitions#GetPropertyDefinition"
-        },
-        {
-          "target": "com.posthog.property_definitions#UpdatePropertyDefinition"
-        },
-        {
-          "target": "com.posthog.property_definitions#UpdatePropertyDefinitionsPartial"
-        },
-        {
-          "target": "com.posthog.property_definitions#PropertyDefinitionsDestroy"
-        },
-        {
-          "target": "com.posthog.property_definitions#PropertyDefinitionsBulkUpdateTagsCreate"
-        },
-        {
-          "target": "com.posthog.property_definitions#GetPropertyDefinitionsSeenTogether"
-        }
-      ],
-      "traits": {
-        "smithy.api#title": "PostHog API"
       }
     }
   }

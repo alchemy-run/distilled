@@ -113,6 +113,13 @@
       "output": {
         "target": "com.posthog.web_experiments#PaginatedWebExperimentsAPIList"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/web_experiments/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.web_experiments#BadRequest"
@@ -123,14 +130,7 @@
         {
           "target": "com.posthog.web_experiments#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/web_experiments/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.web_experiments#CreateWebExperimentRequest": {
       "type": "structure",
@@ -168,6 +168,13 @@
       "output": {
         "target": "com.posthog.web_experiments#WebExperimentsAPI"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/web_experiments/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.web_experiments#BadRequest"
@@ -178,14 +185,7 @@
         {
           "target": "com.posthog.web_experiments#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/web_experiments/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.web_experiments#GetWebExperimentRequest": {
       "type": "structure",
@@ -219,6 +219,13 @@
       "output": {
         "target": "com.posthog.web_experiments#WebExperimentsAPI"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/web_experiments/{id}/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.web_experiments#Forbidden"
@@ -226,14 +233,7 @@
         {
           "target": "com.posthog.web_experiments#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/web_experiments/{id}/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.web_experiments#UpdateWebExperimentRequest": {
       "type": "structure",
@@ -279,6 +279,13 @@
       "output": {
         "target": "com.posthog.web_experiments#WebExperimentsAPI"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/api/projects/{project_id}/web_experiments/{id}/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.web_experiments#BadRequest"
@@ -289,14 +296,7 @@
         {
           "target": "com.posthog.web_experiments#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/api/projects/{project_id}/web_experiments/{id}/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.web_experiments#UpdateWebExperimentsPartialRequest": {
       "type": "structure",
@@ -342,6 +342,13 @@
       "output": {
         "target": "com.posthog.web_experiments#WebExperimentsAPI"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/projects/{project_id}/web_experiments/{id}/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.web_experiments#BadRequest"
@@ -352,14 +359,7 @@
         {
           "target": "com.posthog.web_experiments#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/api/projects/{project_id}/web_experiments/{id}/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.web_experiments#WebExperimentsDestroyRequest": {
       "type": "structure",
@@ -393,6 +393,13 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/api/projects/{project_id}/web_experiments/{id}/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.web_experiments#Forbidden"
@@ -400,13 +407,33 @@
         {
           "target": "com.posthog.web_experiments#NotFound"
         }
+      ]
+    },
+    "com.posthog.web_experiments#WebExperiments": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.posthog.web_experiments#ListWebExperiments"
+        },
+        {
+          "target": "com.posthog.web_experiments#CreateWebExperiment"
+        },
+        {
+          "target": "com.posthog.web_experiments#GetWebExperiment"
+        },
+        {
+          "target": "com.posthog.web_experiments#UpdateWebExperiment"
+        },
+        {
+          "target": "com.posthog.web_experiments#UpdateWebExperimentsPartial"
+        },
+        {
+          "target": "com.posthog.web_experiments#WebExperimentsDestroy"
+        }
       ],
       "traits": {
-        "smithy.api#http": {
-          "method": "DELETE",
-          "uri": "/api/projects/{project_id}/web_experiments/{id}/",
-          "code": 200
-        }
+        "smithy.api#title": "PostHog API"
       }
     },
     "com.posthog.web_experiments#BadRequest": {
@@ -446,33 +473,6 @@
             "status": 404
           }
         ]
-      }
-    },
-    "com.posthog.web_experiments#WebExperiments": {
-      "type": "service",
-      "version": "1.0.0",
-      "operations": [
-        {
-          "target": "com.posthog.web_experiments#ListWebExperiments"
-        },
-        {
-          "target": "com.posthog.web_experiments#CreateWebExperiment"
-        },
-        {
-          "target": "com.posthog.web_experiments#GetWebExperiment"
-        },
-        {
-          "target": "com.posthog.web_experiments#UpdateWebExperiment"
-        },
-        {
-          "target": "com.posthog.web_experiments#UpdateWebExperimentsPartial"
-        },
-        {
-          "target": "com.posthog.web_experiments#WebExperimentsDestroy"
-        }
-      ],
-      "traits": {
-        "smithy.api#title": "PostHog API"
       }
     }
   }

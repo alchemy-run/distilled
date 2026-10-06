@@ -1,0 +1,293 @@
+{
+  "description": "From feature-flags-errors.patch.json: Auto-generated PostHog error responses (400/403/404) for tag \"feature_flags\". See generate-error-patches.ts.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.feature_flags#FeatureFlagsList/errors",
+      "value": [
+        {
+          "target": "com.posthog.feature_flags#BadRequest"
+        },
+        {
+          "target": "com.posthog.feature_flags#Forbidden"
+        },
+        {
+          "target": "com.posthog.feature_flags#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.feature_flags#FeatureFlagsCreate/errors",
+      "value": [
+        {
+          "target": "com.posthog.feature_flags#BadRequest"
+        },
+        {
+          "target": "com.posthog.feature_flags#Forbidden"
+        },
+        {
+          "target": "com.posthog.feature_flags#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.feature_flags#FeatureFlagsRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.feature_flags#Forbidden"
+        },
+        {
+          "target": "com.posthog.feature_flags#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.feature_flags#FeatureFlagsUpdate/errors",
+      "value": [
+        {
+          "target": "com.posthog.feature_flags#BadRequest"
+        },
+        {
+          "target": "com.posthog.feature_flags#Forbidden"
+        },
+        {
+          "target": "com.posthog.feature_flags#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.feature_flags#FeatureFlagsPartialUpdate/errors",
+      "value": [
+        {
+          "target": "com.posthog.feature_flags#BadRequest"
+        },
+        {
+          "target": "com.posthog.feature_flags#Forbidden"
+        },
+        {
+          "target": "com.posthog.feature_flags#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.feature_flags#FeatureFlagsDestroy/errors",
+      "value": [
+        {
+          "target": "com.posthog.feature_flags#Forbidden"
+        },
+        {
+          "target": "com.posthog.feature_flags#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.feature_flags#FeatureFlagsActivityRetrieve/errors/0",
+      "value": {
+        "target": "com.posthog.feature_flags#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.feature_flags#FeatureFlagsActivityRetrieve/errors/1",
+      "value": {
+        "target": "com.posthog.feature_flags#Forbidden"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.feature_flags#FeatureFlagsCreateStaticCohortForFlagCreate/errors",
+      "value": [
+        {
+          "target": "com.posthog.feature_flags#BadRequest"
+        },
+        {
+          "target": "com.posthog.feature_flags#Forbidden"
+        },
+        {
+          "target": "com.posthog.feature_flags#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.feature_flags#FeatureFlagsDependentFlagsList/errors",
+      "value": [
+        {
+          "target": "com.posthog.feature_flags#Forbidden"
+        },
+        {
+          "target": "com.posthog.feature_flags#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.feature_flags#FeatureFlagsRemoteConfigRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.feature_flags#Forbidden"
+        },
+        {
+          "target": "com.posthog.feature_flags#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.feature_flags#FeatureFlagsStatusRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.feature_flags#Forbidden"
+        },
+        {
+          "target": "com.posthog.feature_flags#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.feature_flags#FeatureFlagsVersionsRetrieve/errors/1",
+      "value": {
+        "target": "com.posthog.feature_flags#Forbidden"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.feature_flags#FeatureFlagsAllActivityRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.feature_flags#BadRequest"
+        },
+        {
+          "target": "com.posthog.feature_flags#Forbidden"
+        },
+        {
+          "target": "com.posthog.feature_flags#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.feature_flags#FeatureFlagsBulkDeleteCreate/errors/-",
+      "value": {
+        "target": "com.posthog.feature_flags#Forbidden"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.feature_flags#FeatureFlagsBulkDeleteCreate/errors/-",
+      "value": {
+        "target": "com.posthog.feature_flags#NotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.feature_flags#FeatureFlagsBulkKeysRetrieve/errors/-",
+      "value": {
+        "target": "com.posthog.feature_flags#Forbidden"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.feature_flags#FeatureFlagsBulkKeysRetrieve/errors/-",
+      "value": {
+        "target": "com.posthog.feature_flags#NotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.feature_flags#FeatureFlagsBulkUpdateTagsCreate/errors",
+      "value": [
+        {
+          "target": "com.posthog.feature_flags#BadRequest"
+        },
+        {
+          "target": "com.posthog.feature_flags#Forbidden"
+        },
+        {
+          "target": "com.posthog.feature_flags#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.feature_flags#FeatureFlagsEvaluationReasonsRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.feature_flags#BadRequest"
+        },
+        {
+          "target": "com.posthog.feature_flags#Forbidden"
+        },
+        {
+          "target": "com.posthog.feature_flags#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.feature_flags#FeatureFlagsMatchingIdsRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.feature_flags#Forbidden"
+        },
+        {
+          "target": "com.posthog.feature_flags#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.feature_flags#FeatureFlagsMyFlagsRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.feature_flags#BadRequest"
+        },
+        {
+          "target": "com.posthog.feature_flags#Forbidden"
+        },
+        {
+          "target": "com.posthog.feature_flags#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.feature_flags#FeatureFlagsUserBlastRadiusCreate/errors",
+      "value": [
+        {
+          "target": "com.posthog.feature_flags#BadRequest"
+        },
+        {
+          "target": "com.posthog.feature_flags#Forbidden"
+        },
+        {
+          "target": "com.posthog.feature_flags#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.feature_flags#Forbidden",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 403
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

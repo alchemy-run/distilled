@@ -1,0 +1,620 @@
+{
+  "description": "From core-errors.patch.json: Auto-generated PostHog error responses (400/403/404) for tag \"core\". See generate-error-patches.ts.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.organizations#DomainsList/errors",
+      "value": [
+        {
+          "target": "com.posthog.organizations#BadRequest"
+        },
+        {
+          "target": "com.posthog.organizations#Forbidden"
+        },
+        {
+          "target": "com.posthog.organizations#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.organizations#DomainsCreate/errors",
+      "value": [
+        {
+          "target": "com.posthog.organizations#BadRequest"
+        },
+        {
+          "target": "com.posthog.organizations#Forbidden"
+        },
+        {
+          "target": "com.posthog.organizations#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.organizations#DomainsRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.organizations#Forbidden"
+        },
+        {
+          "target": "com.posthog.organizations#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.organizations#DomainsUpdate/errors",
+      "value": [
+        {
+          "target": "com.posthog.organizations#BadRequest"
+        },
+        {
+          "target": "com.posthog.organizations#Forbidden"
+        },
+        {
+          "target": "com.posthog.organizations#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.organizations#DomainsPartialUpdate/errors",
+      "value": [
+        {
+          "target": "com.posthog.organizations#BadRequest"
+        },
+        {
+          "target": "com.posthog.organizations#Forbidden"
+        },
+        {
+          "target": "com.posthog.organizations#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.organizations#DomainsDestroy/errors",
+      "value": [
+        {
+          "target": "com.posthog.organizations#Forbidden"
+        },
+        {
+          "target": "com.posthog.organizations#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.organizations#DomainsScimLogsRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.organizations#Forbidden"
+        },
+        {
+          "target": "com.posthog.organizations#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.organizations#DomainsVerifyCreate/errors",
+      "value": [
+        {
+          "target": "com.posthog.organizations#BadRequest"
+        },
+        {
+          "target": "com.posthog.organizations#Forbidden"
+        },
+        {
+          "target": "com.posthog.organizations#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.organizations#InvitesList/errors",
+      "value": [
+        {
+          "target": "com.posthog.organizations#BadRequest"
+        },
+        {
+          "target": "com.posthog.organizations#Forbidden"
+        },
+        {
+          "target": "com.posthog.organizations#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.organizations#InvitesCreate/errors",
+      "value": [
+        {
+          "target": "com.posthog.organizations#BadRequest"
+        },
+        {
+          "target": "com.posthog.organizations#Forbidden"
+        },
+        {
+          "target": "com.posthog.organizations#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.organizations#InvitesDestroy/errors",
+      "value": [
+        {
+          "target": "com.posthog.organizations#Forbidden"
+        },
+        {
+          "target": "com.posthog.organizations#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.organizations#InvitesBulkCreate/errors",
+      "value": [
+        {
+          "target": "com.posthog.organizations#BadRequest"
+        },
+        {
+          "target": "com.posthog.organizations#Forbidden"
+        },
+        {
+          "target": "com.posthog.organizations#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.organizations#LegalDocumentsList/errors",
+      "value": [
+        {
+          "target": "com.posthog.organizations#BadRequest"
+        },
+        {
+          "target": "com.posthog.organizations#Forbidden"
+        },
+        {
+          "target": "com.posthog.organizations#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.organizations#LegalDocumentsCreate/errors",
+      "value": [
+        {
+          "target": "com.posthog.organizations#BadRequest"
+        },
+        {
+          "target": "com.posthog.organizations#Forbidden"
+        },
+        {
+          "target": "com.posthog.organizations#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.organizations#LegalDocumentsRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.organizations#Forbidden"
+        },
+        {
+          "target": "com.posthog.organizations#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.organizations#LegalDocumentsDownloadRetrieve/errors/0",
+      "value": {
+        "target": "com.posthog.organizations#Forbidden"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.organizations#MembersList/errors",
+      "value": [
+        {
+          "target": "com.posthog.organizations#BadRequest"
+        },
+        {
+          "target": "com.posthog.organizations#Forbidden"
+        },
+        {
+          "target": "com.posthog.organizations#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.organizations#MembersUpdate/errors",
+      "value": [
+        {
+          "target": "com.posthog.organizations#BadRequest"
+        },
+        {
+          "target": "com.posthog.organizations#Forbidden"
+        },
+        {
+          "target": "com.posthog.organizations#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.organizations#MembersPartialUpdate/errors",
+      "value": [
+        {
+          "target": "com.posthog.organizations#BadRequest"
+        },
+        {
+          "target": "com.posthog.organizations#Forbidden"
+        },
+        {
+          "target": "com.posthog.organizations#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.organizations#MembersDestroy/errors",
+      "value": [
+        {
+          "target": "com.posthog.organizations#Forbidden"
+        },
+        {
+          "target": "com.posthog.organizations#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.organizations#MembersScopedApiKeysRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.organizations#Forbidden"
+        },
+        {
+          "target": "com.posthog.organizations#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.organizations#OauthApplicationsList/errors",
+      "value": [
+        {
+          "target": "com.posthog.organizations#BadRequest"
+        },
+        {
+          "target": "com.posthog.organizations#Forbidden"
+        },
+        {
+          "target": "com.posthog.organizations#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.organizations#OrganizationsProjectsList/errors",
+      "value": [
+        {
+          "target": "com.posthog.organizations#BadRequest"
+        },
+        {
+          "target": "com.posthog.organizations#Forbidden"
+        },
+        {
+          "target": "com.posthog.organizations#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.organizations#OrganizationsProjectsCreate/errors",
+      "value": [
+        {
+          "target": "com.posthog.organizations#BadRequest"
+        },
+        {
+          "target": "com.posthog.organizations#Forbidden"
+        },
+        {
+          "target": "com.posthog.organizations#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.organizations#OrganizationsProjectsRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.organizations#Forbidden"
+        },
+        {
+          "target": "com.posthog.organizations#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.organizations#OrganizationsProjectsUpdate/errors",
+      "value": [
+        {
+          "target": "com.posthog.organizations#BadRequest"
+        },
+        {
+          "target": "com.posthog.organizations#Forbidden"
+        },
+        {
+          "target": "com.posthog.organizations#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.organizations#OrganizationsProjectsPartialUpdate/errors",
+      "value": [
+        {
+          "target": "com.posthog.organizations#BadRequest"
+        },
+        {
+          "target": "com.posthog.organizations#Forbidden"
+        },
+        {
+          "target": "com.posthog.organizations#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.organizations#OrganizationsProjectsDestroy/errors",
+      "value": [
+        {
+          "target": "com.posthog.organizations#Forbidden"
+        },
+        {
+          "target": "com.posthog.organizations#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.organizations#OrganizationsProjectsActivityRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.organizations#Forbidden"
+        },
+        {
+          "target": "com.posthog.organizations#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.organizations#OrganizationsProjectsAddProductIntentPartialUpdate/errors",
+      "value": [
+        {
+          "target": "com.posthog.organizations#BadRequest"
+        },
+        {
+          "target": "com.posthog.organizations#Forbidden"
+        },
+        {
+          "target": "com.posthog.organizations#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.organizations#OrganizationsProjectsChangeOrganizationCreate/errors",
+      "value": [
+        {
+          "target": "com.posthog.organizations#BadRequest"
+        },
+        {
+          "target": "com.posthog.organizations#Forbidden"
+        },
+        {
+          "target": "com.posthog.organizations#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.organizations#OrganizationsProjectsCompleteProductOnboardingPartialUpdate/errors",
+      "value": [
+        {
+          "target": "com.posthog.organizations#BadRequest"
+        },
+        {
+          "target": "com.posthog.organizations#Forbidden"
+        },
+        {
+          "target": "com.posthog.organizations#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.organizations#OrganizationsProjectsDeleteSecretTokenBackupPartialUpdate/errors",
+      "value": [
+        {
+          "target": "com.posthog.organizations#BadRequest"
+        },
+        {
+          "target": "com.posthog.organizations#Forbidden"
+        },
+        {
+          "target": "com.posthog.organizations#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.organizations#OrganizationsProjectsGenerateConversationsPublicTokenCreate/errors",
+      "value": [
+        {
+          "target": "com.posthog.organizations#BadRequest"
+        },
+        {
+          "target": "com.posthog.organizations#Forbidden"
+        },
+        {
+          "target": "com.posthog.organizations#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.organizations#OrganizationsProjectsIsGeneratingDemoDataRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.organizations#Forbidden"
+        },
+        {
+          "target": "com.posthog.organizations#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.organizations#OrganizationsProjectsResetTokenPartialUpdate/errors",
+      "value": [
+        {
+          "target": "com.posthog.organizations#BadRequest"
+        },
+        {
+          "target": "com.posthog.organizations#Forbidden"
+        },
+        {
+          "target": "com.posthog.organizations#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.organizations#OrganizationsProjectsRotateSecretTokenPartialUpdate/errors",
+      "value": [
+        {
+          "target": "com.posthog.organizations#BadRequest"
+        },
+        {
+          "target": "com.posthog.organizations#Forbidden"
+        },
+        {
+          "target": "com.posthog.organizations#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.organizations#RolesList/errors",
+      "value": [
+        {
+          "target": "com.posthog.organizations#BadRequest"
+        },
+        {
+          "target": "com.posthog.organizations#Forbidden"
+        },
+        {
+          "target": "com.posthog.organizations#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.organizations#RolesCreate/errors",
+      "value": [
+        {
+          "target": "com.posthog.organizations#BadRequest"
+        },
+        {
+          "target": "com.posthog.organizations#Forbidden"
+        },
+        {
+          "target": "com.posthog.organizations#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.organizations#RolesRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.organizations#Forbidden"
+        },
+        {
+          "target": "com.posthog.organizations#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.organizations#RolesUpdate/errors",
+      "value": [
+        {
+          "target": "com.posthog.organizations#BadRequest"
+        },
+        {
+          "target": "com.posthog.organizations#Forbidden"
+        },
+        {
+          "target": "com.posthog.organizations#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.organizations#RolesPartialUpdate/errors",
+      "value": [
+        {
+          "target": "com.posthog.organizations#BadRequest"
+        },
+        {
+          "target": "com.posthog.organizations#Forbidden"
+        },
+        {
+          "target": "com.posthog.organizations#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.organizations#RolesDestroy/errors",
+      "value": [
+        {
+          "target": "com.posthog.organizations#Forbidden"
+        },
+        {
+          "target": "com.posthog.organizations#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.organizations#BadRequest",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 400
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

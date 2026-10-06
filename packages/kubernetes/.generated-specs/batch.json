@@ -6686,14 +6686,6 @@
       "output": {
         "target": "com.kubernetes.batch#IoK8sApiBatchV1CronJob"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.batch#Conflict"
-        },
-        {
-          "target": "com.kubernetes.batch#UnprocessableEntity"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -6701,7 +6693,15 @@
           "code": 200
         },
         "smithy.api#documentation": "create a CronJob"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.batch#Conflict"
+        },
+        {
+          "target": "com.kubernetes.batch#UnprocessableEntity"
+        }
+      ]
     },
     "com.kubernetes.batch#DeleteBatchV1CollectionNamespacedCronJobRequestDryRunList": {
       "type": "list",
@@ -7062,11 +7062,6 @@
       "output": {
         "target": "com.kubernetes.batch#IoK8sApiBatchV1CronJob"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.batch#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -7074,7 +7069,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read the specified CronJob"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.batch#NotFound"
+        }
+      ]
     },
     "com.kubernetes.batch#ReplaceBatchV1NamespacedCronJobRequest": {
       "type": "structure",
@@ -7167,6 +7167,14 @@
       "output": {
         "target": "com.kubernetes.batch#IoK8sApiBatchV1CronJob"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/apis/batch/v1/namespaces/{namespace}/cronjobs/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace the specified CronJob"
+      },
       "errors": [
         {
           "target": "com.kubernetes.batch#NotFound"
@@ -7177,15 +7185,7 @@
         {
           "target": "com.kubernetes.batch#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/apis/batch/v1/namespaces/{namespace}/cronjobs/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace the specified CronJob"
-      }
+      ]
     },
     "com.kubernetes.batch#PatchBatchV1NamespacedCronJobRequest": {
       "type": "structure",
@@ -7254,6 +7254,14 @@
       "output": {
         "target": "com.kubernetes.batch#IoK8sApiBatchV1CronJob"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/apis/batch/v1/namespaces/{namespace}/cronjobs/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update the specified CronJob"
+      },
       "errors": [
         {
           "target": "com.kubernetes.batch#NotFound"
@@ -7264,15 +7272,7 @@
         {
           "target": "com.kubernetes.batch#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/apis/batch/v1/namespaces/{namespace}/cronjobs/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update the specified CronJob"
-      }
+      ]
     },
     "com.kubernetes.batch#DeleteBatchV1NamespacedCronJobRequestDryRunList": {
       "type": "list",
@@ -7375,14 +7375,6 @@
       "output": {
         "target": "com.kubernetes.batch#IoK8sApimachineryPkgApisMetaV1Status"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.batch#NotFound"
-        },
-        {
-          "target": "com.kubernetes.batch#Conflict"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -7390,7 +7382,15 @@
           "code": 200
         },
         "smithy.api#documentation": "delete a CronJob"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.batch#NotFound"
+        },
+        {
+          "target": "com.kubernetes.batch#Conflict"
+        }
+      ]
     },
     "com.kubernetes.batch#ReadBatchV1NamespacedCronJobStatusRequest": {
       "type": "structure",
@@ -7431,11 +7431,6 @@
       "output": {
         "target": "com.kubernetes.batch#IoK8sApiBatchV1CronJob"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.batch#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -7443,7 +7438,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read status of the specified CronJob"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.batch#NotFound"
+        }
+      ]
     },
     "com.kubernetes.batch#ReplaceBatchV1NamespacedCronJobStatusRequest": {
       "type": "structure",
@@ -7536,6 +7536,14 @@
       "output": {
         "target": "com.kubernetes.batch#IoK8sApiBatchV1CronJob"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/apis/batch/v1/namespaces/{namespace}/cronjobs/{name}/status",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace status of the specified CronJob"
+      },
       "errors": [
         {
           "target": "com.kubernetes.batch#NotFound"
@@ -7546,15 +7554,7 @@
         {
           "target": "com.kubernetes.batch#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/apis/batch/v1/namespaces/{namespace}/cronjobs/{name}/status",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace status of the specified CronJob"
-      }
+      ]
     },
     "com.kubernetes.batch#PatchBatchV1NamespacedCronJobStatusRequest": {
       "type": "structure",
@@ -7623,6 +7623,14 @@
       "output": {
         "target": "com.kubernetes.batch#IoK8sApiBatchV1CronJob"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/apis/batch/v1/namespaces/{namespace}/cronjobs/{name}/status",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update status of the specified CronJob"
+      },
       "errors": [
         {
           "target": "com.kubernetes.batch#NotFound"
@@ -7633,15 +7641,7 @@
         {
           "target": "com.kubernetes.batch#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/apis/batch/v1/namespaces/{namespace}/cronjobs/{name}/status",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update status of the specified CronJob"
-      }
+      ]
     },
     "com.kubernetes.batch#ListBatchV1NamespacedJobRequest": {
       "type": "structure",
@@ -7843,14 +7843,6 @@
       "output": {
         "target": "com.kubernetes.batch#IoK8sApiBatchV1Job"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.batch#Conflict"
-        },
-        {
-          "target": "com.kubernetes.batch#UnprocessableEntity"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -7858,7 +7850,15 @@
           "code": 200
         },
         "smithy.api#documentation": "create a Job"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.batch#Conflict"
+        },
+        {
+          "target": "com.kubernetes.batch#UnprocessableEntity"
+        }
+      ]
     },
     "com.kubernetes.batch#DeleteBatchV1CollectionNamespacedJobRequestDryRunList": {
       "type": "list",
@@ -8064,11 +8064,6 @@
       "output": {
         "target": "com.kubernetes.batch#IoK8sApiBatchV1Job"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.batch#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -8076,7 +8071,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read the specified Job"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.batch#NotFound"
+        }
+      ]
     },
     "com.kubernetes.batch#ReplaceBatchV1NamespacedJobRequest": {
       "type": "structure",
@@ -8169,6 +8169,14 @@
       "output": {
         "target": "com.kubernetes.batch#IoK8sApiBatchV1Job"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/apis/batch/v1/namespaces/{namespace}/jobs/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace the specified Job"
+      },
       "errors": [
         {
           "target": "com.kubernetes.batch#NotFound"
@@ -8179,15 +8187,7 @@
         {
           "target": "com.kubernetes.batch#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/apis/batch/v1/namespaces/{namespace}/jobs/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace the specified Job"
-      }
+      ]
     },
     "com.kubernetes.batch#PatchBatchV1NamespacedJobRequest": {
       "type": "structure",
@@ -8256,6 +8256,14 @@
       "output": {
         "target": "com.kubernetes.batch#IoK8sApiBatchV1Job"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/apis/batch/v1/namespaces/{namespace}/jobs/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update the specified Job"
+      },
       "errors": [
         {
           "target": "com.kubernetes.batch#NotFound"
@@ -8266,15 +8274,7 @@
         {
           "target": "com.kubernetes.batch#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/apis/batch/v1/namespaces/{namespace}/jobs/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update the specified Job"
-      }
+      ]
     },
     "com.kubernetes.batch#DeleteBatchV1NamespacedJobRequestDryRunList": {
       "type": "list",
@@ -8377,14 +8377,6 @@
       "output": {
         "target": "com.kubernetes.batch#IoK8sApimachineryPkgApisMetaV1Status"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.batch#NotFound"
-        },
-        {
-          "target": "com.kubernetes.batch#Conflict"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -8392,7 +8384,15 @@
           "code": 200
         },
         "smithy.api#documentation": "delete a Job"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.batch#NotFound"
+        },
+        {
+          "target": "com.kubernetes.batch#Conflict"
+        }
+      ]
     },
     "com.kubernetes.batch#ReadBatchV1NamespacedJobStatusRequest": {
       "type": "structure",
@@ -8433,11 +8433,6 @@
       "output": {
         "target": "com.kubernetes.batch#IoK8sApiBatchV1Job"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.batch#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -8445,7 +8440,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read status of the specified Job"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.batch#NotFound"
+        }
+      ]
     },
     "com.kubernetes.batch#ReplaceBatchV1NamespacedJobStatusRequest": {
       "type": "structure",
@@ -8538,6 +8538,14 @@
       "output": {
         "target": "com.kubernetes.batch#IoK8sApiBatchV1Job"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/apis/batch/v1/namespaces/{namespace}/jobs/{name}/status",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace status of the specified Job"
+      },
       "errors": [
         {
           "target": "com.kubernetes.batch#NotFound"
@@ -8548,15 +8556,7 @@
         {
           "target": "com.kubernetes.batch#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/apis/batch/v1/namespaces/{namespace}/jobs/{name}/status",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace status of the specified Job"
-      }
+      ]
     },
     "com.kubernetes.batch#PatchBatchV1NamespacedJobStatusRequest": {
       "type": "structure",
@@ -8625,6 +8625,14 @@
       "output": {
         "target": "com.kubernetes.batch#IoK8sApiBatchV1Job"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/apis/batch/v1/namespaces/{namespace}/jobs/{name}/status",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update status of the specified Job"
+      },
       "errors": [
         {
           "target": "com.kubernetes.batch#NotFound"
@@ -8635,15 +8643,7 @@
         {
           "target": "com.kubernetes.batch#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/apis/batch/v1/namespaces/{namespace}/jobs/{name}/status",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update status of the specified Job"
-      }
+      ]
     },
     "com.kubernetes.batch#WatchBatchV1CronJobListForAllNamespacesRequest": {
       "type": "structure",
@@ -9368,45 +9368,6 @@
         "smithy.api#documentation": "watch changes to an object of kind Job. deprecated: use the 'watch' parameter with a list operation instead, filtered to a single item with the 'fieldSelector' parameter."
       }
     },
-    "com.kubernetes.batch#Conflict": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 409,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 409
-          }
-        ]
-      }
-    },
-    "com.kubernetes.batch#UnprocessableEntity": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 422,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 422
-          }
-        ]
-      }
-    },
-    "com.kubernetes.batch#NotFound": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 404,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 404
-          }
-        ]
-      }
-    },
     "com.kubernetes.batch#Batch": {
       "type": "service",
       "version": "unversioned",
@@ -9504,6 +9465,45 @@
       ],
       "traits": {
         "smithy.api#title": "Kubernetes"
+      }
+    },
+    "com.kubernetes.batch#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.kubernetes.batch#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.kubernetes.batch#UnprocessableEntity": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 422,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 422
+          }
+        ]
       }
     }
   }

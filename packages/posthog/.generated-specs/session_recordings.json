@@ -139,6 +139,13 @@
       "output": {
         "target": "com.posthog.session_recordings#ListSessionRecordingsSharingResponse"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/session_recordings/{recording_id}/sharing/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.session_recordings#Forbidden"
@@ -146,14 +153,7 @@
         {
           "target": "com.posthog.session_recordings#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/session_recordings/{recording_id}/sharing/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.session_recordings#CreateSessionRecordingsSharingPasswordRequest": {
       "type": "structure",
@@ -195,6 +195,14 @@
       "output": {
         "target": "com.posthog.session_recordings#SharingConfiguration"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/session_recordings/{recording_id}/sharing/passwords/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create a new password for the sharing configuration."
+      },
       "errors": [
         {
           "target": "com.posthog.session_recordings#BadRequest"
@@ -205,15 +213,7 @@
         {
           "target": "com.posthog.session_recordings#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/session_recordings/{recording_id}/sharing/passwords/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Create a new password for the sharing configuration."
-      }
+      ]
     },
     "com.posthog.session_recordings#SessionRecordingsSharingPasswordsDestroyRequest": {
       "type": "structure",
@@ -253,14 +253,6 @@
       "output": {
         "target": "smithy.api#Unit"
       },
-      "errors": [
-        {
-          "target": "com.posthog.session_recordings#Forbidden"
-        },
-        {
-          "target": "com.posthog.session_recordings#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -268,7 +260,15 @@
           "code": 200
         },
         "smithy.api#documentation": "Delete a password from the sharing configuration."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.posthog.session_recordings#Forbidden"
+        },
+        {
+          "target": "com.posthog.session_recordings#NotFound"
+        }
+      ]
     },
     "com.posthog.session_recordings#SessionRecordingsSharingRefreshCreateRequest": {
       "type": "structure",
@@ -310,6 +310,13 @@
       "output": {
         "target": "com.posthog.session_recordings#SharingConfiguration"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/session_recordings/{recording_id}/sharing/refresh/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.session_recordings#BadRequest"
@@ -320,13 +327,27 @@
         {
           "target": "com.posthog.session_recordings#NotFound"
         }
+      ]
+    },
+    "com.posthog.session_recordings#SessionRecordings": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.posthog.session_recordings#ListSessionRecordingsSharing"
+        },
+        {
+          "target": "com.posthog.session_recordings#CreateSessionRecordingsSharingPassword"
+        },
+        {
+          "target": "com.posthog.session_recordings#SessionRecordingsSharingPasswordsDestroy"
+        },
+        {
+          "target": "com.posthog.session_recordings#SessionRecordingsSharingRefreshCreate"
+        }
       ],
       "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/session_recordings/{recording_id}/sharing/refresh/",
-          "code": 200
-        }
+        "smithy.api#title": "PostHog API"
       }
     },
     "com.posthog.session_recordings#Forbidden": {
@@ -366,27 +387,6 @@
             "status": 400
           }
         ]
-      }
-    },
-    "com.posthog.session_recordings#SessionRecordings": {
-      "type": "service",
-      "version": "1.0.0",
-      "operations": [
-        {
-          "target": "com.posthog.session_recordings#ListSessionRecordingsSharing"
-        },
-        {
-          "target": "com.posthog.session_recordings#CreateSessionRecordingsSharingPassword"
-        },
-        {
-          "target": "com.posthog.session_recordings#SessionRecordingsSharingPasswordsDestroy"
-        },
-        {
-          "target": "com.posthog.session_recordings#SessionRecordingsSharingRefreshCreate"
-        }
-      ],
-      "traits": {
-        "smithy.api#title": "PostHog API"
       }
     }
   }

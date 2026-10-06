@@ -417,6 +417,13 @@
       "output": {
         "target": "com.posthog.organizations#PaginatedOrganizationList"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/organizations/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.organizations#BadRequest"
@@ -424,14 +431,7 @@
         {
           "target": "com.posthog.organizations#Forbidden"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/organizations/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.organizations#CreateRequest": {
       "type": "structure",
@@ -536,6 +536,13 @@
       "output": {
         "target": "com.posthog.organizations#Organization"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/organizations/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.organizations#BadRequest"
@@ -543,14 +550,7 @@
         {
           "target": "com.posthog.organizations#Forbidden"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/organizations/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.organizations#GetRequest": {
       "type": "structure",
@@ -576,6 +576,13 @@
       "output": {
         "target": "com.posthog.organizations#Organization"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/organizations/{id}/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.organizations#Forbidden"
@@ -583,14 +590,7 @@
         {
           "target": "com.posthog.organizations#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/organizations/{id}/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.organizations#UpdateRequest": {
       "type": "structure",
@@ -703,6 +703,13 @@
       "output": {
         "target": "com.posthog.organizations#Organization"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/api/organizations/{id}/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.organizations#BadRequest"
@@ -713,14 +720,7 @@
         {
           "target": "com.posthog.organizations#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/api/organizations/{id}/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.organizations#UpdatePartialRequest": {
       "type": "structure",
@@ -833,6 +833,13 @@
       "output": {
         "target": "com.posthog.organizations#Organization"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/organizations/{id}/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.organizations#BadRequest"
@@ -843,14 +850,7 @@
         {
           "target": "com.posthog.organizations#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/api/organizations/{id}/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.organizations#DestroyRequest": {
       "type": "structure",
@@ -876,6 +876,13 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/api/organizations/{id}/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.organizations#Forbidden"
@@ -883,14 +890,7 @@
         {
           "target": "com.posthog.organizations#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "DELETE",
-          "uri": "/api/organizations/{id}/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.organizations#RemoveBlockedMembersAndEnforceVerifiedDomainsCreateRequest": {
       "type": "structure",
@@ -5005,6 +5005,13 @@
       "output": {
         "target": "com.posthog.organizations#PaginatedOrganizationDomainList"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/organizations/{organization_id}/domains/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.organizations#BadRequest"
@@ -5015,14 +5022,7 @@
         {
           "target": "com.posthog.organizations#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/organizations/{organization_id}/domains/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.organizations#CreateDomainRequest": {
       "type": "structure",
@@ -5057,6 +5057,13 @@
       "output": {
         "target": "com.posthog.organizations#OrganizationDomain"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/organizations/{organization_id}/domains/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.organizations#BadRequest"
@@ -5067,14 +5074,7 @@
         {
           "target": "com.posthog.organizations#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/organizations/{organization_id}/domains/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.organizations#GetDomainRequest": {
       "type": "structure",
@@ -5108,6 +5108,13 @@
       "output": {
         "target": "com.posthog.organizations#OrganizationDomain"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/organizations/{organization_id}/domains/{id}/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.organizations#Forbidden"
@@ -5115,14 +5122,7 @@
         {
           "target": "com.posthog.organizations#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/organizations/{organization_id}/domains/{id}/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.organizations#UpdateDomainRequest": {
       "type": "structure",
@@ -5165,6 +5165,13 @@
       "output": {
         "target": "com.posthog.organizations#OrganizationDomain"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/api/organizations/{organization_id}/domains/{id}/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.organizations#BadRequest"
@@ -5175,14 +5182,7 @@
         {
           "target": "com.posthog.organizations#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/api/organizations/{organization_id}/domains/{id}/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.organizations#UpdateDomainsPartialRequest": {
       "type": "structure",
@@ -5225,6 +5225,13 @@
       "output": {
         "target": "com.posthog.organizations#OrganizationDomain"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/organizations/{organization_id}/domains/{id}/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.organizations#BadRequest"
@@ -5235,14 +5242,7 @@
         {
           "target": "com.posthog.organizations#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/api/organizations/{organization_id}/domains/{id}/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.organizations#DomainsDestroyRequest": {
       "type": "structure",
@@ -5276,6 +5276,13 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/api/organizations/{organization_id}/domains/{id}/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.organizations#Forbidden"
@@ -5283,14 +5290,7 @@
         {
           "target": "com.posthog.organizations#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "DELETE",
-          "uri": "/api/organizations/{organization_id}/domains/{id}/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.organizations#GetDomainsScimLogRequest": {
       "type": "structure",
@@ -5485,6 +5485,13 @@
       "output": {
         "target": "com.posthog.organizations#PaginatedSCIMRequestLog"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/organizations/{organization_id}/domains/{id}/scim/logs/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.organizations#Forbidden"
@@ -5492,14 +5499,7 @@
         {
           "target": "com.posthog.organizations#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/organizations/{organization_id}/domains/{id}/scim/logs/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.organizations#DomainsVerifyCreateRequest": {
       "type": "structure",
@@ -5542,6 +5542,13 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/organizations/{organization_id}/domains/{id}/verify/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.organizations#BadRequest"
@@ -5552,14 +5559,7 @@
         {
           "target": "com.posthog.organizations#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/organizations/{organization_id}/domains/{id}/verify/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.organizations#ListIdentityProviderConfigsRequest": {
       "type": "structure",
@@ -6745,6 +6745,14 @@
       "output": {
         "target": "com.posthog.organizations#OrganizationIntegration"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/organizations/{organization_id}/integrations/{id}/environment-mapping/",
+          "code": 200
+        },
+        "smithy.api#documentation": "ViewSet for organization-level integrations.\n\nProvides access to integrations that are scoped to the entire organization\n(vs. project-level integrations). Examples include Vercel, AWS Marketplace, etc.\n\nCreation is handled by the integration installation flows\n(e.g., Vercel marketplace installation). Users can disconnect integrations\nvia the DELETE endpoint."
+      },
       "errors": [
         {
           "target": "com.posthog.organizations#BadRequest"
@@ -6755,15 +6763,7 @@
         {
           "target": "com.posthog.organizations#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/api/organizations/{organization_id}/integrations/{id}/environment-mapping/",
-          "code": 200
-        },
-        "smithy.api#documentation": "ViewSet for organization-level integrations.\n\nProvides access to integrations that are scoped to the entire organization\n(vs. project-level integrations). Examples include Vercel, AWS Marketplace, etc.\n\nCreation is handled by the integration installation flows\n(e.g., Vercel marketplace installation). Users can disconnect integrations\nvia the DELETE endpoint."
-      }
+      ]
     },
     "com.posthog.organizations#ListInvitesRequest": {
       "type": "structure",
@@ -6885,6 +6885,13 @@
       "output": {
         "target": "com.posthog.organizations#PaginatedOrganizationInviteListOutput"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/organizations/{organization_id}/invites/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.organizations#BadRequest"
@@ -6895,14 +6902,7 @@
         {
           "target": "com.posthog.organizations#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/organizations/{organization_id}/invites/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.organizations#CreateInviteRequest": {
       "type": "structure",
@@ -6955,6 +6955,13 @@
       "output": {
         "target": "com.posthog.organizations#OrganizationInviteOutput"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/organizations/{organization_id}/invites/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.organizations#BadRequest"
@@ -6965,14 +6972,7 @@
         {
           "target": "com.posthog.organizations#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/organizations/{organization_id}/invites/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.organizations#InvitesDestroyRequest": {
       "type": "structure",
@@ -7006,6 +7006,13 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/api/organizations/{organization_id}/invites/{id}/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.organizations#Forbidden"
@@ -7013,14 +7020,7 @@
         {
           "target": "com.posthog.organizations#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "DELETE",
-          "uri": "/api/organizations/{organization_id}/invites/{id}/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.organizations#InvitesBulkCreateRequest": {
       "type": "structure",
@@ -7073,6 +7073,13 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/organizations/{organization_id}/invites/bulk/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.organizations#BadRequest"
@@ -7083,14 +7090,7 @@
         {
           "target": "com.posthog.organizations#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/organizations/{organization_id}/invites/bulk/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.organizations#CreateInvitesDelegateRequest": {
       "type": "structure",
@@ -7260,6 +7260,13 @@
       "output": {
         "target": "com.posthog.organizations#PaginatedLegalDocumentDTOList"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/organizations/{organization_id}/legal_documents/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.organizations#BadRequest"
@@ -7270,14 +7277,7 @@
         {
           "target": "com.posthog.organizations#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/organizations/{organization_id}/legal_documents/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.organizations#DocumentTypeEnum": {
       "type": "enum",
@@ -7347,6 +7347,13 @@
       "output": {
         "target": "com.posthog.organizations#LegalDocumentDTO"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/organizations/{organization_id}/legal_documents/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.organizations#BadRequest"
@@ -7357,14 +7364,7 @@
         {
           "target": "com.posthog.organizations#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/organizations/{organization_id}/legal_documents/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.organizations#GetLegalDocumentRequest": {
       "type": "structure",
@@ -7397,6 +7397,13 @@
       "output": {
         "target": "com.posthog.organizations#LegalDocumentDTO"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/organizations/{organization_id}/legal_documents/{id}/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.organizations#Forbidden"
@@ -7404,14 +7411,7 @@
         {
           "target": "com.posthog.organizations#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/organizations/{organization_id}/legal_documents/{id}/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.organizations#LegalDocumentsDestroyRequest": {
       "type": "structure",
@@ -7689,6 +7689,13 @@
       "output": {
         "target": "com.posthog.organizations#PaginatedOrganizationMemberList"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/organizations/{organization_id}/members/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.organizations#BadRequest"
@@ -7699,14 +7706,7 @@
         {
           "target": "com.posthog.organizations#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/organizations/{organization_id}/members/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.organizations#UpdateMemberRequest": {
       "type": "structure",
@@ -7742,6 +7742,13 @@
       "output": {
         "target": "com.posthog.organizations#OrganizationMember"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/api/organizations/{organization_id}/members/{user__uuid}/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.organizations#BadRequest"
@@ -7752,14 +7759,7 @@
         {
           "target": "com.posthog.organizations#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/api/organizations/{organization_id}/members/{user__uuid}/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.organizations#UpdateMembersPartialRequest": {
       "type": "structure",
@@ -7795,6 +7795,13 @@
       "output": {
         "target": "com.posthog.organizations#OrganizationMember"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/organizations/{organization_id}/members/{user__uuid}/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.organizations#BadRequest"
@@ -7805,14 +7812,7 @@
         {
           "target": "com.posthog.organizations#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/api/organizations/{organization_id}/members/{user__uuid}/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.organizations#MembersDestroyRequest": {
       "type": "structure",
@@ -7845,6 +7845,13 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/api/organizations/{organization_id}/members/{user__uuid}/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.organizations#Forbidden"
@@ -7852,14 +7859,7 @@
         {
           "target": "com.posthog.organizations#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "DELETE",
-          "uri": "/api/organizations/{organization_id}/members/{user__uuid}/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.organizations#GetMembersGithubLoginRequest": {
       "type": "structure",
@@ -7945,6 +7945,13 @@
       "output": {
         "target": "com.posthog.organizations#OrganizationMember"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/organizations/{organization_id}/members/{user__uuid}/scoped_api_keys/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.organizations#Forbidden"
@@ -7952,14 +7959,7 @@
         {
           "target": "com.posthog.organizations#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/organizations/{organization_id}/members/{user__uuid}/scoped_api_keys/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.organizations#GetMembersProjectAccessRequest": {
       "type": "structure",
@@ -9036,6 +9036,14 @@
       "output": {
         "target": "com.posthog.organizations#PaginatedOrganizationOAuthApplicationList"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/organizations/{organization_id}/oauth_applications/",
+          "code": 200
+        },
+        "smithy.api#documentation": "ViewSet for listing OAuth applications at the organization level (read-only)."
+      },
       "errors": [
         {
           "target": "com.posthog.organizations#BadRequest"
@@ -9046,15 +9054,7 @@
         {
           "target": "com.posthog.organizations#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/organizations/{organization_id}/oauth_applications/",
-          "code": 200
-        },
-        "smithy.api#documentation": "ViewSet for listing OAuth applications at the organization level (read-only)."
-      }
+      ]
     },
     "com.posthog.organizations#ListOrganizationsProjectsRequestTagsMatch": {
       "type": "enum",
@@ -12813,6 +12813,14 @@
       "output": {
         "target": "com.posthog.organizations#PaginatedProjectBackwardCompatBasicList"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/organizations/{organization_id}/projects/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Projects for the current organization."
+      },
       "errors": [
         {
           "target": "com.posthog.organizations#BadRequest"
@@ -12823,15 +12831,7 @@
         {
           "target": "com.posthog.organizations#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/organizations/{organization_id}/projects/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Projects for the current organization."
-      }
+      ]
     },
     "com.posthog.organizations#CreateOrganizationsProjectRequestTagsList": {
       "type": "list",
@@ -18539,6 +18539,14 @@
       "output": {
         "target": "com.posthog.organizations#ProjectBackwardCompat"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/organizations/{organization_id}/projects/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Projects for the current organization."
+      },
       "errors": [
         {
           "target": "com.posthog.organizations#BadRequest"
@@ -18549,15 +18557,7 @@
         {
           "target": "com.posthog.organizations#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/organizations/{organization_id}/projects/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Projects for the current organization."
-      }
+      ]
     },
     "com.posthog.organizations#GetOrganizationsProjectRequest": {
       "type": "structure",
@@ -18591,14 +18591,6 @@
       "output": {
         "target": "com.posthog.organizations#ProjectBackwardCompat"
       },
-      "errors": [
-        {
-          "target": "com.posthog.organizations#Forbidden"
-        },
-        {
-          "target": "com.posthog.organizations#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -18606,7 +18598,15 @@
           "code": 200
         },
         "smithy.api#documentation": "Retrieve a project and its settings."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.posthog.organizations#Forbidden"
+        },
+        {
+          "target": "com.posthog.organizations#NotFound"
+        }
+      ]
     },
     "com.posthog.organizations#UpdateOrganizationsProjectRequestTagsList": {
       "type": "list",
@@ -19104,6 +19104,14 @@
       "output": {
         "target": "com.posthog.organizations#ProjectBackwardCompat"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/api/organizations/{organization_id}/projects/{id}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Replace a project and its settings. Prefer the PATCH endpoint for partial updates — PUT requires every writable field to be provided."
+      },
       "errors": [
         {
           "target": "com.posthog.organizations#BadRequest"
@@ -19114,15 +19122,7 @@
         {
           "target": "com.posthog.organizations#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/api/organizations/{organization_id}/projects/{id}/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Replace a project and its settings. Prefer the PATCH endpoint for partial updates — PUT requires every writable field to be provided."
-      }
+      ]
     },
     "com.posthog.organizations#UpdateOrganizationsProjectsPartialRequestTagsList": {
       "type": "list",
@@ -19620,6 +19620,14 @@
       "output": {
         "target": "com.posthog.organizations#ProjectBackwardCompat"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/organizations/{organization_id}/projects/{id}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update one or more of a project's settings. Only the fields included in the request body are changed."
+      },
       "errors": [
         {
           "target": "com.posthog.organizations#BadRequest"
@@ -19630,15 +19638,7 @@
         {
           "target": "com.posthog.organizations#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/api/organizations/{organization_id}/projects/{id}/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Update one or more of a project's settings. Only the fields included in the request body are changed."
-      }
+      ]
     },
     "com.posthog.organizations#OrganizationsProjectsDestroyRequest": {
       "type": "structure",
@@ -19672,14 +19672,6 @@
       "output": {
         "target": "smithy.api#Unit"
       },
-      "errors": [
-        {
-          "target": "com.posthog.organizations#Forbidden"
-        },
-        {
-          "target": "com.posthog.organizations#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -19687,7 +19679,15 @@
           "code": 200
         },
         "smithy.api#documentation": "Projects for the current organization."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.posthog.organizations#Forbidden"
+        },
+        {
+          "target": "com.posthog.organizations#NotFound"
+        }
+      ]
     },
     "com.posthog.organizations#GetOrganizationsProjectsAccessControlDefaultObjectRequest": {
       "type": "structure",
@@ -20779,14 +20779,6 @@
       "output": {
         "target": "com.posthog.organizations#ProjectBackwardCompat"
       },
-      "errors": [
-        {
-          "target": "com.posthog.organizations#Forbidden"
-        },
-        {
-          "target": "com.posthog.organizations#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -20794,7 +20786,15 @@
           "code": 200
         },
         "smithy.api#documentation": "Projects for the current organization."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.posthog.organizations#Forbidden"
+        },
+        {
+          "target": "com.posthog.organizations#NotFound"
+        }
+      ]
     },
     "com.posthog.organizations#OrganizationsProjectsAddProductIntentPartialUpdateRequestTagsList": {
       "type": "list",
@@ -21292,6 +21292,14 @@
       "output": {
         "target": "com.posthog.organizations#ProjectBackwardCompat"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/organizations/{organization_id}/projects/{id}/add_product_intent/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Projects for the current organization."
+      },
       "errors": [
         {
           "target": "com.posthog.organizations#BadRequest"
@@ -21302,15 +21310,7 @@
         {
           "target": "com.posthog.organizations#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/api/organizations/{organization_id}/projects/{id}/add_product_intent/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Projects for the current organization."
-      }
+      ]
     },
     "com.posthog.organizations#OrganizationsProjectsCancelDeletionCreateRequest": {
       "type": "structure",
@@ -21915,6 +21915,14 @@
       "output": {
         "target": "com.posthog.organizations#ProjectBackwardCompat"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/organizations/{organization_id}/projects/{id}/change_organization/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Projects for the current organization."
+      },
       "errors": [
         {
           "target": "com.posthog.organizations#BadRequest"
@@ -21925,15 +21933,7 @@
         {
           "target": "com.posthog.organizations#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/organizations/{organization_id}/projects/{id}/change_organization/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Projects for the current organization."
-      }
+      ]
     },
     "com.posthog.organizations#UpdateOrganizationsProjectsCompleteProductOnboardingPartialRequestTagsList": {
       "type": "list",
@@ -22431,6 +22431,14 @@
       "output": {
         "target": "com.posthog.organizations#ProjectBackwardCompat"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/organizations/{organization_id}/projects/{id}/complete_product_onboarding/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Projects for the current organization."
+      },
       "errors": [
         {
           "target": "com.posthog.organizations#BadRequest"
@@ -22441,15 +22449,7 @@
         {
           "target": "com.posthog.organizations#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/api/organizations/{organization_id}/projects/{id}/complete_product_onboarding/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Projects for the current organization."
-      }
+      ]
     },
     "com.posthog.organizations#GetOrganizationsProjectsDefaultEvaluationContextRequest": {
       "type": "structure",
@@ -24080,6 +24080,14 @@
       "output": {
         "target": "com.posthog.organizations#ProjectBackwardCompat"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/organizations/{organization_id}/projects/{id}/delete_secret_token_backup/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Projects for the current organization."
+      },
       "errors": [
         {
           "target": "com.posthog.organizations#BadRequest"
@@ -24090,15 +24098,7 @@
         {
           "target": "com.posthog.organizations#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/api/organizations/{organization_id}/projects/{id}/delete_secret_token_backup/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Projects for the current organization."
-      }
+      ]
     },
     "com.posthog.organizations#CreateOrganizationsProjectsEvaluationContextSuggestionRequest": {
       "type": "structure",
@@ -25511,6 +25511,14 @@
       "output": {
         "target": "com.posthog.organizations#ProjectBackwardCompat"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/organizations/{organization_id}/projects/{id}/generate_conversations_public_token/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Projects for the current organization."
+      },
       "errors": [
         {
           "target": "com.posthog.organizations#BadRequest"
@@ -25521,15 +25529,7 @@
         {
           "target": "com.posthog.organizations#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/organizations/{organization_id}/projects/{id}/generate_conversations_public_token/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Projects for the current organization."
-      }
+      ]
     },
     "com.posthog.organizations#GetOrganizationsProjectsIsGeneratingDemoDataRequest": {
       "type": "structure",
@@ -25563,14 +25563,6 @@
       "output": {
         "target": "com.posthog.organizations#ProjectBackwardCompat"
       },
-      "errors": [
-        {
-          "target": "com.posthog.organizations#Forbidden"
-        },
-        {
-          "target": "com.posthog.organizations#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -25578,7 +25570,15 @@
           "code": 200
         },
         "smithy.api#documentation": "Projects for the current organization."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.posthog.organizations#Forbidden"
+        },
+        {
+          "target": "com.posthog.organizations#NotFound"
+        }
+      ]
     },
     "com.posthog.organizations#GetOrganizationsProjectsLogsConfigRequest": {
       "type": "structure",
@@ -26264,6 +26264,14 @@
       "output": {
         "target": "com.posthog.organizations#ProjectBackwardCompat"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/organizations/{organization_id}/projects/{id}/reset_token/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Projects for the current organization."
+      },
       "errors": [
         {
           "target": "com.posthog.organizations#BadRequest"
@@ -26274,15 +26282,7 @@
         {
           "target": "com.posthog.organizations#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/api/organizations/{organization_id}/projects/{id}/reset_token/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Projects for the current organization."
-      }
+      ]
     },
     "com.posthog.organizations#OrganizationsProjectsRotateHeatmapsScreenshotSecretPartialUpdateRequest": {
       "type": "structure",
@@ -26821,6 +26821,14 @@
       "output": {
         "target": "com.posthog.organizations#ProjectBackwardCompat"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/organizations/{organization_id}/projects/{id}/rotate_secret_token/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Projects for the current organization."
+      },
       "errors": [
         {
           "target": "com.posthog.organizations#BadRequest"
@@ -26831,15 +26839,7 @@
         {
           "target": "com.posthog.organizations#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/api/organizations/{organization_id}/projects/{id}/rotate_secret_token/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Projects for the current organization."
-      }
+      ]
     },
     "com.posthog.organizations#GetOrganizationsProjectsSettingsAsOfRequest": {
       "type": "structure",
@@ -27175,6 +27175,13 @@
       "output": {
         "target": "com.posthog.organizations#PaginatedRoleExternalReferenceList"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/organizations/{organization_id}/role_external_references/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.organizations#BadRequest"
@@ -27185,14 +27192,7 @@
         {
           "target": "com.posthog.organizations#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/organizations/{organization_id}/role_external_references/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.organizations#CreateRoleExternalReferenceRequest": {
       "type": "structure",
@@ -27255,6 +27255,13 @@
       "output": {
         "target": "com.posthog.organizations#RoleExternalReference"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/organizations/{organization_id}/role_external_references/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.organizations#BadRequest"
@@ -27265,14 +27272,7 @@
         {
           "target": "com.posthog.organizations#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/organizations/{organization_id}/role_external_references/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.organizations#RoleExternalReferencesDestroyRequest": {
       "type": "structure",
@@ -27306,6 +27306,13 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/api/organizations/{organization_id}/role_external_references/{id}/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.organizations#Forbidden"
@@ -27313,14 +27320,7 @@
         {
           "target": "com.posthog.organizations#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "DELETE",
-          "uri": "/api/organizations/{organization_id}/role_external_references/{id}/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.organizations#GetRoleExternalReferencesLookupRequest": {
       "type": "structure",
@@ -27389,6 +27389,13 @@
       "output": {
         "target": "com.posthog.organizations#RoleLookupResponse"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/organizations/{organization_id}/role_external_references/lookup/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.organizations#BadRequest"
@@ -27399,14 +27406,7 @@
         {
           "target": "com.posthog.organizations#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/organizations/{organization_id}/role_external_references/lookup/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.organizations#ListRolesRequest": {
       "type": "structure",
@@ -27526,6 +27526,14 @@
       "output": {
         "target": "com.posthog.organizations#PaginatedRoleList"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/organizations/{organization_id}/roles/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Role endpoints disclose member records, so they scope them the same way the members list\ndoes when the org restricts member list visibility."
+      },
       "errors": [
         {
           "target": "com.posthog.organizations#BadRequest"
@@ -27536,15 +27544,7 @@
         {
           "target": "com.posthog.organizations#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/organizations/{organization_id}/roles/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Role endpoints disclose member records, so they scope them the same way the members list\ndoes when the org restricts member list visibility."
-      }
+      ]
     },
     "com.posthog.organizations#CreateRoleRequest": {
       "type": "structure",
@@ -27573,6 +27573,14 @@
       "output": {
         "target": "com.posthog.organizations#Role"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/organizations/{organization_id}/roles/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Role endpoints disclose member records, so they scope them the same way the members list\ndoes when the org restricts member list visibility."
+      },
       "errors": [
         {
           "target": "com.posthog.organizations#BadRequest"
@@ -27583,15 +27591,7 @@
         {
           "target": "com.posthog.organizations#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/organizations/{organization_id}/roles/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Role endpoints disclose member records, so they scope them the same way the members list\ndoes when the org restricts member list visibility."
-      }
+      ]
     },
     "com.posthog.organizations#GetRoleRequest": {
       "type": "structure",
@@ -27625,14 +27625,6 @@
       "output": {
         "target": "com.posthog.organizations#Role"
       },
-      "errors": [
-        {
-          "target": "com.posthog.organizations#Forbidden"
-        },
-        {
-          "target": "com.posthog.organizations#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -27640,7 +27632,15 @@
           "code": 200
         },
         "smithy.api#documentation": "Role endpoints disclose member records, so they scope them the same way the members list\ndoes when the org restricts member list visibility."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.posthog.organizations#Forbidden"
+        },
+        {
+          "target": "com.posthog.organizations#NotFound"
+        }
+      ]
     },
     "com.posthog.organizations#UpdateRoleRequest": {
       "type": "structure",
@@ -27677,6 +27677,14 @@
       "output": {
         "target": "com.posthog.organizations#Role"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/api/organizations/{organization_id}/roles/{id}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Role endpoints disclose member records, so they scope them the same way the members list\ndoes when the org restricts member list visibility."
+      },
       "errors": [
         {
           "target": "com.posthog.organizations#BadRequest"
@@ -27687,15 +27695,7 @@
         {
           "target": "com.posthog.organizations#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/api/organizations/{organization_id}/roles/{id}/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Role endpoints disclose member records, so they scope them the same way the members list\ndoes when the org restricts member list visibility."
-      }
+      ]
     },
     "com.posthog.organizations#UpdateRolesPartialRequest": {
       "type": "structure",
@@ -27732,6 +27732,14 @@
       "output": {
         "target": "com.posthog.organizations#Role"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/organizations/{organization_id}/roles/{id}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Role endpoints disclose member records, so they scope them the same way the members list\ndoes when the org restricts member list visibility."
+      },
       "errors": [
         {
           "target": "com.posthog.organizations#BadRequest"
@@ -27742,15 +27750,7 @@
         {
           "target": "com.posthog.organizations#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/api/organizations/{organization_id}/roles/{id}/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Role endpoints disclose member records, so they scope them the same way the members list\ndoes when the org restricts member list visibility."
-      }
+      ]
     },
     "com.posthog.organizations#RolesDestroyRequest": {
       "type": "structure",
@@ -27784,14 +27784,6 @@
       "output": {
         "target": "smithy.api#Unit"
       },
-      "errors": [
-        {
-          "target": "com.posthog.organizations#Forbidden"
-        },
-        {
-          "target": "com.posthog.organizations#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -27799,7 +27791,15 @@
           "code": 200
         },
         "smithy.api#documentation": "Role endpoints disclose member records, so they scope them the same way the members list\ndoes when the org restricts member list visibility."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.posthog.organizations#Forbidden"
+        },
+        {
+          "target": "com.posthog.organizations#NotFound"
+        }
+      ]
     },
     "com.posthog.organizations#ListRolesRoleMembershipsRequest": {
       "type": "structure",
@@ -27904,6 +27904,14 @@
       "output": {
         "target": "com.posthog.organizations#PaginatedRoleMembershipListOutput"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/organizations/{organization_id}/roles/{role_id}/role_memberships/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Role endpoints disclose member records, so they scope them the same way the members list\ndoes when the org restricts member list visibility."
+      },
       "errors": [
         {
           "target": "com.posthog.organizations#BadRequest"
@@ -27914,15 +27922,7 @@
         {
           "target": "com.posthog.organizations#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/organizations/{organization_id}/roles/{role_id}/role_memberships/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Role endpoints disclose member records, so they scope them the same way the members list\ndoes when the org restricts member list visibility."
-      }
+      ]
     },
     "com.posthog.organizations#CreateRolesRoleMembershipRequest": {
       "type": "structure",
@@ -27958,6 +27958,14 @@
       "output": {
         "target": "com.posthog.organizations#RoleMembershipOutput"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/organizations/{organization_id}/roles/{role_id}/role_memberships/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Role endpoints disclose member records, so they scope them the same way the members list\ndoes when the org restricts member list visibility."
+      },
       "errors": [
         {
           "target": "com.posthog.organizations#BadRequest"
@@ -27968,15 +27976,7 @@
         {
           "target": "com.posthog.organizations#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/organizations/{organization_id}/roles/{role_id}/role_memberships/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Role endpoints disclose member records, so they scope them the same way the members list\ndoes when the org restricts member list visibility."
-      }
+      ]
     },
     "com.posthog.organizations#GetRolesRoleMembershipRequest": {
       "type": "structure",
@@ -28017,14 +28017,6 @@
       "output": {
         "target": "com.posthog.organizations#RoleMembershipOutput"
       },
-      "errors": [
-        {
-          "target": "com.posthog.organizations#Forbidden"
-        },
-        {
-          "target": "com.posthog.organizations#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -28032,7 +28024,15 @@
           "code": 200
         },
         "smithy.api#documentation": "Role endpoints disclose member records, so they scope them the same way the members list\ndoes when the org restricts member list visibility."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.posthog.organizations#Forbidden"
+        },
+        {
+          "target": "com.posthog.organizations#NotFound"
+        }
+      ]
     },
     "com.posthog.organizations#RolesRoleMembershipsDestroyRequest": {
       "type": "structure",
@@ -28073,14 +28073,6 @@
       "output": {
         "target": "smithy.api#Unit"
       },
-      "errors": [
-        {
-          "target": "com.posthog.organizations#Forbidden"
-        },
-        {
-          "target": "com.posthog.organizations#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -28088,7 +28080,15 @@
           "code": 200
         },
         "smithy.api#documentation": "Role endpoints disclose member records, so they scope them the same way the members list\ndoes when the org restricts member list visibility."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.posthog.organizations#Forbidden"
+        },
+        {
+          "target": "com.posthog.organizations#NotFound"
+        }
+      ]
     },
     "com.posthog.organizations#GetWelcomeCurrentRequest": {
       "type": "structure",
@@ -28334,19 +28334,6 @@
           "code": 200
         },
         "smithy.api#documentation": "Aggregated payload for the invited-user welcome screen."
-      }
-    },
-    "com.posthog.organizations#BadRequest": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 400,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 400
-          }
-        ]
       }
     },
     "com.posthog.organizations#Forbidden": {
@@ -28748,6 +28735,19 @@
       ],
       "traits": {
         "smithy.api#title": "PostHog API"
+      }
+    },
+    "com.posthog.organizations#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
       }
     }
   }

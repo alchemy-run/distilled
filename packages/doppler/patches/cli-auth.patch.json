@@ -3,185 +3,250 @@
   "patches": [
     {
       "op": "add",
-      "path": "/paths/~1v3~1auth~1cli~1generate~12",
+      "path": "/shapes/com.doppler.api#Doppler/operations/-",
       "value": {
-        "get": {
-          "operationId": "generateCliAuth",
-          "description": "Doppler CLI browser authentication. Public endpoint; no bearer token required. Wire contract from DopplerHQ/cli pkg/http/api.go.",
-          "security": [],
-          "responses": {
-            "200": {
-              "description": "Success",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "required": ["code", "polling_code", "auth_url"],
-                    "properties": {
-                      "code": {
-                        "type": "string"
-                      },
-                      "polling_code": {
-                        "type": "string",
-                        "x-sensitive": true
-                      },
-                      "auth_url": {
-                        "type": "string"
-                      }
-                    }
-                  }
-                }
-              }
+        "target": "com.doppler.api#GenerateCliAuth"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.doppler.api#Doppler/operations/-",
+      "value": {
+        "target": "com.doppler.api#AuthorizeCliAuth"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.doppler.api#Doppler/operations/-",
+      "value": {
+        "target": "com.doppler.api#RevokeCliAuth"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.doppler.api#GenerateCliAuthRequest",
+      "value": {
+        "type": "structure",
+        "members": {
+          "hostname": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#httpQuery": "hostname",
+              "smithy.api#required": {}
             }
           },
-          "parameters": [
-            {
-              "in": "query",
-              "name": "hostname",
-              "required": true,
-              "schema": {
-                "type": "string"
-              }
-            },
-            {
-              "in": "query",
-              "name": "version",
-              "required": true,
-              "schema": {
-                "type": "string"
-              },
-              "description": "CLI version in vMAJOR.MINOR.PATCH format. Other formats, including prerelease suffixes, are rejected."
-            },
-            {
-              "in": "query",
-              "name": "os",
-              "required": true,
-              "schema": {
-                "type": "string"
-              }
-            },
-            {
-              "in": "query",
-              "name": "arch",
-              "required": true,
-              "schema": {
-                "type": "string"
-              }
+          "version": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#httpQuery": "version",
+              "smithy.api#required": {},
+              "smithy.api#documentation": "CLI version in vMAJOR.MINOR.PATCH format. Other formats, including prerelease suffixes, are rejected."
             }
-          ]
+          },
+          "os": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#httpQuery": "os",
+              "smithy.api#required": {}
+            }
+          },
+          "arch": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#httpQuery": "arch",
+              "smithy.api#required": {}
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#input": {}
         }
       }
     },
     {
       "op": "add",
-      "path": "/paths/~1v3~1auth~1cli~1authorize",
+      "path": "/shapes/com.doppler.api#GenerateCliAuthResponse",
       "value": {
-        "post": {
-          "operationId": "authorizeCliAuth",
-          "description": "Doppler CLI browser authentication. Public endpoint; no bearer token required. Wire contract from DopplerHQ/cli pkg/http/api.go.",
-          "security": [],
-          "responses": {
-            "200": {
-              "description": "Success",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "required": ["token", "name", "dashboard_url"],
-                    "properties": {
-                      "token": {
-                        "type": "string",
-                        "x-sensitive": true
-                      },
-                      "name": {
-                        "type": "string"
-                      },
-                      "dashboard_url": {
-                        "type": "string"
-                      }
-                    }
-                  }
-                }
-              }
-            },
-            "409": {
-              "description": "Authorization pending browser approval",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "properties": {
-                      "messages": {
-                        "type": "array",
-                        "items": {
-                          "type": "string"
-                        }
-                      }
-                    }
-                  }
-                }
-              }
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {}
             }
           },
-          "requestBody": {
-            "required": true,
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "required": ["code"],
-                  "properties": {
-                    "code": {
-                      "type": "string",
-                      "x-sensitive": true
-                    }
-                  }
-                }
-              }
+          "polling_code": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#sensitive": {}
+            }
+          },
+          "auth_url": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {}
             }
           }
+        },
+        "traits": {
+          "smithy.api#output": {}
         }
       }
     },
     {
       "op": "add",
-      "path": "/paths/~1v3~1auth~1cli~1revoke",
+      "path": "/shapes/com.doppler.api#GenerateCliAuth",
       "value": {
-        "post": {
-          "operationId": "revokeCliAuth",
-          "description": "Doppler CLI browser authentication. Public endpoint; no bearer token required. Wire contract from DopplerHQ/cli pkg/http/api.go.",
-          "security": [],
-          "responses": {
-            "200": {
-              "description": "Success",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "required": [],
-                    "properties": {}
-                  }
-                }
-              }
-            }
+        "type": "operation",
+        "input": {
+          "target": "com.doppler.api#GenerateCliAuthRequest"
+        },
+        "output": {
+          "target": "com.doppler.api#GenerateCliAuthResponse"
+        },
+        "traits": {
+          "smithy.api#http": {
+            "method": "GET",
+            "uri": "/v3/auth/cli/generate/2",
+            "code": 200
           },
-          "requestBody": {
-            "required": true,
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "required": ["token"],
-                  "properties": {
-                    "token": {
-                      "type": "string",
-                      "x-sensitive": true
-                    }
-                  }
-                }
-              }
+          "smithy.api#documentation": "Doppler CLI browser authentication. Public endpoint; no bearer token required. Wire contract from DopplerHQ/cli pkg/http/api.go."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.doppler.api#AuthorizeCliAuthRequest",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#sensitive": {}
             }
           }
+        },
+        "traits": {
+          "smithy.api#input": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.doppler.api#AuthorizeCliAuthResponse",
+      "value": {
+        "type": "structure",
+        "members": {
+          "token": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#sensitive": {}
+            }
+          },
+          "name": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {}
+            }
+          },
+          "dashboard_url": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {}
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#output": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.doppler.api#AuthorizeCliAuth",
+      "value": {
+        "type": "operation",
+        "input": {
+          "target": "com.doppler.api#AuthorizeCliAuthRequest"
+        },
+        "output": {
+          "target": "com.doppler.api#AuthorizeCliAuthResponse"
+        },
+        "errors": [
+          {
+            "target": "com.doppler.api#Conflict"
+          }
+        ],
+        "traits": {
+          "smithy.api#http": {
+            "method": "POST",
+            "uri": "/v3/auth/cli/authorize",
+            "code": 200
+          },
+          "smithy.api#documentation": "Doppler CLI browser authentication. Public endpoint; no bearer token required. Wire contract from DopplerHQ/cli pkg/http/api.go."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.doppler.api#RevokeCliAuthRequest",
+      "value": {
+        "type": "structure",
+        "members": {
+          "token": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#sensitive": {}
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#input": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.doppler.api#RevokeCliAuthResponse",
+      "value": {
+        "type": "structure",
+        "members": {
+          "body": {
+            "target": "smithy.api#Document",
+            "traits": {
+              "com.distilled.openapi#rawResponse": {},
+              "smithy.api#required": {}
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#output": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.doppler.api#RevokeCliAuth",
+      "value": {
+        "type": "operation",
+        "input": {
+          "target": "com.doppler.api#RevokeCliAuthRequest"
+        },
+        "output": {
+          "target": "com.doppler.api#RevokeCliAuthResponse"
+        },
+        "traits": {
+          "smithy.api#http": {
+            "method": "POST",
+            "uri": "/v3/auth/cli/revoke",
+            "code": 200
+          },
+          "smithy.api#documentation": "Doppler CLI browser authentication. Public endpoint; no bearer token required. Wire contract from DopplerHQ/cli pkg/http/api.go."
         }
       }
     }

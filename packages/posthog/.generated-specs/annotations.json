@@ -401,6 +401,14 @@
       "output": {
         "target": "com.posthog.annotations#PaginatedAnnotationList"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/annotations/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create, Read, Update and Delete annotations. [See docs](https://posthog.com/docs/data/annotations) for more information on annotations."
+      },
       "errors": [
         {
           "target": "com.posthog.annotations#BadRequest"
@@ -411,15 +419,7 @@
         {
           "target": "com.posthog.annotations#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/annotations/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Create, Read, Update and Delete annotations. [See docs](https://posthog.com/docs/data/annotations) for more information on annotations."
-      }
+      ]
     },
     "com.posthog.annotations#CreateAnnotationRequest": {
       "type": "structure",
@@ -505,6 +505,14 @@
       "output": {
         "target": "com.posthog.annotations#Annotation"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/annotations/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create, Read, Update and Delete annotations. [See docs](https://posthog.com/docs/data/annotations) for more information on annotations."
+      },
       "errors": [
         {
           "target": "com.posthog.annotations#BadRequest"
@@ -515,15 +523,7 @@
         {
           "target": "com.posthog.annotations#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/annotations/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Create, Read, Update and Delete annotations. [See docs](https://posthog.com/docs/data/annotations) for more information on annotations."
-      }
+      ]
     },
     "com.posthog.annotations#GetAnnotationRequest": {
       "type": "structure",
@@ -557,14 +557,6 @@
       "output": {
         "target": "com.posthog.annotations#Annotation"
       },
-      "errors": [
-        {
-          "target": "com.posthog.annotations#Forbidden"
-        },
-        {
-          "target": "com.posthog.annotations#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -572,7 +564,15 @@
           "code": 200
         },
         "smithy.api#documentation": "Create, Read, Update and Delete annotations. [See docs](https://posthog.com/docs/data/annotations) for more information on annotations."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.posthog.annotations#Forbidden"
+        },
+        {
+          "target": "com.posthog.annotations#NotFound"
+        }
+      ]
     },
     "com.posthog.annotations#UpdateAnnotationRequest": {
       "type": "structure",
@@ -666,6 +666,14 @@
       "output": {
         "target": "com.posthog.annotations#Annotation"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/api/projects/{project_id}/annotations/{id}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create, Read, Update and Delete annotations. [See docs](https://posthog.com/docs/data/annotations) for more information on annotations."
+      },
       "errors": [
         {
           "target": "com.posthog.annotations#BadRequest"
@@ -676,15 +684,7 @@
         {
           "target": "com.posthog.annotations#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/api/projects/{project_id}/annotations/{id}/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Create, Read, Update and Delete annotations. [See docs](https://posthog.com/docs/data/annotations) for more information on annotations."
-      }
+      ]
     },
     "com.posthog.annotations#UpdateAnnotationsPartialRequest": {
       "type": "structure",
@@ -778,6 +778,14 @@
       "output": {
         "target": "com.posthog.annotations#Annotation"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/projects/{project_id}/annotations/{id}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create, Read, Update and Delete annotations. [See docs](https://posthog.com/docs/data/annotations) for more information on annotations."
+      },
       "errors": [
         {
           "target": "com.posthog.annotations#BadRequest"
@@ -788,15 +796,7 @@
         {
           "target": "com.posthog.annotations#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/api/projects/{project_id}/annotations/{id}/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Create, Read, Update and Delete annotations. [See docs](https://posthog.com/docs/data/annotations) for more information on annotations."
-      }
+      ]
     },
     "com.posthog.annotations#AnnotationsDestroyRequest": {
       "type": "structure",
@@ -830,14 +830,6 @@
       "output": {
         "target": "smithy.api#Unit"
       },
-      "errors": [
-        {
-          "target": "com.posthog.annotations#Forbidden"
-        },
-        {
-          "target": "com.posthog.annotations#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -845,6 +837,41 @@
           "code": 200
         },
         "smithy.api#documentation": "Hard delete of this model is not allowed. Use a patch API call to set \"deleted\" to true"
+      },
+      "errors": [
+        {
+          "target": "com.posthog.annotations#Forbidden"
+        },
+        {
+          "target": "com.posthog.annotations#NotFound"
+        }
+      ]
+    },
+    "com.posthog.annotations#Annotations": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.posthog.annotations#ListAnnotations"
+        },
+        {
+          "target": "com.posthog.annotations#CreateAnnotation"
+        },
+        {
+          "target": "com.posthog.annotations#GetAnnotation"
+        },
+        {
+          "target": "com.posthog.annotations#UpdateAnnotation"
+        },
+        {
+          "target": "com.posthog.annotations#UpdateAnnotationsPartial"
+        },
+        {
+          "target": "com.posthog.annotations#AnnotationsDestroy"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "PostHog API"
       }
     },
     "com.posthog.annotations#BadRequest": {
@@ -884,33 +911,6 @@
             "status": 404
           }
         ]
-      }
-    },
-    "com.posthog.annotations#Annotations": {
-      "type": "service",
-      "version": "1.0.0",
-      "operations": [
-        {
-          "target": "com.posthog.annotations#ListAnnotations"
-        },
-        {
-          "target": "com.posthog.annotations#CreateAnnotation"
-        },
-        {
-          "target": "com.posthog.annotations#GetAnnotation"
-        },
-        {
-          "target": "com.posthog.annotations#UpdateAnnotation"
-        },
-        {
-          "target": "com.posthog.annotations#UpdateAnnotationsPartial"
-        },
-        {
-          "target": "com.posthog.annotations#AnnotationsDestroy"
-        }
-      ],
-      "traits": {
-        "smithy.api#title": "PostHog API"
       }
     }
   }

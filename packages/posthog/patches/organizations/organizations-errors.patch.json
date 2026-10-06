@@ -1,0 +1,20 @@
+{
+  "description": "From organizations-errors.patch.json: Auto-generated PostHog error responses (400/403/404) for tag \"organizations\". See generate-error-patches.ts.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.organizations#IntegrationsEnvironmentMappingPartialUpdate/errors",
+      "value": [
+        {
+          "target": "com.posthog.organizations#BadRequest"
+        },
+        {
+          "target": "com.posthog.organizations#Forbidden"
+        },
+        {
+          "target": "com.posthog.organizations#NotFound"
+        }
+      ]
+    }
+  ]
+}

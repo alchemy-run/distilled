@@ -3,379 +3,366 @@
   "patches": [
     {
       "op": "add",
-      "path": "/paths/~1projects~1{project_id}/get/responses/404",
-      "value": {
-        "description": "Project not found",
-        "$ref": "#/components/responses/GeneralError"
-      }
+      "path": "/shapes/com.neon.api#RevokeApiKey/errors",
+      "value": [
+        {
+          "target": "com.neon.api#NotFound"
+        }
+      ]
     },
     {
       "op": "add",
-      "path": "/paths/~1projects~1{project_id}/get/responses/400",
-      "value": {
-        "description": "Invalid project ID format",
-        "$ref": "#/components/responses/GeneralError"
-      }
+      "path": "/shapes/com.neon.api#GetProjectOperation/errors",
+      "value": [
+        {
+          "target": "com.neon.api#NotFound"
+        }
+      ]
     },
     {
       "op": "add",
-      "path": "/paths/~1projects~1{project_id}/patch/responses/404",
-      "value": {
-        "description": "Project not found",
-        "$ref": "#/components/responses/GeneralError"
-      }
+      "path": "/shapes/com.neon.api#GetProject/errors",
+      "value": [
+        {
+          "target": "com.neon.api#BadRequest"
+        },
+        {
+          "target": "com.neon.api#NotFound"
+        }
+      ]
     },
     {
       "op": "add",
-      "path": "/paths/~1projects~1{project_id}/patch/responses/400",
-      "value": {
-        "description": "Invalid project settings",
-        "$ref": "#/components/responses/GeneralError"
-      }
+      "path": "/shapes/com.neon.api#UpdateProject/errors",
+      "value": [
+        {
+          "target": "com.neon.api#BadRequest"
+        },
+        {
+          "target": "com.neon.api#NotFound"
+        }
+      ]
     },
     {
       "op": "add",
-      "path": "/paths/~1projects~1{project_id}/delete/responses/404",
-      "value": {
-        "description": "Project not found",
-        "$ref": "#/components/responses/GeneralError"
-      }
+      "path": "/shapes/com.neon.api#DeleteProject/errors",
+      "value": [
+        {
+          "target": "com.neon.api#NotFound"
+        }
+      ]
     },
     {
       "op": "add",
-      "path": "/paths/~1projects~1{project_id}~1operations/get/responses/404",
-      "value": {
-        "description": "Project not found",
-        "$ref": "#/components/responses/GeneralError"
-      }
+      "path": "/shapes/com.neon.api#ListProjectOperations/errors",
+      "value": [
+        {
+          "target": "com.neon.api#NotFound"
+        }
+      ]
     },
     {
       "op": "add",
-      "path": "/paths/~1projects~1{project_id}~1permissions/get/responses/404",
-      "value": {
-        "description": "Project not found",
-        "$ref": "#/components/responses/GeneralError"
-      }
+      "path": "/shapes/com.neon.api#ListProjectPermissions/errors",
+      "value": [
+        {
+          "target": "com.neon.api#NotFound"
+        }
+      ]
     },
     {
       "op": "add",
-      "path": "/paths/~1projects~1{project_id}~1connection_uri/get/responses/404",
-      "value": {
-        "description": "Project, role, or database not found",
-        "$ref": "#/components/responses/GeneralError"
-      }
+      "path": "/shapes/com.neon.api#GetConnectionURI/errors",
+      "value": [
+        {
+          "target": "com.neon.api#NotFound"
+        }
+      ]
     },
     {
       "op": "add",
-      "path": "/paths/~1projects~1{project_id}~1branches/get/responses/404",
-      "value": {
-        "description": "Project not found",
-        "$ref": "#/components/responses/GeneralError"
-      }
+      "path": "/shapes/com.neon.api#ListProjectBranches/errors",
+      "value": [
+        {
+          "target": "com.neon.api#NotFound"
+        }
+      ]
     },
     {
       "op": "add",
-      "path": "/paths/~1projects~1{project_id}~1branches/post/responses/409",
-      "value": {
-        "description": "Branch already exists",
-        "$ref": "#/components/responses/GeneralError"
-      }
+      "path": "/shapes/com.neon.api#CreateProjectBranch/errors",
+      "value": [
+        {
+          "target": "com.neon.api#Conflict"
+        }
+      ]
     },
     {
       "op": "add",
-      "path": "/paths/~1projects~1{project_id}~1branches~1count/get/responses/404",
-      "value": {
-        "description": "Project not found",
-        "$ref": "#/components/responses/GeneralError"
-      }
+      "path": "/shapes/com.neon.api#CountProjectBranches/errors",
+      "value": [
+        {
+          "target": "com.neon.api#NotFound"
+        }
+      ]
     },
     {
       "op": "add",
-      "path": "/paths/~1projects~1{project_id}~1branches~1{branch_id}/get/responses/404",
-      "value": {
-        "description": "Branch not found",
-        "$ref": "#/components/responses/GeneralError"
-      }
+      "path": "/shapes/com.neon.api#GetProjectBranch/errors",
+      "value": [
+        {
+          "target": "com.neon.api#NotFound"
+        }
+      ]
     },
     {
       "op": "add",
-      "path": "/paths/~1projects~1{project_id}~1branches~1{branch_id}/patch/responses/404",
-      "value": {
-        "description": "Branch not found",
-        "$ref": "#/components/responses/GeneralError"
-      }
+      "path": "/shapes/com.neon.api#UpdateProjectBranch/errors",
+      "value": [
+        {
+          "target": "com.neon.api#BadRequest"
+        },
+        {
+          "target": "com.neon.api#NotFound"
+        }
+      ]
     },
     {
       "op": "add",
-      "path": "/paths/~1projects~1{project_id}~1branches~1{branch_id}/patch/responses/400",
-      "value": {
-        "description": "Invalid branch update (e.g. empty name)",
-        "$ref": "#/components/responses/GeneralError"
-      }
+      "path": "/shapes/com.neon.api#DeleteProjectBranch/errors",
+      "value": [
+        {
+          "target": "com.neon.api#NotFound"
+        },
+        {
+          "target": "com.neon.api#UnprocessableEntity"
+        }
+      ]
     },
     {
       "op": "add",
-      "path": "/paths/~1projects~1{project_id}~1branches~1{branch_id}/delete/responses/422",
-      "value": {
-        "description": "Cannot delete root branch",
-        "$ref": "#/components/responses/GeneralError"
-      }
+      "path": "/shapes/com.neon.api#RestoreProjectBranch/errors",
+      "value": [
+        {
+          "target": "com.neon.api#NotFound"
+        }
+      ]
     },
     {
       "op": "add",
-      "path": "/paths/~1projects~1{project_id}~1branches~1{branch_id}/delete/responses/404",
-      "value": {
-        "description": "Branch not found",
-        "$ref": "#/components/responses/GeneralError"
-      }
+      "path": "/shapes/com.neon.api#GetProjectBranchSchema/errors",
+      "value": [
+        {
+          "target": "com.neon.api#NotFound"
+        }
+      ]
     },
     {
       "op": "add",
-      "path": "/paths/~1projects~1{project_id}~1branches~1{branch_id}~1restore/post/responses/404",
-      "value": {
-        "description": "Branch or source not found",
-        "$ref": "#/components/responses/GeneralError"
-      }
+      "path": "/shapes/com.neon.api#GetProjectBranchSchemaComparison/errors",
+      "value": [
+        {
+          "target": "com.neon.api#NotFound"
+        }
+      ]
     },
     {
       "op": "add",
-      "path": "/paths/~1projects~1{project_id}~1branches~1{branch_id}~1set_as_default/post/responses/404",
-      "value": {
-        "description": "Branch not found",
-        "$ref": "#/components/responses/GeneralError"
-      }
+      "path": "/shapes/com.neon.api#SetDefaultProjectBranch/errors",
+      "value": [
+        {
+          "target": "com.neon.api#NotFound"
+        }
+      ]
     },
     {
       "op": "add",
-      "path": "/paths/~1projects~1{project_id}~1branches~1{branch_id}~1schema/get/responses/404",
-      "value": {
-        "description": "Database or branch not found",
-        "$ref": "#/components/responses/GeneralError"
-      }
+      "path": "/shapes/com.neon.api#ListProjectBranchEndpoints/errors",
+      "value": [
+        {
+          "target": "com.neon.api#NotFound"
+        }
+      ]
     },
     {
       "op": "add",
-      "path": "/paths/~1projects~1{project_id}~1branches~1{branch_id}~1compare_schema/get/responses/404",
-      "value": {
-        "description": "Branch not found",
-        "$ref": "#/components/responses/GeneralError"
-      }
+      "path": "/shapes/com.neon.api#ListProjectBranchDatabases/errors",
+      "value": [
+        {
+          "target": "com.neon.api#NotFound"
+        }
+      ]
     },
     {
       "op": "add",
-      "path": "/paths/~1projects~1{project_id}~1branches~1{branch_id}~1endpoints/get/responses/404",
-      "value": {
-        "description": "Branch not found",
-        "$ref": "#/components/responses/GeneralError"
-      }
+      "path": "/shapes/com.neon.api#CreateProjectBranchDatabase/errors",
+      "value": [
+        {
+          "target": "com.neon.api#BadRequest"
+        },
+        {
+          "target": "com.neon.api#NotFound"
+        },
+        {
+          "target": "com.neon.api#Conflict"
+        },
+        {
+          "target": "com.neon.api#UnprocessableEntity"
+        }
+      ]
     },
     {
       "op": "add",
-      "path": "/paths/~1projects~1{project_id}~1branches~1{branch_id}~1databases/get/responses/404",
-      "value": {
-        "description": "Project or branch not found",
-        "$ref": "#/components/responses/GeneralError"
-      }
+      "path": "/shapes/com.neon.api#GetProjectBranchDatabase/errors",
+      "value": [
+        {
+          "target": "com.neon.api#NotFound"
+        }
+      ]
     },
     {
       "op": "add",
-      "path": "/paths/~1projects~1{project_id}~1branches~1{branch_id}~1databases/post/responses/404",
-      "value": {
-        "description": "Project or branch not found",
-        "$ref": "#/components/responses/GeneralError"
-      }
+      "path": "/shapes/com.neon.api#UpdateProjectBranchDatabase/errors",
+      "value": [
+        {
+          "target": "com.neon.api#NotFound"
+        }
+      ]
     },
     {
       "op": "add",
-      "path": "/paths/~1projects~1{project_id}~1branches~1{branch_id}~1databases/post/responses/400",
-      "value": {
-        "description": "Invalid database name",
-        "$ref": "#/components/responses/GeneralError"
-      }
+      "path": "/shapes/com.neon.api#DeleteProjectBranchDatabase/errors",
+      "value": [
+        {
+          "target": "com.neon.api#NotFound"
+        }
+      ]
     },
     {
       "op": "add",
-      "path": "/paths/~1projects~1{project_id}~1branches~1{branch_id}~1databases/post/responses/409",
-      "value": {
-        "description": "Database already exists",
-        "$ref": "#/components/responses/GeneralError"
-      }
+      "path": "/shapes/com.neon.api#ListProjectBranchRoles/errors",
+      "value": [
+        {
+          "target": "com.neon.api#NotFound"
+        }
+      ]
     },
     {
       "op": "add",
-      "path": "/paths/~1projects~1{project_id}~1branches~1{branch_id}~1databases/post/responses/422",
-      "value": {
-        "description": "Database owner role not found",
-        "$ref": "#/components/responses/GeneralError"
-      }
+      "path": "/shapes/com.neon.api#CreateProjectBranchRole/errors",
+      "value": [
+        {
+          "target": "com.neon.api#NotFound"
+        },
+        {
+          "target": "com.neon.api#Conflict"
+        }
+      ]
     },
     {
       "op": "add",
-      "path": "/paths/~1projects~1{project_id}~1branches~1{branch_id}~1databases~1{database_name}/get/responses/404",
-      "value": {
-        "description": "Database not found",
-        "$ref": "#/components/responses/GeneralError"
-      }
+      "path": "/shapes/com.neon.api#GetProjectBranchRole/errors",
+      "value": [
+        {
+          "target": "com.neon.api#NotFound"
+        }
+      ]
     },
     {
       "op": "add",
-      "path": "/paths/~1projects~1{project_id}~1branches~1{branch_id}~1databases~1{database_name}/patch/responses/404",
-      "value": {
-        "description": "Database not found",
-        "$ref": "#/components/responses/GeneralError"
-      }
+      "path": "/shapes/com.neon.api#DeleteProjectBranchRole/errors",
+      "value": [
+        {
+          "target": "com.neon.api#NotFound"
+        },
+        {
+          "target": "com.neon.api#UnprocessableEntity"
+        }
+      ]
     },
     {
       "op": "add",
-      "path": "/paths/~1projects~1{project_id}~1branches~1{branch_id}~1databases~1{database_name}/delete/responses/404",
-      "value": {
-        "description": "Database not found",
-        "$ref": "#/components/responses/GeneralError"
-      }
+      "path": "/shapes/com.neon.api#ResetProjectBranchRolePassword/errors",
+      "value": [
+        {
+          "target": "com.neon.api#NotFound"
+        }
+      ]
     },
     {
       "op": "add",
-      "path": "/paths/~1projects~1{project_id}~1branches~1{branch_id}~1roles/get/responses/404",
-      "value": {
-        "description": "Project or branch not found",
-        "$ref": "#/components/responses/GeneralError"
-      }
+      "path": "/shapes/com.neon.api#ListProjectEndpoints/errors",
+      "value": [
+        {
+          "target": "com.neon.api#NotFound"
+        }
+      ]
     },
     {
       "op": "add",
-      "path": "/paths/~1projects~1{project_id}~1branches~1{branch_id}~1roles/post/responses/409",
-      "value": {
-        "description": "Role already exists",
-        "$ref": "#/components/responses/GeneralError"
-      }
+      "path": "/shapes/com.neon.api#CreateProjectEndpoint/errors",
+      "value": [
+        {
+          "target": "com.neon.api#NotFound"
+        },
+        {
+          "target": "com.neon.api#Conflict"
+        }
+      ]
     },
     {
       "op": "add",
-      "path": "/paths/~1projects~1{project_id}~1branches~1{branch_id}~1roles/post/responses/404",
-      "value": {
-        "description": "Project or branch not found",
-        "$ref": "#/components/responses/GeneralError"
-      }
+      "path": "/shapes/com.neon.api#GetProjectEndpoint/errors",
+      "value": [
+        {
+          "target": "com.neon.api#NotFound"
+        }
+      ]
     },
     {
       "op": "add",
-      "path": "/paths/~1projects~1{project_id}~1branches~1{branch_id}~1roles~1{role_name}/get/responses/404",
-      "value": {
-        "description": "Role not found",
-        "$ref": "#/components/responses/GeneralError"
-      }
+      "path": "/shapes/com.neon.api#UpdateProjectEndpoint/errors",
+      "value": [
+        {
+          "target": "com.neon.api#NotFound"
+        }
+      ]
     },
     {
       "op": "add",
-      "path": "/paths/~1projects~1{project_id}~1branches~1{branch_id}~1roles~1{role_name}/delete/responses/404",
-      "value": {
-        "description": "Role not found",
-        "$ref": "#/components/responses/GeneralError"
-      }
+      "path": "/shapes/com.neon.api#DeleteProjectEndpoint/errors",
+      "value": [
+        {
+          "target": "com.neon.api#NotFound"
+        }
+      ]
     },
     {
       "op": "add",
-      "path": "/paths/~1projects~1{project_id}~1branches~1{branch_id}~1roles~1{role_name}/delete/responses/422",
-      "value": {
-        "description": "Cannot delete role that is owner of a database",
-        "$ref": "#/components/responses/GeneralError"
-      }
+      "path": "/shapes/com.neon.api#StartProjectEndpoint/errors",
+      "value": [
+        {
+          "target": "com.neon.api#NotFound"
+        }
+      ]
     },
     {
       "op": "add",
-      "path": "/paths/~1projects~1{project_id}~1branches~1{branch_id}~1roles~1{role_name}~1reset_password/post/responses/404",
-      "value": {
-        "description": "Role not found",
-        "$ref": "#/components/responses/GeneralError"
-      }
+      "path": "/shapes/com.neon.api#SuspendProjectEndpoint/errors",
+      "value": [
+        {
+          "target": "com.neon.api#NotFound"
+        }
+      ]
     },
     {
       "op": "add",
-      "path": "/paths/~1projects~1{project_id}~1endpoints/post/responses/409",
-      "value": {
-        "description": "Endpoint of this type already exists on the branch",
-        "$ref": "#/components/responses/GeneralError"
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1projects~1{project_id}~1endpoints/post/responses/404",
-      "value": {
-        "description": "Project or branch not found",
-        "$ref": "#/components/responses/GeneralError"
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1projects~1{project_id}~1endpoints/get/responses/404",
-      "value": {
-        "description": "Project not found",
-        "$ref": "#/components/responses/GeneralError"
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1projects~1{project_id}~1endpoints~1{endpoint_id}/get/responses/404",
-      "value": {
-        "description": "Endpoint not found",
-        "$ref": "#/components/responses/GeneralError"
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1projects~1{project_id}~1endpoints~1{endpoint_id}/delete/responses/404",
-      "value": {
-        "description": "Endpoint not found",
-        "$ref": "#/components/responses/GeneralError"
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1projects~1{project_id}~1endpoints~1{endpoint_id}/patch/responses/404",
-      "value": {
-        "description": "Endpoint not found",
-        "$ref": "#/components/responses/GeneralError"
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1projects~1{project_id}~1endpoints~1{endpoint_id}~1start/post/responses/404",
-      "value": {
-        "description": "Endpoint not found",
-        "$ref": "#/components/responses/GeneralError"
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1projects~1{project_id}~1endpoints~1{endpoint_id}~1suspend/post/responses/404",
-      "value": {
-        "description": "Endpoint not found",
-        "$ref": "#/components/responses/GeneralError"
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1projects~1{project_id}~1endpoints~1{endpoint_id}~1restart/post/responses/404",
-      "value": {
-        "description": "Endpoint not found",
-        "$ref": "#/components/responses/GeneralError"
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1projects~1{project_id}~1operations~1{operation_id}/get/responses/404",
-      "value": {
-        "description": "Operation not found",
-        "$ref": "#/components/responses/GeneralError"
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1api_keys~1{key_id}/delete/responses/404",
-      "value": {
-        "description": "API key not found",
-        "$ref": "#/components/responses/GeneralError"
-      }
+      "path": "/shapes/com.neon.api#RestartProjectEndpoint/errors",
+      "value": [
+        {
+          "target": "com.neon.api#NotFound"
+        }
+      ]
     }
   ]
 }

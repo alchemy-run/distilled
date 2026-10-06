@@ -890,14 +890,6 @@
       "output": {
         "target": "com.kubernetes.scheduling#IoK8sApiSchedulingV1PriorityClass"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.scheduling#Conflict"
-        },
-        {
-          "target": "com.kubernetes.scheduling#UnprocessableEntity"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -905,7 +897,15 @@
           "code": 200
         },
         "smithy.api#documentation": "create a PriorityClass"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.scheduling#Conflict"
+        },
+        {
+          "target": "com.kubernetes.scheduling#UnprocessableEntity"
+        }
+      ]
     },
     "com.kubernetes.scheduling#DeleteSchedulingV1CollectionPriorityClassRequestDryRunList": {
       "type": "list",
@@ -1250,11 +1250,6 @@
       "output": {
         "target": "com.kubernetes.scheduling#IoK8sApiSchedulingV1PriorityClass"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.scheduling#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -1262,7 +1257,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read the specified PriorityClass"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.scheduling#NotFound"
+        }
+      ]
     },
     "com.kubernetes.scheduling#ReplaceSchedulingV1PriorityClassRequest": {
       "type": "structure",
@@ -1358,6 +1358,14 @@
       "output": {
         "target": "com.kubernetes.scheduling#IoK8sApiSchedulingV1PriorityClass"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/apis/scheduling.k8s.io/v1/priorityclasses/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace the specified PriorityClass"
+      },
       "errors": [
         {
           "target": "com.kubernetes.scheduling#NotFound"
@@ -1368,15 +1376,7 @@
         {
           "target": "com.kubernetes.scheduling#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/apis/scheduling.k8s.io/v1/priorityclasses/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace the specified PriorityClass"
-      }
+      ]
     },
     "com.kubernetes.scheduling#PatchSchedulingV1PriorityClassRequest": {
       "type": "structure",
@@ -1437,6 +1437,14 @@
       "output": {
         "target": "com.kubernetes.scheduling#IoK8sApiSchedulingV1PriorityClass"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/apis/scheduling.k8s.io/v1/priorityclasses/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update the specified PriorityClass"
+      },
       "errors": [
         {
           "target": "com.kubernetes.scheduling#NotFound"
@@ -1447,15 +1455,7 @@
         {
           "target": "com.kubernetes.scheduling#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/apis/scheduling.k8s.io/v1/priorityclasses/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update the specified PriorityClass"
-      }
+      ]
     },
     "com.kubernetes.scheduling#DeleteSchedulingV1PriorityClassRequestDryRunList": {
       "type": "list",
@@ -1550,14 +1550,6 @@
       "output": {
         "target": "com.kubernetes.scheduling#IoK8sApimachineryPkgApisMetaV1Status"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.scheduling#NotFound"
-        },
-        {
-          "target": "com.kubernetes.scheduling#Conflict"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -1565,7 +1557,15 @@
           "code": 200
         },
         "smithy.api#documentation": "delete a PriorityClass"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.scheduling#NotFound"
+        },
+        {
+          "target": "com.kubernetes.scheduling#Conflict"
+        }
+      ]
     },
     "com.kubernetes.scheduling#WatchSchedulingV1PriorityClassListRequest": {
       "type": "structure",
@@ -10002,45 +10002,6 @@
         "smithy.api#documentation": "list or watch objects of kind Workload"
       }
     },
-    "com.kubernetes.scheduling#Conflict": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 409,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 409
-          }
-        ]
-      }
-    },
-    "com.kubernetes.scheduling#UnprocessableEntity": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 422,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 422
-          }
-        ]
-      }
-    },
-    "com.kubernetes.scheduling#NotFound": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 404,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 404
-          }
-        ]
-      }
-    },
     "com.kubernetes.scheduling#Scheduling": {
       "type": "service",
       "version": "unversioned",
@@ -10279,6 +10240,45 @@
       ],
       "traits": {
         "smithy.api#title": "Kubernetes"
+      }
+    },
+    "com.kubernetes.scheduling#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.kubernetes.scheduling#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.kubernetes.scheduling#UnprocessableEntity": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 422,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 422
+          }
+        ]
       }
     }
   }

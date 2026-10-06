@@ -3,17 +3,19 @@
   "patches": [
     {
       "op": "add",
-      "path": "/paths/~1v1~1apps~1{app_name}~1ip_assignments/post/responses/409",
+      "path": "/shapes/com.flyio.machines#IPAssignment/members/type",
       "value": {
-        "description": "Conflict"
+        "target": "smithy.api#String"
       }
     },
     {
       "op": "add",
-      "path": "/components/schemas/IPAssignment/properties/type",
-      "value": {
-        "type": "string"
-      }
+      "path": "/shapes/com.flyio.machines#AppIPAssignmentsCreate/errors",
+      "value": [
+        {
+          "target": "com.flyio.machines#Conflict"
+        }
+      ]
     }
   ]
 }

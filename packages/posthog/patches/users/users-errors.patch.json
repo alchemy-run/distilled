@@ -1,0 +1,44 @@
+{
+  "description": "From users-errors.patch.json: Auto-generated PostHog error responses (400/403/404) for tag \"users\". See generate-error-patches.ts.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.users#UsersSignalAutonomyRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.users#Forbidden"
+        },
+        {
+          "target": "com.posthog.users#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.users#UsersSignalAutonomyCreate/errors",
+      "value": [
+        {
+          "target": "com.posthog.users#BadRequest"
+        },
+        {
+          "target": "com.posthog.users#Forbidden"
+        },
+        {
+          "target": "com.posthog.users#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.users#UsersSignalAutonomyDestroy/errors",
+      "value": [
+        {
+          "target": "com.posthog.users#Forbidden"
+        },
+        {
+          "target": "com.posthog.users#NotFound"
+        }
+      ]
+    }
+  ]
+}

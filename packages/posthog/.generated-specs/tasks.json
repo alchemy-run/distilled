@@ -46,11 +46,6 @@
       "output": {
         "target": "com.posthog.tasks#LegacyDesktopAccessResponse"
       },
-      "errors": [
-        {
-          "target": "com.posthog.tasks#Forbidden"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -58,7 +53,12 @@
           "code": 200
         },
         "smithy.api#documentation": "Check PostHog Desktop access\n\nCompatibility endpoint for released PostHog Desktop clients."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.posthog.tasks#Forbidden"
+        }
+      ]
     },
     "com.posthog.tasks#GetDesktopAccessRequest": {
       "type": "structure",
@@ -1870,6 +1870,14 @@
       "output": {
         "target": "com.posthog.tasks#PaginatedTaskListItemList"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/tasks/",
+          "code": 200
+        },
+        "smithy.api#documentation": "List tasks\n\nGet a list of tasks for the current project, with optional filtering by origin product, stage, organization, repository, created_by, and the workflow (hog_flow_id) that created the task. By default, each row includes description. Pass basic=true for a summary row that omits description and includes description_preview, its first 1000 characters. Use the search parameter to match description text server-side."
+      },
       "errors": [
         {
           "target": "com.posthog.tasks#BadRequest"
@@ -1880,15 +1888,7 @@
         {
           "target": "com.posthog.tasks#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/tasks/",
-          "code": 200
-        },
-        "smithy.api#documentation": "List tasks\n\nGet a list of tasks for the current project, with optional filtering by origin product, stage, organization, repository, created_by, and the workflow (hog_flow_id) that created the task. By default, each row includes description. Pass basic=true for a summary row that omits description and includes description_preview, its first 1000 characters. Use the search parameter to match description text server-side."
-      }
+      ]
     },
     "com.posthog.tasks#TaskOriginProductEnum": {
       "type": "enum",
@@ -2624,14 +2624,6 @@
       "output": {
         "target": "com.posthog.tasks#TaskDetailDTO"
       },
-      "errors": [
-        {
-          "target": "com.posthog.tasks#Forbidden"
-        },
-        {
-          "target": "com.posthog.tasks#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -2639,7 +2631,15 @@
           "code": 200
         },
         "smithy.api#documentation": "Get task\n\nRetrieve a single task by ID."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.posthog.tasks#Forbidden"
+        },
+        {
+          "target": "com.posthog.tasks#NotFound"
+        }
+      ]
     },
     "com.posthog.tasks#UpdateTaskRequestRepositoriesList": {
       "type": "list",
@@ -2835,6 +2835,14 @@
       "output": {
         "target": "com.posthog.tasks#TaskDetailDTO"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/api/projects/{project_id}/tasks/{id}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "API for managing tasks within a project. Tasks represent units of work to be performed by an agent."
+      },
       "errors": [
         {
           "target": "com.posthog.tasks#BadRequest"
@@ -2845,15 +2853,7 @@
         {
           "target": "com.posthog.tasks#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/api/projects/{project_id}/tasks/{id}/",
-          "code": 200
-        },
-        "smithy.api#documentation": "API for managing tasks within a project. Tasks represent units of work to be performed by an agent."
-      }
+      ]
     },
     "com.posthog.tasks#UpdateTasksPartialRequestRepositoriesList": {
       "type": "list",
@@ -3049,6 +3049,14 @@
       "output": {
         "target": "com.posthog.tasks#TaskDetailDTO"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/projects/{project_id}/tasks/{id}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "API for managing tasks within a project. Tasks represent units of work to be performed by an agent."
+      },
       "errors": [
         {
           "target": "com.posthog.tasks#BadRequest"
@@ -3059,15 +3067,7 @@
         {
           "target": "com.posthog.tasks#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/api/projects/{project_id}/tasks/{id}/",
-          "code": 200
-        },
-        "smithy.api#documentation": "API for managing tasks within a project. Tasks represent units of work to be performed by an agent."
-      }
+      ]
     },
     "com.posthog.tasks#TasksDestroyRequest": {
       "type": "structure",
@@ -3100,14 +3100,6 @@
       "output": {
         "target": "smithy.api#Unit"
       },
-      "errors": [
-        {
-          "target": "com.posthog.tasks#Forbidden"
-        },
-        {
-          "target": "com.posthog.tasks#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -3115,7 +3107,15 @@
           "code": 200
         },
         "smithy.api#documentation": "API for managing tasks within a project. Tasks represent units of work to be performed by an agent."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.posthog.tasks#Forbidden"
+        },
+        {
+          "target": "com.posthog.tasks#NotFound"
+        }
+      ]
     },
     "com.posthog.tasks#ListTasksArtifactsRequest": {
       "type": "structure",
@@ -8327,14 +8327,6 @@
       "output": {
         "target": "com.posthog.tasks#TaskRepositoriesResponse"
       },
-      "errors": [
-        {
-          "target": "com.posthog.tasks#Forbidden"
-        },
-        {
-          "target": "com.posthog.tasks#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -8342,7 +8334,15 @@
           "code": 200
         },
         "smithy.api#documentation": "List distinct task repositories\n\nReturn the set of repositories referenced by non-deleted, non-internal tasks in the current project. Used to populate repository filter pickers without being constrained by task list pagination."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.posthog.tasks#Forbidden"
+        },
+        {
+          "target": "com.posthog.tasks#NotFound"
+        }
+      ]
     },
     "com.posthog.tasks#GetTasksRepositoryReadinessRequest": {
       "type": "structure",
@@ -8594,6 +8594,14 @@
       "output": {
         "target": "com.posthog.tasks#RepositoryReadinessResponse"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/tasks/repository_readiness/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get repository readiness\n\nGet autonomy readiness details for a specific repository in the current project."
+      },
       "errors": [
         {
           "target": "com.posthog.tasks#BadRequest"
@@ -8604,15 +8612,7 @@
         {
           "target": "com.posthog.tasks#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/tasks/repository_readiness/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Get repository readiness\n\nGet autonomy readiness details for a specific repository in the current project."
-      }
+      ]
     },
     "com.posthog.tasks#TasksSearchRetrieveRequest": {
       "type": "structure",
@@ -9738,19 +9738,6 @@
         ]
       }
     },
-    "com.posthog.tasks#BadRequest": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 400,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 400
-          }
-        ]
-      }
-    },
     "com.posthog.tasks#NotFound": {
       "type": "structure",
       "members": {},
@@ -9760,6 +9747,19 @@
         "com.distilled.openapi#errorMatchers": [
           {
             "status": 404
+          }
+        ]
+      }
+    },
+    "com.posthog.tasks#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
           }
         ]
       }

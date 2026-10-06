@@ -572,6 +572,13 @@
       "output": {
         "target": "com.posthog.hog_functions#PaginatedHogFunctionMinimalList"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/hog_functions/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.hog_functions#BadRequest"
@@ -582,14 +589,7 @@
         {
           "target": "com.posthog.hog_functions#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/hog_functions/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.hog_functions#HogFunctionTypeEnum": {
       "type": "enum",
@@ -1533,6 +1533,13 @@
       "output": {
         "target": "com.posthog.hog_functions#HogFunctionOutput"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/hog_functions/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.hog_functions#BadRequest"
@@ -1543,14 +1550,7 @@
         {
           "target": "com.posthog.hog_functions#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/hog_functions/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.hog_functions#GetHogFunctionRequest": {
       "type": "structure",
@@ -1584,6 +1584,13 @@
       "output": {
         "target": "com.posthog.hog_functions#HogFunctionOutput"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/hog_functions/{id}/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.hog_functions#Forbidden"
@@ -1591,14 +1598,7 @@
         {
           "target": "com.posthog.hog_functions#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/hog_functions/{id}/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.hog_functions#UpdateHogFunctionRequestInputsSchemaList": {
       "type": "list",
@@ -1762,6 +1762,13 @@
       "output": {
         "target": "com.posthog.hog_functions#HogFunctionOutput"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/api/projects/{project_id}/hog_functions/{id}/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.hog_functions#BadRequest"
@@ -1772,14 +1779,7 @@
         {
           "target": "com.posthog.hog_functions#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/api/projects/{project_id}/hog_functions/{id}/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.hog_functions#UpdateHogFunctionsPartialRequestInputsSchemaList": {
       "type": "list",
@@ -1943,6 +1943,13 @@
       "output": {
         "target": "com.posthog.hog_functions#HogFunctionOutput"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/projects/{project_id}/hog_functions/{id}/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.hog_functions#BadRequest"
@@ -1953,14 +1960,7 @@
         {
           "target": "com.posthog.hog_functions#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/api/projects/{project_id}/hog_functions/{id}/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.hog_functions#HogFunctionsDestroyRequest": {
       "type": "structure",
@@ -1994,14 +1994,6 @@
       "output": {
         "target": "smithy.api#Unit"
       },
-      "errors": [
-        {
-          "target": "com.posthog.hog_functions#Forbidden"
-        },
-        {
-          "target": "com.posthog.hog_functions#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -2009,7 +2001,15 @@
           "code": 200
         },
         "smithy.api#documentation": "Hard delete of this model is not allowed. Use a patch API call to set \"deleted\" to true"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.posthog.hog_functions#Forbidden"
+        },
+        {
+          "target": "com.posthog.hog_functions#NotFound"
+        }
+      ]
     },
     "com.posthog.hog_functions#CreateHogFunctionsDiscardDraftRequest": {
       "type": "structure",
@@ -2213,6 +2213,13 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/hog_functions/{id}/enable_backfills/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.hog_functions#BadRequest"
@@ -2223,14 +2230,7 @@
         {
           "target": "com.posthog.hog_functions#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/hog_functions/{id}/enable_backfills/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.hog_functions#HogFunctionInput": {
       "type": "structure",
@@ -2495,6 +2495,13 @@
       "output": {
         "target": "com.posthog.hog_functions#HogFunctionInvocationOutput"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/hog_functions/{id}/invocations/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.hog_functions#BadRequest"
@@ -2505,14 +2512,7 @@
         {
           "target": "com.posthog.hog_functions#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/hog_functions/{id}/invocations/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.hog_functions#GetHogFunctionsLogRequest": {
       "type": "structure",
@@ -2588,6 +2588,13 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/hog_functions/{id}/logs/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.hog_functions#BadRequest"
@@ -2598,14 +2605,7 @@
         {
           "target": "com.posthog.hog_functions#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/hog_functions/{id}/logs/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.hog_functions#GetHogFunctionsMetricsRequestBreakdownBy": {
       "type": "enum",
@@ -2775,6 +2775,13 @@
       "output": {
         "target": "com.posthog.hog_functions#AppMetricsResponse"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/hog_functions/{id}/metrics/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.hog_functions#BadRequest"
@@ -2785,14 +2792,7 @@
         {
           "target": "com.posthog.hog_functions#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/hog_functions/{id}/metrics/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.hog_functions#GetHogFunctionsMetricsTotalRequestBreakdownBy": {
       "type": "enum",
@@ -2936,6 +2936,13 @@
       "output": {
         "target": "com.posthog.hog_functions#AppMetricsTotalsResponse"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/hog_functions/{id}/metrics/totals/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.hog_functions#BadRequest"
@@ -2946,14 +2953,7 @@
         {
           "target": "com.posthog.hog_functions#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/hog_functions/{id}/metrics/totals/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.hog_functions#HogFunctionsPublishCreateRequest": {
       "type": "structure",
@@ -3535,6 +3535,13 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/hog_functions/icon/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.hog_functions#Forbidden"
@@ -3542,14 +3549,7 @@
         {
           "target": "com.posthog.hog_functions#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/hog_functions/icon/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.hog_functions#GetHogFunctionsIconRequest2": {
       "type": "structure",
@@ -3575,6 +3575,13 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/hog_functions/icons/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.hog_functions#Forbidden"
@@ -3582,14 +3589,7 @@
         {
           "target": "com.posthog.hog_functions#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/hog_functions/icons/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.hog_functions#GetHogFunctionsMaskedSecretRequest": {
       "type": "structure",
@@ -3776,6 +3776,14 @@
       "output": {
         "target": "com.posthog.hog_functions#UpdateHogFunctionsRearrangePartialResponse"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/projects/{project_id}/hog_functions/rearrange/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update the execution order of multiple HogFunctions."
+      },
       "errors": [
         {
           "target": "com.posthog.hog_functions#BadRequest"
@@ -3786,15 +3794,7 @@
         {
           "target": "com.posthog.hog_functions#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/api/projects/{project_id}/hog_functions/rearrange/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Update the execution order of multiple HogFunctions."
-      }
+      ]
     },
     "com.posthog.hog_functions#BadRequest": {
       "type": "structure",
@@ -3805,32 +3805,6 @@
         "com.distilled.openapi#errorMatchers": [
           {
             "status": 400
-          }
-        ]
-      }
-    },
-    "com.posthog.hog_functions#Forbidden": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 403,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 403
-          }
-        ]
-      }
-    },
-    "com.posthog.hog_functions#NotFound": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 404,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 404
           }
         ]
       }
@@ -3905,6 +3879,32 @@
       ],
       "traits": {
         "smithy.api#title": "PostHog API"
+      }
+    },
+    "com.posthog.hog_functions#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.posthog.hog_functions#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
       }
     }
   }

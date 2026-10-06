@@ -1,0 +1,62 @@
+{
+  "description": "From integrations-errors.patch.json: Auto-generated PostHog error responses (400/403/404) for tag \"integrations\". See generate-error-patches.ts.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.organizations#RoleExternalReferencesList/errors",
+      "value": [
+        {
+          "target": "com.posthog.organizations#BadRequest"
+        },
+        {
+          "target": "com.posthog.organizations#Forbidden"
+        },
+        {
+          "target": "com.posthog.organizations#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.organizations#RoleExternalReferencesCreate/errors",
+      "value": [
+        {
+          "target": "com.posthog.organizations#BadRequest"
+        },
+        {
+          "target": "com.posthog.organizations#Forbidden"
+        },
+        {
+          "target": "com.posthog.organizations#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.organizations#RoleExternalReferencesDestroy/errors",
+      "value": [
+        {
+          "target": "com.posthog.organizations#Forbidden"
+        },
+        {
+          "target": "com.posthog.organizations#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.organizations#RoleExternalReferencesLookupRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.organizations#BadRequest"
+        },
+        {
+          "target": "com.posthog.organizations#Forbidden"
+        },
+        {
+          "target": "com.posthog.organizations#NotFound"
+        }
+      ]
+    }
+  ]
+}

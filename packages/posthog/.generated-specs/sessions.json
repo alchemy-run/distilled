@@ -42,6 +42,13 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/sessions/property_definitions/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.sessions#Forbidden"
@@ -49,14 +56,7 @@
         {
           "target": "com.posthog.sessions#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/sessions/property_definitions/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.sessions#GetSessionsValueRequest": {
       "type": "structure",
@@ -82,6 +82,13 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/sessions/values/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.sessions#Forbidden"
@@ -89,13 +96,21 @@
         {
           "target": "com.posthog.sessions#NotFound"
         }
+      ]
+    },
+    "com.posthog.sessions#Sessions": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.posthog.sessions#GetSessionsPropertyDefinition"
+        },
+        {
+          "target": "com.posthog.sessions#GetSessionsValue"
+        }
       ],
       "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/sessions/values/",
-          "code": 200
-        }
+        "smithy.api#title": "PostHog API"
       }
     },
     "com.posthog.sessions#Forbidden": {
@@ -122,21 +137,6 @@
             "status": 404
           }
         ]
-      }
-    },
-    "com.posthog.sessions#Sessions": {
-      "type": "service",
-      "version": "1.0.0",
-      "operations": [
-        {
-          "target": "com.posthog.sessions#GetSessionsPropertyDefinition"
-        },
-        {
-          "target": "com.posthog.sessions#GetSessionsValue"
-        }
-      ],
-      "traits": {
-        "smithy.api#title": "PostHog API"
       }
     }
   }

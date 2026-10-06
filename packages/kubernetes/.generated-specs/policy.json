@@ -1111,14 +1111,6 @@
       "output": {
         "target": "com.kubernetes.policy#IoK8sApiPolicyV1PodDisruptionBudget"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.policy#Conflict"
-        },
-        {
-          "target": "com.kubernetes.policy#UnprocessableEntity"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -1126,7 +1118,15 @@
           "code": 200
         },
         "smithy.api#documentation": "create a PodDisruptionBudget"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.policy#Conflict"
+        },
+        {
+          "target": "com.kubernetes.policy#UnprocessableEntity"
+        }
+      ]
     },
     "com.kubernetes.policy#DeletePolicyV1CollectionNamespacedPodDisruptionBudgetRequestDryRunList": {
       "type": "list",
@@ -1487,11 +1487,6 @@
       "output": {
         "target": "com.kubernetes.policy#IoK8sApiPolicyV1PodDisruptionBudget"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.policy#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -1499,7 +1494,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read the specified PodDisruptionBudget"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.policy#NotFound"
+        }
+      ]
     },
     "com.kubernetes.policy#ReplacePolicyV1NamespacedPodDisruptionBudgetRequest": {
       "type": "structure",
@@ -1591,6 +1591,14 @@
       "output": {
         "target": "com.kubernetes.policy#IoK8sApiPolicyV1PodDisruptionBudget"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/apis/policy/v1/namespaces/{namespace}/poddisruptionbudgets/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace the specified PodDisruptionBudget"
+      },
       "errors": [
         {
           "target": "com.kubernetes.policy#NotFound"
@@ -1601,15 +1609,7 @@
         {
           "target": "com.kubernetes.policy#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/apis/policy/v1/namespaces/{namespace}/poddisruptionbudgets/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace the specified PodDisruptionBudget"
-      }
+      ]
     },
     "com.kubernetes.policy#PatchPolicyV1NamespacedPodDisruptionBudgetRequest": {
       "type": "structure",
@@ -1678,6 +1678,14 @@
       "output": {
         "target": "com.kubernetes.policy#IoK8sApiPolicyV1PodDisruptionBudget"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/apis/policy/v1/namespaces/{namespace}/poddisruptionbudgets/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update the specified PodDisruptionBudget"
+      },
       "errors": [
         {
           "target": "com.kubernetes.policy#NotFound"
@@ -1688,15 +1696,7 @@
         {
           "target": "com.kubernetes.policy#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/apis/policy/v1/namespaces/{namespace}/poddisruptionbudgets/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update the specified PodDisruptionBudget"
-      }
+      ]
     },
     "com.kubernetes.policy#DeletePolicyV1NamespacedPodDisruptionBudgetRequestDryRunList": {
       "type": "list",
@@ -1799,14 +1799,6 @@
       "output": {
         "target": "com.kubernetes.policy#IoK8sApimachineryPkgApisMetaV1Status"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.policy#NotFound"
-        },
-        {
-          "target": "com.kubernetes.policy#Conflict"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -1814,7 +1806,15 @@
           "code": 200
         },
         "smithy.api#documentation": "delete a PodDisruptionBudget"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.policy#NotFound"
+        },
+        {
+          "target": "com.kubernetes.policy#Conflict"
+        }
+      ]
     },
     "com.kubernetes.policy#ReadPolicyV1NamespacedPodDisruptionBudgetStatusRequest": {
       "type": "structure",
@@ -1855,11 +1855,6 @@
       "output": {
         "target": "com.kubernetes.policy#IoK8sApiPolicyV1PodDisruptionBudget"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.policy#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -1867,7 +1862,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read status of the specified PodDisruptionBudget"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.policy#NotFound"
+        }
+      ]
     },
     "com.kubernetes.policy#ReplacePolicyV1NamespacedPodDisruptionBudgetStatusRequest": {
       "type": "structure",
@@ -1959,6 +1959,14 @@
       "output": {
         "target": "com.kubernetes.policy#IoK8sApiPolicyV1PodDisruptionBudget"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/apis/policy/v1/namespaces/{namespace}/poddisruptionbudgets/{name}/status",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace status of the specified PodDisruptionBudget"
+      },
       "errors": [
         {
           "target": "com.kubernetes.policy#NotFound"
@@ -1969,15 +1977,7 @@
         {
           "target": "com.kubernetes.policy#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/apis/policy/v1/namespaces/{namespace}/poddisruptionbudgets/{name}/status",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace status of the specified PodDisruptionBudget"
-      }
+      ]
     },
     "com.kubernetes.policy#PatchPolicyV1NamespacedPodDisruptionBudgetStatusRequest": {
       "type": "structure",
@@ -2046,6 +2046,14 @@
       "output": {
         "target": "com.kubernetes.policy#IoK8sApiPolicyV1PodDisruptionBudget"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/apis/policy/v1/namespaces/{namespace}/poddisruptionbudgets/{name}/status",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update status of the specified PodDisruptionBudget"
+      },
       "errors": [
         {
           "target": "com.kubernetes.policy#NotFound"
@@ -2056,15 +2064,7 @@
         {
           "target": "com.kubernetes.policy#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/apis/policy/v1/namespaces/{namespace}/poddisruptionbudgets/{name}/status",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update status of the specified PodDisruptionBudget"
-      }
+      ]
     },
     "com.kubernetes.policy#ListPolicyV1PodDisruptionBudgetForAllNamespacesRequest": {
       "type": "structure",
@@ -2547,45 +2547,6 @@
         "smithy.api#documentation": "watch individual changes to a list of PodDisruptionBudget. deprecated: use the 'watch' parameter with a list operation instead."
       }
     },
-    "com.kubernetes.policy#Conflict": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 409,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 409
-          }
-        ]
-      }
-    },
-    "com.kubernetes.policy#UnprocessableEntity": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 422,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 422
-          }
-        ]
-      }
-    },
-    "com.kubernetes.policy#NotFound": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 404,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 404
-          }
-        ]
-      }
-    },
     "com.kubernetes.policy#Policy": {
       "type": "service",
       "version": "unversioned",
@@ -2641,6 +2602,45 @@
       ],
       "traits": {
         "smithy.api#title": "Kubernetes"
+      }
+    },
+    "com.kubernetes.policy#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.kubernetes.policy#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.kubernetes.policy#UnprocessableEntity": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 422,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 422
+          }
+        ]
       }
     }
   }

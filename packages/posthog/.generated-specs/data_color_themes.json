@@ -258,6 +258,13 @@
       "output": {
         "target": "com.posthog.data_color_themes#PaginatedDataColorThemeList"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/data_color_themes/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.data_color_themes#BadRequest"
@@ -268,14 +275,7 @@
         {
           "target": "com.posthog.data_color_themes#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/data_color_themes/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.data_color_themes#CreateDataColorThemeRequest": {
       "type": "structure",
@@ -307,6 +307,13 @@
       "output": {
         "target": "com.posthog.data_color_themes#DataColorTheme"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/data_color_themes/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.data_color_themes#BadRequest"
@@ -317,14 +324,7 @@
         {
           "target": "com.posthog.data_color_themes#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/data_color_themes/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.data_color_themes#GetDataColorThemeRequest": {
       "type": "structure",
@@ -358,6 +358,13 @@
       "output": {
         "target": "com.posthog.data_color_themes#DataColorTheme"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/data_color_themes/{id}/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.data_color_themes#Forbidden"
@@ -365,14 +372,7 @@
         {
           "target": "com.posthog.data_color_themes#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/data_color_themes/{id}/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.data_color_themes#UpdateDataColorThemeRequest": {
       "type": "structure",
@@ -412,6 +412,13 @@
       "output": {
         "target": "com.posthog.data_color_themes#DataColorTheme"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/api/projects/{project_id}/data_color_themes/{id}/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.data_color_themes#BadRequest"
@@ -422,14 +429,7 @@
         {
           "target": "com.posthog.data_color_themes#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/api/projects/{project_id}/data_color_themes/{id}/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.data_color_themes#UpdateDataColorThemesPartialRequest": {
       "type": "structure",
@@ -469,6 +469,13 @@
       "output": {
         "target": "com.posthog.data_color_themes#DataColorTheme"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/projects/{project_id}/data_color_themes/{id}/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.data_color_themes#BadRequest"
@@ -479,14 +486,7 @@
         {
           "target": "com.posthog.data_color_themes#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/api/projects/{project_id}/data_color_themes/{id}/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.data_color_themes#DataColorThemesDestroyRequest": {
       "type": "structure",
@@ -520,6 +520,13 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/api/projects/{project_id}/data_color_themes/{id}/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.data_color_themes#Forbidden"
@@ -527,13 +534,33 @@
         {
           "target": "com.posthog.data_color_themes#NotFound"
         }
+      ]
+    },
+    "com.posthog.data_color_themes#DataColorThemes": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.posthog.data_color_themes#ListDataColorThemes"
+        },
+        {
+          "target": "com.posthog.data_color_themes#CreateDataColorTheme"
+        },
+        {
+          "target": "com.posthog.data_color_themes#GetDataColorTheme"
+        },
+        {
+          "target": "com.posthog.data_color_themes#UpdateDataColorTheme"
+        },
+        {
+          "target": "com.posthog.data_color_themes#UpdateDataColorThemesPartial"
+        },
+        {
+          "target": "com.posthog.data_color_themes#DataColorThemesDestroy"
+        }
       ],
       "traits": {
-        "smithy.api#http": {
-          "method": "DELETE",
-          "uri": "/api/projects/{project_id}/data_color_themes/{id}/",
-          "code": 200
-        }
+        "smithy.api#title": "PostHog API"
       }
     },
     "com.posthog.data_color_themes#BadRequest": {
@@ -573,33 +600,6 @@
             "status": 404
           }
         ]
-      }
-    },
-    "com.posthog.data_color_themes#DataColorThemes": {
-      "type": "service",
-      "version": "1.0.0",
-      "operations": [
-        {
-          "target": "com.posthog.data_color_themes#ListDataColorThemes"
-        },
-        {
-          "target": "com.posthog.data_color_themes#CreateDataColorTheme"
-        },
-        {
-          "target": "com.posthog.data_color_themes#GetDataColorTheme"
-        },
-        {
-          "target": "com.posthog.data_color_themes#UpdateDataColorTheme"
-        },
-        {
-          "target": "com.posthog.data_color_themes#UpdateDataColorThemesPartial"
-        },
-        {
-          "target": "com.posthog.data_color_themes#DataColorThemesDestroy"
-        }
-      ],
-      "traits": {
-        "smithy.api#title": "PostHog API"
       }
     }
   }

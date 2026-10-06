@@ -268,14 +268,6 @@
       "output": {
         "target": "com.posthog.uploaded_media#CreateUploadedMediaResponse"
       },
-      "errors": [
-        {
-          "target": "com.posthog.uploaded_media#Forbidden"
-        },
-        {
-          "target": "com.posthog.uploaded_media#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -285,7 +277,15 @@
         },
         "smithy.api#documentation": "When object storage is available this API allows upload of media which can be used, for example, in text cards on dashboards.\n\n    Uploaded media must be less than 4MB and decode as a PNG, JPEG, GIF, WebP, AVIF or BMP image — the formats\n    the download route will serve inline. Pass `purpose` to also add the image to a library, making it visible\n    to `GET ?purpose=...`.",
         "com.distilled.openapi#contentType": "multipart"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.posthog.uploaded_media#Forbidden"
+        },
+        {
+          "target": "com.posthog.uploaded_media#NotFound"
+        }
+      ]
     },
     "com.posthog.uploaded_media#UploadedMediaCompleteUploadCreateRequest": {
       "type": "structure",
@@ -447,19 +447,6 @@
         ]
       }
     },
-    "com.posthog.uploaded_media#Forbidden": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 403,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 403
-          }
-        ]
-      }
-    },
     "com.posthog.uploaded_media#NotFound": {
       "type": "structure",
       "members": {},
@@ -492,6 +479,19 @@
       ],
       "traits": {
         "smithy.api#title": "PostHog API"
+      }
+    },
+    "com.posthog.uploaded_media#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
       }
     }
   }

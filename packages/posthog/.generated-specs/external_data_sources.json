@@ -8537,6 +8537,14 @@
       "output": {
         "target": "com.posthog.external_data_sources#PaginatedExternalDataSourceSerializersListOutput"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/external_data_sources/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create, Read, Update and Delete External data Sources."
+      },
       "errors": [
         {
           "target": "com.posthog.external_data_sources#BadRequest"
@@ -8547,15 +8555,7 @@
         {
           "target": "com.posthog.external_data_sources#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/external_data_sources/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Create, Read, Update and Delete External data Sources."
-      }
+      ]
     },
     "com.posthog.external_data_sources#CreateExternalDataSourceRequestPayloadMap": {
       "type": "map",
@@ -8691,6 +8691,14 @@
       "output": {
         "target": "com.posthog.external_data_sources#ExternalDataSourceCreateResponse"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/external_data_sources/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create, Read, Update and Delete External data Sources."
+      },
       "errors": [
         {
           "target": "com.posthog.external_data_sources#BadRequest"
@@ -8701,15 +8709,7 @@
         {
           "target": "com.posthog.external_data_sources#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/external_data_sources/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Create, Read, Update and Delete External data Sources."
-      }
+      ]
     },
     "com.posthog.external_data_sources#GetExternalDataSourceRequest": {
       "type": "structure",
@@ -8743,14 +8743,6 @@
       "output": {
         "target": "com.posthog.external_data_sources#ExternalDataSourceSerializersOutput"
       },
-      "errors": [
-        {
-          "target": "com.posthog.external_data_sources#Forbidden"
-        },
-        {
-          "target": "com.posthog.external_data_sources#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -8758,7 +8750,15 @@
           "code": 200
         },
         "smithy.api#documentation": "Create, Read, Update and Delete External data Sources."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.posthog.external_data_sources#Forbidden"
+        },
+        {
+          "target": "com.posthog.external_data_sources#NotFound"
+        }
+      ]
     },
     "com.posthog.external_data_sources#UpdateExternalDataSourceRequestAutoSyncSchemaPatternsList": {
       "type": "list",
@@ -8851,6 +8851,14 @@
       "output": {
         "target": "com.posthog.external_data_sources#ExternalDataSourceSerializersOutput"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/api/projects/{project_id}/external_data_sources/{id}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create, Read, Update and Delete External data Sources."
+      },
       "errors": [
         {
           "target": "com.posthog.external_data_sources#BadRequest"
@@ -8861,15 +8869,7 @@
         {
           "target": "com.posthog.external_data_sources#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/api/projects/{project_id}/external_data_sources/{id}/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Create, Read, Update and Delete External data Sources."
-      }
+      ]
     },
     "com.posthog.external_data_sources#UpdateExternalDataSourcesPartialRequestAutoSyncSchemaPatternsList": {
       "type": "list",
@@ -8962,6 +8962,14 @@
       "output": {
         "target": "com.posthog.external_data_sources#ExternalDataSourceSerializersOutput"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/projects/{project_id}/external_data_sources/{id}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create, Read, Update and Delete External data Sources."
+      },
       "errors": [
         {
           "target": "com.posthog.external_data_sources#BadRequest"
@@ -8972,15 +8980,7 @@
         {
           "target": "com.posthog.external_data_sources#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/api/projects/{project_id}/external_data_sources/{id}/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Create, Read, Update and Delete External data Sources."
-      }
+      ]
     },
     "com.posthog.external_data_sources#ExternalDataSourcesDestroyRequest": {
       "type": "structure",
@@ -9014,14 +9014,6 @@
       "output": {
         "target": "smithy.api#Unit"
       },
-      "errors": [
-        {
-          "target": "com.posthog.external_data_sources#Forbidden"
-        },
-        {
-          "target": "com.posthog.external_data_sources#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -9029,7 +9021,15 @@
           "code": 200
         },
         "smithy.api#documentation": "Create, Read, Update and Delete External data Sources."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.posthog.external_data_sources#Forbidden"
+        },
+        {
+          "target": "com.posthog.external_data_sources#NotFound"
+        }
+      ]
     },
     "com.posthog.external_data_sources#ExternalDataSourceBulkUpdateSchema": {
       "type": "structure",
@@ -9796,6 +9796,14 @@
       "output": {
         "target": "com.posthog.external_data_sources#ExternalDataSourcesBulkUpdateSchemasPartialUpdateResponse"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/projects/{project_id}/external_data_sources/{id}/bulk_update_schemas/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create, Read, Update and Delete External data Sources."
+      },
       "errors": [
         {
           "target": "com.posthog.external_data_sources#BadRequest"
@@ -9806,15 +9814,7 @@
         {
           "target": "com.posthog.external_data_sources#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/api/projects/{project_id}/external_data_sources/{id}/bulk_update_schemas/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Create, Read, Update and Delete External data Sources."
-      }
+      ]
     },
     "com.posthog.external_data_sources#GetExternalDataSourcesCdcStatusRequest": {
       "type": "structure",
@@ -10196,6 +10196,14 @@
       "output": {
         "target": "com.posthog.external_data_sources#CreateWebhookResponse"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/external_data_sources/{id}/create_webhook/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create, Read, Update and Delete External data Sources."
+      },
       "errors": [
         {
           "target": "com.posthog.external_data_sources#BadRequest"
@@ -10206,15 +10214,7 @@
         {
           "target": "com.posthog.external_data_sources#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/external_data_sources/{id}/create_webhook/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Create, Read, Update and Delete External data Sources."
-      }
+      ]
     },
     "com.posthog.external_data_sources#ExternalDataSourcesDeleteWebhookCreateRequestAutoSyncSchemaPatternsList": {
       "type": "list",
@@ -10335,6 +10335,14 @@
       "output": {
         "target": "com.posthog.external_data_sources#DeleteWebhookResponse"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/external_data_sources/{id}/delete_webhook/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create, Read, Update and Delete External data Sources."
+      },
       "errors": [
         {
           "target": "com.posthog.external_data_sources#BadRequest"
@@ -10345,15 +10353,7 @@
         {
           "target": "com.posthog.external_data_sources#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/external_data_sources/{id}/delete_webhook/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Create, Read, Update and Delete External data Sources."
-      }
+      ]
     },
     "com.posthog.external_data_sources#GetExternalDataSourcesDestinationRequest": {
       "type": "structure",
@@ -10947,14 +10947,6 @@
       "output": {
         "target": "com.posthog.external_data_sources#ListExternalDataSourcesJobsResponse"
       },
-      "errors": [
-        {
-          "target": "com.posthog.external_data_sources#Forbidden"
-        },
-        {
-          "target": "com.posthog.external_data_sources#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -10962,7 +10954,15 @@
           "code": 200
         },
         "smithy.api#documentation": "Create, Read, Update and Delete External data Sources."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.posthog.external_data_sources#Forbidden"
+        },
+        {
+          "target": "com.posthog.external_data_sources#NotFound"
+        }
+      ]
     },
     "com.posthog.external_data_sources#ExternalDataSourcesRefreshSchemasCreateRequestAutoSyncSchemaPatternsList": {
       "type": "list",
@@ -11055,6 +11055,14 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/external_data_sources/{id}/refresh_schemas/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Fetch current schema/table list from the source and create any new ExternalDataSchema rows (no data sync)."
+      },
       "errors": [
         {
           "target": "com.posthog.external_data_sources#BadRequest"
@@ -11065,15 +11073,7 @@
         {
           "target": "com.posthog.external_data_sources#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/external_data_sources/{id}/refresh_schemas/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Fetch current schema/table list from the source and create any new ExternalDataSchema rows (no data sync)."
-      }
+      ]
     },
     "com.posthog.external_data_sources#CreateExternalDataSourcesReloadRequestAutoSyncSchemaPatternsList": {
       "type": "list",
@@ -11166,6 +11166,14 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/external_data_sources/{id}/reload/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create, Read, Update and Delete External data Sources."
+      },
       "errors": [
         {
           "target": "com.posthog.external_data_sources#BadRequest"
@@ -11176,15 +11184,7 @@
         {
           "target": "com.posthog.external_data_sources#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/external_data_sources/{id}/reload/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Create, Read, Update and Delete External data Sources."
-      }
+      ]
     },
     "com.posthog.external_data_sources#CreateExternalDataSourcesRepairCdcRequest": {
       "type": "structure",
@@ -11397,6 +11397,14 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/projects/{project_id}/external_data_sources/{id}/revenue_analytics_config/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update the revenue analytics configuration and return the full external data source."
+      },
       "errors": [
         {
           "target": "com.posthog.external_data_sources#BadRequest"
@@ -11407,15 +11415,7 @@
         {
           "target": "com.posthog.external_data_sources#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/api/projects/{project_id}/external_data_sources/{id}/revenue_analytics_config/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Update the revenue analytics configuration and return the full external data source."
-      }
+      ]
     },
     "com.posthog.external_data_sources#ExternalDataSourcesUpdateCdcSettingsCreateRequestAutoSyncSchemaPatternsList": {
       "type": "list",
@@ -11621,6 +11621,14 @@
       "output": {
         "target": "com.posthog.external_data_sources#UpdateWebhookInputsResponse"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/external_data_sources/{id}/update_webhook_inputs/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create, Read, Update and Delete External data Sources."
+      },
       "errors": [
         {
           "target": "com.posthog.external_data_sources#BadRequest"
@@ -11631,15 +11639,7 @@
         {
           "target": "com.posthog.external_data_sources#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/external_data_sources/{id}/update_webhook_inputs/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Create, Read, Update and Delete External data Sources."
-      }
+      ]
     },
     "com.posthog.external_data_sources#GetExternalDataSourcesWebhookInfoRequest": {
       "type": "structure",
@@ -11974,14 +11974,6 @@
       "output": {
         "target": "com.posthog.external_data_sources#WebhookInfoResponse"
       },
-      "errors": [
-        {
-          "target": "com.posthog.external_data_sources#Forbidden"
-        },
-        {
-          "target": "com.posthog.external_data_sources#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -11989,7 +11981,15 @@
           "code": 200
         },
         "smithy.api#documentation": "Create, Read, Update and Delete External data Sources."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.posthog.external_data_sources#Forbidden"
+        },
+        {
+          "target": "com.posthog.external_data_sources#NotFound"
+        }
+      ]
     },
     "com.posthog.external_data_sources#CreateExternalDataSourcesCheckCdcPrerequisiteRequest": {
       "type": "structure",
@@ -12265,6 +12265,14 @@
       "output": {
         "target": "com.posthog.external_data_sources#ListExternalDataSourcesConnectionsResponse"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/external_data_sources/connections/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create, Read, Update and Delete External data Sources."
+      },
       "errors": [
         {
           "target": "com.posthog.external_data_sources#BadRequest"
@@ -12275,15 +12283,7 @@
         {
           "target": "com.posthog.external_data_sources#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/external_data_sources/connections/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Create, Read, Update and Delete External data Sources."
-      }
+      ]
     },
     "com.posthog.external_data_sources#CreateExternalDataSourcesCredentialAccountRequestCredentialsMap": {
       "type": "map",
@@ -12464,6 +12464,14 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/external_data_sources/database_schema/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create, Read, Update and Delete External data Sources."
+      },
       "errors": [
         {
           "target": "com.posthog.external_data_sources#BadRequest"
@@ -12474,15 +12482,7 @@
         {
           "target": "com.posthog.external_data_sources#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/external_data_sources/database_schema/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Create, Read, Update and Delete External data Sources."
-      }
+      ]
     },
     "com.posthog.external_data_sources#ListExternalDataSourcesDirectConnectionOptionsRequest": {
       "type": "structure",
@@ -13133,6 +13133,14 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/external_data_sources/source_prefix/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create, Read, Update and Delete External data Sources."
+      },
       "errors": [
         {
           "target": "com.posthog.external_data_sources#BadRequest"
@@ -13143,15 +13151,7 @@
         {
           "target": "com.posthog.external_data_sources#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/external_data_sources/source_prefix/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Create, Read, Update and Delete External data Sources."
-      }
+      ]
     },
     "com.posthog.external_data_sources#CreateExternalDataSourcesStoreCredentialsRequestPayloadMap": {
       "type": "map",
@@ -14494,14 +14494,6 @@
       "output": {
         "target": "com.posthog.external_data_sources#GetExternalDataSourcesWizardResponse"
       },
-      "errors": [
-        {
-          "target": "com.posthog.external_data_sources#Forbidden"
-        },
-        {
-          "target": "com.posthog.external_data_sources#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -14509,7 +14501,15 @@
           "code": 200
         },
         "smithy.api#documentation": "Create, Read, Update and Delete External data Sources."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.posthog.external_data_sources#Forbidden"
+        },
+        {
+          "target": "com.posthog.external_data_sources#NotFound"
+        }
+      ]
     },
     "com.posthog.external_data_sources#BadRequest": {
       "type": "structure",
@@ -14520,32 +14520,6 @@
         "com.distilled.openapi#errorMatchers": [
           {
             "status": 400
-          }
-        ]
-      }
-    },
-    "com.posthog.external_data_sources#Forbidden": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 403,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 403
-          }
-        ]
-      }
-    },
-    "com.posthog.external_data_sources#NotFound": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 404,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 404
           }
         ]
       }
@@ -14684,6 +14658,32 @@
       ],
       "traits": {
         "smithy.api#title": "PostHog API"
+      }
+    },
+    "com.posthog.external_data_sources#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.posthog.external_data_sources#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
       }
     }
   }

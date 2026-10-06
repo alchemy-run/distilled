@@ -990,14 +990,6 @@
       "output": {
         "target": "com.kubernetes.authorization#IoK8sApiAuthorizationV1LocalSubjectAccessReview"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.authorization#Conflict"
-        },
-        {
-          "target": "com.kubernetes.authorization#UnprocessableEntity"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -1005,7 +997,15 @@
           "code": 200
         },
         "smithy.api#documentation": "create a LocalSubjectAccessReview"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.authorization#Conflict"
+        },
+        {
+          "target": "com.kubernetes.authorization#UnprocessableEntity"
+        }
+      ]
     },
     "com.kubernetes.authorization#IoK8sApiAuthorizationV1SelfSubjectAccessReviewSpec": {
       "type": "structure",
@@ -1141,14 +1141,6 @@
       "output": {
         "target": "com.kubernetes.authorization#IoK8sApiAuthorizationV1SelfSubjectAccessReview"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.authorization#Conflict"
-        },
-        {
-          "target": "com.kubernetes.authorization#UnprocessableEntity"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -1156,7 +1148,15 @@
           "code": 200
         },
         "smithy.api#documentation": "create a SelfSubjectAccessReview"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.authorization#Conflict"
+        },
+        {
+          "target": "com.kubernetes.authorization#UnprocessableEntity"
+        }
+      ]
     },
     "com.kubernetes.authorization#IoK8sApiAuthorizationV1SelfSubjectRulesReviewSpec": {
       "type": "structure",
@@ -1443,14 +1443,6 @@
       "output": {
         "target": "com.kubernetes.authorization#IoK8sApiAuthorizationV1SelfSubjectRulesReview"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.authorization#Conflict"
-        },
-        {
-          "target": "com.kubernetes.authorization#UnprocessableEntity"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -1458,7 +1450,15 @@
           "code": 200
         },
         "smithy.api#documentation": "create a SelfSubjectRulesReview"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.authorization#Conflict"
+        },
+        {
+          "target": "com.kubernetes.authorization#UnprocessableEntity"
+        }
+      ]
     },
     "com.kubernetes.authorization#CreateAuthorizationV1SubjectAccessReviewRequest": {
       "type": "structure",
@@ -1574,14 +1574,6 @@
       "output": {
         "target": "com.kubernetes.authorization#IoK8sApiAuthorizationV1SubjectAccessReview"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.authorization#Conflict"
-        },
-        {
-          "target": "com.kubernetes.authorization#UnprocessableEntity"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -1589,33 +1581,15 @@
           "code": 200
         },
         "smithy.api#documentation": "create a SubjectAccessReview"
-      }
-    },
-    "com.kubernetes.authorization#Conflict": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 409,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 409
-          }
-        ]
-      }
-    },
-    "com.kubernetes.authorization#UnprocessableEntity": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 422,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 422
-          }
-        ]
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.authorization#Conflict"
+        },
+        {
+          "target": "com.kubernetes.authorization#UnprocessableEntity"
+        }
+      ]
     },
     "com.kubernetes.authorization#Authorization": {
       "type": "service",
@@ -1642,6 +1616,32 @@
       ],
       "traits": {
         "smithy.api#title": "Kubernetes"
+      }
+    },
+    "com.kubernetes.authorization#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.kubernetes.authorization#UnprocessableEntity": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 422,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 422
+          }
+        ]
       }
     }
   }

@@ -1,0 +1,526 @@
+{
+  "description": "From 003-add-missing-422-responses.patch.json: Add 422 UnprocessableEntity responses to create, replace, and patch operations",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#CreateCoreV1Namespace/errors/-",
+      "value": {
+        "target": "com.kubernetes.core#UnprocessableEntity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#CreateCoreV1NamespacedBinding/errors/-",
+      "value": {
+        "target": "com.kubernetes.core#UnprocessableEntity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#CreateCoreV1NamespacedConfigMap/errors/-",
+      "value": {
+        "target": "com.kubernetes.core#UnprocessableEntity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#ReplaceCoreV1NamespacedConfigMap/errors/-",
+      "value": {
+        "target": "com.kubernetes.core#UnprocessableEntity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#PatchCoreV1NamespacedConfigMap/errors/-",
+      "value": {
+        "target": "com.kubernetes.core#UnprocessableEntity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#CreateCoreV1NamespacedEndpoints/errors/-",
+      "value": {
+        "target": "com.kubernetes.core#UnprocessableEntity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#ReplaceCoreV1NamespacedEndpoints/errors/-",
+      "value": {
+        "target": "com.kubernetes.core#UnprocessableEntity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#PatchCoreV1NamespacedEndpoints/errors/-",
+      "value": {
+        "target": "com.kubernetes.core#UnprocessableEntity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#CreateCoreV1NamespacedEvent/errors/-",
+      "value": {
+        "target": "com.kubernetes.core#UnprocessableEntity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#ReplaceCoreV1NamespacedEvent/errors/-",
+      "value": {
+        "target": "com.kubernetes.core#UnprocessableEntity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#PatchCoreV1NamespacedEvent/errors/-",
+      "value": {
+        "target": "com.kubernetes.core#UnprocessableEntity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#CreateCoreV1NamespacedLimitRange/errors/-",
+      "value": {
+        "target": "com.kubernetes.core#UnprocessableEntity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#ReplaceCoreV1NamespacedLimitRange/errors/-",
+      "value": {
+        "target": "com.kubernetes.core#UnprocessableEntity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#PatchCoreV1NamespacedLimitRange/errors/-",
+      "value": {
+        "target": "com.kubernetes.core#UnprocessableEntity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#CreateCoreV1NamespacedPersistentVolumeClaim/errors/-",
+      "value": {
+        "target": "com.kubernetes.core#UnprocessableEntity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#ReplaceCoreV1NamespacedPersistentVolumeClaim/errors/-",
+      "value": {
+        "target": "com.kubernetes.core#UnprocessableEntity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#PatchCoreV1NamespacedPersistentVolumeClaim/errors/-",
+      "value": {
+        "target": "com.kubernetes.core#UnprocessableEntity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#ReplaceCoreV1NamespacedPersistentVolumeClaimStatus/errors/-",
+      "value": {
+        "target": "com.kubernetes.core#UnprocessableEntity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#PatchCoreV1NamespacedPersistentVolumeClaimStatus/errors/-",
+      "value": {
+        "target": "com.kubernetes.core#UnprocessableEntity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#CreateCoreV1NamespacedPod/errors/-",
+      "value": {
+        "target": "com.kubernetes.core#UnprocessableEntity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#ReplaceCoreV1NamespacedPod/errors/-",
+      "value": {
+        "target": "com.kubernetes.core#UnprocessableEntity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#PatchCoreV1NamespacedPod/errors/-",
+      "value": {
+        "target": "com.kubernetes.core#UnprocessableEntity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#CreateCoreV1NamespacedPodBinding/errors/-",
+      "value": {
+        "target": "com.kubernetes.core#UnprocessableEntity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#ReplaceCoreV1NamespacedPodEphemeralcontainers/errors/-",
+      "value": {
+        "target": "com.kubernetes.core#UnprocessableEntity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#PatchCoreV1NamespacedPodEphemeralcontainers/errors/-",
+      "value": {
+        "target": "com.kubernetes.core#UnprocessableEntity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#CreateCoreV1NamespacedPodEviction/errors/-",
+      "value": {
+        "target": "com.kubernetes.core#UnprocessableEntity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#ReplaceCoreV1NamespacedPodResize/errors/-",
+      "value": {
+        "target": "com.kubernetes.core#UnprocessableEntity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#PatchCoreV1NamespacedPodResize/errors/-",
+      "value": {
+        "target": "com.kubernetes.core#UnprocessableEntity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#ReplaceCoreV1NamespacedPodStatus/errors/-",
+      "value": {
+        "target": "com.kubernetes.core#UnprocessableEntity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#PatchCoreV1NamespacedPodStatus/errors/-",
+      "value": {
+        "target": "com.kubernetes.core#UnprocessableEntity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#CreateCoreV1NamespacedPodTemplate/errors/-",
+      "value": {
+        "target": "com.kubernetes.core#UnprocessableEntity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#ReplaceCoreV1NamespacedPodTemplate/errors/-",
+      "value": {
+        "target": "com.kubernetes.core#UnprocessableEntity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#PatchCoreV1NamespacedPodTemplate/errors/-",
+      "value": {
+        "target": "com.kubernetes.core#UnprocessableEntity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#CreateCoreV1NamespacedReplicationController/errors/-",
+      "value": {
+        "target": "com.kubernetes.core#UnprocessableEntity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#ReplaceCoreV1NamespacedReplicationController/errors/-",
+      "value": {
+        "target": "com.kubernetes.core#UnprocessableEntity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#PatchCoreV1NamespacedReplicationController/errors/-",
+      "value": {
+        "target": "com.kubernetes.core#UnprocessableEntity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#ReplaceCoreV1NamespacedReplicationControllerScale/errors/-",
+      "value": {
+        "target": "com.kubernetes.core#UnprocessableEntity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#PatchCoreV1NamespacedReplicationControllerScale/errors/-",
+      "value": {
+        "target": "com.kubernetes.core#UnprocessableEntity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#ReplaceCoreV1NamespacedReplicationControllerStatus/errors/-",
+      "value": {
+        "target": "com.kubernetes.core#UnprocessableEntity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#PatchCoreV1NamespacedReplicationControllerStatus/errors/-",
+      "value": {
+        "target": "com.kubernetes.core#UnprocessableEntity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#CreateCoreV1NamespacedResourceQuota/errors/-",
+      "value": {
+        "target": "com.kubernetes.core#UnprocessableEntity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#ReplaceCoreV1NamespacedResourceQuota/errors/-",
+      "value": {
+        "target": "com.kubernetes.core#UnprocessableEntity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#PatchCoreV1NamespacedResourceQuota/errors/-",
+      "value": {
+        "target": "com.kubernetes.core#UnprocessableEntity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#ReplaceCoreV1NamespacedResourceQuotaStatus/errors/-",
+      "value": {
+        "target": "com.kubernetes.core#UnprocessableEntity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#PatchCoreV1NamespacedResourceQuotaStatus/errors/-",
+      "value": {
+        "target": "com.kubernetes.core#UnprocessableEntity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#CreateCoreV1NamespacedSecret/errors/-",
+      "value": {
+        "target": "com.kubernetes.core#UnprocessableEntity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#ReplaceCoreV1NamespacedSecret/errors/-",
+      "value": {
+        "target": "com.kubernetes.core#UnprocessableEntity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#PatchCoreV1NamespacedSecret/errors/-",
+      "value": {
+        "target": "com.kubernetes.core#UnprocessableEntity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#CreateCoreV1NamespacedServiceAccount/errors/-",
+      "value": {
+        "target": "com.kubernetes.core#UnprocessableEntity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#ReplaceCoreV1NamespacedServiceAccount/errors/-",
+      "value": {
+        "target": "com.kubernetes.core#UnprocessableEntity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#PatchCoreV1NamespacedServiceAccount/errors/-",
+      "value": {
+        "target": "com.kubernetes.core#UnprocessableEntity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#CreateCoreV1NamespacedServiceAccountToken/errors/-",
+      "value": {
+        "target": "com.kubernetes.core#UnprocessableEntity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#CreateCoreV1NamespacedService/errors/-",
+      "value": {
+        "target": "com.kubernetes.core#UnprocessableEntity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#ReplaceCoreV1NamespacedService/errors/-",
+      "value": {
+        "target": "com.kubernetes.core#UnprocessableEntity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#PatchCoreV1NamespacedService/errors/-",
+      "value": {
+        "target": "com.kubernetes.core#UnprocessableEntity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#ReplaceCoreV1NamespacedServiceStatus/errors/-",
+      "value": {
+        "target": "com.kubernetes.core#UnprocessableEntity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#PatchCoreV1NamespacedServiceStatus/errors/-",
+      "value": {
+        "target": "com.kubernetes.core#UnprocessableEntity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#ReplaceCoreV1Namespace/errors/-",
+      "value": {
+        "target": "com.kubernetes.core#UnprocessableEntity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#PatchCoreV1Namespace/errors/-",
+      "value": {
+        "target": "com.kubernetes.core#UnprocessableEntity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#ReplaceCoreV1NamespaceFinalize/errors/-",
+      "value": {
+        "target": "com.kubernetes.core#UnprocessableEntity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#ReplaceCoreV1NamespaceStatus/errors/-",
+      "value": {
+        "target": "com.kubernetes.core#UnprocessableEntity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#PatchCoreV1NamespaceStatus/errors/-",
+      "value": {
+        "target": "com.kubernetes.core#UnprocessableEntity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#CreateCoreV1Node/errors/-",
+      "value": {
+        "target": "com.kubernetes.core#UnprocessableEntity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#ReplaceCoreV1Node/errors/-",
+      "value": {
+        "target": "com.kubernetes.core#UnprocessableEntity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#PatchCoreV1Node/errors/-",
+      "value": {
+        "target": "com.kubernetes.core#UnprocessableEntity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#ReplaceCoreV1NodeStatus/errors/-",
+      "value": {
+        "target": "com.kubernetes.core#UnprocessableEntity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#PatchCoreV1NodeStatus/errors/-",
+      "value": {
+        "target": "com.kubernetes.core#UnprocessableEntity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#CreateCoreV1PersistentVolume/errors/-",
+      "value": {
+        "target": "com.kubernetes.core#UnprocessableEntity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#ReplaceCoreV1PersistentVolume/errors/-",
+      "value": {
+        "target": "com.kubernetes.core#UnprocessableEntity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#PatchCoreV1PersistentVolume/errors/-",
+      "value": {
+        "target": "com.kubernetes.core#UnprocessableEntity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#ReplaceCoreV1PersistentVolumeStatus/errors/-",
+      "value": {
+        "target": "com.kubernetes.core#UnprocessableEntity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#PatchCoreV1PersistentVolumeStatus/errors/-",
+      "value": {
+        "target": "com.kubernetes.core#UnprocessableEntity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.core#UnprocessableEntity",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 422,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 422
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

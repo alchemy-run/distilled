@@ -1,0 +1,254 @@
+{
+  "description": "From core-errors.patch.json: Auto-generated PostHog error responses (400/403/404) for tag \"core\". See generate-error-patches.ts.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.file_system#FileSystemList/errors",
+      "value": [
+        {
+          "target": "com.posthog.file_system#BadRequest"
+        },
+        {
+          "target": "com.posthog.file_system#Forbidden"
+        },
+        {
+          "target": "com.posthog.file_system#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.file_system#FileSystemCreate/errors",
+      "value": [
+        {
+          "target": "com.posthog.file_system#BadRequest"
+        },
+        {
+          "target": "com.posthog.file_system#Forbidden"
+        },
+        {
+          "target": "com.posthog.file_system#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.file_system#FileSystemRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.file_system#Forbidden"
+        },
+        {
+          "target": "com.posthog.file_system#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.file_system#FileSystemUpdate/errors",
+      "value": [
+        {
+          "target": "com.posthog.file_system#BadRequest"
+        },
+        {
+          "target": "com.posthog.file_system#Forbidden"
+        },
+        {
+          "target": "com.posthog.file_system#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.file_system#FileSystemPartialUpdate/errors",
+      "value": [
+        {
+          "target": "com.posthog.file_system#BadRequest"
+        },
+        {
+          "target": "com.posthog.file_system#Forbidden"
+        },
+        {
+          "target": "com.posthog.file_system#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.file_system#FileSystemDestroy/errors",
+      "value": [
+        {
+          "target": "com.posthog.file_system#Forbidden"
+        },
+        {
+          "target": "com.posthog.file_system#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.file_system#FileSystemCountCreate/errors",
+      "value": [
+        {
+          "target": "com.posthog.file_system#BadRequest"
+        },
+        {
+          "target": "com.posthog.file_system#Forbidden"
+        },
+        {
+          "target": "com.posthog.file_system#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.file_system#FileSystemLinkCreate/errors",
+      "value": [
+        {
+          "target": "com.posthog.file_system#BadRequest"
+        },
+        {
+          "target": "com.posthog.file_system#Forbidden"
+        },
+        {
+          "target": "com.posthog.file_system#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.file_system#FileSystemMoveCreate/errors",
+      "value": [
+        {
+          "target": "com.posthog.file_system#BadRequest"
+        },
+        {
+          "target": "com.posthog.file_system#Forbidden"
+        },
+        {
+          "target": "com.posthog.file_system#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.file_system#FileSystemCountByPathCreate/errors",
+      "value": [
+        {
+          "target": "com.posthog.file_system#BadRequest"
+        },
+        {
+          "target": "com.posthog.file_system#Forbidden"
+        },
+        {
+          "target": "com.posthog.file_system#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.file_system#FileSystemLogViewRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.file_system#Forbidden"
+        },
+        {
+          "target": "com.posthog.file_system#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.file_system#FileSystemLogViewCreate/errors",
+      "value": [
+        {
+          "target": "com.posthog.file_system#BadRequest"
+        },
+        {
+          "target": "com.posthog.file_system#Forbidden"
+        },
+        {
+          "target": "com.posthog.file_system#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.file_system#FileSystemUndoDeleteCreate/errors",
+      "value": [
+        {
+          "target": "com.posthog.file_system#BadRequest"
+        },
+        {
+          "target": "com.posthog.file_system#Forbidden"
+        },
+        {
+          "target": "com.posthog.file_system#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.file_system#FileSystemUnfiledRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.file_system#Forbidden"
+        },
+        {
+          "target": "com.posthog.file_system#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.file_system#BadRequest",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 400
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.file_system#Forbidden",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 403
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.file_system#NotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

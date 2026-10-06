@@ -1,0 +1,170 @@
+{
+  "description": "From core-errors.patch.json: Auto-generated PostHog error responses (400/403/404) for tag \"core\". See generate-error-patches.ts.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.comments#CommentsList/errors",
+      "value": [
+        {
+          "target": "com.posthog.comments#BadRequest"
+        },
+        {
+          "target": "com.posthog.comments#Forbidden"
+        },
+        {
+          "target": "com.posthog.comments#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.comments#CommentsCreate/errors/0",
+      "value": {
+        "target": "com.posthog.comments#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.comments#CommentsCreate/errors/1",
+      "value": {
+        "target": "com.posthog.comments#Forbidden"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.comments#CommentsCreate/errors/2",
+      "value": {
+        "target": "com.posthog.comments#NotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.comments#CommentsRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.comments#Forbidden"
+        },
+        {
+          "target": "com.posthog.comments#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.comments#CommentsUpdate/errors",
+      "value": [
+        {
+          "target": "com.posthog.comments#BadRequest"
+        },
+        {
+          "target": "com.posthog.comments#Forbidden"
+        },
+        {
+          "target": "com.posthog.comments#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.comments#CommentsPartialUpdate/errors",
+      "value": [
+        {
+          "target": "com.posthog.comments#BadRequest"
+        },
+        {
+          "target": "com.posthog.comments#Forbidden"
+        },
+        {
+          "target": "com.posthog.comments#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.comments#CommentsDestroy/errors",
+      "value": [
+        {
+          "target": "com.posthog.comments#Forbidden"
+        },
+        {
+          "target": "com.posthog.comments#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.comments#CommentsThreadRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.comments#Forbidden"
+        },
+        {
+          "target": "com.posthog.comments#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.comments#CommentsCountRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.comments#Forbidden"
+        },
+        {
+          "target": "com.posthog.comments#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.comments#BadRequest",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 400
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.comments#Forbidden",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 403
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.comments#NotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

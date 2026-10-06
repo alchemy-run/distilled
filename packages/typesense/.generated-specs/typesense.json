@@ -4900,11 +4900,6 @@
       "output": {
         "target": "com.typesense.api#GetConversationModelResponse"
       },
-      "errors": [
-        {
-          "target": "com.typesense.api#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -4912,7 +4907,12 @@
           "code": 200
         },
         "smithy.api#documentation": "Retrieve a conversation model\n\nRetrieve a conversation model"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.typesense.api#NotFound"
+        }
+      ]
     },
     "com.typesense.api#UpdateConversationModelRequest": {
       "type": "structure",
@@ -5060,14 +5060,6 @@
       "output": {
         "target": "com.typesense.api#UpdateConversationModelResponse"
       },
-      "errors": [
-        {
-          "target": "com.typesense.api#BadRequest"
-        },
-        {
-          "target": "com.typesense.api#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "PUT",
@@ -5075,7 +5067,15 @@
           "code": 200
         },
         "smithy.api#documentation": "Update a conversation model\n\nUpdate a conversation model"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.typesense.api#BadRequest"
+        },
+        {
+          "target": "com.typesense.api#NotFound"
+        }
+      ]
     },
     "com.typesense.api#DeleteConversationModelRequest": {
       "type": "structure",
@@ -5168,11 +5168,6 @@
       "output": {
         "target": "com.typesense.api#DeleteConversationModelResponse"
       },
-      "errors": [
-        {
-          "target": "com.typesense.api#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -5180,7 +5175,12 @@
           "code": 200
         },
         "smithy.api#documentation": "Delete a conversation model\n\nDelete a conversation model"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.typesense.api#NotFound"
+        }
+      ]
     },
     "com.typesense.api#ApiKeysResponse": {
       "type": "structure",

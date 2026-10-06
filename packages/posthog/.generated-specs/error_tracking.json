@@ -8457,6 +8457,13 @@
       "output": {
         "target": "com.posthog.error_tracking#PaginatedErrorTrackingReleaseList"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/error_tracking/releases/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.error_tracking#BadRequest"
@@ -8467,14 +8474,7 @@
         {
           "target": "com.posthog.error_tracking#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/error_tracking/releases/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.error_tracking#CreateErrorTrackingReleaseRequestMetadataMap": {
       "type": "map",
@@ -8540,6 +8540,13 @@
       "output": {
         "target": "com.posthog.error_tracking#ErrorTrackingRelease"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/error_tracking/releases/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.error_tracking#BadRequest"
@@ -8550,14 +8557,7 @@
         {
           "target": "com.posthog.error_tracking#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/error_tracking/releases/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.error_tracking#GetErrorTrackingReleaseRequest": {
       "type": "structure",
@@ -8590,6 +8590,13 @@
       "output": {
         "target": "com.posthog.error_tracking#ErrorTrackingRelease"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/error_tracking/releases/{id}/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.error_tracking#Forbidden"
@@ -8597,14 +8604,7 @@
         {
           "target": "com.posthog.error_tracking#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/error_tracking/releases/{id}/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.error_tracking#UpdateErrorTrackingReleaseRequestMetadataMap": {
       "type": "map",
@@ -8677,6 +8677,13 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/api/projects/{project_id}/error_tracking/releases/{id}/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.error_tracking#BadRequest"
@@ -8687,14 +8694,7 @@
         {
           "target": "com.posthog.error_tracking#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/api/projects/{project_id}/error_tracking/releases/{id}/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.error_tracking#UpdateErrorTrackingReleasesPartialRequestMetadataMap": {
       "type": "map",
@@ -8767,6 +8767,13 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/projects/{project_id}/error_tracking/releases/{id}/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.error_tracking#BadRequest"
@@ -8777,14 +8784,7 @@
         {
           "target": "com.posthog.error_tracking#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/api/projects/{project_id}/error_tracking/releases/{id}/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.error_tracking#ErrorTrackingReleasesDestroyRequest": {
       "type": "structure",
@@ -8817,6 +8817,13 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/api/projects/{project_id}/error_tracking/releases/{id}/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.error_tracking#Forbidden"
@@ -8824,14 +8831,7 @@
         {
           "target": "com.posthog.error_tracking#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "DELETE",
-          "uri": "/api/projects/{project_id}/error_tracking/releases/{id}/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.error_tracking#GetErrorTrackingReleasesHashRequest": {
       "type": "structure",
@@ -8864,6 +8864,13 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/error_tracking/releases/hash/{hash_id}/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.error_tracking#Forbidden"
@@ -8871,14 +8878,7 @@
         {
           "target": "com.posthog.error_tracking#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/error_tracking/releases/hash/{hash_id}/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.error_tracking#ErrorTrackingSettingsRetrieveSettingsRetrieveRequest": {
       "type": "structure",
@@ -10592,6 +10592,13 @@
       "output": {
         "target": "com.posthog.error_tracking#PaginatedErrorTrackingSymbolSetList"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/error_tracking/symbol_sets/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.error_tracking#BadRequest"
@@ -10602,14 +10609,7 @@
         {
           "target": "com.posthog.error_tracking#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/error_tracking/symbol_sets/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.error_tracking#GetErrorTrackingSymbolSetRequest": {
       "type": "structure",
@@ -10642,6 +10642,13 @@
       "output": {
         "target": "com.posthog.error_tracking#ErrorTrackingSymbolSet"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/error_tracking/symbol_sets/{id}/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.error_tracking#Forbidden"
@@ -10649,14 +10656,7 @@
         {
           "target": "com.posthog.error_tracking#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/error_tracking/symbol_sets/{id}/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.error_tracking#ErrorTrackingSymbolSetsDestroyRequest": {
       "type": "structure",
@@ -10689,6 +10689,13 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/api/projects/{project_id}/error_tracking/symbol_sets/{id}/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.error_tracking#Forbidden"
@@ -10696,14 +10703,7 @@
         {
           "target": "com.posthog.error_tracking#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "DELETE",
-          "uri": "/api/projects/{project_id}/error_tracking/symbol_sets/{id}/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.error_tracking#ErrorTrackingSymbolSetsDownloadRetrieveRequest": {
       "type": "structure",
@@ -10748,14 +10748,6 @@
       "output": {
         "target": "com.posthog.error_tracking#SymbolSetDownloadResponse"
       },
-      "errors": [
-        {
-          "target": "com.posthog.error_tracking#Forbidden"
-        },
-        {
-          "target": "com.posthog.error_tracking#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -10763,7 +10755,15 @@
           "code": 200
         },
         "smithy.api#documentation": "Return a presigned URL for downloading the symbol set's source map."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.posthog.error_tracking#Forbidden"
+        },
+        {
+          "target": "com.posthog.error_tracking#NotFound"
+        }
+      ]
     },
     "com.posthog.error_tracking#ErrorTrackingSymbolSetsFinishUploadUpdateRequest": {
       "type": "structure",
@@ -10803,6 +10803,13 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/api/projects/{project_id}/error_tracking/symbol_sets/{id}/finish_upload/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.error_tracking#BadRequest"
@@ -10813,14 +10820,7 @@
         {
           "target": "com.posthog.error_tracking#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/api/projects/{project_id}/error_tracking/symbol_sets/{id}/finish_upload/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.error_tracking#ErrorTrackingSymbolSetUpload": {
       "type": "structure",
@@ -10979,6 +10979,13 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/error_tracking/symbol_sets/bulk_delete/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.error_tracking#BadRequest"
@@ -10989,14 +10996,7 @@
         {
           "target": "com.posthog.error_tracking#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/error_tracking/symbol_sets/bulk_delete/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.error_tracking#ErrorTrackingSymbolSetsBulkFinishUploadCreateRequestContentHashesMap": {
       "type": "map",
@@ -11041,6 +11041,13 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/error_tracking/symbol_sets/bulk_finish_upload/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.error_tracking#BadRequest"
@@ -11051,14 +11058,7 @@
         {
           "target": "com.posthog.error_tracking#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/error_tracking/symbol_sets/bulk_finish_upload/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.error_tracking#ErrorTrackingSymbolSetsBulkStartUploadCreateRequestSymbolSetsList": {
       "type": "list",
@@ -11228,6 +11228,13 @@
       "output": {
         "target": "com.posthog.error_tracking#ErrorTrackingSymbolSetBulkStartUploadResponse"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/error_tracking/symbol_sets/bulk_start_upload/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.error_tracking#BadRequest"
@@ -11238,14 +11245,7 @@
         {
           "target": "com.posthog.error_tracking#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/error_tracking/symbol_sets/bulk_start_upload/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.error_tracking#NotFound": {
       "type": "structure",
@@ -11256,32 +11256,6 @@
         "com.distilled.openapi#errorMatchers": [
           {
             "status": 404
-          }
-        ]
-      }
-    },
-    "com.posthog.error_tracking#BadRequest": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 400,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 400
-          }
-        ]
-      }
-    },
-    "com.posthog.error_tracking#Forbidden": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 403,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 403
           }
         ]
       }
@@ -11590,6 +11564,32 @@
       ],
       "traits": {
         "smithy.api#title": "PostHog API"
+      }
+    },
+    "com.posthog.error_tracking#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.posthog.error_tracking#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
       }
     }
   }

@@ -1074,6 +1074,13 @@
       "output": {
         "target": "com.posthog.cohorts#PaginatedCohortListOutput"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/cohorts/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.cohorts#BadRequest"
@@ -1084,14 +1091,7 @@
         {
           "target": "com.posthog.cohorts#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/cohorts/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.cohorts#CreateCohortRequestCohortType": {
       "type": "union",
@@ -1178,6 +1178,13 @@
       "output": {
         "target": "com.posthog.cohorts#CohortOutput"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/cohorts/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.cohorts#BadRequest"
@@ -1188,14 +1195,7 @@
         {
           "target": "com.posthog.cohorts#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/cohorts/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.cohorts#GetCohortRequest": {
       "type": "structure",
@@ -1229,6 +1229,13 @@
       "output": {
         "target": "com.posthog.cohorts#CohortOutput"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/cohorts/{id}/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.cohorts#Forbidden"
@@ -1236,14 +1243,7 @@
         {
           "target": "com.posthog.cohorts#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/cohorts/{id}/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.cohorts#UpdateCohortRequestCohortType": {
       "type": "union",
@@ -1338,6 +1338,13 @@
       "output": {
         "target": "com.posthog.cohorts#CohortOutput"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/api/projects/{project_id}/cohorts/{id}/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.cohorts#BadRequest"
@@ -1348,14 +1355,7 @@
         {
           "target": "com.posthog.cohorts#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/api/projects/{project_id}/cohorts/{id}/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.cohorts#UpdateCohortsPartialRequestCohortType": {
       "type": "union",
@@ -1450,6 +1450,13 @@
       "output": {
         "target": "com.posthog.cohorts#CohortOutput"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/projects/{project_id}/cohorts/{id}/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.cohorts#BadRequest"
@@ -1460,14 +1467,7 @@
         {
           "target": "com.posthog.cohorts#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/api/projects/{project_id}/cohorts/{id}/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.cohorts#CohortsDestroyRequest": {
       "type": "structure",
@@ -1501,14 +1501,6 @@
       "output": {
         "target": "smithy.api#Unit"
       },
-      "errors": [
-        {
-          "target": "com.posthog.cohorts#Forbidden"
-        },
-        {
-          "target": "com.posthog.cohorts#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -1516,7 +1508,15 @@
           "code": 200
         },
         "smithy.api#documentation": "Hard delete of this model is not allowed. Use a patch API call to set \"deleted\" to true"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.posthog.cohorts#Forbidden"
+        },
+        {
+          "target": "com.posthog.cohorts#NotFound"
+        }
+      ]
     },
     "com.posthog.cohorts#GetCohortsActivityRequest": {
       "type": "structure",
@@ -1550,6 +1550,13 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/cohorts/{id}/activity/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.cohorts#Forbidden"
@@ -1557,14 +1564,7 @@
         {
           "target": "com.posthog.cohorts#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/cohorts/{id}/activity/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.cohorts#CohortsAddPersonsToStaticCohortPartialUpdateRequestPersonIdsList": {
       "type": "list",
@@ -1613,6 +1613,13 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/projects/{project_id}/cohorts/{id}/add_persons_to_static_cohort/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.cohorts#BadRequest"
@@ -1623,14 +1630,7 @@
         {
           "target": "com.posthog.cohorts#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/api/projects/{project_id}/cohorts/{id}/add_persons_to_static_cohort/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.cohorts#GetCohortsCalculationHistoryRequest": {
       "type": "structure",
@@ -1664,6 +1664,13 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/cohorts/{id}/calculation_history/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.cohorts#Forbidden"
@@ -1671,14 +1678,7 @@
         {
           "target": "com.posthog.cohorts#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/cohorts/{id}/calculation_history/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.cohorts#GetCohortsPersonRequestFormat": {
       "type": "enum",
@@ -1910,6 +1910,13 @@
       "output": {
         "target": "com.posthog.cohorts#CohortPersonsResponse"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/cohorts/{id}/persons/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.cohorts#BadRequest"
@@ -1920,14 +1927,7 @@
         {
           "target": "com.posthog.cohorts#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/cohorts/{id}/persons/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.cohorts#CohortsRemovePersonFromStaticCohortPartialUpdateRequest": {
       "type": "structure",
@@ -1967,6 +1967,13 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/projects/{project_id}/cohorts/{id}/remove_person_from_static_cohort/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.cohorts#BadRequest"
@@ -1977,14 +1984,7 @@
         {
           "target": "com.posthog.cohorts#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/api/projects/{project_id}/cohorts/{id}/remove_person_from_static_cohort/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.cohorts#GetCohortsUsedInRequest": {
       "type": "structure",
@@ -2260,6 +2260,13 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/cohorts/activity/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.cohorts#Forbidden"
@@ -2267,53 +2274,7 @@
         {
           "target": "com.posthog.cohorts#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/cohorts/activity/",
-          "code": 200
-        }
-      }
-    },
-    "com.posthog.cohorts#BadRequest": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 400,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 400
-          }
-        ]
-      }
-    },
-    "com.posthog.cohorts#Forbidden": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 403,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 403
-          }
-        ]
-      }
-    },
-    "com.posthog.cohorts#NotFound": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 404,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 404
-          }
-        ]
-      }
+      ]
     },
     "com.posthog.cohorts#Cohorts": {
       "type": "service",
@@ -2361,6 +2322,45 @@
       ],
       "traits": {
         "smithy.api#title": "PostHog API"
+      }
+    },
+    "com.posthog.cohorts#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.posthog.cohorts#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.posthog.cohorts#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
       }
     }
   }

@@ -1760,6 +1760,13 @@
       "output": {
         "target": "com.posthog.alerts#PaginatedAlertList"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/alerts/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.alerts#BadRequest"
@@ -1770,14 +1777,7 @@
         {
           "target": "com.posthog.alerts#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/alerts/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.alerts#CreateAlertRequestSubscribedUsersList": {
       "type": "list",
@@ -1938,6 +1938,13 @@
       "output": {
         "target": "com.posthog.alerts#Alert"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/alerts/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.alerts#BadRequest"
@@ -1948,14 +1955,7 @@
         {
           "target": "com.posthog.alerts#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/alerts/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.alerts#GetAlertRequest": {
       "type": "structure",
@@ -2017,6 +2017,13 @@
       "output": {
         "target": "com.posthog.alerts#Alert"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/alerts/{id}/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.alerts#BadRequest"
@@ -2027,14 +2034,7 @@
         {
           "target": "com.posthog.alerts#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/alerts/{id}/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.alerts#UpdateAlertRequestSubscribedUsersList": {
       "type": "list",
@@ -2185,6 +2185,13 @@
       "output": {
         "target": "com.posthog.alerts#Alert"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/api/projects/{project_id}/alerts/{id}/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.alerts#BadRequest"
@@ -2195,14 +2202,7 @@
         {
           "target": "com.posthog.alerts#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/api/projects/{project_id}/alerts/{id}/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.alerts#UpdateAlertsPartialRequestSubscribedUsersList": {
       "type": "list",
@@ -2353,6 +2353,13 @@
       "output": {
         "target": "com.posthog.alerts#Alert"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/projects/{project_id}/alerts/{id}/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.alerts#BadRequest"
@@ -2363,14 +2370,7 @@
         {
           "target": "com.posthog.alerts#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/api/projects/{project_id}/alerts/{id}/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.alerts#AlertsDestroyRequest": {
       "type": "structure",
@@ -2404,6 +2404,13 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/api/projects/{project_id}/alerts/{id}/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.alerts#Forbidden"
@@ -2411,14 +2418,7 @@
         {
           "target": "com.posthog.alerts#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "DELETE",
-          "uri": "/api/projects/{project_id}/alerts/{id}/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.alerts#ChannelTypeEnum": {
       "type": "enum",
@@ -2991,6 +2991,14 @@
       "output": {
         "target": "com.posthog.alerts#AlertSimulateResponse"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/alerts/simulate/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Simulate a detector on an insight's historical data. No AlertCheck records are created. The AI detector makes a real model call, so that mode needs the 'alert:write' scope."
+      },
       "errors": [
         {
           "target": "com.posthog.alerts#BadRequest"
@@ -3001,14 +3009,45 @@
         {
           "target": "com.posthog.alerts#NotFound"
         }
+      ]
+    },
+    "com.posthog.alerts#Alerts": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.posthog.alerts#ListAlerts"
+        },
+        {
+          "target": "com.posthog.alerts#CreateAlert"
+        },
+        {
+          "target": "com.posthog.alerts#GetAlert"
+        },
+        {
+          "target": "com.posthog.alerts#UpdateAlert"
+        },
+        {
+          "target": "com.posthog.alerts#UpdateAlertsPartial"
+        },
+        {
+          "target": "com.posthog.alerts#AlertsDestroy"
+        },
+        {
+          "target": "com.posthog.alerts#CreateAlertsDestination"
+        },
+        {
+          "target": "com.posthog.alerts#AlertsDestinationsDeleteCreate"
+        },
+        {
+          "target": "com.posthog.alerts#CreateAlertsTestDelivery"
+        },
+        {
+          "target": "com.posthog.alerts#CreateAlertsSimulate"
+        }
       ],
       "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/alerts/simulate/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Simulate a detector on an insight's historical data. No AlertCheck records are created. The AI detector makes a real model call, so that mode needs the 'alert:write' scope."
+        "smithy.api#title": "PostHog API"
       }
     },
     "com.posthog.alerts#BadRequest": {
@@ -3048,45 +3087,6 @@
             "status": 404
           }
         ]
-      }
-    },
-    "com.posthog.alerts#Alerts": {
-      "type": "service",
-      "version": "1.0.0",
-      "operations": [
-        {
-          "target": "com.posthog.alerts#ListAlerts"
-        },
-        {
-          "target": "com.posthog.alerts#CreateAlert"
-        },
-        {
-          "target": "com.posthog.alerts#GetAlert"
-        },
-        {
-          "target": "com.posthog.alerts#UpdateAlert"
-        },
-        {
-          "target": "com.posthog.alerts#UpdateAlertsPartial"
-        },
-        {
-          "target": "com.posthog.alerts#AlertsDestroy"
-        },
-        {
-          "target": "com.posthog.alerts#CreateAlertsDestination"
-        },
-        {
-          "target": "com.posthog.alerts#AlertsDestinationsDeleteCreate"
-        },
-        {
-          "target": "com.posthog.alerts#CreateAlertsTestDelivery"
-        },
-        {
-          "target": "com.posthog.alerts#CreateAlertsSimulate"
-        }
-      ],
-      "traits": {
-        "smithy.api#title": "PostHog API"
       }
     }
   }

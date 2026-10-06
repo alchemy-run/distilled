@@ -1,0 +1,169 @@
+{
+  "description": "From conversations-errors.patch.json: Auto-generated PostHog error responses (400/403/404) for tag \"conversations\". See generate-error-patches.ts. [retargeted environments->projects paths to match generated operations]",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.conversations#ConversationsTicketsList/errors",
+      "value": [
+        {
+          "target": "com.posthog.conversations#BadRequest"
+        },
+        {
+          "target": "com.posthog.conversations#Forbidden"
+        },
+        {
+          "target": "com.posthog.conversations#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.conversations#ConversationsTicketsRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.conversations#Forbidden"
+        },
+        {
+          "target": "com.posthog.conversations#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.conversations#ConversationsTicketsUpdate/errors",
+      "value": [
+        {
+          "target": "com.posthog.conversations#BadRequest"
+        },
+        {
+          "target": "com.posthog.conversations#Forbidden"
+        },
+        {
+          "target": "com.posthog.conversations#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.conversations#ConversationsTicketsPartialUpdate/errors",
+      "value": [
+        {
+          "target": "com.posthog.conversations#BadRequest"
+        },
+        {
+          "target": "com.posthog.conversations#Forbidden"
+        },
+        {
+          "target": "com.posthog.conversations#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.conversations#ConversationsTicketsDestroy/errors",
+      "value": [
+        {
+          "target": "com.posthog.conversations#Forbidden"
+        },
+        {
+          "target": "com.posthog.conversations#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.conversations#ConversationsTicketsReplyCreate/errors/1",
+      "value": {
+        "target": "com.posthog.conversations#Forbidden"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.conversations#ConversationsTicketsReplyCreate/errors/2",
+      "value": {
+        "target": "com.posthog.conversations#NotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.conversations#ConversationsTicketsBulkUpdateTagsCreate/errors",
+      "value": [
+        {
+          "target": "com.posthog.conversations#BadRequest"
+        },
+        {
+          "target": "com.posthog.conversations#Forbidden"
+        },
+        {
+          "target": "com.posthog.conversations#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.conversations#ConversationsTicketsUnreadCountRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.conversations#Forbidden"
+        },
+        {
+          "target": "com.posthog.conversations#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.conversations#ConversationsViewsList/errors",
+      "value": [
+        {
+          "target": "com.posthog.conversations#BadRequest"
+        },
+        {
+          "target": "com.posthog.conversations#Forbidden"
+        },
+        {
+          "target": "com.posthog.conversations#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.conversations#ConversationsViewsCreate/errors",
+      "value": [
+        {
+          "target": "com.posthog.conversations#BadRequest"
+        },
+        {
+          "target": "com.posthog.conversations#Forbidden"
+        },
+        {
+          "target": "com.posthog.conversations#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.conversations#ConversationsViewsRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.conversations#Forbidden"
+        },
+        {
+          "target": "com.posthog.conversations#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.conversations#ConversationsViewsDestroy/errors",
+      "value": [
+        {
+          "target": "com.posthog.conversations#Forbidden"
+        },
+        {
+          "target": "com.posthog.conversations#NotFound"
+        }
+      ]
+    }
+  ]
+}

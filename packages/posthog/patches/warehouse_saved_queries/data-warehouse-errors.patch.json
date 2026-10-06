@@ -1,0 +1,281 @@
+{
+  "description": "From data-warehouse-errors.patch.json: Auto-generated PostHog error responses (400/403/404) for tag \"data_warehouse\". See generate-error-patches.ts.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.warehouse_saved_queries#WarehouseSavedQueriesList/errors",
+      "value": [
+        {
+          "target": "com.posthog.warehouse_saved_queries#BadRequest"
+        },
+        {
+          "target": "com.posthog.warehouse_saved_queries#Forbidden"
+        },
+        {
+          "target": "com.posthog.warehouse_saved_queries#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.warehouse_saved_queries#WarehouseSavedQueriesCreate/errors",
+      "value": [
+        {
+          "target": "com.posthog.warehouse_saved_queries#BadRequest"
+        },
+        {
+          "target": "com.posthog.warehouse_saved_queries#Forbidden"
+        },
+        {
+          "target": "com.posthog.warehouse_saved_queries#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.warehouse_saved_queries#WarehouseSavedQueriesRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.warehouse_saved_queries#Forbidden"
+        },
+        {
+          "target": "com.posthog.warehouse_saved_queries#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.warehouse_saved_queries#WarehouseSavedQueriesUpdate/errors",
+      "value": [
+        {
+          "target": "com.posthog.warehouse_saved_queries#BadRequest"
+        },
+        {
+          "target": "com.posthog.warehouse_saved_queries#Forbidden"
+        },
+        {
+          "target": "com.posthog.warehouse_saved_queries#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.warehouse_saved_queries#WarehouseSavedQueriesPartialUpdate/errors",
+      "value": [
+        {
+          "target": "com.posthog.warehouse_saved_queries#BadRequest"
+        },
+        {
+          "target": "com.posthog.warehouse_saved_queries#Forbidden"
+        },
+        {
+          "target": "com.posthog.warehouse_saved_queries#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.warehouse_saved_queries#WarehouseSavedQueriesDestroy/errors",
+      "value": [
+        {
+          "target": "com.posthog.warehouse_saved_queries#Forbidden"
+        },
+        {
+          "target": "com.posthog.warehouse_saved_queries#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.warehouse_saved_queries#WarehouseSavedQueriesActivityRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.warehouse_saved_queries#Forbidden"
+        },
+        {
+          "target": "com.posthog.warehouse_saved_queries#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.warehouse_saved_queries#WarehouseSavedQueriesAncestorsCreate/errors",
+      "value": [
+        {
+          "target": "com.posthog.warehouse_saved_queries#BadRequest"
+        },
+        {
+          "target": "com.posthog.warehouse_saved_queries#Forbidden"
+        },
+        {
+          "target": "com.posthog.warehouse_saved_queries#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.warehouse_saved_queries#WarehouseSavedQueriesCancelCreate/errors",
+      "value": [
+        {
+          "target": "com.posthog.warehouse_saved_queries#BadRequest"
+        },
+        {
+          "target": "com.posthog.warehouse_saved_queries#Forbidden"
+        },
+        {
+          "target": "com.posthog.warehouse_saved_queries#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.warehouse_saved_queries#WarehouseSavedQueriesDependenciesRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.warehouse_saved_queries#Forbidden"
+        },
+        {
+          "target": "com.posthog.warehouse_saved_queries#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.warehouse_saved_queries#WarehouseSavedQueriesDescendantsCreate/errors",
+      "value": [
+        {
+          "target": "com.posthog.warehouse_saved_queries#BadRequest"
+        },
+        {
+          "target": "com.posthog.warehouse_saved_queries#Forbidden"
+        },
+        {
+          "target": "com.posthog.warehouse_saved_queries#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.warehouse_saved_queries#WarehouseSavedQueriesMaterializeCreate/errors",
+      "value": [
+        {
+          "target": "com.posthog.warehouse_saved_queries#BadRequest"
+        },
+        {
+          "target": "com.posthog.warehouse_saved_queries#Forbidden"
+        },
+        {
+          "target": "com.posthog.warehouse_saved_queries#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.warehouse_saved_queries#WarehouseSavedQueriesRevertMaterializationCreate/errors",
+      "value": [
+        {
+          "target": "com.posthog.warehouse_saved_queries#BadRequest"
+        },
+        {
+          "target": "com.posthog.warehouse_saved_queries#Forbidden"
+        },
+        {
+          "target": "com.posthog.warehouse_saved_queries#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.warehouse_saved_queries#WarehouseSavedQueriesRunCreate/errors",
+      "value": [
+        {
+          "target": "com.posthog.warehouse_saved_queries#BadRequest"
+        },
+        {
+          "target": "com.posthog.warehouse_saved_queries#Forbidden"
+        },
+        {
+          "target": "com.posthog.warehouse_saved_queries#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.warehouse_saved_queries#WarehouseSavedQueriesRunHistoryRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.warehouse_saved_queries#Forbidden"
+        },
+        {
+          "target": "com.posthog.warehouse_saved_queries#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.warehouse_saved_queries#WarehouseSavedQueriesResumeSchedulesCreate/errors",
+      "value": [
+        {
+          "target": "com.posthog.warehouse_saved_queries#BadRequest"
+        },
+        {
+          "target": "com.posthog.warehouse_saved_queries#Forbidden"
+        },
+        {
+          "target": "com.posthog.warehouse_saved_queries#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.warehouse_saved_queries#BadRequest",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 400
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.warehouse_saved_queries#Forbidden",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 403
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.warehouse_saved_queries#NotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

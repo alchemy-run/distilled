@@ -1,0 +1,284 @@
+{
+  "description": "From persons-errors.patch.json: Auto-generated PostHog error responses (400/403/404) for tag \"persons\". See generate-error-patches.ts.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.persons#PersonsList/errors",
+      "value": [
+        {
+          "target": "com.posthog.persons#BadRequest"
+        },
+        {
+          "target": "com.posthog.persons#Forbidden"
+        },
+        {
+          "target": "com.posthog.persons#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.persons#PersonsRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.persons#BadRequest"
+        },
+        {
+          "target": "com.posthog.persons#Forbidden"
+        },
+        {
+          "target": "com.posthog.persons#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.persons#PersonsUpdate/errors",
+      "value": [
+        {
+          "target": "com.posthog.persons#BadRequest"
+        },
+        {
+          "target": "com.posthog.persons#Forbidden"
+        },
+        {
+          "target": "com.posthog.persons#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.persons#PersonsPartialUpdate/errors",
+      "value": [
+        {
+          "target": "com.posthog.persons#BadRequest"
+        },
+        {
+          "target": "com.posthog.persons#Forbidden"
+        },
+        {
+          "target": "com.posthog.persons#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.persons#PersonsActivityRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.persons#BadRequest"
+        },
+        {
+          "target": "com.posthog.persons#Forbidden"
+        },
+        {
+          "target": "com.posthog.persons#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.persons#PersonsDeletePropertyCreate/errors",
+      "value": [
+        {
+          "target": "com.posthog.persons#BadRequest"
+        },
+        {
+          "target": "com.posthog.persons#Forbidden"
+        },
+        {
+          "target": "com.posthog.persons#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.persons#PersonsPropertiesTimelineRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.persons#BadRequest"
+        },
+        {
+          "target": "com.posthog.persons#Forbidden"
+        },
+        {
+          "target": "com.posthog.persons#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.persons#PersonsSplitCreate/errors",
+      "value": [
+        {
+          "target": "com.posthog.persons#BadRequest"
+        },
+        {
+          "target": "com.posthog.persons#Forbidden"
+        },
+        {
+          "target": "com.posthog.persons#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.persons#PersonsUpdatePropertyCreate/errors",
+      "value": [
+        {
+          "target": "com.posthog.persons#BadRequest"
+        },
+        {
+          "target": "com.posthog.persons#Forbidden"
+        },
+        {
+          "target": "com.posthog.persons#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.persons#PersonsAllActivityRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.persons#BadRequest"
+        },
+        {
+          "target": "com.posthog.persons#Forbidden"
+        },
+        {
+          "target": "com.posthog.persons#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.persons#PersonsBatchByDistinctIdsCreate/errors",
+      "value": [
+        {
+          "target": "com.posthog.persons#BadRequest"
+        },
+        {
+          "target": "com.posthog.persons#Forbidden"
+        },
+        {
+          "target": "com.posthog.persons#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.persons#PersonsBatchByUuidsCreate/errors",
+      "value": [
+        {
+          "target": "com.posthog.persons#BadRequest"
+        },
+        {
+          "target": "com.posthog.persons#Forbidden"
+        },
+        {
+          "target": "com.posthog.persons#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.persons#PersonsBulkDeleteCreate/errors",
+      "value": [
+        {
+          "target": "com.posthog.persons#BadRequest"
+        },
+        {
+          "target": "com.posthog.persons#Forbidden"
+        },
+        {
+          "target": "com.posthog.persons#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.persons#PersonsCohortsRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.persons#BadRequest"
+        },
+        {
+          "target": "com.posthog.persons#Forbidden"
+        },
+        {
+          "target": "com.posthog.persons#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.persons#PersonsDeletionStatusList/errors",
+      "value": [
+        {
+          "target": "com.posthog.persons#BadRequest"
+        },
+        {
+          "target": "com.posthog.persons#Forbidden"
+        },
+        {
+          "target": "com.posthog.persons#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.persons#PersonsPropertiesAtTimeRetrieve/errors/1",
+      "value": {
+        "target": "com.posthog.persons#Forbidden"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.persons#PersonsResetPersonDistinctIdCreate/errors",
+      "value": [
+        {
+          "target": "com.posthog.persons#BadRequest"
+        },
+        {
+          "target": "com.posthog.persons#Forbidden"
+        },
+        {
+          "target": "com.posthog.persons#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.persons#PersonsValuesRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.persons#BadRequest"
+        },
+        {
+          "target": "com.posthog.persons#Forbidden"
+        },
+        {
+          "target": "com.posthog.persons#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.persons#Forbidden",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 403
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

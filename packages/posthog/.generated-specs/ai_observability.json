@@ -5040,6 +5040,14 @@
       "output": {
         "target": "com.posthog.ai_observability#PaginatedDatasetItemReadList"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/dataset_items/",
+          "code": 200
+        },
+        "smithy.api#documentation": "List a dataset's current items or its exact contents at a prior revision."
+      },
       "errors": [
         {
           "target": "com.posthog.ai_observability#BadRequest"
@@ -5050,15 +5058,7 @@
         {
           "target": "com.posthog.ai_observability#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/dataset_items/",
-          "code": 200
-        },
-        "smithy.api#documentation": "List a dataset's current items or its exact contents at a prior revision."
-      }
+      ]
     },
     "com.posthog.ai_observability#CreateDatasetItemRequestMetadataMap": {
       "type": "map",
@@ -5798,6 +5798,14 @@
       "output": {
         "target": "com.posthog.ai_observability#PaginatedDatasetReadList"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/datasets/",
+          "code": 200
+        },
+        "smithy.api#documentation": "List active datasets by default, or archived datasets when requested."
+      },
       "errors": [
         {
           "target": "com.posthog.ai_observability#BadRequest"
@@ -5808,15 +5816,7 @@
         {
           "target": "com.posthog.ai_observability#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/datasets/",
-          "code": 200
-        },
-        "smithy.api#documentation": "List active datasets by default, or archived datasets when requested."
-      }
+      ]
     },
     "com.posthog.ai_observability#CreateDatasetRequestMetadataMap": {
       "type": "map",
@@ -5928,14 +5928,6 @@
       "output": {
         "target": "com.posthog.ai_observability#DatasetRead"
       },
-      "errors": [
-        {
-          "target": "com.posthog.ai_observability#Forbidden"
-        },
-        {
-          "target": "com.posthog.ai_observability#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -5943,7 +5935,15 @@
           "code": 200
         },
         "smithy.api#documentation": "Retrieve an active or archived dataset."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.posthog.ai_observability#Forbidden"
+        },
+        {
+          "target": "com.posthog.ai_observability#NotFound"
+        }
+      ]
     },
     "com.posthog.ai_observability#UpdateDatasetsPartialRequestMetadataMap": {
       "type": "map",

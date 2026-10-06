@@ -1029,14 +1029,6 @@
       "output": {
         "target": "com.kubernetes.coordination#IoK8sApiCoordinationV1Lease"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.coordination#Conflict"
-        },
-        {
-          "target": "com.kubernetes.coordination#UnprocessableEntity"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -1044,7 +1036,15 @@
           "code": 200
         },
         "smithy.api#documentation": "create a Lease"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.coordination#Conflict"
+        },
+        {
+          "target": "com.kubernetes.coordination#UnprocessableEntity"
+        }
+      ]
     },
     "com.kubernetes.coordination#DeleteCoordinationV1CollectionNamespacedLeaseRequestDryRunList": {
       "type": "list",
@@ -1405,11 +1405,6 @@
       "output": {
         "target": "com.kubernetes.coordination#IoK8sApiCoordinationV1Lease"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.coordination#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -1417,7 +1412,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read the specified Lease"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.coordination#NotFound"
+        }
+      ]
     },
     "com.kubernetes.coordination#ReplaceCoordinationV1NamespacedLeaseRequest": {
       "type": "structure",
@@ -1503,6 +1503,14 @@
       "output": {
         "target": "com.kubernetes.coordination#IoK8sApiCoordinationV1Lease"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/apis/coordination.k8s.io/v1/namespaces/{namespace}/leases/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace the specified Lease"
+      },
       "errors": [
         {
           "target": "com.kubernetes.coordination#NotFound"
@@ -1513,15 +1521,7 @@
         {
           "target": "com.kubernetes.coordination#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/apis/coordination.k8s.io/v1/namespaces/{namespace}/leases/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace the specified Lease"
-      }
+      ]
     },
     "com.kubernetes.coordination#PatchCoordinationV1NamespacedLeaseRequest": {
       "type": "structure",
@@ -1590,6 +1590,14 @@
       "output": {
         "target": "com.kubernetes.coordination#IoK8sApiCoordinationV1Lease"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/apis/coordination.k8s.io/v1/namespaces/{namespace}/leases/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update the specified Lease"
+      },
       "errors": [
         {
           "target": "com.kubernetes.coordination#NotFound"
@@ -1600,15 +1608,7 @@
         {
           "target": "com.kubernetes.coordination#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/apis/coordination.k8s.io/v1/namespaces/{namespace}/leases/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update the specified Lease"
-      }
+      ]
     },
     "com.kubernetes.coordination#DeleteCoordinationV1NamespacedLeaseRequestDryRunList": {
       "type": "list",
@@ -1711,14 +1711,6 @@
       "output": {
         "target": "com.kubernetes.coordination#IoK8sApimachineryPkgApisMetaV1Status"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.coordination#NotFound"
-        },
-        {
-          "target": "com.kubernetes.coordination#Conflict"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -1726,7 +1718,15 @@
           "code": 200
         },
         "smithy.api#documentation": "delete a Lease"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.coordination#NotFound"
+        },
+        {
+          "target": "com.kubernetes.coordination#Conflict"
+        }
+      ]
     },
     "com.kubernetes.coordination#WatchCoordinationV1LeaseListForAllNamespacesRequest": {
       "type": "structure",
@@ -2542,14 +2542,6 @@
       "output": {
         "target": "com.kubernetes.coordination#IoK8sApiCoordinationV1alpha2LeaseCandidate"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.coordination#Conflict"
-        },
-        {
-          "target": "com.kubernetes.coordination#UnprocessableEntity"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -2557,7 +2549,15 @@
           "code": 200
         },
         "smithy.api#documentation": "create a LeaseCandidate"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.coordination#Conflict"
+        },
+        {
+          "target": "com.kubernetes.coordination#UnprocessableEntity"
+        }
+      ]
     },
     "com.kubernetes.coordination#DeleteCoordinationV1alpha2CollectionNamespacedLeaseCandidateRequestDryRunList": {
       "type": "list",
@@ -2763,11 +2763,6 @@
       "output": {
         "target": "com.kubernetes.coordination#IoK8sApiCoordinationV1alpha2LeaseCandidate"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.coordination#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -2775,7 +2770,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read the specified LeaseCandidate"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.coordination#NotFound"
+        }
+      ]
     },
     "com.kubernetes.coordination#ReplaceCoordinationV1alpha2NamespacedLeaseCandidateRequest": {
       "type": "structure",
@@ -2862,6 +2862,14 @@
       "output": {
         "target": "com.kubernetes.coordination#IoK8sApiCoordinationV1alpha2LeaseCandidate"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/apis/coordination.k8s.io/v1alpha2/namespaces/{namespace}/leasecandidates/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace the specified LeaseCandidate"
+      },
       "errors": [
         {
           "target": "com.kubernetes.coordination#NotFound"
@@ -2872,15 +2880,7 @@
         {
           "target": "com.kubernetes.coordination#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/apis/coordination.k8s.io/v1alpha2/namespaces/{namespace}/leasecandidates/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace the specified LeaseCandidate"
-      }
+      ]
     },
     "com.kubernetes.coordination#PatchCoordinationV1alpha2NamespacedLeaseCandidateRequest": {
       "type": "structure",
@@ -2949,6 +2949,14 @@
       "output": {
         "target": "com.kubernetes.coordination#IoK8sApiCoordinationV1alpha2LeaseCandidate"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/apis/coordination.k8s.io/v1alpha2/namespaces/{namespace}/leasecandidates/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update the specified LeaseCandidate"
+      },
       "errors": [
         {
           "target": "com.kubernetes.coordination#NotFound"
@@ -2959,15 +2967,7 @@
         {
           "target": "com.kubernetes.coordination#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/apis/coordination.k8s.io/v1alpha2/namespaces/{namespace}/leasecandidates/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update the specified LeaseCandidate"
-      }
+      ]
     },
     "com.kubernetes.coordination#DeleteCoordinationV1alpha2NamespacedLeaseCandidateRequestDryRunList": {
       "type": "list",
@@ -3070,14 +3070,6 @@
       "output": {
         "target": "com.kubernetes.coordination#IoK8sApimachineryPkgApisMetaV1Status"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.coordination#NotFound"
-        },
-        {
-          "target": "com.kubernetes.coordination#Conflict"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -3085,7 +3077,15 @@
           "code": 200
         },
         "smithy.api#documentation": "delete a LeaseCandidate"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.coordination#NotFound"
+        },
+        {
+          "target": "com.kubernetes.coordination#Conflict"
+        }
+      ]
     },
     "com.kubernetes.coordination#WatchCoordinationV1alpha2LeaseCandidateListForAllNamespacesRequest": {
       "type": "structure",
@@ -3880,14 +3880,6 @@
       "output": {
         "target": "com.kubernetes.coordination#IoK8sApiCoordinationV1beta1LeaseCandidate"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.coordination#Conflict"
-        },
-        {
-          "target": "com.kubernetes.coordination#UnprocessableEntity"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -3895,7 +3887,15 @@
           "code": 200
         },
         "smithy.api#documentation": "create a LeaseCandidate"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.coordination#Conflict"
+        },
+        {
+          "target": "com.kubernetes.coordination#UnprocessableEntity"
+        }
+      ]
     },
     "com.kubernetes.coordination#DeleteCoordinationV1beta1CollectionNamespacedLeaseCandidateRequestDryRunList": {
       "type": "list",
@@ -4101,11 +4101,6 @@
       "output": {
         "target": "com.kubernetes.coordination#IoK8sApiCoordinationV1beta1LeaseCandidate"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.coordination#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -4113,7 +4108,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read the specified LeaseCandidate"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.coordination#NotFound"
+        }
+      ]
     },
     "com.kubernetes.coordination#ReplaceCoordinationV1beta1NamespacedLeaseCandidateRequest": {
       "type": "structure",
@@ -4200,6 +4200,14 @@
       "output": {
         "target": "com.kubernetes.coordination#IoK8sApiCoordinationV1beta1LeaseCandidate"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/apis/coordination.k8s.io/v1beta1/namespaces/{namespace}/leasecandidates/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace the specified LeaseCandidate"
+      },
       "errors": [
         {
           "target": "com.kubernetes.coordination#NotFound"
@@ -4210,15 +4218,7 @@
         {
           "target": "com.kubernetes.coordination#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/apis/coordination.k8s.io/v1beta1/namespaces/{namespace}/leasecandidates/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace the specified LeaseCandidate"
-      }
+      ]
     },
     "com.kubernetes.coordination#PatchCoordinationV1beta1NamespacedLeaseCandidateRequest": {
       "type": "structure",
@@ -4287,6 +4287,14 @@
       "output": {
         "target": "com.kubernetes.coordination#IoK8sApiCoordinationV1beta1LeaseCandidate"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/apis/coordination.k8s.io/v1beta1/namespaces/{namespace}/leasecandidates/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update the specified LeaseCandidate"
+      },
       "errors": [
         {
           "target": "com.kubernetes.coordination#NotFound"
@@ -4297,15 +4305,7 @@
         {
           "target": "com.kubernetes.coordination#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/apis/coordination.k8s.io/v1beta1/namespaces/{namespace}/leasecandidates/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update the specified LeaseCandidate"
-      }
+      ]
     },
     "com.kubernetes.coordination#DeleteCoordinationV1beta1NamespacedLeaseCandidateRequestDryRunList": {
       "type": "list",
@@ -4408,14 +4408,6 @@
       "output": {
         "target": "com.kubernetes.coordination#IoK8sApimachineryPkgApisMetaV1Status"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.coordination#NotFound"
-        },
-        {
-          "target": "com.kubernetes.coordination#Conflict"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -4423,7 +4415,15 @@
           "code": 200
         },
         "smithy.api#documentation": "delete a LeaseCandidate"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.coordination#NotFound"
+        },
+        {
+          "target": "com.kubernetes.coordination#Conflict"
+        }
+      ]
     },
     "com.kubernetes.coordination#WatchCoordinationV1beta1LeaseCandidateListForAllNamespacesRequest": {
       "type": "structure",
@@ -4776,45 +4776,6 @@
         "smithy.api#documentation": "watch changes to an object of kind LeaseCandidate. deprecated: use the 'watch' parameter with a list operation instead, filtered to a single item with the 'fieldSelector' parameter."
       }
     },
-    "com.kubernetes.coordination#Conflict": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 409,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 409
-          }
-        ]
-      }
-    },
-    "com.kubernetes.coordination#UnprocessableEntity": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 422,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 422
-          }
-        ]
-      }
-    },
-    "com.kubernetes.coordination#NotFound": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 404,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 404
-          }
-        ]
-      }
-    },
     "com.kubernetes.coordination#Coordination": {
       "type": "service",
       "version": "unversioned",
@@ -4933,6 +4894,45 @@
       ],
       "traits": {
         "smithy.api#title": "Kubernetes"
+      }
+    },
+    "com.kubernetes.coordination#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.kubernetes.coordination#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.kubernetes.coordination#UnprocessableEntity": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 422,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 422
+          }
+        ]
       }
     }
   }

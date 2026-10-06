@@ -553,6 +553,14 @@
       "output": {
         "target": "com.posthog.event_definitions#PaginatedEnterpriseEventDefinitionList"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/event_definitions/",
+          "code": 200
+        },
+        "smithy.api#documentation": "List the event definitions of a project. On projects with more than 50000 event definitions, `count` stops at 10000 and `count_is_capped` is true, unless the request sets `search`, `exclude_stale`, `verified`, `names`, `tags` or `event_type=event_posthog`. Projects with more than 100000 event definitions also default to ordering by name under the same condition."
+      },
       "errors": [
         {
           "target": "com.posthog.event_definitions#BadRequest"
@@ -563,15 +571,7 @@
         {
           "target": "com.posthog.event_definitions#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/event_definitions/",
-          "code": 200
-        },
-        "smithy.api#documentation": "List the event definitions of a project. On projects with more than 50000 event definitions, `count` stops at 10000 and `count_is_capped` is true, unless the request sets `search`, `exclude_stale`, `verified`, `names`, `tags` or `event_type=event_posthog`. Projects with more than 100000 event definitions also default to ordering by name under the same condition."
-      }
+      ]
     },
     "com.posthog.event_definitions#CreateEventDefinitionRequestTagsList": {
       "type": "list",
@@ -654,6 +654,13 @@
       "output": {
         "target": "com.posthog.event_definitions#EnterpriseEventDefinition"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/event_definitions/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.event_definitions#BadRequest"
@@ -664,14 +671,7 @@
         {
           "target": "com.posthog.event_definitions#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/event_definitions/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.event_definitions#GetEventDefinitionRequest": {
       "type": "structure",
@@ -705,6 +705,13 @@
       "output": {
         "target": "com.posthog.event_definitions#EnterpriseEventDefinition"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/event_definitions/{id}/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.event_definitions#Forbidden"
@@ -712,14 +719,7 @@
         {
           "target": "com.posthog.event_definitions#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/event_definitions/{id}/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.event_definitions#UpdateEventDefinitionRequestTagsList": {
       "type": "list",
@@ -810,6 +810,13 @@
       "output": {
         "target": "com.posthog.event_definitions#EnterpriseEventDefinition"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/api/projects/{project_id}/event_definitions/{id}/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.event_definitions#BadRequest"
@@ -820,14 +827,7 @@
         {
           "target": "com.posthog.event_definitions#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/api/projects/{project_id}/event_definitions/{id}/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.event_definitions#UpdateEventDefinitionsPartialRequestTagsList": {
       "type": "list",
@@ -918,6 +918,13 @@
       "output": {
         "target": "com.posthog.event_definitions#EnterpriseEventDefinition"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/projects/{project_id}/event_definitions/{id}/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.event_definitions#BadRequest"
@@ -928,14 +935,7 @@
         {
           "target": "com.posthog.event_definitions#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/api/projects/{project_id}/event_definitions/{id}/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.event_definitions#EventDefinitionsDestroyRequest": {
       "type": "structure",
@@ -969,6 +969,13 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/api/projects/{project_id}/event_definitions/{id}/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.event_definitions#Forbidden"
@@ -976,14 +983,27 @@
         {
           "target": "com.posthog.event_definitions#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "DELETE",
-          "uri": "/api/projects/{project_id}/event_definitions/{id}/",
-          "code": 200
+      ]
+    },
+    "com.posthog.event_definitions#BulkUpdateTagsUUIDError": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID of the object that was skipped.",
+            "smithy.api#required": {}
+          }
+        },
+        "reason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Why the object was skipped, e.g. 'Not found or no edit access'.",
+            "smithy.api#required": {}
+          }
         }
-      }
+      },
+      "traits": {}
     },
     "com.posthog.event_definitions#EventDefinitionsBulkUpdateVerifiedCreateRequestIdsList": {
       "type": "list",
@@ -1072,26 +1092,6 @@
       "traits": {
         "smithy.api#documentation": "Events whose verified state was changed. Events already in the target state are omitted."
       }
-    },
-    "com.posthog.event_definitions#BulkUpdateTagsUUIDError": {
-      "type": "structure",
-      "members": {
-        "id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "UUID of the object that was skipped.",
-            "smithy.api#required": {}
-          }
-        },
-        "reason": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Why the object was skipped, e.g. 'Not found or no edit access'.",
-            "smithy.api#required": {}
-          }
-        }
-      },
-      "traits": {}
     },
     "com.posthog.event_definitions#EventDefinitionBulkUpdateVerifiedResponseSkippedList": {
       "type": "list",
@@ -1221,6 +1221,14 @@
       "output": {
         "target": "com.posthog.event_definitions#EventDefinitionRecord"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/event_definitions/by_name/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get event definition by exact name"
+      },
       "errors": [
         {
           "target": "com.posthog.event_definitions#BadRequest"
@@ -1231,15 +1239,7 @@
         {
           "target": "com.posthog.event_definitions#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/event_definitions/by_name/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Get event definition by exact name"
-      }
+      ]
     },
     "com.posthog.event_definitions#GetEventDefinitionsGolangRequest": {
       "type": "structure",
@@ -1265,6 +1265,13 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/event_definitions/golang/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.event_definitions#Forbidden"
@@ -1272,14 +1279,7 @@
         {
           "target": "com.posthog.event_definitions#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/event_definitions/golang/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.event_definitions#GetEventDefinitionsPrimaryPropertyRequestNamesList": {
       "type": "list",
@@ -1377,6 +1377,13 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/event_definitions/python/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.event_definitions#Forbidden"
@@ -1384,14 +1391,7 @@
         {
           "target": "com.posthog.event_definitions#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/event_definitions/python/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.event_definitions#GetEventDefinitionsTypescriptRequest": {
       "type": "structure",
@@ -1417,6 +1417,13 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/event_definitions/typescript/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.event_definitions#Forbidden"
@@ -1424,53 +1431,7 @@
         {
           "target": "com.posthog.event_definitions#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/event_definitions/typescript/",
-          "code": 200
-        }
-      }
-    },
-    "com.posthog.event_definitions#BadRequest": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 400,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 400
-          }
-        ]
-      }
-    },
-    "com.posthog.event_definitions#Forbidden": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 403,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 403
-          }
-        ]
-      }
-    },
-    "com.posthog.event_definitions#NotFound": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 404,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 404
-          }
-        ]
-      }
+      ]
     },
     "com.posthog.event_definitions#EventDefinitions": {
       "type": "service",
@@ -1515,6 +1476,45 @@
       ],
       "traits": {
         "smithy.api#title": "PostHog API"
+      }
+    },
+    "com.posthog.event_definitions#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.posthog.event_definitions#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.posthog.event_definitions#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
       }
     }
   }

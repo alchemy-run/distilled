@@ -296,6 +296,14 @@
       "output": {
         "target": "com.posthog.sandbox_environments#PaginatedSandboxEnvironmentDTOList"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/sandbox_environments/",
+          "code": 200
+        },
+        "smithy.api#documentation": "API for managing sandbox environments that control network access for task runs."
+      },
       "errors": [
         {
           "target": "com.posthog.sandbox_environments#BadRequest"
@@ -306,15 +314,7 @@
         {
           "target": "com.posthog.sandbox_environments#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/sandbox_environments/",
-          "code": 200
-        },
-        "smithy.api#documentation": "API for managing sandbox environments that control network access for task runs."
-      }
+      ]
     },
     "com.posthog.sandbox_environments#SandboxEnvironmentNetworkAccessLevelEnum": {
       "type": "enum",
@@ -434,6 +434,14 @@
       "output": {
         "target": "com.posthog.sandbox_environments#SandboxEnvironmentDTO"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/sandbox_environments/",
+          "code": 200
+        },
+        "smithy.api#documentation": "API for managing sandbox environments that control network access for task runs."
+      },
       "errors": [
         {
           "target": "com.posthog.sandbox_environments#BadRequest"
@@ -444,15 +452,7 @@
         {
           "target": "com.posthog.sandbox_environments#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/sandbox_environments/",
-          "code": 200
-        },
-        "smithy.api#documentation": "API for managing sandbox environments that control network access for task runs."
-      }
+      ]
     },
     "com.posthog.sandbox_environments#GetSandboxRequest": {
       "type": "structure",
@@ -485,14 +485,6 @@
       "output": {
         "target": "com.posthog.sandbox_environments#SandboxEnvironmentDTO"
       },
-      "errors": [
-        {
-          "target": "com.posthog.sandbox_environments#Forbidden"
-        },
-        {
-          "target": "com.posthog.sandbox_environments#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -500,7 +492,15 @@
           "code": 200
         },
         "smithy.api#documentation": "API for managing sandbox environments that control network access for task runs."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.posthog.sandbox_environments#Forbidden"
+        },
+        {
+          "target": "com.posthog.sandbox_environments#NotFound"
+        }
+      ]
     },
     "com.posthog.sandbox_environments#UpdateSandboxPartialRequestAllowedDomainsList": {
       "type": "list",
@@ -600,6 +600,14 @@
       "output": {
         "target": "com.posthog.sandbox_environments#SandboxEnvironmentDTO"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/projects/{project_id}/sandbox_environments/{id}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "API for managing sandbox environments that control network access for task runs."
+      },
       "errors": [
         {
           "target": "com.posthog.sandbox_environments#BadRequest"
@@ -610,15 +618,7 @@
         {
           "target": "com.posthog.sandbox_environments#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/api/projects/{project_id}/sandbox_environments/{id}/",
-          "code": 200
-        },
-        "smithy.api#documentation": "API for managing sandbox environments that control network access for task runs."
-      }
+      ]
     },
     "com.posthog.sandbox_environments#SandboxDestroyRequest": {
       "type": "structure",
@@ -651,14 +651,6 @@
       "output": {
         "target": "smithy.api#Unit"
       },
-      "errors": [
-        {
-          "target": "com.posthog.sandbox_environments#Forbidden"
-        },
-        {
-          "target": "com.posthog.sandbox_environments#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -666,6 +658,38 @@
           "code": 200
         },
         "smithy.api#documentation": "API for managing sandbox environments that control network access for task runs."
+      },
+      "errors": [
+        {
+          "target": "com.posthog.sandbox_environments#Forbidden"
+        },
+        {
+          "target": "com.posthog.sandbox_environments#NotFound"
+        }
+      ]
+    },
+    "com.posthog.sandbox_environments#SandboxEnvironments": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.posthog.sandbox_environments#ListSandbox"
+        },
+        {
+          "target": "com.posthog.sandbox_environments#CreateSandbox"
+        },
+        {
+          "target": "com.posthog.sandbox_environments#GetSandbox"
+        },
+        {
+          "target": "com.posthog.sandbox_environments#UpdateSandboxPartial"
+        },
+        {
+          "target": "com.posthog.sandbox_environments#SandboxDestroy"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "PostHog API"
       }
     },
     "com.posthog.sandbox_environments#BadRequest": {
@@ -705,30 +729,6 @@
             "status": 404
           }
         ]
-      }
-    },
-    "com.posthog.sandbox_environments#SandboxEnvironments": {
-      "type": "service",
-      "version": "1.0.0",
-      "operations": [
-        {
-          "target": "com.posthog.sandbox_environments#ListSandbox"
-        },
-        {
-          "target": "com.posthog.sandbox_environments#CreateSandbox"
-        },
-        {
-          "target": "com.posthog.sandbox_environments#GetSandbox"
-        },
-        {
-          "target": "com.posthog.sandbox_environments#UpdateSandboxPartial"
-        },
-        {
-          "target": "com.posthog.sandbox_environments#SandboxDestroy"
-        }
-      ],
-      "traits": {
-        "smithy.api#title": "PostHog API"
       }
     }
   }

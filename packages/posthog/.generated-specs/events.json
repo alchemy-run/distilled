@@ -777,6 +777,14 @@
       "output": {
         "target": "com.posthog.events#PaginatedClickhouseEventList"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/events/",
+          "code": 200
+        },
+        "smithy.api#documentation": "This endpoint allows you to list and filter events.\n        It is effectively deprecated and is kept only for backwards compatibility.\n        If you ever ask about it you will be advised to not use it...\n        If you want to ad-hoc list or aggregate events, use the Query endpoint instead.\n        If you want to export all events or many pages of events you should use our CDP/Batch Exports products instead."
+      },
       "errors": [
         {
           "target": "com.posthog.events#BadRequest"
@@ -787,15 +795,7 @@
         {
           "target": "com.posthog.events#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/events/",
-          "code": 200
-        },
-        "smithy.api#documentation": "This endpoint allows you to list and filter events.\n        It is effectively deprecated and is kept only for backwards compatibility.\n        If you ever ask about it you will be advised to not use it...\n        If you want to ad-hoc list or aggregate events, use the Query endpoint instead.\n        If you want to export all events or many pages of events you should use our CDP/Batch Exports products instead."
-      }
+      ]
     },
     "com.posthog.events#GetEventRequestFormat": {
       "type": "enum",
@@ -884,6 +884,13 @@
       "output": {
         "target": "com.posthog.events#GetEventResponse"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/events/{id}/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.events#BadRequest"
@@ -894,14 +901,7 @@
         {
           "target": "com.posthog.events#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/events/{id}/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.events#GetEventsValueRequestEventNameList": {
       "type": "list",
@@ -1035,6 +1035,14 @@
       "output": {
         "target": "com.posthog.events#EventPropertyValuesResponse"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/events/values/",
+          "code": 200
+        },
+        "smithy.api#documentation": "List values of an event property from recent events."
+      },
       "errors": [
         {
           "target": "com.posthog.events#BadRequest"
@@ -1045,14 +1053,24 @@
         {
           "target": "com.posthog.events#NotFound"
         }
+      ]
+    },
+    "com.posthog.events#Events": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.posthog.events#ListEvents"
+        },
+        {
+          "target": "com.posthog.events#GetEvent"
+        },
+        {
+          "target": "com.posthog.events#GetEventsValue"
+        }
       ],
       "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/events/values/",
-          "code": 200
-        },
-        "smithy.api#documentation": "List values of an event property from recent events."
+        "smithy.api#title": "PostHog API"
       }
     },
     "com.posthog.events#BadRequest": {
@@ -1092,24 +1110,6 @@
             "status": 404
           }
         ]
-      }
-    },
-    "com.posthog.events#Events": {
-      "type": "service",
-      "version": "1.0.0",
-      "operations": [
-        {
-          "target": "com.posthog.events#ListEvents"
-        },
-        {
-          "target": "com.posthog.events#GetEvent"
-        },
-        {
-          "target": "com.posthog.events#GetEventsValue"
-        }
-      ],
-      "traits": {
-        "smithy.api#title": "PostHog API"
       }
     }
   }

@@ -113,6 +113,13 @@
       "output": {
         "target": "com.posthog.groups_types#ListGroupsTypesResponse"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/groups_types/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.groups_types#Forbidden"
@@ -120,14 +127,7 @@
         {
           "target": "com.posthog.groups_types#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/groups_types/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.groups_types#GroupsTypesDestroyRequest": {
       "type": "structure",
@@ -160,6 +160,13 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/api/projects/{project_id}/groups_types/{group_type_index}/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.groups_types#Forbidden"
@@ -167,14 +174,7 @@
         {
           "target": "com.posthog.groups_types#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "DELETE",
-          "uri": "/api/projects/{project_id}/groups_types/{group_type_index}/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.groups_types#ListGroupsTypesMetricsRequest": {
       "type": "structure",
@@ -376,6 +376,13 @@
       "output": {
         "target": "com.posthog.groups_types#PaginatedGroupUsageMetricList"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/groups_types/{group_type_index}/metrics/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.groups_types#BadRequest"
@@ -386,14 +393,7 @@
         {
           "target": "com.posthog.groups_types#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/groups_types/{group_type_index}/metrics/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.groups_types#CreateGroupsTypesMetricsRequestFiltersMap": {
       "type": "map",
@@ -481,6 +481,13 @@
       "output": {
         "target": "com.posthog.groups_types#GroupUsageMetric"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/groups_types/{group_type_index}/metrics/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.groups_types#BadRequest"
@@ -491,14 +498,7 @@
         {
           "target": "com.posthog.groups_types#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/groups_types/{group_type_index}/metrics/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.groups_types#GetGroupsTypesMetricsRequest": {
       "type": "structure",
@@ -539,6 +539,13 @@
       "output": {
         "target": "com.posthog.groups_types#GroupUsageMetric"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/groups_types/{group_type_index}/metrics/{id}/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.groups_types#Forbidden"
@@ -546,14 +553,7 @@
         {
           "target": "com.posthog.groups_types#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/groups_types/{group_type_index}/metrics/{id}/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.groups_types#UpdateGroupsTypesMetricsRequestFiltersMap": {
       "type": "map",
@@ -649,6 +649,13 @@
       "output": {
         "target": "com.posthog.groups_types#GroupUsageMetric"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/api/projects/{project_id}/groups_types/{group_type_index}/metrics/{id}/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.groups_types#BadRequest"
@@ -659,14 +666,7 @@
         {
           "target": "com.posthog.groups_types#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/api/projects/{project_id}/groups_types/{group_type_index}/metrics/{id}/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.groups_types#UpdateGroupsTypesMetricsPartialRequestFiltersMap": {
       "type": "map",
@@ -762,6 +762,13 @@
       "output": {
         "target": "com.posthog.groups_types#GroupUsageMetric"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/projects/{project_id}/groups_types/{group_type_index}/metrics/{id}/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.groups_types#BadRequest"
@@ -772,14 +779,7 @@
         {
           "target": "com.posthog.groups_types#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/api/projects/{project_id}/groups_types/{group_type_index}/metrics/{id}/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.groups_types#GroupsTypesMetricsDestroyRequest": {
       "type": "structure",
@@ -820,6 +820,13 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/api/projects/{project_id}/groups_types/{group_type_index}/metrics/{id}/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.groups_types#Forbidden"
@@ -827,14 +834,7 @@
         {
           "target": "com.posthog.groups_types#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "DELETE",
-          "uri": "/api/projects/{project_id}/groups_types/{group_type_index}/metrics/{id}/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.groups_types#GroupsTypesCreateDetailDashboardUpdateRequestDefaultColumnsList": {
       "type": "list",
@@ -897,6 +897,13 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/api/projects/{project_id}/groups_types/create_detail_dashboard/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.groups_types#BadRequest"
@@ -907,14 +914,7 @@
         {
           "target": "com.posthog.groups_types#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/api/projects/{project_id}/groups_types/create_detail_dashboard/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.groups_types#UpdateGroupsTypesSetDefaultColumnRequestDefaultColumnsList": {
       "type": "list",
@@ -977,6 +977,13 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/api/projects/{project_id}/groups_types/set_default_columns/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.groups_types#BadRequest"
@@ -987,14 +994,7 @@
         {
           "target": "com.posthog.groups_types#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/api/projects/{project_id}/groups_types/set_default_columns/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.groups_types#GroupsTypesUpdateMetadataPartialUpdateRequestDefaultColumnsList": {
       "type": "list",
@@ -1057,6 +1057,13 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/projects/{project_id}/groups_types/update_metadata/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.groups_types#BadRequest"
@@ -1067,53 +1074,7 @@
         {
           "target": "com.posthog.groups_types#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/api/projects/{project_id}/groups_types/update_metadata/",
-          "code": 200
-        }
-      }
-    },
-    "com.posthog.groups_types#Forbidden": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 403,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 403
-          }
-        ]
-      }
-    },
-    "com.posthog.groups_types#NotFound": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 404,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 404
-          }
-        ]
-      }
-    },
-    "com.posthog.groups_types#BadRequest": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 400,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 400
-          }
-        ]
-      }
+      ]
     },
     "com.posthog.groups_types#GroupsTypes": {
       "type": "service",
@@ -1155,6 +1116,45 @@
       ],
       "traits": {
         "smithy.api#title": "PostHog API"
+      }
+    },
+    "com.posthog.groups_types#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.posthog.groups_types#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.posthog.groups_types#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
       }
     }
   }

@@ -1,73 +1,70 @@
 {
-  "description": "Add observed error responses to the v1 edge-ingest operation. Live probes against api.axiom.co showed: 400 for invalid dataset name, 404 when the dataset does not exist, and 422 when the payload body is missing.",
+  "description": "From v1-edge-ingest/001-add-error-responses.patch.json: Add observed error responses to the v1 edge-ingest operation. Live probes against api.axiom.co showed: 400 for invalid dataset name, 404 when the dataset does not exist, and 422 when the payload body is missing.",
   "patches": [
     {
       "op": "add",
-      "path": "/components/responses",
+      "path": "/shapes/com.axiom.api#IngestToDataset/errors",
+      "value": [
+        {
+          "target": "com.axiom.api#BadRequest"
+        },
+        {
+          "target": "com.axiom.api#NotFound"
+        },
+        {
+          "target": "com.axiom.api#UnprocessableEntity"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.axiom.api#BadRequest",
       "value": {
-        "BadRequestError": {
-          "description": "Bad request",
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "code": { "type": "integer" },
-                  "message": { "type": "string" }
-                }
-              }
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 400
             }
-          }
-        },
-        "NotFoundError": {
-          "description": "Not found",
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "code": { "type": "integer" },
-                  "message": { "type": "string" }
-                }
-              }
-            }
-          }
-        },
-        "UnprocessableEntityError": {
-          "description": "Unprocessable entity",
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "code": { "type": "integer" },
-                  "message": { "type": "string" }
-                }
-              }
-            }
-          }
+          ]
         }
       }
     },
     {
       "op": "add",
-      "path": "/paths/~1v1~1ingest~1{dataset-id}/post/responses/400",
+      "path": "/shapes/com.axiom.api#NotFound",
       "value": {
-        "$ref": "#/components/responses/BadRequestError"
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404
+            }
+          ]
+        }
       }
     },
     {
       "op": "add",
-      "path": "/paths/~1v1~1ingest~1{dataset-id}/post/responses/404",
+      "path": "/shapes/com.axiom.api#UnprocessableEntity",
       "value": {
-        "$ref": "#/components/responses/NotFoundError"
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1v1~1ingest~1{dataset-id}/post/responses/422",
-      "value": {
-        "$ref": "#/components/responses/UnprocessableEntityError"
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 422,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 422
+            }
+          ]
+        }
       }
     }
   ]

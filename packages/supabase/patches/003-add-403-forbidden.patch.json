@@ -3,23 +3,12 @@
   "patches": [
     {
       "op": "add",
-      "path": "/paths/~1v1~1projects~1available-regions/get/responses/403",
-      "value": {
-        "description": "Forbidden - insufficient permissions",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string"
-                }
-              },
-              "required": ["message"]
-            }
-          }
+      "path": "/shapes/com.supabase.api#V1GetAvailableRegions/errors",
+      "value": [
+        {
+          "target": "com.supabase.api#Forbidden"
         }
-      }
+      ]
     }
   ]
 }

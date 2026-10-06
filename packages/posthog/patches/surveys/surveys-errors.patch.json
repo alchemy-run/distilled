@@ -1,0 +1,293 @@
+{
+  "description": "From surveys-errors.patch.json: Auto-generated PostHog error responses (400/403/404) for tag \"surveys\". See generate-error-patches.ts.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.surveys#SurveysList/errors",
+      "value": [
+        {
+          "target": "com.posthog.surveys#BadRequest"
+        },
+        {
+          "target": "com.posthog.surveys#Forbidden"
+        },
+        {
+          "target": "com.posthog.surveys#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.surveys#SurveysCreate/errors",
+      "value": [
+        {
+          "target": "com.posthog.surveys#BadRequest"
+        },
+        {
+          "target": "com.posthog.surveys#Forbidden"
+        },
+        {
+          "target": "com.posthog.surveys#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.surveys#SurveysRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.surveys#Forbidden"
+        },
+        {
+          "target": "com.posthog.surveys#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.surveys#SurveysUpdate/errors",
+      "value": [
+        {
+          "target": "com.posthog.surveys#BadRequest"
+        },
+        {
+          "target": "com.posthog.surveys#Forbidden"
+        },
+        {
+          "target": "com.posthog.surveys#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.surveys#SurveysPartialUpdate/errors",
+      "value": [
+        {
+          "target": "com.posthog.surveys#BadRequest"
+        },
+        {
+          "target": "com.posthog.surveys#Forbidden"
+        },
+        {
+          "target": "com.posthog.surveys#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.surveys#SurveysDestroy/errors",
+      "value": [
+        {
+          "target": "com.posthog.surveys#Forbidden"
+        },
+        {
+          "target": "com.posthog.surveys#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.surveys#SurveysActivityRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.surveys#Forbidden"
+        },
+        {
+          "target": "com.posthog.surveys#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.surveys#SurveysArchivedResponseUuidsRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.surveys#Forbidden"
+        },
+        {
+          "target": "com.posthog.surveys#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.surveys#SurveysDuplicateToProjectsCreate/errors",
+      "value": [
+        {
+          "target": "com.posthog.surveys#BadRequest"
+        },
+        {
+          "target": "com.posthog.surveys#Forbidden"
+        },
+        {
+          "target": "com.posthog.surveys#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.surveys#SurveysResponsesArchiveCreate/errors",
+      "value": [
+        {
+          "target": "com.posthog.surveys#BadRequest"
+        },
+        {
+          "target": "com.posthog.surveys#Forbidden"
+        },
+        {
+          "target": "com.posthog.surveys#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.surveys#SurveysResponsesUnarchiveCreate/errors",
+      "value": [
+        {
+          "target": "com.posthog.surveys#BadRequest"
+        },
+        {
+          "target": "com.posthog.surveys#Forbidden"
+        },
+        {
+          "target": "com.posthog.surveys#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.surveys#SurveysStatsRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.surveys#BadRequest"
+        },
+        {
+          "target": "com.posthog.surveys#Forbidden"
+        },
+        {
+          "target": "com.posthog.surveys#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.surveys#SurveysSummarizeResponsesCreate/errors",
+      "value": [
+        {
+          "target": "com.posthog.surveys#BadRequest"
+        },
+        {
+          "target": "com.posthog.surveys#Forbidden"
+        },
+        {
+          "target": "com.posthog.surveys#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.surveys#SurveysSummaryHeadlineCreate/errors",
+      "value": [
+        {
+          "target": "com.posthog.surveys#BadRequest"
+        },
+        {
+          "target": "com.posthog.surveys#Forbidden"
+        },
+        {
+          "target": "com.posthog.surveys#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.surveys#SurveysAllActivityRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.surveys#Forbidden"
+        },
+        {
+          "target": "com.posthog.surveys#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.surveys#SurveysResponsesCountRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.surveys#Forbidden"
+        },
+        {
+          "target": "com.posthog.surveys#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.surveys#SurveysGlobalStatsRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.surveys#BadRequest"
+        },
+        {
+          "target": "com.posthog.surveys#Forbidden"
+        },
+        {
+          "target": "com.posthog.surveys#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.surveys#BadRequest",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 400
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.surveys#Forbidden",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 403
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.surveys#NotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

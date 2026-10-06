@@ -500,6 +500,14 @@
       "output": {
         "target": "com.posthog.saved#ListSavedResponse"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/saved/",
+          "code": 200
+        },
+        "smithy.api#documentation": "List saved heatmaps for the project. A saved heatmap pins a page URL and a set of viewport widths, and (for type 'screenshot') renders the page so heatmap data can be overlaid on it."
+      },
       "errors": [
         {
           "target": "com.posthog.saved#BadRequest"
@@ -510,15 +518,7 @@
         {
           "target": "com.posthog.saved#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/saved/",
-          "code": 200
-        },
-        "smithy.api#documentation": "List saved heatmaps for the project. A saved heatmap pins a page URL and a set of viewport widths, and (for type 'screenshot') renders the page so heatmap data can be overlaid on it."
-      }
+      ]
     },
     "com.posthog.saved#CreateSavedRequestWidthsList": {
       "type": "list",
@@ -597,6 +597,14 @@
       "output": {
         "target": "com.posthog.saved#HeatmapScreenshotResponse"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/saved/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create a saved heatmap for a page URL. For type 'screenshot' (the default) this enqueues a headless render of the page at each target width; poll the saved heatmap or its content endpoint until status is 'completed'. Provide 'widths' to control which viewport widths are rendered."
+      },
       "errors": [
         {
           "target": "com.posthog.saved#BadRequest"
@@ -607,15 +615,7 @@
         {
           "target": "com.posthog.saved#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/saved/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Create a saved heatmap for a page URL. For type 'screenshot' (the default) this enqueues a headless render of the page at each target width; poll the saved heatmap or its content endpoint until status is 'completed'. Provide 'widths' to control which viewport widths are rendered."
-      }
+      ]
     },
     "com.posthog.saved#GetSavedRequest": {
       "type": "structure",
@@ -648,14 +648,6 @@
       "output": {
         "target": "com.posthog.saved#HeatmapScreenshotResponse"
       },
-      "errors": [
-        {
-          "target": "com.posthog.saved#Forbidden"
-        },
-        {
-          "target": "com.posthog.saved#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -663,7 +655,15 @@
           "code": 200
         },
         "smithy.api#documentation": "Get a single saved heatmap by its short_id, including per-width render status."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.posthog.saved#Forbidden"
+        },
+        {
+          "target": "com.posthog.saved#NotFound"
+        }
+      ]
     },
     "com.posthog.saved#UpdateSavedPartialRequestWidthsList": {
       "type": "list",
@@ -748,6 +748,14 @@
       "output": {
         "target": "com.posthog.saved#HeatmapScreenshotResponse"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/projects/{project_id}/saved/{short_id}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update a saved heatmap (e.g. rename, change widths, or soft-delete via 'deleted'). Changing the URL of a 'screenshot' heatmap triggers a re-render."
+      },
       "errors": [
         {
           "target": "com.posthog.saved#BadRequest"
@@ -758,15 +766,7 @@
         {
           "target": "com.posthog.saved#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/api/projects/{project_id}/saved/{short_id}/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Update a saved heatmap (e.g. rename, change widths, or soft-delete via 'deleted'). Changing the URL of a 'screenshot' heatmap triggers a re-render."
-      }
+      ]
     },
     "com.posthog.saved#SavedDestroyRequest": {
       "type": "structure",
@@ -799,14 +799,6 @@
       "output": {
         "target": "smithy.api#Unit"
       },
-      "errors": [
-        {
-          "target": "com.posthog.saved#Forbidden"
-        },
-        {
-          "target": "com.posthog.saved#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -814,7 +806,15 @@
           "code": 200
         },
         "smithy.api#documentation": "Hard delete of this model is not allowed. Use a patch API call to set \"deleted\" to true"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.posthog.saved#Forbidden"
+        },
+        {
+          "target": "com.posthog.saved#NotFound"
+        }
+      ]
     },
     "com.posthog.saved#SavedRegenerateCreateRequest": {
       "type": "structure",
@@ -1146,32 +1146,6 @@
         ]
       }
     },
-    "com.posthog.saved#Forbidden": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 403,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 403
-          }
-        ]
-      }
-    },
-    "com.posthog.saved#NotFound": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 404,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 404
-          }
-        ]
-      }
-    },
     "com.posthog.saved#Saved": {
       "type": "service",
       "version": "1.0.0",
@@ -1206,6 +1180,32 @@
       ],
       "traits": {
         "smithy.api#title": "PostHog API"
+      }
+    },
+    "com.posthog.saved#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.posthog.saved#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
       }
     }
   }

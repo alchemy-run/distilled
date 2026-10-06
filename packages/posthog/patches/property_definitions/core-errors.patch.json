@@ -1,0 +1,152 @@
+{
+  "description": "From core-errors.patch.json: Auto-generated PostHog error responses (400/403/404) for tag \"core\". See generate-error-patches.ts.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.property_definitions#PropertyDefinitionsList/errors",
+      "value": [
+        {
+          "target": "com.posthog.property_definitions#BadRequest"
+        },
+        {
+          "target": "com.posthog.property_definitions#Forbidden"
+        },
+        {
+          "target": "com.posthog.property_definitions#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.property_definitions#PropertyDefinitionsRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.property_definitions#Forbidden"
+        },
+        {
+          "target": "com.posthog.property_definitions#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.property_definitions#PropertyDefinitionsUpdate/errors",
+      "value": [
+        {
+          "target": "com.posthog.property_definitions#BadRequest"
+        },
+        {
+          "target": "com.posthog.property_definitions#Forbidden"
+        },
+        {
+          "target": "com.posthog.property_definitions#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.property_definitions#PropertyDefinitionsPartialUpdate/errors",
+      "value": [
+        {
+          "target": "com.posthog.property_definitions#BadRequest"
+        },
+        {
+          "target": "com.posthog.property_definitions#Forbidden"
+        },
+        {
+          "target": "com.posthog.property_definitions#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.property_definitions#PropertyDefinitionsDestroy/errors",
+      "value": [
+        {
+          "target": "com.posthog.property_definitions#Forbidden"
+        },
+        {
+          "target": "com.posthog.property_definitions#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.property_definitions#PropertyDefinitionsBulkUpdateTagsCreate/errors",
+      "value": [
+        {
+          "target": "com.posthog.property_definitions#BadRequest"
+        },
+        {
+          "target": "com.posthog.property_definitions#Forbidden"
+        },
+        {
+          "target": "com.posthog.property_definitions#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.property_definitions#PropertyDefinitionsSeenTogetherRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.property_definitions#Forbidden"
+        },
+        {
+          "target": "com.posthog.property_definitions#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.property_definitions#BadRequest",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 400
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.property_definitions#Forbidden",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 403
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.property_definitions#NotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "description": "From strip-required.patch.json: Strip required arrays from all PostHog response schemas. The spec is unreliable about required-ness — many endpoints omit fields the spec marks required (deleted users, cursor pagination omitting count, optional nested objects, etc.). Removing required treats all fields as optional, which lets decoding succeed against real responses without sacrificing type safety.",
+  "patches": [
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.file_system_shortcut#PaginatedFileSystemShortcutList/members/count/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.file_system_shortcut#PaginatedFileSystemShortcutList/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.file_system_shortcut#FileSystemShortcut2/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.file_system_shortcut#FileSystemShortcut2/members/path/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.file_system_shortcut#FileSystemShortcut2/members/created_at/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.file_system_shortcut#FileSystemShortcut2/members/user_access_level/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.file_system_shortcut#FileSystemShortcutCreateRequest/members/path/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.file_system_shortcut#FileSystemShortcutUpdateRequest/members/path/traits/smithy.api#required"
+    }
+  ]
+}

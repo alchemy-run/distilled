@@ -518,6 +518,13 @@
       "output": {
         "target": "com.posthog.dashboards#PaginatedDashboardBasicList"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/dashboards/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.dashboards#BadRequest"
@@ -528,14 +535,7 @@
         {
           "target": "com.posthog.dashboards#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/dashboards/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.dashboards#CreateDashboardRequestFormat": {
       "type": "enum",
@@ -1090,6 +1090,13 @@
       "output": {
         "target": "com.posthog.dashboards#DashboardOutput"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/dashboards/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.dashboards#BadRequest"
@@ -1100,14 +1107,7 @@
         {
           "target": "com.posthog.dashboards#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/dashboards/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.dashboards#ListDashboardsCollaboratorsRequest": {
       "type": "structure",
@@ -1189,6 +1189,13 @@
       "output": {
         "target": "com.posthog.dashboards#ListDashboardsCollaboratorsResponse"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/dashboards/{dashboard_id}/collaborators/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.dashboards#Forbidden"
@@ -1196,14 +1203,7 @@
         {
           "target": "com.posthog.dashboards#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/dashboards/{dashboard_id}/collaborators/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.dashboards#CreateDashboardsCollaboratorRequest": {
       "type": "structure",
@@ -1242,6 +1242,13 @@
       "output": {
         "target": "com.posthog.dashboards#DashboardCollaboratorOutput"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/dashboards/{dashboard_id}/collaborators/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.dashboards#BadRequest"
@@ -1252,14 +1259,7 @@
         {
           "target": "com.posthog.dashboards#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/dashboards/{dashboard_id}/collaborators/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.dashboards#DashboardsCollaboratorsDestroyRequest": {
       "type": "structure",
@@ -1299,6 +1299,13 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/api/projects/{project_id}/dashboards/{dashboard_id}/collaborators/{user__uuid}/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.dashboards#Forbidden"
@@ -1306,14 +1313,7 @@
         {
           "target": "com.posthog.dashboards#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "DELETE",
-          "uri": "/api/projects/{project_id}/dashboards/{dashboard_id}/collaborators/{user__uuid}/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.dashboards#ListDashboardsSharingRequest": {
       "type": "structure",
@@ -1436,6 +1436,13 @@
       "output": {
         "target": "com.posthog.dashboards#ListDashboardsSharingResponse"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/dashboards/{dashboard_id}/sharing/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.dashboards#Forbidden"
@@ -1443,14 +1450,7 @@
         {
           "target": "com.posthog.dashboards#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/dashboards/{dashboard_id}/sharing/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.dashboards#CreateDashboardsSharingPasswordRequest": {
       "type": "structure",
@@ -1492,6 +1492,14 @@
       "output": {
         "target": "com.posthog.dashboards#SharingConfiguration"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/dashboards/{dashboard_id}/sharing/passwords/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create a new password for the sharing configuration."
+      },
       "errors": [
         {
           "target": "com.posthog.dashboards#BadRequest"
@@ -1502,15 +1510,7 @@
         {
           "target": "com.posthog.dashboards#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/dashboards/{dashboard_id}/sharing/passwords/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Create a new password for the sharing configuration."
-      }
+      ]
     },
     "com.posthog.dashboards#DashboardsSharingPasswordsDestroyRequest": {
       "type": "structure",
@@ -1550,14 +1550,6 @@
       "output": {
         "target": "smithy.api#Unit"
       },
-      "errors": [
-        {
-          "target": "com.posthog.dashboards#Forbidden"
-        },
-        {
-          "target": "com.posthog.dashboards#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -1565,7 +1557,15 @@
           "code": 200
         },
         "smithy.api#documentation": "Delete a password from the sharing configuration."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.posthog.dashboards#Forbidden"
+        },
+        {
+          "target": "com.posthog.dashboards#NotFound"
+        }
+      ]
     },
     "com.posthog.dashboards#DashboardsSharingRefreshCreateRequest": {
       "type": "structure",
@@ -1607,6 +1607,13 @@
       "output": {
         "target": "com.posthog.dashboards#SharingConfiguration"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/dashboards/{dashboard_id}/sharing/refresh/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.dashboards#BadRequest"
@@ -1617,14 +1624,7 @@
         {
           "target": "com.posthog.dashboards#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/dashboards/{dashboard_id}/sharing/refresh/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.dashboards#GetDashboardRequestFormat": {
       "type": "enum",
@@ -1703,6 +1703,13 @@
       "output": {
         "target": "com.posthog.dashboards#DashboardOutput"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/dashboards/{id}/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.dashboards#BadRequest"
@@ -1713,14 +1720,7 @@
         {
           "target": "com.posthog.dashboards#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/dashboards/{id}/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.dashboards#UpdateDashboardRequestFormat": {
       "type": "enum",
@@ -1898,6 +1898,13 @@
       "output": {
         "target": "com.posthog.dashboards#DashboardOutput"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/api/projects/{project_id}/dashboards/{id}/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.dashboards#BadRequest"
@@ -1908,14 +1915,7 @@
         {
           "target": "com.posthog.dashboards#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/api/projects/{project_id}/dashboards/{id}/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.dashboards#UpdateDashboardsPartialRequestFormat": {
       "type": "enum",
@@ -3753,6 +3753,13 @@
       "output": {
         "target": "com.posthog.dashboards#DashboardOutput"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/projects/{project_id}/dashboards/{id}/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.dashboards#BadRequest"
@@ -3763,14 +3770,7 @@
         {
           "target": "com.posthog.dashboards#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/api/projects/{project_id}/dashboards/{id}/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.dashboards#DashboardsDestroyRequestFormat": {
       "type": "enum",
@@ -3828,6 +3828,14 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/api/projects/{project_id}/dashboards/{id}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Hard delete of this model is not allowed. Use a patch API call to set \"deleted\" to true"
+      },
       "errors": [
         {
           "target": "com.posthog.dashboards#BadRequest"
@@ -3838,15 +3846,7 @@
         {
           "target": "com.posthog.dashboards#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "DELETE",
-          "uri": "/api/projects/{project_id}/dashboards/{id}/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Hard delete of this model is not allowed. Use a patch API call to set \"deleted\" to true"
-      }
+      ]
     },
     "com.posthog.dashboards#DashboardsCopyTileCreateRequestFormat": {
       "type": "enum",
@@ -3916,6 +3916,14 @@
       "output": {
         "target": "com.posthog.dashboards#DashboardOutput"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/dashboards/{id}/copy_tile/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Copy an existing dashboard tile to another dashboard (insight, text card, or widget tile)."
+      },
       "errors": [
         {
           "target": "com.posthog.dashboards#BadRequest"
@@ -3926,15 +3934,7 @@
         {
           "target": "com.posthog.dashboards#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/dashboards/{id}/copy_tile/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Copy an existing dashboard tile to another dashboard (insight, text card, or widget tile)."
-      }
+      ]
     },
     "com.posthog.dashboards#DashboardsCreateTextTileCreateRequestFormat": {
       "type": "enum",
@@ -40337,6 +40337,13 @@
       "output": {
         "target": "com.posthog.dashboards#DashboardOutput"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/dashboards/{id}/reorder_tiles/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.dashboards#BadRequest"
@@ -40347,14 +40354,7 @@
         {
           "target": "com.posthog.dashboards#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/dashboards/{id}/reorder_tiles/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.dashboards#GetDashboardsRunInsightRequestFormat": {
       "type": "enum",
@@ -40567,6 +40567,14 @@
       "output": {
         "target": "com.posthog.dashboards#RunInsightsResponse"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/dashboards/{id}/run_insights/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Run all insights on a dashboard and return their results."
+      },
       "errors": [
         {
           "target": "com.posthog.dashboards#BadRequest"
@@ -40577,15 +40585,7 @@
         {
           "target": "com.posthog.dashboards#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/dashboards/{id}/run_insights/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Run all insights on a dashboard and return their results."
-      }
+      ]
     },
     "com.posthog.dashboards#GetDashboardsRunWidgetRequestFormat": {
       "type": "enum",
@@ -40812,6 +40812,14 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/dashboards/{id}/stream_tiles/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Stream dashboard metadata and tiles via Server-Sent Events. Sends metadata first, then tiles as they are rendered."
+      },
       "errors": [
         {
           "target": "com.posthog.dashboards#BadRequest"
@@ -40822,15 +40830,7 @@
         {
           "target": "com.posthog.dashboards#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/dashboards/{id}/stream_tiles/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Stream dashboard metadata and tiles via Server-Sent Events. Sends metadata first, then tiles as they are rendered."
-      }
+      ]
     },
     "com.posthog.dashboards#DashboardsSubscribeNudgeCreateRequestFormat": {
       "type": "enum",
@@ -42807,45 +42807,6 @@
         "smithy.api#documentation": "List registered dashboard widget types and per-type config_schema documentation for agents."
       }
     },
-    "com.posthog.dashboards#BadRequest": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 400,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 400
-          }
-        ]
-      }
-    },
-    "com.posthog.dashboards#Forbidden": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 403,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 403
-          }
-        ]
-      }
-    },
-    "com.posthog.dashboards#NotFound": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 404,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 404
-          }
-        ]
-      }
-    },
     "com.posthog.dashboards#Dashboards": {
       "type": "service",
       "version": "1.0.0",
@@ -42931,6 +42892,45 @@
       ],
       "traits": {
         "smithy.api#title": "PostHog API"
+      }
+    },
+    "com.posthog.dashboards#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.posthog.dashboards#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.posthog.dashboards#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
       }
     }
   }

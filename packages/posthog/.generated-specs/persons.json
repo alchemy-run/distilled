@@ -732,6 +732,14 @@
       "output": {
         "target": "com.posthog.persons#PaginatedPersonListRecordList"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/persons/",
+          "code": 200
+        },
+        "smithy.api#documentation": "This endpoint is meant for reading and deleting persons. To create or update persons, we recommend using the [capture API](https://posthog.com/docs/api/capture), the `$set` and `$unset` [properties](https://posthog.com/docs/product-analytics/user-properties), or one of our SDKs."
+      },
       "errors": [
         {
           "target": "com.posthog.persons#BadRequest"
@@ -742,15 +750,7 @@
         {
           "target": "com.posthog.persons#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/persons/",
-          "code": 200
-        },
-        "smithy.api#documentation": "This endpoint is meant for reading and deleting persons. To create or update persons, we recommend using the [capture API](https://posthog.com/docs/api/capture), the `$set` and `$unset` [properties](https://posthog.com/docs/product-analytics/user-properties), or one of our SDKs."
-      }
+      ]
     },
     "com.posthog.persons#GetPersonRequestFormat": {
       "type": "enum",
@@ -861,6 +861,14 @@
       "output": {
         "target": "com.posthog.persons#PersonRecord"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/persons/{id}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "This endpoint is meant for reading and deleting persons. To create or update persons, we recommend using the [capture API](https://posthog.com/docs/api/capture), the `$set` and `$unset` [properties](https://posthog.com/docs/product-analytics/user-properties), or one of our SDKs."
+      },
       "errors": [
         {
           "target": "com.posthog.persons#BadRequest"
@@ -871,15 +879,7 @@
         {
           "target": "com.posthog.persons#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/persons/{id}/",
-          "code": 200
-        },
-        "smithy.api#documentation": "This endpoint is meant for reading and deleting persons. To create or update persons, we recommend using the [capture API](https://posthog.com/docs/api/capture), the `$set` and `$unset` [properties](https://posthog.com/docs/product-analytics/user-properties), or one of our SDKs."
-      }
+      ]
     },
     "com.posthog.persons#UpdatePersonRequestFormat": {
       "type": "enum",
@@ -943,6 +943,14 @@
       "output": {
         "target": "com.posthog.persons#PersonRecord"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/api/projects/{project_id}/persons/{id}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Only for setting properties on the person. \"properties\" from the request data will be updated via a \"$set\" event.\nThis means that only the properties listed will be updated, but other properties won't be removed nor updated.\nIf you would like to remove a property use the `delete_property` endpoint."
+      },
       "errors": [
         {
           "target": "com.posthog.persons#BadRequest"
@@ -953,15 +961,7 @@
         {
           "target": "com.posthog.persons#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/api/projects/{project_id}/persons/{id}/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Only for setting properties on the person. \"properties\" from the request data will be updated via a \"$set\" event.\nThis means that only the properties listed will be updated, but other properties won't be removed nor updated.\nIf you would like to remove a property use the `delete_property` endpoint."
-      }
+      ]
     },
     "com.posthog.persons#UpdatePersonsPartialRequestFormat": {
       "type": "enum",
@@ -1025,6 +1025,14 @@
       "output": {
         "target": "com.posthog.persons#PersonRecord"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/projects/{project_id}/persons/{id}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "This endpoint is meant for reading and deleting persons. To create or update persons, we recommend using the [capture API](https://posthog.com/docs/api/capture), the `$set` and `$unset` [properties](https://posthog.com/docs/product-analytics/user-properties), or one of our SDKs."
+      },
       "errors": [
         {
           "target": "com.posthog.persons#BadRequest"
@@ -1035,15 +1043,7 @@
         {
           "target": "com.posthog.persons#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/api/projects/{project_id}/persons/{id}/",
-          "code": 200
-        },
-        "smithy.api#documentation": "This endpoint is meant for reading and deleting persons. To create or update persons, we recommend using the [capture API](https://posthog.com/docs/api/capture), the `$set` and `$unset` [properties](https://posthog.com/docs/product-analytics/user-properties), or one of our SDKs."
-      }
+      ]
     },
     "com.posthog.persons#GetPersonsActivityRequestFormat": {
       "type": "enum",
@@ -1101,6 +1101,14 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/persons/{id}/activity/",
+          "code": 200
+        },
+        "smithy.api#documentation": "This endpoint is meant for reading and deleting persons. To create or update persons, we recommend using the [capture API](https://posthog.com/docs/api/capture), the `$set` and `$unset` [properties](https://posthog.com/docs/product-analytics/user-properties), or one of our SDKs."
+      },
       "errors": [
         {
           "target": "com.posthog.persons#BadRequest"
@@ -1111,15 +1119,7 @@
         {
           "target": "com.posthog.persons#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/persons/{id}/activity/",
-          "code": 200
-        },
-        "smithy.api#documentation": "This endpoint is meant for reading and deleting persons. To create or update persons, we recommend using the [capture API](https://posthog.com/docs/api/capture), the `$set` and `$unset` [properties](https://posthog.com/docs/product-analytics/user-properties), or one of our SDKs."
-      }
+      ]
     },
     "com.posthog.persons#PersonsDeletePropertyCreateRequestFormat": {
       "type": "enum",
@@ -1205,6 +1205,14 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/persons/{id}/delete_property/",
+          "code": 200
+        },
+        "smithy.api#documentation": "This endpoint is meant for reading and deleting persons. To create or update persons, we recommend using the [capture API](https://posthog.com/docs/api/capture), the `$set` and `$unset` [properties](https://posthog.com/docs/product-analytics/user-properties), or one of our SDKs."
+      },
       "errors": [
         {
           "target": "com.posthog.persons#BadRequest"
@@ -1215,15 +1223,7 @@
         {
           "target": "com.posthog.persons#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/persons/{id}/delete_property/",
-          "code": 200
-        },
-        "smithy.api#documentation": "This endpoint is meant for reading and deleting persons. To create or update persons, we recommend using the [capture API](https://posthog.com/docs/api/capture), the `$set` and `$unset` [properties](https://posthog.com/docs/product-analytics/user-properties), or one of our SDKs."
-      }
+      ]
     },
     "com.posthog.persons#ListPersonsEmailsRequestFormat": {
       "type": "enum",
@@ -1486,6 +1486,14 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/persons/{id}/properties_timeline/",
+          "code": 200
+        },
+        "smithy.api#documentation": "This endpoint is meant for reading and deleting persons. To create or update persons, we recommend using the [capture API](https://posthog.com/docs/api/capture), the `$set` and `$unset` [properties](https://posthog.com/docs/product-analytics/user-properties), or one of our SDKs."
+      },
       "errors": [
         {
           "target": "com.posthog.persons#BadRequest"
@@ -1496,15 +1504,7 @@
         {
           "target": "com.posthog.persons#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/persons/{id}/properties_timeline/",
-          "code": 200
-        },
-        "smithy.api#documentation": "This endpoint is meant for reading and deleting persons. To create or update persons, we recommend using the [capture API](https://posthog.com/docs/api/capture), the `$set` and `$unset` [properties](https://posthog.com/docs/product-analytics/user-properties), or one of our SDKs."
-      }
+      ]
     },
     "com.posthog.persons#ListPersonsPushNotificationsRequestFormat": {
       "type": "enum",
@@ -1713,6 +1713,14 @@
       "output": {
         "target": "com.posthog.persons#PersonSplitResponse"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/persons/{id}/split/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Split distinct_ids off a merged person. Two mutually exclusive modes:\n\n- **`distinct_ids_to_split`** (recommended for surgical edits): moves only the listed distinct_ids off this person onto new single-id persons. The original person keeps every other distinct_id and its properties.\n- **`main_distinct_id`**: keeps only the specified distinct_id on this person; moves every *other* distinct_id off onto its own new person. If omitted, the first distinct_id is kept.\n\nThe original person always retains its properties. To clear individual properties afterward, use the `delete_property` endpoint.\n\nThe split runs asynchronously: a 201 response means the task was enqueued. Newly-created split-off persons get a deterministic UUID derived from `(team_id, distinct_id)`, so they can be located client-side without polling. If you need to delete a split-off person after this call, prefer looking it up by that deterministic UUID rather than by distinct_id, since the latter still resolves to the original merged person until the async task completes."
+      },
       "errors": [
         {
           "target": "com.posthog.persons#BadRequest"
@@ -1723,15 +1731,7 @@
         {
           "target": "com.posthog.persons#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/persons/{id}/split/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Split distinct_ids off a merged person. Two mutually exclusive modes:\n\n- **`distinct_ids_to_split`** (recommended for surgical edits): moves only the listed distinct_ids off this person onto new single-id persons. The original person keeps every other distinct_id and its properties.\n- **`main_distinct_id`**: keeps only the specified distinct_id on this person; moves every *other* distinct_id off onto its own new person. If omitted, the first distinct_id is kept.\n\nThe original person always retains its properties. To clear individual properties afterward, use the `delete_property` endpoint.\n\nThe split runs asynchronously: a 201 response means the task was enqueued. Newly-created split-off persons get a deterministic UUID derived from `(team_id, distinct_id)`, so they can be located client-side without polling. If you need to delete a split-off person after this call, prefer looking it up by that deterministic UUID rather than by distinct_id, since the latter still resolves to the original merged person until the async task completes."
-      }
+      ]
     },
     "com.posthog.persons#PersonsUpdatePropertyCreateRequestFormat": {
       "type": "enum",
@@ -1801,6 +1801,14 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/persons/{id}/update_property/",
+          "code": 200
+        },
+        "smithy.api#documentation": "This endpoint is meant for reading and deleting persons. To create or update persons, we recommend using the [capture API](https://posthog.com/docs/api/capture), the `$set` and `$unset` [properties](https://posthog.com/docs/product-analytics/user-properties), or one of our SDKs."
+      },
       "errors": [
         {
           "target": "com.posthog.persons#BadRequest"
@@ -1811,15 +1819,7 @@
         {
           "target": "com.posthog.persons#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/persons/{id}/update_property/",
-          "code": 200
-        },
-        "smithy.api#documentation": "This endpoint is meant for reading and deleting persons. To create or update persons, we recommend using the [capture API](https://posthog.com/docs/api/capture), the `$set` and `$unset` [properties](https://posthog.com/docs/product-analytics/user-properties), or one of our SDKs."
-      }
+      ]
     },
     "com.posthog.persons#GetPersonsAllActivityRequestFormat": {
       "type": "enum",
@@ -1869,6 +1869,14 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/persons/activity/",
+          "code": 200
+        },
+        "smithy.api#documentation": "This endpoint is meant for reading and deleting persons. To create or update persons, we recommend using the [capture API](https://posthog.com/docs/api/capture), the `$set` and `$unset` [properties](https://posthog.com/docs/product-analytics/user-properties), or one of our SDKs."
+      },
       "errors": [
         {
           "target": "com.posthog.persons#BadRequest"
@@ -1879,15 +1887,7 @@
         {
           "target": "com.posthog.persons#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/persons/activity/",
-          "code": 200
-        },
-        "smithy.api#documentation": "This endpoint is meant for reading and deleting persons. To create or update persons, we recommend using the [capture API](https://posthog.com/docs/api/capture), the `$set` and `$unset` [properties](https://posthog.com/docs/product-analytics/user-properties), or one of our SDKs."
-      }
+      ]
     },
     "com.posthog.persons#CreatePersonsBatchByDistinctIdsRequestFormat": {
       "type": "enum",
@@ -1943,6 +1943,14 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/persons/batch_by_distinct_ids/",
+          "code": 200
+        },
+        "smithy.api#documentation": "This endpoint is meant for reading and deleting persons. To create or update persons, we recommend using the [capture API](https://posthog.com/docs/api/capture), the `$set` and `$unset` [properties](https://posthog.com/docs/product-analytics/user-properties), or one of our SDKs."
+      },
       "errors": [
         {
           "target": "com.posthog.persons#BadRequest"
@@ -1953,15 +1961,7 @@
         {
           "target": "com.posthog.persons#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/persons/batch_by_distinct_ids/",
-          "code": 200
-        },
-        "smithy.api#documentation": "This endpoint is meant for reading and deleting persons. To create or update persons, we recommend using the [capture API](https://posthog.com/docs/api/capture), the `$set` and `$unset` [properties](https://posthog.com/docs/product-analytics/user-properties), or one of our SDKs."
-      }
+      ]
     },
     "com.posthog.persons#CreatePersonsBatchByUuidRequestFormat": {
       "type": "enum",
@@ -2017,6 +2017,14 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/persons/batch_by_uuids/",
+          "code": 200
+        },
+        "smithy.api#documentation": "This endpoint is meant for reading and deleting persons. To create or update persons, we recommend using the [capture API](https://posthog.com/docs/api/capture), the `$set` and `$unset` [properties](https://posthog.com/docs/product-analytics/user-properties), or one of our SDKs."
+      },
       "errors": [
         {
           "target": "com.posthog.persons#BadRequest"
@@ -2027,15 +2035,7 @@
         {
           "target": "com.posthog.persons#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/persons/batch_by_uuids/",
-          "code": 200
-        },
-        "smithy.api#documentation": "This endpoint is meant for reading and deleting persons. To create or update persons, we recommend using the [capture API](https://posthog.com/docs/api/capture), the `$set` and `$unset` [properties](https://posthog.com/docs/product-analytics/user-properties), or one of our SDKs."
-      }
+      ]
     },
     "com.posthog.persons#PersonsBulkDeleteCreateRequestFormat": {
       "type": "enum",
@@ -2133,6 +2133,14 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/persons/bulk_delete/",
+          "code": 200
+        },
+        "smithy.api#documentation": "This endpoint allows you to bulk delete persons, either by the PostHog person IDs or by distinct IDs. You can pass in a maximum of 1000 IDs per call. Only events captured before the request will be deleted.\n\nPerson records are removed in the background shortly after the request returns, so a successful response reports them in `persons_queued_for_deletion` and `persons_deleted` is 0."
+      },
       "errors": [
         {
           "target": "com.posthog.persons#BadRequest"
@@ -2143,15 +2151,7 @@
         {
           "target": "com.posthog.persons#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/persons/bulk_delete/",
-          "code": 200
-        },
-        "smithy.api#documentation": "This endpoint allows you to bulk delete persons, either by the PostHog person IDs or by distinct IDs. You can pass in a maximum of 1000 IDs per call. Only events captured before the request will be deleted.\n\nPerson records are removed in the background shortly after the request returns, so a successful response reports them in `persons_queued_for_deletion` and `persons_deleted` is 0."
-      }
+      ]
     },
     "com.posthog.persons#GetPersonsCohortRequestFormat": {
       "type": "enum",
@@ -2257,6 +2257,14 @@
       "output": {
         "target": "com.posthog.persons#PersonCohortsResponse"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/persons/cohorts/",
+          "code": 200
+        },
+        "smithy.api#documentation": "This endpoint is meant for reading and deleting persons. To create or update persons, we recommend using the [capture API](https://posthog.com/docs/api/capture), the `$set` and `$unset` [properties](https://posthog.com/docs/product-analytics/user-properties), or one of our SDKs."
+      },
       "errors": [
         {
           "target": "com.posthog.persons#BadRequest"
@@ -2267,15 +2275,7 @@
         {
           "target": "com.posthog.persons#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/persons/cohorts/",
-          "code": 200
-        },
-        "smithy.api#documentation": "This endpoint is meant for reading and deleting persons. To create or update persons, we recommend using the [capture API](https://posthog.com/docs/api/capture), the `$set` and `$unset` [properties](https://posthog.com/docs/product-analytics/user-properties), or one of our SDKs."
-      }
+      ]
     },
     "com.posthog.persons#ListPersonsDeletionStatusRequestFormat": {
       "type": "enum",
@@ -2439,6 +2439,14 @@
       "output": {
         "target": "com.posthog.persons#PaginatedAsyncDeletionStatusList"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/persons/deletion_status/",
+          "code": 200
+        },
+        "smithy.api#documentation": "List the status of queued event deletions for persons. When you delete a person with `delete_events=true`, an async deletion is queued. Use this endpoint to check whether those deletions are still pending or have been completed."
+      },
       "errors": [
         {
           "target": "com.posthog.persons#BadRequest"
@@ -2449,15 +2457,7 @@
         {
           "target": "com.posthog.persons#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/persons/deletion_status/",
-          "code": 200
-        },
-        "smithy.api#documentation": "List the status of queued event deletions for persons. When you delete a person with `delete_events=true`, an async deletion is queued. Use this endpoint to check whether those deletions are still pending or have been completed."
-      }
+      ]
     },
     "com.posthog.persons#GetPersonsPropertiesAtTimeRequestFormat": {
       "type": "enum",
@@ -2752,6 +2752,14 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/persons/reset_person_distinct_id/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Fix a distinct_id that stays hidden after its person was deleted and created again. Does nothing if no live person uses this distinct_id. In that case, send a new event for it instead."
+      },
       "errors": [
         {
           "target": "com.posthog.persons#BadRequest"
@@ -2762,15 +2770,7 @@
         {
           "target": "com.posthog.persons#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/persons/reset_person_distinct_id/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Fix a distinct_id that stays hidden after its person was deleted and created again. Does nothing if no live person uses this distinct_id. In that case, send a new event for it instead."
-      }
+      ]
     },
     "com.posthog.persons#GetPersonsValueRequestFormat": {
       "type": "enum",
@@ -2835,6 +2835,14 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/persons/values/",
+          "code": 200
+        },
+        "smithy.api#documentation": "This endpoint is meant for reading and deleting persons. To create or update persons, we recommend using the [capture API](https://posthog.com/docs/api/capture), the `$set` and `$unset` [properties](https://posthog.com/docs/product-analytics/user-properties), or one of our SDKs."
+      },
       "errors": [
         {
           "target": "com.posthog.persons#BadRequest"
@@ -2845,15 +2853,7 @@
         {
           "target": "com.posthog.persons#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/persons/values/",
-          "code": 200
-        },
-        "smithy.api#documentation": "This endpoint is meant for reading and deleting persons. To create or update persons, we recommend using the [capture API](https://posthog.com/docs/api/capture), the `$set` and `$unset` [properties](https://posthog.com/docs/product-analytics/user-properties), or one of our SDKs."
-      }
+      ]
     },
     "com.posthog.persons#BadRequest": {
       "type": "structure",
@@ -2864,19 +2864,6 @@
         "com.distilled.openapi#errorMatchers": [
           {
             "status": 400
-          }
-        ]
-      }
-    },
-    "com.posthog.persons#Forbidden": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 403,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 403
           }
         ]
       }
@@ -2961,6 +2948,19 @@
       ],
       "traits": {
         "smithy.api#title": "PostHog API"
+      }
+    },
+    "com.posthog.persons#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
       }
     }
   }

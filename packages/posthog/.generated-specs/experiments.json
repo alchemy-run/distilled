@@ -1668,6 +1668,14 @@
       "output": {
         "target": "com.posthog.experiments#PaginatedExperimentBasicList"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/experiments/",
+          "code": 200
+        },
+        "smithy.api#documentation": "List experiments for the current project. Supports filtering by status and archival state."
+      },
       "errors": [
         {
           "target": "com.posthog.experiments#BadRequest"
@@ -1678,15 +1686,7 @@
         {
           "target": "com.posthog.experiments#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/experiments/",
-          "code": 200
-        },
-        "smithy.api#documentation": "List experiments for the current project. Supports filtering by status and archival state."
-      }
+      ]
     },
     "com.posthog.experiments#ExperimentFeatureFlagInput": {
       "type": "structure",
@@ -5266,6 +5266,14 @@
       "output": {
         "target": "com.posthog.experiments#ExperimentOutput"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/experiments/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create a new experiment in draft status with optional metrics."
+      },
       "errors": [
         {
           "target": "com.posthog.experiments#BadRequest"
@@ -5276,15 +5284,7 @@
         {
           "target": "com.posthog.experiments#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/experiments/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Create a new experiment in draft status with optional metrics."
-      }
+      ]
     },
     "com.posthog.experiments#GetExperimentRequest": {
       "type": "structure",
@@ -5318,14 +5318,6 @@
       "output": {
         "target": "com.posthog.experiments#ExperimentOutput"
       },
-      "errors": [
-        {
-          "target": "com.posthog.experiments#Forbidden"
-        },
-        {
-          "target": "com.posthog.experiments#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -5333,7 +5325,15 @@
           "code": 200
         },
         "smithy.api#documentation": "Retrieve a single experiment by ID, including its current status, metrics, feature flag, and results metadata."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.posthog.experiments#Forbidden"
+        },
+        {
+          "target": "com.posthog.experiments#NotFound"
+        }
+      ]
     },
     "com.posthog.experiments#UpdateExperimentRequestExcludedVariantsList": {
       "type": "list",
@@ -5623,6 +5623,14 @@
       "output": {
         "target": "com.posthog.experiments#ExperimentOutput"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/api/projects/{project_id}/experiments/{id}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Mixin for ViewSets to handle approval-gate exceptions raised from decorated serializers.\n\nIntercepts ApprovalRequired (409) and PolicyConflict (400) raised by the @approval_gate\ndecorator on serializer methods and converts them into the same responses the viewset path\nproduces (see decorators._result_to_response), so both paths share one contract."
+      },
       "errors": [
         {
           "target": "com.posthog.experiments#BadRequest"
@@ -5633,15 +5641,7 @@
         {
           "target": "com.posthog.experiments#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/api/projects/{project_id}/experiments/{id}/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Mixin for ViewSets to handle approval-gate exceptions raised from decorated serializers.\n\nIntercepts ApprovalRequired (409) and PolicyConflict (400) raised by the @approval_gate\ndecorator on serializer methods and converts them into the same responses the viewset path\nproduces (see decorators._result_to_response), so both paths share one contract."
-      }
+      ]
     },
     "com.posthog.experiments#UpdateExperimentsPartialRequestExcludedVariantsList": {
       "type": "list",
@@ -5929,6 +5929,14 @@
       "output": {
         "target": "com.posthog.experiments#ExperimentOutput"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/projects/{project_id}/experiments/{id}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update an experiment. Use this to modify experiment properties such as name, description, metrics, variants, and configuration. Metrics can be added, changed and removed at any time. Feature-flag config (variants, rollout, payloads) is sent via the feature_flag object."
+      },
       "errors": [
         {
           "target": "com.posthog.experiments#BadRequest"
@@ -5939,15 +5947,7 @@
         {
           "target": "com.posthog.experiments#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/api/projects/{project_id}/experiments/{id}/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Update an experiment. Use this to modify experiment properties such as name, description, metrics, variants, and configuration. Metrics can be added, changed and removed at any time. Feature-flag config (variants, rollout, payloads) is sent via the feature_flag object."
-      }
+      ]
     },
     "com.posthog.experiments#ExperimentsDestroyRequest": {
       "type": "structure",
@@ -5981,14 +5981,6 @@
       "output": {
         "target": "smithy.api#Unit"
       },
-      "errors": [
-        {
-          "target": "com.posthog.experiments#Forbidden"
-        },
-        {
-          "target": "com.posthog.experiments#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -5996,7 +5988,15 @@
           "code": 200
         },
         "smithy.api#documentation": "Hard delete of this model is not allowed. Use a patch API call to set \"deleted\" to true"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.posthog.experiments#Forbidden"
+        },
+        {
+          "target": "com.posthog.experiments#NotFound"
+        }
+      ]
     },
     "com.posthog.experiments#GetExperimentsActivityRequest": {
       "type": "structure",
@@ -6263,14 +6263,6 @@
       "output": {
         "target": "com.posthog.experiments#ExperimentOutput"
       },
-      "errors": [
-        {
-          "target": "com.posthog.experiments#Forbidden"
-        },
-        {
-          "target": "com.posthog.experiments#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -6278,7 +6270,15 @@
           "code": 200
         },
         "smithy.api#documentation": "Archive an ended experiment.\n\nHides the experiment from the default list view. The experiment can be\nrestored at any time by updating archived=false. When the linked feature\nflag is still enabled, pass disable_feature_flag=true to also disable and\narchive it. Returns 400 if the experiment is already archived or has not\nended yet."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.posthog.experiments#Forbidden"
+        },
+        {
+          "target": "com.posthog.experiments#NotFound"
+        }
+      ]
     },
     "com.posthog.experiments#ExperimentsCopyToProjectCreateRequest": {
       "type": "structure",
@@ -6330,6 +6330,14 @@
       "output": {
         "target": "com.posthog.experiments#ExperimentOutput"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/experiments/{id}/copy_to_project/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Copy an experiment into another project in the same organization as a new draft."
+      },
       "errors": [
         {
           "target": "com.posthog.experiments#BadRequest"
@@ -6340,15 +6348,7 @@
         {
           "target": "com.posthog.experiments#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/experiments/{id}/copy_to_project/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Copy an experiment into another project in the same organization as a new draft."
-      }
+      ]
     },
     "com.posthog.experiments#ExperimentsCreateExposureCohortForExperimentCreateRequestExcludedVariantsList": {
       "type": "list",
@@ -6630,6 +6630,14 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/experiments/{id}/create_exposure_cohort_for_experiment/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Mixin for ViewSets to handle approval-gate exceptions raised from decorated serializers.\n\nIntercepts ApprovalRequired (409) and PolicyConflict (400) raised by the @approval_gate\ndecorator on serializer methods and converts them into the same responses the viewset path\nproduces (see decorators._result_to_response), so both paths share one contract."
+      },
       "errors": [
         {
           "target": "com.posthog.experiments#BadRequest"
@@ -6640,15 +6648,7 @@
         {
           "target": "com.posthog.experiments#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/experiments/{id}/create_exposure_cohort_for_experiment/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Mixin for ViewSets to handle approval-gate exceptions raised from decorated serializers.\n\nIntercepts ApprovalRequired (409) and PolicyConflict (400) raised by the @approval_gate\ndecorator on serializer methods and converts them into the same responses the viewset path\nproduces (see decorators._result_to_response), so both paths share one contract."
-      }
+      ]
     },
     "com.posthog.experiments#ExperimentsDuplicateCreateRequestExcludedVariantsList": {
       "type": "list",
@@ -6930,6 +6930,14 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/experiments/{id}/duplicate/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Mixin for ViewSets to handle approval-gate exceptions raised from decorated serializers.\n\nIntercepts ApprovalRequired (409) and PolicyConflict (400) raised by the @approval_gate\ndecorator on serializer methods and converts them into the same responses the viewset path\nproduces (see decorators._result_to_response), so both paths share one contract."
+      },
       "errors": [
         {
           "target": "com.posthog.experiments#BadRequest"
@@ -6940,15 +6948,7 @@
         {
           "target": "com.posthog.experiments#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/experiments/{id}/duplicate/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Mixin for ViewSets to handle approval-gate exceptions raised from decorated serializers.\n\nIntercepts ApprovalRequired (409) and PolicyConflict (400) raised by the @approval_gate\ndecorator on serializer methods and converts them into the same responses the viewset path\nproduces (see decorators._result_to_response), so both paths share one contract."
-      }
+      ]
     },
     "com.posthog.experiments#CreateExperimentsEndRequest": {
       "type": "structure",
@@ -7015,6 +7015,14 @@
       "output": {
         "target": "com.posthog.experiments#ExperimentOutput"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/experiments/{id}/end/",
+          "code": 200
+        },
+        "smithy.api#documentation": "End a running experiment without shipping a variant.\n\nSets end_date to now and marks the experiment as stopped. The feature\nflag is NOT modified — users continue to see their assigned variants\nand exposure events ($feature_flag_called) continue to be recorded.\nHowever, only data up to end_date is included in experiment results.\n\nUse this when:\n\n- You want to freeze the results window without changing which variant\n  users see.\n- A variant was already shipped manually via the feature flag UI and\n  the experiment just needs to be marked complete.\n\nThe end_date can be adjusted after ending via PATCH if it needs to be\nbackdated (e.g. to match when the flag was actually paused).\n\nOther options:\n- Use ship_variant to end the experiment AND roll out a single variant to 100%% of users.\n- Use pause to deactivate the flag without ending the experiment (stops variant assignment but does not freeze results).\n\nReturns 400 if the experiment is not running."
+      },
       "errors": [
         {
           "target": "com.posthog.experiments#BadRequest"
@@ -7025,15 +7033,7 @@
         {
           "target": "com.posthog.experiments#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/experiments/{id}/end/",
-          "code": 200
-        },
-        "smithy.api#documentation": "End a running experiment without shipping a variant.\n\nSets end_date to now and marks the experiment as stopped. The feature\nflag is NOT modified — users continue to see their assigned variants\nand exposure events ($feature_flag_called) continue to be recorded.\nHowever, only data up to end_date is included in experiment results.\n\nUse this when:\n\n- You want to freeze the results window without changing which variant\n  users see.\n- A variant was already shipped manually via the feature flag UI and\n  the experiment just needs to be marked complete.\n\nThe end_date can be adjusted after ending via PATCH if it needs to be\nbackdated (e.g. to match when the flag was actually paused).\n\nOther options:\n- Use ship_variant to end the experiment AND roll out a single variant to 100%% of users.\n- Use pause to deactivate the flag without ending the experiment (stops variant assignment but does not freeze results).\n\nReturns 400 if the experiment is not running."
-      }
+      ]
     },
     "com.posthog.experiments#GetExperimentsFlagCleanupTargetRequest": {
       "type": "structure",
@@ -7422,14 +7422,6 @@
       "output": {
         "target": "com.posthog.experiments#ExperimentOutput"
       },
-      "errors": [
-        {
-          "target": "com.posthog.experiments#Forbidden"
-        },
-        {
-          "target": "com.posthog.experiments#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -7437,7 +7429,15 @@
           "code": 200
         },
         "smithy.api#documentation": "Launch a draft experiment.\n\nValidates the experiment is in draft state, activates its linked feature flag,\nsets start_date to the current server time, and transitions the experiment to running.\nReturns 400 if the experiment has already been launched or if the feature flag\nconfiguration is invalid (e.g. fewer than 2 variants)."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.posthog.experiments#Forbidden"
+        },
+        {
+          "target": "com.posthog.experiments#NotFound"
+        }
+      ]
     },
     "com.posthog.experiments#ExperimentMetricsRecalculationRequestTriggerEnum": {
       "type": "enum",
@@ -8200,14 +8200,6 @@
       "output": {
         "target": "com.posthog.experiments#ExperimentOutput"
       },
-      "errors": [
-        {
-          "target": "com.posthog.experiments#Forbidden"
-        },
-        {
-          "target": "com.posthog.experiments#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -8215,7 +8207,15 @@
           "code": 200
         },
         "smithy.api#documentation": "Pause a running experiment.\n\nDeactivates the linked feature flag so it is no longer returned by the\n/decide endpoint. Users fall back to the application default (typically\nthe control experience), and no new exposure events are recorded (i.e.\n$feature_flag_called is not fired).\nReturns 400 if the experiment is not running or is already paused."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.posthog.experiments#Forbidden"
+        },
+        {
+          "target": "com.posthog.experiments#NotFound"
+        }
+      ]
     },
     "com.posthog.experiments#CreateExperimentsRecalculateTimeseriesRequestExcludedVariantsList": {
       "type": "list",
@@ -8497,6 +8497,14 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/experiments/{id}/recalculate_timeseries/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Mixin for ViewSets to handle approval-gate exceptions raised from decorated serializers.\n\nIntercepts ApprovalRequired (409) and PolicyConflict (400) raised by the @approval_gate\ndecorator on serializer methods and converts them into the same responses the viewset path\nproduces (see decorators._result_to_response), so both paths share one contract."
+      },
       "errors": [
         {
           "target": "com.posthog.experiments#BadRequest"
@@ -8507,15 +8515,7 @@
         {
           "target": "com.posthog.experiments#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/experiments/{id}/recalculate_timeseries/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Mixin for ViewSets to handle approval-gate exceptions raised from decorated serializers.\n\nIntercepts ApprovalRequired (409) and PolicyConflict (400) raised by the @approval_gate\ndecorator on serializer methods and converts them into the same responses the viewset path\nproduces (see decorators._result_to_response), so both paths share one contract."
-      }
+      ]
     },
     "com.posthog.experiments#ExperimentsResetCreateRequest": {
       "type": "structure",
@@ -8549,14 +8549,6 @@
       "output": {
         "target": "com.posthog.experiments#ExperimentOutput"
       },
-      "errors": [
-        {
-          "target": "com.posthog.experiments#Forbidden"
-        },
-        {
-          "target": "com.posthog.experiments#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -8564,7 +8556,15 @@
           "code": 200
         },
         "smithy.api#documentation": "Reset an experiment back to draft state.\n\nClears start/end dates, conclusion, archived flag, and any flag-cleanup\ntask pointer. The feature flag is left unchanged — users continue to see\ntheir assigned variants.\n\nPreviously collected events still exist but won't be included in\nresults unless the start date is manually adjusted after re-launch.\n\nReturns 400 if the experiment is already in draft state."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.posthog.experiments#Forbidden"
+        },
+        {
+          "target": "com.posthog.experiments#NotFound"
+        }
+      ]
     },
     "com.posthog.experiments#ExperimentsResumeCreateRequest": {
       "type": "structure",
@@ -8598,14 +8598,6 @@
       "output": {
         "target": "com.posthog.experiments#ExperimentOutput"
       },
-      "errors": [
-        {
-          "target": "com.posthog.experiments#Forbidden"
-        },
-        {
-          "target": "com.posthog.experiments#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -8613,7 +8605,15 @@
           "code": 200
         },
         "smithy.api#documentation": "Resume a paused experiment.\n\nReactivates the linked feature flag so it is returned by /decide again.\nUsers are re-bucketed deterministically into the same variants they had\nbefore the pause, and exposure tracking resumes.\nReturns 400 if the experiment is not running or is not paused."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.posthog.experiments#Forbidden"
+        },
+        {
+          "target": "com.posthog.experiments#NotFound"
+        }
+      ]
     },
     "com.posthog.experiments#ExperimentSessionBucketEnum": {
       "type": "enum",
@@ -9376,6 +9376,14 @@
       "output": {
         "target": "com.posthog.experiments#ExperimentOutput"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/experiments/{id}/ship_variant/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Ship a variant and (optionally) end the experiment.\n\nUpdates the feature flag so the selected variant gets 100% of the variant\ndistribution. By default, existing release conditions on the flag are preserved\nuntouched — the variant is served only to users who already match them. Pass\n``release_to_everyone: true`` to also prepend a catch-all release condition\nthat rolls the variant out to 100% of users (overrides any existing release\nconditions on the flag).\n\nCan be called on both running and stopped experiments. If the experiment is\nstill running, it will also be ended (end_date set and status marked as stopped).\nIf the experiment has already ended, only the flag is rewritten - this supports\nthe \"end first, ship later\" workflow.\n\nIf an approval policy requires review before changes on the flag take effect,\nthe API returns 409 with a change_request_id. The experiment is NOT ended until\nthe change request is approved and the user retries.\n\nReturns 400 if the experiment is in draft state, the variant_key is not found\non the flag, or the experiment has no linked feature flag."
+      },
       "errors": [
         {
           "target": "com.posthog.experiments#BadRequest"
@@ -9386,15 +9394,7 @@
         {
           "target": "com.posthog.experiments#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/experiments/{id}/ship_variant/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Ship a variant and (optionally) end the experiment.\n\nUpdates the feature flag so the selected variant gets 100% of the variant\ndistribution. By default, existing release conditions on the flag are preserved\nuntouched — the variant is served only to users who already match them. Pass\n``release_to_everyone: true`` to also prepend a catch-all release condition\nthat rolls the variant out to 100% of users (overrides any existing release\nconditions on the flag).\n\nCan be called on both running and stopped experiments. If the experiment is\nstill running, it will also be ended (end_date set and status marked as stopped).\nIf the experiment has already ended, only the flag is rewritten - this supports\nthe \"end first, ship later\" workflow.\n\nIf an approval policy requires review before changes on the flag take effect,\nthe API returns 409 with a change_request_id. The experiment is NOT ended until\nthe change request is approved and the user retries.\n\nReturns 400 if the experiment is in draft state, the variant_key is not found\non the flag, or the experiment has no linked feature flag."
-      }
+      ]
     },
     "com.posthog.experiments#GetExperimentsTimeseriesResultRequest": {
       "type": "structure",
@@ -9444,6 +9444,14 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/experiments/{id}/timeseries_results/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Mixin for ViewSets to handle approval-gate exceptions raised from decorated serializers.\n\nIntercepts ApprovalRequired (409) and PolicyConflict (400) raised by the @approval_gate\ndecorator on serializer methods and converts them into the same responses the viewset path\nproduces (see decorators._result_to_response), so both paths share one contract."
+      },
       "errors": [
         {
           "target": "com.posthog.experiments#BadRequest"
@@ -9454,15 +9462,7 @@
         {
           "target": "com.posthog.experiments#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/experiments/{id}/timeseries_results/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Mixin for ViewSets to handle approval-gate exceptions raised from decorated serializers.\n\nIntercepts ApprovalRequired (409) and PolicyConflict (400) raised by the @approval_gate\ndecorator on serializer methods and converts them into the same responses the viewset path\nproduces (see decorators._result_to_response), so both paths share one contract."
-      }
+      ]
     },
     "com.posthog.experiments#ExperimentsUnarchiveCreateRequest": {
       "type": "structure",
@@ -12430,14 +12430,6 @@
       "output": {
         "target": "smithy.api#Unit"
       },
-      "errors": [
-        {
-          "target": "com.posthog.experiments#Forbidden"
-        },
-        {
-          "target": "com.posthog.experiments#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -12445,33 +12437,15 @@
           "code": 200
         },
         "smithy.api#documentation": "Mixin for ViewSets to handle approval-gate exceptions raised from decorated serializers.\n\nIntercepts ApprovalRequired (409) and PolicyConflict (400) raised by the @approval_gate\ndecorator on serializer methods and converts them into the same responses the viewset path\nproduces (see decorators._result_to_response), so both paths share one contract."
-      }
-    },
-    "com.posthog.experiments#BadRequest": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 400,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 400
-          }
-        ]
-      }
-    },
-    "com.posthog.experiments#Forbidden": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 403,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 403
-          }
-        ]
-      }
+      },
+      "errors": [
+        {
+          "target": "com.posthog.experiments#Forbidden"
+        },
+        {
+          "target": "com.posthog.experiments#NotFound"
+        }
+      ]
     },
     "com.posthog.experiments#NotFound": {
       "type": "structure",
@@ -12613,6 +12587,32 @@
       ],
       "traits": {
         "smithy.api#title": "PostHog API"
+      }
+    },
+    "com.posthog.experiments#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.posthog.experiments#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
       }
     }
   }

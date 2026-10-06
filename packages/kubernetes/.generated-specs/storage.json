@@ -966,14 +966,6 @@
       "output": {
         "target": "com.kubernetes.storage#IoK8sApiStorageV1CSIDriver"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.storage#Conflict"
-        },
-        {
-          "target": "com.kubernetes.storage#UnprocessableEntity"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -981,7 +973,15 @@
           "code": 200
         },
         "smithy.api#documentation": "create a CSIDriver"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.storage#Conflict"
+        },
+        {
+          "target": "com.kubernetes.storage#UnprocessableEntity"
+        }
+      ]
     },
     "com.kubernetes.storage#DeleteStorageV1CollectionCSIDriverRequestDryRunList": {
       "type": "list",
@@ -1326,11 +1326,6 @@
       "output": {
         "target": "com.kubernetes.storage#IoK8sApiStorageV1CSIDriver"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.storage#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -1338,7 +1333,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read the specified CSIDriver"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.storage#NotFound"
+        }
+      ]
     },
     "com.kubernetes.storage#ReplaceStorageV1CSIDriverRequest": {
       "type": "structure",
@@ -1416,6 +1416,14 @@
       "output": {
         "target": "com.kubernetes.storage#IoK8sApiStorageV1CSIDriver"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/apis/storage.k8s.io/v1/csidrivers/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace the specified CSIDriver"
+      },
       "errors": [
         {
           "target": "com.kubernetes.storage#NotFound"
@@ -1426,15 +1434,7 @@
         {
           "target": "com.kubernetes.storage#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/apis/storage.k8s.io/v1/csidrivers/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace the specified CSIDriver"
-      }
+      ]
     },
     "com.kubernetes.storage#PatchStorageV1CSIDriverRequest": {
       "type": "structure",
@@ -1495,6 +1495,14 @@
       "output": {
         "target": "com.kubernetes.storage#IoK8sApiStorageV1CSIDriver"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/apis/storage.k8s.io/v1/csidrivers/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update the specified CSIDriver"
+      },
       "errors": [
         {
           "target": "com.kubernetes.storage#NotFound"
@@ -1505,15 +1513,7 @@
         {
           "target": "com.kubernetes.storage#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/apis/storage.k8s.io/v1/csidrivers/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update the specified CSIDriver"
-      }
+      ]
     },
     "com.kubernetes.storage#DeleteStorageV1CSIDriverRequestDryRunList": {
       "type": "list",
@@ -1608,14 +1608,6 @@
       "output": {
         "target": "com.kubernetes.storage#IoK8sApiStorageV1CSIDriver"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.storage#NotFound"
-        },
-        {
-          "target": "com.kubernetes.storage#Conflict"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -1623,7 +1615,15 @@
           "code": 200
         },
         "smithy.api#documentation": "delete a CSIDriver"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.storage#NotFound"
+        },
+        {
+          "target": "com.kubernetes.storage#Conflict"
+        }
+      ]
     },
     "com.kubernetes.storage#ListStorageV1CSINodeRequest": {
       "type": "structure",
@@ -2067,14 +2067,6 @@
       "output": {
         "target": "com.kubernetes.storage#IoK8sApiStorageV1CSINode"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.storage#Conflict"
-        },
-        {
-          "target": "com.kubernetes.storage#UnprocessableEntity"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -2082,7 +2074,15 @@
           "code": 200
         },
         "smithy.api#documentation": "create a CSINode"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.storage#Conflict"
+        },
+        {
+          "target": "com.kubernetes.storage#UnprocessableEntity"
+        }
+      ]
     },
     "com.kubernetes.storage#DeleteStorageV1CollectionCSINodeRequestDryRunList": {
       "type": "list",
@@ -2272,11 +2272,6 @@
       "output": {
         "target": "com.kubernetes.storage#IoK8sApiStorageV1CSINode"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.storage#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -2284,7 +2279,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read the specified CSINode"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.storage#NotFound"
+        }
+      ]
     },
     "com.kubernetes.storage#ReplaceStorageV1CSINodeRequest": {
       "type": "structure",
@@ -2368,6 +2368,14 @@
       "output": {
         "target": "com.kubernetes.storage#IoK8sApiStorageV1CSINode"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/apis/storage.k8s.io/v1/csinodes/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace the specified CSINode"
+      },
       "errors": [
         {
           "target": "com.kubernetes.storage#NotFound"
@@ -2378,15 +2386,7 @@
         {
           "target": "com.kubernetes.storage#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/apis/storage.k8s.io/v1/csinodes/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace the specified CSINode"
-      }
+      ]
     },
     "com.kubernetes.storage#PatchStorageV1CSINodeRequest": {
       "type": "structure",
@@ -2447,6 +2447,14 @@
       "output": {
         "target": "com.kubernetes.storage#IoK8sApiStorageV1CSINode"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/apis/storage.k8s.io/v1/csinodes/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update the specified CSINode"
+      },
       "errors": [
         {
           "target": "com.kubernetes.storage#NotFound"
@@ -2457,15 +2465,7 @@
         {
           "target": "com.kubernetes.storage#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/apis/storage.k8s.io/v1/csinodes/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update the specified CSINode"
-      }
+      ]
     },
     "com.kubernetes.storage#DeleteStorageV1CSINodeRequestDryRunList": {
       "type": "list",
@@ -2560,14 +2560,6 @@
       "output": {
         "target": "com.kubernetes.storage#IoK8sApiStorageV1CSINode"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.storage#NotFound"
-        },
-        {
-          "target": "com.kubernetes.storage#Conflict"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -2575,7 +2567,15 @@
           "code": 200
         },
         "smithy.api#documentation": "delete a CSINode"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.storage#NotFound"
+        },
+        {
+          "target": "com.kubernetes.storage#Conflict"
+        }
+      ]
     },
     "com.kubernetes.storage#ReadStorageV1CSINodeStatusRequest": {
       "type": "structure",
@@ -3268,14 +3268,6 @@
       "output": {
         "target": "com.kubernetes.storage#IoK8sApiStorageV1CSIStorageCapacity"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.storage#Conflict"
-        },
-        {
-          "target": "com.kubernetes.storage#UnprocessableEntity"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -3283,7 +3275,15 @@
           "code": 200
         },
         "smithy.api#documentation": "create a CSIStorageCapacity"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.storage#Conflict"
+        },
+        {
+          "target": "com.kubernetes.storage#UnprocessableEntity"
+        }
+      ]
     },
     "com.kubernetes.storage#DeleteStorageV1CollectionNamespacedCSIStorageCapacityRequestDryRunList": {
       "type": "list",
@@ -3489,11 +3489,6 @@
       "output": {
         "target": "com.kubernetes.storage#IoK8sApiStorageV1CSIStorageCapacity"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.storage#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -3501,7 +3496,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read the specified CSIStorageCapacity"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.storage#NotFound"
+        }
+      ]
     },
     "com.kubernetes.storage#ReplaceStorageV1NamespacedCSIStorageCapacityRequest": {
       "type": "structure",
@@ -3606,6 +3606,14 @@
       "output": {
         "target": "com.kubernetes.storage#IoK8sApiStorageV1CSIStorageCapacity"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/apis/storage.k8s.io/v1/namespaces/{namespace}/csistoragecapacities/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace the specified CSIStorageCapacity"
+      },
       "errors": [
         {
           "target": "com.kubernetes.storage#NotFound"
@@ -3616,15 +3624,7 @@
         {
           "target": "com.kubernetes.storage#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/apis/storage.k8s.io/v1/namespaces/{namespace}/csistoragecapacities/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace the specified CSIStorageCapacity"
-      }
+      ]
     },
     "com.kubernetes.storage#PatchStorageV1NamespacedCSIStorageCapacityRequest": {
       "type": "structure",
@@ -3693,6 +3693,14 @@
       "output": {
         "target": "com.kubernetes.storage#IoK8sApiStorageV1CSIStorageCapacity"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/apis/storage.k8s.io/v1/namespaces/{namespace}/csistoragecapacities/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update the specified CSIStorageCapacity"
+      },
       "errors": [
         {
           "target": "com.kubernetes.storage#NotFound"
@@ -3703,15 +3711,7 @@
         {
           "target": "com.kubernetes.storage#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/apis/storage.k8s.io/v1/namespaces/{namespace}/csistoragecapacities/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update the specified CSIStorageCapacity"
-      }
+      ]
     },
     "com.kubernetes.storage#DeleteStorageV1NamespacedCSIStorageCapacityRequestDryRunList": {
       "type": "list",
@@ -3814,14 +3814,6 @@
       "output": {
         "target": "com.kubernetes.storage#IoK8sApimachineryPkgApisMetaV1Status"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.storage#NotFound"
-        },
-        {
-          "target": "com.kubernetes.storage#Conflict"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -3829,7 +3821,15 @@
           "code": 200
         },
         "smithy.api#documentation": "delete a CSIStorageCapacity"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.storage#NotFound"
+        },
+        {
+          "target": "com.kubernetes.storage#Conflict"
+        }
+      ]
     },
     "com.kubernetes.storage#ListStorageV1StorageClassRequest": {
       "type": "structure",
@@ -4270,14 +4270,6 @@
       "output": {
         "target": "com.kubernetes.storage#IoK8sApiStorageV1StorageClass"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.storage#Conflict"
-        },
-        {
-          "target": "com.kubernetes.storage#UnprocessableEntity"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -4285,7 +4277,15 @@
           "code": 200
         },
         "smithy.api#documentation": "create a StorageClass"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.storage#Conflict"
+        },
+        {
+          "target": "com.kubernetes.storage#UnprocessableEntity"
+        }
+      ]
     },
     "com.kubernetes.storage#DeleteStorageV1CollectionStorageClassRequestDryRunList": {
       "type": "list",
@@ -4475,11 +4475,6 @@
       "output": {
         "target": "com.kubernetes.storage#IoK8sApiStorageV1StorageClass"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.storage#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -4487,7 +4482,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read the specified StorageClass"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.storage#NotFound"
+        }
+      ]
     },
     "com.kubernetes.storage#ReplaceStorageV1StorageClassRequestAllowedTopologiesList": {
       "type": "list",
@@ -4632,6 +4632,14 @@
       "output": {
         "target": "com.kubernetes.storage#IoK8sApiStorageV1StorageClass"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/apis/storage.k8s.io/v1/storageclasses/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace the specified StorageClass"
+      },
       "errors": [
         {
           "target": "com.kubernetes.storage#NotFound"
@@ -4642,15 +4650,7 @@
         {
           "target": "com.kubernetes.storage#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/apis/storage.k8s.io/v1/storageclasses/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace the specified StorageClass"
-      }
+      ]
     },
     "com.kubernetes.storage#PatchStorageV1StorageClassRequest": {
       "type": "structure",
@@ -4711,6 +4711,14 @@
       "output": {
         "target": "com.kubernetes.storage#IoK8sApiStorageV1StorageClass"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/apis/storage.k8s.io/v1/storageclasses/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update the specified StorageClass"
+      },
       "errors": [
         {
           "target": "com.kubernetes.storage#NotFound"
@@ -4721,15 +4729,7 @@
         {
           "target": "com.kubernetes.storage#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/apis/storage.k8s.io/v1/storageclasses/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update the specified StorageClass"
-      }
+      ]
     },
     "com.kubernetes.storage#DeleteStorageV1StorageClassRequestDryRunList": {
       "type": "list",
@@ -4824,14 +4824,6 @@
       "output": {
         "target": "com.kubernetes.storage#IoK8sApiStorageV1StorageClass"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.storage#NotFound"
-        },
-        {
-          "target": "com.kubernetes.storage#Conflict"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -4839,7 +4831,15 @@
           "code": 200
         },
         "smithy.api#documentation": "delete a StorageClass"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.storage#NotFound"
+        },
+        {
+          "target": "com.kubernetes.storage#Conflict"
+        }
+      ]
     },
     "com.kubernetes.storage#ListStorageV1VolumeAttachmentRequest": {
       "type": "structure",
@@ -6568,14 +6568,6 @@
       "output": {
         "target": "com.kubernetes.storage#IoK8sApiStorageV1VolumeAttachment"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.storage#Conflict"
-        },
-        {
-          "target": "com.kubernetes.storage#UnprocessableEntity"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -6583,7 +6575,15 @@
           "code": 200
         },
         "smithy.api#documentation": "create a VolumeAttachment"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.storage#Conflict"
+        },
+        {
+          "target": "com.kubernetes.storage#UnprocessableEntity"
+        }
+      ]
     },
     "com.kubernetes.storage#DeleteStorageV1CollectionVolumeAttachmentRequestDryRunList": {
       "type": "list",
@@ -6773,11 +6773,6 @@
       "output": {
         "target": "com.kubernetes.storage#IoK8sApiStorageV1VolumeAttachment"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.storage#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -6785,7 +6780,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read the specified VolumeAttachment"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.storage#NotFound"
+        }
+      ]
     },
     "com.kubernetes.storage#ReplaceStorageV1VolumeAttachmentRequest": {
       "type": "structure",
@@ -6870,6 +6870,14 @@
       "output": {
         "target": "com.kubernetes.storage#IoK8sApiStorageV1VolumeAttachment"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/apis/storage.k8s.io/v1/volumeattachments/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace the specified VolumeAttachment"
+      },
       "errors": [
         {
           "target": "com.kubernetes.storage#NotFound"
@@ -6880,15 +6888,7 @@
         {
           "target": "com.kubernetes.storage#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/apis/storage.k8s.io/v1/volumeattachments/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace the specified VolumeAttachment"
-      }
+      ]
     },
     "com.kubernetes.storage#PatchStorageV1VolumeAttachmentRequest": {
       "type": "structure",
@@ -6949,6 +6949,14 @@
       "output": {
         "target": "com.kubernetes.storage#IoK8sApiStorageV1VolumeAttachment"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/apis/storage.k8s.io/v1/volumeattachments/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update the specified VolumeAttachment"
+      },
       "errors": [
         {
           "target": "com.kubernetes.storage#NotFound"
@@ -6959,15 +6967,7 @@
         {
           "target": "com.kubernetes.storage#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/apis/storage.k8s.io/v1/volumeattachments/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update the specified VolumeAttachment"
-      }
+      ]
     },
     "com.kubernetes.storage#DeleteStorageV1VolumeAttachmentRequestDryRunList": {
       "type": "list",
@@ -7062,14 +7062,6 @@
       "output": {
         "target": "com.kubernetes.storage#IoK8sApiStorageV1VolumeAttachment"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.storage#NotFound"
-        },
-        {
-          "target": "com.kubernetes.storage#Conflict"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -7077,7 +7069,15 @@
           "code": 200
         },
         "smithy.api#documentation": "delete a VolumeAttachment"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.storage#NotFound"
+        },
+        {
+          "target": "com.kubernetes.storage#Conflict"
+        }
+      ]
     },
     "com.kubernetes.storage#ReadStorageV1VolumeAttachmentStatusRequest": {
       "type": "structure",
@@ -7110,11 +7110,6 @@
       "output": {
         "target": "com.kubernetes.storage#IoK8sApiStorageV1VolumeAttachment"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.storage#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -7122,7 +7117,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read status of the specified VolumeAttachment"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.storage#NotFound"
+        }
+      ]
     },
     "com.kubernetes.storage#ReplaceStorageV1VolumeAttachmentStatusRequest": {
       "type": "structure",
@@ -7207,6 +7207,14 @@
       "output": {
         "target": "com.kubernetes.storage#IoK8sApiStorageV1VolumeAttachment"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/apis/storage.k8s.io/v1/volumeattachments/{name}/status",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace status of the specified VolumeAttachment"
+      },
       "errors": [
         {
           "target": "com.kubernetes.storage#NotFound"
@@ -7217,15 +7225,7 @@
         {
           "target": "com.kubernetes.storage#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/apis/storage.k8s.io/v1/volumeattachments/{name}/status",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace status of the specified VolumeAttachment"
-      }
+      ]
     },
     "com.kubernetes.storage#PatchStorageV1VolumeAttachmentStatusRequest": {
       "type": "structure",
@@ -7286,6 +7286,14 @@
       "output": {
         "target": "com.kubernetes.storage#IoK8sApiStorageV1VolumeAttachment"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/apis/storage.k8s.io/v1/volumeattachments/{name}/status",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update status of the specified VolumeAttachment"
+      },
       "errors": [
         {
           "target": "com.kubernetes.storage#NotFound"
@@ -7296,15 +7304,7 @@
         {
           "target": "com.kubernetes.storage#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/apis/storage.k8s.io/v1/volumeattachments/{name}/status",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update status of the specified VolumeAttachment"
-      }
+      ]
     },
     "com.kubernetes.storage#ListStorageV1VolumeAttributesClassRequest": {
       "type": "structure",
@@ -7597,14 +7597,6 @@
       "output": {
         "target": "com.kubernetes.storage#IoK8sApiStorageV1VolumeAttributesClass"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.storage#Conflict"
-        },
-        {
-          "target": "com.kubernetes.storage#UnprocessableEntity"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -7612,7 +7604,15 @@
           "code": 200
         },
         "smithy.api#documentation": "create a VolumeAttributesClass"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.storage#Conflict"
+        },
+        {
+          "target": "com.kubernetes.storage#UnprocessableEntity"
+        }
+      ]
     },
     "com.kubernetes.storage#DeleteStorageV1CollectionVolumeAttributesClassRequestDryRunList": {
       "type": "list",
@@ -7802,11 +7802,6 @@
       "output": {
         "target": "com.kubernetes.storage#IoK8sApiStorageV1VolumeAttributesClass"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.storage#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -7814,7 +7809,12 @@
           "code": 200
         },
         "smithy.api#documentation": "read the specified VolumeAttributesClass"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.storage#NotFound"
+        }
+      ]
     },
     "com.kubernetes.storage#ReplaceStorageV1VolumeAttributesClassRequestParametersMap": {
       "type": "map",
@@ -7912,6 +7912,14 @@
       "output": {
         "target": "com.kubernetes.storage#IoK8sApiStorageV1VolumeAttributesClass"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/apis/storage.k8s.io/v1/volumeattributesclasses/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "replace the specified VolumeAttributesClass"
+      },
       "errors": [
         {
           "target": "com.kubernetes.storage#NotFound"
@@ -7922,15 +7930,7 @@
         {
           "target": "com.kubernetes.storage#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/apis/storage.k8s.io/v1/volumeattributesclasses/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "replace the specified VolumeAttributesClass"
-      }
+      ]
     },
     "com.kubernetes.storage#PatchStorageV1VolumeAttributesClassRequest": {
       "type": "structure",
@@ -7991,6 +7991,14 @@
       "output": {
         "target": "com.kubernetes.storage#IoK8sApiStorageV1VolumeAttributesClass"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/apis/storage.k8s.io/v1/volumeattributesclasses/{name}",
+          "code": 200
+        },
+        "smithy.api#documentation": "partially update the specified VolumeAttributesClass"
+      },
       "errors": [
         {
           "target": "com.kubernetes.storage#NotFound"
@@ -8001,15 +8009,7 @@
         {
           "target": "com.kubernetes.storage#UnprocessableEntity"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/apis/storage.k8s.io/v1/volumeattributesclasses/{name}",
-          "code": 200
-        },
-        "smithy.api#documentation": "partially update the specified VolumeAttributesClass"
-      }
+      ]
     },
     "com.kubernetes.storage#DeleteStorageV1VolumeAttributesClassRequestDryRunList": {
       "type": "list",
@@ -8104,14 +8104,6 @@
       "output": {
         "target": "com.kubernetes.storage#IoK8sApiStorageV1VolumeAttributesClass"
       },
-      "errors": [
-        {
-          "target": "com.kubernetes.storage#NotFound"
-        },
-        {
-          "target": "com.kubernetes.storage#Conflict"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -8119,7 +8111,15 @@
           "code": 200
         },
         "smithy.api#documentation": "delete a VolumeAttributesClass"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.kubernetes.storage#NotFound"
+        },
+        {
+          "target": "com.kubernetes.storage#Conflict"
+        }
+      ]
     },
     "com.kubernetes.storage#WatchStorageV1CSIDriverListRequest": {
       "type": "structure",
@@ -9623,45 +9623,6 @@
         "smithy.api#documentation": "watch changes to an object of kind VolumeAttributesClass. deprecated: use the 'watch' parameter with a list operation instead, filtered to a single item with the 'fieldSelector' parameter."
       }
     },
-    "com.kubernetes.storage#Conflict": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 409,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 409
-          }
-        ]
-      }
-    },
-    "com.kubernetes.storage#UnprocessableEntity": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 422,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 422
-          }
-        ]
-      }
-    },
-    "com.kubernetes.storage#NotFound": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 404,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 404
-          }
-        ]
-      }
-    },
     "com.kubernetes.storage#Storage": {
       "type": "service",
       "version": "unversioned",
@@ -9861,6 +9822,45 @@
       ],
       "traits": {
         "smithy.api#title": "Kubernetes"
+      }
+    },
+    "com.kubernetes.storage#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.kubernetes.storage#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.kubernetes.storage#UnprocessableEntity": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 422,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 422
+          }
+        ]
       }
     }
   }

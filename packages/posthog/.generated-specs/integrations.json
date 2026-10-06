@@ -909,6 +909,13 @@
       "output": {
         "target": "com.posthog.integrations#PaginatedIntegrationConfigList"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/integrations/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.integrations#BadRequest"
@@ -919,14 +926,7 @@
         {
           "target": "com.posthog.integrations#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/integrations/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.integrations#CreateIntegrationRequest": {
       "type": "structure",
@@ -958,6 +958,13 @@
       "output": {
         "target": "com.posthog.integrations#IntegrationConfig"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/integrations/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.integrations#BadRequest"
@@ -968,14 +975,7 @@
         {
           "target": "com.posthog.integrations#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/integrations/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.integrations#GetIntegrationRequest": {
       "type": "structure",
@@ -1009,6 +1009,13 @@
       "output": {
         "target": "com.posthog.integrations#IntegrationConfig"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/integrations/{id}/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.integrations#Forbidden"
@@ -1016,14 +1023,7 @@
         {
           "target": "com.posthog.integrations#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/integrations/{id}/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.integrations#IntegrationsDestroyRequest": {
       "type": "structure",
@@ -1057,6 +1057,13 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/api/projects/{project_id}/integrations/{id}/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.integrations#Forbidden"
@@ -1064,14 +1071,7 @@
         {
           "target": "com.posthog.integrations#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "DELETE",
-          "uri": "/api/projects/{project_id}/integrations/{id}/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.integrations#GetIntegrationsAnthropicManagedAgentEnvRequest": {
       "type": "structure",
@@ -1329,6 +1329,13 @@
       "output": {
         "target": "com.posthog.integrations#SlackChannelsResponse"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/integrations/{id}/channels/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.integrations#Forbidden"
@@ -1336,14 +1343,7 @@
         {
           "target": "com.posthog.integrations#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/integrations/{id}/channels/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.integrations#GetIntegrationsClickupListRequest": {
       "type": "structure",
@@ -1377,6 +1377,13 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/integrations/{id}/clickup_lists/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.integrations#Forbidden"
@@ -1384,14 +1391,7 @@
         {
           "target": "com.posthog.integrations#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/integrations/{id}/clickup_lists/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.integrations#GetIntegrationsClickupSpaceRequest": {
       "type": "structure",
@@ -1425,6 +1425,13 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/integrations/{id}/clickup_spaces/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.integrations#Forbidden"
@@ -1432,14 +1439,7 @@
         {
           "target": "com.posthog.integrations#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/integrations/{id}/clickup_spaces/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.integrations#GetIntegrationsClickupWorkspaceRequest": {
       "type": "structure",
@@ -1473,6 +1473,13 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/integrations/{id}/clickup_workspaces/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.integrations#Forbidden"
@@ -1480,14 +1487,7 @@
         {
           "target": "com.posthog.integrations#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/integrations/{id}/clickup_workspaces/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.integrations#UpdateIntegrationsEmailPartialRequest": {
       "type": "structure",
@@ -1527,6 +1527,13 @@
       "output": {
         "target": "com.posthog.integrations#IntegrationConfig"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/projects/{project_id}/integrations/{id}/email/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.integrations#BadRequest"
@@ -1537,14 +1544,7 @@
         {
           "target": "com.posthog.integrations#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/api/projects/{project_id}/integrations/{id}/email/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.integrations#IntegrationsEmailVerifyCreateRequest": {
       "type": "structure",
@@ -1584,6 +1584,13 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/integrations/{id}/email/verify/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.integrations#BadRequest"
@@ -1594,14 +1601,7 @@
         {
           "target": "com.posthog.integrations#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/integrations/{id}/email/verify/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.integrations#GetIntegrationsGithubBranchRequest": {
       "type": "structure",
@@ -1698,6 +1698,13 @@
       "output": {
         "target": "com.posthog.integrations#GitHubBranchesResponse"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/integrations/{id}/github_branches/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.integrations#BadRequest"
@@ -1708,14 +1715,7 @@
         {
           "target": "com.posthog.integrations#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/integrations/{id}/github_branches/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.integrations#GetIntegrationsGithubReposRequest": {
       "type": "structure",
@@ -1872,6 +1872,13 @@
       "output": {
         "target": "com.posthog.integrations#GitHubReposResponse"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/integrations/{id}/github_repos/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.integrations#BadRequest"
@@ -1882,14 +1889,7 @@
         {
           "target": "com.posthog.integrations#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/integrations/{id}/github_repos/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.integrations#IntegrationsGithubReposRefreshCreateRequest": {
       "type": "structure",
@@ -1950,6 +1950,13 @@
       "output": {
         "target": "com.posthog.integrations#GitHubReposRefreshResponse"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/integrations/{id}/github_repos/refresh/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.integrations#Forbidden"
@@ -1957,14 +1964,7 @@
         {
           "target": "com.posthog.integrations#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/integrations/{id}/github_repos/refresh/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.integrations#GetIntegrationsGithubTeamRequest": {
       "type": "structure",
@@ -2115,6 +2115,13 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/integrations/{id}/google_accessible_accounts/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.integrations#Forbidden"
@@ -2122,14 +2129,7 @@
         {
           "target": "com.posthog.integrations#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/integrations/{id}/google_accessible_accounts/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.integrations#GetIntegrationsGoogleConversionActionRequest": {
       "type": "structure",
@@ -2163,6 +2163,13 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/integrations/{id}/google_conversion_actions/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.integrations#Forbidden"
@@ -2170,14 +2177,7 @@
         {
           "target": "com.posthog.integrations#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/integrations/{id}/google_conversion_actions/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.integrations#GetIntegrationsJiraProjectRequest": {
       "type": "structure",
@@ -2260,6 +2260,13 @@
       "output": {
         "target": "com.posthog.integrations#JiraProjectsResponse"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/integrations/{id}/jira_projects/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.integrations#Forbidden"
@@ -2267,14 +2274,7 @@
         {
           "target": "com.posthog.integrations#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/integrations/{id}/jira_projects/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.integrations#GetIntegrationsLinearTeamRequest": {
       "type": "structure",
@@ -2350,6 +2350,13 @@
       "output": {
         "target": "com.posthog.integrations#LinearTeamsResponse"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/integrations/{id}/linear_teams/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.integrations#Forbidden"
@@ -2357,14 +2364,7 @@
         {
           "target": "com.posthog.integrations#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/integrations/{id}/linear_teams/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.integrations#GetIntegrationsLinkedinAdsAccountRequest": {
       "type": "structure",
@@ -2398,6 +2398,13 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/integrations/{id}/linkedin_ads_accounts/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.integrations#Forbidden"
@@ -2405,14 +2412,7 @@
         {
           "target": "com.posthog.integrations#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/integrations/{id}/linkedin_ads_accounts/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.integrations#GetIntegrationsLinkedinAdsConversionRuleRequest": {
       "type": "structure",
@@ -2446,6 +2446,13 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/integrations/{id}/linkedin_ads_conversion_rules/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.integrations#Forbidden"
@@ -2453,14 +2460,7 @@
         {
           "target": "com.posthog.integrations#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/integrations/{id}/linkedin_ads_conversion_rules/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.integrations#GetIntegrationsTwilioPhoneNumberRequest": {
       "type": "structure",
@@ -2494,6 +2494,13 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/integrations/{id}/twilio_phone_numbers/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.integrations#Forbidden"
@@ -2501,14 +2508,7 @@
         {
           "target": "com.posthog.integrations#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/integrations/{id}/twilio_phone_numbers/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.integrations#GetIntegrationsUserRequest": {
       "type": "structure",
@@ -2671,6 +2671,13 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/integrations/authorize/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.integrations#Forbidden"
@@ -2678,14 +2685,7 @@
         {
           "target": "com.posthog.integrations#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/integrations/authorize/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.integrations#IntegrationsDomainConnectApplyUrlCreateRequest": {
       "type": "structure",
@@ -2717,6 +2717,14 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/integrations/domain-connect/apply-url/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Unified endpoint for generating Domain Connect apply URLs.\n\nAccepts a context (\"email\" or \"proxy\") and the relevant resource ID.\nThe backend resolves the domain, template variables, and service ID\nbased on context, then builds the signed apply URL."
+      },
       "errors": [
         {
           "target": "com.posthog.integrations#BadRequest"
@@ -2727,15 +2735,7 @@
         {
           "target": "com.posthog.integrations#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/integrations/domain-connect/apply-url/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Unified endpoint for generating Domain Connect apply URLs.\n\nAccepts a context (\"email\" or \"proxy\") and the relevant resource ID.\nThe backend resolves the domain, template variables, and service ID\nbased on context, then builds the signed apply URL."
-      }
+      ]
     },
     "com.posthog.integrations#IntegrationsDomainConnectCheckRetrieveRequest": {
       "type": "structure",
@@ -2761,6 +2761,13 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/integrations/domain-connect/check/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.integrations#Forbidden"
@@ -2768,14 +2775,7 @@
         {
           "target": "com.posthog.integrations#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/integrations/domain-connect/check/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.integrations#GetIntegrationsGithubAvailableInstallationRequest": {
       "type": "structure",
@@ -3176,45 +3176,6 @@
         "smithy.api#documentation": "Notify project admins that a member is requesting an integration be connected."
       }
     },
-    "com.posthog.integrations#BadRequest": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 400,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 400
-          }
-        ]
-      }
-    },
-    "com.posthog.integrations#Forbidden": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 403,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 403
-          }
-        ]
-      }
-    },
-    "com.posthog.integrations#NotFound": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 404,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 404
-          }
-        ]
-      }
-    },
     "com.posthog.integrations#Integrations": {
       "type": "service",
       "version": "1.0.0",
@@ -3321,6 +3282,45 @@
       ],
       "traits": {
         "smithy.api#title": "PostHog API"
+      }
+    },
+    "com.posthog.integrations#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.posthog.integrations#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.posthog.integrations#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
       }
     }
   }

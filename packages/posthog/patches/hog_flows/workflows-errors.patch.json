@@ -1,0 +1,297 @@
+{
+  "description": "From workflows-errors.patch.json: Auto-generated PostHog error responses (400/403/404) for tag \"workflows\". See generate-error-patches.ts.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.hog_flows#HogFlowsList/errors",
+      "value": [
+        {
+          "target": "com.posthog.hog_flows#BadRequest"
+        },
+        {
+          "target": "com.posthog.hog_flows#Forbidden"
+        },
+        {
+          "target": "com.posthog.hog_flows#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.hog_flows#HogFlowsCreate/errors",
+      "value": [
+        {
+          "target": "com.posthog.hog_flows#BadRequest"
+        },
+        {
+          "target": "com.posthog.hog_flows#Forbidden"
+        },
+        {
+          "target": "com.posthog.hog_flows#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.hog_flows#HogFlowsRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.hog_flows#Forbidden"
+        },
+        {
+          "target": "com.posthog.hog_flows#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.hog_flows#HogFlowsUpdate/errors",
+      "value": [
+        {
+          "target": "com.posthog.hog_flows#BadRequest"
+        },
+        {
+          "target": "com.posthog.hog_flows#Forbidden"
+        },
+        {
+          "target": "com.posthog.hog_flows#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.hog_flows#HogFlowsPartialUpdate/errors",
+      "value": [
+        {
+          "target": "com.posthog.hog_flows#BadRequest"
+        },
+        {
+          "target": "com.posthog.hog_flows#Forbidden"
+        },
+        {
+          "target": "com.posthog.hog_flows#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.hog_flows#HogFlowsDestroy/errors",
+      "value": [
+        {
+          "target": "com.posthog.hog_flows#Forbidden"
+        },
+        {
+          "target": "com.posthog.hog_flows#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.hog_flows#HogFlowsBatchJobsList/errors",
+      "value": [
+        {
+          "target": "com.posthog.hog_flows#Forbidden"
+        },
+        {
+          "target": "com.posthog.hog_flows#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.hog_flows#HogFlowsBatchJobsCreate/errors",
+      "value": [
+        {
+          "target": "com.posthog.hog_flows#BadRequest"
+        },
+        {
+          "target": "com.posthog.hog_flows#Forbidden"
+        },
+        {
+          "target": "com.posthog.hog_flows#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.hog_flows#HogFlowsInvocationsCreate/errors",
+      "value": [
+        {
+          "target": "com.posthog.hog_flows#BadRequest"
+        },
+        {
+          "target": "com.posthog.hog_flows#Forbidden"
+        },
+        {
+          "target": "com.posthog.hog_flows#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.hog_flows#HogFlowsLogsRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.hog_flows#BadRequest"
+        },
+        {
+          "target": "com.posthog.hog_flows#Forbidden"
+        },
+        {
+          "target": "com.posthog.hog_flows#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.hog_flows#HogFlowsMetricsRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.hog_flows#BadRequest"
+        },
+        {
+          "target": "com.posthog.hog_flows#Forbidden"
+        },
+        {
+          "target": "com.posthog.hog_flows#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.hog_flows#HogFlowsMetricsTotalsRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.hog_flows#BadRequest"
+        },
+        {
+          "target": "com.posthog.hog_flows#Forbidden"
+        },
+        {
+          "target": "com.posthog.hog_flows#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.hog_flows#HogFlowsSchedulesList/errors",
+      "value": [
+        {
+          "target": "com.posthog.hog_flows#BadRequest"
+        },
+        {
+          "target": "com.posthog.hog_flows#Forbidden"
+        },
+        {
+          "target": "com.posthog.hog_flows#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.hog_flows#HogFlowsSchedulesCreate/errors",
+      "value": [
+        {
+          "target": "com.posthog.hog_flows#BadRequest"
+        },
+        {
+          "target": "com.posthog.hog_flows#Forbidden"
+        },
+        {
+          "target": "com.posthog.hog_flows#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.hog_flows#HogFlowsSchedulesPartialUpdate/errors",
+      "value": [
+        {
+          "target": "com.posthog.hog_flows#BadRequest"
+        },
+        {
+          "target": "com.posthog.hog_flows#Forbidden"
+        },
+        {
+          "target": "com.posthog.hog_flows#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.hog_flows#HogFlowsSchedulesDestroy/errors",
+      "value": [
+        {
+          "target": "com.posthog.hog_flows#Forbidden"
+        },
+        {
+          "target": "com.posthog.hog_flows#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.hog_flows#HogFlowsBulkDeleteCreate/errors",
+      "value": [
+        {
+          "target": "com.posthog.hog_flows#BadRequest"
+        },
+        {
+          "target": "com.posthog.hog_flows#Forbidden"
+        },
+        {
+          "target": "com.posthog.hog_flows#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.hog_flows#HogFlowsUserBlastRadiusCreate/errors",
+      "value": [
+        {
+          "target": "com.posthog.hog_flows#BadRequest"
+        },
+        {
+          "target": "com.posthog.hog_flows#Forbidden"
+        },
+        {
+          "target": "com.posthog.hog_flows#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.hog_flows#Forbidden",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 403
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.hog_flows#NotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

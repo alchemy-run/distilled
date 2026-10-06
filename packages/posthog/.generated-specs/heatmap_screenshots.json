@@ -57,14 +57,6 @@
       "output": {
         "target": "smithy.api#Unit"
       },
-      "errors": [
-        {
-          "target": "com.posthog.heatmap_screenshots#Forbidden"
-        },
-        {
-          "target": "com.posthog.heatmap_screenshots#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -72,6 +64,26 @@
           "code": 200
         },
         "smithy.api#documentation": "Fetch the rendered screenshot image (JPEG bytes) for a saved heatmap at a given viewport width. Returns 202 with the saved-heatmap metadata while the screenshot is still being generated."
+      },
+      "errors": [
+        {
+          "target": "com.posthog.heatmap_screenshots#Forbidden"
+        },
+        {
+          "target": "com.posthog.heatmap_screenshots#NotFound"
+        }
+      ]
+    },
+    "com.posthog.heatmap_screenshots#HeatmapScreenshots": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.posthog.heatmap_screenshots#GetHeatmapScreenshotsContent"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "PostHog API"
       }
     },
     "com.posthog.heatmap_screenshots#Forbidden": {
@@ -98,18 +110,6 @@
             "status": 404
           }
         ]
-      }
-    },
-    "com.posthog.heatmap_screenshots#HeatmapScreenshots": {
-      "type": "service",
-      "version": "1.0.0",
-      "operations": [
-        {
-          "target": "com.posthog.heatmap_screenshots#GetHeatmapScreenshotsContent"
-        }
-      ],
-      "traits": {
-        "smithy.api#title": "PostHog API"
       }
     }
   }

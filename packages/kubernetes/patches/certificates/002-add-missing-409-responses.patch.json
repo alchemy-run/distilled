@@ -1,0 +1,154 @@
+{
+  "description": "From 002-add-missing-409-responses.patch.json: Add 409 Conflict responses to create, replace, delete, and patch operations",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.certificates#CreateCertificatesV1CertificateSigningRequest/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.certificates#Conflict"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.certificates#ReplaceCertificatesV1CertificateSigningRequest/errors/-",
+      "value": {
+        "target": "com.kubernetes.certificates#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.certificates#PatchCertificatesV1CertificateSigningRequest/errors/-",
+      "value": {
+        "target": "com.kubernetes.certificates#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.certificates#DeleteCertificatesV1CertificateSigningRequest/errors/-",
+      "value": {
+        "target": "com.kubernetes.certificates#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.certificates#ReplaceCertificatesV1CertificateSigningRequestApproval/errors/-",
+      "value": {
+        "target": "com.kubernetes.certificates#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.certificates#PatchCertificatesV1CertificateSigningRequestApproval/errors/-",
+      "value": {
+        "target": "com.kubernetes.certificates#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.certificates#ReplaceCertificatesV1CertificateSigningRequestStatus/errors/-",
+      "value": {
+        "target": "com.kubernetes.certificates#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.certificates#PatchCertificatesV1CertificateSigningRequestStatus/errors/-",
+      "value": {
+        "target": "com.kubernetes.certificates#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.certificates#CreateCertificatesV1beta1ClusterTrustBundle/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.certificates#Conflict"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.certificates#ReplaceCertificatesV1beta1ClusterTrustBundle/errors/-",
+      "value": {
+        "target": "com.kubernetes.certificates#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.certificates#PatchCertificatesV1beta1ClusterTrustBundle/errors/-",
+      "value": {
+        "target": "com.kubernetes.certificates#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.certificates#DeleteCertificatesV1beta1ClusterTrustBundle/errors/-",
+      "value": {
+        "target": "com.kubernetes.certificates#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.certificates#CreateCertificatesV1beta1NamespacedPodCertificateRequest/errors",
+      "value": [
+        {
+          "target": "com.kubernetes.certificates#Conflict"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.certificates#ReplaceCertificatesV1beta1NamespacedPodCertificateRequest/errors/-",
+      "value": {
+        "target": "com.kubernetes.certificates#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.certificates#PatchCertificatesV1beta1NamespacedPodCertificateRequest/errors/-",
+      "value": {
+        "target": "com.kubernetes.certificates#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.certificates#DeleteCertificatesV1beta1NamespacedPodCertificateRequest/errors/-",
+      "value": {
+        "target": "com.kubernetes.certificates#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.certificates#ReplaceCertificatesV1beta1NamespacedPodCertificateRequestStatus/errors/-",
+      "value": {
+        "target": "com.kubernetes.certificates#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.certificates#PatchCertificatesV1beta1NamespacedPodCertificateRequestStatus/errors/-",
+      "value": {
+        "target": "com.kubernetes.certificates#Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.certificates#Conflict",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 409,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 409
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

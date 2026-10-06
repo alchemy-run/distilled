@@ -1,0 +1,119 @@
+{
+  "description": "From reverse-proxy-errors.patch.json: Auto-generated PostHog error responses (400/403/404) for tag \"reverse_proxy\". See generate-error-patches.ts.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.reverse_proxy#ProxyRecordsList/errors",
+      "value": [
+        {
+          "target": "com.posthog.reverse_proxy#Forbidden"
+        },
+        {
+          "target": "com.posthog.reverse_proxy#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.reverse_proxy#ProxyRecordsCreate/errors",
+      "value": [
+        {
+          "target": "com.posthog.reverse_proxy#BadRequest"
+        },
+        {
+          "target": "com.posthog.reverse_proxy#Forbidden"
+        },
+        {
+          "target": "com.posthog.reverse_proxy#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.reverse_proxy#ProxyRecordsRetrieve/errors",
+      "value": [
+        {
+          "target": "com.posthog.reverse_proxy#Forbidden"
+        },
+        {
+          "target": "com.posthog.reverse_proxy#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.reverse_proxy#ProxyRecordsDestroy/errors",
+      "value": [
+        {
+          "target": "com.posthog.reverse_proxy#Forbidden"
+        },
+        {
+          "target": "com.posthog.reverse_proxy#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.reverse_proxy#ProxyRecordsRetryCreate/errors",
+      "value": [
+        {
+          "target": "com.posthog.reverse_proxy#Forbidden"
+        },
+        {
+          "target": "com.posthog.reverse_proxy#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.reverse_proxy#Forbidden",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 403
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.reverse_proxy#NotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.reverse_proxy#BadRequest",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 400
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

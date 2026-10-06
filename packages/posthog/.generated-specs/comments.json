@@ -433,6 +433,13 @@
       "output": {
         "target": "com.posthog.comments#PaginatedCommentListOutput"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/comments/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.comments#BadRequest"
@@ -443,14 +450,7 @@
         {
           "target": "com.posthog.comments#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/comments/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.comments#CreateCommentRequestMentionsList": {
       "type": "list",
@@ -586,6 +586,13 @@
       "output": {
         "target": "com.posthog.comments#CommentOutput"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/comments/{id}/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.comments#Forbidden"
@@ -593,14 +600,7 @@
         {
           "target": "com.posthog.comments#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/comments/{id}/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.comments#UpdateCommentRequestMentionsList": {
       "type": "list",
@@ -689,6 +689,13 @@
       "output": {
         "target": "com.posthog.comments#CommentOutput"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/api/projects/{project_id}/comments/{id}/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.comments#BadRequest"
@@ -699,14 +706,7 @@
         {
           "target": "com.posthog.comments#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/api/projects/{project_id}/comments/{id}/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.comments#UpdateCommentsPartialRequestMentionsList": {
       "type": "list",
@@ -795,6 +795,13 @@
       "output": {
         "target": "com.posthog.comments#CommentOutput"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/projects/{project_id}/comments/{id}/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.comments#BadRequest"
@@ -805,14 +812,7 @@
         {
           "target": "com.posthog.comments#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/api/projects/{project_id}/comments/{id}/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.comments#CommentsDestroyRequest": {
       "type": "structure",
@@ -846,14 +846,6 @@
       "output": {
         "target": "smithy.api#Unit"
       },
-      "errors": [
-        {
-          "target": "com.posthog.comments#Forbidden"
-        },
-        {
-          "target": "com.posthog.comments#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -861,7 +853,15 @@
           "code": 200
         },
         "smithy.api#documentation": "Hard delete of this model is not allowed. Use a patch API call to set \"deleted\" to true"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.posthog.comments#Forbidden"
+        },
+        {
+          "target": "com.posthog.comments#NotFound"
+        }
+      ]
     },
     "com.posthog.comments#CreateCommentsCompleteRequest": {
       "type": "structure",
@@ -1116,6 +1116,13 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/comments/{id}/thread/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.comments#Forbidden"
@@ -1123,14 +1130,7 @@
         {
           "target": "com.posthog.comments#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/comments/{id}/thread/",
-          "code": 200
-        }
-      }
+      ]
     },
     "com.posthog.comments#GetCommentsCountRequest": {
       "type": "structure",
@@ -1156,6 +1156,13 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/comments/count/",
+          "code": 200
+        }
+      },
       "errors": [
         {
           "target": "com.posthog.comments#Forbidden"
@@ -1163,53 +1170,7 @@
         {
           "target": "com.posthog.comments#NotFound"
         }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/comments/count/",
-          "code": 200
-        }
-      }
-    },
-    "com.posthog.comments#BadRequest": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 400,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 400
-          }
-        ]
-      }
-    },
-    "com.posthog.comments#Forbidden": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 403,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 403
-          }
-        ]
-      }
-    },
-    "com.posthog.comments#NotFound": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 404,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 404
-          }
-        ]
-      }
+      ]
     },
     "com.posthog.comments#Conflict": {
       "type": "structure",
@@ -1264,6 +1225,45 @@
       ],
       "traits": {
         "smithy.api#title": "PostHog API"
+      }
+    },
+    "com.posthog.comments#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.posthog.comments#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.posthog.comments#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
       }
     }
   }
