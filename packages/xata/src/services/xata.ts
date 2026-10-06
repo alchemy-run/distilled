@@ -117,9 +117,7 @@ export const BranchLogsRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "BranchLogsRequest",
-}) as any as S.Schema<BranchLogsRequest>;
+).annotate({ identifier: "BranchLogsRequest" }) as any as S.Schema<BranchLogsRequest>;
 
 /** Log level enumeration */
 export type LogLevel = "debug" | "info" | "warning" | "error";
@@ -239,9 +237,7 @@ export const BranchMetricsRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "BranchMetricsRequest",
-}) as any as S.Schema<BranchMetricsRequest>;
+).annotate({ identifier: "BranchMetricsRequest" }) as any as S.Schema<BranchMetricsRequest>;
 
 /** The aggregation used to generate this time-series */
 export type MetricSeriesAggregation = "avg" | "max" | "min";
@@ -256,9 +252,7 @@ export const MetricSeriesValuesItem = /*@__PURE__*/ S.suspend(() =>
     timestamp: S.String,
     value: S.Number,
   }),
-).annotate({
-  identifier: "MetricSeriesValuesItem",
-}) as any as S.Schema<MetricSeriesValuesItem>;
+).annotate({ identifier: "MetricSeriesValuesItem" }) as any as S.Schema<MetricSeriesValuesItem>;
 
 export type MetricSeriesValuesList = Array<MetricSeriesValuesItem>;
 export const MetricSeriesValuesList = /*@__PURE__*/ S.Array(
@@ -300,9 +294,7 @@ export const BranchMetricResult = /*@__PURE__*/ S.suspend(() =>
     unit: S.String,
     series: BranchMetricResultSeriesList,
   }),
-).annotate({
-  identifier: "BranchMetricResult",
-}) as any as S.Schema<BranchMetricResult>;
+).annotate({ identifier: "BranchMetricResult" }) as any as S.Schema<BranchMetricResult>;
 
 /** One entry per requested metric, in the order the metrics were requested. */
 export type BranchMetricsResultsList = Array<BranchMetricResult>;
@@ -324,6 +316,68 @@ export const BranchMetrics = /*@__PURE__*/ S.suspend(() =>
     results: BranchMetricsResultsList,
   }),
 ).annotate({ identifier: "BranchMetrics" }) as any as S.Schema<BranchMetrics>;
+
+export interface ClaimOrganizationSSODomainRequest {
+  /** Unique identifier for a specific organization */
+  organizationID: string;
+  /** Bare email domain to claim, for example acme.com. */
+  domain: string;
+}
+export const ClaimOrganizationSSODomainRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organizationID: S.String.pipe(T.Label()),
+    domain: S.String,
+  }).pipe(
+    T.Http({ method: "POST", uri: "/organizations/{organizationID}/sso/domains", code: 200 }),
+  ),
+).annotate({
+  identifier: "ClaimOrganizationSSODomainRequest",
+}) as any as S.Schema<ClaimOrganizationSSODomainRequest>;
+
+/** The DNS TXT record that proves an organization controls a domain */
+export interface OrganizationSSODomainVerification {
+  /** Name to create the record at */
+  record_name: string;
+  /** DNS record type */
+  record_type: string;
+  /** Value the record must hold */
+  record_value: string;
+}
+export const OrganizationSSODomainVerification = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    record_name: S.String,
+    record_type: S.String,
+    record_value: S.String,
+  }),
+).annotate({
+  identifier: "OrganizationSSODomainVerification",
+}) as any as S.Schema<OrganizationSSODomainVerification>;
+
+/** An email domain claimed by an organization for SSO */
+export interface OrganizationSSODomain {
+  /** The claimed email domain */
+  domain: string;
+  /** The alias an identity provider on this domain will be given. Derived from the organization and the domain, so it is known before the provider exists, which is what lets a client show the redirect URI to register with the provider up front. */
+  provider_alias: string;
+  /** Whether control of the domain has been proven through DNS */
+  verified: boolean;
+  /** The DNS record that proves control of the domain. It must stay published while the domain is verified. */
+  verification?: OrganizationSSODomainVerification | null;
+  /** When the daily recheck first found the record missing from a verified domain. */
+  missing_since?: string | null;
+  /** When the domain stops being verified if the record is still missing. */
+  revokes_at?: string | null;
+}
+export const OrganizationSSODomain = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    domain: S.String,
+    provider_alias: S.String,
+    verified: S.Boolean,
+    verification: S.optional(S.NullOr(OrganizationSSODomainVerification)),
+    missing_since: S.optional(S.NullOr(S.String)),
+    revokes_at: S.optional(S.NullOr(S.String)),
+  }),
+).annotate({ identifier: "OrganizationSSODomain" }) as any as S.Schema<OrganizationSSODomain>;
 
 export interface CreateBillingCheckoutSessionRequest {
   /** Unique identifier for a specific organization */
@@ -397,9 +451,7 @@ export const ScaleToZeroConfiguration = /*@__PURE__*/ S.suspend(() =>
     enabled: S.Boolean,
     inactivityPeriodMinutes: S.Number,
   }),
-).annotate({
-  identifier: "ScaleToZeroConfiguration",
-}) as any as S.Schema<ScaleToZeroConfiguration>;
+).annotate({ identifier: "ScaleToZeroConfiguration" }) as any as S.Schema<ScaleToZeroConfiguration>;
 
 /** Details about the branch continuous backup configuration */
 export interface BackupConfiguration {
@@ -413,9 +465,7 @@ export const BackupConfiguration = /*@__PURE__*/ S.suspend(() =>
     retentionPeriod: S.optional(S.Number),
     backupTime: S.optional(S.String),
   }),
-).annotate({
-  identifier: "BackupConfiguration",
-}) as any as S.Schema<BackupConfiguration>;
+).annotate({ identifier: "BackupConfiguration" }) as any as S.Schema<BackupConfiguration>;
 
 /** The mode used to discriminate between types of branches. */
 export type CreateBranchRequestMode = "inherit" | "custom";
@@ -428,7 +478,7 @@ export interface CreateBranchRequest {
   projectID: string;
   /** Human-readable name for the new branch */
   name: string;
-  /** Optional description for the branch purpose or contents (max 50 characters) */
+  /** Optional description for the branch purpose or contents. An empty string is stored as no description. */
   description?: string;
   scaleToZero?: ScaleToZeroConfiguration;
   backupConfiguration?: BackupConfiguration;
@@ -451,9 +501,7 @@ export const CreateBranchRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "CreateBranchRequest",
-}) as any as S.Schema<CreateBranchRequest>;
+).annotate({ identifier: "CreateBranchRequest" }) as any as S.Schema<CreateBranchRequest>;
 
 /** Basic metadata about a branch, used in response to create/update operations */
 export interface BranchShortMetadata {
@@ -488,9 +536,7 @@ export const BranchShortMetadata = /*@__PURE__*/ S.suspend(() =>
     region: S.String,
     publicAccess: S.Boolean,
   }),
-).annotate({
-  identifier: "BranchShortMetadata",
-}) as any as S.Schema<BranchShortMetadata>;
+).annotate({ identifier: "BranchShortMetadata" }) as any as S.Schema<BranchShortMetadata>;
 
 export interface CreateGithubAppInstallationRequest {
   /** Unique identifier of the organization */
@@ -534,9 +580,7 @@ export const GithubInstallation = /*@__PURE__*/ S.suspend(() =>
     createdAt: S.String,
     updatedAt: S.String,
   }),
-).annotate({
-  identifier: "GithubInstallation",
-}) as any as S.Schema<GithubInstallation>;
+).annotate({ identifier: "GithubInstallation" }) as any as S.Schema<GithubInstallation>;
 
 export interface CreateGithubRepositoryRequest {
   /** Unique identifier of the organization */
@@ -589,9 +633,7 @@ export const GithubRepository = /*@__PURE__*/ S.suspend(() =>
     createdAt: S.String,
     updatedAt: S.String,
   }),
-).annotate({
-  identifier: "GithubRepository",
-}) as any as S.Schema<GithubRepository>;
+).annotate({ identifier: "GithubRepository" }) as any as S.Schema<GithubRepository>;
 
 export interface CreateOrganizationRequest {
   /** Name for the new organization */
@@ -651,9 +693,7 @@ export const OrganizationStatus = /*@__PURE__*/ S.suspend(() =>
     last_updated: S.String,
     created_at: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OrganizationStatus",
-}) as any as S.Schema<OrganizationStatus>;
+).annotate({ identifier: "OrganizationStatus" }) as any as S.Schema<OrganizationStatus>;
 
 /** Marketplace provider associated with an organization. */
 export type OrganizationMarketplaceProvider = "aws";
@@ -718,13 +758,7 @@ export const CreateOrganizationAPIKeyRequest = /*@__PURE__*/ S.suspend(() =>
     scopes: S.optional(CreateOrganizationAPIKeyRequestScopesList),
     projects: S.optional(CreateOrganizationAPIKeyRequestProjectsList),
     branches: S.optional(CreateOrganizationAPIKeyRequestBranchesList),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/organizations/{organizationID}/api-keys",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/organizations/{organizationID}/api-keys", code: 200 })),
 ).annotate({
   identifier: "CreateOrganizationAPIKeyRequest",
 }) as any as S.Schema<CreateOrganizationAPIKeyRequest>;
@@ -795,22 +829,25 @@ export const CreateOrganizationAPIKeyResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateOrganizationAPIKeyResponse",
 }) as any as S.Schema<CreateOrganizationAPIKeyResponse>;
 
+/** The roles a member of an organization can hold */
+export type OrganizationRoleName = "admin" | "editor";
+export const OrganizationRoleName = S.String;
+
 export interface CreateOrganizationInvitationRequest {
   /** Unique identifier for a specific organization */
   organizationID: string;
   /** Email address of the user to invite */
   email: string;
+  /** Role the user holds once they accept the invitation. Optional; when omitted, the least privileged role offered applies */
+  role?: OrganizationRoleName | (string & {});
 }
 export const CreateOrganizationInvitationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     organizationID: S.String.pipe(T.Label()),
     email: S.String,
+    role: S.optional(OrganizationRoleName),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/organizations/{organizationID}/invitations",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/organizations/{organizationID}/invitations", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateOrganizationInvitationRequest",
@@ -822,6 +859,66 @@ export const CreateOrganizationInvitationResponse = /*@__PURE__*/ S.suspend(() =
 ).annotate({
   identifier: "CreateOrganizationInvitationResponse",
 }) as any as S.Schema<CreateOrganizationInvitationResponse>;
+
+/** Which identity provider this is. `google` pins the login to a Google Workspace domain and `microsoft` to a single Entra tenant, taken from the issuer; `oidc` is the fallback for anything else that speaks OpenID Connect. */
+export type OrganizationSSOProviderType = "google" | "microsoft" | "oidc";
+export const OrganizationSSOProviderType = S.String;
+
+export interface CreateOrganizationSSOProviderRequest {
+  /** Unique identifier for a specific organization */
+  organizationID: string;
+  type: OrganizationSSOProviderType | (string & {});
+  /** The verified email domain this provider will serve. */
+  domain: string;
+  /** OIDC issuer URL. Required for `oidc`, and for `microsoft` where it names the Entra tenant; ignored for `google`. Must be https, and must serve a /.well-known/openid-configuration document naming itself as the issuer. */
+  issuer?: string;
+  /** OAuth client ID the organization registered with the provider */
+  client_id: string;
+  /** OAuth client secret. Write-only: it is stored in Keycloak and is never returned by this API. */
+  client_secret: string | Redacted.Redacted<string>;
+}
+export const CreateOrganizationSSOProviderRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organizationID: S.String.pipe(T.Label()),
+    type: OrganizationSSOProviderType,
+    domain: S.String,
+    issuer: S.optional(S.String),
+    client_id: S.String,
+    client_secret: S.String.pipe(T.SensitiveValue({})),
+  }).pipe(
+    T.Http({ method: "POST", uri: "/organizations/{organizationID}/sso/providers", code: 200 }),
+  ),
+).annotate({
+  identifier: "CreateOrganizationSSOProviderRequest",
+}) as any as S.Schema<CreateOrganizationSSOProviderRequest>;
+
+/** An identity provider serving one of the organization's verified domains. The client secret is write-only and is never returned. */
+export interface OrganizationSSOProvider {
+  /** Stable identifier for this provider, used in its own endpoints. */
+  alias: string;
+  type: OrganizationSSOProviderType;
+  /** Name members see for this provider when signing in. */
+  display_name: string;
+  /** The verified email domain this provider serves. Empty while the domain is not verified. */
+  domain: string;
+  /** Whether members on this domain are sent to this provider automatically, leaving no other way in. Registering a provider does not set this; it is enabled separately. */
+  enforced: boolean;
+  /** OIDC issuer URL, without the /.well-known suffix. */
+  issuer?: string;
+  /** OAuth client ID the organization registered with the provider. */
+  client_id: string;
+}
+export const OrganizationSSOProvider = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    alias: S.String,
+    type: OrganizationSSOProviderType,
+    display_name: S.String,
+    domain: S.String,
+    enforced: S.Boolean,
+    issuer: S.optional(S.String),
+    client_id: S.String,
+  }),
+).annotate({ identifier: "OrganizationSSOProvider" }) as any as S.Schema<OrganizationSSOProvider>;
 
 /** Whether the project branches are configured to scale down to zero when not in use */
 export interface ProjectScaleToZeroConfiguration {
@@ -866,9 +963,7 @@ export const IPFilteringConfiguration = /*@__PURE__*/ S.suspend(() =>
     enabled: S.Boolean,
     cidr: IPFilteringConfigurationCidrList,
   }),
-).annotate({
-  identifier: "IPFilteringConfiguration",
-}) as any as S.Schema<IPFilteringConfiguration>;
+).annotate({ identifier: "IPFilteringConfiguration" }) as any as S.Schema<IPFilteringConfiguration>;
 
 /** Configuration details for a project, including its scale to zero settings */
 export interface ProjectConfiguration {
@@ -880,9 +975,7 @@ export const ProjectConfiguration = /*@__PURE__*/ S.suspend(() =>
     scaleToZero: ProjectScaleToZeroConfiguration,
     ipFiltering: S.optional(IPFilteringConfiguration),
   }),
-).annotate({
-  identifier: "ProjectConfiguration",
-}) as any as S.Schema<ProjectConfiguration>;
+).annotate({ identifier: "ProjectConfiguration" }) as any as S.Schema<ProjectConfiguration>;
 
 export interface CreateProjectRequest {
   /** Unique identifier of the organization to create the project in */
@@ -896,16 +989,8 @@ export const CreateProjectRequest = /*@__PURE__*/ S.suspend(() =>
     organizationID: S.String.pipe(T.Label()),
     name: S.String,
     configuration: S.optional(ProjectConfiguration),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/organizations/{organizationID}/projects",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CreateProjectRequest",
-}) as any as S.Schema<CreateProjectRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/organizations/{organizationID}/projects", code: 200 })),
+).annotate({ identifier: "CreateProjectRequest" }) as any as S.Schema<CreateProjectRequest>;
 
 /** Details of a project including its ID, name, and creation/update timestamps */
 export interface Project {
@@ -966,9 +1051,7 @@ export const CreateUserAPIKeyRequest = /*@__PURE__*/ S.suspend(() =>
     projects: S.optional(CreateUserAPIKeyRequestProjectsList),
     branches: S.optional(CreateUserAPIKeyRequestBranchesList),
   }).pipe(T.Http({ method: "POST", uri: "/api-keys", code: 200 })),
-).annotate({
-  identifier: "CreateUserAPIKeyRequest",
-}) as any as S.Schema<CreateUserAPIKeyRequest>;
+).annotate({ identifier: "CreateUserAPIKeyRequest" }) as any as S.Schema<CreateUserAPIKeyRequest>;
 
 export interface CreateUserAPIKeyResponse {
   key: FullAPIKey;
@@ -977,9 +1060,7 @@ export const CreateUserAPIKeyResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     key: FullAPIKey,
   }),
-).annotate({
-  identifier: "CreateUserAPIKeyResponse",
-}) as any as S.Schema<CreateUserAPIKeyResponse>;
+).annotate({ identifier: "CreateUserAPIKeyResponse" }) as any as S.Schema<CreateUserAPIKeyResponse>;
 
 export interface DeleteBranchRequest {
   /** Unique identifier of the organization containing the project */
@@ -1001,9 +1082,7 @@ export const DeleteBranchRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "DeleteBranchRequest",
-}) as any as S.Schema<DeleteBranchRequest>;
+).annotate({ identifier: "DeleteBranchRequest" }) as any as S.Schema<DeleteBranchRequest>;
 
 export interface DeleteBranchResponse {}
 export const DeleteBranchResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1052,13 +1131,7 @@ export const DeleteInstallationRequest = /*@__PURE__*/ S.suspend(() =>
     installationId: S.String.pipe(T.Label()),
     cascadeResourceDeletion: S.optional(S.Boolean),
     reason: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v1/installations/{installationId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/v1/installations/{installationId}", code: 200 })),
 ).annotate({
   identifier: "DeleteInstallationRequest",
 }) as any as S.Schema<DeleteInstallationRequest>;
@@ -1075,13 +1148,7 @@ export interface DeleteOrganizationRequest {
 export const DeleteOrganizationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     organizationID: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/organizations/{organizationID}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/organizations/{organizationID}", code: 200 })),
 ).annotate({
   identifier: "DeleteOrganizationRequest",
 }) as any as S.Schema<DeleteOrganizationRequest>;
@@ -1107,13 +1174,7 @@ export const DeleteOrganizationAPIKeysRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     organizationID: S.String.pipe(T.Label()),
     ids: DeleteOrganizationAPIKeysRequestIdsList,
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/organizations/{organizationID}/api-keys",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/organizations/{organizationID}/api-keys", code: 200 })),
 ).annotate({
   identifier: "DeleteOrganizationAPIKeysRequest",
 }) as any as S.Schema<DeleteOrganizationAPIKeysRequest>;
@@ -1153,6 +1214,62 @@ export const DeleteOrganizationInvitationResponse = /*@__PURE__*/ S.suspend(() =
   identifier: "DeleteOrganizationInvitationResponse",
 }) as any as S.Schema<DeleteOrganizationInvitationResponse>;
 
+export interface DeleteOrganizationSSODomainRequest {
+  /** Unique identifier for a specific organization */
+  organizationID: string;
+  /** Email domain claimed for SSO */
+  domain: string;
+}
+export const DeleteOrganizationSSODomainRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organizationID: S.String.pipe(T.Label()),
+    domain: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      uri: "/organizations/{organizationID}/sso/domains/{domain}",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "DeleteOrganizationSSODomainRequest",
+}) as any as S.Schema<DeleteOrganizationSSODomainRequest>;
+
+export interface DeleteOrganizationSSODomainResponse {}
+export const DeleteOrganizationSSODomainResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DeleteOrganizationSSODomainResponse",
+}) as any as S.Schema<DeleteOrganizationSSODomainResponse>;
+
+export interface DeleteOrganizationSSOProviderRequest {
+  /** Unique identifier for a specific organization */
+  organizationID: string;
+  /** Alias identifying one of the organization's SSO identity providers */
+  providerAlias: string;
+}
+export const DeleteOrganizationSSOProviderRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organizationID: S.String.pipe(T.Label()),
+    providerAlias: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      uri: "/organizations/{organizationID}/sso/providers/{providerAlias}",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "DeleteOrganizationSSOProviderRequest",
+}) as any as S.Schema<DeleteOrganizationSSOProviderRequest>;
+
+export interface DeleteOrganizationSSOProviderResponse {}
+export const DeleteOrganizationSSOProviderResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DeleteOrganizationSSOProviderResponse",
+}) as any as S.Schema<DeleteOrganizationSSOProviderResponse>;
+
 export interface DeleteProjectRequest {
   /** Unique identifier of the organization containing the project */
   organizationID: string;
@@ -1170,14 +1287,36 @@ export const DeleteProjectRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "DeleteProjectRequest",
-}) as any as S.Schema<DeleteProjectRequest>;
+).annotate({ identifier: "DeleteProjectRequest" }) as any as S.Schema<DeleteProjectRequest>;
 
 export interface DeleteProjectResponse {}
 export const DeleteProjectResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteProjectResponse",
 }) as any as S.Schema<DeleteProjectResponse>;
+
+export interface DeleteResourceRequest {
+  /** Vercel installation id (icfg_...). */
+  installationId: string;
+  /** Vercel resource id. */
+  resourceId: string;
+}
+export const DeleteResourceRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    installationId: S.String.pipe(T.Label()),
+    resourceId: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      uri: "/v1/installations/{installationId}/resources/{resourceId}",
+      code: 200,
+    }),
+  ),
+).annotate({ identifier: "DeleteResourceRequest" }) as any as S.Schema<DeleteResourceRequest>;
+
+export interface DeleteResourceResponse {}
+export const DeleteResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  identifier: "DeleteResourceResponse",
+}) as any as S.Schema<DeleteResourceResponse>;
 
 /** Array of API key IDs to delete (maximum 50 keys per request) */
 export type DeleteUserAPIKeysRequestIdsList = Array<string>;
@@ -1193,9 +1332,7 @@ export const DeleteUserAPIKeysRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ids: DeleteUserAPIKeysRequestIdsList,
   }).pipe(T.Http({ method: "DELETE", uri: "/api-keys", code: 200 })),
-).annotate({
-  identifier: "DeleteUserAPIKeysRequest",
-}) as any as S.Schema<DeleteUserAPIKeysRequest>;
+).annotate({ identifier: "DeleteUserAPIKeysRequest" }) as any as S.Schema<DeleteUserAPIKeysRequest>;
 
 export interface DeleteUserAPIKeysResponse {}
 export const DeleteUserAPIKeysResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1222,9 +1359,7 @@ export const DescribeBranchRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "DescribeBranchRequest",
-}) as any as S.Schema<DescribeBranchRequest>;
+).annotate({ identifier: "DescribeBranchRequest" }) as any as S.Schema<DescribeBranchRequest>;
 
 /** Type of status of the branch */
 export type BranchStatusStatusType =
@@ -1254,9 +1389,7 @@ export const ClusterLifecycle = /*@__PURE__*/ S.suspend(() =>
     reason: S.optional(S.String),
     phase: S.String,
   }),
-).annotate({
-  identifier: "ClusterLifecycle",
-}) as any as S.Schema<ClusterLifecycle>;
+).annotate({ identifier: "ClusterLifecycle" }) as any as S.Schema<ClusterLifecycle>;
 
 /** Status information about an individual database instance within a cluster */
 export interface InstanceStatus {
@@ -1356,9 +1489,7 @@ export const ClusterConfiguration = /*@__PURE__*/ S.suspend(() =>
     ),
     preloadLibraries: S.optional(ClusterConfigurationPreloadLibrariesList),
   }),
-).annotate({
-  identifier: "ClusterConfiguration",
-}) as any as S.Schema<ClusterConfiguration>;
+).annotate({ identifier: "ClusterConfiguration" }) as any as S.Schema<ClusterConfiguration>;
 
 /** Detailed metadata about a branch, including its status and configuration */
 export interface BranchMetadata {
@@ -1426,9 +1557,7 @@ export const GetBackupRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetBackupRequest",
-}) as any as S.Schema<GetBackupRequest>;
+).annotate({ identifier: "GetBackupRequest" }) as any as S.Schema<GetBackupRequest>;
 
 /** metadata about a continuous backup */
 export interface BackupMetadata {
@@ -1461,11 +1590,7 @@ export const GetBillingCustomerRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     organizationID: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/organizations/{organizationID}/billing/customer",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/organizations/{organizationID}/billing/customer", code: 200 }),
   ),
 ).annotate({
   identifier: "GetBillingCustomerRequest",
@@ -1492,9 +1617,7 @@ export const BillingPaymentMethodCard = /*@__PURE__*/ S.suspend(() =>
     expiry_month: S.Number,
     expiry_year: S.Number,
   }),
-).annotate({
-  identifier: "BillingPaymentMethodCard",
-}) as any as S.Schema<BillingPaymentMethodCard>;
+).annotate({ identifier: "BillingPaymentMethodCard" }) as any as S.Schema<BillingPaymentMethodCard>;
 
 export interface BillingPaymentMethod {
   card: BillingPaymentMethodCard;
@@ -1503,9 +1626,7 @@ export const BillingPaymentMethod = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     card: BillingPaymentMethodCard,
   }),
-).annotate({
-  identifier: "BillingPaymentMethod",
-}) as any as S.Schema<BillingPaymentMethod>;
+).annotate({ identifier: "BillingPaymentMethod" }) as any as S.Schema<BillingPaymentMethod>;
 
 export type BillingCreditStatus = "active" | "pending_payment";
 export const BillingCreditStatus = S.String;
@@ -1568,9 +1689,7 @@ export const BillingCreditDetails = /*@__PURE__*/ S.suspend(() =>
     days_until_last_active_credit_expiry: S.NullOr(S.Number),
     days_until_last_expiry_with_balance: S.NullOr(S.Number),
   }),
-).annotate({
-  identifier: "BillingCreditDetails",
-}) as any as S.Schema<BillingCreditDetails>;
+).annotate({ identifier: "BillingCreditDetails" }) as any as S.Schema<BillingCreditDetails>;
 
 export interface BillingCustomerResponse {
   billing_email: string;
@@ -1597,9 +1716,7 @@ export const BillingCustomerResponse = /*@__PURE__*/ S.suspend(() =>
     credits: BillingCustomerResponseCreditsList,
     credit_details: BillingCreditDetails,
   }),
-).annotate({
-  identifier: "BillingCustomerResponse",
-}) as any as S.Schema<BillingCustomerResponse>;
+).annotate({ identifier: "BillingCustomerResponse" }) as any as S.Schema<BillingCustomerResponse>;
 
 export interface GetBillingInvoicesRequest {
   /** Unique identifier for a specific organization */
@@ -1615,11 +1732,7 @@ export const GetBillingInvoicesRequest = /*@__PURE__*/ S.suspend(() =>
     cursor: S.optional(S.String.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/organizations/{organizationID}/billing/invoices",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/organizations/{organizationID}/billing/invoices", code: 200 }),
   ),
 ).annotate({
   identifier: "GetBillingInvoicesRequest",
@@ -1664,9 +1777,7 @@ export const PaginationMetadata = /*@__PURE__*/ S.suspend(() =>
     has_more: S.Boolean,
     next_cursor: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "PaginationMetadata",
-}) as any as S.Schema<PaginationMetadata>;
+).annotate({ identifier: "PaginationMetadata" }) as any as S.Schema<PaginationMetadata>;
 
 export interface BillingInvoicesResponse {
   data: BillingInvoicesResponseDataList;
@@ -1677,9 +1788,7 @@ export const BillingInvoicesResponse = /*@__PURE__*/ S.suspend(() =>
     data: BillingInvoicesResponseDataList,
     pagination_metadata: PaginationMetadata,
   }),
-).annotate({
-  identifier: "BillingInvoicesResponse",
-}) as any as S.Schema<BillingInvoicesResponse>;
+).annotate({ identifier: "BillingInvoicesResponse" }) as any as S.Schema<BillingInvoicesResponse>;
 
 export interface GetBillingUpcomingInvoiceRequest {
   /** Unique identifier for a specific organization */
@@ -1773,9 +1882,7 @@ export const BranchCredentials = /*@__PURE__*/ S.suspend(() =>
     dbname: S.String,
     connectionString: S.String.pipe(T.SensitiveValue({})),
   }),
-).annotate({
-  identifier: "BranchCredentials",
-}) as any as S.Schema<BranchCredentials>;
+).annotate({ identifier: "BranchCredentials" }) as any as S.Schema<BranchCredentials>;
 
 export interface GetBranchPostgresConfigRequest {
   /** Unique identifier of the organization containing the project */
@@ -1880,9 +1987,7 @@ export const PostgresConfigParameter = /*@__PURE__*/ S.suspend(() =>
     recommendation: S.String,
     restartRequired: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "PostgresConfigParameter",
-}) as any as S.Schema<PostgresConfigParameter>;
+).annotate({ identifier: "PostgresConfigParameter" }) as any as S.Schema<PostgresConfigParameter>;
 
 /** Array of PostgreSQL configuration parameters with detailed information */
 export type PostgresConfigDetailsParametersList = Array<PostgresConfigParameter>;
@@ -1899,47 +2004,7 @@ export const PostgresConfigDetails = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     parameters: PostgresConfigDetailsParametersList,
   }),
-).annotate({
-  identifier: "PostgresConfigDetails",
-}) as any as S.Schema<PostgresConfigDetails>;
-
-export interface GetDefaultProjectLimitsRequest {
-  /** Unique identifier of the organization to get project limits for */
-  organizationID: string;
-}
-export const GetDefaultProjectLimitsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    organizationID: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/organizations/{organizationID}/projects/limits",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetDefaultProjectLimitsRequest",
-}) as any as S.Schema<GetDefaultProjectLimitsRequest>;
-
-/** Resource limits and constraints for projects within an organization */
-export interface ProjectLimits {
-  /** Maximum number of database instances allowed per branch */
-  maxInstances: number;
-  /** Minimum number of database instances required per branch */
-  minInstances: number;
-  /** Maximum character length allowed for project descriptions */
-  maxDescriptionLength: number;
-  /** Maximum number of branches allowed per project */
-  maxBranches: number;
-}
-export const ProjectLimits = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    maxInstances: S.Number,
-    minInstances: S.Number,
-    maxDescriptionLength: S.Number,
-    maxBranches: S.Number,
-  }),
-).annotate({ identifier: "ProjectLimits" }) as any as S.Schema<ProjectLimits>;
+).annotate({ identifier: "PostgresConfigDetails" }) as any as S.Schema<PostgresConfigDetails>;
 
 export interface GetGithubRepositoryRequest {
   /** Unique identifier of the organization */
@@ -1984,16 +2049,8 @@ export interface GetOrganizationRequest {
 export const GetOrganizationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     organizationID: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/organizations/{organizationID}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetOrganizationRequest",
-}) as any as S.Schema<GetOrganizationRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/organizations/{organizationID}", code: 200 })),
+).annotate({ identifier: "GetOrganizationRequest" }) as any as S.Schema<GetOrganizationRequest>;
 
 export interface GetOrganizationInvitationRequest {
   /** Unique identifier for a specific organization */
@@ -2037,8 +2094,8 @@ export interface OrganizationInvitation {
   expires_at: string;
   /** Current status of the invitation */
   status: OrganizationInvitationStatus;
-  /** URL link to accept the invitation */
-  invite_link?: string;
+  /** Role the user holds once they accept the invitation */
+  role: OrganizationRoleName;
 }
 export const OrganizationInvitation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2050,11 +2107,9 @@ export const OrganizationInvitation = /*@__PURE__*/ S.suspend(() =>
     created_at: S.String,
     expires_at: S.String,
     status: OrganizationInvitationStatus,
-    invite_link: S.optional(S.String),
+    role: OrganizationRoleName,
   }),
-).annotate({
-  identifier: "OrganizationInvitation",
-}) as any as S.Schema<OrganizationInvitation>;
+).annotate({ identifier: "OrganizationInvitation" }) as any as S.Schema<OrganizationInvitation>;
 
 export interface GetOrganizationLimitsRequest {
   /** Unique identifier of the organization */
@@ -2063,19 +2118,13 @@ export interface GetOrganizationLimitsRequest {
 export const GetOrganizationLimitsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     organizationID: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/organizations/{organizationID}/limits",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/organizations/{organizationID}/limits", code: 200 })),
 ).annotate({
   identifier: "GetOrganizationLimitsRequest",
 }) as any as S.Schema<GetOrganizationLimitsRequest>;
 
 export interface GetOrganizationLimitsResponse {
-  /** Maximum character length allowed for project descriptions */
+  /** Maximum character length allowed for branch descriptions */
   maxDescriptionLength: number;
   /** Maximum number of branches allowed per project */
   maxBranchesPerProject: number;
@@ -2121,11 +2170,7 @@ export const GetOrganizationMembershipLimitsRequest = /*@__PURE__*/ S.suspend(()
   S.Struct({
     organizationID: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/organizations/{organizationID}/membership-limits",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/organizations/{organizationID}/membership-limits", code: 200 }),
   ),
 ).annotate({
   identifier: "GetOrganizationMembershipLimitsRequest",
@@ -2191,6 +2236,44 @@ export const GetOrganizationsListResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetOrganizationsListResponse",
 }) as any as S.Schema<GetOrganizationsListResponse>;
 
+export interface GetOrganizationSSORequest {
+  /** Unique identifier for a specific organization */
+  organizationID: string;
+}
+export const GetOrganizationSSORequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organizationID: S.String.pipe(T.Label()),
+  }).pipe(T.Http({ method: "GET", uri: "/organizations/{organizationID}/sso", code: 200 })),
+).annotate({
+  identifier: "GetOrganizationSSORequest",
+}) as any as S.Schema<GetOrganizationSSORequest>;
+
+/** Identity providers registered for this organization, at most one per verified domain. */
+export type OrganizationSSOProvidersList = Array<OrganizationSSOProvider>;
+export const OrganizationSSOProvidersList = /*@__PURE__*/ S.Array(
+  OrganizationSSOProvider,
+) as any as S.Schema<OrganizationSSOProvidersList>;
+
+/** Email domains claimed for this organization, verified and pending. */
+export type OrganizationSSODomainsList = Array<OrganizationSSODomain>;
+export const OrganizationSSODomainsList = /*@__PURE__*/ S.Array(
+  OrganizationSSODomain,
+) as any as S.Schema<OrganizationSSODomainsList>;
+
+/** An organization's single sign-on setup, as one identity provider per verified email domain. */
+export interface OrganizationSSO {
+  /** Identity providers registered for this organization, at most one per verified domain. */
+  providers: OrganizationSSOProvidersList;
+  /** Email domains claimed for this organization, verified and pending. */
+  domains: OrganizationSSODomainsList;
+}
+export const OrganizationSSO = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    providers: OrganizationSSOProvidersList,
+    domains: OrganizationSSODomainsList,
+  }),
+).annotate({ identifier: "OrganizationSSO" }) as any as S.Schema<OrganizationSSO>;
+
 export interface GetProjectRequest {
   /** Unique identifier of the organization containing the project */
   organizationID: string;
@@ -2208,9 +2291,7 @@ export const GetProjectRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetProjectRequest",
-}) as any as S.Schema<GetProjectRequest>;
+).annotate({ identifier: "GetProjectRequest" }) as any as S.Schema<GetProjectRequest>;
 
 export interface GetProjectLimitsRequest {
   /** Unique identifier of the organization */
@@ -2229,13 +2310,11 @@ export const GetProjectLimitsRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetProjectLimitsRequest",
-}) as any as S.Schema<GetProjectLimitsRequest>;
+).annotate({ identifier: "GetProjectLimitsRequest" }) as any as S.Schema<GetProjectLimitsRequest>;
 
 /** Full set of resource limits applicable to a project and its branches */
 export interface EffectiveProjectLimits {
-  /** Maximum character length allowed for project descriptions */
+  /** Maximum character length allowed for branch descriptions */
   maxDescriptionLength: number;
   /** Maximum number of branches allowed per project */
   maxBranchesPerProject: number;
@@ -2260,14 +2339,59 @@ export const EffectiveProjectLimits = /*@__PURE__*/ S.suspend(() =>
     maxBranchesPerHour: S.Number,
     maxStorageGBPerBranch: S.Number,
   }),
-).annotate({
-  identifier: "EffectiveProjectLimits",
-}) as any as S.Schema<EffectiveProjectLimits>;
+).annotate({ identifier: "EffectiveProjectLimits" }) as any as S.Schema<EffectiveProjectLimits>;
+
+export interface GetResourceRequest {
+  /** Vercel installation id (icfg_...). */
+  installationId: string;
+  /** Vercel resource id. */
+  resourceId: string;
+}
+export const GetResourceRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    installationId: S.String.pipe(T.Label()),
+    resourceId: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/v1/installations/{installationId}/resources/{resourceId}",
+      code: 200,
+    }),
+  ),
+).annotate({ identifier: "GetResourceRequest" }) as any as S.Schema<GetResourceRequest>;
+
+/** User-inputted metadata based on the registered metadata schema. */
+export type ResourceMetadataMap = { [key: string]: unknown | undefined };
+export const ResourceMetadataMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<ResourceMetadataMap>;
+
+/** A provisioned Vercel Marketplace resource. Matches Vercel's Partner API "Get Resource" response. Secrets/connection info are returned by Provision Resource, not here. The optional billingPlan, protocolSettings, and notification fields are not yet populated. */
+export interface Resource {
+  /** The partner-specific resource id. */
+  id: string;
+  /** The partner-specific product id/slug. */
+  productId: string;
+  /** User-inputted resource name. */
+  name: string;
+  /** User-inputted metadata based on the registered metadata schema. */
+  metadata: ResourceMetadataMap;
+  /** Resource lifecycle status. One of Vercel's values: ready, pending, onboarding, suspended, resumed, uninstalled, error. */
+  status: string;
+}
+export const Resource = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    productId: S.String,
+    name: S.String,
+    metadata: ResourceMetadataMap,
+    status: S.String,
+  }),
+).annotate({ identifier: "Resource" }) as any as S.Schema<Resource>;
 
 /** GitHub webhook event payload */
-export type GithubWebhookRequestBodyMap = {
-  [key: string]: unknown | undefined;
-};
+export type GithubWebhookRequestBodyMap = { [key: string]: unknown | undefined };
 export const GithubWebhookRequestBodyMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -2280,9 +2404,7 @@ export const GithubWebhookRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     body: GithubWebhookRequestBodyMap.pipe(T.HttpBody()),
   }).pipe(T.Http({ method: "POST", uri: "/webhooks/github", code: 200 })),
-).annotate({
-  identifier: "GithubWebhookRequest",
-}) as any as S.Schema<GithubWebhookRequest>;
+).annotate({ identifier: "GithubWebhookRequest" }) as any as S.Schema<GithubWebhookRequest>;
 
 export interface GithubWebhookResponse {}
 export const GithubWebhookResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2306,9 +2428,7 @@ export const ListBackupsRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "ListBackupsRequest",
-}) as any as S.Schema<ListBackupsRequest>;
+).annotate({ identifier: "ListBackupsRequest" }) as any as S.Schema<ListBackupsRequest>;
 
 /** list of backups within the project */
 export type ListBackupsResponseBackupsList = Array<BackupMetadata>;
@@ -2324,9 +2444,117 @@ export const ListBackupsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     backups: ListBackupsResponseBackupsList,
   }),
+).annotate({ identifier: "ListBackupsResponse" }) as any as S.Schema<ListBackupsResponse>;
+
+export interface ListBillingPlansForProductRequest {
+  /** Vercel product slug (e.g. xata-postgres). */
+  productSlug: string;
+  /** Opaque metadata forwarded by Vercel. */
+  metadata?: string;
+}
+export const ListBillingPlansForProductRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    productSlug: S.String.pipe(T.Label()),
+    metadata: S.optional(S.String.pipe(T.Query())),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/products/{productSlug}/plans", code: 200 })),
 ).annotate({
-  identifier: "ListBackupsResponse",
-}) as any as S.Schema<ListBackupsResponse>;
+  identifier: "ListBillingPlansForProductRequest",
+}) as any as S.Schema<ListBillingPlansForProductRequest>;
+
+export interface PlanDetail {
+  label: string;
+  value?: string;
+}
+export const PlanDetail = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    label: S.String,
+    value: S.optional(S.String),
+  }),
+).annotate({ identifier: "PlanDetail" }) as any as S.Schema<PlanDetail>;
+
+export type BillingPlanDetailsList = Array<PlanDetail>;
+export const BillingPlanDetailsList = /*@__PURE__*/ S.Array(
+  PlanDetail,
+) as any as S.Schema<BillingPlanDetailsList>;
+
+export type BillingPlanHighlightedDetailsList = Array<PlanDetail>;
+export const BillingPlanHighlightedDetailsList = /*@__PURE__*/ S.Array(
+  PlanDetail,
+) as any as S.Schema<BillingPlanHighlightedDetailsList>;
+
+export interface PlanQuoteLine {
+  line: string;
+  amount: string;
+}
+export const PlanQuoteLine = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    line: S.String,
+    amount: S.String,
+  }),
+).annotate({ identifier: "PlanQuoteLine" }) as any as S.Schema<PlanQuoteLine>;
+
+export type BillingPlanQuoteList = Array<PlanQuoteLine>;
+export const BillingPlanQuoteList = /*@__PURE__*/ S.Array(
+  PlanQuoteLine,
+) as any as S.Schema<BillingPlanQuoteList>;
+
+/** A Vercel Marketplace billing plan. Billing SKU only; it does not change Xata entitlements. */
+export interface BillingPlan {
+  /** Partner-provided billing plan id. */
+  id: string;
+  /** Plan type: "subscription" or "prepayment". */
+  type: string;
+  name: string;
+  description: string;
+  /** Plan scope; installation-level plans require enablement on the integration. */
+  scope?: string;
+  /** Subscription plans only. false means the plan is completely free. */
+  paymentMethodRequired?: boolean;
+  /** Subscription + paymentMethodRequired. Amount used to test the payment method; never charged. */
+  preauthorizationAmount?: number;
+  /** Subscription + paymentMethodRequired. Amount invoiced immediately at sign-up (decimal USD string). */
+  initialCharge?: string;
+  /** Display cost for fixed-cost plans, e.g. "$20.00/month". Omitted for usage-based plans. */
+  cost?: string;
+  details?: BillingPlanDetailsList;
+  highlightedDetails?: BillingPlanHighlightedDetailsList;
+  quote?: BillingPlanQuoteList;
+  effectiveDate?: string;
+  disabled?: boolean;
+}
+export const BillingPlan = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: S.String,
+    name: S.String,
+    description: S.String,
+    scope: S.optional(S.String),
+    paymentMethodRequired: S.optional(S.Boolean),
+    preauthorizationAmount: S.optional(S.Number),
+    initialCharge: S.optional(S.String),
+    cost: S.optional(S.String),
+    details: S.optional(BillingPlanDetailsList),
+    highlightedDetails: S.optional(BillingPlanHighlightedDetailsList),
+    quote: S.optional(BillingPlanQuoteList),
+    effectiveDate: S.optional(S.String),
+    disabled: S.optional(S.Boolean),
+  }),
+).annotate({ identifier: "BillingPlan" }) as any as S.Schema<BillingPlan>;
+
+export type ListBillingPlansResponsePlansList = Array<BillingPlan>;
+export const ListBillingPlansResponsePlansList = /*@__PURE__*/ S.Array(
+  BillingPlan,
+) as any as S.Schema<ListBillingPlansResponsePlansList>;
+
+/** The billing plans available for a product. */
+export interface ListBillingPlansResponse {
+  plans: ListBillingPlansResponsePlansList;
+}
+export const ListBillingPlansResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    plans: ListBillingPlansResponsePlansList,
+  }),
+).annotate({ identifier: "ListBillingPlansResponse" }) as any as S.Schema<ListBillingPlansResponse>;
 
 export interface ListBranchesRequest {
   /** Unique identifier of the organization containing the project */
@@ -2345,9 +2573,7 @@ export const ListBranchesRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "ListBranchesRequest",
-}) as any as S.Schema<ListBranchesRequest>;
+).annotate({ identifier: "ListBranchesRequest" }) as any as S.Schema<ListBranchesRequest>;
 
 /** Metadata about a branch used when listing branches in a project */
 export interface BranchListMetadata {
@@ -2382,9 +2608,7 @@ export const BranchListMetadata = /*@__PURE__*/ S.suspend(() =>
     publicAccess: S.Boolean,
     backupsEnabled: S.Boolean,
   }),
-).annotate({
-  identifier: "BranchListMetadata",
-}) as any as S.Schema<BranchListMetadata>;
+).annotate({ identifier: "BranchListMetadata" }) as any as S.Schema<BranchListMetadata>;
 
 /** Array of branch objects with their metadata */
 export type ListBranchesResponseBranchesList = Array<BranchListMetadata>;
@@ -2400,9 +2624,7 @@ export const ListBranchesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     branches: ListBranchesResponseBranchesList,
   }),
-).annotate({
-  identifier: "ListBranchesResponse",
-}) as any as S.Schema<ListBranchesResponse>;
+).annotate({ identifier: "ListBranchesResponse" }) as any as S.Schema<ListBranchesResponse>;
 
 export interface ListExtensionsRequest {
   /** Unique identifier of the organization to check instance type availability for */
@@ -2417,16 +2639,8 @@ export const ListExtensionsRequest = /*@__PURE__*/ S.suspend(() =>
     organizationID: S.String.pipe(T.Label()),
     image: S.String.pipe(T.Query()),
     region: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/organizations/{organizationID}/extensions",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListExtensionsRequest",
-}) as any as S.Schema<ListExtensionsRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/organizations/{organizationID}/extensions", code: 200 })),
+).annotate({ identifier: "ListExtensionsRequest" }) as any as S.Schema<ListExtensionsRequest>;
 
 /** type of installation */
 export type ExtensionType = "extension" | "plugin" | "module";
@@ -2472,9 +2686,7 @@ export const ListExtensionsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     extensions: ListExtensionsResponseExtensionsList,
   }),
-).annotate({
-  identifier: "ListExtensionsResponse",
-}) as any as S.Schema<ListExtensionsResponse>;
+).annotate({ identifier: "ListExtensionsResponse" }) as any as S.Schema<ListExtensionsResponse>;
 
 export interface ListGithubAppInstallationsRequest {
   /** Unique identifier of the organization */
@@ -2522,16 +2734,8 @@ export const ListImagesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     organizationID: S.String.pipe(T.Label()),
     region: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/organizations/{organizationID}/images",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListImagesRequest",
-}) as any as S.Schema<ListImagesRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/organizations/{organizationID}/images", code: 200 })),
+).annotate({ identifier: "ListImagesRequest" }) as any as S.Schema<ListImagesRequest>;
 
 /** region where this instance type is available */
 export type ImageRegionList = Array<string>;
@@ -2571,9 +2775,7 @@ export const ListImagesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     images: ListImagesResponseImagesList,
   }),
-).annotate({
-  identifier: "ListImagesResponse",
-}) as any as S.Schema<ListImagesResponse>;
+).annotate({ identifier: "ListImagesResponse" }) as any as S.Schema<ListImagesResponse>;
 
 export interface ListInstanceTypesRequest {
   /** Unique identifier of the organization to check instance type availability for */
@@ -2586,15 +2788,9 @@ export const ListInstanceTypesRequest = /*@__PURE__*/ S.suspend(() =>
     organizationID: S.String.pipe(T.Label()),
     region: S.String.pipe(T.Query()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/organizations/{organizationID}/instanceTypes",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/organizations/{organizationID}/instanceTypes", code: 200 }),
   ),
-).annotate({
-  identifier: "ListInstanceTypesRequest",
-}) as any as S.Schema<ListInstanceTypesRequest>;
+).annotate({ identifier: "ListInstanceTypesRequest" }) as any as S.Schema<ListInstanceTypesRequest>;
 
 export interface ListInstanceTypesResponseInstanceTypesItem {
   /** Instance type name */
@@ -2649,13 +2845,7 @@ export interface ListOrganizationAPIKeysRequest {
 export const ListOrganizationAPIKeysRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     organizationID: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/organizations/{organizationID}/api-keys",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/organizations/{organizationID}/api-keys", code: 200 })),
 ).annotate({
   identifier: "ListOrganizationAPIKeysRequest",
 }) as any as S.Schema<ListOrganizationAPIKeysRequest>;
@@ -2761,13 +2951,7 @@ export const ListOrganizationInvitationsRequest = /*@__PURE__*/ S.suspend(() =>
     search: S.optional(S.String.pipe(T.Query())),
     first: S.optional(S.Number.pipe(T.Query())),
     max: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/organizations/{organizationID}/invitations",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/organizations/{organizationID}/invitations", code: 200 })),
 ).annotate({
   identifier: "ListOrganizationInvitationsRequest",
 }) as any as S.Schema<ListOrganizationInvitationsRequest>;
@@ -2795,35 +2979,32 @@ export interface ListOrganizationMembersRequest {
 export const ListOrganizationMembersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     organizationID: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/organizations/{organizationID}/members",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/organizations/{organizationID}/members", code: 200 })),
 ).annotate({
   identifier: "ListOrganizationMembersRequest",
 }) as any as S.Schema<ListOrganizationMembersRequest>;
 
-export interface UserWithID {
+/** A member of an organization and the role they hold in it */
+export interface OrganizationMember {
   /** Email address associated with the user account */
   email: string;
   /** Name of the user */
   name: string;
   id: string;
+  role: OrganizationRoleName;
 }
-export const UserWithID = /*@__PURE__*/ S.suspend(() =>
+export const OrganizationMember = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     email: S.String,
     name: S.String,
     id: S.String,
+    role: OrganizationRoleName,
   }),
-).annotate({ identifier: "UserWithID" }) as any as S.Schema<UserWithID>;
+).annotate({ identifier: "OrganizationMember" }) as any as S.Schema<OrganizationMember>;
 
-export type ListOrganizationMembersResponseMembersList = Array<UserWithID>;
+export type ListOrganizationMembersResponseMembersList = Array<OrganizationMember>;
 export const ListOrganizationMembersResponseMembersList = /*@__PURE__*/ S.Array(
-  UserWithID,
+  OrganizationMember,
 ) as any as S.Schema<ListOrganizationMembersResponseMembersList>;
 
 export interface ListOrganizationMembersResponse {
@@ -2837,6 +3018,51 @@ export const ListOrganizationMembersResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListOrganizationMembersResponse",
 }) as any as S.Schema<ListOrganizationMembersResponse>;
 
+export interface ListOrganizationRolesRequest {
+  /** Unique identifier for a specific organization */
+  organizationID: string;
+}
+export const ListOrganizationRolesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organizationID: S.String.pipe(T.Label()),
+  }).pipe(T.Http({ method: "GET", uri: "/organizations/{organizationID}/roles", code: 200 })),
+).annotate({
+  identifier: "ListOrganizationRolesRequest",
+}) as any as S.Schema<ListOrganizationRolesRequest>;
+
+/** A role that can be held by a member of an organization */
+export interface OrganizationRole {
+  /** Stable identifier for the role */
+  id: OrganizationRoleName;
+  /** Human-readable name of the role */
+  name: string;
+  /** What the role allows */
+  description: string;
+}
+export const OrganizationRole = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: OrganizationRoleName,
+    name: S.String,
+    description: S.String,
+  }),
+).annotate({ identifier: "OrganizationRole" }) as any as S.Schema<OrganizationRole>;
+
+export type ListOrganizationRolesResponseRolesList = Array<OrganizationRole>;
+export const ListOrganizationRolesResponseRolesList = /*@__PURE__*/ S.Array(
+  OrganizationRole,
+) as any as S.Schema<ListOrganizationRolesResponseRolesList>;
+
+export interface ListOrganizationRolesResponse {
+  roles: ListOrganizationRolesResponseRolesList;
+}
+export const ListOrganizationRolesResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    roles: ListOrganizationRolesResponseRolesList,
+  }),
+).annotate({
+  identifier: "ListOrganizationRolesResponse",
+}) as any as S.Schema<ListOrganizationRolesResponse>;
+
 export interface ListProjectsRequest {
   /** Unique identifier of the organization to list projects from */
   organizationID: string;
@@ -2844,16 +3070,8 @@ export interface ListProjectsRequest {
 export const ListProjectsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     organizationID: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/organizations/{organizationID}/projects",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListProjectsRequest",
-}) as any as S.Schema<ListProjectsRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/organizations/{organizationID}/projects", code: 200 })),
+).annotate({ identifier: "ListProjectsRequest" }) as any as S.Schema<ListProjectsRequest>;
 
 /** Array of project objects with their metadata */
 export type ListProjectsResponseProjectsList = Array<Project>;
@@ -2869,9 +3087,7 @@ export const ListProjectsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     projects: ListProjectsResponseProjectsList,
   }),
-).annotate({
-  identifier: "ListProjectsResponse",
-}) as any as S.Schema<ListProjectsResponse>;
+).annotate({ identifier: "ListProjectsResponse" }) as any as S.Schema<ListProjectsResponse>;
 
 export interface ListRegionsRequest {
   /** Unique identifier of the organization to check region availability for */
@@ -2880,19 +3096,11 @@ export interface ListRegionsRequest {
 export const ListRegionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     organizationID: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/organizations/{organizationID}/regions",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListRegionsRequest",
-}) as any as S.Schema<ListRegionsRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/organizations/{organizationID}/regions", code: 200 })),
+).annotate({ identifier: "ListRegionsRequest" }) as any as S.Schema<ListRegionsRequest>;
 
 /** Cloud provider the region runs on */
-export type ListRegionsResponseRegionsItemProvider = "aws" | "gcp" | "custom";
+export type ListRegionsResponseRegionsItemProvider = "aws" | "gcp" | "azure" | "custom";
 export const ListRegionsResponseRegionsItemProvider = S.String;
 
 export interface ListRegionsResponseRegionsItem {
@@ -2933,16 +3141,12 @@ export const ListRegionsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     regions: ListRegionsResponseRegionsList,
   }),
-).annotate({
-  identifier: "ListRegionsResponse",
-}) as any as S.Schema<ListRegionsResponse>;
+).annotate({ identifier: "ListRegionsResponse" }) as any as S.Schema<ListRegionsResponse>;
 
 export interface ListUserAPIKeysRequest {}
 export const ListUserAPIKeysRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api-keys", code: 200 })),
-).annotate({
-  identifier: "ListUserAPIKeysRequest",
-}) as any as S.Schema<ListUserAPIKeysRequest>;
+).annotate({ identifier: "ListUserAPIKeysRequest" }) as any as S.Schema<ListUserAPIKeysRequest>;
 
 /** Array of API keys for the user */
 export type ListUserAPIKeysResponseKeysList = Array<APIKeyPreview>;
@@ -2958,9 +3162,7 @@ export const ListUserAPIKeysResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     keys: ListUserAPIKeysResponseKeysList,
   }),
-).annotate({
-  identifier: "ListUserAPIKeysResponse",
-}) as any as S.Schema<ListUserAPIKeysResponse>;
+).annotate({ identifier: "ListUserAPIKeysResponse" }) as any as S.Schema<ListUserAPIKeysResponse>;
 
 /** Orb webhook event payload */
 export type OrbWebhookRequestBodyMap = { [key: string]: unknown | undefined };
@@ -2976,14 +3178,118 @@ export const OrbWebhookRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     body: OrbWebhookRequestBodyMap.pipe(T.HttpBody()),
   }).pipe(T.Http({ method: "POST", uri: "/webhooks/orb", code: 200 })),
-).annotate({
-  identifier: "OrbWebhookRequest",
-}) as any as S.Schema<OrbWebhookRequest>;
+).annotate({ identifier: "OrbWebhookRequest" }) as any as S.Schema<OrbWebhookRequest>;
 
 export interface OrbWebhookResponse {}
 export const OrbWebhookResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "OrbWebhookResponse",
 }) as any as S.Schema<OrbWebhookResponse>;
+
+/** User-inputted metadata based on the registered metadata schema. */
+export type ProvisionResourceRequestMetadataMap = { [key: string]: unknown | undefined };
+export const ProvisionResourceRequestMetadataMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<ProvisionResourceRequestMetadataMap>;
+
+export interface ProvisionResourceRequest {
+  /** Vercel installation id (icfg_...). */
+  installationId: string;
+  /** The partner-specific product id/slug. */
+  productId: string;
+  /** User-inputted resource name. */
+  name: string;
+  /** User-inputted metadata based on the registered metadata schema. */
+  metadata: ProvisionResourceRequestMetadataMap;
+  /** Selected Vercel billing plan id. */
+  billingPlanId: string;
+  /** Partner-provided identifier indicating the source of provisioning. */
+  externalId?: string;
+}
+export const ProvisionResourceRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    installationId: S.String.pipe(T.Label()),
+    productId: S.String,
+    name: S.String,
+    metadata: ProvisionResourceRequestMetadataMap,
+    billingPlanId: S.String,
+    externalId: S.optional(S.String),
+  }).pipe(
+    T.Http({ method: "POST", uri: "/v1/installations/{installationId}/resources", code: 200 }),
+  ),
+).annotate({ identifier: "ProvisionResourceRequest" }) as any as S.Schema<ProvisionResourceRequest>;
+
+/** User-inputted metadata based on the registered metadata schema. */
+export type ProvisionedResourceMetadataMap = { [key: string]: unknown | undefined };
+export const ProvisionedResourceMetadataMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<ProvisionedResourceMetadataMap>;
+
+/** Per-environment values that override value for that Vercel environment. */
+export interface SecretEnvironmentOverrides {
+  development?: string;
+  preview?: string;
+  production?: string;
+}
+export const SecretEnvironmentOverrides = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    development: S.optional(S.String),
+    preview: S.optional(S.String),
+    production: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "SecretEnvironmentOverrides",
+}) as any as S.Schema<SecretEnvironmentOverrides>;
+
+/** A connection secret exposed as an environment variable on connected Vercel projects. */
+export interface Secret {
+  /** Environment variable name. */
+  name: string;
+  /** Default value, used when no per-environment override applies. */
+  value: string;
+  /** Per-environment values that override value for that Vercel environment. */
+  environmentOverrides?: SecretEnvironmentOverrides;
+}
+export const Secret = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    value: S.String,
+    environmentOverrides: S.optional(SecretEnvironmentOverrides),
+  }),
+).annotate({ identifier: "Secret" }) as any as S.Schema<Secret>;
+
+/** Connection secrets that become environment variables on connected projects. */
+export type ProvisionedResourceSecretsList = Array<Secret>;
+export const ProvisionedResourceSecretsList = /*@__PURE__*/ S.Array(
+  Secret,
+) as any as S.Schema<ProvisionedResourceSecretsList>;
+
+/** A newly provisioned resource: the Resource fields plus the connection secrets. Provision Resource is the only endpoint that returns secrets. */
+export interface ProvisionedResource {
+  /** The partner-specific resource id. */
+  id: string;
+  /** The partner-specific product id/slug. */
+  productId: string;
+  /** User-inputted resource name. */
+  name: string;
+  /** User-inputted metadata based on the registered metadata schema. */
+  metadata: ProvisionedResourceMetadataMap;
+  /** Resource lifecycle status. One of Vercel's values: ready, pending, onboarding, suspended, resumed, uninstalled, error. */
+  status: string;
+  /** Connection secrets that become environment variables on connected projects. */
+  secrets: ProvisionedResourceSecretsList;
+}
+export const ProvisionedResource = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    productId: S.String,
+    name: S.String,
+    metadata: ProvisionedResourceMetadataMap,
+    status: S.String,
+    secrets: ProvisionedResourceSecretsList,
+  }),
+).annotate({ identifier: "ProvisionedResource" }) as any as S.Schema<ProvisionedResource>;
 
 /** Positional parameters for the query (`$1`, `$2`, ...). */
 export type QueryRequestParamsList = Array<unknown>;
@@ -3045,7 +3351,7 @@ export interface FieldDefinition {
   name: string;
   /** OID of the source table (0 if not a table column). */
   tableID: number;
-  /** Attribute number of the column within the table. */
+  /** Attribute number of the column within the table (0 if not a table column, negative for system columns). */
   columnID: number;
   /** OID of the column data type. */
   dataTypeID: number;
@@ -3066,9 +3372,7 @@ export const FieldDefinition = /*@__PURE__*/ S.suspend(() =>
     dataTypeModifier: S.Number,
     format: S.String,
   }),
-).annotate({
-  identifier: "FieldDefinition",
-}) as any as S.Schema<FieldDefinition>;
+).annotate({ identifier: "FieldDefinition" }) as any as S.Schema<FieldDefinition>;
 
 /** Column metadata for the result set. */
 export type QueryResultFieldsList = Array<FieldDefinition>;
@@ -3212,11 +3516,7 @@ export const RequestOrganizationDeletionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     organizationID: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/organizations/{organizationID}/deletion-request",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/organizations/{organizationID}/deletion-request", code: 200 }),
   ),
 ).annotate({
   identifier: "RequestOrganizationDeletionRequest",
@@ -3289,9 +3589,7 @@ export const RestoreFromBackupRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "RestoreFromBackupRequest",
-}) as any as S.Schema<RestoreFromBackupRequest>;
+).annotate({ identifier: "RestoreFromBackupRequest" }) as any as S.Schema<RestoreFromBackupRequest>;
 
 export interface RotateBranchCredentialsRequest {
   organizationID: string;
@@ -3319,9 +3617,7 @@ export const RotateBranchCredentialsRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface RotateBranchCredentialsResponse {}
 export const RotateBranchCredentialsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "RotateBranchCredentialsResponse",
-  },
+  { identifier: "RotateBranchCredentialsResponse" },
 ) as any as S.Schema<RotateBranchCredentialsResponse>;
 
 /** JSON-RPC protocol version. Always `2.0`. */
@@ -3333,9 +3629,7 @@ export type SendMcpRequestRequestId = string | number;
 export const SendMcpRequestRequestId = S.Unknown as any as S.Schema<SendMcpRequestRequestId>;
 
 /** Method parameters as defined by the MCP specification. */
-export type SendMcpRequestRequestParamsMap = {
-  [key: string]: unknown | undefined;
-};
+export type SendMcpRequestRequestParamsMap = { [key: string]: unknown | undefined };
 export const SendMcpRequestRequestParamsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -3358,9 +3652,7 @@ export const SendMcpRequestRequest = /*@__PURE__*/ S.suspend(() =>
     method: S.String,
     params: S.optional(SendMcpRequestRequestParamsMap),
   }).pipe(T.Http({ method: "POST", uri: "/mcp", code: 200 })),
-).annotate({
-  identifier: "SendMcpRequestRequest",
-}) as any as S.Schema<SendMcpRequestRequest>;
+).annotate({ identifier: "SendMcpRequestRequest" }) as any as S.Schema<SendMcpRequestRequest>;
 
 /** JSON-RPC protocol version. Always `2.0`. */
 export type JSONRPCResponseJsonrpc = "2.0";
@@ -3411,14 +3703,64 @@ export const JSONRPCResponse = /*@__PURE__*/ S.suspend(() =>
     result: S.optional(JSONRPCResponseResultMap),
     error: S.optional(JSONRPCError),
   }),
+).annotate({ identifier: "JSONRPCResponse" }) as any as S.Schema<JSONRPCResponse>;
+
+export interface SetOrganizationMemberRoleRequest {
+  /** Unique identifier for a specific organization */
+  organizationID: string;
+  /** Unique identifier for a specific user account */
+  userID: string;
+  role: OrganizationRoleName | (string & {});
+}
+export const SetOrganizationMemberRoleRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organizationID: S.String.pipe(T.Label()),
+    userID: S.String.pipe(T.Label()),
+    role: OrganizationRoleName,
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      uri: "/organizations/{organizationID}/members/{userID}/role",
+      code: 200,
+    }),
+  ),
 ).annotate({
-  identifier: "JSONRPCResponse",
-}) as any as S.Schema<JSONRPCResponse>;
+  identifier: "SetOrganizationMemberRoleRequest",
+}) as any as S.Schema<SetOrganizationMemberRoleRequest>;
+
+export interface SetOrganizationMemberRoleResponse {}
+export const SetOrganizationMemberRoleResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "SetOrganizationMemberRoleResponse",
+}) as any as S.Schema<SetOrganizationMemberRoleResponse>;
+
+export interface SetOrganizationSSOProviderEnforcementRequest {
+  /** Unique identifier for a specific organization */
+  organizationID: string;
+  /** Alias identifying one of the organization's SSO identity providers */
+  providerAlias: string;
+  /** Enable to send every address on the domain to this provider. Disable to let members sign in however they could before. */
+  enforced: boolean;
+}
+export const SetOrganizationSSOProviderEnforcementRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organizationID: S.String.pipe(T.Label()),
+    providerAlias: S.String.pipe(T.Label()),
+    enforced: S.Boolean,
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      uri: "/organizations/{organizationID}/sso/providers/{providerAlias}/enforcement",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "SetOrganizationSSOProviderEnforcementRequest",
+}) as any as S.Schema<SetOrganizationSSOProviderEnforcementRequest>;
 
 /** Stripe webhook event payload */
-export type StripeWebhookRequestBodyMap = {
-  [key: string]: unknown | undefined;
-};
+export type StripeWebhookRequestBodyMap = { [key: string]: unknown | undefined };
 export const StripeWebhookRequestBodyMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -3431,9 +3773,7 @@ export const StripeWebhookRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     body: StripeWebhookRequestBodyMap.pipe(T.HttpBody()),
   }).pipe(T.Http({ method: "POST", uri: "/webhooks/stripe", code: 200 })),
-).annotate({
-  identifier: "StripeWebhookRequest",
-}) as any as S.Schema<StripeWebhookRequest>;
+).annotate({ identifier: "StripeWebhookRequest" }) as any as S.Schema<StripeWebhookRequest>;
 
 export interface StripeWebhookResponse {}
 export const StripeWebhookResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -3450,11 +3790,7 @@ export const UpdateBillingCustomerRequest = /*@__PURE__*/ S.suspend(() =>
     organizationID: S.String.pipe(T.Label()),
     billing_email: S.String,
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/organizations/{organizationID}/billing/customer",
-      code: 200,
-    }),
+    T.Http({ method: "PATCH", uri: "/organizations/{organizationID}/billing/customer", code: 200 }),
   ),
 ).annotate({
   identifier: "UpdateBillingCustomerRequest",
@@ -3484,7 +3820,7 @@ export interface UpdateBranchRequest {
   branchID: string;
   /** New name for the branch */
   name?: string;
-  /** New description for the branch (max 50 characters) */
+  /** New description for the branch. Send an empty string to clear it. */
   description?: string;
   /** Number of database replicas to scale to */
   replicas?: number;
@@ -3528,9 +3864,7 @@ export const UpdateBranchRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "UpdateBranchRequest",
-}) as any as S.Schema<UpdateBranchRequest>;
+).annotate({ identifier: "UpdateBranchRequest" }) as any as S.Schema<UpdateBranchRequest>;
 
 export interface UpdateGithubAppInstallationRequest {
   /** Unique identifier of the organization */
@@ -3596,16 +3930,40 @@ export const UpdateOrganizationRequest = /*@__PURE__*/ S.suspend(() =>
     organizationID: S.String.pipe(T.Label()),
     id: S.optional(S.String),
     name: S.optional(S.String),
+  }).pipe(T.Http({ method: "PUT", uri: "/organizations/{organizationID}", code: 200 })),
+).annotate({
+  identifier: "UpdateOrganizationRequest",
+}) as any as S.Schema<UpdateOrganizationRequest>;
+
+export interface UpdateOrganizationSSOProviderRequest {
+  /** Unique identifier for a specific organization */
+  organizationID: string;
+  /** Alias identifying one of the organization's SSO identity providers */
+  providerAlias: string;
+  /** OIDC issuer URL. Required for `oidc`, and for `microsoft` where it names the Entra tenant; ignored for `google`. */
+  issuer?: string;
+  /** OAuth client ID the organization registered with the provider */
+  client_id: string;
+  /** OAuth client secret. Write-only: it is stored in Keycloak and is never returned by this API. */
+  client_secret: string | Redacted.Redacted<string>;
+}
+export const UpdateOrganizationSSOProviderRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organizationID: S.String.pipe(T.Label()),
+    providerAlias: S.String.pipe(T.Label()),
+    issuer: S.optional(S.String),
+    client_id: S.String,
+    client_secret: S.String.pipe(T.SensitiveValue({})),
   }).pipe(
     T.Http({
       method: "PUT",
-      uri: "/organizations/{organizationID}",
+      uri: "/organizations/{organizationID}/sso/providers/{providerAlias}",
       code: 200,
     }),
   ),
 ).annotate({
-  identifier: "UpdateOrganizationRequest",
-}) as any as S.Schema<UpdateOrganizationRequest>;
+  identifier: "UpdateOrganizationSSOProviderRequest",
+}) as any as S.Schema<UpdateOrganizationSSOProviderRequest>;
 
 /** Partial configuration update for a project */
 export interface UpdateProjectConfiguration {
@@ -3643,9 +4001,7 @@ export const UpdateProjectRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "UpdateProjectRequest",
-}) as any as S.Schema<UpdateProjectRequest>;
+).annotate({ identifier: "UpdateProjectRequest" }) as any as S.Schema<UpdateProjectRequest>;
 
 /** Scopes granted to the installation. */
 export type UpsertInstallationRequestScopesList = Array<string>;
@@ -3654,9 +4010,7 @@ export const UpsertInstallationRequestScopesList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<UpsertInstallationRequestScopesList>;
 
 /** Map of policy id to the acceptance timestamp (RFC 3339), e.g. {"toc": "2024-02-28T10:00:00Z"}. */
-export type UpsertInstallationRequestAcceptedPoliciesMap = {
-  [key: string]: string | undefined;
-};
+export type UpsertInstallationRequestAcceptedPoliciesMap = { [key: string]: string | undefined };
 export const UpsertInstallationRequestAcceptedPoliciesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3673,9 +4027,7 @@ export const InstallationCredentials = /*@__PURE__*/ S.suspend(() =>
     access_token: S.String.pipe(T.SensitiveValue({})),
     token_type: S.String,
   }),
-).annotate({
-  identifier: "InstallationCredentials",
-}) as any as S.Schema<InstallationCredentials>;
+).annotate({ identifier: "InstallationCredentials" }) as any as S.Schema<InstallationCredentials>;
 
 /** Contact details for the account. */
 export interface InstallationAccountContact {
@@ -3706,9 +4058,7 @@ export const InstallationAccount = /*@__PURE__*/ S.suspend(() =>
     url: S.String,
     contact: S.optional(InstallationAccountContact),
   }),
-).annotate({
-  identifier: "InstallationAccount",
-}) as any as S.Schema<InstallationAccount>;
+).annotate({ identifier: "InstallationAccount" }) as any as S.Schema<InstallationAccount>;
 
 export interface UpsertInstallationRequest {
   /** Vercel installation id (icfg_...). */
@@ -3727,13 +4077,7 @@ export const UpsertInstallationRequest = /*@__PURE__*/ S.suspend(() =>
     acceptedPolicies: UpsertInstallationRequestAcceptedPoliciesMap,
     credentials: InstallationCredentials,
     account: InstallationAccount,
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/v1/installations/{installationId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/v1/installations/{installationId}", code: 200 })),
 ).annotate({
   identifier: "UpsertInstallationRequest",
 }) as any as S.Schema<UpsertInstallationRequest>;
@@ -3743,12 +4087,31 @@ export const UpsertInstallationResponse = /*@__PURE__*/ S.suspend(() => S.Struct
   identifier: "UpsertInstallationResponse",
 }) as any as S.Schema<UpsertInstallationResponse>;
 
+export interface VerifyOrganizationSSODomainRequest {
+  /** Unique identifier for a specific organization */
+  organizationID: string;
+  /** Email domain claimed for SSO */
+  domain: string;
+}
+export const VerifyOrganizationSSODomainRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organizationID: S.String.pipe(T.Label()),
+    domain: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/organizations/{organizationID}/sso/domains/{domain}/verify",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "VerifyOrganizationSSODomainRequest",
+}) as any as S.Schema<VerifyOrganizationSSODomainRequest>;
+
 export interface WebsocketRequest {}
 export const WebsocketRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v2", code: 200 })),
-).annotate({
-  identifier: "WebsocketRequest",
-}) as any as S.Schema<WebsocketRequest>;
+).annotate({ identifier: "WebsocketRequest" }) as any as S.Schema<WebsocketRequest>;
 
 export interface WebsocketResponse {}
 export const WebsocketResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -3781,6 +4144,21 @@ export const branchMetrics2: API.OperationMethod<
   input: BranchMetricsRequest,
   output: BranchMetrics,
   errors: [BadRequest, NotFound, UnknownXataError],
+  protocol: XataProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ClaimOrganizationSSODomainError = BadRequest | Forbidden | Conflict | XataOpError;
+/** Claim an email domain for SSO Claims an email domain and returns the DNS record that proves control of it. A claim is only a note to ourselves: nothing is registered against the domain until verification succeeds, so claiming a domain neither affects anyone's sign-in nor stops another organization claiming it first. A domain another organization has already registered is refused with 409, before any DNS record is published. */
+export const claimOrganizationSSODomain: API.OperationMethod<
+  ClaimOrganizationSSODomainRequest,
+  OrganizationSSODomain,
+  ClaimOrganizationSSODomainError,
+  XataOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ClaimOrganizationSSODomainRequest,
+  output: OrganizationSSODomain,
+  errors: [BadRequest, Forbidden, Conflict, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
 }));
@@ -3910,6 +4288,21 @@ export const createOrganizationInvitation: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type CreateOrganizationSSOProviderError = BadRequest | Forbidden | Conflict | XataOpError;
+/** Register an identity provider for a verified domain Registers an identity provider for one verified domain. `google` needs only the credentials and pins the login to that Google Workspace domain; `microsoft` pins it to the Entra tenant in the issuer; `oidc` is the fallback for any other provider and discovers its endpoints from the issuer's `/.well-known/openid-configuration`. The domain must already be verified, and registering does not redirect anyone on its own: that is enabled separately. */
+export const createOrganizationSSOProvider: API.OperationMethod<
+  CreateOrganizationSSOProviderRequest,
+  OrganizationSSOProvider,
+  CreateOrganizationSSOProviderError,
+  XataOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateOrganizationSSOProviderRequest,
+  output: OrganizationSSOProvider,
+  errors: [BadRequest, Forbidden, Conflict, UnknownXataError],
+  protocol: XataProtocol,
+  retry: Retry.Retry,
+}));
+
 export type CreateProjectError = BadRequest | XataOpError;
 /** Create a new project Creates a new project within the specified organization. Projects are containers for database branches and resources. */
 export const createProject: API.OperationMethod<
@@ -4030,6 +4423,36 @@ export const deleteOrganizationInvitation: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type DeleteOrganizationSSODomainError = Forbidden | Conflict | XataOpError;
+/** Release a claimed or verified domain Drops a pending claim, or releases a verified domain so members on it sign in however they could before. Refused with a 409 while the organization has a provider for the domain; remove the provider first. Idempotent. */
+export const deleteOrganizationSSODomain: API.OperationMethod<
+  DeleteOrganizationSSODomainRequest,
+  DeleteOrganizationSSODomainResponse,
+  DeleteOrganizationSSODomainError,
+  XataOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteOrganizationSSODomainRequest,
+  output: DeleteOrganizationSSODomainResponse,
+  errors: [Forbidden, Conflict, UnknownXataError],
+  protocol: XataProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DeleteOrganizationSSOProviderError = Forbidden | XataOpError;
+/** Remove an identity provider Deletes the provider, so members on its domain fall back to the sign-in methods they had before. The domain stays verified and can be given another provider. Idempotent. */
+export const deleteOrganizationSSOProvider: API.OperationMethod<
+  DeleteOrganizationSSOProviderRequest,
+  DeleteOrganizationSSOProviderResponse,
+  DeleteOrganizationSSOProviderError,
+  XataOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteOrganizationSSOProviderRequest,
+  output: DeleteOrganizationSSOProviderResponse,
+  errors: [Forbidden, UnknownXataError],
+  protocol: XataProtocol,
+  retry: Retry.Retry,
+}));
+
 export type DeleteProjectError = BadRequest | NotFound | XataOpError;
 /** Delete a project Permanently deletes a specific project by its ID and all associated resources including branches and databases. This action cannot be undone. */
 export const deleteProject: API.OperationMethod<
@@ -4041,6 +4464,21 @@ export const deleteProject: API.OperationMethod<
   input: DeleteProjectRequest,
   output: DeleteProjectResponse,
   errors: [BadRequest, NotFound, UnknownXataError],
+  protocol: XataProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DeleteResourceError = Forbidden | NotFound | XataOpError;
+/** Delete a Vercel Marketplace resource Deprovision a resource (its Xata project and branches) and mark the tracking records deleting. Vercel calls this when a customer removes a resource. Idempotent: a resource already being torn down is deprovisioned again harmlessly; a resource that no longer exists returns 404. */
+export const deleteResource: API.OperationMethod<
+  DeleteResourceRequest,
+  DeleteResourceResponse,
+  DeleteResourceError,
+  XataOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteResourceRequest,
+  output: DeleteResourceResponse,
+  errors: [Forbidden, NotFound, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
 }));
@@ -4165,21 +4603,6 @@ export const getBranchPostgresConfig: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type GetDefaultProjectLimitsError = XataOpError;
-/** Get project resource limits Retrieves the default resource limits for projects in the specified organization, including maximum instances, storage, and allowed regions. */
-export const getDefaultProjectLimits: API.OperationMethod<
-  GetDefaultProjectLimitsRequest,
-  ProjectLimits,
-  GetDefaultProjectLimitsError,
-  XataOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: GetDefaultProjectLimitsRequest,
-  output: ProjectLimits,
-  errors: [UnknownXataError],
-  protocol: XataProtocol,
-  retry: Retry.Retry,
-}));
-
 export type GetGithubRepositoryError = BadRequest | XataOpError;
 /** Get GitHub repository for branch Returns the GitHub repository mapping for the specified branch. */
 export const getGithubRepository: API.OperationMethod<
@@ -4270,6 +4693,21 @@ export const getOrganizationsList: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type GetOrganizationSSOError = Forbidden | XataOpError;
+/** Get the organization's SSO configuration Lists the organization's identity providers and the email domains claimed for them. An organization signs in through one provider per verified domain, so both are collections. Client secrets are write-only and are never returned. An organization that has not set anything up yet responds 200 with empty lists. */
+export const getOrganizationSSO: API.OperationMethod<
+  GetOrganizationSSORequest,
+  OrganizationSSO,
+  GetOrganizationSSOError,
+  XataOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetOrganizationSSORequest,
+  output: OrganizationSSO,
+  errors: [Forbidden, UnknownXataError],
+  protocol: XataProtocol,
+  retry: Retry.Retry,
+}));
+
 export type GetProjectError = BadRequest | NotFound | XataOpError;
 /** Get project details Retrieves detailed information about a specific project by its ID within the specified organization. */
 export const getProject: API.OperationMethod<
@@ -4300,6 +4738,21 @@ export const getProjectLimits: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type GetResourceError = Forbidden | NotFound | XataOpError;
+/** Get a Vercel Marketplace resource Return a provisioned resource. Scoped to the installation in the signed token; a resource owned by another installation is reported as not found. */
+export const getResource: API.OperationMethod<
+  GetResourceRequest,
+  Resource,
+  GetResourceError,
+  XataOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetResourceRequest,
+  output: Resource,
+  errors: [Forbidden, NotFound, UnknownXataError],
+  protocol: XataProtocol,
+  retry: Retry.Retry,
+}));
+
 export type GithubWebhookError = BadRequest | XataOpError;
 /** GitHub App webhook Endpoint used by GitHub to deliver App webhook events. This endpoint is authenticated via GitHub's HMAC-SHA256 signature header, not via the normal API authentication. */
 export const githubWebhook: API.OperationMethod<
@@ -4326,6 +4779,21 @@ export const listBackups: API.OperationMethod<
   input: ListBackupsRequest,
   output: ListBackupsResponse,
   errors: [BadRequest, NotFound, UnknownXataError],
+  protocol: XataProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListBillingPlansForProductError = BadRequest | Forbidden | NotFound | XataOpError;
+/** List billing plans for a product Return the product's available billing plans, rendered into Vercel's billingPlan shape. Vercel calls this to show plans when a customer creates a resource; it may be called before any installation exists, so the signed token can carry no installation or account id. Plans are billing SKUs only and do not change Xata entitlements (every Vercel org is T2). */
+export const listBillingPlansForProduct: API.OperationMethod<
+  ListBillingPlansForProductRequest,
+  ListBillingPlansResponse,
+  ListBillingPlansForProductError,
+  XataOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListBillingPlansForProductRequest,
+  output: ListBillingPlansResponse,
+  errors: [BadRequest, Forbidden, NotFound, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
 }));
@@ -4450,6 +4918,21 @@ export const listOrganizationMembers: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type ListOrganizationRolesError = Forbidden | NotFound | XataOpError;
+/** List the roles assignable in an organization Roles are predefined. Every member of an organization holds exactly one. */
+export const listOrganizationRoles: API.OperationMethod<
+  ListOrganizationRolesRequest,
+  ListOrganizationRolesResponse,
+  ListOrganizationRolesError,
+  XataOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListOrganizationRolesRequest,
+  output: ListOrganizationRolesResponse,
+  errors: [Forbidden, NotFound, UnknownXataError],
+  protocol: XataProtocol,
+  retry: Retry.Retry,
+}));
+
 export type ListProjectsError = BadRequest | XataOpError;
 /** List all projects Retrieves a list of all projects within the specified organization that the authenticated user has access to. */
 export const listProjects: API.OperationMethod<
@@ -4510,6 +4993,21 @@ export const orbWebhook: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type ProvisionResourceError = BadRequest | Forbidden | NotFound | Conflict | XataOpError;
+/** Provision a Vercel Marketplace resource Create a resource (a Xata project and its branches) and return it with the connection secrets. Vercel calls this when a customer creates a resource. Idempotent when an Idempotency-Key header is sent: a retry with the same key returns the existing resource unchanged, and reusing the key with a different body is a conflict (409). Without the header there is no stable key, so each call provisions a new resource. */
+export const provisionResource: API.OperationMethod<
+  ProvisionResourceRequest,
+  ProvisionedResource,
+  ProvisionResourceError,
+  XataOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ProvisionResourceRequest,
+  output: ProvisionedResource,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownXataError],
+  protocol: XataProtocol,
+  retry: Retry.Retry,
+}));
+
 export type QueryError = BadRequest | Forbidden | NotFound | Conflict | XataOpError;
 /** Execute SQL query Execute a single SQL query or a batch of queries against a PostgreSQL branch. **Authentication:** send the branch's PostgreSQL connection string in the `Connection-String` header. The control-plane API key (Bearer token) is **not** accepted on the gateway host. **Routing:** the target branch, region, and endpoint type are taken from the hostname embedded in the connection string, which must match the request host. See the `Connection-String` security scheme for the host format. **Single query:** provide `query` (and optional `params`) at the top level. **Batch:** provide `queries` as an array of query objects, or send the request body as a JSON array. Batch queries execute within a single transaction. */
 export const query: API.OperationMethod<QueryRequest, QueryResponse, QueryError, XataOpContext> =
@@ -4536,7 +5034,7 @@ export const registerMarketplace: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type RemoveOrganizationMemberError = XataOpError;
+export type RemoveOrganizationMemberError = BadRequest | Conflict | XataOpError;
 /** Remove a member from an organization */
 export const removeOrganizationMember: API.OperationMethod<
   RemoveOrganizationMemberRequest,
@@ -4546,7 +5044,7 @@ export const removeOrganizationMember: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: RemoveOrganizationMemberRequest,
   output: RemoveOrganizationMemberResponse,
-  errors: [UnknownXataError],
+  errors: [BadRequest, Conflict, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
 }));
@@ -4622,6 +5120,45 @@ export const sendMcpRequest: API.OperationMethod<
   input: SendMcpRequestRequest,
   output: JSONRPCResponse,
   errors: [BadRequest, UnknownXataError],
+  protocol: XataProtocol,
+  retry: Retry.Retry,
+}));
+
+export type SetOrganizationMemberRoleError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | Conflict
+  | XataOpError;
+/** Set the role of an organization member Replaces the member's current role. An organization always retains at least one Admin. */
+export const setOrganizationMemberRole: API.OperationMethod<
+  SetOrganizationMemberRoleRequest,
+  SetOrganizationMemberRoleResponse,
+  SetOrganizationMemberRoleError,
+  XataOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: SetOrganizationMemberRoleRequest,
+  output: SetOrganizationMemberRoleResponse,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownXataError],
+  protocol: XataProtocol,
+  retry: Retry.Retry,
+}));
+
+export type SetOrganizationSSOProviderEnforcementError =
+  | Forbidden
+  | NotFound
+  | Conflict
+  | XataOpError;
+/** Require members on this provider's domain to sign in through it Enabling sends every address on the provider's domain to it, leaving those members no other way in. Refused with a 409 until the domain is verified. Disabling needs nothing, so the way out is always open. */
+export const setOrganizationSSOProviderEnforcement: API.OperationMethod<
+  SetOrganizationSSOProviderEnforcementRequest,
+  OrganizationSSOProvider,
+  SetOrganizationSSOProviderEnforcementError,
+  XataOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: SetOrganizationSSOProviderEnforcementRequest,
+  output: OrganizationSSOProvider,
+  errors: [Forbidden, NotFound, Conflict, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
 }));
@@ -4716,6 +5253,26 @@ export const updateOrganization: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type UpdateOrganizationSSOProviderError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | Conflict
+  | XataOpError;
+/** Update an identity provider's credentials Replaces the provider's credentials, and for `oidc` re-discovers its endpoints from the issuer. The domain it serves and whether it is enforced are carried across unchanged, so rotating a client secret does not quietly turn enforcement off. A provider whose domain stopped being verified is refused until the domain verifies again. */
+export const updateOrganizationSSOProvider: API.OperationMethod<
+  UpdateOrganizationSSOProviderRequest,
+  OrganizationSSOProvider,
+  UpdateOrganizationSSOProviderError,
+  XataOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateOrganizationSSOProviderRequest,
+  output: OrganizationSSOProvider,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownXataError],
+  protocol: XataProtocol,
+  retry: Retry.Retry,
+}));
+
 export type UpdateProjectError = BadRequest | NotFound | XataOpError;
 /** Update project details Updates the details of a specific project by its ID, such as changing its name. */
 export const updateProject: API.OperationMethod<
@@ -4742,6 +5299,21 @@ export const upsertInstallation: API.OperationMethod<
   input: UpsertInstallationRequest,
   output: UpsertInstallationResponse,
   errors: [BadRequest, Forbidden, Conflict, UnknownXataError],
+  protocol: XataProtocol,
+  retry: Retry.Retry,
+}));
+
+export type VerifyOrganizationSSODomainError = Forbidden | NotFound | Conflict | XataOpError;
+/** Check the DNS record for a claimed domain Looks up the challenge TXT record. Verification is a poll, not a command: a missing or stale record is reported as `verified: false` on a 200 rather than as an error, so a client can retry while DNS propagates. Verifying a domain that lost its verification restores its provider, with enforcement off. */
+export const verifyOrganizationSSODomain: API.OperationMethod<
+  VerifyOrganizationSSODomainRequest,
+  OrganizationSSODomain,
+  VerifyOrganizationSSODomainError,
+  XataOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: VerifyOrganizationSSODomainRequest,
+  output: OrganizationSSODomain,
+  errors: [Forbidden, NotFound, Conflict, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
 }));
