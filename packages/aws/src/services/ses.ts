@@ -364,6 +364,15 @@ export class ProductionAccessNotGrantedException
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
+export class ReceiptRuleRoleNotAssumable
+  extends /*@__PURE__*/ S.TaggedError<ReceiptRuleRoleNotAssumable>()(
+    "ReceiptRuleRoleNotAssumable",
+    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
+    T.SyntheticError({
+      from: "InvalidParameterValue",
+      message: { includes: "Could not assume the provided IAM Role" },
+    }),
+  ) {}
 export class RuleDoesNotExistException
   extends /*@__PURE__*/ S.TaggedError<RuleDoesNotExistException>()(
     "RuleDoesNotExistException",
@@ -2630,6 +2639,7 @@ export type CreateReceiptRuleError =
   | RuleSetDoesNotExistException
   | InvalidParameterValue
   | IdentityNotVerified
+  | ReceiptRuleRoleNotAssumable
   | CommonErrors;
 /**
  * Creates a receipt rule.
@@ -2657,6 +2667,7 @@ export const createReceiptRule: API.OperationMethod<
     RuleSetDoesNotExistException,
     InvalidParameterValue,
     IdentityNotVerified,
+    ReceiptRuleRoleNotAssumable,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4412,6 +4423,7 @@ export type UpdateReceiptRuleError =
   | RuleSetDoesNotExistException
   | InvalidParameterValue
   | IdentityNotVerified
+  | ReceiptRuleRoleNotAssumable
   | CommonErrors;
 /**
  * Updates a receipt rule.
@@ -4438,6 +4450,7 @@ export const updateReceiptRule: API.OperationMethod<
     RuleSetDoesNotExistException,
     InvalidParameterValue,
     IdentityNotVerified,
+    ReceiptRuleRoleNotAssumable,
   ],
   protocol: AwsProtocol,
   retry: Retry,
