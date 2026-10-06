@@ -148,33 +148,13 @@ export type TokensCreateRequestPoliciesItemEffect = "allow" | "deny";
 export const TokensCreateRequestPoliciesItemEffect = S.String;
 
 export interface TokensCreateRequestPoliciesItemPermissionGroupsItemMeta {
-  /** A category used to group permission groups. */
-  category?: string;
-  /** Indicates whether the permission group is deprecated. */
-  deprecated?: string;
-  /** Additional information about the permission group. */
-  description?: string;
-  /** Indicates whether the permission group can be edited. */
-  editable?: string;
-  /** The planned end-of-life date and time, when provided. */
-  eolAt?: string;
-  /** A label identifying the permission group. */
-  label?: string;
-  /** The scope associated with the permission group. */
-  scopes?: string;
-  /** Indicates the permission group's availability or visibility. */
-  visibility?: string;
+  key?: string;
+  value?: string;
 }
 export const TokensCreateRequestPoliciesItemPermissionGroupsItemMeta = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    category: S.optional(S.String),
-    deprecated: S.optional(S.String),
-    description: S.optional(S.String),
-    editable: S.optional(S.String),
-    eolAt: S.optional(S.String.pipe(T.Body("eol_at"))),
-    label: S.optional(S.String),
-    scopes: S.optional(S.String),
-    visibility: S.optional(S.String),
+    key: S.optional(S.String),
+    value: S.optional(S.String),
   }),
 ).annotate({
   identifier: "TokensCreateRequestPoliciesItemPermissionGroupsItemMeta",

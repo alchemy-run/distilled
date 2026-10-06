@@ -1,0 +1,29 @@
+{
+  "description": "Docs bug: the 2026-10-05 docs give token create/update REQUEST permission_groups[].meta the permission-group catalog's read-only fields (category, deprecated, description, editable, eol_at, label, scopes, visibility). The live catalog (GET /tokens/permission_groups) carries those as top-level group properties; a token policy's permission-group meta is the {key, value} pair the previous docs listed. Restore that write shape.",
+  "patches": [
+    {
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.accounts#TokensCreateRequestPoliciesItemPermissionGroupsItemMeta/members",
+      "value": {
+        "key": {
+          "target": "smithy.api#String"
+        },
+        "value": {
+          "target": "smithy.api#String"
+        }
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.accounts#TokensUpdateRequestPoliciesItemPermissionGroupsItemMeta/members",
+      "value": {
+        "key": {
+          "target": "smithy.api#String"
+        },
+        "value": {
+          "target": "smithy.api#String"
+        }
+      }
+    }
+  ]
+}

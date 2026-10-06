@@ -8609,53 +8609,11 @@
     "com.cloudflare.accounts#TokensCreateRequestPoliciesItemPermissionGroupsItemMeta": {
       "type": "structure",
       "members": {
-        "category": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "A category used to group permission groups."
-          }
+        "key": {
+          "target": "smithy.api#String"
         },
-        "deprecated": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Indicates whether the permission group is deprecated."
-          }
-        },
-        "description": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Additional information about the permission group."
-          }
-        },
-        "editable": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Indicates whether the permission group can be edited."
-          }
-        },
-        "eol_at": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The planned end-of-life date and time, when provided."
-          }
-        },
-        "label": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "A label identifying the permission group."
-          }
-        },
-        "scopes": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The scope associated with the permission group."
-          }
-        },
-        "visibility": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Indicates the permission group's availability or visibility."
-          }
+        "value": {
+          "target": "smithy.api#String"
         }
       }
     },
@@ -9678,53 +9636,11 @@
     "com.cloudflare.accounts#TokensUpdateRequestPoliciesItemPermissionGroupsItemMeta": {
       "type": "structure",
       "members": {
-        "category": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "A category used to group permission groups."
-          }
+        "key": {
+          "target": "smithy.api#String"
         },
-        "deprecated": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Indicates whether the permission group is deprecated."
-          }
-        },
-        "description": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Additional information about the permission group."
-          }
-        },
-        "editable": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Indicates whether the permission group can be edited."
-          }
-        },
-        "eol_at": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The planned end-of-life date and time, when provided."
-          }
-        },
-        "label": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "A label identifying the permission group."
-          }
-        },
-        "scopes": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The scope associated with the permission group."
-          }
-        },
-        "visibility": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Indicates the permission group's availability or visibility."
-          }
+        "value": {
+          "target": "smithy.api#String"
         }
       }
     },
