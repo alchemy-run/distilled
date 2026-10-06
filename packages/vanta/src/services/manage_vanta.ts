@@ -40,11 +40,7 @@ export const AcknowledgeSlaMissVulnerabilityRemediationsRequest = /*@__PURE__*/ 
   S.Struct({
     updates: AcknowledgeSlaMissVulnerabilityRemediationsRequestUpdatesList,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/vulnerability-remediations/acknowledge-sla-miss",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/vulnerability-remediations/acknowledge-sla-miss", code: 200 }),
   ),
 ).annotate({
   identifier: "AcknowledgeSlaMissVulnerabilityRemediationsRequest",
@@ -64,9 +60,7 @@ export const SuccessResponse = /*@__PURE__*/ S.suspend(() =>
     id: S.String,
     status: ResultLineStatusSUCCESS,
   }),
-).annotate({
-  identifier: "SuccessResponse",
-}) as any as S.Schema<SuccessResponse>;
+).annotate({ identifier: "SuccessResponse" }) as any as S.Schema<SuccessResponse>;
 
 export type ResultLineStatusERROR = "ERROR";
 export const ResultLineStatusERROR = S.String;
@@ -85,9 +79,7 @@ export const NonSuccessResponse = /*@__PURE__*/ S.suspend(() =>
     status: ResultLineStatusERROR,
     message: S.String,
   }),
-).annotate({
-  identifier: "NonSuccessResponse",
-}) as any as S.Schema<NonSuccessResponse>;
+).annotate({ identifier: "NonSuccessResponse" }) as any as S.Schema<NonSuccessResponse>;
 
 export type UpdateResponse = SuccessResponse | NonSuccessResponse;
 export const UpdateResponse = S.Unknown as any as S.Schema<UpdateResponse>;
@@ -193,6 +185,8 @@ export interface Control {
   creationDate: string | null;
   /** When the control was last modified. Returns null for Vanta library controls. */
   modificationDate: string | null;
+  /** How the control is implemented. */
+  implementationDetails?: string | null;
 }
 export const Control = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -207,6 +201,7 @@ export const Control = /*@__PURE__*/ S.suspend(() =>
     customFields: ControlCustomFieldsList,
     creationDate: S.NullOr(S.String),
     modificationDate: S.NullOr(S.String),
+    implementationDetails: S.optional(S.NullOr(S.String)),
   }),
 ).annotate({ identifier: "Control" }) as any as S.Schema<Control>;
 
@@ -228,13 +223,7 @@ export const AddControlToTrustCenterRequest = /*@__PURE__*/ S.suspend(() =>
     slugId: S.String.pipe(T.Label()),
     controlId: S.String,
     categoryIds: AddControlToTrustCenterRequestCategoryIdsList,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/trust-centers/{slugId}/controls",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/trust-centers/{slugId}/controls", code: 200 })),
 ).annotate({
   identifier: "AddControlToTrustCenterRequest",
 }) as any as S.Schema<AddControlToTrustCenterRequest>;
@@ -295,9 +284,7 @@ export const TrustCenterControl = /*@__PURE__*/ S.suspend(() =>
     description: S.String,
     categories: S.NullOr(TrustCenterControlCategoriesList),
   }),
-).annotate({
-  identifier: "TrustCenterControl",
-}) as any as S.Schema<TrustCenterControl>;
+).annotate({ identifier: "TrustCenterControl" }) as any as S.Schema<TrustCenterControl>;
 
 export interface AddDiscoveredVendorToManagedRequest {
   discoveredVendorId: string;
@@ -368,9 +355,7 @@ export const VendorAuthDetails = /*@__PURE__*/ S.suspend(() =>
     passwordMFA: S.NullOr(S.Boolean),
     method: S.NullOr(VendorAuthenticationMethod),
   }),
-).annotate({
-  identifier: "VendorAuthDetails",
-}) as any as S.Schema<VendorAuthDetails>;
+).annotate({ identifier: "VendorAuthDetails" }) as any as S.Schema<VendorAuthDetails>;
 
 /** The current state of a vendor: - MANAGED: The vendor is actively managed. - ARCHIVED: The vendor has been archived - IN_PROCUREMENT: The vendor is in the procurement process */
 export type VendorStatus = "MANAGED" | "ARCHIVED" | "IN_PROCUREMENT";
@@ -675,9 +660,7 @@ export const VendorContractAmount = /*@__PURE__*/ S.suspend(() =>
     amount: S.Number,
     currency: CurrencyCode,
   }),
-).annotate({
-  identifier: "VendorContractAmount",
-}) as any as S.Schema<VendorContractAmount>;
+).annotate({ identifier: "VendorContractAmount" }) as any as S.Schema<VendorContractAmount>;
 
 /** The vendor's custom fields. */
 export type VendorCustomFieldsList = Array<CustomField>;
@@ -814,11 +797,7 @@ export const AddDocumentToControlRequest = /*@__PURE__*/ S.suspend(() =>
     controlId: S.String.pipe(T.Label()),
     documentId: S.String,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/controls/{controlId}/add-document-to-control",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/controls/{controlId}/add-document-to-control", code: 200 }),
   ),
 ).annotate({
   identifier: "AddDocumentToControlRequest",
@@ -922,12 +901,11 @@ export const AddPeopleToGroupRequest = /*@__PURE__*/ S.suspend(() =>
     groupId: S.String.pipe(T.Label()),
     updates: AddPeopleToGroupRequestUpdatesList,
   }).pipe(T.Http({ method: "POST", uri: "/groups/{groupId}/add-people", code: 200 })),
-).annotate({
-  identifier: "AddPeopleToGroupRequest",
-}) as any as S.Schema<AddPeopleToGroupRequest>;
+).annotate({ identifier: "AddPeopleToGroupRequest" }) as any as S.Schema<AddPeopleToGroupRequest>;
 
 export interface AddPersonToGroupRequest {
   groupId: string;
+  /** ID of the person to add to the group. */
   id: string;
 }
 export const AddPersonToGroupRequest = /*@__PURE__*/ S.suspend(() =>
@@ -935,9 +913,7 @@ export const AddPersonToGroupRequest = /*@__PURE__*/ S.suspend(() =>
     groupId: S.String.pipe(T.Label()),
     id: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/groups/{groupId}/people", code: 200 })),
-).annotate({
-  identifier: "AddPersonToGroupRequest",
-}) as any as S.Schema<AddPersonToGroupRequest>;
+).annotate({ identifier: "AddPersonToGroupRequest" }) as any as S.Schema<AddPersonToGroupRequest>;
 
 /** The employment status of a person: - UPCOMING: The person is not yet employed and will start employment in the future. - CURRENT: The person is currently employed. - ON_LEAVE: The person is on leave. - INACTIVE: The person's employment is inactive. - FORMER: The person was previously employed. */
 export type EmploymentStatus = "UPCOMING" | "CURRENT" | "ON_LEAVE" | "INACTIVE" | "FORMER";
@@ -960,9 +936,7 @@ export const PersonEmployment = /*@__PURE__*/ S.suspend(() =>
     jobTitle: S.NullOr(S.String),
     endDate: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "PersonEmployment",
-}) as any as S.Schema<PersonEmployment>;
+).annotate({ identifier: "PersonEmployment" }) as any as S.Schema<PersonEmployment>;
 
 /** User can be active or upcoming leave period */
 export type LeaveStatus = "ACTIVE" | "UPCOMING";
@@ -1073,9 +1047,7 @@ export const PersonSourcesEmployment = /*@__PURE__*/ S.suspend(() =>
     endDate: PersonInfoSource,
     startDate: PersonInfoSource,
   }),
-).annotate({
-  identifier: "PersonSourcesEmployment",
-}) as any as S.Schema<PersonSourcesEmployment>;
+).annotate({ identifier: "PersonSourcesEmployment" }) as any as S.Schema<PersonSourcesEmployment>;
 
 /** The sources of the person's information. */
 export interface PersonSources {
@@ -1402,9 +1374,7 @@ export const TaskSummaryDetails = /*@__PURE__*/ S.suspend(() =>
     installDeviceMonitoring: InstallDeviceMonitoringTaskSummary,
     completeBackgroundChecks: CompleteBackgroundChecksTaskSummary,
   }),
-).annotate({
-  identifier: "TaskSummaryDetails",
-}) as any as S.Schema<TaskSummaryDetails>;
+).annotate({ identifier: "TaskSummaryDetails" }) as any as S.Schema<TaskSummaryDetails>;
 
 /** The overall status of a person's outstanding tasks: - NONE: There are no tasks. - DUE_SOON: At least one task is due soon. - OVERDUE: At least one task is overdue. Has a higher priority than DUE_SOON. - COMPLETE: All tasks are complete. - PAUSED: All tasks are paused. - OFFBOARDING_DUE_SOON: At least one offboarding task is due soon. - OFFBOARDING_OVERDUE: At least one offboarding task is overdue. Has a higher priority than OFFBOARDING_DUE_SOON. - OFFBOARDING_COMPLETE: All offboarding tasks are complete. */
 export type TasksSummaryStatus =
@@ -1435,9 +1405,7 @@ export const PersonTasksSummary = /*@__PURE__*/ S.suspend(() =>
     dueDate: S.NullOr(S.String),
     completionDate: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "PersonTasksSummary",
-}) as any as S.Schema<PersonTasksSummary>;
+).annotate({ identifier: "PersonTasksSummary" }) as any as S.Schema<PersonTasksSummary>;
 
 export interface Person {
   id: string;
@@ -1511,16 +1479,8 @@ export const AddTestToControlRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     controlId: S.String.pipe(T.Label()),
     testId: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/controls/{controlId}/add-test-to-control",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "AddTestToControlRequest",
-}) as any as S.Schema<AddTestToControlRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/controls/{controlId}/add-test-to-control", code: 200 })),
+).annotate({ identifier: "AddTestToControlRequest" }) as any as S.Schema<AddTestToControlRequest>;
 
 /** The test's version. */
 export interface TestVersion {
@@ -1565,9 +1525,7 @@ export const DeactivatedStatusInfo = /*@__PURE__*/ S.suspend(() =>
     deactivatedReason: S.NullOr(S.String),
     lastUpdatedDate: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "DeactivatedStatusInfo",
-}) as any as S.Schema<DeactivatedStatusInfo>;
+).annotate({ identifier: "DeactivatedStatusInfo" }) as any as S.Schema<DeactivatedStatusInfo>;
 
 /** Enum for the possible test remediation statuses */
 export type TestRemediationStatus =
@@ -1595,9 +1553,7 @@ export const RemediationStatusInfo = /*@__PURE__*/ S.suspend(() =>
     soonestRemediateByDate: S.NullOr(S.String),
     itemCount: S.Number,
   }),
-).annotate({
-  identifier: "RemediationStatusInfo",
-}) as any as S.Schema<RemediationStatusInfo>;
+).annotate({ identifier: "RemediationStatusInfo" }) as any as S.Schema<RemediationStatusInfo>;
 
 export interface Test {
   /** The test's unique ID. */
@@ -1657,9 +1613,7 @@ export const AddTestToControlResponse = /*@__PURE__*/ S.suspend(() =>
     test: Test,
     control: Control,
   }),
-).annotate({
-  identifier: "AddTestToControlResponse",
-}) as any as S.Schema<AddTestToControlResponse>;
+).annotate({ identifier: "AddTestToControlResponse" }) as any as S.Schema<AddTestToControlResponse>;
 
 export interface AddTrustCenterControlCategoryRequest {
   slugId: string;
@@ -1670,13 +1624,7 @@ export const AddTrustCenterControlCategoryRequest = /*@__PURE__*/ S.suspend(() =
   S.Struct({
     slugId: S.String.pipe(T.Label()),
     name: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/trust-centers/{slugId}/control-categories",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/trust-centers/{slugId}/control-categories", code: 200 })),
 ).annotate({
   identifier: "AddTrustCenterControlCategoryRequest",
 }) as any as S.Schema<AddTrustCenterControlCategoryRequest>;
@@ -1690,13 +1638,7 @@ export const AddTrustCenterFaqCategoryRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     slugId: S.String.pipe(T.Label()),
     name: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/trust-centers/{slugId}/faq-categories",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/trust-centers/{slugId}/faq-categories", code: 200 })),
 ).annotate({
   identifier: "AddTrustCenterFaqCategoryRequest",
 }) as any as S.Schema<AddTrustCenterFaqCategoryRequest>;
@@ -1712,9 +1654,7 @@ export const TrustCenterFaqCategory = /*@__PURE__*/ S.suspend(() =>
     id: S.String,
     name: S.String,
   }),
-).annotate({
-  identifier: "TrustCenterFaqCategory",
-}) as any as S.Schema<TrustCenterFaqCategory>;
+).annotate({ identifier: "TrustCenterFaqCategory" }) as any as S.Schema<TrustCenterFaqCategory>;
 
 export interface AddTrustCenterResourceCategoryRequest {
   slugId: string;
@@ -1726,11 +1666,7 @@ export const AddTrustCenterResourceCategoryRequest = /*@__PURE__*/ S.suspend(() 
     slugId: S.String.pipe(T.Label()),
     name: S.String,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/trust-centers/{slugId}/resource-categories",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/trust-centers/{slugId}/resource-categories", code: 200 }),
   ),
 ).annotate({
   identifier: "AddTrustCenterResourceCategoryRequest",
@@ -1791,13 +1727,7 @@ export const AddTrustCenterViewerRequest = /*@__PURE__*/ S.suspend(() =>
     resourceIds: S.optional(AddTrustCenterViewerRequestResourceIdsList),
     accessLevel: ViewerAccessLevel,
     customerTrustAccountId: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/trust-centers/{slugId}/viewers",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/trust-centers/{slugId}/viewers", code: 200 })),
 ).annotate({
   identifier: "AddTrustCenterViewerRequest",
 }) as any as S.Schema<AddTrustCenterViewerRequest>;
@@ -1873,9 +1803,7 @@ export const TrustCenterViewerNdaInfo = /*@__PURE__*/ S.suspend(() =>
     provider: ViewerNdaProvider,
     satisfiedDate: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "TrustCenterViewerNdaInfo",
-}) as any as S.Schema<TrustCenterViewerNdaInfo>;
+).annotate({ identifier: "TrustCenterViewerNdaInfo" }) as any as S.Schema<TrustCenterViewerNdaInfo>;
 
 /** An external service that a Trust Center viewer may be associated with. */
 export type ExternalService = "SALESFORCE" | "HUBSPOT" | "IRONCLAD";
@@ -1921,9 +1849,7 @@ export const CustomerTrustUser = /*@__PURE__*/ S.suspend(() =>
     givenName: S.NullOr(S.String),
     familyName: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "CustomerTrustUser",
-}) as any as S.Schema<CustomerTrustUser>;
+).annotate({ identifier: "CustomerTrustUser" }) as any as S.Schema<CustomerTrustUser>;
 
 export interface TrustCenterViewer {
   /** Unique identifier for the viewer. */
@@ -1969,9 +1895,7 @@ export const TrustCenterViewer = /*@__PURE__*/ S.suspend(() =>
     addedByUser: S.NullOr(CustomerTrustUser),
     customerTrustAccountId: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "TrustCenterViewer",
-}) as any as S.Schema<TrustCenterViewer>;
+).annotate({ identifier: "TrustCenterViewer" }) as any as S.Schema<TrustCenterViewer>;
 
 export interface ApproveQuestionnaireRequest {
   questionnaireId: string;
@@ -2007,8 +1931,10 @@ export type QuestionnaireStatus =
   | "COMPLETE"
   | "ERROR"
   | "EXTRACTING_QUESTIONS"
+  | "QUEUED_FOR_SECTION_EXTRACTION"
   | "EXTRACTING_SECTIONS"
   | "MAPPING_SECTIONS"
+  | "QUEUED_FOR_ANSWERING"
   | "GENERATING_ANSWERS"
   | "QUEUED_FOR_EXTRACTION"
   | "PROCESSING"
@@ -2030,9 +1956,7 @@ export const QuestionnaireUser = /*@__PURE__*/ S.suspend(() =>
     displayName: S.NullOr(S.String),
     email: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "QuestionnaireUser",
-}) as any as S.Schema<QuestionnaireUser>;
+).annotate({ identifier: "QuestionnaireUser" }) as any as S.Schema<QuestionnaireUser>;
 
 export interface QuestionnaireStatusChangeEntry {
   /** The user who made the status change */
@@ -2075,9 +1999,7 @@ export const ActorAssignment = /*@__PURE__*/ S.suspend(() =>
     id: S.String,
     displayName: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "ActorAssignment",
-}) as any as S.Schema<ActorAssignment>;
+).annotate({ identifier: "ActorAssignment" }) as any as S.Schema<ActorAssignment>;
 
 export interface CustomerTrustQuestionnaireMetadataItem {
   value: string;
@@ -2228,13 +2150,7 @@ export const BulkAddTagsToControlsRequest = /*@__PURE__*/ S.suspend(() =>
     controlIds: BulkAddTagsToControlsRequestControlIdsList,
     tagCategory: S.String,
     tags: BulkAddTagsToControlsRequestTagsList,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/trust-centers/{slugId}/controls/tags",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/trust-centers/{slugId}/controls/tags", code: 200 })),
 ).annotate({
   identifier: "BulkAddTagsToControlsRequest",
 }) as any as S.Schema<BulkAddTagsToControlsRequest>;
@@ -2282,13 +2198,7 @@ export const BulkRemoveTagsFromControlsRequest = /*@__PURE__*/ S.suspend(() =>
     controlIds: BulkRemoveTagsFromControlsRequestControlIdsList,
     tagCategory: S.String,
     tags: BulkRemoveTagsFromControlsRequestTagsList,
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/trust-centers/{slugId}/controls/tags",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/trust-centers/{slugId}/controls/tags", code: 200 })),
 ).annotate({
   identifier: "BulkRemoveTagsFromControlsRequest",
 }) as any as S.Schema<BulkRemoveTagsFromControlsRequest>;
@@ -2345,9 +2255,7 @@ export const CustomAttribute = /*@__PURE__*/ S.suspend(() =>
     label: S.String,
     value: CustomAttributeValue,
   }),
-).annotate({
-  identifier: "CustomAttribute",
-}) as any as S.Schema<CustomAttribute>;
+).annotate({ identifier: "CustomAttribute" }) as any as S.Schema<CustomAttribute>;
 
 /** The list of custom fields. You can reference existing custom fields in the Risk Management settings and/or create new ones. The format is: - {label: "field-name", value: "string-representation"} for text, date, number and currency fields - {label: "field-name", value: ["option1", "option2"]} for picklist fields */
 export type RiskScenarioCustomFieldsList = Array<CustomAttribute>;
@@ -2372,6 +2280,49 @@ export const RiskScenarioRequiredApproversList = /*@__PURE__*/ S.Array(
 
 export type RiskScenarioType = "Risk Scenario" | "Enterprise Risk";
 export const RiskScenarioType = S.String;
+
+/** `SCORE` is the root, `DIMENSION` is a direct child, and `FACTOR` is any deeper node. */
+export type ScoreBreakdownEntryKind = "SCORE" | "DIMENSION" | "FACTOR";
+export const ScoreBreakdownEntryKind = S.String;
+
+/** `SCORED` has an entered value; `MISSING` is unscored; `NOT_APPLICABLE` is excluded from its parent's calculation. */
+export type ScoreBreakdownEntryStatus = "SCORED" | "MISSING" | "NOT_APPLICABLE";
+export const ScoreBreakdownEntryStatus = S.String;
+
+/** One node in the inherent risk scoring tree. Entries are ordered parents before children, with `parentId` linking each child to its parent. */
+export interface ScoreBreakdownEntry {
+  /** Config node ID, unique within this breakdown. IDs can change when the scoring config is restructured; re-read the breakdown instead of storing them long-term. */
+  id: string;
+  /** Whether this entry is the overall score, a dimension, or a factor. */
+  kind: ScoreBreakdownEntryKind;
+  /** Display name of this node, from the scoring config. */
+  name: string;
+  /** Entered or calculated value, which may be fractional. `null` when unscored, not applicable, or no aggregate value is available; see `status` for leaf nodes. */
+  score: number | null;
+  /** Scoring status for a directly scored node. `null` for aggregates; read their children's statuses instead. */
+  status: ScoreBreakdownEntryStatus | null;
+  /** Matching option label for a directly scored node, or the register's range-band label for the overall score. `null` when no label applies, including non-root aggregates and overall scores on registers using matrix-based severity. */
+  scoreLabel: string | null;
+  /** Parent entry's ID, or `null` for the overall score. */
+  parentId: string | null;
+}
+export const ScoreBreakdownEntry = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    kind: ScoreBreakdownEntryKind,
+    name: S.String,
+    score: S.NullOr(S.Number),
+    status: S.NullOr(ScoreBreakdownEntryStatus),
+    scoreLabel: S.NullOr(S.String),
+    parentId: S.NullOr(S.String),
+  }),
+).annotate({ identifier: "ScoreBreakdownEntry" }) as any as S.Schema<ScoreBreakdownEntry>;
+
+/** Overall inherent score, dimensions, and nested factors, ordered parents before children and linked by `parentId`. `null` when Flexible Risk Scoring is off or the scenario has no score or matching config. Closed beta. */
+export type RiskScenarioScoreBreakdownList = Array<ScoreBreakdownEntry>;
+export const RiskScenarioScoreBreakdownList = /*@__PURE__*/ S.Array(
+  ScoreBreakdownEntry,
+) as any as S.Schema<RiskScenarioScoreBreakdownList>;
 
 export interface RiskScenario {
   /** The unique ID of the risk specified by the user. Used to reference and update existing risks. */
@@ -2414,6 +2365,8 @@ export interface RiskScenario {
   type: RiskScenarioType;
   /** The date this risk was identified. Matches the "Identified Date" field in the Vanta UI. Set by the customer when a risk is created; defaults to the scenario's creation time when not explicitly provided. */
   identificationDate: string;
+  /** Overall inherent score, dimensions, and nested factors, ordered parents before children and linked by `parentId`. `null` when Flexible Risk Scoring is off or the scenario has no score or matching config. Closed beta. */
+  scoreBreakdown: RiskScenarioScoreBreakdownList | null;
 }
 export const RiskScenario = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2437,6 +2390,7 @@ export const RiskScenario = /*@__PURE__*/ S.suspend(() =>
     requiredApprovers: RiskScenarioRequiredApproversList,
     type: RiskScenarioType,
     identificationDate: S.String,
+    scoreBreakdown: S.NullOr(RiskScenarioScoreBreakdownList),
   }),
 ).annotate({ identifier: "RiskScenario" }) as any as S.Schema<RiskScenario>;
 
@@ -2446,13 +2400,7 @@ export interface ClearLeaveForPersonRequest {
 export const ClearLeaveForPersonRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     personId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/people/{personId}/clear-leave",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/people/{personId}/clear-leave", code: 200 })),
 ).annotate({
   identifier: "ClearLeaveForPersonRequest",
 }) as any as S.Schema<ClearLeaveForPersonRequest>;
@@ -2521,13 +2469,7 @@ export const CreateAnswerLibraryEntryRequest = /*@__PURE__*/ S.suspend(() =>
     ownerAssignment: S.optional(AnswerLibraryActorAssignmentInput),
     expirationDate: S.optional(S.String),
     tags: S.optional(CreateAnswerLibraryEntryRequestTagsList),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/knowledge-base/answer-library",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/knowledge-base/answer-library", code: 200 })),
 ).annotate({
   identifier: "CreateAnswerLibraryEntryRequest",
 }) as any as S.Schema<CreateAnswerLibraryEntryRequest>;
@@ -2589,6 +2531,8 @@ export const KnowledgeBaseAnswerLibraryEntryOutput = /*@__PURE__*/ S.suspend(() 
 export type CreateComplianceFrameworkRequestStandard =
   | "aiact"
   | "aiuc1"
+  | "aiuc1_26q3"
+  | "atc"
   | "aue8"
   | "awsFTR"
   | "bsic5"
@@ -2603,6 +2547,7 @@ export type CreateComplianceFrameworkRequestStandard =
   | "fedramp"
   | "fedramp20x"
   | "fedramp20x_2026"
+  | "fedramp20x_classA"
   | "gdpr"
   | "hipaa"
   | "hitruste1"
@@ -2658,11 +2603,7 @@ export const CreateComplianceFrameworkRequest = /*@__PURE__*/ S.suspend(() =>
     standard: S.optional(S.NullOr(CreateComplianceFrameworkRequestStandard)),
     description: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/trust-centers/{slugId}/compliance-frameworks",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/trust-centers/{slugId}/compliance-frameworks", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateComplianceFrameworkRequest",
@@ -2782,9 +2723,7 @@ export const FrameworkSection = /*@__PURE__*/ S.suspend(() =>
     frameworkId: FrameworkSectionFrameworkId,
     sectionId: S.String,
   }),
-).annotate({
-  identifier: "FrameworkSection",
-}) as any as S.Schema<FrameworkSection>;
+).annotate({ identifier: "FrameworkSection" }) as any as S.Schema<FrameworkSection>;
 
 /** The framework sections that the control maps to. */
 export type CreateCustomControlRequestSectionsList = Array<FrameworkSection>;
@@ -2869,9 +2808,7 @@ export const TagsByCategoryInput = /*@__PURE__*/ S.suspend(() =>
     categoryId: S.String,
     tagIds: TagsByCategoryInputTagIdsList,
   }),
-).annotate({
-  identifier: "TagsByCategoryInput",
-}) as any as S.Schema<TagsByCategoryInput>;
+).annotate({ identifier: "TagsByCategoryInput" }) as any as S.Schema<TagsByCategoryInput>;
 
 /** Tags to assign to this account, grouped by category. */
 export type CustomerTrustAccountAccessConfigInputTagsByCategoryList = Array<TagsByCategoryInput>;
@@ -2986,9 +2923,7 @@ export const TagsByCategoryOutput = /*@__PURE__*/ S.suspend(() =>
     categoryId: S.String,
     tagIds: TagsByCategoryOutputTagIdsList,
   }),
-).annotate({
-  identifier: "TagsByCategoryOutput",
-}) as any as S.Schema<TagsByCategoryOutput>;
+).annotate({ identifier: "TagsByCategoryOutput" }) as any as S.Schema<TagsByCategoryOutput>;
 
 /** Tags assigned to this account, grouped by category */
 export type CustomerTrustAccountVantaApiTagsByCategoryList = Array<TagsByCategoryOutput>;
@@ -3040,13 +2975,7 @@ export interface CreateDeletionRequestRequest {
 export const CreateDeletionRequestRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     email: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/customer-trust/deletion-requests",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/customer-trust/deletion-requests", code: 200 })),
 ).annotate({
   identifier: "CreateDeletionRequestRequest",
 }) as any as S.Schema<CreateDeletionRequestRequest>;
@@ -3096,9 +3025,7 @@ export const CreateDocumentRequest = /*@__PURE__*/ S.suspend(() =>
     reminderWindow: ReminderWindow,
     isSensitive: S.Boolean,
   }).pipe(T.Http({ method: "POST", uri: "/documents", code: 200 })),
-).annotate({
-  identifier: "CreateDocumentRequest",
-}) as any as S.Schema<CreateDocumentRequest>;
+).annotate({ identifier: "CreateDocumentRequest" }) as any as S.Schema<CreateDocumentRequest>;
 
 export interface CreateDocumentResourceRequest {
   file: string;
@@ -3277,8 +3204,11 @@ export const CreateFileQuestionnaireRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreateFileQuestionnaireRequest>;
 
 export interface CreateGroupRequest {
+  /** Email address of the group's point of contact. Must be an active administrator. */
   pointOfContactEmail?: string | null;
+  /** Description of the group. */
   description?: string | null;
+  /** Display name for the group. Must not duplicate an existing group's name. */
   name: string;
 }
 export const CreateGroupRequest = /*@__PURE__*/ S.suspend(() =>
@@ -3287,9 +3217,7 @@ export const CreateGroupRequest = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.NullOr(S.String)),
     name: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/groups", code: 200 })),
-).annotate({
-  identifier: "CreateGroupRequest",
-}) as any as S.Schema<CreateGroupRequest>;
+).annotate({ identifier: "CreateGroupRequest" }) as any as S.Schema<CreateGroupRequest>;
 
 /** The group's point of contact. */
 export interface GroupPointOfContact {
@@ -3303,9 +3231,7 @@ export const GroupPointOfContact = /*@__PURE__*/ S.suspend(() =>
     email: S.String,
     displayName: S.String,
   }),
-).annotate({
-  identifier: "GroupPointOfContact",
-}) as any as S.Schema<GroupPointOfContact>;
+).annotate({ identifier: "GroupPointOfContact" }) as any as S.Schema<GroupPointOfContact>;
 
 export interface Group {
   /** The group's unique ID. */
@@ -3397,13 +3323,7 @@ export const CreateQuestionnaireExportRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     questionnaireId: S.String,
     format: CreateQuestionnaireExportRequestFormat,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/customer-trust/questionnaires/exports",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/customer-trust/questionnaires/exports", code: 200 })),
 ).annotate({
   identifier: "CreateQuestionnaireExportRequest",
 }) as any as S.Schema<CreateQuestionnaireExportRequest>;
@@ -3508,13 +3428,7 @@ export const CreateRiskScenarioControlRequest = /*@__PURE__*/ S.suspend(() =>
     riskScenarioId: S.String.pipe(T.Label()),
     controlId: S.String,
     controlType: S.optional(RiskScenarioControlType),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/risk-scenarios/{riskScenarioId}/controls",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/risk-scenarios/{riskScenarioId}/controls", code: 200 })),
 ).annotate({
   identifier: "CreateRiskScenarioControlRequest",
 }) as any as S.Schema<CreateRiskScenarioControlRequest>;
@@ -3531,9 +3445,7 @@ export const RiskScenarioControl = /*@__PURE__*/ S.suspend(() =>
     controlId: S.String,
     controlType: RiskScenarioControlType,
   }),
-).annotate({
-  identifier: "RiskScenarioControl",
-}) as any as S.Schema<RiskScenarioControl>;
+).annotate({ identifier: "RiskScenarioControl" }) as any as S.Schema<RiskScenarioControl>;
 
 export interface CreateTrustCenterFaqRequest {
   slugId: string;
@@ -3632,9 +3544,7 @@ export const TrustCenterResource = /*@__PURE__*/ S.suspend(() =>
     updatedDate: S.String,
     isPublic: S.Boolean,
   }),
-).annotate({
-  identifier: "TrustCenterResource",
-}) as any as S.Schema<TrustCenterResource>;
+).annotate({ identifier: "TrustCenterResource" }) as any as S.Schema<TrustCenterResource>;
 
 export interface CreateTrustCenterSubprocessorRequest {
   slugId: string;
@@ -3657,13 +3567,7 @@ export const CreateTrustCenterSubprocessorRequest = /*@__PURE__*/ S.suspend(() =
     description: S.optional(S.String),
     location: S.optional(S.String),
     purpose: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/trust-centers/{slugId}/subprocessors",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/trust-centers/{slugId}/subprocessors", code: 200 })),
 ).annotate({
   identifier: "CreateTrustCenterSubprocessorRequest",
 }) as any as S.Schema<CreateTrustCenterSubprocessorRequest>;
@@ -3710,13 +3614,7 @@ export const CreateTrustCenterSubscriberRequest = /*@__PURE__*/ S.suspend(() =>
     email: S.String,
     customerTrustAccountId: S.optional(S.String),
     shouldSkipEmailVerification: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/trust-centers/{slugId}/subscribers",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/trust-centers/{slugId}/subscribers", code: 200 })),
 ).annotate({
   identifier: "CreateTrustCenterSubscriberRequest",
 }) as any as S.Schema<CreateTrustCenterSubscriberRequest>;
@@ -3732,9 +3630,7 @@ export const SubscriberGroup = /*@__PURE__*/ S.suspend(() =>
     id: S.String,
     name: S.String,
   }),
-).annotate({
-  identifier: "SubscriberGroup",
-}) as any as S.Schema<SubscriberGroup>;
+).annotate({ identifier: "SubscriberGroup" }) as any as S.Schema<SubscriberGroup>;
 
 /** Groups this subscriber belongs to. */
 export type TrustCenterSubscriberGroupsList = Array<SubscriberGroup>;
@@ -3765,9 +3661,7 @@ export const TrustCenterSubscriber = /*@__PURE__*/ S.suspend(() =>
     customerTrustAccountId: S.NullOr(S.String),
     groups: TrustCenterSubscriberGroupsList,
   }),
-).annotate({
-  identifier: "TrustCenterSubscriber",
-}) as any as S.Schema<TrustCenterSubscriber>;
+).annotate({ identifier: "TrustCenterSubscriber" }) as any as S.Schema<TrustCenterSubscriber>;
 
 /** List of subscriber IDs in the group. */
 export type CreateTrustCenterSubscriberGroupRequestSubscriberIdsList = Array<string>;
@@ -3787,13 +3681,7 @@ export const CreateTrustCenterSubscriberGroupRequest = /*@__PURE__*/ S.suspend((
     slugId: S.String.pipe(T.Label()),
     name: S.String,
     subscriberIds: CreateTrustCenterSubscriberGroupRequestSubscriberIdsList,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/trust-centers/{slugId}/subscriber-groups",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/trust-centers/{slugId}/subscriber-groups", code: 200 })),
 ).annotate({
   identifier: "CreateTrustCenterSubscriberGroupRequest",
 }) as any as S.Schema<CreateTrustCenterSubscriberGroupRequest>;
@@ -3882,13 +3770,7 @@ export const CreateTrustCenterUpdateRequest = /*@__PURE__*/ S.suspend(() =>
     notifiedEmails: S.optional(CreateTrustCenterUpdateRequestNotifiedEmailsList),
     notificationTarget: S.optional(UpdateNotificationTarget),
     subscriberGroupIds: S.optional(CreateTrustCenterUpdateRequestSubscriberGroupIdsList),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/trust-centers/{slugId}/updates",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/trust-centers/{slugId}/updates", code: 200 })),
 ).annotate({
   identifier: "CreateTrustCenterUpdateRequest",
 }) as any as S.Schema<CreateTrustCenterUpdateRequest>;
@@ -3985,9 +3867,7 @@ export const VendorFrameworkScope = /*@__PURE__*/ S.suspend(() =>
     scopeType: VendorFrameworkScopeScopeType,
     frameworkIds: S.optional(VendorFrameworkScopeFrameworkIdsList),
   }),
-).annotate({
-  identifier: "VendorFrameworkScope",
-}) as any as S.Schema<VendorFrameworkScope>;
+).annotate({ identifier: "VendorFrameworkScope" }) as any as S.Schema<VendorFrameworkScope>;
 
 export interface CreateVendorRequest {
   /** Display name of the vendor. */
@@ -4057,9 +3937,7 @@ export const CreateVendorRequest = /*@__PURE__*/ S.suspend(() =>
     customFields: S.optional(CreateVendorRequestCustomFieldsList),
     frameworkScope: S.optional(VendorFrameworkScope),
   }).pipe(T.Http({ method: "POST", uri: "/vendors", code: 200 })),
-).annotate({
-  identifier: "CreateVendorRequest",
-}) as any as S.Schema<CreateVendorRequest>;
+).annotate({ identifier: "CreateVendorRequest" }) as any as S.Schema<CreateVendorRequest>;
 
 /** The status of the finding: - ACCEPT: The finding and its risk has been accepted and no follow up is required. - REMEDIATE: The finding needs to be remediated in some way. - NONE: The finding is not related to an observed risk that needs to be accepted or remediated. */
 export type FindingRiskStatus = "ACCEPT" | "REMEDIATE" | "NONE";
@@ -4123,9 +4001,7 @@ export const VendorFindingRemediation = /*@__PURE__*/ S.suspend(() =>
     state: FindingRemediationState,
     requirementNotes: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "VendorFindingRemediation",
-}) as any as S.Schema<VendorFindingRemediation>;
+).annotate({ identifier: "VendorFindingRemediation" }) as any as S.Schema<VendorFindingRemediation>;
 
 export interface VendorFinding {
   /** Unique identifier for the finding. */
@@ -4218,13 +4094,7 @@ export const CreateWebpageResourceRequest = /*@__PURE__*/ S.suspend(() =>
     expirationDate: S.optional(S.String),
     tags: S.optional(CreateWebpageResourceRequestTagsList),
     categoryId: S.optional(S.NullOr(S.String)),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/knowledge-base/resources/webpages",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/knowledge-base/resources/webpages", code: 200 })),
 ).annotate({
   identifier: "CreateWebpageResourceRequest",
 }) as any as S.Schema<CreateWebpageResourceRequest>;
@@ -4296,9 +4166,7 @@ export const ActorAssignmentInput = /*@__PURE__*/ S.suspend(() =>
     type: ActorAssignmentInputType,
     id: S.String,
   }),
-).annotate({
-  identifier: "ActorAssignmentInput",
-}) as any as S.Schema<ActorAssignmentInput>;
+).annotate({ identifier: "ActorAssignmentInput" }) as any as S.Schema<ActorAssignmentInput>;
 
 export interface QuestionnaireMetadata {
   key: string;
@@ -4309,9 +4177,7 @@ export const QuestionnaireMetadata = /*@__PURE__*/ S.suspend(() =>
     key: S.String,
     value: S.String,
   }),
-).annotate({
-  identifier: "QuestionnaireMetadata",
-}) as any as S.Schema<QuestionnaireMetadata>;
+).annotate({ identifier: "QuestionnaireMetadata" }) as any as S.Schema<QuestionnaireMetadata>;
 
 /** Custom key-value pairs. Keys and values may contain alphanumeric characters, hyphens, underscores, and periods. Maximum 30 entries. */
 export type CreateWebsiteQuestionnaireRequestMetadataList = Array<QuestionnaireMetadata>;
@@ -4372,13 +4238,7 @@ export const CreateWebsiteQuestionnaireRequest = /*@__PURE__*/ S.suspend(() =>
       CreateWebsiteQuestionnaireRequestIncludeUntaggedEntitiesForCategoryIdsList,
     ),
     tagAndCategoryIds: S.optional(CreateWebsiteQuestionnaireRequestTagAndCategoryIdsList),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/customer-trust/questionnaires/website",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/customer-trust/questionnaires/website", code: 200 })),
 ).annotate({
   identifier: "CreateWebsiteQuestionnaireRequest",
 }) as any as S.Schema<CreateWebsiteQuestionnaireRequest>;
@@ -4398,11 +4258,7 @@ export const DeactivateTestEntityRequest = /*@__PURE__*/ S.suspend(() =>
     deactivateReason: S.String,
     deactivateUntilDate: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/tests/{testId}/entities/{entityId}/deactivate",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/tests/{testId}/entities/{entityId}/deactivate", code: 200 }),
   ),
 ).annotate({
   identifier: "DeactivateTestEntityRequest",
@@ -4458,13 +4314,7 @@ export interface DeleteAnswerLibraryEntryRouteRequest {
 export const DeleteAnswerLibraryEntryRouteRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/knowledge-base/answer-library/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/knowledge-base/answer-library/{id}", code: 200 })),
 ).annotate({
   identifier: "DeleteAnswerLibraryEntryRouteRequest",
 }) as any as S.Schema<DeleteAnswerLibraryEntryRouteRequest>;
@@ -4483,9 +4333,7 @@ export const DeleteByIdRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     vendorId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/vendors/{vendorId}", code: 200 })),
-).annotate({
-  identifier: "DeleteByIdRequest",
-}) as any as S.Schema<DeleteByIdRequest>;
+).annotate({ identifier: "DeleteByIdRequest" }) as any as S.Schema<DeleteByIdRequest>;
 
 export interface DeleteByIdResponse {}
 export const DeleteByIdResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -4525,9 +4373,7 @@ export const DeleteContractRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     contractId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/contracts/{contractId}", code: 200 })),
-).annotate({
-  identifier: "DeleteContractRequest",
-}) as any as S.Schema<DeleteContractRequest>;
+).annotate({ identifier: "DeleteContractRequest" }) as any as S.Schema<DeleteContractRequest>;
 
 export interface DeleteContractResponse {}
 export const DeleteContractResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -4541,9 +4387,7 @@ export const DeleteControlRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     controlId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/controls/{controlId}", code: 200 })),
-).annotate({
-  identifier: "DeleteControlRequest",
-}) as any as S.Schema<DeleteControlRequest>;
+).annotate({ identifier: "DeleteControlRequest" }) as any as S.Schema<DeleteControlRequest>;
 
 export interface DeleteControlResponse {}
 export const DeleteControlResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -4556,13 +4400,7 @@ export interface DeleteCustomerTrustAccountRequest {
 export const DeleteCustomerTrustAccountRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/customer-trust/accounts/{accountId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/customer-trust/accounts/{accountId}", code: 200 })),
 ).annotate({
   identifier: "DeleteCustomerTrustAccountRequest",
 }) as any as S.Schema<DeleteCustomerTrustAccountRequest>;
@@ -4581,9 +4419,7 @@ export const DeleteDocumentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     documentId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/documents/{documentId}", code: 200 })),
-).annotate({
-  identifier: "DeleteDocumentRequest",
-}) as any as S.Schema<DeleteDocumentRequest>;
+).annotate({ identifier: "DeleteDocumentRequest" }) as any as S.Schema<DeleteDocumentRequest>;
 
 export interface DeleteDocumentResponse {}
 export const DeleteDocumentResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -4599,11 +4435,7 @@ export const DeleteDocumentForcontrolRequest = /*@__PURE__*/ S.suspend(() =>
     controlId: S.String.pipe(T.Label()),
     documentId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/controls/{controlId}/documents/{documentId}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/controls/{controlId}/documents/{documentId}", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteDocumentForcontrolRequest",
@@ -4648,16 +4480,8 @@ export const DeleteFindingByIdRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     vendorId: S.String.pipe(T.Label()),
     findingId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/vendors/{vendorId}/findings/{findingId}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteFindingByIdRequest",
-}) as any as S.Schema<DeleteFindingByIdRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/vendors/{vendorId}/findings/{findingId}", code: 200 })),
+).annotate({ identifier: "DeleteFindingByIdRequest" }) as any as S.Schema<DeleteFindingByIdRequest>;
 
 export interface DeleteFindingByIdResponse {}
 export const DeleteFindingByIdResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -4670,13 +4494,7 @@ export interface DeleteKnowledgeBaseResourceRequest {
 export const DeleteKnowledgeBaseResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/knowledge-base/resources/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/knowledge-base/resources/{id}", code: 200 })),
 ).annotate({
   identifier: "DeleteKnowledgeBaseResourceRequest",
 }) as any as S.Schema<DeleteKnowledgeBaseResourceRequest>;
@@ -4696,13 +4514,7 @@ export const DeleteLinkForDocumentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     documentId: S.String.pipe(T.Label()),
     linkId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/documents/{documentId}/links/{linkId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/documents/{documentId}/links/{linkId}", code: 200 })),
 ).annotate({
   identifier: "DeleteLinkForDocumentRequest",
 }) as any as S.Schema<DeleteLinkForDocumentRequest>;
@@ -4796,13 +4608,7 @@ export const DeleteTestForControlRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     controlId: S.String.pipe(T.Label()),
     testId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/controls/{controlId}/tests/{testId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/controls/{controlId}/tests/{testId}", code: 200 })),
 ).annotate({
   identifier: "DeleteTestForControlRequest",
 }) as any as S.Schema<DeleteTestForControlRequest>;
@@ -4821,11 +4627,7 @@ export const DeleteTrustCenterControlRequest = /*@__PURE__*/ S.suspend(() =>
     slugId: S.String.pipe(T.Label()),
     controlId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/trust-centers/{slugId}/controls/{controlId}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/trust-centers/{slugId}/controls/{controlId}", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteTrustCenterControlRequest",
@@ -4872,13 +4674,7 @@ export const DeleteTrustCenterFaqRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     slugId: S.String.pipe(T.Label()),
     faqId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/trust-centers/{slugId}/faqs/{faqId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/trust-centers/{slugId}/faqs/{faqId}", code: 200 })),
 ).annotate({
   identifier: "DeleteTrustCenterFaqRequest",
 }) as any as S.Schema<DeleteTrustCenterFaqRequest>;
@@ -4923,11 +4719,7 @@ export const DeleteTrustCenterResourceRequest = /*@__PURE__*/ S.suspend(() =>
     slugId: S.String.pipe(T.Label()),
     resourceId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/trust-centers/{slugId}/resources/{resourceId}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/trust-centers/{slugId}/resources/{resourceId}", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteTrustCenterResourceRequest",
@@ -5053,11 +4845,7 @@ export const DeleteTrustCenterUpdateRequest = /*@__PURE__*/ S.suspend(() =>
     slugId: S.String.pipe(T.Label()),
     updateId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/trust-centers/{slugId}/updates/{updateId}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/trust-centers/{slugId}/updates/{updateId}", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteTrustCenterUpdateRequest",
@@ -5065,9 +4853,7 @@ export const DeleteTrustCenterUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface DeleteTrustCenterUpdateResponse {}
 export const DeleteTrustCenterUpdateResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "DeleteTrustCenterUpdateResponse",
-  },
+  { identifier: "DeleteTrustCenterUpdateResponse" },
 ) as any as S.Schema<DeleteTrustCenterUpdateResponse>;
 
 export interface DenyTrustCenterAccessRequestRequest {
@@ -5075,12 +4861,15 @@ export interface DenyTrustCenterAccessRequestRequest {
   accessRequestId: string;
   /** Reason for denying the access request. */
   reason?: string;
+  /** Whether to email the requester to notify them that their request was denied. The email includes the reason when one is provided. Defaults to false. */
+  sendEmail?: boolean;
 }
 export const DenyTrustCenterAccessRequestRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     slugId: S.String.pipe(T.Label()),
     accessRequestId: S.String.pipe(T.Label()),
     reason: S.optional(S.String),
+    sendEmail: S.optional(S.Boolean),
   }).pipe(
     T.Http({
       method: "POST",
@@ -5105,13 +4894,7 @@ export interface GetAnswerLibraryEntryRequest {
 export const GetAnswerLibraryEntryRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/knowledge-base/answer-library/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/knowledge-base/answer-library/{id}", code: 200 })),
 ).annotate({
   identifier: "GetAnswerLibraryEntryRequest",
 }) as any as S.Schema<GetAnswerLibraryEntryRequest>;
@@ -5125,15 +4908,9 @@ export const GetAssessmentByIdRequest = /*@__PURE__*/ S.suspend(() =>
     vendorId: S.String.pipe(T.Label()),
     assessmentId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/vendors/{vendorId}/assessments/{assessmentId}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/vendors/{vendorId}/assessments/{assessmentId}", code: 200 }),
   ),
-).annotate({
-  identifier: "GetAssessmentByIdRequest",
-}) as any as S.Schema<GetAssessmentByIdRequest>;
+).annotate({ identifier: "GetAssessmentByIdRequest" }) as any as S.Schema<GetAssessmentByIdRequest>;
 
 /** The lifecycle status of an assessment: - NOT_STARTED: The assessment has not yet been started. - IN_PROGRESS: The assessment is underway. - COMPLETED: The assessment has been completed. */
 export type AssessmentStatus = "NOT_STARTED" | "IN_PROGRESS" | "COMPLETED";
@@ -5158,9 +4935,7 @@ export const VendorAssessmentDecision = /*@__PURE__*/ S.suspend(() =>
     lastUpdatedAt: S.String,
     status: AssessmentDecision,
   }),
-).annotate({
-  identifier: "VendorAssessmentDecision",
-}) as any as S.Schema<VendorAssessmentDecision>;
+).annotate({ identifier: "VendorAssessmentDecision" }) as any as S.Schema<VendorAssessmentDecision>;
 
 export interface AssessmentType {
   /** Unique identifier for the assessment type. */
@@ -5198,9 +4973,7 @@ export const AssessmentOwner = /*@__PURE__*/ S.suspend(() =>
     displayName: S.NullOr(S.String),
     email: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "AssessmentOwner",
-}) as any as S.Schema<AssessmentOwner>;
+).annotate({ identifier: "AssessmentOwner" }) as any as S.Schema<AssessmentOwner>;
 
 export interface VendorAssessment {
   /** Unique identifier for the assessment. */
@@ -5243,9 +5016,7 @@ export const VendorAssessment = /*@__PURE__*/ S.suspend(() =>
     assessmentType: AssessmentType,
     owner: S.NullOr(AssessmentOwner),
   }),
-).annotate({
-  identifier: "VendorAssessment",
-}) as any as S.Schema<VendorAssessment>;
+).annotate({ identifier: "VendorAssessment" }) as any as S.Schema<VendorAssessment>;
 
 export type GetAssessmentsByVendorIdRequestTypeIdMatchesAnyList = Array<string>;
 export const GetAssessmentsByVendorIdRequestTypeIdMatchesAnyList = /*@__PURE__*/ S.Array(
@@ -5279,21 +5050,100 @@ export const GetAssessmentsByVendorIdRequest = /*@__PURE__*/ S.suspend(() =>
     statusMatchesAny: S.optional(
       GetAssessmentsByVendorIdRequestStatusMatchesAnyList.pipe(T.Query()),
     ),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/vendors/{vendorId}/assessments",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/vendors/{vendorId}/assessments", code: 200 })),
 ).annotate({
   identifier: "GetAssessmentsByVendorIdRequest",
 }) as any as S.Schema<GetAssessmentsByVendorIdRequest>;
 
-export type PaginatedResponseVendorAssessmentResultsDataList = Array<VendorAssessment>;
-export const PaginatedResponseVendorAssessmentResultsDataList = /*@__PURE__*/ S.Array(
-  VendorAssessment,
-) as any as S.Schema<PaginatedResponseVendorAssessmentResultsDataList>;
+/** An object containing information about the decision of the assessment. */
+export type VendorAssessmentWithQuestionnaireDecision = VendorAssessmentDecision;
+export const VendorAssessmentWithQuestionnaireDecision = VendorAssessmentDecision;
+
+export interface VendorAssessmentQuestionCounts {
+  /** The total number of visible questions. */
+  all: number;
+  /** The number of visible questions that need review. */
+  needsReview: number;
+  /** The number of visible questions without an answer. */
+  notAnswered: number;
+  /** The number of visible questions flagged by Vanta AI. */
+  flaggedByAI: number;
+}
+export const VendorAssessmentQuestionCounts = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    all: S.Number,
+    needsReview: S.Number,
+    notAnswered: S.Number,
+    flaggedByAI: S.Number,
+  }),
+).annotate({
+  identifier: "VendorAssessmentQuestionCounts",
+}) as any as S.Schema<VendorAssessmentQuestionCounts>;
+
+export interface VendorAssessmentQuestionnaire {
+  questionCounts: VendorAssessmentQuestionCounts;
+}
+export const VendorAssessmentQuestionnaire = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    questionCounts: VendorAssessmentQuestionCounts,
+  }),
+).annotate({
+  identifier: "VendorAssessmentQuestionnaire",
+}) as any as S.Schema<VendorAssessmentQuestionnaire>;
+
+export interface VendorAssessmentWithQuestionnaire {
+  /** Unique identifier for the assessment. */
+  id: string;
+  /** Unique identifier for the vendor. */
+  vendorId: string;
+  /** The lifecycle status of the assessment. */
+  status: AssessmentStatus;
+  /** The Vanta user ID of the person who completed this assessment. */
+  completedByUserId: string | null;
+  /** The timestamp of when the assessment was started. */
+  startDate: string | null;
+  /** The timestamp of when the assessment is due. */
+  dueDate: string | null;
+  /** A manual override timestamp of when the assessment is due. */
+  overrideDueDate: string | null;
+  /** The timestamp of when the assessment was marked as completed. */
+  completionDate: string | null;
+  /** The timestamp of when the assessment was created. */
+  createdDate: string;
+  /** An object containing information about the decision of the assessment. */
+  decision: VendorAssessmentDecision | null;
+  /** The assessment type for this assessment. */
+  assessmentType: AssessmentType;
+  /** The owner of this assessment, if assigned. */
+  owner: AssessmentOwner | null;
+  questionnaire?: VendorAssessmentQuestionnaire | null;
+}
+export const VendorAssessmentWithQuestionnaire = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    vendorId: S.String,
+    status: AssessmentStatus,
+    completedByUserId: S.NullOr(S.String),
+    startDate: S.NullOr(S.String),
+    dueDate: S.NullOr(S.String),
+    overrideDueDate: S.NullOr(S.String),
+    completionDate: S.NullOr(S.String),
+    createdDate: S.String,
+    decision: S.NullOr(VendorAssessmentDecision),
+    assessmentType: AssessmentType,
+    owner: S.NullOr(AssessmentOwner),
+    questionnaire: S.optional(S.NullOr(VendorAssessmentQuestionnaire)),
+  }),
+).annotate({
+  identifier: "VendorAssessmentWithQuestionnaire",
+}) as any as S.Schema<VendorAssessmentWithQuestionnaire>;
+
+export type PaginatedResponseVendorAssessmentWithQuestionnaireResultsDataList =
+  Array<VendorAssessmentWithQuestionnaire>;
+export const PaginatedResponseVendorAssessmentWithQuestionnaireResultsDataList =
+  /*@__PURE__*/ S.Array(
+    VendorAssessmentWithQuestionnaire,
+  ) as any as S.Schema<PaginatedResponseVendorAssessmentWithQuestionnaireResultsDataList>;
 
 /** Provides information about the pagination of a dataset. */
 export interface PageInfo {
@@ -5315,29 +5165,52 @@ export const PageInfo = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "PageInfo" }) as any as S.Schema<PageInfo>;
 
-export interface PaginatedResponseVendorAssessmentResults {
-  data: PaginatedResponseVendorAssessmentResultsDataList;
+export interface PaginatedResponseVendorAssessmentWithQuestionnaireResults {
+  data: PaginatedResponseVendorAssessmentWithQuestionnaireResultsDataList;
   pageInfo: PageInfo;
 }
-export const PaginatedResponseVendorAssessmentResults = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    data: PaginatedResponseVendorAssessmentResultsDataList,
-    pageInfo: PageInfo,
-  }),
+export const PaginatedResponseVendorAssessmentWithQuestionnaireResults = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      data: PaginatedResponseVendorAssessmentWithQuestionnaireResultsDataList,
+      pageInfo: PageInfo,
+    }),
 ).annotate({
-  identifier: "PaginatedResponseVendorAssessmentResults",
-}) as any as S.Schema<PaginatedResponseVendorAssessmentResults>;
+  identifier: "PaginatedResponseVendorAssessmentWithQuestionnaireResults",
+}) as any as S.Schema<PaginatedResponseVendorAssessmentWithQuestionnaireResults>;
 
-export interface PaginatedResponseVendorAssessment {
-  results: PaginatedResponseVendorAssessmentResults;
+export interface PaginatedResponseVendorAssessmentWithQuestionnaire {
+  results: PaginatedResponseVendorAssessmentWithQuestionnaireResults;
 }
-export const PaginatedResponseVendorAssessment = /*@__PURE__*/ S.suspend(() =>
+export const PaginatedResponseVendorAssessmentWithQuestionnaire = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    results: PaginatedResponseVendorAssessmentResults,
+    results: PaginatedResponseVendorAssessmentWithQuestionnaireResults,
   }),
 ).annotate({
-  identifier: "PaginatedResponseVendorAssessment",
-}) as any as S.Schema<PaginatedResponseVendorAssessment>;
+  identifier: "PaginatedResponseVendorAssessmentWithQuestionnaire",
+}) as any as S.Schema<PaginatedResponseVendorAssessmentWithQuestionnaire>;
+
+export interface GetBusinessUnitRequest {
+  businessUnitId: string;
+}
+export const GetBusinessUnitRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    businessUnitId: S.String.pipe(T.Label()),
+  }).pipe(T.Http({ method: "GET", uri: "/business-units/{businessUnitId}", code: 200 })),
+).annotate({ identifier: "GetBusinessUnitRequest" }) as any as S.Schema<GetBusinessUnitRequest>;
+
+export interface BusinessUnit {
+  /** The business unit's unique ID. */
+  id: string;
+  /** The business unit's display name. */
+  displayName: string;
+}
+export const BusinessUnit = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    displayName: S.String,
+  }),
+).annotate({ identifier: "BusinessUnit" }) as any as S.Schema<BusinessUnit>;
 
 export interface GetChatbotConversationMessagesRequest {
   slugId: string;
@@ -5473,9 +5346,7 @@ export const GetContractRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     contractId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/contracts/{contractId}", code: 200 })),
-).annotate({
-  identifier: "GetContractRequest",
-}) as any as S.Schema<GetContractRequest>;
+).annotate({ identifier: "GetContractRequest" }) as any as S.Schema<GetContractRequest>;
 
 export interface Contract {
   /** Unique identifier for the contract. */
@@ -5509,9 +5380,7 @@ export const GetControlRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     controlId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/controls/{controlId}", code: 200 })),
-).annotate({
-  identifier: "GetControlRequest",
-}) as any as S.Schema<GetControlRequest>;
+).annotate({ identifier: "GetControlRequest" }) as any as S.Schema<GetControlRequest>;
 
 /** The security domains that the control belongs to. */
 export type ControlDetailDomainsList = Array<string>;
@@ -5551,6 +5420,8 @@ export interface ControlDetail {
   creationDate: string | null;
   /** When the control was last modified. Returns null for Vanta library controls. */
   modificationDate: string | null;
+  /** How the control is implemented. */
+  implementationDetails?: string | null;
   /** The number of passing documents that are linked to the control. */
   numDocumentsPassing: number;
   /** The total number of documents that are linked to the control. */
@@ -5577,6 +5448,7 @@ export const ControlDetail = /*@__PURE__*/ S.suspend(() =>
     customFields: ControlDetailCustomFieldsList,
     creationDate: S.NullOr(S.String),
     modificationDate: S.NullOr(S.String),
+    implementationDetails: S.optional(S.NullOr(S.String)),
     numDocumentsPassing: S.Number,
     numDocumentsTotal: S.Number,
     numTestsPassing: S.Number,
@@ -5592,13 +5464,7 @@ export interface GetCustomerTrustAccountRequest {
 export const GetCustomerTrustAccountRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/customer-trust/accounts/{accountId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/customer-trust/accounts/{accountId}", code: 200 })),
 ).annotate({
   identifier: "GetCustomerTrustAccountRequest",
 }) as any as S.Schema<GetCustomerTrustAccountRequest>;
@@ -5610,9 +5476,7 @@ export const GetDocumentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     documentId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/documents/{documentId}", code: 200 })),
-).annotate({
-  identifier: "GetDocumentRequest",
-}) as any as S.Schema<GetDocumentRequest>;
+).annotate({ identifier: "GetDocumentRequest" }) as any as S.Schema<GetDocumentRequest>;
 
 export interface DocumentDetailDeactivatedStatus {
   /** The date the document was deactivated. */
@@ -5699,9 +5563,7 @@ export const GetFrameworkRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     frameworkId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/frameworks/{frameworkId}", code: 200 })),
-).annotate({
-  identifier: "GetFrameworkRequest",
-}) as any as S.Schema<GetFrameworkRequest>;
+).annotate({ identifier: "GetFrameworkRequest" }) as any as S.Schema<GetFrameworkRequest>;
 
 export interface FrameworkRequirementCategoryRequirementsItemControlsItem {
   /** The control's description. */
@@ -5826,9 +5688,7 @@ export const FrameworkDetail = /*@__PURE__*/ S.suspend(() =>
     numTestsTotal: S.Number,
     requirementCategories: FrameworkDetailRequirementCategoriesList,
   }),
-).annotate({
-  identifier: "FrameworkDetail",
-}) as any as S.Schema<FrameworkDetail>;
+).annotate({ identifier: "FrameworkDetail" }) as any as S.Schema<FrameworkDetail>;
 
 export interface GetGroupRequest {
   groupId: string;
@@ -5837,9 +5697,7 @@ export const GetGroupRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     groupId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/groups/{groupId}", code: 200 })),
-).annotate({
-  identifier: "GetGroupRequest",
-}) as any as S.Schema<GetGroupRequest>;
+).annotate({ identifier: "GetGroupRequest" }) as any as S.Schema<GetGroupRequest>;
 
 export interface GetGroupMembersRequest {
   groupId: string;
@@ -5848,9 +5706,7 @@ export const GetGroupMembersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     groupId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/groups/{groupId}/people", code: 200 })),
-).annotate({
-  identifier: "GetGroupMembersRequest",
-}) as any as S.Schema<GetGroupMembersRequest>;
+).annotate({ identifier: "GetGroupMembersRequest" }) as any as S.Schema<GetGroupMembersRequest>;
 
 export type GetGroupMembersResponseBodyList = Array<Person>;
 export const GetGroupMembersResponseBodyList = /*@__PURE__*/ S.Array(
@@ -5860,9 +5716,7 @@ export const GetGroupMembersResponseBodyList = /*@__PURE__*/ S.Array(
 export type GetGroupMembersResponse = GetGroupMembersResponseBodyList;
 export const GetGroupMembersResponse = /*@__PURE__*/ S.suspend(() =>
   GetGroupMembersResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetGroupMembersResponse",
-}) as any as S.Schema<GetGroupMembersResponse>;
+).annotate({ identifier: "GetGroupMembersResponse" }) as any as S.Schema<GetGroupMembersResponse>;
 
 export interface GetIssueRequest {
   issueId: string;
@@ -5871,9 +5725,7 @@ export const GetIssueRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     issueId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/issues/{issueId}", code: 200 })),
-).annotate({
-  identifier: "GetIssueRequest",
-}) as any as S.Schema<GetIssueRequest>;
+).annotate({ identifier: "GetIssueRequest" }) as any as S.Schema<GetIssueRequest>;
 
 export type ActorType = "USER" | "APPLICATION" | "WORKFLOW_GENERATED";
 export const ActorType = S.String;
@@ -5982,9 +5834,7 @@ export const IssueCustomField = /*@__PURE__*/ S.suspend(() =>
     label: S.String,
     value: IssueCustomFieldValue,
   }),
-).annotate({
-  identifier: "IssueCustomField",
-}) as any as S.Schema<IssueCustomField>;
+).annotate({ identifier: "IssueCustomField" }) as any as S.Schema<IssueCustomField>;
 
 export type StandardIssueCustomFieldsList = Array<IssueCustomField>;
 export const StandardIssueCustomFieldsList = /*@__PURE__*/ S.Array(
@@ -6151,9 +6001,7 @@ export const Issue = S.Unknown as any as S.Schema<Issue>;
 export type GetIssueResponse = Issue;
 export const GetIssueResponse = /*@__PURE__*/ S.suspend(() =>
   Issue.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetIssueResponse",
-}) as any as S.Schema<GetIssueResponse>;
+).annotate({ identifier: "GetIssueResponse" }) as any as S.Schema<GetIssueResponse>;
 
 export interface GetKnowledgeBaseResourceRequest {
   id: string;
@@ -6186,13 +6034,7 @@ export interface GetMonitoredComputerRequest {
 export const GetMonitoredComputerRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     computerId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/monitored-computers/{computerId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/monitored-computers/{computerId}", code: 200 })),
 ).annotate({
   identifier: "GetMonitoredComputerRequest",
 }) as any as S.Schema<GetMonitoredComputerRequest>;
@@ -6228,9 +6070,7 @@ export const OperatingSystem = /*@__PURE__*/ S.suspend(() =>
     type: OperatingSystemType,
     version: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "OperatingSystem",
-}) as any as S.Schema<OperatingSystem>;
+).annotate({ identifier: "OperatingSystem" }) as any as S.Schema<OperatingSystem>;
 
 export interface MonitoredComputer {
   /** Unique identifier for the monitored computer. */
@@ -6270,9 +6110,25 @@ export const MonitoredComputer = /*@__PURE__*/ S.suspend(() =>
     serialNumber: S.NullOr(S.String),
     udid: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "MonitoredComputer",
-}) as any as S.Schema<MonitoredComputer>;
+).annotate({ identifier: "MonitoredComputer" }) as any as S.Schema<MonitoredComputer>;
+
+export interface GetOrganizationRequest {}
+export const GetOrganizationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(T.Http({ method: "GET", uri: "/organization", code: 200 })),
+).annotate({ identifier: "GetOrganizationRequest" }) as any as S.Schema<GetOrganizationRequest>;
+
+export interface OrganizationIdentity {
+  id: string;
+  displayName: string;
+  region: string;
+}
+export const OrganizationIdentity = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    displayName: S.String,
+    region: S.String,
+  }),
+).annotate({ identifier: "OrganizationIdentity" }) as any as S.Schema<OrganizationIdentity>;
 
 export interface GetPersonRequest {
   personId: string;
@@ -6281,9 +6137,7 @@ export const GetPersonRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     personId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/people/{personId}", code: 200 })),
-).annotate({
-  identifier: "GetPersonRequest",
-}) as any as S.Schema<GetPersonRequest>;
+).annotate({ identifier: "GetPersonRequest" }) as any as S.Schema<GetPersonRequest>;
 
 export interface GetPolicyRequest {
   policyId: string;
@@ -6292,9 +6146,7 @@ export const GetPolicyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     policyId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/policies/{policyId}", code: 200 })),
-).annotate({
-  identifier: "GetPolicyRequest",
-}) as any as S.Schema<GetPolicyRequest>;
+).annotate({ identifier: "GetPolicyRequest" }) as any as S.Schema<GetPolicyRequest>;
 
 export type PolicyStatus = "OK" | "NEEDS_REMEDIATION";
 export const PolicyStatus = S.String;
@@ -6316,9 +6168,7 @@ export const PolicyLatestVersion = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     status: PolicyVersionStatus,
   }),
-).annotate({
-  identifier: "PolicyLatestVersion",
-}) as any as S.Schema<PolicyLatestVersion>;
+).annotate({ identifier: "PolicyLatestVersion" }) as any as S.Schema<PolicyLatestVersion>;
 
 export type PolicyLocale =
   | "CS"
@@ -6413,6 +6263,28 @@ export const Policy = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "Policy" }) as any as S.Schema<Policy>;
 
+export interface GetProgramScopeRequest {
+  programScopeId: string;
+}
+export const GetProgramScopeRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    programScopeId: S.String.pipe(T.Label()),
+  }).pipe(T.Http({ method: "GET", uri: "/program-scopes/{programScopeId}", code: 200 })),
+).annotate({ identifier: "GetProgramScopeRequest" }) as any as S.Schema<GetProgramScopeRequest>;
+
+export interface ProgramScope {
+  id: string;
+  businessUnitId: string | null;
+  frameworkId: string;
+}
+export const ProgramScope = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    businessUnitId: S.NullOr(S.String),
+    frameworkId: S.String,
+  }),
+).annotate({ identifier: "ProgramScope" }) as any as S.Schema<ProgramScope>;
+
 export interface GetQuestionnaireRequest {
   questionnaireId: string;
 }
@@ -6420,15 +6292,9 @@ export const GetQuestionnaireRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     questionnaireId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/customer-trust/questionnaires/{questionnaireId}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/customer-trust/questionnaires/{questionnaireId}", code: 200 }),
   ),
-).annotate({
-  identifier: "GetQuestionnaireRequest",
-}) as any as S.Schema<GetQuestionnaireRequest>;
+).annotate({ identifier: "GetQuestionnaireRequest" }) as any as S.Schema<GetQuestionnaireRequest>;
 
 export interface GetQuestionnaireExportRequest {
   /** The unique identifier of the export job, returned from the POST endpoint. */
@@ -6437,13 +6303,7 @@ export interface GetQuestionnaireExportRequest {
 export const GetQuestionnaireExportRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/customer-trust/questionnaires/exports/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/customer-trust/questionnaires/exports/{id}", code: 200 })),
 ).annotate({
   identifier: "GetQuestionnaireExportRequest",
 }) as any as S.Schema<GetQuestionnaireExportRequest>;
@@ -6512,25 +6372,6 @@ export const GetQuestionnaireResponseRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetQuestionnaireResponseRequest",
 }) as any as S.Schema<GetQuestionnaireResponseRequest>;
 
-export type QuestionnaireResponseMultipleChoiceAnswer = "NO" | "NOT_APPLICABLE" | "YES";
-export const QuestionnaireResponseMultipleChoiceAnswer = S.String;
-
-/** Frozen local clone of the shared `QAutoAnswer` shape, scoped to the deprecated REST `answer` field so that field's contract does not track changes to the shared answer-library type. No longer populated at runtime; removal is tracked by CTAUTO-1973. */
-export interface DeprecatedQAutoAnswerForAPI {
-  explanation?: string | null;
-  multipleChoice?: QuestionnaireResponseMultipleChoiceAnswer | null;
-  multipleChoiceCustom?: string | null;
-}
-export const DeprecatedQAutoAnswerForAPI = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    explanation: S.optional(S.NullOr(S.String)),
-    multipleChoice: S.optional(S.NullOr(QuestionnaireResponseMultipleChoiceAnswer)),
-    multipleChoiceCustom: S.optional(S.NullOr(S.String)),
-  }),
-).annotate({
-  identifier: "DeprecatedQAutoAnswerForAPI",
-}) as any as S.Schema<DeprecatedQAutoAnswerForAPI>;
-
 export type QuestionnaireResponseOriginType =
   | "AI"
   | "ANSWER_LIBRARY"
@@ -6543,9 +6384,7 @@ export const QuestionnaireResponseOriginType = S.String;
 export type JSONSchema7Definition = JSONSchema7 | boolean;
 export const JSONSchema7Definition = S.Unknown as any as S.Schema<JSONSchema7Definition>;
 
-export type JSONSchema7DefsMap = {
-  [key: string]: JSONSchema7Definition | undefined;
-};
+export type JSONSchema7DefsMap = { [key: string]: JSONSchema7Definition | undefined };
 export const JSONSchema7DefsMap = /*@__PURE__*/ S.Record(
   S.String,
   JSONSchema7Definition,
@@ -6580,9 +6419,9 @@ export const JSONSchema7Object = /*@__PURE__*/ S.Record(
 export type JSONSchema7Type2 = string | number | boolean | JSONSchema7Object | unknown;
 export const JSONSchema7Type2 = S.Unknown as any as S.Schema<JSONSchema7Type2>;
 
-export type JSONSchema7EnumList = Array<JSONSchema7Type2>;
+export type JSONSchema7EnumList = Array<JSONSchema7Type2 | null>;
 export const JSONSchema7EnumList = /*@__PURE__*/ S.Array(
-  JSONSchema7Type2,
+  S.NullOr(JSONSchema7Type2),
 ) as any as S.Schema<JSONSchema7EnumList>;
 
 export type JSONSchema7ItemsCase1List = Array<JSONSchema7Definition>;
@@ -6598,17 +6437,13 @@ export const JSONSchema7RequiredList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<JSONSchema7RequiredList>;
 
-export type JSONSchema7PropertiesMap = {
-  [key: string]: JSONSchema7Definition | undefined;
-};
+export type JSONSchema7PropertiesMap = { [key: string]: JSONSchema7Definition | undefined };
 export const JSONSchema7PropertiesMap = /*@__PURE__*/ S.Record(
   S.String,
   JSONSchema7Definition,
 ) as any as S.Schema<JSONSchema7PropertiesMap>;
 
-export type JSONSchema7PatternPropertiesMap = {
-  [key: string]: JSONSchema7Definition | undefined;
-};
+export type JSONSchema7PatternPropertiesMap = { [key: string]: JSONSchema7Definition | undefined };
 export const JSONSchema7PatternPropertiesMap = /*@__PURE__*/ S.Record(
   S.String,
   JSONSchema7Definition,
@@ -6648,9 +6483,7 @@ export const JSONSchema7OneOfList = /*@__PURE__*/ S.Array(
   JSONSchema7Definition,
 ) as any as S.Schema<JSONSchema7OneOfList>;
 
-export type JSONSchema7DefinitionsMap = {
-  [key: string]: JSONSchema7Definition | undefined;
-};
+export type JSONSchema7DefinitionsMap = { [key: string]: JSONSchema7Definition | undefined };
 export const JSONSchema7DefinitionsMap = /*@__PURE__*/ S.Record(
   S.String,
   JSONSchema7Definition,
@@ -6767,12 +6600,10 @@ export type AnswerPartValue = string | number | boolean | AnswerPartValueCase3Li
 export const AnswerPartValue = S.Unknown as any as S.Schema<AnswerPartValue>;
 
 /** Construct a type with a set of properties K of type T */
-export type RecordStringAnswerPartValue = {
-  [key: string]: AnswerPartValue | undefined;
-};
+export type RecordStringAnswerPartValue = { [key: string]: AnswerPartValue | null | undefined };
 export const RecordStringAnswerPartValue = /*@__PURE__*/ S.Record(
   S.String,
-  AnswerPartValue,
+  S.NullOr(AnswerPartValue),
 ) as any as S.Schema<RecordStringAnswerPartValue>;
 
 export interface QuestionnaireResponseWithoutViewerPermissionsAttachedEvidenceItemUploadedDocument {
@@ -6822,8 +6653,6 @@ export interface QuestionnaireResponseWithoutViewerPermissions {
   sequenceLabel?: string;
   /** The actual question text */
   question: string;
-  /** The current answer for the question. */
-  answer?: DeprecatedQAutoAnswerForAPI;
   /** The user who last edited the question/answer */
   editedBy?: CustomerTrustUser | null;
   /** The user who approved the current answer */
@@ -6836,7 +6665,7 @@ export interface QuestionnaireResponseWithoutViewerPermissions {
   answerSchema?: string;
   /** Composite JSONSchema7 built from the response's stored answer parts (via `toCompositeSchema`). Mirrors the GraphQL `answerPartsSchema` field. Absent when the response has no stored parts — clients fall back to the legacy `answerSchema` field. */
   answerPartsSchema?: JSONSchema7;
-  /** Flat map of part-id → current value (via `toAnswerPartsValues`). Same key set as `answerPartsSchema.properties`. Absent when the response has no stored parts. */
+  /** Flat map of part-id → current value (via `toAnswerPartsValues`). Same key set as `answerPartsSchema.properties`, which each question defines for itself. Absent when the response has no stored parts. */
   answerPartsValues?: RecordStringAnswerPartValue;
   /** Evidence documents attached to support this questionnaire response */
   attachedEvidence?: QuestionnaireResponseWithoutViewerPermissionsAttachedEvidenceList;
@@ -6851,7 +6680,6 @@ export const QuestionnaireResponseWithoutViewerPermissions = /*@__PURE__*/ S.sus
     sectionId: S.optional(S.NullOr(S.String)),
     sequenceLabel: S.optional(S.String),
     question: S.String,
-    answer: S.optional(DeprecatedQAutoAnswerForAPI),
     editedBy: S.optional(S.NullOr(CustomerTrustUser)),
     approvedBy: S.optional(S.NullOr(CustomerTrustUser)),
     isPendingAnswerGeneration: S.Boolean,
@@ -6887,9 +6715,7 @@ export const GetResourceRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetResourceRequest",
-}) as any as S.Schema<GetResourceRequest>;
+).annotate({ identifier: "GetResourceRequest" }) as any as S.Schema<GetResourceRequest>;
 
 export type ResourceResponseType =
   | "Account"
@@ -6986,9 +6812,7 @@ export const CloudInfrastructure = /*@__PURE__*/ S.suspend(() =>
     account: S.String,
     region: S.String,
   }),
-).annotate({
-  identifier: "CloudInfrastructure",
-}) as any as S.Schema<CloudInfrastructure>;
+).annotate({ identifier: "CloudInfrastructure" }) as any as S.Schema<CloudInfrastructure>;
 
 export interface ContainerRepository {
   responseType: ResourceResponseType;
@@ -7033,9 +6857,7 @@ export const ContainerRepository = /*@__PURE__*/ S.suspend(() =>
     region: S.String,
     isAutoscanEnabled: S.NullOr(S.Boolean),
   }),
-).annotate({
-  identifier: "ContainerRepository",
-}) as any as S.Schema<ContainerRepository>;
+).annotate({ identifier: "ContainerRepository" }) as any as S.Schema<ContainerRepository>;
 
 export interface Database {
   responseType: ResourceResponseType;
@@ -7471,9 +7293,7 @@ export const OrganizationSubunit = /*@__PURE__*/ S.suspend(() =>
     deletedDate: S.optional(S.NullOr(S.String)),
     accountId: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "OrganizationSubunit",
-}) as any as S.Schema<OrganizationSubunit>;
+).annotate({ identifier: "OrganizationSubunit" }) as any as S.Schema<OrganizationSubunit>;
 
 export type AnyResource =
   | Resource
@@ -7492,9 +7312,7 @@ export const AnyResource = S.Unknown as any as S.Schema<AnyResource>;
 export type GetResourceResponse = AnyResource;
 export const GetResourceResponse = /*@__PURE__*/ S.suspend(() =>
   AnyResource.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetResourceResponse",
-}) as any as S.Schema<GetResourceResponse>;
+).annotate({ identifier: "GetResourceResponse" }) as any as S.Schema<GetResourceResponse>;
 
 export interface GetResourceKindDetailsRequest {
   /** Unique identifier of the integration. */
@@ -7552,9 +7370,7 @@ export const ResourceKindDetails = /*@__PURE__*/ S.suspend(() =>
     numOwned: S.Number,
     numWithDescription: S.Number,
   }),
-).annotate({
-  identifier: "ResourceKindDetails",
-}) as any as S.Schema<ResourceKindDetails>;
+).annotate({ identifier: "ResourceKindDetails" }) as any as S.Schema<ResourceKindDetails>;
 
 export interface GetRiskScenarioRequest {
   riskScenarioId: string;
@@ -7562,16 +7378,8 @@ export interface GetRiskScenarioRequest {
 export const GetRiskScenarioRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     riskScenarioId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/risk-scenarios/{riskScenarioId}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetRiskScenarioRequest",
-}) as any as S.Schema<GetRiskScenarioRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/risk-scenarios/{riskScenarioId}", code: 200 })),
+).annotate({ identifier: "GetRiskScenarioRequest" }) as any as S.Schema<GetRiskScenarioRequest>;
 
 export interface GetSecurityReviewDocumentsRequest {
   vendorId: string;
@@ -7609,9 +7417,7 @@ export const VendorDocumentUploadedBy = /*@__PURE__*/ S.suspend(() =>
     type: UploadedDocumentUploadedByType,
     id: S.String,
   }),
-).annotate({
-  identifier: "VendorDocumentUploadedBy",
-}) as any as S.Schema<VendorDocumentUploadedBy>;
+).annotate({ identifier: "VendorDocumentUploadedBy" }) as any as S.Schema<VendorDocumentUploadedBy>;
 
 export interface VendorDocument {
   /** Unique identifier for the document. */
@@ -7713,9 +7519,7 @@ export const SecurityReviewDecision = /*@__PURE__*/ S.suspend(() =>
     lastUpdatedAt: S.String,
     status: AssessmentDecision,
   }),
-).annotate({
-  identifier: "SecurityReviewDecision",
-}) as any as S.Schema<SecurityReviewDecision>;
+).annotate({ identifier: "SecurityReviewDecision" }) as any as S.Schema<SecurityReviewDecision>;
 
 export interface SecurityReview {
   /** Unique identifier for the security review. */
@@ -7770,13 +7574,7 @@ export const GetSecurityReviewsByVendorIdRequest = /*@__PURE__*/ S.suspend(() =>
     vendorId: S.String.pipe(T.Label()),
     pageSize: S.optional(S.Number.pipe(T.Query())),
     pageCursor: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/vendors/{vendorId}/security-reviews",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/vendors/{vendorId}/security-reviews", code: 200 })),
 ).annotate({
   identifier: "GetSecurityReviewsByVendorIdRequest",
 }) as any as S.Schema<GetSecurityReviewsByVendorIdRequest>;
@@ -7810,6 +7608,71 @@ export const PaginatedResponseSecurityReview = /*@__PURE__*/ S.suspend(() =>
   identifier: "PaginatedResponseSecurityReview",
 }) as any as S.Schema<PaginatedResponseSecurityReview>;
 
+export interface GetSettingsRequest {}
+export const GetSettingsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(T.Http({ method: "GET", uri: "/personnel-notification-settings", code: 200 })),
+).annotate({ identifier: "GetSettingsRequest" }) as any as S.Schema<GetSettingsRequest>;
+
+export type NotificationFrequencyDAILY = "DAILY";
+export const NotificationFrequencyDAILY = S.String;
+
+export type NotificationFrequencyWEEKLY = "WEEKLY";
+export const NotificationFrequencyWEEKLY = S.String;
+
+export type EnabledPersonnelNotificationSettingsEmployeeDigestFrequency =
+  | NotificationFrequencyDAILY
+  | NotificationFrequencyWEEKLY;
+export const EnabledPersonnelNotificationSettingsEmployeeDigestFrequency =
+  S.Unknown as any as S.Schema<EnabledPersonnelNotificationSettingsEmployeeDigestFrequency>;
+
+export type NotificationChannelType = "EMAIL" | "SLACK";
+export const NotificationChannelType = S.String;
+
+export type EnabledPersonnelNotificationSettingsEnabledChannelsList =
+  Array<NotificationChannelType>;
+export const EnabledPersonnelNotificationSettingsEnabledChannelsList = /*@__PURE__*/ S.Array(
+  NotificationChannelType,
+) as any as S.Schema<EnabledPersonnelNotificationSettingsEnabledChannelsList>;
+
+export interface EnabledPersonnelNotificationSettings {
+  enabled: boolean;
+  employeeDigestFrequency: EnabledPersonnelNotificationSettingsEmployeeDigestFrequency;
+  enabledChannels: EnabledPersonnelNotificationSettingsEnabledChannelsList;
+  nextReminderAt: string;
+}
+export const EnabledPersonnelNotificationSettings = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    enabled: S.Boolean,
+    employeeDigestFrequency: EnabledPersonnelNotificationSettingsEmployeeDigestFrequency,
+    enabledChannels: EnabledPersonnelNotificationSettingsEnabledChannelsList,
+    nextReminderAt: S.String,
+  }),
+).annotate({
+  identifier: "EnabledPersonnelNotificationSettings",
+}) as any as S.Schema<EnabledPersonnelNotificationSettings>;
+
+export interface DisabledPersonnelNotificationSettings {
+  enabled: boolean;
+}
+export const DisabledPersonnelNotificationSettings = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    enabled: S.Boolean,
+  }),
+).annotate({
+  identifier: "DisabledPersonnelNotificationSettings",
+}) as any as S.Schema<DisabledPersonnelNotificationSettings>;
+
+export type PersonnelNotificationSettings =
+  | EnabledPersonnelNotificationSettings
+  | DisabledPersonnelNotificationSettings;
+export const PersonnelNotificationSettings =
+  S.Unknown as any as S.Schema<PersonnelNotificationSettings>;
+
+export type GetSettingsResponse = PersonnelNotificationSettings;
+export const GetSettingsResponse = /*@__PURE__*/ S.suspend(() =>
+  PersonnelNotificationSettings.pipe(T.RawResponseRoot()),
+).annotate({ identifier: "GetSettingsResponse" }) as any as S.Schema<GetSettingsResponse>;
+
 export interface GetTagsForCategoryRequest {
   tagCategoryId: string;
 }
@@ -7817,11 +7680,7 @@ export const GetTagsForCategoryRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     tagCategoryId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/customer-trust/tag-categories/{tagCategoryId}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/customer-trust/tag-categories/{tagCategoryId}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetTagsForCategoryRequest",
@@ -7836,9 +7695,7 @@ export const UserDefinedTagCategory = /*@__PURE__*/ S.suspend(() =>
     id: S.String,
     displayName: S.String,
   }),
-).annotate({
-  identifier: "UserDefinedTagCategory",
-}) as any as S.Schema<UserDefinedTagCategory>;
+).annotate({ identifier: "UserDefinedTagCategory" }) as any as S.Schema<UserDefinedTagCategory>;
 
 export interface UserDefinedTag {
   id: string;
@@ -7867,9 +7724,7 @@ export const TagCategoryWithTags = /*@__PURE__*/ S.suspend(() =>
     category: UserDefinedTagCategory,
     tags: TagCategoryWithTagsTagsList,
   }),
-).annotate({
-  identifier: "TagCategoryWithTags",
-}) as any as S.Schema<TagCategoryWithTags>;
+).annotate({ identifier: "TagCategoryWithTags" }) as any as S.Schema<TagCategoryWithTags>;
 
 export interface GetTestRequest {
   testId: string;
@@ -7897,9 +7752,7 @@ export const GetTestEntitiesRequest = /*@__PURE__*/ S.suspend(() =>
     pageSize: S.optional(S.Number.pipe(T.Query())),
     pageCursor: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/tests/{testId}/entities", code: 200 })),
-).annotate({
-  identifier: "GetTestEntitiesRequest",
-}) as any as S.Schema<GetTestEntitiesRequest>;
+).annotate({ identifier: "GetTestEntitiesRequest" }) as any as S.Schema<GetTestEntitiesRequest>;
 
 export interface TestResourceEntity {
   /** The identifier for the entity. */
@@ -7927,9 +7780,7 @@ export const TestResourceEntity = /*@__PURE__*/ S.suspend(() =>
     lastUpdatedDate: S.String,
     createdDate: S.String,
   }),
-).annotate({
-  identifier: "TestResourceEntity",
-}) as any as S.Schema<TestResourceEntity>;
+).annotate({ identifier: "TestResourceEntity" }) as any as S.Schema<TestResourceEntity>;
 
 export type PaginatedResponseTestResourceEntityResultsDataList = Array<TestResourceEntity>;
 export const PaginatedResponseTestResourceEntityResultsDataList = /*@__PURE__*/ S.Array(
@@ -7967,9 +7818,7 @@ export const GetTrustCenterRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     slugId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/trust-centers/{slugId}", code: 200 })),
-).annotate({
-  identifier: "GetTrustCenterRequest",
-}) as any as S.Schema<GetTrustCenterRequest>;
+).annotate({ identifier: "GetTrustCenterRequest" }) as any as S.Schema<GetTrustCenterRequest>;
 
 /** Possible banner settings for the Trust Center. - CUSTOM_IMAGE: Banner is a custom uploaded image. - GRADIENT: Banner is a gradient between two colors. - MINIMAL: No banner. - VANTA: Legacy Vanta-themed banner. No longer selectable as a banner style. */
 export type BannerSetting = "CUSTOM_IMAGE" | "GRADIENT" | "MINIMAL" | "VANTA";
@@ -7990,9 +7839,7 @@ export const TrustCenterBannerSetting = /*@__PURE__*/ S.suspend(() =>
     startColor: S.NullOr(S.String),
     setting: S.NullOr(BannerSetting),
   }),
-).annotate({
-  identifier: "TrustCenterBannerSetting",
-}) as any as S.Schema<TrustCenterBannerSetting>;
+).annotate({ identifier: "TrustCenterBannerSetting" }) as any as S.Schema<TrustCenterBannerSetting>;
 
 /** Custom theme colors chosen for the Trust Center. */
 export interface TrustCenterCustomTheme {
@@ -8006,9 +7853,7 @@ export const TrustCenterCustomTheme = /*@__PURE__*/ S.suspend(() =>
     secondary: S.NullOr(S.String),
     primary: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "TrustCenterCustomTheme",
-}) as any as S.Schema<TrustCenterCustomTheme>;
+).annotate({ identifier: "TrustCenterCustomTheme" }) as any as S.Schema<TrustCenterCustomTheme>;
 
 export interface TrustCenter {
   /** Unique identifier for the Trust Center. */
@@ -8116,9 +7961,7 @@ export const TrustCenterAccessRequest = /*@__PURE__*/ S.suspend(() =>
     creationDate: S.String,
     updatedDate: S.String,
   }),
-).annotate({
-  identifier: "TrustCenterAccessRequest",
-}) as any as S.Schema<TrustCenterAccessRequest>;
+).annotate({ identifier: "TrustCenterAccessRequest" }) as any as S.Schema<TrustCenterAccessRequest>;
 
 export interface GetTrustCenterControlRequest {
   slugId: string;
@@ -8129,11 +7972,7 @@ export const GetTrustCenterControlRequest = /*@__PURE__*/ S.suspend(() =>
     slugId: S.String.pipe(T.Label()),
     controlId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/trust-centers/{slugId}/controls/{controlId}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/trust-centers/{slugId}/controls/{controlId}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetTrustCenterControlRequest",
@@ -8145,13 +7984,7 @@ export interface GetTrustCenterControlCategoriesRequest {
 export const GetTrustCenterControlCategoriesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     slugId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/trust-centers/{slugId}/control-categories",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/trust-centers/{slugId}/control-categories", code: 200 })),
 ).annotate({
   identifier: "GetTrustCenterControlCategoriesRequest",
 }) as any as S.Schema<GetTrustCenterControlCategoriesRequest>;
@@ -8199,16 +8032,8 @@ export const GetTrustCenterFaqRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     slugId: S.String.pipe(T.Label()),
     faqId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/trust-centers/{slugId}/faqs/{faqId}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetTrustCenterFaqRequest",
-}) as any as S.Schema<GetTrustCenterFaqRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/trust-centers/{slugId}/faqs/{faqId}", code: 200 })),
+).annotate({ identifier: "GetTrustCenterFaqRequest" }) as any as S.Schema<GetTrustCenterFaqRequest>;
 
 export interface GetTrustCenterResourceRequest {
   slugId: string;
@@ -8219,11 +8044,7 @@ export const GetTrustCenterResourceRequest = /*@__PURE__*/ S.suspend(() =>
     slugId: S.String.pipe(T.Label()),
     resourceId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/trust-centers/{slugId}/resources/{resourceId}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/trust-centers/{slugId}/resources/{resourceId}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetTrustCenterResourceRequest",
@@ -8255,9 +8076,7 @@ export const NodeJSReadableStream = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     readable: S.Boolean,
   }),
-).annotate({
-  identifier: "NodeJSReadableStream",
-}) as any as S.Schema<NodeJSReadableStream>;
+).annotate({ identifier: "NodeJSReadableStream" }) as any as S.Schema<NodeJSReadableStream>;
 
 export interface GetTrustCenterSubprocessorRequest {
   slugId: string;
@@ -8301,9 +8120,7 @@ export const TrustCenterSubprocessor = /*@__PURE__*/ S.suspend(() =>
     purpose: S.NullOr(S.String),
     url: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "TrustCenterSubprocessor",
-}) as any as S.Schema<TrustCenterSubprocessor>;
+).annotate({ identifier: "TrustCenterSubprocessor" }) as any as S.Schema<TrustCenterSubprocessor>;
 
 export interface GetTrustCenterSubscriberRequest {
   slugId: string;
@@ -8314,11 +8131,7 @@ export const GetTrustCenterSubscriberRequest = /*@__PURE__*/ S.suspend(() =>
     slugId: S.String.pipe(T.Label()),
     subscriberId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/trust-centers/{slugId}/subscribers/{subscriberId}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/trust-centers/{slugId}/subscribers/{subscriberId}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetTrustCenterSubscriberRequest",
@@ -8351,13 +8164,7 @@ export const GetTrustCenterUpdateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     slugId: S.String.pipe(T.Label()),
     updateId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/trust-centers/{slugId}/updates/{updateId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/trust-centers/{slugId}/updates/{updateId}", code: 200 })),
 ).annotate({
   identifier: "GetTrustCenterUpdateRequest",
 }) as any as S.Schema<GetTrustCenterUpdateRequest>;
@@ -8370,13 +8177,7 @@ export const GetTrustCenterViewerRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     slugId: S.String.pipe(T.Label()),
     viewerId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/trust-centers/{slugId}/viewers/{viewerId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/trust-centers/{slugId}/viewers/{viewerId}", code: 200 })),
 ).annotate({
   identifier: "GetTrustCenterViewerRequest",
 }) as any as S.Schema<GetTrustCenterViewerRequest>;
@@ -8431,9 +8232,7 @@ export const GetVendorRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     vendorId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/vendors/{vendorId}", code: 200 })),
-).annotate({
-  identifier: "GetVendorRequest",
-}) as any as S.Schema<GetVendorRequest>;
+).annotate({ identifier: "GetVendorRequest" }) as any as S.Schema<GetVendorRequest>;
 
 export interface GetVendorAssessmentTypeRequest {
   assessmentTypeId: string;
@@ -8441,13 +8240,7 @@ export interface GetVendorAssessmentTypeRequest {
 export const GetVendorAssessmentTypeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     assessmentTypeId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/vendor-assessment-types/{assessmentTypeId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/vendor-assessment-types/{assessmentTypeId}", code: 200 })),
 ).annotate({
   identifier: "GetVendorAssessmentTypeRequest",
 }) as any as S.Schema<GetVendorAssessmentTypeRequest>;
@@ -8473,9 +8266,7 @@ export const VendorAssessmentType = /*@__PURE__*/ S.suspend(() =>
     description: S.NullOr(S.String),
     status: VendorAssessmentTypeLifecycleStatus,
   }),
-).annotate({
-  identifier: "VendorAssessmentType",
-}) as any as S.Schema<VendorAssessmentType>;
+).annotate({ identifier: "VendorAssessmentType" }) as any as S.Schema<VendorAssessmentType>;
 
 export interface GetVulnerabilityRequest {
   vulnerabilityId: string;
@@ -8483,16 +8274,8 @@ export interface GetVulnerabilityRequest {
 export const GetVulnerabilityRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     vulnerabilityId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/vulnerabilities/{vulnerabilityId}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetVulnerabilityRequest",
-}) as any as S.Schema<GetVulnerabilityRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/vulnerabilities/{vulnerabilityId}", code: 200 })),
+).annotate({ identifier: "GetVulnerabilityRequest" }) as any as S.Schema<GetVulnerabilityRequest>;
 
 export type VulnerabilityType = "CONFIGURATION" | "COMMON" | "GROUPED";
 export const VulnerabilityType = S.String;
@@ -8616,13 +8399,7 @@ export interface GetVulnerableAssetRequest {
 export const GetVulnerableAssetRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     vulnerableAssetId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/vulnerable-assets/{vulnerableAssetId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/vulnerable-assets/{vulnerableAssetId}", code: 200 })),
 ).annotate({
   identifier: "GetVulnerableAssetRequest",
 }) as any as S.Schema<GetVulnerableAssetRequest>;
@@ -8751,9 +8528,7 @@ export const VulnerableAssetScanner = /*@__PURE__*/ S.suspend(() =>
     operatingSystems: S.NullOr(VulnerableAssetScannerOperatingSystemsList),
     targetId: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "VulnerableAssetScanner",
-}) as any as S.Schema<VulnerableAssetScanner>;
+).annotate({ identifier: "VulnerableAssetScanner" }) as any as S.Schema<VulnerableAssetScanner>;
 
 /** The integrations that are scanning this vulnerable asset. */
 export type VulnerableAssetScannersList = Array<VulnerableAssetScanner>;
@@ -8784,9 +8559,7 @@ export const VulnerableAsset = /*@__PURE__*/ S.suspend(() =>
     imageScanTag: S.NullOr(S.String),
     scanners: VulnerableAssetScannersList,
   }),
-).annotate({
-  identifier: "VulnerableAsset",
-}) as any as S.Schema<VulnerableAsset>;
+).annotate({ identifier: "VulnerableAsset" }) as any as S.Schema<VulnerableAsset>;
 
 /** IdP-group resource IDs to import. */
 export type ImportIdpGroupsRequestIdpGroupIdsList = Array<string>;
@@ -8802,9 +8575,7 @@ export const ImportIdpGroupsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     idpGroupIds: ImportIdpGroupsRequestIdpGroupIdsList,
   }).pipe(T.Http({ method: "POST", uri: "/groups/import-from-idp", code: 200 })),
-).annotate({
-  identifier: "ImportIdpGroupsRequest",
-}) as any as S.Schema<ImportIdpGroupsRequest>;
+).annotate({ identifier: "ImportIdpGroupsRequest" }) as any as S.Schema<ImportIdpGroupsRequest>;
 
 export type ImportIdpGroupSuccessStatus = "SUCCESS";
 export const ImportIdpGroupSuccessStatus = S.String;
@@ -8820,9 +8591,7 @@ export const ImportIdpGroupSuccess = /*@__PURE__*/ S.suspend(() =>
     status: ImportIdpGroupSuccessStatus,
     groupId: S.String,
   }),
-).annotate({
-  identifier: "ImportIdpGroupSuccess",
-}) as any as S.Schema<ImportIdpGroupSuccess>;
+).annotate({ identifier: "ImportIdpGroupSuccess" }) as any as S.Schema<ImportIdpGroupSuccess>;
 
 export type ImportIdpGroupErrorStatus = "ERROR";
 export const ImportIdpGroupErrorStatus = S.String;
@@ -8843,9 +8612,7 @@ export const ImportIdpGroupError = /*@__PURE__*/ S.suspend(() =>
     reason: ImportIdpGroupFailureReason,
     message: S.String,
   }),
-).annotate({
-  identifier: "ImportIdpGroupError",
-}) as any as S.Schema<ImportIdpGroupError>;
+).annotate({ identifier: "ImportIdpGroupError" }) as any as S.Schema<ImportIdpGroupError>;
 
 export type ImportIdpGroupResult = ImportIdpGroupSuccess | ImportIdpGroupError;
 export const ImportIdpGroupResult = S.Unknown as any as S.Schema<ImportIdpGroupResult>;
@@ -8862,9 +8629,7 @@ export const ImportIdpGroupsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     results: ImportIdpGroupsResponseResultsList,
   }),
-).annotate({
-  identifier: "ImportIdpGroupsResponse",
-}) as any as S.Schema<ImportIdpGroupsResponse>;
+).annotate({ identifier: "ImportIdpGroupsResponse" }) as any as S.Schema<ImportIdpGroupsResponse>;
 
 export type ListRequestReadableIssueIdMatchesAnyList = Array<string>;
 export const ListRequestReadableIssueIdMatchesAnyList = /*@__PURE__*/ S.Array(
@@ -9037,9 +8802,7 @@ export const PaginatedResponseIssue = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     results: PaginatedResponseIssueResults,
   }),
-).annotate({
-  identifier: "PaginatedResponseIssue",
-}) as any as S.Schema<PaginatedResponseIssue>;
+).annotate({ identifier: "PaginatedResponseIssue" }) as any as S.Schema<PaginatedResponseIssue>;
 
 export interface ListAnswerLibraryEntriesRequest {
   pageSize?: number;
@@ -9118,11 +8881,7 @@ export const ListAssignableUsersRequest = /*@__PURE__*/ S.suspend(() =>
     role: S.optional(QuestionnaireAssignableUserRole.pipe(T.Query())),
     q: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/customer-trust/questionnaires/assignable-users",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/customer-trust/questionnaires/assignable-users", code: 200 }),
   ),
 ).annotate({
   identifier: "ListAssignableUsersRequest",
@@ -9158,6 +8917,46 @@ export const QuestionnaireAssignableUsersResponse = /*@__PURE__*/ S.suspend(() =
   identifier: "QuestionnaireAssignableUsersResponse",
 }) as any as S.Schema<QuestionnaireAssignableUsersResponse>;
 
+export interface ListBusinessUnitsRequest {
+  pageSize?: number;
+  pageCursor?: string;
+}
+export const ListBusinessUnitsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    pageSize: S.optional(S.Number.pipe(T.Query())),
+    pageCursor: S.optional(S.String.pipe(T.Query())),
+  }).pipe(T.Http({ method: "GET", uri: "/business-units", code: 200 })),
+).annotate({ identifier: "ListBusinessUnitsRequest" }) as any as S.Schema<ListBusinessUnitsRequest>;
+
+export type PaginatedResponseBusinessUnitResultsDataList = Array<BusinessUnit>;
+export const PaginatedResponseBusinessUnitResultsDataList = /*@__PURE__*/ S.Array(
+  BusinessUnit,
+) as any as S.Schema<PaginatedResponseBusinessUnitResultsDataList>;
+
+export interface PaginatedResponseBusinessUnitResults {
+  data: PaginatedResponseBusinessUnitResultsDataList;
+  pageInfo: PageInfo;
+}
+export const PaginatedResponseBusinessUnitResults = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    data: PaginatedResponseBusinessUnitResultsDataList,
+    pageInfo: PageInfo,
+  }),
+).annotate({
+  identifier: "PaginatedResponseBusinessUnitResults",
+}) as any as S.Schema<PaginatedResponseBusinessUnitResults>;
+
+export interface PaginatedResponseBusinessUnit {
+  results: PaginatedResponseBusinessUnitResults;
+}
+export const PaginatedResponseBusinessUnit = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    results: PaginatedResponseBusinessUnitResults,
+  }),
+).annotate({
+  identifier: "PaginatedResponseBusinessUnit",
+}) as any as S.Schema<PaginatedResponseBusinessUnit>;
+
 export interface ListChatbotConversationsRequest {
   slugId: string;
   pageSize?: number;
@@ -9172,11 +8971,7 @@ export const ListChatbotConversationsRequest = /*@__PURE__*/ S.suspend(() =>
     pageCursor: S.optional(S.String.pipe(T.Query())),
     searchString: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/trust-centers/{slugId}/chatbot/conversations",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/trust-centers/{slugId}/chatbot/conversations", code: 200 }),
   ),
 ).annotate({
   identifier: "ListChatbotConversationsRequest",
@@ -9246,32 +9041,31 @@ export const ListComplianceFrameworksRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     slugId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/trust-centers/{slugId}/compliance-frameworks",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/trust-centers/{slugId}/compliance-frameworks", code: 200 }),
   ),
 ).annotate({
   identifier: "ListComplianceFrameworksRequest",
 }) as any as S.Schema<ListComplianceFrameworksRequest>;
 
-export type ArrayResponseTrustCenterComplianceFrameworkResultsList =
+export type TrustCenterComplianceFrameworkListResponseResultsList =
   Array<TrustCenterComplianceFramework>;
-export const ArrayResponseTrustCenterComplianceFrameworkResultsList = /*@__PURE__*/ S.Array(
+export const TrustCenterComplianceFrameworkListResponseResultsList = /*@__PURE__*/ S.Array(
   TrustCenterComplianceFramework,
-) as any as S.Schema<ArrayResponseTrustCenterComplianceFrameworkResultsList>;
+) as any as S.Schema<TrustCenterComplianceFrameworkListResponseResultsList>;
 
-export interface ArrayResponseTrustCenterComplianceFramework {
-  results: ArrayResponseTrustCenterComplianceFrameworkResultsList;
+export interface TrustCenterComplianceFrameworkListResponse {
+  results: TrustCenterComplianceFrameworkListResponseResultsList;
+  /** Whether the compliance section is visible on the external Trust Center. */
+  isSectionVisible: boolean;
 }
-export const ArrayResponseTrustCenterComplianceFramework = /*@__PURE__*/ S.suspend(() =>
+export const TrustCenterComplianceFrameworkListResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    results: ArrayResponseTrustCenterComplianceFrameworkResultsList,
+    results: TrustCenterComplianceFrameworkListResponseResultsList,
+    isSectionVisible: S.Boolean,
   }),
 ).annotate({
-  identifier: "ArrayResponseTrustCenterComplianceFramework",
-}) as any as S.Schema<ArrayResponseTrustCenterComplianceFramework>;
+  identifier: "TrustCenterComplianceFrameworkListResponse",
+}) as any as S.Schema<TrustCenterComplianceFrameworkListResponse>;
 
 export interface ListConnectedIntegrationsRequest {
   pageSize?: number;
@@ -9324,9 +9118,7 @@ export const ListContractsRequest = /*@__PURE__*/ S.suspend(() =>
     pageSize: S.optional(S.Number.pipe(T.Query())),
     pageCursor: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/contracts", code: 200 })),
-).annotate({
-  identifier: "ListContractsRequest",
-}) as any as S.Schema<ListContractsRequest>;
+).annotate({ identifier: "ListContractsRequest" }) as any as S.Schema<ListContractsRequest>;
 
 export type PaginatedResponseContractResultsDataList = Array<Contract>;
 export const PaginatedResponseContractResultsDataList = /*@__PURE__*/ S.Array(
@@ -9374,9 +9166,7 @@ export const ListControlsRequest = /*@__PURE__*/ S.suspend(() =>
     pageCursor: S.optional(S.String.pipe(T.Query())),
     frameworkMatchesAny: S.optional(ListControlsRequestFrameworkMatchesAnyList.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/controls", code: 200 })),
-).annotate({
-  identifier: "ListControlsRequest",
-}) as any as S.Schema<ListControlsRequest>;
+).annotate({ identifier: "ListControlsRequest" }) as any as S.Schema<ListControlsRequest>;
 
 export type PaginatedResponseControlResultsDataList = Array<Control>;
 export const PaginatedResponseControlResultsDataList = /*@__PURE__*/ S.Array(
@@ -9403,9 +9193,7 @@ export const PaginatedResponseControl = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     results: PaginatedResponseControlResults,
   }),
-).annotate({
-  identifier: "PaginatedResponseControl",
-}) as any as S.Schema<PaginatedResponseControl>;
+).annotate({ identifier: "PaginatedResponseControl" }) as any as S.Schema<PaginatedResponseControl>;
 
 export interface ListControlsForDocumentRequest {
   documentId: string;
@@ -9417,13 +9205,7 @@ export const ListControlsForDocumentRequest = /*@__PURE__*/ S.suspend(() =>
     documentId: S.String.pipe(T.Label()),
     pageSize: S.optional(S.Number.pipe(T.Query())),
     pageCursor: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/documents/{documentId}/controls",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/documents/{documentId}/controls", code: 200 })),
 ).annotate({
   identifier: "ListControlsForDocumentRequest",
 }) as any as S.Schema<ListControlsForDocumentRequest>;
@@ -9438,13 +9220,7 @@ export const ListControlsForFrameworkRequest = /*@__PURE__*/ S.suspend(() =>
     frameworkId: S.String.pipe(T.Label()),
     pageSize: S.optional(S.Number.pipe(T.Query())),
     pageCursor: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/frameworks/{frameworkId}/controls",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/frameworks/{frameworkId}/controls", code: 200 })),
 ).annotate({
   identifier: "ListControlsForFrameworkRequest",
 }) as any as S.Schema<ListControlsForFrameworkRequest>;
@@ -9511,6 +9287,129 @@ export const ListDeactivatedControlsRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListDeactivatedControlsRequest",
 }) as any as S.Schema<ListDeactivatedControlsRequest>;
 
+/** The security domains that the control belongs to. */
+export type DeactivatedControlDomainsList = Array<string>;
+export const DeactivatedControlDomainsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<DeactivatedControlDomainsList>;
+
+/** The control's custom field values, if control custom fields is included in your Vanta instance. */
+export type DeactivatedControlCustomFieldsList = Array<CustomField>;
+export const DeactivatedControlCustomFieldsList = /*@__PURE__*/ S.Array(
+  CustomField,
+) as any as S.Schema<DeactivatedControlCustomFieldsList>;
+
+/** The shorthands of the framework's sections that the control maps to. */
+export type DeactivatedControlFrameworkSectionsList = Array<string>;
+export const DeactivatedControlFrameworkSectionsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<DeactivatedControlFrameworkSectionsList>;
+
+export interface DeactivatedControlFramework {
+  /** The framework's unique ID. Accepted by the `frameworkMatchesAny` filter on `GET /v1/controls`. */
+  id: string;
+  /** The framework's display name. */
+  displayName: string;
+  /** The short version of the framework's display name. */
+  shorthandName: string;
+  /** The shorthands of the framework's sections that the control maps to. */
+  sections: DeactivatedControlFrameworkSectionsList;
+}
+export const DeactivatedControlFramework = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    displayName: S.String,
+    shorthandName: S.String,
+    sections: DeactivatedControlFrameworkSectionsList,
+  }),
+).annotate({
+  identifier: "DeactivatedControlFramework",
+}) as any as S.Schema<DeactivatedControlFramework>;
+
+/** The frameworks that the control is mapped to. Empty when the control maps to no framework the organization has enabled. */
+export type DeactivatedControlFrameworksList = Array<DeactivatedControlFramework>;
+export const DeactivatedControlFrameworksList = /*@__PURE__*/ S.Array(
+  DeactivatedControlFramework,
+) as any as S.Schema<DeactivatedControlFrameworksList>;
+
+export interface DeactivatedControl {
+  /** The control's unique ID. */
+  id: string;
+  /** The control's external ID. */
+  externalId: string | null;
+  /** The control's name. */
+  name: string;
+  /** The control's description. */
+  description: string;
+  /** The control's source, either "VANTA" or "CUSTOM". */
+  source: ControlSource;
+  /** The security domains that the control belongs to. */
+  domains: DeactivatedControlDomainsList;
+  /** The control's owner. */
+  owner: Owner | null;
+  /** The control's GDPR role, if the control is a GDPR control. */
+  role?: string | null;
+  /** The control's custom field values, if control custom fields is included in your Vanta instance. */
+  customFields: DeactivatedControlCustomFieldsList;
+  /** When the control was created. Returns null for Vanta library controls. */
+  creationDate: string | null;
+  /** When the control was last modified. Returns null for Vanta library controls. */
+  modificationDate: string | null;
+  /** How the control is implemented. */
+  implementationDetails?: string | null;
+  /** The frameworks that the control is mapped to. Empty when the control maps to no framework the organization has enabled. */
+  frameworks: DeactivatedControlFrameworksList;
+  /** The reason given when the control was deactivated. Null when no reason was recorded, including for deactivations that predate the field. */
+  deactivationReason: string | null;
+}
+export const DeactivatedControl = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    externalId: S.NullOr(S.String),
+    name: S.String,
+    description: S.String,
+    source: ControlSource,
+    domains: DeactivatedControlDomainsList,
+    owner: S.NullOr(Owner),
+    role: S.optional(S.NullOr(S.String)),
+    customFields: DeactivatedControlCustomFieldsList,
+    creationDate: S.NullOr(S.String),
+    modificationDate: S.NullOr(S.String),
+    implementationDetails: S.optional(S.NullOr(S.String)),
+    frameworks: DeactivatedControlFrameworksList,
+    deactivationReason: S.NullOr(S.String),
+  }),
+).annotate({ identifier: "DeactivatedControl" }) as any as S.Schema<DeactivatedControl>;
+
+export type PaginatedResponseDeactivatedControlResultsDataList = Array<DeactivatedControl>;
+export const PaginatedResponseDeactivatedControlResultsDataList = /*@__PURE__*/ S.Array(
+  DeactivatedControl,
+) as any as S.Schema<PaginatedResponseDeactivatedControlResultsDataList>;
+
+export interface PaginatedResponseDeactivatedControlResults {
+  data: PaginatedResponseDeactivatedControlResultsDataList;
+  pageInfo: PageInfo;
+}
+export const PaginatedResponseDeactivatedControlResults = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    data: PaginatedResponseDeactivatedControlResultsDataList,
+    pageInfo: PageInfo,
+  }),
+).annotate({
+  identifier: "PaginatedResponseDeactivatedControlResults",
+}) as any as S.Schema<PaginatedResponseDeactivatedControlResults>;
+
+export interface PaginatedResponseDeactivatedControl {
+  results: PaginatedResponseDeactivatedControlResults;
+}
+export const PaginatedResponseDeactivatedControl = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    results: PaginatedResponseDeactivatedControlResults,
+  }),
+).annotate({
+  identifier: "PaginatedResponseDeactivatedControl",
+}) as any as S.Schema<PaginatedResponseDeactivatedControl>;
+
 export interface ListDiscoveredVendorAccountsRequest {
   discoveredVendorId: string;
   pageSize?: number;
@@ -9522,11 +9421,7 @@ export const ListDiscoveredVendorAccountsRequest = /*@__PURE__*/ S.suspend(() =>
     pageSize: S.optional(S.Number.pipe(T.Query())),
     pageCursor: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/discovered-vendors/{discoveredVendorId}/accounts",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/discovered-vendors/{discoveredVendorId}/accounts", code: 200 }),
   ),
 ).annotate({
   identifier: "ListDiscoveredVendorAccountsRequest",
@@ -9552,9 +9447,7 @@ export const DiscoveredVendorUser = /*@__PURE__*/ S.suspend(() =>
     displayName: S.String,
     type: DiscoveredVendorAccountTypeUSER,
   }),
-).annotate({
-  identifier: "DiscoveredVendorUser",
-}) as any as S.Schema<DiscoveredVendorUser>;
+).annotate({ identifier: "DiscoveredVendorUser" }) as any as S.Schema<DiscoveredVendorUser>;
 
 export type DiscoveredVendorAccountTypeCOMPUTER = "COMPUTER";
 export const DiscoveredVendorAccountTypeCOMPUTER = S.String;
@@ -9576,9 +9469,7 @@ export const DiscoveredVendorComputer = /*@__PURE__*/ S.suspend(() =>
     owner: S.NullOr(DiscoveredVendorUser),
     type: DiscoveredVendorAccountTypeCOMPUTER,
   }),
-).annotate({
-  identifier: "DiscoveredVendorComputer",
-}) as any as S.Schema<DiscoveredVendorComputer>;
+).annotate({ identifier: "DiscoveredVendorComputer" }) as any as S.Schema<DiscoveredVendorComputer>;
 
 export type DiscoveredVendorAccount = DiscoveredVendorUser | DiscoveredVendorComputer;
 export const DiscoveredVendorAccount = S.Unknown as any as S.Schema<DiscoveredVendorAccount>;
@@ -9656,9 +9547,7 @@ export const DiscoveredVendorIgnored = /*@__PURE__*/ S.suspend(() =>
     ignoredReason: S.NullOr(S.String),
     ignoredByUserId: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "DiscoveredVendorIgnored",
-}) as any as S.Schema<DiscoveredVendorIgnored>;
+).annotate({ identifier: "DiscoveredVendorIgnored" }) as any as S.Schema<DiscoveredVendorIgnored>;
 
 /** Determines whether or not the vendor is rejected. */
 export interface DiscoveredVendorRejected {
@@ -9675,9 +9564,7 @@ export const DiscoveredVendorRejected = /*@__PURE__*/ S.suspend(() =>
     rejectedReason: S.NullOr(S.String),
     rejectedAtDate: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "DiscoveredVendorRejected",
-}) as any as S.Schema<DiscoveredVendorRejected>;
+).annotate({ identifier: "DiscoveredVendorRejected" }) as any as S.Schema<DiscoveredVendorRejected>;
 
 export interface DiscoveredVendor {
   /** The discovered vendor's unique ID. */
@@ -9711,9 +9598,7 @@ export const DiscoveredVendor = /*@__PURE__*/ S.suspend(() =>
     ignored: S.NullOr(DiscoveredVendorIgnored),
     rejected: S.NullOr(DiscoveredVendorRejected),
   }),
-).annotate({
-  identifier: "DiscoveredVendor",
-}) as any as S.Schema<DiscoveredVendor>;
+).annotate({ identifier: "DiscoveredVendor" }) as any as S.Schema<DiscoveredVendor>;
 
 export type PaginatedResponseDiscoveredVendorResultsDataList = Array<DiscoveredVendor>;
 export const PaginatedResponseDiscoveredVendorResultsDataList = /*@__PURE__*/ S.Array(
@@ -9769,9 +9654,7 @@ export const ListDocumentsRequest = /*@__PURE__*/ S.suspend(() =>
     frameworkMatchesAny: S.optional(ListDocumentsRequestFrameworkMatchesAnyList.pipe(T.Query())),
     statusMatchesAny: S.optional(ListDocumentsRequestStatusMatchesAnyList.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/documents", code: 200 })),
-).annotate({
-  identifier: "ListDocumentsRequest",
-}) as any as S.Schema<ListDocumentsRequest>;
+).annotate({ identifier: "ListDocumentsRequest" }) as any as S.Schema<ListDocumentsRequest>;
 
 export type PaginatedResponseDocumentResultsDataList = Array<Document>;
 export const PaginatedResponseDocumentResultsDataList = /*@__PURE__*/ S.Array(
@@ -9812,13 +9695,7 @@ export const ListDocumentsForControlRequest = /*@__PURE__*/ S.suspend(() =>
     controlId: S.String.pipe(T.Label()),
     pageSize: S.optional(S.Number.pipe(T.Query())),
     pageCursor: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/controls/{controlId}/documents",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/controls/{controlId}/documents", code: 200 })),
 ).annotate({
   identifier: "ListDocumentsForControlRequest",
 }) as any as S.Schema<ListDocumentsForControlRequest>;
@@ -9835,9 +9712,7 @@ export const ListEventLogsRequest = /*@__PURE__*/ S.suspend(() =>
     pageCursor: S.optional(S.String.pipe(T.Query())),
     startDate: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/event-logs", code: 200 })),
-).annotate({
-  identifier: "ListEventLogsRequest",
-}) as any as S.Schema<ListEventLogsRequest>;
+).annotate({ identifier: "ListEventLogsRequest" }) as any as S.Schema<ListEventLogsRequest>;
 
 /** The event's initiator. */
 export interface EventLogActor {
@@ -9864,9 +9739,7 @@ export const EventLogTargetsItem = /*@__PURE__*/ S.suspend(() =>
     type: S.String,
     id: S.String,
   }),
-).annotate({
-  identifier: "EventLogTargetsItem",
-}) as any as S.Schema<EventLogTargetsItem>;
+).annotate({ identifier: "EventLogTargetsItem" }) as any as S.Schema<EventLogTargetsItem>;
 
 /** The list of targets of the event. */
 export type EventLogTargetsList = Array<EventLogTargetsItem>;
@@ -9935,13 +9808,7 @@ export const ListFilesForDocumentRequest = /*@__PURE__*/ S.suspend(() =>
     documentId: S.String.pipe(T.Label()),
     pageSize: S.optional(S.Number.pipe(T.Query())),
     pageCursor: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/documents/{documentId}/uploads",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/documents/{documentId}/uploads", code: 200 })),
 ).annotate({
   identifier: "ListFilesForDocumentRequest",
 }) as any as S.Schema<ListFilesForDocumentRequest>;
@@ -10028,9 +9895,7 @@ export const ListFrameworksRequest = /*@__PURE__*/ S.suspend(() =>
     pageSize: S.optional(S.Number.pipe(T.Query())),
     pageCursor: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/frameworks", code: 200 })),
-).annotate({
-  identifier: "ListFrameworksRequest",
-}) as any as S.Schema<ListFrameworksRequest>;
+).annotate({ identifier: "ListFrameworksRequest" }) as any as S.Schema<ListFrameworksRequest>;
 
 export interface Framework {
   /** The framework's unique ID. */
@@ -10133,9 +9998,7 @@ export const ImportableIdpGroup = /*@__PURE__*/ S.suspend(() =>
     integrationId: S.String,
     externalAccountId: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "ImportableIdpGroup",
-}) as any as S.Schema<ImportableIdpGroup>;
+).annotate({ identifier: "ImportableIdpGroup" }) as any as S.Schema<ImportableIdpGroup>;
 
 export type PaginatedImportableIdpGroupResponseResultsDataList = Array<ImportableIdpGroup>;
 export const PaginatedImportableIdpGroupResponseResultsDataList = /*@__PURE__*/ S.Array(
@@ -10382,6 +10245,11 @@ export const ListPeopleRequestGroupIdsMatchesAnyList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<ListPeopleRequestGroupIdsMatchesAnyList>;
 
+export type ListPeopleRequestFrameworkIdMatchesAnyList = Array<string>;
+export const ListPeopleRequestFrameworkIdMatchesAnyList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ListPeopleRequestFrameworkIdMatchesAnyList>;
+
 export interface ListPeopleRequest {
   pageSize?: number;
   pageCursor?: string;
@@ -10397,6 +10265,8 @@ export interface ListPeopleRequest {
   groupIdsMatchesAny?: ListPeopleRequestGroupIdsMatchesAnyList;
   /** Filter people matching the given employment status. */
   employmentStatus?: EmploymentStatus | (string & {});
+  /** Filter people in scope for any of the given framework IDs. Non-viewable program scopes are ignored. */
+  frameworkIdMatchesAny?: ListPeopleRequestFrameworkIdMatchesAnyList;
 }
 export const ListPeopleRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -10410,10 +10280,9 @@ export const ListPeopleRequest = /*@__PURE__*/ S.suspend(() =>
     emailAndNameFilter: S.optional(S.String.pipe(T.Query())),
     groupIdsMatchesAny: S.optional(ListPeopleRequestGroupIdsMatchesAnyList.pipe(T.Query())),
     employmentStatus: S.optional(EmploymentStatus.pipe(T.Query())),
+    frameworkIdMatchesAny: S.optional(ListPeopleRequestFrameworkIdMatchesAnyList.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/people", code: 200 })),
-).annotate({
-  identifier: "ListPeopleRequest",
-}) as any as S.Schema<ListPeopleRequest>;
+).annotate({ identifier: "ListPeopleRequest" }) as any as S.Schema<ListPeopleRequest>;
 
 export type PaginatedResponsePersonResultsDataList = Array<Person>;
 export const PaginatedResponsePersonResultsDataList = /*@__PURE__*/ S.Array(
@@ -10440,9 +10309,7 @@ export const PaginatedResponsePerson = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     results: PaginatedResponsePersonResults,
   }),
-).annotate({
-  identifier: "PaginatedResponsePerson",
-}) as any as S.Schema<PaginatedResponsePerson>;
+).annotate({ identifier: "PaginatedResponsePerson" }) as any as S.Schema<PaginatedResponsePerson>;
 
 export interface ListPersonGroupsRequest {
   pageSize?: number;
@@ -10453,9 +10320,7 @@ export const ListPersonGroupsRequest = /*@__PURE__*/ S.suspend(() =>
     pageSize: S.optional(S.Number.pipe(T.Query())),
     pageCursor: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/groups", code: 200 })),
-).annotate({
-  identifier: "ListPersonGroupsRequest",
-}) as any as S.Schema<ListPersonGroupsRequest>;
+).annotate({ identifier: "ListPersonGroupsRequest" }) as any as S.Schema<ListPersonGroupsRequest>;
 
 export type PaginatedResponseGroupResultsDataList = Array<Group>;
 export const PaginatedResponseGroupResultsDataList = /*@__PURE__*/ S.Array(
@@ -10482,9 +10347,7 @@ export const PaginatedResponseGroup = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     results: PaginatedResponseGroupResults,
   }),
-).annotate({
-  identifier: "PaginatedResponseGroup",
-}) as any as S.Schema<PaginatedResponseGroup>;
+).annotate({ identifier: "PaginatedResponseGroup" }) as any as S.Schema<PaginatedResponseGroup>;
 
 export interface ListPoliciesRequest {
   pageSize?: number;
@@ -10495,9 +10358,7 @@ export const ListPoliciesRequest = /*@__PURE__*/ S.suspend(() =>
     pageSize: S.optional(S.Number.pipe(T.Query())),
     pageCursor: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/policies", code: 200 })),
-).annotate({
-  identifier: "ListPoliciesRequest",
-}) as any as S.Schema<ListPoliciesRequest>;
+).annotate({ identifier: "ListPoliciesRequest" }) as any as S.Schema<ListPoliciesRequest>;
 
 export type PaginatedResponsePolicyResultsDataList = Array<Policy>;
 export const PaginatedResponsePolicyResultsDataList = /*@__PURE__*/ S.Array(
@@ -10524,9 +10385,67 @@ export const PaginatedResponsePolicy = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     results: PaginatedResponsePolicyResults,
   }),
+).annotate({ identifier: "PaginatedResponsePolicy" }) as any as S.Schema<PaginatedResponsePolicy>;
+
+export type ListProgramScopesRequestBusinessUnitIdMatchesAnyList = Array<string>;
+export const ListProgramScopesRequestBusinessUnitIdMatchesAnyList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ListProgramScopesRequestBusinessUnitIdMatchesAnyList>;
+
+export type ListProgramScopesRequestFrameworkIdMatchesAnyList = Array<string>;
+export const ListProgramScopesRequestFrameworkIdMatchesAnyList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ListProgramScopesRequestFrameworkIdMatchesAnyList>;
+
+export interface ListProgramScopesRequest {
+  pageSize?: number;
+  pageCursor?: string;
+  /** Filter program scopes to those whose business unit ID matches any of the provided IDs. */
+  businessUnitIdMatchesAny?: ListProgramScopesRequestBusinessUnitIdMatchesAnyList;
+  /** Filter program scopes to those whose framework ID matches any of the provided IDs. */
+  frameworkIdMatchesAny?: ListProgramScopesRequestFrameworkIdMatchesAnyList;
+}
+export const ListProgramScopesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    pageSize: S.optional(S.Number.pipe(T.Query())),
+    pageCursor: S.optional(S.String.pipe(T.Query())),
+    businessUnitIdMatchesAny: S.optional(
+      ListProgramScopesRequestBusinessUnitIdMatchesAnyList.pipe(T.Query()),
+    ),
+    frameworkIdMatchesAny: S.optional(
+      ListProgramScopesRequestFrameworkIdMatchesAnyList.pipe(T.Query()),
+    ),
+  }).pipe(T.Http({ method: "GET", uri: "/program-scopes", code: 200 })),
+).annotate({ identifier: "ListProgramScopesRequest" }) as any as S.Schema<ListProgramScopesRequest>;
+
+export type PaginatedResponseProgramScopeResultsDataList = Array<ProgramScope>;
+export const PaginatedResponseProgramScopeResultsDataList = /*@__PURE__*/ S.Array(
+  ProgramScope,
+) as any as S.Schema<PaginatedResponseProgramScopeResultsDataList>;
+
+export interface PaginatedResponseProgramScopeResults {
+  data: PaginatedResponseProgramScopeResultsDataList;
+  pageInfo: PageInfo;
+}
+export const PaginatedResponseProgramScopeResults = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    data: PaginatedResponseProgramScopeResultsDataList,
+    pageInfo: PageInfo,
+  }),
 ).annotate({
-  identifier: "PaginatedResponsePolicy",
-}) as any as S.Schema<PaginatedResponsePolicy>;
+  identifier: "PaginatedResponseProgramScopeResults",
+}) as any as S.Schema<PaginatedResponseProgramScopeResults>;
+
+export interface PaginatedResponseProgramScope {
+  results: PaginatedResponseProgramScopeResults;
+}
+export const PaginatedResponseProgramScope = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    results: PaginatedResponseProgramScopeResults,
+  }),
+).annotate({
+  identifier: "PaginatedResponseProgramScope",
+}) as any as S.Schema<PaginatedResponseProgramScope>;
 
 export interface ListQuestionnaireResponsesRequest {
   questionnaireId: string;
@@ -10683,11 +10602,7 @@ export const ListResourceKindSummariesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     integrationId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/integrations/{integrationId}/resource-kinds",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/integrations/{integrationId}/resource-kinds", code: 200 }),
   ),
 ).annotate({
   identifier: "ListResourceKindSummariesRequest",
@@ -10713,9 +10628,7 @@ export const ResourceKindSummary = /*@__PURE__*/ S.suspend(() =>
     canUpdateDescription: S.Boolean,
     canUpdateOwner: S.Boolean,
   }),
-).annotate({
-  identifier: "ResourceKindSummary",
-}) as any as S.Schema<ResourceKindSummary>;
+).annotate({ identifier: "ResourceKindSummary" }) as any as S.Schema<ResourceKindSummary>;
 
 export type ListResourceKindSummariesResponseBodyList = Array<ResourceKindSummary>;
 export const ListResourceKindSummariesResponseBodyList = /*@__PURE__*/ S.Array(
@@ -10762,9 +10675,7 @@ export const ListResourcesRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "ListResourcesRequest",
-}) as any as S.Schema<ListResourcesRequest>;
+).annotate({ identifier: "ListResourcesRequest" }) as any as S.Schema<ListResourcesRequest>;
 
 export type PaginatedResponseAnyResourceResultsDataList = Array<AnyResource>;
 export const PaginatedResponseAnyResourceResultsDataList = /*@__PURE__*/ S.Array(
@@ -10903,9 +10814,7 @@ export const ListRiskScenarioRequest = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(RiskScenarioType.pipe(T.Query())),
     orderBy: S.optional(ListRiskScenarioRequestOrderBy.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/risk-scenarios", code: 200 })),
-).annotate({
-  identifier: "ListRiskScenarioRequest",
-}) as any as S.Schema<ListRiskScenarioRequest>;
+).annotate({ identifier: "ListRiskScenarioRequest" }) as any as S.Schema<ListRiskScenarioRequest>;
 
 export type PaginatedResponseRiskScenarioResultsDataList = Array<RiskScenario>;
 export const PaginatedResponseRiskScenarioResultsDataList = /*@__PURE__*/ S.Array(
@@ -10946,13 +10855,7 @@ export const ListRiskScenarioControlsRequest = /*@__PURE__*/ S.suspend(() =>
     riskScenarioId: S.String.pipe(T.Label()),
     pageSize: S.optional(S.Number.pipe(T.Query())),
     pageCursor: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/risk-scenarios/{riskScenarioId}/controls",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/risk-scenarios/{riskScenarioId}/controls", code: 200 })),
 ).annotate({
   identifier: "ListRiskScenarioControlsRequest",
 }) as any as S.Schema<ListRiskScenarioControlsRequest>;
@@ -11009,9 +10912,7 @@ export const ListTagCategoriesRequest = /*@__PURE__*/ S.suspend(() =>
       ListTagCategoriesRequestProductContextIdsMatchesAnyList.pipe(T.Query()),
     ),
   }).pipe(T.Http({ method: "GET", uri: "/customer-trust/tag-categories", code: 200 })),
-).annotate({
-  identifier: "ListTagCategoriesRequest",
-}) as any as S.Schema<ListTagCategoriesRequest>;
+).annotate({ identifier: "ListTagCategoriesRequest" }) as any as S.Schema<ListTagCategoriesRequest>;
 
 export type ArrayResponseUserDefinedTagCategoryResultsList = Array<UserDefinedTagCategory>;
 export const ArrayResponseUserDefinedTagCategoryResultsList = /*@__PURE__*/ S.Array(
@@ -11081,9 +10982,7 @@ export const ListTestsRequest = /*@__PURE__*/ S.suspend(() =>
     categoryFilter: S.optional(TestCategory.pipe(T.Query())),
     isInRollout: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/tests", code: 200 })),
-).annotate({
-  identifier: "ListTestsRequest",
-}) as any as S.Schema<ListTestsRequest>;
+).annotate({ identifier: "ListTestsRequest" }) as any as S.Schema<ListTestsRequest>;
 
 export type PaginatedResponseTestResultsDataList = Array<Test>;
 export const PaginatedResponseTestResultsDataList = /*@__PURE__*/ S.Array(
@@ -11110,9 +11009,7 @@ export const PaginatedResponseTest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     results: PaginatedResponseTestResults,
   }),
-).annotate({
-  identifier: "PaginatedResponseTest",
-}) as any as S.Schema<PaginatedResponseTest>;
+).annotate({ identifier: "PaginatedResponseTest" }) as any as S.Schema<PaginatedResponseTest>;
 
 export interface ListTestsForControlRequest {
   controlId: string;
@@ -11139,13 +11036,7 @@ export const ListTrustCenterAccessRequestsRequest = /*@__PURE__*/ S.suspend(() =
     slugId: S.String.pipe(T.Label()),
     pageSize: S.optional(S.Number.pipe(T.Query())),
     pageCursor: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/trust-centers/{slugId}/access-requests",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/trust-centers/{slugId}/access-requests", code: 200 })),
 ).annotate({
   identifier: "ListTrustCenterAccessRequestsRequest",
 }) as any as S.Schema<ListTrustCenterAccessRequestsRequest>;
@@ -11210,13 +11101,7 @@ export const ListTrustCenterActivityEventsRequest = /*@__PURE__*/ S.suspend(() =
     ),
     afterDate: S.optional(S.String.pipe(T.Query())),
     beforeDate: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/trust-centers/{slugId}/activity",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/trust-centers/{slugId}/activity", code: 200 })),
 ).annotate({
   identifier: "ListTrustCenterActivityEventsRequest",
 }) as any as S.Schema<ListTrustCenterActivityEventsRequest>;
@@ -11308,9 +11193,7 @@ export const TrustCenterActivityEvent = /*@__PURE__*/ S.suspend(() =>
     city: S.NullOr(S.String),
     countryCode: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "TrustCenterActivityEvent",
-}) as any as S.Schema<TrustCenterActivityEvent>;
+).annotate({ identifier: "TrustCenterActivityEvent" }) as any as S.Schema<TrustCenterActivityEvent>;
 
 export type PaginatedResponseTrustCenterActivityEventResultsDataList =
   Array<TrustCenterActivityEvent>;
@@ -11352,13 +11235,7 @@ export const ListTrustCenterControlsRequest = /*@__PURE__*/ S.suspend(() =>
     slugId: S.String.pipe(T.Label()),
     pageSize: S.optional(S.Number.pipe(T.Query())),
     pageCursor: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/trust-centers/{slugId}/controls",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/trust-centers/{slugId}/controls", code: 200 })),
 ).annotate({
   identifier: "ListTrustCenterControlsRequest",
 }) as any as S.Schema<ListTrustCenterControlsRequest>;
@@ -11398,13 +11275,7 @@ export interface ListTrustCenterDataCollectedRequest {
 export const ListTrustCenterDataCollectedRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     slugId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/trust-centers/{slugId}/data-collected",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/trust-centers/{slugId}/data-collected", code: 200 })),
 ).annotate({
   identifier: "ListTrustCenterDataCollectedRequest",
 }) as any as S.Schema<ListTrustCenterDataCollectedRequest>;
@@ -11424,9 +11295,7 @@ export const TrustCenterDataCollected = /*@__PURE__*/ S.suspend(() =>
     dataCollected: S.String,
     status: DataCollectedStatus,
   }),
-).annotate({
-  identifier: "TrustCenterDataCollected",
-}) as any as S.Schema<TrustCenterDataCollected>;
+).annotate({ identifier: "TrustCenterDataCollected" }) as any as S.Schema<TrustCenterDataCollected>;
 
 export type ArrayResponseTrustCenterDataCollectedResultsList = Array<TrustCenterDataCollected>;
 export const ArrayResponseTrustCenterDataCollectedResultsList = /*@__PURE__*/ S.Array(
@@ -11450,13 +11319,7 @@ export interface ListTrustCenterFaqCategoriesRequest {
 export const ListTrustCenterFaqCategoriesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     slugId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/trust-centers/{slugId}/faq-categories",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/trust-centers/{slugId}/faq-categories", code: 200 })),
 ).annotate({
   identifier: "ListTrustCenterFaqCategoriesRequest",
 }) as any as S.Schema<ListTrustCenterFaqCategoriesRequest>;
@@ -11515,11 +11378,7 @@ export const ListTrustCenterHistoricalAccessRequestsRequest = /*@__PURE__*/ S.su
     pageSize: S.optional(S.Number.pipe(T.Query())),
     pageCursor: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/trust-centers/{slugId}/historical-access-requests",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/trust-centers/{slugId}/historical-access-requests", code: 200 }),
   ),
 ).annotate({
   identifier: "ListTrustCenterHistoricalAccessRequestsRequest",
@@ -11615,13 +11474,7 @@ export interface ListTrustCenterResourceCategoriesRequest {
 export const ListTrustCenterResourceCategoriesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     slugId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/trust-centers/{slugId}/resource-categories",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/trust-centers/{slugId}/resource-categories", code: 200 })),
 ).annotate({
   identifier: "ListTrustCenterResourceCategoriesRequest",
 }) as any as S.Schema<ListTrustCenterResourceCategoriesRequest>;
@@ -11649,13 +11502,7 @@ export interface ListTrustCenterResourcesRequest {
 export const ListTrustCenterResourcesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     slugId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/trust-centers/{slugId}/resources",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/trust-centers/{slugId}/resources", code: 200 })),
 ).annotate({
   identifier: "ListTrustCenterResourcesRequest",
 }) as any as S.Schema<ListTrustCenterResourcesRequest>;
@@ -11682,13 +11529,7 @@ export interface ListTrustCenterSubprocessorsRequest {
 export const ListTrustCenterSubprocessorsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     slugId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/trust-centers/{slugId}/subprocessors",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/trust-centers/{slugId}/subprocessors", code: 200 })),
 ).annotate({
   identifier: "ListTrustCenterSubprocessorsRequest",
 }) as any as S.Schema<ListTrustCenterSubprocessorsRequest>;
@@ -11719,13 +11560,7 @@ export const ListTrustCenterSubscriberGroupsRequest = /*@__PURE__*/ S.suspend(()
     slugId: S.String.pipe(T.Label()),
     pageSize: S.optional(S.Number.pipe(T.Query())),
     pageCursor: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/trust-centers/{slugId}/subscriber-groups",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/trust-centers/{slugId}/subscriber-groups", code: 200 })),
 ).annotate({
   identifier: "ListTrustCenterSubscriberGroupsRequest",
 }) as any as S.Schema<ListTrustCenterSubscriberGroupsRequest>;
@@ -11772,13 +11607,7 @@ export const ListTrustCenterSubscribersRequest = /*@__PURE__*/ S.suspend(() =>
     pageSize: S.optional(S.Number.pipe(T.Query())),
     pageCursor: S.optional(S.String.pipe(T.Query())),
     customerTrustAccountId: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/trust-centers/{slugId}/subscribers",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/trust-centers/{slugId}/subscribers", code: 200 })),
 ).annotate({
   identifier: "ListTrustCenterSubscribersRequest",
 }) as any as S.Schema<ListTrustCenterSubscribersRequest>;
@@ -11822,13 +11651,7 @@ export const ListTrustCenterUpdatesRequest = /*@__PURE__*/ S.suspend(() =>
     slugId: S.String.pipe(T.Label()),
     pageSize: S.optional(S.Number.pipe(T.Query())),
     pageCursor: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/trust-centers/{slugId}/updates",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/trust-centers/{slugId}/updates", code: 200 })),
 ).annotate({
   identifier: "ListTrustCenterUpdatesRequest",
 }) as any as S.Schema<ListTrustCenterUpdatesRequest>;
@@ -11875,13 +11698,7 @@ export const ListTrustCenterViewersRequest = /*@__PURE__*/ S.suspend(() =>
     pageSize: S.optional(S.Number.pipe(T.Query())),
     pageCursor: S.optional(S.String.pipe(T.Query())),
     includeRemoved: S.optional(S.Boolean.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/trust-centers/{slugId}/viewers",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/trust-centers/{slugId}/viewers", code: 200 })),
 ).annotate({
   identifier: "ListTrustCenterViewersRequest",
 }) as any as S.Schema<ListTrustCenterViewersRequest>;
@@ -11924,9 +11741,7 @@ export const ListUsersRequest = /*@__PURE__*/ S.suspend(() =>
     pageSize: S.optional(S.Number.pipe(T.Query())),
     pageCursor: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/users", code: 200 })),
-).annotate({
-  identifier: "ListUsersRequest",
-}) as any as S.Schema<ListUsersRequest>;
+).annotate({ identifier: "ListUsersRequest" }) as any as S.Schema<ListUsersRequest>;
 
 export type PaginatedResponseUserResultsDataList = Array<User>;
 export const PaginatedResponseUserResultsDataList = /*@__PURE__*/ S.Array(
@@ -11953,9 +11768,7 @@ export const PaginatedResponseUser = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     results: PaginatedResponseUserResults,
   }),
-).annotate({
-  identifier: "PaginatedResponseUser",
-}) as any as S.Schema<PaginatedResponseUser>;
+).annotate({ identifier: "PaginatedResponseUser" }) as any as S.Schema<PaginatedResponseUser>;
 
 export interface ListVendorAssessmentTypesRequest {
   pageSize?: number;
@@ -12086,6 +11899,19 @@ export const VendorRiskAttributeVendorCategoriesList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<VendorRiskAttributeVendorCategoriesList>;
 
+export interface VendorRiskSection {
+  /** Unique identifier for the risk section. */
+  id: string;
+  /** Display name of the risk section. */
+  name: string;
+}
+export const VendorRiskSection = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    name: S.String,
+  }),
+).annotate({ identifier: "VendorRiskSection" }) as any as S.Schema<VendorRiskSection>;
+
 export interface VendorRiskAttribute {
   /** Unique identifier for the risk attribute. */
   id: string;
@@ -12099,6 +11925,8 @@ export interface VendorRiskAttribute {
   enabled: boolean;
   /** Risk level of this attribute. */
   riskLevel: VendorRiskLevel;
+  /** Risk section this attribute belongs to. */
+  riskSection: VendorRiskSection;
 }
 export const VendorRiskAttribute = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -12108,10 +11936,9 @@ export const VendorRiskAttribute = /*@__PURE__*/ S.suspend(() =>
     vendorCategories: VendorRiskAttributeVendorCategoriesList,
     enabled: S.Boolean,
     riskLevel: VendorRiskLevel,
+    riskSection: VendorRiskSection,
   }),
-).annotate({
-  identifier: "VendorRiskAttribute",
-}) as any as S.Schema<VendorRiskAttribute>;
+).annotate({ identifier: "VendorRiskAttribute" }) as any as S.Schema<VendorRiskAttribute>;
 
 export type PaginatedResponseVendorRiskAttributeResultsDataList = Array<VendorRiskAttribute>;
 export const PaginatedResponseVendorRiskAttributeResultsDataList = /*@__PURE__*/ S.Array(
@@ -12162,9 +11989,7 @@ export const ListVendorsRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String.pipe(T.Query())),
     statusMatchesAny: S.optional(ListVendorsRequestStatusMatchesAnyList.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/vendors", code: 200 })),
-).annotate({
-  identifier: "ListVendorsRequest",
-}) as any as S.Schema<ListVendorsRequest>;
+).annotate({ identifier: "ListVendorsRequest" }) as any as S.Schema<ListVendorsRequest>;
 
 export type PaginatedResponseVendorResultsDataList = Array<Vendor>;
 export const PaginatedResponseVendorResultsDataList = /*@__PURE__*/ S.Array(
@@ -12191,9 +12016,7 @@ export const PaginatedResponseVendor = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     results: PaginatedResponseVendorResults,
   }),
-).annotate({
-  identifier: "PaginatedResponseVendor",
-}) as any as S.Schema<PaginatedResponseVendor>;
+).annotate({ identifier: "PaginatedResponseVendor" }) as any as S.Schema<PaginatedResponseVendor>;
 
 /** ExternalFindingSeverity describes the severity of an external finding (Vulnerability or Security Alert) */
 export type ExternalFindingSeverity = "CRITICAL" | "HIGH" | "LOW" | "MEDIUM";
@@ -12328,9 +12151,7 @@ export const VulnerabilityRemediation = /*@__PURE__*/ S.suspend(() =>
     slaDeadlineDate: S.NullOr(S.String),
     remediationDate: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "VulnerabilityRemediation",
-}) as any as S.Schema<VulnerabilityRemediation>;
+).annotate({ identifier: "VulnerabilityRemediation" }) as any as S.Schema<VulnerabilityRemediation>;
 
 export type PaginatedResponseVulnerabilityRemediationResultsDataList =
   Array<VulnerabilityRemediation>;
@@ -12445,9 +12266,7 @@ export const MarkAsNotPeopleRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     updates: MarkAsNotPeopleRequestUpdatesList,
   }).pipe(T.Http({ method: "POST", uri: "/people/mark-as-not-people", code: 200 })),
-).annotate({
-  identifier: "MarkAsNotPeopleRequest",
-}) as any as S.Schema<MarkAsNotPeopleRequest>;
+).annotate({ identifier: "MarkAsNotPeopleRequest" }) as any as S.Schema<MarkAsNotPeopleRequest>;
 
 export interface MarkAsPeopleRequestUpdatesItem {
   /** ID of the person to change */
@@ -12475,9 +12294,7 @@ export const MarkAsPeopleRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     updates: MarkAsPeopleRequestUpdatesList,
   }).pipe(T.Http({ method: "POST", uri: "/people/mark-as-people", code: 200 })),
-).annotate({
-  identifier: "MarkAsPeopleRequest",
-}) as any as S.Schema<MarkAsPeopleRequest>;
+).annotate({ identifier: "MarkAsPeopleRequest" }) as any as S.Schema<MarkAsPeopleRequest>;
 
 export interface OffboardPeopleRequestUpdatesItem {
   /** ID of the person who will be recorded as completing the offboarding for these people */
@@ -12508,9 +12325,7 @@ export const OffboardPeopleRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     updates: OffboardPeopleRequestUpdatesList,
   }).pipe(T.Http({ method: "POST", uri: "/people/offboard", code: 200 })),
-).annotate({
-  identifier: "OffboardPeopleRequest",
-}) as any as S.Schema<OffboardPeopleRequest>;
+).annotate({ identifier: "OffboardPeopleRequest" }) as any as S.Schema<OffboardPeopleRequest>;
 
 export interface ReactivateTestEntityRequest {
   testId: string;
@@ -12521,11 +12336,7 @@ export const ReactivateTestEntityRequest = /*@__PURE__*/ S.suspend(() =>
     testId: S.String.pipe(T.Label()),
     entityId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/tests/{testId}/entities/{entityId}/reactivate",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/tests/{testId}/entities/{entityId}/reactivate", code: 200 }),
   ),
 ).annotate({
   identifier: "ReactivateTestEntityRequest",
@@ -12585,13 +12396,7 @@ export const RemovePeopleFromGroupRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     groupId: S.String.pipe(T.Label()),
     updates: RemovePeopleFromGroupRequestUpdatesList,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/groups/{groupId}/remove-people",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/groups/{groupId}/remove-people", code: 200 })),
 ).annotate({
   identifier: "RemovePeopleFromGroupRequest",
 }) as any as S.Schema<RemovePeopleFromGroupRequest>;
@@ -12604,13 +12409,7 @@ export const RemovePersonFromGroupRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     groupId: S.String.pipe(T.Label()),
     personId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/groups/{groupId}/people/{personId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/groups/{groupId}/people/{personId}", code: 200 })),
 ).annotate({
   identifier: "RemovePersonFromGroupRequest",
 }) as any as S.Schema<RemovePersonFromGroupRequest>;
@@ -12656,11 +12455,7 @@ export const RemoveTrustCenterViewerRequest = /*@__PURE__*/ S.suspend(() =>
     slugId: S.String.pipe(T.Label()),
     viewerId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/trust-centers/{slugId}/viewers/{viewerId}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/trust-centers/{slugId}/viewers/{viewerId}", code: 200 }),
   ),
 ).annotate({
   identifier: "RemoveTrustCenterViewerRequest",
@@ -12668,9 +12463,7 @@ export const RemoveTrustCenterViewerRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface RemoveTrustCenterViewerResponse {}
 export const RemoveTrustCenterViewerResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "RemoveTrustCenterViewerResponse",
-  },
+  { identifier: "RemoveTrustCenterViewerResponse" },
 ) as any as S.Schema<RemoveTrustCenterViewerResponse>;
 
 export interface ReplaceDocumentResourceFileRequest {
@@ -12858,9 +12651,7 @@ export const InviteReminderResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     isSuccessful: S.Boolean,
   }),
-).annotate({
-  identifier: "InviteReminderResponse",
-}) as any as S.Schema<InviteReminderResponse>;
+).annotate({ identifier: "InviteReminderResponse" }) as any as S.Schema<InviteReminderResponse>;
 
 export interface SetLeaveForPersonRequest {
   personId: string;
@@ -12875,9 +12666,7 @@ export const SetLeaveForPersonRequest = /*@__PURE__*/ S.suspend(() =>
     endDate: S.NullOr(S.String),
     startDate: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/people/{personId}/set-leave", code: 200 })),
-).annotate({
-  identifier: "SetLeaveForPersonRequest",
-}) as any as S.Schema<SetLeaveForPersonRequest>;
+).annotate({ identifier: "SetLeaveForPersonRequest" }) as any as S.Schema<SetLeaveForPersonRequest>;
 
 export interface SetOwnerForControlRequest {
   controlId: string;
@@ -12888,13 +12677,7 @@ export const SetOwnerForControlRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     controlId: S.String.pipe(T.Label()),
     userId: S.NullOr(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/controls/{controlId}/set-owner",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/controls/{controlId}/set-owner", code: 200 })),
 ).annotate({
   identifier: "SetOwnerForControlRequest",
 }) as any as S.Schema<SetOwnerForControlRequest>;
@@ -12908,13 +12691,7 @@ export const SetOwnerForDocumentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     documentId: S.String.pipe(T.Label()),
     userId: S.NullOr(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/documents/{documentId}/set-owner",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/documents/{documentId}/set-owner", code: 200 })),
 ).annotate({
   identifier: "SetOwnerForDocumentRequest",
 }) as any as S.Schema<SetOwnerForDocumentRequest>;
@@ -12946,13 +12723,7 @@ export interface SubmitDocumentCollectionRequest {
 export const SubmitDocumentCollectionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     documentId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/documents/{documentId}/submit",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/documents/{documentId}/submit", code: 200 })),
 ).annotate({
   identifier: "SubmitDocumentCollectionRequest",
 }) as any as S.Schema<SubmitDocumentCollectionRequest>;
@@ -13011,13 +12782,7 @@ export const UpdateAnswerLibraryEntryRouteRequest = /*@__PURE__*/ S.suspend(() =
     ownerAssignment: S.optional(S.NullOr(AnswerLibraryActorAssignmentInput)),
     expirationDate: S.optional(S.NullOr(S.String)),
     tags: S.optional(UpdateAnswerLibraryEntryRouteRequestTagsList),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/knowledge-base/answer-library/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PATCH", uri: "/knowledge-base/answer-library/{id}", code: 200 })),
 ).annotate({
   identifier: "UpdateAnswerLibraryEntryRouteRequest",
 }) as any as S.Schema<UpdateAnswerLibraryEntryRouteRequest>;
@@ -13026,6 +12791,8 @@ export const UpdateAnswerLibraryEntryRouteRequest = /*@__PURE__*/ S.suspend(() =
 export type UpdateComplianceFrameworkRequestStandard =
   | "aiact"
   | "aiuc1"
+  | "aiuc1_26q3"
+  | "atc"
   | "aue8"
   | "awsFTR"
   | "bsic5"
@@ -13040,6 +12807,7 @@ export type UpdateComplianceFrameworkRequestStandard =
   | "fedramp"
   | "fedramp20x"
   | "fedramp20x_2026"
+  | "fedramp20x_classA"
   | "gdpr"
   | "hipaa"
   | "hitruste1"
@@ -13115,6 +12883,8 @@ export const UpdateControlMetadataRequestCustomFieldsList = /*@__PURE__*/ S.Arra
 
 export interface UpdateControlMetadataRequest {
   controlId: string;
+  /** How the control is implemented. */
+  implementationDetails?: string;
   /** A new name for the control. */
   name?: string;
   /** The new external ID for the control. */
@@ -13131,6 +12901,7 @@ export interface UpdateControlMetadataRequest {
 export const UpdateControlMetadataRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     controlId: S.String.pipe(T.Label()),
+    implementationDetails: S.optional(S.String),
     name: S.optional(S.String),
     externalId: S.optional(S.String),
     description: S.optional(S.String),
@@ -13172,13 +12943,7 @@ export const UpdateCustomerTrustAccountRequest = /*@__PURE__*/ S.suspend(() =>
     emailDomain: S.optional(S.String),
     customFields: S.optional(UpdateCustomerTrustAccountRequestCustomFieldsList),
     tagsByCategory: S.optional(UpdateCustomerTrustAccountRequestTagsByCategoryList),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/customer-trust/accounts/{accountId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PATCH", uri: "/customer-trust/accounts/{accountId}", code: 200 })),
 ).annotate({
   identifier: "UpdateCustomerTrustAccountRequest",
 }) as any as S.Schema<UpdateCustomerTrustAccountRequest>;
@@ -13226,16 +12991,28 @@ export const UpdateDocumentResourceRequest = /*@__PURE__*/ S.suspend(() =>
     expirationDate: S.optional(S.NullOr(S.String)),
     tags: S.optional(UpdateDocumentResourceRequestTagsList),
     categoryId: S.optional(S.NullOr(S.String)),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/knowledge-base/resources/documents/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PATCH", uri: "/knowledge-base/resources/documents/{id}", code: 200 })),
 ).annotate({
   identifier: "UpdateDocumentResourceRequest",
 }) as any as S.Schema<UpdateDocumentResourceRequest>;
+
+export interface UpdateGroupRequest {
+  groupId: string;
+  /** Email of an active Vanta user with the Admin role in the organization. Omit to preserve; pass null to clear. */
+  pointOfContactEmail?: string | null;
+  /** New description. Omit to preserve; pass null to clear. */
+  description?: string | null;
+  /** New display name. Omit to preserve. Names are trimmed, must be non-empty and unique, and cannot change for an IdP-managed group. */
+  name?: string;
+}
+export const UpdateGroupRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    groupId: S.String.pipe(T.Label()),
+    pointOfContactEmail: S.optional(S.NullOr(S.String)),
+    description: S.optional(S.NullOr(S.String)),
+    name: S.optional(S.String),
+  }).pipe(T.Http({ method: "PATCH", uri: "/groups/{groupId}", code: 200 })),
+).annotate({ identifier: "UpdateGroupRequest" }) as any as S.Schema<UpdateGroupRequest>;
 
 export interface UpdatePersonRequestName {
   last: string;
@@ -13246,9 +13023,7 @@ export const UpdatePersonRequestName = /*@__PURE__*/ S.suspend(() =>
     last: S.String,
     first: S.String,
   }),
-).annotate({
-  identifier: "UpdatePersonRequestName",
-}) as any as S.Schema<UpdatePersonRequestName>;
+).annotate({ identifier: "UpdatePersonRequestName" }) as any as S.Schema<UpdatePersonRequestName>;
 
 export interface UpdatePersonRequestEmployment {
   startDate?: string;
@@ -13272,9 +13047,7 @@ export const UpdatePersonRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(UpdatePersonRequestName),
     employment: S.optional(UpdatePersonRequestEmployment),
   }).pipe(T.Http({ method: "PATCH", uri: "/people/{personId}", code: 200 })),
-).annotate({
-  identifier: "UpdatePersonRequest",
-}) as any as S.Schema<UpdatePersonRequest>;
+).annotate({ identifier: "UpdatePersonRequest" }) as any as S.Schema<UpdatePersonRequest>;
 
 export type SettableQuestionnaireStatus =
   | "IN_PROGRESS"
@@ -13301,9 +13074,7 @@ export const UpdateActorAssignment = /*@__PURE__*/ S.suspend(() =>
     type: UpdateActorAssignmentType,
     id: S.String,
   }),
-).annotate({
-  identifier: "UpdateActorAssignment",
-}) as any as S.Schema<UpdateActorAssignment>;
+).annotate({ identifier: "UpdateActorAssignment" }) as any as S.Schema<UpdateActorAssignment>;
 
 /** Metadata key-value pairs */
 export type UpdateQuestionnaireRequestMetadataList = Array<QuestionnaireMetadata>;
@@ -13345,11 +13116,7 @@ export const UpdateQuestionnaireRequest = /*@__PURE__*/ S.suspend(() =>
     metadata: S.optional(UpdateQuestionnaireRequestMetadataList),
     tagAndCategoryIds: S.optional(UpdateQuestionnaireRequestTagAndCategoryIdsList),
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/customer-trust/questionnaires/{questionnaireId}",
-      code: 200,
-    }),
+    T.Http({ method: "PATCH", uri: "/customer-trust/questionnaires/{questionnaireId}", code: 200 }),
   ),
 ).annotate({
   identifier: "UpdateQuestionnaireRequest",
@@ -13435,9 +13202,7 @@ export const UpdateResourceRequest2 = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "UpdateResourceRequest2",
-}) as any as S.Schema<UpdateResourceRequest2>;
+).annotate({ identifier: "UpdateResourceRequest2" }) as any as S.Schema<UpdateResourceRequest2>;
 
 export interface UpdateResourceResponse {}
 export const UpdateResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -13461,9 +13226,7 @@ export const UpdateResourceRequest = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     inScope: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "UpdateResourceRequest",
-}) as any as S.Schema<UpdateResourceRequest>;
+).annotate({ identifier: "UpdateResourceRequest" }) as any as S.Schema<UpdateResourceRequest>;
 
 /** List of resource update requests. */
 export type UpdateResourcesRequestUpdatesList = Array<UpdateResourceRequest>;
@@ -13491,9 +13254,7 @@ export const UpdateResourcesRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "UpdateResourcesRequest",
-}) as any as S.Schema<UpdateResourcesRequest>;
+).annotate({ identifier: "UpdateResourcesRequest" }) as any as S.Schema<UpdateResourcesRequest>;
 
 /** The list of categories this risk scenario belongs to. Each element in the list will become a new custom category if it doesn't match an existing one. You can reference the current category options in the Risk Management settings and/or enter new values. */
 export type UpdateRiskScenarioRequestCategoriesList = Array<string>;
@@ -13567,13 +13328,7 @@ export const UpdateRiskScenarioRequest = /*@__PURE__*/ S.suspend(() =>
     customFields: S.optional(UpdateRiskScenarioRequestCustomFieldsList),
     type: S.optional(RiskScenarioType),
     identificationDate: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/risk-scenarios/{riskScenarioId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PATCH", uri: "/risk-scenarios/{riskScenarioId}", code: 200 })),
 ).annotate({
   identifier: "UpdateRiskScenarioRequest",
 }) as any as S.Schema<UpdateRiskScenarioRequest>;
@@ -13599,6 +13354,33 @@ export const UpdateRiskScenarioControlRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "UpdateRiskScenarioControlRequest",
 }) as any as S.Schema<UpdateRiskScenarioControlRequest>;
+
+export type NotificationFrequency = "DAILY" | "NEVER" | "WEEKLY";
+export const NotificationFrequency = S.String;
+
+/** Replaces the complete channel set. Omit to preserve it; an empty array disables reminders. */
+export type UpdateSettingsRequestChannelsList = Array<NotificationChannelType | (string & {})>;
+export const UpdateSettingsRequestChannelsList = /*@__PURE__*/ S.Array(
+  NotificationChannelType,
+) as any as S.Schema<UpdateSettingsRequestChannelsList>;
+
+export interface UpdateSettingsRequest {
+  /** Omit to preserve the current frequency. NEVER disables reminders. */
+  frequency?: NotificationFrequency | (string & {});
+  /** Replaces the complete channel set. Omit to preserve it; an empty array disables reminders. */
+  channels?: UpdateSettingsRequestChannelsList;
+}
+export const UpdateSettingsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    frequency: S.optional(NotificationFrequency),
+    channels: S.optional(UpdateSettingsRequestChannelsList),
+  }).pipe(T.Http({ method: "PATCH", uri: "/personnel-notification-settings", code: 200 })),
+).annotate({ identifier: "UpdateSettingsRequest" }) as any as S.Schema<UpdateSettingsRequest>;
+
+export type UpdateSettingsResponse = PersonnelNotificationSettings;
+export const UpdateSettingsResponse = /*@__PURE__*/ S.suspend(() =>
+  PersonnelNotificationSettings.pipe(T.RawResponseRoot()),
+).annotate({ identifier: "UpdateSettingsResponse" }) as any as S.Schema<UpdateSettingsResponse>;
 
 export type BannerSettingGRADIENT = "GRADIENT";
 export const BannerSettingGRADIENT = S.String;
@@ -13681,9 +13463,7 @@ export const UpdateTrustCenterRequest = /*@__PURE__*/ S.suspend(() =>
     customHeading: S.optional(S.NullOr(S.String)),
     controlVisibilityMode: S.optional(TrustCenterControlVisibilityMode),
   }).pipe(T.Http({ method: "PATCH", uri: "/trust-centers/{slugId}", code: 200 })),
-).annotate({
-  identifier: "UpdateTrustCenterRequest",
-}) as any as S.Schema<UpdateTrustCenterRequest>;
+).annotate({ identifier: "UpdateTrustCenterRequest" }) as any as S.Schema<UpdateTrustCenterRequest>;
 
 export interface UpdateTrustCenterControlCategoryRequest {
   slugId: string;
@@ -13767,13 +13547,7 @@ export const UpdateTrustCenterFaqRequest = /*@__PURE__*/ S.suspend(() =>
     question: S.String,
     answer: S.String,
     categoryId: S.optional(S.NullOr(S.String)),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/trust-centers/{slugId}/faqs/{faqId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PATCH", uri: "/trust-centers/{slugId}/faqs/{faqId}", code: 200 })),
 ).annotate({
   identifier: "UpdateTrustCenterFaqRequest",
 }) as any as S.Schema<UpdateTrustCenterFaqRequest>;
@@ -13818,11 +13592,7 @@ export const UpdateTrustCenterResourceRequest = /*@__PURE__*/ S.suspend(() =>
     isPublic: S.optional(S.Boolean),
     description: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/trust-centers/{slugId}/resources/{resourceId}",
-      code: 200,
-    }),
+    T.Http({ method: "PATCH", uri: "/trust-centers/{slugId}/resources/{resourceId}", code: 200 }),
   ),
 ).annotate({
   identifier: "UpdateTrustCenterResourceRequest",
@@ -13921,11 +13691,7 @@ export const UpdateTrustCenterUpdateRequest = /*@__PURE__*/ S.suspend(() =>
     category: UpdateCategory,
     visibilityType: S.optional(UpdateVisibilityType),
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/trust-centers/{slugId}/updates/{updateId}",
-      code: 200,
-    }),
+    T.Http({ method: "PATCH", uri: "/trust-centers/{slugId}/updates/{updateId}", code: 200 }),
   ),
 ).annotate({
   identifier: "UpdateTrustCenterUpdateRequest",
@@ -13961,11 +13727,7 @@ export const UpdateTrustCenterViewerRequest = /*@__PURE__*/ S.suspend(() =>
     isNdaRequired: S.optional(S.Boolean),
     customerTrustAccountId: S.optional(S.NullOr(S.String)),
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/trust-centers/{slugId}/viewers/{viewerId}",
-      code: 200,
-    }),
+    T.Http({ method: "PATCH", uri: "/trust-centers/{slugId}/viewers/{viewerId}", code: 200 }),
   ),
 ).annotate({
   identifier: "UpdateTrustCenterViewerRequest",
@@ -14036,7 +13798,7 @@ export interface UpdateVendorRequest {
   isVisibleToAuditors?: boolean;
   /** The authentication details about the vendor. */
   authDetails?: UpdateVendorRequestAuthDetails;
-  /** The current status of the vendor. */
+  /** This field is ignored. Use `POST /vendors/{vendorId}/set-status` to change vendor status. */
   status?: VendorStatus | (string & {});
   /** The vendor's category. */
   category?: string;
@@ -14081,9 +13843,7 @@ export const UpdateVendorRequest = /*@__PURE__*/ S.suspend(() =>
     customFields: S.optional(UpdateVendorRequestCustomFieldsList),
     frameworkScope: S.optional(VendorFrameworkScope),
   }).pipe(T.Http({ method: "PATCH", uri: "/vendors/{vendorId}", code: 200 })),
-).annotate({
-  identifier: "UpdateVendorRequest",
-}) as any as S.Schema<UpdateVendorRequest>;
+).annotate({ identifier: "UpdateVendorRequest" }) as any as S.Schema<UpdateVendorRequest>;
 
 /** Remediation information about the finding. Will only be populated if riskStatus is set to "REMEDIATE". */
 export type UpdateVendorFindingRequestRemediation = CreateVendorFindingRequestRemediation;
@@ -14106,13 +13866,7 @@ export const UpdateVendorFindingRequest = /*@__PURE__*/ S.suspend(() =>
     content: S.optional(S.String),
     riskStatus: S.optional(FindingRiskStatus),
     remediation: S.optional(CreateVendorFindingRequestRemediation),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/vendors/{vendorId}/findings/{findingId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PATCH", uri: "/vendors/{vendorId}/findings/{findingId}", code: 200 })),
 ).annotate({
   identifier: "UpdateVendorFindingRequest",
 }) as any as S.Schema<UpdateVendorFindingRequest>;
@@ -14156,13 +13910,7 @@ export const UpdateWebpageResourceRequest = /*@__PURE__*/ S.suspend(() =>
     expirationDate: S.optional(S.NullOr(S.String)),
     tags: S.optional(UpdateWebpageResourceRequestTagsList),
     categoryId: S.optional(S.NullOr(S.String)),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/knowledge-base/resources/webpages/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PATCH", uri: "/knowledge-base/resources/webpages/{id}", code: 200 })),
 ).annotate({
   identifier: "UpdateWebpageResourceRequest",
 }) as any as S.Schema<UpdateWebpageResourceRequest>;
@@ -14197,9 +13945,7 @@ export const BadgeUploadResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     isSuccessful: S.Boolean,
   }),
-).annotate({
-  identifier: "BadgeUploadResponse",
-}) as any as S.Schema<BadgeUploadResponse>;
+).annotate({ identifier: "BadgeUploadResponse" }) as any as S.Schema<BadgeUploadResponse>;
 
 export interface UploadContractRequest {
   /** The contract file to upload. Only PDF files are accepted. */
@@ -14217,17 +13963,8 @@ export const UploadContractRequest = /*@__PURE__*/ S.suspend(() =>
     executedDate: S.optional(S.String),
     accountId: S.optional(S.String),
     externalId: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/contracts",
-      code: 200,
-      contentType: "multipart",
-    }),
-  ),
-).annotate({
-  identifier: "UploadContractRequest",
-}) as any as S.Schema<UploadContractRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/contracts", code: 200, contentType: "multipart" })),
+).annotate({ identifier: "UploadContractRequest" }) as any as S.Schema<UploadContractRequest>;
 
 export interface UploadDocumentForSecurityReviewRequest {
   vendorId: string;
@@ -14344,9 +14081,7 @@ export const UploadFaviconResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     isSuccessful: S.Boolean,
   }),
-).annotate({
-  identifier: "UploadFaviconResponse",
-}) as any as S.Schema<UploadFaviconResponse>;
+).annotate({ identifier: "UploadFaviconResponse" }) as any as S.Schema<UploadFaviconResponse>;
 
 /** Group IDs to set for the subscriber. The subscriber will be removed from any groups not included in this list. */
 export type UpsertGroupsForTrustCenterSubscriberRequestGroupIdsList = Array<string>;
@@ -14393,11 +14128,7 @@ export const UpsertTrustCenterControlCategoriesOrderRequest = /*@__PURE__*/ S.su
     slugId: S.String.pipe(T.Label()),
     orderedCategoryIds: UpsertTrustCenterControlCategoriesOrderRequestOrderedCategoryIdsList,
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/trust-centers/{slugId}/control-categories/order",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/trust-centers/{slugId}/control-categories/order", code: 200 }),
   ),
 ).annotate({
   identifier: "UpsertTrustCenterControlCategoriesOrderRequest",
@@ -14443,9 +14174,7 @@ export const DataCollectedInputItem = /*@__PURE__*/ S.suspend(() =>
     dataCollected: S.String,
     status: DataCollectedStatus,
   }),
-).annotate({
-  identifier: "DataCollectedInputItem",
-}) as any as S.Schema<DataCollectedInputItem>;
+).annotate({ identifier: "DataCollectedInputItem" }) as any as S.Schema<DataCollectedInputItem>;
 
 /** List of data-collected disclosures to set on the Trust Center. */
 export type UpsertTrustCenterDataCollectedRequestDataCollectedList = Array<DataCollectedInputItem>;
@@ -14465,13 +14194,7 @@ export const UpsertTrustCenterDataCollectedRequest = /*@__PURE__*/ S.suspend(() 
     slugId: S.String.pipe(T.Label()),
     dataCollected: UpsertTrustCenterDataCollectedRequestDataCollectedList,
     dataCollectedHeading: S.optional(S.NullOr(S.String)),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/trust-centers/{slugId}/data-collected",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/trust-centers/{slugId}/data-collected", code: 200 })),
 ).annotate({
   identifier: "UpsertTrustCenterDataCollectedRequest",
 }) as any as S.Schema<UpsertTrustCenterDataCollectedRequest>;
@@ -14492,11 +14215,7 @@ export const UpsertTrustCenterResourceCategoriesOrderRequest = /*@__PURE__*/ S.s
     slugId: S.String.pipe(T.Label()),
     categoryIds: UpsertTrustCenterResourceCategoriesOrderRequestCategoryIdsList,
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/trust-centers/{slugId}/resource-categories/order",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/trust-centers/{slugId}/resource-categories/order", code: 200 }),
   ),
 ).annotate({
   identifier: "UpsertTrustCenterResourceCategoriesOrderRequest",
@@ -14516,9 +14235,7 @@ export const SetTrustCenterVideoItem = /*@__PURE__*/ S.suspend(() =>
     title: S.String,
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SetTrustCenterVideoItem",
-}) as any as S.Schema<SetTrustCenterVideoItem>;
+).annotate({ identifier: "SetTrustCenterVideoItem" }) as any as S.Schema<SetTrustCenterVideoItem>;
 
 /** The videos to display on the Trust Center. Replaces all existing videos. */
 export type UpsertTrustCenterVideosRequestVideosList = Array<SetTrustCenterVideoItem>;
@@ -14554,9 +14271,7 @@ export const TrustCenterVideo = /*@__PURE__*/ S.suspend(() =>
     title: S.String,
     description: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "TrustCenterVideo",
-}) as any as S.Schema<TrustCenterVideo>;
+).annotate({ identifier: "TrustCenterVideo" }) as any as S.Schema<TrustCenterVideo>;
 
 export type ArrayResponseTrustCenterVideoResultsList = Array<TrustCenterVideo>;
 export const ArrayResponseTrustCenterVideoResultsList = /*@__PURE__*/ S.Array(
@@ -14583,13 +14298,7 @@ export const VerifyAnswerLibraryEntryRouteRequest = /*@__PURE__*/ S.suspend(() =
   S.Struct({
     id: S.String.pipe(T.Label()),
     expirationDate: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/knowledge-base/answer-library/{id}/verify",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/knowledge-base/answer-library/{id}/verify", code: 200 })),
 ).annotate({
   identifier: "VerifyAnswerLibraryEntryRouteRequest",
 }) as any as S.Schema<VerifyAnswerLibraryEntryRouteRequest>;
@@ -14603,13 +14312,7 @@ export const VerifyKnowledgeBaseResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
     expirationDate: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/knowledge-base/resources/{id}/verify",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/knowledge-base/resources/{id}/verify", code: 200 })),
 ).annotate({
   identifier: "VerifyKnowledgeBaseResourceRequest",
 }) as any as S.Schema<VerifyKnowledgeBaseResourceRequest>;
@@ -15687,7 +15390,7 @@ export const deleteTrustCenterUpdate: API.OperationMethod<
 }));
 
 export type DenyTrustCenterAccessRequestError = VantaOpError;
-/** Deny Trust Center access request Denies an access request on a Trust Center. */
+/** Deny Trust Center access request Denies an access request on a Trust Center. The requester is only notified by email when `sendEmail` is true. */
 export const denyTrustCenterAccessRequest: API.OperationMethod<
   DenyTrustCenterAccessRequestRequest,
   DenyTrustCenterAccessRequestResponse,
@@ -15735,12 +15438,27 @@ export type GetAssessmentsByVendorIdError = VantaOpError;
 /** List assessments by vendor ID Returns a vendor's assessments across all assessment types. */
 export const getAssessmentsByVendorId: API.OperationMethod<
   GetAssessmentsByVendorIdRequest,
-  PaginatedResponseVendorAssessment,
+  PaginatedResponseVendorAssessmentWithQuestionnaire,
   GetAssessmentsByVendorIdError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: GetAssessmentsByVendorIdRequest,
-  output: PaginatedResponseVendorAssessment,
+  output: PaginatedResponseVendorAssessmentWithQuestionnaire,
+  errors: [UnknownVantaError],
+  protocol: VantaProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetBusinessUnitError = VantaOpError;
+/** Get business unit by ID Get a business unit by ID. Returns 403 when business unit scoping is disabled for the domain. */
+export const getBusinessUnit: API.OperationMethod<
+  GetBusinessUnitRequest,
+  BusinessUnit,
+  GetBusinessUnitError,
+  VantaOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetBusinessUnitRequest,
+  output: BusinessUnit,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -15922,6 +15640,21 @@ export const getMonitoredComputer: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type GetOrganizationError = VantaOpError;
+/** Get connected organization Returns the organization selected by the authenticated token. Requires vanta-api.all:read or vanta-api.all:write. No organization selector is accepted. The region is the organization's home AWS region identifier (for example, us-east-1), not the serving endpoint. */
+export const getOrganization: API.OperationMethod<
+  GetOrganizationRequest,
+  OrganizationIdentity,
+  GetOrganizationError,
+  VantaOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetOrganizationRequest,
+  output: OrganizationIdentity,
+  errors: [UnknownVantaError],
+  protocol: VantaProtocol,
+  retry: Retry.Retry,
+}));
+
 export type GetPersonError = VantaOpError;
 /** Get person by ID Returns a person by ID. */
 export const getPerson: API.OperationMethod<
@@ -15947,6 +15680,21 @@ export const getPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetPolicyRequest,
   output: Policy,
+  errors: [UnknownVantaError],
+  protocol: VantaProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetProgramScopeError = VantaOpError;
+/** Get program scope by ID Get a program scope by ID. When business unit scoping is disabled, businessUnitId is null. */
+export const getProgramScope: API.OperationMethod<
+  GetProgramScopeRequest,
+  ProgramScope,
+  GetProgramScopeError,
+  VantaOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetProgramScopeRequest,
+  output: ProgramScope,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -16082,6 +15830,21 @@ export const getSecurityReviewsByVendorId: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetSecurityReviewsByVendorIdRequest,
   output: PaginatedResponseSecurityReview,
+  errors: [UnknownVantaError],
+  protocol: VantaProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetSettingsError = VantaOpError;
+/** Get personnel notification settings Returns the organization's personnel reminder and employee-digest settings. */
+export const getSettings: API.OperationMethod<
+  GetSettingsRequest,
+  GetSettingsResponse,
+  GetSettingsError,
+  VantaOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetSettingsRequest,
+  output: GetSettingsResponse,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -16469,6 +16232,21 @@ export const listAssignableUsers: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type ListBusinessUnitsError = VantaOpError;
+/** List business units Lists the business units for your organization. Returns 403 when business unit scoping is disabled for the domain. */
+export const listBusinessUnits: API.OperationMethod<
+  ListBusinessUnitsRequest,
+  PaginatedResponseBusinessUnit,
+  ListBusinessUnitsError,
+  VantaOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListBusinessUnitsRequest,
+  output: PaginatedResponseBusinessUnit,
+  errors: [UnknownVantaError],
+  protocol: VantaProtocol,
+  retry: Retry.Retry,
+}));
+
 export type ListChatbotConversationsError = VantaOpError;
 /** List Trust Center chatbot conversations Gets a paginated list of chatbot conversations on a Trust Center. */
 export const listChatbotConversations: API.OperationMethod<
@@ -16488,12 +16266,12 @@ export type ListComplianceFrameworksError = VantaOpError;
 /** List Trust Center compliance frameworks Gets the list of compliance frameworks on a Trust Center. */
 export const listComplianceFrameworks: API.OperationMethod<
   ListComplianceFrameworksRequest,
-  ArrayResponseTrustCenterComplianceFramework,
+  TrustCenterComplianceFrameworkListResponse,
   ListComplianceFrameworksError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: ListComplianceFrameworksRequest,
-  output: ArrayResponseTrustCenterComplianceFramework,
+  output: TrustCenterComplianceFrameworkListResponse,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -16593,12 +16371,12 @@ export type ListDeactivatedControlsError = VantaOpError;
 /** List deactivated controls List deactivated Vanta controls (previously known as the controls library). */
 export const listDeactivatedControls: API.OperationMethod<
   ListDeactivatedControlsRequest,
-  PaginatedResponseControl,
+  PaginatedResponseDeactivatedControl,
   ListDeactivatedControlsError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: ListDeactivatedControlsRequest,
-  output: PaginatedResponseControl,
+  output: PaginatedResponseDeactivatedControl,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -16809,6 +16587,21 @@ export const listPolicies: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListPoliciesRequest,
   output: PaginatedResponsePolicy,
+  errors: [UnknownVantaError],
+  protocol: VantaProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListProgramScopesError = VantaOpError;
+/** List program scopes Lists the program scopes for your organization. A program scope pairs a business unit with a framework that business unit is in scope for. When business unit scoping is disabled, businessUnitId is null. */
+export const listProgramScopes: API.OperationMethod<
+  ListProgramScopesRequest,
+  PaginatedResponseProgramScope,
+  ListProgramScopesError,
+  VantaOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListProgramScopesRequest,
+  output: PaginatedResponseProgramScope,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -17654,6 +17447,21 @@ export const updateDocumentResource: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type UpdateGroupError = VantaOpError;
+/** Update group Partially updates a group. At least one field must be provided. */
+export const updateGroup: API.OperationMethod<
+  UpdateGroupRequest,
+  Group,
+  UpdateGroupError,
+  VantaOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateGroupRequest,
+  output: Group,
+  errors: [UnknownVantaError],
+  protocol: VantaProtocol,
+  retry: Retry.Retry,
+}));
+
 export type UpdatePersonError = VantaOpError;
 /** Update person metadata Update a person's basic information. */
 export const updatePerson: API.OperationMethod<
@@ -17769,6 +17577,21 @@ export const updateRiskScenarioControl: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateRiskScenarioControlRequest,
   output: RiskScenarioControl,
+  errors: [UnknownVantaError],
+  protocol: VantaProtocol,
+  retry: Retry.Retry,
+}));
+
+export type UpdateSettingsError = VantaOpError;
+/** Update personnel notification settings Partially updates the organization's personnel reminder and employee-digest settings. Omitted fields remain unchanged. */
+export const updateSettings: API.OperationMethod<
+  UpdateSettingsRequest,
+  UpdateSettingsResponse,
+  UpdateSettingsError,
+  VantaOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateSettingsRequest,
+  output: UpdateSettingsResponse,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -18165,7 +17988,7 @@ export const upsertTrustCenterVideos: API.OperationMethod<
 }));
 
 export type VerifyAnswerLibraryEntryRouteError = VantaOpError;
-/** Verify Answer Library entry Mark an Answer Library entry as verified. Stamps `lastVerifiedAt` to the current time; the entry's question, answer, tags, owner, and expiration are left unchanged. */
+/** Verify Answer Library entry Mark an Answer Library entry as verified. Stamps `lastVerifiedAt` to the current time and uses the supplied expiration date or configured review cadence. The entry's question, answer, tags, and owner are left unchanged. */
 export const verifyAnswerLibraryEntryRoute: API.OperationMethod<
   VerifyAnswerLibraryEntryRouteRequest,
   KnowledgeBaseAnswerLibraryEntryOutput,

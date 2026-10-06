@@ -81,26 +81,30 @@ export interface GetApiEndpointVulnerabilityConnectorsResponseResourcesItemOccur
   /** Markdown description of this API endpoint vulnerability occurrence. */
   description: string;
   /** The API endpoint URL associated with this vulnerability occurrence. */
-  fromUrl?: string;
+  fromUrl?: string | null;
   /** The API params associated with this vulnerability. */
-  queryParams?: GetApiEndpointVulnerabilityConnectorsResponseResourcesItemOccurrencesItemQueryParamsList;
+  queryParams?: GetApiEndpointVulnerabilityConnectorsResponseResourcesItemOccurrencesItemQueryParamsList | null;
   /** The API headers associated with this vulnerability. */
-  headers?: GetApiEndpointVulnerabilityConnectorsResponseResourcesItemOccurrencesItemHeadersList;
+  headers?: GetApiEndpointVulnerabilityConnectorsResponseResourcesItemOccurrencesItemHeadersList | null;
   /** The body of the request passed to the API, with sensitive information redacted. */
-  body?: string;
+  body?: string | null;
 }
 export const GetApiEndpointVulnerabilityConnectorsResponseResourcesItemOccurrencesItem =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       description: S.String,
-      fromUrl: S.optional(S.String),
+      fromUrl: S.optional(S.NullOr(S.String)),
       queryParams: S.optional(
-        GetApiEndpointVulnerabilityConnectorsResponseResourcesItemOccurrencesItemQueryParamsList,
+        S.NullOr(
+          GetApiEndpointVulnerabilityConnectorsResponseResourcesItemOccurrencesItemQueryParamsList,
+        ),
       ),
       headers: S.optional(
-        GetApiEndpointVulnerabilityConnectorsResponseResourcesItemOccurrencesItemHeadersList,
+        S.NullOr(
+          GetApiEndpointVulnerabilityConnectorsResponseResourcesItemOccurrencesItemHeadersList,
+        ),
       ),
-      body: S.optional(S.String),
+      body: S.optional(S.NullOr(S.String)),
     }),
   ).annotate({
     identifier: "GetApiEndpointVulnerabilityConnectorsResponseResourcesItemOccurrencesItem",
@@ -136,11 +140,11 @@ export interface GetApiEndpointVulnerabilityConnectorsResponseResourcesItem {
   /** The HTTP method (eg: GET, POST) associated with this vulnerability. */
   httpMethod: string;
   /** The Common Vulnerabilities and Exposures (CVE) identifier for the vulnerability. This field is optional. */
-  cveId?: string;
+  cveId?: string | null;
   /** The Common Vulnerability Scoring System (CVSS) version 3 vector for the vulnerability. This field is optional. */
-  cvss3Vector?: string;
+  cvss3Vector?: string | null;
   /** The Common Vulnerability Scoring System (CVSS) version 3 score for the vulnerability. This field is optional. */
-  cvss3Score?: number;
+  cvss3Score?: number | null;
 }
 export const GetApiEndpointVulnerabilityConnectorsResponseResourcesItem = /*@__PURE__*/ S.suspend(
   () =>
@@ -155,9 +159,9 @@ export const GetApiEndpointVulnerabilityConnectorsResponseResourcesItem = /*@__P
       remediationInstructions: S.String,
       url: S.String,
       httpMethod: S.String,
-      cveId: S.optional(S.String),
-      cvss3Vector: S.optional(S.String),
-      cvss3Score: S.optional(S.Number),
+      cveId: S.optional(S.NullOr(S.String)),
+      cvss3Vector: S.optional(S.NullOr(S.String)),
+      cvss3Score: S.optional(S.NullOr(S.Number)),
     }),
 ).annotate({
   identifier: "GetApiEndpointVulnerabilityConnectorsResponseResourcesItem",
@@ -187,13 +191,7 @@ export interface GetBackgroundCheckConnectorRequest {
 export const GetBackgroundCheckConnectorRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     resourceId: S.String.pipe(T.Query()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/resources/background_check_connector",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/resources/background_check_connector", code: 200 })),
 ).annotate({
   identifier: "GetBackgroundCheckConnectorRequest",
 }) as any as S.Schema<GetBackgroundCheckConnectorRequest>;
@@ -219,7 +217,7 @@ export interface GetBackgroundCheckConnectorResponseResourcesItem {
   /** The current status of the background check. */
   status: GetBackgroundCheckConnectorResponseResourcesItemStatus;
   /** If complete, the date of completion of the background check. */
-  completionDate?: string;
+  completionDate?: string | null;
 }
 export const GetBackgroundCheckConnectorResponseResourcesItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -229,7 +227,7 @@ export const GetBackgroundCheckConnectorResponseResourcesItem = /*@__PURE__*/ S.
     fullName: S.String,
     email: S.String,
     status: GetBackgroundCheckConnectorResponseResourcesItemStatus,
-    completionDate: S.optional(S.String),
+    completionDate: S.optional(S.NullOr(S.String)),
   }),
 ).annotate({
   identifier: "GetBackgroundCheckConnectorResponseResourcesItem",
@@ -260,9 +258,7 @@ export const GetCustomResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     resourceId: S.String.pipe(T.Query()),
   }).pipe(T.Http({ method: "GET", uri: "/v1/resources/custom_resource", code: 200 })),
-).annotate({
-  identifier: "GetCustomResourceRequest",
-}) as any as S.Schema<GetCustomResourceRequest>;
+).annotate({ identifier: "GetCustomResourceRequest" }) as any as S.Schema<GetCustomResourceRequest>;
 
 export interface GetCustomResourceResponseResourcesItem {
   /** A human readable label for this resource - will be shown as-is in inventory page. */
@@ -305,13 +301,7 @@ export interface GetMacosUserComputerRequest {
 export const GetMacosUserComputerRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     resourceId: S.String.pipe(T.Query()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/resources/macos_user_computer",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/resources/macos_user_computer", code: 200 })),
 ).annotate({
   identifier: "GetMacosUserComputerRequest",
 }) as any as S.Schema<GetMacosUserComputerRequest>;
@@ -322,14 +312,14 @@ export interface GetMacosUserComputerResponseResourcesItemApplicationsItem {
   /** The bundle identifier of the application. */
   bundleId: string;
   /** The last time the application was opened. */
-  lastOpenedTimestamp?: string;
+  lastOpenedTimestamp?: string | null;
 }
 export const GetMacosUserComputerResponseResourcesItemApplicationsItem = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
       name: S.String,
       bundleId: S.String,
-      lastOpenedTimestamp: S.optional(S.String),
+      lastOpenedTimestamp: S.optional(S.NullOr(S.String)),
     }),
 ).annotate({
   identifier: "GetMacosUserComputerResponseResourcesItemApplicationsItem",
@@ -385,14 +375,14 @@ export interface GetMacosUserComputerResponseResourcesItemDrivesItem {
   /** Does the drive have filevault enabled. */
   filevaultEnabled: boolean;
   /** Metadata about the boot volume helps Vanta skip checking volumes that aren't relevant, like USB Drives. */
-  isBootVolume?: boolean;
+  isBootVolume?: boolean | null;
 }
 export const GetMacosUserComputerResponseResourcesItemDrivesItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String,
     encrypted: S.Boolean,
     filevaultEnabled: S.Boolean,
-    isBootVolume: S.optional(S.Boolean),
+    isBootVolume: S.optional(S.NullOr(S.Boolean)),
   }),
 ).annotate({
   identifier: "GetMacosUserComputerResponseResourcesItemDrivesItem",
@@ -441,14 +431,14 @@ export interface GetMacosUserComputerResponseResourcesItemUsersItem {
   screenlockPolicies: GetMacosUserComputerResponseResourcesItemUsersItemScreenlockPoliciesList;
   screenlockSettings: GetMacosUserComputerResponseResourcesItemUsersItemScreenlockPoliciesItem;
   /** The last time the user logged in to the device, if available. */
-  lastLoginTimestamp?: string;
+  lastLoginTimestamp?: string | null;
 }
 export const GetMacosUserComputerResponseResourcesItemUsersItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     username: S.String,
     screenlockPolicies: GetMacosUserComputerResponseResourcesItemUsersItemScreenlockPoliciesList,
     screenlockSettings: GetMacosUserComputerResponseResourcesItemUsersItemScreenlockPoliciesItem,
-    lastLoginTimestamp: S.optional(S.String),
+    lastLoginTimestamp: S.optional(S.NullOr(S.String)),
   }),
 ).annotate({
   identifier: "GetMacosUserComputerResponseResourcesItemUsersItem",
@@ -518,12 +508,12 @@ export interface GetMacosUserComputerResponseResourcesItem {
   /** Does the system have auto-updates enabled. */
   autoUpdatesEnabled: boolean;
   /** The email address of the owner of the system, if it's known. */
-  owner?: string;
-  passwordPolicy?: GetMacosUserComputerResponseResourcesItemPasswordPolicy;
+  owner?: string | null;
+  passwordPolicy?: GetMacosUserComputerResponseResourcesItemPasswordPolicy | null;
   /** A timestamp that indicates when the host computer was last enrolled within your system. If the computer has been un-enrolled and then re-enrolled, send data for the most recent enrollment. */
-  lastEnrolledTimestamp?: string;
+  lastEnrolledTimestamp?: string | null;
   /** Is XProtect enabled on the system. */
-  isXProtectEnabled?: boolean;
+  isXProtectEnabled?: boolean | null;
 }
 export const GetMacosUserComputerResponseResourcesItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -542,10 +532,10 @@ export const GetMacosUserComputerResponseResourcesItem = /*@__PURE__*/ S.suspend
     systemScreenlockPolicies: GetMacosUserComputerResponseResourcesItemSystemScreenlockPoliciesList,
     isManaged: S.Boolean,
     autoUpdatesEnabled: S.Boolean,
-    owner: S.optional(S.String),
-    passwordPolicy: S.optional(GetMacosUserComputerResponseResourcesItemPasswordPolicy),
-    lastEnrolledTimestamp: S.optional(S.String),
-    isXProtectEnabled: S.optional(S.Boolean),
+    owner: S.optional(S.NullOr(S.String)),
+    passwordPolicy: S.optional(S.NullOr(GetMacosUserComputerResponseResourcesItemPasswordPolicy)),
+    lastEnrolledTimestamp: S.optional(S.NullOr(S.String)),
+    isXProtectEnabled: S.optional(S.NullOr(S.Boolean)),
   }),
 ).annotate({
   identifier: "GetMacosUserComputerResponseResourcesItem",
@@ -576,11 +566,7 @@ export const GetPackageVulnerabilityConnectorsRequest = /*@__PURE__*/ S.suspend(
   S.Struct({
     resourceId: S.String.pipe(T.Query()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/resources/package_vulnerability_connectors",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v1/resources/package_vulnerability_connectors", code: 200 }),
   ),
 ).annotate({
   identifier: "GetPackageVulnerabilityConnectorsRequest",
@@ -608,13 +594,13 @@ export interface GetPackageVulnerabilityConnectorsResponseResourcesItem {
   /** Instructions for remediating the vulnerability. */
   remediationInstructions: string;
   /** Whether there is a code path to the vulnerable code in this package. This field is optional. */
-  isReachable?: boolean;
+  isReachable?: boolean | null;
   /** The Common Vulnerabilities and Exposures (CVE) identifier for the vulnerability. This field is optional. */
-  cveId?: string;
+  cveId?: string | null;
   /** The Common Vulnerability Scoring System (CVSS) version 3 vector for the vulnerability. This field is optional. */
-  cvss3Vector?: string;
+  cvss3Vector?: string | null;
   /** The Common Vulnerability Scoring System (CVSS) version 3 score for the vulnerability. This field is optional. */
-  cvss3Score?: number;
+  cvss3Score?: number | null;
 }
 export const GetPackageVulnerabilityConnectorsResponseResourcesItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -628,10 +614,10 @@ export const GetPackageVulnerabilityConnectorsResponseResourcesItem = /*@__PURE_
     description: S.String,
     isResolvable: S.Boolean,
     remediationInstructions: S.String,
-    isReachable: S.optional(S.Boolean),
-    cveId: S.optional(S.String),
-    cvss3Vector: S.optional(S.String),
-    cvss3Score: S.optional(S.Number),
+    isReachable: S.optional(S.NullOr(S.Boolean)),
+    cveId: S.optional(S.NullOr(S.String)),
+    cvss3Vector: S.optional(S.NullOr(S.String)),
+    cvss3Score: S.optional(S.NullOr(S.Number)),
   }),
 ).annotate({
   identifier: "GetPackageVulnerabilityConnectorsResponseResourcesItem",
@@ -662,9 +648,7 @@ export const GetSecretRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     resourceId: S.String.pipe(T.Query()),
   }).pipe(T.Http({ method: "GET", uri: "/v1/resources/secret", code: 200 })),
-).annotate({
-  identifier: "GetSecretRequest",
-}) as any as S.Schema<GetSecretRequest>;
+).annotate({ identifier: "GetSecretRequest" }) as any as S.Schema<GetSecretRequest>;
 
 export interface GetSecretResponseResourcesItem {
   /** A human readable label for this resource - will be shown as-is in inventory page. */
@@ -684,11 +668,11 @@ export interface GetSecretResponseResourcesItem {
   /** The current owner of the secret. Vanta will check that every secret has a valid owner. */
   owner: string;
   /** When the secret was last updated. */
-  updatedTimestamp?: string;
+  updatedTimestamp?: string | null;
   /** When the secret was last accessed. */
-  lastAccessedTimestamp?: string;
+  lastAccessedTimestamp?: string | null;
   /** When the secret is set to expire, if relevant. */
-  expiresTimestamp?: string;
+  expiresTimestamp?: string | null;
 }
 export const GetSecretResponseResourcesItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -700,9 +684,9 @@ export const GetSecretResponseResourcesItem = /*@__PURE__*/ S.suspend(() =>
     createdTimestamp: S.String,
     creator: S.String,
     owner: S.String,
-    updatedTimestamp: S.optional(S.String),
-    lastAccessedTimestamp: S.optional(S.String),
-    expiresTimestamp: S.optional(S.String),
+    updatedTimestamp: S.optional(S.NullOr(S.String)),
+    lastAccessedTimestamp: S.optional(S.NullOr(S.String)),
+    expiresTimestamp: S.optional(S.NullOr(S.String)),
   }),
 ).annotate({
   identifier: "GetSecretResponseResourcesItem",
@@ -720,9 +704,7 @@ export const GetSecretResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     resources: S.optional(GetSecretResponseResourcesList),
   }),
-).annotate({
-  identifier: "GetSecretResponse",
-}) as any as S.Schema<GetSecretResponse>;
+).annotate({ identifier: "GetSecretResponse" }) as any as S.Schema<GetSecretResponse>;
 
 export interface GetSecurityTaskRequest {
   /** Vanta generated identifier for the given resource, and can be found on the developer console page. See the list of registered resources and their IDs on https://app.vanta.com/settings/developer-console/<app_id>?tab=resources */
@@ -732,9 +714,7 @@ export const GetSecurityTaskRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     resourceId: S.String.pipe(T.Query()),
   }).pipe(T.Http({ method: "GET", uri: "/v1/resources/security_task", code: 200 })),
-).annotate({
-  identifier: "GetSecurityTaskRequest",
-}) as any as S.Schema<GetSecurityTaskRequest>;
+).annotate({ identifier: "GetSecurityTaskRequest" }) as any as S.Schema<GetSecurityTaskRequest>;
 
 /** The status of the task. If your application supports additional states, use the closest approximation. */
 export type GetSecurityTaskResponseResourcesItemTaskState = "OPEN" | "IN_PROGRESS" | "CLOSED";
@@ -780,9 +760,9 @@ export interface GetSecurityTaskResponseResourcesItem {
   /** The set of task tags or labels. */
   labels: GetSecurityTaskResponseResourcesItemLabelsList;
   /** When the task was closed, if the task was closed. Required if `taskState` is `CLOSED`, otherwise must be absent. */
-  closedTimestamp?: string;
+  closedTimestamp?: string | null;
   /** When the task was last updated. */
-  updatedTimestamp?: string;
+  updatedTimestamp?: string | null;
 }
 export const GetSecurityTaskResponseResourcesItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -797,8 +777,8 @@ export const GetSecurityTaskResponseResourcesItem = /*@__PURE__*/ S.suspend(() =
     assignees: GetSecurityTaskResponseResourcesItemAssigneesList,
     creator: S.String,
     labels: GetSecurityTaskResponseResourcesItemLabelsList,
-    closedTimestamp: S.optional(S.String),
-    updatedTimestamp: S.optional(S.String),
+    closedTimestamp: S.optional(S.NullOr(S.String)),
+    updatedTimestamp: S.optional(S.NullOr(S.String)),
   }),
 ).annotate({
   identifier: "GetSecurityTaskResponseResourcesItem",
@@ -816,9 +796,7 @@ export const GetSecurityTaskResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     resources: S.optional(GetSecurityTaskResponseResourcesList),
   }),
-).annotate({
-  identifier: "GetSecurityTaskResponse",
-}) as any as S.Schema<GetSecurityTaskResponse>;
+).annotate({ identifier: "GetSecurityTaskResponse" }) as any as S.Schema<GetSecurityTaskResponse>;
 
 export interface GetStaticAnalysisCodeVulnerabilityConnectorsRequest {
   /** Vanta generated identifier for the given resource, and can be found on the developer console page. See the list of registered resources and their IDs on https://app.vanta.com/settings/developer-console/<app_id>?tab=resources */
@@ -893,11 +871,11 @@ export interface GetStaticAnalysisCodeVulnerabilityConnectorsResponseResourcesIt
   /** Instructions for remediating the vulnerability. */
   remediationInstructions: string;
   /** The Common Vulnerabilities and Exposures (CVE) identifier for the vulnerability. This field is optional. */
-  cveId?: string;
+  cveId?: string | null;
   /** The Common Vulnerability Scoring System (CVSS) version 3 vector for the vulnerability. This field is optional. */
-  cvss3Vector?: string;
+  cvss3Vector?: string | null;
   /** The Common Vulnerability Scoring System (CVSS) version 3 score for the vulnerability. This field is optional. */
-  cvss3Score?: number;
+  cvss3Score?: number | null;
 }
 export const GetStaticAnalysisCodeVulnerabilityConnectorsResponseResourcesItem =
   /*@__PURE__*/ S.suspend(() =>
@@ -912,9 +890,9 @@ export const GetStaticAnalysisCodeVulnerabilityConnectorsResponseResourcesItem =
       vulnerableComponentUniqueId: S.String,
       description: S.String,
       remediationInstructions: S.String,
-      cveId: S.optional(S.String),
-      cvss3Vector: S.optional(S.String),
-      cvss3Score: S.optional(S.Number),
+      cveId: S.optional(S.NullOr(S.String)),
+      cvss3Vector: S.optional(S.NullOr(S.String)),
+      cvss3Score: S.optional(S.NullOr(S.Number)),
     }),
   ).annotate({
     identifier: "GetStaticAnalysisCodeVulnerabilityConnectorsResponseResourcesItem",
@@ -946,9 +924,7 @@ export const GetUserAccountRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     resourceId: S.String.pipe(T.Query()),
   }).pipe(T.Http({ method: "GET", uri: "/v1/resources/user_account", code: 200 })),
-).annotate({
-  identifier: "GetUserAccountRequest",
-}) as any as S.Schema<GetUserAccountRequest>;
+).annotate({ identifier: "GetUserAccountRequest" }) as any as S.Schema<GetUserAccountRequest>;
 
 /** What the permission level of the user is. If your system supports more advanced roles, find the closest approximation. This will be used to help populate Vanta access reviews and help customers ensure that the right set of users have access to their relevant systems. */
 export type GetUserAccountResponseResourcesItemPermissionLevel = "ADMIN" | "EDITOR" | "BASE";
@@ -969,7 +945,7 @@ export type GetUserAccountResponseResourcesItemMfaMethodsItem =
   | "PUSH_PROMPT";
 export const GetUserAccountResponseResourcesItemMfaMethodsItem = S.String;
 
-/** The MFA settings of the user. This helps customers verify that their users are adequately protecting their accounts. This value is ignored if authMethod is SSO. */
+/** The MFA settings of the user. This helps customers verify that their users are adequately protecting their accounts. This value is ignored if authMethod is SSO. Send an empty array if `mfaEnabled` is `null`, since an unknown MFA state says nothing about which methods are active. */
 export type GetUserAccountResponseResourcesItemMfaMethodsList =
   Array<GetUserAccountResponseResourcesItemMfaMethodsItem>;
 export const GetUserAccountResponseResourcesItemMfaMethodsList = /*@__PURE__*/ S.Array(
@@ -1009,24 +985,24 @@ export interface GetUserAccountResponseResourcesItem {
   createdTimestamp: string;
   /** The status of the user. It's acceptable to omit any deactivated users from your application, but if your application has access to deactivated users, it's preferable to send them over with this status. */
   status: GetUserAccountResponseResourcesItemStatus;
-  /** This value is ignored if `authMethod` is SSO. */
-  mfaEnabled: boolean;
-  /** The MFA settings of the user. This helps customers verify that their users are adequately protecting their accounts. This value is ignored if authMethod is SSO. */
+  /** This value is ignored if `authMethod` is SSO. Send `null` if the MFA state is unknown. */
+  mfaEnabled: boolean | null;
+  /** The MFA settings of the user. This helps customers verify that their users are adequately protecting their accounts. This value is ignored if authMethod is SSO. Send an empty array if `mfaEnabled` is `null`, since an unknown MFA state says nothing about which methods are active. */
   mfaMethods: GetUserAccountResponseResourcesItemMfaMethodsList;
   /** How the user logs into the system. This is useful for us to validate security properties, like ensuring MFA is enabled if the user logs in with a password. */
   authMethod: GetUserAccountResponseResourcesItemAuthMethod;
   /** A human readable description of the user's role. */
-  roleDescription?: string;
+  roleDescription?: string | null;
   /** The last time the user was updated in the system. */
-  updatedTimestamp?: string;
+  updatedTimestamp?: string | null;
   /** If the user is deactivated, the timestamp of that deactivation. */
-  deactivatedTimestamp?: string;
+  deactivatedTimestamp?: string | null;
   /** The time at which the user last logged in. */
-  lastLoginTimestamp?: string;
+  lastLoginTimestamp?: string | null;
   /** The time at which the user last reset their password. Helps with future Vanta functionality. */
-  lastPasswordResetTimestamp?: string | Redacted.Redacted<string>;
+  lastPasswordResetTimestamp?: string | Redacted.Redacted<string> | null;
   /** If the user belongs to any groups/teams in the product, those corresponding group IDs. We'll map these to groups in our product in the future. */
-  groupIds?: GetUserAccountResponseResourcesItemGroupIdsList;
+  groupIds?: GetUserAccountResponseResourcesItemGroupIdsList | null;
 }
 export const GetUserAccountResponseResourcesItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1039,15 +1015,15 @@ export const GetUserAccountResponseResourcesItem = /*@__PURE__*/ S.suspend(() =>
     permissionLevel: GetUserAccountResponseResourcesItemPermissionLevel,
     createdTimestamp: S.String,
     status: GetUserAccountResponseResourcesItemStatus,
-    mfaEnabled: S.Boolean,
+    mfaEnabled: S.NullOr(S.Boolean),
     mfaMethods: GetUserAccountResponseResourcesItemMfaMethodsList,
     authMethod: GetUserAccountResponseResourcesItemAuthMethod,
-    roleDescription: S.optional(S.String),
-    updatedTimestamp: S.optional(S.String),
-    deactivatedTimestamp: S.optional(S.String),
-    lastLoginTimestamp: S.optional(S.String),
-    lastPasswordResetTimestamp: S.optional(S.String.pipe(T.SensitiveValue({}))),
-    groupIds: S.optional(GetUserAccountResponseResourcesItemGroupIdsList),
+    roleDescription: S.optional(S.NullOr(S.String)),
+    updatedTimestamp: S.optional(S.NullOr(S.String)),
+    deactivatedTimestamp: S.optional(S.NullOr(S.String)),
+    lastLoginTimestamp: S.optional(S.NullOr(S.String)),
+    lastPasswordResetTimestamp: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
+    groupIds: S.optional(S.NullOr(GetUserAccountResponseResourcesItemGroupIdsList)),
   }),
 ).annotate({
   identifier: "GetUserAccountResponseResourcesItem",
@@ -1065,9 +1041,7 @@ export const GetUserAccountResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     resources: S.optional(GetUserAccountResponseResourcesList),
   }),
-).annotate({
-  identifier: "GetUserAccountResponse",
-}) as any as S.Schema<GetUserAccountResponse>;
+).annotate({ identifier: "GetUserAccountResponse" }) as any as S.Schema<GetUserAccountResponse>;
 
 export interface GetUserSecurityTrainingStatusRequest {
   /** Vanta generated identifier for the given resource, and can be found on the developer console page. See the list of registered resources and their IDs on https://app.vanta.com/settings/developer-console/<app_id>?tab=resources */
@@ -1076,13 +1050,7 @@ export interface GetUserSecurityTrainingStatusRequest {
 export const GetUserSecurityTrainingStatusRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     resourceId: S.String.pipe(T.Query()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/resources/user_security_training_status",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/resources/user_security_training_status", code: 200 })),
 ).annotate({
   identifier: "GetUserSecurityTrainingStatusRequest",
 }) as any as S.Schema<GetUserSecurityTrainingStatusRequest>;
@@ -1135,7 +1103,7 @@ export interface GetUserSecurityTrainingStatusResponseResourcesItem {
   /** The time at which this training course is due for the user. Vanta will check whether employees complete their training on time. */
   trainingDueTimestamp: string;
   /** The time at which this training course was completed by the user. */
-  trainingCompletedTimestamp?: string;
+  trainingCompletedTimestamp?: string | null;
 }
 export const GetUserSecurityTrainingStatusResponseResourcesItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1151,7 +1119,7 @@ export const GetUserSecurityTrainingStatusResponseResourcesItem = /*@__PURE__*/ 
     status: GetUserSecurityTrainingStatusResponseResourcesItemStatus,
     trainingCreatedTimestamp: S.String,
     trainingDueTimestamp: S.String,
-    trainingCompletedTimestamp: S.optional(S.String),
+    trainingCompletedTimestamp: S.optional(S.NullOr(S.String)),
   }),
 ).annotate({
   identifier: "GetUserSecurityTrainingStatusResponseResourcesItem",
@@ -1181,13 +1149,7 @@ export interface GetVulnerableComponentRequest {
 export const GetVulnerableComponentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     resourceId: S.String.pipe(T.Query()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/resources/vulnerable_component",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/resources/vulnerable_component", code: 200 })),
 ).annotate({
   identifier: "GetVulnerableComponentRequest",
 }) as any as S.Schema<GetVulnerableComponentRequest>;
@@ -1260,13 +1222,7 @@ export interface GetWindowsUserComputerRequest {
 export const GetWindowsUserComputerRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     resourceId: S.String.pipe(T.Query()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/resources/windows_user_computer",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/resources/windows_user_computer", code: 200 })),
 ).annotate({
   identifier: "GetWindowsUserComputerRequest",
 }) as any as S.Schema<GetWindowsUserComputerRequest>;
@@ -1275,12 +1231,12 @@ export interface GetWindowsUserComputerResponseResourcesItemProgramsItem {
   /** The name of the application. */
   name: string;
   /** The last time the application was opened. */
-  lastOpenedTimestamp?: string;
+  lastOpenedTimestamp?: string | null;
 }
 export const GetWindowsUserComputerResponseResourcesItemProgramsItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String,
-    lastOpenedTimestamp: S.optional(S.String),
+    lastOpenedTimestamp: S.optional(S.NullOr(S.String)),
   }),
 ).annotate({
   identifier: "GetWindowsUserComputerResponseResourcesItemProgramsItem",
@@ -1335,13 +1291,13 @@ export interface GetWindowsUserComputerResponseResourcesItemDrivesItem {
   /** Does the drive have some sort of encryption on it. */
   encrypted: boolean;
   /** Metadata about the boot volume helps Vanta skip checking volumes that aren't relevant, like USB Drives. */
-  isBootVolume?: boolean;
+  isBootVolume?: boolean | null;
 }
 export const GetWindowsUserComputerResponseResourcesItemDrivesItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String,
     encrypted: S.Boolean,
-    isBootVolume: S.optional(S.Boolean),
+    isBootVolume: S.optional(S.NullOr(S.Boolean)),
   }),
 ).annotate({
   identifier: "GetWindowsUserComputerResponseResourcesItemDrivesItem",
@@ -1379,14 +1335,14 @@ export interface GetWindowsUserComputerResponseResourcesItemUsersItem {
   screenlockPolicies: GetWindowsUserComputerResponseResourcesItemUsersItemScreenlockPoliciesList;
   screenlockSettings: GetMacosUserComputerResponseResourcesItemUsersItemScreenlockPoliciesItem;
   /** The last time the user logged in to the device, if available. */
-  lastLoginTimestamp?: string;
+  lastLoginTimestamp?: string | null;
 }
 export const GetWindowsUserComputerResponseResourcesItemUsersItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     username: S.String,
     screenlockPolicies: GetWindowsUserComputerResponseResourcesItemUsersItemScreenlockPoliciesList,
     screenlockSettings: GetMacosUserComputerResponseResourcesItemUsersItemScreenlockPoliciesItem,
-    lastLoginTimestamp: S.optional(S.String),
+    lastLoginTimestamp: S.optional(S.NullOr(S.String)),
   }),
 ).annotate({
   identifier: "GetWindowsUserComputerResponseResourcesItemUsersItem",
@@ -1585,13 +1541,13 @@ export interface GetWindowsUserComputerResponseResourcesItem {
   /** Does the system have auto-updates enabled. */
   autoUpdatesEnabled: boolean;
   /** The email address of the owner of the system, if it's known. */
-  owner?: string;
-  passwordPolicy?: GetMacosUserComputerResponseResourcesItemPasswordPolicy;
+  owner?: string | null;
+  passwordPolicy?: GetMacosUserComputerResponseResourcesItemPasswordPolicy | null;
   /** A timestamp that indicates when the host computer was last enrolled within your system. If the computer has been un-enrolled and then re-enrolled, send data for the most recent enrollment. */
-  lastEnrolledTimestamp?: string;
+  lastEnrolledTimestamp?: string | null;
   /** A list of services that are monitored by Windows Security Center (WSC). */
-  windowsSecurityProducts?: GetWindowsUserComputerResponseResourcesItemWindowsSecurityProductsList;
-  windowsSecurityCenter?: GetWindowsUserComputerResponseResourcesItemWindowsSecurityCenter;
+  windowsSecurityProducts?: GetWindowsUserComputerResponseResourcesItemWindowsSecurityProductsList | null;
+  windowsSecurityCenter?: GetWindowsUserComputerResponseResourcesItemWindowsSecurityCenter | null;
 }
 export const GetWindowsUserComputerResponseResourcesItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1611,14 +1567,14 @@ export const GetWindowsUserComputerResponseResourcesItem = /*@__PURE__*/ S.suspe
       GetWindowsUserComputerResponseResourcesItemSystemScreenlockPoliciesList,
     isManaged: S.Boolean,
     autoUpdatesEnabled: S.Boolean,
-    owner: S.optional(S.String),
-    passwordPolicy: S.optional(GetMacosUserComputerResponseResourcesItemPasswordPolicy),
-    lastEnrolledTimestamp: S.optional(S.String),
+    owner: S.optional(S.NullOr(S.String)),
+    passwordPolicy: S.optional(S.NullOr(GetMacosUserComputerResponseResourcesItemPasswordPolicy)),
+    lastEnrolledTimestamp: S.optional(S.NullOr(S.String)),
     windowsSecurityProducts: S.optional(
-      GetWindowsUserComputerResponseResourcesItemWindowsSecurityProductsList,
+      S.NullOr(GetWindowsUserComputerResponseResourcesItemWindowsSecurityProductsList),
     ),
     windowsSecurityCenter: S.optional(
-      GetWindowsUserComputerResponseResourcesItemWindowsSecurityCenter,
+      S.NullOr(GetWindowsUserComputerResponseResourcesItemWindowsSecurityCenter),
     ),
   }),
 ).annotate({
@@ -1672,26 +1628,30 @@ export interface PutApiEndpointVulnerabilityConnectorsRequestResourcesItemOccurr
   /** Markdown description of this API endpoint vulnerability occurrence. */
   description: string;
   /** The API endpoint URL associated with this vulnerability occurrence. */
-  fromUrl?: string;
+  fromUrl?: string | null;
   /** The API params associated with this vulnerability. */
-  queryParams?: PutApiEndpointVulnerabilityConnectorsRequestResourcesItemOccurrencesItemQueryParamsList;
+  queryParams?: PutApiEndpointVulnerabilityConnectorsRequestResourcesItemOccurrencesItemQueryParamsList | null;
   /** The API headers associated with this vulnerability. */
-  headers?: PutApiEndpointVulnerabilityConnectorsRequestResourcesItemOccurrencesItemHeadersList;
+  headers?: PutApiEndpointVulnerabilityConnectorsRequestResourcesItemOccurrencesItemHeadersList | null;
   /** The body of the request passed to the API, with sensitive information redacted. */
-  body?: string;
+  body?: string | null;
 }
 export const PutApiEndpointVulnerabilityConnectorsRequestResourcesItemOccurrencesItem =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       description: S.String,
-      fromUrl: S.optional(S.String),
+      fromUrl: S.optional(S.NullOr(S.String)),
       queryParams: S.optional(
-        PutApiEndpointVulnerabilityConnectorsRequestResourcesItemOccurrencesItemQueryParamsList,
+        S.NullOr(
+          PutApiEndpointVulnerabilityConnectorsRequestResourcesItemOccurrencesItemQueryParamsList,
+        ),
       ),
       headers: S.optional(
-        PutApiEndpointVulnerabilityConnectorsRequestResourcesItemOccurrencesItemHeadersList,
+        S.NullOr(
+          PutApiEndpointVulnerabilityConnectorsRequestResourcesItemOccurrencesItemHeadersList,
+        ),
       ),
-      body: S.optional(S.String),
+      body: S.optional(S.NullOr(S.String)),
     }),
   ).annotate({
     identifier: "PutApiEndpointVulnerabilityConnectorsRequestResourcesItemOccurrencesItem",
@@ -1727,11 +1687,11 @@ export interface PutApiEndpointVulnerabilityConnectorsRequestResourcesItem {
   /** The HTTP method (eg: GET, POST) associated with this vulnerability. */
   httpMethod: string;
   /** The Common Vulnerabilities and Exposures (CVE) identifier for the vulnerability. This field is optional. */
-  cveId?: string;
+  cveId?: string | null;
   /** The Common Vulnerability Scoring System (CVSS) version 3 vector for the vulnerability. This field is optional. */
-  cvss3Vector?: string;
+  cvss3Vector?: string | null;
   /** The Common Vulnerability Scoring System (CVSS) version 3 score for the vulnerability. This field is optional. */
-  cvss3Score?: number;
+  cvss3Score?: number | null;
 }
 export const PutApiEndpointVulnerabilityConnectorsRequestResourcesItem = /*@__PURE__*/ S.suspend(
   () =>
@@ -1746,9 +1706,9 @@ export const PutApiEndpointVulnerabilityConnectorsRequestResourcesItem = /*@__PU
       remediationInstructions: S.String,
       url: S.String,
       httpMethod: S.String,
-      cveId: S.optional(S.String),
-      cvss3Vector: S.optional(S.String),
-      cvss3Score: S.optional(S.Number),
+      cveId: S.optional(S.NullOr(S.String)),
+      cvss3Vector: S.optional(S.NullOr(S.String)),
+      cvss3Score: S.optional(S.NullOr(S.Number)),
     }),
 ).annotate({
   identifier: "PutApiEndpointVulnerabilityConnectorsRequestResourcesItem",
@@ -1812,7 +1772,7 @@ export interface PutBackgroundCheckConnectorRequestResourcesItem {
   /** The current status of the background check. */
   status: PutBackgroundCheckConnectorRequestResourcesItemStatus | (string & {});
   /** If complete, the date of completion of the background check. */
-  completionDate?: string;
+  completionDate?: string | null;
 }
 export const PutBackgroundCheckConnectorRequestResourcesItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1822,7 +1782,7 @@ export const PutBackgroundCheckConnectorRequestResourcesItem = /*@__PURE__*/ S.s
     fullName: S.String,
     email: S.String,
     status: PutBackgroundCheckConnectorRequestResourcesItemStatus,
-    completionDate: S.optional(S.String),
+    completionDate: S.optional(S.NullOr(S.String)),
   }),
 ).annotate({
   identifier: "PutBackgroundCheckConnectorRequestResourcesItem",
@@ -1843,13 +1803,7 @@ export const PutBackgroundCheckConnectorRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     resourceId: S.String,
     resources: PutBackgroundCheckConnectorRequestResourcesList,
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/v1/resources/background_check_connector",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/v1/resources/background_check_connector", code: 200 })),
 ).annotate({
   identifier: "PutBackgroundCheckConnectorRequest",
 }) as any as S.Schema<PutBackgroundCheckConnectorRequest>;
@@ -1883,9 +1837,7 @@ export const PutCustomResourceRequest = /*@__PURE__*/ S.suspend(() =>
     resourceId: S.String,
     resources: PutCustomResourceRequestResourcesList,
   }).pipe(T.Http({ method: "PUT", uri: "/v1/resources/custom_resource", code: 200 })),
-).annotate({
-  identifier: "PutCustomResourceRequest",
-}) as any as S.Schema<PutCustomResourceRequest>;
+).annotate({ identifier: "PutCustomResourceRequest" }) as any as S.Schema<PutCustomResourceRequest>;
 
 export interface PutCustomResourceResponse {
   success: boolean;
@@ -1982,14 +1934,14 @@ export interface PutMacosUserComputerRequestResourcesItemUsersItem {
   screenlockPolicies: PutMacosUserComputerRequestResourcesItemUsersItemScreenlockPoliciesList;
   screenlockSettings: GetMacosUserComputerResponseResourcesItemUsersItemScreenlockPoliciesItem;
   /** The last time the user logged in to the device, if available. */
-  lastLoginTimestamp?: string;
+  lastLoginTimestamp?: string | null;
 }
 export const PutMacosUserComputerRequestResourcesItemUsersItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     username: S.String,
     screenlockPolicies: PutMacosUserComputerRequestResourcesItemUsersItemScreenlockPoliciesList,
     screenlockSettings: GetMacosUserComputerResponseResourcesItemUsersItemScreenlockPoliciesItem,
-    lastLoginTimestamp: S.optional(S.String),
+    lastLoginTimestamp: S.optional(S.NullOr(S.String)),
   }),
 ).annotate({
   identifier: "PutMacosUserComputerRequestResourcesItemUsersItem",
@@ -2052,12 +2004,12 @@ export interface PutMacosUserComputerRequestResourcesItem {
   /** Does the system have auto-updates enabled. */
   autoUpdatesEnabled: boolean;
   /** The email address of the owner of the system, if it's known. */
-  owner?: string;
-  passwordPolicy?: GetMacosUserComputerResponseResourcesItemPasswordPolicy;
+  owner?: string | null;
+  passwordPolicy?: GetMacosUserComputerResponseResourcesItemPasswordPolicy | null;
   /** A timestamp that indicates when the host computer was last enrolled within your system. If the computer has been un-enrolled and then re-enrolled, send data for the most recent enrollment. */
-  lastEnrolledTimestamp?: string;
+  lastEnrolledTimestamp?: string | null;
   /** Is XProtect enabled on the system. */
-  isXProtectEnabled?: boolean;
+  isXProtectEnabled?: boolean | null;
 }
 export const PutMacosUserComputerRequestResourcesItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2076,10 +2028,10 @@ export const PutMacosUserComputerRequestResourcesItem = /*@__PURE__*/ S.suspend(
     systemScreenlockPolicies: PutMacosUserComputerRequestResourcesItemSystemScreenlockPoliciesList,
     isManaged: S.Boolean,
     autoUpdatesEnabled: S.Boolean,
-    owner: S.optional(S.String),
-    passwordPolicy: S.optional(GetMacosUserComputerResponseResourcesItemPasswordPolicy),
-    lastEnrolledTimestamp: S.optional(S.String),
-    isXProtectEnabled: S.optional(S.Boolean),
+    owner: S.optional(S.NullOr(S.String)),
+    passwordPolicy: S.optional(S.NullOr(GetMacosUserComputerResponseResourcesItemPasswordPolicy)),
+    lastEnrolledTimestamp: S.optional(S.NullOr(S.String)),
+    isXProtectEnabled: S.optional(S.NullOr(S.Boolean)),
   }),
 ).annotate({
   identifier: "PutMacosUserComputerRequestResourcesItem",
@@ -2100,13 +2052,7 @@ export const PutMacosUserComputerRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     resourceId: S.String,
     resources: PutMacosUserComputerRequestResourcesList,
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/v1/resources/macos_user_computer",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/v1/resources/macos_user_computer", code: 200 })),
 ).annotate({
   identifier: "PutMacosUserComputerRequest",
 }) as any as S.Schema<PutMacosUserComputerRequest>;
@@ -2143,11 +2089,7 @@ export const PutPackageVulnerabilityConnectorsRequest = /*@__PURE__*/ S.suspend(
     resourceId: S.String,
     resources: PutPackageVulnerabilityConnectorsRequestResourcesList,
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/v1/resources/package_vulnerability_connectors",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/v1/resources/package_vulnerability_connectors", code: 200 }),
   ),
 ).annotate({
   identifier: "PutPackageVulnerabilityConnectorsRequest",
@@ -2182,9 +2124,7 @@ export const PutSecretRequest = /*@__PURE__*/ S.suspend(() =>
     resourceId: S.String,
     resources: PutSecretRequestResourcesList,
   }).pipe(T.Http({ method: "PUT", uri: "/v1/resources/secret", code: 200 })),
-).annotate({
-  identifier: "PutSecretRequest",
-}) as any as S.Schema<PutSecretRequest>;
+).annotate({ identifier: "PutSecretRequest" }) as any as S.Schema<PutSecretRequest>;
 
 export interface PutSecretResponse {
   success: boolean;
@@ -2193,9 +2133,7 @@ export const PutSecretResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     success: S.Boolean,
   }),
-).annotate({
-  identifier: "PutSecretResponse",
-}) as any as S.Schema<PutSecretResponse>;
+).annotate({ identifier: "PutSecretResponse" }) as any as S.Schema<PutSecretResponse>;
 
 /** The status of the task. If your application supports additional states, use the closest approximation. */
 export type PutSecurityTaskRequestResourcesItemTaskState = "OPEN" | "IN_PROGRESS" | "CLOSED";
@@ -2241,9 +2179,9 @@ export interface PutSecurityTaskRequestResourcesItem {
   /** The set of task tags or labels. */
   labels: PutSecurityTaskRequestResourcesItemLabelsList;
   /** When the task was closed, if the task was closed. Required if `taskState` is `CLOSED`, otherwise must be absent. */
-  closedTimestamp?: string;
+  closedTimestamp?: string | null;
   /** When the task was last updated. */
-  updatedTimestamp?: string;
+  updatedTimestamp?: string | null;
 }
 export const PutSecurityTaskRequestResourcesItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2258,8 +2196,8 @@ export const PutSecurityTaskRequestResourcesItem = /*@__PURE__*/ S.suspend(() =>
     assignees: PutSecurityTaskRequestResourcesItemAssigneesList,
     creator: S.String,
     labels: PutSecurityTaskRequestResourcesItemLabelsList,
-    closedTimestamp: S.optional(S.String),
-    updatedTimestamp: S.optional(S.String),
+    closedTimestamp: S.optional(S.NullOr(S.String)),
+    updatedTimestamp: S.optional(S.NullOr(S.String)),
   }),
 ).annotate({
   identifier: "PutSecurityTaskRequestResourcesItem",
@@ -2280,9 +2218,7 @@ export const PutSecurityTaskRequest = /*@__PURE__*/ S.suspend(() =>
     resourceId: S.String,
     resources: PutSecurityTaskRequestResourcesList,
   }).pipe(T.Http({ method: "PUT", uri: "/v1/resources/security_task", code: 200 })),
-).annotate({
-  identifier: "PutSecurityTaskRequest",
-}) as any as S.Schema<PutSecurityTaskRequest>;
+).annotate({ identifier: "PutSecurityTaskRequest" }) as any as S.Schema<PutSecurityTaskRequest>;
 
 export interface PutSecurityTaskResponse {
   success: boolean;
@@ -2291,9 +2227,7 @@ export const PutSecurityTaskResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     success: S.Boolean,
   }),
-).annotate({
-  identifier: "PutSecurityTaskResponse",
-}) as any as S.Schema<PutSecurityTaskResponse>;
+).annotate({ identifier: "PutSecurityTaskResponse" }) as any as S.Schema<PutSecurityTaskResponse>;
 
 export type PutStaticAnalysisCodeVulnerabilityConnectorsRequestResourcesItemOccurrencesItem =
   GetStaticAnalysisCodeVulnerabilityConnectorsResponseResourcesItemOccurrencesItem;
@@ -2330,11 +2264,11 @@ export interface PutStaticAnalysisCodeVulnerabilityConnectorsRequestResourcesIte
   /** Instructions for remediating the vulnerability. */
   remediationInstructions: string;
   /** The Common Vulnerabilities and Exposures (CVE) identifier for the vulnerability. This field is optional. */
-  cveId?: string;
+  cveId?: string | null;
   /** The Common Vulnerability Scoring System (CVSS) version 3 vector for the vulnerability. This field is optional. */
-  cvss3Vector?: string;
+  cvss3Vector?: string | null;
   /** The Common Vulnerability Scoring System (CVSS) version 3 score for the vulnerability. This field is optional. */
-  cvss3Score?: number;
+  cvss3Score?: number | null;
 }
 export const PutStaticAnalysisCodeVulnerabilityConnectorsRequestResourcesItem =
   /*@__PURE__*/ S.suspend(() =>
@@ -2349,9 +2283,9 @@ export const PutStaticAnalysisCodeVulnerabilityConnectorsRequestResourcesItem =
       vulnerableComponentUniqueId: S.String,
       description: S.String,
       remediationInstructions: S.String,
-      cveId: S.optional(S.String),
-      cvss3Vector: S.optional(S.String),
-      cvss3Score: S.optional(S.Number),
+      cveId: S.optional(S.NullOr(S.String)),
+      cvss3Vector: S.optional(S.NullOr(S.String)),
+      cvss3Score: S.optional(S.NullOr(S.Number)),
     }),
   ).annotate({
     identifier: "PutStaticAnalysisCodeVulnerabilityConnectorsRequestResourcesItem",
@@ -2414,7 +2348,7 @@ export type PutUserAccountRequestResourcesItemMfaMethodsItem =
   | "PUSH_PROMPT";
 export const PutUserAccountRequestResourcesItemMfaMethodsItem = S.String;
 
-/** The MFA settings of the user. This helps customers verify that their users are adequately protecting their accounts. This value is ignored if authMethod is SSO. */
+/** The MFA settings of the user. This helps customers verify that their users are adequately protecting their accounts. This value is ignored if authMethod is SSO. Send an empty array if `mfaEnabled` is `null`, since an unknown MFA state says nothing about which methods are active. */
 export type PutUserAccountRequestResourcesItemMfaMethodsList = Array<
   PutUserAccountRequestResourcesItemMfaMethodsItem | (string & {})
 >;
@@ -2455,24 +2389,24 @@ export interface PutUserAccountRequestResourcesItem {
   createdTimestamp: string;
   /** The status of the user. It's acceptable to omit any deactivated users from your application, but if your application has access to deactivated users, it's preferable to send them over with this status. */
   status: PutUserAccountRequestResourcesItemStatus | (string & {});
-  /** This value is ignored if `authMethod` is SSO. */
-  mfaEnabled: boolean;
-  /** The MFA settings of the user. This helps customers verify that their users are adequately protecting their accounts. This value is ignored if authMethod is SSO. */
+  /** This value is ignored if `authMethod` is SSO. Send `null` if the MFA state is unknown. */
+  mfaEnabled: boolean | null;
+  /** The MFA settings of the user. This helps customers verify that their users are adequately protecting their accounts. This value is ignored if authMethod is SSO. Send an empty array if `mfaEnabled` is `null`, since an unknown MFA state says nothing about which methods are active. */
   mfaMethods: PutUserAccountRequestResourcesItemMfaMethodsList;
   /** How the user logs into the system. This is useful for us to validate security properties, like ensuring MFA is enabled if the user logs in with a password. */
   authMethod: PutUserAccountRequestResourcesItemAuthMethod | (string & {});
   /** A human readable description of the user's role. */
-  roleDescription?: string;
+  roleDescription?: string | null;
   /** The last time the user was updated in the system. */
-  updatedTimestamp?: string;
+  updatedTimestamp?: string | null;
   /** If the user is deactivated, the timestamp of that deactivation. */
-  deactivatedTimestamp?: string;
+  deactivatedTimestamp?: string | null;
   /** The time at which the user last logged in. */
-  lastLoginTimestamp?: string;
+  lastLoginTimestamp?: string | null;
   /** The time at which the user last reset their password. Helps with future Vanta functionality. */
-  lastPasswordResetTimestamp?: string | Redacted.Redacted<string>;
+  lastPasswordResetTimestamp?: string | Redacted.Redacted<string> | null;
   /** If the user belongs to any groups/teams in the product, those corresponding group IDs. We'll map these to groups in our product in the future. */
-  groupIds?: PutUserAccountRequestResourcesItemGroupIdsList;
+  groupIds?: PutUserAccountRequestResourcesItemGroupIdsList | null;
 }
 export const PutUserAccountRequestResourcesItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2485,15 +2419,15 @@ export const PutUserAccountRequestResourcesItem = /*@__PURE__*/ S.suspend(() =>
     permissionLevel: PutUserAccountRequestResourcesItemPermissionLevel,
     createdTimestamp: S.String,
     status: PutUserAccountRequestResourcesItemStatus,
-    mfaEnabled: S.Boolean,
+    mfaEnabled: S.NullOr(S.Boolean),
     mfaMethods: PutUserAccountRequestResourcesItemMfaMethodsList,
     authMethod: PutUserAccountRequestResourcesItemAuthMethod,
-    roleDescription: S.optional(S.String),
-    updatedTimestamp: S.optional(S.String),
-    deactivatedTimestamp: S.optional(S.String),
-    lastLoginTimestamp: S.optional(S.String),
-    lastPasswordResetTimestamp: S.optional(S.String.pipe(T.SensitiveValue({}))),
-    groupIds: S.optional(PutUserAccountRequestResourcesItemGroupIdsList),
+    roleDescription: S.optional(S.NullOr(S.String)),
+    updatedTimestamp: S.optional(S.NullOr(S.String)),
+    deactivatedTimestamp: S.optional(S.NullOr(S.String)),
+    lastLoginTimestamp: S.optional(S.NullOr(S.String)),
+    lastPasswordResetTimestamp: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
+    groupIds: S.optional(S.NullOr(PutUserAccountRequestResourcesItemGroupIdsList)),
   }),
 ).annotate({
   identifier: "PutUserAccountRequestResourcesItem",
@@ -2514,9 +2448,7 @@ export const PutUserAccountRequest = /*@__PURE__*/ S.suspend(() =>
     resourceId: S.String,
     resources: PutUserAccountRequestResourcesList,
   }).pipe(T.Http({ method: "PUT", uri: "/v1/resources/user_account", code: 200 })),
-).annotate({
-  identifier: "PutUserAccountRequest",
-}) as any as S.Schema<PutUserAccountRequest>;
+).annotate({ identifier: "PutUserAccountRequest" }) as any as S.Schema<PutUserAccountRequest>;
 
 export interface PutUserAccountResponse {
   success: boolean;
@@ -2525,9 +2457,7 @@ export const PutUserAccountResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     success: S.Boolean,
   }),
-).annotate({
-  identifier: "PutUserAccountResponse",
-}) as any as S.Schema<PutUserAccountResponse>;
+).annotate({ identifier: "PutUserAccountResponse" }) as any as S.Schema<PutUserAccountResponse>;
 
 /** The individual framework. */
 export type PutUserSecurityTrainingStatusRequestResourcesItemFrameworksFulfilledItem =
@@ -2578,7 +2508,7 @@ export interface PutUserSecurityTrainingStatusRequestResourcesItem {
   /** The time at which this training course is due for the user. Vanta will check whether employees complete their training on time. */
   trainingDueTimestamp: string;
   /** The time at which this training course was completed by the user. */
-  trainingCompletedTimestamp?: string;
+  trainingCompletedTimestamp?: string | null;
 }
 export const PutUserSecurityTrainingStatusRequestResourcesItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2594,7 +2524,7 @@ export const PutUserSecurityTrainingStatusRequestResourcesItem = /*@__PURE__*/ S
     status: PutUserSecurityTrainingStatusRequestResourcesItemStatus,
     trainingCreatedTimestamp: S.String,
     trainingDueTimestamp: S.String,
-    trainingCompletedTimestamp: S.optional(S.String),
+    trainingCompletedTimestamp: S.optional(S.NullOr(S.String)),
   }),
 ).annotate({
   identifier: "PutUserSecurityTrainingStatusRequestResourcesItem",
@@ -2615,13 +2545,7 @@ export const PutUserSecurityTrainingStatusRequest = /*@__PURE__*/ S.suspend(() =
   S.Struct({
     resourceId: S.String,
     resources: PutUserSecurityTrainingStatusRequestResourcesList,
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/v1/resources/user_security_training_status",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/v1/resources/user_security_training_status", code: 200 })),
 ).annotate({
   identifier: "PutUserSecurityTrainingStatusRequest",
 }) as any as S.Schema<PutUserSecurityTrainingStatusRequest>;
@@ -2696,13 +2620,7 @@ export const PutVulnerableComponentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     resourceId: S.String,
     resources: PutVulnerableComponentRequestResourcesList,
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/v1/resources/vulnerable_component",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/v1/resources/vulnerable_component", code: 200 })),
 ).annotate({
   identifier: "PutVulnerableComponentRequest",
 }) as any as S.Schema<PutVulnerableComponentRequest>;
@@ -2803,14 +2721,14 @@ export interface PutWindowsUserComputerRequestResourcesItemUsersItem {
   screenlockPolicies: PutWindowsUserComputerRequestResourcesItemUsersItemScreenlockPoliciesList;
   screenlockSettings: GetMacosUserComputerResponseResourcesItemUsersItemScreenlockPoliciesItem;
   /** The last time the user logged in to the device, if available. */
-  lastLoginTimestamp?: string;
+  lastLoginTimestamp?: string | null;
 }
 export const PutWindowsUserComputerRequestResourcesItemUsersItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     username: S.String,
     screenlockPolicies: PutWindowsUserComputerRequestResourcesItemUsersItemScreenlockPoliciesList,
     screenlockSettings: GetMacosUserComputerResponseResourcesItemUsersItemScreenlockPoliciesItem,
-    lastLoginTimestamp: S.optional(S.String),
+    lastLoginTimestamp: S.optional(S.NullOr(S.String)),
   }),
 ).annotate({
   identifier: "PutWindowsUserComputerRequestResourcesItemUsersItem",
@@ -3021,13 +2939,13 @@ export interface PutWindowsUserComputerRequestResourcesItem {
   /** Does the system have auto-updates enabled. */
   autoUpdatesEnabled: boolean;
   /** The email address of the owner of the system, if it's known. */
-  owner?: string;
-  passwordPolicy?: GetMacosUserComputerResponseResourcesItemPasswordPolicy;
+  owner?: string | null;
+  passwordPolicy?: GetMacosUserComputerResponseResourcesItemPasswordPolicy | null;
   /** A timestamp that indicates when the host computer was last enrolled within your system. If the computer has been un-enrolled and then re-enrolled, send data for the most recent enrollment. */
-  lastEnrolledTimestamp?: string;
+  lastEnrolledTimestamp?: string | null;
   /** A list of services that are monitored by Windows Security Center (WSC). */
-  windowsSecurityProducts?: PutWindowsUserComputerRequestResourcesItemWindowsSecurityProductsList;
-  windowsSecurityCenter?: PutWindowsUserComputerRequestResourcesItemWindowsSecurityCenter;
+  windowsSecurityProducts?: PutWindowsUserComputerRequestResourcesItemWindowsSecurityProductsList | null;
+  windowsSecurityCenter?: PutWindowsUserComputerRequestResourcesItemWindowsSecurityCenter | null;
 }
 export const PutWindowsUserComputerRequestResourcesItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -3047,14 +2965,14 @@ export const PutWindowsUserComputerRequestResourcesItem = /*@__PURE__*/ S.suspen
       PutWindowsUserComputerRequestResourcesItemSystemScreenlockPoliciesList,
     isManaged: S.Boolean,
     autoUpdatesEnabled: S.Boolean,
-    owner: S.optional(S.String),
-    passwordPolicy: S.optional(GetMacosUserComputerResponseResourcesItemPasswordPolicy),
-    lastEnrolledTimestamp: S.optional(S.String),
+    owner: S.optional(S.NullOr(S.String)),
+    passwordPolicy: S.optional(S.NullOr(GetMacosUserComputerResponseResourcesItemPasswordPolicy)),
+    lastEnrolledTimestamp: S.optional(S.NullOr(S.String)),
     windowsSecurityProducts: S.optional(
-      PutWindowsUserComputerRequestResourcesItemWindowsSecurityProductsList,
+      S.NullOr(PutWindowsUserComputerRequestResourcesItemWindowsSecurityProductsList),
     ),
     windowsSecurityCenter: S.optional(
-      PutWindowsUserComputerRequestResourcesItemWindowsSecurityCenter,
+      S.NullOr(PutWindowsUserComputerRequestResourcesItemWindowsSecurityCenter),
     ),
   }),
 ).annotate({
@@ -3076,13 +2994,7 @@ export const PutWindowsUserComputerRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     resourceId: S.String,
     resources: PutWindowsUserComputerRequestResourcesList,
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/v1/resources/windows_user_computer",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/v1/resources/windows_user_computer", code: 200 })),
 ).annotate({
   identifier: "PutWindowsUserComputerRequest",
 }) as any as S.Schema<PutWindowsUserComputerRequest>;
@@ -3137,9 +3049,7 @@ export const UploadedFileTUploadedBy = /*@__PURE__*/ S.suspend(() =>
     type: UploadedDocumentUploadedByType,
     id: S.String,
   }),
-).annotate({
-  identifier: "UploadedFileTUploadedBy",
-}) as any as S.Schema<UploadedFileTUploadedBy>;
+).annotate({ identifier: "UploadedFileTUploadedBy" }) as any as S.Schema<UploadedFileTUploadedBy>;
 
 export interface UploadedFileT {
   /** Unique identifier for the document. */

@@ -105,25 +105,29 @@
         "fromUrl": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The API endpoint URL associated with this vulnerability occurrence."
+            "smithy.api#documentation": "The API endpoint URL associated with this vulnerability occurrence.",
+            "com.distilled.openapi#nullable": {}
           }
         },
         "queryParams": {
           "target": "com.vanta.build_integrations#GetApiEndpointVulnerabilityConnectorsResponseResourcesItemOccurrencesItemQueryParamsList",
           "traits": {
-            "smithy.api#documentation": "The API params associated with this vulnerability."
+            "smithy.api#documentation": "The API params associated with this vulnerability.",
+            "com.distilled.openapi#nullable": {}
           }
         },
         "headers": {
           "target": "com.vanta.build_integrations#GetApiEndpointVulnerabilityConnectorsResponseResourcesItemOccurrencesItemHeadersList",
           "traits": {
-            "smithy.api#documentation": "The API headers associated with this vulnerability."
+            "smithy.api#documentation": "The API headers associated with this vulnerability.",
+            "com.distilled.openapi#nullable": {}
           }
         },
         "body": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The body of the request passed to the API, with sensitive information redacted."
+            "smithy.api#documentation": "The body of the request passed to the API, with sensitive information redacted.",
+            "com.distilled.openapi#nullable": {}
           }
         }
       },
@@ -214,19 +218,22 @@
         "cveId": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The Common Vulnerabilities and Exposures (CVE) identifier for the vulnerability. This field is optional."
+            "smithy.api#documentation": "The Common Vulnerabilities and Exposures (CVE) identifier for the vulnerability. This field is optional.",
+            "com.distilled.openapi#nullable": {}
           }
         },
         "cvss3Vector": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The Common Vulnerability Scoring System (CVSS) version 3 vector for the vulnerability. This field is optional."
+            "smithy.api#documentation": "The Common Vulnerability Scoring System (CVSS) version 3 vector for the vulnerability. This field is optional.",
+            "com.distilled.openapi#nullable": {}
           }
         },
         "cvss3Score": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "The Common Vulnerability Scoring System (CVSS) version 3 score for the vulnerability. This field is optional."
+            "smithy.api#documentation": "The Common Vulnerability Scoring System (CVSS) version 3 score for the vulnerability. This field is optional.",
+            "com.distilled.openapi#nullable": {}
           }
         }
       },
@@ -338,25 +345,29 @@
         "fromUrl": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The API endpoint URL associated with this vulnerability occurrence."
+            "smithy.api#documentation": "The API endpoint URL associated with this vulnerability occurrence.",
+            "com.distilled.openapi#nullable": {}
           }
         },
         "queryParams": {
           "target": "com.vanta.build_integrations#PutApiEndpointVulnerabilityConnectorsRequestResourcesItemOccurrencesItemQueryParamsList",
           "traits": {
-            "smithy.api#documentation": "The API params associated with this vulnerability."
+            "smithy.api#documentation": "The API params associated with this vulnerability.",
+            "com.distilled.openapi#nullable": {}
           }
         },
         "headers": {
           "target": "com.vanta.build_integrations#PutApiEndpointVulnerabilityConnectorsRequestResourcesItemOccurrencesItemHeadersList",
           "traits": {
-            "smithy.api#documentation": "The API headers associated with this vulnerability."
+            "smithy.api#documentation": "The API headers associated with this vulnerability.",
+            "com.distilled.openapi#nullable": {}
           }
         },
         "body": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The body of the request passed to the API, with sensitive information redacted."
+            "smithy.api#documentation": "The body of the request passed to the API, with sensitive information redacted.",
+            "com.distilled.openapi#nullable": {}
           }
         }
       },
@@ -447,19 +458,22 @@
         "cveId": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The Common Vulnerabilities and Exposures (CVE) identifier for the vulnerability. This field is optional."
+            "smithy.api#documentation": "The Common Vulnerabilities and Exposures (CVE) identifier for the vulnerability. This field is optional.",
+            "com.distilled.openapi#nullable": {}
           }
         },
         "cvss3Vector": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The Common Vulnerability Scoring System (CVSS) version 3 vector for the vulnerability. This field is optional."
+            "smithy.api#documentation": "The Common Vulnerability Scoring System (CVSS) version 3 vector for the vulnerability. This field is optional.",
+            "com.distilled.openapi#nullable": {}
           }
         },
         "cvss3Score": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "The Common Vulnerability Scoring System (CVSS) version 3 score for the vulnerability. This field is optional."
+            "smithy.api#documentation": "The Common Vulnerability Scoring System (CVSS) version 3 score for the vulnerability. This field is optional.",
+            "com.distilled.openapi#nullable": {}
           }
         }
       },
@@ -614,7 +628,8 @@
         "completionDate": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "If complete, the date of completion of the background check."
+            "smithy.api#documentation": "If complete, the date of completion of the background check.",
+            "com.distilled.openapi#nullable": {}
           }
         }
       },
@@ -729,7 +744,8 @@
         "completionDate": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "If complete, the date of completion of the background check."
+            "smithy.api#documentation": "If complete, the date of completion of the background check.",
+            "com.distilled.openapi#nullable": {}
           }
         }
       },
@@ -1172,7 +1188,8 @@
         "lastOpenedTimestamp": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The last time the application was opened."
+            "smithy.api#documentation": "The last time the application was opened.",
+            "com.distilled.openapi#nullable": {}
           }
         }
       },
@@ -1288,7 +1305,8 @@
         "isBootVolume": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Metadata about the boot volume helps Vanta skip checking volumes that aren't relevant, like USB Drives."
+            "smithy.api#documentation": "Metadata about the boot volume helps Vanta skip checking volumes that aren't relevant, like USB Drives.",
+            "com.distilled.openapi#nullable": {}
           }
         }
       },
@@ -1378,7 +1396,8 @@
         "lastLoginTimestamp": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The last time the user logged in to the device, if available."
+            "smithy.api#documentation": "The last time the user logged in to the device, if available.",
+            "com.distilled.openapi#nullable": {}
           }
         }
       },
@@ -1546,22 +1565,28 @@
         "owner": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The email address of the owner of the system, if it's known."
+            "smithy.api#documentation": "The email address of the owner of the system, if it's known.",
+            "com.distilled.openapi#nullable": {}
           }
         },
         "passwordPolicy": {
-          "target": "com.vanta.build_integrations#GetMacosUserComputerResponseResourcesItemPasswordPolicy"
+          "target": "com.vanta.build_integrations#GetMacosUserComputerResponseResourcesItemPasswordPolicy",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
         },
         "lastEnrolledTimestamp": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "A timestamp that indicates when the host computer was last enrolled within your system. If the computer has been un-enrolled and then re-enrolled, send data for the most recent enrollment."
+            "smithy.api#documentation": "A timestamp that indicates when the host computer was last enrolled within your system. If the computer has been un-enrolled and then re-enrolled, send data for the most recent enrollment.",
+            "com.distilled.openapi#nullable": {}
           }
         },
         "isXProtectEnabled": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Is XProtect enabled on the system."
+            "smithy.api#documentation": "Is XProtect enabled on the system.",
+            "com.distilled.openapi#nullable": {}
           }
         }
       },
@@ -1622,7 +1647,8 @@
         "lastOpenedTimestamp": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The last time the application was opened."
+            "smithy.api#documentation": "The last time the application was opened.",
+            "com.distilled.openapi#nullable": {}
           }
         }
       },
@@ -1738,7 +1764,8 @@
         "isBootVolume": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Metadata about the boot volume helps Vanta skip checking volumes that aren't relevant, like USB Drives."
+            "smithy.api#documentation": "Metadata about the boot volume helps Vanta skip checking volumes that aren't relevant, like USB Drives.",
+            "com.distilled.openapi#nullable": {}
           }
         }
       },
@@ -1828,7 +1855,8 @@
         "lastLoginTimestamp": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The last time the user logged in to the device, if available."
+            "smithy.api#documentation": "The last time the user logged in to the device, if available.",
+            "com.distilled.openapi#nullable": {}
           }
         }
       },
@@ -1996,22 +2024,28 @@
         "owner": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The email address of the owner of the system, if it's known."
+            "smithy.api#documentation": "The email address of the owner of the system, if it's known.",
+            "com.distilled.openapi#nullable": {}
           }
         },
         "passwordPolicy": {
-          "target": "com.vanta.build_integrations#PutMacosUserComputerRequestResourcesItemPasswordPolicy"
+          "target": "com.vanta.build_integrations#PutMacosUserComputerRequestResourcesItemPasswordPolicy",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
         },
         "lastEnrolledTimestamp": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "A timestamp that indicates when the host computer was last enrolled within your system. If the computer has been un-enrolled and then re-enrolled, send data for the most recent enrollment."
+            "smithy.api#documentation": "A timestamp that indicates when the host computer was last enrolled within your system. If the computer has been un-enrolled and then re-enrolled, send data for the most recent enrollment.",
+            "com.distilled.openapi#nullable": {}
           }
         },
         "isXProtectEnabled": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Is XProtect enabled on the system."
+            "smithy.api#documentation": "Is XProtect enabled on the system.",
+            "com.distilled.openapi#nullable": {}
           }
         }
       },
@@ -2168,25 +2202,29 @@
         "isReachable": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Whether there is a code path to the vulnerable code in this package. This field is optional."
+            "smithy.api#documentation": "Whether there is a code path to the vulnerable code in this package. This field is optional.",
+            "com.distilled.openapi#nullable": {}
           }
         },
         "cveId": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The Common Vulnerabilities and Exposures (CVE) identifier for the vulnerability. This field is optional."
+            "smithy.api#documentation": "The Common Vulnerabilities and Exposures (CVE) identifier for the vulnerability. This field is optional.",
+            "com.distilled.openapi#nullable": {}
           }
         },
         "cvss3Vector": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The Common Vulnerability Scoring System (CVSS) version 3 vector for the vulnerability. This field is optional."
+            "smithy.api#documentation": "The Common Vulnerability Scoring System (CVSS) version 3 vector for the vulnerability. This field is optional.",
+            "com.distilled.openapi#nullable": {}
           }
         },
         "cvss3Score": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "The Common Vulnerability Scoring System (CVSS) version 3 score for the vulnerability. This field is optional."
+            "smithy.api#documentation": "The Common Vulnerability Scoring System (CVSS) version 3 score for the vulnerability. This field is optional.",
+            "com.distilled.openapi#nullable": {}
           }
         }
       },
@@ -2303,25 +2341,29 @@
         "isReachable": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Whether there is a code path to the vulnerable code in this package. This field is optional."
+            "smithy.api#documentation": "Whether there is a code path to the vulnerable code in this package. This field is optional.",
+            "com.distilled.openapi#nullable": {}
           }
         },
         "cveId": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The Common Vulnerabilities and Exposures (CVE) identifier for the vulnerability. This field is optional."
+            "smithy.api#documentation": "The Common Vulnerabilities and Exposures (CVE) identifier for the vulnerability. This field is optional.",
+            "com.distilled.openapi#nullable": {}
           }
         },
         "cvss3Vector": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The Common Vulnerability Scoring System (CVSS) version 3 vector for the vulnerability. This field is optional."
+            "smithy.api#documentation": "The Common Vulnerability Scoring System (CVSS) version 3 vector for the vulnerability. This field is optional.",
+            "com.distilled.openapi#nullable": {}
           }
         },
         "cvss3Score": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "The Common Vulnerability Scoring System (CVSS) version 3 score for the vulnerability. This field is optional."
+            "smithy.api#documentation": "The Common Vulnerability Scoring System (CVSS) version 3 score for the vulnerability. This field is optional.",
+            "com.distilled.openapi#nullable": {}
           }
         }
       },
@@ -2464,19 +2506,22 @@
         "updatedTimestamp": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "When the secret was last updated."
+            "smithy.api#documentation": "When the secret was last updated.",
+            "com.distilled.openapi#nullable": {}
           }
         },
         "lastAccessedTimestamp": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "When the secret was last accessed."
+            "smithy.api#documentation": "When the secret was last accessed.",
+            "com.distilled.openapi#nullable": {}
           }
         },
         "expiresTimestamp": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "When the secret is set to expire, if relevant."
+            "smithy.api#documentation": "When the secret is set to expire, if relevant.",
+            "com.distilled.openapi#nullable": {}
           }
         }
       },
@@ -2579,19 +2624,22 @@
         "updatedTimestamp": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "When the secret was last updated."
+            "smithy.api#documentation": "When the secret was last updated.",
+            "com.distilled.openapi#nullable": {}
           }
         },
         "lastAccessedTimestamp": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "When the secret was last accessed."
+            "smithy.api#documentation": "When the secret was last accessed.",
+            "com.distilled.openapi#nullable": {}
           }
         },
         "expiresTimestamp": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "When the secret is set to expire, if relevant."
+            "smithy.api#documentation": "When the secret is set to expire, if relevant.",
+            "com.distilled.openapi#nullable": {}
           }
         }
       },
@@ -2837,13 +2885,15 @@
         "closedTimestamp": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "When the task was closed, if the task was closed. Required if `taskState` is `CLOSED`, otherwise must be absent."
+            "smithy.api#documentation": "When the task was closed, if the task was closed. Required if `taskState` is `CLOSED`, otherwise must be absent.",
+            "com.distilled.openapi#nullable": {}
           }
         },
         "updatedTimestamp": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "When the task was last updated."
+            "smithy.api#documentation": "When the task was last updated.",
+            "com.distilled.openapi#nullable": {}
           }
         }
       },
@@ -3049,13 +3099,15 @@
         "closedTimestamp": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "When the task was closed, if the task was closed. Required if `taskState` is `CLOSED`, otherwise must be absent."
+            "smithy.api#documentation": "When the task was closed, if the task was closed. Required if `taskState` is `CLOSED`, otherwise must be absent.",
+            "com.distilled.openapi#nullable": {}
           }
         },
         "updatedTimestamp": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "When the task was last updated."
+            "smithy.api#documentation": "When the task was last updated.",
+            "com.distilled.openapi#nullable": {}
           }
         }
       },
@@ -3262,19 +3314,22 @@
         "cveId": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The Common Vulnerabilities and Exposures (CVE) identifier for the vulnerability. This field is optional."
+            "smithy.api#documentation": "The Common Vulnerabilities and Exposures (CVE) identifier for the vulnerability. This field is optional.",
+            "com.distilled.openapi#nullable": {}
           }
         },
         "cvss3Vector": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The Common Vulnerability Scoring System (CVSS) version 3 vector for the vulnerability. This field is optional."
+            "smithy.api#documentation": "The Common Vulnerability Scoring System (CVSS) version 3 vector for the vulnerability. This field is optional.",
+            "com.distilled.openapi#nullable": {}
           }
         },
         "cvss3Score": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "The Common Vulnerability Scoring System (CVSS) version 3 score for the vulnerability. This field is optional."
+            "smithy.api#documentation": "The Common Vulnerability Scoring System (CVSS) version 3 score for the vulnerability. This field is optional.",
+            "com.distilled.openapi#nullable": {}
           }
         }
       },
@@ -3441,19 +3496,22 @@
         "cveId": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The Common Vulnerabilities and Exposures (CVE) identifier for the vulnerability. This field is optional."
+            "smithy.api#documentation": "The Common Vulnerabilities and Exposures (CVE) identifier for the vulnerability. This field is optional.",
+            "com.distilled.openapi#nullable": {}
           }
         },
         "cvss3Vector": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The Common Vulnerability Scoring System (CVSS) version 3 vector for the vulnerability. This field is optional."
+            "smithy.api#documentation": "The Common Vulnerability Scoring System (CVSS) version 3 vector for the vulnerability. This field is optional.",
+            "com.distilled.openapi#nullable": {}
           }
         },
         "cvss3Score": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "The Common Vulnerability Scoring System (CVSS) version 3 score for the vulnerability. This field is optional."
+            "smithy.api#documentation": "The Common Vulnerability Scoring System (CVSS) version 3 score for the vulnerability. This field is optional.",
+            "com.distilled.openapi#nullable": {}
           }
         }
       },
@@ -3636,7 +3694,7 @@
         "target": "com.vanta.build_integrations#GetUserAccountResponseResourcesItemMfaMethodsItem"
       },
       "traits": {
-        "smithy.api#documentation": "The MFA settings of the user. This helps customers verify that their users are adequately protecting their accounts. This value is ignored if authMethod is SSO."
+        "smithy.api#documentation": "The MFA settings of the user. This helps customers verify that their users are adequately protecting their accounts. This value is ignored if authMethod is SSO. Send an empty array if `mfaEnabled` is `null`, since an unknown MFA state says nothing about which methods are active."
       }
     },
     "com.vanta.build_integrations#GetUserAccountResponseResourcesItemAuthMethod": {
@@ -3749,14 +3807,15 @@
         "mfaEnabled": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "This value is ignored if `authMethod` is SSO.",
-            "smithy.api#required": {}
+            "smithy.api#documentation": "This value is ignored if `authMethod` is SSO. Send `null` if the MFA state is unknown.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
           }
         },
         "mfaMethods": {
           "target": "com.vanta.build_integrations#GetUserAccountResponseResourcesItemMfaMethodsList",
           "traits": {
-            "smithy.api#documentation": "The MFA settings of the user. This helps customers verify that their users are adequately protecting their accounts. This value is ignored if authMethod is SSO.",
+            "smithy.api#documentation": "The MFA settings of the user. This helps customers verify that their users are adequately protecting their accounts. This value is ignored if authMethod is SSO. Send an empty array if `mfaEnabled` is `null`, since an unknown MFA state says nothing about which methods are active.",
             "smithy.api#required": {}
           }
         },
@@ -3770,38 +3829,44 @@
         "roleDescription": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "A human readable description of the user's role."
+            "smithy.api#documentation": "A human readable description of the user's role.",
+            "com.distilled.openapi#nullable": {}
           }
         },
         "updatedTimestamp": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The last time the user was updated in the system."
+            "smithy.api#documentation": "The last time the user was updated in the system.",
+            "com.distilled.openapi#nullable": {}
           }
         },
         "deactivatedTimestamp": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "If the user is deactivated, the timestamp of that deactivation."
+            "smithy.api#documentation": "If the user is deactivated, the timestamp of that deactivation.",
+            "com.distilled.openapi#nullable": {}
           }
         },
         "lastLoginTimestamp": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The time at which the user last logged in."
+            "smithy.api#documentation": "The time at which the user last logged in.",
+            "com.distilled.openapi#nullable": {}
           }
         },
         "lastPasswordResetTimestamp": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The time at which the user last reset their password. Helps with future Vanta functionality.",
+            "com.distilled.openapi#nullable": {},
             "smithy.api#sensitive": {}
           }
         },
         "groupIds": {
           "target": "com.vanta.build_integrations#GetUserAccountResponseResourcesItemGroupIdsList",
           "traits": {
-            "smithy.api#documentation": "If the user belongs to any groups/teams in the product, those corresponding group IDs. We'll map these to groups in our product in the future."
+            "smithy.api#documentation": "If the user belongs to any groups/teams in the product, those corresponding group IDs. We'll map these to groups in our product in the future.",
+            "com.distilled.openapi#nullable": {}
           }
         }
       },
@@ -3944,7 +4009,7 @@
         "target": "com.vanta.build_integrations#PutUserAccountRequestResourcesItemMfaMethodsItem"
       },
       "traits": {
-        "smithy.api#documentation": "The MFA settings of the user. This helps customers verify that their users are adequately protecting their accounts. This value is ignored if authMethod is SSO."
+        "smithy.api#documentation": "The MFA settings of the user. This helps customers verify that their users are adequately protecting their accounts. This value is ignored if authMethod is SSO. Send an empty array if `mfaEnabled` is `null`, since an unknown MFA state says nothing about which methods are active."
       }
     },
     "com.vanta.build_integrations#PutUserAccountRequestResourcesItemAuthMethod": {
@@ -4057,14 +4122,15 @@
         "mfaEnabled": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "This value is ignored if `authMethod` is SSO.",
-            "smithy.api#required": {}
+            "smithy.api#documentation": "This value is ignored if `authMethod` is SSO. Send `null` if the MFA state is unknown.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
           }
         },
         "mfaMethods": {
           "target": "com.vanta.build_integrations#PutUserAccountRequestResourcesItemMfaMethodsList",
           "traits": {
-            "smithy.api#documentation": "The MFA settings of the user. This helps customers verify that their users are adequately protecting their accounts. This value is ignored if authMethod is SSO.",
+            "smithy.api#documentation": "The MFA settings of the user. This helps customers verify that their users are adequately protecting their accounts. This value is ignored if authMethod is SSO. Send an empty array if `mfaEnabled` is `null`, since an unknown MFA state says nothing about which methods are active.",
             "smithy.api#required": {}
           }
         },
@@ -4078,38 +4144,44 @@
         "roleDescription": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "A human readable description of the user's role."
+            "smithy.api#documentation": "A human readable description of the user's role.",
+            "com.distilled.openapi#nullable": {}
           }
         },
         "updatedTimestamp": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The last time the user was updated in the system."
+            "smithy.api#documentation": "The last time the user was updated in the system.",
+            "com.distilled.openapi#nullable": {}
           }
         },
         "deactivatedTimestamp": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "If the user is deactivated, the timestamp of that deactivation."
+            "smithy.api#documentation": "If the user is deactivated, the timestamp of that deactivation.",
+            "com.distilled.openapi#nullable": {}
           }
         },
         "lastLoginTimestamp": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The time at which the user last logged in."
+            "smithy.api#documentation": "The time at which the user last logged in.",
+            "com.distilled.openapi#nullable": {}
           }
         },
         "lastPasswordResetTimestamp": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The time at which the user last reset their password. Helps with future Vanta functionality.",
+            "com.distilled.openapi#nullable": {},
             "smithy.api#sensitive": {}
           }
         },
         "groupIds": {
           "target": "com.vanta.build_integrations#PutUserAccountRequestResourcesItemGroupIdsList",
           "traits": {
-            "smithy.api#documentation": "If the user belongs to any groups/teams in the product, those corresponding group IDs. We'll map these to groups in our product in the future."
+            "smithy.api#documentation": "If the user belongs to any groups/teams in the product, those corresponding group IDs. We'll map these to groups in our product in the future.",
+            "com.distilled.openapi#nullable": {}
           }
         }
       },
@@ -4353,7 +4425,8 @@
         "trainingCompletedTimestamp": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The time at which this training course was completed by the user."
+            "smithy.api#documentation": "The time at which this training course was completed by the user.",
+            "com.distilled.openapi#nullable": {}
           }
         }
       },
@@ -4557,7 +4630,8 @@
         "trainingCompletedTimestamp": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The time at which this training course was completed by the user."
+            "smithy.api#documentation": "The time at which this training course was completed by the user.",
+            "com.distilled.openapi#nullable": {}
           }
         }
       },
@@ -5007,7 +5081,8 @@
         "lastOpenedTimestamp": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The last time the application was opened."
+            "smithy.api#documentation": "The last time the application was opened.",
+            "com.distilled.openapi#nullable": {}
           }
         }
       },
@@ -5116,7 +5191,8 @@
         "isBootVolume": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Metadata about the boot volume helps Vanta skip checking volumes that aren't relevant, like USB Drives."
+            "smithy.api#documentation": "Metadata about the boot volume helps Vanta skip checking volumes that aren't relevant, like USB Drives.",
+            "com.distilled.openapi#nullable": {}
           }
         }
       },
@@ -5206,7 +5282,8 @@
         "lastLoginTimestamp": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The last time the user logged in to the device, if available."
+            "smithy.api#documentation": "The last time the user logged in to the device, if available.",
+            "com.distilled.openapi#nullable": {}
           }
         }
       },
@@ -5752,26 +5829,35 @@
         "owner": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The email address of the owner of the system, if it's known."
+            "smithy.api#documentation": "The email address of the owner of the system, if it's known.",
+            "com.distilled.openapi#nullable": {}
           }
         },
         "passwordPolicy": {
-          "target": "com.vanta.build_integrations#GetWindowsUserComputerResponseResourcesItemPasswordPolicy"
+          "target": "com.vanta.build_integrations#GetWindowsUserComputerResponseResourcesItemPasswordPolicy",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
         },
         "lastEnrolledTimestamp": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "A timestamp that indicates when the host computer was last enrolled within your system. If the computer has been un-enrolled and then re-enrolled, send data for the most recent enrollment."
+            "smithy.api#documentation": "A timestamp that indicates when the host computer was last enrolled within your system. If the computer has been un-enrolled and then re-enrolled, send data for the most recent enrollment.",
+            "com.distilled.openapi#nullable": {}
           }
         },
         "windowsSecurityProducts": {
           "target": "com.vanta.build_integrations#GetWindowsUserComputerResponseResourcesItemWindowsSecurityProductsList",
           "traits": {
-            "smithy.api#documentation": "A list of services that are monitored by Windows Security Center (WSC)."
+            "smithy.api#documentation": "A list of services that are monitored by Windows Security Center (WSC).",
+            "com.distilled.openapi#nullable": {}
           }
         },
         "windowsSecurityCenter": {
-          "target": "com.vanta.build_integrations#GetWindowsUserComputerResponseResourcesItemWindowsSecurityCenter"
+          "target": "com.vanta.build_integrations#GetWindowsUserComputerResponseResourcesItemWindowsSecurityCenter",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
         }
       },
       "traits": {}
@@ -5824,7 +5910,8 @@
         "lastOpenedTimestamp": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The last time the application was opened."
+            "smithy.api#documentation": "The last time the application was opened.",
+            "com.distilled.openapi#nullable": {}
           }
         }
       },
@@ -5933,7 +6020,8 @@
         "isBootVolume": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Metadata about the boot volume helps Vanta skip checking volumes that aren't relevant, like USB Drives."
+            "smithy.api#documentation": "Metadata about the boot volume helps Vanta skip checking volumes that aren't relevant, like USB Drives.",
+            "com.distilled.openapi#nullable": {}
           }
         }
       },
@@ -6023,7 +6111,8 @@
         "lastLoginTimestamp": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The last time the user logged in to the device, if available."
+            "smithy.api#documentation": "The last time the user logged in to the device, if available.",
+            "com.distilled.openapi#nullable": {}
           }
         }
       },
@@ -6569,26 +6658,35 @@
         "owner": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The email address of the owner of the system, if it's known."
+            "smithy.api#documentation": "The email address of the owner of the system, if it's known.",
+            "com.distilled.openapi#nullable": {}
           }
         },
         "passwordPolicy": {
-          "target": "com.vanta.build_integrations#PutWindowsUserComputerRequestResourcesItemPasswordPolicy"
+          "target": "com.vanta.build_integrations#PutWindowsUserComputerRequestResourcesItemPasswordPolicy",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
         },
         "lastEnrolledTimestamp": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "A timestamp that indicates when the host computer was last enrolled within your system. If the computer has been un-enrolled and then re-enrolled, send data for the most recent enrollment."
+            "smithy.api#documentation": "A timestamp that indicates when the host computer was last enrolled within your system. If the computer has been un-enrolled and then re-enrolled, send data for the most recent enrollment.",
+            "com.distilled.openapi#nullable": {}
           }
         },
         "windowsSecurityProducts": {
           "target": "com.vanta.build_integrations#PutWindowsUserComputerRequestResourcesItemWindowsSecurityProductsList",
           "traits": {
-            "smithy.api#documentation": "A list of services that are monitored by Windows Security Center (WSC)."
+            "smithy.api#documentation": "A list of services that are monitored by Windows Security Center (WSC).",
+            "com.distilled.openapi#nullable": {}
           }
         },
         "windowsSecurityCenter": {
-          "target": "com.vanta.build_integrations#PutWindowsUserComputerRequestResourcesItemWindowsSecurityCenter"
+          "target": "com.vanta.build_integrations#PutWindowsUserComputerRequestResourcesItemWindowsSecurityCenter",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
         }
       },
       "traits": {}
